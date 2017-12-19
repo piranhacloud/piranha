@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.manorrock.webapp</groupId>
+        <artifactId>project</artifactId>
+        <version>15-SNAPSHOT</version>
+    </parent>
+    <groupId>com.manorrock.webapp.test</groupId>
+    <artifactId>project</artifactId>
+    <packaging>pom</packaging>
+    <name>Manorrock Webapp Test Project</name>
+    <modules>
+        <module>classloader</module>
+        <module>jersey</module>
+        <module>jpa</module>
+        <module>mojarra</module>
+        <module>myfaces</module>
+        <module>snoop</module>
+        <module>soteria</module>
+        <module>springmvc</module>
+        <module>struts</module>
+        <module>tapestry</module>
+        <module>vaadin</module>
+        <module>weld</module>
+        <module>wicket</module>
+    </modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+</project>

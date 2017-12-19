@@ -1,0 +1,157 @@
+/*
+ * Copyright (c) 2002-2017, Manorrock.com. All Rights Reserved.
+ */
+package javax.servlet;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Enumeration;
+
+/**
+ * The GenericServlet API.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+public abstract class GenericServlet implements Servlet, ServletConfig, Serializable {
+
+    /**
+     * Stores the servlet config.
+     */
+    private ServletConfig servletConfig;
+
+    /**
+     * Constructor.
+     */
+    public GenericServlet() {
+    }
+
+    /**
+     * Destroy the servlet.
+     */
+    @Override
+    public void destroy() {
+    }
+
+    /**
+     * Get the init parameter.
+     *
+     * @param name the name.
+     * @return the value, or null.
+     *
+     */
+    @Override
+    public String getInitParameter(String name) {
+        return servletConfig.getInitParameter(name);
+    }
+
+    /**
+     * Get the init parameter names.
+     *
+     * @return the init parameter names.
+     */
+    @Override
+    public Enumeration<String> getInitParameterNames() {
+        return servletConfig.getInitParameterNames();
+    }
+
+    /**
+     * Get the servlet config.
+     *
+     * @return the servlet config.
+     */
+    @Override
+    public ServletConfig getServletConfig() {
+        return servletConfig;
+    }
+
+    /**
+     * Get the servlet context.
+     *
+     * @return the servlet context.
+     */
+    @Override
+    public ServletContext getServletContext() {
+        return servletConfig.getServletContext();
+    }
+
+    /**
+     * Get the servlet info.
+     *
+     * @return ""
+     */
+    @Override
+    public String getServletInfo() {
+        return "";
+    }
+
+    /**
+     * Get the servlet name.
+     *
+     * @return the servlet name.
+     */
+    @Override
+    public String getServletName() {
+        return servletConfig.getServletName();
+    }
+
+    /**
+     * Called by the servlet container to indicate to a servlet that the servlet
+     * is being placed into service. See {@link Servlet#init}.
+     *
+     * <p>
+     * This implementation stores the {@link ServletConfig} object it receives
+     * from the servlet container for later use. When overriding this form of
+     * the method, call <code>super.init(config)</code>.
+     *
+     * @param config the <code>ServletConfig</code> object that contains
+     * configutation information for this servlet
+     *
+     * @exception ServletException if an exception occurs that interrupts the
+     * servlet's normal operation
+     *
+     * @see UnavailableException
+     */
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        this.servletConfig = config;
+        this.init();
+    }
+
+    /**
+     * Init the servlet.
+     *
+     * @throws ServletException when a servlet error occurs.
+     */
+    public void init() throws ServletException {
+    }
+
+    /**
+     * Log the message.
+     *
+     * @param message the message.
+     */
+    public void log(String message) {
+        getServletContext().log(getServletName() + ": " + message);
+    }
+
+    /**
+     * Log the message.
+     *
+     * @param message the message.
+     * @param throwable the throwable.
+     */
+    public void log(String message, Throwable throwable) {
+        getServletContext().log(getServletName() + ": " + message, throwable);
+    }
+
+    /**
+     * Process the request.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a servlet error occurs.
+     */
+    @Override
+    public abstract void service(ServletRequest request, ServletResponse response) throws ServletException, IOException;
+}
