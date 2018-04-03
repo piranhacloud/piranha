@@ -26,18 +26,19 @@
     <dependencies>
         <dependency>
             <groupId>com.manorrock.webapp</groupId>
-            <artifactId>webapp</artifactId>
+            <artifactId>piranha</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.webapp</groupId>
+            <artifactId>piranha-jndi</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.manorrock.jndi</groupId>
-            <artifactId>jndi</artifactId>
             <scope>compile</scope>
         </dependency>
     </dependencies>

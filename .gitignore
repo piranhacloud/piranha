@@ -1,1 +1,4 @@
 /piranha/target/
+/piranha-jndi/target/
+/weld/target/
+/nb-configuration.xml
