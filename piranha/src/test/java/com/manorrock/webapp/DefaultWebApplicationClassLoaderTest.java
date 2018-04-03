@@ -5,6 +5,7 @@ package com.manorrock.webapp;
 
 import java.io.File;
 import static org.junit.Assert.assertNotNull;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -42,6 +43,7 @@ public class DefaultWebApplicationClassLoaderTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
+    @Ignore
     public void testLoadClass3() throws Exception {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
         DefaultResourceManager resourceManager = new DefaultResourceManager();
@@ -56,6 +58,7 @@ public class DefaultWebApplicationClassLoaderTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
+    @Ignore
     public void testLoadClass4() throws Exception {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
         DefaultResourceManager resourceManager = new DefaultResourceManager();

@@ -60,16 +60,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.manorrock.httpserver</groupId>
-                <artifactId>httpserver</artifactId>
-                <version>20</version>
-            </dependency>
-            <dependency>
-                <groupId>com.manorrock.httpclient</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>13</version>
-            </dependency>
-            <dependency>
                 <groupId>com.manorrock.jndi</groupId>
                 <artifactId>jndi</artifactId>
                 <version>7</version>
