@@ -6,9 +6,9 @@
         <artifactId>project</artifactId>
         <version>15-SNAPSHOT</version>
     </parent>
-    <artifactId>webapp</artifactId>
+    <artifactId>piranha</artifactId>
     <packaging>jar</packaging>
-    <name>Manorrock Webapp</name>
+    <name>Manorrock Piranha</name>
     <build>
         <plugins>
             <plugin>

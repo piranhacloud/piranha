@@ -202,7 +202,7 @@
         </dependencies>
     </dependencyManagement>
     <modules>
-        <module>webapp</module>
+        <module>piranha</module>
         <module>weld</module>
     </modules>
     <profiles>
