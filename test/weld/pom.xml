@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.manorrock.webapp.test</groupId>
+        <groupId>com.manorrock.piranha.test</groupId>
         <artifactId>project</artifactId>
-        <version>15-SNAPSHOT</version>
+        <version>4.0.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>weld</artifactId>
     <packaging>war</packaging>
-    <name>Manorrock Webapp Weld Test</name>
+    <name>Manorrock Piranha Weld Test</name>
     <build>
         <plugins>
             <plugin>
@@ -25,14 +25,14 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>com.manorrock.webapp</groupId>
+            <groupId>com.manorrock.piranha</groupId>
             <artifactId>piranha</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.webapp</groupId>
-            <artifactId>weld</artifactId>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-weld</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

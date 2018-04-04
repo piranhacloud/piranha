@@ -3,9 +3,9 @@
  */
 package javax.servlet.http;
 
-import com.manorrock.webapp.DefaultWebApplication;
-import com.manorrock.webapp.TestHttpServletRequest;
-import com.manorrock.webapp.TestHttpServletResponse;
+import com.manorrock.piranha.DefaultWebApplication;
+import com.manorrock.piranha.TestHttpServletRequest;
+import com.manorrock.piranha.TestHttpServletResponse;
 import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

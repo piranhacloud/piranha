@@ -7,7 +7,7 @@
 <struts>
     <constant name="struts.devMode" value="true"/>
     <package name="struts2" extends="struts-default">
-        <action class="com.manorrock.webapp.test.struts.HelloWorldAction"
+        <action class="com.manorrock.piranha.test.struts.HelloWorldAction"
             method="execute" name="HelloWorld">
             <result name="success">/HelloWorld.jsp</result>
         </action>

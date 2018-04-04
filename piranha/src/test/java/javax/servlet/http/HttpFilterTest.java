@@ -25,7 +25,7 @@
  */
 package javax.servlet.http;
 
-import com.manorrock.webapp.DefaultFilterChain;
+import com.manorrock.piranha.DefaultFilterChain;
 import javax.servlet.FilterChain;
 import org.junit.Test;
 

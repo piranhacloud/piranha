@@ -3,7 +3,7 @@
  */
 package javax.servlet.http;
 
-import com.manorrock.webapp.DefaultHttpSession;
+import com.manorrock.piranha.DefaultHttpSession;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

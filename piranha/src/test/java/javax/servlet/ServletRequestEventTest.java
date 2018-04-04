@@ -3,8 +3,8 @@
  */
 package javax.servlet;
 
-import com.manorrock.webapp.DefaultHttpServletRequest;
-import com.manorrock.webapp.DefaultWebApplication;
+import com.manorrock.piranha.DefaultHttpServletRequest;
+import com.manorrock.piranha.DefaultWebApplication;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 

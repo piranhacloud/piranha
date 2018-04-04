@@ -3,7 +3,7 @@
  */
 package javax.servlet;
 
-import com.manorrock.webapp.DefaultAsyncContext;
+import com.manorrock.piranha.DefaultAsyncContext;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponseWrapper;
 import static org.junit.Assert.assertNotNull;

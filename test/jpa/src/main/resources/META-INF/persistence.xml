@@ -3,7 +3,7 @@
   <persistence-unit name="demo" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>jdbc/demo</jta-data-source>
-    <class>com.manorrock.webapp.test.jpa.JPATable</class>
+    <class>com.manorrock.piranha.test.jpa.JPATable</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.logging.level" value="FINEST"/>

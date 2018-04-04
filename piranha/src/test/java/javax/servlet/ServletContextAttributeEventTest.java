@@ -3,7 +3,7 @@
  */
 package javax.servlet;
 
-import com.manorrock.webapp.DefaultWebApplication;
+import com.manorrock.piranha.DefaultWebApplication;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
