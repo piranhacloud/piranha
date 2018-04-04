@@ -6,9 +6,9 @@
         <artifactId>project</artifactId>
         <version>15-SNAPSHOT</version>
     </parent>
-    <artifactId>weld</artifactId>
+    <artifactId>piranha-weld</artifactId>
     <packaging>jar</packaging>
-    <name>Manorrock Webapp Weld Integration</name>
+    <name>Manorrock Piranha Weld Integration</name>
     <build>
         <plugins>
             <plugin>

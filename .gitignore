@@ -2,3 +2,5 @@
 /piranha-jndi/target/
 /weld/target/
 /nb-configuration.xml
+/piranha-weld/target/
+/test/classloader/target/

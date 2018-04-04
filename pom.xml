@@ -204,7 +204,7 @@
     <modules>
         <module>piranha</module>
         <module>piranha-jndi</module>
-        <module>weld</module>
+        <module>piranha-weld</module>
     </modules>
     <profiles>
         <profile>
