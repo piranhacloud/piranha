@@ -17,7 +17,7 @@
         </dependency>
         <dependency>
             <groupId>com.manorrock.webapp</groupId>
-            <artifactId>webapp</artifactId>
+            <artifactId>piranha</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -34,6 +34,11 @@
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>javax.servlet.jsp-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -4,3 +4,15 @@
 /nb-configuration.xml
 /piranha-weld/target/
 /test/classloader/target/
+/test/jersey/target/
+/test/jpa/target/
+/test/mojarra/target/
+/test/myfaces/target/
+/test/snoop/target/
+/test/soteria/target/
+/test/springmvc/target/
+/test/struts/target/
+/test/tapestry/target/
+/test/vaadin/target/
+/test/weld/target/
+/test/wicket/target/

@@ -26,7 +26,7 @@
     <dependencies>
         <dependency>
             <groupId>com.manorrock.webapp</groupId>
-            <artifactId>webapp</artifactId>
+            <artifactId>piranha</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
