@@ -23,10 +23,14 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.httpserver;
+package com.manorrock.piranha;
 
 //import com.manorrock.httpclient.DefaultHttpClientRequest;
 //import com.manorrock.httpclient.HttpClientResponse;
+import com.manorrock.piranha.DefaultHttpServerResponse;
+import com.manorrock.piranha.DefaultHttpServer;
+import com.manorrock.piranha.HttpServerRequest;
+import com.manorrock.piranha.HttpServerResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;

@@ -3,8 +3,6 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.httpserver.HttpServerResponse;
-
 /**
  * The default WebApplicationServerResponse.
  *

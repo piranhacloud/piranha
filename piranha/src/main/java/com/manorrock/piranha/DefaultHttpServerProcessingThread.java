@@ -23,43 +23,58 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.httpserver;
+package com.manorrock.piranha;
 
-import static org.junit.Assert.assertNotNull;
-import org.junit.Test;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * The JUnit tests for the HttpServerBuilder class.
+ * The default HttpServerProcessingThread.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultHttpServerBuilderTest {
+class DefaultHttpServerProcessingThread implements Runnable {
 
     /**
-     * Test build method.
+     * Stores the logger.
      */
-    @Test
-    public void testBuild() {
-        assertNotNull(new DefaultHttpServerBuilder().build());
+    private static final Logger LOGGER = Logger.getLogger(DefaultHttpServerProcessingThread.class.getName());
+
+    /**
+     * Stores the server.
+     */
+    private final DefaultHttpServer server;
+
+    /**
+     * Stores the socket.
+     */
+    private final Socket socket;
+
+    /**
+     * Constructor.
+     *
+     * @param server the server we are working for.
+     * @param socket the socket we are dealing with.
+     */
+    public DefaultHttpServerProcessingThread(DefaultHttpServer server, Socket socket) {
+        this.server = server;
+        this.socket = socket;
     }
 
     /**
-     * Test processor method.
+     * Handle the socket request.
      */
-    @Test
-    public void testProcessor() {
-        HttpServerBuilder builder = new DefaultHttpServerBuilder().processor(null);
-        HttpServer server = builder.build();
-        assertNotNull(server);
-    }
-
-    /**
-     * Test processor method.
-     */
-    @Test
-    public void testProcessor2() {
-        HttpServerBuilder builder = new DefaultHttpServerBuilder().processor(new DefaultHttpServerProcessor());
-        HttpServer server = builder.build();
-        assertNotNull(server);
+    @Override
+    public void run() {
+        try {
+            DefaultHttpServerRequest request = new DefaultHttpServerRequest(socket);
+            DefaultHttpServerResponse response = new DefaultHttpServerResponse(socket);
+            server.processor.process(request, response);
+            socket.close();
+        } catch (IOException exception) {
+            LOGGER.log(Level.WARNING, "An I/O error occurred during processing of the request", exception);
+        }
     }
 }

@@ -25,7 +25,6 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.httpserver.HttpServerRequest;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;

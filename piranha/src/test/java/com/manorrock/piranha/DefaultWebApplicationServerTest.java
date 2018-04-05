@@ -5,8 +5,6 @@ package com.manorrock.piranha;
 
 //import com.manorrock.httpclient.HttpClientRequestBuilderFactory;
 //import com.manorrock.httpclient.HttpClientResponse;
-import com.manorrock.httpserver.DefaultHttpServerBuilder;
-import com.manorrock.httpserver.HttpServer;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Ignore;

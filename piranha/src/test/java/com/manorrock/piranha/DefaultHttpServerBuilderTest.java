@@ -23,35 +23,47 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.httpserver;
+package com.manorrock.piranha;
+
+import com.manorrock.piranha.DefaultHttpServerBuilder;
+import com.manorrock.piranha.HttpServer;
+import com.manorrock.piranha.DefaultHttpServerProcessor;
+import com.manorrock.piranha.HttpServerBuilder;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 /**
- * The HttpServerBuilder API.
+ * The JUnit tests for the HttpServerBuilder class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface HttpServerBuilder {
+public class DefaultHttpServerBuilderTest {
 
     /**
-     * Build the HTTP server.
-     *
-     * @return the HTTP server.
+     * Test build method.
      */
-    public HttpServer build();
+    @Test
+    public void testBuild() {
+        assertNotNull(new DefaultHttpServerBuilder().build());
+    }
 
     /**
-     * Set the server port.
-     *
-     * @param port the server port.
-     * @return the HTTP server builder.
+     * Test processor method.
      */
-    public HttpServerBuilder port(int port);
+    @Test
+    public void testProcessor() {
+        HttpServerBuilder builder = new DefaultHttpServerBuilder().processor(null);
+        HttpServer server = builder.build();
+        assertNotNull(server);
+    }
 
     /**
-     * Set the processor.
-     *
-     * @param processor the processor.
-     * @return the HTTP server builder.
+     * Test processor method.
      */
-    public HttpServerBuilder processor(HttpServerProcessor processor);
+    @Test
+    public void testProcessor2() {
+        HttpServerBuilder builder = new DefaultHttpServerBuilder().processor(new DefaultHttpServerProcessor());
+        HttpServer server = builder.build();
+        assertNotNull(server);
+    }
 }

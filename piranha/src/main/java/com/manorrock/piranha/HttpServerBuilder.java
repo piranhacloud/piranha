@@ -23,58 +23,35 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.httpserver;
-
-import java.io.IOException;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+package com.manorrock.piranha;
 
 /**
- * The default HttpServerProcessingThread.
+ * The HttpServerBuilder API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultHttpServerProcessingThread implements Runnable {
+public interface HttpServerBuilder {
 
     /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = Logger.getLogger(DefaultHttpServerProcessingThread.class.getName());
-
-    /**
-     * Stores the server.
-     */
-    private final DefaultHttpServer server;
-
-    /**
-     * Stores the socket.
-     */
-    private final Socket socket;
-
-    /**
-     * Constructor.
+     * Build the HTTP server.
      *
-     * @param server the server we are working for.
-     * @param socket the socket we are dealing with.
+     * @return the HTTP server.
      */
-    public DefaultHttpServerProcessingThread(DefaultHttpServer server, Socket socket) {
-        this.server = server;
-        this.socket = socket;
-    }
+    public HttpServer build();
 
     /**
-     * Handle the socket request.
+     * Set the server port.
+     *
+     * @param port the server port.
+     * @return the HTTP server builder.
      */
-    @Override
-    public void run() {
-        try {
-            DefaultHttpServerRequest request = new DefaultHttpServerRequest(socket);
-            DefaultHttpServerResponse response = new DefaultHttpServerResponse(socket);
-            server.processor.process(request, response);
-            socket.close();
-        } catch (IOException exception) {
-            LOGGER.log(Level.WARNING, "An I/O error occurred during processing of the request", exception);
-        }
-    }
+    public HttpServerBuilder port(int port);
+
+    /**
+     * Set the processor.
+     *
+     * @param processor the processor.
+     * @return the HTTP server builder.
+     */
+    public HttpServerBuilder processor(HttpServerProcessor processor);
 }

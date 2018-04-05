@@ -3,9 +3,6 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.httpserver.HttpServerProcessor;
-import com.manorrock.httpserver.HttpServerRequest;
-import com.manorrock.httpserver.HttpServerResponse;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
