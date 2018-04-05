@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2002-2017, Manorrock.com. All Rights Reserved.
+ *  Copyright (c) 2002-2018, Manorrock.com. All Rights Reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,8 @@
  *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- */package com.manorrock.piranha.jndi;
+ */
+package com.manorrock.piranha.jndi;
 
 import java.util.NoSuchElementException;
 import javax.naming.Binding;
