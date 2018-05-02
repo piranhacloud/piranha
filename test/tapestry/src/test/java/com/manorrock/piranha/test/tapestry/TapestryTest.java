@@ -30,7 +30,6 @@ import com.manorrock.piranha.DefaultWebApplication;
 import java.io.File;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -46,7 +45,6 @@ public class TapestryTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    @Ignore
     public void testIndex() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));

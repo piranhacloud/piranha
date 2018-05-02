@@ -25,16 +25,17 @@
  */
 package com.manorrock.piranha;
 
-//import com.manorrock.httpclient.DefaultHttpClientRequest;
-//import com.manorrock.httpclient.HttpClientResponse;
-import com.manorrock.piranha.DefaultHttpServerResponse;
-import com.manorrock.piranha.DefaultHttpServer;
-import com.manorrock.piranha.HttpServerRequest;
-import com.manorrock.piranha.HttpServerResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
-import org.junit.Ignore;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
@@ -48,7 +49,6 @@ public class DefaultHttpServerRequestTest {
      * Test addHeader method.
      */
     @Test
-    @Ignore
     public void testAddHeader() {
         DefaultHttpServer server = new DefaultHttpServer(8081, (HttpServerRequest request, HttpServerResponse response) -> {
             Iterator<String> headerNames = request.getHeaderNames();
@@ -67,16 +67,23 @@ public class DefaultHttpServerRequestTest {
             }
         });
         server.start();
-//        HttpClientResponse response = new DefaultHttpClientRequest().
-//                url("http://localhost:8081").
-//                header("name", "value1").
-//                header("name", "value2").
-//                method("GET").
-//                response();
-//        assertEquals(200, response.getStatus());
-//        assertTrue(response.getBody().toString().contains("NAME"));
-//        assertTrue(response.getBody().toString().contains("value1"));
-//        assertTrue(response.getBody().toString().contains("value2"));
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8081");
+            request.addHeader("name", "value1");
+            request.addHeader("name", "value2");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpEntity entity = response.getEntity();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            entity.writeTo(outputStream);
+            String body = outputStream.toString("UTF-8");
+            assertTrue(body.contains("NAME"));
+            assertTrue(body.contains("value1"));
+            assertTrue(body.contains("value2"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
         server.stop();
     }
 
@@ -84,7 +91,6 @@ public class DefaultHttpServerRequestTest {
      * Test getLocalAddress method.
      */
     @Test
-    @Ignore
     public void testGetLocalAddress() {
         DefaultHttpServer server = new DefaultHttpServer(8082, (HttpServerRequest request, HttpServerResponse response) -> {
             String value = request.getLocalAddress();
@@ -99,20 +105,26 @@ public class DefaultHttpServerRequestTest {
             }
         });
         server.start();
-//        HttpClientResponse response = new DefaultHttpClientRequest().
-//                url("http://localhost:8082").
-//                method("GET").
-//                response();
-//        assertEquals(200, response.getStatus());
-//        assertTrue(response.getBody().toString().contains("127.0.0.1"));
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8082");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpEntity entity = response.getEntity();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            entity.writeTo(outputStream);
+            String body = outputStream.toString("UTF-8");
+            assertTrue(body.contains("127.0.0.1"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
         server.stop();
     }
-    
+
     /**
      * Test getQueryString method.
      */
     @Test
-    @Ignore
     public void testGetQueryString() {
         DefaultHttpServer server = new DefaultHttpServer(8083, (HttpServerRequest request, HttpServerResponse response) -> {
             String queryString = request.getQueryString();
@@ -127,12 +139,19 @@ public class DefaultHttpServerRequestTest {
             }
         });
         server.start();
-//        HttpClientResponse response = new DefaultHttpClientRequest().
-//                url("http://localhost:8083/?name=value").
-//                method("GET").
-//                response();
-//        assertEquals(200, response.getStatus());
-//        assertTrue(response.getBody().toString().contains("name=value"));
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8083/?name=value");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpEntity entity = response.getEntity();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            entity.writeTo(outputStream);
+            String body = outputStream.toString("UTF-8");
+            assertTrue(body.contains("name=value"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
         server.stop();
     }
 
@@ -140,7 +159,6 @@ public class DefaultHttpServerRequestTest {
      * Test getQueryParameter method.
      */
     @Test
-    @Ignore
     public void testGetQueryParameter() {
         DefaultHttpServer server = new DefaultHttpServer(8084, (HttpServerRequest request, HttpServerResponse response) -> {
             String value = request.getQueryParameter("name");
@@ -155,12 +173,19 @@ public class DefaultHttpServerRequestTest {
             }
         });
         server.start();
-//        HttpClientResponse response = new DefaultHttpClientRequest().
-//                url("http://localhost:8084/?name=value").
-//                method("GET").
-//                response();
-//        assertEquals(200, response.getStatus());
-//        assertTrue(response.getBody().toString().contains("value"));
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8084/?name=value");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpEntity entity = response.getEntity();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            entity.writeTo(outputStream);
+            String body = outputStream.toString("UTF-8");
+            assertTrue(body.contains("value"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
         server.stop();
     }
 
@@ -168,7 +193,6 @@ public class DefaultHttpServerRequestTest {
      * Test getQueryParameter method.
      */
     @Test
-    @Ignore
     public void testGetQueryParameter2() {
         DefaultHttpServer server = new DefaultHttpServer(8085, (HttpServerRequest request, HttpServerResponse response) -> {
             String value = request.getQueryParameter("name");
@@ -183,12 +207,19 @@ public class DefaultHttpServerRequestTest {
             }
         });
         server.start();
-//        HttpClientResponse response = new DefaultHttpClientRequest().
-//                url("http://localhost:8085/?name=value&name=value2").
-//                method("GET").
-//                response();
-//        assertEquals(200, response.getStatus());
-//        assertTrue(response.getBody().toString().contains("value"));
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8085/?name=value&name=value2");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpEntity entity = response.getEntity();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            entity.writeTo(outputStream);
+            String body = outputStream.toString("UTF-8");
+            assertTrue(body.contains("value"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
         server.stop();
     }
 }

@@ -25,11 +25,13 @@
  */
 package com.manorrock.piranha;
 
-//import com.manorrock.httpclient.HttpClientRequestBuilderFactory;
-//import com.manorrock.httpclient.HttpClientResponse;
+import java.io.IOException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -138,7 +140,6 @@ public class DefaultWebApplicationServerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    @Ignore
     public void testProcess() throws Exception {
         DefaultWebApplicationServer server = new DefaultWebApplicationServer();
         HttpServer httpServer = new DefaultHttpServerBuilder().port(7000).processor(server).build();
@@ -150,10 +151,15 @@ public class DefaultWebApplicationServerTest {
         server.initialize();
         server.start();
         httpServer.start();
-//        HttpClientResponse response = HttpClientRequestBuilderFactory.produce().build().
-//                url("http://localhost:7000/context/snoop/index.html").get();
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:7000/context/snoop/index.html");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
         httpServer.stop();
         server.stop();
-//        assertEquals(200, response.getStatus());
     }
 }

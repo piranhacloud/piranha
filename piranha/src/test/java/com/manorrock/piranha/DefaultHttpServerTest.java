@@ -25,13 +25,14 @@
  */
 package com.manorrock.piranha;
 
-//import com.manorrock.httpclient.DefaultHttpClientRequest;
-//import com.manorrock.httpclient.HttpClientResponse;
-import com.manorrock.piranha.DefaultHttpServer;
+import java.io.IOException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -58,16 +59,18 @@ public class DefaultHttpServerTest {
      * Test thread factory.
      */
     @Test
-    @Ignore
     public void testThreadFactory() {
         DefaultHttpServer server = new DefaultHttpServer();
         server.serverPort = 8002;
         server.start();
-//        HttpClientResponse response = new DefaultHttpClientRequest().
-//                url("http://localhost:8002").
-//                method("GET").
-//                response();
-//        assertEquals(200, response.getStatus());
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8002");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
         server.stop();
         assertFalse(server.isRunning());
     }
@@ -76,16 +79,18 @@ public class DefaultHttpServerTest {
      * Test file not found.
      */
     @Test
-    @Ignore
     public void testFileNotFound() {
         DefaultHttpServer server = new DefaultHttpServer();
         server.serverPort = 8003;
         server.start();
-//        HttpClientResponse response = new DefaultHttpClientRequest().
-//                url("http://localhost:8003/this_is_certainly_not_there").
-//                method("GET").
-//                response();
-//        assertEquals(404, response.getStatus());
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8003/this_is_certainly_not_there");
+            HttpResponse response = client.execute(request);
+            assertEquals(404, response.getStatusLine().getStatusCode());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
         server.stop();
         assertFalse(server.isRunning());
     }
@@ -94,16 +99,17 @@ public class DefaultHttpServerTest {
      * Test file.
      */
     @Test
-    @Ignore
     public void testFile() {
         DefaultHttpServer server = new DefaultHttpServer();
         server.serverPort = 8004;
-        server.start();
-//        HttpClientResponse response = new DefaultHttpClientRequest().
-//                url("http://localhost:8004/pom.xml").
-//                method("GET").
-//                response();
-//        assertEquals(200, response.getStatus());
+        server.start();        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8004/pom.xml");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
         server.stop();
         assertFalse(server.isRunning());
     }
