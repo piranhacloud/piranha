@@ -27,7 +27,6 @@ package com.manorrock.piranha;
 
 import java.io.File;
 import static org.junit.Assert.assertNotNull;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -37,6 +36,7 @@ import org.junit.Test;
  */
 public class DefaultWebApplicationClassLoaderTest {
 
+
     /**
      * Test loadClass method.
      *
@@ -45,7 +45,10 @@ public class DefaultWebApplicationClassLoaderTest {
     @Test
     public void testLoadClass() throws Exception {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
-        assertNotNull(classLoader.loadClass("java.lang.String", true));
+        DefaultResourceManager resourceManager = new DefaultResourceManager();
+        resourceManager.addResource(new DefaultDirectoryResource(new File("target/classloader/WEB-INF/classes")));
+        classLoader.setResourceManager(resourceManager);
+        assertNotNull(classLoader.loadClass("com.manorrock.piranha.test.classloader.Test1Servlet", true));
     }
 
     /**
@@ -53,9 +56,13 @@ public class DefaultWebApplicationClassLoaderTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = ClassNotFoundException.class)
+    @Test
     public void testLoadClass2() throws Exception {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
-        classLoader.loadClass("this.is.a.bogus.className", true);
+        DefaultResourceManager resourceManager = new DefaultResourceManager();
+        resourceManager.addResource(new DefaultDirectoryResource(new File("target/classloader/WEB-INF/classes")));
+        classLoader.setResourceManager(resourceManager);
+        assertNotNull(classLoader.loadClass("com.manorrock.piranha.test.classloader.Test1Servlet", true));
+        assertNotNull(classLoader.loadClass("com.manorrock.piranha.test.classloader.Test1Servlet", true));
     }
 }

@@ -12,6 +12,7 @@
     <name>Manorrock Piranha Test Project</name>
     <modules>
         <module>classloader</module>
+        <module>classloader2</module>
         <module>jersey</module>
         <module>jpa</module>
         <module>mojarra</module>
