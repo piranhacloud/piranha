@@ -16,6 +16,8 @@ for the release you are using in the links below.
 
 ## Documentation for older releases
 
+1. [Version 4.0.0.2](https://github.com/manorrock/piranha/tree/v4.0.0.2), first release on Maven Central
+1. [Version 4.0.0.1](https://github.com/manorrock/piranha/tree/v4.0.0.1)
 1. [Version 4.0.0.0](https://github.com/manorrock/piranha/tree/v4.0.0.0), first release
 
 ## How do I contribute?
