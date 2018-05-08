@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.manorrock.piranha</groupId>
     <artifactId>project</artifactId>
-    <version>4.0.0.0</version>
+    <version>4.0.0.1</version>
     <packaging>pom</packaging>
     <name>Manorrock Piranha Project</name>
     <build>
@@ -235,6 +235,26 @@
             <modules>
                 <module>test</module>
             </modules>
+        </profile>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
     <properties>
