@@ -6,9 +6,20 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.manorrock.piranha</groupId>
     <artifactId>project</artifactId>
-    <version>4.0.0.1</version>
+    <version>4.0.0.2</version>
     <packaging>pom</packaging>
     <name>Manorrock Piranha Project</name>
+    <url>https://github.com/manorrock/piranha</url>    
+    <description>
+        The Manorrock Piranha Project delivers you with a slim Servlet container
+        and some useful add-on modules
+    </description>
+    <licenses>
+        <license>
+            <name>Manorrock License</name>
+            <url>https://github.com/manorrock/piranha/blob/master/LICENSE</url>
+        </license>
+    </licenses>
     <build>
         <pluginManagement>
             <plugins>
@@ -50,6 +61,19 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -218,6 +242,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <developers>
+        <developer>
+            <id>mriem</id>
+            <name>Manfred Riem</name>
+            <email>mriem@manorrock.com</email>
+            <organization>Manorrock.com</organization>
+        </developer>
+    </developers>
     <modules>
         <module>piranha</module>
         <module>piranha-jndi</module>
@@ -262,4 +294,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+    <scm>
+        <connection>scm:git:git://github.com/manorrock/piranha.git</connection>
+        <developerConnection>scm:git:git@github.com:manorrock/piranha.git</developerConnection>
+        <url>https://github.com/manorrock/piranha</url>
+    </scm>
 </project>
