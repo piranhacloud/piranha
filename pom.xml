@@ -89,17 +89,17 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-client-compiled</artifactId>
-                <version>8.3.2</version>
+                <version>8.4.1</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-server</artifactId>
-                <version>8.3.2</version>
+                <version>8.4.1</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-themes</artifactId>
-                <version>8.3.2</version>
+                <version>8.4.1</version>
             </dependency>
             <dependency>
                 <groupId>javax</groupId>
@@ -214,7 +214,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>5.0.4.RELEASE</version>
+                <version>5.0.5.RELEASE</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
