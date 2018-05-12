@@ -1,0 +1,98 @@
+EXCEPTION STACK:
+
+
+  Exception: org.apache.tapestry5.ioc.internal.OperationException
+    Message: Page Index did not generate any markup when rendered. This could be because its template file could not be located, or because a render phase method in the page prevented rendering.
+      trace: Handling page render request for page Index
+
+  Exception: java.lang.RuntimeException
+    Message: Page Index did not generate any markup when rendered. This could be because its template file could not be located, or because a render phase method in the page prevented rendering.
+
+  Stack trace:
+
+  - org.apache.tapestry5.internal.services.PageMarkupRendererImpl.renderPageMarkup(PageMarkupRendererImpl.java:51)
+  - $PageMarkupRenderer_2c7bdc5473422.renderPageMarkup(Unknown Source)
+  - org.apache.tapestry5.internal.services.PageResponseRendererImpl.renderPageResponse(PageResponseRendererImpl.java:64)
+  - $PageResponseRenderer_2c7bdc54733fe.renderPageResponse(Unknown Source)
+  - org.apache.tapestry5.internal.services.PageRenderRequestHandlerImpl.handle(PageRenderRequestHandlerImpl.java:72)
+  - org.apache.tapestry5.modules.TapestryModule$34.handle(TapestryModule.java:1974)
+  - $PageRenderRequestHandler_2c7bdc5473400.handle(Unknown Source)
+  - $PageRenderRequestHandler_2c7bdc54733fb.handle(Unknown Source)
+  - org.apache.tapestry5.internal.services.ComponentRequestHandlerTerminator.handlePageRender(ComponentRequestHandlerTerminator.java:48)
+  - org.apache.tapestry5.internal.services.DeferredResponseRenderer.handlePageRender(DeferredResponseRenderer.java:52)
+  - $ComponentRequestHandler_2c7bdc54733fc.handlePageRender(Unknown Source)
+  - org.apache.tapestry5.services.InitializeActivePageName.handlePageRender(InitializeActivePageName.java:47)
+  - $ComponentRequestHandler_2c7bdc54733fc.handlePageRender(Unknown Source)
+  - org.apache.tapestry5.internal.services.ProductionModeUnknownComponentFilter.handlePageRender(ProductionModeUnknownComponentFilter.java:62)
+  - $ComponentRequestHandler_2c7bdc54733fc.handlePageRender(Unknown Source)
+  - org.apache.tapestry5.internal.services.RequestOperationTracker$2.run(RequestOperationTracker.java:73)
+  - org.apache.tapestry5.ioc.internal.OperationTrackerImpl.run(OperationTrackerImpl.java:56)
+  - org.apache.tapestry5.ioc.internal.PerThreadOperationTracker.run(PerThreadOperationTracker.java:60)
+  - org.apache.tapestry5.ioc.internal.RegistryImpl.run(RegistryImpl.java:1254)
+  - org.apache.tapestry5.internal.services.RequestOperationTracker.handlePageRender(RequestOperationTracker.java:66)
+  - $ComponentRequestHandler_2c7bdc54733fc.handlePageRender(Unknown Source)
+  - $ComponentRequestHandler_2c7bdc54733d2.handlePageRender(Unknown Source)
+  - org.apache.tapestry5.internal.services.PageRenderDispatcher.dispatch(PageRenderDispatcher.java:55)
+  - $Dispatcher_2c7bdc54733d4.dispatch(Unknown Source)
+  - $Dispatcher_2c7bdc54733ca.dispatch(Unknown Source)
+  - org.apache.tapestry5.modules.TapestryModule$RequestHandlerTerminator.service(TapestryModule.java:305)
+  - org.apache.tapestry5.internal.services.RequestErrorFilter.service(RequestErrorFilter.java:26)
+  - $RequestHandler_2c7bdc54733cb.service(Unknown Source)
+  - org.apache.tapestry5.modules.TapestryModule$3.service(TapestryModule.java:846)
+  - $RequestHandler_2c7bdc54733cb.service(Unknown Source)
+  - org.apache.tapestry5.modules.TapestryModule$2.service(TapestryModule.java:836)
+  - $RequestHandler_2c7bdc54733cb.service(Unknown Source)
+  - org.apache.tapestry5.internal.services.StaticFilesFilter.service(StaticFilesFilter.java:89)
+  - $RequestHandler_2c7bdc54733cb.service(Unknown Source)
+  - $RequestHandler_2c7bdc54733c1.service(Unknown Source)
+  - org.apache.tapestry5.modules.TapestryModule$HttpServletRequestHandlerTerminator.service(TapestryModule.java:256)
+  - org.apache.tapestry5.internal.gzip.GZipFilter.service(GZipFilter.java:59)
+  - $HttpServletRequestHandler_2c7bdc54733c3.service(Unknown Source)
+  - org.apache.tapestry5.internal.services.IgnoredPathsFilter.service(IgnoredPathsFilter.java:62)
+  - $HttpServletRequestFilter_2c7bdc54733be.service(Unknown Source)
+  - $HttpServletRequestHandler_2c7bdc54733c3.service(Unknown Source)
+  - org.apache.tapestry5.modules.TapestryModule$1.service(TapestryModule.java:796)
+  - $HttpServletRequestHandler_2c7bdc54733c3.service(Unknown Source)
+  - $HttpServletRequestHandler_2c7bdc54733bd.service(Unknown Source)
+  - org.apache.tapestry5.TapestryFilter.doFilter(TapestryFilter.java:166)
+  - com.manorrock.piranha.DefaultWebApplication.service(DefaultWebApplication.java:1333)
+  - com.manorrock.piranha.test.tapestry.TapestryTest.testIndex(TapestryTest.java:63)
+  - sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  - sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+  - sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  - java.lang.reflect.Method.invoke(Method.java:498)
+  - org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+  - org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+  - org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+  - org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+  - org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+  - org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+  - org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+  - org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+  - org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+  - org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+  - org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+  - org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+  - org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+  - org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:45)
+  - org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:123)
+  - org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:104)
+  - sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  - sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+  - sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  - java.lang.reflect.Method.invoke(Method.java:498)
+  - org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:164)
+  - org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:110)
+  - org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
+  - org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
+  - org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
+
+REQUEST:
+
+Basic Information:
+
+  contextPath: 
+      method: GET
+        path: /
+      locale: en_US
+  serverName: localhost

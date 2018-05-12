@@ -21,7 +21,6 @@
         <module>soteria</module>
         <module>springmvc</module>
         <module>struts</module>
-        <module>tapestry</module>
         <module>vaadin</module>
         <module>weld</module>
         <module>wicket</module>
