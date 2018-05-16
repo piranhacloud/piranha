@@ -194,7 +194,7 @@
             <dependency>
                 <groupId>org.glassfish.soteria</groupId>
                 <artifactId>javax.security.enterprise</artifactId>
-                <version>1.0</version>
+                <version>1.0-b07</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.web</groupId>

@@ -28,10 +28,11 @@ package com.manorrock.piranha.test.soteria;
 import com.manorrock.piranha.DefaultAliasedDirectoryResource;
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultWebApplication;
+import com.sun.jaspic.config.factory.AuthConfigFileFactory;
 import java.io.File;
+import javax.security.auth.message.config.AuthConfigFactory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -47,9 +48,10 @@ public class SoteriaTest {
      * @throws Exception
      */
     @Test
-    @Ignore
     public void testSoteria() throws Exception {
-        System.getProperties().put("java.naming.factory.initial", "com.manorrock.jndi.DefaultInitialContextFactory");
+        System.getProperties().put("java.naming.factory.initial", "com.manorrock.piranha.jndi.DefaultInitialContextFactory");
+        AuthConfigFileFactory factory = new AuthConfigFileFactory();
+        AuthConfigFactory.setFactory(factory);
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addResource(new DefaultAliasedDirectoryResource(new File("target/classes"), "/WEB-INF/classes"));
@@ -73,6 +75,6 @@ public class SoteriaTest {
         webApp.service(request, response);
 
         assertEquals(200, response.getStatus());
-        assertTrue(new String(response.getResponseBody()).contains("This is a servlet"));
+        assertTrue(new String(response.getResponseBody()).contains("Username"));
     }
 }
