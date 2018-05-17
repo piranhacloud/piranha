@@ -36,6 +36,7 @@ import javax.naming.NamingException;
  * The default Binding NamingEnumeration.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
 class DefaultBindingNamingEnumeration implements NamingEnumeration<Binding> {
 

@@ -33,6 +33,7 @@ import javax.naming.NamingException;
  * The default NamingEnumeration.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
 public class DefaultNamingEnumeration implements NamingEnumeration<NameClassPair> {
 

@@ -46,6 +46,7 @@ import javax.naming.OperationNotSupportedException;
  * The default InitialContext.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
 public class DefaultInitialContext implements Context {
 

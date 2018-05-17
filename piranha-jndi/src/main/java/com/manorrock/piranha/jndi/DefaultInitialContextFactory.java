@@ -34,6 +34,7 @@ import javax.naming.spi.InitialContextFactory;
  * The default InitialContextFactory.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
 public class DefaultInitialContextFactory implements InitialContextFactory {
 
