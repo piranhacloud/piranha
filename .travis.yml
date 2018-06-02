@@ -1,0 +1,6 @@
+language: java
+jdk:
+  - oraclejdk8
+  - openjdk8
+script:
+  - mvn -B -P test test
