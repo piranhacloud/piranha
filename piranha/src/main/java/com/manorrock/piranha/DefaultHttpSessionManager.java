@@ -107,6 +107,11 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     protected final ArrayList<HttpSessionListener> sessionListeners;
 
     /**
+     * Stores the session timeout.
+     */
+    protected int sessionTimeout;
+    
+    /**
      * Stores the session tracking modes.
      */
     protected Set<SessionTrackingMode> sessionTrackingModes;
@@ -456,6 +461,16 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     @Override
     public void setSecure(boolean secure) {
         this.secure = secure;
+    }
+
+    /**
+     * Set the session timeout.
+     * 
+     * @param sessionTimeout 
+     */
+    @Override
+    public void setSessionTimeout(int sessionTimeout) {
+        this.sessionTimeout = sessionTimeout;
     }
 
     /**

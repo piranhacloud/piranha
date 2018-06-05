@@ -1501,7 +1501,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setSessionTimeout(int sessionTimeout) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        httpSessionManager.setSessionTimeout(sessionTimeout);
     }
 
     /**

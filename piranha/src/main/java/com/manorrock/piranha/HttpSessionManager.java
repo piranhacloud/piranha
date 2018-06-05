@@ -140,6 +140,13 @@ public interface HttpSessionManager {
      * @return true if there is a session with the given session id.
      */
     boolean hasSession(String sessionId);
+    
+    /**
+     * Set the session timeout.
+     * 
+     * @param timeout the timeout.
+     */
+    void setSessionTimeout(int timeout);
 
     /**
      * Set the session tracking modes.
