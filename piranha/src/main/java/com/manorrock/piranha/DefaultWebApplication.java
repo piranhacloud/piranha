@@ -192,6 +192,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the resource manager.
      */
     protected ResourceManager resourceManager;
+    
+    /**
+     * Stores the response character encoding.
+     */
+    protected String responseCharacterEncoding;
 
     /**
      * Stores the active responses and the associated requests.
@@ -1461,7 +1466,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setResponseCharacterEncoding(String responseCharacterEncoding) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.responseCharacterEncoding = responseCharacterEncoding;
     }
     
     /**
