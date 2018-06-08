@@ -107,7 +107,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     protected final ArrayList<HttpSessionListener> sessionListeners;
 
     /**
-     * Stores the session timeout.
+     * Stores the session timeout (in minutes).
      */
     protected int sessionTimeout;
     
@@ -135,6 +135,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         idListeners = new ArrayList<>(1);
         name = "JSESSIONID";
         sessionListeners = new ArrayList<>(1);
+        sessionTimeout = 10;
         sessions = new ConcurrentHashMap<>();
     }
 
@@ -360,6 +361,16 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     @Override
     public SessionCookieConfig getSessionCookieConfig() {
         return this;
+    }
+
+    /**
+     * Get the session timeout (in minutes).
+     * 
+     * @return the session timeout.
+     */
+    @Override
+    public int getSessionTimeout() {
+        return sessionTimeout;
     }
 
     /**

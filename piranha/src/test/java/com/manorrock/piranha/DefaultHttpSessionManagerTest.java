@@ -132,6 +132,17 @@ public class DefaultHttpSessionManagerTest {
     }
 
     /**
+     * Test getSessionTimeout method.
+     */
+    @Test
+    public void testGetSessionTimeout() {
+        DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        assertEquals(10, sessionManager.getSessionTimeout());
+        sessionManager.setSessionTimeout(5);
+        assertEquals(5, sessionManager.getSessionTimeout());
+    }
+
+    /**
      * Test isHttpOnly method.
      */
     @Test

@@ -134,6 +134,13 @@ public interface HttpSessionManager {
     SessionCookieConfig getSessionCookieConfig();
 
     /**
+     * Get the session timeout (in minutes).
+     * 
+     * @return the session timeout.
+     */
+    int getSessionTimeout();
+
+    /**
      * Is the session manager handling this session?
      *
      * @param sessionId the session id.
@@ -142,7 +149,7 @@ public interface HttpSessionManager {
     boolean hasSession(String sessionId);
     
     /**
-     * Set the session timeout.
+     * Set the session timeout (in minutes).
      * 
      * @param timeout the timeout.
      */
