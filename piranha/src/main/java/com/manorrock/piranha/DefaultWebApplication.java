@@ -177,6 +177,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the servlet request attribute listeners.
      */
     protected final List<ServletRequestAttributeListener> requestAttributeListeners;
+    
+    /**
+     * Stores the request character encoding.
+     */
+    protected String requestCharacterEncoding;
 
     /**
      * Stores the servlet request listeners.
@@ -1446,7 +1451,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setRequestCharacterEncoding(String requestCharacterEncoding) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.requestCharacterEncoding = requestCharacterEncoding;
     }
 
     /**
