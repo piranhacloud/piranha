@@ -859,6 +859,17 @@ public class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getResourcePaths("/this_will_be_null/"));
     }
+    
+    /**
+     * Test getResponseCharacterEncoding.
+     */
+    @Test
+    public void testGetResponseCharacterEncoding() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        assertNull(webApp.getResponseCharacterEncoding());
+        webApp.setResponseCharacterEncoding("UTF-8");
+        assertEquals("UTF-8", webApp.getResponseCharacterEncoding());
+    }
 
     /**
      * Test getSecurityManager.

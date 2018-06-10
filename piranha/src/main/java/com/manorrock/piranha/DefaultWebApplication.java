@@ -956,7 +956,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public String getResponseCharacterEncoding() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return responseCharacterEncoding;
     }
 
     /**
