@@ -30,6 +30,7 @@ package com.manorrock.piranha;
  *
  * @author Manfred
  */
+@Deprecated
 public class WebApplicationBuilderFactory {
 
     /**
