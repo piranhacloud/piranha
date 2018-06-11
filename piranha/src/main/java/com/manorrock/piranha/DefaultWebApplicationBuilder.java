@@ -32,6 +32,7 @@ import java.util.LinkedHashMap;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@Deprecated
 class DefaultWebApplicationBuilder implements WebApplicationBuilder {
 
     /**
