@@ -823,6 +823,17 @@ public class DefaultWebApplicationTest {
         webApp.linkRequestAndResponse(request, response);
         assertNotNull(webApp.getRequest(response));
     }
+    
+    /**
+     * Test getRequestCharacterEncoding method.
+     */
+    @Test
+    public void testGetRequestCharacterEncoding () {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        assertNull(webApp.getRequestCharacterEncoding());
+        webApp.setRequestCharacterEncoding("UTF-8");
+        assertEquals("UTF-8", webApp.getRequestCharacterEncoding());
+    }
 
     /**
      * Test getRequestDispatcher.
