@@ -33,6 +33,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>com.manorrock.herring</groupId>
+            <artifactId>herring</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -41,12 +46,6 @@
             <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-jndi</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.main.security</groupId>

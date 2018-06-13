@@ -47,7 +47,7 @@ public class HelloWeldTest {
      */
     @Test
     public void testIndexHtml() throws Exception {
-        System.getProperties().put("java.naming.factory.initial", "com.manorrock.piranha.jndi.DefaultInitialContextFactory");
+        System.getProperties().put("java.naming.factory.initial", "com.manorrock.herring.DefaultInitialContextFactory");
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addResource(new DefaultAliasedDirectoryResource(new File("target/classes"), "/WEB-INF/classes"));

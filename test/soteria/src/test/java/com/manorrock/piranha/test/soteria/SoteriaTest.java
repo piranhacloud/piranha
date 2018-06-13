@@ -49,7 +49,7 @@ public class SoteriaTest {
      */
     @Test
     public void testSoteria() throws Exception {
-        System.getProperties().put("java.naming.factory.initial", "com.manorrock.piranha.jndi.DefaultInitialContextFactory");
+        System.getProperties().put("java.naming.factory.initial", "com.manorrock.herring.DefaultInitialContextFactory");
         AuthConfigFileFactory factory = new AuthConfigFileFactory();
         AuthConfigFactory.setFactory(factory);
         DefaultWebApplication webApp = new DefaultWebApplication();

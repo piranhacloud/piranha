@@ -38,6 +38,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.manorrock.herring</groupId>
+            <artifactId>herring</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.manorrock.piranha</groupId>
             <artifactId>piranha</artifactId>
             <version>${project.version}</version>
