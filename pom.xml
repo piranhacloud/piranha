@@ -262,7 +262,6 @@
     </developers>
     <modules>
         <module>piranha</module>
-        <module>piranha-jndi</module>
         <module>piranha-weld</module>
     </modules>
     <profiles>
