@@ -30,6 +30,7 @@ package com.manorrock.piranha;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@Deprecated
 public interface HttpServerBuilder {
 
     /**
