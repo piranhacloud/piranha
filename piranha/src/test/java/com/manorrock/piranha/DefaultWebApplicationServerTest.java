@@ -143,7 +143,7 @@ public class DefaultWebApplicationServerTest {
     public void testProcess() throws Exception {
         DefaultWebApplicationServer server = new DefaultWebApplicationServer();
         HttpServer httpServer = new DefaultHttpServerBuilder().port(7000).processor(server).build();
-        WebApplicationBuilder webAppBuilder = WebApplicationBuilderFactory.produce();
+        DefaultWebApplicationBuilder webAppBuilder = new DefaultWebApplicationBuilder();
         WebApplication webApp = webAppBuilder.contextPath("/context").build();
         webApp.addServlet("snoop", new TestSnoopServlet());
         webApp.addServletMapping("snoop", "/snoop/*");
