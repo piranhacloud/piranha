@@ -4,21 +4,20 @@
     <parent>
         <groupId>com.manorrock.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>4.0.2.0-SNAPSHOT</version>
+        <version>4.0.3.0-SNAPSHOT</version>
     </parent>
     <artifactId>piranha-weld</artifactId>
     <packaging>jar</packaging>
     <name>Manorrock Piranha Weld Integration</name>
     <dependencies>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.manorrock.herring</groupId>
+            <artifactId>herring</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-jndi</artifactId>
+            <artifactId>piranha</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
