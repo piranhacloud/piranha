@@ -546,17 +546,17 @@ public class DefaultWebApplication implements WebApplication {
     /**
      * Create the filter.
      *
-     * @param <T>
-     * @param type the filter class.
+     * @param <T> the return type.
+     * @param filterClass the filter class.
      * @return the filter.
-     * @throws ServletException
+     * @throws ServletException when a Filter error occurs.
      */
     @Override
-    public <T extends Filter> T createFilter(Class<T> type) throws ServletException {
+    public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
         T result = null;
 
         try {
-            result = type.newInstance();
+            result = filterClass.newInstance();
         } catch (InstantiationException | IllegalAccessException exception) {
             throw new ServletException(exception);
         }
@@ -603,14 +603,14 @@ public class DefaultWebApplication implements WebApplication {
     /**
      * Create the servlet.
      *
-     * @param <T>
-     * @param type the servlet class.
+     * @param <T> the return type.
+     * @param servletClass the servlet class.
      * @return the servlet.
-     * @throws ServletException
+     * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public <T extends Servlet> T createServlet(Class<T> type) throws ServletException {
-        return objectInstanceManager.createServlet(type);
+    public <T extends Servlet> T createServlet(Class<T> servletClass) throws ServletException {
+        return objectInstanceManager.createServlet(servletClass);
     }
 
     /**
@@ -626,7 +626,7 @@ public class DefaultWebApplication implements WebApplication {
     /**
      * Destroy the web application.
      *
-     * @throws ServletException
+     * @throws ServletException when a Servlet error occurs.
      */
     public void destroy() throws ServletException {
         verifyState(INITIALIZED, "Unable to destroy web application");
@@ -1029,7 +1029,7 @@ public class DefaultWebApplication implements WebApplication {
      *
      * @param name the name of the servlet.
      * @return null
-     * @throws ServletException
+     * @throws ServletException when a Servlet error occurs.
      * @deprecated
      */
     @Override

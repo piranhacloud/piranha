@@ -282,9 +282,9 @@ public abstract class DefaultHttpServletRequest implements WebApplicationRequest
      * Authenticate.
      *
      * @param response the HTTP servlet response.
-     * @return
-     * @throws IOException
-     * @throws ServletException
+     * @return true if authenticated, false otherwise.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
      */
     @Override
     public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
@@ -600,7 +600,7 @@ public abstract class DefaultHttpServletRequest implements WebApplicationRequest
     /**
      * Get the parameter values.
      *
-     * @param name
+     * @param name the parameter name.
      * @return the parameter values.
      */
     @Override
@@ -1132,7 +1132,7 @@ public abstract class DefaultHttpServletRequest implements WebApplicationRequest
      * Set the character encoding.
      *
      * @param characterEncoding the character encoding.
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException when the encoding is not supported.
      */
     @Override
     public void setCharacterEncoding(String characterEncoding) throws UnsupportedEncodingException {
@@ -1391,7 +1391,7 @@ public abstract class DefaultHttpServletRequest implements WebApplicationRequest
      * Start async.
      *
      * @return the async context.
-     * @throws IllegalStateException
+     * @throws IllegalStateException when async is not supported.
      */
     @Override
     public AsyncContext startAsync() throws IllegalStateException {
@@ -1409,7 +1409,7 @@ public abstract class DefaultHttpServletRequest implements WebApplicationRequest
      * @param request the request.
      * @param response the response.
      * @return the async context.
-     * @throws IllegalStateException
+     * @throws IllegalStateException when async is not supported.
      */
     @Override
     public AsyncContext startAsync(ServletRequest request, ServletResponse response) throws IllegalStateException {

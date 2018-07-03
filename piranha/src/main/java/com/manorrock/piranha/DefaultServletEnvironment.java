@@ -251,7 +251,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
     /**
      * Get the servlet context.
      *
-     * @return
+     * @return the servlet context.
      */
     @Override
     public ServletContext getServletContext() {

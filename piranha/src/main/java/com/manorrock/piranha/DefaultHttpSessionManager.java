@@ -477,7 +477,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     /**
      * Set the session timeout.
      * 
-     * @param sessionTimeout 
+     * @param sessionTimeout the session timeout.
      */
     @Override
     public void setSessionTimeout(int sessionTimeout) {

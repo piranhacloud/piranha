@@ -483,7 +483,7 @@ public abstract class DefaultHttpServletResponse implements WebApplicationRespon
      * Send the redirect.
      *
      * @param location the location.
-     * @throws IOException
+     * @throws IOException when an I/O error occurs.
      */
     @Override
     public void sendRedirect(String location) throws IOException {
@@ -615,7 +615,7 @@ public abstract class DefaultHttpServletResponse implements WebApplicationRespon
     /**
      * Set the output stream.
      *
-     * @param outputStream
+     * @param outputStream the output stream.
      */
     public void setOutputStream(ServletOutputStream outputStream) {
         this.outputStream = outputStream;

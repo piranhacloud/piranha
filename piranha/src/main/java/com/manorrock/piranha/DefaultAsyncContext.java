@@ -121,7 +121,10 @@ public class DefaultAsyncContext implements AsyncContext {
     }
 
     /**
-     * @return @see AsyncContext#getRequest()
+     * Get the request.
+     * 
+     * @return the request.
+     * @see AsyncContext#getRequest()
      */
     @Override
     public ServletRequest getRequest() {
@@ -129,7 +132,10 @@ public class DefaultAsyncContext implements AsyncContext {
     }
 
     /**
-     * @return @see AsyncContext#getResponse()
+     * Get the response.
+     * 
+     * @return the response.
+     * @see AsyncContext#getResponse()
      */
     @Override
     public ServletResponse getResponse() {
@@ -137,7 +143,10 @@ public class DefaultAsyncContext implements AsyncContext {
     }
 
     /**
-     * @return @see AsyncContext#getTimeout()
+     * Get the timeout.
+     * 
+     * @return the timeout.
+     * @see AsyncContext#getTimeout()
      */
     @Override
     public long getTimeout() {

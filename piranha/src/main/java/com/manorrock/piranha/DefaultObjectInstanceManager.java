@@ -44,16 +44,16 @@ public class DefaultObjectInstanceManager implements ObjectInstanceManager {
     /**
      * Create the servlet.
      *
-     * @param <T>
-     * @param type the servlet class.
+     * @param <T> the return type.
+     * @param servletClass the servlet class.
      * @return the servlet.
-     * @throws ServletException
+     * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public <T extends Servlet> T createServlet(Class<T> type) throws ServletException {
+    public <T extends Servlet> T createServlet(Class<T> servletClass) throws ServletException {
         T result;
         try {
-            result = type.newInstance();
+            result = servletClass.newInstance();
         } catch (InstantiationException | IllegalAccessException exception) {
             throw new ServletException(exception);
         }

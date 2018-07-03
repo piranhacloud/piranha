@@ -46,8 +46,8 @@ public class DefaultLoggingManager implements LoggingManager {
     /**
      * Log the message.
      *
-     * @param message
-     * @param throwable
+     * @param message the message to log.
+     * @param throwable the throwable to log.
      */
     @Override
     public void log(String message, Throwable throwable) {

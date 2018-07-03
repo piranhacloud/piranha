@@ -113,8 +113,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @param name
-     * @return
+     * Get the attribute value.
+     * 
+     * @param name the attribute name.
+     * @return the attribute value.
      * @see HttpSession#getAttribute(java.lang.String)
      */
     @Override
@@ -124,7 +126,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @return @see HttpSession#getAttributeNames()
+     * Get the attribute names.
+     * 
+     * @return the attribute names.
+     * @see HttpSession#getAttributeNames()
      */
     @Override
     public Enumeration<String> getAttributeNames() {
@@ -133,7 +138,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @return @see HttpSession#getCreationTime()
+     * Get the creation time.
+     * 
+     * @return the creation time.
+     * @see HttpSession#getCreationTime()
      */
     @Override
     public long getCreationTime() {
@@ -142,7 +150,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @return @see HttpSession#getId()
+     * Get the id.
+     * 
+     * @return the id.
+     * @see HttpSession#getId()
      */
     @Override
     public String getId() {
@@ -150,7 +161,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @return @see HttpSession#getLastAccessedTime()
+     * Get the last accessed time.
+     * 
+     * @return the last accessed time.
+     * @see HttpSession#getLastAccessedTime()
      */
     @Override
     public long getLastAccessedTime() {
@@ -159,7 +173,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @return @see HttpSession#getMaxInactiveInterval()
+     * Get the maximum inactive interval.
+     * 
+     * @return the maximum inactive interval.
+     * @see HttpSession#getMaxInactiveInterval()
      */
     @Override
     public int getMaxInactiveInterval() {
@@ -167,7 +184,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @return @see HttpSession#getServletContext()
+     * Get the servlet context.
+     * 
+     * @return the servlet context.
+     * @see HttpSession#getServletContext()
      */
     @Override
     public ServletContext getServletContext() {
@@ -175,7 +195,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @return @see HttpSession#getSessionContext()
+     * Get the session context.
+     * 
+     * @return null
+     * @see HttpSession#getSessionContext()
      */
     @Override
     @SuppressWarnings("deprecation")
@@ -184,8 +207,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @param name
-     * @return
+     * Get the value.
+     * 
+     * @param name the attribute name.
+     * @return the value.
      * @see HttpSession#getValue(java.lang.String)
      */
     @Override
@@ -195,7 +220,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @return @see HttpSession#getValueNames()
+     * Get the attribute names.
+     * 
+     * @return the attribute names.
+     * @see HttpSession#getValueNames()
      */
     @Override
     @SuppressWarnings("deprecation")
@@ -205,6 +233,8 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
+     * Invalidate the session.
+     * 
      * @see HttpSession#invalidate()
      */
     @Override
@@ -214,7 +244,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @return @see HttpSession#isNew()
+     * Is the session new.
+     * 
+     * @return true if it is, false otherwise.
+     * @see HttpSession#isNew()
      */
     @Override
     public boolean isNew() {
@@ -223,8 +256,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @param name
-     * @param value
+     * Set the value.
+     * 
+     * @param name the attribute name.
+     * @param value the attribute value.
      * @see HttpSession#putValue(java.lang.String, java.lang.Object)
      */
     @Override
@@ -234,7 +269,9 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @param name
+     * Remove the attribute.
+     * 
+     * @param name the attribute name.
      * @see HttpSession#removeAttribute(java.lang.String)
      */
     @Override
@@ -244,7 +281,9 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @param name
+     * Remove the value.
+     * 
+     * @param name the attribute name.
      * @see HttpSession#removeValue(java.lang.String)
      */
     @Override
@@ -254,8 +293,10 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @param name
-     * @param value
+     * Set the attribute.
+     * 
+     * @param name the attribute name.
+     * @param value the attribute value.
      * @see HttpSession#setAttribute(java.lang.String, java.lang.Object)
      */
     @Override
@@ -287,7 +328,9 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * @param maxInactiveInterval
+     * Set the maximum inactive interval.
+     * 
+     * @param maxInactiveInterval the maximum inactive interval.
      * @see HttpSession#setMaxInactiveInterval(int)
      */
     @Override
@@ -316,6 +359,8 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Verify if the session is valid.
+     * 
+     * @param methodName the method name.
      */
     private void verifyValid(String methodName) {
         if (!valid) {
