@@ -25,44 +25,35 @@
  */
 package javax.servlet.http;
 
-import com.manorrock.piranha.DefaultHttpSession;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import java.io.IOException;
+import javax.servlet.ServletException;
 
 /**
- * The JUnit tests for the HttpSessionBindingEventTest class.
+ * A Test HttpServletRequest.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpSessionBindingEventTest {
-    
+public class TestHttpServletRequest extends HttpServletRequestWrapper {
+
     /**
-     * Test getName method.
+     * Constructor.
+     * 
+     * @param request the request.
      */
-    @Test
-    public void testGetName() {
-         DefaultHttpSession session = new DefaultHttpSession(null);
-        HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, "name");
-        assertEquals("name", event.getName());
+    public TestHttpServletRequest(HttpServletRequest request) {
+        super(request);
     }
 
     /**
-     * Test getSession method.
+     * Authenticate.
+     * 
+     * @param response the response.
+     * @return false.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
      */
-    @Test
-    public void testGetSession() {
-        DefaultHttpSession session = new DefaultHttpSession(null);
-        HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, null);
-        assertNotNull(event.getSession());
-    }
-
-    /**
-     * Test getValue method.
-     */
-    @Test
-    public void testGetValue() {
-        DefaultHttpSession session = new DefaultHttpSession(null);
-        HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, "name", "value");
-        assertEquals("value", event.getValue());
+    @Override
+    public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
+        return false;
     }
 }

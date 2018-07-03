@@ -23,34 +23,35 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet.http;
+package javax.servlet;
 
-import com.manorrock.piranha.DefaultWebApplicationServerResponse;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the HttpServletResponse class.
+ * The JUnit tests for the ServletContextAttributeEvent class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpServletResponseTest {
+public class ServletContextAttributeEventTest {
 
     /**
-     * Test getTrailerFields method.
+     * Test getName method.
      */
     @Test
-    public void testGetTrailerFields() {
-        DefaultWebApplicationServerResponse response = new DefaultWebApplicationServerResponse(null);
-        assertNull(((HttpServletResponse) response).getTrailerFields());
+    public void testGetName() {
+        ServletContext servletContext = new TestServletContext();
+        ServletContextAttributeEvent event = new ServletContextAttributeEvent(servletContext, "name", "value");
+        assertEquals("name", event.getName());
     }
 
     /**
-     * Test setTrailerFields method.
+     * Test getValue method.
      */
     @Test
-    public void testSetTrailerFields() {
-        DefaultWebApplicationServerResponse response = new DefaultWebApplicationServerResponse(null);
-        ((HttpServletResponse) response).setTrailerFields(null);
+    public void testGetValue() {
+        ServletContext servletContext = new TestServletContext();
+        ServletContextAttributeEvent event = new ServletContextAttributeEvent(servletContext, "name", "value");
+        assertEquals("value", event.getValue());
     }
 }

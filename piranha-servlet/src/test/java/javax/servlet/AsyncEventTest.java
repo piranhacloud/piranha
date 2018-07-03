@@ -25,7 +25,6 @@
  */
 package javax.servlet;
 
-import com.manorrock.piranha.DefaultAsyncContext;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponseWrapper;
 import static org.junit.Assert.assertNotNull;
@@ -43,7 +42,7 @@ public class AsyncEventTest {
      */
     @Test
     public void testGetAsyncContext() {
-        AsyncEvent event = new AsyncEvent(new DefaultAsyncContext(null, null));
+        AsyncEvent event = new AsyncEvent(new TestAsyncContext(null, null));
         assertNotNull(event.getAsyncContext());
     }
 
@@ -52,7 +51,7 @@ public class AsyncEventTest {
      */
     @Test
     public void testGetSuppliedRequest() {
-        AsyncEvent event = new AsyncEvent(new DefaultAsyncContext(null, null), new HttpServletRequestWrapper(null), null);
+        AsyncEvent event = new AsyncEvent(new TestAsyncContext(null, null), new HttpServletRequestWrapper(null), null);
         assertNotNull(event.getSuppliedRequest());
     }
 
@@ -61,7 +60,7 @@ public class AsyncEventTest {
      */
     @Test
     public void testGetSuppliedResponse() {
-        AsyncEvent event = new AsyncEvent(new DefaultAsyncContext(null, null), null, new HttpServletResponseWrapper(null));
+        AsyncEvent event = new AsyncEvent(new TestAsyncContext(null, null), null, new HttpServletResponseWrapper(null));
         assertNotNull(event.getSuppliedResponse());
     }
 
@@ -70,7 +69,7 @@ public class AsyncEventTest {
      */
     @Test
     public void testGetThrowable() {
-        AsyncEvent event = new AsyncEvent(new DefaultAsyncContext(null, null), new RuntimeException());
+        AsyncEvent event = new AsyncEvent(new TestAsyncContext(null, null), new RuntimeException());
         assertNotNull(event.getThrowable());
     }
 }

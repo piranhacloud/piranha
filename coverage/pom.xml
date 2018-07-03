@@ -36,6 +36,12 @@
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-servlet</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
             <artifactId>piranha-weld</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>

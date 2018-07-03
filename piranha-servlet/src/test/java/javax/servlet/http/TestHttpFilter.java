@@ -25,31 +25,16 @@
  */
 package javax.servlet.http;
 
-import com.manorrock.piranha.DefaultFilterChain;
-import javax.servlet.FilterChain;
-import org.junit.Test;
-
 /**
- * The JUnit tests for the HttpFilter class.
+ * A Test HttpFilter.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpFilterTest {
+public class TestHttpFilter extends HttpFilter {
 
     /**
-     * Test doFilter method.
-     * 
-     * @throws Exception when a serious error occurs.
+     * Constructor.
      */
-    @Test
-    public void testDoFilter() throws Exception {
-        HttpServletRequest request = null;
-        HttpServletResponse response = null;
-        FilterChain chain = new DefaultFilterChain();
-        HttpFilter filter = new TestHttpFilter();
-        filter.doFilter(request, response, chain);
-    }
-
-    public class TestHttpFilter extends HttpFilter {
+    public TestHttpFilter() {
     }
 }

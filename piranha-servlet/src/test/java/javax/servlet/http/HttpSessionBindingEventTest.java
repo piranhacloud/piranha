@@ -23,27 +23,36 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet;
+package javax.servlet.http;
 
-import com.manorrock.piranha.DefaultWebApplication;
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- * The JUnit tests for the ServletContextAttributeEvent class.
- *
+ * The JUnit tests for the HttpSessionBindingEventTest class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletContextAttributeEventTest {
-
+public class HttpSessionBindingEventTest {
+    
     /**
      * Test getName method.
      */
     @Test
     public void testGetName() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        ServletContextAttributeEvent event = new ServletContextAttributeEvent(webApp, "name", "value");
+        HttpSession session = new TestHttpSession();
+        HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, "name");
         assertEquals("name", event.getName());
+    }
+
+    /**
+     * Test getSession method.
+     */
+    @Test
+    public void testGetSession() {
+        HttpSession session = new TestHttpSession();
+        HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, null);
+        assertNotNull(event.getSession());
     }
 
     /**
@@ -51,8 +60,8 @@ public class ServletContextAttributeEventTest {
      */
     @Test
     public void testGetValue() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        ServletContextAttributeEvent event = new ServletContextAttributeEvent(webApp, "name", "value");
+        HttpSession session = new TestHttpSession();
+        HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, "name", "value");
         assertEquals("value", event.getValue());
     }
 }

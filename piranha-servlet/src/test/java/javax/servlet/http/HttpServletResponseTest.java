@@ -23,40 +23,33 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet;
+package javax.servlet.http;
 
-import com.manorrock.piranha.DefaultHttpServletRequest;
-import com.manorrock.piranha.DefaultWebApplication;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the ServletRequestEvent class.
+ * The JUnit tests for the HttpServletResponse class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletRequestEventTest {
+public class HttpServletResponseTest {
 
     /**
-     * Test getServletContext method.
+     * Test getTrailerFields method.
      */
     @Test
-    public void testGetServletContext() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        ServletRequestEvent event = new ServletRequestEvent(webApplication, null);
-        assertNotNull(event.getServletContext());
+    public void testGetTrailerFields() {
+        HttpServletResponse response = new HttpServletResponseWrapper(null);
+        assertNull(((HttpServletResponse) response).getTrailerFields());
     }
 
     /**
-     * Test getServletRequest method.
+     * Test setTrailerFields method.
      */
     @Test
-    public void testGetServletRequest() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultHttpServletRequest servletRequest = new DefaultHttpServletRequest() {
-        };
-        ServletRequestEvent event = new ServletRequestEvent(webApplication, servletRequest);
-        assertNotNull(event.getServletRequest());
+    public void testSetTrailerFields() {
+        HttpServletResponse response = new HttpServletResponseWrapper(null);
+        ((HttpServletResponse) response).setTrailerFields(null);
     }
-
 }

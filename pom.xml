@@ -263,6 +263,7 @@
     <modules>
         <module>piranha</module>
         <module>piranha-weld</module>
+        <module>piranha-servlet</module>
     </modules>
     <profiles>
         <profile>

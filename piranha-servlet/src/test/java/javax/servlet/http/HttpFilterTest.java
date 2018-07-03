@@ -23,36 +23,29 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet;
+package javax.servlet.http;
 
-import com.manorrock.piranha.DefaultWebApplication;
-import static org.junit.Assert.assertEquals;
+import javax.servlet.FilterChain;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the ServletRequestAttributeEvent class.
- *
+ * The JUnit tests for the HttpFilter class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletRequestAttributeEventTest {
+public class HttpFilterTest {
 
     /**
-     * Test getName method.
+     * Test doFilter method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetName() {
-        DefaultWebApplication webapp = new DefaultWebApplication();
-        ServletRequestAttributeEvent event = new ServletRequestAttributeEvent(webapp, null, "name", null);
-        assertEquals("name", event.getName());
-    }
-
-    /**
-     * Test getValue method.
-     */
-    @Test
-    public void testGetValue() {
-        DefaultWebApplication webapp = new DefaultWebApplication();
-        ServletRequestAttributeEvent event = new ServletRequestAttributeEvent(webapp, null, "name", "value");
-        assertEquals("value", event.getValue());
+    public void testDoFilter() throws Exception {
+        HttpServletRequest request = null;
+        HttpServletResponse response = null;
+        FilterChain chain = new TestFilterChain();
+        HttpFilter filter = new TestHttpFilter();
+        filter.doFilter(request, response, chain);
     }
 }

@@ -25,9 +25,6 @@
  */
 package javax.servlet.http;
 
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.TestHttpServletRequest;
-import com.manorrock.piranha.TestHttpServletResponse;
 import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -50,11 +47,8 @@ public class HttpServletRequestWrapperTest {
      */
     @Test
     public void testAuthenticate() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestHttpServletRequest wrapped = new TestHttpServletRequest();
-        wrapped.setWebApplication(webApplication);
-        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(wrapped);
+        HttpServletRequestWrapper wrapper = new TestHttpServletRequest(null);
+        HttpServletResponseWrapper response = new HttpServletResponseWrapper(null);
         assertFalse(wrapper.authenticate(response));
     }
     
