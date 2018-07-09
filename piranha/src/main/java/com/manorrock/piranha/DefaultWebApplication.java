@@ -162,6 +162,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the JSP config descriptor.
      */
     protected JspConfigDescriptor jspConfigDescriptor;
+    
+    /**
+     * Stores the JSP file manager.
+     */
+    protected JspFileManager jspFileManager;
 
     /**
      * Stores the logging manager.
@@ -257,6 +262,7 @@ public class DefaultWebApplication implements WebApplication {
         initParameters = new ConcurrentHashMap<>(1);
         initializers = new ArrayList<>(1);
         jspConfigDescriptor = null;
+        jspFileManager = new DefaultJspFileManager();
         loggingManager = new DefaultLoggingManager();
         mimeTypeManager = new DefaultMimeTypeManager();
         objectInstanceManager = new DefaultObjectInstanceManager();
@@ -396,7 +402,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public ServletRegistration.Dynamic addJspFile(String servletName, String jspFile) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return jspFileManager.addJspFile(this, servletName, jspFile);
     }
     
     /**

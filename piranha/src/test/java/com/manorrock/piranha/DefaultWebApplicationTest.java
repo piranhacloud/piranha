@@ -173,6 +173,17 @@ public class DefaultWebApplicationTest {
         assertNotNull(webApp.addFilter("filter", Filter.class));
         assertNotNull(webApp.addFilter("filter", Filter.class));
     }
+    
+    /**
+     * Test addJspFile method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testAddJspFile() throws Exception {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        assertNull(webApp.addJspFile("MyJspFile", "myjspfile.jsp"));
+    }
 
     /**
      * Test addInitializer method.
