@@ -25,6 +25,7 @@
  */
 package com.manorrock.piranha;
 
+import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
@@ -34,14 +35,24 @@ import javax.servlet.ServletException;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface ObjectInstanceManager {
+    
+    /**
+     * Create the filter.
+     * 
+     * @param <T> the type.
+     * @param filterClass the Filter class.
+     * @return the Filter.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException;
 
     /**
      * Create the servlet.
      *
      * @param <T> the type.
-     * @param clazz the servlet class.
-     * @return the servlet.
-     * @throws ServletException when a servlet error occurs.
+     * @param clazz the Servlet class.
+     * @return the Servlet.
+     * @throws ServletException when a Servlet error occurs.
      */
     public <T extends Servlet> T createServlet(Class<T> clazz) throws ServletException;
 }

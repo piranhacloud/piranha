@@ -25,6 +25,7 @@
  */
 package com.manorrock.piranha;
 
+import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
@@ -40,6 +41,25 @@ import javax.servlet.ServletException;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultObjectInstanceManager implements ObjectInstanceManager {
+
+    /**
+     * Create the filter.
+     *
+     * @param <T> the return type.
+     * @param filterClass the filter class.
+     * @return the filter.
+     * @throws ServletException when a Filter error occurs.
+     */
+    @Override
+    public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
+        T result = null;
+        try {
+            result = filterClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException exception) {
+            throw new ServletException(exception);
+        }
+        return result;
+    }
 
     /**
      * Create the servlet.

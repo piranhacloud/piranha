@@ -29,6 +29,7 @@ import com.manorrock.piranha.ObjectInstanceManager;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.Unmanaged;
+import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
@@ -40,35 +41,62 @@ import javax.servlet.ServletException;
 public class WeldObjectInstanceManager implements ObjectInstanceManager {
 
     /**
-     * Create the servlet.
+     * Create the Filter.
      *
-     * @param <T>
-     * @param type the servlet class.
-     * @return the servlet.
-     * @throws ServletException
+     * @param <T> the return type.
+     * @param filterClass the Filter class.
+     * @return the Filter.
+     * @throws ServletException when a Filter error occurs.
      */
     @Override
-    public <T extends Servlet> T createServlet(Class<T> type) throws ServletException {
+    public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
         T result = null;
         boolean constructed = false;
-
         try {
             BeanManager beanManager = CDI.current().getBeanManager();
-            Unmanaged<T> unmanaged = new Unmanaged(beanManager, type);
+            Unmanaged<T> unmanaged = new Unmanaged(beanManager, filterClass);
             Unmanaged.UnmanagedInstance<T> unmanagedInstance = unmanaged.newInstance();
             result = unmanagedInstance.produce().inject().postConstruct().get();
             constructed = true;
         } catch (Throwable throwable) {
         }
-
         if (!constructed) {
             try {
-                result = type.newInstance();
+                result = filterClass.newInstance();
             } catch (InstantiationException | IllegalAccessException exception) {
                 throw new ServletException(exception);
             }
         }
+        return result;
+    }
 
+    /**
+     * Create the Servlet.
+     *
+     * @param <T> the type.
+     * @param servletClass the Servlet class.
+     * @return the Servlet.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    public <T extends Servlet> T createServlet(Class<T> servletClass) throws ServletException {
+        T result = null;
+        boolean constructed = false;
+        try {
+            BeanManager beanManager = CDI.current().getBeanManager();
+            Unmanaged<T> unmanaged = new Unmanaged(beanManager, servletClass);
+            Unmanaged.UnmanagedInstance<T> unmanagedInstance = unmanaged.newInstance();
+            result = unmanagedInstance.produce().inject().postConstruct().get();
+            constructed = true;
+        } catch (Throwable throwable) {
+        }
+        if (!constructed) {
+            try {
+                result = servletClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException exception) {
+                throw new ServletException(exception);
+            }
+        }
         return result;
     }
 }

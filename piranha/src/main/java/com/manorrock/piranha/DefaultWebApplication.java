@@ -559,15 +559,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
-        T result = null;
-
-        try {
-            result = filterClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException exception) {
-            throw new ServletException(exception);
-        }
-
-        return result;
+        return objectInstanceManager.createFilter(filterClass);
     }
 
     /**
