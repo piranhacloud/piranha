@@ -180,7 +180,7 @@ public class ServletRequestWrapper implements ServletRequest {
      */
     @Override
     public Locale getLocale() {
-        return this.wrapped.getLocale();
+        return wrapped.getLocale();
     }
 
     /**
@@ -385,7 +385,7 @@ public class ServletRequestWrapper implements ServletRequest {
      */
     @Override
     public boolean isSecure() {
-        return this.wrapped.isSecure();
+        return wrapped.isSecure();
     }
 
     /**
