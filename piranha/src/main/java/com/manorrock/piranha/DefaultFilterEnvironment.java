@@ -196,7 +196,7 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      */
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return filterName;
     }
 
     /**
