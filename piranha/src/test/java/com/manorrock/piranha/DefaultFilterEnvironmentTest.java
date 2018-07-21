@@ -26,6 +26,7 @@
 package com.manorrock.piranha;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 /**
@@ -42,5 +43,14 @@ public class DefaultFilterEnvironmentTest {
     public void testGetName() {
         DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment(null, "myfilter", null);
         assertEquals("myfilter", filterEnvironment.getName());
+    }
+    
+    /**
+     * Test getInitParameters method.
+     */
+    @Test
+    public void testGetInitParameters() {
+        DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment();
+        assertNotNull(filterEnvironment.getInitParameters());
     }
 }

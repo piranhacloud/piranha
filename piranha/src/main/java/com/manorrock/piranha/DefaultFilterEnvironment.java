@@ -186,7 +186,7 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      */
     @Override
     public Map<String, String> getInitParameters() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return initParameters;
     }
 
     /**
