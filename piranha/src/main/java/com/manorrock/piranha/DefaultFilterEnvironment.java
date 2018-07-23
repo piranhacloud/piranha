@@ -32,6 +32,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
@@ -75,6 +76,11 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
     private HashMap<String, String> initParameters;
 
     /**
+     * Stores the servlet mame mappings.
+     */
+    private ConcurrentHashMap<String, String> servletNameMappings;
+    
+    /**
      * Stores the status.
      */
     private int status;
@@ -89,6 +95,7 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      */
     public DefaultFilterEnvironment() {
         initParameters = new HashMap<>();
+        servletNameMappings = new ConcurrentHashMap<>();
     }
 
     /**
@@ -216,7 +223,7 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      */
     @Override
     public Collection<String> getServletNameMappings() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Collections.unmodifiableCollection(servletNameMappings.keySet());
     }
 
     /**
