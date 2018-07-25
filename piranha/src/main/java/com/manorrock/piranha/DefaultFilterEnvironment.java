@@ -84,6 +84,11 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      * Stores the status.
      */
     private int status;
+    
+    /**
+     * Stores the url pattern mappings.
+     */
+    private ConcurrentHashMap<String, String> urlPatternMappings;
 
     /**
      * Stores the web application.
@@ -96,6 +101,7 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
     public DefaultFilterEnvironment() {
         initParameters = new HashMap<>();
         servletNameMappings = new ConcurrentHashMap<>();
+        urlPatternMappings = new ConcurrentHashMap<>();
     }
 
     /**
@@ -233,7 +239,7 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      */
     @Override
     public Collection<String> getUrlPatternMappings() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Collections.unmodifiableCollection(urlPatternMappings.keySet());
     }
 
     /**

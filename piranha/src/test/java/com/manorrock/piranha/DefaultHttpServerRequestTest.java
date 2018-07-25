@@ -92,7 +92,7 @@ public class DefaultHttpServerRequestTest {
      */
     @Test
     public void testGetLocalAddress() {
-        DefaultHttpServer server = new DefaultHttpServer(8082, (HttpServerRequest request, HttpServerResponse response) -> {
+        DefaultHttpServer server = new DefaultHttpServer(4321, (HttpServerRequest request, HttpServerResponse response) -> {
             String value = request.getLocalAddress();
             OutputStream outputStream = response.getOutputStream();
             try {
@@ -107,7 +107,7 @@ public class DefaultHttpServerRequestTest {
         server.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8082");
+            HttpGet request = new HttpGet("http://localhost:4321");
             HttpResponse response = client.execute(request);
             assertEquals(200, response.getStatusLine().getStatusCode());
             HttpEntity entity = response.getEntity();

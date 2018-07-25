@@ -27,6 +27,7 @@ package com.manorrock.piranha;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
@@ -52,5 +53,14 @@ public class DefaultFilterEnvironmentTest {
     public void testGetInitParameters() {
         DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment();
         assertNotNull(filterEnvironment.getInitParameters());
+    }
+        
+    /**
+     * Test getUrlPatternMappings method.
+     */
+    @Test
+    public void testGetUrlPatternMappings() {
+        DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment(null, "myfilter", null);
+        assertTrue(filterEnvironment.getUrlPatternMappings().isEmpty());
     }
 }
