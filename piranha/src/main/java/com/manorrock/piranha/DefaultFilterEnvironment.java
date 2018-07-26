@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -79,12 +80,12 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      * Stores the servlet mame mappings.
      */
     private ConcurrentHashMap<String, String> servletNameMappings;
-    
+
     /**
      * Stores the status.
      */
     private int status;
-    
+
     /**
      * Stores the url pattern mappings.
      */
@@ -304,13 +305,39 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      */
     @Override
     public boolean setInitParameter(String name, String value) {
-        this.initParameters.put(name, value);
-        return true;
+        boolean result = false;
+        if (!initParameters.containsKey(name)) {
+            initParameters.put(name, value);
+            result = true;
+        }
+        return result;
     }
 
+    /**
+     * Set the init parameters.
+     *
+     * @param initParameters the init parameters
+     * @return the set of conflicting parameter names.
+     */
     @Override
     public Set<String> setInitParameters(Map<String, String> initParameters) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        HashSet<String> conflicting = new HashSet<>();
+        if (initParameters != null) {
+            initParameters.entrySet().forEach((entry) -> {
+                String name = entry.getKey();
+                String value = entry.getValue();
+                if (name == null) {
+                    throw new IllegalArgumentException("A null name is not allowed");
+                }
+                if (value == null) {
+                    throw new IllegalArgumentException("A null value is not allowed");
+                }
+                if (!setInitParameter(name, value)) {
+                    conflicting.add(name);
+                }
+            });
+        }
+        return conflicting;
     }
 
     /**

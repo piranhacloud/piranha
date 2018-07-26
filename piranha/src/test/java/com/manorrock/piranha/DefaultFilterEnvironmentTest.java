@@ -25,7 +25,9 @@
  */
 package com.manorrock.piranha;
 
+import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -62,5 +64,59 @@ public class DefaultFilterEnvironmentTest {
     public void testGetUrlPatternMappings() {
         DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment(null, "myfilter", null);
         assertTrue(filterEnvironment.getUrlPatternMappings().isEmpty());
+    }
+    
+    /**
+     * Test setInitParameters method.
+     */
+    @Test
+    public void testSetInitParameters() {
+        DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment();
+        assertTrue(filterEnvironment.setInitParameters(new HashMap<>()).isEmpty());
+    }
+    
+    /**
+     * Test setInitParameters method.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetInitParameters2() {
+        DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment();
+        HashMap<String, String> parameters = new HashMap<>();
+        parameters.put(null, null);
+        filterEnvironment.setInitParameters(parameters);
+    }
+    
+    /**
+     * Test setInitParameters method.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetInitParameters3() {
+        DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment();
+        HashMap<String, String> parameters = new HashMap<>();
+        parameters.put("name", null);
+        filterEnvironment.setInitParameters(parameters);
+    }
+    
+    /**
+     * Test setInitParameters method.
+     */
+    @Test
+    public void testSetInitParameters4() {
+        DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment();
+        HashMap<String, String> parameters = new HashMap<>();
+        parameters.put("name", "value");
+        assertTrue(filterEnvironment.setInitParameters(parameters).isEmpty());
+    }
+    
+    /**
+     * Test setInitParameters method.
+     */
+    @Test
+    public void testSetInitParameters5() {
+        DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment();
+        HashMap<String, String> parameters = new HashMap<>();
+        parameters.put("name", "value");
+        assertTrue(filterEnvironment.setInitParameters(parameters).isEmpty());
+        assertFalse(filterEnvironment.setInitParameters(parameters).isEmpty());
     }
 }
