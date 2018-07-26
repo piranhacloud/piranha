@@ -763,7 +763,7 @@ public abstract class DefaultHttpServletRequest implements WebApplicationRequest
      */
     @Override
     public String getRealPath(String path) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("HttpServletRequest.getRealPath is no longer supported");
     }
 
     /**
