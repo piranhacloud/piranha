@@ -1229,7 +1229,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void log(Exception exception, String message) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("ServletContext.log(Exception, String) is no longer supported");
     }
 
     /**
