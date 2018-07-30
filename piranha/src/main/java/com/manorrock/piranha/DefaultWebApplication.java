@@ -1032,7 +1032,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Servlet getServlet(String name) throws ServletException {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("ServletContext.getServlet(String) is no longer supported");
     }
 
     /**
