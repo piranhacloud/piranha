@@ -1085,7 +1085,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Enumeration<Servlet> getServlets() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("ServletContext.getServlets() is no longer supported");
     }
 
     /**
