@@ -1053,7 +1053,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Enumeration<String> getServletNames() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("ServletContext.getServletNames() is no longer supported");
     }
 
     /**
