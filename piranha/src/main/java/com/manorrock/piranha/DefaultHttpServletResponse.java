@@ -223,7 +223,7 @@ public abstract class DefaultHttpServletResponse implements WebApplicationRespon
      */
     @Override
     public String encodeRedirectUrl(String url) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("HttpServletResponse.encodeRedirectUrl is no longer supported");
     }
 
     /**
