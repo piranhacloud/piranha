@@ -264,6 +264,7 @@
         <module>piranha</module>
         <module>piranha-weld</module>
         <module>piranha-servlet</module>
+        <module>piranha-soteria</module>
     </modules>
     <profiles>
         <profile>
