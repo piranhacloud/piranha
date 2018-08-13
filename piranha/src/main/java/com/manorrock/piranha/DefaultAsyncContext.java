@@ -95,9 +95,11 @@ public class DefaultAsyncContext implements AsyncContext {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Complete the async context.
+     */
     @Override
     public void complete() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
