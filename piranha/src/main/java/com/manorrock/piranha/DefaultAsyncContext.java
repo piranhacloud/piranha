@@ -177,6 +177,5 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void start(Runnable runnable) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
