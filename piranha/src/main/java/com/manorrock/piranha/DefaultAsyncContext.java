@@ -155,9 +155,14 @@ public class DefaultAsyncContext implements AsyncContext {
         return timeout;
     }
 
+    /**
+     * Do we have the original request and response?
+     * 
+     * @return true if we do, false otherwise.
+     */
     @Override
     public boolean hasOriginalRequestAndResponse() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
     }
 
     /**
