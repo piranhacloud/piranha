@@ -92,7 +92,7 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void addListener(AsyncListener listener, ServletRequest request, ServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.listeners.add(listener);
     }
 
     /**
