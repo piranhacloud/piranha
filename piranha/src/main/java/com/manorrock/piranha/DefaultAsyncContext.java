@@ -107,19 +107,30 @@ public class DefaultAsyncContext implements AsyncContext {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Dispatch.
+     */
     @Override
     public void dispatch() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Dispatch.
+     * 
+     * @param path the path.
+     */
     @Override
-    public void dispatch(String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void dispatch(String path) {
     }
 
+    /**
+     * Dispatch.
+     * 
+     * @param servletContext the servlet context.
+     * @param path the path. 
+     */
     @Override
-    public void dispatch(ServletContext sc, String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void dispatch(ServletContext servletContext, String path) {
     }
 
     /**
