@@ -102,9 +102,21 @@ public class DefaultAsyncContext implements AsyncContext {
     public void complete() {
     }
 
+    /**
+     * Create the listener.
+     * 
+     * @param <T> the class.
+     * @param type the type.
+     * @return the listener.
+     * @throws ServletException when a Servlet error occurs.
+     */
     @Override
     public <T extends AsyncListener> T createListener(Class<T> type) throws ServletException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return type.newInstance();
+        } catch (InstantiationException | IllegalAccessException ex) {
+            throw new ServletException("Unable to create listener using DefaultAsyncContext", ex);
+        }
     }
 
     /**
