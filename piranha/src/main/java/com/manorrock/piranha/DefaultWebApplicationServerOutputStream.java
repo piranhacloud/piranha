@@ -114,7 +114,6 @@ public class DefaultWebApplicationServerOutputStream extends ServletOutputStream
      */
     @Override
     public void setWriteListener(WriteListener listener) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
