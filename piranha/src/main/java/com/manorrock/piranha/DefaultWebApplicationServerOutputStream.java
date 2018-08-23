@@ -86,7 +86,7 @@ public class DefaultWebApplicationServerOutputStream extends ServletOutputStream
      */
     @Override
     public boolean isReady() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
     }
 
     /**
