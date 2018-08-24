@@ -395,7 +395,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      */
     @Override
     public Set<String> setServletSecurity(ServletSecurityElement servletSecurityElement) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new HashSet<>();
     }
 
     /**

@@ -59,7 +59,8 @@ public class HelloSpringControllerTest {
                 System.getProperty("user.home") + "/.m2/repository/javax/servlet/javax.servlet-api/4.0.0/javax.servlet-api-4.0.0.jar" + File.pathSeparator +
                 System.getProperty("user.home") + "/.m2/repository/javax/servlet/jsp/javax.servlet.jsp-api/2.3.1/javax.servlet.jsp-api-2.3.1.jar" + File.pathSeparator +
                 System.getProperty("user.home") + "/.m2/repository/org/glassfish/web/javax.servlet.jsp/2.3.2/javax.servlet.jsp-2.3.2.jar");
-        
+        dynamic.setInitParameter("compilerSourceVM", "1.6");
+        dynamic.setInitParameter("compilerTargetVM", "1.6");
         webApp.initialize();
         webApp.start();
         
