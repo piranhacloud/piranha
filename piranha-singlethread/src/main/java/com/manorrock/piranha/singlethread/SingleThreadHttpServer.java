@@ -23,23 +23,22 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.singlethread;
 
+import com.manorrock.piranha.DefaultHttpServerProcessor;
+import com.manorrock.piranha.HttpServer;
+import com.manorrock.piranha.HttpServerProcessor;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The default HttpServer.
+ * A single thread HttpServer.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultHttpServer implements HttpServer {
+public class SingleThreadHttpServer implements HttpServer {
 
     /**
      * Stores the logger.
@@ -47,24 +46,24 @@ public class DefaultHttpServer implements HttpServer {
     private static final Logger LOGGER = Logger.getLogger(HttpServer.class.getName());
 
     /**
-     * Stores the executor service.
-     */
-    protected ExecutorService executorService;
-
-    /**
      * Stores the processor.
      */
     protected HttpServerProcessor processor;
 
     /**
-     * Stores the port we are listening on.
+     * Stores the running flag.
      */
-    protected int serverPort;
-
+    protected boolean running;
+    
     /**
      * Stores the server acceptor thread.
      */
-    protected Thread serverAcceptorThread;
+    protected Thread serverProcessingThread;
+
+    /**
+     * Stores the port we are listening on.
+     */
+    protected int serverPort;
 
     /**
      * Stores the server socket.
@@ -82,15 +81,9 @@ public class DefaultHttpServer implements HttpServer {
     protected int soTimeout;
 
     /**
-     * Stores the thread factory.
-     */
-    protected ThreadFactory threadFactory;
-
-    /**
      * Constructor
      */
-    public DefaultHttpServer() {
-        threadFactory = new DefaultHttpServerThreadFactory();
+    public SingleThreadHttpServer() {
         processor = new DefaultHttpServerProcessor();
         serverPort = 8080;
         serverStopRequest = false;
@@ -102,8 +95,7 @@ public class DefaultHttpServer implements HttpServer {
      * @param serverPort the server port.
      * @param processor the HTTP server processor.
      */
-    public DefaultHttpServer(int serverPort, HttpServerProcessor processor) {
-        this.threadFactory = new DefaultHttpServerThreadFactory();
+    public SingleThreadHttpServer(int serverPort, HttpServerProcessor processor) {
         this.processor = processor;
         this.serverPort = serverPort;
         this.serverStopRequest = false;
@@ -116,7 +108,7 @@ public class DefaultHttpServer implements HttpServer {
      */
     @Override
     public boolean isRunning() {
-        return !executorService.isShutdown();
+        return running;
     }
 
     /**
@@ -125,13 +117,13 @@ public class DefaultHttpServer implements HttpServer {
     @Override
     public void start() {
         try {
-            executorService = Executors.newCachedThreadPool(threadFactory);
             serverStopRequest = false;
             serverSocket = new ServerSocket(serverPort);
             serverSocket.setReuseAddress(false);
             serverSocket.setSoTimeout(soTimeout);
-            serverAcceptorThread = new Thread(new DefaultHttpServerAcceptorThread(this), "DefaultHttpServer-AcceptorThread");
-            serverAcceptorThread.start();
+            serverProcessingThread = new Thread(new SingleThreadHttpServerProcessingThread(this), "SingleThreadHttpServer-ProcessingThread");
+            serverProcessingThread.start();
+            running = true;
         } catch (IOException exception) {
             LOGGER.log(Level.WARNING, "An I/O error occurred while starting the HTTP server", exception);
         }
@@ -148,14 +140,7 @@ public class DefaultHttpServer implements HttpServer {
             } catch (IOException exception) {
                 LOGGER.log(Level.WARNING, "An I/O error occurred while stopping the HTTP server", exception);
             }
-        }
-
-        executorService.shutdown();
-
-        try {
-            executorService.awaitTermination(120, TimeUnit.SECONDS);
-        } catch (InterruptedException exception) {
-            LOGGER.log(Level.WARNING, "Termination of the executor service was interrupted", exception);
+            running = false;
         }
     }
 }

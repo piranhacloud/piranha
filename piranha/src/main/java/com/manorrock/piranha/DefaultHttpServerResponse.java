@@ -39,7 +39,7 @@ import java.util.logging.Logger;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultHttpServerResponse implements HttpServerResponse {
+public class DefaultHttpServerResponse implements HttpServerResponse {
 
     /**
      * Stores the logger.

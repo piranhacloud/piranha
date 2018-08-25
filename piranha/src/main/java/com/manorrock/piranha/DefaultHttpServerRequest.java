@@ -44,7 +44,7 @@ import java.util.logging.Logger;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultHttpServerRequest implements HttpServerRequest {
+public class DefaultHttpServerRequest implements HttpServerRequest {
 
     /**
      * Stores the logger.
@@ -279,8 +279,8 @@ class DefaultHttpServerRequest implements HttpServerRequest {
 
     /**
      * Set the method.
-     *
-     * @return the method.
+     * 
+     * @param method the method.
      */
     public void setMethod(String method) {
         this.method = method;

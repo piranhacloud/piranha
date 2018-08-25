@@ -280,6 +280,7 @@
         <module>piranha-weld</module>
         <module>piranha-servlet</module>
         <module>piranha-soteria</module>
+        <module>piranha-singlethread</module>
     </modules>
     <profiles>
         <profile>

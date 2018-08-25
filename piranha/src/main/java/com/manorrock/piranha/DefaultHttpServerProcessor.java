@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultHttpServerProcessor implements HttpServerProcessor {
+public class DefaultHttpServerProcessor implements HttpServerProcessor {
 
     /**
      * Stores the logger.

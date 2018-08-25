@@ -23,36 +23,11 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
 
 /**
- * The HttpServerBuilder API.
- *
+ * A single threaded HttpServer implementation that can be used if you want to
+ * run Piranha on single thread.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Deprecated
-public interface HttpServerBuilder {
-
-    /**
-     * Build the HTTP server.
-     *
-     * @return the HTTP server.
-     */
-    public HttpServer build();
-
-    /**
-     * Set the server port.
-     *
-     * @param port the server port.
-     * @return the HTTP server builder.
-     */
-    public HttpServerBuilder port(int port);
-
-    /**
-     * Set the processor.
-     *
-     * @param processor the processor.
-     * @return the HTTP server builder.
-     */
-    public HttpServerBuilder processor(HttpServerProcessor processor);
-}
+package com.manorrock.piranha.singlethread;
