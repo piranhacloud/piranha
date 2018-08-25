@@ -48,7 +48,7 @@ public class SingleThreadHttpServerTest {
     @Test
     public void testStartAndStop() {
         SingleThreadHttpServer server = new SingleThreadHttpServer();
-        server.serverPort = 8001;
+        server.serverPort = 18001;
         server.start();
         assertTrue(server.isRunning());
         server.stop();
@@ -61,11 +61,11 @@ public class SingleThreadHttpServerTest {
     @Test
     public void testProcessing() {
         SingleThreadHttpServer server = new SingleThreadHttpServer();
-        server.serverPort = 8002;
+        server.serverPort = 18002;
         server.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8002");
+            HttpGet request = new HttpGet("http://localhost:18002");
             HttpResponse response = client.execute(request);
             assertEquals(200, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
@@ -81,11 +81,11 @@ public class SingleThreadHttpServerTest {
     @Test
     public void testFileNotFound() {
         SingleThreadHttpServer server = new SingleThreadHttpServer();
-        server.serverPort = 8003;
+        server.serverPort = 18003;
         server.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8003/this_is_certainly_not_there");
+            HttpGet request = new HttpGet("http://localhost:18003/this_is_certainly_not_there");
             HttpResponse response = client.execute(request);
             assertEquals(404, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
@@ -101,10 +101,10 @@ public class SingleThreadHttpServerTest {
     @Test
     public void testFile() {
         SingleThreadHttpServer server = new SingleThreadHttpServer();
-        server.serverPort = 8004;
+        server.serverPort = 18004;
         server.start();        try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8004/pom.xml");
+            HttpGet request = new HttpGet("http://localhost:18004/pom.xml");
             HttpResponse response = client.execute(request);
             assertEquals(200, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
