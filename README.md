@@ -1,13 +1,14 @@
 
 # Manorrock Piranha Project
 
-The Manorrock Piranha Project delivers you with a slim Servlet container and some
-useful add-on modules.
+The Manorrock Piranha Project delivers you with a slim Servlet container and
+some useful add-on modules.
 
 See the list below for what is available.
 
 1. [Piranha Servlet container](piranha/README.md)
-2. [Piranha Weld](piranha-weld/README.md)
+2. [Piranha Single Threaded](piranha-singlethread/README.md)
+3. [Piranha Weld](piranha-weld/README.md)
 
 Note the documentation for the master branch might show features that are NOT 
 yet available as it is under active development. Please see the documentation
