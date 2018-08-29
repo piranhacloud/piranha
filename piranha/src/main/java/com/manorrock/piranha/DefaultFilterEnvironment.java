@@ -140,7 +140,6 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      */
     @Override
     public void addMappingForUrlPatterns(EnumSet<DispatcherType> dispatcherTypes, boolean isMatchAfter, String... urlPatterns) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
