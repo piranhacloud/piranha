@@ -281,6 +281,7 @@
         <module>piranha-servlet</module>
         <module>piranha-soteria</module>
         <module>piranha-singlethread</module>
+        <module>piranha-jndi</module>
     </modules>
     <profiles>
         <profile>
