@@ -282,6 +282,7 @@
         <module>piranha-soteria</module>
         <module>piranha-singlethread</module>
         <module>piranha-jndi</module>
+        <module>piranha-jsp</module>
     </modules>
     <profiles>
         <profile>
