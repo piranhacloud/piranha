@@ -12,4 +12,21 @@
     <artifactId>piranha-jasper</artifactId>
     <packaging>jar</packaging>
     <name>Manorrock Piranha Jasper Integration</name>
+    <dependencies>    
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <scope>provided</scope>
+        </dependency>    
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.servlet.jsp</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
 </project>

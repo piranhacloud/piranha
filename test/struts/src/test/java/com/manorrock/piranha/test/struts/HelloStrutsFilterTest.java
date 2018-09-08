@@ -29,7 +29,6 @@ import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultLoggingManager;
 import com.manorrock.piranha.DefaultWebApplication;
 import java.io.File;
-import javax.servlet.ServletRegistration.Dynamic;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -52,14 +51,7 @@ public class HelloStrutsFilterTest {
         webApp.setLoggingManager(new DefaultLoggingManager());
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addFilter("struts2", "org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter");
-        webApp.addServletMapping("JSP Servlet", "*.jsp");
-        Dynamic dynamic = webApp.addServlet("JSP Servlet", "org.apache.jasper.servlet.JspServlet");
-        dynamic.setInitParameter("classpath",
-                System.getProperty("user.home") + "/.m2/repository/javax/servlet/javax.servlet-api/4.0.0/javax.servlet-api-4.0.0.jar" + File.pathSeparator
-                + System.getProperty("user.home") + "/.m2/repository/javax/servlet/jsp/javax.servlet.jsp-api/2.3.1/javax.servlet.jsp-api-2.3.1.jar" + File.pathSeparator
-                + System.getProperty("user.home") + "/.m2/repository/org/glassfish/web/javax.servlet.jsp/2.3.2/javax.servlet.jsp-2.3.2.jar");
-        dynamic.setInitParameter("compilerSourceVM", "1.6");
-        dynamic.setInitParameter("compilerTargetVM", "1.6");
+        webApp.addInitializer("com.manorrock.piranha.jasper.JasperInitializer");
         webApp.initialize();
         webApp.start();
 

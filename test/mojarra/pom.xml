@@ -17,6 +17,12 @@
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-jasper</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
             <artifactId>piranha</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -32,11 +38,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>javax.servlet.jsp-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>javax.websocket</groupId>
             <artifactId>javax.websocket-api</artifactId>
             <scope>test</scope>
@@ -49,11 +50,6 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>javax.servlet.jsp</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
