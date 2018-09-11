@@ -37,7 +37,7 @@ import javax.servlet.ServletException;
  */
 public class DefaultWebApplicationServer implements
         HttpServerProcessor,
-        WebApplicationServer<DefaultHttpServletRequest, DefaultHttpServletResponse> {
+        WebApplicationServer<WebApplicationRequest, WebApplicationResponse> {
 
     /**
      * Stores the request mapper.
@@ -100,7 +100,7 @@ public class DefaultWebApplicationServer implements
      */
     @Override
     public void initialize() {
-        for (WebApplication webApp : webApplications.values()) {
+        webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
                 Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
@@ -108,7 +108,7 @@ public class DefaultWebApplicationServer implements
             } finally {
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
-        }
+        });
     }
 
     /**
@@ -152,7 +152,7 @@ public class DefaultWebApplicationServer implements
      * @throws ServletException when a servlet error occurs.
      */
     @Override
-    public void service(DefaultHttpServletRequest request, DefaultHttpServletResponse response)
+    public void service(WebApplicationRequest request, WebApplicationResponse response)
             throws IOException, ServletException {
 
         String requestUri = request.getRequestURI();
@@ -196,7 +196,7 @@ public class DefaultWebApplicationServer implements
      */
     @Override
     public void start() {
-        for (WebApplication webApp : webApplications.values()) {
+        webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
                 Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
@@ -204,7 +204,7 @@ public class DefaultWebApplicationServer implements
             } finally {
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
-        }
+        });
     }
 
     /**
@@ -212,7 +212,7 @@ public class DefaultWebApplicationServer implements
      */
     @Override
     public void stop() {
-        for (WebApplication webApp : webApplications.values()) {
+        webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
                 Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
@@ -220,6 +220,6 @@ public class DefaultWebApplicationServer implements
             } finally {
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
-        }
+        });
     }
 }

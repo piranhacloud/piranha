@@ -38,11 +38,11 @@ import javax.servlet.http.HttpServletResponse;
  * The default SecurityManager.
  *
  * <p>
- * This security manager implies the use of DefaultHttpServletRequest, if your
- * server / web application does not want to use DefaultHttpServletRequest or
- * subclass DefaultHttpServletRequest you have to implement your own security
- * manager.
- * </p>
+ This security manager implies the use of WebApplicationRequest, if your
+ server / web application does not want to use WebApplicationRequest or
+ subclass WebApplicationRequest you have to implement your own security
+ manager.
+ </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -180,13 +180,13 @@ public class DefaultSecurityManager implements SecurityManager {
     public void login(HttpServletRequest request, String username, String password) throws ServletException {
 
         if (logins.containsKey(username) && password != null && password.equals(logins.get(username))) {
-            DefaultHttpServletRequest abstractRequest;
+            WebApplicationRequest abstractRequest;
 
             while (request instanceof HttpServletRequestWrapper) {
                 HttpServletRequestWrapper wrapper = (HttpServletRequestWrapper) request;
                 request = (HttpServletRequest) wrapper.getRequest();
             }
-            abstractRequest = (DefaultHttpServletRequest) request;
+            abstractRequest = (WebApplicationRequest) request;
             abstractRequest.setUserPrincipal(new DefaultSecurityPrincipal(username));
         } else {
             throw new ServletException("Unable to login using the given username and password");

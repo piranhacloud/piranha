@@ -30,7 +30,7 @@ package com.manorrock.piranha;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestHttpServletRequest extends DefaultHttpServletRequest {
+public class TestHttpServletRequest extends WebApplicationRequest {
 
     /**
      * Constructor.

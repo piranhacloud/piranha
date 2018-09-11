@@ -34,12 +34,7 @@ import javax.servlet.http.Cookie;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerRequest extends DefaultHttpServletRequest {
-
-    /**
-     * Stores the request.
-     */
-    private final HttpServerRequest request;
+public class DefaultWebApplicationServerRequest extends WebApplicationRequest {
 
     /**
      * Stores the request URI.
@@ -52,7 +47,6 @@ public class DefaultWebApplicationServerRequest extends DefaultHttpServletReques
      * @param request the request.
      */
     public DefaultWebApplicationServerRequest(HttpServerRequest request) {
-        this.request = request;
         if (request.getQueryString() != null) {
             requestUri = request.getRequestTarget();
             queryString = request.getQueryString();

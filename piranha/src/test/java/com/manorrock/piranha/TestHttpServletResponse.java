@@ -33,7 +33,7 @@ import javax.servlet.http.Cookie;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestHttpServletResponse extends DefaultHttpServletResponse {
+public class TestHttpServletResponse extends WebApplicationResponse {
 
     /**
      * Constructor.

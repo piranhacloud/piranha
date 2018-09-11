@@ -25,14 +25,14 @@
  */
 package com.manorrock.piranha.test.jpa;
 
-import com.manorrock.piranha.DefaultHttpServletRequest;
+import com.manorrock.piranha.WebApplicationRequest;
 
 /**
  * A test HTTP servlet request.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestHttpServletRequest extends DefaultHttpServletRequest {
+public class TestHttpServletRequest extends WebApplicationRequest {
 
     /**
      * Constructor.

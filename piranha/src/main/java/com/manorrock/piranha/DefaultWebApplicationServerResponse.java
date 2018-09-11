@@ -30,7 +30,7 @@ package com.manorrock.piranha;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerResponse extends DefaultHttpServletResponse {
+public class DefaultWebApplicationServerResponse extends WebApplicationResponse {
 
     /**
      * Stores the response.

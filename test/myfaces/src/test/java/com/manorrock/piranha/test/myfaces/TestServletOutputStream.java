@@ -25,10 +25,11 @@
  */
 package com.manorrock.piranha.test.myfaces;
 
-import com.manorrock.piranha.DefaultHttpServletRequest;
-import com.manorrock.piranha.DefaultHttpServletResponse;
 import com.manorrock.piranha.DefaultServletOutputStream;
 import com.manorrock.piranha.DefaultWebApplication;
+import com.manorrock.piranha.WebApplicationRequest;
+import com.manorrock.piranha.WebApplicationResponse;
+import com.manorrock.piranha.WebApplicationResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.servlet.WriteListener;
@@ -53,7 +54,7 @@ public class TestServletOutputStream extends DefaultServletOutputStream {
     /**
      * Stores the response.
      */
-    private DefaultHttpServletResponse response;
+    private WebApplicationResponse response;
 
     /**
      * Constructor.
@@ -115,7 +116,7 @@ public class TestServletOutputStream extends DefaultServletOutputStream {
      * @param response the response.
      */
     @Override
-    public void setResponse(DefaultHttpServletResponse response) {
+    public void setResponse(WebApplicationResponse response) {
         this.response = response;
     }
 
@@ -135,7 +136,7 @@ public class TestServletOutputStream extends DefaultServletOutputStream {
         }
 
         DefaultWebApplication webApp = (DefaultWebApplication) response.getWebApplication();
-        DefaultHttpServletRequest request = (DefaultHttpServletRequest) webApp.getRequest(response);
+        WebApplicationRequest request = (WebApplicationRequest) webApp.getRequest(response);
 
         if (!request.isAsyncStarted() && !request.isUpgraded()) {
             throw new IllegalStateException("Read listener cannot be set as the request is not upgraded nor the async is started");

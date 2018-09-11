@@ -1285,8 +1285,8 @@ public class DefaultWebApplication implements WebApplication {
             });
         }
 
-        DefaultHttpServletRequest httpRequest = (DefaultHttpServletRequest) request;
-        DefaultHttpServletResponse httpResponse = (DefaultHttpServletResponse) response;
+        WebApplicationRequest httpRequest = (WebApplicationRequest) request;
+        WebApplicationResponse httpResponse = (WebApplicationResponse) response;
         Filter filter = null;
 
         if (!httpRequest.getRequestURI().endsWith(".jsp")) {

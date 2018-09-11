@@ -221,6 +221,11 @@
                 <version>2.3.5</version>
             </dependency>
             <dependency>
+                <groupId>org.glassfish.grizzly</groupId>
+                <artifactId>grizzly-http-server</artifactId>
+                <version>2.4.3</version>
+            </dependency>
+            <dependency>
                 <groupId>org.glassfish.jaxb</groupId>
                 <artifactId>jaxb-runtime</artifactId>
                 <version>2.3.0</version>
@@ -283,6 +288,7 @@
         <module>piranha-singlethread</module>
         <module>piranha-jndi</module>
         <module>piranha-jasper</module>
+        <module>piranha-grizzly</module>
     </modules>
     <profiles>
         <profile>

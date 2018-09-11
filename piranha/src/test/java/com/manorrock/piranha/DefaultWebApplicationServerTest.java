@@ -96,8 +96,8 @@ public class DefaultWebApplicationServerTest {
     @Test
     public void testService() throws Exception {
         DefaultWebApplicationServer server = new DefaultWebApplicationServer();
-        DefaultHttpServletRequest request = new TestHttpServletRequest();
-        DefaultHttpServletResponse response = new TestHttpServletResponse();
+        WebApplicationRequest request = new TestHttpServletRequest();
+        WebApplicationResponse response = new TestHttpServletResponse();
         TestServletOutputStream outputStream = new TestServletOutputStream();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
@@ -120,7 +120,7 @@ public class DefaultWebApplicationServerTest {
         webApp.addServletMapping("snoop", "/snoop/*");
         webApp.setContextPath("/context");
         server.addWebApplication(webApp);
-        DefaultHttpServletRequest request = new TestHttpServletRequest();
+        WebApplicationRequest request = new TestHttpServletRequest();
         request.setContextPath("/context");
         request.setPathInfo("/snoop/index.html");
         TestHttpServletResponse response = new TestHttpServletResponse();
