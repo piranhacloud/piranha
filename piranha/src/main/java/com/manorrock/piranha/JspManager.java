@@ -28,11 +28,11 @@ package com.manorrock.piranha;
 import javax.servlet.ServletRegistration;
 
 /**
- * The JspFileManager API.
+ * The JspManager API.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface JspFileManager {
+public interface JspManager {
 
     /**
      * Add the JSP file.

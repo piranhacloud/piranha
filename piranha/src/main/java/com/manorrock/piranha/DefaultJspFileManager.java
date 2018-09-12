@@ -32,7 +32,7 @@ import javax.servlet.ServletRegistration;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultJspFileManager implements JspFileManager {
+public class DefaultJspFileManager implements JspManager {
 
     /**
      * Add the JSP file.
