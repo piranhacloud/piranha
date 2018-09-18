@@ -1413,6 +1413,16 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
+     * Set the JSP manager.
+     * 
+     * @param jspManager the JSP manager.
+     */
+    @Override
+    public void setJspManager(JspManager jspManager) {
+        this.jspManager = jspManager;
+    }
+
+    /**
      * Set the logging manager.
      *
      * @param loggingManager the logging manager.

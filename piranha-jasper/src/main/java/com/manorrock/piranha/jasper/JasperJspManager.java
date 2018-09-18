@@ -25,43 +25,27 @@
  */
 package com.manorrock.piranha.jasper;
 
+import com.manorrock.piranha.JspManager;
 import com.manorrock.piranha.WebApplication;
-import java.util.Set;
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 /**
- * The Jasper initializer.
- *
+ * The JSP manager delivered by the Jasper integration.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JasperInitializer implements ServletContainerInitializer {
- 
+public class JasperJspManager implements JspManager {
+
     /**
-     * Initialize Jasper.
-     *
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
+     * Add the JSP file.
+     * 
+     * @param webApplication the web application.
+     * @param servletName the servlet name.
+     * @param jspFile the JSP file.
+     * @return the registration.
      */
     @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext)
-            throws ServletException {
-        ServletRegistration.Dynamic registration = servletContext.addServlet(
-                "JSP Servlet", "org.apache.jasper.servlet.JspServlet");
-        registration.addMapping("*.jsp");
-        String classpath = System.getProperty("java.class.path");
-        registration.setInitParameter("classpath", classpath);
-        registration.setInitParameter("compilerSourceVM", "1.6");
-        registration.setInitParameter("compilerTargetVM", "1.6");
-        
-        if (servletContext instanceof WebApplication) {
-            WebApplication webApplication = (WebApplication) servletContext;
-            webApplication.setJspManager(new JasperJspManager());
-        } else {
-            throw new ServletException("This JAR should only be used within a Manorrock Piranha stack");
-        }
+    public ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile) {
+        return null;
     }
 }

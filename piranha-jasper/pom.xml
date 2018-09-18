@@ -12,7 +12,13 @@
     <artifactId>piranha-jasper</artifactId>
     <packaging>jar</packaging>
     <name>Manorrock Piranha Jasper Integration</name>
-    <dependencies>    
+    <dependencies>      
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>  
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>

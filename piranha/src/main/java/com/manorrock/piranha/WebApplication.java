@@ -178,6 +178,13 @@ public interface WebApplication extends ServletContext {
     void setHttpSessionManager(HttpSessionManager httpSessionManager);
 
     /**
+     * Set the JSP manager.
+     * 
+     * @param jspManager the JSP manager. 
+     */
+    public void setJspManager(JspManager jspManager);
+    
+    /**
      * Set the logging manager.
      *
      * @param loggingManager the logging manager.
