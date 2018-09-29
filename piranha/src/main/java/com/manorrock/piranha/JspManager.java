@@ -26,6 +26,7 @@
 package com.manorrock.piranha;
 
 import javax.servlet.ServletRegistration;
+import javax.servlet.descriptor.JspConfigDescriptor;
 
 /**
  * The JspManager API.
@@ -43,4 +44,11 @@ public interface JspManager {
      * @return the servlet registration.
      */
     ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile);
+    
+    /**
+     * Get the JSP config descriptor.
+     *
+     * @return the JSP config descriptor.
+     */
+    JspConfigDescriptor getJspConfigDescriptor();
 }

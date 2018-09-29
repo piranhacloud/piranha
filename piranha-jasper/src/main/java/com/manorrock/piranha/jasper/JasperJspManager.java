@@ -28,24 +28,40 @@ package com.manorrock.piranha.jasper;
 import com.manorrock.piranha.JspManager;
 import com.manorrock.piranha.WebApplication;
 import javax.servlet.ServletRegistration;
+import javax.servlet.descriptor.JspConfigDescriptor;
 
 /**
  * The JSP manager delivered by the Jasper integration.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class JasperJspManager implements JspManager {
 
     /**
+     * Stores the JSP config descriptor.
+     */
+    protected JspConfigDescriptor jspConfigDescriptor;
+
+    /**
      * Add the JSP file.
-     * 
+     *
      * @param webApplication the web application.
-     * @param servletName the servlet name.
+     * @param servletName the servlet name,
      * @param jspFile the JSP file.
-     * @return the registration.
+     * @return null.
      */
     @Override
     public ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile) {
         return null;
+    }
+
+    /**
+     * Get the JSP config descriptor.
+     *
+     * @return the JSP config descriptor.
+     */
+    @Override
+    public JspConfigDescriptor getJspConfigDescriptor() {
+        return jspConfigDescriptor;
     }
 }

@@ -157,11 +157,6 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the servlet container initializers.
      */
     protected final List<ServletContainerInitializer> initializers;
-
-    /**
-     * Stores the JSP config descriptor.
-     */
-    protected JspConfigDescriptor jspConfigDescriptor;
     
     /**
      * Stores the JSP manager.
@@ -261,7 +256,6 @@ public class DefaultWebApplication implements WebApplication {
         httpSessionManager = new DefaultHttpSessionManager();
         initParameters = new ConcurrentHashMap<>(1);
         initializers = new ArrayList<>(1);
-        jspConfigDescriptor = null;
         jspManager = new DefaultJspFileManager();
         loggingManager = new DefaultLoggingManager();
         mimeTypeManager = new DefaultMimeTypeManager();
@@ -813,7 +807,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
-        return jspConfigDescriptor;
+        return jspManager.getJspConfigDescriptor();
     }
 
     /**

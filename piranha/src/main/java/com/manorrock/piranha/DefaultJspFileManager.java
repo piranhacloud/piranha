@@ -26,17 +26,23 @@
 package com.manorrock.piranha;
 
 import javax.servlet.ServletRegistration;
+import javax.servlet.descriptor.JspConfigDescriptor;
 
 /**
  * The default JspFileManager.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultJspFileManager implements JspManager {
 
     /**
+     * Stores the JSP config descriptor.
+     */
+    protected JspConfigDescriptor jspConfigDescriptor;
+
+    /**
      * Add the JSP file.
-     * 
+     *
      * @param webApplication the web application.
      * @param servletName the servlet name,
      * @param jspFile the JSP file.
@@ -45,5 +51,15 @@ public class DefaultJspFileManager implements JspManager {
     @Override
     public ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile) {
         return null;
+    }
+
+    /**
+     * Get the JSP config descriptor.
+     *
+     * @return the JSP config descriptor.
+     */
+    @Override
+    public JspConfigDescriptor getJspConfigDescriptor() {
+        return jspConfigDescriptor;
     }
 }
