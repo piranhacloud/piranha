@@ -7,6 +7,7 @@ some useful add-on modules.
 See the list below for what is available.
 
 1. [Piranha Servlet container](piranha/README.md)
+2. [Piranha Servlet API](piranha-servlet/README.md)
 2. [Piranha Single Threaded](piranha-singlethread/README.md)
 3. [Piranha Weld](piranha-weld/README.md)
 
