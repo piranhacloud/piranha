@@ -78,6 +78,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -118,22 +121,22 @@
             <dependency>
                 <groupId>com.manorrock.herring</groupId>
                 <artifactId>herring</artifactId>
-                <version>1.0.0</version>
+                <version>1.2.0</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-client-compiled</artifactId>
-                <version>8.4.4</version>
+                <version>8.5.2</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-server</artifactId>
-                <version>8.4.4</version>
+                <version>8.5.2</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-themes</artifactId>
-                <version>8.4.4</version>
+                <version>8.5.2</version>
             </dependency>
             <dependency>
                 <groupId>javax</groupId>
@@ -183,27 +186,27 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>4.5.5</version>
+                <version>4.5.6</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.myfaces.core</groupId>
                 <artifactId>myfaces-impl</artifactId>
-                <version>2.3.1</version>
+                <version>2.3.2</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.struts</groupId>
                 <artifactId>struts2-core</artifactId>
-                <version>2.5.16</version>
+                <version>2.5.17</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.wicket</groupId>
                 <artifactId>wicket-core</artifactId>
-                <version>8.0.0</version>
+                <version>8.1.0</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>eclipselink</artifactId>
-                <version>2.7.2</version>
+                <version>2.7.3</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
@@ -213,7 +216,7 @@
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>javax.faces</artifactId>
-                <version>2.3.5</version>
+                <version>2.3.7</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.grizzly</groupId>
@@ -223,7 +226,7 @@
             <dependency>
                 <groupId>org.glassfish.jaxb</groupId>
                 <artifactId>jaxb-runtime</artifactId>
-                <version>2.3.0</version>
+                <version>2.3.0.1</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
@@ -263,7 +266,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>5.0.7.RELEASE</version>
+                <version>5.1.0.RELEASE</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
