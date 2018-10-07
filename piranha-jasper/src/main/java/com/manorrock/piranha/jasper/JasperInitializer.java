@@ -54,8 +54,8 @@ public class JasperInitializer implements ServletContainerInitializer {
         registration.addMapping("*.jsp");
         String classpath = System.getProperty("java.class.path");
         registration.setInitParameter("classpath", classpath);
-        registration.setInitParameter("compilerSourceVM", "1.6");
-        registration.setInitParameter("compilerTargetVM", "1.6");
+        registration.setInitParameter("compilerSourceVM", "1.8");
+        registration.setInitParameter("compilerTargetVM", "1.8");
         
         if (servletContext instanceof WebApplication) {
             WebApplication webApplication = (WebApplication) servletContext;
