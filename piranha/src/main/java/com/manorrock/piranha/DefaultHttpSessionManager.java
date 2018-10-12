@@ -119,7 +119,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     /**
      * Stores the sessions.
      */
-    protected final Map<String, DefaultHttpSession> sessions;
+    protected Map<String, HttpSession> sessions;
 
     /**
      * Stores the web application.
@@ -346,7 +346,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
             HttpServletRequest request, String currentSessionId) {
         DefaultHttpSession result;
         HttpServletResponse response = (HttpServletResponse) webApplication.getResponse(request);
-        result = sessions.get(currentSessionId);
+        result = (DefaultHttpSession) sessions.get(currentSessionId);
         Cookie cookie = new Cookie(name, currentSessionId);
         response.addCookie(cookie);
         result.setNew(false);

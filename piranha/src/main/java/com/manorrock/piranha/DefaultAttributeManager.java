@@ -25,6 +25,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.AttributeManager;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
