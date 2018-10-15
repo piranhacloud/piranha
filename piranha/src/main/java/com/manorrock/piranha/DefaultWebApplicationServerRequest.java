@@ -25,6 +25,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.HttpServerRequest;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.servlet.http.Cookie;

@@ -25,6 +25,8 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.MimeTypeManager;
+
 /**
  * The default MimeTypeManager.
  *

@@ -25,6 +25,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.WebApplicationClassLoader;
 import com.manorrock.piranha.api.ResourceManager;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;

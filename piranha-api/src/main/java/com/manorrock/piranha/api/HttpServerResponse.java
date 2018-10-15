@@ -23,65 +23,51 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
 
-import java.util.Collection;
-import java.util.Set;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
- * The WebApplicationRequestMapper API.
+ * THe HttpServerResponse API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebApplicationRequestMapper {
+public interface HttpServerResponse {
 
     /**
-     * Add a servlet mapping.
+     * Get the output stream.
      *
-     * @param servletName the servlet name.
-     * @param urlPatterns the URL patterns to map (aka mappings).
-     * @return the URL patterns that were added.
+     * @return the output stream.
      */
-    Set<String> addServletMapping(String servletName, String... urlPatterns);
+    public OutputStream getOutputStream();
 
     /**
-     * Add a filter mapping.
+     * Set the specified header.
      *
-     * @param filterName the filter name.
-     * @param urlPatterns the URL patterns to map (aka mappings).
-     * @return the URL patterns that were added.
+     * @param name the header name.
+     * @param value the header value.
      */
-    Set<String> addFilterMapping(String filterName, String... urlPatterns);
+    public void setHeader(String name, String value);
 
     /**
-     * Find the filter mappings for the given path.
+     * Set the status.
      *
-     * @param path the path.
-     * @return the mappings.
+     * @param status the status.
      */
-    Collection<String> findFilterMappings(String path);
+    public void setStatus(int status);
 
     /**
-     * Find the servlet mapping for the given path.
+     * Write the response headers.
      *
-     * @param path the path.
-     * @return the mapping, or null if not found.
+     * @throws IOException when an I/O error occurs.
      */
-    WebApplicationRequestMapping findServletMapping(String path);
+    public void writeHeaders() throws IOException;
 
     /**
-     * Get the mappings for the specified servlet.
+     * Write the status line.
      *
-     * @param servletName the servlet name.
-     * @return the servlet mappings, or an empty collection if none.
+     * @throws IOException when an I/O error occurs.
      */
-    Collection<String> getServletMappings(String servletName);
-
-    /**
-     * Get the servlet name for the specified mapping.
-     *
-     * @param mapping the mapping.
-     * @return the servlet name, or null if not found.
-     */
-    String getServletName(String mapping);
+    public void writeStatusLine() throws IOException;
 }

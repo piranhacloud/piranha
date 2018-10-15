@@ -25,7 +25,7 @@
  */
 package com.manorrock.piranha.grizzly;
 
-import com.manorrock.piranha.HttpServer;
+import com.manorrock.piranha.api.HttpServer;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -25,6 +25,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.HttpServerResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;

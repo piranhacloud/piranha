@@ -23,21 +23,33 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
-
-import com.manorrock.piranha.api.ResourceManager;
+package com.manorrock.piranha.api;
 
 /**
- * The WebApplicationClassLoader API.
+ * The WebApplicationRequestMapping API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebApplicationClassLoader {
+public interface WebApplicationRequestMapping {
 
     /**
-     * Set the resource manager.
+     * Get the path.
      *
-     * @param resourceManager the resource manager.
+     * @return the path.
      */
-    public void setResourceManager(ResourceManager resourceManager);
+    public String getPath();
+
+    /**
+     * Is this an exact match.
+     *
+     * @return true it it is, false otherwise.
+     */
+    public boolean isExact();
+
+    /**
+     * Is this an extension match.
+     *
+     * @return true if it is, false otherwise.
+     */
+    public boolean isExtension();
 }

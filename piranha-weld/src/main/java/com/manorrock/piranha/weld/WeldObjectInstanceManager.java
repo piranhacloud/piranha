@@ -25,7 +25,7 @@
  */
 package com.manorrock.piranha.weld;
 
-import com.manorrock.piranha.ObjectInstanceManager;
+import com.manorrock.piranha.api.ObjectInstanceManager;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.Unmanaged;
@@ -34,7 +34,7 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
 /**
- * The Weld object instnace manager.
+ * The Weld object instance manager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

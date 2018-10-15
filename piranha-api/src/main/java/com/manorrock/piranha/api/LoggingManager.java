@@ -23,29 +23,20 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
 
 /**
- * The HttpServer API.
+ * The LoggingManager API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface HttpServer {
+public interface LoggingManager {
 
     /**
-     * Is the server running.
+     * Log the message.
      *
-     * @return true if it is, false otherwise.
+     * @param message the message.
+     * @param throwable the throwable.
      */
-    boolean isRunning();
-
-    /**
-     * Start the server.
-     */
-    void start();
-
-    /**
-     * Stop the server.
-     */
-    void stop();
+    public void log(String message, Throwable throwable);
 }

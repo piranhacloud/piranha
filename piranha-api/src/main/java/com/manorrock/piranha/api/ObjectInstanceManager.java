@@ -23,20 +23,36 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
+
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
 
 /**
- * The LoggingManager API.
+ * The object instance manager API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface LoggingManager {
+public interface ObjectInstanceManager {
+    
+    /**
+     * Create the filter.
+     * 
+     * @param <T> the type.
+     * @param filterClass the Filter class.
+     * @return the Filter.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException;
 
     /**
-     * Log the message.
+     * Create the servlet.
      *
-     * @param message the message.
-     * @param throwable the throwable.
+     * @param <T> the type.
+     * @param clazz the Servlet class.
+     * @return the Servlet.
+     * @throws ServletException when a Servlet error occurs.
      */
-    public void log(String message, Throwable throwable);
+    public <T extends Servlet> T createServlet(Class<T> clazz) throws ServletException;
 }

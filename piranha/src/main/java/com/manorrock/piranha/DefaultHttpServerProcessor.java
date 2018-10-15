@@ -25,6 +25,9 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.HttpServerResponse;
+import com.manorrock.piranha.api.HttpServerRequest;
+import com.manorrock.piranha.api.HttpServerProcessor;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;

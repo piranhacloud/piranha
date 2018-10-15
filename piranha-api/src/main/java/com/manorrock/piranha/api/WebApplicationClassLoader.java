@@ -23,20 +23,21 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
+
+import com.manorrock.piranha.api.ResourceManager;
 
 /**
- * The HttpServerProcessor API.
+ * The WebApplicationClassLoader API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface HttpServerProcessor {
+public interface WebApplicationClassLoader {
 
     /**
-     * Process the request.
+     * Set the resource manager.
      *
-     * @param request the HTTP server request.
-     * @param response the HTTP server response.
+     * @param resourceManager the resource manager.
      */
-    void process(HttpServerRequest request, HttpServerResponse response);
+    public void setResourceManager(ResourceManager resourceManager);
 }

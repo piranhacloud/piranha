@@ -25,6 +25,11 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.MimeTypeManager;
+import com.manorrock.piranha.api.WebApplicationRequestMapping;
+import com.manorrock.piranha.api.WebApplicationRequestMapper;
+import com.manorrock.piranha.api.ObjectInstanceManager;
+import com.manorrock.piranha.api.LoggingManager;
 import com.manorrock.piranha.api.ResourceManager;
 import com.manorrock.piranha.api.Resource;
 import java.io.File;

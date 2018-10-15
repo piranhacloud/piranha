@@ -23,51 +23,20 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
-
-import java.io.IOException;
-import java.io.OutputStream;
+package com.manorrock.piranha.api;
 
 /**
- * THe HttpServerResponse API.
+ * The HTTP Server Processor API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface HttpServerResponse {
+public interface HttpServerProcessor {
 
     /**
-     * Get the output stream.
+     * Process the request.
      *
-     * @return the output stream.
+     * @param request the HTTP server request.
+     * @param response the HTTP server response.
      */
-    public OutputStream getOutputStream();
-
-    /**
-     * Set the specified header.
-     *
-     * @param name the header name.
-     * @param value the header value.
-     */
-    public void setHeader(String name, String value);
-
-    /**
-     * Set the status.
-     *
-     * @param status the status.
-     */
-    public void setStatus(int status);
-
-    /**
-     * Write the response headers.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
-    public void writeHeaders() throws IOException;
-
-    /**
-     * Write the status line.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
-    public void writeStatusLine() throws IOException;
+    void process(HttpServerRequest request, HttpServerResponse response);
 }

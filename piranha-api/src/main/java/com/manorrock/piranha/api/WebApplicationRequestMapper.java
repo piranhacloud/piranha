@@ -23,54 +23,65 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
 
-import com.manorrock.piranha.api.HttpServerResponse;
+import java.util.Collection;
+import java.util.Set;
 
 /**
- * The default WebApplicationServerResponse.
+ * The WebApplicationRequestMapper API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerResponse extends WebApplicationResponse {
+public interface WebApplicationRequestMapper {
 
     /**
-     * Stores the response.
-     */
-    private final HttpServerResponse response;
-
-    /**
-     * Constructor.
+     * Add a servlet mapping.
      *
-     * @param response the response.
+     * @param servletName the servlet name.
+     * @param urlPatterns the URL patterns to map (aka mappings).
+     * @return the URL patterns that were added.
      */
-    public DefaultWebApplicationServerResponse(HttpServerResponse response) {
-        this.response = response;
-    }
+    Set<String> addServletMapping(String servletName, String... urlPatterns);
 
     /**
-     * Get the buffer size.
+     * Add a filter mapping.
      *
-     * @return the buffer size.
+     * @param filterName the filter name.
+     * @param urlPatterns the URL patterns to map (aka mappings).
+     * @return the URL patterns that were added.
      */
-    @Override
-    public int getBufferSize() {
-        return -1;
-    }
+    Set<String> addFilterMapping(String filterName, String... urlPatterns);
 
     /**
-     * Reset the buffer.
-     */
-    @Override
-    public void resetBuffer() {
-    }
-
-    /**
-     * Set the buffer size.
+     * Find the filter mappings for the given path.
      *
-     * @param bufferSize the buffer size.
+     * @param path the path.
+     * @return the mappings.
      */
-    @Override
-    public void setBufferSize(int bufferSize) {
-    }
+    Collection<String> findFilterMappings(String path);
+
+    /**
+     * Find the servlet mapping for the given path.
+     *
+     * @param path the path.
+     * @return the mapping, or null if not found.
+     */
+    WebApplicationRequestMapping findServletMapping(String path);
+
+    /**
+     * Get the mappings for the specified servlet.
+     *
+     * @param servletName the servlet name.
+     * @return the servlet mappings, or an empty collection if none.
+     */
+    Collection<String> getServletMappings(String servletName);
+
+    /**
+     * Get the servlet name for the specified mapping.
+     *
+     * @param mapping the mapping.
+     * @return the servlet name, or null if not found.
+     */
+    String getServletName(String mapping);
 }

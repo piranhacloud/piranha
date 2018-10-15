@@ -29,7 +29,7 @@ import com.manorrock.piranha.DefaultAliasedDirectoryResource;
 import com.manorrock.piranha.DefaultHttpServer;
 import com.manorrock.piranha.DefaultWebApplication;
 import com.manorrock.piranha.DefaultWebApplicationServer;
-import com.manorrock.piranha.HttpServer;
+import com.manorrock.piranha.api.HttpServer;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketExtension;

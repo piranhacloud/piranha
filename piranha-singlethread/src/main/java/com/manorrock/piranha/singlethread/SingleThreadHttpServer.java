@@ -26,8 +26,8 @@
 package com.manorrock.piranha.singlethread;
 
 import com.manorrock.piranha.DefaultHttpServerProcessor;
-import com.manorrock.piranha.HttpServer;
-import com.manorrock.piranha.HttpServerProcessor;
+import com.manorrock.piranha.api.HttpServer;
+import com.manorrock.piranha.api.HttpServerProcessor;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.logging.Level;

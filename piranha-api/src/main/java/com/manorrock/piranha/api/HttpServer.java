@@ -23,33 +23,29 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
 
 /**
- * The WebApplicationRequestMapping API.
+ * The HttpServer API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebApplicationRequestMapping {
+public interface HttpServer {
 
     /**
-     * Get the path.
-     *
-     * @return the path.
-     */
-    public String getPath();
-
-    /**
-     * Is this an exact match.
-     *
-     * @return true it it is, false otherwise.
-     */
-    public boolean isExact();
-
-    /**
-     * Is this an extension match.
+     * Is the server running.
      *
      * @return true if it is, false otherwise.
      */
-    public boolean isExtension();
+    boolean isRunning();
+
+    /**
+     * Start the server.
+     */
+    void start();
+
+    /**
+     * Stop the server.
+     */
+    void stop();
 }
