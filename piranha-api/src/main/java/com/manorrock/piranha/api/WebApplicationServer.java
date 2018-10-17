@@ -23,81 +23,63 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
 
-import java.util.Enumeration;
+import java.io.IOException;
+import javax.servlet.ServletException;
 
 /**
- * The HttpHeaderManager API.
+ * The WebApplicationServer API.
  *
+ * @param <R> the request type.
+ * @param <S> the response type.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface HttpHeaderManager {
+public interface WebApplicationServer<R, S> {
 
     /**
-     * Add the header.
+     * Add a web application.
      *
-     * @param name the name.
-     * @param value the value.
+     * @param webApplication the web application to add.
      */
-    public void addHeader(String name, String value);
+    void addWebApplication(WebApplication webApplication);
 
     /**
-     * Contains the given header.
+     * Get the request mapper.
      *
-     * @param name the header name.
-     * @return true if there, false otherwise.
+     * @return the request mapper.
      */
-    public boolean containsHeader(String name);
+    WebApplicationServerRequestMapper getRequestMapper();
 
     /**
-     * Get the date header.
+     * Service the request and response.
      *
-     * @param name the header name.
-     * @return the date header.
-     * @throws IllegalArgumentException when the header could not be converted
-     * to a date.
+     * @param request the HTTP request.
+     * @param response the HTTP response.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
      */
-    public long getDateHeader(String name) throws IllegalArgumentException;
+    void service(R request, S response) throws IOException, ServletException;
 
     /**
-     * Get the header.
-     *
-     * @param name the header name.
-     * @return the header value.
+     * Initialize the server.
      */
-    public String getHeader(String name);
+    void initialize();
 
     /**
-     * Get the header names.
+     * Set the request mapper.
      *
-     * @return the header names.
+     * @param requestMapper the request mapper.
      */
-    public Enumeration<String> getHeaderNames();
+    void setRequestMapper(WebApplicationServerRequestMapper requestMapper);
 
     /**
-     * Get the headers.
-     *
-     * @param name the header name.
-     * @return the header values.
+     * Start the server.
      */
-    public Enumeration<String> getHeaders(String name);
+    void start();
 
     /**
-     * Get the int header.
-     *
-     * @param name the header name.
-     * @return the int value.
-     * @throws NumberFormatException when the value could not be converted to an
-     * int.
+     * Stop the server.
      */
-    public int getIntHeader(String name) throws NumberFormatException;
-
-    /**
-     * Set the header.
-     *
-     * @param name the name.
-     * @param value the value (string).
-     */
-    public void setHeader(String name, String value);
+    void stop();
 }

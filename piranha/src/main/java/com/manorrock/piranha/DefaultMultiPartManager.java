@@ -25,6 +25,8 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.MultiPartManager;
+import com.manorrock.piranha.api.WebApplicationRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;

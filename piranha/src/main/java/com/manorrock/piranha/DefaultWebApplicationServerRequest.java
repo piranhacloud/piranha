@@ -35,7 +35,7 @@ import javax.servlet.http.Cookie;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerRequest extends WebApplicationRequest {
+public class DefaultWebApplicationServerRequest extends DefaultWebApplicationRequest {
 
     /**
      * Stores the request URI.

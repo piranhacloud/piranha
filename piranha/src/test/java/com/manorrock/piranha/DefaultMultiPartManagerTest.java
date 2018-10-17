@@ -44,7 +44,7 @@ public class DefaultMultiPartManagerTest {
     @Test
     public void testGetParts() {
         DefaultMultiPartManager manager = new DefaultMultiPartManager();
-        WebApplicationRequest request = new WebApplicationRequest() {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest() {
         };
         request.setContentType("multipart/form-data; boundary=------------------------12345");
         Collection<Part> result = manager.getParts(request);
@@ -57,7 +57,7 @@ public class DefaultMultiPartManagerTest {
     @Test
     public void testGetPart() {
         DefaultMultiPartManager manager = new DefaultMultiPartManager();
-        WebApplicationRequest request = new WebApplicationRequest() {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest() {
         };
         request.setContentType("multipart/form-data; boundary=------------------------12345");
         assertNull(manager.getPart(request, "notfound"));

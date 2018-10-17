@@ -39,5 +39,5 @@ public abstract class DefaultServletOutputStream extends ServletOutputStream {
      *
      * @param response the response.
      */
-    public abstract void setResponse(WebApplicationResponse response);
+    public abstract void setResponse(DefaultWebApplicationResponse response);
 }

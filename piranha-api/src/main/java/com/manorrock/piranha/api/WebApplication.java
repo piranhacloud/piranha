@@ -23,14 +23,8 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
 
-import com.manorrock.piranha.api.MimeTypeManager;
-import com.manorrock.piranha.api.WebApplicationRequestMapper;
-import com.manorrock.piranha.api.ObjectInstanceManager;
-import com.manorrock.piranha.api.LoggingManager;
-import com.manorrock.piranha.api.ResourceManager;
-import com.manorrock.piranha.api.Resource;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;

@@ -25,6 +25,9 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.WebApplicationServerRequestMapper;
+import com.manorrock.piranha.api.WebApplicationServer;
+import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.api.HttpServerResponse;
 import com.manorrock.piranha.api.HttpServerRequest;
 import com.manorrock.piranha.api.HttpServerProcessor;
@@ -40,7 +43,7 @@ import javax.servlet.ServletException;
  */
 public class DefaultWebApplicationServer implements
         HttpServerProcessor,
-        WebApplicationServer<WebApplicationRequest, WebApplicationResponse> {
+        WebApplicationServer<DefaultWebApplicationRequest, DefaultWebApplicationResponse> {
 
     /**
      * Stores the request mapper.
@@ -155,7 +158,7 @@ public class DefaultWebApplicationServer implements
      * @throws ServletException when a servlet error occurs.
      */
     @Override
-    public void service(WebApplicationRequest request, WebApplicationResponse response)
+    public void service(DefaultWebApplicationRequest request, DefaultWebApplicationResponse response)
             throws IOException, ServletException {
 
         String requestUri = request.getRequestURI();

@@ -40,7 +40,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the WebApplicationRequest class.
+ * The JUnit tests for the DefaultWebApplicationRequest class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -86,8 +86,8 @@ public class DefaultHttpServletRequestTest {
     @Test(expected = IllegalStateException.class)
     public void testChangeSessionId() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        WebApplicationRequest request = new TestHttpServletRequest();
-        WebApplicationResponse response = new TestHttpServletResponse();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationResponse response = new TestHttpServletResponse();
         webApp.linkRequestAndResponse(request, response);
         request.setWebApplication(webApp);
         request.changeSessionId();
@@ -99,8 +99,8 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testChangeSessionId2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        WebApplicationRequest request = new TestHttpServletRequest();
-        WebApplicationResponse response = new TestHttpServletResponse();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationResponse response = new TestHttpServletResponse();
         webApp.linkRequestAndResponse(request, response);
         request.setWebApplication(webApp);
         HttpSession session = request.getSession(true);
@@ -113,7 +113,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test(expected = IllegalStateException.class)
     public void testGetAsyncContext() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.getAsyncContext();
     }
 
@@ -122,8 +122,8 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testGetAsyncContext2() {
-        WebApplicationRequest request = new TestHttpServletRequest();
-        WebApplicationResponse response = new TestHttpServletResponse();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationResponse response = new TestHttpServletResponse();
         DefaultWebApplication webApplication = new DefaultWebApplication();
         request.setWebApplication(webApplication);
         response.setWebApplication(webApplication);
@@ -138,7 +138,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testGetContentLengthLong() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertEquals(-1L, request.getContentLengthLong());
     }
 
@@ -147,7 +147,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testGetDateHeader() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertEquals(-1L, request.getDateHeader("notfound"));
     }
 
@@ -156,7 +156,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testGetIntHeader() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertEquals(-1, request.getIntHeader("notfound"));
     }
 
@@ -165,7 +165,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testGetLocale() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.setHeader("Accept-Language", "en");
         assertNotNull(request.getLocale());
     }
@@ -175,7 +175,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testGetLocales() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.setHeader("Accept-Language", "en, de");
         assertNotNull(request.getLocales());
     }
@@ -187,7 +187,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test(expected = ServletException.class)
     public void testGetPart() throws Exception {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.setContentType("text/html");
         request.getPart("not_there");
     }
@@ -199,7 +199,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testGetPart2() throws Exception {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.setContentType("multipart/form-data");
         assertNull(request.getPart("not_there"));
     }
@@ -211,7 +211,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testGetReader() throws Exception {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertNotNull(request.getReader());
     }
 
@@ -223,7 +223,7 @@ public class DefaultHttpServletRequestTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testGetRealPath() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.setWebApplication(webApplication);
         request.getRealPath("/path");
     }
@@ -233,7 +233,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testGetRequestDispatcher() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -247,9 +247,9 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testGetSession() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.setWebApplication(webApp);
-        WebApplicationResponse response = new TestHttpServletResponse();
+        DefaultWebApplicationResponse response = new TestHttpServletResponse();
         response.setWebApplication(webApp);
         webApp.linkRequestAndResponse(request, response);
         HttpSession session = request.getSession(true);
@@ -263,8 +263,8 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testGetSession2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        WebApplicationRequest request = new TestHttpServletRequest();
-        WebApplicationResponse response = new TestHttpServletResponse();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationResponse response = new TestHttpServletResponse();
         request.setWebApplication(webApp);
         response.setWebApplication(webApp);
         webApp.linkRequestAndResponse(request, response);
@@ -279,8 +279,8 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testGetSession3() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        WebApplicationRequest request = new TestHttpServletRequest();
-        WebApplicationResponse response = new TestHttpServletResponse();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationResponse response = new TestHttpServletResponse();
         request.setWebApplication(webApp);
         response.setWebApplication(webApp);
         webApp.linkRequestAndResponse(request, response);
@@ -293,7 +293,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testGetUpgradeHandler() {
-        WebApplicationRequest request = new WebApplicationRequest() {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest() {
         };
         assertNull(request.getUpgradeHandler());
     }
@@ -303,7 +303,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testIsRequestedSessionIdFromUrl() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertFalse(request.isRequestedSessionIdFromUrl());
     }
 
@@ -313,8 +313,8 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testIsRequestedSessionIdValid() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        WebApplicationRequest request = new TestHttpServletRequest();
-        WebApplicationResponse response = new TestHttpServletResponse();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationResponse response = new TestHttpServletResponse();
         request.setWebApplication(webApp);
         response.setWebApplication(webApp);
         webApp.linkRequestAndResponse(request, response);
@@ -328,7 +328,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testIsSecure() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.setScheme("https");
         assertTrue(request.isSecure());
     }
@@ -338,7 +338,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testIsUpgraded() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertFalse(request.isUpgraded());
     }
 
@@ -347,7 +347,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testIsUserInRole() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         DefaultWebApplication webApplication = new DefaultWebApplication();
         request.setWebApplication(webApplication);
         assertFalse(request.isUserInRole("notmatched"));
@@ -361,7 +361,7 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testLogin() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.setWebApplication(webApplication);
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         securityManager.addUser("username", "password", new String[]{});
@@ -375,7 +375,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testRemoveAttribute() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.setAttribute("name", "value");
         assertNotNull(request.getAttribute("name"));
         request.removeAttribute("name");
@@ -389,7 +389,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetCharacterEncoding() throws Exception {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertNull(request.getCharacterEncoding());
         request.setCharacterEncoding("UTF-8");
         assertEquals("UTF-8", request.getCharacterEncoding());
@@ -400,7 +400,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetCookies() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertNull(request.getCookies());
         request.setCookies(new Cookie[0]);
         assertNull(request.getCookies());
@@ -417,7 +417,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetLocalAddr() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertNull(request.getLocalAddr());
         request.setLocalAddr("127.0.0.1");
         assertEquals("127.0.0.1", request.getLocalAddr());
@@ -428,7 +428,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetLocalName() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertNull(request.getLocalName());
         request.setLocalName("localhost");
         assertEquals("localhost", request.getLocalName());
@@ -439,7 +439,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetLocalPort() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertEquals(0, request.getLocalPort());
         request.setLocalPort(12345);
         assertEquals(12345, request.getLocalPort());
@@ -450,7 +450,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetProtocol() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertEquals("HTTP/1.1", request.getProtocol());
         request.setProtocol("HTTP/1.0");
         assertEquals("HTTP/1.0", request.getProtocol());
@@ -461,7 +461,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetRemoteAddr() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertNull(request.getRemoteAddr());
         request.setRemoteAddr("127.0.0.1");
         assertEquals("127.0.0.1", request.getRemoteAddr());
@@ -472,7 +472,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetRemoteHost() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertNull(request.getRemoteHost());
         request.setRemoteHost("localhost");
         assertEquals("localhost", request.getRemoteHost());
@@ -483,7 +483,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetRemotePort() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertEquals(0, request.getRemotePort());
         request.setRemotePort(12345);
         assertEquals(12345, request.getRemotePort());
@@ -494,7 +494,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetRequestedSessionIdFromCookie() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertFalse(request.isRequestedSessionIdFromCookie());
         request.setRequestedSessionIdFromCookie(true);
         assertTrue(request.isRequestedSessionIdFromCookie());
@@ -505,7 +505,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetRequestedSessionIdFromURL() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertFalse(request.isRequestedSessionIdFromURL());
         request.setRequestedSessionIdFromURL(true);
         assertTrue(request.isRequestedSessionIdFromURL());
@@ -516,7 +516,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetServerName() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertEquals("localhost", request.getServerName());
         request.setServerName("my.host.com");
         assertEquals("my.host.com", request.getServerName());
@@ -527,7 +527,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testSetServerPort() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertEquals(80, request.getServerPort());
         request.setServerPort(8080);
         assertEquals(8080, request.getServerPort());
@@ -538,7 +538,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test(expected = IllegalStateException.class)
     public void testStartAsync() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.setAsyncSupported(false);
         request.startAsync(null, null);
     }
@@ -548,7 +548,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test(expected = IllegalStateException.class)
     public void testStartAsync2() {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.setAsyncSupported(false);
         request.startAsync();
     }
@@ -560,7 +560,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testUpgrade() throws Exception {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         assertNotNull(request.upgrade(TestHandler.class));
     }
 
@@ -571,7 +571,7 @@ public class DefaultHttpServletRequestTest {
      */
     @Test(expected = ServletException.class)
     public void testUpgrade2() throws Exception {
-        WebApplicationRequest request = new TestHttpServletRequest();
+        DefaultWebApplicationRequest request = new TestHttpServletRequest();
         request.upgrade(TestThrowingHandler.class);
     }
 

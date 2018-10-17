@@ -25,6 +25,8 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.SecurityManager;
+import com.manorrock.piranha.api.WebApplication;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,9 +40,9 @@ import javax.servlet.http.HttpServletResponse;
  * The default SecurityManager.
  *
  * <p>
- This security manager implies the use of WebApplicationRequest, if your
- server / web application does not want to use WebApplicationRequest or
- subclass WebApplicationRequest you have to implement your own security
+ This security manager implies the use of DefaultWebApplicationRequest, if your
+ server / web application does not want to use DefaultWebApplicationRequest or
+ subclass DefaultWebApplicationRequest you have to implement your own security
  manager.
  </p>
  *
@@ -180,13 +182,13 @@ public class DefaultSecurityManager implements SecurityManager {
     public void login(HttpServletRequest request, String username, String password) throws ServletException {
 
         if (logins.containsKey(username) && password != null && password.equals(logins.get(username))) {
-            WebApplicationRequest abstractRequest;
+            DefaultWebApplicationRequest abstractRequest;
 
             while (request instanceof HttpServletRequestWrapper) {
                 HttpServletRequestWrapper wrapper = (HttpServletRequestWrapper) request;
                 request = (HttpServletRequest) wrapper.getRequest();
             }
-            abstractRequest = (WebApplicationRequest) request;
+            abstractRequest = (DefaultWebApplicationRequest) request;
             abstractRequest.setUserPrincipal(new DefaultSecurityPrincipal(username));
         } else {
             throw new ServletException("Unable to login using the given username and password");

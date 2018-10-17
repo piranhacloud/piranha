@@ -52,7 +52,7 @@ public class DefaultHttpRequestParser {
      *
      * @param request the request.
      */
-    public void parse(WebApplicationRequest request) {
+    public void parse(DefaultWebApplicationRequest request) {
         try {
             DataInputStream reader = new DataInputStream(request.getInputStream());
             String line = reader.readLine();
@@ -130,7 +130,7 @@ public class DefaultHttpRequestParser {
      * @param request the request.
      * @param line the header line.
      */
-    protected void parseHeader(WebApplicationRequest request, String line) {
+    protected void parseHeader(DefaultWebApplicationRequest request, String line) {
         String name = line.substring(0, line.indexOf(":")).trim();
         String value = line.substring(line.indexOf(":") + 1).trim();
         request.setHeader(name, value);
@@ -150,7 +150,7 @@ public class DefaultHttpRequestParser {
      * @param request the request.
      * @param line the request line.
      */
-    protected void parseRequestLine(WebApplicationRequest request, String line) {
+    protected void parseRequestLine(DefaultWebApplicationRequest request, String line) {
         int index = line.indexOf(" ");
         String method = line.substring(0, index);
         request.setMethod(method);

@@ -26,6 +26,10 @@
 package com.manorrock.piranha;
 
 import com.manorrock.piranha.api.AttributeManager;
+import com.manorrock.piranha.api.HttpHeaderManager;
+import com.manorrock.piranha.api.HttpSessionManager;
+import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.api.WebApplicationRequest;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -50,18 +54,17 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
 /**
- * The WebApplicationRequest.
+ * The DefaultWebApplicationRequest.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class WebApplicationRequest implements HttpServletRequest {
+public class DefaultWebApplicationRequest implements WebApplicationRequest {
 
     /**
      * Stores the auth type.
@@ -256,7 +259,7 @@ public abstract class WebApplicationRequest implements HttpServletRequest {
     /**
      * Constructor.
      */
-    public WebApplicationRequest() {
+    public DefaultWebApplicationRequest() {
         this.authType = null;
         this.asyncStarted = false;
         this.asyncSupported = false;

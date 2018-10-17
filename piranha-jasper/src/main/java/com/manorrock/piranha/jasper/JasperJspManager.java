@@ -25,8 +25,8 @@
  */
 package com.manorrock.piranha.jasper;
 
-import com.manorrock.piranha.JspManager;
-import com.manorrock.piranha.WebApplication;
+import com.manorrock.piranha.api.JspManager;
+import com.manorrock.piranha.api.WebApplication;
 import javax.servlet.ServletRegistration;
 import javax.servlet.descriptor.JspConfigDescriptor;
 

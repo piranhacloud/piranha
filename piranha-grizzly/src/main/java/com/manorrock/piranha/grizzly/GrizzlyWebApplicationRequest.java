@@ -25,17 +25,17 @@
  */
 package com.manorrock.piranha.grizzly;
 
-import com.manorrock.piranha.WebApplicationRequest;
+import com.manorrock.piranha.DefaultWebApplicationRequest;
 import java.util.ArrayList;
 import javax.servlet.http.Cookie;
 import org.glassfish.grizzly.http.server.Request;
 
 /**
- * The Grizzly WebApplicationRequest.
+ * The Grizzly DefaultWebApplicationRequest.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class GrizzlyWebApplicationRequest extends WebApplicationRequest {
+public class GrizzlyWebApplicationRequest extends DefaultWebApplicationRequest {
 
     /**
      * Stores the request URI.

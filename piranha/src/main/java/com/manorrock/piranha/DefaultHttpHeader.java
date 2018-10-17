@@ -25,6 +25,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.HttpHeader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;

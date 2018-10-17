@@ -32,7 +32,7 @@ import com.manorrock.piranha.api.HttpServerResponse;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerResponse extends WebApplicationResponse {
+public class DefaultWebApplicationServerResponse extends DefaultWebApplicationResponse {
 
     /**
      * Stores the response.

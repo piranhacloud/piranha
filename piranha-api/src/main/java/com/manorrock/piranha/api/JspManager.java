@@ -23,63 +23,33 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
+import com.manorrock.piranha.api.WebApplication;
+import javax.servlet.ServletRegistration;
+import javax.servlet.descriptor.JspConfigDescriptor;
 
 /**
- * The WebApplicationServer API.
- *
- * @param <R> the request type.
- * @param <S> the response type.
+ * The JspManager API.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebApplicationServer<R, S> {
+public interface JspManager {
 
     /**
-     * Add a web application.
+     * Add the JSP file.
+     * 
+     * @param webApplication the web application.
+     * @param servletName the servlet name.
+     * @param jspFile the jsp file.
+     * @return the servlet registration.
+     */
+    ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile);
+    
+    /**
+     * Get the JSP config descriptor.
      *
-     * @param webApplication the web application to add.
+     * @return the JSP config descriptor.
      */
-    void addWebApplication(WebApplication webApplication);
-
-    /**
-     * Get the request mapper.
-     *
-     * @return the request mapper.
-     */
-    WebApplicationServerRequestMapper getRequestMapper();
-
-    /**
-     * Service the request and response.
-     *
-     * @param request the HTTP request.
-     * @param response the HTTP response.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    void service(R request, S response) throws IOException, ServletException;
-
-    /**
-     * Initialize the server.
-     */
-    void initialize();
-
-    /**
-     * Set the request mapper.
-     *
-     * @param requestMapper the request mapper.
-     */
-    void setRequestMapper(WebApplicationServerRequestMapper requestMapper);
-
-    /**
-     * Start the server.
-     */
-    void start();
-
-    /**
-     * Stop the server.
-     */
-    void stop();
+    JspConfigDescriptor getJspConfigDescriptor();
 }

@@ -25,6 +25,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.HttpHeaderManager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -23,75 +23,81 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.struts;
+package com.manorrock.piranha.api;
 
-import com.manorrock.piranha.DefaultWebApplicationResponse;
-import java.util.List;
-import javax.servlet.http.Cookie;
+import java.util.Enumeration;
 
 /**
- * A test HTTP servlet response.
+ * The HttpHeaderManager API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestHttpServletResponse extends DefaultWebApplicationResponse {
+public interface HttpHeaderManager {
 
     /**
-     * Constructor.
-     */
-    public TestHttpServletResponse() {
-        super();
-        this.outputStream = new TestServletOutputStream();
-    }
-
-    /**
-     * Get the cookies.
+     * Add the header.
      *
-     * @return the cookies.
+     * @param name the name.
+     * @param value the value.
      */
-    public List<Cookie> getCookies() {
-        return cookies;
-    }
+    public void addHeader(String name, String value);
 
     /**
-     * Get the buffer size.
+     * Contains the given header.
      *
-     * @return the buffer size.
+     * @param name the header name.
+     * @return true if there, false otherwise.
      */
-    @Override
-    public int getBufferSize() {
-        return 0;
-    }
+    public boolean containsHeader(String name);
 
     /**
-     * Get the bytes in the buffer.
+     * Get the date header.
      *
-     * @return the bytes in the buffer.
+     * @param name the header name.
+     * @return the date header.
+     * @throws IllegalArgumentException when the header could not be converted
+     * to a date.
      */
-    public byte[] getResponseBody() {
-        if (this.gotWriter) {
-            this.writer.flush();
-        }
-        TestServletOutputStream output = (TestServletOutputStream) this.outputStream;
-        return output.getBytes();
-    }
+    public long getDateHeader(String name) throws IllegalArgumentException;
 
     /**
-     * Reset the buffer.
-     */
-    @Override
-    public void resetBuffer() {
-        verifyNotCommitted("resetBuffer");
-        TestServletOutputStream output = (TestServletOutputStream) this.outputStream;
-        output.reset();
-    }
-
-    /**
-     * Set the buffer size.
+     * Get the header.
      *
-     * @param size the buffer size.
+     * @param name the header name.
+     * @return the header value.
      */
-    @Override
-    public void setBufferSize(int size) {
-    }
+    public String getHeader(String name);
+
+    /**
+     * Get the header names.
+     *
+     * @return the header names.
+     */
+    public Enumeration<String> getHeaderNames();
+
+    /**
+     * Get the headers.
+     *
+     * @param name the header name.
+     * @return the header values.
+     */
+    public Enumeration<String> getHeaders(String name);
+
+    /**
+     * Get the int header.
+     *
+     * @param name the header name.
+     * @return the int value.
+     * @throws NumberFormatException when the value could not be converted to an
+     * int.
+     */
+    public int getIntHeader(String name) throws NumberFormatException;
+
+    /**
+     * Set the header.
+     *
+     * @param name the name.
+     * @param value the value (string).
+     */
+    public void setHeader(String name, String value);
 }

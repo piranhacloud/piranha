@@ -23,75 +23,42 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.struts;
+package com.manorrock.piranha.api;
 
-import com.manorrock.piranha.DefaultWebApplicationResponse;
-import java.util.List;
-import javax.servlet.http.Cookie;
+import java.util.Enumeration;
 
 /**
- * A test HTTP servlet response.
+ * The HttpHeader API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestHttpServletResponse extends DefaultWebApplicationResponse {
+public interface HttpHeader {
 
     /**
-     * Constructor.
-     */
-    public TestHttpServletResponse() {
-        super();
-        this.outputStream = new TestServletOutputStream();
-    }
-
-    /**
-     * Get the cookies.
+     * Add the value.
      *
-     * @return the cookies.
+     * @param value the value to add.
      */
-    public List<Cookie> getCookies() {
-        return cookies;
-    }
+    void addValue(String value);
 
     /**
-     * Get the buffer size.
+     * Get the name.
      *
-     * @return the buffer size.
+     * @return the name.
      */
-    @Override
-    public int getBufferSize() {
-        return 0;
-    }
+    String getName();
 
     /**
-     * Get the bytes in the buffer.
+     * Get the value.
      *
-     * @return the bytes in the buffer.
+     * @return the value.
      */
-    public byte[] getResponseBody() {
-        if (this.gotWriter) {
-            this.writer.flush();
-        }
-        TestServletOutputStream output = (TestServletOutputStream) this.outputStream;
-        return output.getBytes();
-    }
+    String getValue();
 
     /**
-     * Reset the buffer.
-     */
-    @Override
-    public void resetBuffer() {
-        verifyNotCommitted("resetBuffer");
-        TestServletOutputStream output = (TestServletOutputStream) this.outputStream;
-        output.reset();
-    }
-
-    /**
-     * Set the buffer size.
+     * Get the values.
      *
-     * @param size the buffer size.
+     * @return the values.
      */
-    @Override
-    public void setBufferSize(int size) {
-    }
+    Enumeration<String> getValues();
 }

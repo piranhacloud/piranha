@@ -23,42 +23,32 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
 
-import java.util.Enumeration;
+import java.util.Collection;
+import javax.servlet.http.Part;
 
 /**
- * The HttpHeader API.
+ * The multi-part manager API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface HttpHeader {
+public interface MultiPartManager {
 
     /**
-     * Add the value.
+     * Get the parts.
      *
-     * @param value the value to add.
+     * @param request the web application request.
+     * @return the parts.
      */
-    void addValue(String value);
+    Collection<Part> getParts(WebApplicationRequest request);
 
     /**
-     * Get the name.
+     * Get the part.
      *
-     * @return the name.
+     * @param request the web application request.
+     * @param name the name of the part.
+     * @return the part, or null if not found.
      */
-    String getName();
-
-    /**
-     * Get the value.
-     *
-     * @return the value.
-     */
-    String getValue();
-
-    /**
-     * Get the values.
-     *
-     * @return the values.
-     */
-    Enumeration<String> getValues();
+    Part getPart(WebApplicationRequest request, String name);
 }

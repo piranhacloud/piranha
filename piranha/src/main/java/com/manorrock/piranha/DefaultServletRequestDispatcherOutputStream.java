@@ -25,6 +25,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.WebApplication;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.servlet.WriteListener;
@@ -49,7 +50,7 @@ public class DefaultServletRequestDispatcherOutputStream extends DefaultServletO
     /**
      * Stores the response.
      */
-    private WebApplicationResponse response;
+    private DefaultWebApplicationResponse response;
 
     /**
      * Constructor.
@@ -111,7 +112,7 @@ public class DefaultServletRequestDispatcherOutputStream extends DefaultServletO
      * @param response the response.
      */
     @Override
-    public void setResponse(WebApplicationResponse response) {
+    public void setResponse(DefaultWebApplicationResponse response) {
         this.response = response;
     }
 
@@ -131,7 +132,7 @@ public class DefaultServletRequestDispatcherOutputStream extends DefaultServletO
         }
 
         WebApplication webApp = (WebApplication) response.getWebApplication();
-        WebApplicationRequest request = (WebApplicationRequest) webApp.getRequest(response);
+        DefaultWebApplicationRequest request = (DefaultWebApplicationRequest) webApp.getRequest(response);
 
         if (!request.isAsyncStarted() && !request.isUpgraded()) {
             throw new IllegalStateException("Read listener cannot be set as the request is not upgraded nor the async is started");

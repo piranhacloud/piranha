@@ -25,6 +25,8 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.api.HttpSessionManager;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.EventListener;

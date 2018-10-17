@@ -23,32 +23,14 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
 
-import javax.servlet.ServletRegistration;
-import javax.servlet.descriptor.JspConfigDescriptor;
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * The JspManager API.
+ * The WebApplicationRequest API.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface JspManager {
-
-    /**
-     * Add the JSP file.
-     * 
-     * @param webApplication the web application.
-     * @param servletName the servlet name.
-     * @param jspFile the jsp file.
-     * @return the servlet registration.
-     */
-    ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile);
-    
-    /**
-     * Get the JSP config descriptor.
-     *
-     * @return the JSP config descriptor.
-     */
-    JspConfigDescriptor getJspConfigDescriptor();
+public interface WebApplicationRequest extends HttpServletRequest {
 }

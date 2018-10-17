@@ -25,14 +25,14 @@
  */
 package com.manorrock.piranha.test.wicket;
 
-import com.manorrock.piranha.WebApplicationRequest;
+import com.manorrock.piranha.DefaultWebApplicationRequest;
 
 /**
  * A test HTTP servlet request.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestHttpServletRequest extends WebApplicationRequest {
+public class TestHttpServletRequest extends DefaultWebApplicationRequest {
 
     /**
      * Constructor.

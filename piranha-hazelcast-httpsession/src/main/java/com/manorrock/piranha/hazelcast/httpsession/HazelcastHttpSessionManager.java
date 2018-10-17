@@ -29,7 +29,7 @@ import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.manorrock.piranha.DefaultHttpSessionManager;
-import com.manorrock.piranha.WebApplication;
+import com.manorrock.piranha.api.WebApplication;
 import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

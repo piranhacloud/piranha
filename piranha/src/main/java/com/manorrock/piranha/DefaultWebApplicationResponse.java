@@ -25,6 +25,8 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.api.WebApplicationResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -36,15 +38,14 @@ import java.util.List;
 import java.util.Locale;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import static javax.servlet.http.HttpServletResponse.SC_FOUND;
 
 /**
- * The WebApplicationResponse.
+ * The DefaultWebApplicationResponse.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class WebApplicationResponse implements HttpServletResponse {
+public abstract class DefaultWebApplicationResponse implements WebApplicationResponse {
 
     /**
      * Stores the character encoding.
@@ -129,7 +130,7 @@ public abstract class WebApplicationResponse implements HttpServletResponse {
     /**
      * Constructor.
      */
-    public WebApplicationResponse() {
+    public DefaultWebApplicationResponse() {
         headerManager = new DefaultHttpHeaderManager();
         gotOutput = false;
         gotWriter = false;
@@ -284,6 +285,11 @@ public abstract class WebApplicationResponse implements HttpServletResponse {
         return result;
     }
 
+    /**
+     * Get the buffer size.
+     * 
+     * @return the buffer size.
+     */
     @Override
     public abstract int getBufferSize();
 

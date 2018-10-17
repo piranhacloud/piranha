@@ -25,6 +25,8 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.WebApplicationServerRequestMapper;
+import com.manorrock.piranha.api.WebApplication;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;

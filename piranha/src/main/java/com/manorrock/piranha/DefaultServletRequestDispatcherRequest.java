@@ -30,7 +30,7 @@ package com.manorrock.piranha;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultServletRequestDispatcherRequest extends WebApplicationRequest {
+public class DefaultServletRequestDispatcherRequest extends DefaultWebApplicationRequest {
 
     /**
      * Constructor.

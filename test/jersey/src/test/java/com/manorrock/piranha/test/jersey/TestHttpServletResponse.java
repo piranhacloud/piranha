@@ -25,7 +25,7 @@
  */
 package com.manorrock.piranha.test.jersey;
 
-import com.manorrock.piranha.WebApplicationResponse;
+import com.manorrock.piranha.DefaultWebApplicationResponse;
 import java.util.List;
 import javax.servlet.http.Cookie;
 
@@ -34,7 +34,7 @@ import javax.servlet.http.Cookie;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestHttpServletResponse extends WebApplicationResponse {
+public class TestHttpServletResponse extends DefaultWebApplicationResponse {
 
     /**
      * Constructor.

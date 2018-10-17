@@ -23,32 +23,15 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
 
-import java.util.Collection;
-import javax.servlet.http.Part;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- * The multi-part manager API.
- *
+ * The WebApplicationResponse API.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface MultiPartManager {
-
-    /**
-     * Get the parts.
-     *
-     * @param request the web application request.
-     * @return the parts.
-     */
-    Collection<Part> getParts(WebApplicationRequest request);
-
-    /**
-     * Get the part.
-     *
-     * @param request the web application request.
-     * @param name the name of the part.
-     * @return the part, or null if not found.
-     */
-    Part getPart(WebApplicationRequest request, String name);
+public interface WebApplicationResponse extends HttpServletResponse {
+    
 }

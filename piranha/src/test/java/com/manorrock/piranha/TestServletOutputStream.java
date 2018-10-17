@@ -49,7 +49,7 @@ public class TestServletOutputStream extends DefaultServletOutputStream {
     /**
      * Stores the response.
      */
-    private WebApplicationResponse response;
+    private DefaultWebApplicationResponse response;
 
     /**
      * Constructor.
@@ -111,7 +111,7 @@ public class TestServletOutputStream extends DefaultServletOutputStream {
      * @param response the response.
      */
     @Override
-    public void setResponse(WebApplicationResponse response) {
+    public void setResponse(DefaultWebApplicationResponse response) {
         this.response = response;
     }
 
@@ -131,7 +131,7 @@ public class TestServletOutputStream extends DefaultServletOutputStream {
         }
 
         DefaultWebApplication webApp = (DefaultWebApplication) response.getWebApplication();
-        WebApplicationRequest request = (WebApplicationRequest) webApp.getRequest(response);
+        DefaultWebApplicationRequest request = (DefaultWebApplicationRequest) webApp.getRequest(response);
 
         if (!request.isAsyncStarted() && !request.isUpgraded()) {
             throw new IllegalStateException("Read listener cannot be set as the request is not upgraded nor the async is started");

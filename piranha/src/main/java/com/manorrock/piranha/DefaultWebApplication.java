@@ -25,6 +25,10 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.SecurityManager;
+import com.manorrock.piranha.api.JspManager;
+import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.api.HttpSessionManager;
 import com.manorrock.piranha.api.MimeTypeManager;
 import com.manorrock.piranha.api.WebApplicationRequestMapping;
 import com.manorrock.piranha.api.WebApplicationRequestMapper;
@@ -1286,8 +1290,8 @@ public class DefaultWebApplication implements WebApplication {
             });
         }
 
-        WebApplicationRequest httpRequest = (WebApplicationRequest) request;
-        WebApplicationResponse httpResponse = (WebApplicationResponse) response;
+        DefaultWebApplicationRequest httpRequest = (DefaultWebApplicationRequest) request;
+        DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
         Filter filter = null;
 
         if (!httpRequest.getRequestURI().endsWith(".jsp")) {
