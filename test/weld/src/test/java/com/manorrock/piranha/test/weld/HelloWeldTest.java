@@ -51,6 +51,7 @@ public class HelloWeldTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addResource(new DefaultAliasedDirectoryResource(new File("target/classes"), "/WEB-INF/classes"));
+        webApp.addInitializer("com.manorrock.piranha.weld.WeldInitializer");
         webApp.addServletMapping("Faces Servlet", "*.html");
         webApp.addServletMapping("Faces Servlet", "/faces/*");
         webApp.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
