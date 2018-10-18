@@ -48,9 +48,7 @@ public class HelloMojarraTest {
     public void testNotFound() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        webApp.addServletMapping("Faces Servlet", "/faces/*");
-        webApp.addListener("com.sun.faces.config.ConfigureListener");
+        webApp.addInitializer("com.manorrock.piranha.mojarra.MojarraInitializer");
         webApp.initialize();
         webApp.start();
 
@@ -79,10 +77,7 @@ public class HelloMojarraTest {
     public void testIndexHtml() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addServletMapping("Faces Servlet", "*.html");
-        webApp.addServletMapping("Faces Servlet", "/faces/*");
-        webApp.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        webApp.addListener("com.sun.faces.config.ConfigureListener");
+        webApp.addInitializer("com.manorrock.piranha.mojarra.MojarraInitializer");
         webApp.initialize();
         webApp.start();
 

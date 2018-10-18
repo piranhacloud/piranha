@@ -11,14 +11,19 @@
     <name>Manorrock Piranha Snoop Test</name>
     <dependencies>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

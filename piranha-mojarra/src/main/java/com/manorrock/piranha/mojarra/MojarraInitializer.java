@@ -23,31 +23,32 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.weld;
+package com.manorrock.piranha.mojarra;
 
 import java.util.Set;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration.Dynamic;
 
 /**
- * The Weld Integration ServletContainerInitializer.
+ * The Mojarra initializer.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WeldInitializer implements ServletContainerInitializer {
+public class MojarraInitializer implements ServletContainerInitializer {
 
     /**
-     * On startup.
-     *
-     * @param classes the annotated classes.
-     * @param servletContext the servlet context.
-     * @throws ServletException when a serious error occurs.
+     * Initialize Mojarra.
+     * 
+     * @param classes the classes.
+     * @param servletContext the Servlet context.
+     * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext)
-            throws ServletException {
-        servletContext.setInitParameter("WELD_CONTEXT_ID_KEY", servletContext.toString());
-        servletContext.addListener("org.jboss.weld.environment.servlet.Listener");
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        Dynamic dynamic = servletContext.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
+        dynamic.addMapping("/faces/*","*.html");
+        servletContext.addListener("com.sun.faces.config.ConfigureListener");
     }
 }

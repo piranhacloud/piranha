@@ -9,37 +9,27 @@
     <artifactId>struts</artifactId>
     <packaging>war</packaging>
     <name>Manorrock Piranha Struts Test</name>
-    <dependencies>      
-        <dependency>
-            <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
+    <dependencies>
         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-core</artifactId>
-            <scope>provided</scope>
-        </dependency>      
-        <dependency>
-            <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-jasper</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
-        </dependency>
+        </dependency>        
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.el</artifactId>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>    
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-jasper</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

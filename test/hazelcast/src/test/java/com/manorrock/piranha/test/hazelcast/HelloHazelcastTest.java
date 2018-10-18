@@ -49,10 +49,8 @@ public class HelloHazelcastTest {
     public void testNotFound() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        webApp.addServletMapping("Faces Servlet", "/faces/*");
-        webApp.addListener("com.sun.faces.config.ConfigureListener");
         webApp.setHttpSessionManager(new HazelcastHttpSessionManager());
+        webApp.addInitializer("com.manorrock.piranha.mojarra.MojarraInitializer");
         webApp.initialize();
         webApp.start();
 
@@ -81,11 +79,8 @@ public class HelloHazelcastTest {
     public void testIndexHtml() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addServletMapping("Faces Servlet", "*.html");
-        webApp.addServletMapping("Faces Servlet", "/faces/*");
-        webApp.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        webApp.addListener("com.sun.faces.config.ConfigureListener");
         webApp.setHttpSessionManager(new HazelcastHttpSessionManager());
+        webApp.addInitializer("com.manorrock.piranha.mojarra.MojarraInitializer");
         webApp.initialize();
         webApp.start();
 
@@ -104,7 +99,6 @@ public class HelloHazelcastTest {
 
         assertEquals(200, response.getStatus());
         String responseString = new String(response.getResponseBody());
-        System.out.println(responseString);
         assertTrue(responseString.contains("Hello Hazelcast"));
     }
 }

@@ -52,11 +52,7 @@ public class HelloWeldTest {
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addResource(new DefaultAliasedDirectoryResource(new File("target/classes"), "/WEB-INF/classes"));
         webApp.addInitializer("com.manorrock.piranha.weld.WeldInitializer");
-        webApp.addServletMapping("Faces Servlet", "*.html");
-        webApp.addServletMapping("Faces Servlet", "/faces/*");
-        webApp.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        webApp.addListener("org.jboss.weld.environment.servlet.Listener");
-        webApp.addListener("com.sun.faces.config.ConfigureListener");
+        webApp.addInitializer("com.manorrock.piranha.mojarra.MojarraInitializer");
         webApp.initialize();
         webApp.start();
         TestHttpServletRequest request = new TestHttpServletRequest();

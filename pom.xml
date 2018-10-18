@@ -282,15 +282,16 @@
     </developers>
     <modules>
         <module>piranha</module>
+        <module>piranha-api</module>
         <module>piranha-grizzly</module>
+        <module>piranha-hazelcast-httpsession</module>
         <module>piranha-jasper</module>
         <module>piranha-jndi</module>
-        <module>piranha-weld</module>
+        <module>piranha-mojarra</module>
         <module>piranha-servlet</module>
-        <module>piranha-soteria</module>
         <module>piranha-singlethread</module>
-        <module>piranha-api</module>
-        <module>piranha-hazelcast-httpsession</module>
+        <module>piranha-soteria</module>
+        <module>piranha-weld</module>
     </modules>
     <profiles>
         <profile>
