@@ -25,7 +25,6 @@
  */
 package com.manorrock.piranha.api;
 
-import com.manorrock.piranha.api.Resource;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;

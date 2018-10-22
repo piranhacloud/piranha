@@ -25,7 +25,6 @@
  */
 package com.manorrock.piranha.api;
 
-import com.manorrock.piranha.api.WebApplication;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

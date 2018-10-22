@@ -25,7 +25,6 @@
  */
 package com.manorrock.piranha.api;
 
-import com.manorrock.piranha.api.WebApplication;
 import java.util.Set;
 
 /**

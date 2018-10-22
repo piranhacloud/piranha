@@ -25,30 +25,10 @@
  */
 package com.manorrock.piranha.api;
 
-import javax.servlet.ServletRegistration;
-import javax.servlet.descriptor.JspConfigDescriptor;
-
 /**
- * The JspManager API.
+ * The AsyncManager API.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface JspManager {
-
-    /**
-     * Add the JSP file.
-     * 
-     * @param webApplication the web application.
-     * @param servletName the servlet name.
-     * @param jspFile the jsp file.
-     * @return the servlet registration.
-     */
-    ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile);
-    
-    /**
-     * Get the JSP config descriptor.
-     *
-     * @return the JSP config descriptor.
-     */
-    JspConfigDescriptor getJspConfigDescriptor();
+public interface AsyncManager {
 }
