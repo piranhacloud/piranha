@@ -26,10 +26,13 @@
 package com.manorrock.piranha.singlethread;
 
 import com.manorrock.piranha.DefaultHttpServerProcessor;
+import com.manorrock.piranha.DefaultHttpServerRequest;
+import com.manorrock.piranha.DefaultHttpServerResponse;
 import com.manorrock.piranha.api.HttpServer;
 import com.manorrock.piranha.api.HttpServerProcessor;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,7 +41,7 @@ import java.util.logging.Logger;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SingleThreadHttpServer implements HttpServer {
+public class SingleThreadHttpServer implements HttpServer, Runnable {
 
     /**
      * Stores the logger.
@@ -54,7 +57,7 @@ public class SingleThreadHttpServer implements HttpServer {
      * Stores the running flag.
      */
     protected boolean running;
-    
+
     /**
      * Stores the server acceptor thread.
      */
@@ -112,6 +115,24 @@ public class SingleThreadHttpServer implements HttpServer {
     }
 
     /**
+     * Handle the socket request.
+     */
+    @Override
+    public void run() {
+        while (!serverStopRequest) {
+            try {
+                try (Socket socket = serverSocket.accept()) {
+                    DefaultHttpServerRequest request = new DefaultHttpServerRequest(socket);
+                    DefaultHttpServerResponse response = new DefaultHttpServerResponse(socket);
+                    processor.process(request, response);
+                }
+            } catch (IOException ioe) {
+            } catch (Throwable throwable) {
+            }
+        }
+    }
+
+    /**
      * Start the server.
      */
     @Override
@@ -121,7 +142,7 @@ public class SingleThreadHttpServer implements HttpServer {
             serverSocket = new ServerSocket(serverPort);
             serverSocket.setReuseAddress(false);
             serverSocket.setSoTimeout(soTimeout);
-            serverProcessingThread = new Thread(new SingleThreadHttpServerProcessingThread(this), "SingleThreadHttpServer-ProcessingThread");
+            serverProcessingThread = new Thread(this, "SingleThreadHttpServer");
             serverProcessingThread.start();
             running = true;
         } catch (IOException exception) {
