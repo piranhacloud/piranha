@@ -90,7 +90,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     /**
      * Constructor.
      *
-     * @param socket
+     * @param socket the socket.
      */
     public DefaultHttpServerRequest(Socket socket) {
         this.headers = new ConcurrentHashMap<>(1);
@@ -167,7 +167,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     /**
      * Get the local hostname.
      *
-     * @return
+     * @return the local hostname.
      */
     @Override
     public String getLocalHostname() {

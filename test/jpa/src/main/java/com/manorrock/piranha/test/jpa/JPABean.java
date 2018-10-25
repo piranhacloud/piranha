@@ -49,6 +49,8 @@ public class JPABean {
     
     /**
      * Get the entity manager.
+     * 
+     * @return the entity manager.
      */
     public EntityManager getEntityManager() {
         synchronized(this) {
