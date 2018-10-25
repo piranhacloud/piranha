@@ -33,7 +33,6 @@ import org.apache.http.impl.client.HttpClients;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -59,7 +58,6 @@ public class GrizzlyHttpServerTest {
      * Test processing.
      */
     @Test
-    @Ignore
     public void testProcessing() {
         GrizzlyHttpServer server = new GrizzlyHttpServer(28002);
         server.start();
@@ -79,7 +77,6 @@ public class GrizzlyHttpServerTest {
      * Test file not found.
      */
     @Test
-    @Ignore
     public void testFileNotFound() {
         GrizzlyHttpServer server = new GrizzlyHttpServer(28003);
         server.start();

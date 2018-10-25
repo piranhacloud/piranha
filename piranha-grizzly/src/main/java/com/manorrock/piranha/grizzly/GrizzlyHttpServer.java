@@ -25,11 +25,13 @@
  */
 package com.manorrock.piranha.grizzly;
 
-import com.manorrock.piranha.api.HttpServer;
+import com.manorrock.piranha.DefaultHttpServerProcessor;
+import com.manorrock.piranha.api.HttpServerProcessor;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.glassfish.grizzly.http.server.HttpHandler;
+import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
 
@@ -38,23 +40,29 @@ import org.glassfish.grizzly.http.server.Response;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class GrizzlyHttpServer implements HttpServer {
+public class GrizzlyHttpServer implements com.manorrock.piranha.api.HttpServer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(HttpServer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GrizzlyHttpServer.class.getName());
 
     /**
      * Stores the Grizzly HttpServer.
      */
-    private final  org.glassfish.grizzly.http.server.HttpServer httpServer;
+    private final HttpServer httpServer;
+    
+    /**
+     * Stores the HTTP server processor.
+     */
+    private HttpServerProcessor httpServerProcessor;
 
     /**
      * Constructor.
      */
     public GrizzlyHttpServer() {
-        httpServer = org.glassfish.grizzly.http.server.HttpServer.createSimpleServer();
+        httpServer = HttpServer.createSimpleServer();
+        httpServerProcessor = new DefaultHttpServerProcessor();
         addHttpHandler();
     }
 
@@ -64,7 +72,8 @@ public class GrizzlyHttpServer implements HttpServer {
      * @param serverPort the server port.
      */
     public GrizzlyHttpServer(int serverPort) {
-        httpServer = org.glassfish.grizzly.http.server.HttpServer.createSimpleServer("", serverPort);
+        httpServer = HttpServer.createSimpleServer(null, serverPort);
+        httpServerProcessor = new DefaultHttpServerProcessor();
         addHttpHandler();
     }
 
@@ -73,8 +82,9 @@ public class GrizzlyHttpServer implements HttpServer {
      *
      * @param httpServer the Grizzly HTTP server.
      */
-    public GrizzlyHttpServer(org.glassfish.grizzly.http.server.HttpServer httpServer) {
+    public GrizzlyHttpServer(HttpServer httpServer) {
         this.httpServer = httpServer;
+        this.httpServerProcessor = new DefaultHttpServerProcessor();
         addHttpHandler();
     }
     
@@ -85,11 +95,13 @@ public class GrizzlyHttpServer implements HttpServer {
         httpServer.getServerConfiguration().addHttpHandler(new HttpHandler() {
             @Override
             public void service(Request request, Response response) throws Exception {
-                
+                GrizzlyHttpServerRequest gRequest = new GrizzlyHttpServerRequest(request);
+                GrizzlyHttpServerResponse gResponse = new GrizzlyHttpServerResponse(response);
+                httpServerProcessor.process(gRequest, gResponse);
             }
         });
     }
-
+    
     /**
      * Is the server running.
      *
