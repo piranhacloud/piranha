@@ -19,7 +19,6 @@
         <module>mojarra</module>
         <module>myfaces</module>
         <module>snoop</module>
-        <module>soteria</module>
         <module>springmvc</module>
         <module>struts</module>
         <module>tyrus</module>

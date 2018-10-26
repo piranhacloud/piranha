@@ -348,7 +348,6 @@
         <module>piranha-mojarra</module>
         <module>piranha-servlet</module>
         <module>piranha-singlethread</module>
-        <module>piranha-soteria</module>
         <module>piranha-weld</module>
     </modules>
     <profiles>
