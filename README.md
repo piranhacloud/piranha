@@ -18,13 +18,14 @@ for the release you are using in the links below.
 
 ## Documentation for older releases
 
-1. [Version 4.0.4.0](https://github.com/manorrock/piranha/tree/v4.0.4.0)
-2. [Version 4.0.3.0](https://github.com/manorrock/piranha/tree/v4.0.3.0)
-3. [Version 4.0.2.0](https://github.com/manorrock/piranha/tree/v4.0.2.0)
-4. [Version 4.0.1.0](https://github.com/manorrock/piranha/tree/v4.0.1.0)
-5. [Version 4.0.0.2](https://github.com/manorrock/piranha/tree/v4.0.0.2), first release on Maven Central
-6. [Version 4.0.0.1](https://github.com/manorrock/piranha/tree/v4.0.0.1)
-7. [Version 4.0.0.0](https://github.com/manorrock/piranha/tree/v4.0.0.0), first release
+1. [Version 4.0.5.0](https://github.com/manorrock/piranha/tree/v4.0.5.0)
+2. [Version 4.0.4.0](https://github.com/manorrock/piranha/tree/v4.0.4.0)
+3. [Version 4.0.3.0](https://github.com/manorrock/piranha/tree/v4.0.3.0)
+4. [Version 4.0.2.0](https://github.com/manorrock/piranha/tree/v4.0.2.0)
+5. [Version 4.0.1.0](https://github.com/manorrock/piranha/tree/v4.0.1.0)
+6. [Version 4.0.0.2](https://github.com/manorrock/piranha/tree/v4.0.0.2), first release on Maven Central
+7. [Version 4.0.0.1](https://github.com/manorrock/piranha/tree/v4.0.0.1)
+8. [Version 4.0.0.0](https://github.com/manorrock/piranha/tree/v4.0.0.0), first release
 
 ## How do I contribute?
 
