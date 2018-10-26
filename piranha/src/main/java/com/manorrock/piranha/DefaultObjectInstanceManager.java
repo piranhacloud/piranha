@@ -26,9 +26,17 @@
 package com.manorrock.piranha;
 
 import com.manorrock.piranha.api.ObjectInstanceManager;
+import java.util.EventListener;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
+import javax.servlet.ServletContextAttributeListener;
+import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequestAttributeListener;
+import javax.servlet.ServletRequestListener;
+import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionIdListener;
+import javax.servlet.http.HttpSessionListener;
 
 /**
  * The default object instance manager.
@@ -56,6 +64,25 @@ public class DefaultObjectInstanceManager implements ObjectInstanceManager {
         T result = null;
         try {
             result = filterClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException exception) {
+            throw new ServletException(exception);
+        }
+        return result;
+    }
+    
+    /**
+     * Create the listener.
+     *
+     * @param <T> the type.
+     * @param clazz the class of the listener to create.
+     * @return the listener.
+     * @throws ServletException when it fails to create the listener.
+     */
+    @Override
+    public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
+        T result;
+        try {
+            result = clazz.newInstance();
         } catch (InstantiationException | IllegalAccessException exception) {
             throw new ServletException(exception);
         }

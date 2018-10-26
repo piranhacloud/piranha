@@ -26,6 +26,7 @@
 package com.manorrock.piranha.weld;
 
 import com.manorrock.piranha.api.ObjectInstanceManager;
+import java.util.EventListener;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.Unmanaged;
@@ -46,7 +47,7 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
      * @param <T> the return type.
      * @param filterClass the Filter class.
      * @return the Filter.
-     * @throws ServletException when a Filter error occurs.
+     * @throws ServletException when an error occurs.
      */
     @Override
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
@@ -71,12 +72,42 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
     }
 
     /**
+     * Create the listener.
+     * 
+     * @param <T> the type.
+     * @param clazz the class.
+     * @return the Listener.
+     * @throws ServletException when an error occurs.
+     */
+    @Override
+    public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
+        T result = null;
+        boolean constructed = false;
+        try {
+            BeanManager beanManager = CDI.current().getBeanManager();
+            Unmanaged<T> unmanaged = new Unmanaged(beanManager, clazz);
+            Unmanaged.UnmanagedInstance<T> unmanagedInstance = unmanaged.newInstance();
+            result = unmanagedInstance.produce().inject().postConstruct().get();
+            constructed = true;
+        } catch (Throwable throwable) {
+        }
+        if (!constructed) {
+            try {
+                result = clazz.newInstance();
+            } catch (InstantiationException | IllegalAccessException exception) {
+                throw new ServletException(exception);
+            }
+        }
+        return result;
+    }
+    
+    /**
      * Create the Servlet.
      *
      * @param <T> the type.
      * @param servletClass the Servlet class.
      * @return the Servlet.
-     * @throws ServletException when a Servlet error occurs.
+     * @throws ServletException when an error occurs.
      */
     @Override
     public <T extends Servlet> T createServlet(Class<T> servletClass) throws ServletException {

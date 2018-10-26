@@ -25,6 +25,7 @@
  */
 package com.manorrock.piranha.api;
 
+import java.util.EventListener;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -45,6 +46,16 @@ public interface ObjectInstanceManager {
      * @throws ServletException when a Servlet error occurs.
      */
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException;
+
+    /**
+     * Create the listener.
+     * 
+     * @param <T> the type.
+     * @param clazz the class.
+     * @return the Listener.
+     * @throws ServletException 
+     */
+    public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException;
 
     /**
      * Create the servlet.

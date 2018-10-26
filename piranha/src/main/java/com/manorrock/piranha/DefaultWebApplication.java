@@ -168,7 +168,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the servlet container initializers.
      */
     protected final List<ServletContainerInitializer> initializers;
-    
+
     /**
      * Stores the JSP manager.
      */
@@ -188,7 +188,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the servlet request attribute listeners.
      */
     protected final List<ServletRequestAttributeListener> requestAttributeListeners;
-    
+
     /**
      * Stores the request character encoding.
      */
@@ -208,7 +208,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the resource manager.
      */
     protected ResourceManager resourceManager;
-    
+
     /**
      * Stores the response character encoding.
      */
@@ -400,7 +400,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Add a JSP file.
-     * 
+     *
      * @param servletName the name of the servlet.
      * @param jspFile the JSP file.
      * @return the dynamic servlet registration.
@@ -409,7 +409,7 @@ public class DefaultWebApplication implements WebApplication {
     public ServletRegistration.Dynamic addJspFile(String servletName, String jspFile) {
         return jspManager.addJspFile(this, servletName, jspFile);
     }
-    
+
     /**
      * Add listener.
      *
@@ -577,28 +577,19 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
-        T result;
-        try {
-            result = clazz.newInstance();
-            boolean ok = false;
-
-            if (result instanceof ServletContextListener
-                    || result instanceof ServletContextAttributeListener
-                    || result instanceof ServletRequestListener
-                    || result instanceof ServletRequestAttributeListener
-                    || result instanceof HttpSessionAttributeListener
-                    || result instanceof HttpSessionIdListener
-                    || result instanceof HttpSessionListener) {
-                ok = true;
-            }
-
-            if (!ok) {
-                throw new IllegalArgumentException("Invalid type");
-            }
-        } catch (InstantiationException exception) {
-            throw new ServletException("Unable to instantiate listener: " + clazz, exception);
-        } catch (IllegalAccessException exception) {
-            throw new ServletException("Illegal access on listener: " + clazz, exception);
+        T result = objectInstanceManager.createListener(clazz);
+        boolean ok = false;
+        if (result instanceof ServletContextListener
+                || result instanceof ServletContextAttributeListener
+                || result instanceof ServletRequestListener
+                || result instanceof ServletRequestAttributeListener
+                || result instanceof HttpSessionAttributeListener
+                || result instanceof HttpSessionIdListener
+                || result instanceof HttpSessionListener) {
+            ok = true;
+        }
+        if (!ok) {
+            throw new IllegalArgumentException("Invalid type");
         }
         return result;
     }
@@ -925,7 +916,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Get the default request character encoding.
-     * 
+     *
      * @return the default request character encoding.
      */
     @Override
@@ -954,7 +945,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Get the default response character encoding.
-     * 
+     *
      * @return the default response character encoding.
      */
     @Override
@@ -1105,7 +1096,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Get the default session timeout.
-     * 
+     *
      * @return the default session timeout.
      */
     @Override
@@ -1419,7 +1410,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Set the JSP manager.
-     * 
+     *
      * @param jspManager the JSP manager.
      */
     @Override
@@ -1459,7 +1450,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Set the default request character encoding.
-     * 
+     *
      * @param requestCharacterEncoding the default request character encoding.
      */
     @Override
@@ -1479,14 +1470,14 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Set the default response character encoding.
-     * 
+     *
      * @param responseCharacterEncoding the default response character encoding.
      */
     @Override
     public void setResponseCharacterEncoding(String responseCharacterEncoding) {
         this.responseCharacterEncoding = responseCharacterEncoding;
     }
-    
+
     /**
      * Set the security manager.
      *
@@ -1519,7 +1510,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Set the default session timeout.
-     * 
+     *
      * @param sessionTimeout the default session timeout.
      */
     @Override
