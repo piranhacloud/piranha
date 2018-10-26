@@ -25,10 +25,11 @@
  */
 package com.manorrock.piranha;
 
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the DefaultFilterTerminatingChain class.
+ * The JUnit tests for the DefaultFilterChain class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -43,5 +44,48 @@ public class DefaultFilterChainTest {
     public void testDoFilter() throws Exception {
         DefaultFilterChain chain = new DefaultFilterChain();
         chain.doFilter(null, null);
+    }
+
+    /**
+     * Test doFilter method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testDoFilter2() throws Exception {
+        DefaultFilterChain chain = new DefaultFilterChain(new DefaultServlet());
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        TestHttpServletRequest request = new TestHttpServletRequest();
+        request.setWebApplication(webApplication);
+        TestHttpServletResponse response = new TestHttpServletResponse();
+        response.setWebApplication(webApplication);
+        TestServletOutputStream outputStream = new TestServletOutputStream();
+        outputStream.setResponse(response);
+        response.setOutputStream(outputStream);
+        request.setContextPath("/");
+        chain.doFilter(request, response);
+        assertEquals(200, response.getStatus());
+    }
+
+    /**
+     * Test doFilter method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testDoFilter3() throws Exception {
+        DefaultFilterChain terminatingChain = new DefaultFilterChain(new DefaultServlet());
+        DefaultFilterChain chain = new DefaultFilterChain(new TestPassthroughFilter(), terminatingChain);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        TestHttpServletRequest request = new TestHttpServletRequest();
+        request.setWebApplication(webApplication);
+        TestHttpServletResponse response = new TestHttpServletResponse();
+        response.setWebApplication(webApplication);
+        TestServletOutputStream outputStream = new TestServletOutputStream();
+        outputStream.setResponse(response);
+        response.setOutputStream(outputStream);
+        request.setContextPath("/");
+        chain.doFilter(request, response);
+        assertEquals(200, response.getStatus());
     }
 }
