@@ -7,6 +7,7 @@ some useful add-on modules.
 See the list below for what is available.
 
 1. [Piranha Servlet container](piranha/README.md)
+2. [Piranha Grizzly integration](piranha-grizzly/README.md)
 2. [Piranha Jasper integration](piranha-jasper/README.md)
 3. [Piranha Servlet API](piranha-servlet/README.md)
 4. [Piranha Single Threaded](piranha-singlethread/README.md)
