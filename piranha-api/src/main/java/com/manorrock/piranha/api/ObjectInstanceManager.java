@@ -53,7 +53,7 @@ public interface ObjectInstanceManager {
      * @param <T> the type.
      * @param clazz the class.
      * @return the Listener.
-     * @throws ServletException 
+     * @throws ServletException when a Servlet error occurs.
      */
     public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException;
 
