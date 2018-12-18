@@ -27,7 +27,6 @@ package com.manorrock.piranha.netty;
 
 import com.manorrock.piranha.api.HttpServer;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -91,14 +90,10 @@ public class NettyHttpServer implements HttpServer {
         bossGroup = new NioEventLoopGroup(1);
         workerGroup = new NioEventLoopGroup();
         ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap.option(ChannelOption.SO_BACKLOG, 1024)
-                .group(bossGroup, workerGroup)
+        bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .handler(new LoggingHandler(LogLevel.INFO))
-                .childHandler(new NettyHttpServerHandler())
-                .bind(serverPort)
-                .channel()
-                .read();
+                .childHandler(new NettyHttpServerInitializer())
+                .bind(serverPort);
     }
 
     /**

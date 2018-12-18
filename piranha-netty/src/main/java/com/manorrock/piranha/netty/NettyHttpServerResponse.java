@@ -26,38 +26,89 @@
 package com.manorrock.piranha.netty;
 
 import com.manorrock.piranha.api.HttpServerResponse;
+import io.netty.buffer.ByteBufOutputStream;
+import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import java.io.IOException;
 import java.io.OutputStream;
 
 /**
  * The Netty HTTP server response.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class NettyHttpServerResponse implements HttpServerResponse {
 
+    /**
+     * Stores the output stream.
+     */
+    private OutputStream outputStream;
+
+    /**
+     * Stores the response.
+     */
+    private final FullHttpResponse response;
+
+    /**
+     * Constructor.
+     *
+     * @param response the HTTP response.
+     */
+    public NettyHttpServerResponse(FullHttpResponse response) {
+        this.response = response;
+    }
+
+    /**
+     * Get the output stream.
+     *
+     * @return the output stream.
+     */
     @Override
     public OutputStream getOutputStream() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        synchronized (response) {
+            if (outputStream == null) {
+                outputStream = new ByteBufOutputStream(response.content());
+            }
+        }
+        return outputStream;
     }
 
+    /**
+     * Set the header.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
     @Override
     public void setHeader(String name, String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        response.headers().set(name, value);
     }
 
+    /**
+     * Set the status.
+     *
+     * @param status the status.
+     */
     @Override
     public void setStatus(int status) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        response.setStatus(HttpResponseStatus.valueOf(status));
     }
 
+    /**
+     * Write the headers.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
     @Override
     public void writeHeaders() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Write the status line.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
     @Override
     public void writeStatusLine() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

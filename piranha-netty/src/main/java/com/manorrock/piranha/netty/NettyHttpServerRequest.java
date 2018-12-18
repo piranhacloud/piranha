@@ -27,16 +27,44 @@ package com.manorrock.piranha.netty;
 
 import com.manorrock.piranha.api.HttpServerRequest;
 import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.QueryStringDecoder;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The Netty HTTP server request.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class NettyHttpServerRequest implements HttpServerRequest {
+
+    /**
+     * Stores the input stream.
+     */
+    private InputStream inputStream;
+
+    /**
+     * Stores the local address.
+     */
+    private final String localAddress;
+
+    /**
+     * Stores the local hostname.
+     */
+    private final String localHostname;
+
+    /**
+     * Stores the local port.
+     */
+    private final int localPort;
     
+    /**
+     * Stores the query parameters.
+     */
+    private Map<String, List<String>> queryParameters;
+
     /**
      * Stores the HTTP request.
      */
@@ -46,54 +74,119 @@ public class NettyHttpServerRequest implements HttpServerRequest {
      * Constructor.
      *
      * @param request the HTTP request.
+     * @param inputStream the input stream.
+     * @param localAddress the local address.
+     * @param localHostname the local hostname.
+     * @param localPort the local port.
      */
-    public NettyHttpServerRequest(HttpRequest request) {
+    public NettyHttpServerRequest(HttpRequest request, InputStream inputStream,
+            String localAddress, String localHostname, int localPort) {
         this.request = request;
+        this.localAddress = localAddress;
+        this.localHostname = localHostname;
+        this.localPort = localPort;
     }
 
+    /**
+     * Get the header.
+     *
+     * @param name the name.
+     * @return the value.
+     */
     @Override
     public String getHeader(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return request.headers().get(name);
     }
 
+    /**
+     * Get the header names.
+     *
+     * @return the header names.
+     */
     @Override
     public Iterator<String> getHeaderNames() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return request.headers().names().iterator();
     }
 
+    /**
+     * Get the input stream.
+     *
+     * @return the input stream.
+     */
     @Override
     public InputStream getInputStream() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return inputStream;
     }
 
+    /**
+     * Get the local address.
+     *
+     * @return the local address.
+     */
     @Override
     public String getLocalAddress() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return localAddress;
     }
 
+    /**
+     * Get the local hostname.
+     *
+     * @return the local hostname.
+     */
     @Override
     public String getLocalHostname() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return localHostname;
     }
 
+    /**
+     * Get the local port.
+     *
+     * @return the local port.
+     */
     @Override
     public int getLocalPort() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return localPort;
     }
 
+    /**
+     * Get the method.
+     *
+     * @return the method.
+     */
     @Override
     public String getMethod() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return request.method().name();
     }
 
+    /**
+     * Get the query parameter.
+     *
+     * @param name the name.
+     * @return the value.
+     */
     @Override
     public String getQueryParameter(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        synchronized (request) {
+            if (queryParameters == null) {
+                QueryStringDecoder queryStringDecoder = new QueryStringDecoder(request.uri());
+                queryParameters = queryStringDecoder.parameters();
+            }
+        }
+        return queryParameters.get(name).get(0);
     }
 
+    /**
+     * Get the query string.
+     * 
+     * @return the query string.
+     */
     @Override
     public String getQueryString() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String result = null;
+        if (request.uri().contains("?")) {
+            result = request.uri().substring(request.uri().indexOf("?") + 1);
+        }
+        return result;
     }
 
     @Override
@@ -113,7 +206,7 @@ public class NettyHttpServerRequest implements HttpServerRequest {
 
     /**
      * Get the request target.
-     * 
+     *
      * @return the request target.
      */
     @Override

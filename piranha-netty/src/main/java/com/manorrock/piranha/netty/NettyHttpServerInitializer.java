@@ -25,16 +25,20 @@
  */
 package com.manorrock.piranha.netty;
 
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.http.HttpServerCodec;
-import io.netty.handler.codec.http.HttpServerExpectContinueHandler;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpRequestDecoder;
+import io.netty.handler.codec.http.HttpResponseEncoder;
 
 /**
  * The Netty HTTP server initializer.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@Sharable
 public class NettyHttpServerInitializer extends ChannelInitializer<SocketChannel> {
 
     /**
@@ -44,8 +48,10 @@ public class NettyHttpServerInitializer extends ChannelInitializer<SocketChannel
      */
     @Override
     public void initChannel(SocketChannel channel) {
-        channel.pipeline().addLast(new HttpServerCodec());
-        channel.pipeline().addLast(new HttpServerExpectContinueHandler());
-        channel.pipeline().addLast(new NettyHttpServerHandler());
+        ChannelPipeline pipeline = channel.pipeline();
+        pipeline.addLast(new HttpRequestDecoder());
+        pipeline.addLast(new HttpObjectAggregator(10*1024*1024));
+        pipeline.addLast(new HttpResponseEncoder());
+        pipeline.addLast(new NettyHttpServerHandler());
     }
 }

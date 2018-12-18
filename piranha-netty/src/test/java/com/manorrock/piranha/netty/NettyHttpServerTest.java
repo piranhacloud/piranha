@@ -33,7 +33,6 @@ import org.apache.http.impl.client.HttpClients;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -47,7 +46,6 @@ public class NettyHttpServerTest {
      * Test start and stop method.
      */
     @Test
-    @Ignore
     public void testStartAndStop() {
         NettyHttpServer server = new NettyHttpServer(28001);
         server.start();
@@ -60,7 +58,6 @@ public class NettyHttpServerTest {
      * Test processing.
      */
     @Test
-    @Ignore
     public void testProcessing() {
         NettyHttpServer server = new NettyHttpServer(28002);
         server.start();
@@ -80,7 +77,6 @@ public class NettyHttpServerTest {
      * Test file not found.
      */
     @Test
-    @Ignore
     public void testFileNotFound() {
         NettyHttpServer server = new NettyHttpServer(28003);
         server.start();
@@ -102,7 +98,6 @@ public class NettyHttpServerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    @Ignore
     public void testFile() throws Exception {
         NettyHttpServer server = new NettyHttpServer(28004);
         server.start();

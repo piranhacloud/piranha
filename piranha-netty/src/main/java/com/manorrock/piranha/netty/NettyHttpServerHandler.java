@@ -27,27 +27,36 @@ package com.manorrock.piranha.netty;
 
 import com.manorrock.piranha.DefaultHttpServerProcessor;
 import com.manorrock.piranha.api.HttpServerProcessor;
+import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpObject;
-import io.netty.handler.codec.http.HttpRequest;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
+import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The Netty HTTP server handler.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NettyHttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
+public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(NettyHttpServerHandler.class.getName());
 
     /**
      * Stores the default HTTP server processor.
      */
     private final HttpServerProcessor httpServerProcessor = new DefaultHttpServerProcessor();
-
+    
     /**
      * Complete the channel read.
      *
@@ -65,11 +74,17 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<HttpObje
      * @param object the object read.
      */
     @Override
-    public void channelRead0(ChannelHandlerContext context, HttpObject object) {
-        if (object instanceof HttpRequest) {
-            NettyHttpServerRequest httpRequest = new NettyHttpServerRequest((HttpRequest) object);
-            httpServerProcessor.process(httpRequest, new NettyHttpServerResponse());
+    protected void channelRead0(ChannelHandlerContext context, Object object) {
+        if (object instanceof FullHttpRequest) {
+            FullHttpRequest httpRequest = (FullHttpRequest) object;
+            String localAddress = ((InetSocketAddress) context.channel().remoteAddress()).getAddress().getHostAddress();
+            String localHostname = ((InetSocketAddress) context.channel().remoteAddress()).getHostName();
+            int localPort = ((InetSocketAddress) context.channel().remoteAddress()).getPort();
+            InputStream inputStream = new ByteBufInputStream(httpRequest.content());
+            NettyHttpServerRequest nettyRequest = new NettyHttpServerRequest(httpRequest, inputStream, localAddress, localHostname, localPort);
             FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK);
+            NettyHttpServerResponse nettyResponse = new NettyHttpServerResponse(response);
+            httpServerProcessor.process(nettyRequest, nettyResponse);
             context.write(response);
         }
     }
@@ -82,7 +97,9 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<HttpObje
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext context, Throwable throwable) {
-        throwable.printStackTrace();
+        if (LOGGER.isLoggable(Level.WARNING)) {
+            LOGGER.log(Level.WARNING, "Exception caught in NettyHttpServerHandler", throwable);
+        }
         context.close();
     }
 }
