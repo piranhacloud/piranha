@@ -119,7 +119,7 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.5.4</version>
+                                    <version>3.0.0</version>
                                 </requireMavenVersion>
                             </rules>    
                         </configuration>
@@ -199,6 +199,11 @@
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-themes</artifactId>
                 <version>8.5.2</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.1.32.Final</version>
             </dependency>
             <dependency>
                 <groupId>javax</groupId>
