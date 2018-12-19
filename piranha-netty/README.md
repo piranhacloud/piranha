@@ -1,12 +1,12 @@
 
-# Manorrock Piranha Grizzly Integration
+# Manorrock Piranha Netty Integration
 
-The Manorrock Piranha Integration module is a module that can be used to run
-Manorrock Piranha using Grizzly.
+The Manorrock Piranha Netty Integration module is a module that can be used to
+run Manorrock Piranha using Netty.
 
 ## How to use?
 
-    GrizzlyHttpServer server = new GrizzlyHttpServer();
+    NettyHttpServer server = new NettyHttpServer();
     server.start();
 
-This snippet above will start the Grizzly-based server on port 8080.
+This snippet above will start the Netty-based server on port 8080.
