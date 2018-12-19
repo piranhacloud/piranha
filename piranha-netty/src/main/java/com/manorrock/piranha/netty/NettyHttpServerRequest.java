@@ -26,9 +26,12 @@
 package com.manorrock.piranha.netty;
 
 import com.manorrock.piranha.api.HttpServerRequest;
-import io.netty.handler.codec.http.HttpRequest;
+import io.netty.buffer.ByteBufInputStream;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.QueryStringDecoder;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -41,25 +44,15 @@ import java.util.Map;
 public class NettyHttpServerRequest implements HttpServerRequest {
 
     /**
+     * Stores the context.
+     */
+    private final ChannelHandlerContext context;
+
+    /**
      * Stores the input stream.
      */
     private InputStream inputStream;
 
-    /**
-     * Stores the local address.
-     */
-    private final String localAddress;
-
-    /**
-     * Stores the local hostname.
-     */
-    private final String localHostname;
-
-    /**
-     * Stores the local port.
-     */
-    private final int localPort;
-    
     /**
      * Stores the query parameters.
      */
@@ -68,23 +61,18 @@ public class NettyHttpServerRequest implements HttpServerRequest {
     /**
      * Stores the HTTP request.
      */
-    private final HttpRequest request;
+    private final FullHttpRequest request;
 
     /**
      * Constructor.
      *
      * @param request the HTTP request.
-     * @param inputStream the input stream.
-     * @param localAddress the local address.
-     * @param localHostname the local hostname.
-     * @param localPort the local port.
+     * @param context the context.
      */
-    public NettyHttpServerRequest(HttpRequest request, InputStream inputStream,
-            String localAddress, String localHostname, int localPort) {
+    public NettyHttpServerRequest(ChannelHandlerContext context, FullHttpRequest request) {
+        super();
+        this.context = context;
         this.request = request;
-        this.localAddress = localAddress;
-        this.localHostname = localHostname;
-        this.localPort = localPort;
     }
 
     /**
@@ -115,6 +103,11 @@ public class NettyHttpServerRequest implements HttpServerRequest {
      */
     @Override
     public InputStream getInputStream() {
+        synchronized (request) {
+            if (inputStream == null) {
+                inputStream = new ByteBufInputStream(request.content());
+            }
+        }
         return inputStream;
     }
 
@@ -125,7 +118,8 @@ public class NettyHttpServerRequest implements HttpServerRequest {
      */
     @Override
     public String getLocalAddress() {
-        return localAddress;
+        InetSocketAddress localAddress = (InetSocketAddress) context.channel().localAddress();
+        return localAddress.getAddress().getHostAddress();
     }
 
     /**
@@ -135,7 +129,8 @@ public class NettyHttpServerRequest implements HttpServerRequest {
      */
     @Override
     public String getLocalHostname() {
-        return localHostname;
+        InetSocketAddress localAddress = (InetSocketAddress) context.channel().localAddress();
+        return localAddress.getAddress().getHostName();
     }
 
     /**
@@ -145,7 +140,8 @@ public class NettyHttpServerRequest implements HttpServerRequest {
      */
     @Override
     public int getLocalPort() {
-        return localPort;
+        InetSocketAddress localAddress = (InetSocketAddress) context.channel().localAddress();
+        return localAddress.getPort();
     }
 
     /**
@@ -177,7 +173,7 @@ public class NettyHttpServerRequest implements HttpServerRequest {
 
     /**
      * Get the query string.
-     * 
+     *
      * @return the query string.
      */
     @Override
@@ -189,19 +185,37 @@ public class NettyHttpServerRequest implements HttpServerRequest {
         return result;
     }
 
+    /**
+     * Get the remote address.
+     *
+     * @return the remote address.
+     */
     @Override
     public String getRemoteAddress() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        InetSocketAddress remoteAddress = (InetSocketAddress) context.channel().remoteAddress();
+        return remoteAddress.getAddress().getHostAddress();
     }
 
+    /**
+     * Get the remote hostname.
+     *
+     * @return the remote hostname.
+     */
     @Override
     public String getRemoteHostname() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        InetSocketAddress remoteAddress = (InetSocketAddress) context.channel().remoteAddress();
+        return remoteAddress.getAddress().getHostName();
     }
 
+    /**
+     * Get the remote port.
+     *
+     * @return the remote port.
+     */
     @Override
     public int getRemotePort() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        InetSocketAddress remoteAddress = (InetSocketAddress) context.channel().remoteAddress();
+        return remoteAddress.getPort();
     }
 
     /**
@@ -211,6 +225,6 @@ public class NettyHttpServerRequest implements HttpServerRequest {
      */
     @Override
     public String getRequestTarget() {
-        return request.getUri();
+        return request.uri();
     }
 }

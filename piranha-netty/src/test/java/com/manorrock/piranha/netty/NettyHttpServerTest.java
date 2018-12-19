@@ -25,7 +25,9 @@
  */
 package com.manorrock.piranha.netty;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -106,6 +108,11 @@ public class NettyHttpServerTest {
             HttpGet request = new HttpGet("http://localhost:28004/pom.xml");
             HttpResponse response = client.execute(request);
             assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpEntity entity = response.getEntity();
+            ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+            entity.writeTo(byteOutput);
+            String responseText = byteOutput.toString("UTF-8");
+            assertTrue(responseText.contains("modelVersion"));
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }

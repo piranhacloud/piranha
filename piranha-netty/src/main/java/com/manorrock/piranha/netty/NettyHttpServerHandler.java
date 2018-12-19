@@ -27,7 +27,6 @@ package com.manorrock.piranha.netty;
 
 import com.manorrock.piranha.DefaultHttpServerProcessor;
 import com.manorrock.piranha.api.HttpServerProcessor;
-import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
@@ -35,8 +34,6 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
-import java.io.InputStream;
-import java.net.InetSocketAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -77,11 +74,7 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> 
     protected void channelRead0(ChannelHandlerContext context, Object object) {
         if (object instanceof FullHttpRequest) {
             FullHttpRequest httpRequest = (FullHttpRequest) object;
-            String localAddress = ((InetSocketAddress) context.channel().remoteAddress()).getAddress().getHostAddress();
-            String localHostname = ((InetSocketAddress) context.channel().remoteAddress()).getHostName();
-            int localPort = ((InetSocketAddress) context.channel().remoteAddress()).getPort();
-            InputStream inputStream = new ByteBufInputStream(httpRequest.content());
-            NettyHttpServerRequest nettyRequest = new NettyHttpServerRequest(httpRequest, inputStream, localAddress, localHostname, localPort);
+            NettyHttpServerRequest nettyRequest = new NettyHttpServerRequest(context, httpRequest);
             FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK);
             NettyHttpServerResponse nettyResponse = new NettyHttpServerResponse(response);
             httpServerProcessor.process(nettyRequest, nettyResponse);
