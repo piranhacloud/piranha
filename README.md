@@ -12,7 +12,8 @@ See the list below for what is available.
 4. [Piranha Jasper integration](piranha-jasper/README.md)
 5. [Piranha Servlet API](piranha-servlet/README.md)
 6. [Piranha Single Threaded](piranha-singlethread/README.md)
-7. [Piranha Weld](piranha-weld/README.md)
+7. [Piranha Netty integration](piranha-netty/README.md)
+8. [Piranha Weld integration](piranha-weld/README.md)
 
 Note the documentation for the master branch might show features that are NOT 
 yet available as it is under active development. Please see the documentation
