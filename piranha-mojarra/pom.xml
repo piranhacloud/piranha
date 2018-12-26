@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.manorrock.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>4.0.7.0-SNAPSHOT</version>
+        <version>4.0.7.0</version>
     </parent>
     <artifactId>piranha-mojarra</artifactId>
     <packaging>jar</packaging>
