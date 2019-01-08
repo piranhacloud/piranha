@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2002-2018, Manorrock.com. All Rights Reserved.
+ *  Copyright (c) 2002-2019, Manorrock.com. All Rights Reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -173,6 +173,19 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     public void attributeAdded(HttpSession session, String name, Object value) {
         attributeListeners.stream().forEach((listener) -> {
             listener.attributeAdded(new HttpSessionBindingEvent(session, name, value));
+        });
+    }
+
+    /**
+     * Attributed removed.
+     * 
+     * @param session the HTTP session.
+     * @param name the name.
+     */
+    @Override
+    public void attributeRemoved(HttpSession session, String name) {
+        attributeListeners.stream().forEach((listener) -> {
+            listener.attributeRemoved(new HttpSessionBindingEvent(session, name));
         });
     }
 

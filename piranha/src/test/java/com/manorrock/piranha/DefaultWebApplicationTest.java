@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2002-2018, Manorrock.com. All Rights Reserved.
+ *  Copyright (c) 2002-2019, Manorrock.com. All Rights Reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -364,6 +364,22 @@ public class DefaultWebApplicationTest {
     public void testAddListener12() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(TestIllegalAccessExceptionServletContextListener.class);
+    }
+    
+    /**
+     * Test addListener method.
+     */
+    @Test
+    public void testAddListener13() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        TestHttpServletRequest request = new TestHttpServletRequest();
+        TestHttpServletResponse response = new TestHttpServletResponse();
+        webApp.linkRequestAndResponse(request, response);
+        webApp.addListener(new TestHttpSessionAttributeListener());
+        HttpSession session = webApp.getHttpSessionManager().createSession(webApp, request);
+        session.setAttribute("attributedAdded", Boolean.TRUE);
+        session.removeAttribute("attributeAdded");
+        assertNotNull(webApp.getAttribute("attributeRemoved"));
     }
 
     /**
