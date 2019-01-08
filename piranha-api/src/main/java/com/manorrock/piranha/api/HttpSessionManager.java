@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2002-2018, Manorrock.com. All Rights Reserved.
+ *  Copyright (c) 2002-2019, Manorrock.com. All Rights Reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -56,6 +56,14 @@ public interface HttpSessionManager {
      * @param value the value.
      */
     void attributeAdded(HttpSession session, String name, Object value);
+    
+    /**
+     * Attribute removed.
+     *
+     * @param session the HTTP session.
+     * @param name the name.
+     */
+    void attributeRemoved(HttpSession session, String name);
 
     /**
      * Attribute replaced.
