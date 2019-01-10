@@ -354,8 +354,8 @@
         <module>piranha-mojarra</module>
         <module>piranha-netty</module>
         <module>piranha-servlet</module>
-        <module>piranha-singlethread</module>
         <module>piranha-weld</module>
+        <module>piranha-http-singlethread</module>
     </modules>
     <profiles>
         <profile>
