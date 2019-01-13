@@ -348,14 +348,14 @@
     <modules>
         <module>piranha</module>
         <module>piranha-api</module>
-        <module>piranha-grizzly</module>
         <module>piranha-hazelcast-httpsession</module>
+        <module>piranha-http-grizzly</module>
+        <module>piranha-http-singlethread</module>
         <module>piranha-jasper</module>
         <module>piranha-mojarra</module>
         <module>piranha-netty</module>
         <module>piranha-servlet</module>
         <module>piranha-weld</module>
-        <module>piranha-http-singlethread</module>
     </modules>
     <profiles>
         <profile>
