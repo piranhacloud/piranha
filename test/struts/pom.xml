@@ -31,6 +31,12 @@
             <artifactId>piranha-jasper</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
+        </dependency>   
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-test-utils</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

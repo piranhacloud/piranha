@@ -356,6 +356,7 @@
         <module>piranha-jsf-mojarra</module>
         <module>piranha-servlet</module>
         <module>piranha-weld</module>
+        <module>test-utils</module>
     </modules>
     <profiles>
         <profile>

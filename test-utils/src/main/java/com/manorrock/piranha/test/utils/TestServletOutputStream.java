@@ -23,7 +23,7 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.mojarra;
+package com.manorrock.piranha.test.utils;
 
 import com.manorrock.piranha.DefaultWebApplicationRequest;
 import com.manorrock.piranha.DefaultWebApplicationResponse;
