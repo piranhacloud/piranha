@@ -18,7 +18,7 @@
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-mojarra</artifactId>
+            <artifactId>piranha-jsf-mojarra</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

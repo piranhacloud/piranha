@@ -353,7 +353,7 @@
         <module>piranha-http-netty</module>
         <module>piranha-http-singlethread</module>
         <module>piranha-jasper</module>
-        <module>piranha-mojarra</module>
+        <module>piranha-jsf-mojarra</module>
         <module>piranha-servlet</module>
         <module>piranha-weld</module>
     </modules>
