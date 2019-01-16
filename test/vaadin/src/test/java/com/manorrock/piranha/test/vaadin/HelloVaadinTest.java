@@ -27,6 +27,7 @@ package com.manorrock.piranha.test.vaadin;
 
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultWebApplication;
+import com.manorrock.piranha.test.utils.TestServletOutputStream;
 import java.io.File;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;

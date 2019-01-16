@@ -26,6 +26,7 @@
 package com.manorrock.piranha.test.wicket;
 
 import com.manorrock.piranha.DefaultWebApplicationResponse;
+import com.manorrock.piranha.test.utils.TestServletOutputStream;
 import java.util.List;
 import javax.servlet.http.Cookie;
 
