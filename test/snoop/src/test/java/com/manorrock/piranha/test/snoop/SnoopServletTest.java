@@ -25,9 +25,9 @@
  */
 package com.manorrock.piranha.test.snoop;
 
-import com.manorrock.piranha.test.snoop.SnoopServlet;
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultWebApplication;
+import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import java.io.File;
 import javax.servlet.http.Cookie;
 import static org.junit.Assert.assertEquals;
