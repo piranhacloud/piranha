@@ -28,6 +28,7 @@ package com.manorrock.piranha.test.jpa;
 import com.manorrock.piranha.DefaultAliasedDirectoryResource;
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultWebApplication;
+import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.test.utils.TestServletOutputStream;
 import java.io.File;
 import javax.naming.InitialContext;
