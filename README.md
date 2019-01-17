@@ -9,11 +9,12 @@ See the list below for what is available.
 1. [Piranha Servlet container](piranha/README.md)
 2. [Piranha Grizzly integration](piranha-http-grizzly/README.md)
 3. [Piranha Hazelcast HTTP Session integration](piranha-hazelcast-httpsession/README.md)
-4. [Piranha Jasper integration](piranha-jasper/README.md)
-5. [Piranha Servlet API](piranha-servlet/README.md)
-6. [Piranha Single Threaded](piranha-http-singlethread/README.md)
-7. [Piranha Netty integration](piranha-netty/README.md)
-8. [Piranha Weld integration](piranha-weld/README.md)
+4. [Piranha Jasper integration](piranha-jsp-jasper/README.md)
+5. [Piranha Mojarra integration](piranha-jsf-mojarra/README.md)
+6. [Piranha Netty integration](piranha-http-netty/README.md)
+7. [Piranha Servlet API](piranha-servlet/README.md)
+8. [Piranha Single Threaded](piranha-http-singlethread/README.md)
+9. [Piranha Weld integration](piranha-weld/README.md)
 
 Note the documentation for the master branch might show features that are NOT 
 yet available as it is under active development. Please see the documentation
