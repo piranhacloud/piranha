@@ -34,6 +34,12 @@
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-cdi-weld</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
             <artifactId>piranha-jsf-mojarra</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -41,12 +47,6 @@
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
             <artifactId>piranha-test-utils</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-weld</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

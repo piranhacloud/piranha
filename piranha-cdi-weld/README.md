@@ -7,7 +7,7 @@ Add the following dependency to your project to use it.
 
       <dependency>
           <groupId>com.manorrock.piranha</groupId>
-          <artifactId>piranha-weld</artifactId>
+          <artifactId>piranha-cdi-weld</artifactId>
           <version>x.y.z</version>
       </dependency>
 

@@ -6,7 +6,7 @@
         <artifactId>project</artifactId>
         <version>4.0.8.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-weld</artifactId>
+    <artifactId>piranha-cdi-weld</artifactId>
     <packaging>jar</packaging>
     <name>Manorrock Piranha Weld Integration</name>
     <dependencies>
