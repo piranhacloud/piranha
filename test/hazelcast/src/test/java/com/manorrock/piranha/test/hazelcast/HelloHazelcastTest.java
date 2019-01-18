@@ -28,6 +28,7 @@ package com.manorrock.piranha.test.hazelcast;
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultWebApplication;
 import com.manorrock.piranha.hazelcast.httpsession.HazelcastHttpSessionManager;
+import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.test.utils.TestServletOutputStream;
 import java.io.File;

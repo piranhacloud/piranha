@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2002-2018, Manorrock.com. All Rights Reserved.
+ *  Copyright (c) 2002-2019, Manorrock.com. All Rights Reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -27,6 +27,7 @@ package com.manorrock.piranha.test.wicket;
 
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultWebApplication;
+import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.test.utils.TestServletOutputStream;
 import java.io.File;

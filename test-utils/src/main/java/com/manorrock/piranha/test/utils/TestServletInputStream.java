@@ -28,7 +28,6 @@ package com.manorrock.piranha.test.utils;
 import java.io.IOException;
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * A test servlet input stream.
@@ -55,7 +54,7 @@ public class TestServletInputStream extends ServletInputStream {
     /**
      * Stores the HTTP servlet request we work for.
      */
-    private final HttpServletRequest request;
+    private final TestHttpServletRequest request;
 
     /**
      * Constructor.
@@ -63,7 +62,7 @@ public class TestServletInputStream extends ServletInputStream {
      * @param buffer the buffer.
      * @param request the request.
      */
-    public TestServletInputStream(byte[] buffer, HttpServletRequest request) {
+    public TestServletInputStream(byte[] buffer, TestHttpServletRequest request) {
         this.buffer = buffer;
         this.index = 0;
         this.request = request;
@@ -125,8 +124,8 @@ public class TestServletInputStream extends ServletInputStream {
             throw new IllegalStateException("Read listener can only be set once");
         }
 
-        if (!request.isAsyncStarted()) {
-            throw new IllegalStateException("Read listener cannot be set as async is not started");
+        if (!request.isAsyncStarted() && !request.isUpgraded()) {
+            throw new IllegalStateException("Read listener cannot be set as async is not started nor is the request upgraded");
         }
 
         this.listener = listener;
