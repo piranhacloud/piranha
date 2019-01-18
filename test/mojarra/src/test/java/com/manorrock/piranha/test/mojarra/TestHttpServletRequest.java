@@ -26,6 +26,7 @@
 package com.manorrock.piranha.test.mojarra;
 
 import com.manorrock.piranha.DefaultWebApplicationRequest;
+import com.manorrock.piranha.test.utils.TestServletInputStream;
 
 /**
  * A test HTTP servlet request.
