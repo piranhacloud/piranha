@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2002-2018, Manorrock.com. All Rights Reserved.
+ *  Copyright (c) 2002-2019, Manorrock.com. All Rights Reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -23,11 +23,12 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.jpa;
+package com.manorrock.piranha.test.utils;
 
 import java.io.IOException;
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * A test servlet input stream.
@@ -54,7 +55,7 @@ public class TestServletInputStream extends ServletInputStream {
     /**
      * Stores the HTTP servlet request we work for.
      */
-    private final TestHttpServletRequest request;
+    private final HttpServletRequest request;
 
     /**
      * Constructor.
@@ -62,7 +63,7 @@ public class TestServletInputStream extends ServletInputStream {
      * @param buffer the buffer.
      * @param request the request.
      */
-    public TestServletInputStream(byte[] buffer, TestHttpServletRequest request) {
+    public TestServletInputStream(byte[] buffer, HttpServletRequest request) {
         this.buffer = buffer;
         this.index = 0;
         this.request = request;
@@ -124,8 +125,8 @@ public class TestServletInputStream extends ServletInputStream {
             throw new IllegalStateException("Read listener can only be set once");
         }
 
-        if (!request.isAsyncStarted() || !request.isUpgraded()) {
-            throw new IllegalStateException("Read listener cannot be set as the request is not upgraded nor the async is started");
+        if (!request.isAsyncStarted()) {
+            throw new IllegalStateException("Read listener cannot be set as async is not started");
         }
 
         this.listener = listener;
