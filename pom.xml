@@ -349,7 +349,6 @@
         <module>piranha</module>
         <module>piranha-api</module>
         <module>piranha-cdi-weld</module>
-        <module>piranha-hazelcast-httpsession</module>
         <module>piranha-http-grizzly</module>
         <module>piranha-http-netty</module>
         <module>piranha-http-singlethread</module>
@@ -357,6 +356,7 @@
         <module>piranha-jsp-jasper</module>
         <module>piranha-servlet</module>
         <module>test-utils</module>
+        <module>piranha-session-hazelcast</module>
     </modules>
     <profiles>
         <profile>
