@@ -355,7 +355,6 @@
         <module>piranha-jsf-mojarra</module>
         <module>piranha-jsp-jasper</module>
         <module>piranha-servlet</module>
-        <module>test-utils</module>
         <module>piranha-session-hazelcast</module>
     </modules>
     <profiles>
