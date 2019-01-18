@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2002-2018, Manorrock.com. All Rights Reserved.
+ *  Copyright (c) 2002-2019, Manorrock.com. All Rights Reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -23,10 +23,9 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.vaadin;
+package com.manorrock.piranha.test.utils;
 
 import com.manorrock.piranha.DefaultWebApplicationRequest;
-import com.manorrock.piranha.test.utils.TestServletInputStream;
 
 /**
  * A test HTTP servlet request.
