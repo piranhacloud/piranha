@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2002-2018, Manorrock.com. All Rights Reserved.
+ *  Copyright (c) 2002-2019, Manorrock.com. All Rights Reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -23,7 +23,7 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.hazelcast.httpsession;
+package com.manorrock.piranha.session.hazelcast;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;

@@ -8,7 +8,7 @@ See the list below for what is available.
 
 1. [Piranha Servlet container](piranha/README.md)
 2. [Piranha Grizzly integration](piranha-http-grizzly/README.md)
-3. [Piranha Hazelcast HTTP Session integration](piranha-hazelcast-httpsession/README.md)
+3. [Piranha Hazelcast HTTP Session integration](piranha-session-hazelcast/README.md)
 4. [Piranha Jasper integration](piranha-jsp-jasper/README.md)
 5. [Piranha Mojarra integration](piranha-jsf-mojarra/README.md)
 6. [Piranha Netty integration](piranha-http-netty/README.md)

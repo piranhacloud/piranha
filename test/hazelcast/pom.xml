@@ -18,13 +18,13 @@
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-hazelcast-httpsession</artifactId>
+            <artifactId>piranha-jsf-mojarra</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-jsf-mojarra</artifactId>
+            <artifactId>piranha-session-hazelcast</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
