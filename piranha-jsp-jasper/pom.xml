@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.manorrock.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>4.0.8.0-SNAPSHOT</version>
+        <version>4.0.8.0</version>
     </parent>
     <artifactId>piranha-jsp-jasper</artifactId>
     <packaging>jar</packaging>
