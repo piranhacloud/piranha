@@ -54,9 +54,7 @@ public class HelloMyFacesTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setLoggingManager(loggingManager);
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addServletMapping("Faces Servlet", "/faces/*");
-        webApp.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        webApp.addListener("org.apache.myfaces.webapp.StartupServletContextListener");
+        webApp.addInitializer("com.manorrock.piranha.myfaces.MyFacesListener");
         webApp.initialize();
         webApp.start();
 
