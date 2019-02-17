@@ -353,6 +353,7 @@
         <module>piranha-http-netty</module>
         <module>piranha-http-singlethread</module>
         <module>piranha-jsf-mojarra</module>
+        <module>piranha-jsf-myfaces</module>
         <module>piranha-jsp-jasper</module>
         <module>piranha-servlet</module>
         <module>piranha-session-hazelcast</module>
