@@ -18,6 +18,7 @@
         <module>jpa</module>
         <module>mojarra</module>
         <module>myfaces</module>
+        <module>openwebbeans</module>
         <module>snoop</module>
         <module>springmvc</module>
         <module>struts</module>
