@@ -357,6 +357,7 @@
         <module>piranha-jsp-jasper</module>
         <module>piranha-servlet</module>
         <module>piranha-session-hazelcast</module>
+        <module>piranha-cdi-openwebbeans</module>
     </modules>
     <profiles>
         <profile>
