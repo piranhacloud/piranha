@@ -202,7 +202,8 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
      */
     @Override
     public String getQueryParameter(String name) {
-        synchronized(this) {
+        String result = null;
+        synchronized (this) {
             if (queryParameters == null && queryString != null) {
                 queryParameters = new HashMap<>();
                 String[] params = queryString.split("&");
@@ -224,8 +225,11 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
                 }
             }
         }
-        return queryParameters.get(name) != null
-                ? queryParameters.get(name).get(0) : null;
+        if (queryParameters != null) {
+            result = queryParameters.get(name) != null
+                    ? queryParameters.get(name).get(0) : null;
+        }
+        return result;
     }
 
     /**
@@ -280,7 +284,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
 
     /**
      * Set the method.
-     * 
+     *
      * @param method the method.
      */
     public void setMethod(String method) {
