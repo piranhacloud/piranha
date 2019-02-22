@@ -161,6 +161,7 @@ public class DefaultMultiPartManager implements MultiPartManager {
             Part part = parsePart(request, inputStream);
             while (part != null) {
                 parts.put(part.getName(), part);
+                part = parsePart(request, inputStream);
             }
         } catch (IOException ioe) {
             LOGGER.log(Level.WARNING, "An I/O error occurred while parsing parts", ioe);
