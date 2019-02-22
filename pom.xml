@@ -348,6 +348,7 @@
     <modules>
         <module>piranha</module>
         <module>piranha-api</module>
+        <module>piranha-cdi-openwebbeans</module>
         <module>piranha-cdi-weld</module>
         <module>piranha-http-grizzly</module>
         <module>piranha-http-netty</module>
@@ -357,7 +358,6 @@
         <module>piranha-jsp-jasper</module>
         <module>piranha-servlet</module>
         <module>piranha-session-hazelcast</module>
-        <module>piranha-cdi-openwebbeans</module>
     </modules>
     <profiles>
         <profile>
@@ -415,6 +415,16 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.11</version>
+                <inherited>true</inherited>
+            </plugin>
+        </plugins>
+    </reporting>
     <scm>
         <connection>scm:git:git://github.com/manorrock/piranha.git</connection>
         <developerConnection>scm:git:git@github.com:manorrock/piranha.git</developerConnection>

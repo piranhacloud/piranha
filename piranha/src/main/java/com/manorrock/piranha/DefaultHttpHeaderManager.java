@@ -163,17 +163,15 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     @Override
     public int getIntHeader(String name) throws NumberFormatException {
         int result = -1;
-
         if (headers.containsKey(name.toUpperCase())) {
             DefaultHttpHeader header = headers.get(name.toUpperCase());
             try {
-                result = Integer.valueOf(header.getValue());
+                result = Integer.parseInt(header.getValue());
             } catch (NumberFormatException exception) {
                 throw new NumberFormatException(
                         "Cannot convert header to an int");
             }
         }
-
         return result;
     }
 
