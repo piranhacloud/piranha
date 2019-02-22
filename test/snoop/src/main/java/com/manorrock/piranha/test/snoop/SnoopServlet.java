@@ -27,6 +27,7 @@ package com.manorrock.piranha.test.snoop;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -83,7 +84,7 @@ public class SnoopServlet extends HttpServlet {
             out.println("<tr><td>Content Length:</td><td>" + request.getContentLength() + "</td></tr>");
             out.println("<tr><td>Content Type:</td><td>" + request.getContentType() + "</td></tr>");
             out.println("<tr><td>Context Path:</td><td>" + request.getContextPath() + "</td></tr>");
-            out.println("<tr><td>Cookies:</td><td>" + request.getCookies() + "</td></tr>");
+            out.println("<tr><td>Cookies:</td><td>" + Arrays.toString(request.getCookies()) + "</td></tr>");
             out.println("<tr><td>Dispatcher Type:</td><td>" + request.getDispatcherType() + "</td></tr>");
             out.println("<tr><td>Header Names:</td><td>" + request.getHeaderNames() + "</td></tr>");
             out.println("<tr><td>Local Address:</td><td>" + request.getLocalAddr() + "</td></tr>");
@@ -157,7 +158,7 @@ public class SnoopServlet extends HttpServlet {
             out.println("<table>");
             while (parameterNames.hasMoreElements()) {
                 String name = parameterNames.nextElement();
-                out.println("<tr><td>" + name + "</td><td>" + request.getParameterValues(name) + "</td></tr>");
+                out.println("<tr><td>" + name + "</td><td>" + Arrays.toString(request.getParameterValues(name)) + "</td></tr>");
             }
             out.println("</table>");
             out.println("<b>Session</b>");
