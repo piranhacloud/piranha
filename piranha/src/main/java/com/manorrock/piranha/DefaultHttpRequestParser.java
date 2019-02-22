@@ -134,13 +134,11 @@ public class DefaultHttpRequestParser {
         String name = line.substring(0, line.indexOf(":")).trim();
         String value = line.substring(line.indexOf(":") + 1).trim();
         request.setHeader(name, value);
-
         if (name.equals("Content-Type")) {
             request.setContentType(value);
         }
-
         if (name.equals("Content-Length")) {
-            request.setContentLength(Integer.valueOf(value));
+            request.setContentLength(Integer.parseInt(value));
         }
     }
 
