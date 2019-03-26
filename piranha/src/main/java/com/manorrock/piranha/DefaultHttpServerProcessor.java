@@ -75,7 +75,7 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
                 writer.print("<a href=\".\">.</a><br/>");
                 writer.print("<a href=\"..\">..</a><br/>");
                 File[] fileList = file.listFiles();
-                if (fileList.length > 0) {
+                if (fileList != null && fileList.length > 0) {
                     for (int i = 0; i < fileList.length; i++) {
                         String uri = fileList[i].getAbsolutePath().substring(baseDir.getAbsolutePath().length());
                         if (uri.startsWith("//")) {
