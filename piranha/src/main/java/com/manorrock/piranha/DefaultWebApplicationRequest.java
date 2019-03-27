@@ -409,7 +409,14 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
      */
     @Override
     public Cookie[] getCookies() {
-        return cookies;
+        Cookie[] result = null;
+        if (cookies != null) {
+            result = new Cookie[cookies.length];
+            for (int i = 0; i < result.length; i++) {
+                result[i] = (Cookie) cookies[i].clone();
+            }
+        }
+        return result;
     }
 
     /**
