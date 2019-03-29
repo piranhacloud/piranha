@@ -1,0 +1,3 @@
+<Match>
+  <Class name="com.manorrock.piranha.test.snoop.SnoopServlet"/>
+</Match>
