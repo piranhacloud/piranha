@@ -358,6 +358,7 @@
         <module>piranha-jsp-jasper</module>
         <module>piranha-servlet</module>
         <module>piranha-session-hazelcast</module>
+        <module>piranha-war-runner</module>
     </modules>
     <profiles>
         <profile>
