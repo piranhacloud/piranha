@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.manorrock.piranha</groupId>
     <artifactId>project</artifactId>
-    <version>4.0.10.0-SNAPSHOT</version>
+    <version>4.0.11.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Manorrock Piranha Project</name>
     <url>https://github.com/manorrock/piranha</url>    
@@ -358,7 +358,7 @@
         <module>piranha-jsp-jasper</module>
         <module>piranha-servlet</module>
         <module>piranha-session-hazelcast</module>
-        <module>piranha-war-runner</module>
+        <module>piranha-runner-war</module>
     </modules>
     <profiles>
         <profile>
