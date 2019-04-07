@@ -1186,9 +1186,15 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
      * @param cookies the cookies.
      */
     public void setCookies(Cookie[] cookies) {
-        this.cookies = cookies;
-        if (this.cookies != null && this.cookies.length == 0) {
+        if (cookies == null) {
             this.cookies = null;
+        } else if (cookies.length == 0) {
+            this.cookies = null;
+        } else {
+            this.cookies = new Cookie[cookies.length];
+            for(int i=0; i<cookies.length; i++) {
+                this.cookies[i] = (Cookie) cookies[i].clone();
+            }
         }
     }
 
