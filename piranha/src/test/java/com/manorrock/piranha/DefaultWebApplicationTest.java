@@ -51,6 +51,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -1165,6 +1166,32 @@ public class DefaultWebApplicationTest {
             request.logout();
         } catch (ServletException exception) {
         }
+    }
+    
+    /**
+     * Test multiple filters.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    @Ignore
+    public void testMultipleFilters() throws Exception {
+        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
+        TestHttpServletRequest request = new TestHttpServletRequest();
+        request.setWebApplication(webApp);
+        request.setServletPath("/multipleFilters");
+        TestHttpServletResponse response = new TestHttpServletResponse();
+        response.setWebApplication(webApp);
+        webApp.addFilter("Filter 1", TestMultiple1Filter.class);
+        webApp.addFilterMapping("Filter 1", "/*");
+        webApp.addFilter("Filter 2", TestMultiple2Filter.class);
+        webApp.addFilterMapping("Filter 2", "/*");
+        webApp.initialize();
+        webApp.start();
+        webApp.service(request, response);
+        assertEquals(200, response.getStatus());
     }
 
     /**

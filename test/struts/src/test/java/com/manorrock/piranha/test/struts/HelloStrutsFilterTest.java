@@ -56,6 +56,7 @@ public class HelloStrutsFilterTest {
         webApp.setLoggingManager(new DefaultLoggingManager());
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addFilter("struts2", "org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter");
+        webApp.addFilterMapping("struts2", "*.action");
         webApp.addInitializer("com.manorrock.piranha.jasper.JasperInitializer");
         webApp.initialize();
         webApp.start();

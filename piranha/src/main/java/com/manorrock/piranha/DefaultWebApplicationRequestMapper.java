@@ -27,12 +27,13 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.FilterMapping;
 import com.manorrock.piranha.api.WebApplicationRequestMapper;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -46,7 +47,7 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
     /**
      * Stores the filter mappings.
      */
-    protected final ConcurrentHashMap<String, String> filterMappings = new ConcurrentHashMap<>();
+    protected final List<FilterMapping> filterMappings = new ArrayList<>();
 
     /**
      * Stores the servlet mappings.
@@ -64,10 +65,11 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
     public Set<String> addFilterMapping(String filterName, String... urlPatterns) {
         Set<String> result = new HashSet<>();
         for (String urlPattern : urlPatterns) {
-            if (filterMappings.containsKey(urlPattern)) {
+            DefaultFilterMapping filterMapping = new DefaultFilterMapping(filterName, urlPattern);
+            if (filterMappings.contains(filterMapping)) {
                 result.add(urlPattern);
             } else {
-                filterMappings.put(urlPattern, filterName);
+                filterMappings.add(filterMapping);
             }
         }
         return result;
@@ -83,7 +85,6 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
     @Override
     public Set<String> addServletMapping(String servletName, String... urlPatterns) {
         Set<String> result = new HashSet<>();
-
         for (String urlPattern : urlPatterns) {
             if (servletMappings.containsKey(urlPattern)) {
                 result.add(urlPattern);
@@ -91,7 +92,6 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
                 servletMappings.put(urlPattern, servletName);
             }
         }
-
         return result;
     }
 
@@ -107,20 +107,20 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
         if (path.contains("?")) {
             path = path.substring(0, path.indexOf("?"));
         }
-        for (Map.Entry<String, String> filterMapping : filterMappings.entrySet()) {
-            String key = filterMapping.getKey();
-            String value = filterMapping.getValue();
-            if (path.equals(key)) {
-                result.add(value);
-            } else if (key.startsWith("*.")) {
-                key = key.substring(1);
-                if (path.endsWith(key)) {
-                    result.add(value);
+        for (FilterMapping filterMapping : filterMappings) {
+            String filterName = filterMapping.getFilterName();
+            String urlPattern = filterMapping.getUrlPattern();
+            if (path.equals(urlPattern)) {
+                result.add(filterName);
+            } else if (urlPattern.startsWith("*.")) {
+                urlPattern = urlPattern.substring(1);
+                if (path.endsWith(urlPattern)) {
+                    result.add(filterName);
                 }
-            } else if (!key.startsWith("*.") && key.endsWith("/*")) {
-                key = key.substring(0, key.length() - 1);
-                if (path.startsWith(key)) {
-                    result.add(value);
+            } else if (!urlPattern.startsWith("*.") && urlPattern.endsWith("/*")) {
+                urlPattern = urlPattern.substring(0, urlPattern.length() - 1);
+                if (path.startsWith(urlPattern)) {
+                    result.add(filterName);
                 }
             }
         }
@@ -135,7 +135,6 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
      */
     private DefaultWebApplicationRequestMapping findServletExactMatch(String path) {
         DefaultWebApplicationRequestMapping result = null;
-
         Enumeration<String> exacts = servletMappings.keys();
         while (exacts.hasMoreElements()) {
             String exact = exacts.nextElement();
@@ -146,7 +145,6 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
                 break;
             }
         }
-
         return result;
     }
 
@@ -158,7 +156,6 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
      */
     private DefaultWebApplicationRequestMapping findServletExtensionMatch(String path) {
         DefaultWebApplicationRequestMapping result = null;
-
         Enumeration<String> extensions = servletMappings.keys();
         while (extensions.hasMoreElements()) {
             String extension = extensions.nextElement();
@@ -174,7 +171,6 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
                 }
             }
         }
-
         return result;
     }
 
@@ -208,7 +204,6 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
     private DefaultWebApplicationRequestMapping findServletPrefixMatch(String path) {
         DefaultWebApplicationRequestMapping result = null;
         DefaultWebApplicationRequestMapping found;
-
         for (;;) {
             found = findServletPrefixMatch(path, result);
             if (found != null) {
@@ -217,7 +212,6 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
                 break;
             }
         }
-
         if (result != null) {
             result.setMapping(result.getPath() + "*");
         }
@@ -235,7 +229,6 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
     private DefaultWebApplicationRequestMapping findServletPrefixMatch(String path, DefaultWebApplicationRequestMapping currentPrefix) {
         DefaultWebApplicationRequestMapping result = null;
         Enumeration<String> prefixes = servletMappings.keys();
-
         while (prefixes.hasMoreElements()) {
             String prefix = prefixes.nextElement();
             if (!prefix.startsWith("*.") && prefix.endsWith("/*")) {
@@ -248,7 +241,6 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
                 }
             }
         }
-
         if (result != null && currentPrefix != null
                 && result.getPath().length() <= currentPrefix.getPath().length()) {
             result = null;
