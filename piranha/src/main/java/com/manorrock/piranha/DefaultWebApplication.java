@@ -50,9 +50,9 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.EventListener;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import static java.util.Locale.filter;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -641,22 +641,23 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Find the filter.
+     * Find the filter environments.
      *
      * @param request the HTTP servlet request.
-     * @return the filter.
+     * @return the filter environments.
      */
-    protected Filter findFilter(HttpServletRequest request) {
-        Filter result = null;
-
+    protected List<DefaultFilterEnvironment> findFilterEnvironments(HttpServletRequest request) {
+        List<DefaultFilterEnvironment> result = null;
         String path = request.getServletPath() + (request.getPathInfo() == null ? "" : request.getPathInfo());
-        Collection<String> filterName = webApplicationRequestMapper.findFilterMappings(path);
-
-        if (!filters.isEmpty()) {
-            Iterator<DefaultFilterEnvironment> iterator = filters.values().iterator();
-            result = iterator.next().getFilter();
+        Collection<String> filterNames = webApplicationRequestMapper.findFilterMappings(path);
+        if (!filterNames.isEmpty()) {
+            result = new ArrayList<>();
+            for(String filterName : filterNames) {
+                if (filters.get(filterName) != null) {
+                    result.add(filters.get(filterName));
+                }
+            }
         }
-
         return result;
     }
 
@@ -1272,26 +1273,17 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void service(ServletRequest request, ServletResponse response)
             throws ServletException, IOException {
-
         verifyState(SERVICING, "Unable to service request");
-
         linkRequestAndResponse(request, response);
-
         if (!requestListeners.isEmpty()) {
             requestListeners.stream().forEach((servletRequestListener) -> {
                 servletRequestListener.requestInitialized(new ServletRequestEvent(this, request));
             });
         }
-
         DefaultWebApplicationRequest httpRequest = (DefaultWebApplicationRequest) request;
         DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
-        Filter filter = null;
-
-        if (!httpRequest.getRequestURI().endsWith(".jsp")) {
-            filter = findFilter(httpRequest);
-        }
-
-        if (filter == null) {
+        List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(httpRequest);
+        if (filterEnvironments == null) {
             String path = httpRequest.getServletPath() + (httpRequest.getPathInfo() == null ? "" : httpRequest.getPathInfo());
             WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
             if (mapping != null) {
@@ -1336,15 +1328,20 @@ public class DefaultWebApplication implements WebApplication {
             if (servlet == null) {
                 servlet = new DefaultServlet();
             }
-            filter.doFilter(request, response, new DefaultFilterChain(servlet));
+            Collections.reverse(filterEnvironments);
+            DefaultFilterChain downFilterChain = new DefaultFilterChain(servlet);
+            DefaultFilterChain upFilterChain;
+            for(DefaultFilterEnvironment filterEnvironment : filterEnvironments) {
+                upFilterChain = new DefaultFilterChain(filterEnvironment.getFilter(), downFilterChain);
+                downFilterChain = upFilterChain;
+            }
+            downFilterChain.doFilter(request, response);
         }
-
         if (!requestListeners.isEmpty()) {
             requestListeners.stream().forEach((servletRequestListener) -> {
                 servletRequestListener.requestDestroyed(new ServletRequestEvent(this, request));
             });
         }
-
         unlinkRequestAndResponse(request, response);
     }
 

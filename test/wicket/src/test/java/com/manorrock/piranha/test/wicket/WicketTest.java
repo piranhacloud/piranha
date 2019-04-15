@@ -33,6 +33,9 @@ import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.test.utils.TestServletOutputStream;
 import java.io.File;
+import java.util.EnumSet;
+import java.util.HashSet;
+import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -51,7 +54,7 @@ public class WicketTest {
      * @throws Exception
      */
     @Test
-    public void testGetMethod2() throws Exception {
+    public void testGetMethod() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/java")));
@@ -59,22 +62,19 @@ public class WicketTest {
                 webApp.addFilter("wicket", "org.apache.wicket.protocol.http.WicketFilter");
         filterReg.setInitParameter("applicationClassName",
                 "com.manorrock.piranha.test.wicket.WicketApplication");
+        webApp.addFilterMapping("wicket", "/*");
         webApp.initialize();
         webApp.start();
-
         TestHttpServletRequest request = new TestHttpServletRequest();
         request.setWebApplication(webApp);
         request.setContextPath("");
         request.setServletPath("/");
         request.setPathInfo(null);
-
         TestHttpServletResponse response = new TestHttpServletResponse();
         TestServletOutputStream outputStream = new TestServletOutputStream();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
-
         webApp.service(request, response);
-
         assertEquals(200, response.getStatus());
         assertTrue(new String(response.getResponseBody()).contains("Hello Wicket"));
     }
