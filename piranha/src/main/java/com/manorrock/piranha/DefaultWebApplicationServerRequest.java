@@ -65,7 +65,7 @@ public class DefaultWebApplicationServerRequest extends DefaultWebApplicationReq
                 contentType = unparsedValue;
             }
             if (name.equalsIgnoreCase("Content-Length")) {
-                contentLength = Long.valueOf(unparsedValue);
+                contentLength = Long.parseLong(unparsedValue);
             }
             if (name.equalsIgnoreCase("COOKIE")) {
                 ArrayList<Cookie> cookieList = new ArrayList<>();
