@@ -52,7 +52,6 @@ import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.LinkedHashMap;
 import java.util.List;
-import static java.util.Locale.filter;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -652,7 +651,7 @@ public class DefaultWebApplication implements WebApplication {
         Collection<String> filterNames = webApplicationRequestMapper.findFilterMappings(path);
         if (!filterNames.isEmpty()) {
             result = new ArrayList<>();
-            for(String filterName : filterNames) {
+            for (String filterName : filterNames) {
                 if (filters.get(filterName) != null) {
                     result.add(filters.get(filterName));
                 }
@@ -1280,67 +1279,72 @@ public class DefaultWebApplication implements WebApplication {
                 servletRequestListener.requestInitialized(new ServletRequestEvent(this, request));
             });
         }
-        DefaultWebApplicationRequest httpRequest = (DefaultWebApplicationRequest) request;
-        DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
-        List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(httpRequest);
-        if (filterEnvironments == null) {
-            String path = httpRequest.getServletPath() + (httpRequest.getPathInfo() == null ? "" : httpRequest.getPathInfo());
-            WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
-            if (mapping != null) {
-                String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
-                if (servletName != null && servlets.containsKey(servletName)) {
-                    Servlet servlet = servlets.get(servletName).getServlet();
-                    if (mapping.isExact()) {
-                        httpRequest.setServletPath(path);
-                        httpRequest.setPathInfo(null);
-                    } else if (!mapping.isExtension()) {
-                        httpRequest.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
-                        httpRequest.setPathInfo(path.substring(mapping.getPath().length() - 2));
-                    }
-                    if (servlet != null) {
-                        servlet.service(request, response);
+        if (request instanceof DefaultWebApplicationRequest
+                && response instanceof DefaultWebApplicationResponse) {
+            DefaultWebApplicationRequest httpRequest = (DefaultWebApplicationRequest) request;
+            DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
+            List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(httpRequest);
+            if (filterEnvironments == null) {
+                String path = httpRequest.getServletPath() + (httpRequest.getPathInfo() == null ? "" : httpRequest.getPathInfo());
+                WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
+                if (mapping != null) {
+                    String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
+                    if (servletName != null && servlets.containsKey(servletName)) {
+                        Servlet servlet = servlets.get(servletName).getServlet();
+                        if (mapping.isExact()) {
+                            httpRequest.setServletPath(path);
+                            httpRequest.setPathInfo(null);
+                        } else if (!mapping.isExtension()) {
+                            httpRequest.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
+                            httpRequest.setPathInfo(path.substring(mapping.getPath().length() - 2));
+                        }
+                        if (servlet != null) {
+                            servlet.service(request, response);
+                        } else {
+                            httpResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        }
                     } else {
-                        httpResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
                     }
                 } else {
                     httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
             } else {
-                httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
-            }
-        } else {
-            String path = httpRequest.getServletPath() + (httpRequest.getPathInfo() == null ? "" : httpRequest.getPathInfo());
-            WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
-            Servlet servlet = null;
-            if (mapping != null) {
-                String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
-                if (servletName != null && servlets.containsKey(servletName)) {
-                    servlet = servlets.get(servletName).getServlet();
-                    if (mapping.isExact()) {
-                        httpRequest.setServletPath(path);
-                        httpRequest.setPathInfo(null);
-                    } else if (!mapping.isExtension()) {
-                        httpRequest.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
-                        httpRequest.setPathInfo(path.substring(mapping.getPath().length() - 2));
+                String path = httpRequest.getServletPath() + (httpRequest.getPathInfo() == null ? "" : httpRequest.getPathInfo());
+                WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
+                Servlet servlet = null;
+                if (mapping != null) {
+                    String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
+                    if (servletName != null && servlets.containsKey(servletName)) {
+                        servlet = servlets.get(servletName).getServlet();
+                        if (mapping.isExact()) {
+                            httpRequest.setServletPath(path);
+                            httpRequest.setPathInfo(null);
+                        } else if (!mapping.isExtension()) {
+                            httpRequest.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
+                            httpRequest.setPathInfo(path.substring(mapping.getPath().length() - 2));
+                        }
                     }
                 }
+                if (servlet == null) {
+                    servlet = new DefaultServlet();
+                }
+                Collections.reverse(filterEnvironments);
+                DefaultFilterChain downFilterChain = new DefaultFilterChain(servlet);
+                DefaultFilterChain upFilterChain;
+                for (DefaultFilterEnvironment filterEnvironment : filterEnvironments) {
+                    upFilterChain = new DefaultFilterChain(filterEnvironment.getFilter(), downFilterChain);
+                    downFilterChain = upFilterChain;
+                }
+                downFilterChain.doFilter(request, response);
             }
-            if (servlet == null) {
-                servlet = new DefaultServlet();
+            if (!requestListeners.isEmpty()) {
+                requestListeners.stream().forEach((servletRequestListener) -> {
+                    servletRequestListener.requestDestroyed(new ServletRequestEvent(this, request));
+                });
             }
-            Collections.reverse(filterEnvironments);
-            DefaultFilterChain downFilterChain = new DefaultFilterChain(servlet);
-            DefaultFilterChain upFilterChain;
-            for(DefaultFilterEnvironment filterEnvironment : filterEnvironments) {
-                upFilterChain = new DefaultFilterChain(filterEnvironment.getFilter(), downFilterChain);
-                downFilterChain = upFilterChain;
-            }
-            downFilterChain.doFilter(request, response);
-        }
-        if (!requestListeners.isEmpty()) {
-            requestListeners.stream().forEach((servletRequestListener) -> {
-                servletRequestListener.requestDestroyed(new ServletRequestEvent(this, request));
-            });
+        } else {
+            throw new ServletException("Invalid request or response");
         }
         unlinkRequestAndResponse(request, response);
     }
