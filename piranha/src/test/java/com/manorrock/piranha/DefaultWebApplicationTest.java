@@ -1271,6 +1271,29 @@ public class DefaultWebApplicationTest {
             trackCalls.append("requestInitialized,");
         }
     }
+    
+    /**
+     * Test service method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = ServletException.class)
+    public void testService3() throws Exception {
+        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestServletOutputStream outputStream = new TestServletOutputStream();
+        response.setOutputStream(outputStream);
+        outputStream.setResponse(response);
+        response.setWebApplication(webApp);
+        webApp.addServletMapping("Snoop", "/Snoop");
+        webApp.initialize();
+        webApp.start();
+        webApp.service(request, response);
+        assertEquals(404, response.getStatus());
+    }
 
     /**
      * Test setClassLoader method.
