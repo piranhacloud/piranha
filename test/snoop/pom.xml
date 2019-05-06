@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.manorrock.piranha.test</groupId>
         <artifactId>project</artifactId>
-        <version>4.0.11.0-SNAPSHOT</version>
+        <version>4.0.12.0-SNAPSHOT</version>
     </parent>
     <artifactId>snoop</artifactId>
     <packaging>war</packaging>
