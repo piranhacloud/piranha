@@ -27,57 +27,45 @@
  */
 package com.manorrock.piranha.warrunner;
 
-import com.manorrock.piranha.DefaultHttpServer;
-import com.manorrock.piranha.DefaultWebApplicationServer;
+import java.io.IOException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
- * The WAR runner.
- *
+ * The JUnit tests for the WarRunner class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WarRunner {
-
+public class WarRunnerTest {
+  
     /**
-     * Stores the HTTP server.
+     * Test start method.
+     * 
+     * @throws Exception when an error occurs.
      */
-    private DefaultHttpServer httpServer;
-
-    /**
-     * Stores the web application server.
-     */
-    private DefaultWebApplicationServer webApplicationServer;
-
-    /**
-     * Main method.
-     *
-     * @param arguments the arguments.
-     */
-    public static void main(String[] arguments) {
-        WarRunner runner = new WarRunner();
-        runner.start();
-    }
-
-    /**
-     * Start method.
-     */
-    public void start() {
-        webApplicationServer = new DefaultWebApplicationServer();
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        httpServer = new DefaultHttpServer(8080, webApplicationServer);
-        httpServer.start();
-        while (httpServer.isRunning()) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ie) {
+    @Test
+    public void testStart() throws Exception {
+        final WarRunner runner = new WarRunner();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                runner.start();
             }
+        };
+        thread.start();
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8080");
+            HttpResponse response = client.execute(request);
+            assertEquals(404, response.getStatusLine().getStatusCode());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
         }
-    }
-
-    /**
-     * Stop method.
-     */
-    public void stop() {
-        httpServer.stop();
+        runner.stop();
+        Thread.sleep(3000);
     }
 }
