@@ -117,6 +117,6 @@ public class HttpConstraintElement {
     public String[] getRolesAllowed() {
         String[] result = new String[rolesAllowed.length];
         System.arraycopy(rolesAllowed, 0, result, 0, result.length);
-        return rolesAllowed;
+        return result;
     }
 }
