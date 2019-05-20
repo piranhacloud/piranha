@@ -79,21 +79,16 @@ public class DefaultAliasedDirectoryResource implements Resource {
     @Override
     public URL getResource(String location) {
         URL result = null;
-
         if (location.startsWith(alias)) {
             location = location.substring(alias.length());
-
-            if (location != null) {
-                File file = new File(rootDirectory, location);
-                if (file.exists()) {
-                    try {
-                        result = file.toURI().toURL();
-                    } catch (MalformedURLException exception) {
-                    }
+            File file = new File(rootDirectory, location);
+            if (file.exists()) {
+                try {
+                    result = file.toURI().toURL();
+                } catch (MalformedURLException exception) {
                 }
             }
         }
-
         return result;
     }
 
@@ -105,7 +100,6 @@ public class DefaultAliasedDirectoryResource implements Resource {
     @Override
     public InputStream getResourceAsStream(String location) {
         InputStream result = null;
-
         if (location.startsWith(alias)) {
             location = location.substring(alias.length() + 1);
             File file = new File(rootDirectory, location);
