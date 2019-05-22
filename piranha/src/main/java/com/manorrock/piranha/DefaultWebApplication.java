@@ -1329,10 +1329,11 @@ public class DefaultWebApplication implements WebApplication {
                 if (servlet == null) {
                     servlet = new DefaultServlet();
                 }
-                Collections.reverse(filterEnvironments);
+                List<DefaultFilterEnvironment> currentEnvironments = new ArrayList<>(filterEnvironments);
+                Collections.reverse(currentEnvironments);
                 DefaultFilterChain downFilterChain = new DefaultFilterChain(servlet);
                 DefaultFilterChain upFilterChain;
-                for (DefaultFilterEnvironment filterEnvironment : filterEnvironments) {
+                for (DefaultFilterEnvironment filterEnvironment : currentEnvironments) {
                     upFilterChain = new DefaultFilterChain(filterEnvironment.getFilter(), downFilterChain);
                     downFilterChain = upFilterChain;
                 }
