@@ -79,11 +79,14 @@ public class NettyHttpServerTest {
 
     /**
      * Test file not found.
+     * 
+     * @throws Exception when an error occurs.
      */
     @Test
-    public void testFileNotFound() {
+    public void testFileNotFound() throws Exception {
         NettyHttpServer server = new NettyHttpServer(28003);
         server.start();
+        Thread.sleep(2000);
         try {
             HttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet("http://localhost:28003/this_is_certainly_not_there");
