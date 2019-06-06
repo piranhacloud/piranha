@@ -363,6 +363,9 @@
     <profiles>
         <profile>
             <id>coverage</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <modules>
                 <module>coverage</module>
             </modules>
@@ -406,6 +409,9 @@
         </profile>
         <profile>
             <id>test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <modules>
                 <module>test</module>
             </modules>
