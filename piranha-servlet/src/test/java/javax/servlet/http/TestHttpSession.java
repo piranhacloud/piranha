@@ -27,6 +27,7 @@
  */
 package javax.servlet.http;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import javax.servlet.ServletContext;
 
@@ -37,88 +38,133 @@ import javax.servlet.ServletContext;
  */
 public class TestHttpSession implements HttpSession {
 
+    /**
+     * @see HttpSession#getAttribute
+     */
     @Override
     public Object getAttribute(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
+    /**
+     * @see HttpSession#getAttributeNames() 
+     */
     @Override
     public Enumeration<String> getAttributeNames() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Collections.emptyEnumeration();
     }
 
+    /**
+     * @see HttpSession#getCreationTime()
+     */
     @Override
     public long getCreationTime() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return 0;
     }
 
+    /**
+     * @see HttpSession#getId() 
+     */
     @Override
     public String getId() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "SESSION_ID";
     }
 
+    /**
+     * @see HttpSession#getLastAccessedTime() 
+     */
     @Override
     public long getLastAccessedTime() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return 0;
     }
 
+    /**
+     * @see HttpSession#getMaxInactiveInterval() 
+     */
     @Override
     public int getMaxInactiveInterval() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return 0;
     }
 
+    /**
+     * @see HttpSession#getServletContext()  
+     */
     @Override
     public ServletContext getServletContext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
+    /**
+     * @see HttpSession#getSessionContext() 
+     */
     @Override
     public HttpSessionContext getSessionContext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
+    /**
+     * @see HttpSession#getValue(java.lang.String) 
+     */
     @Override
     public Object getValue(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
+    /**
+     * @see HttpSession#getValueNames() 
+     */
     @Override
     public String[] getValueNames() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new String[0];
     }
 
+    /**
+     * @see HttpSession#invalidate() 
+     */
     @Override
     public void invalidate() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * @see HttpSession#isNew() 
+     */
     @Override
     public boolean isNew() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 
+    /**
+     * @see HttpSession#putValue(java.lang.String, java.lang.Object) 
+     */
     @Override
     public void putValue(String name, Object value) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * @see HttpSession#removeAttribute(java.lang.String) 
+     */
     @Override
     public void removeAttribute(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * @see HttpSession#removeValue(java.lang.String) 
+     */
     @Override
     public void removeValue(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * @see HttpSession#setAttribute(java.lang.String, java.lang.Object) 
+     */
     @Override
     public void setAttribute(String name, Object value) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * @see HttpSession#setMaxInactiveInterval(int) 
+     */
     @Override
     public void setMaxInactiveInterval(int interval) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
