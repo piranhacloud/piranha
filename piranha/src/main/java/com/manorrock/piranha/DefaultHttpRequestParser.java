@@ -106,17 +106,15 @@ public class DefaultHttpRequestParser {
                 byteOutput.write(read);
                 String parameterString = new String(byteOutput.toByteArray());
                 String[] pairs = parameterString.trim().split("&");
-                if (pairs != null) {
-                    for (int i = 0; i < pairs.length; i++) {
-                        String[] pair = pairs[i].trim().split("=");
-                        if (pair.length == 2) {
-                            pair[0] = URLDecoder.decode(pair[0], "UTF-8");
-                            pair[1] = URLDecoder.decode(pair[1], "UTF-8");
-                            request.setParameter(pair[0], new String[]{pair[1]});
-                        } else {
-                            pair[0] = URLDecoder.decode(pair[0], "UTF-8");
-                            request.setParameter(pair[0], new String[]{""});
-                        }
+                for (int i = 0; i < pairs.length; i++) {
+                    String[] pair = pairs[i].trim().split("=");
+                    if (pair.length == 2) {
+                        pair[0] = URLDecoder.decode(pair[0], "UTF-8");
+                        pair[1] = URLDecoder.decode(pair[1], "UTF-8");
+                        request.setParameter(pair[0], new String[]{pair[1]});
+                    } else {
+                        pair[0] = URLDecoder.decode(pair[0], "UTF-8");
+                        request.setParameter(pair[0], new String[]{""});
                     }
                 }
             }
