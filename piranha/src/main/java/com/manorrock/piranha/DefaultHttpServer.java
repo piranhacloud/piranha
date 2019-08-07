@@ -120,7 +120,11 @@ public class DefaultHttpServer implements HttpServer {
      */
     @Override
     public boolean isRunning() {
-        return !executorService.isShutdown();
+        boolean result = false;
+        if (executorService != null) {
+            result = !executorService.isShutdown();
+        }
+        return result;
     }
 
     /**
