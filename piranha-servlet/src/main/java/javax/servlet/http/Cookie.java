@@ -35,6 +35,11 @@ import java.io.Serializable;
 public class Cookie implements Cloneable, Serializable {
 
     /**
+     * Stores the serial version UID.
+     */
+    private static final long serialVersionUID = -4779842497728237253L;
+
+    /**
      * Stores the comment.
      */
     private String comment;
