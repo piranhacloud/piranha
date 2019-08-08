@@ -114,6 +114,15 @@ public class DefaultHttpServer implements HttpServer {
     }
 
     /**
+     * Get the SO_TIMEOUT.
+     * 
+     * @return the SO_TIMEOUT.
+     */
+    public int getSoTimeout() {
+        return soTimeout;
+    }
+
+    /**
      * Is the server running.
      *
      * @return true if it is, false otherwise.
