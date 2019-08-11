@@ -36,6 +36,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * The default HttpHeaderManager.
@@ -43,6 +44,11 @@ import java.util.List;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultHttpHeaderManager implements HttpHeaderManager {
+    
+    /**
+     * Stores the Locale.
+     */
+    private Locale locale;
 
     /**
      * Stores the headers.
@@ -54,6 +60,7 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
      */
     public DefaultHttpHeaderManager() {
         headers = new HashMap<>();
+        locale = new Locale("en", "US", "ISO-8859-1");
     }
 
     /**
@@ -64,11 +71,11 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
      */
     @Override
     public void addHeader(String name, String value) {
-        if (headers.containsKey(name.toUpperCase())) {
-            headers.get(name.toUpperCase()).addValue(value);
+        if (headers.containsKey(name.toUpperCase(locale))) {
+            headers.get(name.toUpperCase(locale)).addValue(value);
         } else {
             DefaultHttpHeader header = new DefaultHttpHeader(name, value);
-            headers.put(name.toUpperCase(), header);
+            headers.put(name.toUpperCase(locale), header);
         }
     }
 
@@ -80,7 +87,7 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
      */
     @Override
     public boolean containsHeader(String name) {
-        return headers.containsKey(name.toUpperCase());
+        return headers.containsKey(name.toUpperCase(locale));
     }
 
     /**
@@ -92,8 +99,8 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     @Override
     public long getDateHeader(String name) throws IllegalArgumentException {
         long result = -1;
-        if (headers.containsKey(name.toUpperCase())) {
-            DefaultHttpHeader header = headers.get(name.toUpperCase());
+        if (headers.containsKey(name.toUpperCase(locale))) {
+            DefaultHttpHeader header = headers.get(name.toUpperCase(locale));
             try {
                 String value = header.getValue();
                 SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
@@ -115,8 +122,8 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     @Override
     public String getHeader(String name) {
         String result = null;
-        if (headers.containsKey(name.toUpperCase())) {
-            result = headers.get(name.toUpperCase()).getValue();
+        if (headers.containsKey(name.toUpperCase(locale))) {
+            result = headers.get(name.toUpperCase(locale)).getValue();
         }
         return result;
     }
@@ -130,12 +137,10 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     public Enumeration<String> getHeaderNames() {
         List<String> names = new ArrayList<>();
         Iterator<DefaultHttpHeader> iterator = headers.values().iterator();
-
         while (iterator.hasNext()) {
             DefaultHttpHeader header = iterator.next();
             names.add(header.getName());
         }
-
         return Collections.enumeration(names);
     }
 
@@ -148,11 +153,9 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     @Override
     public Enumeration<String> getHeaders(String name) {
         Enumeration<String> result = null;
-
-        if (headers.containsKey(name.toUpperCase())) {
-            result = headers.get(name.toUpperCase()).getValues();
+        if (headers.containsKey(name.toUpperCase(locale))) {
+            result = headers.get(name.toUpperCase(locale)).getValues();
         }
-
         return result;
     }
 
@@ -165,8 +168,8 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     @Override
     public int getIntHeader(String name) throws NumberFormatException {
         int result = -1;
-        if (headers.containsKey(name.toUpperCase())) {
-            DefaultHttpHeader header = headers.get(name.toUpperCase());
+        if (headers.containsKey(name.toUpperCase(locale))) {
+            DefaultHttpHeader header = headers.get(name.toUpperCase(locale));
             try {
                 result = Integer.parseInt(header.getValue());
             } catch (NumberFormatException exception) {
@@ -186,6 +189,6 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     @Override
     public void setHeader(String name, String value) {
         DefaultHttpHeader header = new DefaultHttpHeader(name, value);
-        headers.put(name.toUpperCase(), header);
+        headers.put(name.toUpperCase(locale), header);
     }
 }
