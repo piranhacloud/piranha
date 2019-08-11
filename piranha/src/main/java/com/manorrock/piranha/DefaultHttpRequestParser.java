@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.Cookie;
@@ -45,9 +46,21 @@ import javax.servlet.http.Cookie;
 public class DefaultHttpRequestParser {
 
     /**
+     * Stores the Locale.
+     */
+    private Locale locale;
+
+    /**
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(DefaultHttpRequestParser.class.getName());
+
+    /**
+     * Constructor.
+     */
+    public DefaultHttpRequestParser() {
+        locale = new Locale("en", "US", "ISO-8859-1");
+    }
 
     /**
      * Parse the request.
@@ -63,7 +76,7 @@ public class DefaultHttpRequestParser {
 
                 line = reader.readLine();
                 while (line != null && !line.equals("")) {
-                    if (line.toUpperCase().contains("COOKIE")) {
+                    if (line.toUpperCase(locale).contains("COOKIE")) {
                         String value = line.substring(line.indexOf(":") + 1).trim();
                         ArrayList<Cookie> cookies = new ArrayList<>();
                         String[] cookieCandidates = value.split(";");
