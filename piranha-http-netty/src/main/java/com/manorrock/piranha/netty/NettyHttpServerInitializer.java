@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha.netty;
 
+import com.manorrock.piranha.api.HttpServerProcessor;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -42,6 +43,20 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
  */
 @Sharable
 public class NettyHttpServerInitializer extends ChannelInitializer<SocketChannel> {
+    
+    /**
+     * Stores the HTTP server processor.
+     */
+    private HttpServerProcessor httpServerProcessor;
+    
+    /**
+     * Constructor.
+     * 
+     * @param httpServerProcessor the HTTP server processor.
+     */
+    public NettyHttpServerInitializer(HttpServerProcessor httpServerProcessor) {
+        this.httpServerProcessor = httpServerProcessor;
+    }
 
     /**
      * Initialize the channel.
@@ -54,6 +69,6 @@ public class NettyHttpServerInitializer extends ChannelInitializer<SocketChannel
         pipeline.addLast(new HttpRequestDecoder());
         pipeline.addLast(new HttpObjectAggregator(10*1024*1024));
         pipeline.addLast(new HttpResponseEncoder());
-        pipeline.addLast(new NettyHttpServerHandler());
+        pipeline.addLast(new NettyHttpServerHandler(httpServerProcessor));
     }
 }
