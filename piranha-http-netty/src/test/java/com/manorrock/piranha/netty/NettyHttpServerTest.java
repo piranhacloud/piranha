@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha.netty;
 
+import com.manorrock.piranha.DefaultHttpServerProcessor;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import org.apache.http.HttpEntity;
@@ -78,18 +79,38 @@ public class NettyHttpServerTest {
     }
 
     /**
+     * Test processing.
+     */
+    @Test
+    public void testProcessing2() {
+        NettyHttpServer server = new NettyHttpServer(28003, new DefaultHttpServerProcessor());
+        server.start();
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:28003");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+        server.stop();
+        assertFalse(server.isRunning());
+    }
+
+
+    /**
      * Test file not found.
      * 
      * @throws Exception when an error occurs.
      */
     @Test
     public void testFileNotFound() throws Exception {
-        NettyHttpServer server = new NettyHttpServer(28003);
+        NettyHttpServer server = new NettyHttpServer(28004);
         server.start();
         Thread.sleep(2000);
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:28003/this_is_certainly_not_there");
+            HttpGet request = new HttpGet("http://localhost:28004/this_is_certainly_not_there");
             HttpResponse response = client.execute(request);
             assertEquals(404, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
@@ -106,11 +127,11 @@ public class NettyHttpServerTest {
      */
     @Test
     public void testFile() throws Exception {
-        NettyHttpServer server = new NettyHttpServer(28004);
+        NettyHttpServer server = new NettyHttpServer(28005);
         server.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:28004/pom.xml");
+            HttpGet request = new HttpGet("http://localhost:28005/pom.xml");
             HttpResponse response = client.execute(request);
             assertEquals(200, response.getStatusLine().getStatusCode());
             HttpEntity entity = response.getEntity();

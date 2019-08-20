@@ -27,7 +27,9 @@
  */
 package com.manorrock.piranha.netty;
 
+import com.manorrock.piranha.DefaultHttpServerProcessor;
 import com.manorrock.piranha.api.HttpServer;
+import com.manorrock.piranha.api.HttpServerProcessor;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -44,11 +46,16 @@ public class NettyHttpServer implements HttpServer {
      * Stores the boss event loop group.
      */
     private EventLoopGroup bossGroup;
+    
+    /**
+     * Stores the HTTP server processor.
+     */
+    private final HttpServerProcessor httpServerProcessor;
 
     /**
      * Stores the server port.
      */
-    private int serverPort = 8080;
+    private final int serverPort;
 
     /**
      * Stores the worker event loop group.
@@ -59,7 +66,8 @@ public class NettyHttpServer implements HttpServer {
      * Constructor.
      */
     public NettyHttpServer() {
-        super();
+        httpServerProcessor = new DefaultHttpServerProcessor();
+        serverPort = 8080;
     }
 
     /**
@@ -68,7 +76,18 @@ public class NettyHttpServer implements HttpServer {
      * @param serverPort the server port.
      */
     public NettyHttpServer(int serverPort) {
-        super();
+        this.httpServerProcessor = new DefaultHttpServerProcessor();
+        this.serverPort = serverPort;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param serverPort the server port.
+     * @param httpServerProcessor the HTTP server processor.
+     */
+    public NettyHttpServer(int serverPort, HttpServerProcessor httpServerProcessor) {
+        this.httpServerProcessor = httpServerProcessor;
         this.serverPort = serverPort;
     }
 
@@ -92,7 +111,7 @@ public class NettyHttpServer implements HttpServer {
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new NettyHttpServerInitializer())
+                .childHandler(new NettyHttpServerInitializer(httpServerProcessor))
                 .bind(serverPort);
     }
 

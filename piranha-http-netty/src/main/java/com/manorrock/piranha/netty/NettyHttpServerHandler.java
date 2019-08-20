@@ -27,7 +27,6 @@
  */
 package com.manorrock.piranha.netty;
 
-import com.manorrock.piranha.DefaultHttpServerProcessor;
 import com.manorrock.piranha.api.HttpServerProcessor;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -52,9 +51,18 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> 
     private static final Logger LOGGER = Logger.getLogger(NettyHttpServerHandler.class.getName());
 
     /**
-     * Stores the default HTTP server processor.
+     * Stores the HTTP server processor.
      */
-    private final HttpServerProcessor httpServerProcessor = new DefaultHttpServerProcessor();
+    private final HttpServerProcessor httpServerProcessor;
+
+    /**
+     * Constructor.
+     * 
+     * @param httpServerProcessor the HTTP server processor.
+     */
+    public NettyHttpServerHandler(HttpServerProcessor httpServerProcessor) {
+        this.httpServerProcessor = httpServerProcessor;
+    }
     
     /**
      * Complete the channel read.
