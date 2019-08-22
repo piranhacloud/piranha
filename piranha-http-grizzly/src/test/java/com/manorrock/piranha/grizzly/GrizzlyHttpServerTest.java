@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha.grizzly;
 
+import com.manorrock.piranha.DefaultHttpServerProcessor;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -76,15 +77,34 @@ public class GrizzlyHttpServerTest {
     }
 
     /**
+     * Test processing.
+     */
+    @Test
+    public void testProcessing2() {
+        GrizzlyHttpServer server = new GrizzlyHttpServer(28003, new DefaultHttpServerProcessor());
+        server.start();
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:28003");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+        server.stop();
+        assertFalse(server.isRunning());
+    }
+    
+    /**
      * Test file not found.
      */
     @Test
     public void testFileNotFound() {
-        GrizzlyHttpServer server = new GrizzlyHttpServer(28003);
+        GrizzlyHttpServer server = new GrizzlyHttpServer(28004);
         server.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:28003/this_is_certainly_not_there");
+            HttpGet request = new HttpGet("http://localhost:28004/this_is_certainly_not_there");
             HttpResponse response = client.execute(request);
             assertEquals(404, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
@@ -101,11 +121,11 @@ public class GrizzlyHttpServerTest {
      */
     @Test
     public void testFile() throws Exception {
-        GrizzlyHttpServer server = new GrizzlyHttpServer(28004);
+        GrizzlyHttpServer server = new GrizzlyHttpServer(28005);
         server.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:28004/pom.xml");
+            HttpGet request = new HttpGet("http://localhost:28005/pom.xml");
             HttpResponse response = client.execute(request);
             assertEquals(200, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {

@@ -38,7 +38,7 @@ import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
 
 /**
- * The Grizzly-based HttpServer.
+ * The Grizzly-based HTTP Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -76,6 +76,18 @@ public class GrizzlyHttpServer implements com.manorrock.piranha.api.HttpServer {
     public GrizzlyHttpServer(int serverPort) {
         httpServer = HttpServer.createSimpleServer(null, serverPort);
         httpServerProcessor = new DefaultHttpServerProcessor();
+        addHttpHandler();
+    }
+
+    /**
+     * Constructor
+     *
+     * @param serverPort the server port.
+     * @param httpServerProcessor the HTTP server processor;
+     */
+    public GrizzlyHttpServer(int serverPort, HttpServerProcessor httpServerProcessor) {
+        httpServer = HttpServer.createSimpleServer(null, serverPort);
+        this.httpServerProcessor = httpServerProcessor;
         addHttpHandler();
     }
 
