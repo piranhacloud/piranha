@@ -33,6 +33,11 @@ import java.util.EventObject;
  * The HttpSessionEvent API.
  */
 public class HttpSessionEvent extends EventObject {
+    
+    /**
+     * Stores the serial version UID.
+     */
+    private static final long serialVersionUID = -7622791603672342895L;
 
     /**
      * Constructor.
