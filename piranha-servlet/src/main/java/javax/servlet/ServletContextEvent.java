@@ -33,6 +33,11 @@ import java.util.EventObject;
  * The ServletContextEvent API.
  */
 public class ServletContextEvent extends EventObject {
+    
+    /**
+     * Stores the serial version UID.
+     */
+    private static final long serialVersionUID = -7501701636134222423L;
 
     /**
      * Constructor.
