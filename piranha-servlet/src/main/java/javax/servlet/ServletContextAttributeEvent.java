@@ -35,6 +35,11 @@ package javax.servlet;
 public class ServletContextAttributeEvent extends ServletContextEvent {
 
     /**
+     * Stores the serial version UID.
+     */
+    private static final long serialVersionUID = 3444099886820575682L;
+    
+    /**
      * Stores the name.
      */
     private final String name;
