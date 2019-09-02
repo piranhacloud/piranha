@@ -49,11 +49,14 @@ public class NettyHttpServerTest {
 
     /**
      * Test start and stop method.
+     * 
+     * @throws Exception when an error occurs.
      */
     @Test
-    public void testStartAndStop() {
+    public void testStartAndStop() throws Exception {
         NettyHttpServer server = new NettyHttpServer(28001);
         server.start();
+        Thread.sleep(2000);
         assertTrue(server.isRunning());
         server.stop();
         assertFalse(server.isRunning());
@@ -61,11 +64,14 @@ public class NettyHttpServerTest {
 
     /**
      * Test processing.
+     * 
+     * @throws Exception when an error occurs.
      */
     @Test
-    public void testProcessing() {
+    public void testProcessing() throws Exception {
         NettyHttpServer server = new NettyHttpServer(28002);
         server.start();
+        Thread.sleep(2000);
         try {
             HttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet("http://localhost:28002");
@@ -80,11 +86,14 @@ public class NettyHttpServerTest {
 
     /**
      * Test processing.
+     * 
+     * @throws Exception when an error occurs.
      */
     @Test
-    public void testProcessing2() {
+    public void testProcessing2() throws Exception {
         NettyHttpServer server = new NettyHttpServer(28003, new DefaultHttpServerProcessor());
         server.start();
+        Thread.sleep(2000);
         try {
             HttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet("http://localhost:28003");
@@ -129,6 +138,7 @@ public class NettyHttpServerTest {
     public void testFile() throws Exception {
         NettyHttpServer server = new NettyHttpServer(28005);
         server.start();
+        Thread.sleep(2000);
         try {
             HttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet("http://localhost:28005/pom.xml");
