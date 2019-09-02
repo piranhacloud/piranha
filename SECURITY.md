@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-All versions less than 5 years old are eligible for security fixes.
+All versions less than 3 years old are eligible for security fixes.
 
 ## Reporting a Vulnerability
 
