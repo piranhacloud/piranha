@@ -61,7 +61,7 @@ public class DefaultFilterMapping implements FilterMapping {
     /**
      * Equals.
      *
-     * @param object
+     * @param object the object to compare against.
      * @return true if equal, false otherwise.
      */
     @Override
@@ -87,6 +87,11 @@ public class DefaultFilterMapping implements FilterMapping {
         return filterName;
     }
 
+    /**
+     * Get the URL pattern.
+     * 
+     * @return the URL pattern.
+     */
     @Override
     public String getUrlPattern() {
         return urlPattern;
