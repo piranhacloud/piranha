@@ -114,8 +114,23 @@ public class DefaultHttpServer implements HttpServer {
     }
 
     /**
+     * Constructor
+     *
+     * @param serverPort the server port.
+     * @param processor the HTTP server processor.
+     * @param soTimeout the SO_TIMEOUT.
+     */
+    public DefaultHttpServer(int serverPort, HttpServerProcessor processor, int soTimeout) {
+        this.threadFactory = new DefaultHttpServerThreadFactory();
+        this.processor = processor;
+        this.serverPort = serverPort;
+        this.serverStopRequest = false;
+        this.soTimeout = soTimeout;
+    }
+
+    /**
      * Get the SO_TIMEOUT.
-     * 
+     *
      * @return the SO_TIMEOUT.
      */
     public int getSoTimeout() {
@@ -166,9 +181,7 @@ public class DefaultHttpServer implements HttpServer {
                 LOGGER.log(Level.WARNING, "An I/O error occurred while stopping the HTTP server", exception);
             }
         }
-
         executorService.shutdown();
-
         try {
             executorService.awaitTermination(120, TimeUnit.SECONDS);
         } catch (InterruptedException exception) {
