@@ -104,9 +104,31 @@ public class DefaultHttpServerTest {
     public void testFile() {
         DefaultHttpServer server = new DefaultHttpServer();
         server.serverPort = 8004;
-        server.start();        try {
+        server.start();
+        try {
             HttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet("http://localhost:8004/pom.xml");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+        server.stop();
+        assertFalse(server.isRunning());
+    }
+
+    /**
+     * Test SO_TIMEOUT.
+     */
+    @Test
+    public void testSoTimeout2() {
+        DefaultHttpServer server = new DefaultHttpServer(
+                8006, new DefaultHttpServerProcessor(), 2000);
+        assertEquals(2000, server.getSoTimeout());
+        server.start();
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8006/");
             HttpResponse response = client.execute(request);
             assertEquals(200, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
