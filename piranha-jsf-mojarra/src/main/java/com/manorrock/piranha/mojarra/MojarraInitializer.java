@@ -27,7 +27,10 @@
  */
 package com.manorrock.piranha.mojarra;
 
+import static java.lang.Boolean.TRUE;
+
 import java.util.Set;
+
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -51,6 +54,7 @@ public class MojarraInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         Dynamic dynamic = servletContext.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
         dynamic.addMapping("/faces/*","*.html");
+        servletContext.setAttribute("com.sun.faces.facesInitializerMappingsAdded", TRUE);
         servletContext.addListener("com.sun.faces.config.ConfigureListener");
     }
 }
