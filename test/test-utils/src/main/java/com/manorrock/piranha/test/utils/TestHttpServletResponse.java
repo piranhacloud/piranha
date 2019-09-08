@@ -28,6 +28,8 @@
 package com.manorrock.piranha.test.utils;
 
 import com.manorrock.piranha.DefaultWebApplicationResponse;
+
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.servlet.http.Cookie;
 
@@ -43,7 +45,10 @@ public class TestHttpServletResponse extends DefaultWebApplicationResponse {
      */
     public TestHttpServletResponse() {
         super();
-        this.outputStream = new TestServletOutputStream();
+        
+        TestServletOutputStream outputStream = new TestServletOutputStream();
+        setOutputStream(outputStream);
+        outputStream.setResponse(this);
     }
 
     /**
@@ -76,6 +81,19 @@ public class TestHttpServletResponse extends DefaultWebApplicationResponse {
         }
         TestServletOutputStream output = (TestServletOutputStream) this.outputStream;
         return output.getBytes();
+    }
+    
+    /**
+     * Get the bytes in the buffer.
+     *
+     * @return the bytes in the buffer.
+     */
+    public String getResponseBodyAsString() {
+        try {
+            return new String(getResponseBody(), getCharacterEncoding());
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**
