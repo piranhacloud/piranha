@@ -28,6 +28,7 @@
 package com.manorrock.piranha.test.utils;
 
 import com.manorrock.piranha.DefaultWebApplicationRequest;
+import com.manorrock.piranha.api.WebApplication;
 
 /**
  * A test HTTP servlet request.
@@ -36,6 +37,18 @@ import com.manorrock.piranha.DefaultWebApplicationRequest;
  */
 public class TestHttpServletRequest extends DefaultWebApplicationRequest {
 
+    public TestHttpServletRequest(WebApplication webApplication, String contextPath, String servletPath) {
+        this(webApplication, contextPath, servletPath, null);
+    }
+    
+    public TestHttpServletRequest(WebApplication webApplication, String contextPath, String servletPath, String pathInfo) {
+        this();
+        setWebApplication(webApplication);
+        setContextPath(contextPath);
+        setServletPath(servletPath);
+        setPathInfo(pathInfo);
+    }
+    
     /**
      * Constructor.
      */
