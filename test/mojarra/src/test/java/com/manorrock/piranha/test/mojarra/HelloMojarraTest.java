@@ -27,23 +27,26 @@
  */
 package com.manorrock.piranha.test.mojarra;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import com.manorrock.piranha.test.utils.TestServletOutputStream;
-import java.io.File;
+import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
+
+import com.manorrock.piranha.DefaultDirectoryResource;
+import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.mojarra.MojarraInitializer;
+import com.manorrock.piranha.test.utils.TestHttpServletRequest;
+import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 
 /**
  * The JUnit tests for the Hello Mojarra web application.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms (arjan.tijms@gmail.com)
  */
 public class HelloMojarraTest {
-
+    
     /**
      * Test /faces/notfound.html.
      *
@@ -51,28 +54,21 @@ public class HelloMojarraTest {
      */
     @Test
     public void testNotFound() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addInitializer("com.manorrock.piranha.mojarra.MojarraInitializer");
-        webApp.initialize();
-        webApp.start();
+        WebApplication webApp = 
+            newWebApplication()
+                .addResource(new DefaultDirectoryResource("src/main/webapp"))
+                .addInitializer(MojarraInitializer.class)
+                .start();
 
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setContextPath("");
-        request.setServletPath("/faces");
-        request.setPathInfo("/notfound.html");
-
+        TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "/faces", "/notfound.html");
         TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
+     
 
         webApp.service(request, response);
 
         assertEquals(404, response.getStatus());
     }
-
+    
     /**
      * Test /index.html.
      *
@@ -80,27 +76,19 @@ public class HelloMojarraTest {
      */
     @Test
     public void testIndexHtml() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addInitializer("com.manorrock.piranha.mojarra.MojarraInitializer");
-        webApp.initialize();
-        webApp.start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setContextPath("");
-        request.setServletPath("/index.html");
-        request.setPathInfo(null);
-
+        WebApplication webApp = 
+            newWebApplication()
+                .addResource(new DefaultDirectoryResource("src/main/webapp"))
+                .addInitializer(MojarraInitializer.class)
+                .start();
+        
+        TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "/index.html");
         TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
 
         webApp.service(request, response);
 
         assertEquals(200, response.getStatus());
-        String responseString = new String(response.getResponseBody());
-        assertTrue(responseString.contains("Hello Mojarra"));
+        assertTrue(response.getResponseBodyAsString().contains("Hello Mojarra"));
     }
+
 }
