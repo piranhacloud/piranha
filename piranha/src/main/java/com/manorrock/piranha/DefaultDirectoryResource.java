@@ -27,13 +27,14 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.piranha.api.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import com.manorrock.piranha.api.Resource;
 
 /**
  * The default DirectoryResource.
@@ -51,6 +52,15 @@ public class DefaultDirectoryResource implements Resource {
      * Constructor.
      */
     public DefaultDirectoryResource() {
+    }
+    
+    /**
+     * Constructor.
+     *
+     * @param rootDirectory the root directory.
+     */
+    public DefaultDirectoryResource(String rootDirectory) {
+        this (new File(rootDirectory));
     }
 
     /**
