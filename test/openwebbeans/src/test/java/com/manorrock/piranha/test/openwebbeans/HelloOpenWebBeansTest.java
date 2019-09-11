@@ -36,6 +36,7 @@ import com.manorrock.piranha.test.utils.TestServletOutputStream;
 import java.io.File;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -51,6 +52,7 @@ public class HelloOpenWebBeansTest {
      * @throws Exception
      */
     @Test
+    @Ignore
     public void testIndexHtml() throws Exception {
         System.getProperties().put("java.naming.factory.initial", "com.manorrock.herring.DefaultInitialContextFactory");
         DefaultWebApplication webApp = new DefaultWebApplication();
