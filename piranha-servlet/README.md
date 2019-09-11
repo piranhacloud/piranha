@@ -1,6 +1,6 @@
 
 # Manorrock Piranha Servlet module
 
-This is the javax.servlet API (Servlet) module delivered as part of the 
-Manorrock Piranha project. It is included so we can depend on our own 
-implementation of JSR 369.
+This is the Servlet API module delivered as part of the Manorrock Piranha project.
+
+See [here](https://github.com/eclipse-ee4j/servlet-api) for more information.
