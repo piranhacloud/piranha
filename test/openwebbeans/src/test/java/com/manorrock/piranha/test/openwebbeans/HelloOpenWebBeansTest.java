@@ -36,7 +36,6 @@ import com.manorrock.piranha.test.utils.TestServletOutputStream;
 import java.io.File;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -52,14 +51,15 @@ public class HelloOpenWebBeansTest {
      * @throws Exception
      */
     @Test
-    @Ignore
     public void testIndexHtml() throws Exception {
         System.getProperties().put("java.naming.factory.initial", "com.manorrock.herring.DefaultInitialContextFactory");
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addResource(new DefaultAliasedDirectoryResource(new File("target/classes"), "/WEB-INF/classes"));
         webApp.addInitializer("com.manorrock.piranha.openwebbeans.OpenWebBeansInitializer");
-        webApp.addInitializer("com.manorrock.piranha.mojarra.MojarraInitializer");
+        webApp.addServletMapping("Faces Servlet", "*.html");
+        webApp.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
+        webApp.addListener("org.apache.myfaces.webapp.StartupServletContextListener");
         webApp.initialize();
         webApp.start();
         TestHttpServletRequest request = new TestHttpServletRequest();
