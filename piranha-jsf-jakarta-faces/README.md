@@ -1,13 +1,13 @@
 
-# Manorrock Piranha Mojarra integration
+# Manorrock Piranha Jakarta Faces integration
 
-The Manorrock Piranha Mojarra module delivers you with Mojarra integration.
+The Manorrock Piranha Jakarta Faces module delivers you with Jakarta Faces integration.
 
 Add the following dependency to your project to use it.
 
       <dependency>
           <groupId>com.manorrock.piranha</groupId>
-          <artifactId>piranha-jsf-mojarra</artifactId>
+          <artifactId>piranha-jsf-jakarta-faces</artifactId>
           <version>x.y.z</version>
       </dependency>
 

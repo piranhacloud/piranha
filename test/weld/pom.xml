@@ -39,7 +39,7 @@
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-jsf-mojarra</artifactId>
+            <artifactId>piranha-jsf-jakarta-faces</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

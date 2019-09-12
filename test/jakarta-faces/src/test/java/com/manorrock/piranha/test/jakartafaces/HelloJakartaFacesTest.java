@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.mojarra;
+package com.manorrock.piranha.test.jakartafaces;
 
 import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static org.junit.Assert.assertEquals;
@@ -35,18 +35,18 @@ import org.junit.Test;
 
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.mojarra.MojarraInitializer;
+import com.manorrock.piranha.jakartafaces.JakartaFacesInitializer;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 
 /**
- * The JUnit tests for the Hello Mojarra web application.
+ * The JUnit tests for the Hello Jakarta Faces web application.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms (arjan.tijms@gmail.com)
  */
-public class HelloMojarraTest {
-    
+public class HelloJakartaFacesTest {
+
     /**
      * Test /faces/notfound.html.
      *
@@ -54,21 +54,18 @@ public class HelloMojarraTest {
      */
     @Test
     public void testNotFound() throws Exception {
-        WebApplication webApp = 
-            newWebApplication()
+        WebApplication webApp = newWebApplication()
                 .addResource(new DefaultDirectoryResource("src/main/webapp"))
-                .addInitializer(MojarraInitializer.class)
+                .addInitializer(JakartaFacesInitializer.class)
                 .start();
 
-        TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "/faces", "/notfound.html");
+        TestHttpServletRequest request = new TestHttpServletRequest(
+                webApp, "", "/faces", "/notfound.html");
         TestHttpServletResponse response = new TestHttpServletResponse();
-     
-
         webApp.service(request, response);
-
         assertEquals(404, response.getStatus());
     }
-    
+
     /**
      * Test /index.html.
      *
@@ -76,19 +73,15 @@ public class HelloMojarraTest {
      */
     @Test
     public void testIndexHtml() throws Exception {
-        WebApplication webApp = 
-            newWebApplication()
+        WebApplication webApp = newWebApplication()
                 .addResource(new DefaultDirectoryResource("src/main/webapp"))
-                .addInitializer(MojarraInitializer.class)
+                .addInitializer(JakartaFacesInitializer.class)
                 .start();
-        
+
         TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "/index.html");
         TestHttpServletResponse response = new TestHttpServletResponse();
-
         webApp.service(request, response);
-
         assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseBodyAsString().contains("Hello Mojarra"));
+        assertTrue(response.getResponseBodyAsString().contains("Hello Jakarta Faces"));
     }
-
 }
