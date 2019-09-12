@@ -16,7 +16,6 @@
         <module>hazelcast</module>
         <module>jersey</module>
         <module>jpa</module>
-        <module>mojarra</module>
         <module>myfaces</module>
         <module>openwebbeans</module>
         <module>snoop</module>
@@ -26,6 +25,7 @@
         <module>weld</module>
         <module>wicket</module>
         <module>test-utils</module>
+        <module>jakarta-faces</module>
     </modules>
     <reporting>
         <plugins>

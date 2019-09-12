@@ -39,7 +39,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the Hello Mojarra web application.
+ * The JUnit tests for the Hello Hazelcast web application.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -55,7 +55,7 @@ public class HelloHazelcastTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.setHttpSessionManager(new HazelcastHttpSessionManager());
-        webApp.addInitializer("com.manorrock.piranha.mojarra.MojarraInitializer");
+        webApp.addInitializer("com.manorrock.piranha.jakartafaces.JakartaFacesInitializer");
         webApp.initialize();
         webApp.start();
 
@@ -85,7 +85,7 @@ public class HelloHazelcastTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.setHttpSessionManager(new HazelcastHttpSessionManager());
-        webApp.addInitializer("com.manorrock.piranha.mojarra.MojarraInitializer");
+        webApp.addInitializer("com.manorrock.piranha.jakartafaces.JakartaFacesInitializer");
         webApp.initialize();
         webApp.start();
 

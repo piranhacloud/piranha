@@ -10,9 +10,9 @@
         <artifactId>project</artifactId>
         <version>4.0.13.0-SNAPSHOT</version>
     </parent>
-    <artifactId>mojarra</artifactId>
+    <artifactId>jakarta-faces</artifactId>
     <packaging>war</packaging>
-    <name>Manorrock Piranha Mojarra Test</name>
+    <name>Manorrock Piranha Jakarta Faces Test</name>
     <dependencies>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-jsf-mojarra</artifactId>
+            <artifactId>piranha-jsf-jakarta-faces</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

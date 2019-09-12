@@ -9,9 +9,9 @@
         <artifactId>project</artifactId>
         <version>4.0.13.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-jsf-mojarra</artifactId>
+    <artifactId>piranha-jsf-jakarta-faces</artifactId>
     <packaging>jar</packaging>
-    <name>Manorrock Piranha Mojarra integration</name>
+    <name>Manorrock Piranha Jakarta Faces Integration</name>
     <dependencies>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
