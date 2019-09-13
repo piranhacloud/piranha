@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.myfaces;
+package com.manorrock.piranha.faces.myfaces;
 
 import java.util.Set;
 import javax.servlet.ServletContainerInitializer;

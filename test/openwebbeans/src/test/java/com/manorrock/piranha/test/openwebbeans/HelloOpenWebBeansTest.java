@@ -57,9 +57,7 @@ public class HelloOpenWebBeansTest {
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addResource(new DefaultAliasedDirectoryResource(new File("target/classes"), "/WEB-INF/classes"));
         webApp.addInitializer("com.manorrock.piranha.openwebbeans.OpenWebBeansInitializer");
-        webApp.addServletMapping("Faces Servlet", "*.html");
-        webApp.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        webApp.addListener("org.apache.myfaces.webapp.StartupServletContextListener");
+        webApp.addInitializer("com.manorrock.piranha.faces.myfaces.MyFacesInitializer");
         webApp.initialize();
         webApp.start();
         TestHttpServletRequest request = new TestHttpServletRequest();
