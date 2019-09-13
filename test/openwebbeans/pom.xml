@@ -40,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-jsf-myfaces</artifactId>
+            <artifactId>piranha-faces-myfaces</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

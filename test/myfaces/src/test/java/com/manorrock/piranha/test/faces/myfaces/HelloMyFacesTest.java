@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.myfaces;
+package com.manorrock.piranha.test.faces.myfaces;
 
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultLoggingManager;
@@ -56,7 +56,7 @@ public class HelloMyFacesTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setLoggingManager(loggingManager);
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addInitializer("com.manorrock.piranha.myfaces.MyFacesListener");
+        webApp.addInitializer("com.manorrock.piranha.faces.myfaces.MyFacesListener");
         webApp.initialize();
         webApp.start();
 
@@ -85,9 +85,7 @@ public class HelloMyFacesTest {
     public void testIndexHtml() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addServletMapping("Faces Servlet", "*.html");
-        webApp.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        webApp.addListener("org.apache.myfaces.webapp.StartupServletContextListener");
+        webApp.addInitializer("com.manorrock.piranha.faces.myfaces.MyFacesInitializer");
         webApp.initialize();
         webApp.start();
 
