@@ -55,7 +55,7 @@ public class HelloHazelcastTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.setHttpSessionManager(new HazelcastHttpSessionManager());
-        webApp.addInitializer("com.manorrock.piranha.jakartafaces.JakartaFacesInitializer");
+        webApp.addInitializer("com.manorrock.piranha.faces.mojarra.MojarraInitializer");
         webApp.initialize();
         webApp.start();
 
@@ -85,7 +85,7 @@ public class HelloHazelcastTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.setHttpSessionManager(new HazelcastHttpSessionManager());
-        webApp.addInitializer("com.manorrock.piranha.jakartafaces.JakartaFacesInitializer");
+        webApp.addInitializer("com.manorrock.piranha.faces.mojarra.MojarraInitializer");
         webApp.initialize();
         webApp.start();
 
