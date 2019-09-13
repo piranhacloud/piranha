@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.jakartafaces;
+package com.manorrock.piranha.faces.mojarra;
 
 import static java.lang.Boolean.TRUE;
 
@@ -37,14 +37,14 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
 /**
- * The Jakarta Faces initializer.
+ * The Mojarra initializer.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JakartaFacesInitializer implements ServletContainerInitializer {
+public class MojarraInitializer implements ServletContainerInitializer {
 
     /**
-     * Initialize Jakarta Faces.
+     * Initialize Mojarra.
      * 
      * @param classes the classes.
      * @param servletContext the Servlet context.

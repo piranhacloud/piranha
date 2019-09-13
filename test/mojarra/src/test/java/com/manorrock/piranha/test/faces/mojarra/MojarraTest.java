@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.jakartafaces;
+package com.manorrock.piranha.test.faces.mojarra;
 
 import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static org.junit.Assert.assertEquals;
@@ -35,7 +35,7 @@ import org.junit.Test;
 
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.jakartafaces.JakartaFacesInitializer;
+import com.manorrock.piranha.faces.mojarra.MojarraInitializer;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 
@@ -45,7 +45,7 @@ import com.manorrock.piranha.test.utils.TestHttpServletResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms (arjan.tijms@gmail.com)
  */
-public class HelloJakartaFacesTest {
+public class MojarraTest {
 
     /**
      * Test /faces/notfound.html.
@@ -56,7 +56,7 @@ public class HelloJakartaFacesTest {
     public void testNotFound() throws Exception {
         WebApplication webApp = newWebApplication()
                 .addResource(new DefaultDirectoryResource("src/main/webapp"))
-                .addInitializer(JakartaFacesInitializer.class)
+                .addInitializer(MojarraInitializer.class)
                 .start();
 
         TestHttpServletRequest request = new TestHttpServletRequest(
@@ -75,7 +75,7 @@ public class HelloJakartaFacesTest {
     public void testIndexHtml() throws Exception {
         WebApplication webApp = newWebApplication()
                 .addResource(new DefaultDirectoryResource("src/main/webapp"))
-                .addInitializer(JakartaFacesInitializer.class)
+                .addInitializer(MojarraInitializer.class)
                 .start();
 
         TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "/index.html");

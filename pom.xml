@@ -372,12 +372,12 @@
         <module>piranha-http-grizzly</module>
         <module>piranha-http-netty</module>
         <module>piranha-http-singlethread</module>
-        <module>piranha-jsf-jakarta-faces</module>
         <module>piranha-jsf-myfaces</module>
         <module>piranha-jsp-jasper</module>
         <module>piranha-servlet</module>
         <module>piranha-session-hazelcast</module>
         <module>piranha-runner-war</module>
+        <module>piranha-faces-mojarra</module>
     </modules>
     <profiles>
         <profile>
