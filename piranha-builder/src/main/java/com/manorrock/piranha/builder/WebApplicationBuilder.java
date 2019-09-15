@@ -29,6 +29,8 @@ package com.manorrock.piranha.builder;
 
 import java.util.Set;
 
+import javax.servlet.Filter;
+
 import com.manorrock.piranha.DefaultWebApplication;
 import com.manorrock.piranha.api.Resource;
 import com.manorrock.piranha.api.WebApplication;
@@ -135,6 +137,20 @@ public class WebApplicationBuilder {
      */
     public WebApplicationBuilder addInitializer(String className, Set<Class<?>> classes) {
         webApplication.addInitializer(className, classes);
+        return this;
+    }
+    
+    /**
+     * Add a Filter
+     * 
+     * @param filterClass class of the filter to add
+     * @param urlPatterns URL patterns the filter is mapped to
+     * @return the WebApplicationBuilder
+     */
+    public WebApplicationBuilder addFilter(Class<? extends Filter> filterClass, String... urlPatterns) {
+        webApplication.addFilter(filterClass.getSimpleName(), filterClass);
+        webApplication.addFilterMapping(filterClass.getSimpleName(), urlPatterns);
+        
         return this;
     }
 
