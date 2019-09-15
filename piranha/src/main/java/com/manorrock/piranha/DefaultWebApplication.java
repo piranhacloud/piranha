@@ -248,7 +248,7 @@ public class DefaultWebApplication implements WebApplication {
     /**
      * Stores the virtual server name.
      */
-    protected String virtualServerName;
+    protected String virtualServerName = "server";
 
     /**
      * Stores the web application request mapper.
