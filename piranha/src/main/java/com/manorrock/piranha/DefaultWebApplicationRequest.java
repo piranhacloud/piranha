@@ -916,7 +916,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
      * @return the servlet context.
      */
     @Override
-    public ServletContext getServletContext() {
+    public WebApplication getServletContext() {
         return webApplication;
     }
 
