@@ -13,6 +13,7 @@
     <modules>
         <module>classloader</module>
         <module>classloader2</module>
+        <module>eleos</module>
         <module>hazelcast</module>
         <module>jersey</module>
         <module>jpa</module>
