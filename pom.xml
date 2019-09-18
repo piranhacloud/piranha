@@ -367,6 +367,7 @@
         <module>piranha</module>
         <module>piranha-api</module>
         <module>piranha-builder</module>
+        <module>piranha-authentication-eleos</module>
         <module>piranha-cdi-openwebbeans</module>
         <module>piranha-cdi-weld</module>
         <module>piranha-faces-mojarra</module>
