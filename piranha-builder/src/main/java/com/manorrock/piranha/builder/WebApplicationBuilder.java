@@ -100,7 +100,7 @@ public class WebApplicationBuilder {
      * Adds the attribute.
      *
      * @param name the name.
-     * @param object the object value.
+     * @param value the object value.
      * @return the WebApplication builder.
      */
     public WebApplicationBuilder addAttribute(String name, Object value) {
