@@ -30,6 +30,7 @@ package com.manorrock.piranha.builder;
 import java.util.Set;
 
 import javax.servlet.Filter;
+import javax.servlet.Servlet;
 
 import com.manorrock.piranha.DefaultWebApplication;
 import com.manorrock.piranha.api.Resource;
@@ -81,6 +82,30 @@ public class WebApplicationBuilder {
      */
     public WebApplicationBuilder(WebApplication webApplication) {
         this.webApplication = webApplication;
+    }
+    
+    /**
+     * Adds the init parameter.
+     *
+     * @param name the name.
+     * @param value the value.
+     * @return the WebApplication builder.
+     */
+    public WebApplicationBuilder addInitParameter(String name, String value) {
+        webApplication.setInitParameter(name, value);
+        return this;
+    }
+    
+    /**
+     * Adds the attribute.
+     *
+     * @param name the name.
+     * @param object the object value.
+     * @return the WebApplication builder.
+     */
+    public WebApplicationBuilder addAttribute(String name, Object value) {
+        webApplication.setAttribute(name, value);
+        return this;
     }
 
     /**
@@ -152,6 +177,32 @@ public class WebApplicationBuilder {
         webApplication.addFilterMapping(filterClass.getSimpleName(), urlPatterns);
         
         return this;
+    }
+    
+    /**
+     * Add a Servlet
+     * 
+     * @param servletClass class of the Servlet to add
+     * @param urlPatterns URL patterns the Servlet is mapped to
+     * @return the WebApplicationBuilder
+     */
+    public WebApplicationBuilder addServlet(Class<? extends Servlet> servletClass, String... urlPatterns) {
+        webApplication.addServlet(servletClass.getSimpleName(), servletClass);
+        webApplication.addServletMapping(servletClass.getSimpleName(), urlPatterns);
+        
+        return this;
+    }
+    
+    /**
+     * Gets the web application.
+     * 
+     * <p>
+     * This is useful if the web application needs to be handled before starting it.
+     * 
+     * @return the web application
+     */
+    public WebApplication getWebApplication() {
+        return webApplication;
     }
 
     /**
