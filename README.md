@@ -1,7 +1,7 @@
 
 # Manorrock Piranha Project
 
-The Manorrock Piranha Project delivers you with a slim Servlet container and
+The Manorrock Piranha Project delivers you with Cloud ready container and
 some useful add-on modules.
 
 See the list below for what is available.
@@ -9,13 +9,14 @@ See the list below for what is available.
 1. [Piranha Servlet container](piranha/README.md)
 2. [Piranha Grizzly integration](piranha-http-grizzly/README.md)
 3. [Piranha Hazelcast HTTP Session integration](piranha-session-hazelcast/README.md)
-4. [Piranha Jakarta Faces integration](piranha-jsf-jakarta-faces/README.md)
-5. [Piranha Jasper integration](piranha-jsp-jasper/README.md)
-6. [Piranha Netty integration](piranha-http-netty/README.md)
-7. [Piranha OpenWebBeans integration](piranha-cdi-openwebbeans/README.md)
-8. [Piranha Servlet API](piranha-servlet/README.md)
-9. [Piranha Single Threaded](piranha-http-singlethread/README.md)
-10. [Piranha Weld integration](piranha-cdi-weld/README.md)
+4. [Piranha Jasper integration](piranha-jsp-jasper/README.md)
+5. [Piranha MyFaces integration](piranha-faces-myfaces/README.md)
+6. [Piranha Mojarra integration](piranha-faces-mojarra/README.md)
+7. [Piranha Netty integration](piranha-http-netty/README.md)
+8. [Piranha OpenWebBeans integration](piranha-cdi-openwebbeans/README.md)
+9. [Piranha Servlet API](piranha-servlet/README.md)
+10. [Piranha Single Threaded](piranha-http-singlethread/README.md)
+11. [Piranha Weld integration](piranha-cdi-weld/README.md)
 
 Note the documentation for the master branch might show features that are NOT 
 yet available as it is under active development. Please see the documentation
