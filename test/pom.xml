@@ -20,6 +20,7 @@
         <module>mojarra</module>
         <module>myfaces</module>
         <module>openwebbeans</module>
+        <module>smallrye-health</module>
         <module>snoop</module>
         <module>springmvc</module>
         <module>struts</module>
