@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha.openwebbeans;
 
+import com.manorrock.piranha.api.WebApplication;
 import java.util.Set;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
@@ -49,5 +50,7 @@ public class OpenWebBeansInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         servletContext.addListener("org.apache.webbeans.servlet.WebBeansConfigurationListener");
+        WebApplication webApplication = (WebApplication) servletContext;
+        webApplication.setObjectInstanceManager(new OpenWebBeansObjectInstanceManager());
     }
 }

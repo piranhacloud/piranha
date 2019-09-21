@@ -9,8 +9,13 @@
     </parent>
     <artifactId>piranha-cdi-openwebbeans</artifactId>
     <packaging>jar</packaging>
-    <name>Manorrock Piranha OpenWebBeans integration</name>
+    <name>Manorrock Piranha OpenWebBeans Integration</name>
     <dependencies>
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
             <artifactId>piranha-api</artifactId>
@@ -20,19 +25,16 @@
         <dependency>
             <groupId>org.apache.openwebbeans</groupId>
             <artifactId>openwebbeans-spi</artifactId>
-            <version>2.0.11</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.openwebbeans</groupId>
             <artifactId>openwebbeans-impl</artifactId>
-            <version>2.0.11</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
-            <version>1.3.5</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>

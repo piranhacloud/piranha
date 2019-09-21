@@ -36,6 +36,12 @@
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-builder</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
             <artifactId>piranha-cdi-weld</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
@@ -47,8 +53,4 @@
             <classifier>sources</classifier>
         </dependency>
     </dependencies>
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
 </project>
