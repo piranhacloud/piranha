@@ -289,6 +289,16 @@
                 <version>2.3.4</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-impl</artifactId>
+                <version>${openwebbeans.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-spi</artifactId>
+                <version>${openwebbeans.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.struts</groupId>
                 <artifactId>struts2-core</artifactId>
                 <version>2.5.20</version>
@@ -457,6 +467,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <openwebbeans.version>2.0.11</openwebbeans.version>
     </properties>
     <reporting>
         <plugins>
