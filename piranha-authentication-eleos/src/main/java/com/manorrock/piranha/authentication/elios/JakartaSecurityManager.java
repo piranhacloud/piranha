@@ -29,65 +29,62 @@ package com.manorrock.piranha.authentication.elios;
 
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.omnifaces.eleos.config.helper.Caller;
-import org.omnifaces.eleos.services.DefaultAuthenticationService;
-
 import com.manorrock.piranha.DefaultAuthenticatedIdentity;
-import com.manorrock.piranha.DefaultWebApplicationRequest;
+import com.manorrock.piranha.api.SecurityManager;
+import com.manorrock.piranha.api.WebApplication;
 
 /**
- * This filter is uses to call a Jakarta Authentication system module at the start of an HTTP request.
+ * SecurityManager implementation that uses Jakarta Security semantics.
  * 
- * <p>
- * Note, this Filter *MUST* be installed as the first filter, and it should *NOT* be possible to place
- * a filter before this filter. The standard Servlet API does not provide facilitities for this.
+ * WIP!
  * 
  * @author Arjan Tijms
  *
  */
-public class AuthenticationFilter extends HttpFilter {
+public class JakartaSecurityManager implements SecurityManager {
+    
+    @Override
+    public void declareRoles(String[] roles) {
+        
+    }
 
-    private static final long serialVersionUID = 1L;
+    @Override
+    public boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        return false;
+    }
 
-    private final DefaultAuthenticationService authenticationService;
+    @Override
+    public boolean isUserInRole(HttpServletRequest request, String role) {
+        
+        // TMP delegate to authorization manager later
+        
+        return DefaultAuthenticatedIdentity
+            .getCurrentIdentity()
+            .getGroups().stream()
+            .anyMatch(e -> e.equals(role));
+    }
 
-    public AuthenticationFilter(DefaultAuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
+    @Override
+    public void login(HttpServletRequest request, String username, String password) throws ServletException {
+    }
+
+    @Override
+    public void logout(HttpServletRequest request) throws ServletException {
+        
     }
     
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
-    
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        doFilter((HttpServletRequest) request, (HttpServletResponse) response, chain);
+    public WebApplication getWebApplication() {
+        return null;
     }
 
     @Override
-    protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-
-        Caller caller = authenticationService.validateRequest(request, response, false, e -> true);
-
-        if (caller != null) {
-
-            DefaultWebApplicationRequest defaultWebApplicationRequest = (DefaultWebApplicationRequest) request;
-            defaultWebApplicationRequest.setUserPrincipal(caller.getCallerPrincipal());
-            
-            DefaultAuthenticatedIdentity.setCurrentIdentity(caller.getCallerPrincipal(), caller.getGroups());
-
-            chain.doFilter(request, response);
-        }
-
+    public void setWebApplication(WebApplication webApplication) {
+        
     }
 
 }
