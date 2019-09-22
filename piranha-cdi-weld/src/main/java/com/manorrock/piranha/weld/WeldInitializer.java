@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha.weld;
 
+import com.manorrock.piranha.api.WebApplication;
 import java.util.Set;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
@@ -51,5 +52,7 @@ public class WeldInitializer implements ServletContainerInitializer {
             throws ServletException {
         servletContext.setInitParameter("WELD_CONTEXT_ID_KEY", servletContext.toString());
         servletContext.addListener("org.jboss.weld.environment.servlet.Listener");
+        WebApplication webApplication = (WebApplication) servletContext;
+        webApplication.setObjectInstanceManager(new WeldObjectInstanceManager());
     }
 }
