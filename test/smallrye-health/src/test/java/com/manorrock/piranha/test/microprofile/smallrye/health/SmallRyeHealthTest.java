@@ -34,7 +34,6 @@ import com.manorrock.piranha.smallrye.health.SmallRyeHealthServlet;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.weld.WeldInitializer;
-import com.manorrock.piranha.weld.WeldObjectInstanceManager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -59,7 +58,6 @@ public class SmallRyeHealthTest {
         webApp.addInitializer(WeldInitializer.class.getName());
         webApp.addServlet("Health", SmallRyeHealthServlet.class.getName());
         webApp.addServletMapping("Health", "/health");
-        webApp.setObjectInstanceManager(new WeldObjectInstanceManager());
         webApp.initialize();
         webApp.start();
         TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "", "/health");

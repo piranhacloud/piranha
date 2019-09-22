@@ -34,7 +34,6 @@ import com.manorrock.piranha.smallrye.health.SmallRyeLivenessServlet;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.weld.WeldInitializer;
-import com.manorrock.piranha.weld.WeldObjectInstanceManager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -59,7 +58,6 @@ public class SmallRyeLivenessTest {
         webApp.addInitializer(WeldInitializer.class.getName());
         webApp.addServlet("Liveness", SmallRyeLivenessServlet.class.getName());
         webApp.addServletMapping("Liveness", "/health/live");
-        webApp.setObjectInstanceManager(new WeldObjectInstanceManager());
         webApp.initialize();
         webApp.start();
         TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "", "/health/live");
