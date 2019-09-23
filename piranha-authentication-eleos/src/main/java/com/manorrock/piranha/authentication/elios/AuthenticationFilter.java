@@ -27,6 +27,8 @@
  */
 package com.manorrock.piranha.authentication.elios;
 
+import static com.manorrock.piranha.authentication.elios.AuthenticationInitializer.AUTH_SERVICE;
+
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -58,14 +60,11 @@ public class AuthenticationFilter extends HttpFilter {
 
     private static final long serialVersionUID = 1L;
 
-    private final DefaultAuthenticationService authenticationService;
-
-    public AuthenticationFilter(DefaultAuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
+    private DefaultAuthenticationService authenticationService;
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        authenticationService = (DefaultAuthenticationService) filterConfig.getServletContext().getAttribute(AUTH_SERVICE);
     }
     
     @Override
