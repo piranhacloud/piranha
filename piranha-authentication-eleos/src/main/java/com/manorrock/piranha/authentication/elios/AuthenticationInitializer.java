@@ -53,6 +53,7 @@ import com.manorrock.piranha.api.WebApplication;
 public class AuthenticationInitializer implements ServletContainerInitializer {
     
     public final static String AUTH_MODULE_CLASS = AuthenticationInitializer.class.getName() + ".auth.module.class";
+    public final static String AUTH_SERVICE = AuthenticationInitializer.class.getName() + ".auth.service";
 
     
     /**
@@ -89,7 +90,9 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
         // retrieve configuration for authentication modules from.
         DefaultAuthenticationService authenticationService = new DefaultAuthenticationService(appContextId, options, configParser, null);
         
-        servletContext.addFilter(AuthenticationFilter.class.getSimpleName(), new AuthenticationFilter(authenticationService));
+        servletContext.setAttribute(AUTH_SERVICE, authenticationService);
+        
+        servletContext.addFilter(AuthenticationFilter.class.getSimpleName(), AuthenticationFilter.class);
         
         // TMP - should use Dynamic
         ((WebApplication) servletContext).addFilterMapping(AuthenticationFilter.class.getSimpleName(), "/*");
