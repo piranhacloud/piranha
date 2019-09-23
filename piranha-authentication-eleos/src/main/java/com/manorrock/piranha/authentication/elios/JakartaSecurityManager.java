@@ -27,13 +27,19 @@
  */
 package com.manorrock.piranha.authentication.elios;
 
+import static com.manorrock.piranha.authentication.elios.AuthenticationInitializer.AUTH_SERVICE;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.omnifaces.eleos.config.helper.Caller;
+import org.omnifaces.eleos.services.DefaultAuthenticationService;
+
 import com.manorrock.piranha.DefaultAuthenticatedIdentity;
+import com.manorrock.piranha.DefaultWebApplicationRequest;
 import com.manorrock.piranha.api.SecurityManager;
 import com.manorrock.piranha.api.WebApplication;
 
@@ -54,7 +60,20 @@ public class JakartaSecurityManager implements SecurityManager {
 
     @Override
     public boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        return false;
+        DefaultAuthenticationService authenticationService = (DefaultAuthenticationService) request.getServletContext().getAttribute(AUTH_SERVICE);
+        
+        Caller caller = authenticationService.validateRequest(request, response, true, e -> true);
+        if (caller == null) {
+            return false;
+        }
+        
+        DefaultWebApplicationRequest defaultWebApplicationRequest = (DefaultWebApplicationRequest) request;
+        defaultWebApplicationRequest.setUserPrincipal(caller.getCallerPrincipal());
+        
+        DefaultAuthenticatedIdentity.setCurrentIdentity(caller.getCallerPrincipal(), caller.getGroups());
+        
+        // TODO: handle the "in progress" (send_continue) case
+        return true;
     }
 
     @Override
