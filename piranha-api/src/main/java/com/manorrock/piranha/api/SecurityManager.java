@@ -38,6 +38,24 @@ import javax.servlet.http.HttpServletResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface SecurityManager {
+    
+    /**
+     * Check if the current request adheres to the user data constraint, if any.
+     * 
+     * <p>
+     * In practice this means checking if HTTPS is used when so required by the application.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @return true if request adheres to constraints, false otherwise
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a servlet error occurs.
+     */
+    default boolean checkWebUserDataPermission(HttpServletRequest request,
+            HttpServletResponse response) throws IOException, ServletException {
+        return true;
+    }
+    
 
     /**
      * Authenticate the request.
