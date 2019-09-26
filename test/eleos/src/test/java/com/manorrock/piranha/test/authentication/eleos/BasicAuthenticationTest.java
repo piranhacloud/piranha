@@ -38,6 +38,7 @@ import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
+import org.junit.Ignore;
 
 /**
  * The JUnit tests for the basic authentication test
@@ -52,6 +53,7 @@ public class BasicAuthenticationTest {
      * @throws Exception
      */
     @Test
+    @Ignore
     public void testPublic() throws Exception {
         WebApplication webApp = 
             newWebApplication()
