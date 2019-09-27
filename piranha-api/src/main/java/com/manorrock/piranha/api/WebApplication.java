@@ -77,6 +77,14 @@ public interface WebApplication extends ServletContext {
      * @param resource the resouce.
      */
     void addResource(Resource resource);
+    
+    /**
+     * Returns the unique Id of this web application corresponding to this ServletContext.
+     *
+     */
+    default String getServletContextId() {
+        return getVirtualServerName() + " " + getContextPath();
+    }
 
     /**
      * Add a mapping for the given servlet.
