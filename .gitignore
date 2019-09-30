@@ -1,7 +1,7 @@
 .classpath
 .DS_Store
 .project
-.settings
+.settings/
 nb-configuration.xml
-nbproject
-target
+nbproject/
+target/

@@ -104,7 +104,7 @@ public class DefaultHttpServer implements HttpServer {
      * Constructor
      *
      * @param serverPort the server port.
-     * @param processor the HTTP server processor.
+     * @param processor  the HTTP server processor.
      */
     public DefaultHttpServer(int serverPort, HttpServerProcessor processor) {
         this.threadFactory = new DefaultHttpServerThreadFactory();
@@ -117,8 +117,8 @@ public class DefaultHttpServer implements HttpServer {
      * Constructor
      *
      * @param serverPort the server port.
-     * @param processor the HTTP server processor.
-     * @param soTimeout the SO_TIMEOUT.
+     * @param processor  the HTTP server processor.
+     * @param soTimeout  the SO_TIMEOUT.
      */
     public DefaultHttpServer(int serverPort, HttpServerProcessor processor, int soTimeout) {
         this.threadFactory = new DefaultHttpServerThreadFactory();
@@ -162,7 +162,8 @@ public class DefaultHttpServer implements HttpServer {
             serverSocket = new ServerSocket(serverPort);
             serverSocket.setReuseAddress(false);
             serverSocket.setSoTimeout(soTimeout);
-            serverAcceptorThread = new Thread(new DefaultHttpServerAcceptorThread(this), "DefaultHttpServer-AcceptorThread");
+            serverAcceptorThread = new Thread(new DefaultHttpServerAcceptorThread(this),
+                    "DefaultHttpServer-AcceptorThread");
             serverAcceptorThread.start();
         } catch (IOException exception) {
             LOGGER.log(Level.WARNING, "An I/O error occurred while starting the HTTP server", exception);
@@ -181,11 +182,13 @@ public class DefaultHttpServer implements HttpServer {
                 LOGGER.log(Level.WARNING, "An I/O error occurred while stopping the HTTP server", exception);
             }
         }
-        executorService.shutdown();
-        try {
-            executorService.awaitTermination(120, TimeUnit.SECONDS);
-        } catch (InterruptedException exception) {
-            LOGGER.log(Level.WARNING, "Termination of the executor service was interrupted", exception);
+        if (executorService != null) {
+            executorService.shutdown();
+            try {
+                executorService.awaitTermination(120, TimeUnit.SECONDS);
+            } catch (InterruptedException exception) {
+                LOGGER.log(Level.WARNING, "Termination of the executor service was interrupted", exception);
+            }
         }
     }
 }
