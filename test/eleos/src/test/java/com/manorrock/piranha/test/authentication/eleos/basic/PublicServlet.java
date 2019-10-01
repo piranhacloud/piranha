@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.authentication.eleos;
+package com.manorrock.piranha.test.authentication.eleos.basic;
 
 import java.io.IOException;
 

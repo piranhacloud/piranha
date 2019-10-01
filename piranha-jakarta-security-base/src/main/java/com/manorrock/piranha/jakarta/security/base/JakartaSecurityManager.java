@@ -25,9 +25,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.authentication.elios;
+package com.manorrock.piranha.jakarta.security.base;
 
 import static com.manorrock.piranha.authentication.elios.AuthenticationInitializer.AUTH_SERVICE;
+import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
 
 import java.io.IOException;
 
@@ -37,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.omnifaces.eleos.config.helper.Caller;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
+import org.omnifaces.exousia.AuthorizationService;
 
 import com.manorrock.piranha.DefaultAuthenticatedIdentity;
 import com.manorrock.piranha.DefaultWebApplicationRequest;
@@ -56,6 +58,18 @@ public class JakartaSecurityManager implements SecurityManager {
     @Override
     public void declareRoles(String[] roles) {
         
+    }
+    
+    @Override
+    public boolean isRequestSecurityAsRequired(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        // TODO: handle redirect?
+        return getAuthorizationService(request).checkWebUserDataPermission(request);
+    }
+    
+    @Override
+    public boolean isRequestedResourcePublic(HttpServletRequest request) {
+        
+        return true;
     }
 
     @Override
@@ -104,6 +118,10 @@ public class JakartaSecurityManager implements SecurityManager {
     @Override
     public void setWebApplication(WebApplication webApplication) {
         
+    }
+    
+    protected AuthorizationService getAuthorizationService(HttpServletRequest request) {
+        return (AuthorizationService) request.getServletContext().getAttribute(AUTHZ_SERVICE);
     }
 
 }
