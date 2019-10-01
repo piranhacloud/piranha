@@ -51,8 +51,18 @@ public interface SecurityManager {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
      */
-    default boolean checkWebUserDataPermission(HttpServletRequest request,
+    default boolean isRequestSecurityAsRequired(HttpServletRequest request,
             HttpServletResponse response) throws IOException, ServletException {
+        return true;
+    }
+    
+    /**
+     * Check if the requested resource, represented by the request, is public or not.
+     * 
+     * @param request the request.
+     * @return true if the requested resource can be accessed by public (unauthenticated) callers, otherwise false
+     */
+    default boolean isRequestedResourcePublic(HttpServletRequest request) {
         return true;
     }
     

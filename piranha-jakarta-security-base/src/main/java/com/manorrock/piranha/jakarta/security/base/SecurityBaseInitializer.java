@@ -25,48 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.api;
+package com.manorrock.piranha.jakarta.security.base;
 
-import java.security.Principal;
 import java.util.Set;
 
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+
+import com.manorrock.piranha.api.WebApplication;
+
 /**
- * This interface is implemented by classes that represent the current authenticated identity.
- * 
- * <p>
- * What current means here is context dependent. In a Jakarta Servlet application this refers
- * to the caller (user) details during a single HTTP request. 
+ * The Jakarta Security Base initializer.
  * 
  * @author Arjan Tijms
- *
  */
-public interface AuthenticatedIdentity extends Principal {
+public class SecurityBaseInitializer implements ServletContainerInitializer {
     
+    /**
+     * Initialize Jakarta Security Base
+     * 
+     * @param classes the classes.
+     * @param servletContext the Servlet context.
+     * @throws ServletException when a Servlet error occurs.
+     */
     @Override
-    default String getName() {
-        if (getCallerPrincipal() == null) {
-            return null;
-        }
-        
-        return getCallerPrincipal().getName();
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        ((WebApplication) servletContext).setSecurityManager(new JakartaSecurityManager());
     }
-    
-    /**
-     * Returns the caller principal, which represents the primary name of the calling entity (aka the "caller")
-     * to a server.
-     * 
-     * @return the caller principal, or null if authentication has not (yet) completed successfully.
-     */
-    Principal getCallerPrincipal();
-    
-    /**
-     * The groups the caller is in.
-     * 
-     * <p>
-     * If group to role mapping is not active (the default) groups are equal to roles.
-     * 
-     * @return the set of groups the caller is in, never null.
-     */
-    Set<String> getGroups();
-    
+
 }

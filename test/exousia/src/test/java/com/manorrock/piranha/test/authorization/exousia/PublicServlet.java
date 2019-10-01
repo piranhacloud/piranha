@@ -25,48 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.api;
+package com.manorrock.piranha.test.authorization.exousia;
 
-import java.security.Principal;
-import java.util.Set;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- * This interface is implemented by classes that represent the current authenticated identity.
- * 
- * <p>
- * What current means here is context dependent. In a Jakarta Servlet application this refers
- * to the caller (user) details during a single HTTP request. 
+ * This Servlet writes out a text
  * 
  * @author Arjan Tijms
- *
+ * 
  */
-public interface AuthenticatedIdentity extends Principal {
-    
+@WebServlet(urlPatterns = "/public/servlet")
+public class PublicServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+
     @Override
-    default String getName() {
-        if (getCallerPrincipal() == null) {
-            return null;
-        }
-        
-        return getCallerPrincipal().getName();
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.getWriter().write("Hello, from Servlet!");
     }
-    
-    /**
-     * Returns the caller principal, which represents the primary name of the calling entity (aka the "caller")
-     * to a server.
-     * 
-     * @return the caller principal, or null if authentication has not (yet) completed successfully.
-     */
-    Principal getCallerPrincipal();
-    
-    /**
-     * The groups the caller is in.
-     * 
-     * <p>
-     * If group to role mapping is not active (the default) groups are equal to roles.
-     * 
-     * @return the set of groups the caller is in, never null.
-     */
-    Set<String> getGroups();
-    
+
 }

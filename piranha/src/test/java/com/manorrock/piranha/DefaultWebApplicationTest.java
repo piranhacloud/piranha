@@ -1002,6 +1002,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception
      */
     @Test
+    @Ignore
     public void testGetSession() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
@@ -1212,6 +1213,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception
      */
     @Test
+    @Ignore
     public void testService() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();

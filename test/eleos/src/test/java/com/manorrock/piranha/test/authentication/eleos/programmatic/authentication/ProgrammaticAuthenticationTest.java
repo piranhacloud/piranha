@@ -38,6 +38,7 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
+import com.manorrock.piranha.jakarta.security.base.SecurityBaseInitializer;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
 /**
@@ -57,6 +58,7 @@ public class ProgrammaticAuthenticationTest {
             new TestWebApp(newWebApplication()  
                 .addAttribute(AUTH_MODULE_CLASS, TestServerAuthModule.class)
                 .addInitializer(AuthenticationInitializer.class)
+                .addInitializer(SecurityBaseInitializer.class)
                 .addServlet(AuthenticateServlet.class, "/public/authenticate")
                 .start());
     }
