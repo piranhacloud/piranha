@@ -33,6 +33,8 @@ import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.security.auth.Subject;
+
 import com.manorrock.piranha.api.AuthenticatedIdentity;
 
 /**
@@ -51,18 +53,27 @@ import com.manorrock.piranha.api.AuthenticatedIdentity;
 public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
 
     private static InheritableThreadLocal<AuthenticatedIdentity> currentIdentity = new InheritableThreadLocal<>();
+    private static InheritableThreadLocal<Subject> currentSubject = new InheritableThreadLocal<>();
 
     private Principal callerPrincipal;
     private Set<String> groups = new HashSet<>();
     
     public static void setCurrentIdentity(Principal callerPrincipal, Set<String> groups) {
-        currentIdentity.set(new DefaultAuthenticatedIdentity(callerPrincipal, groups));
+        setCurrentIdentity(new DefaultAuthenticatedIdentity(callerPrincipal, groups));
     }
 
     public static void setCurrentIdentity(AuthenticatedIdentity identity) {
+        Subject subject = new Subject();
+        subject.getPrincipals().add(identity);
+        
         currentIdentity.set(identity);
+        currentSubject.set(subject);
     }
 
+    public static Subject getCurrentSubject() {
+        return currentSubject.get();
+    }
+    
     public static AuthenticatedIdentity getCurrentIdentity() {
         return currentIdentity.get();
     }

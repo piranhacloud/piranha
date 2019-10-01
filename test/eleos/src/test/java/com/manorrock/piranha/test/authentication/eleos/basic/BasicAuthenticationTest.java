@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.authentication.eleos;
+package com.manorrock.piranha.test.authentication.eleos.basic;
 
 import static com.manorrock.piranha.authentication.elios.AuthenticationInitializer.AUTH_MODULE_CLASS;
 import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
@@ -36,9 +36,9 @@ import org.junit.Test;
 
 import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
+import com.manorrock.piranha.jakarta.security.base.SecurityBaseInitializer;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import org.junit.Ignore;
 
 /**
  * The JUnit tests for the basic authentication test
@@ -53,12 +53,13 @@ public class BasicAuthenticationTest {
      * @throws Exception
      */
     @Test
-    @Ignore
     public void testPublic() throws Exception {
         WebApplication webApp = 
             newWebApplication()
                 .addAttribute(AUTH_MODULE_CLASS, TestServerAuthModule.class)
                 .addInitializer(AuthenticationInitializer.class)
+                .addInitializer(SecurityBaseInitializer.class)
+                
                 .addServlet(PublicServlet.class, "/public/servlet")
                 .start();
         
