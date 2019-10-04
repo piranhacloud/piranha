@@ -14,7 +14,7 @@ See the list below for what is available.
 6. [Piranha Mojarra integration](piranha-faces-mojarra/README.md)
 7. [Piranha Netty integration](piranha-http-netty/README.md)
 8. [Piranha OpenWebBeans integration](piranha-cdi-openwebbeans/README.md)
-9. [Piranha Servlet API](piranha-servlet/README.md)
+9. [Piranha Servlet API](piranha-servlet-api/README.md)
 10. [Piranha Single Threaded](piranha-http-singlethread/README.md)
 11. [Piranha Weld integration](piranha-cdi-weld/README.md)
 
