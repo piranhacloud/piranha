@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-servlet</artifactId>
+            <artifactId>piranha-servlet-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
