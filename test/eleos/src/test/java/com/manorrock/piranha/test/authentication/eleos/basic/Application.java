@@ -28,48 +28,59 @@
 package com.manorrock.piranha.test.authentication.eleos.basic;
 
 import static com.manorrock.piranha.authentication.elios.AuthenticationInitializer.AUTH_MODULE_CLASS;
+import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
+import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.PERROLE_PERMISSIONS;
+import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
 import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static java.util.Arrays.asList;
 
-import org.junit.Test;
+import java.util.AbstractMap.SimpleImmutableEntry;
 
-import com.manorrock.piranha.api.WebApplication;
+import javax.security.jacc.WebResourcePermission;
+import javax.security.jacc.WebUserDataPermission;
+
+import org.omnifaces.exousia.modules.def.DefaultPolicy;
+import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
+
 import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
+import com.manorrock.piranha.authorization.exousia.AuthorizationInitializer;
+import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
 import com.manorrock.piranha.jakarta.security.base.SecurityBaseInitializer;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
+import com.manorrock.piranha.test.utils.TestWebApp;
 
 /**
- * The JUnit tests for the basic authentication test
- *
- * @author Arjan Tijms (arjan.tijms@gmail.com)
+ * @author Arjan Tijms
  */
-public class BasicAuthenticationTest {
-
-    /**
-     * Test basic authentication to a public resource
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testPublic() throws Exception {
-        WebApplication webApp = 
-            newWebApplication()
-                .addAttribute(AUTH_MODULE_CLASS, TestServerAuthModule.class)
+public class Application {
+    
+    public static TestWebApp get() {
+        return 
+            new TestWebApp(newWebApplication()
+                .addAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
+                .addAttribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
+                .addAttribute(UNCHECKED_PERMISSIONS, asList(
+                    new WebUserDataPermission("/*", null),
+                    
+                    // Everything, except "/protected/servlet" is public
+                    new WebResourcePermission("/:/protected/servlet", (String) null)))
+                
+                .addAttribute(PERROLE_PERMISSIONS, asList(
+                    
+                    // For "/protected/servlet" the architect role is required
+                    new SimpleImmutableEntry<>("architect", new WebResourcePermission("/protected/servlet", (String) null))))
+                
+                .addInitializer(AuthorizationPreInitializer.class)
+            
+                .addAttribute(AUTH_MODULE_CLASS, BasicServerAuthModule.class)
                 .addInitializer(AuthenticationInitializer.class)
+                
+                .addInitializer(AuthorizationInitializer.class)
                 .addInitializer(SecurityBaseInitializer.class)
                 
                 .addServlet(PublicServlet.class, "/public/servlet")
-                .start();
-        
-        TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "/public/servlet");
-        request.setParameter("doLogin", new String[] { "" });
-        TestHttpServletResponse response = new TestHttpServletResponse();
-
-        webApp.service(request, response);
-
-        assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseBodyAsString().contains("web username: test"));
+                .addServlet(ProtectedServlet.class, "/protected/servlet")
+                .start());
     }
+
 }

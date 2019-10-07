@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha.jakarta.security.base;
 
+import static com.manorrock.piranha.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
 import static com.manorrock.piranha.authentication.elios.AuthenticationInitializer.AUTH_SERVICE;
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
 
@@ -68,15 +69,30 @@ public class JakartaSecurityManager implements SecurityManager {
     
     @Override
     public boolean isRequestedResourcePublic(HttpServletRequest request) {
-        
-        return true;
+        return getAuthorizationService(request).checkPublicWebResourcePermission(request);
+    }
+    
+    @Override
+    public boolean isCallerAuthorizedForResource(HttpServletRequest request) {
+        return getAuthorizationService(request).checkWebResourcePermission(request);
+    }
+    
+    @Override
+    public boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        return authenticate(request, response, MID_REQUEST_USER);
     }
 
     @Override
-    public boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public boolean authenticate(HttpServletRequest request, HttpServletResponse response, AuthenticateSource source) throws IOException, ServletException {
         DefaultAuthenticationService authenticationService = (DefaultAuthenticationService) request.getServletContext().getAttribute(AUTH_SERVICE);
         
-        Caller caller = authenticationService.validateRequest(request, response, true, e -> true);
+        Caller caller = authenticationService.validateRequest(
+                request, 
+                response, 
+                source == MID_REQUEST_USER, 
+                source == MID_REQUEST_USER? true : !isRequestedResourcePublic(request));
+        
+        
         if (caller == null) {
             return false;
         }
