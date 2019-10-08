@@ -54,7 +54,7 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author Arjan Tijms
  */
-public class TestServerAuthModule implements ServerAuthModule {
+public class BasicServerAuthModule implements ServerAuthModule {
 
     private CallbackHandler handler;
     private Class<?>[] supportedMessageTypes = new Class[] { HttpServletRequest.class, HttpServletResponse.class };
