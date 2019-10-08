@@ -31,7 +31,10 @@ import static com.manorrock.piranha.authorization.exousia.AuthorizationPreFilter
 
 import java.security.Permission;
 import java.security.Policy;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.security.jacc.PolicyConfiguration;
@@ -43,7 +46,6 @@ import javax.servlet.ServletException;
 import org.omnifaces.exousia.AuthorizationService;
 
 import com.manorrock.piranha.DefaultAuthenticatedIdentity;
-import com.manorrock.piranha.api.AuthenticatedIdentity;
 import com.manorrock.piranha.api.WebApplication;
 
 /**
@@ -59,6 +61,8 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     public final static String AUTHZ_POLICY_CLASS = AuthorizationPreInitializer.class.getName() + ".authz.module.class";
     
     public final static String UNCHECKED_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".unchecked.permissions";
+    
+    public final static String PERROLE_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".perrole.permissions";
 
     
     /**
@@ -70,19 +74,23 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        
         WebApplication context = (WebApplication) servletContext;
         
         // Gets the authorization module classes that were configured externally
         Class<?> factoryClass = getAttribute(servletContext, AUTHZ_FACTORY_CLASS);
         Class<? extends Policy> policyClass = getAttribute(servletContext, AUTHZ_POLICY_CLASS);
         
+        // Create the main Exousia authorization service, which implements the various entry points (an SPI)
+        // for a runtime to make use of Jakarta Authorization
         AuthorizationService authorizationService = new AuthorizationService(
             factoryClass, 
             policyClass, context.getServletContextId(), 
             () -> localServletRequest.get(),
-            () -> DefaultAuthenticatedIdentity.getCurrentSubject());
+            () -> DefaultAuthenticatedIdentity.getCurrentSubject(),
+            new PiranhaPrincipalMapper());
         
+        // Add permissions to the policy configuration, which is the repository that the policy (authorization module)
+        // uses
         PolicyConfiguration policyConfiguration = authorizationService.getPolicyConfiguration();
         
         try {
@@ -92,7 +100,16 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
                     policyConfiguration.addToUncheckedPolicy(permission);
                 }
             }
+            
+            List<Entry<String, Permission>> perRole = getOptionalAttribute(servletContext, PERROLE_PERMISSIONS);
+            if (perRole != null) {
+                for (Entry<String, Permission> perRoleEntry : perRole) {
+                    policyConfiguration.addToRole(perRoleEntry.getKey(), perRoleEntry.getValue());
+                }
+            }
+            
     
+            // TODO: Move commit moment to after all ServletContainerInitializer, Filters and Servlets have initialized
             policyConfiguration.commit();
         } catch (PolicyContextException e) {
             throw new IllegalStateException(e);
@@ -105,10 +122,18 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         context.addFilterMapping(AuthorizationPreFilter.class.getSimpleName(), "/*");
     }
     
+    public static void addToRole(PolicyConfiguration policyConfiguration, String role, Permission permission) {
+        try {
+            policyConfiguration.addToRole(role, permission);
+        } catch (PolicyContextException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+    
     public <T> T getAttribute(ServletContext servletContext, String name) throws ServletException {
         T t = getOptionalAttribute(servletContext, name);
         if (t == null) {
-            throw new ServletException("Attribute " + t + " not specified");
+            throw new ServletException("Attribute " + name + " not specified");
         }
         
         return t;

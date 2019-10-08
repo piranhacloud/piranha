@@ -28,6 +28,7 @@
 package com.manorrock.piranha.api;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,6 +39,17 @@ import javax.servlet.http.HttpServletResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface SecurityManager {
+    
+    enum AuthenticateSource { 
+        /**
+         * The container / runtime calls authenticate before a request
+         */
+        PRE_REQUEST_CONTAINER, 
+        
+        /**
+         * The user (code) has programmatically called authenticate
+         */
+        MID_REQUEST_USER }
     
     /**
      * Check if the current request adheres to the user data constraint, if any.
@@ -66,6 +78,23 @@ public interface SecurityManager {
         return true;
     }
     
+    /**
+     * Check if the current caller (which can be the anonymous caller) is authorized
+     * to access the requested resource.
+     * 
+     * <p>
+     * If the unauthenticated caller is authorized, then this means the resource is public 
+     * (aka unconstrained, aka unchecked), and the outcome of this method MUST be consistend
+     * with {@link #isRequestedResourcePublic(HttpServletRequest)}.
+     * 
+     * 
+     * @param request the request.
+     * @return true if the current caller is allowed to access the requested resource, false otherwise
+     */
+    default boolean isCallerAuthorizedForResource(HttpServletRequest request) {
+        return true;
+    }
+    
 
     /**
      * Authenticate the request.
@@ -78,6 +107,25 @@ public interface SecurityManager {
      */
     boolean authenticate(HttpServletRequest request,
             HttpServletResponse response) throws IOException, ServletException;
+    
+    /**
+     * Authenticate the request.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @param source the source or moment from where this authenticate method is called
+     * @return true if authenticated.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a servlet error occurs.
+     */
+    default boolean authenticate(HttpServletRequest request, 
+            HttpServletResponse response, AuthenticateSource source)
+            throws IOException, ServletException {
+        // By default, source and mandatory directive are ignored, and semantics for the 2 parameter
+        // version hold.
+        // The 2 parameter version is expected to be essentially source = MID_REQUEST_USER
+        return authenticate(request, response);
+    }
 
     /**
      * Declare roles.

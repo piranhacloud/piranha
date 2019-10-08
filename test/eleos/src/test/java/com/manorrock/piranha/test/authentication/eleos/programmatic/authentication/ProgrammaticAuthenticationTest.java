@@ -28,16 +28,25 @@
 package com.manorrock.piranha.test.authentication.eleos.programmatic.authentication;
 
 import static com.manorrock.piranha.authentication.elios.AuthenticationInitializer.AUTH_MODULE_CLASS;
+import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
+import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
 import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import javax.security.jacc.WebUserDataPermission;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.omnifaces.exousia.modules.def.DefaultPolicy;
+import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 import org.xml.sax.SAXException;
 
 import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
+import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
 import com.manorrock.piranha.jakarta.security.base.SecurityBaseInitializer;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
@@ -56,8 +65,15 @@ public class ProgrammaticAuthenticationTest {
     public void testPublic() throws Exception {
         webApp = 
             new TestWebApp(newWebApplication()  
+                .addAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
+                .addAttribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
+                .addAttribute(UNCHECKED_PERMISSIONS, asList(
+                    new WebUserDataPermission("/*", null)))
+                .addInitializer(AuthorizationPreInitializer.class)
+                    
                 .addAttribute(AUTH_MODULE_CLASS, TestServerAuthModule.class)
                 .addInitializer(AuthenticationInitializer.class)
+                
                 .addInitializer(SecurityBaseInitializer.class)
                 .addServlet(AuthenticateServlet.class, "/public/authenticate")
                 .start());

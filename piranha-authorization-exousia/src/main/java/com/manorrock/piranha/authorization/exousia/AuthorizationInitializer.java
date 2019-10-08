@@ -25,55 +25,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.authentication.elios;
+package com.manorrock.piranha.authorization.exousia;
 
-import static com.manorrock.piranha.api.SecurityManager.AuthenticateSource.PRE_REQUEST_CONTAINER;
+import java.util.Set;
 
-import java.io.IOException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpFilter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import com.manorrock.piranha.api.SecurityManager;
 import com.manorrock.piranha.api.WebApplication;
 
 /**
- * This filter is uses to call a Jakarta Authentication system module at the start of an HTTP request.
- * 
- * <p>
- * Note, this Filter *MUST* be installed as the first filter, and it should *NOT* be possible to place
- * a filter before this filter. The standard Servlet API does not provide facilitities for this.
+ * The Exousia initializer.
  * 
  * @author Arjan Tijms
- *
  */
-public class AuthenticationFilter extends HttpFilter {
+public class AuthorizationInitializer implements ServletContainerInitializer {
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * Installs the authorization filter
+     * 
+     * @param classes the classes.
+     * @param servletContext the Servlet context.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
 
-    private SecurityManager securityManager;
-    
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        securityManager = ((WebApplication) filterConfig.getServletContext()).getSecurityManager();
-    }
-    
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        doFilter((HttpServletRequest) request, (HttpServletResponse) response, chain);
-    }
+        WebApplication context = (WebApplication) servletContext;
 
-    @Override
-    protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (securityManager.authenticate(request, response, PRE_REQUEST_CONTAINER)) {
-            chain.doFilter(request, response);
-        }
+        servletContext.addFilter(AuthorizationFilter.class.getSimpleName(), AuthorizationFilter.class);
+
+        // TMP - should use Dynamic
+        context.addFilterMapping(AuthorizationFilter.class.getSimpleName(), "/*");
     }
 
 }
