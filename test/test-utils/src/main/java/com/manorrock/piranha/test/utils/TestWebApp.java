@@ -64,9 +64,14 @@ public class TestWebApp {
     public String getFromServerPath(String path) throws IOException {
         
         String servletPath = path;
+
+        if (!servletPath.startsWith("/")) {
+            servletPath = "/" + servletPath;
+        }
+        
         Map<String, String> parameters = Collections.emptyMap();
-        if (path.contains("?")) {
-            String[] splitPath = path.split(quote("?"));
+        if (servletPath.contains("?")) {
+            String[] splitPath = servletPath.split(quote("?"));
             servletPath = splitPath[0];
             parameters = toParameterMap(splitPath[1]);
         }
