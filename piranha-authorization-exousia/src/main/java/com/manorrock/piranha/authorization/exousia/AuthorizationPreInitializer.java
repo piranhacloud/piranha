@@ -74,7 +74,6 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        try {
         WebApplication context = (WebApplication) servletContext;
         
         // Gets the authorization module classes that were configured externally
@@ -121,9 +120,6 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         
         // TMP - should use Dynamic
         context.addFilterMapping(AuthorizationPreFilter.class.getSimpleName(), "/*");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
     
     public static void addToRole(PolicyConfiguration policyConfiguration, String role, Permission permission) {
