@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.Feature;
 import com.manorrock.piranha.api.SecurityManager;
 import com.manorrock.piranha.api.JspManager;
 import com.manorrock.piranha.api.WebApplication;
@@ -50,9 +51,11 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.EventListener;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.Filter;
@@ -1134,6 +1137,7 @@ public class DefaultWebApplication implements WebApplication {
         verifyState(SETUP, "Unable to initialize web application");
 
         try {
+            initializeFeatures();
             initializeInitializers();
 
             contextListeners.stream().forEach((listener) -> {
@@ -1146,6 +1150,18 @@ public class DefaultWebApplication implements WebApplication {
             status = INITIALIZED;
         } catch (ServletException se) {
             status = ERROR;
+        }
+    }
+    
+    /**
+     * Initialize the features.
+     */
+    protected void initializeFeatures() {
+        ServiceLoader<Feature> loader = ServiceLoader.load(Feature.class);
+        Iterator<Feature> iterator = loader.iterator();
+        while(iterator.hasNext()) {
+            Feature feature = iterator.next();
+            feature.initialize(this);
         }
     }
 

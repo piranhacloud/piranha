@@ -39,7 +39,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the Hello Weld web application.
+ * The JUnit tests for the Hello OpenWebBeans web application.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -56,8 +56,6 @@ public class HelloOpenWebBeansTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addResource(new DefaultAliasedDirectoryResource(new File("target/classes"), "/WEB-INF/classes"));
-        webApp.addInitializer("com.manorrock.piranha.openwebbeans.OpenWebBeansInitializer");
-        webApp.addInitializer("com.manorrock.piranha.faces.myfaces.MyFacesInitializer");
         webApp.initialize();
         webApp.start();
         TestHttpServletRequest request = new TestHttpServletRequest();
