@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.warrunner;
+package com.manorrock.piranha.runner.war;
 
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultHttpServer;
@@ -34,7 +34,13 @@ import com.manorrock.piranha.DefaultWebApplicationClassLoader;
 import com.manorrock.piranha.DefaultWebApplicationServer;
 import com.manorrock.piranha.api.HttpServer;
 import com.manorrock.piranha.api.WebApplication;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * The WAR runner.
@@ -49,6 +55,11 @@ public class WarRunner implements Runnable {
     private DefaultHttpServer httpServer;
 
     /**
+     * Stores the WAR file.
+     */
+    private File warFile;
+
+    /**
      * Stores the web application.
      */
     private WebApplication webApplication;
@@ -56,7 +67,7 @@ public class WarRunner implements Runnable {
     /**
      * Stores the (exploded) web application directory.
      */
-    private File webApplicationDirectory;
+    private File webApplicationDirectory = new File("webapp");
 
     /**
      * Stores the web application server.
@@ -75,7 +86,13 @@ public class WarRunner implements Runnable {
                 if (arguments[i].equals("--webapp")) {
                     webApplicationDirectory = new File(arguments[i + 1]);
                 }
+                if (arguments[i].equals("--war")) {
+                    warFile = new File(arguments[i + 1]);
+                }
             }
+        }
+        if (warFile != null) {
+            extractWarFile();
         }
         webApplication = new DefaultWebApplication();
         if (webApplicationDirectory != null) {
@@ -84,10 +101,52 @@ public class WarRunner implements Runnable {
         }
         return webApplication;
     }
-    
+
+    /**
+     * Extract the zip input stream.
+     *
+     * @param zipInput the zip input stream.
+     * @param filePath the file path.
+     * @throws IOException when an I/O error occurs.
+     */
+    private void extractZipInputStream(ZipInputStream zipInput, String filePath) throws IOException {
+        try (BufferedOutputStream bufferOutput = new BufferedOutputStream(new FileOutputStream(filePath))) {
+            byte[] bytesIn = new byte[8192];
+            int read;
+            while ((read = zipInput.read(bytesIn)) != -1) {
+                bufferOutput.write(bytesIn, 0, read);
+            }
+        }
+    }
+
+    /**
+     * Extract the WAR file.
+     */
+    private void extractWarFile() {
+        if (!webApplicationDirectory.exists()) {
+            webApplicationDirectory.mkdirs();
+        }
+        try (ZipInputStream zipInput = new ZipInputStream(new FileInputStream(warFile))) {
+            ZipEntry entry = zipInput.getNextEntry();
+            while (entry != null) {
+                String filePath = webApplicationDirectory + File.separator + entry.getName();
+                if (!entry.isDirectory()) {
+                    File file = new File(filePath);
+                    if (!file.getParentFile().exists()) {
+                        file.getParentFile().mkdirs();
+                    }
+                    extractZipInputStream(zipInput, filePath);
+                }
+                zipInput.closeEntry();
+                entry = zipInput.getNextEntry();
+            }
+        } catch (IOException ioe) {
+        }
+    }
+
     /**
      * Get the HTTP server.
-     * 
+     *
      * @return the HTTP server.
      */
     public HttpServer getHttpServer() {
