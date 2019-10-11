@@ -30,6 +30,7 @@ package com.manorrock.piranha.api;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 
 /**
  * The ResourceManager API.
@@ -53,6 +54,15 @@ public interface ResourceManager {
      * @throws MalformedURLException when the location is malformed.
      */
     URL getResource(String location) throws MalformedURLException;
+    
+    /**
+     * Get the resources.
+     * 
+     * @param location the location
+     * @return the URLs.
+     * @throws  MalformedURLException when the location is malformed.
+     */
+    Collection<URL> getResources(String location) throws MalformedURLException;
 
     /**
      * Get the resource as a stream.

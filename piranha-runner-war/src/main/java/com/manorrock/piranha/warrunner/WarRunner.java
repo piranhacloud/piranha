@@ -27,15 +27,21 @@
  */
 package com.manorrock.piranha.warrunner;
 
+import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultHttpServer;
+import com.manorrock.piranha.DefaultWebApplication;
+import com.manorrock.piranha.DefaultWebApplicationClassLoader;
 import com.manorrock.piranha.DefaultWebApplicationServer;
+import com.manorrock.piranha.api.HttpServer;
+import com.manorrock.piranha.api.WebApplication;
+import java.io.File;
 
 /**
  * The WAR runner.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WarRunner {
+public class WarRunner implements Runnable {
 
     /**
      * Stores the HTTP server.
@@ -43,9 +49,59 @@ public class WarRunner {
     private DefaultHttpServer httpServer;
 
     /**
+     * Stores the web application.
+     */
+    private WebApplication webApplication;
+
+    /**
+     * Stores the (exploded) web application directory.
+     */
+    private File webApplicationDirectory;
+
+    /**
      * Stores the web application server.
      */
     private DefaultWebApplicationServer webApplicationServer;
+
+    /**
+     * Configure.
+     *
+     * @param arguments the arguments.
+     * @return the web application.
+     */
+    public WebApplication configure(String[] arguments) {
+        if (arguments.length > 0) {
+            for (int i = 0; i < arguments.length; i++) {
+                if (arguments[i].equals("--webapp")) {
+                    webApplicationDirectory = new File(arguments[i + 1]);
+                }
+            }
+        }
+        webApplication = new DefaultWebApplication();
+        if (webApplicationDirectory != null) {
+            webApplication.setClassLoader(new DefaultWebApplicationClassLoader(webApplicationDirectory));
+            webApplication.addResource(new DefaultDirectoryResource(webApplicationDirectory));
+        }
+        return webApplication;
+    }
+    
+    /**
+     * Get the HTTP server.
+     * 
+     * @return the HTTP server.
+     */
+    public HttpServer getHttpServer() {
+        return httpServer;
+    }
+
+    /**
+     * Get the web application.
+     *
+     * @return the web application.
+     */
+    public WebApplication getWebApplication() {
+        return webApplication;
+    }
 
     /**
      * Main method.
@@ -54,14 +110,17 @@ public class WarRunner {
      */
     public static void main(String[] arguments) {
         WarRunner runner = new WarRunner();
-        runner.start();
+        runner.configure(arguments);
+        runner.run();
     }
 
     /**
      * Start method.
      */
-    public void start() {
+    @Override
+    public void run() {
         webApplicationServer = new DefaultWebApplicationServer();
+        webApplicationServer.addWebApplication(webApplication);
         webApplicationServer.initialize();
         webApplicationServer.start();
         httpServer = new DefaultHttpServer(8080, webApplicationServer);
@@ -78,6 +137,8 @@ public class WarRunner {
      * Stop method.
      */
     public void stop() {
-        httpServer.stop();
+        if (httpServer != null) {
+            httpServer.stop();
+        }
     }
 }

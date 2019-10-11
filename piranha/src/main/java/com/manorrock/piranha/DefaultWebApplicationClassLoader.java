@@ -32,6 +32,11 @@ import com.manorrock.piranha.api.ResourceManager;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -129,6 +134,34 @@ public class DefaultWebApplicationClassLoader extends ClassLoader implements Web
             }
         }
         return result;
+    }
+
+    /**
+     * Find the resource.
+     *
+     * @param name the name.
+     * @return the resource, or null if not found.
+     */
+    @Override
+    protected URL findResource(String name) {
+        URL result = null;
+        try {
+            result = resourceManager.getResource(name);
+        } catch (MalformedURLException mue) {
+        }
+        return result;
+    }
+
+    /**
+     * Find the resources.
+     *
+     * @param name the name of the resource.
+     * @return the enumeration of the resource urls.
+     * @throws IOException when an I/O error occurs.
+     */
+    @Override
+    protected Enumeration<URL> findResources(String name) throws IOException  {
+        return Collections.enumeration(resourceManager.getResources(name));
     }
 
     /**
