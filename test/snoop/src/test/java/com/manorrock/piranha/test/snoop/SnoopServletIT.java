@@ -28,7 +28,7 @@
 package com.manorrock.piranha.test.snoop;
 
 import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.warrunner.WarRunner;
+import com.manorrock.piranha.runner.war.WarRunner;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -38,21 +38,23 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * An integration test to verify running a exploded web application.
- * 
+ * An integration test to verify running a exploded web application coming from
+ * a supplied WAR.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class SnoopServletIT {
-    
+
     /**
      * Test configure method.
-     * 
+     *
      * @throws Exception when an error occurs.
      */
     @Test
     public void testConfigure() throws Exception {
         final WarRunner runner = new WarRunner();
-        WebApplication webApplication = runner.configure(new String[] {"--webapp","target/snoop"});
+        WebApplication webApplication = runner.configure(new String[]{
+            "--webapp", "target/snoop-exploded", "--war", "target/snoop.war"});
         webApplication.addServletMapping("Snoop", "/Snoop");
         webApplication.addServlet("Snoop", "com.manorrock.piranha.test.snoop.SnoopServlet");
         Thread thread = new Thread(runner);
