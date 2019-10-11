@@ -34,7 +34,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -74,15 +73,17 @@ public class DefaultJarResource implements Resource {
     @Override
     public URL getResource(String location) {
         URL result = null;
-
         if (location != null) {
             try {
-                result = new URL("jar://" + jarFile.toURI() + "!" + location);
-            } catch (MalformedURLException mue) {
+                try (JarFile jar = new JarFile(jarFile)) {
+                    if (jar.getJarEntry(location) != null) {
+                        result = new URL("jar:" + jarFile.toURI() + "!/" + location);
+                    }
+                }
+            } catch (IOException ioe) {
                 result = null;
             }
         }
-
         return result;
     }
 
@@ -102,7 +103,6 @@ public class DefaultJarResource implements Resource {
     public InputStream getResourceAsStream(String location) {
         InputStream result = null;
         JarFile jar = null;
-
         try {
             jar = new JarFile(jarFile);
             JarEntry entry = jar.getJarEntry(location);
@@ -129,7 +129,6 @@ public class DefaultJarResource implements Resource {
                 }
             }
         }
-
         return result;
     }
 

@@ -25,41 +25,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.warrunner;
+package com.manorrock.piranha.test.snoop;
 
+import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.warrunner.WarRunner;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
- * The JUnit tests for the WarRunner class.
+ * An integration test to verify running a exploded web application.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WarRunnerTest {
-  
+public class SnoopServletIT {
+    
     /**
-     * Test start method.
+     * Test configure method.
      * 
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testStart() throws Exception {
+    public void testConfigure() throws Exception {
         final WarRunner runner = new WarRunner();
-        runner.configure(new String[] {});
-        Thread thread = new Thread(runner);
+        WebApplication webApplication = runner.configure(new String[] {"--webapp","target/snoop"});
+        webApplication.addServletMapping("Snoop", "/Snoop");
+        webApplication.addServlet("Snoop", "com.manorrock.piranha.test.snoop.SnoopServlet");
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                runner.start();
+            }
+        };
         thread.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8080");
+            HttpGet request = new HttpGet("http://localhost:8080/Snoop");
             HttpResponse response = client.execute(request);
-            assertEquals(404, response.getStatusLine().getStatusCode());
+            assertEquals(200, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
+            ioe.printStackTrace();
         }
         runner.stop();
         Thread.sleep(3000);
