@@ -55,12 +55,7 @@ public class SnoopServletIT {
         WebApplication webApplication = runner.configure(new String[] {"--webapp","target/snoop"});
         webApplication.addServletMapping("Snoop", "/Snoop");
         webApplication.addServlet("Snoop", "com.manorrock.piranha.test.snoop.SnoopServlet");
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                runner.start();
-            }
-        };
+        Thread thread = new Thread(runner);
         thread.start();
         try {
             HttpClient client = HttpClients.createDefault();
