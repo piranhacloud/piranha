@@ -28,12 +28,11 @@
 package com.manorrock.piranha.authorization.exousia;
 
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreFilter.localServletRequest;
+import static java.util.Collections.emptySet;
 
 import java.security.Permission;
 import java.security.Policy;
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -44,6 +43,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 import org.omnifaces.exousia.AuthorizationService;
+import org.omnifaces.exousia.constraints.SecurityConstraint;
 
 import com.manorrock.piranha.DefaultAuthenticatedIdentity;
 import com.manorrock.piranha.api.WebApplication;
@@ -63,6 +63,8 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     public final static String UNCHECKED_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".unchecked.permissions";
     
     public final static String PERROLE_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".perrole.permissions";
+    
+    public final static String CONSTRAINTS = AuthorizationPreInitializer.class.getName() + ".constraints";
 
     
     /**
@@ -89,30 +91,12 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
             () -> DefaultAuthenticatedIdentity.getCurrentSubject(),
             new PiranhaPrincipalMapper());
         
-        // Add permissions to the policy configuration, which is the repository that the policy (authorization module)
-        // uses
-        PolicyConfiguration policyConfiguration = authorizationService.getPolicyConfiguration();
         
-        try {
-            List<Permission> unchecked = getOptionalAttribute(servletContext, UNCHECKED_PERMISSIONS);
-            if (unchecked != null) {
-                for (Permission permission : unchecked) {
-                    policyConfiguration.addToUncheckedPolicy(permission);
-                }
-            }
-            
-            List<Entry<String, Permission>> perRole = getOptionalAttribute(servletContext, PERROLE_PERMISSIONS);
-            if (perRole != null) {
-                for (Entry<String, Permission> perRoleEntry : perRole) {
-                    policyConfiguration.addToRole(perRoleEntry.getKey(), perRoleEntry.getValue());
-                }
-            }
-            
-    
-            // TODO: Move commit moment to after all ServletContainerInitializer, Filters and Servlets have initialized
-            policyConfiguration.commit();
-        } catch (PolicyContextException e) {
-            throw new IllegalStateException(e);
+        List<SecurityConstraint> securityConstraints = getOptionalAttribute(servletContext, CONSTRAINTS);
+        if (securityConstraints != null) {
+            authorizationService.addConstraintsToPolicy(securityConstraints, emptySet(), true, emptySet());
+        } else {
+            setPermissions(servletContext, authorizationService);
         }
         
         servletContext.setAttribute(AUTHZ_SERVICE, authorizationService);
@@ -144,6 +128,33 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         T t = (T) servletContext.getAttribute(name);
                 
         return t;
+    }
+    
+    public void setPermissions(ServletContext servletContext, AuthorizationService authorizationService) throws ServletException {
+        // Add permissions to the policy configuration, which is the repository that the policy (authorization module)
+        // uses
+        PolicyConfiguration policyConfiguration = authorizationService.getPolicyConfiguration();
+        
+        try {
+            List<Permission> unchecked = getOptionalAttribute(servletContext, UNCHECKED_PERMISSIONS);
+            if (unchecked != null) {
+                for (Permission permission : unchecked) {
+                    policyConfiguration.addToUncheckedPolicy(permission);
+                }
+            }
+            
+            List<Entry<String, Permission>> perRole = getOptionalAttribute(servletContext, PERROLE_PERMISSIONS);
+            if (perRole != null) {
+                for (Entry<String, Permission> perRoleEntry : perRole) {
+                    policyConfiguration.addToRole(perRoleEntry.getKey(), perRoleEntry.getValue());
+                }
+            }
+    
+            // TODO: Move commit moment to after all ServletContainerInitializer, Filters and Servlets have initialized
+            policyConfiguration.commit();
+        } catch (PolicyContextException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
 }
