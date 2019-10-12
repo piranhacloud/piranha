@@ -188,6 +188,7 @@ public class WarRunner implements Runnable {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
             }
         }
     }
