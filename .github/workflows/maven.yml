@@ -11,8 +11,8 @@ jobs:
         java: [ '1.8', '11' ]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK
-      uses: actions/setup-java@v1
+    - name: Setup Java
+      uses: actions/setup-java@v1.0.0
       with:
         java-version: ${{ matrix.java }}
     - name: Build with Maven
