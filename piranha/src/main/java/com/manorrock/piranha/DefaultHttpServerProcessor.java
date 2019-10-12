@@ -98,13 +98,14 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
                 response.writeStatusLine();
                 response.writeHeaders();
                 OutputStream outputStream = response.getOutputStream();
-                InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-                int read = inputStream.read();
-                while (read != -1) {
-                    outputStream.write((char) read);
-                    read = inputStream.read();
+                try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
+                    int read = inputStream.read();
+                    while (read != -1) {
+                        outputStream.write((char) read);
+                        read = inputStream.read();
+                    }
+                    outputStream.flush();
                 }
-                outputStream.flush();
             } catch (IOException exception) {
                 LOGGER.log(Level.SEVERE, "An I/O error occurred while writing the response", exception);
             }
