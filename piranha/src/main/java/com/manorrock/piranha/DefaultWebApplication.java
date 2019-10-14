@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.AnnotationManager;
 import com.manorrock.piranha.api.Feature;
 import com.manorrock.piranha.api.SecurityManager;
 import com.manorrock.piranha.api.JspManager;
@@ -122,6 +123,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the SERVICING constant.
      */
     protected static final int SERVICING = 2;
+    
+    /**
+     * Stores the annotation manager.
+     */
+    protected AnnotationManager annotationManager;
 
     /**
      * Stores the attributes.
@@ -239,11 +245,6 @@ public class DefaultWebApplication implements WebApplication {
     protected final Map<String, DefaultServletEnvironment> servlets;
 
     /**
-     * Stores the startup classes.
-     */
-    protected Map<String, Set<Class<?>>> startupClasses;
-
-    /**
      * Stores the status.
      */
     protected int status;
@@ -262,6 +263,7 @@ public class DefaultWebApplication implements WebApplication {
      * Constructor.
      */
     public DefaultWebApplication() {
+        annotationManager = new DefaultAnnotationManager();
         attributes = new ConcurrentHashMap<>(1);
         classLoader = getClass().getClassLoader();
         contextAttributeListeners = new ArrayList<>(1);
@@ -282,7 +284,6 @@ public class DefaultWebApplication implements WebApplication {
         responses = new ConcurrentHashMap<>(1);
         securityManager = new DefaultSecurityManager();
         servlets = new LinkedHashMap<>();
-        startupClasses = new ConcurrentHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
     }
 
@@ -393,18 +394,6 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void addInitializer(ServletContainerInitializer servletContainerInitializer) {
         initializers.add(servletContainerInitializer);
-    }
-
-    /**
-     * Add a servlet container initializer.
-     *
-     * @param className the class name.
-     * @param classes the set of startup classes.
-     */
-    @Override
-    public void addInitializer(String className, Set<Class<?>> classes) {
-        addInitializer(className);
-        startupClasses.put(className, classes);
     }
 
     /**
@@ -1193,8 +1182,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected void initializeInitializers() throws ServletException {
         for (ServletContainerInitializer initializer : initializers) {
-            initializer.onStartup(startupClasses.remove(
-                    initializer.getClass().getName()), this);
+            initializer.onStartup(annotationManager.getClasses(), this);
         }
     }
 
