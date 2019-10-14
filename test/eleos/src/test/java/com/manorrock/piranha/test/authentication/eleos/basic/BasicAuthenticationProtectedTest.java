@@ -48,16 +48,21 @@ import com.manorrock.piranha.test.utils.TestWebApp;
 public class BasicAuthenticationProtectedTest {
     
     TestWebApp webApp;
-    
+   
+
     @Before
     public void testProtected() throws Exception {
         webApp = Application.get();    
+    }
+    
+    protected TestWebApp getWebApp() {
+        return webApp;
     }
 
     @Test
     public void testProtectedPageNotLoggedin() throws IOException, SAXException {
 
-        String response = webApp.getFromServerPath("/protected/servlet");
+        String response = getWebApp().getFromServerPath("/protected/servlet");
 
         // Not logged-in thus should not be accessible.
         assertFalse(
@@ -69,7 +74,7 @@ public class BasicAuthenticationProtectedTest {
     @Test
     public void testProtectedPageLoggedin() throws IOException, SAXException {
 
-        String response = webApp.getFromServerPath("/protected/servlet?doLogin=true");
+        String response = getWebApp().getFromServerPath("/protected/servlet?doLogin=true");
         
         System.out.println(response);
 

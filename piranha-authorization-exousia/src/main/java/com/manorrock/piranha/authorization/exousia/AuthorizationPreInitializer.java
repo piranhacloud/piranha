@@ -29,9 +29,13 @@ package com.manorrock.piranha.authorization.exousia;
 
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreFilter.localServletRequest;
 import static java.util.Collections.emptySet;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Stream.concat;
 
 import java.security.Permission;
 import java.security.Policy;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -41,9 +45,11 @@ import javax.security.jacc.PolicyContextException;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletSecurityElement;
 
 import org.omnifaces.exousia.AuthorizationService;
 import org.omnifaces.exousia.constraints.SecurityConstraint;
+import org.omnifaces.exousia.constraints.transformer.ElementsToConstraintsTransformer;
 
 import com.manorrock.piranha.DefaultAuthenticatedIdentity;
 import com.manorrock.piranha.api.WebApplication;
@@ -66,7 +72,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     
     public final static String CONSTRAINTS = AuthorizationPreInitializer.class.getName() + ".constraints";
 
-    
+    public final static String SECURITY_ELEMENTS = AuthorizationPreInitializer.class.getName() + ".security.elements";
     /**
      * Initialize Exousia
      * 
@@ -92,7 +98,10 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
             new PiranhaPrincipalMapper());
         
         
-        List<SecurityConstraint> securityConstraints = getOptionalAttribute(servletContext, CONSTRAINTS);
+        List<SecurityConstraint> securityConstraints = join(
+            getConstraintsFromSecurityElements(servletContext, authorizationService),
+            getOptionalAttribute(servletContext, CONSTRAINTS));
+        
         if (securityConstraints != null) {
             authorizationService.addConstraintsToPolicy(securityConstraints, emptySet(), true, emptySet());
         } else {
@@ -128,6 +137,39 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         T t = (T) servletContext.getAttribute(name);
                 
         return t;
+    }
+    
+    public List<SecurityConstraint> getConstraintsFromSecurityElements(ServletContext servletContext, AuthorizationService authorizationService) throws ServletException {
+        List<Entry<List<String>, ServletSecurityElement>> elements = getOptionalAttribute(servletContext, SECURITY_ELEMENTS);
+        if (elements == null) {
+            return null;
+        }
+        
+        List<SecurityConstraint> constraints = new ArrayList<>();
+        
+        for (Entry<List<String>, ServletSecurityElement> elementEntry : elements) {
+            constraints.addAll(ElementsToConstraintsTransformer.createConstraints(
+                new HashSet<>(elementEntry.getKey()), 
+                elementEntry.getValue()));
+        }
+        
+        return constraints;
+    }
+    
+    public List<SecurityConstraint> join(List<SecurityConstraint> constraintsA, List<SecurityConstraint> constraintsB) {
+        if (constraintsA == null && constraintsB == null) {
+            return null;
+        }
+        
+        if (constraintsA != null && constraintsB != null) {
+            return concat(constraintsA.stream(), constraintsB.stream()).collect(toList());
+        }
+        
+        if (constraintsA != null) {
+            return constraintsA;
+        }
+        
+        return constraintsB;
     }
     
     public void setPermissions(ServletContext servletContext, AuthorizationService authorizationService) throws ServletException {
