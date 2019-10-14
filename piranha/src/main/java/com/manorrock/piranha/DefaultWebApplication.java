@@ -389,6 +389,11 @@ public class DefaultWebApplication implements WebApplication {
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
         }
     }
+    
+    @Override
+    public void addInitializer(ServletContainerInitializer servletContainerInitializer) {
+        initializers.add(servletContainerInitializer);
+    }
 
     /**
      * Add a servlet container initializer.
