@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
 import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -70,6 +71,13 @@ public interface WebApplication extends ServletContext {
      * @param classes the classes to be passed to onStartup.
      */
     void addInitializer(String className, Set<Class<?>> classes);
+    
+    /**
+     * Add a servlet container initializer.
+     *
+     * @param servletContainerInitializer the servletContainerInitializer instance
+     */
+    void addInitializer(ServletContainerInitializer servletContainerInitializer);
 
     /**
      * Add the resource.
