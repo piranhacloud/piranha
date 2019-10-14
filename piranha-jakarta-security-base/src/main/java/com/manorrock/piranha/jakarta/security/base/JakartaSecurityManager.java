@@ -107,6 +107,16 @@ public class JakartaSecurityManager implements SecurityManager {
     }
 
     @Override
+    public HttpServletRequest getAuthenticatedRequest(HttpServletRequest request, HttpServletResponse response) {
+        return getAuthenticationService(request).getWrappedRequestIfSet(request, response);
+    }
+    
+    @Override
+    public HttpServletResponse getAuthenticatedResponse(HttpServletRequest request, HttpServletResponse response) {
+        return getAuthenticationService(request).getWrappedResponseIfSet(request, response);
+    }
+    
+    @Override
     public boolean isUserInRole(HttpServletRequest request, String role) {
         
         // TMP delegate to authorization manager later
@@ -134,6 +144,10 @@ public class JakartaSecurityManager implements SecurityManager {
     @Override
     public void setWebApplication(WebApplication webApplication) {
         
+    }
+    
+    protected DefaultAuthenticationService getAuthenticationService(HttpServletRequest request) {
+        return (DefaultAuthenticationService) request.getServletContext().getAttribute(AUTH_SERVICE);
     }
     
     protected AuthorizationService getAuthorizationService(HttpServletRequest request) {
