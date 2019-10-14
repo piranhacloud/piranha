@@ -27,6 +27,10 @@
  */
 package com.manorrock.piranha.builder;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.Filter;
@@ -48,6 +52,8 @@ public class WebApplicationBuilder {
      * Stores the WebApplication.
      */
     private final WebApplication webApplication;
+    
+    private final List<Entry<Class<? extends Filter>, String[]>> filters = new ArrayList<>();
 
     /**
      * Create a new WebApplication builder.
@@ -142,16 +148,26 @@ public class WebApplicationBuilder {
     }
     
     /**
-     * Add a Filter
+     * Add a Filter as the first one in the chain, before initializers have a chance to add filters
+     * 
+     * @param filterClass class of the filter to add
+     * @param urlPatterns URL patterns the filter is mapped to
+     * @return the WebApplicationBuilder
+     */
+    public WebApplicationBuilder addFilterFirst(Class<? extends Filter> filterClass, String... urlPatterns) {
+        filters.add(new SimpleImmutableEntry<>(filterClass, urlPatterns));
+        return this;
+    }
+    
+    /**
+     * Add a Filter ordered by the call sequence of other addFilter calls and filters added by addInitializer calls
      * 
      * @param filterClass class of the filter to add
      * @param urlPatterns URL patterns the filter is mapped to
      * @return the WebApplicationBuilder
      */
     public WebApplicationBuilder addFilter(Class<? extends Filter> filterClass, String... urlPatterns) {
-        webApplication.addFilter(filterClass.getSimpleName(), filterClass);
-        webApplication.addFilterMapping(filterClass.getSimpleName(), urlPatterns);
-        
+        webApplication.addInitializer(new AddFilterInitializer(filterClass, urlPatterns));
         return this;
     }
     
@@ -187,6 +203,11 @@ public class WebApplicationBuilder {
      * @return the WebApplication.
      */
     public WebApplication start() {
+        for (Entry<Class<? extends Filter>, String[]> filterEntry : filters) {
+            webApplication.addFilter(filterEntry.getKey().getSimpleName(), filterEntry.getKey());
+            webApplication.addFilterMapping(filterEntry.getKey().getSimpleName(), filterEntry.getValue());
+        }
+        
         webApplication.initialize();
         webApplication.start();
         return webApplication;
