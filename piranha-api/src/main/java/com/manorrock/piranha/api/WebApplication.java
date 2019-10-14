@@ -63,15 +63,6 @@ public interface WebApplication extends ServletContext {
      * @param className the class name.
      */
     void addInitializer(String className);
-
-    /**
-<<<<<<< HEAD
-     * Add a servlet container initializer.
-     *
-     * @param className the class name.
-     * @param classes the classes to be passed to onStartup.
-     */
-    void addInitializer(String className, Set<Class<?>> classes);
     
     /**
      * Add a servlet container initializer.
@@ -81,8 +72,6 @@ public interface WebApplication extends ServletContext {
     void addInitializer(ServletContainerInitializer servletContainerInitializer);
 
     /**
-=======
->>>>>>> upstream/master
      * Add the resource.
      *
      * @param resource the resouce.
