@@ -109,6 +109,38 @@ public interface SecurityManager {
             HttpServletResponse response) throws IOException, ServletException;
     
     /**
+     * Gets the request object the security system wants to put in place.
+     * 
+     * <p>
+     * This method allows the security system (or authentication module being delegated to)
+     * a custom or, more likely, wrapped request.
+     * 
+     * @param request the request.
+     * @param response the response.
+     * @return a request object that the runtime should put into service 
+     */
+    default HttpServletRequest getAuthenticatedRequest(HttpServletRequest request,
+            HttpServletResponse response) {
+        return request;
+    }
+    
+    /**
+     * Gets the response object the security system wants to put in place.
+     * 
+     * <p>
+     * This method allows the security system (or authentication module being delegated to)
+     * a custom or, more likely, wrapped response.
+     * 
+     * @param request the request.
+     * @param response the response.
+     * @return a response object that the runtime should put into service 
+     */
+    default HttpServletResponse getAuthenticatedResponse(HttpServletRequest request,
+            HttpServletResponse response) {
+        return response;
+    }
+    
+    /**
      * Authenticate the request.
      *
      * @param request the request.
