@@ -72,7 +72,9 @@ public class AuthenticationFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (securityManager.authenticate(request, response, PRE_REQUEST_CONTAINER)) {
-            chain.doFilter(request, response);
+            chain.doFilter(
+                securityManager.getAuthenticatedRequest(request, response), 
+                securityManager.getAuthenticatedResponse(request, response));
         }
     }
 
