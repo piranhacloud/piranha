@@ -51,6 +51,10 @@ public class BasicAuthenticationStatelessTest {
     public void testProtected() throws Exception {
         webApp = Application.get();    
     }
+    
+    protected TestWebApp getWebApp() {
+        return webApp;
+    }
 
     /**
      * Tests that access to a protected page does not depend on the authenticated identity that was established in a previous
@@ -62,7 +66,7 @@ public class BasicAuthenticationStatelessTest {
         // -------------------- Request 1 ---------------------------
 
         // Accessing protected page without login
-        String response = webApp.getFromServerPath("/protected/servlet");
+        String response = getWebApp().getFromServerPath("/protected/servlet");
 
         // Not logged-in thus should not be accessible.
         assertFalse(response.contains("This is a protected servlet"));
@@ -77,7 +81,7 @@ public class BasicAuthenticationStatelessTest {
         // we're not authenticated and it will deny further attempts to authenticate. This may happen when
         // the container does not correctly recognize the Jakarta Authentication protocol for "do nothing".
 
-        response = webApp.getFromServerPath("/protected/servlet?doLogin=true");
+        response = getWebApp().getFromServerPath("/protected/servlet?doLogin=true");
 
         // Now has to be logged-in so page is accessible
         assertTrue(
@@ -93,7 +97,7 @@ public class BasicAuthenticationStatelessTest {
         //
         // In the following method we do a call without logging in after one where we did login.
         // The container should not remember this login and has to deny access.
-        response = webApp.getFromServerPath("/protected/servlet");
+        response = getWebApp().getFromServerPath("/protected/servlet");
 
         // Not logged-in thus should not be accessible.
         assertFalse(
@@ -113,7 +117,7 @@ public class BasicAuthenticationStatelessTest {
         // -------------------- Request 1 ---------------------------
 
         // Start with doing a login
-        String response = webApp.getFromServerPath("/protected/servlet?doLogin=true");
+        String response = getWebApp().getFromServerPath("/protected/servlet?doLogin=true");
 
         
         // -------------------- Request 2 ---------------------------
@@ -124,7 +128,7 @@ public class BasicAuthenticationStatelessTest {
         // The container should not remember this login and has to deny access.
 
         // Accessing protected page without login
-        response = webApp.getFromServerPath("/protected/servlet");
+        response = getWebApp().getFromServerPath("/protected/servlet");
 
         // Not logged-in thus should not be accessible.
         assertFalse(
@@ -143,7 +147,7 @@ public class BasicAuthenticationStatelessTest {
 
         // -------------------- Request 1 ---------------------------
 
-        String response = webApp.getFromServerPath("/public/servlet");
+        String response = getWebApp().getFromServerPath("/public/servlet");
 
         // Establish that we're initially not logged-in
         assertTrue(
@@ -160,7 +164,7 @@ public class BasicAuthenticationStatelessTest {
         
         // -------------------- Request 2 ---------------------------
 
-        response = webApp.getFromServerPath("/public/servlet?doLogin=true");
+        response = getWebApp().getFromServerPath("/public/servlet?doLogin=true");
 
         // Now has to be logged-in
         assertTrue(
@@ -174,7 +178,7 @@ public class BasicAuthenticationStatelessTest {
         // -------------------- Request 3 ---------------------------
 
         // Accessing public page without login
-        response = webApp.getFromServerPath("/public/servlet");
+        response = getWebApp().getFromServerPath("/public/servlet");
 
         // No details should linger around
         assertTrue(
@@ -199,13 +203,13 @@ public class BasicAuthenticationStatelessTest {
         // -------------------- Request 1 ---------------------------
 
         // Accessing protected page with login
-        String response = webApp.getFromServerPath("/protected/servlet?doLogin=true");
+        String response = getWebApp().getFromServerPath("/protected/servlet?doLogin=true");
 
         
         // -------------------- Request 2 ---------------------------
 
         // Accessing public page without login
-        response = webApp.getFromServerPath("/public/servlet");
+        response = getWebApp().getFromServerPath("/public/servlet");
 
         // No details should linger around
         assertFalse(

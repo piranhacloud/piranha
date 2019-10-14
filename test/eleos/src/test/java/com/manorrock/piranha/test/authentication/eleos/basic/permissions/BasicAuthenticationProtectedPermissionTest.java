@@ -25,73 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.authentication.eleos.basic;
-
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
+package com.manorrock.piranha.test.authentication.eleos.basic.permissions;
 
 import org.junit.Before;
-import org.junit.Test;
-import org.xml.sax.SAXException;
 
+import com.manorrock.piranha.test.authentication.eleos.basic.BasicAuthenticationProtectedTest;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
 /**
- * This tests that we can login from a public page (a page for which no security constraints have been set).
+ * Variant of {@link BasicAuthenticationProtectedTest} that uses Permissions
  * 
  * @author Arjan Tijms
  * 
  */
-public class BasicAuthenticationPublicTest {
-
+public class BasicAuthenticationProtectedPermissionTest extends BasicAuthenticationProtectedTest{
+    
     TestWebApp webApp;
     
     @Before
     public void testProtected() throws Exception {
-        webApp = Application.get();    
+        webApp = ApplicationWithPermissions.get();    
     }
     
     protected TestWebApp getWebApp() {
         return webApp;
     }
 
-    @Test
-    public void testPublicPageNotLoggedin() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("/public/servlet");
-
-        // Not logged-in
-        assertTrue(
-            "Not authenticated, but a username other than null was encountered. " +
-            "This is not correct.",
-            response.contains("web username: null")
-        );
-        assertTrue(
-            "Not authenticated, but the user seems to have the role \"architect\". " +
-            "This is not correct.",
-            response.contains("web user has role \"architect\": false")
-        );
-    }
-
-    @Test
-    public void testPublicPageLoggedin() throws IOException, SAXException {
-
-        // Jakarta Authentication has to be able to authenticate a user when accessing a public (non-protected) resource.
-
-        String response = getWebApp().getFromServerPath("/public/servlet?doLogin=true");
-
-        // Now has to be logged-in
-        assertTrue(
-            "User should have been authenticated and given name \"test\", " + 
-            " but does not appear to have this name",
-            response.contains("web username: test")
-        );
-        assertTrue(
-            "User should have been authenticated and given role \"architect\", " + 
-            " but does not appear to have this role",
-            response.contains("web user has role \"architect\": true")
-        );
-    }
+    
 
 }
