@@ -27,19 +27,6 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.piranha.api.AnnotationManager;
-import com.manorrock.piranha.api.Feature;
-import com.manorrock.piranha.api.SecurityManager;
-import com.manorrock.piranha.api.JspManager;
-import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.api.HttpSessionManager;
-import com.manorrock.piranha.api.MimeTypeManager;
-import com.manorrock.piranha.api.WebApplicationRequestMapping;
-import com.manorrock.piranha.api.WebApplicationRequestMapper;
-import com.manorrock.piranha.api.ObjectInstanceManager;
-import com.manorrock.piranha.api.LoggingManager;
-import com.manorrock.piranha.api.ResourceManager;
-import com.manorrock.piranha.api.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,6 +46,7 @@ import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
 import javax.servlet.RequestDispatcher;
@@ -84,6 +72,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
+
+import com.manorrock.piranha.api.AnnotationManager;
+import com.manorrock.piranha.api.Feature;
+import com.manorrock.piranha.api.HttpSessionManager;
+import com.manorrock.piranha.api.JspManager;
+import com.manorrock.piranha.api.LoggingManager;
+import com.manorrock.piranha.api.MimeTypeManager;
+import com.manorrock.piranha.api.ObjectInstanceManager;
+import com.manorrock.piranha.api.Resource;
+import com.manorrock.piranha.api.ResourceManager;
+import com.manorrock.piranha.api.SecurityManager;
+import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.api.WebApplicationRequestMapper;
+import com.manorrock.piranha.api.WebApplicationRequestMapping;
 
 /**
  * The default WebApplication.
@@ -390,7 +392,7 @@ public class DefaultWebApplication implements WebApplication {
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
         }
     }
-    
+      
     @Override
     public void addInitializer(ServletContainerInitializer servletContainerInitializer) {
         initializers.add(servletContainerInitializer);
