@@ -25,17 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.authentication.eleos.basic;
+package com.manorrock.piranha.test.authentication.eleos.basic.elements;
 
 import static com.manorrock.piranha.authentication.elios.AuthenticationInitializer.AUTH_MODULE_CLASS;
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.CONSTRAINTS;
+import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.SECURITY_ELEMENTS;
 import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static java.util.Arrays.asList;
+import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
 
-import org.omnifaces.exousia.constraints.SecurityConstraint;
-import org.omnifaces.exousia.constraints.WebResourceCollection;
+import java.util.AbstractMap.SimpleImmutableEntry;
+
+import javax.servlet.HttpConstraintElement;
+import javax.servlet.ServletSecurityElement;
+
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
@@ -43,21 +47,25 @@ import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
 import com.manorrock.piranha.jakarta.security.base.SecurityBaseInitializer;
+import com.manorrock.piranha.test.authentication.eleos.basic.BasicServerAuthModule;
+import com.manorrock.piranha.test.authentication.eleos.basic.ProtectedServlet;
+import com.manorrock.piranha.test.authentication.eleos.basic.PublicServlet;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
 /**
  * @author Arjan Tijms
  */
-public class Application {
+public class ApplicationWithElements {
     
     public static TestWebApp get() {
         return 
             new TestWebApp(newWebApplication()
                 .addAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .addAttribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
-                .addAttribute(CONSTRAINTS, asList(
-                    new SecurityConstraint(
-                            new WebResourceCollection("/protected/servlet"), "architect")))
+                .addAttribute(SECURITY_ELEMENTS, asList(
+                    new SimpleImmutableEntry<>(
+                        asList("/protected/servlet"), 
+                        new ServletSecurityElement(new HttpConstraintElement(NONE, "architect")))))
                 
                 .addInitializer(AuthorizationPreInitializer.class)
             
