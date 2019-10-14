@@ -131,18 +131,6 @@ public class WebApplicationBuilder {
     }
 
     /**
-     * Add an initializer.
-     * 
-     * @param clazz the initializer class.
-     * @param classes the onStartup classes.
-     * @return the WebApplication builder.
-     */
-    public WebApplicationBuilder addInitializer(Class<?> clazz, Set<Class<?>> classes) {
-        webApplication.addInitializer(clazz.getName(), classes);
-        return this;
-    }
-
-    /**
      * Add the initializer.
      * 
      * @param className the initializer class name.
@@ -150,18 +138,6 @@ public class WebApplicationBuilder {
      */
     public WebApplicationBuilder addInitializer(String className) {
         webApplication.addInitializer(className);
-        return this;
-    }
-
-    /**
-     * Add the initializer.
-     * 
-     * @param className the initializer class name.
-     * @param classes the onStartup classes.
-     * @return the WebApplicationBuilder.
-     */
-    public WebApplicationBuilder addInitializer(String className, Set<Class<?>> classes) {
-        webApplication.addInitializer(className, classes);
         return this;
     }
     
