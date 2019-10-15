@@ -27,16 +27,18 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.piranha.api.SecurityManager;
-import com.manorrock.piranha.api.WebApplication;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+
+import com.manorrock.piranha.api.SecurityManager;
+import com.manorrock.piranha.api.WebApplication;
 
 /**
  * The default SecurityManager.
@@ -204,7 +206,7 @@ public class DefaultSecurityManager implements SecurityManager {
      * @throws ServletException when a serious error occurs.
      */
     @Override
-    public void logout(HttpServletRequest request) throws ServletException {
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
     }
 
     /**

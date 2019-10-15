@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.authentication.eleos.wrapping;
+package com.manorrock.piranha.test.authentication.eleos.lifecycle;
 
 import static javax.security.auth.message.AuthStatus.SEND_SUCCESS;
 import static javax.security.auth.message.AuthStatus.SUCCESS;
@@ -48,11 +48,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * A test SAM that always authenticates a hard-coded user "test" with role "architect" for every request.
  * 
  * @author Arjan Tijms
  * 
  */
-public class TestWrappingServerAuthModule implements ServerAuthModule {
+public class TestLifecycleAuthModule implements ServerAuthModule {
 
     private CallbackHandler handler;
     private Class<?>[] supportedMessageTypes = new Class[] { HttpServletRequest.class, HttpServletResponse.class };
@@ -67,23 +68,21 @@ public class TestWrappingServerAuthModule implements ServerAuthModule {
     public AuthStatus validateRequest(MessageInfo messageInfo, Subject clientSubject, Subject serviceSubject)
         throws AuthException {
 
+        HttpServletResponse response = (HttpServletResponse) messageInfo.getResponseMessage();
+
         try {
+            response.getWriter().write("validateRequest invoked\n");
+            
+            boolean isMandatory = Boolean.valueOf((String) messageInfo.getMap().get("javax.security.auth.message.MessagePolicy.isMandatory"));
+            
+            response.getWriter().write("isMandatory: " + isMandatory + "\n");
+
             handler.handle(new Callback[] {
                 new CallerPrincipalCallback(clientSubject, "test"),
                 new GroupPrincipalCallback(clientSubject, new String[] { "architect" }) });
         } catch (IOException | UnsupportedCallbackException e) {
             throw (AuthException) new AuthException().initCause(e);
         }
-
-        // Wrap the request - the resource to be invoked should get to see this
-        messageInfo.setRequestMessage(new TestHttpServletRequestWrapper(
-            (HttpServletRequest) messageInfo.getRequestMessage())
-            );
-
-        // Wrap the response - the resource to be invoked should get to see this
-        messageInfo.setResponseMessage(new TestHttpServletResponseWrapper(
-            (HttpServletResponse) messageInfo.getResponseMessage())
-            );
 
         return SUCCESS;
     }
@@ -96,17 +95,12 @@ public class TestWrappingServerAuthModule implements ServerAuthModule {
     @Override
     public AuthStatus secureResponse(MessageInfo messageInfo, Subject serviceSubject) throws AuthException {
 
-        HttpServletRequest request = (HttpServletRequest) messageInfo.getRequestMessage();
-
-        // Unwrap the request
-        if (request instanceof TestHttpServletRequestWrapper) {
-            messageInfo.setRequestMessage(((TestHttpServletRequestWrapper) request).getRequest());
-        }
-
         HttpServletResponse response = (HttpServletResponse) messageInfo.getResponseMessage();
 
-        if (response instanceof TestHttpServletResponseWrapper) {
-            messageInfo.setResponseMessage(((TestHttpServletResponseWrapper) response).getResponse());
+        try {
+            response.getWriter().write("secureResponse invoked\n");
+        } catch (IOException e) {
+            throw (AuthException) new AuthException().initCause(e);
         }
 
         return SEND_SUCCESS;
@@ -114,6 +108,12 @@ public class TestWrappingServerAuthModule implements ServerAuthModule {
 
     @Override
     public void cleanSubject(MessageInfo messageInfo, Subject subject) throws AuthException {
+        HttpServletResponse response = (HttpServletResponse) messageInfo.getResponseMessage();
 
+        try {
+            response.getWriter().write("cleanSubject invoked\n");
+        } catch (IOException e) {
+            throw (AuthException) new AuthException().initCause(e);
+        }
     }
 }
