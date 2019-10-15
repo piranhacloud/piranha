@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha.jakarta.security.base;
 
+import static com.manorrock.piranha.DefaultAuthenticatedIdentity.getCurrentSubject;
 import static com.manorrock.piranha.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
 import static com.manorrock.piranha.authentication.elios.AuthenticationInitializer.AUTH_SERVICE;
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
@@ -117,6 +118,11 @@ public class JakartaSecurityManager implements SecurityManager {
     }
     
     @Override
+    public void postRequestProcess(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        getAuthenticationService(request).secureResponse(request, response);
+    }
+    
+    @Override
     public boolean isUserInRole(HttpServletRequest request, String role) {
         
         // TMP delegate to authorization manager later
@@ -132,8 +138,10 @@ public class JakartaSecurityManager implements SecurityManager {
     }
 
     @Override
-    public void logout(HttpServletRequest request) throws ServletException {
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        getAuthenticationService(request).clearSubject(request, response, getCurrentSubject());
         
+        DefaultAuthenticatedIdentity.clear();
     }
     
     @Override

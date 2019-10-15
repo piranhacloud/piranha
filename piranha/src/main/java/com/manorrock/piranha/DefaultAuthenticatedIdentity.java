@@ -77,6 +77,11 @@ public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
     public static AuthenticatedIdentity getCurrentIdentity() {
         return currentIdentity.get();
     }
+    
+    public static void clear() {
+        currentIdentity.remove();
+        currentSubject.remove();
+    }
 
     public DefaultAuthenticatedIdentity(Principal callerPrincipal, Set<String> groups) {
         this.callerPrincipal = callerPrincipal;
