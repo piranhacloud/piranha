@@ -188,6 +188,7 @@ public class DefaultHttpServer implements HttpServer {
                 executorService.awaitTermination(120, TimeUnit.SECONDS);
             } catch (InterruptedException exception) {
                 LOGGER.log(Level.WARNING, "Termination of the executor service was interrupted", exception);
+                Thread.currentThread().interrupt();
             }
         }
     }
