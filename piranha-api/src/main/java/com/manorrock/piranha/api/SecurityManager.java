@@ -158,6 +158,23 @@ public interface SecurityManager {
         // The 2 parameter version is expected to be essentially source = MID_REQUEST_USER
         return authenticate(request, response);
     }
+    
+    /**
+     * Gives the security system the opportunity to process the response after the request (after the target resource has been invoked).
+     * 
+     * <p>
+     * Although this may be rare to used in practice, it allows for encryption of the response, inserting security
+     * tokens, signing the response, etc. 
+     * 
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a servlet error occurs.
+     */
+    default void postRequestProcess(HttpServletRequest request, 
+            HttpServletResponse response)
+            throws IOException, ServletException {
+    }
 
     /**
      * Declare roles.
