@@ -216,7 +216,7 @@ public interface SecurityManager {
      * @param request the request.
      * @throws ServletException when a servlet error occurs.
      */
-    void logout(HttpServletRequest request) throws ServletException;
+    void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException;
 
     /**
      * Set the web application.

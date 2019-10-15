@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.authentication.eleos.wrapping;
+package com.manorrock.piranha.test.authentication.eleos.lifecycle;
 
 import static org.junit.Assert.assertTrue;
 
@@ -38,63 +38,48 @@ import org.xml.sax.SAXException;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
 /**
- * This tests that the wrapped request and response a SAM puts into the MessageInfo structure reaches the Servlet that's
- * invoked as well as all filters executed before that.
+ * This tests that the "javax.security.auth.message.MessagePolicy.isMandatory" key
+ * in the message info map is "true" for a protected resource, and not "true" for
+ * a public resource.
  * 
  * @author Arjan Tijms
  * 
  */
-public class WrappingTest {
-
+public class IsMandatoryTest {
+    
     TestWebApp webApp;
     
     @Before
     public void testProtected() throws Exception {
-        webApp = WrappingApplication.get();    
+        webApp = Application.get();    
     }
     
     protected TestWebApp getWebApp() {
         return webApp;
     }
+
+    @Test
+    public void testPublicIsNonMandatory() throws IOException, SAXException {
+
+        String response = getWebApp().getFromServerPath("public/servlet");
+
+        assertTrue("Resource (Servlet) not invoked, but should have been.", response.contains("Public resource invoked"));
+        
+        assertTrue("isMandatory should be false for public resource, but was not.",
+            response.contains("isMandatory: false"));
+    }
     
     @Test
-    public void testDeclaredFilterRequestWrapping() throws IOException, SAXException {
+    public void testProtectedIsMandatory() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("protected/servlet");
 
-        // The SAM wrapped a request so that it always contains the request attribute "isWrapped" with value true.
-        assertTrue("Request wrapped by SAM did not arrive in declared Filter.",
-            response.contains("declared filter request isWrapped: true"));
+        assertTrue("Resource (Servlet) not invoked, but should have been.", response.contains("Resource invoked"));
+        
+        assertTrue("isMandatory should be true for protected resource, but was not.",
+                response.contains("isMandatory: true"));
+        
     }
 
-    @Test
-    public void testDeclaredFilterResponseWrapping() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("protected/servlet");
-
-        // The SAM wrapped a response so that it always contains the header "isWrapped" with value true.
-        assertTrue("Response wrapped by SAM did not arrive in declared Filter.",
-            response.contains("declared filter response isWrapped: true"));
-    }
-
-    @Test
-    public void testRequestWrapping() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("protected/servlet");
-
-        // The SAM wrapped a request so that it always contains the request attribute "isWrapped" with value true.
-        assertTrue("Request wrapped by SAM did not arrive in Servlet.",
-            response.contains("servlet request isWrapped: true"));
-    }
-
-    @Test
-    public void testResponseWrapping() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("protected/servlet");
-
-        // The SAM wrapped a response so that it always contains the header "isWrapped" with value true.
-        assertTrue("Response wrapped by SAM did not arrive in Servlet.",
-            response.contains("servlet response isWrapped: true"));
-    }
 
 }
