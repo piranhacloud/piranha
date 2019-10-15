@@ -40,7 +40,7 @@ import com.manorrock.piranha.test.utils.TestWebApp;
 /**
  * This tests that the "javax.security.auth.message.MessagePolicy.isMandatory" key
  * in the message info map is "true" for a protected resource, and not "true" for
- * a public resource.
+ * a public resource. 
  * 
  * @author Arjan Tijms
  * 
