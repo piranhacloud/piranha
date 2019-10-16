@@ -27,14 +27,13 @@
  */
 package com.manorrock.piranha.runner.war;
 
-import com.manorrock.piranha.runner.war.WarRunner;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
  * The JUnit tests for the WarRunner class.
