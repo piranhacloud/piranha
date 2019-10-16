@@ -51,6 +51,11 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>3.0.0-M3</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>1.6</version>
                 </plugin>
@@ -73,6 +78,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.2.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -119,7 +129,7 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.0.1</version>
+                                    <version>3.0.2</version>
                                 </requireMavenVersion>
                             </rules>    
                         </configuration>
@@ -186,7 +196,7 @@
             <dependency>
                 <groupId>com.hazelcast</groupId>
                 <artifactId>hazelcast</artifactId>
-                <version>3.12.2</version>
+                <version>3.12.3</version>
             </dependency>
             <dependency>
                 <groupId>com.manorrock.herring</groupId>
@@ -196,17 +206,17 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-client-compiled</artifactId>
-                <version>8.9.0</version>
+                <version>8.9.1</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-server</artifactId>
-                <version>8.9.0</version>
+                <version>8.9.1</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-themes</artifactId>
-                <version>8.9.0</version>
+                <version>8.9.1</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
@@ -295,6 +305,11 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-jsf</artifactId>
+                <version>${openwebbeans.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-spi</artifactId>
                 <version>${openwebbeans.version}</version>
             </dependency>
@@ -306,7 +321,7 @@
             <dependency>
                 <groupId>org.apache.wicket</groupId>
                 <artifactId>wicket-core</artifactId>
-                <version>8.5.0</version>
+                <version>8.6.1</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
@@ -374,9 +389,19 @@
                 <version>2.4.8.Final</version>
             </dependency>
             <dependency>
+                <groupId>org.omnifaces</groupId>
+                <artifactId>eleos</artifactId>
+                <version>0.3.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.omnifaces</groupId>
+                <artifactId>exousia</artifactId>
+                <version>0.4.1</version>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>5.1.9.RELEASE</version>
+                <version>5.2.0.RELEASE</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -470,7 +495,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <openwebbeans.version>2.0.11</openwebbeans.version>
+        <openwebbeans.version>2.0.12</openwebbeans.version>
     </properties>
     <reporting>
         <plugins>
