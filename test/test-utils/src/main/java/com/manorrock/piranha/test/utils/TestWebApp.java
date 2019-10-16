@@ -62,6 +62,10 @@ public class TestWebApp {
      * @throws IOException when something goes wrong
      */
     public String getFromServerPath(String path) throws IOException {
+        return getResponseFromServerPath(path).getResponseBodyAsString();
+    }
+    
+    public TestHttpServletResponse getResponseFromServerPath(String path) throws IOException {
         
         String servletPath = path;
 
@@ -85,7 +89,7 @@ public class TestWebApp {
         
             webApp.service(request, response);
             
-            return response.getResponseBodyAsString();
+            return response;
         } catch (ServletException e) {
             throw new IOException(e);
         }
