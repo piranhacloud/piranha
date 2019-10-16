@@ -1,6 +1,8 @@
 
 # Manorrock Piranha Project
 
+![master branch status](https://github.com/manorrock/piranha/workflows/master/badge.svg)
+
 The Manorrock Piranha Project delivers you with Cloud ready container and
 some useful add-on modules.
 
