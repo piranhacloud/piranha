@@ -2,6 +2,8 @@
 .DS_Store
 .project
 .settings/
+dependency-reduced-pom.xml
 nb-configuration.xml
 nbproject/
 target/
+
