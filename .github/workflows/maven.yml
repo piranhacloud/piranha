@@ -1,4 +1,4 @@
-name: master
+name: Java CI
 on: [push, pull_request]
 jobs:
   build:
