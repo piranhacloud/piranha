@@ -30,11 +30,14 @@ package com.manorrock.piranha.test.utils;
 import static java.util.regex.Pattern.quote;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 
 import com.manorrock.piranha.api.WebApplication;
 
@@ -44,6 +47,8 @@ import com.manorrock.piranha.api.WebApplication;
  * @author Arjan Tijms
  */
 public class TestWebApp {
+    
+    private List<Cookie> cookies = new ArrayList<>();
     
     /**
      * The underlying web application
@@ -85,14 +90,34 @@ public class TestWebApp {
             for (Map.Entry<String, String> parameter : parameters.entrySet()) {
                 request.setParameter(parameter.getKey(), new String[] { parameter.getValue() });
             }
+            
+            List<Cookie> requestCookies = new ArrayList<>();
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("JSESSIONID")) {
+                    request.setRequestedSessionIdFromCookie(true);
+                    request.setRequestedSessionId(cookie.getValue());
+                } else {
+                    requestCookies.add(cookie);
+                }
+            }
+            
+            request.setCookies(requestCookies.toArray(new Cookie[0]));
+            
             TestHttpServletResponse response = new TestHttpServletResponse();
         
             webApp.service(request, response);
+                        
+            // Very basic impl. Better implementation should look atleast at expiration
+            cookies.addAll(response.getCookies());
             
             return response;
         } catch (ServletException e) {
             throw new IOException(e);
         }
+    }
+    
+    public List<Cookie> getCookies() {
+        return cookies;
     }
     
     /**
