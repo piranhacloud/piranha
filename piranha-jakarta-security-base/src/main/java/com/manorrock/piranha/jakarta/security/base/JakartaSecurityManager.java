@@ -33,10 +33,12 @@ import static com.manorrock.piranha.authentication.elios.AuthenticationInitializ
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
 
 import java.io.IOException;
+import java.security.Principal;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.omnifaces.eleos.config.helper.Caller;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
@@ -87,15 +89,36 @@ public class JakartaSecurityManager implements SecurityManager {
     public boolean authenticate(HttpServletRequest request, HttpServletResponse response, AuthenticateSource source) throws IOException, ServletException {
         DefaultAuthenticationService authenticationService = (DefaultAuthenticationService) request.getServletContext().getAttribute(AUTH_SERVICE);
         
+        Caller storedCaller = null;
+        
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            storedCaller = (Caller) session.getAttribute(".caller");
+            if (storedCaller != null) {
+                DefaultWebApplicationRequest piranhaRequest = (DefaultWebApplicationRequest) request;
+                piranhaRequest.setUserPrincipal(new MarkerPrincipal(storedCaller.getName()));
+            }
+        }
+        
         Caller caller = authenticationService.validateRequest(
                 request, 
                 response, 
                 source == MID_REQUEST_USER, 
                 source == MID_REQUEST_USER? true : !isRequestedResourcePublic(request));
         
-        
+
+        // Caller is null means authentication failed. If authentication did not happen (auth module decided to do nothing)
+        // we have a caller instance with a null caller principal
         if (caller == null) {
             return false;
+        }
+        
+        if (caller.getCallerPrincipal() instanceof MarkerPrincipal) {
+            caller = storedCaller;
+        }
+        
+        if (authenticationService.mustRegisterSession(request, response)) {
+            request.getSession().setAttribute(".caller", caller);
         }
         
         DefaultWebApplicationRequest defaultWebApplicationRequest = (DefaultWebApplicationRequest) request;
@@ -160,6 +183,20 @@ public class JakartaSecurityManager implements SecurityManager {
     
     protected AuthorizationService getAuthorizationService(HttpServletRequest request) {
         return (AuthorizationService) request.getServletContext().getAttribute(AUTHZ_SERVICE);
+    }
+    
+    class MarkerPrincipal implements Principal {
+        
+        private final String name;
+        
+        public MarkerPrincipal(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
     }
 
 }
