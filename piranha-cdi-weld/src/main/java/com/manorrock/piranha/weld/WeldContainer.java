@@ -30,6 +30,7 @@ package com.manorrock.piranha.weld;
 import javax.enterprise.inject.spi.CDI;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
 import org.jboss.weld.environment.Container;
 import org.jboss.weld.environment.ContainerContext;
 import org.jboss.weld.manager.api.WeldManager;
@@ -68,7 +69,7 @@ public class WeldContainer implements Container {
             cdi.setWeldManager(manager);
             WeldProvider.setCDI(cdi);
             InitialContext initialContext = new InitialContext();
-            initialContext.bind("java:comp/BeanManager", manager);
+            initialContext.rebind("java:comp/BeanManager", manager);
         } catch (NamingException ne) {
             throw new RuntimeException(ne);
         }
