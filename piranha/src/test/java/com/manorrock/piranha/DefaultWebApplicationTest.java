@@ -448,7 +448,7 @@ public class DefaultWebApplicationTest {
     public void testAddServlet2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         Dynamic dynamic = webApp.addServlet("bogus", Servlet.class);
-        assertNull(dynamic);
+        assertNotNull(dynamic);
     }
 
     /**
