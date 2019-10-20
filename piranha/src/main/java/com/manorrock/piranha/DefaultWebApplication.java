@@ -494,18 +494,12 @@ public class DefaultWebApplication implements WebApplication {
      * Add the servlet.
      *
      * @param servletName the servlet name.
-     * @param type the class type.
+     * @param servletClass the class type.
      * @return the servlet dynamic.
      */
     @Override
-    public Dynamic addServlet(String servletName, Class<? extends Servlet> type) {
-        Dynamic result = null;
-        try {
-            Servlet servlet = createServlet(type);
-            result = addServlet(servletName, servlet);
-        } catch (ServletException exception) {
-        }
-        return result;
+    public Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass) {
+        return addServlet(servletName, servletClass.getName());
     }
 
     /**
