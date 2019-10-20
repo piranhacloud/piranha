@@ -25,66 +25,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.weld;
+package com.manorrock.piranha;
 
-import javax.enterprise.inject.spi.CDI;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
 
-import org.jboss.weld.environment.Container;
-import org.jboss.weld.environment.ContainerContext;
-import org.jboss.weld.manager.api.WeldManager;
-import org.jboss.weld.resources.spi.ResourceLoader;
+import com.manorrock.piranha.api.CurrentRequestHolder;
 
 /**
- * The Weld container.
+ * Default implementation of the CurrentRequestHolder interface.
+ * 
+ * @author Arjan Tijms
  *
- * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WeldContainer implements Container {
-
-    /**
-     * Destroy the container.
-     *
-     * @param context the container context.
-     */
-    @Override
-    public void destroy(ContainerContext context) {
+public class DefaultCurrentRequestHolder implements CurrentRequestHolder {
+    
+    private HttpServletRequest request;
+    
+    public DefaultCurrentRequestHolder(HttpServletRequest request) {
+        this.request = request;
     }
 
-    /**
-     * Initialize the container.
-     *
-     * @param context the container context.
-     */
+    @SuppressWarnings("unchecked")
     @Override
-    public void initialize(ContainerContext context) {
-        try {
-            CDI.setCDIProvider(new WeldProvider());
-        } catch (IllegalStateException ise) {
-        }
-        try {
-            WeldManager manager = context.getManager();
-            WeldCDI cdi = new WeldCDI();
-            cdi.setWeldManager(manager);
-            WeldProvider.setCDI(cdi);
-            InitialContext initialContext = new InitialContext();
-            initialContext.rebind("java:comp/BeanManager", manager);
-        } catch (NamingException ne) {
-            throw new RuntimeException(ne);
-        }
+    public <T extends HttpServletRequest> T getRequest() {
+        return (T) request;
     }
 
-    /**
-     * Touch the container.
-     *
-     * @param resourceLoader the resource loader.
-     * @param context the container context.
-     * @return true
-     * @throws Exception when a serious error occurs.
-     */
     @Override
-    public boolean touch(ResourceLoader resourceLoader, ContainerContext context) throws Exception {
-        return true;
+    public void setRequest(HttpServletRequest request) {
+        this.request = request;
     }
+
+    
 }
