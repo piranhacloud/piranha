@@ -31,7 +31,6 @@ import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
@@ -179,9 +178,7 @@ public class WebApplicationBuilder {
      * @return the WebApplicationBuilder
      */
     public WebApplicationBuilder addServlet(Class<? extends Servlet> servletClass, String... urlPatterns) {
-        webApplication.addServlet(servletClass.getSimpleName(), servletClass);
-        webApplication.addServletMapping(servletClass.getSimpleName(), urlPatterns);
-        
+        webApplication.addInitializer(new AddServletInitializer(servletClass, urlPatterns));
         return this;
     }
     

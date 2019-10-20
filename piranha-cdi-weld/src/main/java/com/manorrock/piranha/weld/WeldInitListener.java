@@ -27,33 +27,45 @@
  */
 package com.manorrock.piranha.weld;
 
-import java.util.Set;
+import javax.servlet.ServletRequestEvent;
+import javax.servlet.http.HttpServletRequest;
 
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import org.jboss.weld.environment.servlet.Listener;
+import org.jboss.weld.servlet.api.ServletListener;
+import org.jboss.weld.servlet.api.helpers.ForwardingServletListener;
 
-import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.api.CurrentRequestHolder;
 
 /**
- * The Weld Integration ServletContainerInitializer.
+ * This Piranha specific Weld initializer forwards all initialization
+ * to the original Weld initializer, but modifies the <code>HttpServletRequest</code>
+ * that's passed into it.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * <p>
+ * The purpose of this is making sure Weld is able to access the <em>current</em> 
+ * <code>HttpServletRequest</code> as that changes throughout the request processing
+ * pipeline.
+ * 
+ * @see WeldHttpServletRequest
+ * @see CurrentRequestHolder
+ * 
+ * @author Arjan Tijms
+ *
  */
-public class WeldInitializer implements ServletContainerInitializer {
-
-    /**
-     * On startup.
-     *
-     * @param classes the annotated classes.
-     * @param servletContext the servlet context.
-     * @throws ServletException when a serious error occurs.
-     */
+public class WeldInitListener extends ForwardingServletListener {
+    
+    private ServletListener weldTargetListener = new Listener();
+    
     @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        servletContext.setInitParameter("WELD_CONTEXT_ID_KEY", servletContext.toString());
-        servletContext.addListener(WeldInitListener.class);
-        WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setObjectInstanceManager(new WeldObjectInstanceManager());
+    public void requestInitialized(ServletRequestEvent sre) {
+        super.requestInitialized(new ServletRequestEvent(
+            sre.getServletContext(), 
+            new WeldHttpServletRequest((HttpServletRequest)sre.getServletRequest())));
     }
+
+    @Override
+    protected ServletListener delegate() {
+        return weldTargetListener;
+    }
+
 }

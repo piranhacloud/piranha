@@ -27,33 +27,40 @@
  */
 package com.manorrock.piranha.weld;
 
-import java.util.Set;
+import static com.manorrock.piranha.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
 
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
-import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.DefaultCurrentRequestHolder;
+import com.manorrock.piranha.api.CurrentRequestHolder;
 
 /**
- * The Weld Integration ServletContainerInitializer.
+ * An HttpServletRequest wrapper that always delegates every operation to what has been set as
+ * the <em>current</em> request.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * <p>
+ * This allows Weld to hold on to a single HttpServletRequest instance, which can then be set to
+ * point to another HttpServletRequest instance as the current one that the request uses changes.
+ * 
+ * <p>
+ * This instance changes for example after an authentication module or filter has provided a new
+ * HttpServletRequest, or when a dispatch or include is performed.
+ * 
+ * @author Arjan Tijms
+ *
  */
-public class WeldInitializer implements ServletContainerInitializer {
+public class WeldHttpServletRequest extends RealtimeHttpServletRequestWrapper {
+    
+    private final CurrentRequestHolder currentRequestHolder;
 
-    /**
-     * On startup.
-     *
-     * @param classes the annotated classes.
-     * @param servletContext the servlet context.
-     * @throws ServletException when a serious error occurs.
-     */
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        servletContext.setInitParameter("WELD_CONTEXT_ID_KEY", servletContext.toString());
-        servletContext.addListener(WeldInitListener.class);
-        WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setObjectInstanceManager(new WeldObjectInstanceManager());
+    public WeldHttpServletRequest(HttpServletRequest request) {
+        currentRequestHolder = new DefaultCurrentRequestHolder(request);
+        request.setAttribute(CURRENT_REQUEST_ATTRIBUTE, currentRequestHolder);
     }
+    
+    @Override
+    protected HttpServletRequest getWrapped() {
+        return currentRequestHolder.getRequest();
+    }
+    
 }
