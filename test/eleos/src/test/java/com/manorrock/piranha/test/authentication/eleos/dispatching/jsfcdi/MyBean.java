@@ -25,36 +25,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.faces.mojarra;
+package com.manorrock.piranha.test.authentication.eleos.dispatching.jsfcdi;
 
-import static java.lang.Boolean.TRUE;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
-import java.util.Set;
+@Named
+@RequestScoped
+public class MyBean {
+    
+    @Inject
+    private HttpServletRequest request;
 
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration.Dynamic;
-
-/**
- * The Mojarra initializer.
- * 
- * @author Manfred Riem (mriem@manorrock.com)
- */
-public class MojarraInitializer implements ServletContainerInitializer {
-
-    /**
-     * Initialize Mojarra.
-     * 
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        Dynamic dynamic = servletContext.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        dynamic.addMapping("/faces/*", "*.html", "*.xhtml");
-        servletContext.setAttribute("com.sun.faces.facesInitializerMappingsAdded", TRUE);
-        servletContext.addListener("com.sun.faces.config.ConfigureListener");
+    public String getText() {
+        return "Called from CDI\n";
     }
+    
+    public String getServletPath() {
+        return request.getServletPath();
+    }
+    
 }
