@@ -25,36 +25,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.faces.mojarra;
+package com.manorrock.piranha.test.authentication.eleos.dispatching.jsfcdi;
 
-import static java.lang.Boolean.TRUE;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Set;
+import java.io.IOException;
 
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration.Dynamic;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.xml.sax.SAXException;
+
+import com.manorrock.piranha.test.utils.TestWebApp;
 
 /**
- * The Mojarra initializer.
+ * The JSF with CDI forward test tests that a SAM is able to include a JSF view
+ * that uses a CDI backing bean.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * Excluded for now as it fails, but the failure is not JASPIC related
+ * 
+ * @author Arjan Tijms
+ * 
  */
-public class MojarraInitializer implements ServletContainerInitializer {
-
-    /**
-     * Initialize Mojarra.
-     * 
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        Dynamic dynamic = servletContext.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        dynamic.addMapping("/faces/*", "*.html", "*.xhtml");
-        servletContext.setAttribute("com.sun.faces.facesInitializerMappingsAdded", TRUE);
-        servletContext.addListener("com.sun.faces.config.ConfigureListener");
+@Ignore
+public class JSFCDIIncludeTest {
+    
+    TestWebApp webApp;
+    
+    @Before
+    public void testProtected() throws Exception {
+        webApp = Application.get();    
     }
+    
+    protected TestWebApp getWebApp() {
+        return webApp;
+    }
+
+    //@Test
+    public void testJSFwithCDIIncludeViaPublicResource() throws IOException, SAXException {
+
+        String response = getWebApp().getFromServerPath("public/servlet?dispatch=include&tech=jsfcdi");
+        
+        assertTrue(
+            "Response did not contain output from JSF view that SAM included.", 
+            response.contains("response from JSF include - Called from CDI")
+        );
+        
+        assertTrue(
+            "Response did not contain output from target Servlet after included JSF view.", 
+            response.contains("Resource invoked")
+        );
+        
+        assertTrue(
+            "Output from included JSF view and target Servlet in wrong order.",
+            response.indexOf("response from JSF include - Called from CDI") < response.indexOf("Resource invoked")
+        );
+    }
+
 }

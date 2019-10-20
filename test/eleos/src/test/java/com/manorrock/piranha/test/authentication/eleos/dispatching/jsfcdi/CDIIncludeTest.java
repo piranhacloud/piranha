@@ -25,36 +25,56 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.faces.mojarra;
+package com.manorrock.piranha.test.authentication.eleos.dispatching.jsfcdi;
 
-import static java.lang.Boolean.TRUE;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Set;
+import java.io.IOException;
 
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration.Dynamic;
+import org.junit.Before;
+import org.junit.Test;
+import org.xml.sax.SAXException;
+
+import com.manorrock.piranha.test.utils.TestWebApp;
 
 /**
- * The Mojarra initializer.
+ * The basic forward test tests that a SAM is able to forward to a simple Servlet.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
+ * 
  */
-public class MojarraInitializer implements ServletContainerInitializer {
-
-    /**
-     * Initialize Mojarra.
-     * 
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        Dynamic dynamic = servletContext.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        dynamic.addMapping("/faces/*", "*.html", "*.xhtml");
-        servletContext.setAttribute("com.sun.faces.facesInitializerMappingsAdded", TRUE);
-        servletContext.addListener("com.sun.faces.config.ConfigureListener");
+public class CDIIncludeTest {
+    
+    TestWebApp webApp;
+    
+    @Before
+    public void testProtected() throws Exception {
+        webApp = Application.get();    
     }
+    
+    protected TestWebApp getWebApp() {
+        return webApp;
+    }
+
+    @Test
+    public void testCDIIncludeViaPublicResource() throws IOException, SAXException {
+
+        String response = getWebApp().getFromServerPath("public/servlet?dispatch=include");
+        
+        assertTrue(
+            "Response did not contain output from public Servlet with CDI that SAM included to.", 
+            response.contains("response from includedServlet - Called from CDI")
+        );
+        
+        assertTrue(
+            "Response did not contain output from target Servlet after included one.", 
+            response.contains("Resource invoked")
+        );
+        
+        assertTrue(
+            "Output from included Servlet with CDI and target Servlet in wrong order.",
+            response.indexOf("response from includedServlet - Called from CDI") < response.indexOf("Resource invoked")
+        );
+    }
+
 }
