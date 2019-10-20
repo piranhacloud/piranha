@@ -25,36 +25,59 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.faces.mojarra;
+package com.manorrock.piranha.test.authentication.eleos.dispatching.jsfcdi;
 
-import static java.lang.Boolean.TRUE;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Set;
+import java.io.IOException;
 
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration.Dynamic;
+import org.junit.Before;
+import org.junit.Test;
+import org.xml.sax.SAXException;
+
+import com.manorrock.piranha.test.utils.TestWebApp;
 
 /**
- * The Mojarra initializer.
+ * The JSF with CDI forward test tests that a SAM is able to forward to a JSF view
+ * that uses a CDI backing bean.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
+ * 
  */
-public class MojarraInitializer implements ServletContainerInitializer {
-
-    /**
-     * Initialize Mojarra.
-     * 
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        Dynamic dynamic = servletContext.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        dynamic.addMapping("/faces/*", "*.html", "*.xhtml");
-        servletContext.setAttribute("com.sun.faces.facesInitializerMappingsAdded", TRUE);
-        servletContext.addListener("com.sun.faces.config.ConfigureListener");
+public class JSFCDIForwardTest {
+    
+    TestWebApp webApp;
+    
+    @Before
+    public void testProtected() throws Exception {
+        webApp = Application.get();    
     }
+    
+    protected TestWebApp getWebApp() {
+        return webApp;
+    }
+
+    @Test
+    public void testJSFwithCDIForwardViaPublicResource() throws IOException, SAXException {
+
+        String response = getWebApp().getFromServerPath("public/servlet?tech=jsfcdi");
+        
+        System.out.println(response);
+        
+        assertTrue(
+            "Response did not contain output from JSF view with CDI that SAM forwarded to.", 
+            response.contains("response from JSF forward - Called from CDI")
+        );
+    }
+    
+    @Test
+    public void testJSFwithCDIForwardViaProtectedResource() throws IOException, SAXException {
+
+        String response = getWebApp().getFromServerPath("protected/servlet?tech=jsfcdi");
+        assertTrue(
+            "Response did not contain output from JSF view with CDI that SAM forwarded to.",
+            response.contains("response from JSF forward - Called from CDI")
+        );
+    }
+
 }
