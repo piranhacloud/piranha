@@ -27,8 +27,11 @@
  */
 package com.manorrock.piranha;
 
+import static com.manorrock.piranha.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -36,6 +39,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.manorrock.piranha.api.CurrentRequestHolder;
 
 /**
  * The default ServletRequestDispatcher.
@@ -137,6 +142,12 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         } else {
             forwardedRequest.setServletPath("/" + servletEnvironment.getServletName());
         }
+        
+        CurrentRequestHolder currentRequestHolder = (CurrentRequestHolder) request.getAttribute(CURRENT_REQUEST_ATTRIBUTE);
+        if (currentRequestHolder != null) {
+            currentRequestHolder.setRequest(forwardedRequest);
+            forwardedRequest.setAttribute(CURRENT_REQUEST_ATTRIBUTE, currentRequestHolder);
+        }
 
         try {
             servletEnvironment.getWebApplication().linkRequestAndResponse(forwardedRequest, servletResponse);
@@ -144,7 +155,13 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             servletEnvironment.getWebApplication().unlinkRequestAndResponse(forwardedRequest, servletResponse);
         } catch (IOException | ServletException exception) {
             throw exception;
+        } finally {
+            if (currentRequestHolder != null) {
+                currentRequestHolder.setRequest(request);
+            }
         }
+        
+        
 
         response.flushBuffer();
     }
