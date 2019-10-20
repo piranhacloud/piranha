@@ -25,10 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.weld;
+package com.manorrock.piranha.builder;
 
 import java.util.Set;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -36,24 +37,29 @@ import javax.servlet.ServletException;
 import com.manorrock.piranha.api.WebApplication;
 
 /**
- * The Weld Integration ServletContainerInitializer.
+ * Initializer that install a Servlet
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
  */
-public class WeldInitializer implements ServletContainerInitializer {
+public class AddServletInitializer implements ServletContainerInitializer {
+    
+    private final Class<? extends Servlet> servletClass;
+    private final String[] urlPatterns;
+    
+    public AddServletInitializer(Class<? extends Servlet> servletClass, String[] urlPatterns) {
+        this.servletClass = servletClass;
+        this.urlPatterns = urlPatterns;
+    }
 
-    /**
-     * On startup.
-     *
-     * @param classes the annotated classes.
-     * @param servletContext the servlet context.
-     * @throws ServletException when a serious error occurs.
-     */
+   
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        servletContext.setInitParameter("WELD_CONTEXT_ID_KEY", servletContext.toString());
-        servletContext.addListener(WeldInitListener.class);
-        WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setObjectInstanceManager(new WeldObjectInstanceManager());
+        servletContext.addServlet(servletClass.getSimpleName(), servletClass);
+        
+        WebApplication context = (WebApplication) servletContext;
+
+        // TMP - should use Dynamic
+        context.addServletMapping(servletClass.getSimpleName(), urlPatterns);
     }
+
 }
