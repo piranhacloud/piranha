@@ -25,66 +25,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.weld;
+package com.manorrock.piranha.api;
 
-import javax.enterprise.inject.spi.CDI;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
-import org.jboss.weld.environment.Container;
-import org.jboss.weld.environment.ContainerContext;
-import org.jboss.weld.manager.api.WeldManager;
-import org.jboss.weld.resources.spi.ResourceLoader;
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * The Weld container.
+ * A holder that references the current <code>HttpServletRequest </code>in the request processing
+ * pipeline.
+ * 
+ * <p>
+ * This structure allows the runtime to set what constitutes this <em>current</em> at any given
+ * time.
+ * 
+ * @author Arjan Tijms
  *
- * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WeldContainer implements Container {
+public interface CurrentRequestHolder {
 
     /**
-     * Destroy the container.
-     *
-     * @param context the container context.
+     * The request attribute under a holder implementation is stored in the request
      */
-    @Override
-    public void destroy(ContainerContext context) {
-    }
+    String CURRENT_REQUEST_ATTRIBUTE = CurrentRequestHolder.class.getName();
 
     /**
-     * Initialize the container.
-     *
-     * @param context the container context.
+     * Gets the current HttpServletRequest
+     * 
+     * @param <T> the actual implementation of the current HttpServletRequest
+     * @return the current HttpServletRequest
      */
-    @Override
-    public void initialize(ContainerContext context) {
-        try {
-            CDI.setCDIProvider(new WeldProvider());
-        } catch (IllegalStateException ise) {
-        }
-        try {
-            WeldManager manager = context.getManager();
-            WeldCDI cdi = new WeldCDI();
-            cdi.setWeldManager(manager);
-            WeldProvider.setCDI(cdi);
-            InitialContext initialContext = new InitialContext();
-            initialContext.rebind("java:comp/BeanManager", manager);
-        } catch (NamingException ne) {
-            throw new RuntimeException(ne);
-        }
-    }
-
+    <T extends HttpServletRequest> T getRequest();
+    
     /**
-     * Touch the container.
-     *
-     * @param resourceLoader the resource loader.
-     * @param context the container context.
-     * @return true
-     * @throws Exception when a serious error occurs.
+     * Sets the current HttpServletRequest
+     * 
+     * @param request the current HttpServletRequest
      */
-    @Override
-    public boolean touch(ResourceLoader resourceLoader, ContainerContext context) throws Exception {
-        return true;
-    }
+    void setRequest(HttpServletRequest request);
+    
+    
 }
