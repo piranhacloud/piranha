@@ -129,12 +129,25 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.0.2</version>
+                                    <version>3.0.3</version>
                                 </requireMavenVersion>
                             </rules>    
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <inherited>true</inherited>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <manifest>
+                            <addDefaultEntries>false</addDefaultEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -154,6 +167,12 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <inherited>true</inherited>
                 <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <manifest>
+                            <addDefaultEntries>false</addDefaultEntries>
+                        </manifest>
+                    </archive>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
