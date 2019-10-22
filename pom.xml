@@ -449,10 +449,10 @@
         <module>piranha-http-singlethread</module>
         <module>piranha-jsp-jasper</module>
         <module>piranha-microprofile-smallrye-health</module>
+        <module>piranha-runner-war</module>
         <module>piranha-servlet</module>
         <module>piranha-servlet-api</module>
         <module>piranha-session-hazelcast</module>
-        <module>piranha-runner-war</module>
     </modules>
     <profiles>
         <profile>
@@ -480,6 +480,12 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>tck</id>
+            <modules>
+                <module>tck</module>
+            </modules>
         </profile>
         <profile>
             <id>release</id>
