@@ -39,6 +39,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 
+import com.manorrock.piranha.DefaultHttpHeader;
 import com.manorrock.piranha.api.WebApplication;
 
 /**
@@ -66,11 +67,11 @@ public class TestWebApp {
      * @return the response as a string
      * @throws IOException when something goes wrong
      */
-    public String getFromServerPath(String path) throws IOException {
-        return getResponseFromServerPath(path).getResponseBodyAsString();
+    public String getFromServerPath(String path, DefaultHttpHeader... headers) throws IOException {
+        return getResponseFromServerPath(path, headers).getResponseBodyAsString();
     }
     
-    public TestHttpServletResponse getResponseFromServerPath(String path) throws IOException {
+    public TestHttpServletResponse getResponseFromServerPath(String path, DefaultHttpHeader... headers) throws IOException {
         
         String servletPath = path;
 
@@ -102,6 +103,10 @@ public class TestWebApp {
             }
             
             request.setCookies(requestCookies.toArray(new Cookie[0]));
+            
+            for (DefaultHttpHeader header : headers) {
+                request.setHeader(header.getName(), header.getValue());
+            }
             
             TestHttpServletResponse response = new TestHttpServletResponse();
         
