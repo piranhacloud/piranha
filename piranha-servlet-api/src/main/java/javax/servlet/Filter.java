@@ -39,7 +39,8 @@ public interface Filter {
     /**
      * Destroy the filter.
      */
-    void destroy();
+    default public void destroy() {
+    }
 
     /**
      * Process the request.
@@ -50,7 +51,7 @@ public interface Filter {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
      */
-    void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException;
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException;
 
     /**
      * Initialize the filter.
@@ -58,5 +59,6 @@ public interface Filter {
      * @param filterConfig the filter configuration.
      * @throws ServletException when a servlet error occurs.
      */
-    void init(FilterConfig filterConfig) throws ServletException;
+    default void init(FilterConfig filterConfig) throws ServletException {
+    }
 }

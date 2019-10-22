@@ -35,6 +35,7 @@ import java.util.Enumeration;
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated
  */
+@Deprecated
 public interface HttpSessionContext {
 
     /**
@@ -43,8 +44,8 @@ public interface HttpSessionContext {
      * @param sessionId the HTTP session id.
      * @return the HTTP session.
      * @deprecated
-     *
      */
+    @Deprecated
     public HttpSession getSession(String sessionId);
 
     /**
@@ -53,5 +54,6 @@ public interface HttpSessionContext {
      * @return the HTTP session ids.
      * @deprecated
      */
+    @Deprecated
     public Enumeration<String> getIds();
 }

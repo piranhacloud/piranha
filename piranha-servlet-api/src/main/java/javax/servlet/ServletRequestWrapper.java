@@ -265,6 +265,7 @@ public class ServletRequestWrapper implements ServletRequest {
      * @return the real path.
      * @deprecated
      */
+    @Deprecated
     @Override
     public String getRealPath(String path) {
         throw new UnsupportedOperationException();

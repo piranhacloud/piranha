@@ -27,7 +27,6 @@
  */
 package javax.servlet;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Enumeration;
 
@@ -36,15 +35,10 @@ import java.util.Enumeration;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class GenericFilter implements Filter, FilterConfig, Serializable {
+public abstract class GenericFilter implements Filter, FilterConfig, Serializable {
 
     @Override
     public void destroy() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

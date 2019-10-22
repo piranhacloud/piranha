@@ -29,6 +29,9 @@ package javax.servlet;
 
 /**
  * The SingleThreadModel API
+ * 
+ * @deprecated
  */
+@Deprecated
 public interface SingleThreadModel {
 }

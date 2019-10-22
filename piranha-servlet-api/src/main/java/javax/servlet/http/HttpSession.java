@@ -92,6 +92,7 @@ public interface HttpSession {
      *
      * @return the HTTP session context.
      */
+    @Deprecated
     public HttpSessionContext getSessionContext();
 
     /**
@@ -99,7 +100,9 @@ public interface HttpSession {
      *
      * @param name the name.
      * @return the value.
+     * @deprecated
      */
+    @Deprecated
     public Object getValue(String name);
 
     /**
@@ -108,6 +111,7 @@ public interface HttpSession {
      * @return the value names.
      * @deprecated
      */
+    @Deprecated
     public String[] getValueNames();
 
     /**
@@ -129,6 +133,7 @@ public interface HttpSession {
      * @param value the value.
      * @deprecated
      */
+    @Deprecated
     public void putValue(String name, Object value);
 
     /**
@@ -144,6 +149,7 @@ public interface HttpSession {
      * @param name the name.
      * @deprecated
      */
+    @Deprecated
     public void removeValue(String name);
 
     /**

@@ -336,6 +336,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
      * @return true if it is, false otherwise.
      * @deprecated
      */
+    @Deprecated
     @Override
     public boolean isRequestedSessionIdFromUrl() {
         throw new UnsupportedOperationException();

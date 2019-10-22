@@ -299,6 +299,7 @@ public interface HttpServletResponse extends ServletResponse {
      * @return the encoded redirect URL.
      * @deprecated
      */
+    @Deprecated
     public String encodeRedirectUrl(String url);
 
     /**
@@ -316,6 +317,7 @@ public interface HttpServletResponse extends ServletResponse {
      * @return the encoded URL.
      * @deprecated
      */
+    @Deprecated
     public String encodeUrl(String url);
 
     /**
@@ -418,7 +420,9 @@ public interface HttpServletResponse extends ServletResponse {
      *
      * @param status the status.
      * @param message the message.
+     * @deprecated 
      */
+    @Deprecated
     public void setStatus(int status, String message);
    
     /**

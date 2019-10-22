@@ -41,19 +41,22 @@ public interface ServletRequestAttributeListener extends EventListener {
      *
      * @param event the event.
      */
-    public void attributeAdded(ServletRequestAttributeEvent event);
+    default public void attributeAdded(ServletRequestAttributeEvent event) {
+    }
 
     /**
      * Handle the attribute removed event.
      *
      * @param event the event.
      */
-    public void attributeRemoved(ServletRequestAttributeEvent event);
+    default public void attributeRemoved(ServletRequestAttributeEvent event) {
+    }
 
     /**
      * Handle the attribute replaced event.
      *
      * @param event the event.
      */
-    public void attributeReplaced(ServletRequestAttributeEvent event);
+    default public void attributeReplaced(ServletRequestAttributeEvent event) {
+    }
 }

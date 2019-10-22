@@ -74,6 +74,7 @@ public class UnavailableException extends ServletException {
      * @param message the message.
      * @deprecated
      */
+    @Deprecated
     public UnavailableException(Servlet servlet, String message) {
         throw new UnsupportedOperationException();
     }
@@ -86,6 +87,7 @@ public class UnavailableException extends ServletException {
      * @param message the message.
      * @deprecated
      */
+    @Deprecated
     public UnavailableException(int unavailableSeconds, Servlet servlet, String message) {
         throw new UnsupportedOperationException();
     }
@@ -96,6 +98,7 @@ public class UnavailableException extends ServletException {
      * @return the servlet
      * @deprecated
      */
+    @Deprecated
     public Servlet getServlet() {
         throw new UnsupportedOperationException();
     }
