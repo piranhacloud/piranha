@@ -20,14 +20,14 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.soteria</groupId>
+            <groupId>org.omnifaces</groupId>
             <artifactId>javax.security.enterprise</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>1.1-m01</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.soteria</groupId>
+            <groupId>org.omnifaces</groupId>
             <artifactId>soteria-bean-decorator-weld</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>1.1-m01</version>
         </dependency>
     </dependencies>
 </project>
