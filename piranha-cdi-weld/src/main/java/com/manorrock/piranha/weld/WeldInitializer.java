@@ -31,6 +31,7 @@ import java.util.Set;
 
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
 
 import com.manorrock.piranha.api.WebApplication;
@@ -52,8 +53,14 @@ public class WeldInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         servletContext.setInitParameter("WELD_CONTEXT_ID_KEY", servletContext.toString());
-        servletContext.addListener(WeldInitListener.class);
+        
         WebApplication webApplication = (WebApplication) servletContext;
+        
+        WeldInitListener weldInitListener = webApplication.createListener(WeldInitListener.class);
+        
+        servletContext.addListener(weldInitListener);
         webApplication.setObjectInstanceManager(new WeldObjectInstanceManager());
+        
+        weldInitListener.delegate().contextInitialized(new ServletContextEvent(servletContext));
     }
 }

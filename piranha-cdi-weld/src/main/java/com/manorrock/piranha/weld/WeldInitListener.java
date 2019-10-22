@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha.weld;
 
+import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.http.HttpServletRequest;
 
@@ -57,6 +58,11 @@ public class WeldInitListener extends ForwardingServletListener {
     private ServletListener weldTargetListener = new Listener();
     
     @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        // Do nothing
+    }
+    
+    @Override
     public void requestInitialized(ServletRequestEvent sre) {
         super.requestInitialized(new ServletRequestEvent(
             sre.getServletContext(), 
@@ -64,7 +70,7 @@ public class WeldInitListener extends ForwardingServletListener {
     }
 
     @Override
-    protected ServletListener delegate() {
+    public ServletListener delegate() {
         return weldTargetListener;
     }
 
