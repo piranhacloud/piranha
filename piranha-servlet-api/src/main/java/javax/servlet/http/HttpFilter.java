@@ -31,6 +31,8 @@ import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.GenericFilter;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 /**
  * A HTTP filter.
@@ -38,11 +40,32 @@ import javax.servlet.ServletException;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public abstract class HttpFilter extends GenericFilter {
-    
 
     /**
      * Process the filter.
      * 
+     * @param request the request.
+     * @param response the response
+     * @param chain the filter chain
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a servlet error occurs.
+     */
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
+            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+            this.doFilter(httpServletRequest, httpServletResponse, chain);
+        } else {
+            throw new ServletException("not a HTTP request or a HTTP response");
+        }
+
+    }
+
+    /**
+     * Process the filter.
+     *
      * @param request the request.
      * @param response the response.
      * @param chain the chain.
@@ -50,7 +73,7 @@ public abstract class HttpFilter extends GenericFilter {
      * @throws ServletException when a servlet error occurs.
      */
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
         chain.doFilter(request, response);
     }
 }

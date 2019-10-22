@@ -119,6 +119,7 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
      * @return the encoded redirect URL.
      * @deprecated
      */
+    @Deprecated
     @Override
     public String encodeRedirectUrl(String url) {
         throw new UnsupportedOperationException();
@@ -142,6 +143,7 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
      * @return the encoded URL.
      * @deprecated
      */
+    @Deprecated
     @Override
     public String encodeUrl(String url) {
         throw new UnsupportedOperationException();
@@ -282,6 +284,7 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
      * @param message the status message.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setStatus(int status, String message) {
         throw new UnsupportedOperationException();

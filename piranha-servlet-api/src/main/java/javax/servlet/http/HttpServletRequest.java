@@ -302,6 +302,7 @@ public interface HttpServletRequest extends ServletRequest {
      * @return true if it is, false otherwise.
      * @deprecated
      */
+    @Deprecated
     public boolean isRequestedSessionIdFromUrl();
 
     /**

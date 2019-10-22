@@ -41,19 +41,22 @@ public interface HttpSessionAttributeListener extends EventListener {
      *
      * @param event the HTTP session binding event.
      */
-    public void attributeAdded(HttpSessionBindingEvent event);
+    default public void attributeAdded(HttpSessionBindingEvent event) {
+    }
 
     /**
      * Handle the attribute removed event.
      *
      * @param event the HTTP session binding event.
      */
-    public void attributeRemoved(HttpSessionBindingEvent event);
+    default public void attributeRemoved(HttpSessionBindingEvent event) {
+    }
 
     /**
      * Handle the attribute replaced event.
      *
      * @param event the HTTP session binding event.
      */
-    public void attributeReplaced(HttpSessionBindingEvent event);
+    default public void attributeReplaced(HttpSessionBindingEvent event) {
+    }
 }

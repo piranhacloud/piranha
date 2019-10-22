@@ -41,12 +41,14 @@ public interface HttpSessionActivationListener extends EventListener {
      *
      * @param event the HTTP session event.
      */
-    public void sessionWillPassivate(HttpSessionEvent event);
+    default public void sessionWillPassivate(HttpSessionEvent event) {
+    }
 
     /**
      * Handle the session did activate event.
      *
      * @param event the HTTP session event.
      */
-    public void sessionDidActivate(HttpSessionEvent event);
+    default public void sessionDidActivate(HttpSessionEvent event) {
+    }
 }

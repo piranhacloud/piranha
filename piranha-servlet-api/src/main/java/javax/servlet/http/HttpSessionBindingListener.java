@@ -41,12 +41,14 @@ public interface HttpSessionBindingListener extends EventListener {
      *
      * @param event the HTTP session binding event.
      */
-    public void valueBound(HttpSessionBindingEvent event);
+    default public void valueBound(HttpSessionBindingEvent event) {
+    }
 
     /**
      * Handle the value unbound event.
      *
      * @param event the HTTP session binding event.
      */
-    public void valueUnbound(HttpSessionBindingEvent event);
+    default public void valueUnbound(HttpSessionBindingEvent event) {
+    }
 }

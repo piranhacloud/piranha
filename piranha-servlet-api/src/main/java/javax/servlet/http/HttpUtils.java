@@ -36,6 +36,7 @@ import javax.servlet.ServletInputStream;
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated
  */
+@Deprecated
 public class HttpUtils {
 
     /**

@@ -41,19 +41,22 @@ public interface ServletContextAttributeListener extends EventListener {
      *
      * @param event the event.
      */
-    public void attributeAdded(ServletContextAttributeEvent event);
+    default public void attributeAdded(ServletContextAttributeEvent event) {
+    }
 
     /**
      * Handle the attribute removed event.
      *
      * @param event the event.
      */
-    public void attributeRemoved(ServletContextAttributeEvent event);
+    default public void attributeRemoved(ServletContextAttributeEvent event) {
+    }
 
     /**
      * Handle the attribute replaced event.
      *
      * @param event the event.
      */
-    public void attributeReplaced(ServletContextAttributeEvent event);
+    default public void attributeReplaced(ServletContextAttributeEvent event) {
+    }
 }

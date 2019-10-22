@@ -27,6 +27,12 @@
  */
 package javax.servlet.http;
 
+import java.io.IOException;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
 /**
  * A Test HttpFilter.
  * 
@@ -38,5 +44,19 @@ public class TestHttpFilter extends HttpFilter {
      * Constructor.
      */
     public TestHttpFilter() {
+    }
+
+    /**
+     * Do filter.
+     * 
+     * @param request the request.
+     * @param response the response.
+     * @param chain the filter chain.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

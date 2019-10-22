@@ -378,6 +378,7 @@ public interface ServletContext {
      * @throws ServletException when a servlet error occurs.
      * @deprecated
      */
+    @Deprecated
     Servlet getServlet(String name) throws ServletException;
 
     /**
@@ -393,6 +394,7 @@ public interface ServletContext {
      * @return an empty enumeration.
      * @deprecated
      */
+    @Deprecated
     Enumeration<String> getServletNames();
 
     /**
@@ -416,6 +418,7 @@ public interface ServletContext {
      * @return an empty enumeration.
      * @deprecated
      */
+    @Deprecated
     Enumeration<Servlet> getServlets();
 
     /**
@@ -453,6 +456,7 @@ public interface ServletContext {
      * @param message the message.
      * @deprecated
      */
+    @Deprecated
     void log(Exception exception, String message);
 
     /**
