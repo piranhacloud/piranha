@@ -98,6 +98,8 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
             new PiranhaPrincipalMapper());
         
         
+        // Join together in one list the constraints set by the servlet security elements, and the
+        // piranha specific security constraint
         List<SecurityConstraint> securityConstraints = join(
             getConstraintsFromSecurityElements(servletContext, authorizationService),
             getOptionalAttribute(servletContext, CONSTRAINTS));
