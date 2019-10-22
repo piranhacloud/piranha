@@ -69,7 +69,7 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
         // Gets the authentication module class that was configured externally
         Class<?> authModuleClass = (Class<?>) servletContext.getAttribute(AUTH_MODULE_CLASS);
         if (authModuleClass == null) {
-            throw new ServletException("Attribute " + AUTH_MODULE_CLASS + " not specified");
+            authModuleClass = DoNothingServerAuthModule.class;
         }
         
         String appContextId = servletContext.getVirtualServerName() + " " + servletContext.getContextPath();
