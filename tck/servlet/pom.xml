@@ -21,7 +21,8 @@
                 <version>1.8</version>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <id>initialize</id>
+                        <phase>initialize</phase>
                         <configuration>
                             <target>
                                 <get src="https://download.eclipse.org/jakartaee/servlet/4.0/jakarta-servlet-tck-4.0.0.zip"
@@ -29,16 +30,85 @@
                                 <unzip src="${project.build.directory}/jakarta-servlet-tck-4.0.0.zip"
                                        dest="${project.build.directory}"/>
                                 <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.zip"
-                                    dest="${project.build.directory}/apache-ant-1.8.4-bin.zip" skipexisting="true"/>
+                                     dest="${project.build.directory}/apache-ant-1.8.4-bin.zip" skipexisting="true"/>
                                 <unzip src="${project.build.directory}/apache-ant-1.8.4-bin.zip"
                                        dest="${project.build.directory}"/>
                                 <chmod dir="${project.build.directory}/apache-ant-1.8.4/bin"
                                        perm="ugo+rx"
                                        includes="*"/>
+                                <copy file="${project.build.directory}/servlet-tck/bin/ts.jte"
+                                      tofile="${project.build.directory}/servlet-tck/bin/ts.jte.orig"/>
                             </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <!--
+                        
+                        Setup the ts.jte for the signature tests
+                        
+                        -->
+                    <execution>
+                        <id>generate-test-resources</id>
+                        <phase>generate-test-resources</phase>
+                        <configuration>
+                            <target>
+                                <replaceregexp file="${project.build.directory}/servlet-tck/bin/ts.jte"
+                                               match="servlet\.classes=(.*)"
+                                               replace="servlet\.classes=${project.build.directory}/test-signature/jar/piranha-servlet-api.jar"
+                                               byline="true"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>com.manorrock.piranha</groupId>
+                            <artifactId>piranha-servlet-api</artifactId>
+                            <version>${project.version}</version>
+                            <outputDirectory>${project.build.directory}/test-signature/jar</outputDirectory>
+                            <destFileName>piranha-servlet-api.jar</destFileName>
+                        </artifactItem>
+                    </artifactItems>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>signaturetest</id>
+                        <configuration>
+                            <executable>${project.build.directory}/apache-ant-1.8.4/bin/ant</executable>
+                            <workingDirectory>${project.build.directory}/servlet-tck/src/com/sun/ts/tests/signaturetest</workingDirectory>
+                            <arguments>
+                                <argument>-Dwork.dir=${project.build.directory}/test-signature/work</argument>
+                                <argument>-Dreport.dir=${project.build.directory}/test-signature/report</argument>
+                                <argument>runclient</argument>
+                            </arguments>
+                        </configuration>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
                         </goals>
                     </execution>
                 </executions>
