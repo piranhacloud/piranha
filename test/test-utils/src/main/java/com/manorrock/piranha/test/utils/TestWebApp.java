@@ -68,10 +68,22 @@ public class TestWebApp {
      * @throws IOException when something goes wrong
      */
     public String getFromServerPath(String path, DefaultHttpHeader... headers) throws IOException {
-        return getResponseFromServerPath(path, headers).getResponseBodyAsString();
+        return fromServerPath("GET", path, headers);
+    }
+    
+    public String postToServerPath(String path, DefaultHttpHeader... headers) throws IOException {
+        return fromServerPath("POST", path, headers);
+    }
+    
+    public String fromServerPath(String method, String path, DefaultHttpHeader... headers) throws IOException {
+        return responseFromServerPath(method, path, headers).getResponseBodyAsString();
     }
     
     public TestHttpServletResponse getResponseFromServerPath(String path, DefaultHttpHeader... headers) throws IOException {
+        return responseFromServerPath("GET", path, headers);
+    }
+    
+    public TestHttpServletResponse responseFromServerPath(String method, String path, DefaultHttpHeader... headers) throws IOException {
         
         String servletPath = path;
 
@@ -88,6 +100,9 @@ public class TestWebApp {
         
         try {
             TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", servletPath);
+            
+            request.setMethod(method);
+            
             for (Map.Entry<String, String> parameter : parameters.entrySet()) {
                 request.setParameter(parameter.getKey(), new String[] { parameter.getValue() });
             }
