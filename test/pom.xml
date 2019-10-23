@@ -15,6 +15,7 @@
         <module>classloader2</module>
         <module>eleos</module>
         <module>exousia</module>
+        <module>soteria</module>
         <module>hazelcast</module>
         <module>jersey</module>
         <module>jpa</module>

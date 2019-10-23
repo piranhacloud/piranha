@@ -12,8 +12,13 @@
     </parent>
     
     <artifactId>soteria</artifactId>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
     <name>Manorrock Piranha Soteria Test</name>
+    
+    <modules>
+        <module>basic</module>
+        <module>form</module>
+    </modules>
     
     <dependencies>
         <dependency>
@@ -87,4 +92,5 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    
 </project>
