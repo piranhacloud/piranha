@@ -2,6 +2,7 @@
 # Manorrock Piranha Project
 
 ![master branch status](https://github.com/manorrock/piranha/workflows/Java%20CI/badge.svg)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=manorrock_piranha&metric=coverage)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=manorrock_piranha&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=manorrock_piranha&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=manorrock_piranha&metric=security_rating)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
