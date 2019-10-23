@@ -500,6 +500,8 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
         verifyNotCommitted("sendRedirect");
         resetBuffer();
         setStatus(SC_FOUND);
+        // For now assume absolute; must handle relative cases
+        setHeader("Location", location);
         flushBuffer();
     }
 
