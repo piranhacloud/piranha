@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.security.soteria;
+package com.manorrock.piranha.test.security.soteria.auth.basic;
 
 
 import static org.junit.Assert.assertFalse;

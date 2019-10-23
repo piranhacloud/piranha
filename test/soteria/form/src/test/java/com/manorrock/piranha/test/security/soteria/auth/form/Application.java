@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.security.soteria;
+package com.manorrock.piranha.test.security.soteria.auth.form;
 
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
@@ -34,7 +34,8 @@ import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplicat
 import static java.util.Arrays.asList;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 
-import javax.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
+import javax.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
+import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
 
 import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
@@ -51,7 +52,10 @@ import com.manorrock.piranha.weld.WeldInitializer;
 /**
  * @author Arjan Tijms
  */
-@BasicAuthenticationMechanismDefinition(realmName = "test")
+@FormAuthenticationMechanismDefinition(
+    loginToContinue = @LoginToContinue(
+        loginPage="/login-page",
+        errorPage="/error-page"))
 public class Application {
     
     public static TestWebApp get() {
@@ -73,8 +77,9 @@ public class Application {
                 
                 .addInitializer(SoteriaInitializer.class)
                 
-                .addServlet(PublicServlet.class, "/public/servlet")
                 .addServlet(ProtectedServlet.class, "/protected/servlet")
+                .addServlet(ErrorPageServlet.class, "/error-page")
+                .addServlet(LoginPageServlet.class, "/login-page")
                 .start());
     }
 
