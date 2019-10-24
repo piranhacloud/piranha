@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>com.manorrock.piranha</groupId>
         <artifactId>project</artifactId>
         <version>19.11.0-SNAPSHOT</version>
     </parent>
+
     <groupId>com.manorrock.piranha.test</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
+
     <name>Manorrock Piranha Test Project</name>
+
     <modules>
         <module>classloader</module>
         <module>classloader2</module>
@@ -31,6 +35,11 @@
         <module>wicket</module>
         <module>test-utils</module>
     </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <reporting>
         <plugins>
             <plugin>
@@ -54,7 +63,4 @@
             </plugin>        
         </plugins>
     </reporting>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 </project>
