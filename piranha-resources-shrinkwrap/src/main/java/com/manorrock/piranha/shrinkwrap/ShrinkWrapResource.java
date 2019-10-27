@@ -48,9 +48,16 @@ public class ShrinkWrapResource implements Resource {
     private Archive<?> archive;
     private ArchiveURLStreamHandler archiveStreamHandler;
     
+    public ShrinkWrapResource(String resourcesPath, Archive<?> archive) {
+        this.archive = archive.shallowCopy(
+                                e -> e.get().startsWith(resourcesPath))
+                              .move(resourcesPath, "/");
+        archiveStreamHandler = new ArchiveURLStreamHandler(this.archive);
+    }
+    
     public ShrinkWrapResource(Archive<?> archive) {
-        this.archive = archive;
-        archiveStreamHandler = new ArchiveURLStreamHandler(archive);
+        this.archive = archive.shallowCopy();
+        archiveStreamHandler = new ArchiveURLStreamHandler(this.archive);
     }
 
     @Override
