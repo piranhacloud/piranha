@@ -80,7 +80,8 @@ public interface WebApplication extends ServletContext {
     
     /**
      * Returns the unique Id of this web application corresponding to this ServletContext.
-     *
+     * 
+     * @return the servlet context id.
      */
     default String getServletContextId() {
         return getVirtualServerName() + " " + getContextPath();

@@ -36,6 +36,8 @@ import com.manorrock.piranha.api.HttpServerProcessor;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 
 /**
@@ -47,6 +49,11 @@ public class DefaultWebApplicationServer implements
         HttpServerProcessor,
         WebApplicationServer<DefaultWebApplicationRequest, DefaultWebApplicationResponse> {
 
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(DefaultWebApplicationServer.class.getName());
+    
     /**
      * Stores the request mapper.
      */
@@ -89,6 +96,9 @@ public class DefaultWebApplicationServer implements
      */
     @Override
     public void addWebApplication(WebApplication webApplication) {
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.log(Level.INFO, "Adding web application with context path: {0}", webApplication.getContextPath());
+        }
         webApplications.put(webApplication.getContextPath(), webApplication);
         requestMapper.addMapping(webApplication, webApplication.getContextPath());
     }
@@ -108,6 +118,9 @@ public class DefaultWebApplicationServer implements
      */
     @Override
     public void initialize() {
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.log(Level.INFO, "Starting initialization of {0} web application(s)", webApplications.size());
+        }
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -117,6 +130,9 @@ public class DefaultWebApplicationServer implements
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.log(Level.INFO, "Finished initialization of {0} web application(s)", webApplications.size());
+        }
     }
 
     /**
@@ -204,6 +220,9 @@ public class DefaultWebApplicationServer implements
      */
     @Override
     public void start() {
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.info("Starting WebApplication server engine");
+        }
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -213,6 +232,9 @@ public class DefaultWebApplicationServer implements
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.info("Started WebApplication server engine");
+        }
     }
 
     /**
@@ -220,6 +242,9 @@ public class DefaultWebApplicationServer implements
      */
     @Override
     public void stop() {
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.info("Stopping WebApplication server engine");
+        }
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -229,5 +254,8 @@ public class DefaultWebApplicationServer implements
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.info("Stopped WebApplication server engine");
+        }
     }
 }
