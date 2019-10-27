@@ -86,6 +86,8 @@ import com.manorrock.piranha.api.SecurityManager;
 import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.api.WebApplicationRequestMapper;
 import com.manorrock.piranha.api.WebApplicationRequestMapping;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The default WebApplication.
@@ -107,6 +109,11 @@ import com.manorrock.piranha.api.WebApplicationRequestMapping;
 public class DefaultWebApplication implements WebApplication {
 
     /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(DefaultWebApplication.class.getName());
+
+    /**
      * Stores the INITIALIZED constant.
      */
     protected static final int INITIALIZED = 1;
@@ -125,7 +132,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the SERVICING constant.
      */
     protected static final int SERVICING = 2;
-    
+
     /**
      * Stores the annotation manager.
      */
@@ -392,7 +399,7 @@ public class DefaultWebApplication implements WebApplication {
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
         }
     }
-      
+
     @Override
     public void addInitializer(ServletContainerInitializer servletContainerInitializer) {
         initializers.add(servletContainerInitializer);
@@ -1124,6 +1131,9 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void initialize() {
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.log(Level.INFO, "Initializing web application at {0}", contextPath);
+        }
         verifyState(SETUP, "Unable to initialize web application");
 
         try {
@@ -1138,18 +1148,25 @@ public class DefaultWebApplication implements WebApplication {
             initializeServlets();
 
             status = INITIALIZED;
+
+            if (LOGGER.isLoggable(Level.INFO)) {
+                LOGGER.log(Level.INFO, "Initialized web application at {0}", contextPath);
+            }
         } catch (ServletException se) {
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, "An error occured initializing webapplication at " + contextPath, se);
+            }
             status = ERROR;
         }
     }
-    
+
     /**
      * Initialize the features.
      */
     protected void initializeFeatures() {
         ServiceLoader<Feature> loader = ServiceLoader.load(Feature.class);
         Iterator<Feature> iterator = loader.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Feature feature = iterator.next();
             feature.initialize(this);
         }
@@ -1551,8 +1568,14 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void start() {
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.log(Level.INFO, "Starting web application at {0}", contextPath);
+        }
         verifyState(INITIALIZED, "Unable to start servicing");
         status = SERVICING;
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.log(Level.INFO, "Started web application at {0}", contextPath);
+        }
     }
 
     /**
@@ -1560,8 +1583,14 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void stop() {
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.log(Level.INFO, "Stopping web application at {0}", contextPath);
+        }
         verifyState(SERVICING, "Unable to stop servicing");
         status = INITIALIZED;
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.log(Level.INFO, "Stopped web application at {0}", contextPath);
+        }
     }
 
     /**
