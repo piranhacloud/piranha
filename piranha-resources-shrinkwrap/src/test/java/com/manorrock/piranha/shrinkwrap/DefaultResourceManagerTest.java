@@ -89,5 +89,43 @@ public class DefaultResourceManagerTest {
         
         assertTrue(read > 0);
     }
+    
+    @Test
+    public void testGetResourceFlattenPath() throws Exception {
+        
+        Resource resouce = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)
+                               .addClass(DefaultResourceManagerTest.class));
+        
+        DefaultResourceManager manager = new DefaultResourceManager();
+        manager.addResource(resouce);
+        
+        URL resourceUrl = manager.getResource("/com/manorrock/piranha/shrinkwrap/DefaultResourceManagerTest.class");
+        
+        assertNotNull(resourceUrl);
+        
+        byte[] buffer = new byte[4096];
+        int read = resourceUrl.openStream().read(buffer);
+        
+        assertTrue(read > 0);
+    }
+    
+    @Test
+    public void testGetResourceAsStreamFlattenPath() throws Exception {
+        
+        Resource resouce = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)
+                               .addClass(DefaultResourceManagerTest.class));
+        
+        DefaultResourceManager manager = new DefaultResourceManager();
+        manager.addResource(resouce);
+        
+        InputStream resourceStream = manager.getResourceAsStream("/com/manorrock/piranha/shrinkwrap/DefaultResourceManagerTest.class");
+        
+        assertNotNull(resourceStream);
+        
+        byte[] buffer = new byte[4096];
+        int read = resourceStream.read(buffer);
+        
+        assertTrue(read > 0);
+    }
 
 }
