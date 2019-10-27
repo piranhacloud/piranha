@@ -52,6 +52,7 @@
         <module>piranha-servlet</module>
         <module>piranha-servlet-api</module>
         <module>piranha-session-hazelcast</module>
+        <module>piranha-resources-shrinkwrap</module>
     </modules>
 
     <scm>
