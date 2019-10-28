@@ -22,7 +22,6 @@ See the list below for what is available.
 1. [Piranha OpenWebBeans integration](piranha-cdi-openwebbeans/README.md)
 1. [Piranha Servlet API](piranha-servlet-api/README.md)
 1. [Piranha Single Threaded](piranha-http-singlethread/README.md)
-1. [Piranha WAR runner](piranha-runner-war/README.md)
 1. [Piranha Weld integration](piranha-cdi-weld/README.md)
 
 Note the documentation for the master branch might show features that are NOT 
