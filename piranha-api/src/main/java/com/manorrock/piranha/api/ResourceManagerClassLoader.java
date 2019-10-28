@@ -31,7 +31,14 @@ package com.manorrock.piranha.api;
  * The WebApplicationClassLoader API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
  */
-public interface WebApplicationClassLoader extends ResourceManagerClassLoader {
+public interface ResourceManagerClassLoader {
 
+    /**
+     * Set the resource manager.
+     *
+     * @param resourceManager the resource manager.
+     */
+    void setResourceManager(ResourceManager resourceManager);
 }
