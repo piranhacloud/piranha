@@ -44,7 +44,7 @@ public class DefaultAnnotationManager implements AnnotationManager {
      * @return the annotated classes.
      */
     @Override
-    public Set<Class<?>> getClasses() {
+    public Set<Class<?>> getAnnotatedClasses() {
         return new HashSet<>();
     }
 }
