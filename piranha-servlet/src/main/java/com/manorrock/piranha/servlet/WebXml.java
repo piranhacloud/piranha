@@ -74,6 +74,27 @@ class WebXml {
          * Stores the load on startup.
          */
         public int loadOnStartup;
+        
+        /**
+         * Stores the init parameters.
+         */
+        List<InitParam> initParams = new ArrayList<>();
+
+        /**
+         * The &lt;init-param&gt; snippet inside a &lt;servlet&gt; snippet.
+         */
+        public static class InitParam {
+            
+            /**
+             * Stores the name.
+             */
+            public String name;
+            
+            /**
+             * Stores the value.
+             */
+            public String value;
+        }
     }
 
     /**
