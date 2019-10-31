@@ -41,5 +41,5 @@ public interface AnnotationManager {
      * 
      * @return the set of all annotated classes
      */
-    public Set<Class<?>> getClasses();
+    Set<Class<?>> getAnnotatedClasses();
 }
