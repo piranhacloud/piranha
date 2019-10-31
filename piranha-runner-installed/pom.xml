@@ -61,6 +61,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-servlet</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <scope>test</scope>

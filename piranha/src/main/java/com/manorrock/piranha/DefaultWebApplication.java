@@ -43,7 +43,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -169,6 +168,11 @@ public class DefaultWebApplication implements WebApplication {
     protected ObjectInstanceManager objectInstanceManager;
 
     /**
+     * Stores our features.
+     */
+    protected List<Feature> features;
+
+    /**
      * Stores the filters.
      */
     protected final Map<String, DefaultFilterEnvironment> filters;
@@ -278,6 +282,7 @@ public class DefaultWebApplication implements WebApplication {
         contextAttributeListeners = new ArrayList<>(1);
         contextListeners = new ArrayList<>(1);
         contextPath = "";
+        features = new ArrayList<>(1);
         filters = new LinkedHashMap<>(1);
         httpSessionManager = new DefaultHttpSessionManager();
         initParameters = new ConcurrentHashMap<>(1);
@@ -294,6 +299,16 @@ public class DefaultWebApplication implements WebApplication {
         securityManager = new DefaultSecurityManager();
         servlets = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
+    }
+
+    /**
+     * Add the feature.
+     *
+     * @param feature the feature.
+     */
+    @Override
+    public void addFeature(Feature feature) {
+        features.add(feature);
     }
 
     /**
@@ -1164,8 +1179,7 @@ public class DefaultWebApplication implements WebApplication {
      * Initialize the features.
      */
     protected void initializeFeatures() {
-        ServiceLoader<Feature> loader = ServiceLoader.load(Feature.class);
-        Iterator<Feature> iterator = loader.iterator();
+        Iterator<Feature> iterator = features.iterator();
         while (iterator.hasNext()) {
             Feature feature = iterator.next();
             feature.initialize(this);
