@@ -25,49 +25,70 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.snoop;
+package com.manorrock.piranha.servlet;
 
-import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.runner.war.WarRunner;
-import com.manorrock.piranha.servlet.ServletFeature;
-import java.io.IOException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * An integration test to verify running a exploded web application coming from
- * a supplied WAR.
- *
+ * The web.xml in object format.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SnoopServletIT {
+class WebXml {
+    
+    /**
+     * Stores the servlets.
+     */
+    public final List<WebXml.Servlet> servlets;
+    
+    /**
+     * Stores the servlet mappings.
+     */
+    public final List<WebXml.ServletMapping> servletMappings;
+    
+    /**
+     * Constructor.
+     */
+    public WebXml() {
+        servlets = new ArrayList<>();
+        servletMappings = new ArrayList<>();
+    }
 
     /**
-     * Test configure method.
-     *
-     * @throws Exception when an error occurs.
+     * The &lt;servlet&gt; snippet inside a web.xml / webfragment.xml.
      */
-    @Test
-    public void testConfigure() throws Exception {
-        final WarRunner runner = new WarRunner();
-        WebApplication webApplication = runner.configure(new String[]{
-            "--webapp", "target/snoop-exploded", "--war", "target/snoop.war"});
-        webApplication.addFeature(new ServletFeature());
-        Thread thread = new Thread(runner);
-        thread.start();
-        try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8080/Snoop");
-            HttpResponse response = client.execute(request);
-            assertEquals(200, response.getStatusLine().getStatusCode());
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        runner.stop();
-        Thread.sleep(3000);
+    public static class Servlet {
+
+        /**
+         * Stores the servlet name.
+         */
+        public String name;
+        
+        /**
+         * Stores the servlet class.
+         */
+        public String className;
+        
+        /**
+         * Stores the load on startup.
+         */
+        public int loadOnStartup;
+    }
+
+    /**
+     * The &lt;servlet-mapping&gt; snippet inside a web.xml / webfragment.xml.
+     */
+    public static class ServletMapping {
+
+        /**
+         * Stores the servlet name.
+         */
+        public String servletName;
+        
+        /**
+         * Stores the URL pattern.
+         */
+        public String urlPattern;
     }
 }

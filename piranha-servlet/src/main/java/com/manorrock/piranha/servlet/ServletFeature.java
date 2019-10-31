@@ -68,6 +68,7 @@ public class ServletFeature implements Feature {
      */
     @Override
     public void initialize(WebApplication webApplication) {
+        webApplication.addInitializer(new WebXmlInitializer());
         try {
             getClass().getClassLoader().loadClass(OPENWEBBEANS_INITIALIZER);
             webApplication.addInitializer(OPENWEBBEANS_INITIALIZER);

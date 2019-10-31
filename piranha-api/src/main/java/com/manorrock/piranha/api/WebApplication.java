@@ -45,6 +45,13 @@ import javax.servlet.ServletResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface WebApplication extends ServletContext {
+    
+    /**
+     * Add a feature.
+     * 
+     * @param feature the feature.
+     */
+    void addFeature(Feature feature);
 
     /**
      * Add a mapping for the given filter.

@@ -31,6 +31,7 @@ import com.manorrock.piranha.DefaultHttpServer;
 import com.manorrock.piranha.DefaultWebApplication;
 import com.manorrock.piranha.DefaultWebApplicationClassLoader;
 import com.manorrock.piranha.DefaultWebApplicationServer;
+import com.manorrock.piranha.servlet.ServletFeature;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -131,6 +132,8 @@ public class InstalledRunner implements Runnable {
                     DefaultWebApplication webApplication = new DefaultWebApplication();
                     DefaultWebApplicationClassLoader classLoader
                             = new DefaultWebApplicationClassLoader(webAppDirectory);
+                    ServletFeature feature = new ServletFeature();
+                    webApplication.addFeature(feature);
                     webApplication.setClassLoader(classLoader);
                     if (contextPath.toUpperCase().equals("ROOT")) {
                         contextPath = "";
