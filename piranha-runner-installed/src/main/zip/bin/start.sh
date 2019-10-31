@@ -1,6 +1,15 @@
 #!/bin/sh
 
 cd ..
-java -jar lib/piranha-runner-installed.jar &
-echo $! >> tmp/piranha.pid
 
+if [ -z ${JAVA_HOME} ]; then
+    echo Using default java
+    JAVA_BIN=java 
+else
+    echo Using JAVA_HOME: ${JAVA_HOME}
+    JAVA_BIN=${JAVA_HOME}/bin/java
+fi
+
+${JAVA_BIN} -jar lib/piranha-runner-installed.jar &
+
+echo $! >> tmp/piranha.pid
