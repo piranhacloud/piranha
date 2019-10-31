@@ -30,6 +30,7 @@ package com.manorrock.piranha.test.openwebbeans;
 import com.manorrock.piranha.DefaultAliasedDirectoryResource;
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultWebApplication;
+import com.manorrock.piranha.servlet.ServletFeature;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.test.utils.TestServletOutputStream;
@@ -56,6 +57,7 @@ public class HelloOpenWebBeansTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addResource(new DefaultAliasedDirectoryResource(new File("target/classes"), "/WEB-INF/classes"));
+        webApp.addFeature(new ServletFeature());
         webApp.initialize();
         webApp.start();
         TestHttpServletRequest request = new TestHttpServletRequest();
