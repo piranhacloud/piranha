@@ -1209,7 +1209,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected void initializeInitializers() throws ServletException {
         for (ServletContainerInitializer initializer : initializers) {
-            initializer.onStartup(annotationManager.getClasses(), this);
+            initializer.onStartup(annotationManager.getAnnotatedClasses(), this);
         }
     }
 

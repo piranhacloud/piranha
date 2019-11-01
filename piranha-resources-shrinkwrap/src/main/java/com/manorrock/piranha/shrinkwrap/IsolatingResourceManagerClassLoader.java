@@ -27,6 +27,10 @@
  */
 package com.manorrock.piranha.shrinkwrap;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Enumeration;
+
 import com.manorrock.piranha.DefaultResourceManagerClassLoader;
 
 /**
@@ -36,11 +40,41 @@ import com.manorrock.piranha.DefaultResourceManagerClassLoader;
  */
 public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerClassLoader {
 
+    private final ClassLoader systemClassLoader;
+    
     /**
      * Constructor.
      */
     public IsolatingResourceManagerClassLoader() {
         super(getSystemClassLoader().getParent());
+        this.systemClassLoader = getSystemClassLoader();
+    }
+    
+    @Override
+    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+        if (name.startsWith("com.manorrock.piranha") || name.startsWith("javax.")) {
+            return systemClassLoader.loadClass(name);
+        }
+        
+        return super.loadClass(name, resolve);
+    }
+    
+    @Override
+    public URL getResource(String name) {
+        if (name.startsWith("com.manorrock.piranha") || name.startsWith("javax.")) {
+            return super.getResource(name);
+        }
+        
+        return findResource(name);
+    }
+    
+    @Override
+    public Enumeration<URL> getResources(String name) throws IOException {
+        if (name.startsWith("com.manorrock.piranha") || name.startsWith("javax.")) {
+            return super.getResources(name);
+        }
+        
+        return findResources(name);
     }
     
 }
