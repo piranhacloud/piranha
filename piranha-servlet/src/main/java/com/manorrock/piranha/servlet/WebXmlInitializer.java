@@ -84,18 +84,33 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 XPath xPath = XPathFactory.newInstance().newXPath();
 
                 /*
+                 * Process <listener> entries
+                 */
+                NodeList list = (NodeList) xPath.evaluate("//listener", document, XPathConstants.NODESET);
+                if (list != null) {
+                    for (int i = 0; i < list.getLength(); i++) {
+                        WebXml.Listener listener = new WebXml.Listener();
+                        webXml.listeners.add(listener);
+                        listener.className = (String) xPath.evaluate("//listener-class/text()", list.item(i), XPathConstants.STRING);
+                        webApp.addListener(listener.className);
+                    }
+                }
+
+                /*
                  * Process <servlet> entries
                  */
-                NodeList list = (NodeList) xPath.evaluate("//servlet", document, XPathConstants.NODESET);
-                processServlets(webXml, list);
-                Iterator<WebXml.Servlet> servletIterator = webXml.servlets.iterator();
-                while (servletIterator.hasNext()) {
-                    WebXml.Servlet servlet = servletIterator.next();
-                    Dynamic registration = webApp.addServlet(servlet.name, servlet.className);
-                    if (!servlet.initParams.isEmpty()) {
-                        servlet.initParams.forEach((initParam) -> {
-                            registration.setInitParameter(initParam.name, initParam.value);
-                        });
+                list = (NodeList) xPath.evaluate("//servlet", document, XPathConstants.NODESET);
+                if (list != null) {
+                    processServlets(webXml, list);
+                    Iterator<WebXml.Servlet> servletIterator = webXml.servlets.iterator();
+                    while (servletIterator.hasNext()) {
+                        WebXml.Servlet servlet = servletIterator.next();
+                        Dynamic registration = webApp.addServlet(servlet.name, servlet.className);
+                        if (!servlet.initParams.isEmpty()) {
+                            servlet.initParams.forEach((initParam) -> {
+                                registration.setInitParameter(initParam.name, initParam.value);
+                            });
+                        }
                     }
                 }
 
@@ -103,11 +118,17 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                  * Process <servlet-mapping> entries
                  */
                 list = (NodeList) xPath.evaluate("//servlet-mapping", document, XPathConstants.NODESET);
-                processServletMappings(webXml, list);
-                Iterator<WebXml.ServletMapping> mappingIterator = webXml.servletMappings.iterator();
-                while (mappingIterator.hasNext()) {
-                    WebXml.ServletMapping mapping = mappingIterator.next();
-                    webApp.addServletMapping(mapping.servletName, mapping.urlPattern);
+                if (list != null) {
+                    processServletMappings(webXml, list);
+                    Iterator<WebXml.ServletMapping> mappingIterator = webXml.servletMappings.iterator();
+                    while (mappingIterator.hasNext()) {
+                        WebXml.ServletMapping mapping = mappingIterator.next();
+                        webApp.addServletMapping(mapping.servletName, mapping.urlPattern);
+                    }
+                }
+            } else {
+                if (LOGGER.isLoggable(Level.FINE)) {
+                    LOGGER.info("No web.xml found!");
                 }
             }
         } catch (SAXException | XPathExpressionException | IOException

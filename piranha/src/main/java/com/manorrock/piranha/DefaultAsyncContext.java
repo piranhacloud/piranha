@@ -27,9 +27,14 @@
  */
 package com.manorrock.piranha;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.AsyncContext;
+import javax.servlet.AsyncEvent;
 import javax.servlet.AsyncListener;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -102,11 +107,27 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void complete() {
+        if (!listeners.isEmpty()) {
+            listeners.forEach((listener) -> {
+                try {
+                    listener.onComplete(new AsyncEvent(this));
+                } catch (IOException ioe) {
+                    // nothing can be done at this point.
+                }
+            });
+        }
+        if (!response.isCommitted()) {
+            try {
+                response.flushBuffer();
+            } catch (IOException ioe) {
+                // nothing can be done at this point.
+            }
+        }
     }
 
     /**
      * Create the listener.
-     * 
+     *
      * @param <T> the class.
      * @param type the type.
      * @return the listener.
@@ -115,8 +136,10 @@ public class DefaultAsyncContext implements AsyncContext {
     @Override
     public <T extends AsyncListener> T createListener(Class<T> type) throws ServletException {
         try {
-            return type.newInstance();
-        } catch (InstantiationException | IllegalAccessException ex) {
+            return type.getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException
+                | NoSuchMethodException | SecurityException
+                | IllegalArgumentException | InvocationTargetException ex) {
             throw new ServletException("Unable to create listener using DefaultAsyncContext", ex);
         }
     }
@@ -130,7 +153,7 @@ public class DefaultAsyncContext implements AsyncContext {
 
     /**
      * Dispatch.
-     * 
+     *
      * @param path the path.
      */
     @Override
@@ -139,9 +162,9 @@ public class DefaultAsyncContext implements AsyncContext {
 
     /**
      * Dispatch.
-     * 
+     *
      * @param servletContext the servlet context.
-     * @param path the path. 
+     * @param path the path.
      */
     @Override
     public void dispatch(ServletContext servletContext, String path) {
@@ -149,7 +172,7 @@ public class DefaultAsyncContext implements AsyncContext {
 
     /**
      * Get the request.
-     * 
+     *
      * @return the request.
      * @see AsyncContext#getRequest()
      */
@@ -160,7 +183,7 @@ public class DefaultAsyncContext implements AsyncContext {
 
     /**
      * Get the response.
-     * 
+     *
      * @return the response.
      * @see AsyncContext#getResponse()
      */
@@ -171,7 +194,7 @@ public class DefaultAsyncContext implements AsyncContext {
 
     /**
      * Get the timeout.
-     * 
+     *
      * @return the timeout.
      * @see AsyncContext#getTimeout()
      */
@@ -182,7 +205,7 @@ public class DefaultAsyncContext implements AsyncContext {
 
     /**
      * Do we have the original request and response?
-     * 
+     *
      * @return true if we do, false otherwise.
      */
     @Override

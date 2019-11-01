@@ -38,6 +38,11 @@ import java.util.List;
 class WebXml {
     
     /**
+     * Stores the listeners.
+     */
+    public final List<WebXml.Listener> listeners;
+    
+    /**
      * Stores the servlets.
      */
     public final List<WebXml.Servlet> servlets;
@@ -51,6 +56,7 @@ class WebXml {
      * Constructor.
      */
     public WebXml() {
+        listeners = new ArrayList<>();
         servlets = new ArrayList<>();
         servletMappings = new ArrayList<>();
     }
@@ -111,5 +117,16 @@ class WebXml {
          * Stores the URL pattern.
          */
         public String urlPattern;
+    }
+
+    /**
+     * The &lt;listener&gt; snippet inside a web.xml / webfragment.xml.
+     */
+    public static class Listener {
+        
+        /**
+         * Stores the listener class name.
+         */
+        public String className;
     }
 }
