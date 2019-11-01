@@ -28,6 +28,7 @@
 package com.manorrock.piranha.servlet;
 
 import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.servlet.WebXml.Servlet.InitParam;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -37,6 +38,7 @@ import java.util.logging.Logger;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration.Dynamic;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -80,27 +82,53 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
                 Document document = documentBuilder.parse(inputStream);
                 XPath xPath = XPathFactory.newInstance().newXPath();
-                
+
+                /*
+                 * Process <listener> entries
+                 */
+                NodeList list = (NodeList) xPath.evaluate("//listener", document, XPathConstants.NODESET);
+                if (list != null) {
+                    for (int i = 0; i < list.getLength(); i++) {
+                        WebXml.Listener listener = new WebXml.Listener();
+                        webXml.listeners.add(listener);
+                        listener.className = (String) xPath.evaluate("//listener-class/text()", list.item(i), XPathConstants.STRING);
+                        webApp.addListener(listener.className);
+                    }
+                }
+
                 /*
                  * Process <servlet> entries
                  */
-                NodeList list = (NodeList) xPath.evaluate("//servlet", document, XPathConstants.NODESET);
-                processServlets(webXml, list);
-                Iterator<WebXml.Servlet> servletIterator = webXml.servlets.iterator();
-                while(servletIterator.hasNext()) {
-                    WebXml.Servlet servlet = servletIterator.next();
-                    webApp.addServlet(servlet.name, servlet.className);
+                list = (NodeList) xPath.evaluate("//servlet", document, XPathConstants.NODESET);
+                if (list != null) {
+                    processServlets(webXml, list);
+                    Iterator<WebXml.Servlet> servletIterator = webXml.servlets.iterator();
+                    while (servletIterator.hasNext()) {
+                        WebXml.Servlet servlet = servletIterator.next();
+                        Dynamic registration = webApp.addServlet(servlet.name, servlet.className);
+                        if (!servlet.initParams.isEmpty()) {
+                            servlet.initParams.forEach((initParam) -> {
+                                registration.setInitParameter(initParam.name, initParam.value);
+                            });
+                        }
+                    }
                 }
-                
+
                 /*
                  * Process <servlet-mapping> entries
                  */
                 list = (NodeList) xPath.evaluate("//servlet-mapping", document, XPathConstants.NODESET);
-                processServletMappings(webXml, list);
-                Iterator<WebXml.ServletMapping> mappingIterator = webXml.servletMappings.iterator();
-                while(mappingIterator.hasNext()) {
-                    WebXml.ServletMapping mapping = mappingIterator.next();
-                    webApp.addServletMapping(mapping.servletName, mapping.urlPattern);
+                if (list != null) {
+                    processServletMappings(webXml, list);
+                    Iterator<WebXml.ServletMapping> mappingIterator = webXml.servletMappings.iterator();
+                    while (mappingIterator.hasNext()) {
+                        WebXml.ServletMapping mapping = mappingIterator.next();
+                        webApp.addServletMapping(mapping.servletName, mapping.urlPattern);
+                    }
+                }
+            } else {
+                if (LOGGER.isLoggable(Level.FINE)) {
+                    LOGGER.info("No web.xml found!");
                 }
             }
         } catch (SAXException | XPathExpressionException | IOException
@@ -153,6 +181,13 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 servlet.loadOnStartup = loadOnStartupDouble.intValue();
             } else {
                 servlet.loadOnStartup = -1;
+            }
+            NodeList initParams = (NodeList) xPath.evaluate("//init-param", node, XPathConstants.NODESET);
+            for (int i = 0; i < initParams.getLength(); i++) {
+                WebXml.Servlet.InitParam initParam = new WebXml.Servlet.InitParam();
+                initParam.name = (String) xPath.evaluate("//param-name/text()", initParams.item(i), XPathConstants.STRING);
+                initParam.value = (String) xPath.evaluate("//param-value/text()", initParams.item(i), XPathConstants.STRING);
+                servlet.initParams.add(initParam);
             }
             webXml.servlets.add(servlet);
         } catch (XPathException xpe) {

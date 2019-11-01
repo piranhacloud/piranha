@@ -29,11 +29,11 @@ package com.manorrock.piranha.test.jersey;
 
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultWebApplication;
+import com.manorrock.piranha.servlet.ServletFeature;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.test.utils.TestServletInputStream;
 import java.io.File;
-import javax.servlet.ServletRegistration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -54,10 +54,7 @@ public class JerseyTest {
     public void testHello() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addServletMapping("Jersey", "/rest/*");
-        webApp.addServlet("Jersey", "org.glassfish.jersey.servlet.ServletContainer");
-        ServletRegistration registration = webApp.getServletRegistration("Jersey");
-        registration.setInitParameter("jersey.config.server.provider.packages", "com.manorrock.piranha.test.jersey");
+        webApp.addFeature(new ServletFeature());
         webApp.initialize();
         webApp.start();
 
