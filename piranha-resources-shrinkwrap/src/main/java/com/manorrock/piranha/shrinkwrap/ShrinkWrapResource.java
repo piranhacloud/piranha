@@ -62,6 +62,10 @@ public class ShrinkWrapResource implements Resource {
 
     @Override
     public URL getResource(String location) {
+        if (getAsset(location) == null) {
+            return null;
+        }
+        
         try {
             return new URL(null, "ShrinkWrap:" + archive.getName() + location, archiveStreamHandler);
         } catch (MalformedURLException e) {
@@ -71,9 +75,18 @@ public class ShrinkWrapResource implements Resource {
 
     @Override
     public InputStream getResourceAsStream(String location) {
+        Asset asset = getAsset(location);
+        if (asset == null) {
+            return null;
+        }
+        
+        return asset.openStream();
+    }
+    
+    private Asset getAsset(String location) {
         Node node = getNode(location);
         if (node == null) {
-            throw new IllegalStateException("Can't resolve location " + location);
+            return null;
         }
 
         Asset asset = node.getAsset();
@@ -81,7 +94,7 @@ public class ShrinkWrapResource implements Resource {
             return null;
         }
         
-        return asset.openStream();
+        return asset;
     }
     
     private Node getNode(String location) {

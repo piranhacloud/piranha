@@ -44,7 +44,7 @@ public class DefaultAnnotationManagerTest {
     @Test
     public void testGetClasses() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
-        assertNotNull(manager.getClasses());
-        assertTrue(manager.getClasses().isEmpty());
+        assertNotNull(manager.getAnnotatedClasses());
+        assertTrue(manager.getAnnotatedClasses().isEmpty());
     }
 }
