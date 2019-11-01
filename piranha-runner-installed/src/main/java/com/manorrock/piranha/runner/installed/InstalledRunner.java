@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha.runner.installed;
 
+import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultHttpServer;
 import com.manorrock.piranha.DefaultWebApplication;
 import com.manorrock.piranha.DefaultWebApplicationClassLoader;
@@ -37,6 +38,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -57,6 +60,11 @@ import java.util.zip.ZipInputStream;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class InstalledRunner implements Runnable {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(InstalledRunner.class.getName());
 
     /**
      * Main method.
@@ -134,8 +142,9 @@ public class InstalledRunner implements Runnable {
                             = new DefaultWebApplicationClassLoader(webAppDirectory);
                     ServletFeature feature = new ServletFeature();
                     webApplication.addFeature(feature);
+                    webApplication.addResource(new DefaultDirectoryResource(webAppDirectory));
                     webApplication.setClassLoader(classLoader);
-                    if (contextPath.toUpperCase().equals("ROOT")) {
+                    if (contextPath.equalsIgnoreCase("ROOT")) {
                         contextPath = "";
                     } else if (!contextPath.startsWith("/")) {
                         contextPath = "/" + contextPath;

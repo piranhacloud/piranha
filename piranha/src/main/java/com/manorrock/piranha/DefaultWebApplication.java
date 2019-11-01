@@ -1221,6 +1221,9 @@ public class DefaultWebApplication implements WebApplication {
         servletNames.stream().map((servletName) -> servlets.get(servletName))
                 .forEach((environment) -> {
                     try {
+                        if (LOGGER.isLoggable(Level.INFO)) {
+                            LOGGER.log(Level.INFO, "Initializing servlet: {0}", environment.servletName);
+                        }
                         if (environment.getServlet() == null) {
                             Class clazz = environment.getServletClass();
                             if (clazz == null) {
@@ -1236,7 +1239,13 @@ public class DefaultWebApplication implements WebApplication {
                             environment.setServlet(createServlet(clazz));
                         }
                         environment.getServlet().init(environment);
+                        if (LOGGER.isLoggable(Level.INFO)) {
+                            LOGGER.log(Level.INFO, "Initialized servlet: {0}", environment.servletName);
+                        }
                     } catch (ServletException | ClassNotFoundException exception) {
+                        if (LOGGER.isLoggable(Level.WARNING)) {
+                            LOGGER.log(Level.WARNING, "Unable to initialize servlet: " + environment.className, exception);
+                        }
                         environment.setStatus(DefaultServletEnvironment.UNAVAILABLE);
                     }
                 });
