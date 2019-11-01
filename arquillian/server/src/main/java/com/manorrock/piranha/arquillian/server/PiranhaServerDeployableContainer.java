@@ -27,13 +27,30 @@
  */
 package com.manorrock.piranha.arquillian.server;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
 import org.jboss.arquillian.container.spi.client.container.LifecycleException;
 import org.jboss.arquillian.container.spi.client.protocol.ProtocolDescription;
+import org.jboss.arquillian.container.spi.client.protocol.metadata.HTTPContext;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
+import org.jboss.arquillian.container.spi.client.protocol.metadata.Servlet;
 import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
+
+import com.manorrock.piranha.DefaultHttpServer;
+import com.manorrock.piranha.DefaultResourceManager;
+import com.manorrock.piranha.DefaultWebApplication;
+import com.manorrock.piranha.DefaultWebApplicationServer;
+import com.manorrock.piranha.api.HttpServer;
+import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.servlet.ServletFeature;
+import com.manorrock.piranha.shrinkwrap.IsolatingResourceManagerClassLoader;
+import com.manorrock.piranha.shrinkwrap.ShrinkWrapResource;
 
 /**
  * 
@@ -41,47 +58,114 @@ import org.jboss.shrinkwrap.descriptor.api.Descriptor;
  *
  */
 public class PiranhaServerDeployableContainer implements DeployableContainer<PiranhaServerContainerConfiguration> {
+    
+    private PiranhaServerContainerConfiguration configuration;
+    
+    
+    private HttpServer httpServer;
 
     @Override
     public Class<PiranhaServerContainerConfiguration> getConfigurationClass() {
-        return null;
+        return PiranhaServerContainerConfiguration.class;
+    }
+    
+    public ProtocolDescription getDefaultProtocol() {
+        return new ProtocolDescription("Servlet 4.0");
     }
 
     @Override
     public void setup(PiranhaServerContainerConfiguration configuration) {
+        this.configuration = configuration;
     }
 
     @Override
     public void start() throws LifecycleException {
+    }
+    
+    @Override
+    public ProtocolMetaData deploy(Archive<?> archive) throws DeploymentException {
+        
+        Set<String> servletNames = new HashSet<>();
+        
+        ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+        try {
+            
+            ClassLoader newClassLoader = getWebInfClassLoader(archive);
+            
+            Thread.currentThread().setContextClassLoader(newClassLoader);
+        
+            WebApplication webApplication = getWebApplication(archive, newClassLoader);
+            
+            DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
+            webApplication.addFeature(new ServletFeature());
+            webApplicationServer.addWebApplication(webApplication);
+            webApplicationServer.initialize();
+            webApplicationServer.start();
+            
+            httpServer = new DefaultHttpServer(8080, webApplicationServer);
+            httpServer.start();
+            
+            servletNames.addAll(webApplication.getServletRegistrations().keySet());
+        
+        } finally {
+            Thread.currentThread().setContextClassLoader(oldClassLoader);
+        }
+        
+        HTTPContext httpContext = new HTTPContext("localhost", 8080);
+        for (String servletName : servletNames) {
+            httpContext.add(new Servlet(servletName, "/"));
+        }
+        
+        ProtocolMetaData protocolMetaData = new ProtocolMetaData();
+        protocolMetaData.addContext(httpContext);
+        
+        return protocolMetaData;
+    }
+    
+    WebApplication getWebApplication(Archive<?> archive, ClassLoader newClassLoader) {
+        WebApplication webApplication = new DefaultWebApplication();
+        webApplication.setClassLoader(newClassLoader);
+        webApplication.addResource(new ShrinkWrapResource(archive));
+        
+        return webApplication;
+    }
+    
+    
+    ClassLoader getWebInfClassLoader(Archive<?> archive) {
+        DefaultResourceManager manager = new DefaultResourceManager();
+        manager.addResource(new ShrinkWrapResource("/WEB-INF/classes", archive));
+//        manager.addResource(new ShrinkWrapResource(
+//            ShrinkWrap.create(JavaArchive.class)
+//                      .addPackages(
+//                          true, 
+//                          e -> !e.get().contains("arquillian"), 
+//                          DefaultWebApplication.class.getPackage())
+//                ));
+        
+        IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader();
+        classLoader.setResourceManager(manager);
+        
+        return classLoader;
+    }
+    
+    @Override
+    public void deploy(Descriptor descriptor) throws DeploymentException {
+        throw new UnsupportedOperationException("Not implemented");
+    }
+    
+    @Override
+    public void undeploy(Archive<?> archive) throws DeploymentException {
+        httpServer.stop();
+    }
+    
+    @Override
+    public void undeploy(Descriptor descriptor) throws DeploymentException {
+        
     }
 
     @Override
     public void stop() throws LifecycleException {
     }
 
-    @Override
-    public ProtocolDescription getDefaultProtocol() {
-        return null;
-    }
-
-    @Override
-    public ProtocolMetaData deploy(Archive<?> archive) throws DeploymentException {
-        return null;
-    }
-
-    @Override
-    public void undeploy(Archive<?> archive) throws DeploymentException {
-        
-    }
-
-    @Override
-    public void deploy(Descriptor descriptor) throws DeploymentException {
-        
-    }
-
-    @Override
-    public void undeploy(Descriptor descriptor) throws DeploymentException {
-        
-    }
-
+    
 }
