@@ -43,6 +43,11 @@ class WebXml {
     public final List<WebXml.Listener> listeners;
     
     /**
+     * Stores the mime mappings.
+     */
+    public final List<WebXml.MimeMapping> mimeMappings;
+    
+    /**
      * Stores the servlets.
      */
     public final List<WebXml.Servlet> servlets;
@@ -57,6 +62,7 @@ class WebXml {
      */
     public WebXml() {
         listeners = new ArrayList<>();
+        mimeMappings = new ArrayList<>();
         servlets = new ArrayList<>();
         servletMappings = new ArrayList<>();
     }
@@ -128,5 +134,21 @@ class WebXml {
          * Stores the listener class name.
          */
         public String className;
+    }
+
+    /**
+     * The &lt;mime-mapping&gt; snippet inside a web.xml / webfragment.xml.
+     */
+    public static class MimeMapping {
+        
+        /**
+         * Stores the extension.
+         */
+        public String extension;
+        
+        /**
+         * Stores the mime type.
+         */
+        public String mimeType;
     }
 }

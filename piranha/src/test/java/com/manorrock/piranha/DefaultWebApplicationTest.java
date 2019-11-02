@@ -704,7 +704,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetEffectiveMajorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(3, webApp.getEffectiveMajorVersion());
+        assertEquals(4, webApp.getEffectiveMajorVersion());
     }
 
     /**
@@ -774,7 +774,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetMajorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(3, webApp.getMajorVersion());
+        assertEquals(4, webApp.getMajorVersion());
     }
 
     /**
@@ -786,6 +786,18 @@ public class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setMimeTypeManager(mimeTypeManager);
         assertNull(webApp.getMimeType("this_maps_to.null"));
+    }
+
+    /**
+     * Test getMimeType method.
+     */
+    @Test
+    public void testGetMimeType2() {
+        DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
+        mimeTypeManager.addMimeType("class", "application/x-java-class");
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setMimeTypeManager(mimeTypeManager);
+        assertEquals(webApp.getMimeType("my.class"), "application/x-java-class");
     }
 
     /**
@@ -1295,6 +1307,16 @@ public class DefaultWebApplicationTest {
         webApp.start();
         webApp.service(request, response);
         assertEquals(404, response.getStatus());
+    }
+    
+    /**
+     * Test setAttribute method.
+     */
+    @Test
+    public void testSetAttribute() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setAttribute("myattribute", null);
+        assertNull(webApp.getAttribute("myattribute"));
     }
 
     /**

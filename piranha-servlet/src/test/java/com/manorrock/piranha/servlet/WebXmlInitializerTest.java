@@ -25,28 +25,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.api;
+package com.manorrock.piranha.servlet;
+
+import com.manorrock.piranha.DefaultDirectoryResource;
+import com.manorrock.piranha.DefaultWebApplication;
+import java.io.File;
+import javax.servlet.ServletRegistration;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * The MimeTypeManager API.
+ * The JUnit tests for the WebXmlInitializer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface MimeTypeManager {
-    
-    /**
-     * Add the mime type.
-     * 
-     * @param extension the extension (without the dot).
-     * @param mimeType the mime type to return.
-     */
-    void addMimeType(String extension, String mimeType);
+public class WebXmlInitializerTest {
 
     /**
-     * Get the mime type.
+     * Test onStartup method.
      *
-     * @param filename the filename.
-     * @return the mime type or null if not found.
+     * @throws Exception when an error occurs.
      */
-    String getMimeType(String filename);
+    @Test
+    public void testOnStartup() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test1")));
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
+        ServletRegistration registration = webApplication.getServletRegistration("Test Servlet");
+        assertNotNull(registration);
+        assertFalse(registration.getMappings().isEmpty());
+        assertEquals(registration.getMappings().iterator().next(), "*.html");
+        assertEquals(webApplication.getMimeType("my.class"), "application/x-java-class");
+    }
 }

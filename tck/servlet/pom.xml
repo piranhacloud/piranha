@@ -119,6 +119,7 @@
                                 <!-- start the server -->
                                 <exec executable="${piranha.home}/bin/start.sh"
                                       dir="${piranha.home}/bin"/>
+                                <sleep seconds="30"/>
                             </target>
                         </configuration>
                     </execution>
@@ -132,10 +133,10 @@
                             <target>
                                 <!-- run all the tests -->
                                 <exec executable="${ant.home}/bin/ant" 
-                                      dir="${tck.home}/src/com/sun/ts/tests">
+                                      dir="${test.home}">
                                     <arg value="-Dwork.dir=${piranha.home}/work"/>
                                     <arg value="-Dreport.dir=${piranha.home}/report"/>
-                                    <arg value="run.all"/>
+                                    <arg value="runclient"/>
                                 </exec>
                             </target>
                         </configuration>
@@ -203,8 +204,9 @@
     
     <properties>
         <ant.home>${project.build.directory}/ant</ant.home>
-        <tck.home>${project.build.directory}/tck</tck.home>
-        <signature.home>${project.build.directory}/signature</signature.home>
         <piranha.home>${project.build.directory}/piranha</piranha.home>
+        <signature.home>${project.build.directory}/signature</signature.home>
+        <tck.home>${project.build.directory}/tck</tck.home>
+        <test.home>${tck.home}/src/com/sun/ts/tests</test.home>
     </properties>
 </project>

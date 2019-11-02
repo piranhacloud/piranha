@@ -25,28 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.api;
+package com.manorrock.piranha.servlet;
+
+import javax.servlet.http.HttpServlet;
 
 /**
- * The MimeTypeManager API.
- *
+ * A test servlet
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface MimeTypeManager {
-    
-    /**
-     * Add the mime type.
-     * 
-     * @param extension the extension (without the dot).
-     * @param mimeType the mime type to return.
-     */
-    void addMimeType(String extension, String mimeType);
-
-    /**
-     * Get the mime type.
-     *
-     * @param filename the filename.
-     * @return the mime type or null if not found.
-     */
-    String getMimeType(String filename);
+public class TestServlet extends HttpServlet {
 }
