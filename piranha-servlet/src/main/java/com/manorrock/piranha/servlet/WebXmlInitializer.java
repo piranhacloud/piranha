@@ -28,7 +28,6 @@
 package com.manorrock.piranha.servlet;
 
 import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.servlet.WebXml.Servlet.InitParam;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -126,6 +125,19 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                         webApp.addServletMapping(mapping.servletName, mapping.urlPattern);
                     }
                 }
+
+                /*
+                 * Process <mime-mapping> entries
+                 */
+                list = (NodeList) xPath.evaluate("//mime-mapping", document, XPathConstants.NODESET);
+                if (list != null) {
+                    processMimeMappings(webXml, list);
+                    Iterator<WebXml.MimeMapping> mappingIterator = webXml.mimeMappings.iterator();
+                    while (mappingIterator.hasNext()) {
+                        WebXml.MimeMapping mapping = mappingIterator.next();
+                        webApp.getMimeTypeManager().addMimeType(mapping.extension, mapping.mimeType);
+                    }
+                }
             } else {
                 if (LOGGER.isLoggable(Level.FINE)) {
                     LOGGER.info("No web.xml found!");
@@ -134,6 +146,38 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         } catch (SAXException | XPathExpressionException | IOException
                 | ParserConfigurationException e) {
             LOGGER.log(Level.WARNING, "Unable to parse web.xml", e);
+        }
+    }
+
+    /**
+     * Process the servlet.
+     *
+     * @param webXml the web.xml to add to.
+     * @param node the DOM node.
+     * @return the web.xml.
+     */
+    private void processMimeMapping(WebXml webXml, Node node) {
+        try {
+            XPath xPath = XPathFactory.newInstance().newXPath();
+            WebXml.MimeMapping mimeMapping = new WebXml.MimeMapping();
+            mimeMapping.extension = (String) xPath.evaluate("//extension/text()", node, XPathConstants.STRING);
+            mimeMapping.mimeType = (String) xPath.evaluate("//mime-type/text()", node, XPathConstants.STRING);
+            webXml.mimeMappings.add(mimeMapping);
+        } catch (XPathException xpe) {
+            LOGGER.log(Level.WARNING, "Unable to parse <mime-mapping> section", xpe);
+        }
+    }
+
+    /**
+     * Process the mime-mapping section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param nodeList the node list.
+     * @return the web.xml.
+     */
+    private void processMimeMappings(WebXml webXml, NodeList nodeList) {
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            processMimeMapping(webXml, nodeList.item(i));
         }
     }
 

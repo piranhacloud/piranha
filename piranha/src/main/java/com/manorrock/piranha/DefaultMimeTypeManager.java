@@ -28,6 +28,7 @@
 package com.manorrock.piranha;
 
 import com.manorrock.piranha.api.MimeTypeManager;
+import java.util.HashMap;
 
 /**
  * The default MimeTypeManager.
@@ -35,6 +36,30 @@ import com.manorrock.piranha.api.MimeTypeManager;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultMimeTypeManager implements MimeTypeManager {
+    
+    /**
+     * Stores the mime types.
+     */
+    private final HashMap<String, String> mimeTypes = new HashMap<>();
+    
+    /**
+     * Constructor.
+     */
+    public DefaultMimeTypeManager() {
+        mimeTypes.put("css", "text/css");
+        mimeTypes.put("js", "text/javascript");
+    }
+
+    /**
+     * Add the mime type.
+     * 
+     * @param extension the extension (without the dot).
+     * @param mimeType the mime type to return.
+     */
+    @Override
+    public void addMimeType(String extension, String mimeType) {
+        mimeTypes.put(extension, mimeType);
+    }
 
     /**
      * Get the mime type.
@@ -45,12 +70,9 @@ public class DefaultMimeTypeManager implements MimeTypeManager {
     @Override
     public String getMimeType(String filename) {
         String result = null;
-        if (filename != null) {
-            if (filename.endsWith(".css")) {
-                result = "text/css";
-            } else if (filename.endsWith(".js")) {
-                result = "text/javascript";
-            }
+        if (filename.contains(".")) {
+            String extension = filename.substring(filename.lastIndexOf(".") + 1);
+            result = mimeTypes.get(extension);
         }
         return result;
     }

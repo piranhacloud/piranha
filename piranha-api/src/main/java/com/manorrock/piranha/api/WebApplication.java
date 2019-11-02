@@ -84,6 +84,13 @@ public interface WebApplication extends ServletContext {
      * @param resource the resouce.
      */
     void addResource(Resource resource);
+
+    /**
+     * Get the mime type manager.
+     * 
+     * @return the mime type manager.
+     */
+    MimeTypeManager getMimeTypeManager();
     
     /**
      * Returns the unique Id of this web application corresponding to this ServletContext.

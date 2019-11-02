@@ -25,28 +25,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.api;
+package com.manorrock.piranha;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import org.junit.Test;
 
 /**
- * The MimeTypeManager API.
- *
+ * The JUnit tests for the DefaultMimeTypeManager class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface MimeTypeManager {
+public class DefaultMimeTypeManagerTest {
     
     /**
-     * Add the mime type.
-     * 
-     * @param extension the extension (without the dot).
-     * @param mimeType the mime type to return.
+     * Test addMimeType method.
      */
-    void addMimeType(String extension, String mimeType);
-
-    /**
-     * Get the mime type.
-     *
-     * @param filename the filename.
-     * @return the mime type or null if not found.
-     */
-    String getMimeType(String filename);
+    @Test
+    public void testAddMimeType() {
+        DefaultMimeTypeManager manager = new DefaultMimeTypeManager();
+        assertNull(manager.getMimeType("my.class"));
+        manager.addMimeType("class", "application/x-java-class");
+        assertEquals("application/x-java-class", manager.getMimeType("my.class"));
+    }
 }

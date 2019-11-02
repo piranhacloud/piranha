@@ -24,6 +24,7 @@
                 <exclude>${project.groupId}:${project.artifactId}:jar:*</exclude>
             </excludes>
             <outputDirectory>lib</outputDirectory>
+            <useProjectArtifact>true</useProjectArtifact>
         </dependencySet>
     </dependencySets>
 </assembly>

@@ -85,6 +85,7 @@ import com.manorrock.piranha.api.SecurityManager;
 import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.api.WebApplicationRequestMapper;
 import com.manorrock.piranha.api.WebApplicationRequestMapping;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -140,7 +141,7 @@ public class DefaultWebApplication implements WebApplication {
     /**
      * Stores the attributes.
      */
-    protected final Map<String, Object> attributes;
+    protected final HashMap<String, Object> attributes;
 
     /**
      * Stores the class loader.
@@ -277,7 +278,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     public DefaultWebApplication() {
         annotationManager = new DefaultAnnotationManager();
-        attributes = new ConcurrentHashMap<>(1);
+        attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
         contextAttributeListeners = new ArrayList<>(1);
         contextListeners = new ArrayList<>(1);
@@ -836,7 +837,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public int getMajorVersion() {
-        return 3;
+        return 4;
     }
 
     /**
@@ -859,6 +860,16 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public String getMimeType(String filename) {
         return mimeTypeManager.getMimeType(filename);
+    }
+
+    /**
+     * Get the mime type manager.
+     * 
+     * @return the mime type manager.
+     */
+    @Override
+    public MimeTypeManager getMimeTypeManager() {
+        return mimeTypeManager;
     }
 
     /**
