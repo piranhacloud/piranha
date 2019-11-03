@@ -138,6 +138,19 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                         webApp.getMimeTypeManager().addMimeType(mapping.extension, mapping.mimeType);
                     }
                 }
+
+                /*
+                 * Process <context-param> entries
+                 */
+                list = (NodeList) xPath.evaluate("//context-param", document, XPathConstants.NODESET);
+                if (list != null) {
+                    processContextParameters(webXml, list);
+                    Iterator<WebXml.ContextParameter> iterator = webXml.contextParameters.iterator();
+                    while (iterator.hasNext()) {
+                        WebXml.ContextParameter contextParam = iterator.next();
+                        webApp.setInitParameter(contextParam.name, contextParam.value);
+                    }
+                }
             } else {
                 if (LOGGER.isLoggable(Level.FINE)) {
                     LOGGER.info("No web.xml found!");
@@ -150,7 +163,39 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     }
 
     /**
-     * Process the servlet.
+     * Process the context-param section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param node the DOM node.
+     * @return the web.xml.
+     */
+    private void processContextParameter(WebXml webXml, Node node) {
+        try {
+            XPath xPath = XPathFactory.newInstance().newXPath();
+            WebXml.ContextParameter contextParameter = new WebXml.ContextParameter();
+            contextParameter.name = (String) xPath.evaluate("//param-name/text()", node, XPathConstants.STRING);
+            contextParameter.value = (String) xPath.evaluate("//param-value/text()", node, XPathConstants.STRING);
+            webXml.contextParameters.add(contextParameter);
+        } catch (XPathException xpe) {
+            LOGGER.log(Level.WARNING, "Unable to parse <context-param> section", xpe);
+        }
+    }
+
+    /**
+     * Process the context-param entries.
+     *
+     * @param webXml the web.xml to add to.
+     * @param nodeList the node list.
+     * @return the web.xml.
+     */
+    private void processContextParameters(WebXml webXml, NodeList nodeList) {
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            processContextParameter(webXml, nodeList.item(i));
+        }
+    }
+
+    /**
+     * Process the mime-mapping entries.
      *
      * @param webXml the web.xml to add to.
      * @param node the DOM node.

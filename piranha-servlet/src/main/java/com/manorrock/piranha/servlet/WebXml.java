@@ -32,35 +32,41 @@ import java.util.List;
 
 /**
  * The web.xml in object format.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class WebXml {
-    
+
+    /**
+     * Stores the context parameters.
+     */
+    public final List<ContextParameter> contextParameters;
+
     /**
      * Stores the listeners.
      */
     public final List<WebXml.Listener> listeners;
-    
+
     /**
      * Stores the mime mappings.
      */
     public final List<WebXml.MimeMapping> mimeMappings;
-    
+
     /**
      * Stores the servlets.
      */
     public final List<WebXml.Servlet> servlets;
-    
+
     /**
      * Stores the servlet mappings.
      */
     public final List<WebXml.ServletMapping> servletMappings;
-    
+
     /**
      * Constructor.
      */
     public WebXml() {
+        contextParameters = new ArrayList<>();
         listeners = new ArrayList<>();
         mimeMappings = new ArrayList<>();
         servlets = new ArrayList<>();
@@ -76,17 +82,17 @@ class WebXml {
          * Stores the servlet name.
          */
         public String name;
-        
+
         /**
          * Stores the servlet class.
          */
         public String className;
-        
+
         /**
          * Stores the load on startup.
          */
         public int loadOnStartup;
-        
+
         /**
          * Stores the init parameters.
          */
@@ -96,12 +102,12 @@ class WebXml {
          * The &lt;init-param&gt; snippet inside a &lt;servlet&gt; snippet.
          */
         public static class InitParam {
-            
+
             /**
              * Stores the name.
              */
             public String name;
-            
+
             /**
              * Stores the value.
              */
@@ -118,7 +124,7 @@ class WebXml {
          * Stores the servlet name.
          */
         public String servletName;
-        
+
         /**
          * Stores the URL pattern.
          */
@@ -129,7 +135,7 @@ class WebXml {
      * The &lt;listener&gt; snippet inside a web.xml / webfragment.xml.
      */
     public static class Listener {
-        
+
         /**
          * Stores the listener class name.
          */
@@ -140,15 +146,31 @@ class WebXml {
      * The &lt;mime-mapping&gt; snippet inside a web.xml / webfragment.xml.
      */
     public static class MimeMapping {
-        
+
         /**
          * Stores the extension.
          */
         public String extension;
-        
+
         /**
          * Stores the mime type.
          */
         public String mimeType;
+    }
+
+    /**
+     * Stores the context parameter.
+     */
+    public static class ContextParameter {
+
+        /**
+         * Stores the name.
+         */
+        public String name;
+        
+        /**
+         * Stores the value.
+         */
+        public String value;
     }
 }

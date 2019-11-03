@@ -59,5 +59,6 @@ public class WebXmlInitializerTest {
         assertFalse(registration.getMappings().isEmpty());
         assertEquals(registration.getMappings().iterator().next(), "*.html");
         assertEquals(webApplication.getMimeType("my.class"), "application/x-java-class");
+        assertEquals(webApplication.getInitParameter("myname"), "myvalue");
     }
 }
