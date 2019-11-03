@@ -83,6 +83,13 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 XPath xPath = XPathFactory.newInstance().newXPath();
 
                 /*
+                 * Process <display-name> content.
+                 */
+                
+                String displayName = (String) xPath.evaluate("//display-name/text()", document, XPathConstants.STRING);
+                webApp.setServletContextName(displayName);
+                
+                /*
                  * Process <listener> entries
                  */
                 NodeList list = (NodeList) xPath.evaluate("//listener", document, XPathConstants.NODESET);

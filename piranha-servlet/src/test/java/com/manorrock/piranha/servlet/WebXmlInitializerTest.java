@@ -57,8 +57,9 @@ public class WebXmlInitializerTest {
         ServletRegistration registration = webApplication.getServletRegistration("Test Servlet");
         assertNotNull(registration);
         assertFalse(registration.getMappings().isEmpty());
-        assertEquals(registration.getMappings().iterator().next(), "*.html");
-        assertEquals(webApplication.getMimeType("my.class"), "application/x-java-class");
-        assertEquals(webApplication.getInitParameter("myname"), "myvalue");
+        assertEquals("*.html", registration.getMappings().iterator().next());
+        assertEquals("application/x-java-class", webApplication.getMimeType("my.class"));
+        assertEquals("myvalue", webApplication.getInitParameter("myname"));
+        assertEquals("myservletcontext", webApplication.getServletContextName());
     }
 }
