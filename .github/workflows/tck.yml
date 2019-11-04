@@ -1,7 +1,9 @@
 name: tck
 on:
+  push:
+    - master
   schedule:
-  - cron: "0 2 * * 1"
+    - cron: "0 2 * * 1"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,5 +15,5 @@ jobs:
         java-version: 1.8
     - name: Setup for TCK
       run: mvn -B -DskipTests=true install
-    - name: RUn TCK
-      run: mvn -B -pl tck/servlet verify
+    - name: Run TCK
+      run: mvn -B -pl tck/servlet verify -amd
