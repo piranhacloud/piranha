@@ -156,6 +156,13 @@ public interface WebApplication extends ServletContext {
      * @return the security manager.
      */
     SecurityManager getSecurityManager();
+    
+    /**
+     * Gets the annotation manager.
+     * 
+     * @return the annotation manager.
+     */
+    AnnotationManager getAnnotationManager();
 
     /**
      * Initialize the web application.
@@ -243,6 +250,14 @@ public interface WebApplication extends ServletContext {
      * @param securityManager the security manager.
      */
     void setSecurityManager(SecurityManager securityManager);
+    
+    
+    /**
+     * Sets the annotation manager.
+     * 
+     * @param annotationManager the annotation manager
+     */
+    void setAnnotationManager(AnnotationManager annotationManager);
 
     /**
      * Set the servlet context name.
