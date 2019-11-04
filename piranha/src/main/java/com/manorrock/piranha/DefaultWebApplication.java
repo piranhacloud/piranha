@@ -39,12 +39,15 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.EventListener;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
@@ -85,9 +88,6 @@ import com.manorrock.piranha.api.SecurityManager;
 import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.api.WebApplicationRequestMapper;
 import com.manorrock.piranha.api.WebApplicationRequestMapping;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The default WebApplication.
@@ -1034,6 +1034,16 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public SecurityManager getSecurityManager() {
         return securityManager;
+    }
+    
+    @Override
+    public AnnotationManager getAnnotationManager() {
+        return annotationManager;
+    }
+
+    @Override
+    public void setAnnotationManager(AnnotationManager annotationManager) {
+        this.annotationManager = annotationManager;
     }
 
     /**
