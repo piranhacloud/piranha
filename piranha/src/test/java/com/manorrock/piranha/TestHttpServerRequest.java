@@ -27,10 +27,11 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.piranha.api.HttpServerRequest;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.manorrock.piranha.api.HttpServerRequest;
 
 /**
  * A Test HttpServerRequest class.
@@ -53,6 +54,8 @@ public class TestHttpServerRequest implements HttpServerRequest {
      * Stores the request target.
      */
     private String requestTarget;
+    
+    private String method;
 
     /**
      * Constructor.
@@ -60,6 +63,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     public TestHttpServerRequest() {
         this.headers = new ConcurrentHashMap<>();
         this.requestTarget = "";
+        this.method = "GET";
     }
 
     @Override
@@ -109,7 +113,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
 
     @Override
     public String getMethod() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return method;
     }
 
     @Override
