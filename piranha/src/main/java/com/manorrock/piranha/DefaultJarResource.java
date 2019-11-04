@@ -37,6 +37,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Stream;
 
 /**
  * The default JarResource.
@@ -130,6 +131,11 @@ public class DefaultJarResource implements Resource {
             }
         }
         return result;
+    }
+    
+    @Override
+    public Stream<String> getAllLocations() {
+        return Stream.empty();
     }
 
     /**

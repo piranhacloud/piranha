@@ -29,6 +29,7 @@ package com.manorrock.piranha.api;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.stream.Stream;
 
 /**
  * The Resource API.
@@ -52,4 +53,6 @@ public interface Resource {
      * @return the resource as a stream, or null if not found.
      */
     InputStream getResourceAsStream(String location);
+    
+    Stream<String> getAllLocations();
 }
