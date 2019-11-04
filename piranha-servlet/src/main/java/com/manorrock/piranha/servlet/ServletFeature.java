@@ -68,7 +68,7 @@ public class ServletFeature implements Feature {
      */
     @Override
     public void initialize(WebApplication webApplication) {
-        webApplication.addInitializer(new NaiveAnnotationScannerInitializer());
+        webApplication.addInitializer(new LiveObjectAnnotationScannerInitializer());
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.addInitializer(new WebAnnotationInitializer());
         
