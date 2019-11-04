@@ -155,7 +155,7 @@ public class DefaultWebApplicationServerOutputStream extends ServletOutputStream
     private void writeContentType() throws IOException {
         String contentType = response.getContentType();
         if (contentType == null) {
-            contentType = "text/html";
+            return;
         }
         outputStream.write("Content-Type: ".getBytes());
         outputStream.write(contentType.getBytes());
