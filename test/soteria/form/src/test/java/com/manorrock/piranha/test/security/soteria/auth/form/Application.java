@@ -45,7 +45,7 @@ import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
 import com.manorrock.piranha.jakarta.security.base.SecurityBaseInitializer;
-import com.manorrock.piranha.jakarta.security.soteria.SoteriaInitializer;
+import com.manorrock.piranha.soteria.SoteriaInitializer;
 import com.manorrock.piranha.test.utils.TestWebApp;
 import com.manorrock.piranha.weld.WeldInitializer;
 

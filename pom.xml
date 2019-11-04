@@ -37,7 +37,6 @@
         <module>piranha-authentication-eleos</module>
         <module>piranha-authorization-exousia</module>
         <module>piranha-jakarta-security-base</module>
-        <module>piranha-jakarta-security-soteria</module>
         <module>piranha-cdi-openwebbeans</module>
         <module>piranha-cdi-weld</module>
         <module>piranha-faces-mojarra</module>
@@ -49,6 +48,7 @@
         <module>piranha-microprofile-smallrye-health</module>
         <module>piranha-runner-installed</module>
         <module>piranha-runner-war</module>
+        <module>piranha-security-soteria</module>
         <module>piranha-servlet</module>
         <module>piranha-servlet-api</module>
         <module>piranha-session-hazelcast</module>

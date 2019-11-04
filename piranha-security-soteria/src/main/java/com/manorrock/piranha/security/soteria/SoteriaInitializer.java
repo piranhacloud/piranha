@@ -25,9 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.jakarta.security.soteria;
+package com.manorrock.piranha.security.soteria;
 
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
@@ -36,23 +38,35 @@ import javax.servlet.ServletException;
 import org.glassfish.soteria.servlet.SamRegistrationInstaller;
 
 /**
- * The Jakarta Security Base initializer.
- * 
+ * The Soteria initializer.
+ *
  * @author Arjan Tijms
+ * @author Manfred Riem (mriem@manorrock.com)
  */
 public class SoteriaInitializer implements ServletContainerInitializer {
-    
+
     /**
-     * Initialize Jakarta Security Base
-     * 
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(SoteriaInitializer.class.getName());
+
+    /**
+     * Initialize Soteria.
+     *
      * @param classes the classes.
      * @param servletContext the Servlet context.
      * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext)
+            throws ServletException {
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.fine("Initializing Soteria");
+        }
         SamRegistrationInstaller installer = new SamRegistrationInstaller();
         installer.onStartup(classes, servletContext);
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.fine("Initialized Soteria");
+        }
     }
-
 }
