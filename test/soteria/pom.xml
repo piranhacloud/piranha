@@ -50,7 +50,7 @@
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-jakarta-security-soteria</artifactId>
+            <artifactId>piranha-soteria</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
