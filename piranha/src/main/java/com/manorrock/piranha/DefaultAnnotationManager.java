@@ -27,9 +27,19 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.piranha.api.AnnotationManager;
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import com.manorrock.piranha.api.AnnotationManager;
 
 /**
  * The default AnnotationManager.
@@ -37,6 +47,29 @@ import java.util.Set;
  * @author manfred
  */
 public class DefaultAnnotationManager implements AnnotationManager {
+    
+    public static class DefaultAnnotationInfo<T> implements AnnotationInfo<T> {
+        
+        private final T instance;
+        private final AnnotatedElement target;
+        
+        public DefaultAnnotationInfo(T instance, AnnotatedElement target) {
+            this.instance = instance;
+            this.target = target;
+        }
+
+        @Override
+        public T getInstance() {
+            return instance;
+        }
+
+        @Override
+        public AnnotatedElement getTarget() {
+            return target;
+        }
+    }
+    
+    private Map<Class<?>, List<AnnotationInfo<?>>> annotations = new ConcurrentHashMap<>();
 
     /**
      * Get the annotated classes.
@@ -46,5 +79,28 @@ public class DefaultAnnotationManager implements AnnotationManager {
     @Override
     public Set<Class<?>> getAnnotatedClasses() {
         return new HashSet<>();
+    }
+    
+    @Override
+    public <T> List<AnnotationInfo<T>> getAnnotations(Class<T> annotationClass) {
+        return 
+            annotations.getOrDefault(annotationClass, emptyList())
+                       .stream()
+                       .map(e -> (AnnotationInfo<T>) e)
+                       .collect(toList());
+    }
+    
+    @Override
+    public <T> List<AnnotationInfo<T>> getAnnotationsByTarget(Class<T> annotationClass, AnnotatedElement type) {
+        return null;
+    }
+    
+    public DefaultAnnotationManager addAnnotation(AnnotationInfo<?> annotationInfo) {
+        annotations.computeIfAbsent(
+            ((Annotation) annotationInfo.getInstance()).annotationType(), 
+            e -> new ArrayList<>())
+                   .add(annotationInfo);
+        
+        return this;
     }
 }
