@@ -17,4 +17,4 @@ jobs:
     - name: Setup for TCK
       run: mvn -B -DskipTests=true install
     - name: Run TCK
-      run: mvn -B -pl tck/servlet verify -amd
+      run: mvn -amd -B -P tck -pl tck/servlet verify
