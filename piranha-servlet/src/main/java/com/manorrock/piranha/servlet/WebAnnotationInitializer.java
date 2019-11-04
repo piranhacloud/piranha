@@ -29,6 +29,7 @@ package com.manorrock.piranha.servlet;
 
 import static java.util.Arrays.stream;
 
+import java.util.EventListener;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -36,6 +37,7 @@ import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
+import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 
 import com.manorrock.piranha.api.AnnotationManager;
@@ -67,7 +69,6 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
         
         AnnotationManager annotationManager = webApp.getAnnotationManager();
         
-        
         // Process @WebServlet
         
         for (AnnotationInfo<WebServlet> annotationInfo : annotationManager.getAnnotations(WebServlet.class)) {
@@ -97,7 +98,17 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
             // Add mapping
             webApp.addServletMapping(servletName, urlPatterns);
         }
-            
+        
+        // Process @WebListener
+        
+        for (AnnotationInfo<WebListener> annotationInfo : annotationManager.getAnnotations(WebListener.class)) {
+            webApp.addListener(getTargetListener(annotationInfo));
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    private Class<? extends EventListener> getTargetListener(AnnotationInfo<WebListener> annotationInfo) {
+        return (Class<? extends EventListener>) annotationInfo.getTargetType();
     }
     
 }
