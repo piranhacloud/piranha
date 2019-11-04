@@ -27,12 +27,21 @@
  */
 package com.manorrock.piranha.servlet;
 
+import static java.util.Arrays.stream;
+
+import java.lang.annotation.Annotation;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.ServletSecurity;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 
 import com.manorrock.piranha.DefaultAnnotationManager;
@@ -54,12 +63,12 @@ import com.manorrock.piranha.api.WebApplication;
  * 
  * @author Arjan Tijms
  */
-public class NaiveAnnotationScannerInitializer implements ServletContainerInitializer {
+public class LiveObjectAnnotationScannerInitializer implements ServletContainerInitializer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(NaiveAnnotationScannerInitializer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LiveObjectAnnotationScannerInitializer.class.getName());
 
     /**
      * On startup.
@@ -81,22 +90,25 @@ public class NaiveAnnotationScannerInitializer implements ServletContainerInitia
         DefaultAnnotationManager defaultAnnotationManager = (DefaultAnnotationManager) annotationManager;
         
         ClassLoader classLoader = webApp.getClassLoader();
-        if (classLoader instanceof ResourceManagerClassLoader) {
-            ResourceManagerClassLoader resourceManagerClassLoader = (ResourceManagerClassLoader) classLoader;
-            
-            resourceManagerClassLoader
-                .getResourceManager()
-                .getAllLocations()
-                .filter(e -> e.endsWith(".class"))
-                .map(e -> loadClass(classLoader, e))
-                .filter(e -> hasWebAnnotation(e))
-                .forEach(e -> defaultAnnotationManager.addAnnotation(
-                    new DefaultAnnotationInfo<>(
-                        e.getAnnotation(WebServlet.class), e)));
-                
-                
-                ;
+        if (classLoader instanceof ResourceManagerClassLoader == false) {
+            LOGGER.warning("ResourceManagerClassLoader not installed. This scanner does not work");
+            return;
         }
+            
+        ResourceManagerClassLoader resourceManagerClassLoader = (ResourceManagerClassLoader) classLoader;
+        
+        resourceManagerClassLoader
+            .getResourceManager()
+            .getAllLocations()
+            .filter(e -> e.endsWith(".class"))
+            .map(e -> loadClass(classLoader, e))
+            .filter(e -> hasWebAnnotation(e))
+            .forEach(targetClazz -> getWebAnnotations(targetClazz)
+                .forEach(annotationInstance -> 
+                    defaultAnnotationManager.addAnnotation(
+                        new DefaultAnnotationInfo<>(annotationInstance, targetClazz))));
+            ;
+        
     }
     
     Class<?> loadClass(ClassLoader classLoader, String name) {
@@ -112,7 +124,23 @@ public class NaiveAnnotationScannerInitializer implements ServletContainerInitia
     }
     
     boolean hasWebAnnotation(Class<?> clazz) {
-        return clazz.getAnnotation(WebServlet.class) != null;
+        return getWebAnnotations(clazz)
+              .findAny()
+              .isPresent();
+    }
+    
+    Stream<Annotation> getWebAnnotations(Class<?> clazz) {
+        return stream(clazz.getAnnotations())
+                .filter(e -> isWebAnnotation(e));
+    }
+    
+    boolean isWebAnnotation(Annotation annotation) {
+        return annotation instanceof WebServlet ||
+               annotation instanceof WebListener ||
+               annotation instanceof WebInitParam ||
+               annotation instanceof WebFilter ||
+               annotation instanceof ServletSecurity ||
+               annotation instanceof MultipartConfig;
     }
 
 }
