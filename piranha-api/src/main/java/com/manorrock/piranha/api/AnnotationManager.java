@@ -27,6 +27,8 @@
  */
 package com.manorrock.piranha.api;
 
+import java.lang.reflect.AnnotatedElement;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,6 +37,20 @@ import java.util.Set;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface AnnotationManager {
+    
+    interface AnnotationInfo<T> {
+        T getInstance();
+        AnnotatedElement getTarget();
+        
+        default Class<?> getTargetType() {
+            AnnotatedElement element = getTarget();
+            if (element instanceof Class<?>) {
+                return (Class<?>) element;
+            }
+            
+            return null;
+        }
+    }
 
     /**
      * Get the set of all annotated classes.
@@ -42,4 +58,9 @@ public interface AnnotationManager {
      * @return the set of all annotated classes
      */
     Set<Class<?>> getAnnotatedClasses();
+    
+    <T> List<AnnotationInfo<T>> getAnnotations(Class<T> annotationClass);
+    
+    <T> List<AnnotationInfo<T>> getAnnotationsByTarget(Class<T> annotationClass, AnnotatedElement type);
+    
 }

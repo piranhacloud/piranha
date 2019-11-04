@@ -32,6 +32,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -68,6 +69,7 @@ public class JSFForwardTest {
     }
     
     @Test
+    @Ignore
     public void testJSFForwardViaProtectedResource() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("protected/servlet?tech=jsf");
