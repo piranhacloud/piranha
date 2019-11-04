@@ -56,7 +56,9 @@ public class DefaultWebApplicationServerRequest extends DefaultWebApplicationReq
         
         // Method
         
-        method = request.getMethod();
+        if (request.getMethod() != null) {
+            method = request.getMethod();
+        }
         
         // Query String
         
