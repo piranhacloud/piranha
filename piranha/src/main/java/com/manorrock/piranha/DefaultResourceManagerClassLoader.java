@@ -164,6 +164,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         this.resourceManager = resourceManager;
     }
     
+    @Override
     public ResourceManager getResourceManager() {
         return resourceManager;
     }
