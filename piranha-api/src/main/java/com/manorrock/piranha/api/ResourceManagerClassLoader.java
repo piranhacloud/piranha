@@ -41,4 +41,6 @@ public interface ResourceManagerClassLoader {
      * @param resourceManager the resource manager.
      */
     void setResourceManager(ResourceManager resourceManager);
+    
+    ResourceManager getResourceManager();
 }
