@@ -28,6 +28,9 @@
 package com.manorrock.piranha;
 
 import com.manorrock.piranha.api.HttpServerRequest;
+
+import static java.lang.Long.parseLong;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.servlet.http.Cookie;
@@ -50,23 +53,41 @@ public class DefaultWebApplicationServerRequest extends DefaultWebApplicationReq
      * @param request the request.
      */
     public DefaultWebApplicationServerRequest(HttpServerRequest request) {
+        
+        // Method
+        
+        method = request.getMethod();
+        
+        // Query String
+        
         if (request.getQueryString() != null) {
             requestUri = request.getRequestTarget();
             queryString = request.getQueryString();
         } else {
             requestUri = request.getRequestTarget();
         }
+        
+        // Headers
+        
         Iterator<String> headerNames = request.getHeaderNames();
         while (headerNames.hasNext()) {
+            
+            // General headers
+            
             String name = headerNames.next();
             String unparsedValue = request.getHeader(name);
             headerManager.setHeader(name, unparsedValue);
+            
+            // Special purpose headers
+            
             if (name.equalsIgnoreCase("Content-Type")) {
                 contentType = unparsedValue;
             }
+            
             if (name.equalsIgnoreCase("Content-Length")) {
-                contentLength = Long.parseLong(unparsedValue);
+                contentLength = parseLong(unparsedValue);
             }
+            
             if (name.equalsIgnoreCase("COOKIE")) {
                 ArrayList<Cookie> cookieList = new ArrayList<>();
                 String[] cookieCandidates = unparsedValue.split(";");
