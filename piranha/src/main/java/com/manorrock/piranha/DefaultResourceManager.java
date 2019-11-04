@@ -35,6 +35,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * The default ResourceManager.
@@ -130,5 +131,10 @@ public class DefaultResourceManager implements ResourceManager {
             result = getClass().getResourceAsStream(location);
         }
         return result;
+    }
+    
+    @Override
+    public Stream<String> getAllLocations() {
+        return resources.stream().flatMap(e -> e.getAllLocations());
     }
 }

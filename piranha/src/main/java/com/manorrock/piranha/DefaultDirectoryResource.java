@@ -33,6 +33,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.stream.Stream;
 
 import com.manorrock.piranha.api.Resource;
 
@@ -110,6 +111,11 @@ public class DefaultDirectoryResource implements Resource {
         }
 
         return result;
+    }
+    
+    @Override
+    public Stream<String> getAllLocations() {
+        return Stream.empty();
     }
 
     /**

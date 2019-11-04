@@ -30,6 +30,7 @@ package com.manorrock.piranha.shrinkwrap;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.stream.Stream;
 
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ArchivePaths;
@@ -81,6 +82,17 @@ public class ShrinkWrapResource implements Resource {
         }
         
         return asset.openStream();
+    }
+    
+    @Override
+    public Stream<String> getAllLocations() {
+        return 
+            archive.getContent()
+                   .keySet()
+                   .stream()
+                   .map(e -> e.get())
+                   .filter(e -> getAsset(e) != null)                
+                   ;
     }
     
     private Asset getAsset(String location) {

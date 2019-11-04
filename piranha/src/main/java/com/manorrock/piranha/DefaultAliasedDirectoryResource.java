@@ -27,13 +27,15 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.piranha.api.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.stream.Stream;
+
+import com.manorrock.piranha.api.Resource;
 
 /**
  * The default AliasedDirectoryResource.
@@ -109,6 +111,11 @@ public class DefaultAliasedDirectoryResource implements Resource {
             }
         }
         return result;
+    }
+    
+    @Override
+    public Stream<String> getAllLocations() {
+        return Stream.empty();
     }
 
     /**

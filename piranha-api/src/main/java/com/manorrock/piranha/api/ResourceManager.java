@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.stream.Stream;
 
 /**
  * The ResourceManager API.
@@ -71,4 +72,6 @@ public interface ResourceManager {
      * @return the input stream, or null if not found.
      */
     InputStream getResourceAsStream(String location);
+    
+    Stream<String> getAllLocations();
 }
