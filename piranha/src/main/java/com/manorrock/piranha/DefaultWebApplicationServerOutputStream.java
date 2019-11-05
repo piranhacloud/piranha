@@ -173,6 +173,15 @@ public class DefaultWebApplicationServerOutputStream extends ServletOutputStream
         outputStream.write(cookie.getName().getBytes());
         outputStream.write("=".getBytes());
         outputStream.write(cookie.getValue().getBytes());
+        
+        if (cookie.getSecure()) {
+            outputStream.write("; Secure".getBytes());
+        }
+        
+        if (cookie.isHttpOnly()) {
+            outputStream.write("; HttpOnly".getBytes());
+        }
+        
         outputStream.write("\n".getBytes());
     }
 
