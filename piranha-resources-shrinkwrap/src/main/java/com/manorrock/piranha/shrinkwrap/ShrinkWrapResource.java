@@ -35,7 +35,9 @@ import java.util.stream.Stream;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.Node;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.Asset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
 import com.manorrock.piranha.api.Resource;
 
@@ -50,9 +52,17 @@ public class ShrinkWrapResource implements Resource {
     private ArchiveURLStreamHandler archiveStreamHandler;
     
     public ShrinkWrapResource(String resourcesPath, Archive<?> archive) {
-        this.archive = archive.shallowCopy(
-                                e -> e.get().startsWith(resourcesPath))
-                              .move(resourcesPath, "/");
+        JavaArchive newArchive = ShrinkWrap.create(JavaArchive.class);
+        
+        getAllLocations(archive)
+            .filter(path -> path.startsWith(resourcesPath))
+            .forEach(path -> 
+                newArchive.add(
+                    archive.get(path).getAsset() , 
+                    path.substring(resourcesPath.length())));
+        
+        this.archive = newArchive;
+        
         archiveStreamHandler = new ArchiveURLStreamHandler(this.archive);
     }
     
@@ -63,7 +73,7 @@ public class ShrinkWrapResource implements Resource {
 
     @Override
     public URL getResource(String location) {
-        if (getAsset(location) == null) {
+        if (getAsset(archive, location) == null) {
             return null;
         }
         
@@ -76,7 +86,7 @@ public class ShrinkWrapResource implements Resource {
 
     @Override
     public InputStream getResourceAsStream(String location) {
-        Asset asset = getAsset(location);
+        Asset asset = getAsset(archive, location);
         if (asset == null) {
             return null;
         }
@@ -86,17 +96,21 @@ public class ShrinkWrapResource implements Resource {
     
     @Override
     public Stream<String> getAllLocations() {
+        return getAllLocations(archive);
+    }
+    
+    public Stream<String> getAllLocations(Archive<?> archiveToGetFrom) {
         return 
-            archive.getContent()
+            archiveToGetFrom.getContent()
                    .keySet()
                    .stream()
                    .map(e -> e.get())
-                   .filter(e -> getAsset(e) != null)                
+                   .filter(e -> getAsset(archiveToGetFrom, e) != null)                
                    ;
     }
     
-    private Asset getAsset(String location) {
-        Node node = getNode(location);
+    private Asset getAsset(Archive<?> archiveToGetFrom, String location) {
+        Node node = getNode(archiveToGetFrom, location);
         if (node == null) {
             return null;
         }
@@ -109,8 +123,8 @@ public class ShrinkWrapResource implements Resource {
         return asset;
     }
     
-    private Node getNode(String location) {
-        return archive.get(
+    private Node getNode(Archive<?> archiveToGetFrom, String location) {
+        return archiveToGetFrom.get(
             ArchivePaths.create(
                 location));
     }
