@@ -28,15 +28,20 @@
 package com.manorrock.piranha.servlet;
 
 import static java.util.Arrays.stream;
+import static java.util.EnumSet.noneOf;
+import static java.util.stream.Collectors.toCollection;
 
 import java.util.EventListener;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 
@@ -98,6 +103,49 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
             // Add mapping
             webApp.addServletMapping(servletName, urlPatterns);
         }
+        
+        // Process @WebFilter
+        
+        for (AnnotationInfo<WebFilter> annotationInfo : annotationManager.getAnnotations(WebFilter.class)) {
+            
+            WebFilter webFilter = annotationInfo.getInstance();
+            
+            String filterName = webFilter.filterName();
+            if ("".equals(filterName)) {
+                filterName = annotationInfo.getTargetType().getSimpleName(); // WebServlet only has target Type
+            }
+            
+            // Add the Filter
+            FilterRegistration.Dynamic registration = webApp.addFilter(filterName, annotationInfo.getTargetType().getName());
+            
+            // Add params
+            if (webFilter.initParams().length != 0) {
+                stream(webFilter.initParams()).forEach(initParam -> 
+                    registration.setInitParameter(initParam.name(), initParam.value())
+                );
+            }
+            
+            String[] urlPatterns = webFilter.value();
+            if (urlPatterns.length == 0) {
+                urlPatterns = webFilter.urlPatterns();
+            }
+            
+            // Add mapping for URL patterns, if any
+            if (urlPatterns.length > 0) {
+                webApp.addFilterMapping(filterName, urlPatterns);
+            }
+                     
+            // Add mapping for Servlet names, if any
+            if (webFilter.servletNames().length > 0) {
+                registration.addMappingForServletNames(
+                    stream(webFilter.dispatcherTypes())
+                        .collect(toCollection(() -> noneOf(DispatcherType.class))), 
+                    true, 
+                    webFilter.servletNames());
+            }
+        }
+        
+        
         
         // Process @WebListener
         
