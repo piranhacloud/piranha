@@ -27,9 +27,10 @@
  */
 package com.manorrock.piranha;
 
+import static java.util.logging.Level.WARNING;
+
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -74,9 +75,12 @@ class DefaultHttpServerProcessingThread implements Runnable {
             DefaultHttpServerRequest request = new DefaultHttpServerRequest(socket);
             DefaultHttpServerResponse response = new DefaultHttpServerResponse(socket);
             server.processor.process(request, response);
-            socket.close();
-        } catch (IOException exception) {
-            LOGGER.log(Level.WARNING, "An I/O error occurred during processing of the request", exception);
+        } finally {
+            try {
+                socket.close();
+            } catch (IOException exception) {
+                LOGGER.log(WARNING, "An I/O error occurred during processing of the request", exception);
+            }
         }
     }
 }
