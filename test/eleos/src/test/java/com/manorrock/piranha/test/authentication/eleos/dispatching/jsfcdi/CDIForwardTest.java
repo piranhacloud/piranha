@@ -32,6 +32,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -99,6 +100,7 @@ public class CDIForwardTest {
      * @throws SAXException
      */
     @Test
+    @Ignore
     public void testCDIForwardWithRequestPublic() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("public/servlet");
