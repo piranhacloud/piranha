@@ -32,6 +32,7 @@ import com.manorrock.piranha.DefaultHttpServer;
 import com.manorrock.piranha.DefaultWebApplication;
 import com.manorrock.piranha.DefaultWebApplicationClassLoader;
 import com.manorrock.piranha.DefaultWebApplicationServer;
+import com.manorrock.piranha.netty.NettyHttpServer;
 import com.manorrock.piranha.servlet.ServletFeature;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -125,7 +126,7 @@ public class InstalledRunner implements Runnable {
     public void run() {
         File pidFile = new File("tmp/piranha.pid");
         DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
-        DefaultHttpServer httpServer = new DefaultHttpServer(8080, webApplicationServer);
+        NettyHttpServer httpServer = new NettyHttpServer(8080, webApplicationServer);
         httpServer.start();
         webApplicationServer.start();
 
