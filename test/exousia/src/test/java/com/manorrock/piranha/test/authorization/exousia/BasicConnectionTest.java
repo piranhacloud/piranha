@@ -44,7 +44,7 @@ import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
-import com.manorrock.piranha.jakarta.security.base.SecurityBaseInitializer;
+import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 
@@ -71,7 +71,7 @@ public class BasicConnectionTest {
                     new WebUserDataPermission("/*", "GET:CONFIDENTIAL")))
                 .addInitializer(AuthorizationPreInitializer.class)
                 
-                .addInitializer(SecurityBaseInitializer.class)
+                .addInitializer(JakartaSecurityInitializer.class)
                 
                 .addServlet(PublicServlet.class, "/public/servlet")
                 .start();
