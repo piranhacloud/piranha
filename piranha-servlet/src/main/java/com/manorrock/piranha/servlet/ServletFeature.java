@@ -38,6 +38,12 @@ import com.manorrock.piranha.api.WebApplication;
 public class ServletFeature implements Feature {
 
     /**
+     * Stores the JSP initializer class name.
+     */
+    private static final String JSP_INITIALIZER
+            = "com.manorrock.piranha.jasper.JasperInitializer";
+    
+    /**
      * Stores the Mojarra initializer class name.
      */
     private static final String MOJARRA_INITIALIZER
@@ -71,7 +77,12 @@ public class ServletFeature implements Feature {
         webApplication.addInitializer(new LiveObjectAnnotationScannerInitializer());
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.addInitializer(new WebAnnotationInitializer());
-        
+
+        try {
+            getClass().getClassLoader().loadClass(JSP_INITIALIZER);
+            webApplication.addInitializer(JSP_INITIALIZER);
+        } catch (ClassNotFoundException cnfe) {
+        }
         try {
             getClass().getClassLoader().loadClass(OPENWEBBEANS_INITIALIZER);
             webApplication.addInitializer(OPENWEBBEANS_INITIALIZER);

@@ -67,6 +67,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-jsp-jasper</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <scope>test</scope>

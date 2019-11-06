@@ -40,7 +40,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import javax.servlet.ServletRegistration.Dynamic;
-import javax.servlet.ServletRequestAttributeEvent;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 import javax.servlet.SessionTrackingMode;
@@ -176,10 +175,10 @@ public class DefaultWebApplicationTest {
         assertNotNull(webApp.addFilter("filter", Filter.class));
         assertNotNull(webApp.addFilter("filter", Filter.class));
     }
-    
+
     /**
      * Test addJspFile method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -216,7 +215,8 @@ public class DefaultWebApplicationTest {
     /**
      * Test addListener method.
      */
-    @Test @Ignore
+    @Test
+    @Ignore
     public void testAddListener2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addListener(new TestServletRequestAttributeListener());
@@ -368,7 +368,7 @@ public class DefaultWebApplicationTest {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(TestIllegalAccessExceptionServletContextListener.class);
     }
-    
+
     /**
      * Test addListener method.
      */
@@ -865,12 +865,12 @@ public class DefaultWebApplicationTest {
         webApp.linkRequestAndResponse(request, response);
         assertNotNull(webApp.getRequest(response));
     }
-    
+
     /**
      * Test getRequestCharacterEncoding method.
      */
     @Test
-    public void testGetRequestCharacterEncoding () {
+    public void testGetRequestCharacterEncoding() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getRequestCharacterEncoding());
         webApp.setRequestCharacterEncoding("UTF-8");
@@ -912,7 +912,7 @@ public class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getResourcePaths("/this_will_be_null/"));
     }
-    
+
     /**
      * Test getResponseCharacterEncoding.
      */
@@ -1077,6 +1077,94 @@ public class DefaultWebApplicationTest {
     }
 
     /**
+     * Test include.
+     * 
+     * @throws Exception when a serious error occurred.
+     */
+    @Test
+    public void testInclude() throws Exception {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.addServlet("Include", TestIncludeServlet.class);
+        webApp.addServletMapping("Include", "/include");
+        webApp.addServlet("Include2", TestInclude2Servlet.class);
+        webApp.addServletMapping("Include2", "/include2");
+        webApp.initialize();
+        webApp.start();
+        TestHttpServletRequest request = new TestHttpServletRequest();
+        request.setWebApplication(webApp);
+        request.setServletPath("/include");
+        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestServletOutputStream outputStream = new TestServletOutputStream();
+        outputStream.setResponse(response);
+        response.setOutputStream(outputStream);
+        response.setWebApplication(webApp);
+        webApp.service(request, response);
+        assertEquals("This was included\n", new String(response.getResponseBody()));
+    }
+
+    /**
+     * Test include.
+     * 
+     * @throws Exception when a serious error occurred.
+     */
+    @Test
+    public void testInclude2() throws Exception {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.addServlet("Include", TestIncludeServlet.class);
+        webApp.addServletMapping("Include", "/include");
+        webApp.addServlet("Include2", TestInclude2Servlet.class);
+        webApp.addServletMapping("Include2", "/include2");
+        webApp.addServlet("Include", TestIncludeServlet.class);
+        webApp.addServletMapping("Include", "/include");
+        webApp.addServlet("Include3", TestInclude3Servlet.class);
+        webApp.addServletMapping("Include3", "/include3");
+        webApp.initialize();
+        webApp.start();
+        TestHttpServletRequest request = new TestHttpServletRequest();
+        request.setWebApplication(webApp);
+        request.setServletPath("/include3");
+        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestServletOutputStream outputStream = new TestServletOutputStream();
+        outputStream.setResponse(response);
+        response.setOutputStream(outputStream);
+        response.setWebApplication(webApp);
+        webApp.service(request, response);
+        assertEquals("This was included\n", new String(response.getResponseBody()));
+    }
+    
+    /**
+     * Test include.
+     * 
+     * @throws Exception when a serious error occurred.
+     */
+    @Test
+    public void testInclude3() throws Exception {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.addServlet("Include", TestIncludeServlet.class);
+        webApp.addServletMapping("Include", "/include");
+        webApp.addServlet("Include2", TestInclude2Servlet.class);
+        webApp.addServletMapping("Include2", "/include2");
+        webApp.addServlet("Include", TestIncludeServlet.class);
+        webApp.addServletMapping("Include", "/include");
+        webApp.addServlet("Include3", TestInclude3Servlet.class);
+        webApp.addServletMapping("Include3", "/include3");
+        webApp.addServlet("Include4", TestInclude4Servlet.class);
+        webApp.addServletMapping("Include4", "/include4");
+        webApp.initialize();
+        webApp.start();
+        TestHttpServletRequest request = new TestHttpServletRequest();
+        request.setWebApplication(webApp);
+        request.setServletPath("/include4");
+        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestServletOutputStream outputStream = new TestServletOutputStream();
+        outputStream.setResponse(response);
+        response.setOutputStream(outputStream);
+        response.setWebApplication(webApp);
+        webApp.service(request, response);
+        assertEquals("This was included\nThis was included\n", new String(response.getResponseBody()));
+    }
+
+    /**
      * Test initializeFilters method.
      */
     @Test
@@ -1180,10 +1268,10 @@ public class DefaultWebApplicationTest {
         } catch (ServletException exception) {
         }
     }
-    
+
     /**
      * Test multiple filters.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -1285,10 +1373,10 @@ public class DefaultWebApplicationTest {
             trackCalls.append("requestInitialized,");
         }
     }
-    
+
     /**
      * Test service method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test(expected = ServletException.class)
@@ -1308,7 +1396,7 @@ public class DefaultWebApplicationTest {
         webApp.service(request, response);
         assertEquals(404, response.getStatus());
     }
-    
+
     /**
      * Test setAttribute method.
      */

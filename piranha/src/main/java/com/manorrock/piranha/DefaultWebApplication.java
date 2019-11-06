@@ -158,7 +158,7 @@ public class DefaultWebApplication implements WebApplication {
     /**
      * Stores the servlet context listeners.
      */
-    protected final List<ServletContextListener> contextListeners;
+    protected final ArrayList<ServletContextListener> contextListeners;
 
     /**
      * Stores the context path.
@@ -1178,7 +1178,8 @@ public class DefaultWebApplication implements WebApplication {
             initializeFeatures();
             initializeInitializers();
 
-            contextListeners.stream().forEach((listener) -> {
+            List<ServletContextListener> listeners = (List<ServletContextListener>) contextListeners.clone();
+            listeners.stream().forEach((listener) -> {
                 listener.contextInitialized(new ServletContextEvent(this));
             });
 

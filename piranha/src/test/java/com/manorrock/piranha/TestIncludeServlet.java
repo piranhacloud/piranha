@@ -25,52 +25,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.jasper;
+package com.manorrock.piranha;
 
-import com.manorrock.piranha.api.JspManager;
-import com.manorrock.piranha.api.WebApplication;
-import javax.servlet.ServletRegistration;
-import javax.servlet.descriptor.JspConfigDescriptor;
+import java.io.IOException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- * The JSP manager delivered by the Jasper integration.
+ * A servlet testing includes.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JasperJspManager implements JspManager {
+public class TestIncludeServlet extends HttpServlet {
 
     /**
-     * Stores the JSP config descriptor.
-     */
-    protected JspConfigDescriptor jspConfigDescriptor;
-
-    /**
-     * Add the JSP file.
+     * Initialize the servlet.
      *
-     * @param webApplication the web application.
-     * @param servletName the servlet name,
-     * @param jspFile the JSP file.
-     * @return null.
+     * @param config the servlet config.
+     * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile) {
-        ServletRegistration.Dynamic registration = webApplication.addServlet(
-                servletName, "org.apache.jasper.servlet.JspServlet");
-        registration.addMapping(jspFile);
-        String classpath = System.getProperty("java.class.path");
-        registration.setInitParameter("classpath", classpath);
-        registration.setInitParameter("compilerSourceVM", "1.8");
-        registration.setInitParameter("compilerTargetVM", "1.8");
-        return registration;
+    public void init(ServletConfig config) throws ServletException {
     }
 
     /**
-     * Get the JSP config descriptor.
+     * Process GET request.
      *
-     * @return the JSP config descriptor.
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public JspConfigDescriptor getJspConfigDescriptor() {
-        return jspConfigDescriptor;
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher("/include2");
+        rd.include(request, response);
+    }
+
+    /**
+     * Destroy the servlet.
+     */
+    @Override
+    public void destroy() {
     }
 }
