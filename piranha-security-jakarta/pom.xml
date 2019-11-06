@@ -9,10 +9,10 @@
         <version>19.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-jakarta-security-base</artifactId>
+    <artifactId>piranha-security-jakarta</artifactId>
     <packaging>jar</packaging>
 
-    <name>Manorrock Piranha Jakarta Security Base Integration</name>
+    <name>Manorrock Piranha Jakarta Security Integration</name>
 
     <dependencies>
         <dependency>

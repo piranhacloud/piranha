@@ -41,7 +41,7 @@ import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
-import com.manorrock.piranha.jakarta.security.base.SecurityBaseInitializer;
+import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
 /**
@@ -63,7 +63,7 @@ public class WrappingApplication {
                 .addInitializer(AuthenticationInitializer.class)
                 
                 .addInitializer(AuthorizationInitializer.class)
-                .addInitializer(SecurityBaseInitializer.class)
+                .addInitializer(JakartaSecurityInitializer.class)
                 
                 .addFilter(DeclaredFilter.class, "/*")
                 .addServlet(ProtectedServlet.class, "/protected/servlet")
