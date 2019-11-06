@@ -55,6 +55,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletContextAttributeListener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -1326,6 +1327,7 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void removeAttribute(String name) {
         attributes.remove(name);
+        attributeRemoved(name);
     }
 
     /**
@@ -1425,7 +1427,20 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setAttribute(String name, Object value) {
-        attributes.put(name, value);
+        if (value != null) {
+            boolean added = true;
+            if (attributes.containsKey(name)) {
+                added = false;
+            }
+            attributes.put(name, value);
+            if (added) {
+                attributeAdded(name, value);
+            } else {
+                attributeReplaced(name, value);
+            }
+        } else {
+            removeAttribute(name);
+        }
     }
 
     /**
@@ -1670,5 +1685,40 @@ public class DefaultWebApplication implements WebApplication {
         if (status != desiredStatus) {
             throw new RuntimeException(message);
         }
+    }
+    
+    /**
+     * Attribute added.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    private void attributeAdded(String name, Object value) {
+        contextAttributeListeners.stream().forEach((listener) -> {
+            listener.attributeAdded(new ServletContextAttributeEvent(this, name, value));
+        });
+    }
+
+    /**
+     * Attributed removed.
+     * 
+     * @param name the name.
+     */
+    private void attributeRemoved(String name) {
+        contextAttributeListeners.stream().forEach(listener -> {
+            listener.attributeRemoved(new ServletContextAttributeEvent(this, name, null));
+        });
+    }
+
+    /**
+     * Attribute removed.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    private void attributeReplaced(String name, Object value) {
+        contextAttributeListeners.stream().forEach((listener) -> {
+            listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value));
+        });
     }
 }
