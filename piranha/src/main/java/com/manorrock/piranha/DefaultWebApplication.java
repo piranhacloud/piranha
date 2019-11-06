@@ -77,6 +77,7 @@ import javax.servlet.http.HttpSessionListener;
 
 import com.manorrock.piranha.api.AnnotationManager;
 import com.manorrock.piranha.api.Feature;
+import com.manorrock.piranha.api.HttpRequestManager;
 import com.manorrock.piranha.api.HttpSessionManager;
 import com.manorrock.piranha.api.JspManager;
 import com.manorrock.piranha.api.LoggingManager;
@@ -182,6 +183,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the session manager.
      */
     protected HttpSessionManager httpSessionManager;
+    
+    /**
+     * Stores the request manager.
+     */
+    protected HttpRequestManager httpRequestManager;
 
     /**
      * Stores the init parameters.
@@ -207,11 +213,6 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the mime tyoe manager.
      */
     protected MimeTypeManager mimeTypeManager;
-
-    /**
-     * Stores the servlet request attribute listeners.
-     */
-    protected final List<ServletRequestAttributeListener> requestAttributeListeners;
 
     /**
      * Stores the request character encoding.
@@ -286,13 +287,13 @@ public class DefaultWebApplication implements WebApplication {
         features = new ArrayList<>(1);
         filters = new LinkedHashMap<>(1);
         httpSessionManager = new DefaultHttpSessionManager();
+        httpRequestManager = new DefaultHttpRequestManager();
         initParameters = new ConcurrentHashMap<>(1);
         initializers = new ArrayList<>(1);
         jspManager = new DefaultJspFileManager();
         loggingManager = new DefaultLoggingManager();
         mimeTypeManager = new DefaultMimeTypeManager();
         objectInstanceManager = new DefaultObjectInstanceManager();
-        requestAttributeListeners = new ArrayList<>(1);
         requestListeners = new ArrayList<>(1);
         requests = new ConcurrentHashMap<>(1);
         resourceManager = new DefaultResourceManager();
@@ -487,7 +488,7 @@ public class DefaultWebApplication implements WebApplication {
         }
 
         if (listener instanceof ServletRequestAttributeListener) {
-            requestAttributeListeners.add((ServletRequestAttributeListener) listener);
+            httpRequestManager.addListener((ServletRequestAttributeListener) listener);
         }
 
         if (listener instanceof HttpSessionAttributeListener) {
@@ -1455,6 +1456,16 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void setHttpSessionManager(HttpSessionManager httpSessionManager) {
         this.httpSessionManager = httpSessionManager;
+    }
+    
+    @Override
+    public HttpRequestManager getHttpRequestManager() {
+        return httpRequestManager;
+    }
+
+    @Override
+    public void setHttpRequestManager(HttpRequestManager httpRequestManager) {
+        this.httpRequestManager = httpRequestManager;
     }
 
     /**
