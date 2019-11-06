@@ -289,7 +289,7 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
 
     /**
      * Get the buffer size.
-     * 
+     *
      * @return the buffer size.
      */
     @Override
@@ -567,8 +567,10 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
                 if (type.contains(";")) {
                     contentType = type.substring(0, type.indexOf(";")).trim();
                     String encoding = type.substring(type.indexOf(";") + 1).trim();
-                    encoding = encoding.substring(encoding.indexOf("=") + 1).trim();
-                    setCharacterEncoding(encoding);
+                    if (encoding.contains("=")) {
+                        encoding = encoding.substring(encoding.indexOf("=") + 1).trim();
+                        setCharacterEncoding(encoding);
+                    }
                 } else {
                     contentType = type;
                 }
