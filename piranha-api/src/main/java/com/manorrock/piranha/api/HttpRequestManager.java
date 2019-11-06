@@ -25,50 +25,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.jersey;
+package com.manorrock.piranha.api;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.servlet.ServletFeature;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import com.manorrock.piranha.test.utils.TestServletInputStream;
-import java.io.File;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import java.util.EventListener;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * The JUnit tests for the HelloServlet class.
- *
- * @author Manfred Riem (mriem@manorrock.com)
+ * 
+ * @author Arjan Tijms
  */
-public class JerseyTest {
+public interface HttpRequestManager {
+    
+    /**
+     * Add a listener.
+     *
+     * @param <T> the type.
+     * @param listener the listener.
+     */
+    <T extends EventListener> void addListener(T listener);
 
     /**
-     * Test GET /HelloServlet.
+     * Attribute added.
      *
-     * @throws Exception when a serious error occurs.
+     * @param request the HTTP request.
+     * @param name the name.
+     * @param value the value.
      */
-    @Test
-    public void testHello() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addFeature(new ServletFeature());
-        webApp.initialize();
-        webApp.start();
+    void attributeAdded(HttpServletRequest request, String name, Object value);
+    
+    /**
+     * Attribute removed.
+     *
+     * @param request the HTTP request.
+     * @param name the name.
+     */
+    void attributeRemoved(HttpServletRequest request, String name);
 
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setInputStream(new TestServletInputStream("input".getBytes(), request));
-        request.setContextPath("");
-        request.setServletPath("/rest");
-        request.setPathInfo("/hello");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        
-        webApp.service(request, response);
-        
-        assertEquals(200, response.getStatus());
-        assertTrue(new String(response.getResponseBody()).contains("Hello"));
-    }
+    /**
+     * Attribute replaced.
+     *
+     * @param request the HTTP request.
+     * @param name the name.
+     * @param value the value.
+     */
+    void attributeReplaced(HttpServletRequest request, String name, Object value);
+
 }

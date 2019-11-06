@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
+
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
@@ -117,6 +118,13 @@ public interface WebApplication extends ServletContext {
      * @return the HttpSessionManager.
      */
     HttpSessionManager getHttpSessionManager();
+    
+    /**
+     * Get the HttpRequestManager.
+     *
+     * @return the HttpRequestManager.
+     */
+    HttpRequestManager getHttpRequestManager();
 
     /**
      * Get the mappings for a particular servlet.
@@ -208,6 +216,13 @@ public interface WebApplication extends ServletContext {
      * @param httpSessionManager the HTTP session manager.
      */
     void setHttpSessionManager(HttpSessionManager httpSessionManager);
+
+    /**
+     * Set the HTTP request manager.
+     *
+     * @param httpRequestManager the HTTP request manager.
+     */
+    void setHttpRequestManager(HttpRequestManager httpRequestManager);
 
     /**
      * Set the JSP manager.

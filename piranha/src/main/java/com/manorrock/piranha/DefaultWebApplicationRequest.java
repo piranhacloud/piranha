@@ -1112,6 +1112,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
     @Override
     public void removeAttribute(String name) {
         attributeManager.removeAttribute(name);
+        webApplication.getHttpRequestManager().attributeRemoved(this, name);
     }
 
     /**
@@ -1131,7 +1132,22 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
      */
     @Override
     public void setAttribute(String name, Object value) {
-        attributeManager.setAttribute(name, value);
+        if (value != null) {
+            boolean added = true;
+            if (attributeManager.getAttribute(name) == null) {
+                added = false;
+            }
+            attributeManager.setAttribute(name, value);
+            
+            if (added) {
+                webApplication.getHttpRequestManager().attributeAdded(this, name, value);
+            } else {
+                webApplication.getHttpRequestManager().attributeReplaced(this, name, value);
+            }
+        } else {
+            attributeManager.removeAttribute(name);
+            webApplication.getHttpRequestManager().attributeRemoved(this, name);
+        }
     }
 
     /**

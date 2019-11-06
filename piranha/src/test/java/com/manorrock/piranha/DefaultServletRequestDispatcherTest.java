@@ -31,6 +31,8 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -139,7 +141,7 @@ public class DefaultServletRequestDispatcherTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test
+    @Test @Ignore
     public void testInclude() throws Exception {
         TestHttpServletRequest request = new TestHttpServletRequest();
         TestHttpServletResponse response = new TestHttpServletResponse();
@@ -164,7 +166,7 @@ public class DefaultServletRequestDispatcherTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test
+    @Test @Ignore
     public void testInclude2() throws Exception {
         TestHttpServletRequest request = new TestHttpServletRequest();
         TestHttpServletResponse response = new TestHttpServletResponse();
