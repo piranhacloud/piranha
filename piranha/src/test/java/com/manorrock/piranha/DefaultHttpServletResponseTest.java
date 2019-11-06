@@ -155,6 +155,18 @@ public class DefaultHttpServletResponseTest {
     }
 
     /**
+     * Test getContentType method.
+     */
+    @Test
+    public void testGetContentType2() {
+        DefaultWebApplicationResponse response = new TestHttpServletResponse();
+        assertNull(response.getContentType());
+        response.setContentType("text/html;charset=UTF-8");
+        assertEquals("text/html", response.getContentType());
+        assertEquals("UTF-8", response.getCharacterEncoding());
+    }
+
+    /**
      * Test getHeaderNames method.
      */
     @Test
