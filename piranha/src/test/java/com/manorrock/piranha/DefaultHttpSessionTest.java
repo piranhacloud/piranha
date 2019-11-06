@@ -166,6 +166,7 @@ public class DefaultHttpSessionTest {
     public void testInvalidate() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
+        session.setSessionManager(new DefaultHttpSessionManager());
         session.invalidate();
     }
 
@@ -178,6 +179,7 @@ public class DefaultHttpSessionTest {
     public void testInvalidate2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
+        session.setSessionManager(new DefaultHttpSessionManager());
         session.invalidate();
         session.setAttribute("TEST", "TEST");
     }

@@ -27,18 +27,20 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.piranha.api.WebApplicationServerRequestMapper;
-import com.manorrock.piranha.api.WebApplicationServer;
-import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.api.HttpServerResponse;
-import com.manorrock.piranha.api.HttpServerRequest;
-import com.manorrock.piranha.api.HttpServerProcessor;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.ServletException;
+
+import com.manorrock.piranha.api.HttpServerProcessor;
+import com.manorrock.piranha.api.HttpServerRequest;
+import com.manorrock.piranha.api.HttpServerResponse;
+import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.api.WebApplicationServer;
+import com.manorrock.piranha.api.WebApplicationServerRequestMapper;
 
 /**
  * The default WebApplicationServer.
@@ -146,9 +148,9 @@ public class DefaultWebApplicationServer implements
         try {
             DefaultWebApplicationServerRequest servletRequest = new DefaultWebApplicationServerRequest(request);
             DefaultWebApplicationServerResponse servletResponse = new DefaultWebApplicationServerResponse(response);
-            DefaultWebApplicationServerInputStream inputStream = new DefaultWebApplicationServerInputStream(
-                    request.getInputStream(), servletRequest);
+            DefaultWebApplicationServerInputStream inputStream = new DefaultWebApplicationServerInputStream(request.getInputStream(), servletRequest);
             servletRequest.setInputStream(inputStream);
+            
             try (DefaultWebApplicationServerOutputStream outputStream = new DefaultWebApplicationServerOutputStream()) {
                 outputStream.setOutputStream(response.getOutputStream());
                 servletResponse.setOutputStream(outputStream);
@@ -156,13 +158,16 @@ public class DefaultWebApplicationServer implements
                 if (request.getRequestTarget().contains("?")) {
                     servletRequest.setQueryString(request.getRequestTarget().substring(request.getRequestTarget().indexOf("?") + 1));
                 }
+                
+                // Call the Servlet
                 service(servletRequest, servletResponse);
+                
                 if (!servletResponse.isCommitted()) {
                     servletResponse.flushBuffer();
                 }
                 outputStream.flush();
             }
-        } catch (IOException | ServletException exception) {
+        } catch (Exception exception) {
             exception.printStackTrace(System.err);
         }
     }
