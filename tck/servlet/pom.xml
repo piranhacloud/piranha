@@ -119,6 +119,7 @@
                                 <!-- start the server -->
                                 <exec executable="${piranha.home}/bin/start.sh"
                                       dir="${piranha.home}/bin"/>
+                                <!-- give the server some time to settle down -->
                                 <sleep seconds="30"/>
                             </target>
                         </configuration>

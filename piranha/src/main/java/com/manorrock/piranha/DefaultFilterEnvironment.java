@@ -131,7 +131,6 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      */
     @Override
     public void addMappingForServletNames(EnumSet<DispatcherType> dispatcherTypes, boolean isMatchAfter, String... servletNames) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
