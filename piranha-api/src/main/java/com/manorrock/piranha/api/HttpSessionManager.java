@@ -29,6 +29,7 @@ package com.manorrock.piranha.api;
 
 import java.util.EventListener;
 import java.util.Set;
+
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.http.HttpServletRequest;
@@ -93,6 +94,13 @@ public interface HttpSessionManager {
      */
     HttpSession createSession(WebApplication webApplication, HttpServletRequest request);
 
+    /**
+     * Destroys a session.
+     * 
+     * @param session the HTTP session.
+     */
+    void destroySession(HttpSession session);
+    
     /**
      * Encode the redirect URL.
      *
