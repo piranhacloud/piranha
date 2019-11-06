@@ -181,16 +181,18 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
         HttpServletRequest originalRequest = (HttpServletRequest) servletRequest;
 
+        req.setWebApplication(servletEnvironment.getWebApplication());
+        req.setContextPath(originalRequest.getContextPath());
+        
         req.setAttribute(RequestDispatcher.INCLUDE_REQUEST_URI, originalRequest.getRequestURI());
         req.setAttribute(RequestDispatcher.INCLUDE_CONTEXT_PATH, originalRequest.getContextPath());
         req.setAttribute(RequestDispatcher.INCLUDE_SERVLET_PATH, originalRequest.getServletPath());
         req.setAttribute(RequestDispatcher.INCLUDE_PATH_INFO, originalRequest.getPathInfo());
         req.setAttribute(RequestDispatcher.INCLUDE_QUERY_STRING, originalRequest.getQueryString());
-        req.setContextPath(originalRequest.getContextPath());
+        
         req.setServletPath(path);
         req.setPathInfo(null);
         req.setQueryString(null);
-        req.setWebApplication(servletEnvironment.getWebApplication());
 
         servletEnvironment.getServlet().service(servletRequest, servletResponse);
 
