@@ -36,7 +36,6 @@
         <module>piranha-builder</module>
         <module>piranha-authentication-eleos</module>
         <module>piranha-authorization-exousia</module>
-        <module>piranha-jakarta-security-base</module>
         <module>piranha-cdi-openwebbeans</module>
         <module>piranha-cdi-weld</module>
         <module>piranha-faces-mojarra</module>
@@ -53,6 +52,7 @@
         <module>piranha-servlet-api</module>
         <module>piranha-session-hazelcast</module>
         <module>piranha-resources-shrinkwrap</module>
+        <module>piranha-security-jakarta</module>
     </modules>
 
     <scm>

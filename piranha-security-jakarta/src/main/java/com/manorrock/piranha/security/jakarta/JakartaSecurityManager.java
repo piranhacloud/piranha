@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.jakarta.security.base;
+package com.manorrock.piranha.security.jakarta;
 
 import static com.manorrock.piranha.DefaultAuthenticatedIdentity.getCurrentSubject;
 import static com.manorrock.piranha.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
