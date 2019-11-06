@@ -27,8 +27,6 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.api.HttpSessionManager;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.EventListener;
@@ -36,6 +34,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.http.Cookie;
@@ -47,6 +46,9 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
+
+import com.manorrock.piranha.api.HttpSessionManager;
+import com.manorrock.piranha.api.WebApplication;
 
 /**
  * The default HttpSessionManager.
@@ -255,7 +257,16 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
 
         return result;
     }
-
+    
+    @Override
+    public synchronized void destroySession(HttpSession session) {
+        sessionListeners.stream().forEach((sessionListener) -> {
+            sessionListener.sessionDestroyed(new HttpSessionEvent(session));
+        });
+        
+        // TODO clear session
+    }
+    
     /**
      * Encode the redirect URL.
      *

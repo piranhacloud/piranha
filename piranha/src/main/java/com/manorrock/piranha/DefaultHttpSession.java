@@ -244,6 +244,7 @@ public class DefaultHttpSession implements HttpSession {
     public void invalidate() {
         verifyValid("invalidate");
         this.valid = false;
+        sessionManager.destroySession(this);
     }
 
     /**
