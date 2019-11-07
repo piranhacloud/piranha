@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.WebApplication;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,6 +39,7 @@ import javax.servlet.http.HttpSessionIdListener;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -49,13 +51,28 @@ import org.junit.Test;
 public class HttpSessionIdListenerTest {
 
     /**
+     * Stores the web application.
+     */
+    protected WebApplication webApplication;
+
+    /**
+     * Setup before testing.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Before
+    public void setUp() throws Exception {
+        webApplication = new DefaultWebApplication();
+        webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
+    }
+
+    /**
      * Test sessionIdChanged method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
     public void testSessionIdChanged() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(new TestHttpSessionIdListener());
         webApplication.addServlet("sessionIdChangedServlet",
                 new TestHttpSessionIdChangedServlet());

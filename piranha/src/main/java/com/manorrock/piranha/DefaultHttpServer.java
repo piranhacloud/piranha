@@ -156,8 +156,8 @@ public class DefaultHttpServer implements HttpServer {
      */
     @Override
     public void start() {
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.log(Level.INFO, "Starting HTTP server on port {0}", serverPort);
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Starting HTTP server on port {0}", serverPort);
         }
         try {
             executorService = Executors.newCachedThreadPool(threadFactory);
@@ -168,11 +168,13 @@ public class DefaultHttpServer implements HttpServer {
             serverAcceptorThread = new Thread(new DefaultHttpServerAcceptorThread(this),
                     "DefaultHttpServer-AcceptorThread");
             serverAcceptorThread.start();
-            if (LOGGER.isLoggable(Level.INFO)) {
-                LOGGER.log(Level.INFO, "Started HTTP server on port {0}", serverPort);
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.log(Level.FINE, "Started HTTP server on port {0}", serverPort);
             }
         } catch (IOException exception) {
-            LOGGER.log(Level.WARNING, "An I/O error occurred while starting the HTTP server", exception);
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, "An I/O error occurred while starting the HTTP server", exception);
+            }
         }
     }
 
@@ -181,14 +183,16 @@ public class DefaultHttpServer implements HttpServer {
      */
     @Override
     public void stop() {
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.log(Level.INFO, "Stopping HTTP server on port {0}", serverPort);
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Stopping HTTP server on port {0}", serverPort);
         }
         if (serverSocket != null) {
             try {
                 serverSocket.close();
             } catch (IOException exception) {
-                LOGGER.log(Level.WARNING, "An I/O error occurred while stopping the HTTP server", exception);
+                if (LOGGER.isLoggable(Level.WARNING)) {
+                    LOGGER.log(Level.WARNING, "An I/O error occurred while stopping the HTTP server", exception);
+                }
             }
         }
         if (executorService != null) {
@@ -196,12 +200,14 @@ public class DefaultHttpServer implements HttpServer {
             try {
                 executorService.awaitTermination(120, TimeUnit.SECONDS);
             } catch (InterruptedException exception) {
-                LOGGER.log(Level.WARNING, "Termination of the executor service was interrupted", exception);
+                if (LOGGER.isLoggable(Level.WARNING)) {
+                    LOGGER.log(Level.WARNING, "Termination of the executor service was interrupted", exception);
+                }
                 Thread.currentThread().interrupt();
             }
         }
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.log(Level.INFO, "Stopped HTTP server on port {0}", serverPort);
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Stopped HTTP server on port {0}", serverPort);
         }
     }
 }

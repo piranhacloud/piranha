@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -122,6 +123,10 @@ public class InstalledRunner implements Runnable {
      */
     @Override
     public void run() {
+        long startTime = System.currentTimeMillis();
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.info("Starting Piranha");
+        }
         File pidFile = new File("tmp/piranha.pid");
         DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
         DefaultHttpServer httpServer = new DefaultHttpServer(8080, webApplicationServer);
@@ -154,6 +159,11 @@ public class InstalledRunner implements Runnable {
                     webApplication.start();
                 }
             }
+        }
+        long finishTime = System.currentTimeMillis();
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.info("Started Piranha");
+            LOGGER.log(Level.INFO, "It took {0} milliseconds", finishTime - startTime);
         }
 
         while (httpServer.isRunning()) {

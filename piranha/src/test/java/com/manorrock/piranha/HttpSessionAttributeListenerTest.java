@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.WebApplication;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,6 +37,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
 import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -47,13 +49,28 @@ import org.junit.Test;
 public class HttpSessionAttributeListenerTest {
 
     /**
+     * Stores the web application.
+     */
+    protected WebApplication webApplication;
+
+    /**
+     * Setup before testing.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Before
+    public void setUp() throws Exception {
+        webApplication = new DefaultWebApplication();
+        webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
+    }
+
+    /**
      * Test attributeAdded method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
     public void testAttributeAdded() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(new TestHttpSessionAttributeListener());
         webApplication.addServlet("httpSessionAttributeServlet",
                 new TestHttpSessionAttributeServlet());
@@ -82,7 +99,6 @@ public class HttpSessionAttributeListenerTest {
      */
     @Test
     public void testAttributeRemoved() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(new TestHttpSessionAttributeListener());
         webApplication.addServlet("httpSessionAttributeServlet",
                 new TestHttpSessionAttributeServlet());
@@ -111,7 +127,6 @@ public class HttpSessionAttributeListenerTest {
      */
     @Test
     public void testAttributeReplaced() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(new TestHttpSessionAttributeListener());
         webApplication.addServlet("httpSessionAttributeServlet",
                 new TestHttpSessionAttributeServlet());

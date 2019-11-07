@@ -33,7 +33,6 @@ import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.Set;
 import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -60,122 +59,6 @@ import org.junit.Test;
 public class DefaultWebApplicationTest {
 
     /**
-     * Test addFilter method.
-     */
-    @Test
-    public void testAddFilter() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.addFilter("filter", "com.manorrock.piranha.TestSnoopFilter"));
-        assertNotNull(webApp.getFilterRegistration("filter"));
-    }
-
-    /**
-     * Test addFilter method.
-     */
-    @Test
-    public void testAddFilter2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.addFilter("filter", TestSnoopFilter.class));
-        assertNotNull(webApp.getFilterRegistration("filter"));
-        assertEquals(TestSnoopFilter.class.getName(), webApp.getFilterRegistration("filter").getClassName());
-    }
-
-    /**
-     * Test addFilter method.
-     */
-    @Test
-    public void testAddFilter3() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.addFilter("filter", new TestSnoopFilter()));
-        assertNotNull(webApp.getFilterRegistration("filter"));
-    }
-
-    /**
-     * Test addFilter method.
-     */
-    @Test
-    public void testAddFilter4() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.addFilter("filter", "doesnotexit"));
-    }
-
-    /**
-     * Test addFilter methd.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test(expected = IllegalStateException.class)
-    public void testAddFilter5() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.initialize();
-        webApp.start();
-        webApp.addFilter("filter", "doesnotmatter");
-    }
-
-    /**
-     * Test addFilter method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test(expected = IllegalStateException.class)
-    public void testAddFilter6() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.initialize();
-        webApp.start();
-        webApp.addFilter("filter", TestSnoopFilter.class);
-    }
-
-    /**
-     * Test addFilter method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddFilter7() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.initialize();
-        webApp.addFilter(null, "TestSnoopFilter");
-    }
-
-    /**
-     * Test addFilter method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    public void testAddFilter8() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.initialize();
-        webApp.addFilter("filter", "TestSnoopFilter");
-        webApp.addFilter("filter", "TestSnoopFilter");
-    }
-
-    /**
-     * Test addFilter method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddFilter9() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.initialize();
-        webApp.addFilter(null, Filter.class);
-    }
-
-    /**
-     * Test addFilter method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    public void testAddFilter10() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.initialize();
-        assertNotNull(webApp.addFilter("filter", Filter.class));
-        assertNotNull(webApp.addFilter("filter", Filter.class));
-    }
-
-    /**
      * Test addJspFile method.
      *
      * @throws Exception when a serious error occurs.
@@ -196,15 +79,6 @@ public class DefaultWebApplicationTest {
         webApp.initialize();
         webApp.start();
         webApp.stop();
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    public void testAddListener() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addListener(TestIllegalAccessExceptionServletContextListener.class);
     }
 
     /**
@@ -294,39 +168,6 @@ public class DefaultWebApplicationTest {
     }
 
     /**
-     * Test createListener method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateListener() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.createListener(TestEventListener.class);
-    }
-
-    /**
-     * Test createListener method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test(expected = ServletException.class)
-    public void testCreateListener2() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.createListener(TestInstantiationExceptionServletContextListener.class);
-    }
-
-    /**
-     * Test createListener method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test(expected = ServletException.class)
-    public void testCreateListener3() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.createListener(TestIllegalAccessExceptionServletContextListener.class);
-    }
-
-    /**
      * Test declareRoles method.
      */
     @Test
@@ -344,7 +185,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testDestroy() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addListener(new TestDestroyListener());
+        webApp.addListener(new TestWebApplicationDestroyListener());
         webApp.initialize();
         webApp.destroy();
         assertNotNull(webApp.getAttribute("contextDestroyed"));
@@ -353,7 +194,7 @@ public class DefaultWebApplicationTest {
     /**
      * Test listener to validate the destroy method was called.
      */
-    public class TestDestroyListener implements ServletContextListener {
+    public class TestWebApplicationDestroyListener implements ServletContextListener {
 
         /**
          * Context initialized event.
@@ -571,16 +412,6 @@ public class DefaultWebApplicationTest {
         Set<SessionTrackingMode> trackingModes = EnumSet.of(SessionTrackingMode.URL);
         webApp.setSessionTrackingModes(trackingModes);
         assertTrue(webApp.getEffectiveSessionTrackingModes().contains(SessionTrackingMode.URL));
-    }
-
-    /**
-     * Test getFilterRegistrations method.
-     */
-    @Test
-    public void testGetFilterRegistrations() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addFilter("filter", TestSnoopFilter.class);
-        assertFalse(webApp.getFilterRegistrations().isEmpty());
     }
 
     /**
@@ -1014,17 +845,6 @@ public class DefaultWebApplicationTest {
     }
 
     /**
-     * Test initializeFilters method.
-     */
-    @Test
-    public void testInitializeFilters() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addFilter("Broken Filter", TestBrokenFilter.class);
-        webApp.initialize();
-        assertNotNull(webApp.getAttribute("Broken Filter"));
-    }
-
-    /**
      * Test initializeServlets method.
      */
     @Test
@@ -1119,32 +939,6 @@ public class DefaultWebApplicationTest {
     }
 
     /**
-     * Test multiple filters.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    @Ignore
-    public void testMultipleFilters() throws Exception {
-        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/multipleFilters");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        response.setWebApplication(webApp);
-        webApp.addFilter("Filter 1", TestMultiple1Filter.class);
-        webApp.addFilterMapping("Filter 1", "/*");
-        webApp.addFilter("Filter 2", TestMultiple2Filter.class);
-        webApp.addFilterMapping("Filter 2", "/*");
-        webApp.initialize();
-        webApp.start();
-        webApp.service(request, response);
-        assertEquals(200, response.getStatus());
-    }
-
-    /**
      * Test removeAttribute method.
      */
     @Test
@@ -1154,33 +948,6 @@ public class DefaultWebApplicationTest {
         assertNotNull(webApp.getAttribute("name"));
         webApp.removeAttribute("name");
         assertNull(webApp.getAttribute("name"));
-    }
-
-    /**
-     * Test service method (ServletRequestListeners)
-     *
-     * @throws Exception
-     */
-    @Test
-    @Ignore
-    public void testService() throws Exception {
-        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/Snoop");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        response.setWebApplication(webApp);
-        TrackServletRequestListener listener = new TrackServletRequestListener();
-        webApp.addServlet("Snoop", TestSnoopServlet.class);
-        webApp.addServletMapping("Snoop", "/Snoop");
-        webApp.addListener(listener);
-        webApp.initialize();
-        webApp.start();
-        webApp.service(request, response);
-        assertTrue(listener.trackCalls.length() > 0);
-        assertEquals("requestInitialized,requestDestroyed,", listener.trackCalls.toString());
     }
 
     /**

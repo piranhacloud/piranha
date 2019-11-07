@@ -85,6 +85,13 @@ public interface WebApplication extends ServletContext {
      * @param resource the resouce.
      */
     void addResource(Resource resource);
+    
+    /**
+     * Destroy the web application.
+     * 
+     * @throws ServletException when a Servlet error occurs.
+     */
+    void destroy() throws ServletException;
 
     /**
      * Get the mime type manager.

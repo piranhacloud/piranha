@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.WebApplication;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -37,14 +38,32 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
- * The JUnit tests for testing everything related to the HttpSessionListener API.
+ * The JUnit tests for testing everything related to the HttpSessionListener
+ * API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HttpSessionListenerTest {
+
+    /**
+     * Stores the web application.
+     */
+    protected WebApplication webApplication;
+
+    /**
+     * Setup before testing.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Before
+    public void setUp() throws Exception {
+        webApplication = new DefaultWebApplication();
+        webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
+    }
 
     /**
      * Test sessionCreated method.
@@ -53,7 +72,6 @@ public class HttpSessionListenerTest {
      */
     @Test
     public void testSessionCreated() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(new TestHttpSessionListener());
         webApplication.addServlet("sessionCreatedServlet", new TestHttpSessionCreatedServlet());
         webApplication.addServletMapping("sessionCreatedServlet", "/sessionCreated");
@@ -81,7 +99,6 @@ public class HttpSessionListenerTest {
      */
     @Test
     public void testSessionDestroyed() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(new TestHttpSessionListener());
         webApplication.addServlet("sessionDestroyedServlet", new TestHttpSessionDestroyedServlet());
         webApplication.addServletMapping("sessionDestroyedServlet", "/sessionDestroyed");
