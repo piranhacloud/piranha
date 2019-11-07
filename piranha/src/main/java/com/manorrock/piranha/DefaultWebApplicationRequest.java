@@ -1139,7 +1139,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
             }
             attributeManager.setAttribute(name, value);
             
-            if (added) {
+            if (!added) {
                 webApplication.getHttpRequestManager().attributeAdded(this, name, value);
             } else {
                 webApplication.getHttpRequestManager().attributeReplaced(this, name, value);

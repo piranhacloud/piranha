@@ -35,8 +35,8 @@ import java.util.Set;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
-import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import javax.servlet.ServletRegistration.Dynamic;
@@ -44,7 +44,6 @@ import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -204,185 +203,8 @@ public class DefaultWebApplicationTest {
      */
     @Test
     public void testAddListener() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addListener(new TestServletRequestListener());
-        webApp.requestListeners.stream().forEach((listener) -> {
-            listener.requestInitialized(new ServletRequestEvent(webApp, null));
-        });
-        assertNotNull(webApp.getAttribute("requestInitialized"));
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    @Ignore
-    public void testAddListener2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addListener(new TestServletRequestAttributeListener());
-//        webApp.getHttpRequestManager() requestAttributeListeners.stream().forEach((listener) -> {
-//            listener.attributeAdded(new ServletRequestAttributeEvent(webApp, null, "attributeAdded", true));
-//        });
-        assertNotNull(webApp.getAttribute("attributeAdded"));
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    public void testAddListener3() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addListener(new TestServletContextListener());
-        webApp.contextListeners.stream().forEach((listener) -> {
-            listener.contextInitialized(new ServletContextEvent(webApp));
-        });
-        assertNotNull(webApp.getAttribute("contextInitialized"));
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    public void testAddListener4() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addListener(new TestServletContextAttributeListener());
-        webApp.contextAttributeListeners.stream().forEach((listener) -> {
-            listener.attributeAdded(new ServletContextAttributeEvent(webApp, "attributeAdded", true));
-        });
-        assertNotNull(webApp.getAttribute("attributeAdded"));
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    public void testAddListener5() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        webApp.linkRequestAndResponse(request, response);
-        webApp.addListener(new TestHttpSessionAttributeListener());
-        HttpSession session = webApp.getHttpSessionManager().createSession(webApp, request);
-        session.setAttribute("attributedAdded", Boolean.TRUE);
-        assertNotNull(webApp.getAttribute("attributeAdded"));
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    public void testAddListener6() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        response.setWebApplication(webApp);
-        webApp.linkRequestAndResponse(request, response);
-        webApp.addListener(new TestHttpSessionIdListener());
-        HttpSession session = request.getSession(true);
-        request.setRequestedSessionId(session.getId());
-        webApp.getHttpSessionManager().changeSessionId(request);
-        assertNotNull(webApp.getAttribute("sessionIdChanged"));
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    public void testAddListener7() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        response.setWebApplication(webApp);
-        webApp.linkRequestAndResponse(request, response);
-        webApp.addListener(new TestHttpSessionListener());
-        request.getSession(true);
-        assertNotNull(webApp.getAttribute("sessionCreated"));
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    public void testAddListener8() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        response.setWebApplication(webApp);
-        webApp.linkRequestAndResponse(request, response);
-        webApp.addListener(TestHttpSessionListener.class);
-        request.getSession(true);
-        assertNotNull(webApp.getAttribute("sessionCreated"));
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    public void testAddListener9() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        response.setWebApplication(webApp);
-        webApp.linkRequestAndResponse(request, response);
-        webApp.addListener("com.manorrock.piranha.TestHttpSessionListener");
-        request.getSession(true);
-        assertNotNull(webApp.getAttribute("sessionCreated"));
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    public void testAddListener10() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        webApp.linkRequestAndResponse(request, response);
-        webApp.addListener(new TestHttpSessionAttributeListener());
-        HttpSession session = webApp.getHttpSessionManager().createSession(webApp, request);
-        session.setAttribute("attributeAdded", Boolean.TRUE);
-        session.setAttribute("attributeAdded", Boolean.FALSE);
-        assertNotNull(webApp.getAttribute("attributeAdded"));
-        assertFalse((Boolean) webApp.getAttribute("attributeAdded"));
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test(expected = IllegalStateException.class)
-    public void testAddListener11() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.initialize();
-        webApplication.addListener(TestHttpSessionListener.class);
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    public void testAddListener12() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(TestIllegalAccessExceptionServletContextListener.class);
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    public void testAddListener13() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        webApp.linkRequestAndResponse(request, response);
-        webApp.addListener(new TestHttpSessionAttributeListener());
-        HttpSession session = webApp.getHttpSessionManager().createSession(webApp, request);
-        session.setAttribute("attributedAdded", Boolean.TRUE);
-        session.removeAttribute("attributeAdded");
-        assertNotNull(webApp.getAttribute("attributeRemoved"));
     }
 
     /**
@@ -522,13 +344,37 @@ public class DefaultWebApplicationTest {
     @Test
     public void testDestroy() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addServlet("Snoop", TestSnoopServlet.class);
-        webApp.addListener(TestServletContextListener.class);
+        webApp.addListener(new TestDestroyListener());
         webApp.initialize();
         webApp.destroy();
         assertNotNull(webApp.getAttribute("contextDestroyed"));
     }
 
+    /**
+     * Test listener to validate the destroy method was called.
+     */
+    public class TestDestroyListener implements ServletContextListener {
+
+        /**
+         * Context initialized event.
+         *
+         * @param event the event.
+         */
+        @Override
+        public void contextInitialized(ServletContextEvent event) {
+        }
+
+        /**
+         * Context destroyed event.
+         *
+         * @param event the event.
+         */
+        @Override
+        public void contextDestroyed(ServletContextEvent event) {
+            event.getServletContext().setAttribute("contextDestroyed", true);
+        }
+    }
+    
     /**
      * Test getAsync.
      *
@@ -1078,7 +924,7 @@ public class DefaultWebApplicationTest {
 
     /**
      * Test include.
-     * 
+     *
      * @throws Exception when a serious error occurred.
      */
     @Test
@@ -1105,7 +951,7 @@ public class DefaultWebApplicationTest {
 
     /**
      * Test include.
-     * 
+     *
      * @throws Exception when a serious error occurred.
      */
     @Test
@@ -1133,10 +979,10 @@ public class DefaultWebApplicationTest {
         webApp.service(request, response);
         assertEquals("This was included\n", new String(response.getResponseBody()));
     }
-    
+
     /**
      * Test include.
-     * 
+     *
      * @throws Exception when a serious error occurred.
      */
     @Test
