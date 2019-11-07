@@ -98,8 +98,8 @@ public class DefaultWebApplicationServer implements
      */
     @Override
     public void addWebApplication(WebApplication webApplication) {
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.log(Level.INFO, "Adding web application with context path: {0}", webApplication.getContextPath());
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Adding web application with context path: {0}", webApplication.getContextPath());
         }
         webApplications.put(webApplication.getContextPath(), webApplication);
         requestMapper.addMapping(webApplication, webApplication.getContextPath());
@@ -120,8 +120,8 @@ public class DefaultWebApplicationServer implements
      */
     @Override
     public void initialize() {
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.log(Level.INFO, "Starting initialization of {0} web application(s)", webApplications.size());
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Starting initialization of {0} web application(s)", webApplications.size());
         }
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
@@ -132,8 +132,8 @@ public class DefaultWebApplicationServer implements
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.log(Level.INFO, "Finished initialization of {0} web application(s)", webApplications.size());
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Finished initialization of {0} web application(s)", webApplications.size());
         }
     }
 
@@ -150,18 +150,14 @@ public class DefaultWebApplicationServer implements
             DefaultWebApplicationServerResponse servletResponse = new DefaultWebApplicationServerResponse(response);
             DefaultWebApplicationServerInputStream inputStream = new DefaultWebApplicationServerInputStream(request.getInputStream(), servletRequest);
             servletRequest.setInputStream(inputStream);
-            
             try (DefaultWebApplicationServerOutputStream outputStream = new DefaultWebApplicationServerOutputStream()) {
                 outputStream.setOutputStream(response.getOutputStream());
                 servletResponse.setOutputStream(outputStream);
                 outputStream.setResponse(servletResponse);
-                if (request.getRequestTarget().contains("?")) {
+                if (request.getRequestTarget() != null && request.getRequestTarget().contains("?")) {
                     servletRequest.setQueryString(request.getRequestTarget().substring(request.getRequestTarget().indexOf("?") + 1));
                 }
-                
-                // Call the Servlet
                 service(servletRequest, servletResponse);
-                
                 if (!servletResponse.isCommitted()) {
                     servletResponse.flushBuffer();
                 }
@@ -183,11 +179,9 @@ public class DefaultWebApplicationServer implements
     @Override
     public void service(DefaultWebApplicationRequest request, DefaultWebApplicationResponse response)
             throws IOException, ServletException {
-
         String requestUri = request.getRequestURI();
         if (requestUri != null) {
             WebApplication webApplication = requestMapper.findMapping(requestUri);
-
             if (webApplication != null) {
                 ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
                 try {
@@ -201,7 +195,6 @@ public class DefaultWebApplicationServer implements
                 } finally {
                     Thread.currentThread().setContextClassLoader(oldClassLoader);
                 }
-
             } else {
                 response.sendError(404);
             }
@@ -225,7 +218,7 @@ public class DefaultWebApplicationServer implements
      */
     @Override
     public void start() {
-        if (LOGGER.isLoggable(Level.INFO)) {
+        if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.info("Starting WebApplication server engine");
         }
         webApplications.values().forEach((webApp) -> {
@@ -237,7 +230,7 @@ public class DefaultWebApplicationServer implements
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        if (LOGGER.isLoggable(Level.INFO)) {
+        if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.info("Started WebApplication server engine");
         }
     }
@@ -247,7 +240,7 @@ public class DefaultWebApplicationServer implements
      */
     @Override
     public void stop() {
-        if (LOGGER.isLoggable(Level.INFO)) {
+        if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.info("Stopping WebApplication server engine");
         }
         webApplications.values().forEach((webApp) -> {
@@ -259,7 +252,7 @@ public class DefaultWebApplicationServer implements
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        if (LOGGER.isLoggable(Level.INFO)) {
+        if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.info("Stopped WebApplication server engine");
         }
     }

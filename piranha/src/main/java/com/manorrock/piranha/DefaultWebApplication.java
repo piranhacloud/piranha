@@ -184,7 +184,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the session manager.
      */
     protected HttpSessionManager httpSessionManager;
-    
+
     /**
      * Stores the request manager.
      */
@@ -327,7 +327,6 @@ public class DefaultWebApplication implements WebApplication {
             if (filterName == null || filterName.trim().equals("")) {
                 throw new IllegalArgumentException("Filter name cannot be null or empty");
             }
-
             DefaultFilterEnvironment result;
             if (filters.containsKey(filterName)) {
                 result = filters.get(filterName);
@@ -358,7 +357,6 @@ public class DefaultWebApplication implements WebApplication {
             if (filterName == null || filterName.trim().equals("")) {
                 throw new IllegalArgumentException("Filter name cannot be null or empty");
             }
-
             DefaultFilterEnvironment result;
             if (filters.containsKey(filterName)) {
                 result = filters.get(filterName);
@@ -384,9 +382,13 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
-        DefaultFilterEnvironment result = new DefaultFilterEnvironment(this, filterName, filter);
-        filters.put(filterName, result);
-        return result;
+        if (status != SERVICING) {
+            DefaultFilterEnvironment result = new DefaultFilterEnvironment(this, filterName, filter);
+            filters.put(filterName, result);
+            return result;
+        } else {
+            throw new IllegalStateException("Cannot call this after web application has started");
+        }
     }
 
     /**
@@ -442,6 +444,9 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void addListener(String className) {
+        if (status != SETUP) {
+            throw new IllegalStateException("Illegal to add listener because state is not SETUP");
+        }
         try {
             @SuppressWarnings("unchecked")
             Class<EventListener> clazz = (Class<EventListener>) getClassLoader().loadClass(className);
@@ -460,7 +465,6 @@ public class DefaultWebApplication implements WebApplication {
         if (status != SETUP) {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
-
         try {
             EventListener listener = createListener(type);
             addListener(listener);
@@ -479,27 +483,21 @@ public class DefaultWebApplication implements WebApplication {
         if (listener instanceof ServletContextListener) {
             contextListeners.add((ServletContextListener) listener);
         }
-
         if (listener instanceof ServletContextAttributeListener) {
             contextAttributeListeners.add((ServletContextAttributeListener) listener);
         }
-
         if (listener instanceof ServletRequestListener) {
             requestListeners.add((ServletRequestListener) listener);
         }
-
         if (listener instanceof ServletRequestAttributeListener) {
             httpRequestManager.addListener((ServletRequestAttributeListener) listener);
         }
-
         if (listener instanceof HttpSessionAttributeListener) {
             httpSessionManager.addListener(listener);
         }
-
         if (listener instanceof HttpSessionIdListener) {
             httpSessionManager.addListener(listener);
         }
-
         if (listener instanceof HttpSessionListener) {
             httpSessionManager.addListener(listener);
         }
@@ -641,6 +639,7 @@ public class DefaultWebApplication implements WebApplication {
      *
      * @throws ServletException when a Servlet error occurs.
      */
+    @Override
     public void destroy() throws ServletException {
         verifyState(INITIALIZED, "Unable to destroy web application");
 
@@ -866,7 +865,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Get the mime type manager.
-     * 
+     *
      * @return the mime type manager.
      */
     @Override
@@ -1037,7 +1036,7 @@ public class DefaultWebApplication implements WebApplication {
     public SecurityManager getSecurityManager() {
         return securityManager;
     }
-    
+
     @Override
     public AnnotationManager getAnnotationManager() {
         return annotationManager;
@@ -1169,11 +1168,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void initialize() {
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.log(Level.INFO, "Initializing web application at {0}", contextPath);
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Initializing web application at {0}", contextPath);
         }
         verifyState(SETUP, "Unable to initialize web application");
-
         try {
             initializeFeatures();
             initializeInitializers();
@@ -1188,8 +1186,8 @@ public class DefaultWebApplication implements WebApplication {
 
             status = INITIALIZED;
 
-            if (LOGGER.isLoggable(Level.INFO)) {
-                LOGGER.log(Level.INFO, "Initialized web application at {0}", contextPath);
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.log(Level.FINE, "Initialized web application at {0}", contextPath);
             }
         } catch (ServletException se) {
             if (LOGGER.isLoggable(Level.WARNING)) {
@@ -1244,35 +1242,44 @@ public class DefaultWebApplication implements WebApplication {
         List<String> servletNames = new ArrayList<>(servlets.keySet());
         servletNames.stream().map((servletName) -> servlets.get(servletName))
                 .forEach((environment) -> {
-                    try {
-                        if (LOGGER.isLoggable(Level.INFO)) {
-                            LOGGER.log(Level.INFO, "Initializing servlet: {0}", environment.servletName);
-                        }
-                        if (environment.getServlet() == null) {
-                            Class clazz = environment.getServletClass();
-                            if (clazz == null) {
-                                ClassLoader loader = getClassLoader();
-                                if (loader == null) {
-                                    loader = getClass().getClassLoader();
-                                }
-                                if (loader == null) {
-                                    loader = ClassLoader.getSystemClassLoader();
-                                }
-                                clazz = loader.loadClass(environment.getClassName());
-                            }
-                            environment.setServlet(createServlet(clazz));
-                        }
-                        environment.getServlet().init(environment);
-                        if (LOGGER.isLoggable(Level.INFO)) {
-                            LOGGER.log(Level.INFO, "Initialized servlet: {0}", environment.servletName);
-                        }
-                    } catch (ServletException | ClassNotFoundException exception) {
-                        if (LOGGER.isLoggable(Level.WARNING)) {
-                            LOGGER.log(Level.WARNING, "Unable to initialize servlet: " + environment.className, exception);
-                        }
-                        environment.setStatus(DefaultServletEnvironment.UNAVAILABLE);
-                    }
+                    initializeServlet(environment);
                 });
+    }
+
+    /**
+     * Initialize the servlet.
+     * 
+     * @param environment the default servlet environment.
+     */
+    private void initializeServlet(DefaultServletEnvironment environment) {
+        try {
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.log(Level.FINE, "Initializing servlet: {0}", environment.servletName);
+            }
+            if (environment.getServlet() == null) {
+                Class clazz = environment.getServletClass();
+                if (clazz == null) {
+                    ClassLoader loader = getClassLoader();
+                    if (loader == null) {
+                        loader = getClass().getClassLoader();
+                    }
+                    if (loader == null) {
+                        loader = ClassLoader.getSystemClassLoader();
+                    }
+                    clazz = loader.loadClass(environment.getClassName());
+                }
+                environment.setServlet(createServlet(clazz));
+            }
+            environment.getServlet().init(environment);
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.log(Level.FINE, "Initialized servlet: {0}", environment.servletName);
+            }
+        } catch (ServletException | ClassNotFoundException exception) {
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, "Unable to initialize servlet: " + environment.className, exception);
+            }
+            environment.setStatus(DefaultServletEnvironment.UNAVAILABLE);
+        }
     }
 
     /**
@@ -1473,7 +1480,7 @@ public class DefaultWebApplication implements WebApplication {
     public void setHttpSessionManager(HttpSessionManager httpSessionManager) {
         this.httpSessionManager = httpSessionManager;
     }
-    
+
     @Override
     public HttpRequestManager getHttpRequestManager() {
         return httpRequestManager;
@@ -1639,13 +1646,13 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void start() {
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.log(Level.INFO, "Starting web application at {0}", contextPath);
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Starting web application at {0}", contextPath);
         }
         verifyState(INITIALIZED, "Unable to start servicing");
         status = SERVICING;
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.log(Level.INFO, "Started web application at {0}", contextPath);
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Started web application at {0}", contextPath);
         }
     }
 
@@ -1654,13 +1661,13 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void stop() {
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.log(Level.INFO, "Stopping web application at {0}", contextPath);
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Stopping web application at {0}", contextPath);
         }
         verifyState(SERVICING, "Unable to stop servicing");
         status = INITIALIZED;
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.log(Level.INFO, "Stopped web application at {0}", contextPath);
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Stopped web application at {0}", contextPath);
         }
     }
 
@@ -1687,7 +1694,7 @@ public class DefaultWebApplication implements WebApplication {
             throw new RuntimeException(message);
         }
     }
-    
+
     /**
      * Attribute added.
      *
@@ -1702,7 +1709,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Attributed removed.
-     * 
+     *
      * @param name the name.
      */
     private void attributeRemoved(String name) {

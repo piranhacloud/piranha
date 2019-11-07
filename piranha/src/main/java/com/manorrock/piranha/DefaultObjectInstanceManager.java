@@ -31,14 +31,7 @@ import com.manorrock.piranha.api.ObjectInstanceManager;
 import java.util.EventListener;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
-import javax.servlet.ServletContextAttributeListener;
-import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequestAttributeListener;
-import javax.servlet.ServletRequestListener;
-import javax.servlet.http.HttpSessionAttributeListener;
-import javax.servlet.http.HttpSessionIdListener;
-import javax.servlet.http.HttpSessionListener;
 
 /**
  * The default object instance manager.
@@ -59,15 +52,15 @@ public class DefaultObjectInstanceManager implements ObjectInstanceManager {
      * @param <T> the return type.
      * @param filterClass the filter class.
      * @return the filter.
-     * @throws ServletException when a Filter error occurs.
+     * @throws ServletException when it fails to create the filter.
      */
     @Override
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
         T result = null;
         try {
             result = filterClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException exception) {
-            throw new ServletException(exception);
+        } catch (Throwable throwable) {
+            throw new ServletException(throwable);
         }
         return result;
     }
@@ -85,8 +78,8 @@ public class DefaultObjectInstanceManager implements ObjectInstanceManager {
         T result;
         try {
             result = clazz.newInstance();
-        } catch (InstantiationException | IllegalAccessException exception) {
-            throw new ServletException(exception);
+        } catch (Throwable throwable) {
+            throw new ServletException(throwable);
         }
         return result;
     }
@@ -97,15 +90,15 @@ public class DefaultObjectInstanceManager implements ObjectInstanceManager {
      * @param <T> the return type.
      * @param servletClass the servlet class.
      * @return the servlet.
-     * @throws ServletException when a Servlet error occurs.
+     * @throws ServletException when it fails to create the servlet.
      */
     @Override
     public <T extends Servlet> T createServlet(Class<T> servletClass) throws ServletException {
         T result;
         try {
             result = servletClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException exception) {
-            throw new ServletException(exception);
+        } catch (Throwable throwable) {
+            throw new ServletException(throwable);
         }
         return result;
     }

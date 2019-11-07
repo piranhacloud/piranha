@@ -49,7 +49,7 @@ public class OpenWebBeansObjectInstanceManager implements ObjectInstanceManager 
      * @param <T> the return type.
      * @param filterClass the Filter class.
      * @return the Filter.
-     * @throws ServletException when an error occurs.
+     * @throws ServletException when it fails to create the filter.
      */
     @Override
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
@@ -66,8 +66,8 @@ public class OpenWebBeansObjectInstanceManager implements ObjectInstanceManager 
         if (!constructed) {
             try {
                 result = filterClass.newInstance();
-            } catch (InstantiationException | IllegalAccessException exception) {
-                throw new ServletException(exception);
+            } catch (Throwable throwable) {
+                throw new ServletException(throwable);
             }
         }
         return result;
@@ -79,7 +79,7 @@ public class OpenWebBeansObjectInstanceManager implements ObjectInstanceManager 
      * @param <T> the type.
      * @param clazz the class.
      * @return the Listener.
-     * @throws ServletException when an error occurs.
+     * @throws ServletException when it fails to create the listener.
      */
     @Override
     public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
@@ -96,8 +96,8 @@ public class OpenWebBeansObjectInstanceManager implements ObjectInstanceManager 
         if (!constructed) {
             try {
                 result = clazz.newInstance();
-            } catch (InstantiationException | IllegalAccessException exception) {
-                throw new ServletException(exception);
+            } catch (Throwable throwable) {
+                throw new ServletException(throwable);
             }
         }
         return result;
@@ -109,7 +109,7 @@ public class OpenWebBeansObjectInstanceManager implements ObjectInstanceManager 
      * @param <T> the type.
      * @param servletClass the Servlet class.
      * @return the Servlet.
-     * @throws ServletException when an error occurs.
+     * @throws ServletException when it fails to create the servlet.
      */
     @Override
     public <T extends Servlet> T createServlet(Class<T> servletClass) throws ServletException {
@@ -126,8 +126,8 @@ public class OpenWebBeansObjectInstanceManager implements ObjectInstanceManager 
         if (!constructed) {
             try {
                 result = servletClass.newInstance();
-            } catch (InstantiationException | IllegalAccessException exception) {
-                throw new ServletException(exception);
+            } catch (Throwable throwable) {
+                throw new ServletException(throwable);
             }
         }
         return result;
