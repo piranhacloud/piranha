@@ -114,6 +114,67 @@ class WebXml {
             public String value;
         }
     }
+    
+    
+    /**
+     * The &lt;security-constraint&gt; snippet inside a web.xml / webfragment.xml.
+     */
+    public static class SecurityConstraint {
+        
+        // Example:
+        
+        //  <security-constraint>
+        //      <web-resource-collection>
+        //          <web-resource-name>SecureServlet</web-resource-name>
+        //          <url-pattern>/SecureServlet</url-pattern>
+        //          <http-method>GET</http-method>
+        //          <http-method>POST</http-method>
+        //      </web-resource-collection>
+        //      <auth-constraint>
+        //          <role-name>someRole</role-name>
+        //      </auth-constraint>
+        //      <user-data-constraint>
+        //          <transport-guarantee>NONE</transport-guarantee>
+        //      </user-data-constraint>
+        //  </security-constraint>
+        
+        List<WebResourceCollection> webResourceCollections = new ArrayList<>();
+        
+        /**
+         * The list &lt;role-name&gt; snippets inside &lt;auth-constraint&gt;
+         * 
+         * Note that we don't map the &lt;auth-constraint&gt element separately here
+         */
+        List<String> roleNames;
+        
+        /**
+         * The list &lt;transport-guarantee&gt; snippet inside &lt;user-data-constraint&gt;
+         * 
+         * Note that we don't map the &lt;user-data-constraint&gt element separately here
+         */
+        String transportGuarantee;
+        
+        /**
+         * The &lt;web-resource-collection&gt; snippet inside a web.xml / webfragment.xml.
+         */
+        public class WebResourceCollection {
+            
+            /**
+             * The list &lt;url-pattern&gt; snippets inside &lt;web-resource-collection&gt;
+             */
+            List<String> urlPatterns;
+            
+            /**
+             * The list &lt;http-method&gt; snippets inside &lt;web-resource-collection&gt;
+             */
+            List<String> httpMethods;
+            
+            /**
+             * The list &lt;http-method-omission&gt; snippets inside &lt;web-resource-collection&gt;
+             */
+            List<String> httpMethodOmissions;
+        }
+    }
 
     /**
      * The &lt;servlet-mapping&gt; snippet inside a web.xml / webfragment.xml.
@@ -173,4 +234,8 @@ class WebXml {
          */
         public String value;
     }
+    
+    
+    
+    
 }
