@@ -1284,6 +1284,7 @@ public class DefaultWebApplication implements WebApplication {
             if (LOGGER.isLoggable(Level.WARNING)) {
                 LOGGER.log(Level.WARNING, "Unable to initialize servlet: " + environment.className, exception);
             }
+            environment.setServlet(null);
             environment.setStatus(DefaultServletEnvironment.UNAVAILABLE);
         }
     }

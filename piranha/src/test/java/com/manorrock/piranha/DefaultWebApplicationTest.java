@@ -33,12 +33,10 @@ import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.Set;
 import javax.servlet.DispatcherType;
-import javax.servlet.Servlet;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
-import javax.servlet.ServletRegistration.Dynamic;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 import javax.servlet.SessionTrackingMode;
@@ -113,46 +111,6 @@ public class DefaultWebApplicationTest {
         webApp.setResourceManager(resourceManager);
         webApp.addResource(new DefaultDirectoryResource(new File(".")));
         assertNotNull(webApp.getResource("/src/main/java"));
-    }
-
-    /**
-     * Test addServlet(name, type) method.
-     */
-    @Test
-    public void testAddServlet() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        Dynamic dynamic = webApp.addServlet("echo", TestEcho1Servlet.class);
-        assertNotNull(dynamic);
-    }
-
-    /**
-     * Test addServlet(name, type) method.
-     */
-    @Test
-    public void testAddServlet2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        Dynamic dynamic = webApp.addServlet("bogus", Servlet.class);
-        assertNotNull(dynamic);
-    }
-
-    /**
-     * Test addServlet(name, className) method.
-     */
-    @Test
-    public void testAddServlet3() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        Dynamic dynamic = webApp.addServlet("echo", "servlet.EchoServlet");
-        assertNotNull(dynamic);
-    }
-
-    /**
-     * Test addServlet(name, className) method.
-     */
-    @Test
-    public void testAddServlet4() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        Dynamic dynamic = webApp.addServlet("bogus", "servlet.BogusServlet");
-        assertNotNull(dynamic);
     }
 
     /**
@@ -830,17 +788,6 @@ public class DefaultWebApplicationTest {
         response.setWebApplication(webApp);
         webApp.service(request, response);
         assertEquals("This was included\nThis was included\n", new String(response.getResponseBody()));
-    }
-
-    /**
-     * Test initializeServlets method.
-     */
-    @Test
-    public void testInitializeServlets() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addServlet("Broken Servlet", TestBrokenServlet.class);
-        webApp.initialize();
-        assertNotNull(webApp.getAttribute("Broken Servlet"));
     }
 
     /**
