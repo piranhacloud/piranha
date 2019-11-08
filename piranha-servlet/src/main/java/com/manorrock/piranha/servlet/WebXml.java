@@ -40,38 +40,33 @@ class WebXml {
     /**
      * Stores the context parameters.
      */
-    public final List<ContextParameter> contextParameters;
+    List<ContextParameter> contextParameters = new ArrayList<>();
 
     /**
      * Stores the listeners.
      */
-    public final List<WebXml.Listener> listeners;
+    List<WebXml.Listener> listeners = new ArrayList<>();
 
     /**
      * Stores the mime mappings.
      */
-    public final List<WebXml.MimeMapping> mimeMappings;
+    List<WebXml.MimeMapping> mimeMappings = new ArrayList<>();
 
     /**
      * Stores the servlets.
      */
-    public final List<WebXml.Servlet> servlets;
+    List<WebXml.Servlet> servlets = new ArrayList<>();
 
     /**
      * Stores the servlet mappings.
      */
-    public final List<WebXml.ServletMapping> servletMappings;
-
+    List<WebXml.ServletMapping> servletMappings = new ArrayList<>();
+    
     /**
-     * Constructor.
+     * Stores the security constraints
      */
-    public WebXml() {
-        contextParameters = new ArrayList<>();
-        listeners = new ArrayList<>();
-        mimeMappings = new ArrayList<>();
-        servlets = new ArrayList<>();
-        servletMappings = new ArrayList<>();
-    }
+    List<SecurityConstraint> securityConstraints = new ArrayList<>();
+ 
 
     /**
      * The &lt;servlet&gt; snippet inside a web.xml / webfragment.xml.
@@ -145,7 +140,7 @@ class WebXml {
          * 
          * Note that we don't map the &lt;auth-constraint&gt element separately here
          */
-        List<String> roleNames;
+        List<String> roleNames = new ArrayList<>();
         
         /**
          * The list &lt;transport-guarantee&gt; snippet inside &lt;user-data-constraint&gt;
@@ -157,22 +152,22 @@ class WebXml {
         /**
          * The &lt;web-resource-collection&gt; snippet inside a web.xml / webfragment.xml.
          */
-        public class WebResourceCollection {
+        public static class WebResourceCollection {
             
             /**
              * The list &lt;url-pattern&gt; snippets inside &lt;web-resource-collection&gt;
              */
-            List<String> urlPatterns;
+            List<String> urlPatterns = new ArrayList<>();
             
             /**
              * The list &lt;http-method&gt; snippets inside &lt;web-resource-collection&gt;
              */
-            List<String> httpMethods;
+            List<String> httpMethods = new ArrayList<>();
             
             /**
              * The list &lt;http-method-omission&gt; snippets inside &lt;web-resource-collection&gt;
              */
-            List<String> httpMethodOmissions;
+            List<String> httpMethodOmissions = new ArrayList<>();
         }
     }
 
