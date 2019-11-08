@@ -70,18 +70,6 @@ public class DefaultWebApplicationTest {
     }
 
     /**
-     * Test addInitializer method.
-     */
-    @Test
-    public void testAddInitializer() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addInitializer("com.manorrock.piranha.TestInitializer");
-        webApp.initialize();
-        webApp.start();
-        webApp.stop();
-    }
-
-    /**
      * Test addMapping method (verify the # of mappings > 0).
      */
     @Test
