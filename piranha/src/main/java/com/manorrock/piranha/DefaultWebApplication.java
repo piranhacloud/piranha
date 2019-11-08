@@ -416,7 +416,10 @@ public class DefaultWebApplication implements WebApplication {
             @SuppressWarnings("unchecked")
             Class<ServletContainerInitializer> clazz = (Class<ServletContainerInitializer>) getClassLoader().loadClass(className);
             initializers.add(clazz.newInstance());
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
+        } catch (Throwable throwable) {
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, "Unable to add initializer: " + className, throwable);
+            }
         }
     }
 
@@ -606,6 +609,9 @@ public class DefaultWebApplication implements WebApplication {
             ok = true;
         }
         if (!ok) {
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, "Unable to create listener: {0}", clazz);
+            }
             throw new IllegalArgumentException("Invalid type");
         }
         return result;
