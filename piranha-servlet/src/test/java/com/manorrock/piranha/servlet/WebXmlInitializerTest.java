@@ -54,12 +54,22 @@ public class WebXmlInitializerTest {
         webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test1")));
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
+        
         ServletRegistration registration = webApplication.getServletRegistration("Test Servlet");
+        
         assertNotNull(registration);
         assertFalse(registration.getMappings().isEmpty());
         assertEquals("*.html", registration.getMappings().iterator().next());
         assertEquals("application/x-java-class", webApplication.getMimeType("my.class"));
         assertEquals("myvalue", webApplication.getInitParameter("myname"));
         assertEquals("myservletcontext", webApplication.getServletContextName());
+    }
+    
+    @Test
+    public void testOnStartup2() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test2")));
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
     }
 }
