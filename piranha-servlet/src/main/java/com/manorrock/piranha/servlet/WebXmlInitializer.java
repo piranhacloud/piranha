@@ -27,13 +27,16 @@
  */
 package com.manorrock.piranha.servlet;
 
-import com.manorrock.piranha.api.WebApplication;
+import static javax.xml.xpath.XPathConstants.NODESET;
+import static javax.xml.xpath.XPathConstants.STRING;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -46,10 +49,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import com.manorrock.piranha.WebXml;
+import com.manorrock.piranha.api.WebApplication;
 
 /**
  * The web.xml initializer.
@@ -92,7 +99,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 /*
                  * Process <listener> entries
                  */
-                NodeList list = (NodeList) xPath.evaluate("//listener", document, XPathConstants.NODESET);
+                NodeList list = (NodeList) xPath.evaluate("//listener", document, NODESET);
                 if (list != null) {
                     for (int i = 0; i < list.getLength(); i++) {
                         WebXml.Listener listener = new WebXml.Listener();
@@ -105,7 +112,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 /*
                  * Process <servlet> entries
                  */
-                list = (NodeList) xPath.evaluate("//servlet", document, XPathConstants.NODESET);
+                list = (NodeList) xPath.evaluate("//servlet", document, NODESET);
                 if (list != null) {
                     processServlets(webXml, list);
                     Iterator<WebXml.Servlet> servletIterator = webXml.servlets.iterator();
@@ -123,7 +130,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 /*
                  * Process <servlet-mapping> entries
                  */
-                list = (NodeList) xPath.evaluate("//servlet-mapping", document, XPathConstants.NODESET);
+                list = (NodeList) xPath.evaluate("//servlet-mapping", document, NODESET);
                 if (list != null) {
                     processServletMappings(webXml, list);
                     Iterator<WebXml.ServletMapping> mappingIterator = webXml.servletMappings.iterator();
@@ -132,11 +139,24 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                         webApp.addServletMapping(mapping.servletName, mapping.urlPattern);
                     }
                 }
+                
+                /*
+                 * Process <security-constraint> entries
+                 */
+                list = (NodeList) xPath.evaluate("//security-constraint", document, NODESET);
+                if (list != null) {
+                    processSecurityConstraints(webXml, list);
+                    
+                    webApp.setAttribute(
+                        "com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.piranha.constraints",
+                        webXml.securityConstraints
+                    );
+                }
 
                 /*
                  * Process <mime-mapping> entries
                  */
-                list = (NodeList) xPath.evaluate("//mime-mapping", document, XPathConstants.NODESET);
+                list = (NodeList) xPath.evaluate("//mime-mapping", document, NODESET);
                 if (list != null) {
                     processMimeMappings(webXml, list);
                     Iterator<WebXml.MimeMapping> mappingIterator = webXml.mimeMappings.iterator();
@@ -149,7 +169,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 /*
                  * Process <context-param> entries
                  */
-                list = (NodeList) xPath.evaluate("//context-param", document, XPathConstants.NODESET);
+                list = (NodeList) xPath.evaluate("//context-param", document, NODESET);
                 if (list != null) {
                     processContextParameters(webXml, list);
                     Iterator<WebXml.ContextParameter> iterator = webXml.contextParameters.iterator();
@@ -258,6 +278,12 @@ public class WebXmlInitializer implements ServletContainerInitializer {
             processServletMapping(webXml, nodeList.item(i));
         }
     }
+    
+    private void processSecurityConstraints(WebXml webXml, NodeList nodeList) {
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            processSecurityConstraint(webXml, nodeList.item(i));
+        }
+    }
 
     /**
      * Process the servlet.
@@ -278,7 +304,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
             } else {
                 servlet.loadOnStartup = -1;
             }
-            NodeList initParams = (NodeList) xPath.evaluate("//init-param", node, XPathConstants.NODESET);
+            NodeList initParams = (NodeList) xPath.evaluate("//init-param", node, NODESET);
             for (int i = 0; i < initParams.getLength(); i++) {
                 WebXml.Servlet.InitParam initParam = new WebXml.Servlet.InitParam();
                 initParam.name = (String) xPath.evaluate("//param-name/text()", initParams.item(i), XPathConstants.STRING);
@@ -309,4 +335,80 @@ public class WebXmlInitializer implements ServletContainerInitializer {
             LOGGER.log(Level.WARNING, "Unable to parse <servlet-mapping> section", xpe);
         }
     }
+    
+    private void processSecurityConstraint(WebXml webXml, Node node) {
+        try {
+            XPath xPath = XPathFactory.newInstance().newXPath();
+            WebXml.SecurityConstraint securityConstraint = new WebXml.SecurityConstraint();
+            
+            forEachNode(xPath, node, "//web-resource-collection", webResourceCollectionNode -> {
+                WebXml.SecurityConstraint.WebResourceCollection webResourceCollection = new WebXml.SecurityConstraint.WebResourceCollection();
+                
+                forEachString(xPath, webResourceCollectionNode, "//url-pattern", 
+                    urlPattern ->  webResourceCollection.urlPatterns.add(urlPattern)
+                );
+                
+                forEachString(xPath, webResourceCollectionNode, "//http-method", 
+                    httpMethod ->  webResourceCollection.httpMethods.add(httpMethod)
+                );
+                
+                forEachString(xPath, webResourceCollectionNode, "//http-method-omission", 
+                    httpMethodOmission ->  webResourceCollection.httpMethodOmissions.add(httpMethodOmission)
+                );
+                
+                securityConstraint.webResourceCollections.add(webResourceCollection);
+            });
+            
+            forEachString(xPath, getNodes(xPath, node, "//auth-constraint"), "//role-name/text()", 
+                roleName ->  securityConstraint.roleNames.add(roleName)
+            );
+            
+            securityConstraint.transportGuarantee = getString(xPath, node, "//user-data-constraint/transport-guarantee/text()");
+            
+            webXml.securityConstraints.add(securityConstraint);
+            
+        } catch (Exception xpe) {
+            LOGGER.log(Level.WARNING, "Unable to parse <servlet> section", xpe);
+        }
+    }
+    
+    /**
+     * Short-cut method for forEachNode - forEachString, when only one node's string value is needed
+     * 
+     */
+    public static void forEachString(XPath xPath, NodeList nodes, String expression, ThrowingConsumer<String> consumer) throws XPathExpressionException {
+        for (int i = 0; i < nodes.getLength(); i++) {
+            consumer.accept((String) xPath.evaluate(expression, nodes.item(i), XPathConstants.STRING));
+        }
+    }
+    
+    public static void forEachString(XPath xPath, Node parent, String expression, ThrowingConsumer<String> consumer) throws XPathExpressionException {
+        forEachNode(xPath, parent, expression, node -> consumer.accept(getString(xPath, node, "child::text()")));
+    }
+    
+    public static void forEachNode(XPath xPath, Node node, String expression, ThrowingConsumer<Node> consumer) throws XPathExpressionException {
+        NodeList nodes = (NodeList) xPath.evaluate(expression, node, NODESET);
+        for (int i = 0; i < nodes.getLength(); i++) {
+            consumer.accept(nodes.item(i));
+        }
+    }
+    
+    public static String getString(XPath xPath, Node node, String expression) throws XPathExpressionException {
+        return (String) xPath.evaluate(expression, node, STRING);
+    }
+    
+    public static NodeList getNodes(XPath xPath, Node node, String expression) throws XPathExpressionException {
+        return (NodeList) xPath.evaluate(expression, node, NODESET);
+    }
+    
+    public interface ThrowingConsumer<T> {
+
+        /**
+         * Performs this operation on the given argument.
+         *
+         * @param t the input argument
+         */
+        void accept(T t) throws XPathExpressionException;
+    }
+    
 }
