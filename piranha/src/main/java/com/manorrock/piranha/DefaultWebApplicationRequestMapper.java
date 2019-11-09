@@ -118,7 +118,7 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
                     result.add(filterName);
                 }
             } else if (!urlPattern.startsWith("*.") && urlPattern.endsWith("/*")) {
-                urlPattern = urlPattern.substring(0, urlPattern.length() - 1);
+                urlPattern = urlPattern.substring(0, urlPattern.length() - 2);
                 if (path.startsWith(urlPattern)) {
                     result.add(filterName);
                 }
@@ -213,7 +213,7 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
             }
         }
         if (result != null) {
-            result.setMapping(result.getPath() + "*");
+            result.setMapping(result.getPath() + "/*");
         }
         return result;
     }
@@ -232,7 +232,7 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
         while (prefixes.hasMoreElements()) {
             String prefix = prefixes.nextElement();
             if (!prefix.startsWith("*.") && prefix.endsWith("/*")) {
-                prefix = prefix.substring(0, prefix.length() - 1);
+                prefix = prefix.substring(0, prefix.length() - 2);
                 if (path.startsWith(prefix)) {
                     if (result == null) {
                         result = new DefaultWebApplicationRequestMapping(prefix);

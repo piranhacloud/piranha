@@ -326,8 +326,12 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      */
     @Override
     public boolean setInitParameter(String name, String value) {
-        initParameters.put(name, value);
-        return true;
+        boolean result = false;
+        if (!initParameters.containsKey(name)) {
+            initParameters.put(name, value);
+            result = true;
+        }
+        return result;
     }
 
     /**
@@ -338,17 +342,23 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      */
     @Override
     public Set<String> setInitParameters(Map<String, String> initParameters) {
-        HashSet<String> conflictingParams = new HashSet<>();
-        for (Map.Entry<String, String> entry : initParameters.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            if (key == null || value == null) {
-                throw new IllegalArgumentException("Init parameter key or value cannot be null");
-            } else if (!setInitParameter(key, value)) {
-                conflictingParams.add(key);
-            }
+        HashSet<String> conflicting = new HashSet<>();
+        if (initParameters != null) {
+            initParameters.entrySet().forEach((entry) -> {
+                String name = entry.getKey();
+                String value = entry.getValue();
+                if (name == null) {
+                    throw new IllegalArgumentException("A null name is not allowed");
+                }
+                if (value == null) {
+                    throw new IllegalArgumentException("A null value is not allowed");
+                }
+                if (!setInitParameter(name, value)) {
+                    conflicting.add(name);
+                }
+            });
         }
-        return conflictingParams;
+        return conflicting;
     }
 
     /**
