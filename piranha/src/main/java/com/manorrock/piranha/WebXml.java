@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.servlet;
+package com.manorrock.piranha;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,43 +35,38 @@ import java.util.List;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class WebXml {
+public class WebXml {
 
     /**
      * Stores the context parameters.
      */
-    public final List<ContextParameter> contextParameters;
+    public List<ContextParameter> contextParameters = new ArrayList<>();
 
     /**
      * Stores the listeners.
      */
-    public final List<WebXml.Listener> listeners;
+    public List<WebXml.Listener> listeners = new ArrayList<>();
 
     /**
      * Stores the mime mappings.
      */
-    public final List<WebXml.MimeMapping> mimeMappings;
+    public List<WebXml.MimeMapping> mimeMappings = new ArrayList<>();
 
     /**
      * Stores the servlets.
      */
-    public final List<WebXml.Servlet> servlets;
+    public List<WebXml.Servlet> servlets = new ArrayList<>();
 
     /**
      * Stores the servlet mappings.
      */
-    public final List<WebXml.ServletMapping> servletMappings;
-
+    public List<WebXml.ServletMapping> servletMappings = new ArrayList<>();
+    
     /**
-     * Constructor.
+     * Stores the security constraints
      */
-    public WebXml() {
-        contextParameters = new ArrayList<>();
-        listeners = new ArrayList<>();
-        mimeMappings = new ArrayList<>();
-        servlets = new ArrayList<>();
-        servletMappings = new ArrayList<>();
-    }
+    public List<SecurityConstraint> securityConstraints = new ArrayList<>();
+ 
 
     /**
      * The &lt;servlet&gt; snippet inside a web.xml / webfragment.xml.
@@ -96,7 +91,7 @@ class WebXml {
         /**
          * Stores the init parameters.
          */
-        List<InitParam> initParams = new ArrayList<>();
+        public List<InitParam> initParams = new ArrayList<>();
 
         /**
          * The &lt;init-param&gt; snippet inside a &lt;servlet&gt; snippet.
@@ -138,41 +133,41 @@ class WebXml {
         //      </user-data-constraint>
         //  </security-constraint>
         
-        List<WebResourceCollection> webResourceCollections = new ArrayList<>();
+        public List<WebResourceCollection> webResourceCollections = new ArrayList<>();
         
         /**
          * The list &lt;role-name&gt; snippets inside &lt;auth-constraint&gt;
          * 
-         * Note that we don't map the &lt;auth-constraint&gt element separately here
+         * Note that we don't map the &lt;auth-constraint&gt; element separately here
          */
-        List<String> roleNames;
+        public List<String> roleNames = new ArrayList<>();
         
         /**
          * The list &lt;transport-guarantee&gt; snippet inside &lt;user-data-constraint&gt;
          * 
-         * Note that we don't map the &lt;user-data-constraint&gt element separately here
+         * Note that we don't map the &lt;user-data-constraint&gt; element separately here
          */
-        String transportGuarantee;
+        public String transportGuarantee;
         
         /**
          * The &lt;web-resource-collection&gt; snippet inside a web.xml / webfragment.xml.
          */
-        public class WebResourceCollection {
+        public static class WebResourceCollection {
             
             /**
              * The list &lt;url-pattern&gt; snippets inside &lt;web-resource-collection&gt;
              */
-            List<String> urlPatterns;
+            public List<String> urlPatterns = new ArrayList<>();
             
             /**
              * The list &lt;http-method&gt; snippets inside &lt;web-resource-collection&gt;
              */
-            List<String> httpMethods;
+            public List<String> httpMethods = new ArrayList<>();
             
             /**
              * The list &lt;http-method-omission&gt; snippets inside &lt;web-resource-collection&gt;
              */
-            List<String> httpMethodOmissions;
+            public List<String> httpMethodOmissions = new ArrayList<>();
         }
     }
 
@@ -234,8 +229,5 @@ class WebXml {
          */
         public String value;
     }
-    
-    
-    
     
 }
