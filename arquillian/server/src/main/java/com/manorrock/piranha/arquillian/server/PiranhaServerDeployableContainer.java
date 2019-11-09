@@ -27,6 +27,9 @@
  */
 package com.manorrock.piranha.arquillian.server;
 
+import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,9 +41,9 @@ import org.jboss.arquillian.container.spi.client.protocol.metadata.HTTPContext;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.Servlet;
 import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
+import org.omnifaces.exousia.modules.def.DefaultPolicy;
+import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 import com.manorrock.piranha.DefaultHttpServer;
 import com.manorrock.piranha.DefaultResourceManager;
@@ -48,9 +51,15 @@ import com.manorrock.piranha.DefaultWebApplication;
 import com.manorrock.piranha.DefaultWebApplicationServer;
 import com.manorrock.piranha.api.HttpServer;
 import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
+import com.manorrock.piranha.authorization.exousia.AuthorizationInitializer;
+import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
+import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
+import com.manorrock.piranha.security.soteria.SoteriaInitializer;
 import com.manorrock.piranha.servlet.ServletFeature;
 import com.manorrock.piranha.shrinkwrap.IsolatingResourceManagerClassLoader;
 import com.manorrock.piranha.shrinkwrap.ShrinkWrapResource;
+import com.manorrock.piranha.weld.WeldInitializer;
 
 /**
  * 
@@ -99,6 +108,19 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
             DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
             webApplication.addFeature(new ServletFeature());
             webApplicationServer.addWebApplication(webApplication);
+            
+            webApplication.addInitializer(WeldInitializer.class.getName());
+            
+            webApplication.setAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class);
+            webApplication.setAttribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class);
+            
+            webApplication.addInitializer(AuthorizationPreInitializer.class.getName());
+            webApplication.addInitializer(AuthenticationInitializer.class.getName());
+            webApplication.addInitializer(AuthorizationInitializer.class.getName());
+            webApplication.addInitializer(JakartaSecurityInitializer.class.getName());
+            
+            webApplication.addInitializer(SoteriaInitializer.class.getName());
+            
             webApplicationServer.initialize();
             webApplicationServer.start();
             
