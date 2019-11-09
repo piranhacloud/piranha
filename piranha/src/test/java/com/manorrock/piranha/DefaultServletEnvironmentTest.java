@@ -28,7 +28,11 @@
 package com.manorrock.piranha;
 
 import javax.servlet.MultipartConfigElement;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
@@ -39,27 +43,6 @@ import org.junit.Test;
 public class DefaultServletEnvironmentTest {
 
     /**
-     * Test getClassName method.
-     */
-    @Test
-    public void testGetClassName() {
-        TestSnoopServlet servlet = new TestSnoopServlet();
-        DefaultServletEnvironment environment = new DefaultServletEnvironment(null, null, servlet);
-        assertEquals(TestSnoopServlet.class.getName(), environment.getClassName());
-    }
-
-    /**
-     * Test getInitParameter method.
-     */
-    @Test
-    public void testGetInitParameter() {
-        TestSnoopServlet servlet = new TestSnoopServlet();
-        DefaultServletEnvironment environment = new DefaultServletEnvironment(null, null, servlet);
-        environment.setInitParameter("name", "value");
-        assertEquals("value", environment.getInitParameter("name"));
-    }
-
-    /**
      * Test getLoadOnStartup method.
      */
     @Test
@@ -68,29 +51,6 @@ public class DefaultServletEnvironmentTest {
         DefaultServletEnvironment environment = new DefaultServletEnvironment(null, null, servlet);
         environment.setLoadOnStartup(1);
         assertEquals(1, environment.getLoadOnStartup());
-    }
-
-    /**
-     * Test getName method.
-     */
-    @Test
-    public void testGetName() {
-        TestSnoopServlet servlet = new TestSnoopServlet();
-        DefaultServletEnvironment environment = new DefaultServletEnvironment(null, "Snoop", servlet);
-        assertNotNull(environment.getName());
-        assertEquals("Snoop", environment.getName());
-    }
-
-    /**
-     * Test getRunAsRole method.
-     */
-    @Test
-    public void testGetRunAsRole() {
-        TestSnoopServlet servlet = new TestSnoopServlet();
-        DefaultServletEnvironment environment = new DefaultServletEnvironment(null, null, servlet);
-        environment.setRunAsRole("role");
-        assertNotNull(environment.getRunAsRole());
-        assertEquals("role", environment.getRunAsRole());
     }
 
     /**
