@@ -55,6 +55,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.manorrock.piranha.WebXml;
 import com.manorrock.piranha.api.WebApplication;
 
 /**
@@ -145,13 +146,12 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 list = (NodeList) xPath.evaluate("//security-constraint", document, NODESET);
                 if (list != null) {
                     processSecurityConstraints(webXml, list);
-                    Iterator<WebXml.ServletMapping> mappingIterator = webXml.servletMappings.iterator();
-                    while (mappingIterator.hasNext()) {
-                        WebXml.ServletMapping mapping = mappingIterator.next();
-                        webApp.addServletMapping(mapping.servletName, mapping.urlPattern);
-                    }
+                    
+                    webApp.setAttribute(
+                        "com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.piranha.constraints",
+                        webXml.securityConstraints
+                    );
                 }
-                
 
                 /*
                  * Process <mime-mapping> entries

@@ -31,6 +31,8 @@ import static com.manorrock.piranha.authorization.exousia.AuthorizationPreFilter
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.concat;
+import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.CONFIDENTIAL;
+import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
 
 import java.security.Permission;
 import java.security.Policy;
@@ -49,9 +51,11 @@ import javax.servlet.ServletSecurityElement;
 
 import org.omnifaces.exousia.AuthorizationService;
 import org.omnifaces.exousia.constraints.SecurityConstraint;
+import org.omnifaces.exousia.constraints.WebResourceCollection;
 import org.omnifaces.exousia.constraints.transformer.ElementsToConstraintsTransformer;
 
 import com.manorrock.piranha.DefaultAuthenticatedIdentity;
+import com.manorrock.piranha.WebXml;
 import com.manorrock.piranha.api.WebApplication;
 
 /**
@@ -71,6 +75,8 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     public final static String PERROLE_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".perrole.permissions";
     
     public final static String CONSTRAINTS = AuthorizationPreInitializer.class.getName() + ".constraints";
+    
+    public final static String PIRANHA_CONSTRAINTS = AuthorizationPreInitializer.class.getName() + ".piranha.constraints";
 
     public final static String SECURITY_ELEMENTS = AuthorizationPreInitializer.class.getName() + ".security.elements";
     /**
@@ -102,7 +108,8 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         // piranha specific security constraint
         List<SecurityConstraint> securityConstraints = join(
             getConstraintsFromSecurityElements(servletContext, authorizationService),
-            getOptionalAttribute(servletContext, CONSTRAINTS));
+            getOptionalAttribute(servletContext, CONSTRAINTS),
+            getConstraintsFromWebXMl(servletContext));
         
         if (securityConstraints != null) {
             authorizationService.addConstraintsToPolicy(securityConstraints, emptySet(), true, emptySet());
@@ -156,6 +163,39 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         }
         
         return constraints;
+    }
+    
+    public List<SecurityConstraint> getConstraintsFromWebXMl(ServletContext servletContext) throws ServletException {
+        List<WebXml.SecurityConstraint> xmlConstraints = getOptionalAttribute(servletContext, PIRANHA_CONSTRAINTS);
+        if (xmlConstraints == null) {
+            return null;
+        }
+        
+        List<SecurityConstraint> constraints = new ArrayList<>();
+        
+        for (WebXml.SecurityConstraint xmlConstraint : xmlConstraints) {
+            
+            List<WebResourceCollection> webResourceCollections = new ArrayList<>();
+            for (WebXml.SecurityConstraint.WebResourceCollection xmlCollection : xmlConstraint.webResourceCollections) {
+                webResourceCollections.add(new WebResourceCollection(
+                    xmlCollection.urlPatterns,
+                    xmlCollection.httpMethods,
+                    xmlCollection.httpMethodOmissions));
+            }
+            
+            constraints.add(new SecurityConstraint(
+                    webResourceCollections,
+                    new HashSet<>(xmlConstraint.roleNames),
+                    "confidential".equalsIgnoreCase(xmlConstraint.transportGuarantee) ?
+                        CONFIDENTIAL : NONE));
+            
+        }
+        
+        return constraints;
+    }
+    
+    public List<SecurityConstraint> join(List<SecurityConstraint> constraintsA, List<SecurityConstraint> constraintsB, List<SecurityConstraint> constraintsC) {
+        return join(join(constraintsA, constraintsB), constraintsC);
     }
     
     public List<SecurityConstraint> join(List<SecurityConstraint> constraintsA, List<SecurityConstraint> constraintsB) {
