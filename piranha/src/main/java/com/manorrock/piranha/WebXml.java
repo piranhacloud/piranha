@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ import java.util.List;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXml {
+public class WebXml implements Serializable {
 
     /**
      * Stores the context parameters.
@@ -61,12 +62,22 @@ public class WebXml {
      * Stores the servlet mappings.
      */
     public List<WebXml.ServletMapping> servletMappings = new ArrayList<>();
-    
+
     /**
      * Stores the security constraints
      */
     public List<SecurityConstraint> securityConstraints = new ArrayList<>();
- 
+
+    /**
+     * The &lt;listener&gt; snippet inside a web.xml / webfragment.xml.
+     */
+    public static class Listener {
+
+        /**
+         * Stores the listener class name.
+         */
+        public String className;
+    }
 
     /**
      * The &lt;servlet&gt; snippet inside a web.xml / webfragment.xml.
@@ -109,15 +120,14 @@ public class WebXml {
             public String value;
         }
     }
-    
-    
+
     /**
-     * The &lt;security-constraint&gt; snippet inside a web.xml / webfragment.xml.
+     * The &lt;security-constraint&gt; snippet inside a web.xml /
+     * webfragment.xml.
      */
     public static class SecurityConstraint {
-        
+
         // Example:
-        
         //  <security-constraint>
         //      <web-resource-collection>
         //          <web-resource-name>SecureServlet</web-resource-name>
@@ -132,40 +142,46 @@ public class WebXml {
         //          <transport-guarantee>NONE</transport-guarantee>
         //      </user-data-constraint>
         //  </security-constraint>
-        
         public List<WebResourceCollection> webResourceCollections = new ArrayList<>();
-        
+
         /**
          * The list &lt;role-name&gt; snippets inside &lt;auth-constraint&gt;
-         * 
-         * Note that we don't map the &lt;auth-constraint&gt; element separately here
+         *
+         * Note that we don't map the &lt;auth-constraint&gt; element separately
+         * here
          */
         public List<String> roleNames = new ArrayList<>();
-        
+
         /**
-         * The list &lt;transport-guarantee&gt; snippet inside &lt;user-data-constraint&gt;
-         * 
-         * Note that we don't map the &lt;user-data-constraint&gt; element separately here
+         * The list &lt;transport-guarantee&gt; snippet inside
+         * &lt;user-data-constraint&gt;
+         *
+         * Note that we don't map the &lt;user-data-constraint&gt; element
+         * separately here
          */
         public String transportGuarantee;
-        
+
         /**
-         * The &lt;web-resource-collection&gt; snippet inside a web.xml / webfragment.xml.
+         * The &lt;web-resource-collection&gt; snippet inside a web.xml /
+         * webfragment.xml.
          */
         public static class WebResourceCollection {
-            
+
             /**
-             * The list &lt;url-pattern&gt; snippets inside &lt;web-resource-collection&gt;
+             * The list &lt;url-pattern&gt; snippets inside
+             * &lt;web-resource-collection&gt;
              */
             public List<String> urlPatterns = new ArrayList<>();
-            
+
             /**
-             * The list &lt;http-method&gt; snippets inside &lt;web-resource-collection&gt;
+             * The list &lt;http-method&gt; snippets inside
+             * &lt;web-resource-collection&gt;
              */
             public List<String> httpMethods = new ArrayList<>();
-            
+
             /**
-             * The list &lt;http-method-omission&gt; snippets inside &lt;web-resource-collection&gt;
+             * The list &lt;http-method-omission&gt; snippets inside
+             * &lt;web-resource-collection&gt;
              */
             public List<String> httpMethodOmissions = new ArrayList<>();
         }
@@ -185,17 +201,6 @@ public class WebXml {
          * Stores the URL pattern.
          */
         public String urlPattern;
-    }
-
-    /**
-     * The &lt;listener&gt; snippet inside a web.xml / webfragment.xml.
-     */
-    public static class Listener {
-
-        /**
-         * Stores the listener class name.
-         */
-        public String className;
     }
 
     /**
@@ -223,11 +228,10 @@ public class WebXml {
          * Stores the name.
          */
         public String name;
-        
+
         /**
          * Stores the value.
          */
         public String value;
     }
-    
 }

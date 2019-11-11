@@ -29,10 +29,13 @@ package com.manorrock.piranha.servlet;
 
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultWebApplication;
+import com.manorrock.piranha.WebXml;
 import java.io.File;
+import java.io.InputStream;
 import javax.servlet.ServletRegistration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
@@ -71,5 +74,20 @@ public class WebXmlInitializerTest {
         webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test2")));
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
+    }
+    
+    /**
+     * Test parseWebXml method.
+     */
+    @Test
+    public void testParseWebXml() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test3")));
+        WebXmlInitializer initializer = new WebXmlInitializer();
+        InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
+        WebXml webXml = initializer.parseWebXml(inputStream);
+        assertFalse(webXml.servlets.isEmpty());
+        assertEquals(2, webXml.servlets.size());
+        assertNotEquals(webXml.servlets.get(0).name, webXml.servlets.get(1).name);
     }
 }

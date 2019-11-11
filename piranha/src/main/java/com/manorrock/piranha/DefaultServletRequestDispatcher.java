@@ -195,15 +195,5 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         req.setQueryString(null);
 
         servletEnvironment.getServlet().service(servletRequest, servletResponse);
-
-        try {
-            ServletOutputStream outputStream = servletResponse.getOutputStream();
-            outputStream.write(res.getResponseBody());
-            outputStream.flush();
-        } catch (IllegalStateException exception) {
-            PrintWriter writer = servletResponse.getWriter();
-            writer.print(new String(res.getResponseBody()));
-            writer.flush();
-        }
     }
 }
