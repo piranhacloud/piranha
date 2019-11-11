@@ -209,17 +209,6 @@ public class DefaultHttpServletRequestTest {
     }
 
     /**
-     * Test getReader method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    public void testGetReader() throws Exception {
-        DefaultWebApplicationRequest request = new TestHttpServletRequest();
-        assertNotNull(request.getReader());
-    }
-
-    /**
      * Test getRealPath method.
      *
      * @throws Exception when a serious error occurs.
