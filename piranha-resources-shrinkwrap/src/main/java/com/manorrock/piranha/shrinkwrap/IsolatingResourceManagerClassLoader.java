@@ -46,13 +46,17 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
      * Constructor.
      */
     public IsolatingResourceManagerClassLoader() {
-        super(getSystemClassLoader().getParent());
+        this(getSystemClassLoader().getParent());
+    }
+    
+    public IsolatingResourceManagerClassLoader(ClassLoader classLoader) {
+        super(classLoader);
         this.systemClassLoader = getSystemClassLoader();
     }
     
     @Override
     protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        if (name.startsWith("com.manorrock.piranha") || name.startsWith("javax.")) {
+        if (name.startsWith("org.jboss.shrinkwrap")) {
             return systemClassLoader.loadClass(name);
         }
         
@@ -61,7 +65,7 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
     
     @Override
     public URL getResource(String name) {
-        if (name.startsWith("com.manorrock.piranha") || name.startsWith("javax.")) {
+        if (name.startsWith("org.jboss.shrinkwrap")) {
             return super.getResource(name);
         }
         
@@ -70,7 +74,7 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
     
     @Override
     public Enumeration<URL> getResources(String name) throws IOException {
-        if (name.startsWith("com.manorrock.piranha") || name.startsWith("javax.")) {
+        if (name.startsWith("org.jboss.shrinkwrap")) {
             return super.getResources(name);
         }
         

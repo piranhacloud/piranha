@@ -17,9 +17,50 @@
     <dependencies>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-resources-shrinkwrap</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
             <artifactId>piranha</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-servlet</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-authentication-eleos</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-authorization-exousia</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-security-jakarta</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-security-soteria</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.piranha</groupId>
+            <artifactId>piranha-cdi-weld</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
