@@ -104,6 +104,8 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                 result = classes.get(name);
             } else {
                 try {
+                    // Define class
+                    
                     String normalizedName = name.replaceAll("\\.", "/") + ".class";
                     BufferedInputStream inputStream = new BufferedInputStream(resourceManager.getResourceAsStream(normalizedName));
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -114,6 +116,27 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                     }
                     byte[] bytes = outputStream.toByteArray();
                     result = defineClass(name, bytes, 0, bytes.length);
+                    
+                    // Define package
+                    
+                    String packageName = null;
+                    int lastDotPosition = name.lastIndexOf('.');
+                    if (lastDotPosition != -1) {
+                        packageName = name.substring(0, lastDotPosition);
+                    }
+
+                    if (packageName != null) {
+                        Package classPackage = getPackage(packageName);
+
+                        if (classPackage == null) {
+                            try {
+                            definePackage(packageName, null, null, null, null, null, null, null);
+                            } catch (IllegalArgumentException e) {
+                                // Ignore, package already defined
+                            }
+                        }
+                    }
+                    
                     if (resolve) {
                         resolveClass(result);
                     }

@@ -50,7 +50,7 @@ public class HelloMyFacesTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test
+    //@Test
     public void testNotFound() throws Exception {
         DefaultLoggingManager loggingManager = new DefaultLoggingManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
