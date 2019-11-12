@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.webxml;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -83,6 +83,11 @@ public class WebXml implements Serializable {
      * The &lt;servlet&gt; snippet inside a web.xml / webfragment.xml.
      */
     public static class Servlet {
+        
+        /**
+         * Stores the async supported flag.
+         */
+        public boolean asyncSupported;
 
         /**
          * Stores the servlet name.

@@ -37,6 +37,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
+import javax.servlet.ServletRegistration.Dynamic;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 import javax.servlet.SessionTrackingMode;
@@ -172,24 +173,20 @@ public class DefaultWebApplicationTest {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        webApp.addServlet("Chat", TestChat1Servlet.class);
+        Dynamic registration = webApp.addServlet("Chat", TestChat1Servlet.class);
+        registration.setAsyncSupported(true);
         webApp.addServletMapping("Chat", "/chat");
         webApp.initialize();
         webApp.start();
-
         TestHttpServletRequest request = new TestHttpServletRequest();
         request.setWebApplication(webApp);
         request.setServletPath("/chat");
-        request.setAsyncSupported(true);
         TestHttpServletResponse response = new TestHttpServletResponse();
         TestServletOutputStream outputStream = new TestServletOutputStream();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
-
         webApp.service(request, response);
-
         assertNotNull(response.getResponseBody());
-
         request = new TestHttpServletRequest();
         request.setWebApplication(webApp);
         request.setAsyncSupported(true);
@@ -200,14 +197,10 @@ public class DefaultWebApplicationTest {
         response = new TestHttpServletResponse();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
-
         webApp.service(request, response);
-
         assertNotNull(response.getResponseBody());
-
         request = new TestHttpServletRequest();
         request.setWebApplication(webApp);
-        request.setAsyncSupported(true);
         request.setServletPath("/chat");
         request.setMethod("POST");
         request.setParameter("action", new String[]{"post"});
@@ -216,9 +209,7 @@ public class DefaultWebApplicationTest {
         response = new TestHttpServletResponse();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
-
         webApp.service(request, response);
-
         assertNotNull(response.getResponseBody());
     }
 
@@ -232,27 +223,22 @@ public class DefaultWebApplicationTest {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        webApp.addServlet("Chat", TestChat2Servlet.class);
+        Dynamic registration = webApp.addServlet("Chat", TestChat2Servlet.class);
+        registration.setAsyncSupported(true);
         webApp.addServletMapping("Chat", "/chat");
         webApp.initialize();
         webApp.start();
-
         TestHttpServletRequest request = new TestHttpServletRequest();
         request.setWebApplication(webApp);
         request.setServletPath("/chat");
-        request.setAsyncSupported(true);
         TestHttpServletResponse response = new TestHttpServletResponse();
         TestServletOutputStream outputStream = new TestServletOutputStream();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
-
         webApp.service(request, response);
-
         assertNotNull(response.getResponseBody());
-
         request = new TestHttpServletRequest();
         request.setWebApplication(webApp);
-        request.setAsyncSupported(true);
         request.setServletPath("/chat");
         request.setMethod("POST");
         request.setParameter("action", new String[]{"login"});
@@ -260,14 +246,10 @@ public class DefaultWebApplicationTest {
         response = new TestHttpServletResponse();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
-
         webApp.service(request, response);
-
         assertNotNull(response.getResponseBody());
-
         request = new TestHttpServletRequest();
         request.setWebApplication(webApp);
-        request.setAsyncSupported(true);
         request.setServletPath("/chat");
         request.setMethod("POST");
         request.setParameter("action", new String[]{"post"});
@@ -276,9 +258,7 @@ public class DefaultWebApplicationTest {
         response = new TestHttpServletResponse();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
-
         webApp.service(request, response);
-
         assertNotNull(response.getResponseBody());
     }
 
