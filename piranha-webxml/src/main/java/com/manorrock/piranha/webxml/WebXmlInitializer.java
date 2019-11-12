@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.servlet;
+package com.manorrock.piranha.webxml;
 
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.STRING;
@@ -55,7 +55,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.manorrock.piranha.WebXml;
 import com.manorrock.piranha.api.WebApplication;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +70,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(WebXmlInitializer.class.getName());
-    
+
     /**
      * Stores the WebXML context-param name.
      */
@@ -87,6 +86,10 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      */
     private WebXml.Servlet parseServlet(XPath xPath, Node node) throws Exception {
         WebXml.Servlet result = new WebXml.Servlet();
+        Boolean asyncSupported = (Boolean) xPath.evaluate("async-supported/text()", node, XPathConstants.BOOLEAN);
+        if (asyncSupported != null) {
+            result.asyncSupported = asyncSupported;
+        }
         result.name = (String) xPath.evaluate("servlet-name/text()", node, XPathConstants.STRING);
         result.className = (String) xPath.evaluate("servlet-class/text()", node, XPathConstants.STRING);
         Double loadOnStartupDouble = (Double) xPath.evaluate("load-on-startup/text()", node, XPathConstants.NUMBER);
@@ -192,7 +195,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
             if (inputStream != null) {
                 WebXml webXml = parseWebXml(servletContext.getResourceAsStream("WEB-INF/web.xml"));
                 webApp.setAttribute(WEB_XML, webXml);
-                
+
                 DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
                 Document document = documentBuilder.parse(inputStream);
                 XPath xPath = XPathFactory.newInstance().newXPath();
@@ -293,6 +296,9 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         while (iterator.hasNext()) {
             WebXml.Servlet servlet = iterator.next();
             Dynamic registration = webApplication.addServlet(servlet.name, servlet.className);
+            if (servlet.asyncSupported) {
+                registration.setAsyncSupported(true);
+            }
             if (!servlet.initParams.isEmpty()) {
                 servlet.initParams.forEach((initParam) -> {
                     registration.setInitParameter(initParam.name, initParam.value);
@@ -379,23 +385,23 @@ public class WebXmlInitializer implements ServletContainerInitializer {
             forEachNode(xPath, node, "//web-resource-collection", webResourceCollectionNode -> {
                 WebXml.SecurityConstraint.WebResourceCollection webResourceCollection = new WebXml.SecurityConstraint.WebResourceCollection();
 
-                forEachString(xPath, webResourceCollectionNode, "//url-pattern", 
-                    urlPattern ->  webResourceCollection.urlPatterns.add(urlPattern)
+                forEachString(xPath, webResourceCollectionNode, "//url-pattern",
+                        urlPattern -> webResourceCollection.urlPatterns.add(urlPattern)
                 );
 
-                forEachString(xPath, webResourceCollectionNode, "//http-method", 
-                    httpMethod ->  webResourceCollection.httpMethods.add(httpMethod)
+                forEachString(xPath, webResourceCollectionNode, "//http-method",
+                        httpMethod -> webResourceCollection.httpMethods.add(httpMethod)
                 );
 
-                forEachString(xPath, webResourceCollectionNode, "//http-method-omission", 
-                    httpMethodOmission ->  webResourceCollection.httpMethodOmissions.add(httpMethodOmission)
+                forEachString(xPath, webResourceCollectionNode, "//http-method-omission",
+                        httpMethodOmission -> webResourceCollection.httpMethodOmissions.add(httpMethodOmission)
                 );
 
                 securityConstraint.webResourceCollections.add(webResourceCollection);
             });
 
-            forEachString(xPath, getNodes(xPath, node, "//auth-constraint"), "//role-name/text()", 
-                roleName ->  securityConstraint.roleNames.add(roleName)
+            forEachString(xPath, getNodes(xPath, node, "//auth-constraint"), "//role-name/text()",
+                    roleName -> securityConstraint.roleNames.add(roleName)
             );
 
             securityConstraint.transportGuarantee = getString(xPath, node, "//user-data-constraint/transport-guarantee/text()");
@@ -408,7 +414,8 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     }
 
     /**
-     * Short-cut method for forEachNode - forEachString, when only one node's string value is needed
+     * Short-cut method for forEachNode - forEachString, when only one node's
+     * string value is needed
      *
      */
     public static void forEachString(XPath xPath, NodeList nodes, String expression, ThrowingConsumer<String> consumer) throws XPathExpressionException {

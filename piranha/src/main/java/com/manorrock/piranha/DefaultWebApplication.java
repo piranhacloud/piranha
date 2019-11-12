@@ -1375,6 +1375,7 @@ public class DefaultWebApplication implements WebApplication {
                     String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
                     if (servletName != null && servlets.containsKey(servletName)) {
                         Servlet servlet = servlets.get(servletName).getServlet();
+                        httpRequest.asyncSupported = servlets.get(servletName).asyncSupported;
                         if (mapping.isExact()) {
                             httpRequest.setServletPath(path);
                             httpRequest.setPathInfo(null);
@@ -1401,6 +1402,7 @@ public class DefaultWebApplication implements WebApplication {
                     String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
                     if (servletName != null && servlets.containsKey(servletName)) {
                         servlet = servlets.get(servletName).getServlet();
+                        httpRequest.asyncSupported = servlets.get(servletName).asyncSupported;
                         if (mapping.isExact()) {
                             httpRequest.setServletPath(path);
                             httpRequest.setPathInfo(null);

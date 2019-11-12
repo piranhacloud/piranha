@@ -25,11 +25,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.servlet;
+package com.manorrock.piranha.webxml;
 
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.WebXml;
 import java.io.File;
 import java.io.InputStream;
 import javax.servlet.ServletRegistration;
@@ -37,6 +36,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
@@ -49,7 +49,7 @@ public class WebXmlInitializerTest {
     /**
      * Test onStartup method.
      *
-     * @throws Exception when an error occurs.
+     * @throws Exception when a serious error occurs.
      */
     @Test
     public void testOnStartup() throws Exception {
@@ -57,9 +57,7 @@ public class WebXmlInitializerTest {
         webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test1")));
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
-        
         ServletRegistration registration = webApplication.getServletRegistration("Test Servlet");
-        
         assertNotNull(registration);
         assertFalse(registration.getMappings().isEmpty());
         assertEquals("*.html", registration.getMappings().iterator().next());
@@ -68,6 +66,11 @@ public class WebXmlInitializerTest {
         assertEquals("myservletcontext", webApplication.getServletContextName());
     }
     
+    /**
+     * Test onStartup method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
     @Test
     public void testOnStartup2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
@@ -78,6 +81,8 @@ public class WebXmlInitializerTest {
     
     /**
      * Test parseWebXml method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
     public void testParseWebXml() throws Exception {
@@ -89,5 +94,6 @@ public class WebXmlInitializerTest {
         assertFalse(webXml.servlets.isEmpty());
         assertEquals(2, webXml.servlets.size());
         assertNotEquals(webXml.servlets.get(0).name, webXml.servlets.get(1).name);
+        assertTrue(webXml.servlets.get(0).asyncSupported);
     }
 }
