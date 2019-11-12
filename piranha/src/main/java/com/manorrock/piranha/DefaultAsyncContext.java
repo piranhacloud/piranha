@@ -28,11 +28,8 @@
 package com.manorrock.piranha;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.AsyncContext;
 import javax.servlet.AsyncEvent;
 import javax.servlet.AsyncListener;
@@ -137,10 +134,8 @@ public class DefaultAsyncContext implements AsyncContext {
     public <T extends AsyncListener> T createListener(Class<T> type) throws ServletException {
         try {
             return type.getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException
-                | NoSuchMethodException | SecurityException
-                | IllegalArgumentException | InvocationTargetException ex) {
-            throw new ServletException("Unable to create listener using DefaultAsyncContext", ex);
+        } catch (Throwable t) {
+            throw new ServletException("Unable to create listener", t);
         }
     }
 

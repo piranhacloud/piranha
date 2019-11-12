@@ -53,6 +53,7 @@
         <module>piranha-session-hazelcast</module>
         <module>piranha-resources-shrinkwrap</module>
         <module>piranha-security-jakarta</module>
+        <module>piranha-webxml</module>
     </modules>
 
     <scm>
