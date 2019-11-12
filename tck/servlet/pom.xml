@@ -208,6 +208,6 @@
         <piranha.home>${project.build.directory}/piranha</piranha.home>
         <signature.home>${project.build.directory}/signature</signature.home>
         <tck.home>${project.build.directory}/tck</tck.home>
-        <test.home>${tck.home}/src/com/sun/ts/tests/servlet/api/javax_servlet/asynccontext</test.home>
+        <test.home>${tck.home}/src/com/sun/ts/tests</test.home>
     </properties>
 </project>
