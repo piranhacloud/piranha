@@ -30,7 +30,6 @@ package com.manorrock.piranha;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -130,6 +129,16 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
     protected DispatcherType dispatcherType;
 
     /**
+     * Stores the gotInputStream flag.
+     */
+    protected boolean gotInputStream;
+
+    /**
+     * Stores the gotReader flag.
+     */
+    protected boolean gotReader;
+
+    /**
      * Stores the header manager.
      */
     protected HttpHeaderManager headerManager;
@@ -188,6 +197,11 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
      * Stores the query string.
      */
     protected String queryString;
+
+    /**
+     * Stores the reader.
+     */
+    protected BufferedReader reader;
 
     /**
      * Stores the remote address.
@@ -481,7 +495,15 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
      */
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        return inputStream;
+        ServletInputStream result;
+        if (!gotReader) {
+            gotInputStream = true;
+            result = inputStream;
+        } else {
+            throw new IllegalStateException(
+                    "Cannot getInputStream because getReader has been previously called");
+        }
+        return result;
     }
 
     /**
@@ -653,7 +675,6 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
                 }
                 if (contentType != null && contentType.equals("application/x-www-form-urlencoded")) {
                     ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-                    InputStream inputStream = getInputStream();
                     int read = inputStream.read();
                     int index = 0;
                     while (read != -1) {
@@ -766,7 +787,15 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
      */
     @Override
     public BufferedReader getReader() throws IOException {
-        return new BufferedReader(new InputStreamReader(inputStream));
+        if (!gotInputStream) {
+            gotReader = true;
+            if (reader == null) {
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+            }
+        } else {
+            throw new IllegalStateException("Cannot getReader because getInputStream has been previously called");
+        }
+        return reader;
     }
 
     /**
@@ -1138,7 +1167,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
                 added = false;
             }
             attributeManager.setAttribute(name, value);
-            
+
             if (!added) {
                 webApplication.getHttpRequestManager().attributeAdded(this, name, value);
             } else {
@@ -1209,7 +1238,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
             this.cookies = null;
         } else {
             this.cookies = new Cookie[cookies.length];
-            for(int i=0; i<cookies.length; i++) {
+            for (int i = 0; i < cookies.length; i++) {
                 this.cookies[i] = (Cookie) cookies[i].clone();
             }
         }

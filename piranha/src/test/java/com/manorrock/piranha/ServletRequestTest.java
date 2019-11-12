@@ -25,14 +25,74 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.servlet;
+package com.manorrock.piranha;
 
-import javax.servlet.http.HttpServlet;
+import javax.servlet.ServletRequest;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * A test servlet
+ * The JUnit tests for the ServletRequest API.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestServlet extends HttpServlet {
+public class ServletRequestTest {
+
+    /**
+     * Stores the servlet request.
+     */
+    protected ServletRequest request;
+
+    /**
+     * Setup before testing.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Before
+    public void setUp() throws Exception {
+        request = new TestHttpServletRequest();
+    }
+
+    /**
+     * Test getInputStream method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testGetInputStream() throws Exception {
+        assertNotNull(request.getInputStream());
+    }
+
+    /**
+     * Test getInputStream method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void testGetInputStream2() throws Exception {
+        assertNotNull(request.getInputStream());
+        request.getReader();
+    }
+
+    /**
+     * Test getReader method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testGetReader() throws Exception {
+        assertNotNull(request.getReader());
+    }
+
+    /**
+     * Test getReader method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void testGetReader2() throws Exception {
+        assertNotNull(request.getReader());
+        request.getInputStream();
+    }
 }
