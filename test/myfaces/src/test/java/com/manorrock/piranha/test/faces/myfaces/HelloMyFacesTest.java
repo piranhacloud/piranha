@@ -56,19 +56,23 @@ public class HelloMyFacesTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setLoggingManager(loggingManager);
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addInitializer("com.manorrock.piranha.faces.myfaces.MyFacesInitializer");
+        webApp.addInitializer("com.manorrock.piranha.faces.myfaces.MyFacesListener");
         webApp.initialize();
         webApp.start();
+
         TestHttpServletRequest request = new TestHttpServletRequest();
         request.setWebApplication(webApp);
         request.setContextPath("");
         request.setServletPath("/faces");
         request.setPathInfo("/notfound.html");
+
         TestHttpServletResponse response = new TestHttpServletResponse();
         TestServletOutputStream outputStream = new TestServletOutputStream();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
+
         webApp.service(request, response);
+
         assertEquals(404, response.getStatus());
     }
 
@@ -84,16 +88,20 @@ public class HelloMyFacesTest {
         webApp.addInitializer("com.manorrock.piranha.faces.myfaces.MyFacesInitializer");
         webApp.initialize();
         webApp.start();
+
         TestHttpServletRequest request = new TestHttpServletRequest();
         request.setWebApplication(webApp);
         request.setContextPath("");
         request.setServletPath("/index.html");
         request.setPathInfo(null);
+
         TestHttpServletResponse response = new TestHttpServletResponse();
         TestServletOutputStream outputStream = new TestServletOutputStream();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
+
         webApp.service(request, response);
+
         assertEquals(200, response.getStatus());
         String responseString = new String(response.getResponseBody());
         assertTrue(responseString.contains("Hello MyFaces"));
