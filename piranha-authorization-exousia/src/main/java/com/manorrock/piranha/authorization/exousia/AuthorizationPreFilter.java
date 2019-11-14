@@ -29,6 +29,7 @@ package com.manorrock.piranha.authorization.exousia;
 
 import java.io.IOException;
 
+import javax.security.jacc.PolicyContext;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -71,8 +72,12 @@ public class AuthorizationPreFilter extends HttpFilter {
 
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+        WebApplication context = (WebApplication) request.getServletContext();
+        PolicyContext.setContextID(context.getServletContextId());
+        
         if (securityManager.isRequestSecurityAsRequired(request, response)) {
             localServletRequest.set(request);
+           
             try {
                 chain.doFilter(request, response);
             } finally {
