@@ -54,6 +54,7 @@
         <module>piranha-resources-shrinkwrap</module>
         <module>piranha-security-jakarta</module>
         <module>piranha-webxml</module>
+        <module>piranha-embedded</module>
     </modules>
 
     <scm>
