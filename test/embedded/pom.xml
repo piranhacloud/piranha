@@ -16,6 +16,13 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.manorrock.piranha.test</groupId>
+            <artifactId>snoop</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+            <type>war</type>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>

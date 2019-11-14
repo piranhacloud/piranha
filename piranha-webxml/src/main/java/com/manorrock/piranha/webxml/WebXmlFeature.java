@@ -25,71 +25,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.embedded;
+package com.manorrock.piranha.webxml;
 
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.webxml.WebXmlFeature;
-import java.io.IOException;
-import javax.servlet.ServletException;
+import com.manorrock.piranha.api.Feature;
+import com.manorrock.piranha.api.WebApplication;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContainerInitializer;
 
 /**
- * The main entry point for embedded Piranha.
+ * The feature that will enable web.xml processing.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EmbeddedPiranha {
+public class WebXmlFeature implements Feature {
 
     /**
-     * Stores the web application.
+     * Stores the logger.
      */
-    private DefaultWebApplication webApplication;
-    
-    /**
-     * Constructor.
-     */
-    public EmbeddedPiranha() {
-        webApplication = new DefaultWebApplication();
-        webApplication.addFeature(new WebXmlFeature());
-    }
-    
-    /**
-     * Initialize the web application.
-     */
-    public void initialize() {
-        webApplication.initialize();
-    }
+    private static final Logger LOGGER = Logger.getLogger(WebXmlFeature.class.getName());
 
     /**
-     * Service method.
-     * 
-     * @param request the request.
-     * @param response the response.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a Servlet error occurs.
+     * Initialize the feature.
+     *
+     * @param webApplication the web application.
      */
-    public void service(EmbeddedServletRequest request, EmbeddedServletResponse response)
-            throws IOException, ServletException {
-        webApplication.service(request, response);
-    }
-    
-    /**
-     * Start the web application.
-     */
-    public void start() {
-        webApplication.start();
-    }
-    
-    /**
-     * Stop the web application.
-     */
-    public void stop() {
-        webApplication.stop();
-    }
-    
-    /**
-     * Destroy the web application.
-     */
-    public void destroy() {
-        webApplication.destroy();
+    @Override
+    public void initialize(WebApplication webApplication) {
+        try {
+            ClassLoader classLoader = webApplication.getClassLoader();
+            Class<ServletContainerInitializer> clazz
+                    = (Class<ServletContainerInitializer>) classLoader.
+                            loadClass("com.manorrock.piranha.webxml.WebXmlInitializer");
+            ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
+            webApplication.addInitializer(initializer);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
+                | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException ex) {
+            LOGGER.log(Level.WARNING, "Unable to add WebXmlInitializer", ex);
+        }
     }
 }
