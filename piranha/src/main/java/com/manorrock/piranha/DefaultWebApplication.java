@@ -642,11 +642,9 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Destroy the web application.
-     *
-     * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public void destroy() throws ServletException {
+    public void destroy() {
         verifyState(INITIALIZED, "Unable to destroy web application");
 
         servlets.values().stream().forEach((servletEnv) -> {

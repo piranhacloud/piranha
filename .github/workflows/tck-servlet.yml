@@ -1,4 +1,4 @@
-name: tck
+name: tck-servlet
 on:
   schedule:
   - cron: "0 2 * * *"
