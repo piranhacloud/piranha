@@ -592,7 +592,7 @@
         <profile>
             <id>jdk9plus</id>
             <activation>
-                <jdk>[9,)</jdk>
+                <jdk>1.8</jdk>
             </activation>
             <build>
                 <plugins>
@@ -600,7 +600,7 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <configuration>
-                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                            <javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
                         </configuration>
                     </plugin>
                 </plugins>
