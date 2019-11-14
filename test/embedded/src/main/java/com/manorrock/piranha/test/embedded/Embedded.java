@@ -25,52 +25,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.embedded;
+package com.manorrock.piranha.test.embedded;
 
-import com.manorrock.piranha.DefaultWebApplicationResponse;
+import com.manorrock.piranha.embedded.EmbeddedPiranha;
+import com.manorrock.piranha.embedded.EmbeddedServletRequest;
+import com.manorrock.piranha.embedded.EmbeddedServletResponse;
+import java.io.IOException;
+import javax.servlet.ServletException;
 
 /**
- * The embedded version of a ServletResponse.
- * 
+ * The tests to verify Piranha Embedded works properly.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EmbeddedServletResponse extends DefaultWebApplicationResponse {
+public class Embedded {
 
     /**
-     * Stores the output stream.
+     * Execute.
+     *
+     * @return the result.
      */
-    private EmbeddedServletOutputStream outputStream;
-    
-    /**
-     * Constructor.
-     */
-    public EmbeddedServletResponse() {
-        outputStream = new EmbeddedServletOutputStream();
-        setOutputStream(outputStream);
-        outputStream.setResponse(this);
+    public String execute() {
+        String result;
+        try {
+            EmbeddedPiranha embedded = new EmbeddedPiranha();
+            EmbeddedServletRequest request = new EmbeddedServletRequest();
+            EmbeddedServletResponse response = new EmbeddedServletResponse();
+            embedded.initialize();
+            embedded.start();
+            embedded.service(request, response);
+            embedded.stop();
+            result = response.getResponseAsString();
+        } catch(IOException | ServletException e) {
+            result = e.getMessage();
+        }
+        return result;
     }
-
-    @Override
-    public int getBufferSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void resetBuffer() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setBufferSize(int size) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }   
 
     /**
-     * Get the response as a string.
-     * 
-     * @return the response as a string.
+     * Main method.
+     *
+     * @param arguments the arguments.
      */
-    public String getResponseAsString() {
-        return new String(outputStream.getBytes());
+    public static void main(String[] arguments) {
+        Embedded embedded = new Embedded();
+        System.out.println(embedded.execute());
     }
 }

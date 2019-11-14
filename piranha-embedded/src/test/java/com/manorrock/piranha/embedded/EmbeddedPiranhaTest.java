@@ -41,11 +41,14 @@ public class EmbeddedPiranhaTest {
      * 
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testService() throws Exception {
         EmbeddedServletRequest request = new EmbeddedServletRequest();
         EmbeddedServletResponse response = new EmbeddedServletResponse();
         EmbeddedPiranha piranha = new EmbeddedPiranha();
+        piranha.initialize();
+        piranha.start();
         piranha.service(request, response);
+        piranha.stop();
     }
 }

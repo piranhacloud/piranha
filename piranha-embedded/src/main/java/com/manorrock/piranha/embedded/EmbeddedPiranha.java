@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha.embedded;
 
+import com.manorrock.piranha.DefaultWebApplication;
 import java.io.IOException;
 import javax.servlet.ServletException;
 
@@ -38,15 +39,22 @@ import javax.servlet.ServletException;
 public class EmbeddedPiranha {
 
     /**
-     * Stores the web application server.
+     * Stores the web application.
      */
-    private EmbeddedWebApplication webApplication;
+    private DefaultWebApplication webApplication;
     
     /**
      * Constructor.
      */
     public EmbeddedPiranha() {
-        webApplication = new EmbeddedWebApplication();
+        webApplication = new DefaultWebApplication();
+    }
+    
+    /**
+     * Initialize the web application.
+     */
+    public void initialize() {
+        webApplication.initialize();
     }
 
     /**
@@ -60,5 +68,19 @@ public class EmbeddedPiranha {
     public void service(EmbeddedServletRequest request, EmbeddedServletResponse response)
             throws IOException, ServletException {
         webApplication.service(request, response);
+    }
+    
+    /**
+     * Start the web application.
+     */
+    public void start() {
+        webApplication.start();
+    }
+    
+    /**
+     * Stop the web application.
+     */
+    public void stop() {
+        webApplication.stop();
     }
 }
