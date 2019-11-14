@@ -29,6 +29,7 @@ package com.manorrock.piranha.shrinkwrap;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.ProtectionDomain;
 import java.util.Enumeration;
 
 import com.manorrock.piranha.DefaultResourceManagerClassLoader;
@@ -41,17 +42,23 @@ import com.manorrock.piranha.DefaultResourceManagerClassLoader;
 public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerClassLoader {
 
     private final ClassLoader systemClassLoader;
+    private final String classLoaderId;
     
+    public IsolatingResourceManagerClassLoader() {
+        this("");
+    }
+
     /**
      * Constructor.
      */
-    public IsolatingResourceManagerClassLoader() {
-        this(getSystemClassLoader().getParent());
+    public IsolatingResourceManagerClassLoader(String classLoaderId) {
+        this(getSystemClassLoader().getParent(), classLoaderId);
     }
     
-    public IsolatingResourceManagerClassLoader(ClassLoader classLoader) {
+    public IsolatingResourceManagerClassLoader(ClassLoader classLoader, String classLoaderId) {
         super(classLoader);
         this.systemClassLoader = getSystemClassLoader();
+        this.classLoaderId = classLoaderId;
     }
     
     @Override
@@ -66,19 +73,23 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
     @Override
     public URL getResource(String name) {
         if (name.startsWith("org.jboss.shrinkwrap")) {
-            return super.getResource(name);
+            return systemClassLoader.getResource(name);
         }
         
-        return findResource(name);
+        return super.getResource(name);
     }
     
     @Override
     public Enumeration<URL> getResources(String name) throws IOException {
         if (name.startsWith("org.jboss.shrinkwrap")) {
-            return super.getResources(name);
+            return systemClassLoader.getResources(name);
         }
         
-        return findResources(name);
+        return super.getResources(name);
+    }
+    
+    public String getClassLoaderId() {
+        return classLoaderId;
     }
     
 }

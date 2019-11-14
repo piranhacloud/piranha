@@ -31,6 +31,8 @@ import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 
 /**
+ * This is a kind of factory used to allow Arquillian to load the actual
+ * connector {@link PiranhaServerDeployableContainer}.
  * 
  * @author Arjan Tijms
  *
