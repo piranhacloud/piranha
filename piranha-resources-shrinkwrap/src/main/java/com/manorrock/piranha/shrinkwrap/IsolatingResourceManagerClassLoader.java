@@ -29,6 +29,7 @@ package com.manorrock.piranha.shrinkwrap;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.ProtectionDomain;
 import java.util.Enumeration;
 
 import com.manorrock.piranha.DefaultResourceManagerClassLoader;
@@ -41,18 +42,28 @@ import com.manorrock.piranha.DefaultResourceManagerClassLoader;
 public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerClassLoader {
 
     private final ClassLoader systemClassLoader;
+    private final String classLoaderId;
     
+    public IsolatingResourceManagerClassLoader() {
+        this("");
+    }
+
     /**
      * Constructor.
      */
-    public IsolatingResourceManagerClassLoader() {
-        super(getSystemClassLoader().getParent());
+    public IsolatingResourceManagerClassLoader(String classLoaderId) {
+        this(getSystemClassLoader().getParent(), classLoaderId);
+    }
+    
+    public IsolatingResourceManagerClassLoader(ClassLoader classLoader, String classLoaderId) {
+        super(classLoader);
         this.systemClassLoader = getSystemClassLoader();
+        this.classLoaderId = classLoaderId;
     }
     
     @Override
     protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        if (name.startsWith("com.manorrock.piranha") || name.startsWith("javax.")) {
+        if (name.startsWith("org.jboss.shrinkwrap")) {
             return systemClassLoader.loadClass(name);
         }
         
@@ -61,20 +72,24 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
     
     @Override
     public URL getResource(String name) {
-        if (name.startsWith("com.manorrock.piranha") || name.startsWith("javax.")) {
-            return super.getResource(name);
+        if (name.startsWith("org.jboss.shrinkwrap")) {
+            return systemClassLoader.getResource(name);
         }
         
-        return findResource(name);
+        return super.getResource(name);
     }
     
     @Override
     public Enumeration<URL> getResources(String name) throws IOException {
-        if (name.startsWith("com.manorrock.piranha") || name.startsWith("javax.")) {
-            return super.getResources(name);
+        if (name.startsWith("org.jboss.shrinkwrap")) {
+            return systemClassLoader.getResources(name);
         }
         
-        return findResources(name);
+        return super.getResources(name);
+    }
+    
+    public String getClassLoaderId() {
+        return classLoaderId;
     }
     
 }

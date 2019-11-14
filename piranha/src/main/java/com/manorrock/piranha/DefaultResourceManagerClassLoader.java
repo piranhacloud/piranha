@@ -27,6 +27,9 @@
  */
 package com.manorrock.piranha;
 
+import static java.util.Collections.enumeration;
+import static java.util.Collections.list;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,6 +37,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.manorrock.piranha.api.ResourceManager;
@@ -99,31 +103,89 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         } catch (ClassNotFoundException cnfe) {
             result = null;
         }
+        
         if (result == null) {
             if (classes.containsKey(name)) {
                 result = classes.get(name);
             } else {
                 try {
-                    String normalizedName = name.replaceAll("\\.", "/") + ".class";
-                    BufferedInputStream inputStream = new BufferedInputStream(resourceManager.getResourceAsStream(normalizedName));
-                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                    int read = inputStream.read();
-                    while (read != -1) {
-                        outputStream.write((byte) read);
-                        read = inputStream.read();
+                    // Check with the super class. This can contain dynamic classes
+                    // that have been "hacked" into our classloader by e.g. Weld or
+                    // Javasist.
+                    try {
+                        result = super.loadClass(name, resolve);
+                    } catch (ClassNotFoundException cnfe) {
+                        // Ignore
                     }
-                    byte[] bytes = outputStream.toByteArray();
-                    result = defineClass(name, bytes, 0, bytes.length);
-                    if (resolve) {
-                        resolveClass(result);
+                    
+                    if (result == null) {
+                        
+                        // Define class
+                        
+                        String normalizedName = name.replaceAll("\\.", "/") + ".class";
+                        BufferedInputStream inputStream = new BufferedInputStream(resourceManager.getResourceAsStream(normalizedName));
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        int read = inputStream.read();
+                        while (read != -1) {
+                            outputStream.write((byte) read);
+                            read = inputStream.read();
+                        }
+                        byte[] bytes = outputStream.toByteArray();
+                        result = defineClass(name, bytes, 0, bytes.length);
+                        
+                        // Define package
+                        
+                        String packageName = null;
+                        int lastDotPosition = name.lastIndexOf('.');
+                        if (lastDotPosition != -1) {
+                            packageName = name.substring(0, lastDotPosition);
+                        }
+    
+                        if (packageName != null) {
+                            Package classPackage = getPackage(packageName);
+    
+                            if (classPackage == null) {
+                                try {
+                                definePackage(packageName, null, null, null, null, null, null, null);
+                                } catch (IllegalArgumentException e) {
+                                    // Ignore, package already defined
+                                }
+                            }
+                        }
+                        
+                        if (resolve) {
+                            resolveClass(result);
+                        }
+                        classes.put(name, result);
                     }
-                    classes.put(name, result);
                 } catch (Throwable throwable) {
                     throw new ClassNotFoundException("Unable to load class: " + name, throwable);
                 }
             }
         }
         return result;
+    }
+    
+    @Override
+    public URL getResource(String name) {
+        URL resource = delegateClassLoader.getResource(name);
+        
+        if (resource == null) {
+            resource = findResource(name);
+        }
+        
+        return resource;
+    }
+    
+    @Override
+    public Enumeration<URL> getResources(String name) throws IOException {
+        // Assume for now amount of resources is reasonably small to afford allocating
+        // new collections.
+        List<URL> resources = list(delegateClassLoader.getResources(name));
+        
+        resources.addAll(list(findResources(name)));
+        
+        return enumeration(resources);
     }
 
     /**
@@ -139,6 +201,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
             result = resourceManager.getResource(name);
         } catch (MalformedURLException mue) {
         }
+        
         return result;
     }
 

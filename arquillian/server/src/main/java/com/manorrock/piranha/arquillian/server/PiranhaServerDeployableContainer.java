@@ -27,6 +27,10 @@
  */
 package com.manorrock.piranha.arquillian.server;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,22 +41,26 @@ import org.jboss.arquillian.container.spi.client.protocol.ProtocolDescription;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.HTTPContext;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.Servlet;
+import org.jboss.jandex.Index;
+import org.jboss.jandex.IndexWriter;
+import org.jboss.jandex.Indexer;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 
-import com.manorrock.piranha.DefaultHttpServer;
 import com.manorrock.piranha.DefaultResourceManager;
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.DefaultWebApplicationServer;
-import com.manorrock.piranha.api.HttpServer;
-import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.servlet.ServletFeature;
 import com.manorrock.piranha.shrinkwrap.IsolatingResourceManagerClassLoader;
 import com.manorrock.piranha.shrinkwrap.ShrinkWrapResource;
 
 /**
+ * The Piranha Arquillian connector.
+ * 
+ * <p>
+ * This connector will start up and embedded Piranha runtime in an isolated class loader for every application
+ * that is deployed.
  * 
  * @author Arjan Tijms
  *
@@ -60,9 +68,8 @@ import com.manorrock.piranha.shrinkwrap.ShrinkWrapResource;
 public class PiranhaServerDeployableContainer implements DeployableContainer<PiranhaServerContainerConfiguration> {
     
     private PiranhaServerContainerConfiguration configuration;
+    private Object piranhaServerDeployer;
     
-    
-    private HttpServer httpServer;
 
     @Override
     public Class<PiranhaServerContainerConfiguration> getConfigurationClass() {
@@ -70,7 +77,7 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
     }
     
     public ProtocolDescription getDefaultProtocol() {
-        return new ProtocolDescription("Servlet 4.0");
+        return new ProtocolDescription("Servlet 3.0");
     }
 
     @Override
@@ -80,6 +87,7 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
 
     @Override
     public void start() throws LifecycleException {
+        // We don't start Piranha separately. Start and Deploy is one step.
     }
     
     @Override
@@ -90,23 +98,57 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             
-            ClassLoader newClassLoader = getWebInfClassLoader(archive);
+            // Resolve all the dependencies that make up a Piranha runtime configuration
             
-            Thread.currentThread().setContextClassLoader(newClassLoader);
+            // Note that this uses the "piranha-runner-war" dependency, which is 
+            // a Maven Shade assembled war. If needed additionally dependencies can be added
+            // here.
+            JavaArchive[] piranhaArchives = 
+                Maven.configureResolver()
+                     //.workOffline() // TODO: config setting
+                     .resolve(
+                        "com.manorrock.piranha:piranha-runner-war:19.12.0-SNAPSHOT" // TODO config for version
+                        // TODO: may add other dependencies via external config
+                      )
+                     .withTransitivity()
+                     .as(JavaArchive.class);
+
+            // Make all those dependencies available to the Piranha class loader
+            ClassLoader piranhaClassLoader = getPiranhaClassLoader(piranhaArchives);
+            
+            // Make the web application archive (the .war) available to a separate classloader
+            // The webInfClassLoader delegates to the Piranha class loader.
+            
+            // The class loading hierarchy looks as follows:
+            
+            // Web-inf class loader (application classes)
+            //        |
+            //        |--- System class loader (Pass-through for Shrinkwrap classes only)
+            //        |--- java.lang.ClassLoader (super class, Weld, Javasist etc hack-in their classes here) 
+            //        |
+            // Piranha class loader (Piranha classes)
+            //        |
+            //        |
+            // Platform class loader (JDK classes)
+            
+            ClassLoader webInfClassLoader = getWebInfClassLoader(archive, piranhaClassLoader);
+            
+            Thread.currentThread().setContextClassLoader(webInfClassLoader);
         
-            WebApplication webApplication = getWebApplication(archive, newClassLoader);
+            piranhaServerDeployer = 
+                Class.forName(
+                        "com.manorrock.piranha.runner.war.PiranhaServerDeployer", 
+                        true,
+                        webInfClassLoader)
+                    .newInstance();
             
-            DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
-            webApplication.addFeature(new ServletFeature());
-            webApplicationServer.addWebApplication(webApplication);
-            webApplicationServer.initialize();
-            webApplicationServer.start();
-            
-            httpServer = new DefaultHttpServer(8080, webApplicationServer);
-            httpServer.start();
-            
-            servletNames.addAll(webApplication.getServletRegistrations().keySet());
+            piranhaServerDeployer
+                .getClass()
+                .getMethod("start", Archive.class, ClassLoader.class)
+                .invoke(piranhaServerDeployer, archive, webInfClassLoader);
         
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            throw new DeploymentException("", e);
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
         }
@@ -122,30 +164,79 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
         return protocolMetaData;
     }
     
-    WebApplication getWebApplication(Archive<?> archive, ClassLoader newClassLoader) {
-        WebApplication webApplication = new DefaultWebApplication();
-        webApplication.setClassLoader(newClassLoader);
-        webApplication.addResource(new ShrinkWrapResource(archive));
-        
-        return webApplication;
-    }
-    
-    
-    ClassLoader getWebInfClassLoader(Archive<?> archive) {
+    ClassLoader getPiranhaClassLoader(Archive<?>[] piranhaArchives) {
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(new ShrinkWrapResource("/WEB-INF/classes", archive));
-//        manager.addResource(new ShrinkWrapResource(
-//            ShrinkWrap.create(JavaArchive.class)
-//                      .addPackages(
-//                          true, 
-//                          e -> !e.get().contains("arquillian"), 
-//                          DefaultWebApplication.class.getPackage())
-//                ));
         
-        IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader();
+        for (Archive<?> archive : piranhaArchives) {
+            manager.addResource(new ShrinkWrapResource(archive));
+        }
+        
+        IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader("Piranha Loader");
         classLoader.setResourceManager(manager);
         
         return classLoader;
+        
+    }
+    
+    ClassLoader getWebInfClassLoader(Archive<?> applicationArchive, ClassLoader piranhaClassloader) {
+        // Add the main application archive to this class loader, and set the classes to be loaded from the
+        // /WEB-INF/classes folder
+        ShrinkWrapResource applicationResource = new ShrinkWrapResource("/WEB-INF/classes", applicationArchive);
+        
+        // Create a separate archive that contains an index of the application archive. This index
+        // can be obtained from the class loader by getting the "META-INF/piranha.idx" resource.
+        ShrinkWrapResource indexResource = new ShrinkWrapResource(
+            ShrinkWrap.create(JavaArchive.class)
+                      .add(new ByteArrayAsset(createIndex(applicationResource)), "META-INF/piranha.idx"));
+        
+        
+        IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader(piranhaClassloader, "WebInf Loader");
+        
+        // Add the resources representing the application archive and index archive to the resource manager
+        DefaultResourceManager manager = new DefaultResourceManager();
+        manager.addResource(applicationResource);
+        manager.addResource(indexResource);
+        
+        // Make the application classes and the index available to the class loader by setting the resource manager
+        // that contains these.
+        classLoader.setResourceManager(manager);
+        
+        return classLoader;
+    }
+    
+    private byte[] createIndex(ShrinkWrapResource applicationResource) {
+        Indexer indexer = new Indexer();
+        
+        // Add all classes from the application resource to the indexer
+        applicationResource
+            .getAllLocations()
+            .filter(e -> e.endsWith(".class"))
+            .forEach(className -> addToIndex(className, applicationResource, indexer));
+        
+        
+        Index index = indexer.complete();
+        
+        // Write the index out to a byte array
+        
+        ByteArrayOutputStream indexBytes = new ByteArrayOutputStream();
+        
+        IndexWriter writer = new IndexWriter(indexBytes);
+        
+        try {
+            writer.write(index);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        
+        return indexBytes.toByteArray();
+    }
+    
+    private void addToIndex(String className, ShrinkWrapResource resource, Indexer indexer) {
+        try (InputStream classAsStream = resource.getResourceAsStream(className)) {
+            indexer.index(classAsStream);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
     
     @Override
@@ -155,7 +246,14 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
     
     @Override
     public void undeploy(Archive<?> archive) throws DeploymentException {
-        httpServer.stop();
+        try {
+            piranhaServerDeployer
+                .getClass()
+                .getMethod("stop")
+                .invoke(piranhaServerDeployer);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            e.printStackTrace();
+        }
     }
     
     @Override
@@ -165,6 +263,7 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
 
     @Override
     public void stop() throws LifecycleException {
+     // We don't stop Piranha separately. Stop and Undeploy is one step.
     }
 
     
