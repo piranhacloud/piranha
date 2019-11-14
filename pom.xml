@@ -590,7 +590,7 @@
 
     <profiles>
         <profile>
-            <id>jdk9plus</id>
+            <id>jdk8</id>
             <activation>
                 <jdk>1.8</jdk>
             </activation>
