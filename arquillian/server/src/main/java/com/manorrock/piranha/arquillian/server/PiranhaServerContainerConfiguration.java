@@ -31,6 +31,10 @@ import org.jboss.arquillian.container.spi.ConfigurationException;
 import org.jboss.arquillian.container.spi.client.container.ContainerConfiguration;
 
 /**
+ * The configuration settings for the Piranha Arquillian connector.
+ * 
+ * <p>
+ * Currently empty, but will have settings added later.
  * 
  * @author Arjan Tijms
  *
