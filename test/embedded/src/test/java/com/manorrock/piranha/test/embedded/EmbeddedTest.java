@@ -25,14 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.embedded;
+package com.manorrock.piranha.test.embedded;
 
-import com.manorrock.piranha.DefaultWebApplication;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 /**
- * An embedded web application.
+ * The JUnit tests for the Embedded class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EmbeddedWebApplication extends DefaultWebApplication {
+public class EmbeddedTest {
+  
+    /**
+     * Test of execute method, of class Embedded.
+     */
+    @Test
+    public void testExecute() {
+        long startTime = System.currentTimeMillis();
+        Embedded embedded = new Embedded();
+        String result = embedded.execute();
+        assertNotNull(result);
+        assertEquals(0, result.length());
+        long endTime = System.currentTimeMillis();
+        System.out.println(endTime - startTime);
+    }
 }
