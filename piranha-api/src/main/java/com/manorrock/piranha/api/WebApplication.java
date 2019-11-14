@@ -88,10 +88,8 @@ public interface WebApplication extends ServletContext {
     
     /**
      * Destroy the web application.
-     * 
-     * @throws ServletException when a Servlet error occurs.
      */
-    void destroy() throws ServletException;
+    void destroy();
 
     /**
      * Get the mime type manager.

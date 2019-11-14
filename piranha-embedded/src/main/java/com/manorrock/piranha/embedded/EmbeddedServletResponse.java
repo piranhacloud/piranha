@@ -50,20 +50,24 @@ public class EmbeddedServletResponse extends DefaultWebApplicationResponse {
         outputStream.setResponse(this);
     }
 
+    /**
+     * Get the buffer size.
+     * 
+     * @return the buffer size.
+     */
     @Override
     public int getBufferSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return -1;
     }
 
-    @Override
-    public void resetBuffer() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * Get the response as a byte-array.
+     * 
+     * @return the response as a byte-array.
+     */
+    public byte[] getResponseAsButes() {
+        return outputStream.getBytes();
     }
-
-    @Override
-    public void setBufferSize(int size) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }   
 
     /**
      * Get the response as a string.
@@ -72,5 +76,22 @@ public class EmbeddedServletResponse extends DefaultWebApplicationResponse {
      */
     public String getResponseAsString() {
         return new String(outputStream.getBytes());
+    }
+
+    /**
+     * Reset the buffer.
+     */
+    @Override
+    public void resetBuffer() {
+        outputStream.reset();
+    }
+
+    /**
+     * Set the buffer size.
+     * 
+     * @param bufferSize the buffer size. 
+     */
+    @Override
+    public void setBufferSize(int bufferSize) {
     }
 }
