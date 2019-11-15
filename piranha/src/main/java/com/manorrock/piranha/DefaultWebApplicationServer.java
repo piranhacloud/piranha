@@ -157,6 +157,7 @@ public class DefaultWebApplicationServer implements
                 if (request.getRequestTarget() != null && request.getRequestTarget().contains("?")) {
                     servletRequest.setQueryString(request.getRequestTarget().substring(request.getRequestTarget().indexOf("?") + 1));
                 }
+                servletRequest.setLocalName(request.getLocalHostname());
                 service(servletRequest, servletResponse);
                 if (!servletResponse.isCommitted()) {
                     servletResponse.flushBuffer();
