@@ -53,6 +53,11 @@ public class HttpSessionListenerTest {
      * Stores the web application.
      */
     protected WebApplication webApplication;
+    
+    /**
+     * Stores the web application server.
+     */
+    protected DefaultWebApplicationServer webApplicationServer;
 
     /**
      * Setup before testing.
@@ -61,8 +66,10 @@ public class HttpSessionListenerTest {
      */
     @Before
     public void setUp() throws Exception {
+        webApplicationServer = new DefaultWebApplicationServer();
         webApplication = new DefaultWebApplication();
         webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
+        webApplicationServer.addWebApplication(webApplication);
     }
 
     /**
@@ -75,21 +82,15 @@ public class HttpSessionListenerTest {
         webApplication.addListener(new TestHttpSessionListener());
         webApplication.addServlet("sessionCreatedServlet", new TestHttpSessionCreatedServlet());
         webApplication.addServletMapping("sessionCreatedServlet", "/sessionCreated");
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApplication);
-        request.setServletPath("/sessionCreated");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setWebApplication(webApplication);
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
+        TestHttpServerResponse response = new TestHttpServerResponse();
+        TestHttpServerRequest request = new TestHttpServerRequest();
+        request.setRequestTarget("/sessionCreated");
+        webApplicationServer.initialize();
+        webApplicationServer.start();
+        webApplicationServer.process(request, response);
         assertNotNull(webApplication.getAttribute("sessionCreated"));
         assertTrue(webApplication.getAttribute("session") instanceof HttpSession);
-        webApplication.stop();
-        webApplication.destroy();
+        webApplicationServer.stop();
     }
 
     /**
@@ -102,17 +103,12 @@ public class HttpSessionListenerTest {
         webApplication.addListener(new TestHttpSessionListener());
         webApplication.addServlet("sessionDestroyedServlet", new TestHttpSessionDestroyedServlet());
         webApplication.addServletMapping("sessionDestroyedServlet", "/sessionDestroyed");
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApplication);
-        request.setServletPath("/sessionDestroyed");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        response.setWebApplication(webApplication);
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
+        TestHttpServerResponse response = new TestHttpServerResponse();
+        TestHttpServerRequest request = new TestHttpServerRequest();
+        request.setRequestTarget("/sessionDestroyed");
+        webApplicationServer.initialize();
+        webApplicationServer.start();
+        webApplicationServer.process(request, response);
         assertNotNull(webApplication.getAttribute("sessionDestroyed"));
         webApplication.stop();
         webApplication.destroy();

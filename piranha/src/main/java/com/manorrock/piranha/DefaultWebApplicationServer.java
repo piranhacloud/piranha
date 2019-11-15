@@ -27,35 +27,36 @@
  */
 package com.manorrock.piranha;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.servlet.ServletException;
-
 import com.manorrock.piranha.api.HttpServerProcessor;
 import com.manorrock.piranha.api.HttpServerRequest;
 import com.manorrock.piranha.api.HttpServerResponse;
 import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.api.WebApplicationServer;
+import com.manorrock.piranha.api.WebApplicationServerRequest;
 import com.manorrock.piranha.api.WebApplicationServerRequestMapper;
+import com.manorrock.piranha.api.WebApplicationServerResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 
 /**
  * The default WebApplicationServer.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServer implements
-        HttpServerProcessor,
-        WebApplicationServer<DefaultWebApplicationRequest, DefaultWebApplicationResponse> {
+public class DefaultWebApplicationServer
+        implements HttpServerProcessor, WebApplicationServer {
 
     /**
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(DefaultWebApplicationServer.class.getName());
-    
+
     /**
      * Stores the request mapper.
      */
@@ -64,14 +65,14 @@ public class DefaultWebApplicationServer implements
     /**
      * Stores the web applications.
      */
-    protected final ConcurrentHashMap<String, WebApplication> webApplications;
+    protected final HashMap<String, WebApplication> webApplications;
 
     /**
      * Constructor.
      */
     public DefaultWebApplicationServer() {
         this.requestMapper = new DefaultWebApplicationServerRequestMapper();
-        this.webApplications = new ConcurrentHashMap<>();
+        this.webApplications = new HashMap<>();
     }
 
     /**
@@ -103,6 +104,75 @@ public class DefaultWebApplicationServer implements
         }
         webApplications.put(webApplication.getContextPath(), webApplication);
         requestMapper.addMapping(webApplication, webApplication.getContextPath());
+    }
+
+    /**
+     * Create the web application server request.
+     *
+     * @param request the HTTP server request.
+     * @return the web application server request.
+     */
+    private WebApplicationServerRequest createRequest(HttpServerRequest request) {
+        DefaultWebApplicationServerRequest result = new DefaultWebApplicationServerRequest();
+        result.setLocalAddr(request.getLocalAddress());
+        result.setLocalName(request.getLocalHostname());
+        result.setLocalPort(request.getLocalPort());
+        result.setMethod(request.getMethod());
+        result.setQueryString(request.getQueryString());
+        result.setRemoteAddr(request.getRemoteAddress());
+        result.setRemoteHost(request.getRemoteHostname());
+        result.setRemotePort(request.getRemotePort());
+        result.setContextPath(request.getRequestTarget());
+        result.setServletPath("");
+        Iterator<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasNext()) {
+            String name = headerNames.next();
+            String value = request.getHeader(name);
+            result.setHeader(name, value);
+            if (name.equalsIgnoreCase("Content-Type")) {
+                result.setContentType(value);
+            }
+            if (name.equalsIgnoreCase("Content-Length")) {
+                result.setContentLength(Integer.parseInt(value));
+            }
+            if (name.equalsIgnoreCase("COOKIE")) {
+                ArrayList<Cookie> cookieList = new ArrayList<>();
+                String[] cookieCandidates = value.split(";");
+                if (cookieCandidates.length > 0) {
+                    for (String cookieCandidate : cookieCandidates) {
+                        String[] cookieString = cookieCandidate.split("=");
+                        Cookie cookie = new Cookie(cookieString[0].trim(), cookieString[1].trim());
+                        if (cookie.getName().equals("JSESSIONID")) {
+                            result.setRequestedSessionIdFromCookie(true);
+                            result.setRequestedSessionId(cookie.getValue());
+                        } else {
+                            cookieList.add(cookie);
+                        }
+                    }
+                }
+                result.setCookies(cookieList.toArray(new Cookie[0]));
+            }
+        }
+        DefaultWebApplicationServerInputStream inputStream
+                = new DefaultWebApplicationServerInputStream(request.getInputStream(), result);
+        result.setInputStream(inputStream);
+        return result;
+    }
+
+    /**
+     * Create the web application server response.
+     *
+     * @param response the HTTP server response.
+     * @return the web application server response.
+     */
+    public WebApplicationServerResponse createResponse(HttpServerResponse response) {
+        DefaultWebApplicationServerResponse result = new DefaultWebApplicationServerResponse();
+        DefaultWebApplicationServerOutputStream outputStream = new DefaultWebApplicationServerOutputStream();
+        outputStream.setOutputStream(response.getOutputStream());
+        result.setOutputStream(outputStream);
+        outputStream.setResponse(result);
+        result.setServletOutputStream(outputStream);
+        return result;
     }
 
     /**
@@ -146,26 +216,12 @@ public class DefaultWebApplicationServer implements
     @Override
     public void process(HttpServerRequest request, HttpServerResponse response) {
         try {
-            DefaultWebApplicationServerRequest servletRequest = new DefaultWebApplicationServerRequest(request);
-            DefaultWebApplicationServerResponse servletResponse = new DefaultWebApplicationServerResponse(response);
-            DefaultWebApplicationServerInputStream inputStream = new DefaultWebApplicationServerInputStream(request.getInputStream(), servletRequest);
-            servletRequest.setInputStream(inputStream);
-            try (DefaultWebApplicationServerOutputStream outputStream = new DefaultWebApplicationServerOutputStream()) {
-                outputStream.setOutputStream(response.getOutputStream());
-                servletResponse.setOutputStream(outputStream);
-                outputStream.setResponse(servletResponse);
-                if (request.getRequestTarget() != null && request.getRequestTarget().contains("?")) {
-                    servletRequest.setQueryString(request.getRequestTarget().substring(request.getRequestTarget().indexOf("?") + 1));
-                }
-                servletRequest.setLocalAddr(request.getLocalAddress());
-                servletRequest.setLocalName(request.getLocalHostname());
-                servletRequest.setLocalPort(request.getLocalPort());
-                servletRequest.setRemoteAddr(request.getRemoteAddress());
-                servletRequest.setRemoteHost(request.getRemoteHostname());
-                servletRequest.setRemotePort(request.getRemotePort());
-                service(servletRequest, servletResponse);
-                if (!servletResponse.isCommitted()) {
-                    servletResponse.flushBuffer();
+            DefaultWebApplicationServerRequest serverRequest = (DefaultWebApplicationServerRequest) createRequest(request);
+            DefaultWebApplicationServerResponse serverResponse = (DefaultWebApplicationServerResponse) createResponse(response);
+            try (DefaultWebApplicationServerOutputStream outputStream = (DefaultWebApplicationServerOutputStream) serverResponse.getServletOutputStream()) {
+                service(serverRequest, serverResponse);
+                if (!serverResponse.isCommitted()) {
+                    serverResponse.flushBuffer();
                 }
                 outputStream.flush();
             }
@@ -183,7 +239,7 @@ public class DefaultWebApplicationServer implements
      * @throws ServletException when a servlet error occurs.
      */
     @Override
-    public void service(DefaultWebApplicationRequest request, DefaultWebApplicationResponse response)
+    public void service(WebApplicationServerRequest request, WebApplicationServerResponse response)
             throws IOException, ServletException {
         String requestUri = request.getRequestURI();
         if (requestUri != null) {

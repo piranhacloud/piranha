@@ -25,74 +25,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.embedded;
 
-import com.manorrock.piranha.api.WebApplicationServerResponse;
-import javax.servlet.ServletOutputStream;
+import com.manorrock.piranha.DefaultWebApplicationServletInputStream;
+import com.manorrock.piranha.DefaultWebApplicationRequest;
+import java.io.IOException;
+import javax.servlet.ReadListener;
 
 /**
- * The default WebApplicationServerResponse.
- *
- * @author Manfred Riem (mriem@manorrock.com)
+ * The embedded ServletInputStream.
+ * 
+ * @author Manfr3ed Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerResponse
-        extends DefaultWebApplicationResponse
-        implements WebApplicationServerResponse {
+public class EmbeddedServletInputStream extends DefaultWebApplicationServletInputStream {
 
     /**
-     * Stores the servlet output stream.
+     * Stores the request.
      */
-    private ServletOutputStream servletOutputStream;
-   
-    /**
-     * Constructor.
-     */
-    public DefaultWebApplicationServerResponse() {
-    }
-
-    /**
-     * Get the buffer size.
-     *
-     * @return the buffer size.
-     */
-    @Override
-    public int getBufferSize() {
-        return 0;
-    }
-
-    /**
-     * Get the servlet output stream.
-     * 
-     * @return the servlet output stream.
-     */
-    @Override
-    public ServletOutputStream getServletOutputStream() {
-        return servletOutputStream;
-    }
+    private DefaultWebApplicationRequest request;
     
     /**
-     * Reset the buffer.
-     */
-    @Override
-    public void resetBuffer() {
-    }
-
-    /**
-     * Set the buffer size.
-     *
-     * @param bufferSize the buffer size.
-     */
-    @Override
-    public void setBufferSize(int bufferSize) {
-    }
-
-    /**
-     * Set the servlet output stream.
+     * Set the request.
      * 
-     * @param servletOutputStream the servlet output stream.
+     * @param request the request.
      */
     @Override
-    public void setServletOutputStream(ServletOutputStream servletOutputStream) {
-        this.servletOutputStream = servletOutputStream;
+    public void setRequest(DefaultWebApplicationRequest request) {
+        this.request = request;
+    }
+
+    @Override
+    public boolean isFinished() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean isReady() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setReadListener(ReadListener readListener) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int read() throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

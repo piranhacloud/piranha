@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.WebApplication;
 import java.io.IOException;
 import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletContextAttributeListener;
@@ -35,6 +36,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -46,32 +48,48 @@ import org.junit.Test;
 public class ServletContextAttributeListenerTest {
 
     /**
+     * Stores the web application.
+     */
+    protected WebApplication webApplication;
+
+    /**
+     * Stores the web application server.
+     */
+    protected DefaultWebApplicationServer webApplicationServer;
+
+    /**
+     * Setup before testing.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Before
+    public void setUp() throws Exception {
+        webApplicationServer = new DefaultWebApplicationServer();
+        webApplication = new DefaultWebApplication();
+        webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
+        webApplicationServer.addWebApplication(webApplication);
+    }
+
+    /**
      * Test attributeAdded method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
     public void testAttributeAdded() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(new TestServletContextAttributeListener());
         webApplication.addServlet("servletContextAttributeServlet",
                 new TestServletContextAttributeServlet());
         webApplication.addServletMapping("servletContextAttributeServlet",
                 "/servletContextAttribute");
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApplication);
-        request.setServletPath("/servletContextAttribute");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setWebApplication(webApplication);
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
+        TestHttpServerResponse response = new TestHttpServerResponse();
+        TestHttpServerRequest request = new TestHttpServerRequest();
+        request.setRequestTarget("/servletContextAttribute");
+        webApplicationServer.initialize();
+        webApplicationServer.start();
+        webApplicationServer.process(request, response);
         assertNotNull(webApplication.getAttribute("attributeAdded2"));
-        webApplication.stop();
-        webApplication.destroy();
+        webApplicationServer.stop();
     }
 
     /**
@@ -81,26 +99,19 @@ public class ServletContextAttributeListenerTest {
      */
     @Test
     public void testAttributeRemoved() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(new TestServletContextAttributeListener());
         webApplication.addServlet("servletContextAttributeServlet",
                 new TestServletContextAttributeServlet());
         webApplication.addServletMapping("servletContextAttributeServlet",
                 "/servletContextAttribute");
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApplication);
-        request.setServletPath("/servletContextAttribute");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setWebApplication(webApplication);
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
+        TestHttpServerResponse response = new TestHttpServerResponse();
+        TestHttpServerRequest request = new TestHttpServerRequest();
+        request.setRequestTarget("/servletContextAttribute");
+        webApplicationServer.initialize();
+        webApplicationServer.start();
+        webApplicationServer.process(request, response);
         assertNotNull(webApplication.getAttribute("attributeRemoved2"));
-        webApplication.stop();
-        webApplication.destroy();
+        webApplicationServer.stop();
     }
 
     /**
@@ -110,26 +121,19 @@ public class ServletContextAttributeListenerTest {
      */
     @Test
     public void testAttributeReplaced() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(new TestServletContextAttributeListener());
         webApplication.addServlet("servletContextAttributeServlet",
                 new TestServletContextAttributeServlet());
         webApplication.addServletMapping("servletContextAttributeServlet",
                 "/servletContextAttribute");
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApplication);
-        request.setServletPath("/servletContextAttribute");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setWebApplication(webApplication);
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
+        TestHttpServerResponse response = new TestHttpServerResponse();
+        TestHttpServerRequest request = new TestHttpServerRequest();
+        request.setRequestTarget("/servletContextAttribute");
+        webApplicationServer.initialize();
+        webApplicationServer.start();
+        webApplicationServer.process(request, response);
         assertNotNull(webApplication.getAttribute("attributeReplaced2"));
-        webApplication.stop();
-        webApplication.destroy();
+        webApplicationServer.stop();
     }
 
     /**

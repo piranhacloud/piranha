@@ -35,7 +35,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +49,12 @@ public class RequestDispatcherTest {
     /**
      * Stores the web application.
      */
-    protected WebApplication webApp;
+    protected WebApplication webApplication;
+
+    /**
+     * Stores the web application server.
+     */
+    protected DefaultWebApplicationServer webApplicationServer;
 
     /**
      * Setup before testing.
@@ -59,34 +63,32 @@ public class RequestDispatcherTest {
      */
     @Before
     public void setUp() throws Exception {
-        webApp = new DefaultWebApplication();
+        webApplicationServer = new DefaultWebApplicationServer();
+        webApplication = new DefaultWebApplication();
+        webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
+        webApplicationServer.addWebApplication(webApplication);
     }
 
     /**
      * Test include method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
     public void testInclude() throws Exception {
-        webApp.addServlet("Include1aServlet", new Include1aServlet());
-        webApp.addServletMapping("Include1aServlet", "/TestServlet/*");
-        webApp.addServlet("Include1bServlet", new Include1bServlet());
-        webApp.addServletMapping("Include1bServlet", "/include/IncludedServlet");
-        webApp.initialize();
-        webApp.start();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/TestServlet");
-        request.setQueryString("test=simple");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        response.setWebApplication(webApp);
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        outputStream.setResponse(response);
-        response.setOutputStream(outputStream);
-        webApp.service(request, response);
-        assertEquals(200, response.getStatus());
-        assertTrue(new String(response.getResponseBody()).contains("SUCCESS"));
+        webApplication.addServlet("Include1aServlet", new Include1aServlet());
+        webApplication.addServletMapping("Include1aServlet", "/TestServlet/*");
+        webApplication.addServlet("Include1bServlet", new Include1bServlet());
+        webApplication.addServletMapping("Include1bServlet", "/include/IncludedServlet");
+        TestHttpServerResponse response = new TestHttpServerResponse();
+        TestHttpServerRequest request = new TestHttpServerRequest();
+        request.setRequestTarget("/TestServlet?test=simple");
+        webApplicationServer.initialize();
+        webApplicationServer.start();
+        webApplicationServer.process(request, response);
+        assertTrue(response.getByteArrayOutputStream().toString().contains("200"));
+        assertTrue(response.getByteArrayOutputStream().toString().contains("SUCCESS"));
+        webApplicationServer.stop();
     }
 
     /**
@@ -96,14 +98,14 @@ public class RequestDispatcherTest {
 
         /**
          * Handle GET request.
-         * 
+         *
          * @param request the request.
          * @param response the response.
          * @throws IOException when an I/O error occurs.
          * @throws ServletException when a Servlet error occurs.
          */
         @Override
-        protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)
                 throws IOException, ServletException {
             RequestDispatcher rd = request.getRequestDispatcher("/include/IncludedServlet?test=me");
             rd.include(request, response);
@@ -117,14 +119,14 @@ public class RequestDispatcherTest {
 
         /**
          * Handle GET request.
-         * 
+         *
          * @param request the request.
          * @param response the response.
          * @throws IOException when an I/O error occurs.
          * @throws ServletException when a Servlet error occurs.
          */
         @Override
-        protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)
                 throws IOException, ServletException {
             PrintWriter writer = response.getWriter();
             writer.print("SUCCESS");

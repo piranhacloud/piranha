@@ -42,7 +42,7 @@ public class EmbeddedPiranha {
     /**
      * Stores the web application.
      */
-    private DefaultWebApplication webApplication;
+    private final DefaultWebApplication webApplication;
     
     /**
      * Constructor.

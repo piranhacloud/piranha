@@ -29,10 +29,10 @@ package com.manorrock.piranha.test.utils;
 
 import com.manorrock.piranha.DefaultWebApplicationRequest;
 import com.manorrock.piranha.DefaultWebApplicationResponse;
-import com.manorrock.piranha.DefaultServletOutputStream;
 import com.manorrock.piranha.DefaultWebApplication;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
 
 /**
@@ -40,7 +40,7 @@ import javax.servlet.WriteListener;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestServletOutputStream extends DefaultServletOutputStream {
+public class TestServletOutputStream extends ServletOutputStream {
 
     /**
      * Stores the listener.
@@ -116,7 +116,6 @@ public class TestServletOutputStream extends DefaultServletOutputStream {
      *
      * @param response the response.
      */
-    @Override
     public void setResponse(DefaultWebApplicationResponse response) {
         this.response = response;
     }

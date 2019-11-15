@@ -27,19 +27,19 @@
  */
 package com.manorrock.piranha;
 
-import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletInputStream;
 
 /**
- * The default ServletOutputStream.
+ * The default WebApplicationServletInputStream.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class DefaultServletOutputStream extends ServletOutputStream {
+public abstract class DefaultWebApplicationServletInputStream extends ServletInputStream {
 
     /**
-     * Set the response.
+     * Set the request.
      *
-     * @param response the response.
+     * @param request the request.
      */
-    public abstract void setResponse(DefaultWebApplicationResponse response);
+    public abstract void setRequest(DefaultWebApplicationRequest request);
 }
