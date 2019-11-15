@@ -16,6 +16,7 @@
     <name>Manorrock Piranha TCK Project</name>
 
     <modules>
+        <module>el</module>
         <module>servlet</module>
     </modules>
 </project>
