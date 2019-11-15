@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.manorrock.piranha.tck</groupId>
+        <artifactId>project</artifactId>
+        <version>19.12.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>piranha-tck-el</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Manorrock Piranha EL TCK</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <target>
+                                <!-- download, unzip and rename TCK -->
+                                <get src="http://download.eclipse.org/jakartaee/expression-language/3.0/jakarta-expression-language-tck-3.0.0.zip"
+                                     dest="${project.build.directory}/tck.zip" skipexisting="true"/>
+                                <unzip src="${project.build.directory}/tck.zip"
+                                       dest="${project.build.directory}"/>
+                                <move file="${project.build.directory}/expression-language-tck"
+                                      tofile="${project.build.directory}/tck"/>
+                                
+                                <!-- download, unzip, rename and chmod Ant 1.8.4 -->
+                                <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.zip"
+                                     dest="${project.build.directory}/ant.zip" skipexisting="true"/>
+                                <unzip src="${project.build.directory}/ant.zip"
+                                       dest="${project.build.directory}"/>
+                                <move file="${project.build.directory}/apache-ant-1.8.4"
+                                      tofile="${project.build.directory}/ant"/>
+                                <chmod dir="${ant.home}/bin"
+                                       perm="ugo+rx"
+                                       includes="*"/>
+                                
+                                <!-- keep copy of original ts.jte -->
+                                <copy file="${tck.home}/bin/ts.jte"
+                                      tofile="${tck.home}/bin/ts.jte.orig"/> 
+                                
+                                <!-- setup ts.jte for signature tests -->
+                                <replaceregexp file="${tck.home}/bin/ts.jte"
+                                               match="el\.classes=(.*)"
+                                               replace="el.classes=${work.home}/jars/jakarta.el.jar"
+                                               byline="true"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- run the signature tests -->
+                                <exec executable="${ant.home}/bin/ant"
+                                      dir="${tck.home}/src/com/sun/ts/tests/signaturetest">
+                                    <arg value="-Dwork.dir=${signature.home}/work"/>
+                                    <arg value="-Dreport.dir=${signature.home}/report"/>
+                                    <arg value="runclient"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>integration-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- run all the tests -->
+                                <exec executable="${ant.home}/bin/ant" 
+                                      dir="${test.home}">
+                                    <arg value="-Dwork.dir=${work.home}/work"/>
+                                    <arg value="-Dreport.dir=${work.home}/report"/>
+                                    <arg value="runclient"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.glassfish</groupId>
+                                    <artifactId>jakarta.el</artifactId>
+                                    <version>3.0.3</version>
+                                    <outputDirectory>${work.home}/jars</outputDirectory>
+                                    <destFileName>jakarta.el.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <properties>
+        <ant.home>${project.build.directory}/ant</ant.home>
+        <work.home>${project.build.directory}/work</work.home>
+        <tck.home>${project.build.directory}/tck</tck.home>
+        <test.home>${tck.home}/src/com/sun/ts/tests</test.home>
+    </properties>
+</project>
