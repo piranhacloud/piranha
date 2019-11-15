@@ -32,6 +32,8 @@ import com.manorrock.piranha.api.WebApplicationResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -40,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import static javax.servlet.http.HttpServletResponse.SC_FOUND;
 
 /**
@@ -271,6 +274,7 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
             writer.flush();
         }
         outputStream.flush();
+        committed = true;
     }
 
     /**
@@ -500,8 +504,21 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
         verifyNotCommitted("sendRedirect");
         resetBuffer();
         setStatus(SC_FOUND);
-        // For now assume absolute; must handle relative cases
-        setHeader("Location", location);
+        URL url;
+        try {
+            url = new URL(location);
+        } catch (MalformedURLException mue) {
+            HttpServletRequest request = (HttpServletRequest) webApplication.getRequest(this);
+            if (location.startsWith("/")) {
+                url = new URL(request.getScheme(), request.getServerName(),
+                        request.getServerPort(), location);
+            } else {
+                url = new URL(request.getScheme(), request.getServerName(),
+                        request.getServerPort(), request.getContextPath()
+                        + request.getServletPath() + "/" + location);
+            }
+        }
+        setHeader("Location", url.toExternalForm());
         flushBuffer();
     }
 

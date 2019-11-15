@@ -61,7 +61,6 @@ import com.manorrock.piranha.api.HttpSessionManager;
 import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.api.WebApplicationRequest;
 import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
 
 /**
  * The DefaultWebApplicationRequest.
