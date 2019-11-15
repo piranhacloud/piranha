@@ -34,6 +34,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -277,22 +278,6 @@ public class DefaultHttpServletResponseTest {
     }
 
     /**
-     * Test sendRedirect method.
-     *
-     * @throws Exception when an error occurs.
-     */
-    @Test
-    public void testSendRedirect() throws Exception {
-        DefaultWebApplicationResponse response = new TestHttpServletResponse();
-        DefaultServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        response.sendRedirect("/redirect.html");
-        assertEquals(HttpServletResponse.SC_MOVED_TEMPORARILY, response.getStatus());
-        assertTrue(response.isCommitted());
-    }
-
-    /**
      * Test setContentLength method.
      */
     @Test
@@ -320,34 +305,5 @@ public class DefaultHttpServletResponseTest {
         DefaultWebApplicationResponse response = new TestHttpServletResponse();
         response.setContentType(null);
         assertNull(response.getContentType());
-    }
-
-    /**
-     * Test setDateHeader method.
-     */
-    @Test
-    public void testSetDateHeader() {
-        DefaultWebApplicationResponse response = new TestHttpServletResponse();
-        response.setDateHeader("header", 1);
-        assertEquals("1", response.getHeader("header"));
-    }
-
-    /**
-     * Test setIntHeader method.
-     */
-    @Test
-    public void testSetIntHeader() {
-        DefaultWebApplicationResponse response = new TestHttpServletResponse();
-        response.setIntHeader("header", 1);
-        assertEquals("1", response.getHeader("header"));
-    }
-
-    /**
-     * Test setStatus method.
-     */
-    @Test
-    public void testSetStatus() {
-        DefaultWebApplicationResponse response = new TestHttpServletResponse();
-        response.setStatus(HttpServletResponse.SC_OK, "OK");
     }
 }
