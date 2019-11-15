@@ -157,7 +157,12 @@ public class DefaultWebApplicationServer implements
                 if (request.getRequestTarget() != null && request.getRequestTarget().contains("?")) {
                     servletRequest.setQueryString(request.getRequestTarget().substring(request.getRequestTarget().indexOf("?") + 1));
                 }
+                servletRequest.setLocalAddr(request.getLocalAddress());
                 servletRequest.setLocalName(request.getLocalHostname());
+                servletRequest.setLocalPort(request.getLocalPort());
+                servletRequest.setRemoteAddr(request.getRemoteAddress());
+                servletRequest.setRemoteHost(request.getRemoteHostname());
+                servletRequest.setRemotePort(request.getRemotePort());
                 service(servletRequest, servletResponse);
                 if (!servletResponse.isCommitted()) {
                     servletResponse.flushBuffer();
