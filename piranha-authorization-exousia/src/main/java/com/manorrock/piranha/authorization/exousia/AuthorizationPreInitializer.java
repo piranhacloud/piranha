@@ -28,6 +28,7 @@
 package com.manorrock.piranha.authorization.exousia;
 
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreFilter.localServletRequest;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.concat;
@@ -55,8 +56,8 @@ import org.omnifaces.exousia.constraints.WebResourceCollection;
 import org.omnifaces.exousia.constraints.transformer.ElementsToConstraintsTransformer;
 
 import com.manorrock.piranha.DefaultAuthenticatedIdentity;
-import com.manorrock.piranha.webxml.WebXml;
 import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.webxml.WebXml;
 
 /**
  * The Exousia initializer.
@@ -111,10 +112,13 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
             getOptionalAttribute(servletContext, CONSTRAINTS),
             getConstraintsFromWebXMl(servletContext));
         
-        if (securityConstraints != null) {
-            authorizationService.addConstraintsToPolicy(securityConstraints, emptySet(), true, emptySet());
+        if (hasPermissionsSet(context)) {
+            setPermissions(context, authorizationService);
         } else {
-            setPermissions(servletContext, authorizationService);
+            authorizationService.addConstraintsToPolicy(
+                securityConstraints != null? securityConstraints : emptyList(), 
+                emptySet(), true, 
+                context.getServletRegistrations().keySet());
         }
         
         servletContext.setAttribute(AUTHZ_SERVICE, authorizationService);
@@ -212,6 +216,11 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         }
         
         return constraintsB;
+    }
+    
+    public boolean hasPermissionsSet(ServletContext servletContext) throws ServletException {
+        return getOptionalAttribute(servletContext, UNCHECKED_PERMISSIONS) != null ||
+                getOptionalAttribute(servletContext, PERROLE_PERMISSIONS) != null;
     }
     
     public void setPermissions(ServletContext servletContext, AuthorizationService authorizationService) throws ServletException {
