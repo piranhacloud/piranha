@@ -60,6 +60,8 @@ import com.manorrock.piranha.api.HttpHeaderManager;
 import com.manorrock.piranha.api.HttpSessionManager;
 import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.api.WebApplicationRequest;
+import java.nio.charset.Charset;
+import java.nio.charset.IllegalCharsetNameException;
 
 /**
  * The DefaultWebApplicationRequest.
@@ -1196,7 +1198,17 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
      */
     @Override
     public void setCharacterEncoding(String characterEncoding) throws UnsupportedEncodingException {
-        this.characterEncoding = characterEncoding;
+        boolean supported = false;
+        try {
+            supported = Charset.isSupported(characterEncoding);
+        } catch(IllegalArgumentException e) {
+        }
+        if (!supported) {
+            throw new UnsupportedEncodingException("Character encoding '" + characterEncoding + "' is not supported");
+        }
+        if (!gotReader) {
+            this.characterEncoding = characterEncoding;
+        }
     }
 
     /**
