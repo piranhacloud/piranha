@@ -37,7 +37,7 @@ import javax.servlet.WriteListener;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultServletRequestDispatcherOutputStream extends DefaultServletOutputStream {
+public class DefaultServletRequestDispatcherOutputStream extends DefaultWebApplicationServletOutputStream {
 
     /**
      * Stores the listener.

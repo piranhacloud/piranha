@@ -35,19 +35,14 @@ import com.manorrock.piranha.DefaultWebApplicationResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class EmbeddedServletResponse extends DefaultWebApplicationResponse {
-
-    /**
-     * Stores the output stream.
-     */
-    private EmbeddedServletOutputStream outputStream;
     
     /**
      * Constructor.
      */
     public EmbeddedServletResponse() {
-        outputStream = new EmbeddedServletOutputStream();
-        setOutputStream(outputStream);
-        outputStream.setResponse(this);
+        EmbeddedServletOutputStream embeddedOutputStream = new EmbeddedServletOutputStream();
+        embeddedOutputStream.setResponse(this);
+        outputStream = embeddedOutputStream;
     }
 
     /**
@@ -57,7 +52,16 @@ public class EmbeddedServletResponse extends DefaultWebApplicationResponse {
      */
     @Override
     public int getBufferSize() {
-        return -1;
+        return getEmbeddedOutputStream().getBufferSize();
+    }
+    
+    /**
+     * Get the embedded output stream.
+     * 
+     * @return the embedded output stream.
+     */
+    public EmbeddedServletOutputStream getEmbeddedOutputStream() {
+        return (EmbeddedServletOutputStream) outputStream;
     }
 
     /**
@@ -66,7 +70,7 @@ public class EmbeddedServletResponse extends DefaultWebApplicationResponse {
      * @return the response as a byte-array.
      */
     public byte[] getResponseAsButes() {
-        return outputStream.getBytes();
+        return getEmbeddedOutputStream().getBytes();
     }
 
     /**
@@ -75,7 +79,7 @@ public class EmbeddedServletResponse extends DefaultWebApplicationResponse {
      * @return the response as a string.
      */
     public String getResponseAsString() {
-        return new String(outputStream.getBytes());
+        return new String(getEmbeddedOutputStream().getBytes());
     }
 
     /**
@@ -83,7 +87,7 @@ public class EmbeddedServletResponse extends DefaultWebApplicationResponse {
      */
     @Override
     public void resetBuffer() {
-        outputStream.reset();
+        getEmbeddedOutputStream().reset();
     }
 
     /**

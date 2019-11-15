@@ -36,7 +36,6 @@ import javax.servlet.ServletRegistration;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -53,7 +52,12 @@ public class ServletTest {
     /**
      * Stores the web application.
      */
-    protected WebApplication webApp;
+    protected WebApplication webApplication;
+
+    /**
+     * Stores the web application server.
+     */
+    protected DefaultWebApplicationServer webApplicationServer;
 
     /**
      * Setup before testing.
@@ -62,7 +66,10 @@ public class ServletTest {
      */
     @Before
     public void setUp() throws Exception {
-        webApp = new DefaultWebApplication();
+        webApplicationServer = new DefaultWebApplicationServer();
+        webApplication = new DefaultWebApplication();
+        webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
+        webApplicationServer.addWebApplication(webApplication);
     }
 
     /**
@@ -72,21 +79,17 @@ public class ServletTest {
      */
     @Test
     public void testAddServlet() throws Exception {
-        webApp.addServlet("Broken Servlet", new TestBrokenServlet());
-        webApp.addServletMapping("Broken Servlet", "/echo");
-        webApp.initialize();
-        assertNotNull(webApp.getAttribute("Broken Servlet"));
-        webApp.start();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/echo");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        response.setWebApplication(webApp);
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        outputStream.setResponse(response);
-        response.setOutputStream(outputStream);
-        webApp.service(request, response);
-        assertEquals(500, response.getStatus());
+        webApplication.addServlet("Broken Servlet", new TestBrokenServlet());
+        webApplication.addServletMapping("Broken Servlet", "/echo");
+        TestHttpServerResponse response = new TestHttpServerResponse();
+        TestHttpServerRequest request = new TestHttpServerRequest();
+        request.setRequestTarget("/echo");
+        webApplicationServer.initialize();
+        webApplicationServer.start();
+        webApplicationServer.process(request, response);
+        assertNotNull(webApplication.getAttribute("Broken Servlet"));
+        assertTrue(response.getByteArrayOutputStream().toString().contains("500"));
+        webApplicationServer.stop();
     }
 
     /**
@@ -96,21 +99,16 @@ public class ServletTest {
      */
     @Test
     public void testAddServlet2() throws Exception {
-        assertNotNull(webApp.addServlet("Echo", TestServlet.class));
-        webApp.addServletMapping("Echo", "/echo");
-        webApp.initialize();
-        webApp.start();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/echo");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        response.setWebApplication(webApp);
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        outputStream.setResponse(response);
-        response.setOutputStream(outputStream);
-        webApp.service(request, response);
-        assertEquals(200, response.getStatus());
-        assertTrue(new String(response.getResponseBody()).contains("SUCCESS"));
+        assertNotNull(webApplication.addServlet("Echo", TestServlet.class));
+        webApplication.addServletMapping("Echo", "/echo");
+        TestHttpServerResponse response = new TestHttpServerResponse();
+        TestHttpServerRequest request = new TestHttpServerRequest();
+        request.setRequestTarget("/echo");
+        webApplicationServer.initialize();
+        webApplicationServer.start();
+        webApplicationServer.process(request, response);
+        assertTrue(response.getByteArrayOutputStream().toString().contains("200"));
+        assertTrue(response.getByteArrayOutputStream().toString().contains("SUCCESS"));
     }
 
     /**
@@ -118,7 +116,7 @@ public class ServletTest {
      */
     @Test
     public void testAddServlet3() {
-        ServletRegistration.Dynamic dynamic = webApp.addServlet("bogus", Servlet.class);
+        ServletRegistration.Dynamic dynamic = webApplication.addServlet("bogus", Servlet.class);
         assertNotNull(dynamic);
     }
 
@@ -127,7 +125,7 @@ public class ServletTest {
      */
     @Test
     public void testAddServlet4() {
-        ServletRegistration.Dynamic dynamic = webApp.addServlet("echo", "servlet.EchoServlet");
+        ServletRegistration.Dynamic dynamic = webApplication.addServlet("echo", "servlet.EchoServlet");
         assertNotNull(dynamic);
     }
 
@@ -136,7 +134,7 @@ public class ServletTest {
      */
     @Test
     public void testAddServlet5() {
-        ServletRegistration.Dynamic dynamic = webApp.addServlet("bogus", "servlet.BogusServlet");
+        ServletRegistration.Dynamic dynamic = webApplication.addServlet("bogus", "servlet.BogusServlet");
         assertNotNull(dynamic);
     }
 
@@ -147,21 +145,16 @@ public class ServletTest {
      */
     @Test
     public void testService() throws Exception {
-        assertNotNull(webApp.addServlet("Echo", TestServlet.class));
-        webApp.addServletMapping("Echo", "/echo");
-        webApp.initialize();
-        webApp.start();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/echo");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        response.setWebApplication(webApp);
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        outputStream.setResponse(response);
-        response.setOutputStream(outputStream);
-        webApp.service(request, response);
-        assertEquals(200, response.getStatus());
-        assertTrue(new String(response.getResponseBody()).contains("SUCCESS"));
+        assertNotNull(webApplication.addServlet("Echo", TestServlet.class));
+        webApplication.addServletMapping("Echo", "/echo");
+        TestHttpServerResponse response = new TestHttpServerResponse();
+        TestHttpServerRequest request = new TestHttpServerRequest();
+        request.setRequestTarget("/echo");
+        webApplicationServer.initialize();
+        webApplicationServer.start();
+        webApplicationServer.process(request, response);
+        assertTrue(response.getByteArrayOutputStream().toString().contains("200"));
+        assertTrue(response.getByteArrayOutputStream().toString().contains("SUCCESS"));
     }
 
     /**

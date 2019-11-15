@@ -33,11 +33,9 @@ import javax.servlet.ServletException;
 /**
  * The WebApplicationServer API.
  *
- * @param <R> the request type.
- * @param <S> the response type.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebApplicationServer<R, S> {
+public interface WebApplicationServer {
 
     /**
      * Add a web application.
@@ -56,12 +54,13 @@ public interface WebApplicationServer<R, S> {
     /**
      * Service the request and response.
      *
-     * @param request the HTTP request.
-     * @param response the HTTP response.
+     * @param request the request.
+     * @param response the response.
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a Servlet error occurs.
      */
-    void service(R request, S response) throws IOException, ServletException;
+    void service(WebApplicationServerRequest request, WebApplicationServerResponse response) 
+            throws IOException, ServletException;
 
     /**
      * Initialize the server.

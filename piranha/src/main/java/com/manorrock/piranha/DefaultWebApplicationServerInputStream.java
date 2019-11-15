@@ -116,15 +116,12 @@ public class DefaultWebApplicationServerInputStream extends ServletInputStream {
         if (listener == null) {
             throw new NullPointerException("Read listener cannot be null");
         }
-
         if (this.listener != null) {
             throw new IllegalStateException("Read listener can only be set once");
         }
-
         if (!request.isAsyncStarted() && !request.isUpgraded()) {
             throw new IllegalStateException("Read listener cannot be set as the request is not upgraded nor the async is started");
         }
-
         this.listener = listener;
     }
 }

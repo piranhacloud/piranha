@@ -253,7 +253,7 @@ public class DefaultHttpServletResponseTest {
     @Test
     public void testSendError() throws Exception {
         DefaultWebApplicationResponse response = new TestHttpServletResponse();
-        DefaultServletOutputStream outputStream = new TestServletOutputStream();
+        DefaultWebApplicationServletOutputStream outputStream = new TestServletOutputStream();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "error");
@@ -270,7 +270,7 @@ public class DefaultHttpServletResponseTest {
     @Test(expected = IllegalStateException.class)
     public void testSendError2() throws Exception {
         DefaultWebApplicationResponse response = new TestHttpServletResponse();
-        DefaultServletOutputStream outputStream = new TestServletOutputStream();
+        DefaultWebApplicationServletOutputStream outputStream = new TestServletOutputStream();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "error");

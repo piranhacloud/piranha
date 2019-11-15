@@ -25,74 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
-
-import com.manorrock.piranha.api.WebApplicationServerResponse;
-import javax.servlet.ServletOutputStream;
+package com.manorrock.piranha.api;
 
 /**
- * The default WebApplicationServerResponse.
- *
+ * The WebApplicationServerRequest API.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerResponse
-        extends DefaultWebApplicationResponse
-        implements WebApplicationServerResponse {
+public interface WebApplicationServerRequest extends WebApplicationRequest {
 
     /**
-     * Stores the servlet output stream.
-     */
-    private ServletOutputStream servletOutputStream;
-   
-    /**
-     * Constructor.
-     */
-    public DefaultWebApplicationServerResponse() {
-    }
-
-    /**
-     * Get the buffer size.
-     *
-     * @return the buffer size.
-     */
-    @Override
-    public int getBufferSize() {
-        return 0;
-    }
-
-    /**
-     * Get the servlet output stream.
+     * Set the context path.
      * 
-     * @return the servlet output stream.
+     * @param contextPath the context path.
      */
-    @Override
-    public ServletOutputStream getServletOutputStream() {
-        return servletOutputStream;
-    }
-    
-    /**
-     * Reset the buffer.
-     */
-    @Override
-    public void resetBuffer() {
-    }
+    public void setContextPath(String contextPath);
 
     /**
-     * Set the buffer size.
-     *
-     * @param bufferSize the buffer size.
-     */
-    @Override
-    public void setBufferSize(int bufferSize) {
-    }
-
-    /**
-     * Set the servlet output stream.
+     * Set the servlet path.
      * 
-     * @param servletOutputStream the servlet output stream.
+     * @param servletPath the servlet path. 
      */
-    @Override
-    public void setServletOutputStream(ServletOutputStream servletOutputStream) {
-        this.servletOutputStream = servletOutputStream;
-    }
+    public void setServletPath(String servletPath);
+
+    /**
+     * Set the web application.
+     * 
+     * @param webApplication the web application.
+     */
+    public void setWebApplication(WebApplication webApplication);
 }

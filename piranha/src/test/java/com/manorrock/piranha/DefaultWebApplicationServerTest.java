@@ -90,53 +90,7 @@ public class DefaultWebApplicationServerTest {
         server.setRequestMapper(new DefaultWebApplicationServerRequestMapper());
         assertNotNull(server.getRequestMapper());
     }
-
-    /**
-     * Test service method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    public void testService() throws Exception {
-        DefaultWebApplicationServer server = new DefaultWebApplicationServer();
-        DefaultWebApplicationRequest request = new TestHttpServletRequest();
-        DefaultWebApplicationResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        server.service(request, response);
-        assertEquals(404, response.getStatus());
-    }
-
-    /**
-     * Test service method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    public void testService2() throws Exception {
-        DefaultWebApplicationServer server = new DefaultWebApplicationServer();
-        DefaultWebApplicationRequestMapper webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(webApplicationRequestMapper);
-        webApp.addServlet("snoop", new TestSnoopServlet());
-        webApp.addServletMapping("snoop", "/snoop/*");
-        webApp.setContextPath("/context");
-        server.addWebApplication(webApp);
-        DefaultWebApplicationRequest request = new TestHttpServletRequest();
-        request.setContextPath("/context");
-        request.setPathInfo("/snoop/index.html");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        server.initialize();
-        server.start();
-        server.service(request, response);
-        server.stop();
-        assertEquals(200, response.getStatus());
-    }
-
+    
     /**
      * Test process method.
      *

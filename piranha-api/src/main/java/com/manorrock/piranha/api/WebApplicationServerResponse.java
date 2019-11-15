@@ -25,74 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha;
+package com.manorrock.piranha.api;
 
-import com.manorrock.piranha.api.WebApplicationServerResponse;
 import javax.servlet.ServletOutputStream;
 
 /**
- * The default WebApplicationServerResponse.
+ * The WebApplicationServerResponse API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerResponse
-        extends DefaultWebApplicationResponse
-        implements WebApplicationServerResponse {
-
-    /**
-     * Stores the servlet output stream.
-     */
-    private ServletOutputStream servletOutputStream;
-   
-    /**
-     * Constructor.
-     */
-    public DefaultWebApplicationServerResponse() {
-    }
-
-    /**
-     * Get the buffer size.
-     *
-     * @return the buffer size.
-     */
-    @Override
-    public int getBufferSize() {
-        return 0;
-    }
-
+public interface WebApplicationServerResponse extends WebApplicationResponse {
+    
     /**
      * Get the servlet output stream.
      * 
      * @return the servlet output stream.
      */
-    @Override
-    public ServletOutputStream getServletOutputStream() {
-        return servletOutputStream;
-    }
-    
-    /**
-     * Reset the buffer.
-     */
-    @Override
-    public void resetBuffer() {
-    }
-
-    /**
-     * Set the buffer size.
-     *
-     * @param bufferSize the buffer size.
-     */
-    @Override
-    public void setBufferSize(int bufferSize) {
-    }
+    ServletOutputStream getServletOutputStream();
 
     /**
      * Set the servlet output stream.
      * 
-     * @param servletOutputStream the servlet output stream.
+     * @param servletOutputStream the servlet output stream. 
      */
-    @Override
-    public void setServletOutputStream(ServletOutputStream servletOutputStream) {
-        this.servletOutputStream = servletOutputStream;
-    }
+    void setServletOutputStream(ServletOutputStream servletOutputStream);
+    
+    /**
+     * Set the web application.
+     * 
+     * @param webApplication the web application.
+     */
+    void setWebApplication(WebApplication webApplication);
 }

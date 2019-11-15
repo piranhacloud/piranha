@@ -27,38 +27,83 @@
  */
 package com.manorrock.piranha;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import com.manorrock.piranha.api.HttpServerResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
- * The JUnit tests for the DefaultWebApplicationServerRequest class.
- * 
+ * The HttpServerResponse used for testing.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerRequestTest {
-   
+public class TestHttpServerResponse implements HttpServerResponse {
+
     /**
-     * Test getQueryString method.
+     * Stores the output stream.
      */
-    @Test
-    public void testGetQueryString() {
-        DefaultWebApplicationServerRequest request = 
-                new DefaultWebApplicationServerRequest(
-                    new TestHttpServerRequest());
-        assertNull(request.getQueryString());
+    private final ByteArrayOutputStream outputStream;
+
+    /**
+     * Constructor.
+     */
+    public TestHttpServerResponse() {
+        this.outputStream = new ByteArrayOutputStream();
     }
-    
+
     /**
-     * Test getQueryString method.
+     * Get the byte-array output stream.
+     * 
+     * @return the byte-array output stream.
      */
-    @Test
-    public void testGetQueryString2() {
-        TestHttpServerRequest testServerRequest = new TestHttpServerRequest();
-        testServerRequest.setRequestTarget("test");
-        testServerRequest.setQueryString("queryString=true");
-        DefaultWebApplicationServerRequest request = 
-                new DefaultWebApplicationServerRequest(testServerRequest);
-        assertNotNull(request.getQueryString());
-        assertEquals("queryString=true", request.getQueryString());
+    public ByteArrayOutputStream getByteArrayOutputStream() {
+        return outputStream;
+    }
+
+    /**
+     * Get the output stream.
+     *
+     * @return the output stream.
+     */
+    @Override
+    public OutputStream getOutputStream() {
+        return outputStream;
+    }
+
+    /**
+     * Set the header.
+     * 
+     * @param name the name.
+     * @param value the value.
+     */
+    @Override
+    public void setHeader(String name, String value) {
+    }
+
+    /**
+     * Set the status.
+     *
+     * @param status the status.
+     */
+    @Override
+    public void setStatus(int status) {
+    }
+
+    /**
+     * Write the headers.
+     * 
+     * @throws IOException when an I/O error occurs.
+     */
+    @Override
+    public void writeHeaders() throws IOException {
+    }
+
+    /**
+     * Write the status line.
+     * 
+     * @throws IOException when an I/O error occurs.
+     */
+    @Override
+    public void writeStatusLine() throws IOException {
     }
 }

@@ -35,4 +35,16 @@ import com.manorrock.piranha.DefaultWebApplicationRequest;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class EmbeddedServletRequest extends DefaultWebApplicationRequest {
+    
+    /**
+     * Constructor.
+     */
+    public EmbeddedServletRequest() {
+        this.localAddress = "127.0.0.1";
+        this.localName = "localhost";
+        this.localPort = 80;
+        this.remoteAddr = "127.0.0.1";
+        this.remoteHost = "localhost";
+        this.remotePort = 18080;
+    }
 }

@@ -27,72 +27,19 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.piranha.api.WebApplicationServerResponse;
 import javax.servlet.ServletOutputStream;
 
 /**
- * The default WebApplicationServerResponse.
+ * The default WebApplicationServletOutputStream.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerResponse
-        extends DefaultWebApplicationResponse
-        implements WebApplicationServerResponse {
+public abstract class DefaultWebApplicationServletOutputStream extends ServletOutputStream {
 
     /**
-     * Stores the servlet output stream.
-     */
-    private ServletOutputStream servletOutputStream;
-   
-    /**
-     * Constructor.
-     */
-    public DefaultWebApplicationServerResponse() {
-    }
-
-    /**
-     * Get the buffer size.
+     * Set the response.
      *
-     * @return the buffer size.
+     * @param response the response.
      */
-    @Override
-    public int getBufferSize() {
-        return 0;
-    }
-
-    /**
-     * Get the servlet output stream.
-     * 
-     * @return the servlet output stream.
-     */
-    @Override
-    public ServletOutputStream getServletOutputStream() {
-        return servletOutputStream;
-    }
-    
-    /**
-     * Reset the buffer.
-     */
-    @Override
-    public void resetBuffer() {
-    }
-
-    /**
-     * Set the buffer size.
-     *
-     * @param bufferSize the buffer size.
-     */
-    @Override
-    public void setBufferSize(int bufferSize) {
-    }
-
-    /**
-     * Set the servlet output stream.
-     * 
-     * @param servletOutputStream the servlet output stream.
-     */
-    @Override
-    public void setServletOutputStream(ServletOutputStream servletOutputStream) {
-        this.servletOutputStream = servletOutputStream;
-    }
+    public abstract void setResponse(DefaultWebApplicationResponse response);
 }

@@ -27,9 +27,11 @@
  */
 package com.manorrock.piranha;
 
+import com.manorrock.piranha.api.WebApplication;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -41,25 +43,43 @@ import org.junit.Test;
 public class ServletRequestListenerTest {
 
     /**
+     * Stores the web application.
+     */
+    protected WebApplication webApplication;
+
+    /**
+     * Stores the web application server.
+     */
+    protected DefaultWebApplicationServer webApplicationServer;
+
+    /**
+     * Setup before testing.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Before
+    public void setUp() throws Exception {
+        webApplicationServer = new DefaultWebApplicationServer();
+        webApplication = new DefaultWebApplication();
+        webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
+        webApplicationServer.addWebApplication(webApplication);
+    }
+
+    /**
      * Test requestDestroyed method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
     public void testRequestDestroyed() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(new TestServletRequestListener());
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
+        TestHttpServerResponse response = new TestHttpServerResponse();
+        TestHttpServerRequest request = new TestHttpServerRequest();
+        webApplicationServer.initialize();
+        webApplicationServer.start();
+        webApplicationServer.process(request, response);
         assertNotNull(webApplication.getAttribute("requestDestroyed"));
-        webApplication.stop();
-        webApplication.destroy();
+        webApplicationServer.stop();
     }
 
     /**
@@ -69,19 +89,14 @@ public class ServletRequestListenerTest {
      */
     @Test
     public void testRequestInitialized() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(new TestServletRequestListener());
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
+        TestHttpServerResponse response = new TestHttpServerResponse();
+        TestHttpServerRequest request = new TestHttpServerRequest();
+        webApplicationServer.initialize();
+        webApplicationServer.start();
+        webApplicationServer.process(request, response);
         assertNotNull(webApplication.getAttribute("requestInitialized"));
-        webApplication.stop();
-        webApplication.destroy();
+        webApplicationServer.stop();
     }
 
     public class TestServletRequestListener implements ServletRequestListener {

@@ -27,10 +27,10 @@
  */
 package com.manorrock.piranha.embedded;
 
-import com.manorrock.piranha.DefaultServletOutputStream;
 import com.manorrock.piranha.DefaultWebApplication;
 import com.manorrock.piranha.DefaultWebApplicationRequest;
 import com.manorrock.piranha.DefaultWebApplicationResponse;
+import com.manorrock.piranha.DefaultWebApplicationServletOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.servlet.WriteListener;
@@ -40,7 +40,7 @@ import javax.servlet.WriteListener;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EmbeddedServletOutputStream extends DefaultServletOutputStream {
+public class EmbeddedServletOutputStream extends DefaultWebApplicationServletOutputStream {
  /**
      * Stores the listener.
      */
@@ -73,6 +73,15 @@ public class EmbeddedServletOutputStream extends DefaultServletOutputStream {
         response.setCommitted(true);
     }
 
+    /**
+     * Get the buffer size.
+     * 
+     * @return the buffer size.
+     */
+    public int getBufferSize() {
+        return outputStream.size();
+    }
+    
     /**
      * Get the content.
      *
@@ -130,18 +139,14 @@ public class EmbeddedServletOutputStream extends DefaultServletOutputStream {
         if (listener == null) {
             throw new NullPointerException("Read listener cannot be null");
         }
-
         if (this.listener != null) {
             throw new IllegalStateException("Read listener can only be set once");
         }
-
         DefaultWebApplication webApp = (DefaultWebApplication) response.getWebApplication();
         DefaultWebApplicationRequest request = (DefaultWebApplicationRequest) webApp.getRequest(response);
-
         if (!request.isAsyncStarted() && !request.isUpgraded()) {
             throw new IllegalStateException("Read listener cannot be set as the request is not upgraded nor the async is started");
         }
-
         this.listener = listener;
     }
 }
