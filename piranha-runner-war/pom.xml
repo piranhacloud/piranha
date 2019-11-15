@@ -20,18 +20,10 @@
             <artifactId>jandex</artifactId>
             <version>2.1.1.Final</version>
         </dependency>
-    
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
             <artifactId>piranha-resources-shrinkwrap</artifactId>
             <version>${project.version}</version>
-        </dependency>
-    
-        <dependency>
-            <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
