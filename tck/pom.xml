@@ -17,6 +17,7 @@
 
     <modules>
         <module>el</module>
+        <module>jsp</module>
         <module>servlet</module>
     </modules>
 </project>
