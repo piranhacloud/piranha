@@ -1,0 +1,27 @@
+<project name="Piranha Deployment" default="deploy">
+    
+    <target name="-deploy">
+        <echo message="Starting Manorrock Piranha deploy"/>
+        <echoproperties/>
+        <copy todir="${deploy.dir}" flatten="true" includeEmptyDirs="false" verbose="true">
+            <fileset dir="${dist.dir}"/>
+        </copy>
+    </target>
+
+    <target name="-undeploy">
+        <echo message="No undeploy target implemented for this deliverable"/>
+    </target>
+
+    <target name="-deploy.all">
+        <echo message="Starting Manorrock Piranha deploy.all"/>
+        <echoproperties/>
+        <copy todir="${deploy.dir}" flatten="true" includeEmptyDirs="false" verbose="true">
+            <fileset dir="${dist.dir}"/>
+        </copy>
+    </target>
+
+    <target name="-undeploy.all">
+        <echo message="No undeploy target implemented for this deliverable"/>
+    </target>
+
+</project>
