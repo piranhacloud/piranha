@@ -273,6 +273,15 @@ public class WebXml implements Serializable {
          * Stores the mime type.
          */
         public String mimeType;
+        
+        /**
+         * Set the extension.
+         * 
+         * @param extension the extension.
+         */
+        public void setExtension(String extension) {
+            this.extension = extension;
+        }
     }
 
     /**
