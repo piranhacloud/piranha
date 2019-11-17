@@ -70,6 +70,11 @@ public class WebXml implements Serializable {
      */
     public List<SecurityConstraint> securityConstraints = new ArrayList<>();
     
+    /**
+     * Stores the login config
+     */
+    public LoginConfig loginConfig = new LoginConfig();
+    
 
     /**
      * The &lt;listener&gt; snippet inside a web.xml / webfragment.xml.
@@ -213,34 +218,24 @@ public class WebXml implements Serializable {
          * 
          */
         public String realmName;
-        
+            
         /**
-         * The list &lt;realm-name&gt; snippet inside
+         * The list &lt;form-login-page&gt; snippet inside
          * &lt;form-login-config&gt;
          * 
+         * Note that we don't map the &lt;form-login-config&gt; element
+         * separately here
          */
-        public FormLoginConfig formLoginConfig;
+        public String formLoginPage;
         
         /**
-         * The &lt;form-login-config&gt; snippet inside a web.xml /
-         * webfragment.xml.
+         * The list &lt;form-error-page&gt; snippet inside
+         * &lt;form-login-config&gt;
+         * 
+         * Note that we don't map the &lt;form-login-config&gt; element
+         * separately here
          */
-        public static class FormLoginConfig {
-            
-            /**
-             * The list &lt;form-login-page&gt; snippet inside
-             * &lt;form-login-config&gt;
-             * 
-             */
-            public String formLoginPage;
-            
-            /**
-             * The list &lt;form-error-page&gt; snippet inside
-             * &lt;form-login-config&gt;
-             * 
-             */
-            public String formErrorPage;
-        }
+        public String formErrorPage;
     }
 
     /**
