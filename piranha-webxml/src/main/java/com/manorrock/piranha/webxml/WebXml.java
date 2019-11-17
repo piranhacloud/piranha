@@ -38,6 +38,8 @@ import java.util.List;
  */
 public class WebXml implements Serializable {
 
+    private static final long serialVersionUID = 6143204024206508136L;
+
     /**
      * Stores the context parameters.
      */
@@ -67,6 +69,7 @@ public class WebXml implements Serializable {
      * Stores the security constraints
      */
     public List<SecurityConstraint> securityConstraints = new ArrayList<>();
+    
 
     /**
      * The &lt;listener&gt; snippet inside a web.xml / webfragment.xml.
@@ -189,6 +192,54 @@ public class WebXml implements Serializable {
              * &lt;web-resource-collection&gt;
              */
             public List<String> httpMethodOmissions = new ArrayList<>();
+        }
+    }
+    
+    /**
+     * The &lt;login-config&gt; snippet inside a web.xml / webfragment.xml.
+     */
+    public static class LoginConfig {
+        
+        /**
+         * The list &lt;auth-method-name&gt; snippet inside
+         * &lt;login-config&gt;
+         * 
+         */
+        public String authMethod;
+        
+        /**
+         * The list &lt;realm-name&gt; snippet inside
+         * &lt;login-config&gt;
+         * 
+         */
+        public String realmName;
+        
+        /**
+         * The list &lt;realm-name&gt; snippet inside
+         * &lt;form-login-config&gt;
+         * 
+         */
+        public FormLoginConfig formLoginConfig;
+        
+        /**
+         * The &lt;form-login-config&gt; snippet inside a web.xml /
+         * webfragment.xml.
+         */
+        public static class FormLoginConfig {
+            
+            /**
+             * The list &lt;form-login-page&gt; snippet inside
+             * &lt;form-login-config&gt;
+             * 
+             */
+            public String formLoginPage;
+            
+            /**
+             * The list &lt;form-error-page&gt; snippet inside
+             * &lt;form-login-config&gt;
+             * 
+             */
+            public String formErrorPage;
         }
     }
 
