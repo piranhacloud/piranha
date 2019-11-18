@@ -79,7 +79,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     /**
      * Stores the WebXML context-param name.
      */
-    private static final String WEB_XML = "com.manorrock.piranha.webxml.WebXml";
+    public static final String WEB_XML = "com.manorrock.piranha.webxml.WebXml";
 
     /**
      * Stores the WebXML context-param name.
