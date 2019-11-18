@@ -64,6 +64,7 @@ import com.manorrock.piranha.authorization.exousia.AuthorizationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
 import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
 import com.manorrock.piranha.security.soteria.SoteriaInitializer;
+import com.manorrock.piranha.security.soteria.SoteriaPreCDIInitializer;
 import com.manorrock.piranha.servlet.ServletFeature;
 import com.manorrock.piranha.servlet.WebAnnotationInitializer;
 import com.manorrock.piranha.shrinkwrap.ShrinkWrapResource;
@@ -124,6 +125,7 @@ public class PiranhaServerDeployer {
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.addInitializer(new WebAnnotationInitializer());
         
+        webApplication.addInitializer(SoteriaPreCDIInitializer.class.getName());
         webApplication.addInitializer(WeldInitializer.class.getName());
         
         webApplication.setAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class);
