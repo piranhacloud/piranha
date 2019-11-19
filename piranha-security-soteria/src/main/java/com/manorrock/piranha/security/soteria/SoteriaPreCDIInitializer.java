@@ -64,7 +64,7 @@ public class SoteriaPreCDIInitializer implements ServletContainerInitializer {
 
         WebXml webXml = (WebXml) servletContext.getAttribute("com.manorrock.piranha.webxml.WebXml");
         
-        if (webXml.loginConfig.authMethod != null) {
+        if (webXml != null && webXml.loginConfig.authMethod != null) {
             
             LOGGER.info("AuthMethod " + webXml.loginConfig.authMethod + " configured in web.xml and handled by Soteria.");
             
