@@ -57,7 +57,7 @@ public class HelloSpringControllerTest {
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addServletMapping("Spring", "*.do");
         webApp.addServlet("Spring", "org.springframework.web.servlet.DispatcherServlet");
-        webApp.addInitializer("com.manorrock.piranha.jasper.JasperInitializer");
+        webApp.addInitializer("com.manorrock.piranha.pages.jasper.JasperInitializer");
         webApp.initialize();
         webApp.start();
         
