@@ -47,6 +47,7 @@ import org.jboss.jandex.Indexer;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
@@ -90,10 +91,15 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
         // We don't start Piranha separately. Start and Deploy is one step.
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public ProtocolMetaData deploy(Archive<?> archive) throws DeploymentException {
         
         Set<String> servletNames = new HashSet<>();
+        
+        if (!archive.contains("WEB-INF/beans.xml")) {
+            archive.add(EmptyAsset.INSTANCE, "WEB-INF/beans.xml");
+        }
         
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
@@ -142,10 +148,11 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
                         webInfClassLoader)
                     .newInstance();
             
-            piranhaServerDeployer
-                .getClass()
-                .getMethod("start", Archive.class, ClassLoader.class)
-                .invoke(piranhaServerDeployer, archive, webInfClassLoader);
+            servletNames.addAll((Set<String>) 
+                piranhaServerDeployer
+                    .getClass()
+                    .getMethod("start", Archive.class, ClassLoader.class)
+                    .invoke(piranhaServerDeployer, archive, webInfClassLoader));
         
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             throw new DeploymentException("", e);
