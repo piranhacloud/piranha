@@ -105,7 +105,7 @@ public class HazelcastHttpSessionManager extends DefaultHttpSessionManager {
      * @return the HTTP session.
      */
     @Override
-    public HttpSession createSession(WebApplication webApplication, HttpServletRequest request) {
+    public synchronized HttpSession createSession(WebApplication webApplication, HttpServletRequest request) {
         String key = UUID.randomUUID().toString();
         while(sessions.containsKey(key)) {
             key = UUID.randomUUID().toString();
