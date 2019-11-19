@@ -114,16 +114,23 @@ public class DefaultWebApplicationServer
      */
     private WebApplicationServerRequest createRequest(HttpServerRequest request) {
         DefaultWebApplicationServerRequest result = new DefaultWebApplicationServerRequest();
+        
         result.setLocalAddr(request.getLocalAddress());
         result.setLocalName(request.getLocalHostname());
         result.setLocalPort(request.getLocalPort());
-        result.setMethod(request.getMethod());
-        result.setQueryString(request.getQueryString());
+        
         result.setRemoteAddr(request.getRemoteAddress());
         result.setRemoteHost(request.getRemoteHostname());
         result.setRemotePort(request.getRemotePort());
+        
+        result.setServerName(request.getLocalHostname());
+        result.setServerPort(request.getLocalPort());
+        
+        result.setMethod(request.getMethod());
         result.setContextPath(request.getRequestTarget());
         result.setServletPath("");
+        result.setQueryString(request.getQueryString());
+        
         Iterator<String> headerNames = request.getHeaderNames();
         while (headerNames.hasNext()) {
             String name = headerNames.next();
@@ -153,6 +160,7 @@ public class DefaultWebApplicationServer
                 result.setCookies(cookieList.toArray(new Cookie[0]));
             }
         }
+        
         DefaultWebApplicationServerInputStream inputStream
                 = new DefaultWebApplicationServerInputStream(request.getInputStream(), result);
         result.setInputStream(inputStream);
