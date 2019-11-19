@@ -9,7 +9,7 @@
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-jsp-jasper</artifactId>
+    <artifactId>piranha-pages-jasper</artifactId>
     <packaging>jar</packaging>
 
     <name>Manorrock Piranha Jasper Integration</name>
@@ -34,7 +34,12 @@
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>jakarta.servlet.jsp</artifactId>
-            <scope>runtime</scope>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

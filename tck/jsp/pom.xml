@@ -113,6 +113,9 @@
                         </goals>
                         <configuration>
                             <target>
+                                <!-- start the server -->
+                                <exec executable="${piranha.home}/bin/start.sh"
+                                      dir="${piranha.home}/bin"/>
                                 <!-- deploy all the WARs -->
                                 <exec executable="${ant.home}/bin/ant" 
                                       dir="${tck.home}/bin">
@@ -120,11 +123,15 @@
                                     <arg value="-Dreport.dir=${piranha.home}/report"/>
                                     <arg value="deploy.all"/>
                                 </exec>
+                                <!-- stop the server -->
+                                <exec executable="${piranha.home}/bin/stop.sh"
+                                      dir="${piranha.home}/bin"/>
+                                <sleep seconds="15"/>
                                 <!-- start the server -->
                                 <exec executable="${piranha.home}/bin/start.sh"
                                       dir="${piranha.home}/bin"/>
                                 <!-- give the server some time to settle down -->
-                                <sleep seconds="30"/>
+                                <sleep seconds="15"/>
                             </target>
                         </configuration>
                     </execution>

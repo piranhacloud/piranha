@@ -43,7 +43,7 @@
         <module>piranha-http-grizzly</module>
         <module>piranha-http-netty</module>
         <module>piranha-http-singlethread</module>
-        <module>piranha-jsp-jasper</module>
+        <module>piranha-pages-jasper</module>
         <module>piranha-microprofile-smallrye-health</module>
         <module>piranha-runner-installed</module>
         <module>piranha-runner-war</module>

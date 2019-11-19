@@ -30,6 +30,8 @@ package com.manorrock.piranha.servlet;
 import com.manorrock.piranha.webxml.WebXmlInitializer;
 import com.manorrock.piranha.api.Feature;
 import com.manorrock.piranha.api.WebApplication;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The Servlet feature.
@@ -39,11 +41,16 @@ import com.manorrock.piranha.api.WebApplication;
 public class ServletFeature implements Feature {
 
     /**
-     * Stores the JSP initializer class name.
+     * Stores the logger.
      */
-    private static final String JSP_INITIALIZER
-            = "com.manorrock.piranha.jasper.JasperInitializer";
-    
+    private static final Logger LOGGER = Logger.getLogger(ServletFeature.class.getName());
+
+    /**
+     * Stores the Pages Jasper initializer class name.
+     */
+    private static final String PAGES_INITIALIZER
+            = "com.manorrock.piranha.pages.jasper.JasperInitializer";
+
     /**
      * Stores the Mojarra initializer class name.
      */
@@ -80,9 +87,15 @@ public class ServletFeature implements Feature {
         webApplication.addInitializer(new WebAnnotationInitializer());
 
         try {
-            getClass().getClassLoader().loadClass(JSP_INITIALIZER);
-            webApplication.addInitializer(JSP_INITIALIZER);
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine("Adding Jasper initializer");
+            }
+            getClass().getClassLoader().loadClass(PAGES_INITIALIZER);
+            webApplication.addInitializer(PAGES_INITIALIZER);
         } catch (ClassNotFoundException cnfe) {
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine("Unable to add Jasper initializer");
+            }
         }
         try {
             getClass().getClassLoader().loadClass(OPENWEBBEANS_INITIALIZER);

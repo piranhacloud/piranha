@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.jasper;
+package com.manorrock.piranha.pages.jasper;
 
 import com.manorrock.piranha.api.JspManager;
 import com.manorrock.piranha.api.WebApplication;

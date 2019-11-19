@@ -68,7 +68,7 @@
         </dependency>
         <dependency>
             <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-jsp-jasper</artifactId>
+            <artifactId>piranha-pages-jasper</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
