@@ -36,7 +36,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>com.manorrock.piranha.cdi</groupId>
             <artifactId>piranha-cdi-openwebbeans</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>

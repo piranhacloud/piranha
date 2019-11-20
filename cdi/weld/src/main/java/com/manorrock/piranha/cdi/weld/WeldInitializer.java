@@ -25,46 +25,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.microprofile.smallrye.health;
+package com.manorrock.piranha.cdi.weld;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultWebApplication;
+import java.util.Set;
+
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletException;
+
 import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.smallrye.health.SmallRyeReadinessServlet;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import com.manorrock.piranha.cdi.weld.WeldInitializer;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 
 /**
- * The JUnit tests for the SmallRye Liveness test.
- *
+ * The Weld Integration ServletContainerInitializer.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SmallRyeReadinessTest {
+public class WeldInitializer implements ServletContainerInitializer {
 
     /**
-     * Test /health.
+     * On startup.
      *
-     * @throws Exception
+     * @param classes the annotated classes.
+     * @param servletContext the servlet context.
+     * @throws ServletException when a serious error occurs.
      */
-    @Test
-    public void testHealth() throws Exception {
-        System.getProperties().put("java.naming.factory.initial", "com.manorrock.herring.DefaultInitialContextFactory");
-        WebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource("src/main/webapp"));
-        webApp.addInitializer(WeldInitializer.class.getName());
-        webApp.addServlet("Readiness", SmallRyeReadinessServlet.class.getName());
-        webApp.addServletMapping("Readiness", "/health/ready");
-        webApp.initialize();
-        webApp.start();
-        TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "", "/health/ready");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        webApp.service(request, response);
-        assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseBodyAsString().contains("status"));
-        assertTrue(response.getResponseBodyAsString().contains("UP"));
+    @Override
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        servletContext.setInitParameter("WELD_CONTEXT_ID_KEY", servletContext.toString());
+        
+        WebApplication webApplication = (WebApplication) servletContext;
+        
+        WeldInitListener weldInitListener = webApplication.createListener(WeldInitListener.class);
+        
+        servletContext.addListener(weldInitListener);
+        webApplication.setObjectInstanceManager(new WeldObjectInstanceManager());
+        
+        weldInitListener.delegate().contextInitialized(new ServletContextEvent(servletContext));
     }
 }
