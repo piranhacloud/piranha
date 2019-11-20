@@ -63,7 +63,7 @@ public class JPATest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addResource(new DefaultAliasedDirectoryResource(new File("target/classes"), "/WEB-INF/classes"));
-        webApp.addInitializer("com.manorrock.piranha.weld.WeldInitializer");
+        webApp.addInitializer("com.manorrock.piranha.cdi.weld.WeldInitializer");
         webApp.addInitializer("com.manorrock.piranha.faces.mojarra.MojarraInitializer");
         webApp.initialize();
         webApp.start();
