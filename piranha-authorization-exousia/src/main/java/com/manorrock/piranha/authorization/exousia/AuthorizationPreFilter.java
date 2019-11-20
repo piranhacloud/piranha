@@ -27,6 +27,8 @@
  */
 package com.manorrock.piranha.authorization.exousia;
 
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+
 import java.io.IOException;
 
 import javax.security.jacc.PolicyContext;
@@ -75,14 +77,16 @@ public class AuthorizationPreFilter extends HttpFilter {
         WebApplication context = (WebApplication) request.getServletContext();
         PolicyContext.setContextID(context.getServletContextId());
         
-        if (securityManager.isRequestSecurityAsRequired(request, response)) {
-            localServletRequest.set(request);
-           
-            try {
-                chain.doFilter(request, response);
-            } finally {
-                localServletRequest.remove();
-            }
+        if (!securityManager.isRequestSecurityAsRequired(request, response)) {
+            response.setStatus(SC_FORBIDDEN);
+            return;
+        }
+        
+        localServletRequest.set(request);
+        try {
+            chain.doFilter(request, response);
+        } finally {
+            localServletRequest.remove();
         }
     }
 
