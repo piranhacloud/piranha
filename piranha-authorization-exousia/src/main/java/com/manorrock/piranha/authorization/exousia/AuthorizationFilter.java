@@ -27,6 +27,8 @@
  */
 package com.manorrock.piranha.authorization.exousia;
 
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -69,9 +71,12 @@ public class AuthorizationFilter extends HttpFilter {
 
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (securityManager.isCallerAuthorizedForResource(request)) {
-            chain.doFilter(request, response);
+        if (!securityManager.isCallerAuthorizedForResource(request)) {
+            response.setStatus(SC_FORBIDDEN);
+            return;
         }
+        
+        chain.doFilter(request, response);
     }
 
 }
