@@ -1,12 +1,13 @@
 
-# Manorrock Piranha OpenWebBeans
+# Manorrock Piranha CDI - OpenWebBeans
 
-The Manorrock Piranha OpenWebBeans module delivers you with OpenWebBeans integration.
+The Manorrock Piranha CDI - OpenWebBeans module delivers you with OpenWebBeans
+integration.
 
 Add the following dependency to your project to use it.
 
       <dependency>
-          <groupId>com.manorrock.piranha</groupId>
+          <groupId>com.manorrock.piranha.cdi</groupId>
           <artifactId>piranha-cdi-openwebbeans</artifactId>
           <version>x.y.z</version>
       </dependency>
