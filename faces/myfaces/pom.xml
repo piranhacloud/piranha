@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.manorrock.piranha</groupId>
+        <groupId>com.manorrock.piranha.faces</groupId>
         <artifactId>project</artifactId>
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-faces-mojarra</artifactId>
+    <artifactId>piranha-faces-myfaces</artifactId>
     <packaging>jar</packaging>
 
-    <name>Manorrock Piranha Mojarra Integration</name>
+    <name>Manorrock Piranha Faces - MyFaces Integration</name>
 
     <dependencies>
         <dependency>
@@ -48,8 +48,8 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.faces</artifactId>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-impl</artifactId>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
