@@ -168,6 +168,14 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 if (node != null) {
                     processLoginConfig(xPath, webXml, node);
                 }
+                
+                /*
+                 * Process <deny-uncovered-http-methods> entry
+                 */
+                node = (Node) xPath.evaluate("//deny-uncovered-http-methods", document, NODE);
+                if (node != null) {
+                    webXml.denyUncoveredHttpMethods = true;
+                }
 
                 /*
                  * Process <mime-mapping> entries
