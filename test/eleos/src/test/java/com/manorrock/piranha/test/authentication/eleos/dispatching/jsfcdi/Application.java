@@ -50,7 +50,7 @@ import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
 import com.manorrock.piranha.faces.mojarra.MojarraInitializer;
 import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
 import com.manorrock.piranha.test.utils.TestWebApp;
-import com.manorrock.piranha.weld.WeldInitializer;
+import com.manorrock.piranha.cdi.weld.WeldInitializer;
 
 /**
  * @author Arjan Tijms

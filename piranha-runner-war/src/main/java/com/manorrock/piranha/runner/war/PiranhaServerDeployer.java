@@ -80,7 +80,7 @@ import com.manorrock.piranha.servlet.ServletFeature;
 import com.manorrock.piranha.servlet.WebAnnotationInitializer;
 import com.manorrock.piranha.shrinkwrap.ShrinkWrapResource;
 import com.manorrock.piranha.webxml.WebXmlInitializer;
-import com.manorrock.piranha.weld.WeldInitializer;
+import com.manorrock.piranha.cdi.weld.WeldInitializer;
 
 /**
  * Deploys a shrinkwrap application archive to a newly started embedded Piranha instance.
