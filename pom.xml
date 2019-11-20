@@ -31,6 +31,7 @@
     </developers>
 
     <modules>
+        <module>faces</module>
         <module>piranha</module>
         <module>piranha-api</module>
         <module>piranha-builder</module>
@@ -38,8 +39,6 @@
         <module>piranha-authorization-exousia</module>
         <module>piranha-cdi-openwebbeans</module>
         <module>piranha-cdi-weld</module>
-        <module>piranha-faces-mojarra</module>
-        <module>piranha-faces-myfaces</module>
         <module>piranha-http-grizzly</module>
         <module>piranha-http-netty</module>
         <module>piranha-http-singlethread</module>

@@ -25,7 +25,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>com.manorrock.piranha.faces</groupId>
             <artifactId>piranha-faces-myfaces</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>

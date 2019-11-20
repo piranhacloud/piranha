@@ -1,13 +1,14 @@
 
-# Manorrock Piranha MyFaces integration
+# Manorrock Piranha Faces - Mojarra Integration
 
-The Manorrock Piranha MyFaces module delivers you with Apache MyFaces integration.
+The Manorrock Piranha Faces - Mojarra Integration module delivers you with Eclipse
+Mojarra integration.
 
 Add the following dependency to your project to use it.
 
       <dependency>
-          <groupId>com.manorrock.piranha</groupId>
-          <artifactId>piranha-faces-myfaces</artifactId>
+          <groupId>com.manorrock.piranha.faces</groupId>
+          <artifactId>piranha-faces-mojarra</artifactId>
           <version>x.y.z</version>
       </dependency>
 
