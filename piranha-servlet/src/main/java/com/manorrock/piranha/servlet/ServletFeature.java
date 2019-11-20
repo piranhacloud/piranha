@@ -67,13 +67,13 @@ public class ServletFeature implements Feature {
      * Stores the OpenWebBeans initializer class name.
      */
     private static final String OPENWEBBEANS_INITIALIZER
-            = "com.manorrock.piranha.openwebbeans.OpenWebBeansInitializer";
+            = "com.manorrock.piranha.cdi.openwebbeans.OpenWebBeansInitializer";
 
     /**
      * Stores the Weld initializer class name.
      */
     private static final String WELD_INITIALIZER
-            = "com.manorrock.piranha.weld.WeldInitializer";
+            = "com.manorrock.piranha.cdi.weld.WeldInitializer";
 
     /**
      * Initialize the feature.

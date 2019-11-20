@@ -25,46 +25,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.microprofile.smallrye.health;
+package com.manorrock.piranha.cdi.weld;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.smallrye.health.SmallRyeHealthServlet;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import com.manorrock.piranha.cdi.weld.WeldInitializer;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.enterprise.inject.spi.CDI;
+import javax.enterprise.inject.spi.CDIProvider;
 
 /**
- * The JUnit tests for the SmallRye Health test.
+ * The Weld CDI provider.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SmallRyeHealthTest {
+public class WeldProvider implements CDIProvider {
 
     /**
-     * Test /health.
-     *
-     * @throws Exception
+     * Stores the instances.
      */
-    @Test
-    public void testHealth() throws Exception {
-        System.getProperties().put("java.naming.factory.initial", "com.manorrock.herring.DefaultInitialContextFactory");
-        WebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource("src/main/webapp"));
-        webApp.addInitializer(WeldInitializer.class.getName());
-        webApp.addServlet("Health", SmallRyeHealthServlet.class.getName());
-        webApp.addServletMapping("Health", "/health");
-        webApp.initialize();
-        webApp.start();
-        TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "", "/health");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        webApp.service(request, response);
-        assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseBodyAsString().contains("status"));
-        assertTrue(response.getResponseBodyAsString().contains("UP"));
+    private static final ConcurrentHashMap<ClassLoader, CDI<Object>> INSTANCES = new ConcurrentHashMap<>();
+
+    /**
+     * Get the CDI.
+     *
+     * @return the CDI.
+     */
+    @Override
+    public CDI<Object> getCDI() {
+        return INSTANCES.get(Thread.currentThread().getContextClassLoader());
+    }
+
+    /**
+     * Set the CDI.
+     *
+     * @param cdi the CDI.
+     */
+    public static void setCDI(CDI<Object> cdi) {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        INSTANCES.put(classLoader, cdi);
     }
 }

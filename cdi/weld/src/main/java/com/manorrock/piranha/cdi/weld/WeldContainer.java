@@ -25,46 +25,66 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.microprofile.smallrye.health;
+package com.manorrock.piranha.cdi.weld;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.smallrye.health.SmallRyeHealthServlet;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import com.manorrock.piranha.cdi.weld.WeldInitializer;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import javax.enterprise.inject.spi.CDI;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import org.jboss.weld.environment.Container;
+import org.jboss.weld.environment.ContainerContext;
+import org.jboss.weld.manager.api.WeldManager;
+import org.jboss.weld.resources.spi.ResourceLoader;
 
 /**
- * The JUnit tests for the SmallRye Health test.
+ * The Weld container.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SmallRyeHealthTest {
+public class WeldContainer implements Container {
 
     /**
-     * Test /health.
+     * Destroy the container.
      *
-     * @throws Exception
+     * @param context the container context.
      */
-    @Test
-    public void testHealth() throws Exception {
-        System.getProperties().put("java.naming.factory.initial", "com.manorrock.herring.DefaultInitialContextFactory");
-        WebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource("src/main/webapp"));
-        webApp.addInitializer(WeldInitializer.class.getName());
-        webApp.addServlet("Health", SmallRyeHealthServlet.class.getName());
-        webApp.addServletMapping("Health", "/health");
-        webApp.initialize();
-        webApp.start();
-        TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "", "/health");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        webApp.service(request, response);
-        assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseBodyAsString().contains("status"));
-        assertTrue(response.getResponseBodyAsString().contains("UP"));
+    @Override
+    public void destroy(ContainerContext context) {
+    }
+
+    /**
+     * Initialize the container.
+     *
+     * @param context the container context.
+     */
+    @Override
+    public void initialize(ContainerContext context) {
+        try {
+            CDI.setCDIProvider(new WeldProvider());
+        } catch (IllegalStateException ise) {
+        }
+        try {
+            WeldManager manager = context.getManager();
+            WeldCDI cdi = new WeldCDI();
+            cdi.setWeldManager(manager);
+            WeldProvider.setCDI(cdi);
+            InitialContext initialContext = new InitialContext();
+            initialContext.rebind("java:comp/BeanManager", manager);
+        } catch (NamingException ne) {
+            throw new RuntimeException(ne);
+        }
+    }
+
+    /**
+     * Touch the container.
+     *
+     * @param resourceLoader the resource loader.
+     * @param context the container context.
+     * @return true
+     * @throws Exception when a serious error occurs.
+     */
+    @Override
+    public boolean touch(ResourceLoader resourceLoader, ContainerContext context) throws Exception {
+        return true;
     }
 }
