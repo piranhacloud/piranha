@@ -71,9 +71,16 @@ public class WebXml implements Serializable {
     public List<SecurityConstraint> securityConstraints = new ArrayList<>();
     
     /**
-     * Stores the login config
+     * Stores the login config - This sets and configures the build-in Servlet
+     * authentication mechanisms.
+     * 
      */
     public LoginConfig loginConfig = new LoginConfig();
+    
+    /**
+     * When true, this boolean causes HTTP methods that are not subject to a security constraint to be denied. 
+     */
+    public boolean denyUncoveredHttpMethods;
     
 
     /**
