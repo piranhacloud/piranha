@@ -19,10 +19,10 @@ See the list below for what is available.
 1. [Piranha MyFaces integration](faces/myfaces/README.md)
 1. [Piranha Mojarra integration](faces/mojarra/README.md)
 1. [Piranha Netty integration](http/netty/README.md)
-1. [Piranha OpenWebBeans integration](piranha-cdi-openwebbeans/README.md)
+1. [Piranha OpenWebBeans integration](cdi/openwebbeans/README.md)
 1. [Piranha Servlet API](piranha-servlet-api/README.md)
 1. [Piranha Single Threaded](http/singlethread/README.md)
-1. [Piranha Weld integration](piranha-cdi-weld/README.md)
+1. [Piranha Weld integration](cdi/weld/README.md)
 
 Note the documentation for the master branch might show features that are NOT 
 yet available as it is under active development. Please see the documentation
