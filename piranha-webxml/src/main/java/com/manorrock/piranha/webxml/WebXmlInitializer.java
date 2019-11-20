@@ -161,9 +161,20 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                     );
                 }
                 
+                /*
+                 * Process <login-config> entry
+                 */
                 Node node = (Node) xPath.evaluate("//login-config", document, NODE);
                 if (node != null) {
                     processLoginConfig(xPath, webXml, node);
+                }
+                
+                /*
+                 * Process <deny-uncovered-http-methods> entry
+                 */
+                node = (Node) xPath.evaluate("//deny-uncovered-http-methods", document, NODE);
+                if (node != null) {
+                    webXml.denyUncoveredHttpMethods = true;
                 }
 
                 /*
