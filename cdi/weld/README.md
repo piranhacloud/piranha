@@ -1,12 +1,12 @@
 
-# Manorrock Piranha Weld
+# Manorrock Piranha CDI - Weld
 
-The Manorrock Piranha Weld module delivers you with Weld integration.
+The Manorrock Piranha CDI - Weld module delivers you with Weld integration.
 
 Add the following dependency to your project to use it.
 
       <dependency>
-          <groupId>com.manorrock.piranha</groupId>
+          <groupId>com.manorrock.piranha.cdi</groupId>
           <artifactId>piranha-cdi-weld</artifactId>
           <version>x.y.z</version>
       </dependency>

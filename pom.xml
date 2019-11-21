@@ -32,8 +32,10 @@
 
     <modules>
         <module>cdi</module>
-        <module>http</module>
+        <module>embedded</module>
         <module>faces</module>
+        <module>http</module>
+        <module>micro</module>
         <module>piranha</module>
         <module>piranha-api</module>
         <module>piranha-builder</module>
@@ -41,8 +43,6 @@
         <module>piranha-authorization-exousia</module>
         <module>piranha-pages-jasper</module>
         <module>piranha-microprofile-smallrye-health</module>
-        <module>piranha-runner-installed</module>
-        <module>piranha-runner-war</module>
         <module>piranha-security-soteria</module>
         <module>piranha-servlet</module>
         <module>piranha-servlet-api</module>
@@ -50,7 +50,7 @@
         <module>piranha-resources-shrinkwrap</module>
         <module>piranha-security-jakarta</module>
         <module>piranha-webxml</module>
-        <module>piranha-embedded</module>
+        <module>standard</module>
     </modules>
 
     <scm>
@@ -63,7 +63,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <openwebbeans.version>2.0.12</openwebbeans.version>
     </properties>
 
     <dependencyManagement>
@@ -221,17 +220,17 @@
             <dependency>
                 <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-impl</artifactId>
-                <version>${openwebbeans.version}</version>
+                <version>2.0.12</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-jsf</artifactId>
-                <version>${openwebbeans.version}</version>
+                <version>2.0.12</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-spi</artifactId>
-                <version>${openwebbeans.version}</version>
+                <version>2.0.12</version>
             </dependency>
             
             <!-- Jakarta XML Bind -->
