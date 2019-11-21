@@ -28,7 +28,7 @@
 package com.manorrock.piranha.test.snoop;
 
 import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.runner.war.WarRunner;
+import com.manorrock.piranha.micro.MicroPiranha;
 import com.manorrock.piranha.servlet.ServletFeature;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
@@ -53,11 +53,11 @@ public class SnoopServletIT {
      */
     @Test
     public void testConfigure() throws Exception {
-        final WarRunner runner = new WarRunner();
-        WebApplication webApplication = runner.configure(new String[]{
+        final MicroPiranha piranha = new MicroPiranha();
+        WebApplication webApplication = piranha.configure(new String[]{
             "--webapp", "target/snoop-exploded", "--war", "target/snoop.war"});
         webApplication.addFeature(new ServletFeature());
-        Thread thread = new Thread(runner);
+        Thread thread = new Thread(piranha);
         thread.start();
         try {
             HttpClient client = HttpClients.createDefault();
@@ -67,7 +67,7 @@ public class SnoopServletIT {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-        runner.stop();
+        piranha.stop();
         Thread.sleep(3000);
     }
 }
