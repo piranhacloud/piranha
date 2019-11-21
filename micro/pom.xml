@@ -73,7 +73,7 @@
     </dependencies>
 
     <build>
-        <finalName>piranha-runner-war</finalName>
+        <finalName>piranha-micro</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
