@@ -25,11 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.test.snoop;
+package com.manorrock.piranha.micro;
 
-import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.micro.MicroPiranha;
-import com.manorrock.piranha.servlet.ServletFeature;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -39,35 +37,32 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * An integration test to verify running a exploded web application coming from
- * a supplied WAR.
- *
+ * The JUnit tests for the MicroPiranha class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SnoopServletIT {
-
+public class MicroPiranhaTest {
+  
     /**
-     * Test configure method.
-     *
+     * Test start method.
+     * 
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testConfigure() throws Exception {
-        final MicroPiranha piranha = new MicroPiranha();
-        WebApplication webApplication = piranha.configure(new String[]{
-            "--webapp", "target/snoop-exploded", "--war", "target/snoop.war"});
-        webApplication.addFeature(new ServletFeature());
-        Thread thread = new Thread(piranha);
+    public void testStart() throws Exception {
+        final MicroPiranha runner = new MicroPiranha();
+        runner.configure(new String[] {});
+        Thread thread = new Thread(runner);
         thread.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8080/Snoop");
+            HttpGet request = new HttpGet("http://localhost:8080");
             HttpResponse response = client.execute(request);
-            assertEquals(200, response.getStatusLine().getStatusCode());
+            assertEquals(404, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            throw new RuntimeException(ioe);
         }
-        piranha.stop();
+        runner.stop();
         Thread.sleep(3000);
     }
 }

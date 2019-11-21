@@ -12,7 +12,7 @@
     <artifactId>piranha-tck-jsp</artifactId>
     <packaging>pom</packaging>
 
-    <name>Manorrock Piranha JSP TCK</name>
+    <name>Manorrock Piranha TCK - Pages TCK</name>
 
     <build>
         <plugins>
@@ -201,7 +201,7 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>com.manorrock.piranha</groupId>
-                                    <artifactId>piranha-runner-installed</artifactId>
+                                    <artifactId>piranha-standard</artifactId>
                                     <version>${project.version}</version>
                                     <type>zip</type>
                                     <outputDirectory>${project.build.directory}</outputDirectory>

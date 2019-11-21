@@ -12,7 +12,7 @@
     <artifactId>piranha-tck-servlet</artifactId>
     <packaging>pom</packaging>
 
-    <name>Manorrock Piranha Servlet TCK</name>
+    <name>Manorrock Piranha TCK - Servlet TCK</name>
 
     <build>
         <plugins>
@@ -190,7 +190,7 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>com.manorrock.piranha</groupId>
-                                    <artifactId>piranha-runner-installed</artifactId>
+                                    <artifactId>piranha-standard</artifactId>
                                     <version>${project.version}</version>
                                     <type>zip</type>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
