@@ -28,6 +28,7 @@
 package com.manorrock.piranha.nano;
 
 import java.io.IOException;
+import java.io.InputStream;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -35,23 +36,56 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * The nano filter that parses out the request line.
- * 
+ * The filter that parses out the HTTP request line.
+ *
+ * <p>
+ * This filter will parse the method, servlet path and query string from the
+ * input stream so you the rest of the filter chain has access to it.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class NanoRequestLineFilter implements Filter {
 
     /**
      * Filter the request.
-     * 
+     *
      * @param servletRequest the request.
-     * @param response the response.
+     * @param servletResponse the response.
      * @param chain the filter chain.
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse response, 
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
             FilterChain chain) throws IOException, ServletException {
-    }   
+        NanoHttpServletRequest request = (NanoHttpServletRequest) servletRequest;
+        InputStream inputStream = request.getUnderlyingInputStream();
+        StringBuilder line = new StringBuilder();
+        int read = inputStream.read();
+        while (read != -1 && inputStream.available() > 0) {
+            if ('\r' != (char) read) {
+                line.append((char) read);
+            }
+            read = inputStream.read();
+            if ('\n' == (char) read) {
+                if (line.length() > 0) {
+                    String requestLine = line.toString();
+                    int index = requestLine.indexOf(' ');
+                    request.setMethod(requestLine.substring(0, index));
+                    requestLine = requestLine.substring(index + 1);
+                    index = requestLine.indexOf(' ');
+                    String servletPath = requestLine.substring(0, index);
+                    if (servletPath.contains("?")) {
+                        String queryString = servletPath.substring(servletPath.indexOf("?") + 1);
+                        servletPath = servletPath.substring(0, servletPath.indexOf("?"));
+                        request.setQueryString(queryString);
+                    }
+                    request.setServletPath(servletPath);
+                    break;
+                }
+            }
+        }
+        chain.doFilter(servletRequest, servletResponse);
+    }
 }

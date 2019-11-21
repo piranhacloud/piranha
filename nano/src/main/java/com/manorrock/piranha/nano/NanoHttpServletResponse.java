@@ -49,7 +49,7 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
      * Stores the output stream.
      */
     private OutputStream outputStream;
-    
+
     /**
      * Stores the writer.
      */
@@ -64,109 +64,223 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
         this.outputStream = outputStream;
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param cookie the cookie.
+     */
     @Override
     public void addCookie(Cookie cookie) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param name the name.
+     * @param date the date.
+     */
     @Override
     public void addDateHeader(String name, long date) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param name the name.
+     * @param value the value.
+     */
     @Override
     public void addHeader(String name, String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param name the name.
+     * @param value the value.
+     */
     @Override
     public void addIntHeader(String name, int value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param name the name.
+     * @return true if it contains the header, false otherwise.
+     */
     @Override
     public boolean containsHeader(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public String encodeRedirectURL(String url) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public String encodeRedirectUrl(String url) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public String encodeURL(String url) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public String encodeUrl(String url) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public String getHeader(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public Collection<String> getHeaderNames() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public Collection<String> getHeaders(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public int getStatus() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public void sendError(int status, String message) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public void sendError(int status) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public void sendRedirect(String location) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public void setDateHeader(String name, long date) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public void setHeader(String name, String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public void setIntHeader(String name, int value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public void setStatus(int status) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public void setStatus(int status, String message) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public int getBufferSize() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public String getCharacterEncoding() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public String getContentType() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public Locale getLocale() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public ServletOutputStream getOutputStream() throws IOException {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public boolean isCommitted() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public void reset() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public void resetBuffer() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public void setBufferSize(int bufferSize) {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public void setCharacterEncoding(String characterEncoding) {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public void setContentLength(int contentLength) {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public void setContentLengthLong(long contentLength) {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public void setContentType(String contentType) {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public void setLocale(Locale locale) {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public boolean isReady() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public void setWriteListener(WriteListener writeListener) {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    @Override
+    public void write(int b) throws IOException {
+        throw new UnsupportedOperationException("Not supported");
     }
 
     /**
@@ -177,31 +291,6 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
     @Override
     public void flushBuffer() throws IOException {
         writer.flush();
-    }
-
-    @Override
-    public int getBufferSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public String getCharacterEncoding() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public String getContentType() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Locale getLocale() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ServletOutputStream getOutputStream() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
@@ -216,65 +305,5 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
             writer = new PrintWriter(new OutputStreamWriter(outputStream));
         }
         return writer;
-    }
-
-    @Override
-    public boolean isCommitted() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void reset() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void resetBuffer() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setBufferSize(int bufferSize) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setCharacterEncoding(String characterEncoding) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setContentLength(int contentLength) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setContentLengthLong(long contentLength) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setContentType(String contentType) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setLocale(Locale locale) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public boolean isReady() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setWriteListener(WriteListener writeListener) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void write(int b) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

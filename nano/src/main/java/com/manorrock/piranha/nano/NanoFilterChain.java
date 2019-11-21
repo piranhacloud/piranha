@@ -36,11 +36,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * The nano FilterChain.
+ * The Nano version of the FilterChain we use for processing.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoFilterChain implements FilterChain {
+class NanoFilterChain implements FilterChain {
 
     /**
      * Stores the filter.
@@ -65,6 +65,7 @@ public class NanoFilterChain implements FilterChain {
      */
     public NanoFilterChain(Filter filter, FilterChain filterChain) {
         this.filter = filter;
+        this.filterChain = filterChain;
     }
 
     /**
