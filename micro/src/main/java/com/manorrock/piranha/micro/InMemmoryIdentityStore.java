@@ -23,7 +23,7 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.runner.war;
+package com.manorrock.piranha.micro;
 
 import static java.util.Collections.emptySet;
 import static javax.security.enterprise.identitystore.CredentialValidationResult.INVALID_RESULT;

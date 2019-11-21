@@ -35,6 +35,7 @@
         <module>embedded</module>
         <module>faces</module>
         <module>http</module>
+        <module>micro</module>
         <module>piranha</module>
         <module>piranha-api</module>
         <module>piranha-builder</module>
@@ -42,7 +43,6 @@
         <module>piranha-authorization-exousia</module>
         <module>piranha-pages-jasper</module>
         <module>piranha-microprofile-smallrye-health</module>
-        <module>piranha-runner-war</module>
         <module>piranha-security-soteria</module>
         <module>piranha-servlet</module>
         <module>piranha-servlet-api</module>

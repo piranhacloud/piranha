@@ -25,8 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.runner.war;
+package com.manorrock.piranha.micro;
 
+import com.manorrock.piranha.micro.MicroPiranha;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -36,11 +37,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the WarRunner class.
+ * The JUnit tests for the MicroPiranha class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WarRunnerTest {
+public class MicroPiranhaTest {
   
     /**
      * Test start method.
@@ -49,7 +50,7 @@ public class WarRunnerTest {
      */
     @Test
     public void testStart() throws Exception {
-        final WarRunner runner = new WarRunner();
+        final MicroPiranha runner = new MicroPiranha();
         runner.configure(new String[] {});
         Thread thread = new Thread(runner);
         thread.start();
