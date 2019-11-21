@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.runner.installed;
+package com.manorrock.piranha.standard;
 
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultHttpServer;
@@ -44,27 +44,22 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * The "installed" runner.
+ * The main entry point for the standard version of Piranha.
  *
  * <p>
- * This runner is the main entry point for an installed version of Piranha. It
- * allows you to run multiple web applications at the same time.
- * </p>
- *
- * <p>
- * This runner has a shutdown mechanism that allows you to shutdown the server
- * by removing the piranha.pid file that should be created by the startup
- * script.
+ * This version Piranha allows you to run multiple web applications at the same
+ * time. It has a shutdown mechanism that allows you to shutdown the server by
+ * removing the piranha.pid file that should be created by the startup script.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class InstalledRunner implements Runnable {
+public class StandardPiranha implements Runnable {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(InstalledRunner.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(StandardPiranha.class.getName());
 
     /**
      * Main method.
@@ -72,7 +67,7 @@ public class InstalledRunner implements Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        InstalledRunner runner = new InstalledRunner();
+        StandardPiranha runner = new StandardPiranha();
         runner.run();
     }
 
@@ -132,7 +127,6 @@ public class InstalledRunner implements Runnable {
         DefaultHttpServer httpServer = new DefaultHttpServer(8080, webApplicationServer);
         httpServer.start();
         webApplicationServer.start();
-
         File webappsDirectory = new File("webapps");
         File[] webapps = webappsDirectory.listFiles();
         if (webapps != null && webapps.length > 0) {
@@ -165,7 +159,6 @@ public class InstalledRunner implements Runnable {
             LOGGER.info("Started Piranha");
             LOGGER.log(Level.INFO, "It took {0} milliseconds", finishTime - startTime);
         }
-
         while (httpServer.isRunning()) {
             try {
                 Thread.sleep(2000);

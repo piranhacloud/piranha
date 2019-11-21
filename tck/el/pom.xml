@@ -9,10 +9,10 @@
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-tck-el</artifactId>
+    <artifactId>piranha-tck-expression-language</artifactId>
     <packaging>pom</packaging>
 
-    <name>Manorrock Piranha EL TCK</name>
+    <name>Manorrock Piranha TCK - Expression Language TCK</name>
 
     <build>
         <plugins>
