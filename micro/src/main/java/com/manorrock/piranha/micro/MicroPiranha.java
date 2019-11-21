@@ -43,7 +43,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * The WAR runner.
+ * The micro version of Piranha.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

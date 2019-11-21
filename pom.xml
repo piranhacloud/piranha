@@ -51,6 +51,7 @@
         <module>piranha-security-jakarta</module>
         <module>piranha-webxml</module>
         <module>standard</module>
+        <module>nano</module>
     </modules>
 
     <scm>
