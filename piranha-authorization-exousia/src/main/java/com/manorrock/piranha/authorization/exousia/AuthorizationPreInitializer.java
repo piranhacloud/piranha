@@ -28,6 +28,7 @@
 package com.manorrock.piranha.authorization.exousia;
 
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreFilter.localServletRequest;
+import static com.manorrock.piranha.webxml.WebXmlInitializer.WEB_XML;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toList;
@@ -117,7 +118,8 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         } else {
             authorizationService.addConstraintsToPolicy(
                 securityConstraints != null? securityConstraints : emptyList(), 
-                emptySet(), true, 
+                emptySet(), 
+                isDenyUncoveredHttpMethods(context), 
                 context.getServletRegistrations().keySet());
         }
         
@@ -126,6 +128,15 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         
         // TMP - should use Dynamic
         context.addFilterMapping(AuthorizationPreFilter.class.getSimpleName(), "/*");
+    }
+    
+    private boolean isDenyUncoveredHttpMethods(ServletContext servletContext) throws ServletException {
+        WebXml webXml = getOptionalAttribute(servletContext, WEB_XML);
+        if (webXml == null) {
+            return false;
+        }
+        
+        return webXml.denyUncoveredHttpMethods;
     }
     
     public static void addToRole(PolicyConfiguration policyConfiguration, String role, Permission permission) {
