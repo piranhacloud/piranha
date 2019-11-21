@@ -9,10 +9,10 @@
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-runner-war</artifactId>
+    <artifactId>piranha-micro</artifactId>
     <packaging>jar</packaging>
 
-    <name>Manorrock Piranha War Runner</name>
+    <name>Manorrock Piranha Micro</name>
 
     <dependencies>
         <dependency>

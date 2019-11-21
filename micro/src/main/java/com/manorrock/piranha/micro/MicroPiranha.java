@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.runner.war;
+package com.manorrock.piranha.micro;
 
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultHttpServer;
@@ -47,7 +47,7 @@ import java.util.zip.ZipInputStream;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WarRunner implements Runnable {
+public class MicroPiranha implements Runnable {
 
     /**
      * Stores the HTTP server.
@@ -168,7 +168,7 @@ public class WarRunner implements Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        WarRunner runner = new WarRunner();
+        MicroPiranha runner = new MicroPiranha();
         runner.configure(arguments);
         runner.run();
     }
