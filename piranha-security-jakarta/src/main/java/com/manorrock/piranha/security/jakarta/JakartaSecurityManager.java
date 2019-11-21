@@ -34,6 +34,7 @@ import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitia
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +47,7 @@ import org.omnifaces.exousia.AuthorizationService;
 
 import com.manorrock.piranha.DefaultAuthenticatedIdentity;
 import com.manorrock.piranha.DefaultWebApplicationRequest;
+import com.manorrock.piranha.api.AuthenticatedIdentity;
 import com.manorrock.piranha.api.SecurityManager;
 import com.manorrock.piranha.api.WebApplication;
 
@@ -58,6 +60,8 @@ import com.manorrock.piranha.api.WebApplication;
  *
  */
 public class JakartaSecurityManager implements SecurityManager {
+    
+    private UsernamePasswordLoginHandler usernamePasswordLoginHandler;
     
     @Override
     public void declareRoles(String[] roles) {
@@ -121,13 +125,29 @@ public class JakartaSecurityManager implements SecurityManager {
             request.getSession().setAttribute(".caller", caller);
         }
         
-        DefaultWebApplicationRequest defaultWebApplicationRequest = (DefaultWebApplicationRequest) request;
-        defaultWebApplicationRequest.setUserPrincipal(caller.getCallerPrincipal());
-        
-        DefaultAuthenticatedIdentity.setCurrentIdentity(caller.getCallerPrincipal(), caller.getGroups());
+        setIdentityForCurrentRequest(request, caller.getCallerPrincipal(), caller.getGroups());
         
         // TODO: handle the "in progress" (send_continue) case
         return true;
+    }
+    
+    @Override
+    public void login(HttpServletRequest request, String username, String password) throws ServletException {
+        AuthenticatedIdentity resultIdentity = usernamePasswordLoginHandler.login(request, username, password);
+        
+        if (resultIdentity == null) {
+            throw new ServletException();
+        }
+        
+        setIdentityForCurrentRequest(request, resultIdentity.getCallerPrincipal(), resultIdentity.getGroups());
+    }
+    
+    private void setIdentityForCurrentRequest(HttpServletRequest request, Principal callerPrincipal, Set<String> groups) {
+        // TODO: consider not setting principal in request separately
+        DefaultWebApplicationRequest defaultWebApplicationRequest = (DefaultWebApplicationRequest) request;
+        defaultWebApplicationRequest.setUserPrincipal(callerPrincipal);
+        
+        DefaultAuthenticatedIdentity.setCurrentIdentity(callerPrincipal, groups);
     }
 
     @Override
@@ -157,10 +177,6 @@ public class JakartaSecurityManager implements SecurityManager {
     }
 
     @Override
-    public void login(HttpServletRequest request, String username, String password) throws ServletException {
-    }
-
-    @Override
     public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         getAuthenticationService(request).clearSubject(request, response, getCurrentSubject());
         
@@ -175,6 +191,11 @@ public class JakartaSecurityManager implements SecurityManager {
     @Override
     public void setWebApplication(WebApplication webApplication) {
         
+    }
+    
+    @Override
+    public void setUsernamePasswordLoginHandler(UsernamePasswordLoginHandler usernamePasswordLoginHandler) {
+        this.usernamePasswordLoginHandler = usernamePasswordLoginHandler;
     }
     
     protected DefaultAuthenticationService getAuthenticationService(HttpServletRequest request) {
