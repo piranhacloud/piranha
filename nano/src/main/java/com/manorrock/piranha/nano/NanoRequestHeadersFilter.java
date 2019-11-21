@@ -35,7 +35,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * The nano filter that parses out the request headers.
+ * The filter that parses out the request headers.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -45,13 +45,14 @@ public class NanoRequestHeadersFilter implements Filter {
      * Filter the request.
      * 
      * @param servletRequest the request.
-     * @param response the response.
+     * @param servletResponse the response.
      * @param chain the filter chain.
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse response, 
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, 
             FilterChain chain) throws IOException, ServletException {
+        chain.doFilter(servletRequest, servletResponse);
     }   
 }

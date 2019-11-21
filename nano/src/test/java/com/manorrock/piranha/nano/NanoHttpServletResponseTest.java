@@ -27,30 +27,58 @@
  */
 package com.manorrock.piranha.nano;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
+import org.junit.Test;
 
 /**
- * A Hello World Servlet.
- * 
+ * The JUnit tests for the NanoHttpServletResponse class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HelloWorldServlet extends HttpServlet {
+public class NanoHttpServletResponseTest {
 
     /**
-     * Perform a GET request.
-     * 
-     * @param request the request.
-     * @param response the response.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a Servlet error occurs.
+     * Test addCookie method.
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
-        response.getWriter().print("Hello World");
+    @Test(expected = UnsupportedOperationException.class)
+    public void testAddCookie() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.addCookie(new Cookie("name", "value"));
+    }
+
+    /**
+     * Test addDateHeader method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testAddDateHeader() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.addDateHeader("name", 0);
+    }
+
+    /**
+     * Test addHeader method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testAddHeader() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.addHeader("name", "value");
+    }
+
+    /**
+     * Test addIntHeader method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testAddIntHeader() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.addIntHeader("name", 1);
+    }
+
+    /**
+     * Test containsHeader method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testContainsHeader() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.containsHeader("name");
     }
 }

@@ -35,14 +35,16 @@ import java.util.LinkedList;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 /**
- * The nano version of Piranha.
+ * The Nano version of Piranha.
  *
  * <p>
- * This version of Piranha allows you to define your filters and your servlet
- * completely programmatically and it will service a request and response by
- * means of an input and output stream.
+ * This version of Piranha allows you to add your filters and your servlet
+ * programmatically and you can either process an input and output stream, or
+ * service a servlet request and servlet response.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -52,7 +54,7 @@ public class NanoPiranha {
     /**
      * Stores the filters.
      */
-    private final LinkedList<Filter> filters = new LinkedList<>();
+    private final LinkedList<Filter> filters;
 
     /**
      * Stores the servlet.
@@ -60,12 +62,25 @@ public class NanoPiranha {
     private Servlet servlet;
 
     /**
+     * Stores the servlet context.
+     */
+    private final NanoServletContext servletContext;
+
+    /**
+     * Constructor.
+     */
+    public NanoPiranha() {
+        filters = new LinkedList<>();
+        servletContext = new NanoServletContext();
+    }
+
+    /**
      * Add a filter.
      *
      * @param filter the filter.
      */
     public void addFilter(Filter filter) {
-        this.filters.add(filter);
+        filters.add(filter);
     }
 
     /**
@@ -76,17 +91,41 @@ public class NanoPiranha {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a Servlet error occurs.
      */
-    public void service(InputStream inputStream, OutputStream outputStream)
+    public void process(InputStream inputStream, OutputStream outputStream)
+            throws IOException, ServletException {
+        service(new NanoHttpServletRequest(inputStream),
+                new NanoHttpServletResponse(outputStream));
+    }
+
+    /**
+     * Service.
+     *
+     * @param servletRequest the request.
+     * @param servletResponse the response.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    public void service(ServletRequest servletRequest, ServletResponse servletResponse)
             throws IOException, ServletException {
         Iterator<Filter> iterator = filters.descendingIterator();
         NanoFilterChain chain = new NanoFilterChain(servlet);
         while (iterator.hasNext()) {
             Filter filter = iterator.next();
-            chain = new NanoFilterChain(filter, chain);
+            NanoFilterChain previousChain = chain;
+            chain = new NanoFilterChain(filter, previousChain);
         }
-        NanoHttpServletResponse response = new NanoHttpServletResponse(outputStream);
-        chain.doFilter(new NanoHttpServletRequest(inputStream), response);
-        response.flushBuffer();
+        /*
+         * If you are passing in your own ServletContext we are going to assume
+         * you know what your are doing. If you did not we will supply ours,
+         * provided you used our companion NanoHttpServletRequest.
+         */
+        if (servletRequest.getServletContext() == null &&
+                servletRequest instanceof NanoHttpServletRequest) {
+            NanoHttpServletRequest nanoRequest = (NanoHttpServletRequest) servletRequest;
+            nanoRequest.setServletContext(servletContext);
+        }
+        chain.doFilter(servletRequest, servletResponse);
+        servletResponse.flushBuffer();
     }
 
     /**
