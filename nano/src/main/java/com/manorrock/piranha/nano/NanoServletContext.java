@@ -53,6 +53,18 @@ import javax.servlet.descriptor.JspConfigDescriptor;
 public class NanoServletContext implements ServletContext {
 
     /**
+     * Stores the context path.
+     */
+    private String contextPath;
+    
+    /**
+     * Constructor.
+     */
+    public NanoServletContext() {
+        contextPath = "";
+    }
+    
+    /**
      * Not supported.
      * 
      * @param filterName the filter name.
@@ -237,51 +249,104 @@ public class NanoServletContext implements ServletContext {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @return the class loader.
+     */
     @Override
     public ClassLoader getClassLoader() {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param path the path
+     * @return the Servlet context.
+     */
     @Override
     public ServletContext getContext(String path) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Get the context path.
+     * 
+     * @return the context path.
+     */
     @Override
     public String getContextPath() {
-        throw new UnsupportedOperationException("Not supported");
+        return contextPath;
     }
 
+    /**
+     * Not supported.
+     * 
+     * @return the set of default session tracking modes.
+     */
     @Override
     public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Get the effective major version.
+     * 
+     * @return the effective major version.
+     */
     @Override
     public int getEffectiveMajorVersion() {
-        throw new UnsupportedOperationException("Not supported");
+        return 4;
     }
 
+    /**
+     * Get the effective minor version.
+     * 
+     * @return the effective minor version.
+     */
     @Override
     public int getEffectiveMinorVersion() {
-        throw new UnsupportedOperationException("Not supported");
+        return 0;
     }
 
+    /**
+     * Not supported.
+     * 
+     * @return the set of efftive session tracking modes.
+     */
     @Override
     public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param filterName the filter name.
+     * @return the filter registration.
+     */
     @Override
     public FilterRegistration getFilterRegistration(String filterName) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @return the filter registrations.
+     */
     @Override
     public Map<String, ? extends FilterRegistration> getFilterRegistrations() {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param name the name.
+     * @return the value.
+     */
     @Override
     public String getInitParameter(String name) {
         throw new UnsupportedOperationException("Not supported");
@@ -425,6 +490,15 @@ public class NanoServletContext implements ServletContext {
     @Override
     public void setAttribute(String name, Object object) {
         throw new UnsupportedOperationException("Not supported");
+    }
+    
+    /**
+     * Set the context path.
+     * 
+     * @param contextPath the context path.
+     */
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
     }
 
     @Override
