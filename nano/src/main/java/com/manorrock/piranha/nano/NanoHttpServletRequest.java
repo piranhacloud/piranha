@@ -27,6 +27,8 @@
  */
 package com.manorrock.piranha.nano;
 
+import com.manorrock.piranha.DefaultHttpHeaderManager;
+import com.manorrock.piranha.api.HttpHeaderManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,11 +55,16 @@ import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
 /**
- * The nano HttpServletRequest.
+ * The Nano version of HttpServletRequest and ServletInputStream.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class NanoHttpServletRequest extends ServletInputStream implements HttpServletRequest {
+
+    /**
+     * Stores the header manager.
+     */
+    private final HttpHeaderManager headerManager;
 
     /**
      * Stores the input stream.
@@ -95,26 +102,12 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
      * @param inputStream the input stream.
      */
     public NanoHttpServletRequest(InputStream inputStream) {
+        this.headerManager = new DefaultHttpHeaderManager();
         this.inputStream = inputStream;
         this.method = "GET";
         this.pathInfo = null;
         this.queryString = null;
         this.servletPath = "";
-    }
-
-    @Override
-    public String getHeader(String name) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public Enumeration<String> getHeaders(String name) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public Enumeration<String> getHeaderNames() {
-        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
@@ -398,6 +391,16 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
+     * Add the header.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    public void addHeader(String name, String value) {
+        headerManager.addHeader(name, value);
+    }
+
+    /**
      * Not supported.
      *
      * @param response the response.
@@ -442,7 +445,7 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
 
     /**
      * Unsupported.
-     * 
+     *
      * @return the list of cookies.
      */
     @Override
@@ -451,16 +454,48 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
-     * Unsupported.
-     * 
+     * Get the date header.
+     *
      * @param name the name.
      * @return the date header as a long.
      */
     @Override
     public long getDateHeader(String name) {
-        throw new UnsupportedOperationException("Not supported");
+        return headerManager.getDateHeader(name);
     }
-    
+
+    /**
+     * Get the header.
+     *
+     * @param name the name.
+     * @return the value, or null.
+     */
+    @Override
+    public String getHeader(String name) {
+        return headerManager.getHeader(name);
+    }
+
+    /**
+     * Get the header names.
+     * 
+     * @return the header names.
+     */
+    @Override
+    public Enumeration<String> getHeaderNames() {
+        return headerManager.getHeaderNames();
+    }
+
+    /**
+     * Get the values for the given header.
+     *
+     * @param name the name.
+     * @return the values.
+     */
+    @Override
+    public Enumeration<String> getHeaders(String name) {
+        return headerManager.getHeaders(name);
+    }
+
     /**
      * Get the input stream.
      *

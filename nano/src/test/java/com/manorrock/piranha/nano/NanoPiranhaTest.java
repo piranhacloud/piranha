@@ -99,6 +99,24 @@ public class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
+    public void testProcess4() throws Exception {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(
+                "GET /index.html?q=value HTTP/1.1\r\nmyheader: myvalue\r\n".getBytes());
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        NanoPiranha piranha = new NanoPiranha();
+        piranha.addFilter(new NanoRequestLineFilter());
+        piranha.addFilter(new NanoRequestHeadersFilter());
+        piranha.setServlet(new TestHeaderServlet());
+        piranha.process(inputStream, outputStream);
+        assertEquals("myvalue", outputStream.toString());
+    }
+
+    /**
+     * Test service method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
     public void testService() throws Exception {
         NanoHttpServletRequest request = new NanoHttpServletRequest(new ByteArrayInputStream(new byte[0]));
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -148,6 +166,26 @@ public class NanoPiranhaTest {
         protected void doGet(HttpServletRequest request, HttpServletResponse response)
                 throws IOException, ServletException {
             response.getWriter().print(request.getQueryString());
+        }
+    }
+
+    /**
+     * A test servlet to verify header parsing.
+     */
+    public class TestHeaderServlet extends HttpServlet {
+
+        /**
+         * Perform a GET request.
+         *
+         * @param request the request.
+         * @param response the response.
+         * @throws IOException when an I/O error occurs.
+         * @throws ServletException when a Servlet error occurs.
+         */
+        @Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)
+                throws IOException, ServletException {
+            response.getWriter().print(request.getHeader("myheader"));
         }
     }
 }
