@@ -28,7 +28,9 @@
 package com.manorrock.piranha.nano;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /**
@@ -94,10 +96,37 @@ public class NanoHttpServletRequestTest {
     /**
      * Test getDateHeader method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetDateHeader() {
         NanoHttpServletRequest request = new NanoHttpServletRequest(null);
-        request.getDateHeader("header");
+        assertEquals(-1, request.getDateHeader("header"));
+    }
+
+    /**
+     * Test getHeader method.
+     */
+    @Test
+    public void testGetHeader() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertNull(request.getHeader("header"));
+    }
+
+    /**
+     * Test getHeaderNames method.
+     */
+    @Test
+    public void testGetHeaderNames() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertFalse(request.getHeaderNames().hasMoreElements());
+    }
+
+    /**
+     * Test getHeaders method.
+     */
+    @Test
+    public void testGetHeaders() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertFalse(request.getHeaders("myheader").hasMoreElements());
     }
 
     /**

@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Vector;
 
 /**
  * The default HttpHeaderManager.
@@ -152,7 +153,7 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
      */
     @Override
     public Enumeration<String> getHeaders(String name) {
-        Enumeration<String> result = null;
+        Enumeration<String> result = Collections.enumeration(Collections.emptyList());
         if (headers.containsKey(name.toUpperCase(locale))) {
             result = headers.get(name.toUpperCase(locale)).getValues();
         }
