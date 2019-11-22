@@ -28,6 +28,7 @@
 package com.manorrock.piranha.nano;
 
 import javax.servlet.http.Cookie;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
@@ -80,5 +81,77 @@ public class NanoHttpServletResponseTest {
     public void testContainsHeader() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
         response.containsHeader("name");
+    }
+
+    /**
+     * Test encodeRedirectURL method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testEncodeRedirectURL() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.encodeRedirectURL("url");
+    }
+
+    /**
+     * Test encodeRedirectUrl method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testEncodeRedirectUrl() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.encodeRedirectUrl("url");
+    }
+
+    /**
+     * Test encodeURL method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testEncodeURL() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.encodeURL("url");
+    }
+
+    /**
+     * Test encodeUrl method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testEncodeUrl() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.encodeUrl("url");
+    }
+
+    /**
+     * Test getHeader method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetHeader() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.getHeader("header");
+    }
+
+    /**
+     * Test getHeaderNames method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetHeaderNames() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.getHeaderNames();
+    }
+
+    /**
+     * Test getHeaders method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetHeaders() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.getHeaders("header");
+    }
+
+    /**
+     * Test getStatus method.
+     */
+    @Test
+    public void testGetStatus() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        assertEquals(200, response.getStatus());
     }
 }

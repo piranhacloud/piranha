@@ -139,4 +139,93 @@ public class NanoHttpServletRequestTest {
         NanoHttpServletRequest request = new NanoHttpServletRequest(null);
         assertNotNull(request.getInputStream());
     }
+
+    /**
+     * Test getIntHeader method.
+     */
+    @Test
+    public void testGetIntHeader() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertEquals(-1, request.getIntHeader("header"));
+    }
+
+    /**
+     * Test getPart method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetPart() throws Exception {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertNotNull(request.getPart("part"));
+    }
+
+    /**
+     * Test getParts method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetParts() throws Exception {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertNotNull(request.getParts());
+    }
+
+    /**
+     * Test getPathInfo method.
+     */
+    @Test
+    public void testGetPathInfo() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertNull(request.getPathInfo());
+    }
+
+    /**
+     * Test getPathTranslated method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetPathTranslated() throws Exception {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertNotNull(request.getPathTranslated());
+    }
+
+    /**
+     * Test getProtocol method.
+     */
+    @Test
+    public void testGetProtocol() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertEquals("HTTP/1.1", request.getProtocol());
+    }
+    
+    /**
+     * Test getRemoteUser method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetRemoteUser() throws Exception {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertNotNull(request.getRemoteUser());
+    }
+
+    /**
+     * Test getScheme method.
+     */
+    @Test
+    public void testGetScheme() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertEquals("http", request.getScheme());
+    }
+
+    /**
+     * Test getServletPath method.
+     */
+    @Test
+    public void testGetServletPath() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertEquals("", request.getServletPath());
+    }
 }

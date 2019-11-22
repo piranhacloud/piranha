@@ -49,6 +49,11 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
      * Stores the output stream.
      */
     private OutputStream outputStream;
+    
+    /**
+     * Stores the status.
+     */
+    private int status;
 
     /**
      * Stores the writer.
@@ -62,11 +67,12 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
      */
     public NanoHttpServletResponse(OutputStream outputStream) {
         this.outputStream = outputStream;
+        this.status = 200;
     }
 
     /**
      * Not supported.
-     * 
+     *
      * @param cookie the cookie.
      */
     @Override
@@ -76,7 +82,7 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
 
     /**
      * Not supported.
-     * 
+     *
      * @param name the name.
      * @param date the date.
      */
@@ -87,7 +93,7 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
 
     /**
      * Not supported.
-     * 
+     *
      * @param name the name.
      * @param value the value.
      */
@@ -98,7 +104,7 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
 
     /**
      * Not supported.
-     * 
+     *
      * @param name the name.
      * @param value the value.
      */
@@ -109,7 +115,7 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
 
     /**
      * Not supported.
-     * 
+     *
      * @param name the name.
      * @return true if it contains the header, false otherwise.
      */
@@ -118,44 +124,114 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     *
+     * @param url the url.
+     * @return the encoded redirect url.
+     */
     @Override
     public String encodeRedirectURL(String url) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     *
+     * @param url the url.
+     * @return the encoded redirect url.
+     */
     @Override
     public String encodeRedirectUrl(String url) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     *
+     * @param url the url.
+     * @return the encoded url.
+     */
     @Override
     public String encodeURL(String url) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     *
+     * @param url the url.
+     * @return the encoded url.
+     */
     @Override
     public String encodeUrl(String url) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Flush the buffer.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
+    @Override
+    public void flushBuffer() throws IOException {
+        writer.flush();
+    }
+
+    /**
+     * Not supported.
+     *
+     * @param name the name.
+     * @return the value.
+     */
     @Override
     public String getHeader(String name) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     *
+     * @return the header names.
+     */
     @Override
     public Collection<String> getHeaderNames() {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     *
+     * @param name the name.
+     * @return the values.
+     */
     @Override
     public Collection<String> getHeaders(String name) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Get the status.
+     *
+     * @return the status.
+     */
     @Override
     public int getStatus() {
-        throw new UnsupportedOperationException("Not supported");
+        return status;
+    }
+
+    /**
+     * Get the writer.
+     *
+     * @return the writer.
+     * @throws IOException when an I/O error occurs.
+     */
+    @Override
+    public PrintWriter getWriter() throws IOException {
+        if (writer == null) {
+            writer = new PrintWriter(new OutputStreamWriter(outputStream));
+        }
+        return writer;
     }
 
     @Override
@@ -281,29 +357,5 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
     @Override
     public void write(int b) throws IOException {
         throw new UnsupportedOperationException("Not supported");
-    }
-
-    /**
-     * Flush the buffer.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
-    @Override
-    public void flushBuffer() throws IOException {
-        writer.flush();
-    }
-
-    /**
-     * Get the writer.
-     *
-     * @return the writer.
-     * @throws IOException when an I/O error occurs.
-     */
-    @Override
-    public PrintWriter getWriter() throws IOException {
-        if (writer == null) {
-            writer = new PrintWriter(new OutputStreamWriter(outputStream));
-        }
-        return writer;
     }
 }

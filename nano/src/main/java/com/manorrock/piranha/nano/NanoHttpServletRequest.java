@@ -111,31 +111,6 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     @Override
-    public int getIntHeader(String name) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public Part getPart(String name) throws IOException, ServletException {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public Collection<Part> getParts() throws IOException, ServletException {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public String getPathTranslated() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public String getRemoteUser() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
     public String getRequestURI() {
         throw new UnsupportedOperationException("Not supported");
     }
@@ -444,7 +419,7 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
-     * Unsupported.
+     * Not supported.
      *
      * @return the list of cookies.
      */
@@ -477,7 +452,7 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
 
     /**
      * Get the header names.
-     * 
+     *
      * @return the header names.
      */
     @Override
@@ -508,6 +483,17 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
+     * Get the int header.
+     *
+     * @param name the name.
+     * @return the value.
+     */
+    @Override
+    public int getIntHeader(String name) {
+        return headerManager.getIntHeader(name);
+    }
+
+    /**
      * Get the method.
      *
      * @return the method.
@@ -515,6 +501,31 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     @Override
     public String getMethod() {
         return method;
+    }
+
+    /**
+     * Not supported.
+     *
+     * @param name the name.
+     * @return the part.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    public Part getPart(String name) throws IOException, ServletException {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     * 
+     * @return the parts.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    public Collection<Part> getParts() throws IOException, ServletException {
+        throw new UnsupportedOperationException("Not supported");
     }
 
     /**
@@ -528,6 +539,16 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
+     * Not supported.
+     * 
+     * @return the translated path.
+     */
+    @Override
+    public String getPathTranslated() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
      * Get the protocol.
      *
      * @return the protocol.
@@ -537,6 +558,16 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
         return "HTTP/1.1";
     }
 
+    /**
+     * Not supported.
+     * 
+     * @return the remote user.
+     */
+    @Override
+    public String getRemoteUser() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+    
     /**
      * Get the query string.
      *
