@@ -31,25 +31,25 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>com.manorrock.piranha.security</groupId>
             <artifactId>piranha-authentication-eleos</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>com.manorrock.piranha.security</groupId>
             <artifactId>piranha-authorization-exousia</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>com.manorrock.piranha.security</groupId>
             <artifactId>piranha-security-jakarta</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>com.manorrock.piranha.security</groupId>
             <artifactId>piranha-security-soteria</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
