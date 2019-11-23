@@ -27,9 +27,10 @@
  */
 package com.manorrock.piranha.nano;
 
+import com.manorrock.piranha.DefaultAttributeManager;
 import com.manorrock.piranha.DefaultHttpHeaderManager;
-import com.manorrock.piranha.api.HttpHeaderManager;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -62,14 +63,19 @@ import javax.servlet.http.Part;
 public class NanoHttpServletRequest extends ServletInputStream implements HttpServletRequest {
 
     /**
+     * Stores the attribute manager.
+     */
+    private final DefaultAttributeManager attributeManager;
+
+    /**
      * Stores the header manager.
      */
-    private final HttpHeaderManager headerManager;
+    private final DefaultHttpHeaderManager headerManager;
 
     /**
      * Stores the input stream.
      */
-    private final InputStream inputStream;
+    private InputStream inputStream;
 
     /**
      * Stores the method.
@@ -95,6 +101,19 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
      * Stores the servlet path.
      */
     private String servletPath;
+    
+    /**
+     * Constructor.
+     */
+    public NanoHttpServletRequest() {
+        this.attributeManager = new DefaultAttributeManager();
+        this.headerManager = new DefaultHttpHeaderManager();
+        this.inputStream = new ByteArrayInputStream(new byte[0]);
+        this.method = "GET";
+        this.pathInfo = null;
+        this.queryString = null;
+        this.servletPath = "";
+    }
 
     /**
      * Constructor.
@@ -102,21 +121,12 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
      * @param inputStream the input stream.
      */
     public NanoHttpServletRequest(InputStream inputStream) {
-        this.headerManager = new DefaultHttpHeaderManager();
+        this();
         this.inputStream = inputStream;
-        this.method = "GET";
-        this.pathInfo = null;
-        this.queryString = null;
-        this.servletPath = "";
     }
 
     @Override
     public AsyncContext getAsyncContext() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public Object getAttribute(String name) {
         throw new UnsupportedOperationException("Not supported");
     }
 
@@ -326,6 +336,17 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     @Override
     public String changeSessionId() {
         throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Get the attribute.
+     *
+     * @param name the name.
+     * @return the value, or null if not found.
+     */
+    @Override
+    public Object getAttribute(String name) {
+        return attributeManager.getAttribute(name);
     }
 
     /**
@@ -580,13 +601,13 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
-     * Not supported.
+     * Get the session.
      *
-     * @return the session.
+     * @return the session, or null if it does not exist.
      */
     @Override
     public HttpSession getSession() {
-        throw new UnsupportedOperationException("Not supported");
+        return null;
     }
 
     /**
@@ -674,7 +695,7 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
 
     /**
      * Not supported.
-     * 
+     *
      * @throws ServletException when a Servlet error occurs.
      */
     @Override
@@ -726,10 +747,10 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
     }
-    
+
     /**
      * Not supported.
-     * 
+     *
      * @param <T> the type.
      * @param handlerClass the handler class.
      * @return the HTTP upgrade handler.

@@ -269,10 +269,10 @@ public class NanoHttpServletRequestTest {
     /**
      * Test getSession method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetSession2() {
         NanoHttpServletRequest request = new NanoHttpServletRequest(null);
-        assertNotNull(request.getSession());
+        assertNull(request.getSession());
     }
 
     /**

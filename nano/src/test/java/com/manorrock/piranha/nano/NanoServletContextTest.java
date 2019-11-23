@@ -30,12 +30,14 @@ package com.manorrock.piranha.nano;
 import java.io.IOException;
 import java.util.EventListener;
 import javax.servlet.Filter;
+import javax.servlet.FilterChain;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /**
@@ -60,7 +62,9 @@ public class NanoServletContextTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testAddFilter2() {
         NanoServletContext context = new NanoServletContext();
-        context.addFilter("filter", new NanoRequestHeadersFilter());
+        context.addFilter("filter", (ServletRequest request, ServletResponse response, FilterChain chain) -> {
+            throw new UnsupportedOperationException("Not supported yet.");
+        });
     }
 
     /**
@@ -206,10 +210,10 @@ public class NanoServletContextTest {
     /**
      * Test getAttribute method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetAttribute() {
         NanoServletContext context = new NanoServletContext();
-        context.getAttribute("name");
+        assertNull(context.getAttribute("name"));
     }
 
     /**
@@ -305,10 +309,10 @@ public class NanoServletContextTest {
     /**
      * Test getInitParameter method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetInitParameter() {
         NanoServletContext context = new NanoServletContext();
-        context.getInitParameter("name");
+        assertNull(context.getInitParameter("name"));
     }
 
     /**
@@ -323,10 +327,10 @@ public class NanoServletContextTest {
     /**
      * Test getJspConfigDescriptor method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetJspConfigDescriptor() {
         NanoServletContext context = new NanoServletContext();
-        context.getJspConfigDescriptor();
+        assertNull(context.getJspConfigDescriptor());
     }
 
     /**
@@ -368,10 +372,10 @@ public class NanoServletContextTest {
     /**
      * Test getRealPath method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetRealPath() {
         NanoServletContext context = new NanoServletContext();
-        context.getRealPath("/realpath");
+        assertNull(context.getRealPath("/realpath"));
     }
 
     /**
