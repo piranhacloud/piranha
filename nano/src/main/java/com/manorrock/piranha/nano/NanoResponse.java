@@ -48,7 +48,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoHttpServletResponse extends ServletOutputStream implements HttpServletResponse {
+public class NanoResponse extends ServletOutputStream implements HttpServletResponse {
 
     /**
      * Stores the buffer.
@@ -140,7 +140,7 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
      *
      * @param outputStream the output stream.
      */
-    public NanoHttpServletResponse(OutputStream outputStream) {
+    public NanoResponse(OutputStream outputStream) {
         this.buffer = new byte[8192];
         this.contentType = null;
         this.cookies = new ArrayList<>();
