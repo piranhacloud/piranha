@@ -31,27 +31,32 @@
     </developers>
 
     <modules>
-        <module>cdi</module>
-        <module>embedded</module>
-        <module>faces</module>
-        <module>http</module>
-        <module>micro</module>
+        <!-- Core -->
         <module>piranha</module>
         <module>piranha-api</module>
         <module>piranha-builder</module>
-        <module>piranha-authentication-eleos</module>
-        <module>piranha-authorization-exousia</module>
+    
+        <!-- Logical components -->
+        <module>cdi</module>
+        <module>faces</module>
+        <module>http</module>
+        <module>security</module>
+        
+        <!-- Distributions -->
+        <module>nano</module>
+        <module>micro</module>
+        <module>embedded</module>
+        <module>standard</module>
+        
+      
         <module>piranha-pages-jasper</module>
         <module>piranha-microprofile-smallrye-health</module>
-        <module>piranha-security-soteria</module>
         <module>piranha-servlet</module>
         <module>piranha-servlet-api</module>
         <module>piranha-session-hazelcast</module>
         <module>piranha-resources-shrinkwrap</module>
-        <module>piranha-security-jakarta</module>
         <module>piranha-webxml</module>
-        <module>standard</module>
-        <module>nano</module>
+        
     </modules>
 
     <scm>
