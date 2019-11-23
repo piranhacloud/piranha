@@ -345,10 +345,10 @@ public class NanoServletContextTest {
     /**
      * Test getMimeType method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetMimeType() {
         NanoServletContext context = new NanoServletContext();
-        context.getMimeType("myfile.txt");
+        assertNull(context.getMimeType("myfile.txt"));
     }
 
     /**

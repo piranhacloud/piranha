@@ -27,11 +27,16 @@
  */
 package com.manorrock.piranha.nano;
 
+import com.manorrock.piranha.DefaultHttpHeaderManager;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Locale;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
@@ -39,7 +44,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * The nano HttpServletResponse.
+ * The Nano version of the HttpServletResponse and the ServletOutputStream.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -48,32 +53,87 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
     /**
      * Stores the buffer.
      */
-    private byte[] buffer;
+    protected byte[] buffer;
+    
+    /**
+     * Stores the character encoding.
+     */
+    protected String characterEncoding;
+
+    /**
+     * Stores if the character encoding has been set manually.
+     */
+    protected boolean characterEncodingSet;
+
+    /**
+     * Stores the committed flag.
+     */
+    protected boolean committed;
+    
+    /**
+     * Stores the content length.
+     */
+    protected long contentLength;
     
     /**
      * Stores the content type.
      */
-    private String contentType;
-    
+    protected String contentType;
+
     /**
-     * Stores the gotWriter flag.
+     * Stores if the content type has been set manually.
+     */
+    protected boolean contentTypeSet;
+
+    /**
+     * Stores the cookies.
+     */
+    protected List<Cookie> cookies;
+
+    /**
+     * Stores if we acquired the output stream.
+     */
+    protected boolean gotOutput;
+
+    /**
+     * Stores if we acquired the writer.
      */
     private boolean gotWriter;
-    
+
+    /**
+     * Stores the header manager.
+     */
+    protected DefaultHttpHeaderManager headerManager;
+
+    /**
+     * Stores the index.
+     */
+    protected int index;
+
+    /**
+     * Stores the locale.
+     */
+    protected Locale locale;
+
     /**
      * Stores the output stream.
      */
-    private OutputStream outputStream;
+    protected OutputStream outputStream;
 
     /**
      * Stores the status.
      */
-    private int status;
+    protected int status;
+
+    /**
+     * Stores the status message.
+     */
+    protected String statusMessage;
 
     /**
      * Stores the writer.
      */
-    private PrintWriter writer;
+    protected PrintWriter writer;
 
     /**
      * Constructor.
@@ -83,107 +143,125 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
     public NanoHttpServletResponse(OutputStream outputStream) {
         this.buffer = new byte[8192];
         this.contentType = null;
+        this.cookies = new ArrayList<>();
+        this.headerManager = new DefaultHttpHeaderManager();
         this.gotWriter = false;
         this.outputStream = outputStream;
         this.status = 200;
     }
 
     /**
-     * Not supported.
+     * Add the cookie.
      *
      * @param cookie the cookie.
      */
     @Override
     public void addCookie(Cookie cookie) {
-        throw new UnsupportedOperationException("Not supported");
+        this.cookies.add(cookie);
     }
 
     /**
-     * Not supported.
+     * Add the date header.
      *
-     * @param name the name.
-     * @param date the date.
+     * @param name the header name.
+     * @param date the header date value.
      */
     @Override
     public void addDateHeader(String name, long date) {
-        throw new UnsupportedOperationException("Not supported");
+        addHeader(name, Long.toString(date));
     }
 
     /**
-     * Not supported.
+     * Add the header.
      *
      * @param name the name.
      * @param value the value.
      */
     @Override
     public void addHeader(String name, String value) {
-        throw new UnsupportedOperationException("Not supported");
+        headerManager.addHeader(name, value);
     }
 
     /**
-     * Not supported.
+     * Add the integer header.
      *
-     * @param name the name.
-     * @param value the value.
+     * @param name the name of the header.
+     * @param value the value of the header.
      */
     @Override
     public void addIntHeader(String name, int value) {
-        throw new UnsupportedOperationException("Not supported");
+        addHeader(name, Integer.toString(value));
     }
 
     /**
-     * Not supported.
+     * Contains the given header.
      *
-     * @param name the name.
-     * @return true if it contains the header, false otherwise.
+     * @param name the header name.
+     * @return true if there, false otherwise.
      */
     @Override
     public boolean containsHeader(String name) {
-        throw new UnsupportedOperationException("Not supported");
+        return headerManager.containsHeader(name);
     }
 
     /**
-     * Not supported.
+     * Encode the redirect URL.
      *
      * @param url the url.
      * @return the encoded redirect url.
      */
     @Override
     public String encodeRedirectURL(String url) {
-        throw new UnsupportedOperationException("Not supported");
+        String result = url;
+        return result;
     }
 
     /**
-     * Not supported.
+     * Encode the redirect url.
      *
      * @param url the url.
      * @return the encoded redirect url.
+     * @deprecated
      */
     @Override
     public String encodeRedirectUrl(String url) {
-        throw new UnsupportedOperationException("Not supported");
+        throw new UnsupportedOperationException("HttpServletResponse.encodeRedirectUrl is no longer supported");
     }
 
     /**
-     * Not supported.
+     * Encode the URL.
      *
-     * @param url the url.
+     * @param url the URL.
      * @return the encoded url.
      */
     @Override
     public String encodeURL(String url) {
-        throw new UnsupportedOperationException("Not supported");
+        String result = url;
+        return result;
     }
 
     /**
-     * Not supported.
+     * Encode the url.
      *
      * @param url the url.
      * @return the encoded url.
+     * @deprecated
      */
     @Override
     public String encodeUrl(String url) {
-        throw new UnsupportedOperationException("Not supported");
+        throw new UnsupportedOperationException("HttpServletResponse.encodeUrl is no longer supported");
+    }
+
+    /**
+     * Flush the output stream.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
+    @Override
+    public void flush() throws IOException {
+        if (!isCommitted()) {
+            writeOut();
+        }
     }
 
     /**
@@ -196,38 +274,110 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
         if (gotWriter) {
             writer.flush();
         }
+        outputStream.flush();
+        committed = true;
     }
 
     /**
-     * Not supported.
+     * Get the buffer size.
      *
-     * @param name the name.
+     * @return the buffer size.
+     */
+    @Override
+    public int getBufferSize() {
+        return buffer.length;
+    }
+
+    /**
+     * Get the character encoding.
+     *
+     * @return the character encoding.
+     */
+    @Override
+    public String getCharacterEncoding() {
+        String result = null;
+        if (characterEncoding != null) {
+            result = characterEncoding;
+        }
+        return result;
+    }
+
+    /**
+     * Get the content type.
+     *
+     * @return the content type.
+     */
+    @Override
+    public String getContentType() {
+        return contentType;
+    }
+
+    /**
+     * Get the header.
+     *
+     * @param name the header name.
      * @return the value.
      */
     @Override
     public String getHeader(String name) {
-        throw new UnsupportedOperationException("Not supported");
+        return headerManager.getHeader(name);
     }
 
     /**
-     * Not supported.
+     * Get the header names.
      *
-     * @return the header names.
+     * @return the collection.
      */
     @Override
     public Collection<String> getHeaderNames() {
-        throw new UnsupportedOperationException("Not supported");
+        ArrayList<String> result = new ArrayList<>();
+        Enumeration<String> enumeration = headerManager.getHeaderNames();
+        if (enumeration != null) {
+            result = Collections.list(enumeration);
+        }
+        return result;
     }
 
     /**
-     * Not supported.
+     * Get the headers.
      *
-     * @param name the name.
-     * @return the values.
+     * @param name the name of the header.
+     * @return the collection.
      */
     @Override
     public Collection<String> getHeaders(String name) {
-        throw new UnsupportedOperationException("Not supported");
+        ArrayList<String> result = new ArrayList<>();
+        Enumeration<String> enumeration = headerManager.getHeaders(name);
+        if (enumeration != null) {
+            result = Collections.list(enumeration);
+        }
+        return result;
+    }
+
+    /**
+     * Get the locale.
+     *
+     * @return the locale.
+     */
+    @Override
+    public Locale getLocale() {
+        return locale;
+    }
+
+    /**
+     * Get the output stream.
+     *
+     * @return the output stream.
+     * @throws IOException when an I/O error occurs.
+     */
+    @Override
+    public ServletOutputStream getOutputStream() throws IOException {
+        if (!gotWriter) {
+            gotOutput = true;
+            return this;
+        } else {
+            throw new IllegalStateException("Cannot get output stream as the writer was already acquired");
+        }
     }
 
     /**
@@ -247,35 +397,88 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
      * @throws IOException when an I/O error occurs.
      */
     @Override
-    public PrintWriter getWriter() throws IOException {
-        if (writer == null) {
-            writer = new PrintWriter(new OutputStreamWriter(outputStream));
-            gotWriter = true;
+    public synchronized PrintWriter getWriter() throws IOException {
+        PrintWriter result = null;
+        if (!gotOutput) {
+            if (gotWriter == false) {
+                gotWriter = true;
+                if (characterEncoding == null) {
+                    characterEncoding = "ISO-8859-1";
+                }
+                writer = new PrintWriter(new OutputStreamWriter(outputStream, characterEncoding));
+            }
+            result = writer;
+        } else {
+            throw new IllegalStateException("Cannot get writer as the output stream was already acquired");
         }
-        return writer;
+        return result;
     }
 
     /**
-     * Not supported.
+     * Is committed.
      *
-     * @param status the status.
-     * @param message the message.
+     * @return the committed flag.
+     */
+    @Override
+    public boolean isCommitted() {
+        return committed;
+    }
+
+    /**
+     * Is the output stream ready?
+     *
+     * @return true if it is, false otherwise.
+     */
+    @Override
+    public boolean isReady() {
+        return true;
+    }
+
+    /**
+     * Reset the response.
+     */
+    @Override
+    public void reset() {
+        verifyNotCommitted("reset");
+        this.status = 200;
+        this.statusMessage = null;
+        resetBuffer();
+    }
+
+    /**
+     * Reset the buffer.
+     */
+    @Override
+    public void resetBuffer() {
+        buffer = new byte[buffer.length];
+    }
+
+    /**
+     * Send the error.
+     *
+     * @param status the status code.
+     * @param statusMessage the message.
      * @throws IOException when an I/O error occurs.
      */
     @Override
-    public void sendError(int status, String message) throws IOException {
-        throw new UnsupportedOperationException("Not supported");
+    public void sendError(int status, String statusMessage) throws IOException {
+        verifyNotCommitted("sendError");
+        setStatus(status);
+        this.statusMessage = statusMessage;
+        flushBuffer();
     }
 
     /**
-     * Not supported.
+     * Send an error.
      *
-     * @param status the status.
+     * @param status the error code.
      * @throws IOException when an I/O error occurs.
      */
     @Override
     public void sendError(int status) throws IOException {
-        this.status = status;
+        verifyNotCommitted("sendError");
+        setStatus(status);
+        flushBuffer();
     }
 
     /**
@@ -286,95 +489,12 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
      */
     @Override
     public void sendRedirect(String location) throws IOException {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    /**
-     * Not supported.
-     *
-     * @param name the name.
-     * @param date the date.
-     */
-    @Override
-    public void setDateHeader(String name, long date) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    /**
-     * Not supported.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
-    @Override
-    public void setHeader(String name, String value) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    /**
-     * Not supported.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
-    @Override
-    public void setIntHeader(String name, int value) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public void setStatus(int status) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public void setStatus(int status, String message) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public int getBufferSize() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public String getCharacterEncoding() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public String getContentType() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public Locale getLocale() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public ServletOutputStream getOutputStream() throws IOException {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public boolean isCommitted() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public void reset() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public void resetBuffer() {
-        throw new UnsupportedOperationException("Not supported");
+        throw new UnsupportedOperationException("sendRedirect is not supported");
     }
 
     /**
      * Set the buffer size.
-     * 
+     *
      * @param bufferSize the buffer size.
      */
     @Override
@@ -382,48 +502,183 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
         this.buffer = new byte[bufferSize];
     }
 
+    /**
+     * Set the character encoding.
+     *
+     * @param characterEncoding the character encoding.
+     */
     @Override
     public void setCharacterEncoding(String characterEncoding) {
-        throw new UnsupportedOperationException("Not supported");
+        if (!gotWriter && !committed) {
+            this.characterEncoding = characterEncoding;
+            characterEncodingSet = true;
+        }
     }
 
+    /**
+     * Set the content length.
+     *
+     * @param contentLength the content length.
+     */
     @Override
     public void setContentLength(int contentLength) {
-        throw new UnsupportedOperationException("Not supported");
+        this.contentLength = contentLength;
     }
 
+    /**
+     * Set the content length.
+     *
+     * @param contentLength the content length.
+     */
     @Override
     public void setContentLengthLong(long contentLength) {
-        throw new UnsupportedOperationException("Not supported");
+        this.contentLength = contentLength;
     }
 
     /**
      * Set the content type.
-     * 
-     * @param contentType the content type.
+     *
+     * @param type the content type.
      */
     @Override
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public void setContentType(String type) {
+        if (!gotWriter && !committed) {
+            if (type != null) {
+                if (type.contains(";")) {
+                    contentType = type.substring(0, type.indexOf(";")).trim();
+                    String encoding = type.substring(type.indexOf(";") + 1).trim();
+                    if (encoding.contains("=")) {
+                        encoding = encoding.substring(encoding.indexOf("=") + 1).trim();
+                        setCharacterEncoding(encoding);
+                    }
+                } else {
+                    contentType = type;
+                }
+            } else {
+                contentType = type;
+            }
+            contentTypeSet = true;
+        }
     }
 
+    /**
+     * Set the date header.
+     *
+     * @param name the header name.
+     * @param date the date.
+     */
+    @Override
+    public void setDateHeader(String name, long date) {
+        setHeader(name, Long.toString(date));
+    }
+
+    /**
+     * Set the header.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    @Override
+    public void setHeader(String name, String value) {
+        headerManager.setHeader(name, value);
+    }
+
+    /**
+     * Set the int header.
+     *
+     * @param name the header name.
+     * @param value the header value.
+     */
+    @Override
+    public void setIntHeader(String name, int value) {
+        setHeader(name, Integer.toString(value));
+    }
+
+    /**
+     * Set the locale.
+     *
+     * @param locale the locale.
+     */
     @Override
     public void setLocale(Locale locale) {
-        throw new UnsupportedOperationException("Not supported");
+        if (!gotWriter && !committed) {
+            this.locale = locale;
+        }
     }
 
+    /**
+     * Set the status.
+     *
+     * @param status the status.
+     * @param statusMessage the message
+     * @deprecated
+     */
     @Override
-    public boolean isReady() {
-        throw new UnsupportedOperationException("Not supported");
+    public void setStatus(int status, String statusMessage) {
+        setStatus(status);
     }
 
+    /**
+     * Set the status.
+     *
+     * @param status the status code.
+     */
     @Override
-    public void setWriteListener(WriteListener writeListener) {
-        throw new UnsupportedOperationException("Not supported");
+    public void setStatus(int status) {
+        verifyNotCommitted("setStatus");
+        this.status = status;
     }
 
+    /**
+     * Set the write listener.
+     *
+     * @param listener the write listener.
+     */
     @Override
-    public void write(int b) throws IOException {
-        throw new UnsupportedOperationException("Not supported");
+    public void setWriteListener(WriteListener listener) {
+    }
+
+    /**
+     * Verify we are not committed.
+     *
+     * @param methodName the method we are checking for.
+     */
+    protected void verifyNotCommitted(String methodName) {
+        if (isCommitted()) {
+            throw new IllegalStateException("Response already committed in " + methodName);
+        }
+    }
+
+    /**
+     * Write the integer.
+     *
+     * @param integer the integer.
+     * @throws IOException when an I/O error occurs.
+     */
+    @Override
+    public void write(int integer) throws IOException {
+        if (index == buffer.length - 1) {
+            outputStream.write(integer);
+        } else if (index == buffer.length) {
+            outputStream.write(integer);
+        } else {
+            this.buffer[index] = (byte) integer;
+            this.index++;
+        }
+    }
+
+    /**
+     * Write out the status-line, headers and the buffer.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
+    private void writeOut() throws IOException {
+//        writeStatusLine();
+//        writeContentType();
+//        writeCookies();
+//        writeHeaders();
+        outputStream.write(buffer, 0, index);
+        index = buffer.length;
+        committed = true;
     }
 }

@@ -27,8 +27,12 @@
  */
 package com.manorrock.piranha.nano;
 
+import java.io.ByteArrayOutputStream;
 import javax.servlet.http.Cookie;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /**
@@ -41,7 +45,7 @@ public class NanoHttpServletResponseTest {
     /**
      * Test addCookie method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAddCookie() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
         response.addCookie(new Cookie("name", "value"));
@@ -50,46 +54,49 @@ public class NanoHttpServletResponseTest {
     /**
      * Test addDateHeader method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAddDateHeader() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
         response.addDateHeader("name", 0);
+        assertEquals("0", response.getHeader("name"));
     }
 
     /**
      * Test addHeader method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAddHeader() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
         response.addHeader("name", "value");
+        assertEquals("value", response.getHeader("name"));
     }
 
     /**
      * Test addIntHeader method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAddIntHeader() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
         response.addIntHeader("name", 1);
+        assertEquals("1", response.getHeader("name"));
     }
 
     /**
      * Test containsHeader method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testContainsHeader() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
-        response.containsHeader("name");
+        assertFalse(response.containsHeader("name"));
     }
 
     /**
      * Test encodeRedirectURL method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testEncodeRedirectURL() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
-        response.encodeRedirectURL("url");
+        assertEquals("url", response.encodeRedirectURL("url"));
     }
 
     /**
@@ -104,10 +111,11 @@ public class NanoHttpServletResponseTest {
     /**
      * Test encodeURL method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testEncodeURL() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
-        response.encodeURL("url");
+        assertNotNull(response.encodeURL("url"));
+        assertEquals("url", response.encodeURL("url"));
     }
 
     /**
@@ -122,28 +130,28 @@ public class NanoHttpServletResponseTest {
     /**
      * Test getHeader method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetHeader() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
-        response.getHeader("header");
+        assertNull(response.getHeader("header"));
     }
 
     /**
      * Test getHeaderNames method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetHeaderNames() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
-        response.getHeaderNames();
+        assertNotNull(response.getHeaderNames());
     }
 
     /**
      * Test getHeaders method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetHeaders() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
-        response.getHeaders("header");
+        assertNotNull(response.getHeaders("header"));
     }
 
     /**
@@ -160,10 +168,11 @@ public class NanoHttpServletResponseTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSendError() throws Exception {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoHttpServletResponse response = new NanoHttpServletResponse(new ByteArrayOutputStream());
         response.sendError(500, "Errror");
+        assertEquals(500, response.getStatus());
     }
 
     /**
@@ -173,7 +182,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testSendError2() throws Exception {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoHttpServletResponse response = new NanoHttpServletResponse(new ByteArrayOutputStream());
         response.sendError(500);
         assertEquals(500, response.getStatus());
     }
@@ -192,7 +201,7 @@ public class NanoHttpServletResponseTest {
     /**
      * Test setDateHeader method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSetDateHeader() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
         response.setDateHeader("header", 0);
@@ -201,18 +210,20 @@ public class NanoHttpServletResponseTest {
     /**
      * Test setHeader method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSetHeader() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
         response.setHeader("header", "value");
+        assertEquals("value", response.getHeader("header"));
     }
 
     /**
      * Test setIntHeader method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSetIntHeader() {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
         response.setIntHeader("header", 1);
+        assertEquals("1", response.getHeader("header"));
     }
 }

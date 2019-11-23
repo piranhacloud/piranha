@@ -28,6 +28,7 @@
 package com.manorrock.piranha.nano;
 
 import com.manorrock.piranha.DefaultDirectoryResource;
+import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
@@ -39,9 +40,19 @@ import javax.servlet.ServletException;
 public class NanoPiranhaBuilder {
 
     /**
+     * Stores the configuring filter flag.
+     */
+    private boolean configuringFilter = false;
+
+    /**
      * Stores the configuring servlet flag.
      */
     private boolean configuringServlet = false;
+
+    /**
+     * Stores the filter config.
+     */
+    private NanoFilterConfig filterConfig;
 
     /**
      * Stores the servlet config.
@@ -81,15 +92,30 @@ public class NanoPiranhaBuilder {
     }
 
     /**
-     * Set the servlet.
+     * Add a filter.
      *
-     * @param servlet the servlet.
+     * @param filter the filter.
      * @return the builder.
      */
-    public NanoPiranhaBuilder servlet(Servlet servlet) {
-        piranha.setServlet(servlet);
-        servletConfig = new NanoServletConfig(piranha.getServletContext());
-        this.configuringServlet = true;
+    public NanoPiranhaBuilder filter(Filter filter) {
+        piranha.addFilter(filter);
+        filterConfig = new NanoFilterConfig(piranha.getServletContext());
+        configuringFilter = true;
+        return this;
+    }
+
+    /**
+     * Initialize the filter.
+     *
+     * @return the builder.
+     */
+    public NanoPiranhaBuilder initFilter() {
+        configuringFilter = false;
+        try {
+            piranha.getFilters().get(piranha.getFilters().size() - 1).init(filterConfig);
+        } catch (ServletException se) {
+            throw new RuntimeException(se);
+        }
         return this;
     }
 
@@ -103,6 +129,9 @@ public class NanoPiranhaBuilder {
     public NanoPiranhaBuilder initParam(String name, String value) {
         if (configuringServlet) {
             servletConfig.setInitParameter(name, value);
+        }
+        if (configuringFilter) {
+            filterConfig.setInitParameter(name, value);
         }
         return this;
     }
@@ -119,6 +148,19 @@ public class NanoPiranhaBuilder {
         } catch (ServletException se) {
             throw new RuntimeException(se);
         }
+        return this;
+    }
+
+    /**
+     * Set the servlet.
+     *
+     * @param servlet the servlet.
+     * @return the builder.
+     */
+    public NanoPiranhaBuilder servlet(Servlet servlet) {
+        piranha.setServlet(servlet);
+        servletConfig = new NanoServletConfig(piranha.getServletContext());
+        this.configuringServlet = true;
         return this;
     }
 }

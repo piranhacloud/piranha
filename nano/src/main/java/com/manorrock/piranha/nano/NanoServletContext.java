@@ -28,8 +28,10 @@
 package com.manorrock.piranha.nano;
 
 import com.manorrock.piranha.DefaultAttributeManager;
+import com.manorrock.piranha.DefaultMimeTypeManager;
 import com.manorrock.piranha.DefaultResourceManager;
 import com.manorrock.piranha.api.AttributeManager;
+import com.manorrock.piranha.api.MimeTypeManager;
 import com.manorrock.piranha.api.Resource;
 import com.manorrock.piranha.api.ResourceManager;
 import java.io.InputStream;
@@ -61,22 +63,27 @@ public class NanoServletContext implements ServletContext {
     /**
      * Stores the attribute manager.
      */
-    private final AttributeManager attributeManager;
+    protected AttributeManager attributeManager;
 
     /**
      * Stores the context path.
      */
-    private String contextPath;
+    protected String contextPath;
     
     /**
      * Stores the init parameters.
      */
-    private final HashMap<String, String> initParameters;
+    protected final HashMap<String, String> initParameters;
+    
+    /**
+     * Stores the mime type manager.
+     */
+    protected MimeTypeManager mimeTypeManager;
     
     /**
      * Stores the resource manager.
      */
-    private ResourceManager resourceManager;
+    protected ResourceManager resourceManager;
     
     /**
      * Constructor.
@@ -85,6 +92,7 @@ public class NanoServletContext implements ServletContext {
         attributeManager = new DefaultAttributeManager();
         contextPath = "";
         initParameters = new HashMap<>();
+        mimeTypeManager = new DefaultMimeTypeManager();
         resourceManager = new DefaultResourceManager();
     }
     /**
@@ -432,7 +440,7 @@ public class NanoServletContext implements ServletContext {
      */
     @Override
     public String getMimeType(String filename) {
-        throw new UnsupportedOperationException("Not supported");
+        return mimeTypeManager.getMimeType(filename);
     }
 
     /**

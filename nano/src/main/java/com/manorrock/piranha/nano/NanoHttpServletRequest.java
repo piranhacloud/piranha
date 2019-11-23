@@ -66,6 +66,16 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
      * Stores the attribute manager.
      */
     private final DefaultAttributeManager attributeManager;
+    
+    /**
+     * Stores the character encoding.
+     */
+    private String characterEncoding;
+    
+    /**
+     * Stores the context path.
+     */
+    private String contextPath;
 
     /**
      * Stores the header manager.
@@ -76,6 +86,11 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
      * Stores the input stream.
      */
     private InputStream inputStream;
+    
+    /**
+     * Stores the locale.
+     */
+    private Locale locale;
 
     /**
      * Stores the method.
@@ -103,16 +118,31 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     private String servletPath;
     
     /**
+     * Stores the server name.
+     */
+    private String serverName;
+    
+    /**
+     * Stores the server port.
+     */
+    private int serverPort;
+
+    /**
      * Constructor.
      */
     public NanoHttpServletRequest() {
         this.attributeManager = new DefaultAttributeManager();
+        this.characterEncoding = null;
+        this.contextPath = "";
         this.headerManager = new DefaultHttpHeaderManager();
         this.inputStream = new ByteArrayInputStream(new byte[0]);
+        this.locale = Locale.getDefault();
         this.method = "GET";
         this.pathInfo = null;
         this.queryString = null;
         this.servletPath = "";
+        this.serverName = "localhost";
+        this.serverPort = 8080;
     }
 
     /**
@@ -135,9 +165,14 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Get the character encoding.
+     * 
+     * @return the character encoding.
+     */
     @Override
     public String getCharacterEncoding() {
-        throw new UnsupportedOperationException("Not supported");
+        return characterEncoding;
     }
 
     @Override
@@ -175,9 +210,14 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Get the locale.
+     * 
+     * @return the locale.
+     */
     @Override
     public Locale getLocale() {
-        throw new UnsupportedOperationException("Not supported");
+        return locale;
     }
 
     @Override
@@ -234,20 +274,35 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     public RequestDispatcher getRequestDispatcher(String path) {
         throw new UnsupportedOperationException("Not supported");
     }
-
+    
+    /**
+     * Get the server name.
+     * 
+     * @return the server name.
+     */
     @Override
     public String getServerName() {
-        throw new UnsupportedOperationException("Not supported");
+        return serverName;
     }
 
+    /**
+     * Get the server port.
+     * 
+     * @return the server port.
+     */
     @Override
     public int getServerPort() {
-        throw new UnsupportedOperationException("Not supported");
+        return serverPort;
     }
 
+    /**
+     * Is async started.
+     * 
+     * @return false.
+     */
     @Override
     public boolean isAsyncStarted() {
-        throw new UnsupportedOperationException("Not supported");
+        return false;
     }
 
     @Override
@@ -270,9 +325,15 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Set the character encoding.
+     * 
+     * @param characterEncoding the character encoding.
+     * @throws UnsupportedEncodingException when the encoding is not supported.
+     */
     @Override
     public void setCharacterEncoding(String characterEncoding) throws UnsupportedEncodingException {
-        throw new UnsupportedOperationException("Not supported");
+        this.characterEncoding = characterEncoding;
     }
 
     @Override
@@ -366,7 +427,7 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
      */
     @Override
     public String getContextPath() {
-        return "";
+        return contextPath;
     }
 
     /**
@@ -520,13 +581,17 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
-     * Not supported.
+     * Get the request URI.
      *
      * @return the request URI.
      */
     @Override
     public String getRequestURI() {
-        throw new UnsupportedOperationException("Not supported");
+        String result = contextPath + servletPath;
+        if (pathInfo != null) {
+            result = contextPath + servletPath + pathInfo;
+        }
+        return result;
     }
 
     /**
@@ -597,7 +662,7 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
      */
     @Override
     public HttpSession getSession(boolean create) {
-        throw new UnsupportedOperationException("Not supported");
+        return null;
     }
 
     /**

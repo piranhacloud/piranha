@@ -27,71 +27,87 @@
  */
 package com.manorrock.piranha.nano;
 
-import java.io.IOException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 
 /**
- * The Nano version of the FilterChain we use for processing.
- *
+ * The Nano version of FilterConfig.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class NanoFilterChain implements FilterChain {
-
+public class NanoFilterConfig implements FilterConfig {
+    
     /**
-     * Stores the filter.
+     * Stores the init parameters.
      */
-    private Filter filter;
-
+    private final HashMap<String, String> initParameters;
+    
     /**
-     * Stores the filter chain.
+     * Stores the servlet context.
      */
-    private FilterChain filterChain;
-
-    /**
-     * Stores the servlet.
-     */
-    private Servlet servlet;
-
+    private final ServletContext servletContext;
+    
     /**
      * Constructor.
      * 
-     * @param filter the filter.
-     * @param filterChain the filter chain.
+     * @param servletContext the servlet context.
      */
-    public NanoFilterChain(Filter filter, FilterChain filterChain) {
-        this.filter = filter;
-        this.filterChain = filterChain;
+    public NanoFilterConfig(ServletContext servletContext) {
+        this.initParameters = new HashMap<>();
+        this.servletContext = servletContext;
     }
 
     /**
-     * Constructor.
+     * Get the init parameter.
      * 
-     * @param servlet the servlet.
-     */
-    public NanoFilterChain(Servlet servlet) {
-        this.servlet = servlet;
-    }
-
-    /**
-     * Do filter processing.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a Servlet error occurs.
+     * @param name the name.
+     * @return the value, or null if not found.
      */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-        if (servlet != null) {
-            servlet.service(request, response);
-        } else if (filterChain != null) {
-            filter.doFilter(request, response, filterChain);
-        }
+    public String getInitParameter(String name) {
+        return initParameters.get(name);
+    }
+
+    /**
+     * Get the init parameter names.
+     * 
+     * @return the init parameter names.
+     */
+    @Override
+    public Enumeration<String> getInitParameterNames() {
+        return Collections.enumeration(initParameters.keySet());
+    }
+
+    /**
+     * Get the servlet context.
+     * 
+     * @return the servlet context.
+     */
+    @Override
+    public ServletContext getServletContext() {
+        return servletContext;
+    }
+
+    /**
+     * Get the filter name.
+     * 
+     * @return the filter name.
+     */
+    @Override
+    public String getFilterName() {
+        return "Default";
+    }
+    
+    /**
+     * Set the init parameter.
+     * 
+     * @param name the name.
+     * @param value the value.
+     */
+    public void setInitParameter(String name, String value) {
+        initParameters.put(name, value);
     }
 }
