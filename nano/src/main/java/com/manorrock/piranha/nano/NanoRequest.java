@@ -60,7 +60,7 @@ import javax.servlet.http.Part;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoHttpServletRequest extends ServletInputStream implements HttpServletRequest {
+public class NanoRequest extends ServletInputStream implements HttpServletRequest {
 
     /**
      * Stores the attribute manager.
@@ -130,7 +130,7 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     /**
      * Constructor.
      */
-    public NanoHttpServletRequest() {
+    public NanoRequest() {
         this.attributeManager = new DefaultAttributeManager();
         this.characterEncoding = null;
         this.contextPath = "";
@@ -150,7 +150,7 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
      *
      * @param inputStream the input stream.
      */
-    public NanoHttpServletRequest(InputStream inputStream) {
+    public NanoRequest(InputStream inputStream) {
         this();
         this.inputStream = inputStream;
     }

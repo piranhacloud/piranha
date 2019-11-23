@@ -36,18 +36,18 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the NanoHttpServletResponse class.
+ * The JUnit tests for the NanoResponse class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoHttpServletResponseTest {
+public class NanoResponseTest {
 
     /**
      * Test addCookie method.
      */
     @Test
     public void testAddCookie() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         response.addCookie(new Cookie("name", "value"));
     }
 
@@ -56,7 +56,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testAddDateHeader() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         response.addDateHeader("name", 0);
         assertEquals("0", response.getHeader("name"));
     }
@@ -66,7 +66,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testAddHeader() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         response.addHeader("name", "value");
         assertEquals("value", response.getHeader("name"));
     }
@@ -76,7 +76,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testAddIntHeader() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         response.addIntHeader("name", 1);
         assertEquals("1", response.getHeader("name"));
     }
@@ -86,7 +86,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testContainsHeader() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         assertFalse(response.containsHeader("name"));
     }
 
@@ -95,7 +95,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testEncodeRedirectURL() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         assertEquals("url", response.encodeRedirectURL("url"));
     }
 
@@ -104,7 +104,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testEncodeRedirectUrl() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         response.encodeRedirectUrl("url");
     }
 
@@ -113,7 +113,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testEncodeURL() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         assertNotNull(response.encodeURL("url"));
         assertEquals("url", response.encodeURL("url"));
     }
@@ -123,7 +123,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testEncodeUrl() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         response.encodeUrl("url");
     }
 
@@ -132,7 +132,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testGetHeader() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         assertNull(response.getHeader("header"));
     }
 
@@ -141,7 +141,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testGetHeaderNames() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         assertNotNull(response.getHeaderNames());
     }
 
@@ -150,7 +150,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testGetHeaders() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         assertNotNull(response.getHeaders("header"));
     }
 
@@ -159,7 +159,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testGetStatus() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         assertEquals(200, response.getStatus());
     }
 
@@ -170,7 +170,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testSendError() throws Exception {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(new ByteArrayOutputStream());
+        NanoResponse response = new NanoResponse(new ByteArrayOutputStream());
         response.sendError(500, "Errror");
         assertEquals(500, response.getStatus());
     }
@@ -182,7 +182,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testSendError2() throws Exception {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(new ByteArrayOutputStream());
+        NanoResponse response = new NanoResponse(new ByteArrayOutputStream());
         response.sendError(500);
         assertEquals(500, response.getStatus());
     }
@@ -194,7 +194,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testSendRedirect() throws Exception {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         response.sendRedirect("/redirect");
     }
 
@@ -203,7 +203,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testSetDateHeader() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         response.setDateHeader("header", 0);
     }
 
@@ -212,7 +212,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testSetHeader() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         response.setHeader("header", "value");
         assertEquals("value", response.getHeader("header"));
     }
@@ -222,7 +222,7 @@ public class NanoHttpServletResponseTest {
      */
     @Test
     public void testSetIntHeader() {
-        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        NanoResponse response = new NanoResponse(null);
         response.setIntHeader("header", 1);
         assertEquals("1", response.getHeader("header"));
     }

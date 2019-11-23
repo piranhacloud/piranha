@@ -123,13 +123,13 @@ public class NanoPiranha {
         /*
          * If you are passing in your own ServletContext we are going to assume
          * you know what your are doing. If you did not supply one, we will supply
-         * ours, provided you used our companion NanoHttpServletRequest. If you
-         * did not use a NanoHttpServletRequest we again assume you know what you
+         * ours, provided you used our companion NanoRequest. If you
+         * did not use a NanoRequest we again assume you know what you
          * are doing.
          */
         if (servletRequest.getServletContext() == null
-                && servletRequest instanceof NanoHttpServletRequest) {
-            NanoHttpServletRequest nanoRequest = (NanoHttpServletRequest) servletRequest;
+                && servletRequest instanceof NanoRequest) {
+            NanoRequest nanoRequest = (NanoRequest) servletRequest;
             nanoRequest.setServletContext(servletContext);
         }
         chain.doFilter(servletRequest, servletResponse);

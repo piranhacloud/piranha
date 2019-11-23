@@ -163,4 +163,15 @@ public class NanoPiranhaBuilder {
         this.configuringServlet = true;
         return this;
     }
+
+    /**
+     * Set the servlet context.
+     *
+     * @param servletContext the servlet context.
+     * @return the builder.
+     */
+    public NanoPiranhaBuilder servletContext(NanoServletContext servletContext) {
+        piranha.setServletContext(servletContext);
+        return this;
+    }
 }

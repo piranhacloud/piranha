@@ -35,11 +35,11 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the NanoHttpServletRequest class.
+ * The JUnit tests for the NanoRequest class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoHttpServletRequestTest {
+public class NanoRequestTest {
 
     /**
      * Test authenticate method.
@@ -48,7 +48,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testAuthenticate() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         request.authenticate(null);
     }
 
@@ -59,7 +59,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testChangeSessionId() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         request.changeSessionId();
     }
 
@@ -70,7 +70,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetAuthType() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         request.getAuthType();
     }
 
@@ -81,7 +81,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetContextPath() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertEquals("", request.getContextPath());
     }
 
@@ -90,7 +90,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetCookies() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         request.getCookies();
     }
 
@@ -99,7 +99,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetDateHeader() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertEquals(-1, request.getDateHeader("header"));
     }
 
@@ -108,7 +108,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetHeader() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNull(request.getHeader("header"));
     }
 
@@ -117,7 +117,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetHeaderNames() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertFalse(request.getHeaderNames().hasMoreElements());
     }
 
@@ -126,7 +126,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetHeaders() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertFalse(request.getHeaders("myheader").hasMoreElements());
     }
 
@@ -137,7 +137,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetInputStream() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNotNull(request.getInputStream());
     }
 
@@ -146,7 +146,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetIntHeader() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertEquals(-1, request.getIntHeader("header"));
     }
 
@@ -157,7 +157,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetPart() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNotNull(request.getPart("part"));
     }
 
@@ -168,7 +168,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetParts() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNotNull(request.getParts());
     }
 
@@ -177,7 +177,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetPathInfo() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNull(request.getPathInfo());
     }
 
@@ -188,7 +188,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetPathTranslated() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNotNull(request.getPathTranslated());
     }
 
@@ -197,7 +197,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetProtocol() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertEquals("HTTP/1.1", request.getProtocol());
     }
 
@@ -208,7 +208,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetRemoteUser() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNotNull(request.getRemoteUser());
     }
 
@@ -217,7 +217,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetRequestURI() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNotNull(request.getRequestURI());
     }
 
@@ -226,7 +226,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetRequestURL() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNotNull(request.getRequestURL());
     }
 
@@ -235,7 +235,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetRequestedSessionId() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNotNull(request.getRequestedSessionId());
     }
 
@@ -244,7 +244,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetScheme() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertEquals("http", request.getScheme());
     }
 
@@ -253,7 +253,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetServletPath() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertEquals("", request.getServletPath());
     }
 
@@ -262,7 +262,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetSession() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNull(request.getSession(false));
     }
 
@@ -271,7 +271,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test
     public void testGetSession2() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNull(request.getSession());
     }
 
@@ -280,7 +280,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetUserPrincipal() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertNotNull(request.getUserPrincipal());
     }
 
@@ -289,7 +289,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testIsRequestedSessionIdFromCookie() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertFalse(request.isRequestedSessionIdFromCookie());
     }
 
@@ -298,7 +298,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testIsRequestedSessionIdFromURL() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertFalse(request.isRequestedSessionIdFromURL());
     }
 
@@ -307,7 +307,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testIsRequestedSessionIdFromUrl() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertFalse(request.isRequestedSessionIdFromUrl());
     }
 
@@ -316,7 +316,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testIsRequestedSessionIdValid() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertFalse(request.isRequestedSessionIdValid());
     }
 
@@ -325,7 +325,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testIsUserInRole() {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         assertFalse(request.isUserInRole("role"));
     }
 
@@ -336,7 +336,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testLogin() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         request.login("username", "password");
     }
 
@@ -347,7 +347,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testLogout() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         request.logout();
     }
 
@@ -358,7 +358,7 @@ public class NanoHttpServletRequestTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testUpgrade() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        NanoRequest request = new NanoRequest(null);
         request.upgrade(HttpUpgradeHandler.class);
     }
 }
