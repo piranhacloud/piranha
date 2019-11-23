@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha.nano;
 
+import javax.servlet.http.HttpUpgradeHandler;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -230,6 +231,15 @@ public class NanoHttpServletRequestTest {
     }
 
     /**
+     * Test getRequestedSessionId method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetRequestedSessionId() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertNotNull(request.getRequestedSessionId());
+    }
+
+    /**
      * Test getScheme method.
      */
     @Test
@@ -245,5 +255,110 @@ public class NanoHttpServletRequestTest {
     public void testGetServletPath() {
         NanoHttpServletRequest request = new NanoHttpServletRequest(null);
         assertEquals("", request.getServletPath());
+    }
+
+    /**
+     * Test getSession method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetSession() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertNotNull(request.getSession(false));
+    }
+
+    /**
+     * Test getSession method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetSession2() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertNotNull(request.getSession());
+    }
+
+    /**
+     * Test getUserPrincipal method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetUserPrincipal() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertNotNull(request.getUserPrincipal());
+    }
+
+    /**
+     * Test isRequestedSessionIdFromCookie method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testIsRequestedSessionIdFromCookie() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertFalse(request.isRequestedSessionIdFromCookie());
+    }
+
+    /**
+     * Test isRequestedSessionIdFromURL method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testIsRequestedSessionIdFromURL() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertFalse(request.isRequestedSessionIdFromURL());
+    }
+
+    /**
+     * Test isRequestedSessionIdFromUrl method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testIsRequestedSessionIdFromUrl() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertFalse(request.isRequestedSessionIdFromUrl());
+    }
+
+    /**
+     * Test isRequestedSessionIdValid method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testIsRequestedSessionIdValid() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertFalse(request.isRequestedSessionIdValid());
+    }
+
+    /**
+     * Test isUserInRole method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testIsUserInRole() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertFalse(request.isUserInRole("role"));
+    }
+
+    /**
+     * Test login method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testLogin() throws Exception {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        request.login("username", "password");
+    }
+
+    /**
+     * Test logout method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testLogout() throws Exception {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        request.logout();
+    }
+
+    /**
+     * Test upgrade method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testUpgrade() throws Exception {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        request.upgrade(HttpUpgradeHandler.class);
     }
 }

@@ -154,4 +154,64 @@ public class NanoHttpServletResponseTest {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
         assertEquals(200, response.getStatus());
     }
+
+    /**
+     * Test sendError method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSendError() throws Exception {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.sendError(500, "Errror");
+    }
+
+    /**
+     * Test sendError method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSendError2() throws Exception {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.sendError(500);
+    }
+
+    /**
+     * Test sendRedirect method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSendRedirect() throws Exception {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.sendRedirect("/redirect");
+    }
+
+    /**
+     * Test setDateHeader method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSetDateHeader() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.setDateHeader("header", 0);
+    }
+
+    /**
+     * Test setHeader method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSetHeader() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.setHeader("header", "value");
+    }
+
+    /**
+     * Test setIntHeader method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSetIntHeader() {
+        NanoHttpServletResponse response = new NanoHttpServletResponse(null);
+        response.setIntHeader("header", 1);
+    }
 }
