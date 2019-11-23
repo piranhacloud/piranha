@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.manorrock.piranha</groupId>
+        <groupId>com.manorrock.piranha.security</groupId>
         <artifactId>project</artifactId>
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-authorization-exousia</artifactId>
+    <artifactId>piranha-security-jakarta</artifactId>
     <packaging>jar</packaging>
 
-    <name>Manorrock Piranha Exousia Integration</name>
+    <name>Manorrock Piranha Jakarta Security Integration</name>
 
     <dependencies>
         <dependency>
@@ -26,13 +26,14 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-webxml</artifactId>
+            <groupId>com.manorrock.piranha.security</groupId>
+            <artifactId>piranha-authentication-eleos</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>exousia</artifactId>
+            <groupId>com.manorrock.piranha.security</groupId>
+            <artifactId>piranha-authorization-exousia</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>
