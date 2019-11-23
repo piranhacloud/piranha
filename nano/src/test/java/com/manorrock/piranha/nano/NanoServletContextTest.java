@@ -35,6 +35,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
@@ -213,12 +214,172 @@ public class NanoServletContextTest {
 
     /**
      * Test getAttributeNames method.
-     *
-     * @throws Exception when a serious error occurs.
      */
     @Test(expected = UnsupportedOperationException.class)
-    public void testGetAttributeNames() throws Exception {
+    public void testGetAttributeNames() {
         NanoServletContext context = new NanoServletContext();
         context.getAttributeNames();
+    }
+
+    /**
+     * Test getClassLoader method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetClassLoader() {
+        NanoServletContext context = new NanoServletContext();
+        context.getClassLoader();
+    }
+
+    /**
+     * Test getContext method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetContext() {
+        NanoServletContext context = new NanoServletContext();
+        context.getContext(null);
+    }
+
+    /**
+     * Test getContextPath method.
+     */
+    @Test
+    public void testGetContextPath() {
+        NanoServletContext context = new NanoServletContext();
+        assertEquals("", context.getContextPath());
+    }
+
+    /**
+     * Test getDefaultSessionTrackingModes method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetDefaultSessionTrackingModes() {
+        NanoServletContext context = new NanoServletContext();
+        context.getDefaultSessionTrackingModes();
+    }
+
+    /**
+     * Test getEffectiveMajorVersion method.
+     */
+    @Test
+    public void testGetEffectiveMajorVersion() {
+        NanoServletContext context = new NanoServletContext();
+        assertEquals(4, context.getEffectiveMajorVersion());
+    }
+
+    /**
+     * Test getEffectiveMinorVersion method.
+     */
+    @Test
+    public void testGetEffectiveMinorVersion() {
+        NanoServletContext context = new NanoServletContext();
+        assertEquals(0, context.getEffectiveMinorVersion());
+    }
+
+    /**
+     * Test getEffectiveSessionTrackingModes method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetEffectiveSessionTrackingModes() {
+        NanoServletContext context = new NanoServletContext();
+        context.getEffectiveSessionTrackingModes();
+    }
+
+    /**
+     * Test getFilterRegistration method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetFilterRegistration() {
+        NanoServletContext context = new NanoServletContext();
+        context.getFilterRegistration("filterName");
+    }
+
+    /**
+     * Test getFilterRegistrations method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetFilterRegistrations() {
+        NanoServletContext context = new NanoServletContext();
+        context.getFilterRegistrations();
+    }
+
+    /**
+     * Test getInitParameter method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetInitParameter() {
+        NanoServletContext context = new NanoServletContext();
+        context.getInitParameter("name");
+    }
+
+    /**
+     * Test getInitParameterNames method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetInitParameterNames() {
+        NanoServletContext context = new NanoServletContext();
+        context.getInitParameterNames();
+    }
+
+    /**
+     * Test getJspConfigDescriptor method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetJspConfigDescriptor() {
+        NanoServletContext context = new NanoServletContext();
+        context.getJspConfigDescriptor();
+    }
+
+    /**
+     * Test getMajorVersion method.
+     */
+    @Test
+    public void testGetMajorVersion() {
+        NanoServletContext context = new NanoServletContext();
+        assertEquals(4, context.getMajorVersion());
+    }
+
+    /**
+     * Test getMimeType method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetMimeType() {
+        NanoServletContext context = new NanoServletContext();
+        context.getMimeType("myfile.txt");
+    }
+
+    /**
+     * Test getMinorVersion method.
+     */
+    @Test
+    public void testGetMinorVersion() {
+        NanoServletContext context = new NanoServletContext();
+        assertEquals(0, context.getMinorVersion());
+    }
+
+    /**
+     * Test getNamedDispatcher method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetNamedDispatcher() {
+        NanoServletContext context = new NanoServletContext();
+        context.getNamedDispatcher("mydispatcher");
+    }
+
+    /**
+     * Test getRealPath method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetRealPath() {
+        NanoServletContext context = new NanoServletContext();
+        context.getRealPath("/realpath");
+    }
+
+    /**
+     * Test getRequestCharacterEncoding method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetRequestCharacterEncoding() {
+        NanoServletContext context = new NanoServletContext();
+        context.getRequestCharacterEncoding();
     }
 }

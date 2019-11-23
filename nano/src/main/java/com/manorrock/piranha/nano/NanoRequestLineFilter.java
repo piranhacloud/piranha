@@ -40,7 +40,7 @@ import javax.servlet.ServletResponse;
  *
  * <p>
  * This filter will parse the method, servlet path and query string from the
- * input stream so you the rest of the filter chain has access to it.
+ * input stream so the rest of the filter chain has access to it.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
