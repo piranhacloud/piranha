@@ -362,36 +362,74 @@ public class NanoServletContext implements ServletContext {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @return the JSP config descriptor. 
+     */
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Get the major version.
+     * 
+     * @return 4
+     */
     @Override
     public int getMajorVersion() {
-        throw new UnsupportedOperationException("Not supported");
+        return 4;
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param filename the filename.
+     * @return the mime type.
+     */
     @Override
     public String getMimeType(String filename) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Get the minor version.
+     * 
+     * @return 0
+     */
     @Override
     public int getMinorVersion() {
-        throw new UnsupportedOperationException("Not supported");
+        return 0;
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param name the name.
+     * @return the request dispatcher.
+     */
     @Override
     public RequestDispatcher getNamedDispatcher(String name) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param path the path.
+     * @return the real path, pr null.
+     */
     @Override
     public String getRealPath(String path) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @return the request character encoding.
+     */
     @Override
     public String getRequestCharacterEncoding() {
         throw new UnsupportedOperationException("Not supported");

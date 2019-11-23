@@ -234,31 +234,68 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
         return writer;
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param status the status.
+     * @param message the message.
+     * @throws IOException when an I/O error occurs.
+     */
     @Override
     public void sendError(int status, String message) throws IOException {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param status the status.
+     * @throws IOException when an I/O error occurs.
+     */
     @Override
     public void sendError(int status) throws IOException {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param location the location.
+     * @throws IOException when an I/O error occurs.
+     */
     @Override
     public void sendRedirect(String location) throws IOException {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param name the name.
+     * @param date the date.
+     */
     @Override
     public void setDateHeader(String name, long date) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param name the name.
+     * @param value the value.
+     */
     @Override
     public void setHeader(String name, String value) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @param name the name.
+     * @param value the value.
+     */
     @Override
     public void setIntHeader(String name, int value) {
         throw new UnsupportedOperationException("Not supported");
