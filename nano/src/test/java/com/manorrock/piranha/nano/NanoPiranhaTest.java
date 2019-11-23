@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.jasper.servlet.JspServlet;
+import org.apache.wicket.protocol.http.WicketFilter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -150,6 +151,29 @@ public class NanoPiranhaTest {
         request.addHeader("header", "value");
         piranha.service(request, response);
         assertEquals("value", outputStream.toString());
+    }
+    
+    /**
+     * Test service method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testService6() throws Exception {
+        NanoPiranha piranha = new NanoPiranhaBuilder()
+                .directoryResource("src/test/wicket")
+                .filter(new WicketFilter())
+                .initParam("applicationClassName", "com.manorrock.piranha.nano.WicketApplication")
+                .initParam("filterMappingUrlPattern", "/*")
+                .initParam("wicket.configuration", "deployment")
+                .initFilter()
+                .build();
+        NanoHttpServletRequest request = new NanoHttpServletRequest();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        NanoHttpServletResponse response = new NanoHttpServletResponse(outputStream);
+        request.setServletPath("/");
+        piranha.service(request, response);
+        assertTrue(outputStream.toString().contains("Hello Wicket"));
     }
 
     /**

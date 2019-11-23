@@ -30,6 +30,7 @@ package com.manorrock.piranha.nano;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -38,12 +39,6 @@ import javax.servlet.ServletResponse;
 
 /**
  * The Nano version of Piranha.
- *
- * <p>
- * This version of Piranha allows you to add your filters and your servlet
- * programmatically and you can either process an input and output stream, or
- * service a servlet request and servlet response.
- * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -79,6 +74,15 @@ public class NanoPiranha {
      */
     public void addFilter(Filter filter) {
         filters.add(filter);
+    }
+
+    /**
+     * Get the filters.
+     * 
+     * @return the filters.
+     */
+    public List<Filter> getFilters() {
+        return filters;
     }
 
     /**

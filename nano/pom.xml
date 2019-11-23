@@ -26,6 +26,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>jakarta.servlet.jsp</artifactId>
             <scope>test</scope>
