@@ -28,8 +28,6 @@
 package com.manorrock.piranha.nano;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.servlet.Filter;
@@ -64,7 +62,7 @@ public class NanoPiranha {
     /**
      * Stores the servlet context.
      */
-    private final NanoServletContext servletContext;
+    private NanoServletContext servletContext;
 
     /**
      * Constructor.
@@ -84,17 +82,21 @@ public class NanoPiranha {
     }
 
     /**
-     * Service.
-     *
-     * @param inputStream the input stream.
-     * @param outputStream the output stream.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a Servlet error occurs.
+     * Get the servlet.
+     * 
+     * @return the servlet.
      */
-    public void process(InputStream inputStream, OutputStream outputStream)
-            throws IOException, ServletException {
-        service(new NanoHttpServletRequest(inputStream),
-                new NanoHttpServletResponse(outputStream));
+    public Servlet getServlet() {
+        return servlet;
+    }
+    
+    /**
+     * Get the servlet context.
+     *
+     * @return the servlet context.
+     */
+    public NanoServletContext getServletContext() {
+        return servletContext;
     }
 
     /**
@@ -117,7 +119,9 @@ public class NanoPiranha {
         /*
          * If you are passing in your own ServletContext we are going to assume
          * you know what your are doing. If you did not supply one, we will supply
-         * ours, provided you used our companion NanoHttpServletRequest.
+         * ours, provided you used our companion NanoHttpServletRequest. If you
+         * did not use a NanoHttpServletRequest we again assume you know what you
+         * are doing.
          */
         if (servletRequest.getServletContext() == null
                 && servletRequest instanceof NanoHttpServletRequest) {
@@ -135,5 +139,14 @@ public class NanoPiranha {
      */
     public void setServlet(Servlet servlet) {
         this.servlet = servlet;
+    }
+
+    /**
+     * Set the servlet context.
+     *
+     * @param servletContext the Nano servlet context.
+     */
+    public void setServletContext(NanoServletContext servletContext) {
+        this.servletContext = servletContext;
     }
 }

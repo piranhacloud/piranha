@@ -171,10 +171,11 @@ public class NanoHttpServletResponseTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSendError2() throws Exception {
         NanoHttpServletResponse response = new NanoHttpServletResponse(null);
         response.sendError(500);
+        assertEquals(500, response.getStatus());
     }
 
     /**

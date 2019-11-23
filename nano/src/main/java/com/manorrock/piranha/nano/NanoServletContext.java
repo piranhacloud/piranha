@@ -27,11 +27,17 @@
  */
 package com.manorrock.piranha.nano;
 
+import com.manorrock.piranha.DefaultAttributeManager;
+import com.manorrock.piranha.DefaultResourceManager;
+import com.manorrock.piranha.api.AttributeManager;
+import com.manorrock.piranha.api.Resource;
+import com.manorrock.piranha.api.ResourceManager;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.EventListener;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import javax.servlet.Filter;
@@ -51,6 +57,11 @@ import javax.servlet.descriptor.JspConfigDescriptor;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class NanoServletContext implements ServletContext {
+    
+    /**
+     * Stores the attribute manager.
+     */
+    private final AttributeManager attributeManager;
 
     /**
      * Stores the context path.
@@ -58,10 +69,32 @@ public class NanoServletContext implements ServletContext {
     private String contextPath;
     
     /**
+     * Stores the init parameters.
+     */
+    private final HashMap<String, String> initParameters;
+    
+    /**
+     * Stores the resource manager.
+     */
+    private ResourceManager resourceManager;
+    
+    /**
      * Constructor.
      */
     public NanoServletContext() {
+        attributeManager = new DefaultAttributeManager();
         contextPath = "";
+        initParameters = new HashMap<>();
+        resourceManager = new DefaultResourceManager();
+    }
+    /**
+     * Constructor.
+     * 
+     * @param resourceManager the resource manager.
+     */
+    public NanoServletContext(ResourceManager resourceManager) {
+        this();
+        this.resourceManager = resourceManager;
     }
     
     /**
@@ -143,6 +176,15 @@ public class NanoServletContext implements ServletContext {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Add a resource.
+     * 
+     * @param resource the resource.
+     */
+    public void addResource(Resource resource) {
+        resourceManager.addResource(resource);
+    }
+    
     /**
      * Not supported.
      * 
@@ -229,14 +271,14 @@ public class NanoServletContext implements ServletContext {
     }
 
     /**
-     * Not supported.
+     * Get the attribute.
      * 
      * @param name the name.
      * @return the value.
      */
     @Override
     public Object getAttribute(String name) {
-        throw new UnsupportedOperationException("Not supported");
+        return attributeManager.getAttribute(name);
     }
 
     /**
@@ -342,14 +384,14 @@ public class NanoServletContext implements ServletContext {
     }
 
     /**
-     * Not supported.
+     * Get the init parameter.
      * 
      * @param name the name.
      * @return the value.
      */
     @Override
     public String getInitParameter(String name) {
-        throw new UnsupportedOperationException("Not supported");
+        return initParameters.get(name);
     }
 
     /**
@@ -363,13 +405,13 @@ public class NanoServletContext implements ServletContext {
     }
 
     /**
-     * Not supported.
+     * Get the JSP config descriptor.
      * 
      * @return the JSP config descriptor. 
      */
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
-        throw new UnsupportedOperationException("Not supported");
+        return null;
     }
 
     /**
@@ -415,14 +457,14 @@ public class NanoServletContext implements ServletContext {
     }
 
     /**
-     * Not supported.
+     * Get the real path.
      * 
      * @param path the path.
-     * @return the real path, pr null.
+     * @return the real path, or null.
      */
     @Override
     public String getRealPath(String path) {
-        throw new UnsupportedOperationException("Not supported");
+        return null;
     }
 
     /**
@@ -445,14 +487,27 @@ public class NanoServletContext implements ServletContext {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Get the resource.
+     * 
+     * @param path the path.
+     * @return the URL.
+     * @throws MalformedURLException when a malformed URL is given.
+     */
     @Override
     public URL getResource(String path) throws MalformedURLException {
-        throw new UnsupportedOperationException("Not supported");
+        return resourceManager.getResource(path);
     }
 
+    /**
+     * Get the resource as an input stream.
+     * 
+     * @param path the path.
+     * @return the input stream.
+     */
     @Override
     public InputStream getResourceAsStream(String path) {
-        throw new UnsupportedOperationException("Not supported");
+        return resourceManager.getResourceAsStream(path);
     }
 
     @Override
@@ -530,9 +585,15 @@ public class NanoServletContext implements ServletContext {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Set the attribute.
+     * 
+     * @param name the name.
+     * @param object the value.
+     */
     @Override
     public void setAttribute(String name, Object object) {
-        throw new UnsupportedOperationException("Not supported");
+        attributeManager.setAttribute(name, object);
     }
     
     /**

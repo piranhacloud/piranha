@@ -46,10 +46,25 @@ import javax.servlet.http.HttpServletResponse;
 public class NanoHttpServletResponse extends ServletOutputStream implements HttpServletResponse {
 
     /**
+     * Stores the buffer.
+     */
+    private byte[] buffer;
+    
+    /**
+     * Stores the content type.
+     */
+    private String contentType;
+    
+    /**
+     * Stores the gotWriter flag.
+     */
+    private boolean gotWriter;
+    
+    /**
      * Stores the output stream.
      */
     private OutputStream outputStream;
-    
+
     /**
      * Stores the status.
      */
@@ -66,6 +81,9 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
      * @param outputStream the output stream.
      */
     public NanoHttpServletResponse(OutputStream outputStream) {
+        this.buffer = new byte[8192];
+        this.contentType = null;
+        this.gotWriter = false;
         this.outputStream = outputStream;
         this.status = 200;
     }
@@ -175,7 +193,9 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
      */
     @Override
     public void flushBuffer() throws IOException {
-        writer.flush();
+        if (gotWriter) {
+            writer.flush();
+        }
     }
 
     /**
@@ -230,13 +250,14 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
     public PrintWriter getWriter() throws IOException {
         if (writer == null) {
             writer = new PrintWriter(new OutputStreamWriter(outputStream));
+            gotWriter = true;
         }
         return writer;
     }
 
     /**
      * Not supported.
-     * 
+     *
      * @param status the status.
      * @param message the message.
      * @throws IOException when an I/O error occurs.
@@ -248,18 +269,18 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
 
     /**
      * Not supported.
-     * 
+     *
      * @param status the status.
      * @throws IOException when an I/O error occurs.
      */
     @Override
     public void sendError(int status) throws IOException {
-        throw new UnsupportedOperationException("Not supported");
+        this.status = status;
     }
 
     /**
      * Not supported.
-     * 
+     *
      * @param location the location.
      * @throws IOException when an I/O error occurs.
      */
@@ -270,7 +291,7 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
 
     /**
      * Not supported.
-     * 
+     *
      * @param name the name.
      * @param date the date.
      */
@@ -281,7 +302,7 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
 
     /**
      * Not supported.
-     * 
+     *
      * @param name the name.
      * @param value the value.
      */
@@ -292,7 +313,7 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
 
     /**
      * Not supported.
-     * 
+     *
      * @param name the name.
      * @param value the value.
      */
@@ -351,9 +372,14 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Set the buffer size.
+     * 
+     * @param bufferSize the buffer size.
+     */
     @Override
     public void setBufferSize(int bufferSize) {
-        throw new UnsupportedOperationException("Not supported");
+        this.buffer = new byte[bufferSize];
     }
 
     @Override
@@ -371,9 +397,14 @@ public class NanoHttpServletResponse extends ServletOutputStream implements Http
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Set the content type.
+     * 
+     * @param contentType the content type.
+     */
     @Override
     public void setContentType(String contentType) {
-        throw new UnsupportedOperationException("Not supported");
+        this.contentType = contentType;
     }
 
     @Override

@@ -27,14 +27,15 @@
  */
 package com.manorrock.piranha.nano;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.jasper.servlet.JspServlet;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
@@ -50,12 +51,16 @@ public class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testProcess() throws Exception {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(new byte[0]);
+    public void testService() throws Exception {
+        NanoPiranha piranha = new NanoPiranhaBuilder()
+                .servlet(new TestHelloWorldServlet())
+                .build();
+        NanoHttpServletRequest request = new NanoHttpServletRequest();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NanoPiranha piranha = new NanoPiranha();
-        piranha.setServlet(new TestHelloWorldServlet());
-        piranha.process(inputStream, outputStream);
+        NanoHttpServletResponse response = new NanoHttpServletResponse(outputStream);
+        request.setMethod("GET");
+        request.setServletPath("/index.html");
+        piranha.service(request, response);
         assertEquals("Hello World", outputStream.toString());
     }
 
@@ -65,15 +70,22 @@ public class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testProcess2() throws Exception {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(
-                "GET /index.html HTTP/1.1\r\n".getBytes());
+    public void testService2() throws Exception {
+        NanoPiranha piranha = new NanoPiranhaBuilder()
+                .directoryResource("src/test/jsp")
+                .servlet(new JspServlet())
+                .initParam("classpath", System.getProperty("java.class.path"))
+                .initParam("compilerSourceVM", "1.8")
+                .initParam("compilerTargetVM", "1.8")
+                .initServlet()
+                .build();
+        NanoHttpServletRequest request = new NanoHttpServletRequest();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NanoPiranha piranha = new NanoPiranha();
-        piranha.addFilter(new NanoRequestLineFilter());
-        piranha.setServlet(new TestHelloWorldServlet());
-        piranha.process(inputStream, outputStream);
-        assertEquals("Hello World", outputStream.toString());
+        NanoHttpServletResponse response = new NanoHttpServletResponse(outputStream);
+        request.setMethod("GET");
+        request.setServletPath("/index.jsp");
+        piranha.service(request, response);
+        assertTrue(outputStream.toString().contains("Hello JSP"));
     }
 
     /**
@@ -82,14 +94,41 @@ public class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testProcess3() throws Exception {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(
-                "GET /index.html?q=value HTTP/1.1\r\n".getBytes());
+    public void testService3() throws Exception {
+        NanoPiranha piranha = new NanoPiranhaBuilder()
+                .directoryResource("src/test/jsp")
+                .servlet(new JspServlet())
+                .initParam("classpath", System.getProperty("java.class.path"))
+                .initParam("compilerSourceVM", "1.8")
+                .initParam("compilerTargetVM", "1.8")
+                .initServlet()
+                .build();
+        NanoHttpServletRequest request = new NanoHttpServletRequest();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NanoPiranha piranha = new NanoPiranha();
-        piranha.addFilter(new NanoRequestLineFilter());
-        piranha.setServlet(new TestQueryStringServlet());
-        piranha.process(inputStream, outputStream);
+        NanoHttpServletResponse response = new NanoHttpServletResponse(outputStream);
+        request.setMethod("GET");
+        request.setServletPath("/date.jsp");
+        piranha.service(request, response);
+        assertTrue(outputStream.toString().contains("Date = "));
+    }
+
+    /**
+     * Test service method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testService4() throws Exception {
+        NanoPiranha piranha = new NanoPiranhaBuilder()
+                .servlet(new TestQueryStringServlet())
+                .build();
+        NanoHttpServletRequest request = new NanoHttpServletRequest();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        NanoHttpServletResponse response = new NanoHttpServletResponse(outputStream);
+        request.setMethod("GET");
+        request.setServletPath("/index.html");
+        request.setQueryString("q=value");
+        piranha.service(request, response);
         assertEquals("q=value", outputStream.toString());
     }
 
@@ -99,34 +138,18 @@ public class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testProcess4() throws Exception {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(
-                "GET /index.html?q=value HTTP/1.1\r\nmyheader: myvalue\r\n".getBytes());
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NanoPiranha piranha = new NanoPiranha();
-        piranha.addFilter(new NanoRequestLineFilter());
-        piranha.addFilter(new NanoRequestHeadersFilter());
-        piranha.setServlet(new TestHeaderServlet());
-        piranha.process(inputStream, outputStream);
-        assertEquals("myvalue", outputStream.toString());
-    }
-
-    /**
-     * Test service method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    public void testService() throws Exception {
-        NanoHttpServletRequest request = new NanoHttpServletRequest(new ByteArrayInputStream(new byte[0]));
+    public void testService5() throws Exception {
+        NanoPiranha piranha = new NanoPiranhaBuilder()
+                .servlet(new TestHeaderServlet())
+                .build();
+        NanoHttpServletRequest request = new NanoHttpServletRequest();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         NanoHttpServletResponse response = new NanoHttpServletResponse(outputStream);
         request.setMethod("GET");
         request.setServletPath("/index.html");
-        NanoPiranha piranha = new NanoPiranha();
-        piranha.setServlet(new TestHelloWorldServlet());
+        request.addHeader("header", "value");
         piranha.service(request, response);
-        assertEquals("Hello World", outputStream.toString());
+        assertEquals("value", outputStream.toString());
     }
 
     /**
@@ -185,7 +208,7 @@ public class NanoPiranhaTest {
         @Override
         protected void doGet(HttpServletRequest request, HttpServletResponse response)
                 throws IOException, ServletException {
-            response.getWriter().print(request.getHeader("myheader"));
+            response.getWriter().print(request.getHeader("header"));
         }
     }
 }
