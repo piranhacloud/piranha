@@ -27,76 +27,66 @@
  */
 package com.manorrock.piranha.nano;
 
+import java.io.OutputStream;
+
 /**
- * The Nano request builder.
+ * The Nano response builder.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoRequestBuilder {
+public class NanoResponseBuilder {
     
     /**
-     * Stores the request.
+     * Stores if we set the output stream.
      */
-    private final NanoRequest request;
+    private boolean outputStreamSet;
+    
+    /**
+     * Stores the response.
+     */
+    private final NanoResponse response;
 
     /**
      * Constructor.
      */
-    public NanoRequestBuilder() {
-        request = new NanoRequest();
-    }
-
-    /**
-     * Build the request.
-     *
-     * @return the request.
-     */
-    public NanoRequest build() {
-        return request;
-    }
-
-    /**
-     * Add a header.
-     * 
-     * @param name the name.
-     * @param value the value.
-     * @return the builder.
-     */
-    public NanoRequestBuilder header(String name, String value) {
-        request.addHeader(name, value);
-        return this;
-    }
-
-    /**
-     * Set the method.
-     * 
-     * @param method the method.
-     * @return the builder.
-     */
-    public NanoRequestBuilder method(String method) {
-        request.setMethod(method);
-        return this;
-    }
-
-    /**
-     * Set the query string.
-     * 
-     * @param queryString the query string.
-     * @return the builder.
-     */
-    public NanoRequestBuilder queryString(String queryString) {
-        request.setQueryString(queryString);
-        return this;
+    public NanoResponseBuilder() {
+        outputStreamSet = false;
+        response = new NanoResponse();
     }
     
     /**
-     * Set the servlet path.
+     * Set the body only flag.
      * 
-     * @param servletPath the servlet path.
+     * @param bodyOnly if true the response will only output the body, if false 
+     * the response will contain the status line and response headers.
      * @return the builder.
      */
-    public NanoRequestBuilder servletPath(String servletPath) {
-        request.setServletPath(servletPath);
+    public NanoResponseBuilder bodyOnly(boolean bodyOnly) {
+        response.setBodyOnly(bodyOnly);
+        return this;
+    }
+
+    /**
+     * Build the response.
+     *
+     * @return the response.
+     */
+    public NanoResponse build() {
+        if (!outputStreamSet) {
+            throw new RuntimeException("You need set an output stream");
+        }
+        return response;
+    }
+    
+    /**
+     * Set the output stream.
+     * 
+     * @param outputStream the output stream.
+     * @return the builder.
+     */
+    public NanoResponseBuilder outputStream(OutputStream outputStream) {
+        response.setOutputStream(outputStream);
+        outputStreamSet = true;
         return this;
     }
 }
