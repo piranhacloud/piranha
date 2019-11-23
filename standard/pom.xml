@@ -31,7 +31,7 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>com.manorrock.piranha.pages</groupId>
             <artifactId>piranha-pages-jasper</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>

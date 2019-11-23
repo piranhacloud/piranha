@@ -40,6 +40,7 @@
         <module>cdi</module>
         <module>faces</module>
         <module>http</module>
+        <module>pages</module>
         <module>security</module>
         
         <!-- Distributions -->
@@ -48,8 +49,6 @@
         <module>embedded</module>
         <module>standard</module>
         
-      
-        <module>piranha-pages-jasper</module>
         <module>piranha-microprofile-smallrye-health</module>
         <module>piranha-servlet</module>
         <module>piranha-servlet-api</module>
