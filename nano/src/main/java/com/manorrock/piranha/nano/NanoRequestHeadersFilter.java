@@ -28,6 +28,7 @@
 package com.manorrock.piranha.nano;
 
 import java.io.IOException;
+import java.io.InputStream;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -36,14 +37,14 @@ import javax.servlet.ServletResponse;
 
 /**
  * The filter that parses out the request headers.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class NanoRequestHeadersFilter implements Filter {
 
     /**
      * Filter the request.
-     * 
+     *
      * @param servletRequest the request.
      * @param servletResponse the response.
      * @param chain the filter chain.
@@ -51,8 +52,28 @@ public class NanoRequestHeadersFilter implements Filter {
      * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, 
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
             FilterChain chain) throws IOException, ServletException {
+        NanoHttpServletRequest request = (NanoHttpServletRequest) servletRequest;
+        InputStream inputStream = request.getUnderlyingInputStream();
+        StringBuilder line = new StringBuilder();
+        int read = inputStream.read();
+        while (read != -1 && inputStream.available() > 0) {
+            if ('\r' != (char) read) {
+                line.append((char) read);
+            }
+            read = inputStream.read();
+            if ('\n' == (char) read) {
+                if (line.length() > 0) {
+                    String headerLine = line.toString();
+                    String name = headerLine.substring(0, headerLine.indexOf(':')).trim();
+                    String value = headerLine.substring(headerLine.indexOf(':') + 1).trim();
+                    request.addHeader(name, value);
+                    line = new StringBuilder();
+                    read = inputStream.read();
+                }
+            }
+        }
         chain.doFilter(servletRequest, servletResponse);
-    }   
+    }
 }

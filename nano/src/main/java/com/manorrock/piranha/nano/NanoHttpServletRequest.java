@@ -27,6 +27,8 @@
  */
 package com.manorrock.piranha.nano;
 
+import com.manorrock.piranha.DefaultHttpHeaderManager;
+import com.manorrock.piranha.api.HttpHeaderManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,11 +55,16 @@ import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
 /**
- * The nano HttpServletRequest.
+ * The Nano version of HttpServletRequest and ServletInputStream.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class NanoHttpServletRequest extends ServletInputStream implements HttpServletRequest {
+
+    /**
+     * Stores the header manager.
+     */
+    private final HttpHeaderManager headerManager;
 
     /**
      * Stores the input stream.
@@ -95,121 +102,12 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
      * @param inputStream the input stream.
      */
     public NanoHttpServletRequest(InputStream inputStream) {
+        this.headerManager = new DefaultHttpHeaderManager();
         this.inputStream = inputStream;
         this.method = "GET";
         this.pathInfo = null;
         this.queryString = null;
         this.servletPath = "";
-    }
-
-    @Override
-    public String getHeader(String name) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public Enumeration<String> getHeaders(String name) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public Enumeration<String> getHeaderNames() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public int getIntHeader(String name) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public Part getPart(String name) throws IOException, ServletException {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public Collection<Part> getParts() throws IOException, ServletException {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public String getPathTranslated() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public String getRemoteUser() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public String getRequestURI() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public StringBuffer getRequestURL() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public String getRequestedSessionId() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public HttpSession getSession(boolean create) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public HttpSession getSession() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public Principal getUserPrincipal() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public boolean isRequestedSessionIdFromCookie() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public boolean isRequestedSessionIdFromURL() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public boolean isRequestedSessionIdFromUrl() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public boolean isRequestedSessionIdValid() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public boolean isUserInRole(String role) {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public void login(String username, String password) throws ServletException {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public void logout() throws ServletException {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException {
-        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
@@ -398,6 +296,16 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
+     * Add the header.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    public void addHeader(String name, String value) {
+        headerManager.addHeader(name, value);
+    }
+
+    /**
      * Not supported.
      *
      * @param response the response.
@@ -441,8 +349,8 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
-     * Unsupported.
-     * 
+     * Not supported.
+     *
      * @return the list of cookies.
      */
     @Override
@@ -451,16 +359,48 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
-     * Unsupported.
-     * 
+     * Get the date header.
+     *
      * @param name the name.
      * @return the date header as a long.
      */
     @Override
     public long getDateHeader(String name) {
-        throw new UnsupportedOperationException("Not supported");
+        return headerManager.getDateHeader(name);
     }
-    
+
+    /**
+     * Get the header.
+     *
+     * @param name the name.
+     * @return the value, or null.
+     */
+    @Override
+    public String getHeader(String name) {
+        return headerManager.getHeader(name);
+    }
+
+    /**
+     * Get the header names.
+     *
+     * @return the header names.
+     */
+    @Override
+    public Enumeration<String> getHeaderNames() {
+        return headerManager.getHeaderNames();
+    }
+
+    /**
+     * Get the values for the given header.
+     *
+     * @param name the name.
+     * @return the values.
+     */
+    @Override
+    public Enumeration<String> getHeaders(String name) {
+        return headerManager.getHeaders(name);
+    }
+
     /**
      * Get the input stream.
      *
@@ -470,6 +410,17 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     @Override
     public ServletInputStream getInputStream() throws IOException {
         return this;
+    }
+
+    /**
+     * Get the int header.
+     *
+     * @param name the name.
+     * @return the value.
+     */
+    @Override
+    public int getIntHeader(String name) {
+        return headerManager.getIntHeader(name);
     }
 
     /**
@@ -483,6 +434,31 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
+     * Not supported.
+     *
+     * @param name the name.
+     * @return the part.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    public Part getPart(String name) throws IOException, ServletException {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     *
+     * @return the parts.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    public Collection<Part> getParts() throws IOException, ServletException {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
      * Get the path info.
      *
      * @return the path info.
@@ -493,6 +469,16 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
+     * Not supported.
+     *
+     * @return the translated path.
+     */
+    @Override
+    public String getPathTranslated() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
      * Get the protocol.
      *
      * @return the protocol.
@@ -500,6 +486,46 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     @Override
     public String getProtocol() {
         return "HTTP/1.1";
+    }
+
+    /**
+     * Not supported.
+     *
+     * @return the remote user.
+     */
+    @Override
+    public String getRemoteUser() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     *
+     * @return the request URI.
+     */
+    @Override
+    public String getRequestURI() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     *
+     * @return the request URL.
+     */
+    @Override
+    public StringBuffer getRequestURL() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     *
+     * @return the requested session id.
+     */
+    @Override
+    public String getRequestedSessionId() {
+        throw new UnsupportedOperationException("Not supported");
     }
 
     /**
@@ -543,12 +569,117 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     /**
+     * Not supported.
+     *
+     * @param create the create flag.
+     * @return the session.
+     */
+    @Override
+    public HttpSession getSession(boolean create) {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     *
+     * @return the session.
+     */
+    @Override
+    public HttpSession getSession() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
      * Get the underlying input stream.
      *
      * @return the underlying input stream.
      */
     public InputStream getUnderlyingInputStream() {
         return inputStream;
+    }
+
+    /**
+     * Not supported.
+     *
+     * @return the user principal.
+     */
+    @Override
+    public Principal getUserPrincipal() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     *
+     * @return true if the requested session if is from a cookie, false
+     * otherwise.
+     */
+    @Override
+    public boolean isRequestedSessionIdFromCookie() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     *
+     * @return true if the requested session if is from a URL, false otherwise.
+     */
+    @Override
+    public boolean isRequestedSessionIdFromURL() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     *
+     * @return true if the requested session if is from a URL, false otherwise.
+     */
+    @Override
+    public boolean isRequestedSessionIdFromUrl() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     *
+     * @return true if the requested session id is valid, false otherwise.
+     */
+    @Override
+    public boolean isRequestedSessionIdValid() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     *
+     * @param role the role.
+     * @return true if in the role, false otherwise.
+     */
+    @Override
+    public boolean isUserInRole(String role) {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     *
+     * @param username the username.
+     * @param password the password.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    public void login(String username, String password) throws ServletException {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     * 
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    public void logout() throws ServletException {
+        throw new UnsupportedOperationException("Not supported");
     }
 
     /**
@@ -594,5 +725,19 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
      */
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
+    }
+    
+    /**
+     * Not supported.
+     * 
+     * @param <T> the type.
+     * @param handlerClass the handler class.
+     * @return the HTTP upgrade handler.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException {
+        throw new UnsupportedOperationException("Not supported");
     }
 }

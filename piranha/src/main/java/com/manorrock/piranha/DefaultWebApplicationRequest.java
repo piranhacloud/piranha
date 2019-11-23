@@ -557,7 +557,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
     public Locale getLocale() {
         Locale result = Locale.getDefault();
         Enumeration<String> languages = getHeaders("Accept-Language");
-        if (languages != null) {
+        if (languages.hasMoreElements()) {
             String localeString = languages.nextElement();
             String[] localeStrings = localeString.split(",");
             result = new Locale(localeStrings[0]);
@@ -574,7 +574,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
     public Enumeration<Locale> getLocales() {
         ArrayList<Locale> locales = new ArrayList<>();
         Enumeration<String> languages = getHeaders("Accept-Language");
-        if (languages != null) {
+        if (languages.hasMoreElements()) {
             String localeString = languages.nextElement();
             String[] localeStrings = localeString.split(",");
             for (String localeString1 : localeStrings) {

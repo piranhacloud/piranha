@@ -133,7 +133,8 @@ public class DefaultHttpHeaderManagerTest {
     @Test
     public void testGetHeaders() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
-        assertNull(manager.getHeaders("NAME"));
+        assertNotNull(manager.getHeaders("NAME"));
+        assertFalse(manager.getHeaders("NAME").hasMoreElements());
     }
 
     /**
