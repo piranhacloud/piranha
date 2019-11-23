@@ -113,7 +113,7 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
                 Maven.configureResolver()
                      //.workOffline() // TODO: config setting
                      .resolve(
-                        "com.manorrock.piranha:piranha-runner-war:19.12.0-SNAPSHOT" // TODO config for version
+                        "com.manorrock.piranha:piranha-micro:19.12.0-SNAPSHOT" // TODO config for version
                         // TODO: may add other dependencies via external config
                       )
                      .withTransitivity()
@@ -143,7 +143,7 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
         
             piranhaServerDeployer = 
                 Class.forName(
-                        "com.manorrock.piranha.runner.war.PiranhaServerDeployer", 
+                        "com.manorrock.piranha.micro.PiranhaServerDeployer", 
                         true,
                         webInfClassLoader)
                     .newInstance();
@@ -182,7 +182,6 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
         classLoader.setResourceManager(manager);
         
         return classLoader;
-        
     }
     
     ClassLoader getWebInfClassLoader(Archive<?> applicationArchive, ClassLoader piranhaClassloader) {

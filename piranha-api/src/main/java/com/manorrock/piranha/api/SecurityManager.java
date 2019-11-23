@@ -37,20 +37,30 @@ import javax.servlet.http.HttpServletResponse;
  * The SecurityManager API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
  */
 public interface SecurityManager {
-    
-    enum AuthenticateSource { 
+
+    enum AuthenticateSource {
         /**
          * The container / runtime calls authenticate before a request
          */
-        PRE_REQUEST_CONTAINER, 
-        
+        PRE_REQUEST_CONTAINER,
+
         /**
          * The user (code) has programmatically called authenticate
          */
-        MID_REQUEST_USER }
-    
+        MID_REQUEST_USER
+    }
+
+    /**
+     * Method that bypasses the authentication mechanism installed by the authentication manager and directly invokes an
+     * identity store.
+     */
+    interface UsernamePasswordLoginHandler {
+        AuthenticatedIdentity login(HttpServletRequest request, String username, String password);
+    }
+
     /**
      * Check if the current request adheres to the user data constraint, if any.
      * 
@@ -63,11 +73,10 @@ public interface SecurityManager {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
      */
-    default boolean isRequestSecurityAsRequired(HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
+    default boolean isRequestSecurityAsRequired(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         return true;
     }
-    
+
     /**
      * Check if the requested resource, represented by the request, is public or not.
      * 
@@ -77,15 +86,14 @@ public interface SecurityManager {
     default boolean isRequestedResourcePublic(HttpServletRequest request) {
         return true;
     }
-    
+
     /**
-     * Check if the current caller (which can be the anonymous caller) is authorized
-     * to access the requested resource.
+     * Check if the current caller (which can be the anonymous caller) is authorized to access the requested resource.
      * 
      * <p>
-     * If the unauthenticated caller is authorized, then this means the resource is public 
-     * (aka unconstrained, aka unchecked), and the outcome of this method MUST be consistend
-     * with {@link #isRequestedResourcePublic(HttpServletRequest)}.
+     * If the unauthenticated caller is authorized, then this means the resource is public (aka unconstrained, aka
+     * unchecked), and the outcome of this method MUST be consistend with
+     * {@link #isRequestedResourcePublic(HttpServletRequest)}.
      * 
      * 
      * @param request the request.
@@ -94,7 +102,6 @@ public interface SecurityManager {
     default boolean isCallerAuthorizedForResource(HttpServletRequest request) {
         return true;
     }
-    
 
     /**
      * Authenticate the request.
@@ -105,41 +112,38 @@ public interface SecurityManager {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
      */
-    boolean authenticate(HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException;
-    
+    boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
+
     /**
      * Gets the request object the security system wants to put in place.
      * 
      * <p>
-     * This method allows the security system (or authentication module being delegated to)
-     * a custom or, more likely, wrapped request.
+     * This method allows the security system (or authentication module being delegated to) a custom or, more likely,
+     * wrapped request.
      * 
      * @param request the request.
      * @param response the response.
-     * @return a request object that the runtime should put into service 
+     * @return a request object that the runtime should put into service
      */
-    default HttpServletRequest getAuthenticatedRequest(HttpServletRequest request,
-            HttpServletResponse response) {
+    default HttpServletRequest getAuthenticatedRequest(HttpServletRequest request, HttpServletResponse response) {
         return request;
     }
-    
+
     /**
      * Gets the response object the security system wants to put in place.
      * 
      * <p>
-     * This method allows the security system (or authentication module being delegated to)
-     * a custom or, more likely, wrapped response.
+     * This method allows the security system (or authentication module being delegated to) a custom or, more likely,
+     * wrapped response.
      * 
      * @param request the request.
      * @param response the response.
-     * @return a response object that the runtime should put into service 
+     * @return a response object that the runtime should put into service
      */
-    default HttpServletResponse getAuthenticatedResponse(HttpServletRequest request,
-            HttpServletResponse response) {
+    default HttpServletResponse getAuthenticatedResponse(HttpServletRequest request, HttpServletResponse response) {
         return response;
     }
-    
+
     /**
      * Authenticate the request.
      *
@@ -150,30 +154,27 @@ public interface SecurityManager {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
      */
-    default boolean authenticate(HttpServletRequest request, 
-            HttpServletResponse response, AuthenticateSource source)
-            throws IOException, ServletException {
+    default boolean authenticate(HttpServletRequest request, HttpServletResponse response, AuthenticateSource source) throws IOException, ServletException {
         // By default, source and mandatory directive are ignored, and semantics for the 2 parameter
         // version hold.
         // The 2 parameter version is expected to be essentially source = MID_REQUEST_USER
         return authenticate(request, response);
     }
-    
+
     /**
-     * Gives the security system the opportunity to process the response after the request (after the target resource has been invoked).
+     * Gives the security system the opportunity to process the response after the request (after the target resource has
+     * been invoked).
      * 
      * <p>
-     * Although this may be rare to used in practice, it allows for encryption of the response, inserting security
-     * tokens, signing the response, etc. 
+     * Although this may be rare to used in practice, it allows for encryption of the response, inserting security tokens,
+     * signing the response, etc.
      * 
      * @param request the request.
      * @param response the response.
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
      */
-    default void postRequestProcess(HttpServletRequest request, 
-            HttpServletResponse response)
-            throws IOException, ServletException {
+    default void postRequestProcess(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     }
 
     /**
@@ -207,8 +208,7 @@ public interface SecurityManager {
      * @param password the password.
      * @throws ServletException when unable to login.
      */
-    void login(HttpServletRequest request,
-            String username, String password) throws ServletException;
+    void login(HttpServletRequest request, String username, String password) throws ServletException;
 
     /**
      * Logout.
@@ -224,4 +224,13 @@ public interface SecurityManager {
      * @param webApplication the web application.
      */
     void setWebApplication(WebApplication webApplication);
+
+    /**
+     * Set the handler that may be used by the login method to contact an identity store.
+     * 
+     * @param usernamePasswordLoginHandler the handler
+     */
+    default void setUsernamePasswordLoginHandler(UsernamePasswordLoginHandler usernamePasswordLoginHandler) {
+        // do nothing, optional method
+    }
 }
