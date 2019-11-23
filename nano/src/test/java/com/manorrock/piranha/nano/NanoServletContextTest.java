@@ -310,4 +310,13 @@ public class NanoServletContextTest {
         NanoServletContext context = new NanoServletContext();
         context.getInitParameter("name");
     }
+    
+    /**
+     * Test getInitParameterNames method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetInitParameterNames() {
+        NanoServletContext context = new NanoServletContext();
+        context.getInitParameterNames();
+    }
 }

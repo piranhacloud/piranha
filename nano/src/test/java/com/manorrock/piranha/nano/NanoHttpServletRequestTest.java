@@ -199,7 +199,7 @@ public class NanoHttpServletRequestTest {
         NanoHttpServletRequest request = new NanoHttpServletRequest(null);
         assertEquals("HTTP/1.1", request.getProtocol());
     }
-    
+
     /**
      * Test getRemoteUser method.
      *
@@ -209,6 +209,24 @@ public class NanoHttpServletRequestTest {
     public void testGetRemoteUser() throws Exception {
         NanoHttpServletRequest request = new NanoHttpServletRequest(null);
         assertNotNull(request.getRemoteUser());
+    }
+
+    /**
+     * Test getRequestURI method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetRequestURI() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertNotNull(request.getRequestURI());
+    }
+
+    /**
+     * Test getRequestURL method.
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetRequestURL() {
+        NanoHttpServletRequest request = new NanoHttpServletRequest(null);
+        assertNotNull(request.getRequestURL());
     }
 
     /**
