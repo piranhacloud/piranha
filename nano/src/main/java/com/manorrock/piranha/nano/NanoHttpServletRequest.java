@@ -111,16 +111,6 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
     }
 
     @Override
-    public String getRequestURI() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
-    public StringBuffer getRequestURL() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    @Override
     public String getRequestedSessionId() {
         throw new UnsupportedOperationException("Not supported");
     }
@@ -565,6 +555,26 @@ public class NanoHttpServletRequest extends ServletInputStream implements HttpSe
      */
     @Override
     public String getRemoteUser() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     * 
+     * @return the request URI.
+     */
+    @Override
+    public String getRequestURI() {
+        throw new UnsupportedOperationException("Not supported");
+    }
+
+    /**
+     * Not supported.
+     * 
+     * @return the request URL.
+     */
+    @Override
+    public StringBuffer getRequestURL() {
         throw new UnsupportedOperationException("Not supported");
     }
     

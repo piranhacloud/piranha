@@ -352,6 +352,11 @@ public class NanoServletContext implements ServletContext {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    /**
+     * Not supported.
+     * 
+     * @return the init parameter names.
+     */
     @Override
     public Enumeration<String> getInitParameterNames() {
         throw new UnsupportedOperationException("Not supported");
