@@ -51,10 +51,15 @@ import javax.servlet.http.HttpServletResponse;
 public class NanoResponse extends ServletOutputStream implements HttpServletResponse {
 
     /**
+     * Stores the body only flag.
+     */
+    protected boolean bodyOnly;
+
+    /**
      * Stores the buffer.
      */
     protected byte[] buffer;
-    
+
     /**
      * Stores the character encoding.
      */
@@ -69,12 +74,12 @@ public class NanoResponse extends ServletOutputStream implements HttpServletResp
      * Stores the committed flag.
      */
     protected boolean committed;
-    
+
     /**
      * Stores the content length.
      */
     protected long contentLength;
-    
+
     /**
      * Stores the content type.
      */
@@ -137,17 +142,25 @@ public class NanoResponse extends ServletOutputStream implements HttpServletResp
 
     /**
      * Constructor.
-     *
-     * @param outputStream the output stream.
      */
-    public NanoResponse(OutputStream outputStream) {
+    public NanoResponse() {
+        this.bodyOnly = true;
         this.buffer = new byte[8192];
         this.contentType = null;
         this.cookies = new ArrayList<>();
         this.headerManager = new DefaultHttpHeaderManager();
         this.gotWriter = false;
-        this.outputStream = outputStream;
         this.status = 200;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param outputStream the output stream.
+     */
+    public NanoResponse(OutputStream outputStream) {
+        this();
+        this.outputStream = outputStream;
     }
 
     /**
@@ -493,6 +506,16 @@ public class NanoResponse extends ServletOutputStream implements HttpServletResp
     }
 
     /**
+     * Set the body only flag.
+     *
+     * @param bodyOnly if true the response will only output the body, if false
+     * the response will contain the status line and response headers.
+     */
+    public void setBodyOnly(boolean bodyOnly) {
+        this.bodyOnly = bodyOnly;
+    }
+
+    /**
      * Set the buffer size.
      *
      * @param bufferSize the buffer size.
@@ -607,6 +630,15 @@ public class NanoResponse extends ServletOutputStream implements HttpServletResp
     }
 
     /**
+     * Set the output stream.
+     *
+     * @param outputStream the output stream.
+     */
+    public void setOutputStream(OutputStream outputStream) {
+        this.outputStream = outputStream;
+    }
+
+    /**
      * Set the status.
      *
      * @param status the status.
@@ -673,10 +705,12 @@ public class NanoResponse extends ServletOutputStream implements HttpServletResp
      * @throws IOException when an I/O error occurs.
      */
     private void writeOut() throws IOException {
+        if (!bodyOnly) {
 //        writeStatusLine();
 //        writeContentType();
 //        writeCookies();
 //        writeHeaders();
+        }
         outputStream.write(buffer, 0, index);
         index = buffer.length;
         committed = true;

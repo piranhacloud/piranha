@@ -63,7 +63,10 @@ public class NanoPiranhaTest {
                 .build();
         
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NanoResponse response = new NanoResponse(outputStream);
+        NanoResponse response = new NanoResponseBuilder()
+                .outputStream(outputStream)
+                .build();
+        
         piranha.service(request, response);
         assertEquals("Hello World", outputStream.toString());
     }
@@ -90,7 +93,10 @@ public class NanoPiranhaTest {
                 .build();
         
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NanoResponse response = new NanoResponse(outputStream);
+        NanoResponse response = new NanoResponseBuilder()
+                .outputStream(outputStream)
+                .build();
+        
         piranha.service(request, response);
         assertTrue(outputStream.toString().contains("Hello JSP"));
     }
@@ -118,7 +124,10 @@ public class NanoPiranhaTest {
                 .build();
         
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NanoResponse response = new NanoResponse(outputStream);
+        NanoResponse response = new NanoResponseBuilder()
+                .outputStream(outputStream)
+                .build();
+        
         piranha.service(request, response);
         assertTrue(outputStream.toString().contains("Date = "));
     }
@@ -141,7 +150,10 @@ public class NanoPiranhaTest {
                 .build();
         
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NanoResponse response = new NanoResponse(outputStream);
+        NanoResponse response = new NanoResponseBuilder()
+                .outputStream(outputStream)
+                .build();
+        
         piranha.service(request, response);
         assertEquals("q=value", outputStream.toString());
     }
@@ -164,7 +176,11 @@ public class NanoPiranhaTest {
                 .build();
         
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NanoResponse response = new NanoResponse(outputStream);
+        NanoResponse response = new NanoResponseBuilder()
+                .bodyOnly(true)
+                .outputStream(outputStream)
+                .build();
+        
         piranha.service(request, response);
         assertEquals("value", outputStream.toString());
     }
@@ -190,7 +206,10 @@ public class NanoPiranhaTest {
                 .build();
         
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NanoResponse response = new NanoResponse(outputStream);
+        NanoResponse response = new NanoResponseBuilder()
+                .outputStream(outputStream)
+                .build();
+        
         piranha.service(request, response);
         assertTrue(outputStream.toString().contains("Hello Wicket"));
     }
