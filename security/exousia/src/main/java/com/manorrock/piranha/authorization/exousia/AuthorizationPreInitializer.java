@@ -50,6 +50,7 @@ import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletSecurityElement;
+import javax.servlet.annotation.ServletSecurity;
 
 import org.omnifaces.exousia.AuthorizationService;
 import org.omnifaces.exousia.constraints.SecurityConstraint;
@@ -73,14 +74,12 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     public final static String AUTHZ_POLICY_CLASS = AuthorizationPreInitializer.class.getName() + ".authz.module.class";
     
     public final static String UNCHECKED_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".unchecked.permissions";
-    
     public final static String PERROLE_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".perrole.permissions";
-    
     public final static String CONSTRAINTS = AuthorizationPreInitializer.class.getName() + ".constraints";
-    
     public final static String PIRANHA_CONSTRAINTS = AuthorizationPreInitializer.class.getName() + ".piranha.constraints";
-
     public final static String SECURITY_ELEMENTS = AuthorizationPreInitializer.class.getName() + ".security.elements";
+    public final static String SECURITY_ANNOTATIONS = AuthorizationPreInitializer.class.getName() + ".security.annotations";
+    
     /**
      * Initialize Exousia
      * 
@@ -110,6 +109,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         // piranha specific security constraint
         List<SecurityConstraint> securityConstraints = join(
             getConstraintsFromSecurityElements(servletContext, authorizationService),
+            getConstraintsFromSecurityAnnotations(servletContext, authorizationService),
             getOptionalAttribute(servletContext, CONSTRAINTS),
             getConstraintsFromWebXMl(servletContext));
         
@@ -180,6 +180,23 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         return constraints;
     }
     
+    public List<SecurityConstraint> getConstraintsFromSecurityAnnotations(ServletContext servletContext, AuthorizationService authorizationService) throws ServletException {
+        List<Entry<List<String>, ServletSecurity>> elements = getOptionalAttribute(servletContext, SECURITY_ANNOTATIONS);
+        if (elements == null) {
+            return null;
+        }
+        
+        List<SecurityConstraint> constraints = new ArrayList<>();
+        
+        for (Entry<List<String>, ServletSecurity> elementEntry : elements) {
+            constraints.addAll(ElementsToConstraintsTransformer.createConstraints(
+                new HashSet<>(elementEntry.getKey()), 
+                elementEntry.getValue()));
+        }
+        
+        return constraints;
+    }
+    
     public List<SecurityConstraint> getConstraintsFromWebXMl(ServletContext servletContext) throws ServletException {
         List<WebXml.SecurityConstraint> xmlConstraints = getOptionalAttribute(servletContext, PIRANHA_CONSTRAINTS);
         if (xmlConstraints == null) {
@@ -207,6 +224,10 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         }
         
         return constraints;
+    }
+    
+    public List<SecurityConstraint> join(List<SecurityConstraint> constraintsA, List<SecurityConstraint> constraintsB, List<SecurityConstraint> constraintsC, List<SecurityConstraint> constraintsD) {
+        return join(join(constraintsA, constraintsB, constraintsC), constraintsD);
     }
     
     public List<SecurityConstraint> join(List<SecurityConstraint> constraintsA, List<SecurityConstraint> constraintsB, List<SecurityConstraint> constraintsC) {

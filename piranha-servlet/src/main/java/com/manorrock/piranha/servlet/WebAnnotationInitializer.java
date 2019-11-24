@@ -27,11 +27,16 @@
  */
 package com.manorrock.piranha.servlet;
 
+import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.EnumSet.noneOf;
 import static java.util.stream.Collectors.toCollection;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -41,9 +46,11 @@ import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
+import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 
 import com.manorrock.piranha.api.AnnotationManager;
 import com.manorrock.piranha.api.AnnotationManager.AnnotationInfo;
@@ -145,7 +152,34 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
             }
         }
         
-        
+        // Process @ServletSecurity
+        List<Entry<List<String>, ServletSecurity>> securityAnnotations = new ArrayList<>();
+        for (AnnotationInfo<ServletSecurity> annotationInfo : annotationManager.getAnnotations(ServletSecurity.class)) {
+            
+            Class<?> servlet = getTargetServlet(annotationInfo);
+            
+            // Take into account mixed mapped (annotation + web.xml later)
+            WebServlet webServlet = servlet.getAnnotation(WebServlet.class);
+            
+            if (webServlet != null) {
+                String[] urlPatterns = webServlet.value();
+                if (urlPatterns.length == 0) {
+                    urlPatterns = webServlet.urlPatterns();
+                }
+                
+                securityAnnotations.add(new SimpleImmutableEntry<>(
+                    asList(urlPatterns), 
+                    annotationInfo.getInstance()));
+            } else {
+                LOGGER.warning(
+                    "@ServletSecurity encountered on Servlet " + servlet + 
+                    "but no @WebServlet encountered");
+            }
+        }
+        webApp.setAttribute(
+            "com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.security.annotations",
+            securityAnnotations
+        );
         
         // Process @WebListener
         
@@ -157,6 +191,11 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
     @SuppressWarnings("unchecked")
     private Class<? extends EventListener> getTargetListener(AnnotationInfo<WebListener> annotationInfo) {
         return (Class<? extends EventListener>) annotationInfo.getTargetType();
+    }
+    
+    @SuppressWarnings("unchecked")
+    private Class<? extends HttpServlet> getTargetServlet(AnnotationInfo<ServletSecurity> annotationInfo) {
+        return (Class<? extends HttpServlet>) annotationInfo.getTargetType();
     }
     
 }
