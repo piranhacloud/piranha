@@ -64,6 +64,11 @@ public class WebXml implements Serializable {
      * Stores the servlet mappings.
      */
     public List<WebXml.ServletMapping> servletMappings = new ArrayList<>();
+    
+    /**
+     * Stores the error pages.
+     */
+    public List<ErrorPage> errorPages = new ArrayList<>();
 
     /**
      * Stores the security constraints
@@ -259,6 +264,28 @@ public class WebXml implements Serializable {
          * Stores the URL pattern.
          */
         public String urlPattern;
+    }
+    
+    /**
+     * The &lt;error-page&gt; snippet inside a web.xml / webfragment.xml.
+     */
+    public static class ErrorPage {
+     
+        /**
+         * Stores the code corresponding to the error-code element
+         */
+        public String errorCode;
+        
+        /**
+         * Stores the exception corresponding to the exception-type element
+         */
+        public String exceptionType;
+        
+        /**
+         * Stores the location of the resource corresponding to the location element
+         */
+        public String location;
+        
     }
 
     /**
