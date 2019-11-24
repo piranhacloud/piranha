@@ -63,6 +63,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.webxml.WebXml.ErrorPage;
 
 /**
  * The web.xml initializer.
@@ -185,7 +186,15 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                     WebXml.MimeMapping mapping = mappingIterator.next();
                     webApp.getMimeTypeManager().addMimeType(mapping.extension, mapping.mimeType);
                 }
-
+                
+                /*
+                 * Process <error-page> entries
+                 */
+                list = (NodeList) xPath.evaluate("//error-page", document, NODESET);
+                if (list != null) {
+                    processErrorPages(xPath, webXml, list);
+                }
+                
                 /*
                  * Process <context-param> entries
                  */
@@ -479,6 +488,21 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         webXml.loginConfig.realmName = getString(xPath, node, "//realm-name/text()");
         webXml.loginConfig.formLoginPage = getString(xPath, node, "//form-login-config/form-login-page/text()");
         webXml.loginConfig.formErrorPage = getString(xPath, node, "//form-login-config/form-error-page/text()");
+    }
+    
+    private void processErrorPages(XPath xPath, WebXml webXml, NodeList nodeList) throws XPathExpressionException {
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            processErrorPage(xPath, webXml, nodeList.item(i));
+        }
+    }
+    
+    private void processErrorPage(XPath xPath, WebXml webXml, Node node) throws XPathExpressionException {
+        ErrorPage errorPage = new ErrorPage();
+        errorPage.errorCode = getString(xPath, node, "error-code/text()");
+        errorPage.exceptionType = getString(xPath, node, "exception-type/text()");
+        errorPage.location = getString(xPath, node, "location/text()");
+        
+        webXml.errorPages.add(errorPage);
     }
     
     
