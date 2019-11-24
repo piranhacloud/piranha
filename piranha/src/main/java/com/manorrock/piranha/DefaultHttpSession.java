@@ -27,13 +27,15 @@
  */
 package com.manorrock.piranha;
 
-import com.manorrock.piranha.api.HttpSessionManager;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
+
+import com.manorrock.piranha.api.HttpSessionManager;
 
 /**
  * The default HttpSession.
@@ -243,8 +245,8 @@ public class DefaultHttpSession implements HttpSession {
     @Override
     public void invalidate() {
         verifyValid("invalidate");
-        this.valid = false;
         sessionManager.destroySession(this);
+        this.valid = false;
     }
 
     /**
