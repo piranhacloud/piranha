@@ -46,8 +46,11 @@ public class EmbeddedTest {
         long startTime = System.currentTimeMillis();
         Embedded embedded = new Embedded();
         String result = embedded.execute();
+        
+        System.out.println("result: " + result);
+        
         assertNotNull(result);
-        assertEquals(0, result.length());
+        assertEquals("test\n", result);
         long endTime = System.currentTimeMillis();
         System.out.println(endTime - startTime);
     }
