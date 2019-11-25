@@ -27,11 +27,14 @@
  */
 package com.manorrock.piranha;
 
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +47,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class DefaultServlet extends HttpServlet {
 
+    private static final long serialVersionUID = 1331822806510796938L;
+
     /**
      * Get the requested resource.
      *
@@ -53,18 +58,17 @@ public class DefaultServlet extends HttpServlet {
      * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    protected void doGet(HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
-        String uri = request.getRequestURI();
-        String filename = uri.contains("/") ? uri.substring(uri.lastIndexOf("/") + 1) : uri.substring(1);
-        String mimeType = request.getServletContext().getMimeType(filename);
-        if (mimeType != null) {
-            response.setContentType(mimeType);
-        } else {
-            response.setContentType("application/octet-stream");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        InputStream resource = getResource(request);
+        
+        if (resource == null) {
+            response.sendError(SC_NOT_FOUND);
+            return;
         }
-        uri = uri.substring(request.getContextPath().length());
-        try (InputStream inputStream = new BufferedInputStream(request.getServletContext().getResourceAsStream(uri))) {
+        
+        setContentType(request, response);
+        
+        try (InputStream inputStream = new BufferedInputStream(resource)) {
             OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
             int read = inputStream.read();
             while (read != -1) {
@@ -72,6 +76,26 @@ public class DefaultServlet extends HttpServlet {
                 read = inputStream.read();
             }
             outputStream.flush();
+        }
+    }
+    
+    private InputStream getResource(HttpServletRequest request) {
+        return request.getServletContext().getResourceAsStream(getPath(request));
+    }
+    
+    private String getPath(HttpServletRequest request) {
+        return request.getRequestURI().substring(request.getContextPath().length());
+    }
+    
+    private void setContentType(HttpServletRequest request, HttpServletResponse response) {
+        String uri = request.getRequestURI();
+        String filename = uri.contains("/") ? uri.substring(uri.lastIndexOf("/") + 1) : uri.substring(1);
+        String mimeType = request.getServletContext().getMimeType(filename);
+        
+        if (mimeType != null) {
+            response.setContentType(mimeType);
+        } else {
+            response.setContentType("application/octet-stream");
         }
     }
 }
