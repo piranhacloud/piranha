@@ -157,8 +157,8 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                     processSecurityConstraints(webXml, list);
 
                     webApp.setAttribute(
-                            "com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.piranha.constraints",
-                            webXml.securityConstraints
+                        "com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.piranha.constraints",
+                        webXml.securityConstraints
                     );
                 }
                 
@@ -193,6 +193,13 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 list = (NodeList) xPath.evaluate("//error-page", document, NODESET);
                 if (list != null) {
                     processErrorPages(xPath, webXml, list);
+                    for (ErrorPage errorPage : webXml.errorPages) {
+                        if (errorPage.errorCode != null && !errorPage.errorCode.isEmpty()) {
+                            webApp.addErrorPage(Integer.parseInt(errorPage.errorCode), errorPage.location);
+                        } else if (errorPage.exceptionType != null && !errorPage.exceptionType.isEmpty() ) {
+                            webApp.addErrorPage(errorPage.exceptionType, errorPage.location);
+                        }
+                    }
                 }
                 
                 /*

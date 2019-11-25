@@ -87,6 +87,21 @@ public interface WebApplication extends ServletContext {
     void addResource(Resource resource);
     
     /**
+     * Adds an error page to be forwarded to on the given HTTP status code
+     * 
+     * @param code the HTTP code for which the error page is to be invoked
+     * @param location the location of the error page
+     */
+    void addErrorPage(int code, String location);
+    
+    /** Adds an error page to be forwarded to on the given exception
+     * 
+     * @param exception the exception for which the error page is to be invoked
+     * @param location the location of the error page
+     */
+    void addErrorPage(String exception, String location);
+    
+    /**
      * Destroy the web application.
      */
     void destroy();
