@@ -27,11 +27,14 @@
  */
 package com.manorrock.piranha.test.embedded;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+
+import com.manorrock.piranha.DefaultWebApplication;
 import com.manorrock.piranha.embedded.EmbeddedPiranha;
 import com.manorrock.piranha.embedded.EmbeddedServletRequest;
 import com.manorrock.piranha.embedded.EmbeddedServletResponse;
-import java.io.IOException;
-import javax.servlet.ServletException;
 
 /**
  * The tests to verify Piranha Embedded works properly.
@@ -50,6 +53,7 @@ public class Embedded {
         try {
             EmbeddedPiranha embedded = new EmbeddedPiranha();
             EmbeddedServletRequest request = new EmbeddedServletRequest();
+            request.setWebApplication(new DefaultWebApplication());
             EmbeddedServletResponse response = new EmbeddedServletResponse();
             embedded.initialize();
             embedded.start();
