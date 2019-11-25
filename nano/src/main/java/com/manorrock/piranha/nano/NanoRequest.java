@@ -27,8 +27,8 @@
  */
 package com.manorrock.piranha.nano;
 
-import com.manorrock.piranha.DefaultAttributeManager;
-import com.manorrock.piranha.DefaultHttpHeaderManager;
+import cloud.piranha.DefaultAttributeManager;
+import cloud.piranha.DefaultHttpHeaderManager;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

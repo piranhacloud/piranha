@@ -27,13 +27,13 @@
  */
 package com.manorrock.piranha.micro;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultHttpServer;
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.DefaultWebApplicationClassLoader;
-import com.manorrock.piranha.DefaultWebApplicationServer;
-import com.manorrock.piranha.api.HttpServer;
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultHttpServer;
+import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultWebApplicationClassLoader;
+import cloud.piranha.DefaultWebApplicationServer;
+import cloud.piranha.api.HttpServer;
+import cloud.piranha.api.WebApplication;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;

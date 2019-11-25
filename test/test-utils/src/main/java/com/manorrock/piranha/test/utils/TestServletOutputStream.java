@@ -27,9 +27,9 @@
  */
 package com.manorrock.piranha.test.utils;
 
-import com.manorrock.piranha.DefaultWebApplicationRequest;
-import com.manorrock.piranha.DefaultWebApplicationResponse;
-import com.manorrock.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultWebApplicationRequest;
+import cloud.piranha.DefaultWebApplicationResponse;
+import cloud.piranha.DefaultWebApplication;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.servlet.ServletOutputStream;

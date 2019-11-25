@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.nano;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultDirectoryResource;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;

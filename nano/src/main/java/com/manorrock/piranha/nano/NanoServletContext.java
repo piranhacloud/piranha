@@ -27,13 +27,13 @@
  */
 package com.manorrock.piranha.nano;
 
-import com.manorrock.piranha.DefaultAttributeManager;
-import com.manorrock.piranha.DefaultMimeTypeManager;
-import com.manorrock.piranha.DefaultResourceManager;
-import com.manorrock.piranha.api.AttributeManager;
-import com.manorrock.piranha.api.MimeTypeManager;
-import com.manorrock.piranha.api.Resource;
-import com.manorrock.piranha.api.ResourceManager;
+import cloud.piranha.DefaultAttributeManager;
+import cloud.piranha.DefaultMimeTypeManager;
+import cloud.piranha.DefaultResourceManager;
+import cloud.piranha.api.AttributeManager;
+import cloud.piranha.api.MimeTypeManager;
+import cloud.piranha.api.Resource;
+import cloud.piranha.api.ResourceManager;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;

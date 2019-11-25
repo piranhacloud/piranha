@@ -42,8 +42,8 @@ import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 import com.manorrock.herring.DefaultInitialContextFactory;
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.api.WebApplication;
 import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;

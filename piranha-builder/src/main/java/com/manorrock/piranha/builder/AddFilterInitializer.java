@@ -34,7 +34,7 @@ import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.api.WebApplication;
 
 /**
  * Initializer that install a filter

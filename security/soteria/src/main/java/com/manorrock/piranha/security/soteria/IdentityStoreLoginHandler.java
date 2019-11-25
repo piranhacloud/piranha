@@ -36,9 +36,9 @@ import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
 import javax.servlet.http.HttpServletRequest;
 
-import com.manorrock.piranha.DefaultAuthenticatedIdentity;
-import com.manorrock.piranha.api.AuthenticatedIdentity;
-import com.manorrock.piranha.api.SecurityManager.UsernamePasswordLoginHandler;
+import cloud.piranha.DefaultAuthenticatedIdentity;
+import cloud.piranha.api.AuthenticatedIdentity;
+import cloud.piranha.api.SecurityManager.UsernamePasswordLoginHandler;
 
 /**
  * @author Arjan Tijms

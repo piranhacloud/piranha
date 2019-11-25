@@ -27,8 +27,8 @@
  */
 package com.manorrock.piranha.pages.jasper;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultWebApplication;
 import java.io.File;
 import java.util.HashSet;
 import org.junit.Test;

@@ -27,8 +27,8 @@
  */
 package com.manorrock.piranha.test.jersey;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultWebApplication;
 import com.manorrock.piranha.servlet.ServletFeature;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;

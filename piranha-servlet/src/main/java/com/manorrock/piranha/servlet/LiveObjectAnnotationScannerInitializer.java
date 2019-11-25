@@ -44,11 +44,11 @@ import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 
-import com.manorrock.piranha.DefaultAnnotationManager;
-import com.manorrock.piranha.DefaultAnnotationManager.DefaultAnnotationInfo;
-import com.manorrock.piranha.api.AnnotationManager;
-import com.manorrock.piranha.api.ResourceManagerClassLoader;
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.DefaultAnnotationManager;
+import cloud.piranha.DefaultAnnotationManager.DefaultAnnotationInfo;
+import cloud.piranha.api.AnnotationManager;
+import cloud.piranha.api.ResourceManagerClassLoader;
+import cloud.piranha.api.WebApplication;
 
 /**
  * A naive annotation scanner

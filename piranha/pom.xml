@@ -8,10 +8,11 @@
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
+    <groupId>cloud.piranha</groupId>
     <artifactId>piranha</artifactId>
     <packaging>jar</packaging>
 
-    <name>Manorrock Piranha</name>
+    <name>Piranha</name>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -20,7 +21,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>cloud.piranha</groupId>
             <artifactId>piranha-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>

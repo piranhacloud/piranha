@@ -16,7 +16,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>cloud.piranha</groupId>
             <artifactId>piranha</artifactId>
             <version>${project.version}</version>
         </dependency>

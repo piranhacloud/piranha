@@ -27,9 +27,9 @@
  */
 package com.manorrock.piranha.test.microprofile.smallrye.health;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.api.WebApplication;
 import com.manorrock.piranha.smallrye.health.SmallRyeLivenessServlet;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;

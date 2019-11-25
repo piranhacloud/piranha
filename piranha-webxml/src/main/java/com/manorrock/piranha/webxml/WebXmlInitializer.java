@@ -62,7 +62,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.api.WebApplication;
 import com.manorrock.piranha.webxml.WebXml.ErrorPage;
 
 /**

@@ -27,9 +27,9 @@
  */
 package com.manorrock.piranha.http.netty;
 
-import com.manorrock.piranha.DefaultHttpServerProcessor;
-import com.manorrock.piranha.api.HttpServer;
-import com.manorrock.piranha.api.HttpServerProcessor;
+import cloud.piranha.DefaultHttpServerProcessor;
+import cloud.piranha.api.HttpServer;
+import cloud.piranha.api.HttpServerProcessor;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;

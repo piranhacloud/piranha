@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.pages.jasper;
 
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.api.WebApplication;
 import java.io.File;
 import java.util.Set;
 import java.util.logging.Level;

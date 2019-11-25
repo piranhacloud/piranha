@@ -27,8 +27,8 @@
  */
 package com.manorrock.piranha.embedded;
 
-import com.manorrock.piranha.DefaultWebApplicationServletInputStream;
-import com.manorrock.piranha.DefaultWebApplicationRequest;
+import cloud.piranha.DefaultWebApplicationServletInputStream;
+import cloud.piranha.DefaultWebApplicationRequest;
 import java.io.IOException;
 import javax.servlet.ReadListener;
 

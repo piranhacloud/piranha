@@ -27,8 +27,8 @@
  */
 package com.manorrock.piranha.security.jakarta;
 
-import static com.manorrock.piranha.DefaultAuthenticatedIdentity.getCurrentSubject;
-import static com.manorrock.piranha.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
+import static cloud.piranha.DefaultAuthenticatedIdentity.getCurrentSubject;
+import static cloud.piranha.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
 import static com.manorrock.piranha.authentication.elios.AuthenticationInitializer.AUTH_SERVICE;
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
 
@@ -45,11 +45,11 @@ import org.omnifaces.eleos.config.helper.Caller;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
 import org.omnifaces.exousia.AuthorizationService;
 
-import com.manorrock.piranha.DefaultAuthenticatedIdentity;
-import com.manorrock.piranha.DefaultWebApplicationRequest;
-import com.manorrock.piranha.api.AuthenticatedIdentity;
-import com.manorrock.piranha.api.SecurityManager;
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.DefaultAuthenticatedIdentity;
+import cloud.piranha.DefaultWebApplicationRequest;
+import cloud.piranha.api.AuthenticatedIdentity;
+import cloud.piranha.api.SecurityManager;
+import cloud.piranha.api.WebApplication;
 
 /**
  * SecurityManager implementation that uses Jakarta Security semantics.
