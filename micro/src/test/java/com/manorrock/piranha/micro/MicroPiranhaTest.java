@@ -56,7 +56,7 @@ public class MicroPiranhaTest {
         thread.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8080");
+            HttpGet request = new HttpGet("http://localhost:8080/does-not-exist");
             HttpResponse response = client.execute(request);
             assertEquals(404, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
