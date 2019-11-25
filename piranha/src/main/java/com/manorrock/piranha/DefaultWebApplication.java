@@ -136,21 +136,87 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected static final int SERVICING = 2;
 
-    /**
-     * Stores the annotation manager.
-     */
-    protected AnnotationManager annotationManager;
-
-    /**
-     * Stores the attributes.
-     */
-    protected final HashMap<String, Object> attributes;
 
     /**
      * Stores the class loader.
      */
     protected ClassLoader classLoader;
 
+    /**
+     * Stores the context path.
+     */
+    protected String contextPath;
+    
+    /**
+     * Stores the servlet context name.
+     */
+    protected String servletContextName;
+
+    /**
+     * Stores the virtual server name.
+     */
+    protected String virtualServerName = "server";
+    
+    /**
+     * Stores the response character encoding.
+     */
+    protected String responseCharacterEncoding;
+
+    
+    // ### Volatile state
+    
+    /**
+     * Stores the status.
+     */
+    protected int status;
+    
+    /**
+     * Stores the active requests and the associated response.
+     */
+    protected final Map<ServletRequest, ServletResponse> requests;
+    
+    /**
+     * Stores the active responses and the associated requests.
+     */
+    protected final Map<ServletResponse, ServletRequest> responses;
+    
+    
+    // ### Application parts
+
+    /**
+     * Stores our features.
+     */
+    protected List<Feature> features;
+
+    /**
+     * Stores the servlet container initializers.
+     */
+    protected final List<ServletContainerInitializer> initializers;
+    
+    /**
+     * Stores the init parameters.
+     */
+    protected final Map<String, String> initParameters;
+    
+    /**
+     * Stores the attributes.
+     */
+    protected final Map<String, Object> attributes;
+    
+    /**
+     * Stores the servlets.
+     */
+    protected final Map<String, DefaultServletEnvironment> servlets;
+    
+    /**
+     * Stores the filters.
+     */
+    protected final Map<String, DefaultFilterEnvironment> filters;
+    
+  
+    
+    // ### Listeners
+    
     /**
      * Stores the servlet context attribute listeners.
      */
@@ -160,47 +226,40 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the servlet context listeners.
      */
     protected final ArrayList<ServletContextListener> contextListeners;
-
+    
     /**
-     * Stores the context path.
+     * Stores the servlet request listeners.
      */
-    protected String contextPath;
-
+    protected final List<ServletRequestListener> requestListeners;
+    
+    
+    // ### Managers
+    
     /**
      * Stores the object instance manager.
      */
     protected ObjectInstanceManager objectInstanceManager;
 
     /**
-     * Stores our features.
+     * Stores the annotation manager.
      */
-    protected List<Feature> features;
-
+    protected AnnotationManager annotationManager;
+    
     /**
-     * Stores the filters.
+     * Stores the resource manager.
      */
-    protected final Map<String, DefaultFilterEnvironment> filters;
-
+    protected ResourceManager resourceManager;
+    
     /**
      * Stores the session manager.
      */
     protected HttpSessionManager httpSessionManager;
-
+    
     /**
-     * Stores the request manager.
+     * Stores the security manager.
      */
-    protected HttpRequestManager httpRequestManager;
-
-    /**
-     * Stores the init parameters.
-     */
-    protected final Map<String, String> initParameters;
-
-    /**
-     * Stores the servlet container initializers.
-     */
-    protected final List<ServletContainerInitializer> initializers;
-
+    protected SecurityManager securityManager;
+    
     /**
      * Stores the JSP manager.
      */
@@ -210,6 +269,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the logging manager.
      */
     protected LoggingManager loggingManager;
+    
+    /**
+     * Stores the request manager.
+     */
+    protected HttpRequestManager httpRequestManager;
 
     /**
      * Stores the mime tyoe manager.
@@ -221,55 +285,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected String requestCharacterEncoding;
 
-    /**
-     * Stores the servlet request listeners.
-     */
-    protected final List<ServletRequestListener> requestListeners;
 
-    /**
-     * Stores the active requests and the associated response.
-     */
-    protected final Map<ServletRequest, ServletResponse> requests;
 
-    /**
-     * Stores the resource manager.
-     */
-    protected ResourceManager resourceManager;
 
-    /**
-     * Stores the response character encoding.
-     */
-    protected String responseCharacterEncoding;
-
-    /**
-     * Stores the active responses and the associated requests.
-     */
-    protected final Map<ServletResponse, ServletRequest> responses;
-
-    /**
-     * Stores the security manager.
-     */
-    protected SecurityManager securityManager;
-
-    /**
-     * Stores the servlet context name.
-     */
-    protected String servletContextName;
-
-    /**
-     * Stores the servlets.
-     */
-    protected final Map<String, DefaultServletEnvironment> servlets;
-
-    /**
-     * Stores the status.
-     */
-    protected int status;
-
-    /**
-     * Stores the virtual server name.
-     */
-    protected String virtualServerName = "server";
+    // ### Mappers
 
     /**
      * Stores the web application request mapper.
@@ -1375,6 +1394,12 @@ public class DefaultWebApplication implements WebApplication {
             servlet.service(request, response);
         } else {
             getFilterChain(filterEnvironments, servlet).doFilter(request, response);
+        }
+
+        DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
+        if (httpResponse.getStatus() >= 400 && httpResponse.getStatus() <= 500) {
+            // getAttribute(name)
+            
         }
         
         requestDestroyed(request);
