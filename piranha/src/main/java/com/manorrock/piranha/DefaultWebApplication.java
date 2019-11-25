@@ -1395,6 +1395,7 @@ public class DefaultWebApplication implements WebApplication {
         requestInitialized(request);
         
         DefaultWebApplicationRequest httpRequest = (DefaultWebApplicationRequest) request;
+        DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
         
         // Obtain a reference to the target resource (target Servlet)
         Servlet servlet = getTargetServlet(httpRequest);
@@ -1404,20 +1405,50 @@ public class DefaultWebApplication implements WebApplication {
         
         // Invoke the Servlet, or first the Filter chain and then the Servlet
         List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(httpRequest);
-        if (filterEnvironments == null) {
-            servlet.service(request, response);
-        } else {
-            getFilterChain(filterEnvironments, servlet).doFilter(request, response);
+        
+        Exception exception = null;
+        try {
+            if (filterEnvironments == null) {
+                servlet.service(request, response);
+            } else {
+                getFilterChain(filterEnvironments, servlet).doFilter(request, response);
+            }
+        } catch (Exception e) {
+           exception = e;
         }
-
-        DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
-        if (httpResponse.getStatus() >= 400 && httpResponse.getStatus() <= 500) {
-            // getAttribute(name)
-            
+        
+        String location = null;
+        if (exception != null) {
+            location = errorPagesByException.get(exception.getClass().getName());
+        } else if (httpResponse.getStatus() >= 400 && httpResponse.getStatus() <= 500) {
+            location = errorPagesByCode.get(httpResponse.getStatus());
+        }
+        
+        if (location != null) {
+            request.getRequestDispatcher(location)
+                   .forward(httpRequest, httpResponse);
+        } else if (exception != null) {
+            rethrow(exception);
         }
         
         requestDestroyed(request);
         unlinkRequestAndResponse(request, response);
+    }
+    
+    private void rethrow(Exception exception) throws ServletException, IOException {
+        if (exception instanceof ServletException) {
+            throw (ServletException) exception;
+        }
+        
+        if (exception instanceof IOException) {
+            throw (IOException) exception;
+        }
+        
+        if (exception instanceof RuntimeException) {
+            throw (RuntimeException) exception;
+        }
+            
+        throw new IllegalStateException(exception);
     }
     
     /**
