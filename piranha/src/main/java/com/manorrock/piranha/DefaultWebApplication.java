@@ -213,6 +213,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected final Map<String, DefaultFilterEnvironment> filters;
     
+    protected final Map<Integer, String> errorPagesByCode = new HashMap<>();
+    
+    protected final Map<String, String> errorPagesByException = new HashMap<>();
+    
   
     
     // ### Listeners
@@ -600,6 +604,16 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public Set<String> addServletMapping(String servletName, String... urlPatterns) {
         return webApplicationRequestMapper.addServletMapping(servletName, urlPatterns);
+    }
+    
+    @Override
+    public void addErrorPage(int code, String location) {
+        errorPagesByCode.put(code, location);
+    }
+    
+    @Override
+    public void addErrorPage(String exception, String location) {
+        errorPagesByException.put(exception, location);
     }
 
     /**
