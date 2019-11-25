@@ -27,12 +27,14 @@
  */
 package com.manorrock.piranha;
 
-import java.util.Collection;
-import java.util.Set;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Collection;
+import java.util.Set;
+
 import org.junit.Test;
 
 /**
@@ -111,6 +113,7 @@ public class DefaultWebApplicationRequestMapperTest {
 
         TestHttpServletRequest request = new TestHttpServletRequest();
         request.setServletPath("/echo.echo");
+        request.setWebApplication(new DefaultWebApplication());
 
         TestHttpServletResponse response = new TestHttpServletResponse();
         TestServletOutputStream outputStream = new TestServletOutputStream();

@@ -36,6 +36,8 @@ import javax.servlet.ServletRegistration;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -87,8 +89,10 @@ public class ServletTest {
         webApplicationServer.initialize();
         webApplicationServer.start();
         webApplicationServer.process(request, response);
+        
         assertNotNull(webApplication.getAttribute("Broken Servlet"));
-        assertTrue(response.getByteArrayOutputStream().toString().contains("500"));
+        assertFalse(response.getByteArrayOutputStream().toString().contains("200"));
+        
         webApplicationServer.stop();
     }
 
