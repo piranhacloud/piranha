@@ -31,7 +31,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 
-import com.manorrock.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultWebApplication;
 import com.manorrock.piranha.embedded.EmbeddedPiranha;
 import com.manorrock.piranha.embedded.EmbeddedServletRequest;
 import com.manorrock.piranha.embedded.EmbeddedServletResponse;

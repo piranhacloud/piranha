@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.cdi.openwebbeans;
 
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.api.WebApplication;
 import java.util.Set;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;

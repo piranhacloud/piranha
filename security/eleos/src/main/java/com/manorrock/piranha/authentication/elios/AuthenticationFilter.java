@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.authentication.elios;
 
-import static com.manorrock.piranha.api.SecurityManager.AuthenticateSource.PRE_REQUEST_CONTAINER;
+import static cloud.piranha.api.SecurityManager.AuthenticateSource.PRE_REQUEST_CONTAINER;
 
 import java.io.IOException;
 
@@ -40,8 +40,8 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.manorrock.piranha.api.SecurityManager;
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.api.SecurityManager;
+import cloud.piranha.api.WebApplication;
 
 /**
  * This filter is uses to call a Jakarta Authentication system module at the start of an HTTP request.

@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.nano;
 
-import com.manorrock.piranha.DefaultHttpHeaderManager;
+import cloud.piranha.DefaultHttpHeaderManager;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;

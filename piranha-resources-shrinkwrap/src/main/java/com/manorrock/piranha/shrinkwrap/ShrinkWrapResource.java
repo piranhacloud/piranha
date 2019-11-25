@@ -39,7 +39,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
-import com.manorrock.piranha.api.Resource;
+import cloud.piranha.api.Resource;
 
 /**
  * 

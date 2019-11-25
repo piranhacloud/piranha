@@ -27,9 +27,9 @@
  */
 package com.manorrock.piranha.test.openwebbeans;
 
-import com.manorrock.piranha.DefaultAliasedDirectoryResource;
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultAliasedDirectoryResource;
+import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultWebApplication;
 import com.manorrock.piranha.servlet.ServletFeature;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;

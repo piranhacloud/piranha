@@ -39,8 +39,8 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 
-import com.manorrock.piranha.DefaultHttpHeader;
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.DefaultHttpHeader;
+import cloud.piranha.api.WebApplication;
 
 /**
  * A test web app

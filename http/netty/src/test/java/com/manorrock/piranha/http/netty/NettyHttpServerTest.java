@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.http.netty;
 
-import com.manorrock.piranha.DefaultHttpServerProcessor;
+import cloud.piranha.DefaultHttpServerProcessor;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import org.apache.http.HttpEntity;

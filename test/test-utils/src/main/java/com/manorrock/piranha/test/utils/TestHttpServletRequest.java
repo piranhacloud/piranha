@@ -27,8 +27,8 @@
  */
 package com.manorrock.piranha.test.utils;
 
-import com.manorrock.piranha.DefaultWebApplicationRequest;
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.DefaultWebApplicationRequest;
+import cloud.piranha.api.WebApplication;
 
 /**
  * A test HTTP servlet request.

@@ -52,9 +52,9 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
-import com.manorrock.piranha.api.AnnotationManager;
-import com.manorrock.piranha.api.AnnotationManager.AnnotationInfo;
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.api.AnnotationManager;
+import cloud.piranha.api.AnnotationManager.AnnotationInfo;
+import cloud.piranha.api.WebApplication;
 
 /**
  * The web annotations initializer.

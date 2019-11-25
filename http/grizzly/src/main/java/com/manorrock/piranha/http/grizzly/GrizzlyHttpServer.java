@@ -27,8 +27,8 @@
  */
 package com.manorrock.piranha.http.grizzly;
 
-import com.manorrock.piranha.DefaultHttpServerProcessor;
-import com.manorrock.piranha.api.HttpServerProcessor;
+import cloud.piranha.DefaultHttpServerProcessor;
+import cloud.piranha.api.HttpServerProcessor;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +42,7 @@ import org.glassfish.grizzly.http.server.Response;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class GrizzlyHttpServer implements com.manorrock.piranha.api.HttpServer {
+public class GrizzlyHttpServer implements cloud.piranha.api.HttpServer {
 
     /**
      * Stores the logger.

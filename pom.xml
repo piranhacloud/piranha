@@ -33,7 +33,6 @@
     <modules>
         <!-- Core -->
         <module>piranha</module>
-        <module>piranha-api</module>
         <module>piranha-builder</module>
     
         <!-- Logical components -->
@@ -42,6 +41,7 @@
         <module>http</module>
         <module>pages</module>
         <module>security</module>
+        <module>servlet</module>
         
         <!-- Distributions -->
         <module>nano</module>
@@ -51,11 +51,10 @@
         
         <module>piranha-microprofile-smallrye-health</module>
         <module>piranha-servlet</module>
-        <module>piranha-servlet-api</module>
         <module>piranha-session-hazelcast</module>
         <module>piranha-resources-shrinkwrap</module>
         <module>piranha-webxml</module>
-        
+        <module>api</module>
     </modules>
 
     <scm>

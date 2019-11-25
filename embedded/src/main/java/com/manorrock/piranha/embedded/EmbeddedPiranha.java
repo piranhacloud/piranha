@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.embedded;
 
-import com.manorrock.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultWebApplication;
 import com.manorrock.piranha.webxml.WebXmlFeature;
 import java.io.IOException;
 import javax.servlet.ServletException;

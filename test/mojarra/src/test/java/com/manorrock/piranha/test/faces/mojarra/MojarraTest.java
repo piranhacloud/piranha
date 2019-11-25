@@ -33,8 +33,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.api.WebApplication;
 import com.manorrock.piranha.faces.mojarra.MojarraInitializer;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;

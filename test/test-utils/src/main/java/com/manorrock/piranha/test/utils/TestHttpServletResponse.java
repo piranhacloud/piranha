@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.test.utils;
 
-import com.manorrock.piranha.DefaultWebApplicationResponse;
+import cloud.piranha.DefaultWebApplicationResponse;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;

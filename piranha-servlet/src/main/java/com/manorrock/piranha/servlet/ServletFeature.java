@@ -28,8 +28,8 @@
 package com.manorrock.piranha.servlet;
 
 import com.manorrock.piranha.webxml.WebXmlInitializer;
-import com.manorrock.piranha.api.Feature;
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.api.Feature;
+import cloud.piranha.api.WebApplication;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

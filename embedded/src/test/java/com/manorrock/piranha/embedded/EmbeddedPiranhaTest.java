@@ -29,7 +29,7 @@ package com.manorrock.piranha.embedded;
 
 import org.junit.Test;
 
-import com.manorrock.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultWebApplication;
 
 /**
  * The JUnit tests for the EmbeddedPiranha class.

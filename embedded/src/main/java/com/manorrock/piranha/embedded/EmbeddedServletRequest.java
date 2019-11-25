@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.embedded;
 
-import com.manorrock.piranha.DefaultWebApplicationRequest;
+import cloud.piranha.DefaultWebApplicationRequest;
 
 /**
  * The embedded version of a WebApplicationRequest.

@@ -27,8 +27,8 @@
  */
 package com.manorrock.piranha.webxml;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultWebApplication;
 import java.io.File;
 import java.io.InputStream;
 import javax.servlet.ServletRegistration;

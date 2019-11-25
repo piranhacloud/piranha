@@ -27,10 +27,10 @@
  */
 package com.manorrock.piranha.embedded;
 
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.DefaultWebApplicationRequest;
-import com.manorrock.piranha.DefaultWebApplicationResponse;
-import com.manorrock.piranha.DefaultWebApplicationServletOutputStream;
+import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultWebApplicationRequest;
+import cloud.piranha.DefaultWebApplicationResponse;
+import cloud.piranha.DefaultWebApplicationServletOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.servlet.WriteListener;

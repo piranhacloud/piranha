@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.embedded;
 
-import com.manorrock.piranha.DefaultWebApplicationResponse;
+import cloud.piranha.DefaultWebApplicationResponse;
 
 /**
  * The embedded version of a ServletResponse.

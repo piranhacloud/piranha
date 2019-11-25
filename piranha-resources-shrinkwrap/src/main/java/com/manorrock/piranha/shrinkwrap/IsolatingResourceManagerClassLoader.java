@@ -32,7 +32,7 @@ import java.net.URL;
 import java.security.ProtectionDomain;
 import java.util.Enumeration;
 
-import com.manorrock.piranha.DefaultResourceManagerClassLoader;
+import cloud.piranha.DefaultResourceManagerClassLoader;
 
 /**
  * The default WebApplicationClassLoader.

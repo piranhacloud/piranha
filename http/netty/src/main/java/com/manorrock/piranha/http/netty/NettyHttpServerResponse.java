@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.http.netty;
 
-import com.manorrock.piranha.api.HttpServerResponse;
+import cloud.piranha.api.HttpServerResponse;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;

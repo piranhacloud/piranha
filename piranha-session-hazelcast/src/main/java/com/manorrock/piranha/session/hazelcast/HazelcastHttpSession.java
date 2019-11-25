@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.session.hazelcast;
 
-import com.manorrock.piranha.api.HttpSessionManager;
+import cloud.piranha.api.HttpSessionManager;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Enumeration;
