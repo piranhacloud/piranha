@@ -27,6 +27,12 @@
  */
 package com.manorrock.piranha;
 
+import static com.manorrock.piranha.DefaultFilterEnvironment.UNAVAILABLE;
+import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.WARNING;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,7 +52,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.Filter;
@@ -71,7 +76,6 @@ import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.descriptor.JspConfigDescriptor;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
@@ -95,15 +99,13 @@ import com.manorrock.piranha.api.WebApplicationRequestMapping;
  * The default WebApplication.
  *
  * <p>
- * The <code>filters</code> field is backed by a LinkedHashMap so we get an
- * insertion-order key set. If you change this, be aware that methods using this
- * field should be changed to account for that.
+ * The <code>filters</code> field is backed by a LinkedHashMap so we get an insertion-order key set. If you change this,
+ * be aware that methods using this field should be changed to account for that.
  * </p>
  *
  * <p>
- * The <code>servlets</code> field is backed by a LinkedHashMap so we get an
- * insertion-order key set. If you change this, be aware that methods using this
- * field should be changed to account for that.
+ * The <code>servlets</code> field is backed by a LinkedHashMap so we get an insertion-order key set. If you change
+ * this, be aware that methods using this field should be changed to account for that.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -323,24 +325,26 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, String className) {
-        if (status != SERVICING) {
-            if (filterName == null || filterName.trim().equals("")) {
-                throw new IllegalArgumentException("Filter name cannot be null or empty");
-            }
-            DefaultFilterEnvironment result;
-            if (filters.containsKey(filterName)) {
-                result = filters.get(filterName);
-            } else {
-                result = new DefaultFilterEnvironment();
-                result.setFilterName(filterName);
-                result.setWebApplication(this);
-                filters.put(filterName, result);
-            }
-            result.setClassName(className);
-            return result;
-        } else {
+        if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has started");
         }
+        
+        if (filterName == null || filterName.trim().equals("")) {
+            throw new IllegalArgumentException("Filter name cannot be null or empty");
+        }
+        
+        DefaultFilterEnvironment defaultFilterEnvironment;
+        if (filters.containsKey(filterName)) {
+            defaultFilterEnvironment = filters.get(filterName);
+        } else {
+            defaultFilterEnvironment = new DefaultFilterEnvironment();
+            defaultFilterEnvironment.setFilterName(filterName);
+            defaultFilterEnvironment.setWebApplication(this);
+            filters.put(filterName, defaultFilterEnvironment);
+        }
+        defaultFilterEnvironment.setClassName(className);
+        
+        return defaultFilterEnvironment;
     }
 
     /**
@@ -353,24 +357,26 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) {
-        if (status != SERVICING) {
-            if (filterName == null || filterName.trim().equals("")) {
-                throw new IllegalArgumentException("Filter name cannot be null or empty");
-            }
-            DefaultFilterEnvironment result;
-            if (filters.containsKey(filterName)) {
-                result = filters.get(filterName);
-            } else {
-                result = new DefaultFilterEnvironment();
-                result.setFilterName(filterName);
-                result.setWebApplication(this);
-                filters.put(filterName, result);
-            }
-            result.setClassName(filterClass.getCanonicalName());
-            return result;
-        } else {
+        if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has started");
         }
+        
+        if (filterName == null || filterName.trim().equals("")) {
+            throw new IllegalArgumentException("Filter name cannot be null or empty");
+        }
+        
+        DefaultFilterEnvironment filterEnvironment;
+        if (filters.containsKey(filterName)) {
+            filterEnvironment = filters.get(filterName);
+        } else {
+            filterEnvironment = new DefaultFilterEnvironment();
+            filterEnvironment.setFilterName(filterName);
+            filterEnvironment.setWebApplication(this);
+            filters.put(filterName, filterEnvironment);
+        }
+        filterEnvironment.setClassName(filterClass.getCanonicalName());
+        
+        return filterEnvironment;
     }
 
     /**
@@ -382,13 +388,15 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
-        if (status != SERVICING) {
-            DefaultFilterEnvironment result = new DefaultFilterEnvironment(this, filterName, filter);
-            filters.put(filterName, result);
-            return result;
-        } else {
+        if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has started");
         }
+        
+        DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment(this, filterName, filter);
+        filters.put(filterName, filterEnvironment);
+        
+        return filterEnvironment;
+        
     }
 
     /**
@@ -397,8 +405,7 @@ public class DefaultWebApplication implements WebApplication {
      * @param filterName the filter name.
      * @param urlPatterns the URL patterns.
      * @return the possible empty set of already mapped URL patterns.
-     * @see FilterRegistration#addMappingForUrlPatterns(EnumSet, boolean,
-     * String...)
+     * @see FilterRegistration#addMappingForUrlPatterns(EnumSet, boolean, String...)
      */
     @Override
     public Set<String> addFilterMapping(String filterName, String... urlPatterns) {
@@ -417,8 +424,8 @@ public class DefaultWebApplication implements WebApplication {
             Class<ServletContainerInitializer> clazz = (Class<ServletContainerInitializer>) getClassLoader().loadClass(className);
             initializers.add(clazz.newInstance());
         } catch (Throwable throwable) {
-            if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.log(Level.WARNING, "Unable to add initializer: " + className, throwable);
+            if (LOGGER.isLoggable(WARNING)) {
+                LOGGER.log(WARNING, "Unable to add initializer: " + className, throwable);
             }
         }
     }
@@ -450,6 +457,7 @@ public class DefaultWebApplication implements WebApplication {
         if (status != SETUP) {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
+        
         try {
             @SuppressWarnings("unchecked")
             Class<EventListener> clazz = (Class<EventListener>) getClassLoader().loadClass(className);
@@ -468,6 +476,7 @@ public class DefaultWebApplication implements WebApplication {
         if (status != SETUP) {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
+        
         try {
             EventListener listener = createListener(type);
             addListener(listener);
@@ -545,6 +554,7 @@ public class DefaultWebApplication implements WebApplication {
         } else {
             result.setClassName(className);
         }
+        
         return result;
     }
 
@@ -599,21 +609,17 @@ public class DefaultWebApplication implements WebApplication {
     public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
         T result = objectInstanceManager.createListener(clazz);
         boolean ok = false;
-        if (result instanceof ServletContextListener
-                || result instanceof ServletContextAttributeListener
-                || result instanceof ServletRequestListener
-                || result instanceof ServletRequestAttributeListener
-                || result instanceof HttpSessionAttributeListener
-                || result instanceof HttpSessionIdListener
-                || result instanceof HttpSessionListener) {
+        if (result instanceof ServletContextListener || result instanceof ServletContextAttributeListener || result instanceof ServletRequestListener
+                || result instanceof ServletRequestAttributeListener || result instanceof HttpSessionAttributeListener
+                || result instanceof HttpSessionIdListener || result instanceof HttpSessionListener) {
             ok = true;
         }
+        
         if (!ok) {
-            if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.log(Level.WARNING, "Unable to create listener: {0}", clazz);
-            }
+            LOGGER.log(WARNING, "Unable to create listener: {0}", clazz);
             throw new IllegalArgumentException("Invalid type");
         }
+        
         return result;
     }
 
@@ -921,19 +927,19 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public String getRealPath(String path) {
-        String result = null;
+        String realPath = null;
 
         try {
             if (getResource(path) != null) {
                 File file = new File(getResource(path).toURI());
                 if (file.exists()) {
-                    result = file.toString();
+                    realPath = file.toString();
                 }
             }
         } catch (MalformedURLException | URISyntaxException | IllegalArgumentException exception) {
         }
 
-        return result;
+        return realPath;
     }
 
     /**
@@ -965,15 +971,16 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
-        RequestDispatcher result = null;
+        RequestDispatcher requestDispatcher = null;
         WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
         if (mapping != null) {
             String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
             if (servletName != null) {
-                result = getNamedDispatcher(servletName, path);
+                requestDispatcher = getNamedDispatcher(servletName, path);
             }
         }
-        return result;
+        
+        return requestDispatcher;
     }
 
     /**
@@ -1172,14 +1179,14 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void initialize() {
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Initializing web application at {0}", contextPath);
-        }
+        LOGGER.log(FINE, "Initializing web application at {0}", contextPath);
+        
         verifyState(SETUP, "Unable to initialize web application");
         try {
             initializeFeatures();
             initializeInitializers();
 
+            @SuppressWarnings("unchecked")
             List<ServletContextListener> listeners = (List<ServletContextListener>) contextListeners.clone();
             listeners.stream().forEach((listener) -> {
                 listener.contextInitialized(new ServletContextEvent(this));
@@ -1190,12 +1197,10 @@ public class DefaultWebApplication implements WebApplication {
 
             status = INITIALIZED;
 
-            if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.log(Level.FINE, "Initialized web application at {0}", contextPath);
-            }
+            LOGGER.log(FINE, "Initialized web application at {0}", contextPath);
         } catch (ServletException se) {
-            if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.log(Level.WARNING, "An error occured initializing webapplication at " + contextPath, se);
+            if (LOGGER.isLoggable(WARNING)) {
+                LOGGER.log(WARNING, "An error occured initializing webapplication at " + contextPath, se);
             }
             status = ERROR;
         }
@@ -1217,15 +1222,14 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected void initializeFilters() {
         List<String> filterNames = new ArrayList<>(filters.keySet());
-        filterNames.stream().map((filterName) -> filters.get(filterName))
-                .forEach((environment) -> {
-                    try {
-                        environment.initialize();
-                        environment.getFilter().init(environment);
-                    } catch (ServletException exception) {
-                        environment.setStatus(DefaultFilterEnvironment.UNAVAILABLE);
-                    }
-                });
+        filterNames.stream().map((filterName) -> filters.get(filterName)).forEach((environment) -> {
+            try {
+                environment.initialize();
+                environment.getFilter().init(environment);
+            } catch (ServletException exception) {
+                environment.setStatus(UNAVAILABLE);
+            }
+        });
     }
 
     /**
@@ -1244,10 +1248,9 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected void initializeServlets() {
         List<String> servletNames = new ArrayList<>(servlets.keySet());
-        servletNames.stream().map((servletName) -> servlets.get(servletName))
-                .forEach((environment) -> {
-                    initializeServlet(environment);
-                });
+        servletNames.stream().map((servletName) -> servlets.get(servletName)).forEach((environment) -> {
+            initializeServlet(environment);
+        });
     }
 
     /**
@@ -1257,9 +1260,8 @@ public class DefaultWebApplication implements WebApplication {
      */
     private void initializeServlet(DefaultServletEnvironment environment) {
         try {
-            if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.log(Level.FINE, "Initializing servlet: {0}", environment.servletName);
-            }
+            LOGGER.log(FINE, "Initializing servlet: {0}", environment.servletName);
+            
             if (environment.getServlet() == null) {
                 Class clazz = environment.getServletClass();
                 if (clazz == null) {
@@ -1275,12 +1277,10 @@ public class DefaultWebApplication implements WebApplication {
                 environment.setServlet(createServlet(clazz));
             }
             environment.getServlet().init(environment);
-            if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.log(Level.FINE, "Initialized servlet: {0}", environment.servletName);
-            }
+            LOGGER.log(FINE, "Initialized servlet: {0}", environment.servletName);
         } catch (ServletException | ClassNotFoundException exception) {
-            if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.log(Level.WARNING, "Unable to initialize servlet: " + environment.className, exception);
+            if (LOGGER.isLoggable(WARNING)) {
+                LOGGER.log(WARNING, "Unable to initialize servlet: " + environment.className, exception);
             }
             environment.setServlet(null);
             environment.setStatus(DefaultServletEnvironment.UNAVAILABLE);
@@ -1352,85 +1352,91 @@ public class DefaultWebApplication implements WebApplication {
      * @throws ServletException when a servlet error occurs.
      */
     @Override
-    public void service(ServletRequest request, ServletResponse response)
-            throws ServletException, IOException {
+    public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
         verifyState(SERVICING, "Unable to service request");
+        
         linkRequestAndResponse(request, response);
         if (!requestListeners.isEmpty()) {
             requestListeners.stream().forEach((servletRequestListener) -> {
                 servletRequestListener.requestInitialized(new ServletRequestEvent(this, request));
             });
         }
-        if (request instanceof DefaultWebApplicationRequest
-                && response instanceof DefaultWebApplicationResponse) {
-            DefaultWebApplicationRequest httpRequest = (DefaultWebApplicationRequest) request;
-            DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
-            List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(httpRequest);
-            if (filterEnvironments == null) {
-                String path = httpRequest.getServletPath() + (httpRequest.getPathInfo() == null ? "" : httpRequest.getPathInfo());
-                WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
-                if (mapping != null) {
-                    String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
-                    if (servletName != null && servlets.containsKey(servletName)) {
-                        Servlet servlet = servlets.get(servletName).getServlet();
-                        httpRequest.asyncSupported = servlets.get(servletName).asyncSupported;
-                        if (mapping.isExact()) {
-                            httpRequest.setServletPath(path);
-                            httpRequest.setPathInfo(null);
-                        } else if (!mapping.isExtension()) {
-                            httpRequest.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
-                            httpRequest.setPathInfo(path.substring(mapping.getPath().length() - 2));
-                        }
-                        if (servlet != null) {
-                            servlet.service(request, response);
-                        } else {
-                            httpResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        }
-                    } else {
-                        httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
-                    }
-                } else {
-                    httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
-                }
-            } else {
-                String path = httpRequest.getServletPath() + (httpRequest.getPathInfo() == null ? "" : httpRequest.getPathInfo());
-                WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
-                Servlet servlet = null;
-                if (mapping != null) {
-                    String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
-                    if (servletName != null && servlets.containsKey(servletName)) {
-                        servlet = servlets.get(servletName).getServlet();
-                        httpRequest.asyncSupported = servlets.get(servletName).asyncSupported;
-                        if (mapping.isExact()) {
-                            httpRequest.setServletPath(path);
-                            httpRequest.setPathInfo(null);
-                        } else if (!mapping.isExtension()) {
-                            httpRequest.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
-                            httpRequest.setPathInfo(path.substring(mapping.getPath().length() - 2));
-                        }
-                    }
-                }
-                if (servlet == null) {
-                    servlet = new DefaultServlet();
-                }
-                List<DefaultFilterEnvironment> currentEnvironments = new ArrayList<>(filterEnvironments);
-                Collections.reverse(currentEnvironments);
-                DefaultFilterChain downFilterChain = new DefaultFilterChain(servlet);
-                DefaultFilterChain upFilterChain;
-                for (DefaultFilterEnvironment filterEnvironment : currentEnvironments) {
-                    upFilterChain = new DefaultFilterChain(filterEnvironment.getFilter(), downFilterChain);
-                    downFilterChain = upFilterChain;
-                }
-                downFilterChain.doFilter(request, response);
-            }
-            if (!requestListeners.isEmpty()) {
-                requestListeners.stream().forEach((servletRequestListener) -> {
-                    servletRequestListener.requestDestroyed(new ServletRequestEvent(this, request));
-                });
-            }
-        } else {
+        
+        if (!(request instanceof DefaultWebApplicationRequest && response instanceof DefaultWebApplicationResponse)) {
             throw new ServletException("Invalid request or response");
         }
+        
+        DefaultWebApplicationRequest httpRequest = (DefaultWebApplicationRequest) request;
+        DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
+        
+        List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(httpRequest);
+        if (filterEnvironments == null) {
+            String path = httpRequest.getServletPath() + (httpRequest.getPathInfo() == null ? "" : httpRequest.getPathInfo());
+            WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
+            if (mapping != null) {
+                String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
+                if (servletName != null && servlets.containsKey(servletName)) {
+                    Servlet servlet = servlets.get(servletName).getServlet();
+                    httpRequest.asyncSupported = servlets.get(servletName).asyncSupported;
+                    if (mapping.isExact()) {
+                        httpRequest.setServletPath(path);
+                        httpRequest.setPathInfo(null);
+                    } else if (!mapping.isExtension()) {
+                        httpRequest.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
+                        httpRequest.setPathInfo(path.substring(mapping.getPath().length() - 2));
+                    }
+                    
+                    if (servlet != null) {
+                        servlet.service(request, response);
+                    } else {
+                        httpResponse.sendError(SC_INTERNAL_SERVER_ERROR);
+                    }
+                } else {
+                    httpResponse.sendError(SC_NOT_FOUND);
+                }
+            } else {
+                httpResponse.sendError(SC_NOT_FOUND);
+            }
+        } else {
+            String path = httpRequest.getServletPath() + (httpRequest.getPathInfo() == null ? "" : httpRequest.getPathInfo());
+            WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
+            Servlet servlet = null;
+            if (mapping != null) {
+                String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
+                if (servletName != null && servlets.containsKey(servletName)) {
+                    servlet = servlets.get(servletName).getServlet();
+                    httpRequest.asyncSupported = servlets.get(servletName).asyncSupported;
+                    if (mapping.isExact()) {
+                        httpRequest.setServletPath(path);
+                        httpRequest.setPathInfo(null);
+                    } else if (!mapping.isExtension()) {
+                        httpRequest.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
+                        httpRequest.setPathInfo(path.substring(mapping.getPath().length() - 2));
+                    }
+                }
+            }
+            
+            if (servlet == null) {
+                servlet = new DefaultServlet();
+            }
+            
+            List<DefaultFilterEnvironment> currentEnvironments = new ArrayList<>(filterEnvironments);
+            Collections.reverse(currentEnvironments);
+            DefaultFilterChain downFilterChain = new DefaultFilterChain(servlet);
+            DefaultFilterChain upFilterChain;
+            for (DefaultFilterEnvironment filterEnvironment : currentEnvironments) {
+                upFilterChain = new DefaultFilterChain(filterEnvironment.getFilter(), downFilterChain);
+                downFilterChain = upFilterChain;
+            }
+            downFilterChain.doFilter(request, response);
+        }
+        
+        if (!requestListeners.isEmpty()) {
+            requestListeners.stream().forEach(servletRequestListener -> {
+                servletRequestListener.requestDestroyed(new ServletRequestEvent(this, request));
+            });
+        }
+        
         unlinkRequestAndResponse(request, response);
     }
 
@@ -1653,13 +1659,13 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void start() {
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Starting web application at {0}", contextPath);
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Starting web application at {0}", contextPath);
         }
         verifyState(INITIALIZED, "Unable to start servicing");
         status = SERVICING;
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Started web application at {0}", contextPath);
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Started web application at {0}", contextPath);
         }
     }
 
@@ -1668,14 +1674,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void stop() {
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Stopping web application at {0}", contextPath);
-        }
+        LOGGER.log(FINE, "Stopping web application at {0}", contextPath);
         verifyState(SERVICING, "Unable to stop servicing");
         status = INITIALIZED;
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Stopped web application at {0}", contextPath);
-        }
+        LOGGER.log(FINE, "Stopped web application at {0}", contextPath);
     }
 
     /**
