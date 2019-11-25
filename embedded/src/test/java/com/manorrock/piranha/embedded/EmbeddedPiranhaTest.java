@@ -29,6 +29,8 @@ package com.manorrock.piranha.embedded;
 
 import org.junit.Test;
 
+import com.manorrock.piranha.DefaultWebApplication;
+
 /**
  * The JUnit tests for the EmbeddedPiranha class.
  * 
@@ -44,6 +46,7 @@ public class EmbeddedPiranhaTest {
     @Test
     public void testService() throws Exception {
         EmbeddedServletRequest request = new EmbeddedServletRequest();
+        request.setWebApplication(new DefaultWebApplication());
         EmbeddedServletResponse response = new EmbeddedServletResponse();
         EmbeddedPiranha piranha = new EmbeddedPiranha();
         piranha.initialize();

@@ -27,6 +27,16 @@
  */
 package com.manorrock.piranha;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+
 import com.manorrock.piranha.api.HttpServerProcessor;
 import com.manorrock.piranha.api.HttpServerRequest;
 import com.manorrock.piranha.api.HttpServerResponse;
@@ -35,14 +45,6 @@ import com.manorrock.piranha.api.WebApplicationServer;
 import com.manorrock.piranha.api.WebApplicationServerRequest;
 import com.manorrock.piranha.api.WebApplicationServerRequestMapper;
 import com.manorrock.piranha.api.WebApplicationServerResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 
 /**
  * The default WebApplicationServer.
@@ -247,29 +249,31 @@ public class DefaultWebApplicationServer
      * @throws ServletException when a servlet error occurs.
      */
     @Override
-    public void service(WebApplicationServerRequest request, WebApplicationServerResponse response)
-            throws IOException, ServletException {
+    public void service(WebApplicationServerRequest request, WebApplicationServerResponse response) throws IOException, ServletException {
         String requestUri = request.getRequestURI();
-        if (requestUri != null) {
-            WebApplication webApplication = requestMapper.findMapping(requestUri);
-            if (webApplication != null) {
-                ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
-                try {
-                    Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
-                    String contextPath = webApplication.getContextPath();
-                    request.setContextPath(contextPath);
-                    request.setServletPath(requestUri.substring(contextPath.length()));
-                    request.setWebApplication(webApplication);
-                    response.setWebApplication(webApplication);
-                    webApplication.service(request, response);
-                } finally {
-                    Thread.currentThread().setContextClassLoader(oldClassLoader);
-                }
-            } else {
-                response.sendError(404);
-            }
-        } else {
+        if (requestUri == null) {
             response.sendError(500);
+            return;
+        }
+        
+        WebApplication webApplication = requestMapper.findMapping(requestUri);
+        if (webApplication == null) {
+            response.sendError(404);
+            return;
+        }
+        
+        ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+        try {
+            Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
+            String contextPath = webApplication.getContextPath();
+            request.setContextPath(contextPath);
+            request.setServletPath(requestUri.substring(contextPath.length()));
+            request.setWebApplication(webApplication);
+            response.setWebApplication(webApplication);
+            
+            webApplication.service(request, response);
+        } finally {
+            Thread.currentThread().setContextClassLoader(oldClassLoader);
         }
     }
 

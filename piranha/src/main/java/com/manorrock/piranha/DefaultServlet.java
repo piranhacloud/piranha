@@ -89,7 +89,8 @@ public class DefaultServlet extends HttpServlet {
     
     private void setContentType(HttpServletRequest request, HttpServletResponse response) {
         String uri = request.getRequestURI();
-        String filename = uri.contains("/") ? uri.substring(uri.lastIndexOf("/") + 1) : uri.substring(1);
+        
+        String filename = uri.contains("/") ? uri.substring(uri.lastIndexOf("/") + 1) : uri.isEmpty()? "" : uri.substring(1);
         String mimeType = request.getServletContext().getMimeType(filename);
         
         if (mimeType != null) {
