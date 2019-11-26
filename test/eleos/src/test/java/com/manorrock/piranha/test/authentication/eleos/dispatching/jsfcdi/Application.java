@@ -45,12 +45,12 @@ import com.manorrock.herring.DefaultInitialContextFactory;
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.faces.mojarra.MojarraInitializer;
-import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
 import cloud.piranha.authentication.elios.AuthenticationInitializer;
 import cloud.piranha.authorization.exousia.AuthorizationInitializer;
 import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
+import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 
 import com.manorrock.piranha.cdi.weld.WeldInitializer;
 

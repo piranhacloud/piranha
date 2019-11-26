@@ -45,11 +45,11 @@ import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 import org.xml.sax.SAXException;
 
-import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
 import cloud.piranha.authentication.elios.AuthenticationInitializer;
 import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
+import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 
 /**
  * This tests that a call from a Servlet to HttpServletRequest#authenticate can result
