@@ -15,6 +15,7 @@
     <name>Manorrock Piranha Test Project</name>
 
     <modules>
+        <module>arquillian</module>
         <module>classloader</module>
         <module>classloader2</module>
         <module>eleos</module>
