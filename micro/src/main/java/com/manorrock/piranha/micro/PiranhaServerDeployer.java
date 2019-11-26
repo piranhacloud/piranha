@@ -70,16 +70,15 @@ import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationServer;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.WebApplication;
+import cloud.piranha.servlet.webxml.WebXmlInitializer;
 import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
 import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
 import com.manorrock.piranha.security.soteria.SoteriaInitializer;
 import com.manorrock.piranha.security.soteria.SoteriaPreCDIInitializer;
-import com.manorrock.piranha.servlet.ServletFeature;
-import com.manorrock.piranha.servlet.WebAnnotationInitializer;
+import cloud.piranha.servlet.webservlet.WebServletInitializer;
 import com.manorrock.piranha.shrinkwrap.ShrinkWrapResource;
-import com.manorrock.piranha.webxml.WebXmlInitializer;
 import com.manorrock.piranha.cdi.weld.WeldInitializer;
 
 /**
@@ -130,11 +129,10 @@ public class PiranhaServerDeployer {
             getCallerCredentials(System.getProperty("io.piranha.identitystore.callers"));
             
             DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
-            webApplication.addFeature(new ServletFeature());
             webApplicationServer.addWebApplication(webApplication);
             
             webApplication.addInitializer(new WebXmlInitializer());
-            webApplication.addInitializer(new WebAnnotationInitializer());
+            webApplication.addInitializer(new WebServletInitializer());
             
             webApplication.addInitializer(SoteriaPreCDIInitializer.class.getName());
             webApplication.addInitializer(WeldInitializer.class.getName());

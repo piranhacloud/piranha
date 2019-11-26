@@ -4,16 +4,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.manorrock.piranha</groupId>
+        <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.manorrock.piranha.pages</groupId>
+    <groupId>cloud.piranha.pages</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Manorrock Piranha Pages - Project</name>
+    <name>Piranha Pages - Project</name>
 
     <modules>
         <module>jasper</module>

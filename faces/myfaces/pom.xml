@@ -22,7 +22,7 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha.pages</groupId>
+            <groupId>cloud.piranha.pages</groupId>
             <artifactId>piranha-pages-jasper</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>

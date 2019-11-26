@@ -32,9 +32,9 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 
 import cloud.piranha.DefaultWebApplication;
-import com.manorrock.piranha.embedded.EmbeddedPiranha;
-import com.manorrock.piranha.embedded.EmbeddedServletRequest;
-import com.manorrock.piranha.embedded.EmbeddedServletResponse;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedResponse;
 
 /**
  * The tests to verify Piranha Embedded works properly.
@@ -52,9 +52,9 @@ public class Embedded {
         String result;
         try {
             EmbeddedPiranha embedded = new EmbeddedPiranha();
-            EmbeddedServletRequest request = new EmbeddedServletRequest();
+            EmbeddedRequest request = new EmbeddedRequest();
             request.setWebApplication(new DefaultWebApplication());
-            EmbeddedServletResponse response = new EmbeddedServletResponse();
+            EmbeddedResponse response = new EmbeddedResponse();
             embedded.initialize();
             embedded.start();
             embedded.service(request, response);

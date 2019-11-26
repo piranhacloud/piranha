@@ -28,7 +28,6 @@
 package com.manorrock.piranha.authorization.exousia;
 
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreFilter.localServletRequest;
-import static com.manorrock.piranha.webxml.WebXmlInitializer.WEB_XML;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toList;
@@ -59,7 +58,8 @@ import org.omnifaces.exousia.constraints.transformer.ElementsToConstraintsTransf
 
 import cloud.piranha.DefaultAuthenticatedIdentity;
 import cloud.piranha.api.WebApplication;
-import com.manorrock.piranha.webxml.WebXml;
+import cloud.piranha.servlet.webxml.WebXml;
+import static cloud.piranha.servlet.webxml.WebXmlInitializer.WEB_XML;
 
 /**
  * The Exousia initializer.
