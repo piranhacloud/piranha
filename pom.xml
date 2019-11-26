@@ -3,12 +3,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.manorrock.piranha</groupId>
+    <groupId>cloud.piranha</groupId>
     <artifactId>project</artifactId>
     <version>19.12.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Manorrock Piranha Project</name>
+    <name>Piranha Project</name>
     <description>
         The Manorrock Piranha Project delivers you with a slim Servlet container
         and some useful add-on modules
@@ -32,6 +32,7 @@
 
     <modules>
         <!-- Core -->
+        <module>api</module>
         <module>piranha</module>
         <module>piranha-builder</module>
     
@@ -50,11 +51,8 @@
         <module>standard</module>
         
         <module>piranha-microprofile-smallrye-health</module>
-        <module>piranha-servlet</module>
         <module>piranha-session-hazelcast</module>
         <module>piranha-resources-shrinkwrap</module>
-        <module>piranha-webxml</module>
-        <module>api</module>
     </modules>
 
     <scm>

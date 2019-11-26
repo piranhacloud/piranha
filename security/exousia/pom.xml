@@ -21,8 +21,8 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-webxml</artifactId>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-webxml</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

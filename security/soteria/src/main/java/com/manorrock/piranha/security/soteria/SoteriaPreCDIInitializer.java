@@ -27,6 +27,7 @@
  */
 package com.manorrock.piranha.security.soteria;
 
+import cloud.piranha.servlet.webxml.WebXml;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -36,8 +37,6 @@ import javax.servlet.ServletException;
 
 import org.glassfish.soteria.SoteriaServiceProviders;
 import org.glassfish.soteria.cdi.spi.WebXmlLoginConfig;
-
-import com.manorrock.piranha.webxml.WebXml;
 
 /**
  * The Soteria initializer.
@@ -62,7 +61,7 @@ public class SoteriaPreCDIInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
 
-        WebXml webXml = (WebXml) servletContext.getAttribute("com.manorrock.piranha.webxml.WebXml");
+        WebXml webXml = (WebXml) servletContext.getAttribute("cloud.piranha.servlet.webxml.WebXml");
         
         if (webXml != null && webXml.loginConfig.authMethod != null) {
             

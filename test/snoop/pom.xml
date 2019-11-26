@@ -30,14 +30,14 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>cloud.piranha</groupId>
             <artifactId>piranha-micro</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-servlet</artifactId>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-webxml</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
