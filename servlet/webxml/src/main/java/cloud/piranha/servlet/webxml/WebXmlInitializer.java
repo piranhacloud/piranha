@@ -27,6 +27,7 @@
  */
 package cloud.piranha.servlet.webxml;
 
+import cloud.piranha.DefaultWebXml;
 import static java.util.logging.Level.WARNING;
 import static javax.xml.xpath.XPathConstants.NODE;
 import static javax.xml.xpath.XPathConstants.NODESET;
@@ -63,7 +64,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import cloud.piranha.api.WebApplication;
-import cloud.piranha.servlet.webxml.WebXml.ErrorPage;
+import cloud.piranha.DefaultWebXml.ErrorPage;
+import cloud.piranha.api.WebXml;
+import cloud.piranha.api.WebXml.MimeMapping;
 
 /**
  * The web.xml initializer.
@@ -76,11 +79,6 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(WebXmlInitializer.class.getName());
-
-    /**
-     * Stores the WebXML context-param name.
-     */
-    public static final String WEB_XML = "cloud.piranha.servlet.webxml.WebXml";
 
     /**
      * Stores the WebXML context-param name.
@@ -100,12 +98,12 @@ public class WebXmlInitializer implements ServletContainerInitializer {
             WebApplication webApp = (WebApplication) servletContext;
             InputStream inputStream = servletContext.getResourceAsStream("WEB-INF/web.xml");
             if (inputStream != null) {
-                WebXml webXml = parseWebXml(servletContext.getResourceAsStream("WEB-INF/web.xml"));
-                webApp.setAttribute(WEB_XML, webXml);
+                DefaultWebXml webXml = parseWebXml(servletContext.getResourceAsStream("WEB-INF/web.xml"));
+                webApp.getWebXmlManager().setWebXml(webXml);
             }
 
             Enumeration<URL> webFragments = servletContext.getClassLoader().getResources("/META-INF/web-fragment.xml");
-            ArrayList<WebXml> webXmls = new ArrayList<>();
+            ArrayList<DefaultWebXml> webXmls = new ArrayList<>();
             while (webFragments.hasMoreElements()) {
                 URL url = webFragments.nextElement();
                 webXmls.add(parseWebXml(url.openStream()));
@@ -114,15 +112,15 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 webApp.setAttribute(WEB_FRAGMENTS, webXmls);
             }
 
-            if (webApp.getAttribute(WEB_XML) == null) {
-                List<WebXml> fragments = (List<WebXml>) webApp.getAttribute(WEB_FRAGMENTS);
+            if (webApp.getWebXmlManager().getWebXml() == null) {
+                List<DefaultWebXml> fragments = (List<DefaultWebXml>) webApp.getAttribute(WEB_FRAGMENTS);
                 if (fragments != null && !fragments.isEmpty()) {
-                    webApp.setAttribute(WEB_XML, fragments.get(0));
+                    webApp.getWebXmlManager().setWebXml(fragments.get(0));
                 }
             }
 
-            if (webApp.getAttribute(WEB_XML) != null) {
-                WebXml webXml = (WebXml) webApp.getAttribute(WEB_XML);
+            if (webApp.getWebXmlManager().getWebXml() != null) {
+                DefaultWebXml webXml = (DefaultWebXml) webApp.getWebXmlManager().getWebXml();
                 DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
                 Document document = documentBuilder.parse(inputStream);
                 XPath xPath = XPathFactory.newInstance().newXPath();
@@ -139,11 +137,18 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 NodeList list = (NodeList) xPath.evaluate("//listener", document, NODESET);
                 if (list != null) {
                     for (int i = 0; i < list.getLength(); i++) {
-                        WebXml.Listener listener = new WebXml.Listener();
-                        webXml.listeners.add(listener);
-                        listener.className = (String) xPath.evaluate("listener-class/text()", list.item(i), XPathConstants.STRING);
-                        webApp.addListener(listener.className);
+                        String className = (String) xPath.evaluate("listener-class/text()", list.item(i), XPathConstants.STRING);
+                        webXml.addListener(className);
+                        webApp.addListener(className);
                     }
+                }
+                
+                /*
+                 * Process <mime-mapping> entries
+                 */
+                list = (NodeList) xPath.evaluate("//mime-mapping", document, NODESET);
+                if (list != null) {
+                    processMimeMappings(webXml, list);
                 }
 
                 processServlets(webApp);
@@ -184,10 +189,10 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 /*
                  * Process <mime-mapping> entries
                  */
-                Iterator<WebXml.MimeMapping> mappingIterator = webXml.mimeMappings.iterator();
+                Iterator<MimeMapping> mappingIterator = webXml.getMimeMappings().iterator();
                 while (mappingIterator.hasNext()) {
-                    WebXml.MimeMapping mapping = mappingIterator.next();
-                    webApp.getMimeTypeManager().addMimeType(mapping.extension, mapping.mimeType);
+                    MimeMapping mapping = mappingIterator.next();
+                    webApp.getMimeTypeManager().addMimeType(mapping.getExtension(), mapping.getMimeType());
                 }
                 
                 /*
@@ -211,10 +216,10 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 list = (NodeList) xPath.evaluate("//context-param", document, NODESET);
                 if (list != null) {
                     processContextParameters(webXml, list);
-                    Iterator<WebXml.ContextParameter> iterator = webXml.contextParameters.iterator();
+                    Iterator<WebXml.ContextParam> iterator = webXml.getContextParams().iterator();
                     while (iterator.hasNext()) {
-                        WebXml.ContextParameter contextParam = iterator.next();
-                        webApp.setInitParameter(contextParam.name, contextParam.value);
+                        WebXml.ContextParam contextParam = iterator.next();
+                        webApp.setInitParameter(contextParam.getName(), contextParam.getValue());
                     }
                 }
             } else {
@@ -229,22 +234,20 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     }
 
     /**
-     * Parse WebXml.
+     * Parse DefaultWebXml.
      *
      * @param inputStream the input stream.
-     * @return the WebXml.
+     * @return the DefaultWebXml.
      */
-    public WebXml parseWebXml(InputStream inputStream) {
-        WebXml result = new WebXml();
+    public DefaultWebXml parseWebXml(InputStream inputStream) {
+        DefaultWebXml result = new DefaultWebXml();
         try {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = documentBuilder.parse(inputStream);
             XPath xPath = XPathFactory.newInstance().newXPath();
-            result.mimeMappings.addAll((List<WebXml.MimeMapping>) parseList(
-                    xPath, document, "//mime-mapping", WebXmlInitializer::parseMimeMapping));
-            result.servlets.addAll((List<WebXml.Servlet>) parseList(
+            result.servlets.addAll((List<DefaultWebXml.Servlet>) parseList(
                     xPath, document, "//servlet", WebXmlInitializer::parseServlet));
-            result.servletMappings.addAll((List<WebXml.ServletMapping>) parseList(
+            result.servletMappings.addAll((List<DefaultWebXml.ServletMapping>) parseList(
                     xPath, document, "//servlet-mapping", WebXmlInitializer::parseServletMapping));
         } catch (Throwable t) {
             LOGGER.log(WARNING, "Unable to parse web.xml", t);
@@ -257,35 +260,14 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     // ### Private methods
 
     /**
-     * Parse the mime-mapping.
-     *
-     * @param xPath the XPath.
-     * @param node the DOM node.
-     * @return the mime-mapping, or null if an error occurred.
-     */
-    private static WebXml.MimeMapping parseMimeMapping(XPath xPath, Node node) {
-        WebXml.MimeMapping result = new WebXml.MimeMapping();
-        try {
-            result.extension = (String) xPath.evaluate("//extension/text()", node, XPathConstants.STRING);
-            result.mimeType = (String) xPath.evaluate("//mime-type/text()", node, XPathConstants.STRING);
-        } catch (XPathException xee) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to parse <mime-mapping>", xee);
-            }
-            result = null;
-        }
-        return result;
-    }
-
-    /**
      * Parse a servlet.
      *
      * @param xPath the XPath to use.
      * @param node the DOM node to parse.
      * @return the servlet, or null if an error occurred.
      */
-    private static WebXml.Servlet parseServlet(XPath xPath, Node node) {
-        WebXml.Servlet result = new WebXml.Servlet();
+    private static DefaultWebXml.Servlet parseServlet(XPath xPath, Node node) {
+        DefaultWebXml.Servlet result = new DefaultWebXml.Servlet();
         try {
             result.asyncSupported = (boolean) applyOrDefault(parseBoolean(xPath, node, "async-supported/text()"), false);
             result.name = (String) xPath.evaluate("servlet-name/text()", node, XPathConstants.STRING);
@@ -296,7 +278,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
             } else {
                 result.loadOnStartup = -1;
             }
-            result.initParams.addAll((List<WebXml.Servlet.InitParam>) parseList(
+            result.initParams.addAll((List<DefaultWebXml.Servlet.InitParam>) parseList(
                     xPath, node, "init-param", WebXmlInitializer::parseServletInitParam));
             return result;
         } catch (XPathExpressionException xee) {
@@ -314,8 +296,8 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      * @param node the DOM node to parse.
      * @return the init-param, or null if an error occurred.
      */
-    private static WebXml.Servlet.InitParam parseServletInitParam(XPath xPath, Node node) {
-        WebXml.Servlet.InitParam result = new WebXml.Servlet.InitParam();
+    private static DefaultWebXml.Servlet.InitParam parseServletInitParam(XPath xPath, Node node) {
+        DefaultWebXml.Servlet.InitParam result = new DefaultWebXml.Servlet.InitParam();
         try {
             result.name = (String) xPath.evaluate("param-name/text()", node, XPathConstants.STRING);
             result.value = (String) xPath.evaluate("param-value/text()", node, XPathConstants.STRING);
@@ -335,8 +317,8 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      * @param node the DOM node to parse.
      * @return the servlet-mapping, or null if an error occurred.
      */
-    private static WebXml.ServletMapping parseServletMapping(XPath xPath, Node node) {
-        WebXml.ServletMapping result = new WebXml.ServletMapping();
+    private static DefaultWebXml.ServletMapping parseServletMapping(XPath xPath, Node node) {
+        DefaultWebXml.ServletMapping result = new DefaultWebXml.ServletMapping();
         try {
             result.servletName = (String) xPath.evaluate("servlet-name/text()", node, XPathConstants.STRING);
             result.urlPattern = (String) xPath.evaluate("url-pattern/text()", node, XPathConstants.STRING);
@@ -351,29 +333,29 @@ public class WebXmlInitializer implements ServletContainerInitializer {
 
     
     /**
-     * Process the WebXml.ServletMapping list.
+     * Process the DefaultWebXml.ServletMapping list.
      *
      * @param webApplication the web application.
      */
     private void processServletMappings(WebApplication webApplication) {
-        WebXml webXml = (WebXml) webApplication.getAttribute(WEB_XML);
-        Iterator<WebXml.ServletMapping> iterator = webXml.servletMappings.iterator();
+        DefaultWebXml webXml = (DefaultWebXml) webApplication.getWebXmlManager().getWebXml();
+        Iterator<DefaultWebXml.ServletMapping> iterator = webXml.servletMappings.iterator();
         while (iterator.hasNext()) {
-            WebXml.ServletMapping mapping = iterator.next();
+            DefaultWebXml.ServletMapping mapping = iterator.next();
             webApplication.addServletMapping(mapping.servletName, mapping.urlPattern);
         }
     }
 
     /**
-     * Process the WebXml.Servlet list.
+     * Process the DefaultWebXml.Servlet list.
      *
      * @param webApplication the web application.
      */
     private void processServlets(WebApplication webApplication) {
-        WebXml webXml = (WebXml) webApplication.getAttribute(WEB_XML);
-        Iterator<WebXml.Servlet> iterator = webXml.servlets.iterator();
+        DefaultWebXml webXml = (DefaultWebXml) webApplication.getWebXmlManager().getWebXml();
+        Iterator<DefaultWebXml.Servlet> iterator = webXml.servlets.iterator();
         while (iterator.hasNext()) {
-            WebXml.Servlet servlet = iterator.next();
+            DefaultWebXml.Servlet servlet = iterator.next();
             Dynamic registration = webApplication.addServlet(servlet.name, servlet.className);
             if (servlet.asyncSupported) {
                 registration.setAsyncSupported(true);
@@ -393,7 +375,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      * @param nodeList the node list.
      * @return the web.xml.
      */
-    private void processContextParameters(WebXml webXml, NodeList nodeList) {
+    private void processContextParameters(DefaultWebXml webXml, NodeList nodeList) {
         for (int i = 0; i < nodeList.getLength(); i++) {
             processContextParameter(webXml, nodeList.item(i));
         }
@@ -406,13 +388,12 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      * @param node the DOM node.
      * @return the web.xml.
      */
-    private void processContextParameter(WebXml webXml, Node node) {
+    private void processContextParameter(DefaultWebXml webXml, Node node) {
         try {
             XPath xPath = XPathFactory.newInstance().newXPath();
-            WebXml.ContextParameter contextParameter = new WebXml.ContextParameter();
-            contextParameter.name = (String) xPath.evaluate("//param-name/text()", node, XPathConstants.STRING);
-            contextParameter.value = (String) xPath.evaluate("//param-value/text()", node, XPathConstants.STRING);
-            webXml.contextParameters.add(contextParameter);
+            String name = (String) xPath.evaluate("//param-name/text()", node, XPathConstants.STRING);
+            String value = (String) xPath.evaluate("//param-value/text()", node, XPathConstants.STRING);
+            webXml.addContextParam(name, value);
         } catch (XPathException xpe) {
             LOGGER.log(WARNING, "Unable to parse <context-param> section", xpe);
         }
@@ -426,7 +407,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      * @param nodeList the node list.
      * @return the web.xml.
      */
-    private void processMimeMappings(WebXml webXml, NodeList nodeList) {
+    private void processMimeMappings(DefaultWebXml webXml, NodeList nodeList) {
         for (int i = 0; i < nodeList.getLength(); i++) {
             processMimeMapping(webXml, nodeList.item(i));
         }
@@ -439,31 +420,30 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      * @param node the DOM node.
      * @return the web.xml.
      */
-    private void processMimeMapping(WebXml webXml, Node node) {
+    private void processMimeMapping(DefaultWebXml webXml, Node node) {
         try {
             XPath xPath = XPathFactory.newInstance().newXPath();
-            WebXml.MimeMapping mimeMapping = new WebXml.MimeMapping();
-            mimeMapping.extension = (String) xPath.evaluate("//extension/text()", node, XPathConstants.STRING);
-            mimeMapping.mimeType = (String) xPath.evaluate("//mime-type/text()", node, XPathConstants.STRING);
-            webXml.mimeMappings.add(mimeMapping);
+            String extension = (String) xPath.evaluate("//extension/text()", node, XPathConstants.STRING);
+            String mimeType = (String) xPath.evaluate("//mime-type/text()", node, XPathConstants.STRING);
+            webXml.addMimeMapping(extension, mimeType);
         } catch (XPathException xpe) {
             LOGGER.log(WARNING, "Unable to parse <mime-mapping> section", xpe);
         }
     }
 
-    private void processSecurityConstraints(WebXml webXml, NodeList nodeList) {
+    private void processSecurityConstraints(DefaultWebXml webXml, NodeList nodeList) {
         for (int i = 0; i < nodeList.getLength(); i++) {
             processSecurityConstraint(webXml, nodeList.item(i));
         }
     }
 
-    private void processSecurityConstraint(WebXml webXml, Node node) {
+    private void processSecurityConstraint(DefaultWebXml webXml, Node node) {
         try {
             XPath xPath = XPathFactory.newInstance().newXPath();
-            WebXml.SecurityConstraint securityConstraint = new WebXml.SecurityConstraint();
+            DefaultWebXml.SecurityConstraint securityConstraint = new DefaultWebXml.SecurityConstraint();
 
             forEachNode(xPath, node, "//web-resource-collection", webResourceCollectionNode -> {
-                WebXml.SecurityConstraint.WebResourceCollection webResourceCollection = new WebXml.SecurityConstraint.WebResourceCollection();
+                DefaultWebXml.SecurityConstraint.WebResourceCollection webResourceCollection = new DefaultWebXml.SecurityConstraint.WebResourceCollection();
 
                 forEachString(xPath, webResourceCollectionNode, "//url-pattern",
                         urlPattern -> webResourceCollection.urlPatterns.add(urlPattern)
@@ -493,20 +473,20 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         }
     }
     
-    private void processLoginConfig(XPath xPath, WebXml webXml, Node node) throws XPathExpressionException {
+    private void processLoginConfig(XPath xPath, DefaultWebXml webXml, Node node) throws XPathExpressionException {
         webXml.loginConfig.authMethod = getString(xPath, node, "//auth-method/text()");
         webXml.loginConfig.realmName = getString(xPath, node, "//realm-name/text()");
         webXml.loginConfig.formLoginPage = getString(xPath, node, "//form-login-config/form-login-page/text()");
         webXml.loginConfig.formErrorPage = getString(xPath, node, "//form-login-config/form-error-page/text()");
     }
     
-    private void processErrorPages(XPath xPath, WebXml webXml, NodeList nodeList) throws XPathExpressionException {
+    private void processErrorPages(XPath xPath, DefaultWebXml webXml, NodeList nodeList) throws XPathExpressionException {
         for (int i = 0; i < nodeList.getLength(); i++) {
             processErrorPage(xPath, webXml, nodeList.item(i));
         }
     }
     
-    private void processErrorPage(XPath xPath, WebXml webXml, Node node) throws XPathExpressionException {
+    private void processErrorPage(XPath xPath, DefaultWebXml webXml, Node node) throws XPathExpressionException {
         ErrorPage errorPage = new ErrorPage();
         errorPage.errorCode = getString(xPath, node, "error-code/text()");
         errorPage.exceptionType = getString(xPath, node, "exception-type/text()");

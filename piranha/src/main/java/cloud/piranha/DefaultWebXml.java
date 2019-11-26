@@ -25,10 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.servlet.webxml;
+package cloud.piranha;
 
+import cloud.piranha.api.WebXml;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,35 +39,20 @@ import java.util.List;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXml implements Serializable {
+public class DefaultWebXml implements Serializable, WebXml {
 
     private static final long serialVersionUID = 6143204024206508136L;
 
     /**
-     * Stores the context parameters.
-     */
-    public List<ContextParameter> contextParameters = new ArrayList<>();
-
-    /**
-     * Stores the listeners.
-     */
-    public List<WebXml.Listener> listeners = new ArrayList<>();
-
-    /**
-     * Stores the mime mappings.
-     */
-    public List<WebXml.MimeMapping> mimeMappings = new ArrayList<>();
-
-    /**
      * Stores the servlets.
      */
-    public List<WebXml.Servlet> servlets = new ArrayList<>();
+    public List<DefaultWebXml.Servlet> servlets = new ArrayList<>();
 
     /**
      * Stores the servlet mappings.
      */
-    public List<WebXml.ServletMapping> servletMappings = new ArrayList<>();
-    
+    public List<DefaultWebXml.ServletMapping> servletMappings = new ArrayList<>();
+
     /**
      * Stores the error pages.
      */
@@ -74,36 +62,25 @@ public class WebXml implements Serializable {
      * Stores the security constraints
      */
     public List<SecurityConstraint> securityConstraints = new ArrayList<>();
-    
+
     /**
      * Stores the login config - This sets and configures the build-in Servlet
      * authentication mechanisms.
-     * 
+     *
      */
     public LoginConfig loginConfig = new LoginConfig();
-    
+
     /**
-     * When true, this boolean causes HTTP methods that are not subject to a security constraint to be denied. 
+     * When true, this boolean causes HTTP methods that are not subject to a
+     * security constraint to be denied.
      */
     public boolean denyUncoveredHttpMethods;
-    
-
-    /**
-     * The &lt;listener&gt; snippet inside a web.xml / webfragment.xml.
-     */
-    public static class Listener {
-
-        /**
-         * Stores the listener class name.
-         */
-        public String className;
-    }
 
     /**
      * The &lt;servlet&gt; snippet inside a web.xml / webfragment.xml.
      */
     public static class Servlet {
-        
+
         /**
          * Stores the async supported flag.
          */
@@ -211,39 +188,37 @@ public class WebXml implements Serializable {
             public List<String> httpMethodOmissions = new ArrayList<>();
         }
     }
-    
+
     /**
      * The &lt;login-config&gt; snippet inside a web.xml / webfragment.xml.
      */
     public static class LoginConfig {
-        
+
         /**
-         * The list &lt;auth-method-name&gt; snippet inside
-         * &lt;login-config&gt;
-         * 
+         * The list &lt;auth-method-name&gt; snippet inside &lt;login-config&gt;
+         *
          */
         public String authMethod;
-        
+
         /**
-         * The list &lt;realm-name&gt; snippet inside
-         * &lt;login-config&gt;
-         * 
+         * The list &lt;realm-name&gt; snippet inside &lt;login-config&gt;
+         *
          */
         public String realmName;
-            
+
         /**
          * The list &lt;form-login-page&gt; snippet inside
          * &lt;form-login-config&gt;
-         * 
+         *
          * Note that we don't map the &lt;form-login-config&gt; element
          * separately here
          */
         public String formLoginPage;
-        
+
         /**
          * The list &lt;form-error-page&gt; snippet inside
          * &lt;form-login-config&gt;
-         * 
+         *
          * Note that we don't map the &lt;form-login-config&gt; element
          * separately here
          */
@@ -265,67 +240,229 @@ public class WebXml implements Serializable {
          */
         public String urlPattern;
     }
-    
+
     /**
      * The &lt;error-page&gt; snippet inside a web.xml / webfragment.xml.
      */
     public static class ErrorPage {
-     
+
         /**
          * Stores the code corresponding to the error-code element
          */
         public String errorCode;
-        
+
         /**
          * Stores the exception corresponding to the exception-type element
          */
         public String exceptionType;
-        
+
         /**
-         * Stores the location of the resource corresponding to the location element
+         * Stores the location of the resource corresponding to the location
+         * element
          */
         public String location;
-        
+
     }
 
+    // -------------------------------------------------------------------------
     /**
-     * The &lt;mime-mapping&gt; snippet inside a web.xml / webfragment.xml.
+     * The context-param.
      */
-    public static class MimeMapping {
-
-        /**
-         * Stores the extension.
-         */
-        public String extension;
-
-        /**
-         * Stores the mime type.
-         */
-        public String mimeType;
-        
-        /**
-         * Set the extension.
-         * 
-         * @param extension the extension.
-         */
-        public void setExtension(String extension) {
-            this.extension = extension;
-        }
-    }
-
-    /**
-     * Stores the context parameter.
-     */
-    public static class ContextParameter {
+    class DefaultContextParam implements ContextParam {
 
         /**
          * Stores the name.
          */
-        public String name;
+        private final String name;
 
         /**
          * Stores the value.
          */
-        public String value;
+        private final String value;
+
+        /**
+         * Constructor.
+         *
+         * @param name the name.
+         * @param value the value.
+         */
+        private DefaultContextParam(String name, String value) {
+            this.name = name;
+            this.value = value;
+        }
+
+        /**
+         * Get the name.
+         *
+         * @return the name.
+         */
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * Get the value.
+         *
+         * @return the value.
+         */
+        @Override
+        public String getValue() {
+            return value;
+        }
+    }
+
+    /**
+     * Stores the context params.
+     */
+    ArrayList<ContextParam> contextParams = new ArrayList<>();
+
+    /**
+     * Add a context param.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    @Override
+    public void addContextParam(String name, String value) {
+        contextParams.add(new DefaultContextParam(name, value));
+    }
+
+    /**
+     * Get the context params.
+     *
+     * @return the context params.
+     */
+    @Override
+    public Collection<ContextParam> getContextParams() {
+        return Collections.unmodifiableCollection(contextParams);
+    }
+
+    // -------------------------------------------------------------------------
+    /**
+     * The listener.
+     */
+    class DefaultListener implements Listener {
+
+        /**
+         * Stores the class name.
+         */
+        String className;
+
+        /**
+         * Constructor.
+         */
+        public DefaultListener(String className) {
+            this.className = className;
+        }
+
+        /**
+         * Get the class name.
+         *
+         * @return the class name.
+         */
+        @Override
+        public String getClassName() {
+            return className;
+        }
+    }
+
+    /**
+     * Stores the listeners.
+     */
+    ArrayList<Listener> listeners = new ArrayList<>();
+
+    /**
+     * Add a listener.
+     *
+     * @param className the class name.
+     */
+    @Override
+    public void addListener(String className) {
+        listeners.add(new DefaultListener(className));
+    }
+
+    /**
+     * Get the listeners.
+     *
+     * @return the listeners.
+     */
+    @Override
+    public Collection<Listener> getListeners() {
+        return Collections.unmodifiableCollection(listeners);
+    }
+
+    // -------------------------------------------------------------------------
+    /**
+     * The mime-mapping.
+     */
+    class DefaultMimeMapping implements MimeMapping {
+
+        /**
+         * Stores the extension.
+         */
+        private final String extension;
+
+        /**
+         * Stores the mime type.
+         */
+        private final String mimeType;
+
+        /**
+         * Constructor.
+         *
+         * @param extension the extension.
+         * @param mimeType the mime type.
+         */
+        private DefaultMimeMapping(String extension, String mimeType) {
+            this.extension = extension;
+            this.mimeType = mimeType;
+        }
+
+        /**
+         * Get the extension.
+         *
+         * @return the extension.
+         */
+        @Override
+        public String getExtension() {
+            return extension;
+        }
+
+        /**
+         * Get the mime type.
+         *
+         * @return the mime type.
+         */
+        @Override
+        public String getMimeType() {
+            return mimeType;
+        }
+    }
+
+    /**
+     * Stores the mime mappings.
+     */
+    ArrayList<MimeMapping> mimeMappings = new ArrayList<>();
+
+    /**
+     * Add a mime mapping.
+     *
+     * @param extension the extension.
+     * @param mimeType the mime type.
+     */
+    @Override
+    public void addMimeMapping(String extension, String mimeType) {
+        mimeMappings.add(new DefaultMimeMapping(extension, mimeType));
+    }
+
+    /**
+     * Get the mime mappings.
+     *
+     * @return the mime mappings.
+     */
+    @Override
+    public Collection<MimeMapping> getMimeMappings() {
+        return Collections.unmodifiableCollection(mimeMappings);
     }
 }
