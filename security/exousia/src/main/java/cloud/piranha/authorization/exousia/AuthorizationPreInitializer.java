@@ -75,7 +75,6 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     public final static String UNCHECKED_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".unchecked.permissions";
     public final static String PERROLE_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".perrole.permissions";
     public final static String CONSTRAINTS = AuthorizationPreInitializer.class.getName() + ".constraints";
-    public final static String PIRANHA_CONSTRAINTS = AuthorizationPreInitializer.class.getName() + ".piranha.constraints";
     public final static String SECURITY_ELEMENTS = AuthorizationPreInitializer.class.getName() + ".security.elements";
     public final static String SECURITY_ANNOTATIONS = AuthorizationPreInitializer.class.getName() + ".security.annotations";
 
@@ -109,7 +108,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
                 getConstraintsFromSecurityElements(servletContext, authorizationService),
                 getConstraintsFromSecurityAnnotations(servletContext, authorizationService),
                 getOptionalAttribute(servletContext, CONSTRAINTS),
-                getConstraintsFromWebXMl(servletContext));
+                getConstraintsFromWebXMl(context));
 
         if (hasPermissionsSet(context)) {
             setPermissions(context, authorizationService);
@@ -195,15 +194,16 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         return constraints;
     }
 
-    public List<SecurityConstraint> getConstraintsFromWebXMl(ServletContext servletContext) throws ServletException {
-        List<DefaultWebXml.SecurityConstraint> xmlConstraints = getOptionalAttribute(servletContext, PIRANHA_CONSTRAINTS);
-        if (xmlConstraints == null) {
+    public List<SecurityConstraint> getConstraintsFromWebXMl(WebApplication context) throws ServletException {
+        DefaultWebXml webXml = (DefaultWebXml) context.getWebXmlManager().getWebXml();
+        
+        if (webXml == null || webXml.securityConstraints == null) {
             return null;
         }
 
         List<SecurityConstraint> constraints = new ArrayList<>();
 
-        for (DefaultWebXml.SecurityConstraint xmlConstraint : xmlConstraints) {
+        for (DefaultWebXml.SecurityConstraint xmlConstraint : webXml.securityConstraints) {
 
             List<WebResourceCollection> webResourceCollections = new ArrayList<>();
             for (DefaultWebXml.SecurityConstraint.WebResourceCollection xmlCollection : xmlConstraint.webResourceCollections) {
