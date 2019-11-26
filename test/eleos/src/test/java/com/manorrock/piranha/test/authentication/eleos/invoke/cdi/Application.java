@@ -47,7 +47,7 @@ import cloud.piranha.authorization.exousia.AuthorizationInitializer;
 import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 
-import com.manorrock.piranha.cdi.weld.WeldInitializer;
+import cloud.piranha.cdi.weld.WeldInitializer;
 
 /**
  * @author Arjan Tijms

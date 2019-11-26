@@ -35,7 +35,7 @@ import org.junit.Test;
 
 import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.api.WebApplication;
-import com.manorrock.piranha.faces.mojarra.MojarraInitializer;
+import cloud.piranha.faces.mojarra.MojarraInitializer;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 

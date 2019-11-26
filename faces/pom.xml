@@ -9,11 +9,11 @@
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.manorrock.piranha.faces</groupId>
+    <groupId>cloud.piranha.faces</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Manorrock Piranha Faces - Project</name>
+    <name>Piranha Faces - Project</name>
 
     <modules>
         <module>mojarra</module>

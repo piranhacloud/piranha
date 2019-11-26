@@ -63,7 +63,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.manorrock.piranha.cdi.weld.WeldInitializer;
+import cloud.piranha.cdi.weld.WeldInitializer;
 import com.manorrock.piranha.shrinkwrap.ShrinkWrapResource;
 
 import cloud.piranha.DefaultAnnotationManager;

@@ -1,5 +1,5 @@
 
-# Manorrock Piranha Project
+# Piranha Project
 
 ![master branch status](https://github.com/manorrock/piranha/workflows/master/badge.svg)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=manorrock_piranha&metric=coverage)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
@@ -7,7 +7,7 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=manorrock_piranha&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=manorrock_piranha&metric=security_rating)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
 
-The Manorrock Piranha Project delivers you with Cloud ready container and
+The Piranha Project delivers you with Cloud ready container and
 some useful add-on modules.
 
 See the list below for what is available.

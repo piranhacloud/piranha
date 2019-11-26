@@ -61,7 +61,7 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha.cdi</groupId>
+            <groupId>cloud.piranha.cdi</groupId>
             <artifactId>piranha-cdi-weld</artifactId>
             <version>${project.version}</version>
         </dependency>

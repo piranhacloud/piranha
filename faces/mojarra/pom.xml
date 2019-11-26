@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.manorrock.piranha.faces</groupId>
+        <groupId>cloud.piranha.faces</groupId>
         <artifactId>project</artifactId>
         <version>19.12.0-SNAPSHOT</version>
     </parent>
@@ -12,7 +12,7 @@
     <artifactId>piranha-faces-mojarra</artifactId>
     <packaging>jar</packaging>
 
-    <name>Manorrock Piranha Faces - Mojarra Integration</name>
+    <name>Piranha Faces - Mojarra Integration</name>
 
     <dependencies>
         <dependency>

@@ -10,8 +10,8 @@
 
     <name>Piranha Project</name>
     <description>
-        The Manorrock Piranha Project delivers you with a slim Servlet container
-        and some useful add-on modules
+        The Piranha Project delivers you with a cloud container
+        and useful add-on modules
     </description>
     <url>https://github.com/manorrock/piranha</url>
     <licenses>
@@ -46,8 +46,8 @@
         
         <!-- Distributions -->
         <module>nano</module>
-        <module>micro</module>
         <module>embedded</module>
+        <module>micro</module>
         <module>standard</module>
         
         <module>piranha-microprofile-smallrye-health</module>

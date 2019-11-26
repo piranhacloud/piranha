@@ -33,7 +33,7 @@ import cloud.piranha.api.WebApplication;
 import com.manorrock.piranha.smallrye.health.SmallRyeHealthServlet;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import com.manorrock.piranha.cdi.weld.WeldInitializer;
+import cloud.piranha.cdi.weld.WeldInitializer;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
