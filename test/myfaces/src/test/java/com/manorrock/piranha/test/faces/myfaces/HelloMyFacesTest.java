@@ -56,7 +56,7 @@ public class HelloMyFacesTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setLoggingManager(loggingManager);
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addInitializer("com.manorrock.piranha.faces.myfaces.MyFacesListener");
+        webApp.addInitializer("cloud.piranha.faces.myfaces.MyFacesListener");
         webApp.initialize();
         webApp.start();
 
@@ -85,7 +85,7 @@ public class HelloMyFacesTest {
     public void testIndexHtml() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addInitializer("com.manorrock.piranha.faces.myfaces.MyFacesInitializer");
+        webApp.addInitializer("cloud.piranha.faces.myfaces.MyFacesInitializer");
         webApp.initialize();
         webApp.start();
 

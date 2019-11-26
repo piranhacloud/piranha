@@ -9,11 +9,11 @@
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.manorrock.piranha.http</groupId>
+    <groupId>cloud.piranha.http</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Manorrock Piranha HTTP - Project</name>
+    <name>Piranha HTTP - Project</name>
 
     <modules>
         <module>grizzly</module>

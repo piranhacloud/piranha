@@ -9,11 +9,11 @@
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.manorrock.piranha.cdi</groupId>
+    <groupId>cloud.piranha.cdi</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Manorrock Piranha CDI - Project</name>
+    <name>Piranha CDI - Project</name>
 
     <modules>
         <module>openwebbeans</module>

@@ -36,13 +36,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha.cdi</groupId>
+            <groupId>cloud.piranha.cdi</groupId>
             <artifactId>piranha-cdi-openwebbeans</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha.faces</groupId>
+            <groupId>cloud.piranha.faces</groupId>
             <artifactId>piranha-faces-myfaces</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>

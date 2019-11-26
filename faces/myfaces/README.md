@@ -1,18 +1,18 @@
 
-# Manorrock Piranha Faces - MyFaces integration
+# Piranha Faces - MyFaces integration
 
-The Manorrock Piranha Faces - MyFaces Integration module delivers you with Apache
+The Piranha Faces - MyFaces Integration module delivers you with Apache
 MyFaces integration.
 
 Add the following dependency to your project to use it.
 
       <dependency>
-          <groupId>com.manorrock.piranha.faces</groupId>
+          <groupId>cloud.piranha.faces</groupId>
           <artifactId>piranha-faces-myfaces</artifactId>
           <version>x.y.z</version>
       </dependency>
 
-Make sure you use the same version of Manorrock Piranha itself.
+Make sure you use the same version of Piranha itself.
 
 Note that this example does not set the &lt;scope&gt; but depending on what you
-are using Manorrock Piranha for you might need to add a &lt;scope&gt;.
+are using Piranha for you might need to add a &lt;scope&gt;.

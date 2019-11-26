@@ -42,8 +42,8 @@ import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 import com.manorrock.herring.DefaultInitialContextFactory;
-import com.manorrock.piranha.cdi.weld.WeldInitializer;
-import com.manorrock.piranha.faces.mojarra.MojarraInitializer;
+import cloud.piranha.cdi.weld.WeldInitializer;
+import cloud.piranha.faces.mojarra.MojarraInitializer;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
 import cloud.piranha.DefaultDirectoryResource;

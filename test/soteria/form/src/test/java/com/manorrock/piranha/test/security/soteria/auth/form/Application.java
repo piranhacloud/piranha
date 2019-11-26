@@ -49,7 +49,7 @@ import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 import cloud.piranha.security.soteria.SoteriaInitializer;
 
-import com.manorrock.piranha.cdi.weld.WeldInitializer;
+import cloud.piranha.cdi.weld.WeldInitializer;
 
 /**
  * @author Arjan Tijms
