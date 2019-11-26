@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.http.grizzly;
 
-import com.manorrock.piranha.api.HttpServerResponse;
+import cloud.piranha.api.HttpServerResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import org.glassfish.grizzly.http.server.Response;

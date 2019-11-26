@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.http.grizzly;
 
-import com.manorrock.piranha.api.HttpServerRequest;
+import cloud.piranha.api.HttpServerRequest;
 import java.io.InputStream;
 import java.util.Iterator;
 import org.glassfish.grizzly.http.server.Request;

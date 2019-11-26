@@ -37,7 +37,7 @@ import java.util.Base64;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.manorrock.piranha.DefaultHttpHeader;
+import cloud.piranha.DefaultHttpHeader;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
 public class BasicTest {

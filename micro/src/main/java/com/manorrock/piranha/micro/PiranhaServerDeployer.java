@@ -63,25 +63,24 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.manorrock.piranha.DefaultAnnotationManager;
-import com.manorrock.piranha.DefaultAnnotationManager.DefaultAnnotationInfo;
-import com.manorrock.piranha.DefaultHttpServer;
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.DefaultWebApplicationServer;
-import com.manorrock.piranha.api.HttpServer;
-import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.cdi.weld.WeldInitializer;
-import com.manorrock.piranha.servlet.ServletFeature;
-import com.manorrock.piranha.servlet.WebAnnotationInitializer;
 import com.manorrock.piranha.shrinkwrap.ShrinkWrapResource;
-import com.manorrock.piranha.webxml.WebXmlInitializer;
 
+import cloud.piranha.DefaultAnnotationManager;
+import cloud.piranha.DefaultAnnotationManager.DefaultAnnotationInfo;
+import cloud.piranha.DefaultHttpServer;
+import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultWebApplicationServer;
+import cloud.piranha.api.HttpServer;
+import cloud.piranha.api.WebApplication;
 import cloud.piranha.authentication.elios.AuthenticationInitializer;
 import cloud.piranha.authorization.exousia.AuthorizationInitializer;
 import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 import cloud.piranha.security.soteria.SoteriaInitializer;
 import cloud.piranha.security.soteria.SoteriaPreCDIInitializer;
+import cloud.piranha.servlet.webservlet.WebServletInitializer;
+import cloud.piranha.servlet.webxml.WebXmlInitializer;
 
 /**
  * Deploys a shrinkwrap application archive to a newly started embedded Piranha instance.
@@ -131,11 +130,10 @@ public class PiranhaServerDeployer {
             getCallerCredentials(System.getProperty("io.piranha.identitystore.callers"));
             
             DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
-            webApplication.addFeature(new ServletFeature());
             webApplicationServer.addWebApplication(webApplication);
             
             webApplication.addInitializer(new WebXmlInitializer());
-            webApplication.addInitializer(new WebAnnotationInitializer());
+            webApplication.addInitializer(new WebServletInitializer());
             
             webApplication.addInitializer(SoteriaPreCDIInitializer.class.getName());
             webApplication.addInitializer(WeldInitializer.class.getName());

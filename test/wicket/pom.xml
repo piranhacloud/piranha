@@ -24,7 +24,7 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>cloud.piranha</groupId>
             <artifactId>piranha</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>

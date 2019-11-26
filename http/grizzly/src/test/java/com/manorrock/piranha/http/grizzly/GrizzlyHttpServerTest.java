@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.http.grizzly;
 
-import com.manorrock.piranha.DefaultHttpServerProcessor;
+import cloud.piranha.DefaultHttpServerProcessor;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

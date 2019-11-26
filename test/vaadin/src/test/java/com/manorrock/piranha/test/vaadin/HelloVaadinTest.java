@@ -27,8 +27,8 @@
  */
 package com.manorrock.piranha.test.vaadin;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultWebApplication;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.test.utils.TestServletOutputStream;

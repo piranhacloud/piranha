@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.manorrock.piranha.pages</groupId>
+        <groupId>cloud.piranha.pages</groupId>
         <artifactId>project</artifactId>
         <version>19.12.0-SNAPSHOT</version>
     </parent>
@@ -12,11 +12,11 @@
     <artifactId>piranha-pages-jasper</artifactId>
     <packaging>jar</packaging>
 
-    <name>Manorrock Piranha Pages - Jasper Integration</name>
+    <name>Piranha Pages - Jasper Integration</name>
 
     <dependencies>      
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>cloud.piranha</groupId>
             <artifactId>piranha</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>

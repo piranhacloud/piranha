@@ -42,10 +42,10 @@ import org.junit.Test;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
-import com.manorrock.piranha.api.WebApplication;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 
+import cloud.piranha.api.WebApplication;
 import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 
