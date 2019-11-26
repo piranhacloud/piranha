@@ -25,32 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.authorization.exousia;
+package cloud.piranha.security.jakarta;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
+import java.util.Set;
 
-import java.security.Principal;
-import java.util.List;
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
-import javax.security.auth.Subject;
-
-import org.omnifaces.exousia.spi.PrincipalMapper;
-
-import cloud.piranha.api.AuthenticatedIdentity;
+import cloud.piranha.api.WebApplication;
 
 /**
+ * The Jakarta Security initializer.
+ * 
  * @author Arjan Tijms
  */
-public class PiranhaPrincipalMapper implements PrincipalMapper {
-
-    @Override
-    public List<String> getMappedRoles(Iterable<Principal> principals, Subject subject) {
-        return stream(principals.spliterator(), false)
-             .filter(AuthenticatedIdentity.class::isInstance)
-             .map(AuthenticatedIdentity.class::cast)
-             .flatMap(e -> e.getGroups().stream())
-             .collect(toList());
-    }
+public class JakartaSecurityInitializer implements ServletContainerInitializer {
     
+    /**
+     * Initialize Jakarta Security
+     * 
+     * @param classes the classes.
+     * @param servletContext the Servlet context.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        WebApplication webApplication = (WebApplication) servletContext;
+        webApplication.setSecurityManager(new JakartaSecurityManager());
+    }
 }

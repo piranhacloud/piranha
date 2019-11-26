@@ -25,39 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.security.soteria;
+package cloud.piranha.authorization.exousia;
 
-import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
 
-import javax.enterprise.inject.spi.CDI;
-import javax.security.enterprise.credential.Password;
-import javax.security.enterprise.credential.UsernamePasswordCredential;
-import javax.security.enterprise.identitystore.CredentialValidationResult;
-import javax.security.enterprise.identitystore.IdentityStoreHandler;
-import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.util.List;
 
-import cloud.piranha.DefaultAuthenticatedIdentity;
+import javax.security.auth.Subject;
+
+import org.omnifaces.exousia.spi.PrincipalMapper;
+
 import cloud.piranha.api.AuthenticatedIdentity;
-import cloud.piranha.api.SecurityManager.UsernamePasswordLoginHandler;
 
 /**
  * @author Arjan Tijms
  */
-public class IdentityStoreLoginHandler implements UsernamePasswordLoginHandler {
+public class PiranhaPrincipalMapper implements PrincipalMapper {
 
     @Override
-    public AuthenticatedIdentity login(HttpServletRequest request, String username, String password) {
-
-        CredentialValidationResult result = CDI.current()
-           .select(IdentityStoreHandler.class)
-           .get()
-           .validate(new UsernamePasswordCredential(username, new Password(password)));
-
-        if (result.getStatus() == VALID) {
-            return new DefaultAuthenticatedIdentity(result.getCallerPrincipal(), result.getCallerGroups());
-        }
-        
-        return null;
+    public List<String> getMappedRoles(Iterable<Principal> principals, Subject subject) {
+        return stream(principals.spliterator(), false)
+             .filter(AuthenticatedIdentity.class::isInstance)
+             .map(AuthenticatedIdentity.class::cast)
+             .flatMap(e -> e.getGroups().stream())
+             .collect(toList());
     }
-
+    
 }

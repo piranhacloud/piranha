@@ -52,9 +52,10 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 
-import com.manorrock.piranha.DefaultResourceManager;
 import com.manorrock.piranha.shrinkwrap.IsolatingResourceManagerClassLoader;
 import com.manorrock.piranha.shrinkwrap.ShrinkWrapResource;
+
+import cloud.piranha.DefaultResourceManager;
 
 /**
  * The Piranha Arquillian connector.
@@ -113,7 +114,7 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
                 Maven.configureResolver()
                      //.workOffline() // TODO: config setting
                      .resolve(
-                        "com.manorrock.piranha:piranha-micro:19.12.0-SNAPSHOT" // TODO config for version
+                        "cloud.piranha:piranha-micro:19.12.0-SNAPSHOT" // TODO config for version
                         // TODO: may add other dependencies via external config
                       )
                      .withTransitivity()

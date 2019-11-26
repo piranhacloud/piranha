@@ -25,13 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.authorization.exousia;
+package cloud.piranha.authorization.exousia;
 
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
 import java.io.IOException;
 
-import javax.security.jacc.PolicyContext;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -45,20 +44,18 @@ import cloud.piranha.api.SecurityManager;
 import cloud.piranha.api.WebApplication;
 
 /**
- * This filter is uses to call a Jakarta Authentication system module at the start of an HTTP request.
+ * This filter is used to call a Jakarta Authorization system module at the start of an HTTP request.
  * 
  * <p>
- * Note, this Filter *MUST* be installed as the first filter, and it should *NOT* be possible to place
- * a filter before this filter. The standard Servlet API does not provide facilitities for this.
+ * Note, this Filter should be installed after the AuthorizationPre filter, and after the AutheneticatonFilter, but before
+ * any application filters.
  * 
  * @author Arjan Tijms
  *
  */
-public class AuthorizationPreFilter extends HttpFilter {
+public class AuthorizationFilter extends HttpFilter {
    
-    private static final long serialVersionUID = 8478463438252262094L;
-
-    public static ThreadLocal<HttpServletRequest> localServletRequest = new ThreadLocal<>();
+    private static final long serialVersionUID = 1178463438252262094L;
     
     private SecurityManager securityManager;
     
@@ -74,20 +71,12 @@ public class AuthorizationPreFilter extends HttpFilter {
 
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        WebApplication context = (WebApplication) request.getServletContext();
-        PolicyContext.setContextID(context.getServletContextId());
-        
-        if (!securityManager.isRequestSecurityAsRequired(request, response)) {
+        if (!securityManager.isCallerAuthorizedForResource(request)) {
             response.setStatus(SC_FORBIDDEN);
             return;
         }
         
-        localServletRequest.set(request);
-        try {
-            chain.doFilter(request, response);
-        } finally {
-            localServletRequest.remove();
-        }
+        chain.doFilter(request, response);
     }
 
 }
