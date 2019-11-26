@@ -25,12 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.security.jakarta;
+package cloud.piranha.security.jakarta;
 
 import static cloud.piranha.DefaultAuthenticatedIdentity.getCurrentSubject;
 import static cloud.piranha.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
-import static com.manorrock.piranha.authentication.elios.AuthenticationInitializer.AUTH_SERVICE;
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
+import static cloud.piranha.authentication.elios.AuthenticationInitializer.AUTH_SERVICE;
+import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
 
 import java.io.IOException;
 import java.security.Principal;

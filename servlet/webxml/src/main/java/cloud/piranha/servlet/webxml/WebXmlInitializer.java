@@ -165,7 +165,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                     // TODO - this needs to be moved to its own feature
                     //
                     webApp.setAttribute(
-                        "com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.piranha.constraints",
+                        "cloud.piranha.authorization.exousia.AuthorizationPreInitializer.piranha.constraints",
                         webXml.securityConstraints
                     );
                 }

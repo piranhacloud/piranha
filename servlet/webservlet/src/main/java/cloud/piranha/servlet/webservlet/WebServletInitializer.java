@@ -177,7 +177,7 @@ public class WebServletInitializer implements ServletContainerInitializer {
             }
         }
         webApp.setAttribute(
-            "com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.security.annotations",
+            "cloud.piranha.authorization.exousia.AuthorizationPreInitializer.security.annotations",
             securityAnnotations
         );
         

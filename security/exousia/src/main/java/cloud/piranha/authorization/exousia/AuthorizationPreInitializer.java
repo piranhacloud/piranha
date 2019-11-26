@@ -25,9 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.authorization.exousia;
+package cloud.piranha.authorization.exousia;
 
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreFilter.localServletRequest;
+import static cloud.piranha.authorization.exousia.AuthorizationPreFilter.localServletRequest;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toList;
@@ -57,8 +57,8 @@ import org.omnifaces.exousia.constraints.WebResourceCollection;
 import org.omnifaces.exousia.constraints.transformer.ElementsToConstraintsTransformer;
 
 import cloud.piranha.DefaultAuthenticatedIdentity;
-import cloud.piranha.api.WebApplication;
 import cloud.piranha.DefaultWebXml;
+import cloud.piranha.api.WebApplication;
 
 /**
  * The Exousia initializer.
