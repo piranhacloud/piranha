@@ -25,49 +25,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.security.soteria;
+package cloud.piranha.security.soteria;
 
-import java.util.Set;
-import java.util.logging.Logger;
+import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
 
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import javax.enterprise.inject.spi.CDI;
+import javax.security.enterprise.credential.Password;
+import javax.security.enterprise.credential.UsernamePasswordCredential;
+import javax.security.enterprise.identitystore.CredentialValidationResult;
+import javax.security.enterprise.identitystore.IdentityStoreHandler;
+import javax.servlet.http.HttpServletRequest;
 
-import org.glassfish.soteria.servlet.SamRegistrationInstaller;
-
-import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.DefaultAuthenticatedIdentity;
+import com.manorrock.piranha.api.AuthenticatedIdentity;
+import com.manorrock.piranha.api.SecurityManager.UsernamePasswordLoginHandler;
 
 /**
- * The Soteria initializer.
- *
  * @author Arjan Tijms
- * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SoteriaInitializer implements ServletContainerInitializer {
+public class IdentityStoreLoginHandler implements UsernamePasswordLoginHandler {
 
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = Logger.getLogger(SoteriaInitializer.class.getName());
-
-    /**
-     * Initialize Soteria.
-     *
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
-     */
     @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        LOGGER.fine("Initializing Soteria");
+    public AuthenticatedIdentity login(HttpServletRequest request, String username, String password) {
+
+        CredentialValidationResult result = CDI.current()
+           .select(IdentityStoreHandler.class)
+           .get()
+           .validate(new UsernamePasswordCredential(username, new Password(password)));
+
+        if (result.getStatus() == VALID) {
+            return new DefaultAuthenticatedIdentity(result.getCallerPrincipal(), result.getCallerGroups());
+        }
         
-        WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.getSecurityManager().setUsernamePasswordLoginHandler(new IdentityStoreLoginHandler());
-        
-        SamRegistrationInstaller installer = new SamRegistrationInstaller();
-        
-        installer.onStartup(classes, servletContext);
-        LOGGER.fine("Initialized Soteria");
+        return null;
     }
+
 }

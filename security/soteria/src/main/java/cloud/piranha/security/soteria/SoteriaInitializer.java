@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.security.soteria;
+package cloud.piranha.security.soteria;
 
 import java.util.Set;
 import java.util.logging.Logger;
@@ -34,10 +34,9 @@ import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-import org.glassfish.soteria.SoteriaServiceProviders;
-import org.glassfish.soteria.cdi.spi.WebXmlLoginConfig;
+import org.glassfish.soteria.servlet.SamRegistrationInstaller;
 
-import com.manorrock.piranha.webxml.WebXml;
+import com.manorrock.piranha.api.WebApplication;
 
 /**
  * The Soteria initializer.
@@ -45,12 +44,12 @@ import com.manorrock.piranha.webxml.WebXml;
  * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SoteriaPreCDIInitializer implements ServletContainerInitializer {
+public class SoteriaInitializer implements ServletContainerInitializer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(SoteriaPreCDIInitializer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SoteriaInitializer.class.getName());
 
     /**
      * Initialize Soteria.
@@ -61,20 +60,14 @@ public class SoteriaPreCDIInitializer implements ServletContainerInitializer {
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-
-        WebXml webXml = (WebXml) servletContext.getAttribute("com.manorrock.piranha.webxml.WebXml");
+        LOGGER.fine("Initializing Soteria");
         
-        if (webXml != null && webXml.loginConfig.authMethod != null) {
-            
-            LOGGER.info("AuthMethod " + webXml.loginConfig.authMethod + " configured in web.xml and handled by Soteria.");
-            
-            WebXmlLoginConfig webXmlLoginConfig = SoteriaServiceProviders.getServiceProvider(WebXmlLoginConfig.class);
-            
-            webXmlLoginConfig.setAuthMethod(webXml.loginConfig.authMethod);
-            webXmlLoginConfig.setRealmName(webXml.loginConfig.realmName);
-            webXmlLoginConfig.setFormLoginPage(webXml.loginConfig.formLoginPage);
-            webXmlLoginConfig.setFormErrorPage(webXml.loginConfig.formErrorPage);
-        }
+        WebApplication webApplication = (WebApplication) servletContext;
+        webApplication.getSecurityManager().setUsernamePasswordLoginHandler(new IdentityStoreLoginHandler());
         
+        SamRegistrationInstaller installer = new SamRegistrationInstaller();
+        
+        installer.onStartup(classes, servletContext);
+        LOGGER.fine("Initialized Soteria");
     }
 }
