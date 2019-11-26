@@ -38,7 +38,14 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-       <dependency>
+        <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-micro</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    
+        <dependency>
             <groupId>com.manorrock.piranha.arquillian</groupId>
             <artifactId>arquillian-piranha-server</artifactId>
             <version>${project.version}</version>
