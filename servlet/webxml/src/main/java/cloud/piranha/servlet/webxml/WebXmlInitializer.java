@@ -160,14 +160,6 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 list = (NodeList) xPath.evaluate("//security-constraint", document, NODESET);
                 if (list != null) {
                     processSecurityConstraints(webXml, list);
-
-                    //
-                    // TODO - this needs to be moved to its own feature
-                    //
-                    webApp.setAttribute(
-                        "cloud.piranha.authorization.exousia.AuthorizationPreInitializer.piranha.constraints",
-                        webXml.securityConstraints
-                    );
                 }
                 
                 /*
