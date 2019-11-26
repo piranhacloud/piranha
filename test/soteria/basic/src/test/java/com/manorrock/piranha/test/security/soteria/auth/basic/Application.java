@@ -40,12 +40,14 @@ import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
-import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
 import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
 import com.manorrock.piranha.security.soteria.SoteriaInitializer;
 import com.manorrock.piranha.test.utils.TestWebApp;
+
+import cloud.piranha.authentication.elios.AuthenticationInitializer;
+
 import com.manorrock.piranha.cdi.weld.WeldInitializer;
 
 /**
