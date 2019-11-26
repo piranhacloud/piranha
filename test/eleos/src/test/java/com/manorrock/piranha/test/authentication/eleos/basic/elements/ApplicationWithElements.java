@@ -43,7 +43,6 @@ import javax.servlet.ServletSecurityElement;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
-import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
 import com.manorrock.piranha.test.authentication.eleos.basic.BasicServerAuthModule;
 import com.manorrock.piranha.test.authentication.eleos.basic.ProtectedServlet;
 import com.manorrock.piranha.test.authentication.eleos.basic.PublicServlet;
@@ -52,6 +51,7 @@ import com.manorrock.piranha.test.utils.TestWebApp;
 import cloud.piranha.authentication.elios.AuthenticationInitializer;
 import cloud.piranha.authorization.exousia.AuthorizationInitializer;
 import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
+import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 
 /**
  * @author Arjan Tijms
