@@ -25,32 +25,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.authorization.exousia;
+package cloud.piranha.authorization.exousia;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
+import java.util.Set;
 
-import java.security.Principal;
-import java.util.List;
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
-import javax.security.auth.Subject;
-
-import org.omnifaces.exousia.spi.PrincipalMapper;
-
-import com.manorrock.piranha.api.AuthenticatedIdentity;
+import com.manorrock.piranha.api.WebApplication;
 
 /**
+ * The Exousia initializer.
+ * 
  * @author Arjan Tijms
  */
-public class PiranhaPrincipalMapper implements PrincipalMapper {
+public class AuthorizationInitializer implements ServletContainerInitializer {
 
+    /**
+     * Installs the authorization filter
+     * 
+     * @param classes the classes.
+     * @param servletContext the Servlet context.
+     * @throws ServletException when a Servlet error occurs.
+     */
     @Override
-    public List<String> getMappedRoles(Iterable<Principal> principals, Subject subject) {
-        return stream(principals.spliterator(), false)
-             .filter(AuthenticatedIdentity.class::isInstance)
-             .map(AuthenticatedIdentity.class::cast)
-             .flatMap(e -> e.getGroups().stream())
-             .collect(toList());
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+
+        WebApplication context = (WebApplication) servletContext;
+
+        servletContext.addFilter(AuthorizationFilter.class.getSimpleName(), AuthorizationFilter.class);
+
+        // TMP - should use Dynamic
+        context.addFilterMapping(AuthorizationFilter.class.getSimpleName(), "/*");
     }
-    
+
 }

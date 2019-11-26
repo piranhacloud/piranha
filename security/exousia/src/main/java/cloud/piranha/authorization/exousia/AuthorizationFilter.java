@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.authorization.exousia;
+package cloud.piranha.authorization.exousia;
 
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 

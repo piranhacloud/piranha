@@ -28,9 +28,9 @@
 package com.manorrock.piranha.test.authentication.eleos.basic.elements;
 
 import static cloud.piranha.authentication.elios.AuthenticationInitializer.AUTH_MODULE_CLASS;
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.SECURITY_ELEMENTS;
+import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
+import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.SECURITY_ELEMENTS;
 import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static java.util.Arrays.asList;
 import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
@@ -43,8 +43,6 @@ import javax.servlet.ServletSecurityElement;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
-import com.manorrock.piranha.authorization.exousia.AuthorizationInitializer;
-import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
 import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
 import com.manorrock.piranha.test.authentication.eleos.basic.BasicServerAuthModule;
 import com.manorrock.piranha.test.authentication.eleos.basic.ProtectedServlet;
@@ -52,6 +50,8 @@ import com.manorrock.piranha.test.authentication.eleos.basic.PublicServlet;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
 import cloud.piranha.authentication.elios.AuthenticationInitializer;
+import cloud.piranha.authorization.exousia.AuthorizationInitializer;
+import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
 
 /**
  * @author Arjan Tijms
