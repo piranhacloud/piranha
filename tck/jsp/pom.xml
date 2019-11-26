@@ -182,7 +182,7 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>com.manorrock.piranha</groupId>
+                                    <groupId>com.manorrock.piranha.servlet</groupId>
                                     <artifactId>piranha-servlet-api</artifactId>
                                     <version>${project.version}</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
