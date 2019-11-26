@@ -29,7 +29,7 @@ package com.manorrock.piranha.test.hazelcast;
 
 import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultWebApplication;
-import com.manorrock.piranha.session.hazelcast.HazelcastHttpSessionManager;
+import cloud.piranha.session.hazelcast.HazelcastHttpSessionManager;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.test.utils.TestServletOutputStream;

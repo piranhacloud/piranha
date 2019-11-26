@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.session.hazelcast;
+package cloud.piranha.session.hazelcast;
 
 import cloud.piranha.api.HttpSessionManager;
 import java.io.Serializable;
@@ -37,7 +37,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
 /**
- * The default HttpSession.
+ * The Hazelcast HttpSession.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

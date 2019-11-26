@@ -43,6 +43,7 @@
         <module>pages</module>
         <module>security</module>
         <module>servlet</module>
+        <module>session</module>
         
         <!-- Distributions -->
         <module>nano</module>
@@ -51,7 +52,6 @@
         <module>standard</module>
         
         <module>piranha-microprofile-smallrye-health</module>
-        <module>piranha-session-hazelcast</module>
         <module>piranha-resources-shrinkwrap</module>
     </modules>
 
