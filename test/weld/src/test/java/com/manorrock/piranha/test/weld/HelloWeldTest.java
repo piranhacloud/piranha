@@ -27,6 +27,13 @@
  */
 package com.manorrock.piranha.test.weld;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+
+import org.junit.Test;
+
 import com.manorrock.piranha.DefaultAliasedDirectoryResource;
 import com.manorrock.piranha.DefaultDirectoryResource;
 import com.manorrock.piranha.DefaultWebApplication;
@@ -34,10 +41,6 @@ import com.manorrock.piranha.servlet.ServletFeature;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.test.utils.TestServletOutputStream;
-import java.io.File;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the Hello Weld web application.
@@ -54,24 +57,32 @@ public class HelloWeldTest {
     @Test
     public void testIndexHtml() throws Exception {
         System.getProperties().put("java.naming.factory.initial", "com.manorrock.herring.DefaultInitialContextFactory");
+
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addResource(new DefaultAliasedDirectoryResource(new File("target/classes"), "/WEB-INF/classes"));
         webApp.addFeature(new ServletFeature());
         webApp.initialize();
         webApp.start();
+
         TestHttpServletRequest request = new TestHttpServletRequest();
         request.setWebApplication(webApp);
         request.setContextPath("");
         request.setServletPath("/index.html");
         request.setPathInfo(null);
+
         TestHttpServletResponse response = new TestHttpServletResponse();
         TestServletOutputStream outputStream = new TestServletOutputStream();
         response.setOutputStream(outputStream);
         outputStream.setResponse(response);
+
         webApp.service(request, response);
+
         assertEquals(200, response.getStatus());
         String responseString = new String(response.getResponseBody());
+
+        System.out.println(responseString);
+
         assertTrue(responseString.contains("Hello Weld"));
     }
 }

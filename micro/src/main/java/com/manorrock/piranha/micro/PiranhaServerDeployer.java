@@ -25,8 +25,8 @@
  */
 package com.manorrock.piranha.micro;
 
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
+import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static java.util.Arrays.stream;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import static javax.xml.xpath.XPathConstants.NODESET;
@@ -70,17 +70,18 @@ import com.manorrock.piranha.DefaultWebApplication;
 import com.manorrock.piranha.DefaultWebApplicationServer;
 import com.manorrock.piranha.api.HttpServer;
 import com.manorrock.piranha.api.WebApplication;
-import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
-import com.manorrock.piranha.authorization.exousia.AuthorizationInitializer;
-import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
-import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
-import com.manorrock.piranha.security.soteria.SoteriaInitializer;
-import com.manorrock.piranha.security.soteria.SoteriaPreCDIInitializer;
+import com.manorrock.piranha.cdi.weld.WeldInitializer;
 import com.manorrock.piranha.servlet.ServletFeature;
 import com.manorrock.piranha.servlet.WebAnnotationInitializer;
 import com.manorrock.piranha.shrinkwrap.ShrinkWrapResource;
 import com.manorrock.piranha.webxml.WebXmlInitializer;
-import com.manorrock.piranha.cdi.weld.WeldInitializer;
+
+import cloud.piranha.authentication.elios.AuthenticationInitializer;
+import cloud.piranha.authorization.exousia.AuthorizationInitializer;
+import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
+import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
+import cloud.piranha.security.soteria.SoteriaInitializer;
+import cloud.piranha.security.soteria.SoteriaPreCDIInitializer;
 
 /**
  * Deploys a shrinkwrap application archive to a newly started embedded Piranha instance.
