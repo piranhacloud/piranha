@@ -35,9 +35,9 @@ import java.util.Map.Entry;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.api.Resource;
-import com.manorrock.piranha.api.WebApplication;
+import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.api.Resource;
+import cloud.piranha.api.WebApplication;
 
 /**
  * A WebAppliction builder.

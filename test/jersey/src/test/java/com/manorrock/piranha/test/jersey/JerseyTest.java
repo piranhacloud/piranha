@@ -27,9 +27,9 @@
  */
 package com.manorrock.piranha.test.jersey;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultWebApplication;
-import com.manorrock.piranha.servlet.ServletFeature;
+import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.servlet.webxml.WebXmlFeature;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.test.utils.TestServletInputStream;
@@ -54,7 +54,7 @@ public class JerseyTest {
     public void testHello() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addFeature(new ServletFeature());
+        webApp.addFeature(new WebXmlFeature());
         webApp.initialize();
         webApp.start();
 

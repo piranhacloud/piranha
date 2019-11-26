@@ -27,11 +27,11 @@
  */
 package com.manorrock.piranha.http.singlethread;
 
-import com.manorrock.piranha.DefaultHttpServerProcessor;
-import com.manorrock.piranha.DefaultHttpServerRequest;
-import com.manorrock.piranha.DefaultHttpServerResponse;
-import com.manorrock.piranha.api.HttpServer;
-import com.manorrock.piranha.api.HttpServerProcessor;
+import cloud.piranha.DefaultHttpServerProcessor;
+import cloud.piranha.DefaultHttpServerRequest;
+import cloud.piranha.DefaultHttpServerResponse;
+import cloud.piranha.api.HttpServer;
+import cloud.piranha.api.HttpServerProcessor;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;

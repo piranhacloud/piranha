@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.http.netty;
 
-import com.manorrock.piranha.api.HttpServerProcessor;
+import cloud.piranha.api.HttpServerProcessor;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

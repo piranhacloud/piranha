@@ -42,17 +42,16 @@ import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 import com.manorrock.herring.DefaultInitialContextFactory;
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.api.WebApplication;
+import com.manorrock.piranha.cdi.weld.WeldInitializer;
 import com.manorrock.piranha.faces.mojarra.MojarraInitializer;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
+import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.api.WebApplication;
 import cloud.piranha.authentication.elios.AuthenticationInitializer;
 import cloud.piranha.authorization.exousia.AuthorizationInitializer;
 import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
-
-import com.manorrock.piranha.cdi.weld.WeldInitializer;
 
 /**
  * @author Arjan Tijms

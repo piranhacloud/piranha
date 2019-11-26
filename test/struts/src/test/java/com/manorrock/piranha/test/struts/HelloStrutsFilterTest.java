@@ -27,9 +27,9 @@
  */
 package com.manorrock.piranha.test.struts;
 
-import com.manorrock.piranha.DefaultDirectoryResource;
-import com.manorrock.piranha.DefaultLoggingManager;
-import com.manorrock.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultLoggingManager;
+import cloud.piranha.DefaultWebApplication;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.test.utils.TestServletOutputStream;
@@ -57,7 +57,7 @@ public class HelloStrutsFilterTest {
         webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
         webApp.addFilter("struts2", "org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter");
         webApp.addFilterMapping("struts2", "*.action");
-        webApp.addInitializer("com.manorrock.piranha.pages.jasper.JasperInitializer");
+        webApp.addInitializer("cloud.piranha.pages.jasper.JasperInitializer");
         webApp.initialize();
         webApp.start();
 
