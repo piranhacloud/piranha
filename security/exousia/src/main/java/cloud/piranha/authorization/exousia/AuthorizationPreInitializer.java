@@ -25,9 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.authorization.exousia;
+package cloud.piranha.authorization.exousia;
 
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreFilter.localServletRequest;
+import static cloud.piranha.authorization.exousia.AuthorizationPreFilter.localServletRequest;
 import static com.manorrock.piranha.webxml.WebXmlInitializer.WEB_XML;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;

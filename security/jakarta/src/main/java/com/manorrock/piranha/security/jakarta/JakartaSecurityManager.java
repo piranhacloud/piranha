@@ -28,9 +28,9 @@
 package com.manorrock.piranha.security.jakarta;
 
 import static cloud.piranha.authentication.elios.AuthenticationInitializer.AUTH_SERVICE;
+import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
 import static com.manorrock.piranha.DefaultAuthenticatedIdentity.getCurrentSubject;
 import static com.manorrock.piranha.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
 
 import java.io.IOException;
 import java.security.Principal;

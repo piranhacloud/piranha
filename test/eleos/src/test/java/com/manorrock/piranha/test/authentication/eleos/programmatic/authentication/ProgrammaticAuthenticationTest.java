@@ -28,9 +28,9 @@
 package com.manorrock.piranha.test.authentication.eleos.programmatic.authentication;
 
 import static cloud.piranha.authentication.elios.AuthenticationInitializer.AUTH_MODULE_CLASS;
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
-import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
+import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
+import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
 import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertTrue;
@@ -45,11 +45,11 @@ import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 import org.xml.sax.SAXException;
 
-import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
 import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
 import cloud.piranha.authentication.elios.AuthenticationInitializer;
+import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
 
 /**
  * This tests that a call from a Servlet to HttpServletRequest#authenticate can result
