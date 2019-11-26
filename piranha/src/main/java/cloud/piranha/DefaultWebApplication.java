@@ -93,6 +93,7 @@ import cloud.piranha.api.SecurityManager;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.api.WebApplicationRequestMapper;
 import cloud.piranha.api.WebApplicationRequestMapping;
+import cloud.piranha.api.WebXmlManager;
 
 /**
  * The default WebApplication.
@@ -298,6 +299,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the web application request mapper.
      */
     protected WebApplicationRequestMapper webApplicationRequestMapper;
+    
+    /**
+     * Stores the web.xml manager.
+     */
+    protected WebXmlManager webXmlManager;
 
     /**
      * Constructor.
@@ -326,6 +332,7 @@ public class DefaultWebApplication implements WebApplication {
         securityManager = new DefaultSecurityManager();
         servlets = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
+        webXmlManager = new DefaultWebXmlManager();
     }
 
     /**
@@ -1204,6 +1211,16 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public String getVirtualServerName() {
         return virtualServerName;
+    }
+
+    /**
+     * Get the web.xml manager.
+     * 
+     * @return the web.xml manager.
+     */
+    @Override
+    public WebXmlManager getWebXmlManager() {
+        return webXmlManager;
     }
 
     /**

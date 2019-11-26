@@ -46,10 +46,26 @@ import javax.servlet.ServletResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface WebApplication extends ServletContext {
-    
+
+    /**
+     * Adds an error page to be forwarded to on the given HTTP status code
+     *
+     * @param code the HTTP code for which the error page is to be invoked
+     * @param location the location of the error page
+     */
+    void addErrorPage(int code, String location);
+
+    /**
+     * Adds an error page to be forwarded to on the given exception
+     *
+     * @param exception the exception for which the error page is to be invoked
+     * @param location the location of the error page
+     */
+    void addErrorPage(String exception, String location);
+
     /**
      * Add a feature.
-     * 
+     *
      * @param feature the feature.
      */
     void addFeature(Feature feature);
@@ -71,11 +87,12 @@ public interface WebApplication extends ServletContext {
      * @param className the class name.
      */
     void addInitializer(String className);
-    
+
     /**
      * Add a servlet container initializer.
      *
-     * @param servletContainerInitializer the servletContainerInitializer instance
+     * @param servletContainerInitializer the servletContainerInitializer
+     * instance
      */
     void addInitializer(ServletContainerInitializer servletContainerInitializer);
 
@@ -85,42 +102,6 @@ public interface WebApplication extends ServletContext {
      * @param resource the resouce.
      */
     void addResource(Resource resource);
-    
-    /**
-     * Adds an error page to be forwarded to on the given HTTP status code
-     * 
-     * @param code the HTTP code for which the error page is to be invoked
-     * @param location the location of the error page
-     */
-    void addErrorPage(int code, String location);
-    
-    /** Adds an error page to be forwarded to on the given exception
-     * 
-     * @param exception the exception for which the error page is to be invoked
-     * @param location the location of the error page
-     */
-    void addErrorPage(String exception, String location);
-    
-    /**
-     * Destroy the web application.
-     */
-    void destroy();
-
-    /**
-     * Get the mime type manager.
-     * 
-     * @return the mime type manager.
-     */
-    MimeTypeManager getMimeTypeManager();
-    
-    /**
-     * Returns the unique Id of this web application corresponding to this ServletContext.
-     * 
-     * @return the servlet context id.
-     */
-    default String getServletContextId() {
-        return getVirtualServerName() + " " + getContextPath();
-    }
 
     /**
      * Add a mapping for the given servlet.
@@ -133,12 +114,41 @@ public interface WebApplication extends ServletContext {
     Set<String> addServletMapping(String servletName, String... urlPatterns);
 
     /**
+     * Destroy the web application.
+     */
+    void destroy();
+
+    /**
+     * Gets the annotation manager.
+     *
+     * @return the annotation manager.
+     */
+    AnnotationManager getAnnotationManager();
+
+    /**
+     * Get the mime type manager.
+     *
+     * @return the mime type manager.
+     */
+    MimeTypeManager getMimeTypeManager();
+
+    /**
+     * Returns the unique Id of this web application corresponding to this
+     * ServletContext.
+     *
+     * @return the servlet context id.
+     */
+    default String getServletContextId() {
+        return getVirtualServerName() + " " + getContextPath();
+    }
+
+    /**
      * Get the HttpSessionManager.
      *
      * @return the HttpSessionManager.
      */
     HttpSessionManager getHttpSessionManager();
-    
+
     /**
      * Get the HttpRequestManager.
      *
@@ -184,13 +194,13 @@ public interface WebApplication extends ServletContext {
      * @return the security manager.
      */
     SecurityManager getSecurityManager();
-    
+
     /**
-     * Gets the annotation manager.
-     * 
-     * @return the annotation manager.
+     * Get the web.xml manager.
+     *
+     * @return the web.xml manager.
      */
-    AnnotationManager getAnnotationManager();
+    WebXmlManager getWebXmlManager();
 
     /**
      * Initialize the web application.
@@ -246,11 +256,11 @@ public interface WebApplication extends ServletContext {
 
     /**
      * Set the JSP manager.
-     * 
-     * @param jspManager the JSP manager. 
+     *
+     * @param jspManager the JSP manager.
      */
     public void setJspManager(JspManager jspManager);
-    
+
     /**
      * Set the logging manager.
      *
@@ -285,11 +295,10 @@ public interface WebApplication extends ServletContext {
      * @param securityManager the security manager.
      */
     void setSecurityManager(SecurityManager securityManager);
-    
-    
+
     /**
      * Sets the annotation manager.
-     * 
+     *
      * @param annotationManager the annotation manager
      */
     void setAnnotationManager(AnnotationManager annotationManager);
