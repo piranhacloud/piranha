@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.session.hazelcast;
+package cloud.piranha.session.hazelcast;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;

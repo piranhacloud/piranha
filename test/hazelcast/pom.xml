@@ -31,7 +31,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>cloud.piranha.session</groupId>
             <artifactId>piranha-session-hazelcast</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
