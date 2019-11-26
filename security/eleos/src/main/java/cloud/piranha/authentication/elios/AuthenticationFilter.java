@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.authentication.elios;
+package cloud.piranha.authentication.elios;
 
 import static com.manorrock.piranha.api.SecurityManager.AuthenticateSource.PRE_REQUEST_CONTAINER;
 

@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.test.authentication.eleos.custom.principal;
 
-import static com.manorrock.piranha.authentication.elios.AuthenticationInitializer.AUTH_MODULE_CLASS;
+import static cloud.piranha.authentication.elios.AuthenticationInitializer.AUTH_MODULE_CLASS;
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer.PERROLE_PERMISSIONS;
@@ -43,11 +43,12 @@ import javax.security.jacc.WebUserDataPermission;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
-import com.manorrock.piranha.authentication.elios.AuthenticationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationInitializer;
 import com.manorrock.piranha.authorization.exousia.AuthorizationPreInitializer;
 import com.manorrock.piranha.security.jakarta.JakartaSecurityInitializer;
 import com.manorrock.piranha.test.utils.TestWebApp;
+
+import cloud.piranha.authentication.elios.AuthenticationInitializer;
 
 /**
  * @author Arjan Tijms
