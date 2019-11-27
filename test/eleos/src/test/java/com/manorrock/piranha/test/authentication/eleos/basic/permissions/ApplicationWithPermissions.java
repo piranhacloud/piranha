@@ -32,7 +32,7 @@ import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AU
 import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.PERROLE_PERMISSIONS;
 import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
-import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
+import static cloud.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static java.util.Arrays.asList;
 
 import java.util.AbstractMap.SimpleImmutableEntry;

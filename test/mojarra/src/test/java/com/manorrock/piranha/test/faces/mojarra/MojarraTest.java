@@ -27,7 +27,7 @@
  */
 package com.manorrock.piranha.test.faces.mojarra;
 
-import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
+import static cloud.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

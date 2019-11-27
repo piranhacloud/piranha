@@ -31,7 +31,7 @@ import static cloud.piranha.authentication.elios.AuthenticationInitializer.AUTH_
 import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
 import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.SECURITY_ELEMENTS;
-import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
+import static cloud.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static java.util.Arrays.asList;
 import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
 

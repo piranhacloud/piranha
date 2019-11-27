@@ -13,7 +13,7 @@
     <artifactId>piranha-builder</artifactId>
     <packaging>jar</packaging>
 
-    <name>Manorrock Piranha Builder</name>
+    <name>Piranha Builder</name>
 
     <dependencies>
         <dependency>
