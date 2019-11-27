@@ -100,7 +100,7 @@ public class DefaultWebApplicationServerTest {
     @Test
     public void testProcess() throws Exception {
         DefaultWebApplicationServer server = new DefaultWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(8080, server);
+        HttpServer httpServer = new DefaultHttpServer(8180, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/context");
         application.addServlet("snoop", new TestSnoopServlet());
@@ -111,7 +111,7 @@ public class DefaultWebApplicationServerTest {
         httpServer.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8080/context/snoop/index.html");
+            HttpGet request = new HttpGet("http://localhost:8180/context/snoop/index.html");
             HttpResponse response = client.execute(request);
             assertEquals(200, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
