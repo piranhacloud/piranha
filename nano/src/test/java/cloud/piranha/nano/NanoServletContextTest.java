@@ -27,7 +27,6 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.nano.NanoServletContext;
 import java.io.IOException;
 import java.util.EventListener;
 import javax.servlet.Filter;

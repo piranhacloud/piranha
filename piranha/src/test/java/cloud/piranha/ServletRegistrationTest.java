@@ -27,7 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.api.WebApplication;
 import java.util.HashMap;
 import javax.servlet.ServletRegistration;

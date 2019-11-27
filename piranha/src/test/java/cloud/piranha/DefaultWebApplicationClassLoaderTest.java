@@ -27,7 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplicationClassLoader;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 

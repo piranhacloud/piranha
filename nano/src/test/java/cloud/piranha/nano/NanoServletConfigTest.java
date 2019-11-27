@@ -27,7 +27,6 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.nano.NanoServletConfig;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

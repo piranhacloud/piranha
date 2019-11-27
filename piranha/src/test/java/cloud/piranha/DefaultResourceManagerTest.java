@@ -27,8 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultResourceManager;
-import cloud.piranha.DefaultDirectoryResource;
 import java.io.File;
 import static org.junit.Assert.*;
 import org.junit.Test;

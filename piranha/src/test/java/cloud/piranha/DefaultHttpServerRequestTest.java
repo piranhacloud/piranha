@@ -27,8 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultHttpServer;
-import cloud.piranha.DefaultHttpServerResponse;
 import cloud.piranha.api.HttpServerResponse;
 import cloud.piranha.api.HttpServerRequest;
 import java.io.ByteArrayOutputStream;

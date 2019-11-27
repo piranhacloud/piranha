@@ -27,7 +27,6 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.nano.NanoRequest;
 import javax.servlet.http.HttpUpgradeHandler;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

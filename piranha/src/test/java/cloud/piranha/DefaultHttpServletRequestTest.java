@@ -27,11 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplicationResponse;
-import cloud.piranha.DefaultSecurityManager;
-import cloud.piranha.DefaultWebApplicationRequestMapper;
-import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.DefaultWebApplicationRequest;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -45,7 +40,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
