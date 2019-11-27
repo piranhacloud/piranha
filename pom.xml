@@ -53,6 +53,9 @@
         <module>standard</module>
         
         <module>piranha-microprofile-smallrye-health</module>
+        
+        <!-- Connectors -->
+        <module>arquillian</module>
     </modules>
 
     <scm>
