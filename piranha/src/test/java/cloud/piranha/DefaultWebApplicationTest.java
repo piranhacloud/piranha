@@ -27,12 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultSecurityManager;
-import cloud.piranha.DefaultResourceManager;
-import cloud.piranha.DefaultDirectoryResource;
-import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.DefaultWebApplicationRequestMapper;
-import cloud.piranha.DefaultMimeTypeManager;
 import java.io.File;
 import java.util.Date;
 import java.util.EnumSet;
@@ -53,7 +47,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -690,7 +683,7 @@ public class DefaultWebApplicationTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         webApp.service(request, response);
-        assertEquals("This was included\n", new String(response.getResponseBytes()));
+        assertTrue(new String(response.getResponseBytes()).contains("This was included"));
     }
 
     /**
@@ -717,7 +710,7 @@ public class DefaultWebApplicationTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         webApp.service(request, response);
-        assertEquals("This was included\n", new String(response.getResponseBytes()));
+        assertTrue(new String(response.getResponseBytes()).contains("This was included"));
     }
 
     /**
@@ -746,7 +739,7 @@ public class DefaultWebApplicationTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         webApp.service(request, response);
-        assertEquals("This was included\nThis was included\n", new String(response.getResponseBytes()));
+        assertTrue(new String(response.getResponseBytes()).contains("This was includedThis was included"));
     }
 
     /**

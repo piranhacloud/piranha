@@ -62,7 +62,7 @@ public class TestInclude2Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        response.getWriter().println("This was included");
+        response.getWriter().print("This was included");
         response.getWriter().flush();
     }
 
