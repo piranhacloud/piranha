@@ -20,7 +20,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>cloud.piranha.microprofile.smallrye</groupId>
             <artifactId>piranha-microprofile-smallrye-health</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
