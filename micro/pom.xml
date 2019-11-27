@@ -21,8 +21,8 @@
             <version>2.1.1.Final</version>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-resources-shrinkwrap</artifactId>
+            <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource-shrinkwrap</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
