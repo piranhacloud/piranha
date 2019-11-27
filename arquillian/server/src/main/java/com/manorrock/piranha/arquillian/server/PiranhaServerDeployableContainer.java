@@ -144,7 +144,7 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
         
             piranhaServerDeployer = 
                 Class.forName(
-                        "com.manorrock.piranha.micro.PiranhaServerDeployer", 
+                        "cloud.piranha.micro.PiranhaServerDeployer", 
                         true,
                         webInfClassLoader)
                     .newInstance();
