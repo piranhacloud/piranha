@@ -25,49 +25,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.shrinkwrap;
+package cloud.piranha.resource.shrinkwrap;
 
-import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-
-import cloud.piranha.DefaultResourceManager;
-import cloud.piranha.api.Resource;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
- * The JUnit tests for the IsolatingResourceManagerClassLoader.
- *
+ * 
  * @author Arjan Tijms
+ *
  */
-public class DefaultWebApplicationClassLoaderTest {
+public abstract class StreamConnection extends URLConnection {
 
-
-    /**
-     * Test loadClass method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    public void testLoadClass() throws Exception {
-        IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader("test");
-        
-        Resource resouce = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)
-                .addClass(DefaultResourceManagerTest.class));
-
-        DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(resouce);
-        
-        classLoader.setResourceManager(manager);
-        
-        Class<?> clazz = classLoader.loadClass(DefaultResourceManagerTest.class.getName());
-        
-        assertNotNull(clazz);
-        
-        //assertEquals(clazz.getClassLoader(), classLoader);
-        
+    protected StreamConnection(URL url) {
+        super(url);
+    }
+    
+    @Override
+    public void connect() throws IOException {
+        // Do nothing
     }
 
 }

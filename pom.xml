@@ -41,6 +41,7 @@
         <module>faces</module>
         <module>http</module>
         <module>pages</module>
+        <module>resource</module>
         <module>security</module>
         <module>servlet</module>
         <module>session</module>
@@ -52,7 +53,6 @@
         <module>standard</module>
         
         <module>piranha-microprofile-smallrye-health</module>
-        <module>piranha-resources-shrinkwrap</module>
     </modules>
 
     <scm>

@@ -23,8 +23,8 @@
         </dependency>
     
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
-            <artifactId>piranha-resources-shrinkwrap</artifactId>
+            <groupId>com.manorrock.piranha.resource</groupId>
+            <artifactId>piranha-resource-shrinkwrap</artifactId>
             <version>${project.version}</version>
         </dependency>
         

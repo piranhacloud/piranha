@@ -52,8 +52,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 
-import com.manorrock.piranha.shrinkwrap.IsolatingResourceManagerClassLoader;
-import com.manorrock.piranha.shrinkwrap.ShrinkWrapResource;
+import cloud.piranha.resource.shrinkwrap.IsolatingResourceManagerClassLoader;
+import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 
 import cloud.piranha.DefaultResourceManager;
 

@@ -25,62 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.shrinkwrap;
+package cloud.piranha.resource.shrinkwrap;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLStreamHandler;
+import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
+import static org.junit.Assert.assertNotNull;
 
-import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ArchivePaths;
-import org.jboss.shrinkwrap.api.Node;
-import org.jboss.shrinkwrap.api.asset.Asset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+
+import cloud.piranha.DefaultResourceManager;
+import cloud.piranha.api.Resource;
 
 /**
- * 
- * @author Arjan Tijms
+ * The JUnit tests for the IsolatingResourceManagerClassLoader.
  *
+ * @author Arjan Tijms
  */
-public class ArchiveURLStreamHandler extends URLStreamHandler {
-    
-    private Archive<?> archive;
-    
-    public ArchiveURLStreamHandler(Archive<?> archive) {
-        this.archive = archive;
-    }
+public class DefaultWebApplicationClassLoaderTest {
 
-    @Override
-    protected StreamConnection openConnection(URL requestedUrl) throws IOException {
-        return new StreamConnection(requestedUrl) {
 
-            @Override
-            public InputStream getInputStream() throws IOException {
-                Node node = getNode();
-                if (node == null) {
-                    throw new IllegalStateException("Can't resolve URL " + requestedUrl.toExternalForm());
-                }
-
-                Asset asset = node.getAsset();
-                if (asset == null) {
-                    return null;
-                }
-                
-                return asset.openStream();
-            }
-            
-            private Node getNode() {
-                return archive.get(
-                    ArchivePaths.create(
-                        requestedUrl
-                            .getPath()
-                            .replace(archive.getName(), "")));
-            }
-        };
+    /**
+     * Test loadClass method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testLoadClass() throws Exception {
+        IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader("test");
         
+        Resource resouce = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)
+                .addClass(DefaultResourceManagerTest.class));
+
+        DefaultResourceManager manager = new DefaultResourceManager();
+        manager.addResource(resouce);
+        
+        classLoader.setResourceManager(manager);
+        
+        Class<?> clazz = classLoader.loadClass(DefaultResourceManagerTest.class.getName());
+        
+        assertNotNull(clazz);
+        
+        //assertEquals(clazz.getClassLoader(), classLoader);
         
     }
-    
 
-    
 }

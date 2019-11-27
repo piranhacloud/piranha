@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.shrinkwrap;
+package cloud.piranha.resource.shrinkwrap;
 
 import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
 import static org.junit.Assert.assertNotNull;
@@ -61,7 +61,7 @@ public class DefaultResourceManagerTest {
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(resouce);
         
-        URL resourceUrl = manager.getResource("/WEB-INF/classes/com/manorrock/piranha/shrinkwrap/DefaultResourceManagerTest.class");
+        URL resourceUrl = manager.getResource("/WEB-INF/classes/cloud/piranha/resource/shrinkwrap/DefaultResourceManagerTest.class");
         
         assertNotNull(resourceUrl);
         
@@ -80,7 +80,7 @@ public class DefaultResourceManagerTest {
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(resouce);
         
-        InputStream resourceStream = manager.getResourceAsStream("/WEB-INF/classes/com/manorrock/piranha/shrinkwrap/DefaultResourceManagerTest.class");
+        InputStream resourceStream = manager.getResourceAsStream("/WEB-INF/classes/cloud/piranha/resource/shrinkwrap/DefaultResourceManagerTest.class");
         
         assertNotNull(resourceStream);
         
@@ -99,7 +99,7 @@ public class DefaultResourceManagerTest {
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(resouce);
         
-        URL resourceUrl = manager.getResource("/com/manorrock/piranha/shrinkwrap/DefaultResourceManagerTest.class");
+        URL resourceUrl = manager.getResource("/cloud/piranha/resource/shrinkwrap/DefaultResourceManagerTest.class");
         
         assertNotNull(resourceUrl);
         
@@ -118,7 +118,7 @@ public class DefaultResourceManagerTest {
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(resouce);
         
-        InputStream resourceStream = manager.getResourceAsStream("/com/manorrock/piranha/shrinkwrap/DefaultResourceManagerTest.class");
+        InputStream resourceStream = manager.getResourceAsStream("/cloud/piranha/resource/shrinkwrap/DefaultResourceManagerTest.class");
         
         assertNotNull(resourceStream);
         
