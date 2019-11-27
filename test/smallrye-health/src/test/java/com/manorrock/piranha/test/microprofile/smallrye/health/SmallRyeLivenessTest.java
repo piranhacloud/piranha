@@ -30,7 +30,7 @@ package com.manorrock.piranha.test.microprofile.smallrye.health;
 import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.api.WebApplication;
-import com.manorrock.piranha.smallrye.health.SmallRyeLivenessServlet;
+import cloud.piranha.smallrye.health.SmallRyeLivenessServlet;
 import com.manorrock.piranha.test.utils.TestHttpServletRequest;
 import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import cloud.piranha.cdi.weld.WeldInitializer;
