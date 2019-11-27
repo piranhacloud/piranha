@@ -28,7 +28,7 @@
 package com.manorrock.piranha.test.snoop;
 
 import cloud.piranha.api.WebApplication;
-import com.manorrock.piranha.micro.MicroPiranha;
+import cloud.piranha.micro.MicroPiranha;
 import cloud.piranha.servlet.webxml.WebXmlFeature;
 import java.io.IOException;
 import org.apache.http.HttpResponse;

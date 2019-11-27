@@ -25,9 +25,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.micro;
+package cloud.piranha.micro;
 
-import com.manorrock.piranha.micro.MicroPiranha;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -50,9 +49,9 @@ public class MicroPiranhaTest {
      */
     @Test
     public void testStart() throws Exception {
-        final MicroPiranha runner = new MicroPiranha();
-        runner.configure(new String[] {});
-        Thread thread = new Thread(runner);
+        final MicroPiranha piranha = new MicroPiranha();
+        piranha.configure(new String[] {});
+        Thread thread = new Thread(piranha);
         thread.start();
         try {
             HttpClient client = HttpClients.createDefault();
@@ -62,7 +61,7 @@ public class MicroPiranhaTest {
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
-        runner.stop();
+        piranha.stop();
         Thread.sleep(3000);
     }
 }
