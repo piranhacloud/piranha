@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.micro;
+package cloud.piranha.micro;
 
 import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultHttpServer;

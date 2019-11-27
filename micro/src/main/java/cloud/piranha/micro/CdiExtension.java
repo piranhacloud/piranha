@@ -23,52 +23,28 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.piranha.micro;
+package cloud.piranha.micro;
 
-import java.lang.reflect.Field;
-import java.util.Hashtable;
-
-import javax.naming.Context;
-import javax.naming.NamingException;
-import javax.naming.spi.InitialContextFactory;
-
-import com.manorrock.herring.DefaultInitialContext;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.BeforeBeanDiscovery;
+import javax.enterprise.inject.spi.Extension;
 
 /**
- * The default InitialContextFactory.
- *
- * @author Manfred Riem (mriem@manorrock.com)
+ * This extension registers an identity store in case callers (users) / credentials have been added
+ * to it.
+ * 
  * @author Arjan Tijms
+ *
  */
-public class DynamicInitialContextFactory implements InitialContextFactory {
-    
-    /**
-     * Stores the initial context.
-     */
-    private static final DefaultInitialContext INITIAL_CONTEXT = new DefaultInitialContext();
-    
-    /**
-     * Get the initial context.
-     *
-     * @param environment the environment.
-     * @return the initial context.
-     * @throws NamingException when a naming error occurs.
-     */
-    @Override
-    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
-        
-        try {
-            Field closedField = DefaultInitialContext.class.getDeclaredField("closed");
-            
-            closedField.setAccessible(true);
-            closedField.setBoolean(INITIAL_CONTEXT, false);
-            
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+public class CdiExtension implements Extension {
+
+    public void register(@Observes BeforeBeanDiscovery beforeBean, BeanManager beanManager) {
+        if (!InMemmoryIdentityStore.getCallerToCredentials().isEmpty()) {
+            beforeBean.addAnnotatedType(
+                beanManager.createAnnotatedType(InMemmoryIdentityStore.class), 
+                "Piranha " + InMemmoryIdentityStore.class.getName());
         }
-        
-        
-        return INITIAL_CONTEXT;
     }
+    
 }

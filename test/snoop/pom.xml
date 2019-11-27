@@ -33,6 +33,7 @@
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-micro</artifactId>
             <version>${project.version}</version>
+            <classifier>all</classifier>
             <scope>test</scope>
         </dependency>
         <dependency>
