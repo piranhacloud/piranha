@@ -51,12 +51,12 @@ public class HttpServletResponseTest {
     /**
      * Stores the HTTP servlet request.
      */
-    private TestHttpServletRequest request;
+    private TestWebApplicationRequest request;
 
     /**
      * Stores the HTTP servlet response.
      */
-    private TestHttpServletResponse response;
+    private TestWebApplicationResponse response;
 
     /**
      * Stores the web application.
@@ -70,11 +70,8 @@ public class HttpServletResponseTest {
      */
     @Before
     public void setUp() throws Exception {
-        request = new TestHttpServletRequest();
-        response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
+        request = new TestWebApplicationRequest();
+        response = new TestWebApplicationResponse();
         webApplication = new DefaultWebApplication();
         request.setWebApplication(webApplication);
         response.setWebApplication(webApplication);

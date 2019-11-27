@@ -118,8 +118,8 @@ public class DefaultHttpSessionManagerTest {
     public void testGetSession2() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         webApp.linkRequestAndResponse(request, response);
         HttpSession session = sessionManager.createSession(webApp, request);
         request.setRequestedSessionId(session.getId());

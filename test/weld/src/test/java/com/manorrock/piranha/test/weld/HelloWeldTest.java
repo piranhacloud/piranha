@@ -27,18 +27,15 @@
  */
 package com.manorrock.piranha.test.weld;
 
-import cloud.piranha.DefaultAliasedDirectoryResource;
-import cloud.piranha.DefaultDirectoryResource;
-import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.cdi.weld.WeldInitializer;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.faces.mojarra.MojarraInitializer;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import com.manorrock.piranha.test.utils.TestServletOutputStream;
-import java.io.File;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -54,28 +51,25 @@ public class HelloWeldTest {
      * @throws Exception
      */
     @Test
-    @Ignore
     public void testIndexHtml() throws Exception {
-        System.getProperties().put("java.naming.factory.initial", "com.manorrock.herring.DefaultInitialContextFactory");
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addResource(new DefaultAliasedDirectoryResource(new File("target/classes"), "/WEB-INF/classes"));
-        webApp.addInitializer(WeldInitializer.class.getName());
-        webApp.addInitializer(MojarraInitializer.class.getName());
-        webApp.initialize();
-        webApp.start();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setContextPath("");
-        request.setServletPath("/index.html");
-        request.setPathInfo(null);
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        webApp.service(request, response);
+        System.getProperties().put("java.naming.factory.initial", 
+                "com.manorrock.herring.DefaultInitialContextFactory");
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/main/webapp")
+                .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")
+                .initializer(WeldInitializer.class.getName())
+                .initializer(MojarraInitializer.class.getName())
+                .build()
+                .initialize()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/index.html")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
-        String responseString = new String(response.getResponseBody());
-        assertTrue(responseString.contains("Hello Weld"));
+        assertTrue(response.getResponseAsString().contains("Hello Weld"));
+        piranha.stop()
+                .destroy();
     }
 }

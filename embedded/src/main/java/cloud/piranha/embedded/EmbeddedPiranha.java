@@ -28,6 +28,7 @@
 package cloud.piranha.embedded;
 
 import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.api.WebApplication;
 import cloud.piranha.servlet.webxml.WebXmlFeature;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -55,21 +56,26 @@ public class EmbeddedPiranha {
     }
 
     /**
-     * Initialize the web application.
+     * Get the web application.
+     *
+     * @return the web application.
      */
-    public void initialize() {
+    public WebApplication getWebApplication() {
+        return webApplication;
+    }
+
+    /**
+     * Initialize the web application.
+     *
+     * @return the instance.
+     */
+    public EmbeddedPiranha initialize() {
         webApplication.initialize();
+        return this;
     }
 
     /**
      * Service method.
-     *
-     * <p>
-     * If you are passing in your own ServletContext we are going to assume you
-     * know what your are doing. If you did not supply one, we will supply ours,
-     * provided you used our companion EmbeddedRequest. If you did not use a
-     * EmbeddedRequest we again assume you know what you are doing.
-     * </p>
      *
      * @param servletRequest the request.
      * @param servletResponse the response.
@@ -83,27 +89,42 @@ public class EmbeddedPiranha {
             EmbeddedRequest embeddedRequest = (EmbeddedRequest) servletRequest;
             embeddedRequest.setWebApplication(webApplication);
         }
+        if (servletResponse instanceof EmbeddedResponse) {
+            EmbeddedResponse embeddedResponse = (EmbeddedResponse) servletResponse;
+            embeddedResponse.setWebApplication(webApplication);
+        }
+        webApplication.linkRequestAndResponse(servletRequest, servletResponse);
         webApplication.service(servletRequest, servletResponse);
+        webApplication.unlinkRequestAndResponse(servletRequest, servletResponse);
     }
 
     /**
      * Start the web application.
+     *
+     * @return the instance.
      */
-    public void start() {
+    public EmbeddedPiranha start() {
         webApplication.start();
+        return this;
     }
 
     /**
      * Stop the web application.
+     *
+     * @return the instance.
      */
-    public void stop() {
+    public EmbeddedPiranha stop() {
         webApplication.stop();
+        return this;
     }
 
     /**
      * Destroy the web application.
+     *
+     * @return the instance.
      */
-    public void destroy() {
+    public EmbeddedPiranha destroy() {
         webApplication.destroy();
+        return this;
     }
 }

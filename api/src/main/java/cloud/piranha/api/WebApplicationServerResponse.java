@@ -27,33 +27,17 @@
  */
 package cloud.piranha.api;
 
-import javax.servlet.ServletOutputStream;
-
 /**
  * The WebApplicationServerResponse API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface WebApplicationServerResponse extends WebApplicationResponse {
-    
-    /**
-     * Get the servlet output stream.
-     * 
-     * @return the servlet output stream.
-     */
-    ServletOutputStream getServletOutputStream();
 
-    /**
-     * Set the servlet output stream.
-     * 
-     * @param servletOutputStream the servlet output stream. 
-     */
-    void setServletOutputStream(ServletOutputStream servletOutputStream);
-    
     /**
      * Set the web application.
      * 
      * @param webApplication the web application.
      */
-    void setWebApplication(WebApplication webApplication);
+    public void setWebApplication(WebApplication webApplication);
 }

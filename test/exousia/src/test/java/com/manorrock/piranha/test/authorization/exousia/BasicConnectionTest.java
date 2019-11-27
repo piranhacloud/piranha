@@ -42,11 +42,12 @@ import org.junit.Test;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 
 /**
@@ -77,12 +78,17 @@ public class BasicConnectionTest {
                 .addServlet(PublicServlet.class, "/public/servlet")
                 .start();
         
-        TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "/public/servlet");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .webApplication(webApp)
+                .contextPath("")
+                .servletPath("/public/servlet")
+                .build();
+        
+        EmbeddedResponse response = new EmbeddedResponse();
+        
         webApp.service(request, response);
 
-        assertFalse(response.getResponseBodyAsString().contains("Hello, from Servlet!"));
+        assertFalse(response.getResponseAsString().contains("Hello, from Servlet!"));
     }
     
     /**
@@ -104,15 +110,20 @@ public class BasicConnectionTest {
                 .addServlet(PublicServlet.class, "/public/servlet")
                 .start();
         
-        TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "/public/servlet");
-        request.setScheme("https");
         
-        TestHttpServletResponse response = new TestHttpServletResponse();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .webApplication(webApp)
+                .contextPath("")
+                .servletPath("/public/servlet")
+                .scheme("https")
+                .build();
+        
+        EmbeddedResponse response = new EmbeddedResponse();
 
         webApp.service(request, response);
 
         assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseBodyAsString().contains("Hello, from Servlet!"));
+        assertTrue(response.getResponseAsString().contains("Hello, from Servlet!"));
     }
     
     @Test
@@ -129,14 +140,19 @@ public class BasicConnectionTest {
                 .addServlet(PublicServlet.class, "/public/servlet")
                 .start();
         
-        TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "/public/servlet");
-        request.setScheme("https");
         
-        TestHttpServletResponse response = new TestHttpServletResponse();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .webApplication(webApp)
+                .contextPath("")
+                .servletPath("/public/servlet")
+                .scheme("https")
+                .build();
+        
+        EmbeddedResponse response = new EmbeddedResponse();
 
         webApp.service(request, response);
 
         assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseBodyAsString().contains("Hello, from Servlet!"));
+        assertTrue(response.getResponseAsString().contains("Hello, from Servlet!"));
     }
 }

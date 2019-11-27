@@ -28,7 +28,6 @@
 package cloud.piranha;
 
 import cloud.piranha.api.WebApplicationServerResponse;
-import javax.servlet.ServletOutputStream;
 
 /**
  * The default WebApplicationServerResponse.
@@ -38,61 +37,4 @@ import javax.servlet.ServletOutputStream;
 public class DefaultWebApplicationServerResponse
         extends DefaultWebApplicationResponse
         implements WebApplicationServerResponse {
-
-    /**
-     * Stores the servlet output stream.
-     */
-    private ServletOutputStream servletOutputStream;
-   
-    /**
-     * Constructor.
-     */
-    public DefaultWebApplicationServerResponse() {
-    }
-
-    /**
-     * Get the buffer size.
-     *
-     * @return the buffer size.
-     */
-    @Override
-    public int getBufferSize() {
-        return 0;
-    }
-
-    /**
-     * Get the servlet output stream.
-     * 
-     * @return the servlet output stream.
-     */
-    @Override
-    public ServletOutputStream getServletOutputStream() {
-        return servletOutputStream;
-    }
-    
-    /**
-     * Reset the buffer.
-     */
-    @Override
-    public void resetBuffer() {
-    }
-
-    /**
-     * Set the buffer size.
-     *
-     * @param bufferSize the buffer size.
-     */
-    @Override
-    public void setBufferSize(int bufferSize) {
-    }
-
-    /**
-     * Set the servlet output stream.
-     * 
-     * @param servletOutputStream the servlet output stream.
-     */
-    @Override
-    public void setServletOutputStream(ServletOutputStream servletOutputStream) {
-        this.servletOutputStream = servletOutputStream;
-    }
 }

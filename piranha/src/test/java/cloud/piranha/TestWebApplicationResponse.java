@@ -25,52 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.embedded;
+package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplicationServletInputStream;
-import cloud.piranha.DefaultWebApplicationRequest;
-import java.io.IOException;
-import javax.servlet.ReadListener;
+import java.io.ByteArrayOutputStream;
 
 /**
- * The embedded ServletInputStream.
- * 
- * @author Manfr3ed Riem (mriem@manorrock.com)
+ * A Test WebApplicationResponse.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EmbeddedServletInputStream extends DefaultWebApplicationServletInputStream {
+public class TestWebApplicationResponse extends DefaultWebApplicationResponse {
 
     /**
-     * Stores the request.
+     * Constructor.
      */
-    private DefaultWebApplicationRequest request;
-    
+    public TestWebApplicationResponse() {
+        super();
+        this.bodyOnly = true;
+        this.outputStream = new ByteArrayOutputStream();
+    }
+
     /**
-     * Set the request.
-     * 
-     * @param request the request.
+     * Get the bytes in the buffer.
+     *
+     * @return the bytes in the buffer.
      */
-    @Override
-    public void setRequest(DefaultWebApplicationRequest request) {
-        this.request = request;
-    }
-
-    @Override
-    public boolean isFinished() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public boolean isReady() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setReadListener(ReadListener readListener) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int read() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public byte[] getResponseBytes() {
+        ByteArrayOutputStream output = (ByteArrayOutputStream) this.outputStream;
+        return output.toByteArray();
     }
 }

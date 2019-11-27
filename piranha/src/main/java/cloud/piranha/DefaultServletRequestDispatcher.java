@@ -30,17 +30,16 @@ package cloud.piranha;
 import static cloud.piranha.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cloud.piranha.api.CurrentRequestHolder;
+import cloud.piranha.api.WebApplicationResponse;
 
 /**
  * The default ServletRequestDispatcher.
@@ -177,7 +176,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     @Override
     public void include(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
         DefaultServletRequestDispatcherRequest req = new DefaultServletRequestDispatcherRequest();
-        DefaultServletRequestDispatcherResponse res = new DefaultServletRequestDispatcherResponse();
+        WebApplicationResponse res = (WebApplicationResponse) servletResponse;
 
         HttpServletRequest originalRequest = (HttpServletRequest) servletRequest;
 

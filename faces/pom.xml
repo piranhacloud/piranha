@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Faces - Project</name>
+    <name>Piranha Faces</name>
 
     <modules>
         <module>mojarra</module>

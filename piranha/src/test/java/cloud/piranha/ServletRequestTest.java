@@ -51,7 +51,7 @@ public class ServletRequestTest {
      */
     @Before
     public void setUp() throws Exception {
-        request = new TestHttpServletRequest();
+        request = new TestWebApplicationRequest();
     }
 
     /**

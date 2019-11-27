@@ -35,8 +35,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * The JUnit tests for testing everything related to the HttpServletRequestTest
- * API.
+ * The JUnit tests for testing everything related to the HttpServletRequest API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -54,7 +53,7 @@ public class HttpServletRequestTest {
      */
     @Before
     public void setUp() throws Exception {
-        httpServletRequest = new TestHttpServletRequest();
+        httpServletRequest = new TestWebApplicationRequest();
     }
 
     /**

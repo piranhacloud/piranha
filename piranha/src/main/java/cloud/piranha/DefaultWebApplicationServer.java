@@ -116,23 +116,18 @@ public class DefaultWebApplicationServer
      */
     private WebApplicationServerRequest createRequest(HttpServerRequest request) {
         DefaultWebApplicationServerRequest result = new DefaultWebApplicationServerRequest();
-        
         result.setLocalAddr(request.getLocalAddress());
         result.setLocalName(request.getLocalHostname());
         result.setLocalPort(request.getLocalPort());
-        
         result.setRemoteAddr(request.getRemoteAddress());
         result.setRemoteHost(request.getRemoteHostname());
         result.setRemotePort(request.getRemotePort());
-        
         result.setServerName(request.getLocalHostname());
         result.setServerPort(request.getLocalPort());
-        
         result.setMethod(request.getMethod());
         result.setContextPath(request.getRequestTarget());
         result.setServletPath("");
         result.setQueryString(request.getQueryString());
-        
         Iterator<String> headerNames = request.getHeaderNames();
         while (headerNames.hasNext()) {
             String name = headerNames.next();
@@ -162,10 +157,7 @@ public class DefaultWebApplicationServer
                 result.setCookies(cookieList.toArray(new Cookie[0]));
             }
         }
-        
-        DefaultWebApplicationServerInputStream inputStream
-                = new DefaultWebApplicationServerInputStream(request.getInputStream(), result);
-        result.setInputStream(inputStream);
+        result.setInputStream(request.getInputStream());
         return result;
     }
 
@@ -177,11 +169,7 @@ public class DefaultWebApplicationServer
      */
     public WebApplicationServerResponse createResponse(HttpServerResponse response) {
         DefaultWebApplicationServerResponse result = new DefaultWebApplicationServerResponse();
-        DefaultWebApplicationServerOutputStream outputStream = new DefaultWebApplicationServerOutputStream();
-        outputStream.setOutputStream(response.getOutputStream());
-        result.setOutputStream(outputStream);
-        outputStream.setResponse(result);
-        result.setServletOutputStream(outputStream);
+        result.setUnderlyingOutputStream(response.getOutputStream());
         return result;
     }
 
@@ -228,13 +216,7 @@ public class DefaultWebApplicationServer
         try {
             DefaultWebApplicationServerRequest serverRequest = (DefaultWebApplicationServerRequest) createRequest(request);
             DefaultWebApplicationServerResponse serverResponse = (DefaultWebApplicationServerResponse) createResponse(response);
-            try (DefaultWebApplicationServerOutputStream outputStream = (DefaultWebApplicationServerOutputStream) serverResponse.getServletOutputStream()) {
-                service(serverRequest, serverResponse);
-                if (!serverResponse.isCommitted()) {
-                    serverResponse.flushBuffer();
-                }
-                outputStream.flush();
-            }
+            service(serverRequest, serverResponse);
         } catch (Exception exception) {
             exception.printStackTrace(System.err);
         }
@@ -255,13 +237,13 @@ public class DefaultWebApplicationServer
             response.sendError(500);
             return;
         }
-        
+
         WebApplication webApplication = requestMapper.findMapping(requestUri);
         if (webApplication == null) {
             response.sendError(404);
             return;
         }
-        
+
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
@@ -270,7 +252,7 @@ public class DefaultWebApplicationServer
             request.setServletPath(requestUri.substring(contextPath.length()));
             request.setWebApplication(webApplication);
             response.setWebApplication(webApplication);
-            
+
             webApplication.service(request, response);
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);

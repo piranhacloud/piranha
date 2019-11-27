@@ -93,10 +93,10 @@ public class FilterTest {
         webApp.addServletMapping("End Servlet", "/multipleFilters");
         webApp.initialize();
         webApp.start();
-        TestHttpServletRequest request = new TestHttpServletRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setWebApplication(webApp);
         request.setServletPath("/multipleFilters");
-        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         webApp.service(request, response);
         assertEquals(200, response.getStatus());
@@ -212,10 +212,10 @@ public class FilterTest {
         webApp.addServletMapping("End Servlet", "/doFilter");
         webApp.initialize();
         webApp.start();
-        TestHttpServletRequest request = new TestHttpServletRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setWebApplication(webApp);
         request.setServletPath("/doFilter");
-        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         webApp.service(request, response);
         assertEquals(200, response.getStatus());

@@ -45,7 +45,6 @@ import com.manorrock.piranha.test.utils.TestWebApp;
  * @author Arjan Tijms
  * 
  */
-@Ignore
 public class JSFIncludeTest {
     
     TestWebApp webApp;

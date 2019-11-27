@@ -40,7 +40,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 
 import cloud.piranha.DefaultHttpHeader;
+import cloud.piranha.DefaultWebApplicationRequest;
+import cloud.piranha.DefaultWebApplicationResponse;
 import cloud.piranha.api.WebApplication;
+import java.io.ByteArrayOutputStream;
 
 /**
  * A test web app
@@ -76,14 +79,16 @@ public class TestWebApp {
     }
     
     public String fromServerPath(String method, String path, DefaultHttpHeader... headers) throws IOException {
-        return responseFromServerPath(method, path, headers).getResponseBodyAsString();
+        DefaultWebApplicationResponse response = responseFromServerPath(method, path, headers);
+        ByteArrayOutputStream outputStream = (ByteArrayOutputStream) response.getUnderlyingOutputStream();
+        return new String(outputStream.toByteArray());
     }
     
-    public TestHttpServletResponse getResponseFromServerPath(String path, DefaultHttpHeader... headers) throws IOException {
+    public DefaultWebApplicationResponse getResponseFromServerPath(String path, DefaultHttpHeader... headers) throws IOException {
         return responseFromServerPath("GET", path, headers);
     }
     
-    public TestHttpServletResponse responseFromServerPath(String method, String path, DefaultHttpHeader... headers) throws IOException {
+    public DefaultWebApplicationResponse responseFromServerPath(String method, String path, DefaultHttpHeader... headers) throws IOException {
         
         String servletPath = path;
 
@@ -99,8 +104,10 @@ public class TestWebApp {
         }
         
         try {
-            TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", servletPath);
-            
+            DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+            request.setWebApplication(webApp);
+            request.setContextPath("");
+            request.setServletPath(servletPath);
             request.setMethod(method);
             
             for (Map.Entry<String, String> parameter : parameters.entrySet()) {
@@ -123,7 +130,8 @@ public class TestWebApp {
                 request.setHeader(header.getName(), header.getValue());
             }
             
-            TestHttpServletResponse response = new TestHttpServletResponse();
+            DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+            response.setUnderlyingOutputStream(new ByteArrayOutputStream());
         
             webApp.service(request, response);
                         

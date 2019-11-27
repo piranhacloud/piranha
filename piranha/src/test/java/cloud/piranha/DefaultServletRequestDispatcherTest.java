@@ -27,8 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplicationRequestMapper;
-import cloud.piranha.DefaultWebApplication;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import static org.junit.Assert.assertTrue;
@@ -51,18 +49,15 @@ public class DefaultServletRequestDispatcherTest {
      */
     @Test
     public void testForward() throws Exception {
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream bufferOut = new TestServletOutputStream();
-        bufferOut.setResponse(response);
-        response.setOutputStream(bufferOut);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addServlet("Snoop", TestSnoopServlet.class);
         webApp.initialize();
         webApp.start();
         RequestDispatcher dispatcher = webApp.getNamedDispatcher("Snoop");
         dispatcher.forward(request, response);
-        String responseText = new String(response.getResponseBody());
+        String responseText = new String(response.getResponseBytes());
         webApp.stop();
         assertTrue(responseText.contains("<title>Snoop</title>"));
     }
@@ -74,11 +69,8 @@ public class DefaultServletRequestDispatcherTest {
      */
     @Test
     public void testForward2() throws Exception {
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream bufferOut = new TestServletOutputStream();
-        bufferOut.setResponse(response);
-        response.setOutputStream(bufferOut);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(new DefaultWebApplicationRequestMapper());
         webApp.addServlet("Snoop", TestSnoopServlet.class);
@@ -87,7 +79,7 @@ public class DefaultServletRequestDispatcherTest {
         webApp.start();
         RequestDispatcher dispatcher = webApp.getRequestDispatcher("/Snoop");
         dispatcher.forward(request, response);
-        String responseText = new String(response.getResponseBody());
+        String responseText = new String(response.getResponseBytes());
         webApp.stop();
         assertTrue(responseText.contains("<title>Snoop</title>"));
     }
@@ -99,11 +91,8 @@ public class DefaultServletRequestDispatcherTest {
      */
     @Test(expected = IOException.class)
     public void testForward3() throws Exception {
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream bufferOut = new TestServletOutputStream();
-        bufferOut.setResponse(response);
-        response.setOutputStream(bufferOut);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(new DefaultWebApplicationRequestMapper());
         webApp.addServlet("Error", TestIOExceptionServlet.class);
@@ -122,11 +111,8 @@ public class DefaultServletRequestDispatcherTest {
      */
     @Test(expected = RuntimeException.class)
     public void testForward4() throws Exception {
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream bufferOut = new TestServletOutputStream();
-        bufferOut.setResponse(response);
-        response.setOutputStream(bufferOut);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(new DefaultWebApplicationRequestMapper());
         webApp.addServlet("Runtime", TestRuntimeExceptionServlet.class);
@@ -143,13 +129,10 @@ public class DefaultServletRequestDispatcherTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test @Ignore
+    @Test
     public void testInclude() throws Exception {
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream bufferOut = new TestServletOutputStream();
-        bufferOut.setResponse(response);
-        response.setOutputStream(bufferOut);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addServlet("Echo", TestEcho1Servlet.class);
         webApp.initialize();
@@ -157,7 +140,7 @@ public class DefaultServletRequestDispatcherTest {
         webApp.linkRequestAndResponse(request, response);
         RequestDispatcher dispatcher = webApp.getNamedDispatcher("Echo");
         dispatcher.include(request, response);
-        String responseText = new String(response.getResponseBody());
+        String responseText = new String(response.getResponseBytes());
         webApp.unlinkRequestAndResponse(request, response);
         webApp.stop();
         assertTrue(responseText.contains("ECHO"));
@@ -168,13 +151,10 @@ public class DefaultServletRequestDispatcherTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test @Ignore
+    @Test
     public void testInclude2() throws Exception {
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream bufferOut = new TestServletOutputStream();
-        bufferOut.setResponse(response);
-        response.setOutputStream(bufferOut);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addServlet("Echo2", TestEcho2Servlet.class);
         webApp.initialize();
@@ -182,7 +162,7 @@ public class DefaultServletRequestDispatcherTest {
         webApp.linkRequestAndResponse(request, response);
         RequestDispatcher dispatcher = webApp.getNamedDispatcher("Echo2");
         dispatcher.include(request, response);
-        String responseText = new String(response.getResponseBody());
+        String responseText = new String(response.getResponseBytes());
         webApp.unlinkRequestAndResponse(request, response);
         webApp.stop();
         assertTrue(responseText.contains("ECHO"));

@@ -28,6 +28,7 @@
 package com.manorrock.piranha.test.security.soteria.auth.form;
 
 
+import cloud.piranha.DefaultWebApplicationResponse;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -37,7 +38,6 @@ import java.net.URL;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
 /**
@@ -71,7 +71,7 @@ public class FormTest {
         );
         
         
-        TestHttpServletResponse testResponse = getWebApp().responseFromServerPath ("POST", "/j_security_check?j_username=test&j_password=test");
+        DefaultWebApplicationResponse testResponse = getWebApp().responseFromServerPath ("POST", "/j_security_check?j_username=test&j_password=test");
 
         // TestWebApp is not following redirects, so check & handle manually here
         

@@ -27,9 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplicationServer;
-import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.DefaultHttpSessionManager;
 import cloud.piranha.api.WebApplication;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;

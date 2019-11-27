@@ -27,13 +27,36 @@
  */
 package cloud.piranha.api;
 
+import java.io.OutputStream;
+import java.util.Collection;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * The WebApplicationResponse API.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface WebApplicationResponse extends HttpServletResponse {
-    
+
+    /**
+     * Get the cookies.
+     *
+     * @return the cookies.
+     */
+    public Collection<Cookie> getCookies();
+
+    /**
+     * Get the underlying output stream.
+     *
+     * @return the underlying output stream.
+     */
+    OutputStream getUnderlyingOutputStream();
+
+    /**
+     * Set the underlying output stream.
+     *
+     * @param outputStream the underlying output stream.
+     */
+    void setUnderlyingOutputStream(OutputStream outputStream);
 }

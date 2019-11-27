@@ -35,6 +35,7 @@ import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
+import java.io.ByteArrayOutputStream;
 
 /**
  * The tests to verify Piranha Embedded works properly.
@@ -55,11 +56,13 @@ public class Embedded {
             EmbeddedRequest request = new EmbeddedRequest();
             request.setWebApplication(new DefaultWebApplication());
             EmbeddedResponse response = new EmbeddedResponse();
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            response.setUnderlyingOutputStream(output);
             embedded.initialize();
             embedded.start();
             embedded.service(request, response);
             embedded.stop();
-            result = response.getResponseAsString();
+            result = new String(output.toByteArray());
         } catch(IOException | ServletException e) {
             result = e.getMessage();
         }

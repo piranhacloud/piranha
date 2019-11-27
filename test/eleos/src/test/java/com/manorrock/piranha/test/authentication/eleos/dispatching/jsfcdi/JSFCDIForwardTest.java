@@ -59,7 +59,6 @@ public class JSFCDIForwardTest {
     }
 
     @Test
-    @Ignore
     public void testJSFwithCDIForwardViaPublicResource() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("public/servlet?tech=jsfcdi");
@@ -73,7 +72,6 @@ public class JSFCDIForwardTest {
     }
     
     @Test
-    @Ignore
     public void testJSFwithCDIForwardViaProtectedResource() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("protected/servlet?tech=jsfcdi");
