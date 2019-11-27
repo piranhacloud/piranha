@@ -34,7 +34,6 @@
         <!-- Core -->
         <module>api</module>
         <module>piranha</module>
-        <module>piranha-builder</module>
     
         <!-- Logical components -->
         <module>cdi</module>
@@ -57,6 +56,7 @@
         
         <!-- Connectors -->
         <module>arquillian</module>
+        <module>builder</module>
     </modules>
 
     <scm>

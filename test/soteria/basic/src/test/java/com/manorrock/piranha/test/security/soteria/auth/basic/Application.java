@@ -30,7 +30,7 @@ package com.manorrock.piranha.test.security.soteria.auth.basic;
 import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
 import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.CONSTRAINTS;
-import static com.manorrock.piranha.builder.WebApplicationBuilder.newWebApplication;
+import static cloud.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static java.util.Arrays.asList;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 
