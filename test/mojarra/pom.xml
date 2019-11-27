@@ -26,14 +26,14 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.faces</groupId>
-            <artifactId>piranha-faces-mojarra</artifactId>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-embedded</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha.test</groupId>
-            <artifactId>utils</artifactId>
+            <groupId>cloud.piranha.faces</groupId>
+            <artifactId>piranha-faces-mojarra</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

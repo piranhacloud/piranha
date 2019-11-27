@@ -27,17 +27,17 @@
  */
 package com.manorrock.piranha.test.faces.mojarra;
 
-import static cloud.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import cloud.piranha.DefaultDirectoryResource;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.faces.mojarra.MojarraInitializer;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 
 /**
  * The JUnit tests for the Hello Jakarta Faces web application.
@@ -54,16 +54,22 @@ public class MojarraTest {
      */
     @Test
     public void testNotFound() throws Exception {
-        WebApplication webApp = newWebApplication()
-                .addResource(new DefaultDirectoryResource("src/main/webapp"))
-                .addInitializer(MojarraInitializer.class)
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/main/webapp")
+                .initializer(MojarraInitializer.class.getName())
+                .build()
+                .initialize()
                 .start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest(
-                webApp, "", "/faces", "/notfound.html");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        webApp.service(request, response);
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .contextPath("")
+                .servletPath("/faces")
+                .pathInfo("/notfound.html")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertEquals(404, response.getStatus());
+        piranha.stop()
+                .destroy();
     }
 
     /**
@@ -73,15 +79,21 @@ public class MojarraTest {
      */
     @Test
     public void testIndexHtml() throws Exception {
-        WebApplication webApp = newWebApplication()
-                .addResource(new DefaultDirectoryResource("src/main/webapp"))
-                .addInitializer(MojarraInitializer.class)
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/main/webapp")
+                .initializer(MojarraInitializer.class.getName())
+                .build()
+                .initialize()
                 .start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "/index.html");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        webApp.service(request, response);
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .contextPath("")
+                .servletPath("/index.html")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseBodyAsString().contains("Hello Jakarta Faces"));
+        assertTrue(response.getResponseAsString().contains("Hello Jakarta Faces"));
+        piranha.stop()
+                .destroy();
     }
 }

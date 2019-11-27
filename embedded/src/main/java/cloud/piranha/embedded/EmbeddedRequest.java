@@ -40,6 +40,7 @@ public class EmbeddedRequest extends DefaultWebApplicationRequest {
      * Constructor.
      */
     public EmbeddedRequest() {
+        super();
         this.localAddress = "127.0.0.1";
         this.localName = "localhost";
         this.localPort = 80;

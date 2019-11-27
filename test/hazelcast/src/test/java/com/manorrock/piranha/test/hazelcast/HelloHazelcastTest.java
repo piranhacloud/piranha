@@ -27,13 +27,13 @@
  */
 package com.manorrock.piranha.test.hazelcast;
 
-import cloud.piranha.DefaultDirectoryResource;
-import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.faces.mojarra.MojarraInitializer;
 import cloud.piranha.session.hazelcast.HazelcastHttpSessionManager;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import com.manorrock.piranha.test.utils.TestServletOutputStream;
-import java.io.File;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -52,27 +52,23 @@ public class HelloHazelcastTest {
      */
     @Test
     public void testNotFound() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.setHttpSessionManager(new HazelcastHttpSessionManager());
-        webApp.addInitializer("cloud.piranha.faces.mojarra.MojarraInitializer");
-        webApp.initialize();
-        webApp.start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setContextPath("");
-        request.setServletPath("/faces");
-        request.setPathInfo("/notfound.html");
-
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-
-        webApp.service(request, response);
-
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/main/webapp")
+                .sessionManager(new HazelcastHttpSessionManager())
+                .initializer(MojarraInitializer.class.getName())
+                .build()
+                .initialize()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .contextPath("")
+                .servletPath("/faces")
+                .pathInfo("/notfound.html")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertEquals(404, response.getStatus());
+        piranha.stop()
+                .destroy();
     }
 
     /**
@@ -82,28 +78,22 @@ public class HelloHazelcastTest {
      */
     @Test
     public void testIndexHtml() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.setHttpSessionManager(new HazelcastHttpSessionManager());
-        webApp.addInitializer("cloud.piranha.faces.mojarra.MojarraInitializer");
-        webApp.initialize();
-        webApp.start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setContextPath("");
-        request.setServletPath("/index.html");
-        request.setPathInfo(null);
-
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-
-        webApp.service(request, response);
-
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/main/webapp")
+                .sessionManager(new HazelcastHttpSessionManager())
+                .initializer(MojarraInitializer.class.getName())
+                .build()
+                .initialize()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .contextPath("")
+                .servletPath("/index.html")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
-        String responseString = new String(response.getResponseBody());
-        assertTrue(responseString.contains("Hello Hazelcast"));
+        assertTrue(response.getResponseAsString().contains("Hello Hazelcast"));
+        piranha.stop()
+                .destroy();
     }
 }

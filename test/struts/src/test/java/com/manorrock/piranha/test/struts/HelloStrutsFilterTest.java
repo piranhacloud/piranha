@@ -27,13 +27,11 @@
  */
 package com.manorrock.piranha.test.struts;
 
-import cloud.piranha.DefaultDirectoryResource;
-import cloud.piranha.DefaultLoggingManager;
-import cloud.piranha.DefaultWebApplication;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import com.manorrock.piranha.test.utils.TestServletOutputStream;
-import java.io.File;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -52,27 +50,22 @@ public class HelloStrutsFilterTest {
      */
     @Test
     public void testGetMethod() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setLoggingManager(new DefaultLoggingManager());
-        webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addFilter("struts2", "org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter");
-        webApp.addFilterMapping("struts2", "*.action");
-        webApp.addInitializer("cloud.piranha.pages.jasper.JasperInitializer");
-        webApp.initialize();
-        webApp.start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/HelloWorld.action");
-
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-
-        webApp.service(request, response);
-
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/main/webapp")
+                .filter("struts2", "org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter")
+                .filterMapping("struts2", "*.action")
+                .initializer("cloud.piranha.pages.jasper.JasperInitializer")
+                .build()
+                .initialize()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/HelloWorld.action")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
-        assertTrue(new String(response.getResponseBody()).contains("Hello World Struts"));
+        assertTrue(response.getResponseAsString().contains("Hello World Struts"));
+        piranha.stop()
+                .destroy();
     }
 }

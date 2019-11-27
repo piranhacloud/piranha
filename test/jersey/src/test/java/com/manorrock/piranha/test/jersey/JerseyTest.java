@@ -27,13 +27,11 @@
  */
 package com.manorrock.piranha.test.jersey;
 
-import cloud.piranha.DefaultDirectoryResource;
-import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.servlet.webxml.WebXmlFeature;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import com.manorrock.piranha.test.utils.TestServletInputStream;
-import java.io.File;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -52,23 +50,19 @@ public class JerseyTest {
      */
     @Test
     public void testHello() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addFeature(new WebXmlFeature());
-        webApp.initialize();
-        webApp.start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setInputStream(new TestServletInputStream("input".getBytes(), request));
-        request.setContextPath("");
-        request.setServletPath("/rest");
-        request.setPathInfo("/hello");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        
-        webApp.service(request, response);
-        
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/main/webapp")
+                .build()
+                .initialize()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .contextPath("")
+                .servletPath("/rest")
+                .pathInfo("/hello")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
-        assertTrue(new String(response.getResponseBody()).contains("Hello"));
+        assertTrue(response.getResponseAsString().contains("Hello"));
     }
 }

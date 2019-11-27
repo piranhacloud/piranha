@@ -27,11 +27,12 @@
  */
 package com.manorrock.piranha.test.snoop;
 
-import cloud.piranha.DefaultDirectoryResource;
-import cloud.piranha.DefaultWebApplication;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import java.io.File;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.embedded.EmbeddedResponseBuilder;
 import javax.servlet.http.Cookie;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -51,23 +52,22 @@ public class SnoopServletTest {
      */
     @Test
     public void testGetMethod() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setWebApplication(webApp);
-
-        TestHttpServletResponse response = new TestHttpServletResponse();
-
-        webApp.linkRequestAndResponse(request, response);
-
-        SnoopServlet servlet = new SnoopServlet();
-        servlet.service(request, response);
-
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .servletMapping("Snoop", "/Snoop")
+                .servlet("Snoop", SnoopServlet.class.getName())
+                .build()
+                .initialize()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/Snoop")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponseBuilder()
+                .build();
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
-        assertTrue(new String(response.getResponseBody()).contains("Snoop"));
-
-        webApp.unlinkRequestAndResponse(request, response);
+        assertTrue(response.getResponseAsString().contains("Snoop"));
+        piranha.stop()
+                .destroy();
     }
 
     /**
@@ -77,27 +77,24 @@ public class SnoopServletTest {
      */
     @Test
     public void testGetMethod2() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addServletMapping("Snoop", "/Snoop");
-        webApp.addServlet("Snoop", "com.manorrock.piranha.test.snoop.SnoopServlet");
-        webApp.initialize();
-        webApp.start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/Snoop");
-        request.setWebApplication(webApp);
-        request.setParameter("Snoop", new String[] { "Snoop" });
-        request.setAttribute("Snoop", "Snoop");
-        Cookie cookie = new Cookie("COOKIE", "COOKIE");
-        request.setCookies(new Cookie[] { cookie });
-        TestHttpServletResponse response = new TestHttpServletResponse();
-
-        webApp.service(request, response);
-
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .servletMapping("Snoop", "/Snoop")
+                .servlet("Snoop", SnoopServlet.class.getName())
+                .build()
+                .initialize()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/Snoop")
+                .attribute("Snoop", "Snoop")
+                .parameter("Snoop", "Snoop")
+                .cookie(new Cookie("COOKIE", "COOKIE"))
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
-        assertTrue(new String(response.getResponseBody()).contains("Snoop"));
+        assertTrue(response.getResponseAsString().contains("Snoop"));
+        piranha.stop()
+                .destroy();
     }
 
     /**
@@ -107,27 +104,24 @@ public class SnoopServletTest {
      */
     @Test
     public void testPostMethod() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addServletMapping("Snoop", "/Snoop");
-        webApp.addServlet("Snoop", "com.manorrock.piranha.test.snoop.SnoopServlet");
-        webApp.initialize();
-        webApp.start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/Snoop");
-        request.setWebApplication(webApp);
-        request.setParameter("Snoop", new String[] { "Snoop" });
-        request.setAttribute("Snoop", "Snoop");
-        request.setMethod("POST");
-        Cookie cookie = new Cookie("COOKIE", "COOKIE");
-        request.setCookies(new Cookie[] { cookie });
-        TestHttpServletResponse response = new TestHttpServletResponse();
-
-        webApp.service(request, response);
-
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .servletMapping("Snoop", "/Snoop")
+                .servlet("Snoop", SnoopServlet.class.getName())
+                .build()
+                .initialize()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .method("POST")
+                .servletPath("/Snoop")
+                .attribute("Snoop", "Snoop")
+                .parameter("Snoop", "Snoop")
+                .cookie(new Cookie("COOKIE", "COOKIE"))
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
-        assertTrue(new String(response.getResponseBody()).contains("Snoop"));
+        assertTrue(response.getResponseAsString().contains("Snoop"));
+        piranha.stop()
+                .destroy();
     }
 }

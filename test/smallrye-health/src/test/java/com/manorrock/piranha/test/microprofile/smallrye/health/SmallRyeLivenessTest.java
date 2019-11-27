@@ -29,11 +29,13 @@ package com.manorrock.piranha.test.microprofile.smallrye.health;
 
 import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.api.WebApplication;
 import cloud.piranha.smallrye.health.SmallRyeLivenessServlet;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
 import cloud.piranha.cdi.weld.WeldInitializer;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -53,18 +55,25 @@ public class SmallRyeLivenessTest {
     @Test
     public void testHealth() throws Exception {
         System.getProperties().put("java.naming.factory.initial", "com.manorrock.herring.DefaultInitialContextFactory");
-        WebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource("src/main/webapp"));
-        webApp.addInitializer(WeldInitializer.class.getName());
-        webApp.addServlet("Liveness", SmallRyeLivenessServlet.class.getName());
-        webApp.addServletMapping("Liveness", "/health/live");
-        webApp.initialize();
-        webApp.start();
-        TestHttpServletRequest request = new TestHttpServletRequest(webApp, "", "", "/health/live");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        webApp.service(request, response);
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/main/webapp")
+                .initializer(WeldInitializer.class.getName())
+                .servlet("Liveness", SmallRyeLivenessServlet.class.getName())
+                .servletMapping("Liveness", "/health/live")
+                .build()
+                .initialize()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .contextPath("")
+                .servletPath("")
+                .pathInfo("/health/live")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseBodyAsString().contains("status"));
-        assertTrue(response.getResponseBodyAsString().contains("UP"));
+        assertTrue(response.getResponseAsString().contains("status"));
+        assertTrue(response.getResponseAsString().contains("UP"));
+        piranha.stop()
+                .destroy();
     }
 }

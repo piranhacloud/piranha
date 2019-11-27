@@ -25,75 +25,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.embedded;
 
-import cloud.piranha.DefaultWebApplicationResponse;
-import java.util.List;
-import javax.servlet.http.Cookie;
+import cloud.piranha.DefaultWebApplication;
 
 /**
- * A test HTTP servlet response.
- *
+ * The Embedded response builder.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestHttpServletResponse extends DefaultWebApplicationResponse {
+public class EmbeddedResponseBuilder {
+    
+    /**
+     * Stores the response.
+     */
+    private final EmbeddedResponse response;
 
     /**
      * Constructor.
      */
-    public TestHttpServletResponse() {
-        super();
-        this.outputStream = new TestServletOutputStream();
+    public EmbeddedResponseBuilder() {
+        response = new EmbeddedResponse();
     }
 
     /**
-     * Get the cookies.
-     *
-     * @return the cookies.
+     * Build the response.
+     * 
+     * @return the response.
      */
-    public List<Cookie> getCookies() {
-        return cookies;
+    public EmbeddedResponse build() {
+        return response;
     }
-
+    
     /**
-     * Get the buffer size.
-     *
-     * @return the buffer size.
+     * Set the web application.
+     * 
+     * @param webApp the web application.
+     * @return the builder.
      */
-    @Override
-    public int getBufferSize() {
-        return 0;
-    }
-
-    /**
-     * Get the bytes in the buffer.
-     *
-     * @return the bytes in the buffer.
-     */
-    public byte[] getResponseBody() {
-        if (this.gotWriter) {
-            this.writer.flush();
-        }
-        TestServletOutputStream output = (TestServletOutputStream) this.outputStream;
-        return output.getBytes();
-    }
-
-    /**
-     * Reset the buffer.
-     */
-    @Override
-    public void resetBuffer() {
-        verifyNotCommitted("resetBuffer");
-        TestServletOutputStream output = (TestServletOutputStream) this.outputStream;
-        output.reset();
-    }
-
-    /**
-     * Set the buffer size.
-     *
-     * @param size the buffer size.
-     */
-    @Override
-    public void setBufferSize(int size) {
+    public EmbeddedResponseBuilder webApplication(DefaultWebApplication webApp) {
+        response.setWebApplication(webApp);
+        return this;
     }
 }

@@ -28,74 +28,39 @@
 package cloud.piranha.embedded;
 
 import cloud.piranha.DefaultWebApplicationResponse;
+import java.io.ByteArrayOutputStream;
 
 /**
- * The embedded version of a ServletResponse.
- * 
+ * The Embedded version of a WebApplicationResponse.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class EmbeddedResponse extends DefaultWebApplicationResponse {
-    
+
     /**
      * Constructor.
      */
     public EmbeddedResponse() {
-        EmbeddedServletOutputStream embeddedOutputStream = new EmbeddedServletOutputStream();
-        embeddedOutputStream.setResponse(this);
-        outputStream = embeddedOutputStream;
+        this.bodyOnly = true;
+        this.outputStream = new ByteArrayOutputStream();
     }
 
     /**
-     * Get the buffer size.
-     * 
-     * @return the buffer size.
+     * Get the response as a byte array.
+     *
+     * @return the body.
      */
-    @Override
-    public int getBufferSize() {
-        return getEmbeddedOutputStream().getBufferSize();
-    }
-    
-    /**
-     * Get the embedded output stream.
-     * 
-     * @return the embedded output stream.
-     */
-    public EmbeddedServletOutputStream getEmbeddedOutputStream() {
-        return (EmbeddedServletOutputStream) outputStream;
-    }
-
-    /**
-     * Get the response as a byte-array.
-     * 
-     * @return the response as a byte-array.
-     */
-    public byte[] getResponseAsButes() {
-        return getEmbeddedOutputStream().getBytes();
+    public byte[] getResponseAsByteArray() {
+        ByteArrayOutputStream byteOutputStream = (ByteArrayOutputStream) outputStream;
+        return byteOutputStream.toByteArray();
     }
 
     /**
      * Get the response as a string.
-     * 
+     *
      * @return the response as a string.
      */
     public String getResponseAsString() {
-        return new String(getEmbeddedOutputStream().getBytes());
-    }
-
-    /**
-     * Reset the buffer.
-     */
-    @Override
-    public void resetBuffer() {
-        getEmbeddedOutputStream().reset();
-    }
-
-    /**
-     * Set the buffer size.
-     * 
-     * @param bufferSize the buffer size. 
-     */
-    @Override
-    public void setBufferSize(int bufferSize) {
+        return new String(getResponseAsByteArray());
     }
 }

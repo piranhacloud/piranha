@@ -59,7 +59,6 @@ public class JSFForwardTest {
     }
 
     @Test
-    @Ignore
     public void testJSFForwardViaPublicResource() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("public/servlet?tech=jsf");
@@ -70,7 +69,6 @@ public class JSFForwardTest {
     }
     
     @Test
-    @Ignore
     public void testJSFForwardViaProtectedResource() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("protected/servlet?tech=jsf");

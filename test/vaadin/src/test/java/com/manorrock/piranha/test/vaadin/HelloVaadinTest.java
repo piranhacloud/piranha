@@ -27,47 +27,46 @@
  */
 package com.manorrock.piranha.test.vaadin;
 
-import cloud.piranha.DefaultDirectoryResource;
-import cloud.piranha.DefaultWebApplication;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import com.manorrock.piranha.test.utils.TestServletOutputStream;
-import java.io.File;
-import org.junit.Test;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
 import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 /**
  * The JUnit tests for the Vaadin tests.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HelloVaadinTest {
+
     /**
      * Test index.html page.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
     public void testIndexHtmlPage() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addServletMapping("Vaadin", "/*");
-        webApp.addServlet("Vaadin", "com.manorrock.piranha.test.vaadin.HelloVaadinServlet");
-        webApp.initialize();
-        webApp.start();
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/index.html");
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        response.setWebApplication(webApp);
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        webApp.service(request, response);
+        System.getProperties().put("java.naming.factory.initial", 
+                "com.manorrock.herring.DefaultInitialContextFactory");
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/main/webapp")
+                .servletMapping("Vaadin", "/*")
+                .servlet("Vaadin", "com.manorrock.piranha.test.vaadin.HelloVaadinServlet")
+                .build()
+                .initialize()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/index.html")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
-        assertTrue(new String(response.getResponseBody()).contains("Vaadin"));
-        webApp.stop();
-        webApp.destroy();
+        assertTrue(response.getResponseAsString().contains("Vaadin"));
+        piranha.stop()
+                .destroy();
     }
 }

@@ -27,10 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.DefaultHttpServer;
-import cloud.piranha.DefaultWebApplicationServerRequestMapper;
-import cloud.piranha.DefaultWebApplicationServer;
 import cloud.piranha.api.HttpServer;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
@@ -39,6 +35,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -103,18 +100,18 @@ public class DefaultWebApplicationServerTest {
     @Test
     public void testProcess() throws Exception {
         DefaultWebApplicationServer server = new DefaultWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(7000, server);
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setContextPath("/context");
-        webApp.addServlet("snoop", new TestSnoopServlet());
-        webApp.addServletMapping("snoop", "/snoop/*");
-        server.addWebApplication(webApp);
+        HttpServer httpServer = new DefaultHttpServer(8080, server);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("/context");
+        application.addServlet("snoop", new TestSnoopServlet());
+        application.addServletMapping("snoop", "/snoop/*");
+        server.addWebApplication(application);
         server.initialize();
         server.start();
         httpServer.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:7000/context/snoop/index.html");
+            HttpGet request = new HttpGet("http://localhost:8080/context/snoop/index.html");
             HttpResponse response = client.execute(request);
             assertEquals(200, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {

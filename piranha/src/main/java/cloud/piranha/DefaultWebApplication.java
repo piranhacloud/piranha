@@ -99,13 +99,15 @@ import cloud.piranha.api.WebXmlManager;
  * The default WebApplication.
  *
  * <p>
- * The <code>filters</code> field is backed by a LinkedHashMap so we get an insertion-order key set. If you change this,
- * be aware that methods using this field should be changed to account for that.
+ * The <code>filters</code> field is backed by a LinkedHashMap so we get an
+ * insertion-order key set. If you change this, be aware that methods using this
+ * field should be changed to account for that.
  * </p>
  *
  * <p>
- * The <code>servlets</code> field is backed by a LinkedHashMap so we get an insertion-order key set. If you change
- * this, be aware that methods using this field should be changed to account for that.
+ * The <code>servlets</code> field is backed by a LinkedHashMap so we get an
+ * insertion-order key set. If you change this, be aware that methods using this
+ * field should be changed to account for that.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -137,7 +139,6 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected static final int SERVICING = 2;
 
-
     /**
      * Stores the class loader.
      */
@@ -147,7 +148,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the context path.
      */
     protected String contextPath;
-    
+
     /**
      * Stores the servlet context name.
      */
@@ -157,33 +158,29 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the virtual server name.
      */
     protected String virtualServerName = "server";
-    
+
     /**
      * Stores the response character encoding.
      */
     protected String responseCharacterEncoding;
 
-    
     // ### Volatile state
-    
     /**
      * Stores the status.
      */
     protected int status;
-    
+
     /**
      * Stores the active requests and the associated response.
      */
     protected final Map<ServletRequest, ServletResponse> requests;
-    
+
     /**
      * Stores the active responses and the associated requests.
      */
     protected final Map<ServletResponse, ServletRequest> responses;
-    
-    
-    // ### Application parts
 
+    // ### Application parts
     /**
      * Stores our features.
      */
@@ -193,35 +190,32 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the servlet container initializers.
      */
     protected final List<ServletContainerInitializer> initializers;
-    
+
     /**
      * Stores the init parameters.
      */
     protected final Map<String, String> initParameters;
-    
+
     /**
      * Stores the attributes.
      */
     protected final Map<String, Object> attributes;
-    
+
     /**
      * Stores the servlets.
      */
     protected final Map<String, DefaultServletEnvironment> servlets;
-    
+
     /**
      * Stores the filters.
      */
     protected final Map<String, DefaultFilterEnvironment> filters;
-    
+
     protected final Map<Integer, String> errorPagesByCode = new HashMap<>();
-    
+
     protected final Map<String, String> errorPagesByException = new HashMap<>();
-    
-  
-    
+
     // ### Listeners
-    
     /**
      * Stores the servlet context attribute listeners.
      */
@@ -231,15 +225,13 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the servlet context listeners.
      */
     protected final ArrayList<ServletContextListener> contextListeners;
-    
+
     /**
      * Stores the servlet request listeners.
      */
     protected final List<ServletRequestListener> requestListeners;
-    
-    
+
     // ### Managers
-    
     /**
      * Stores the object instance manager.
      */
@@ -249,22 +241,22 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the annotation manager.
      */
     protected AnnotationManager annotationManager;
-    
+
     /**
      * Stores the resource manager.
      */
     protected ResourceManager resourceManager;
-    
+
     /**
      * Stores the session manager.
      */
     protected HttpSessionManager httpSessionManager;
-    
+
     /**
      * Stores the security manager.
      */
     protected SecurityManager securityManager;
-    
+
     /**
      * Stores the JSP manager.
      */
@@ -274,7 +266,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the logging manager.
      */
     protected LoggingManager loggingManager;
-    
+
     /**
      * Stores the request manager.
      */
@@ -290,16 +282,12 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected String requestCharacterEncoding;
 
-
-
-
     // ### Mappers
-
     /**
      * Stores the web application request mapper.
      */
     protected WebApplicationRequestMapper webApplicationRequestMapper;
-    
+
     /**
      * Stores the web.xml manager.
      */
@@ -357,11 +345,11 @@ public class DefaultWebApplication implements WebApplication {
         if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has started");
         }
-        
+
         if (filterName == null || filterName.trim().equals("")) {
             throw new IllegalArgumentException("Filter name cannot be null or empty");
         }
-        
+
         DefaultFilterEnvironment defaultFilterEnvironment;
         if (filters.containsKey(filterName)) {
             defaultFilterEnvironment = filters.get(filterName);
@@ -372,7 +360,7 @@ public class DefaultWebApplication implements WebApplication {
             filters.put(filterName, defaultFilterEnvironment);
         }
         defaultFilterEnvironment.setClassName(className);
-        
+
         return defaultFilterEnvironment;
     }
 
@@ -389,11 +377,11 @@ public class DefaultWebApplication implements WebApplication {
         if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has started");
         }
-        
+
         if (filterName == null || filterName.trim().equals("")) {
             throw new IllegalArgumentException("Filter name cannot be null or empty");
         }
-        
+
         DefaultFilterEnvironment filterEnvironment;
         if (filters.containsKey(filterName)) {
             filterEnvironment = filters.get(filterName);
@@ -404,7 +392,7 @@ public class DefaultWebApplication implements WebApplication {
             filters.put(filterName, filterEnvironment);
         }
         filterEnvironment.setClassName(filterClass.getCanonicalName());
-        
+
         return filterEnvironment;
     }
 
@@ -420,12 +408,12 @@ public class DefaultWebApplication implements WebApplication {
         if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has started");
         }
-        
+
         DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment(this, filterName, filter);
         filters.put(filterName, filterEnvironment);
-        
+
         return filterEnvironment;
-        
+
     }
 
     /**
@@ -434,7 +422,8 @@ public class DefaultWebApplication implements WebApplication {
      * @param filterName the filter name.
      * @param urlPatterns the URL patterns.
      * @return the possible empty set of already mapped URL patterns.
-     * @see FilterRegistration#addMappingForUrlPatterns(EnumSet, boolean, String...)
+     * @see FilterRegistration#addMappingForUrlPatterns(EnumSet, boolean,
+     * String...)
      */
     @Override
     public Set<String> addFilterMapping(String filterName, String... urlPatterns) {
@@ -486,7 +475,7 @@ public class DefaultWebApplication implements WebApplication {
         if (status != SETUP) {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
-        
+
         try {
             @SuppressWarnings("unchecked")
             Class<EventListener> clazz = (Class<EventListener>) getClassLoader().loadClass(className);
@@ -505,7 +494,7 @@ public class DefaultWebApplication implements WebApplication {
         if (status != SETUP) {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
-        
+
         try {
             EventListener listener = createListener(type);
             addListener(listener);
@@ -583,7 +572,7 @@ public class DefaultWebApplication implements WebApplication {
         } else {
             result.setClassName(className);
         }
-        
+
         return result;
     }
 
@@ -612,12 +601,12 @@ public class DefaultWebApplication implements WebApplication {
     public Set<String> addServletMapping(String servletName, String... urlPatterns) {
         return webApplicationRequestMapper.addServletMapping(servletName, urlPatterns);
     }
-    
+
     @Override
     public void addErrorPage(int code, String location) {
         errorPagesByCode.put(code, location);
     }
-    
+
     @Override
     public void addErrorPage(String exception, String location) {
         errorPagesByException.put(exception, location);
@@ -653,12 +642,12 @@ public class DefaultWebApplication implements WebApplication {
                 || result instanceof HttpSessionIdListener || result instanceof HttpSessionListener) {
             ok = true;
         }
-        
+
         if (!ok) {
             LOGGER.log(WARNING, "Unable to create listener: {0}", clazz);
             throw new IllegalArgumentException("Invalid type");
         }
-        
+
         return result;
     }
 
@@ -1018,7 +1007,7 @@ public class DefaultWebApplication implements WebApplication {
                 requestDispatcher = getNamedDispatcher(servletName, path);
             }
         }
-        
+
         return requestDispatcher;
     }
 
@@ -1215,7 +1204,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Get the web.xml manager.
-     * 
+     *
      * @return the web.xml manager.
      */
     @Override
@@ -1229,7 +1218,7 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void initialize() {
         LOGGER.log(FINE, "Initializing web application at {0}", contextPath);
-        
+
         verifyState(SETUP, "Unable to initialize web application");
         try {
             initializeFeatures();
@@ -1304,13 +1293,13 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Initialize the servlet.
-     * 
+     *
      * @param environment the default servlet environment.
      */
     private void initializeServlet(DefaultServletEnvironment environment) {
         try {
             LOGGER.log(FINE, "Initializing servlet: {0}", environment.servletName);
-            
+
             if (environment.getServlet() == null) {
                 Class clazz = environment.getServletClass();
                 if (clazz == null) {
@@ -1331,9 +1320,8 @@ public class DefaultWebApplication implements WebApplication {
             if (LOGGER.isLoggable(WARNING)) {
                 LOGGER.log(WARNING, "Unable to initialize servlet: " + environment.className, exception);
             }
-            
+
             // Should not throw exception here instead of effectively ignoring?
-            
             environment.setServlet(null);
             environment.setStatus(DefaultServletEnvironment.UNAVAILABLE);
         }
@@ -1407,22 +1395,22 @@ public class DefaultWebApplication implements WebApplication {
     public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
         verifyState(SERVICING, "Unable to service request");
         verifyRequestResponseTypes(request, response);
-        
+
         linkRequestAndResponse(request, response);
         requestInitialized(request);
-        
+
         DefaultWebApplicationRequest httpRequest = (DefaultWebApplicationRequest) request;
         DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
-        
+
         // Obtain a reference to the target resource (target Servlet)
         Servlet servlet = getTargetServlet(httpRequest);
         if (servlet == null) {
             servlet = new DefaultServlet();
         }
-        
+
         // Invoke the Servlet, or first the Filter chain and then the Servlet
         List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(httpRequest);
-        
+
         Exception exception = null;
         try {
             if (filterEnvironments == null) {
@@ -1431,43 +1419,47 @@ public class DefaultWebApplication implements WebApplication {
                 getFilterChain(filterEnvironments, servlet).doFilter(request, response);
             }
         } catch (Exception e) {
-           exception = e;
+            exception = e;
         }
-        
+
         String location = null;
         if (exception != null) {
             location = errorPagesByException.get(exception.getClass().getName());
         } else if (httpResponse.getStatus() >= 400 && httpResponse.getStatus() <= 500) {
             location = errorPagesByCode.get(httpResponse.getStatus());
         }
-        
+
         if (location != null) {
             request.getRequestDispatcher(location)
-                   .forward(httpRequest, httpResponse);
+                    .forward(httpRequest, httpResponse);
         } else if (exception != null) {
             rethrow(exception);
         }
-        
+
+        if (!httpResponse.isCommitted() && !httpRequest.isAsyncStarted()) {
+            httpResponse.flushBuffer();
+        }
+
         requestDestroyed(request);
         unlinkRequestAndResponse(request, response);
     }
-    
+
     private void rethrow(Exception exception) throws ServletException, IOException {
         if (exception instanceof ServletException) {
             throw (ServletException) exception;
         }
-        
+
         if (exception instanceof IOException) {
             throw (IOException) exception;
         }
-        
+
         if (exception instanceof RuntimeException) {
             throw (RuntimeException) exception;
         }
-            
+
         throw new IllegalStateException(exception);
     }
-    
+
     /**
      * Set the attribute.
      *
@@ -1719,31 +1711,29 @@ public class DefaultWebApplication implements WebApplication {
         requests.remove(request);
         responses.remove(response);
     }
-    
-    
+
     // ### Private methods
-    
     private void verifyRequestResponseTypes(ServletRequest request, ServletResponse response) throws ServletException {
         if (!(request instanceof DefaultWebApplicationRequest && response instanceof DefaultWebApplicationResponse)) {
             throw new ServletException("Invalid request or response");
         }
     }
-    
+
     private Servlet getTargetServlet(DefaultWebApplicationRequest httpRequest) {
         String path = httpRequest.getServletPath() + (httpRequest.getPathInfo() == null ? "" : httpRequest.getPathInfo());
         WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
         if (mapping == null) {
             return null;
         }
-        
+
         String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
         if (servletName == null || !servlets.containsKey(servletName)) {
             return null;
         }
-        
+
         Servlet targetServlet = servlets.get(servletName).getServlet();
         httpRequest.asyncSupported = servlets.get(servletName).asyncSupported;
-        
+
         if (mapping.isExact()) {
             httpRequest.setServletPath(path);
             httpRequest.setPathInfo(null);
@@ -1751,7 +1741,7 @@ public class DefaultWebApplication implements WebApplication {
             httpRequest.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
             httpRequest.setPathInfo(path.substring(mapping.getPath().length() - 2));
         }
-        
+
         return targetServlet;
     }
 
@@ -1764,7 +1754,7 @@ public class DefaultWebApplication implements WebApplication {
             upFilterChain = new DefaultFilterChain(filterEnvironment.getFilter(), downFilterChain);
             downFilterChain = upFilterChain;
         }
-        
+
         return downFilterChain;
     }
 
@@ -1779,10 +1769,10 @@ public class DefaultWebApplication implements WebApplication {
             throw new RuntimeException(message);
         }
     }
-    
+
     /**
      * Fire the request initialized event
-     * 
+     *
      * @param request the request
      */
     private void requestInitialized(ServletRequest request) {
@@ -1792,10 +1782,10 @@ public class DefaultWebApplication implements WebApplication {
             });
         }
     }
-    
+
     /**
      * Fire the request destroyed event
-     * 
+     *
      * @param request the request
      */
     private void requestDestroyed(ServletRequest request) {

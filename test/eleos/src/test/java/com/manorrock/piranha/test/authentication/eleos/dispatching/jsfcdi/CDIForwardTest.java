@@ -65,7 +65,6 @@ public class CDIForwardTest {
      * @throws SAXException
      */
     @Test
-    @Ignore
     public void testCDIForwardViaPublicResource() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("public/servlet");
@@ -101,7 +100,6 @@ public class CDIForwardTest {
      * @throws SAXException
      */
     @Test
-    @Ignore
     public void testCDIForwardWithRequestPublic() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("public/servlet");
@@ -119,7 +117,6 @@ public class CDIForwardTest {
      * @throws SAXException
      */
     @Test
-    @Ignore
     public void testCDIForwardWithRequestProtected() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("protected/servlet");
@@ -169,7 +166,6 @@ public class CDIForwardTest {
      * @throws SAXException
      */
     @Test
-    @Ignore
     public void testCDIForwardWithRequestInjectProtected() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("protected/servlet");

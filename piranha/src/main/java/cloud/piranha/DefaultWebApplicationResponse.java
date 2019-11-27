@@ -30,6 +30,7 @@ package cloud.piranha;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.api.WebApplicationResponse;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
@@ -38,19 +39,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import static javax.servlet.http.HttpServletResponse.SC_FOUND;
 
 /**
- * The DefaultWebApplicationResponse.
+ * The default WebApplicationResponse.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class DefaultWebApplicationResponse implements WebApplicationResponse {
+public class DefaultWebApplicationResponse extends ServletOutputStream implements WebApplicationResponse {
+
+    /**
+     * Stores the body only flag.
+     */
+    protected boolean bodyOnly;
 
     /**
      * Stores the character encoding.
@@ -115,7 +122,7 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
     /**
      * Stores the output stream.
      */
-    protected ServletOutputStream outputStream;
+    protected OutputStream outputStream;
 
     /**
      * Stores the status code.
@@ -136,15 +143,16 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
      * Constructor.
      */
     public DefaultWebApplicationResponse() {
-        headerManager = new DefaultHttpHeaderManager();
-        gotOutput = false;
-        gotWriter = false;
+        buffer = new byte[8192];
         characterEncoding = null;
         characterEncodingSet = false;
         committed = false;
         contentType = null;
         contentTypeSet = false;
         cookies = new ArrayList<>();
+        gotOutput = false;
+        gotWriter = false;
+        headerManager = new DefaultHttpHeaderManager();
         locale = null;
         status = 200;
         statusMessage = null;
@@ -270,11 +278,12 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
      */
     @Override
     public void flushBuffer() throws IOException {
+        if (!isCommitted()) {
+            writeOut();
+        }
         if (gotWriter) {
             writer.flush();
         }
-        outputStream.flush();
-        committed = true;
     }
 
     /**
@@ -297,7 +306,9 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
      * @return the buffer size.
      */
     @Override
-    public abstract int getBufferSize();
+    public int getBufferSize() {
+        return buffer.length;
+    }
 
     /**
      * Get the content length.
@@ -380,7 +391,7 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
     public ServletOutputStream getOutputStream() throws IOException {
         if (!gotWriter) {
             gotOutput = true;
-            return outputStream;
+            return this;
         } else {
             throw new IllegalStateException("Cannot get output stream as the writer was already acquired");
         }
@@ -429,13 +440,22 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
                 if (characterEncoding == null) {
                     characterEncoding = "ISO-8859-1";
                 }
-                writer = new PrintWriter(new OutputStreamWriter(outputStream, characterEncoding));
+                writer = new PrintWriter(new OutputStreamWriter(this, characterEncoding));
             }
             result = writer;
         } else {
             throw new IllegalStateException("Cannot get writer as the output stream was already acquired");
         }
         return result;
+    }
+
+    /**
+     * Is body only.
+     *
+     * @return true if we are only sending the body, false otherwise.
+     */
+    public boolean isBodyOnly() {
+        return bodyOnly;
     }
 
     /**
@@ -463,7 +483,9 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
      * Reset the buffer.
      */
     @Override
-    public abstract void resetBuffer();
+    public void resetBuffer() {
+        this.buffer = new byte[buffer.length];
+    }
 
     /**
      * Send an error.
@@ -475,7 +497,6 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
     public void sendError(int status) throws IOException {
         verifyNotCommitted("sendError");
         setStatus(status);
-        flushBuffer();
     }
 
     /**
@@ -490,7 +511,6 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
         verifyNotCommitted("sendError");
         setStatus(status);
         this.statusMessage = statusMessage;
-        flushBuffer();
     }
 
     /**
@@ -523,12 +543,23 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
     }
 
     /**
+     * Set the body only flag.
+     *
+     * @param bodyOnly flag.
+     */
+    public void setBodyOnly(boolean bodyOnly) {
+        this.bodyOnly = bodyOnly;
+    }
+
+    /**
      * Set the buffer size.
      *
-     * @param size the buffer size in bytes.
+     * @param bufferSize the buffer size.
      */
     @Override
-    public abstract void setBufferSize(int size);
+    public void setBufferSize(int bufferSize) {
+        this.buffer = new byte[bufferSize];
+    }
 
     /**
      * Set the character encoding.
@@ -693,5 +724,228 @@ public abstract class DefaultWebApplicationResponse implements WebApplicationRes
         if (isCommitted()) {
             throw new IllegalStateException("Response already committed in " + methodName);
         }
+    }
+    
+    // -------------------------------------------------------------------------
+    //  WebApplicationResponse implementation
+    // -------------------------------------------------------------------------
+
+    /**
+     * Get the cookies.
+     * 
+     * @return the cookies.
+     */
+    @Override
+    public Collection<Cookie> getCookies() {
+        return cookies;
+    }
+    
+    /**
+     * Get the underlying output stream.
+     * 
+     * @return the underlying output stream. 
+     */
+    @Override
+    public OutputStream getUnderlyingOutputStream() {
+        return outputStream;
+    }
+    
+    /**
+     * Set the underlying output stream.
+     *
+     * @param outputStream the underlying output stream.
+     */
+    @Override
+    public void setUnderlyingOutputStream(OutputStream outputStream) {
+        this.outputStream = outputStream;
+    }    
+    
+    // -------------------------------------------------------------------------
+    //  ServletOutStream implementation
+    // -------------------------------------------------------------------------
+    /**
+     * Stores the buffer.
+     */
+    protected byte[] buffer;
+
+    /**
+     * Stores the index.
+     */
+    protected int index;
+    
+    /**
+     * Close the output stream.
+     * 
+     * @throws IOException when an I/O error occurs.
+     */
+    @Override    
+    public void close() throws IOException {
+        if (!isCommitted()) {
+            flush();
+        }
+    }
+
+    /**
+     * Flush the output stream.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
+    @Override
+    public void flush() throws IOException {
+        writeOut();
+    }
+
+    /**
+     * Is the output stream ready?
+     *
+     * @return true if it is, false otherwise.
+     */
+    @Override
+    public boolean isReady() {
+        return true;
+    }
+
+    /**
+     * Set the write listener.
+     *
+     * @param listener the write listener.
+     */
+    @Override
+    public void setWriteListener(WriteListener listener) {
+    }
+
+    /**
+     * Write the integer.
+     *
+     * @param integer the integer.
+     * @throws IOException when an I/O error occurs.
+     */
+    @Override
+    public void write(int integer) throws IOException {
+        if (index == buffer.length - 1) {
+            writeOut();
+            outputStream.write(integer);
+        } else if (index == buffer.length) {
+            outputStream.write(integer);
+        } else {
+            this.buffer[index] = (byte) integer;
+            this.index++;
+        }
+    }
+
+    /**
+     * Write out the cookies.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
+    private void writeCookies() throws IOException {
+        for (Cookie cookie : cookies) {
+            writeCookie(cookie);
+        }
+    }
+
+    /**
+     * Write out the Content-Type header.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
+    private void writeContentType() throws IOException {
+        if (contentType != null) {
+            outputStream.write("Content-Type: ".getBytes());
+            outputStream.write(contentType.getBytes());
+            outputStream.write("\n".getBytes());
+        }
+    }
+
+    /**
+     * Write out a cookie.
+     *
+     * @param cookie the cookie.
+     * @throws IOException when an I/O error occurs.
+     */
+    private void writeCookie(Cookie cookie) throws IOException {
+        outputStream.write("Set-Cookie: ".getBytes());
+        outputStream.write(cookie.getName().getBytes());
+        outputStream.write("=".getBytes());
+        outputStream.write(cookie.getValue().getBytes());
+
+        if (cookie.getSecure()) {
+            outputStream.write("; Secure".getBytes());
+        }
+
+        if (cookie.isHttpOnly()) {
+            outputStream.write("; HttpOnly".getBytes());
+        }
+
+        outputStream.write("\n".getBytes());
+    }
+
+    /**
+     * Write out a response header.
+     *
+     * @param name the name of the header.
+     * @throws IOException when an I/O error occurs.
+     */
+    private void writeHeader(String name) throws IOException {
+        Iterator<String> values = getHeaders(name).iterator();
+        outputStream.write(name.getBytes());
+        outputStream.write(": ".getBytes());
+        while (values.hasNext()) {
+            String value = values.next();
+            if (value != null) {
+                outputStream.write(value.getBytes());
+                if (values.hasNext()) {
+                    outputStream.write(",".getBytes());
+                }
+            }
+        }
+        outputStream.write("\n".getBytes());
+    }
+
+    /**
+     * Write out the response headers.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
+    private void writeHeaders() throws IOException {
+        Iterator<String> names = getHeaderNames().iterator();
+        while (names.hasNext()) {
+            String name = names.next();
+            writeHeader(name);
+        }
+        outputStream.write("\n".getBytes());
+    }
+
+    /**
+     * Write out the status-line, headers and the buffer.
+     */
+    private void writeOut() throws IOException {
+        if (!isBodyOnly()) {
+            writeStatusLine();
+            writeContentType();
+            writeCookies();
+            writeHeaders();
+        }
+        if (!isCommitted()) {
+            outputStream.write(buffer, 0, index);
+            index = buffer.length;
+        }
+        setCommitted(true);
+    }
+
+    /**
+     * Write the status line.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
+    private void writeStatusLine() throws IOException {
+        outputStream.write("HTTP/1.1".getBytes());
+        outputStream.write(" ".getBytes());
+        outputStream.write(Integer.toString(getStatus()).getBytes());
+        if (getStatusMessage() != null) {
+            outputStream.write(" ".getBytes());
+            outputStream.write(getStatusMessage().getBytes());
+        }
+        outputStream.write("\n".getBytes());
     }
 }

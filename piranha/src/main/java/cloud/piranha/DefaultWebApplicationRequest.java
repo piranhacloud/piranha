@@ -27,12 +27,20 @@
  */
 package cloud.piranha;
 
+import cloud.piranha.api.AttributeManager;
+import cloud.piranha.api.HttpHeaderManager;
+import cloud.piranha.api.HttpSessionManager;
+import cloud.piranha.api.WebApplication;
+import cloud.piranha.api.WebApplicationRequest;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,9 +49,9 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
+import javax.servlet.ReadListener;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -55,19 +63,12 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
-import cloud.piranha.api.AttributeManager;
-import cloud.piranha.api.HttpHeaderManager;
-import cloud.piranha.api.HttpSessionManager;
-import cloud.piranha.api.WebApplication;
-import cloud.piranha.api.WebApplicationRequest;
-import java.nio.charset.Charset;
-
 /**
- * The DefaultWebApplicationRequest.
+ * The default WebApplicationRequest.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationRequest implements WebApplicationRequest {
+public class DefaultWebApplicationRequest extends ServletInputStream implements WebApplicationRequest {
 
     /**
      * Stores the auth type.
@@ -147,7 +148,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
     /**
      * Stores the input stream.
      */
-    protected ServletInputStream inputStream;
+    protected InputStream inputStream;
 
     /**
      * Stores the local address.
@@ -290,6 +291,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         this.dispatcherType = DispatcherType.REQUEST;
         this.headerManager = new DefaultHttpHeaderManager();
         this.headerManager.setHeader("Accept", "*/*");
+        this.inputStream = new ByteArrayInputStream(new byte[0]);
         this.method = "GET";
         this.protocol = "HTTP/1.1";
         this.scheme = "http";
@@ -499,7 +501,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         ServletInputStream result;
         if (!gotReader) {
             gotInputStream = true;
-            result = inputStream;
+            result = this;
         } else {
             throw new IllegalStateException(
                     "Cannot getInputStream because getReader has been previously called");
@@ -1168,15 +1170,18 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
                 added = false;
             }
             attributeManager.setAttribute(name, value);
-
-            if (!added) {
-                webApplication.getHttpRequestManager().attributeAdded(this, name, value);
-            } else {
-                webApplication.getHttpRequestManager().attributeReplaced(this, name, value);
+            if (webApplication != null && webApplication.getHttpRequestManager() != null) {
+                if (!added) {
+                    webApplication.getHttpRequestManager().attributeAdded(this, name, value);
+                } else {
+                    webApplication.getHttpRequestManager().attributeReplaced(this, name, value);
+                }
             }
         } else {
             attributeManager.removeAttribute(name);
-            webApplication.getHttpRequestManager().attributeRemoved(this, name);
+            if (webApplication != null && webApplication.getHttpRequestManager() != null) {
+                webApplication.getHttpRequestManager().attributeRemoved(this, name);
+            }
         }
     }
 
@@ -1200,7 +1205,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         boolean supported = false;
         try {
             supported = Charset.isSupported(characterEncoding);
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         }
         if (!supported) {
             throw new UnsupportedEncodingException("Character encoding '" + characterEncoding + "' is not supported");
@@ -1270,7 +1275,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
      *
      * @param inputStream the input stream.
      */
-    public void setInputStream(ServletInputStream inputStream) {
+    public void setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
     }
 
@@ -1527,5 +1532,72 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         if (contentType != null && !contentType.equals("multipart/form-data")) {
             throw new ServletException("Request not of type multipart/form-data");
         }
+    }
+
+    // -------------------------------------------------------------------------
+    //  ServletInputStream methods
+    // -------------------------------------------------------------------------
+    /**
+     * Stores the finished flag.
+     */
+    private boolean finished;
+
+    /**
+     * Stores the read listener.
+     */
+    private ReadListener readListener;
+
+    /**
+     * Is the Servlet input stream finished?
+     *
+     * @return true if it is, false otherwise.
+     */
+    @Override
+    public boolean isFinished() {
+        return finished;
+    }
+
+    /**
+     * Is the Servlet input stream ready?
+     *
+     * @return true if it is, false otherwise.
+     */
+    @Override
+    public boolean isReady() {
+        return true;
+    }
+
+    /**
+     * Set the read listener.
+     *
+     * @param listener the read listener.
+     */
+    @Override
+    public void setReadListener(ReadListener listener) {
+        if (listener == null) {
+            throw new NullPointerException("Read listener cannot be null");
+        }
+        if (this.readListener != null) {
+            throw new IllegalStateException("Read listener can only be set once");
+        }
+        if (!isAsyncStarted() && !isUpgraded()) {
+            throw new IllegalStateException("Read listener cannot be set as the request is not upgraded nor the async is started");
+        }
+        this.readListener = listener;
+    }
+
+    /**
+     * Read from the Servlet input stream.
+     *
+     * @return the read value.
+     * @throws IOException when an I/O error occurs.
+     */
+    @Override
+    public int read() throws IOException {
+        int read = inputStream.read();
+        if (read == -1) {
+            finished = true;
+        }
+        return read;
     }
 }

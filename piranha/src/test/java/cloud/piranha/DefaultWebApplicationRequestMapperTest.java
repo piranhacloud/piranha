@@ -27,9 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplicationRequestMapping;
-import cloud.piranha.DefaultWebApplicationRequestMapper;
-import cloud.piranha.DefaultWebApplication;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -61,16 +58,12 @@ public class DefaultWebApplicationRequestMapperTest {
         webApp.addServletMapping("echo", "/echo");
         webApp.initialize();
         webApp.start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setServletPath("/echo");
-
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setBodyOnly(true);
         webApp.service(request, response);
-        assertEquals("ECHO", new String(response.getResponseBody()));
+        assertEquals("ECHO", new String(response.getResponseBytes()));
     }
 
     /**
@@ -87,16 +80,12 @@ public class DefaultWebApplicationRequestMapperTest {
         webApp.addServletMapping("echo", "*.echo");
         webApp.initialize();
         webApp.start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setServletPath("/echo.echo");
-
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setBodyOnly(true);
         webApp.service(request, response);
-        assertEquals("ECHO", new String(response.getResponseBody()));
+        assertEquals("ECHO", new String(response.getResponseBytes()));
     }
 
     /**
@@ -114,14 +103,11 @@ public class DefaultWebApplicationRequestMapperTest {
         webApp.initialize();
         webApp.start();
 
-        TestHttpServletRequest request = new TestHttpServletRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setServletPath("/echo.echo");
         request.setWebApplication(new DefaultWebApplication());
 
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         webApp.service(request, response);
 
         assertTrue(response.getStatus() != 200);
@@ -141,16 +127,12 @@ public class DefaultWebApplicationRequestMapperTest {
         webApp.addServletMapping("echo", "/echo/*");
         webApp.initialize();
         webApp.start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setServletPath("/echo/test.echo");
-
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setBodyOnly(true);
         webApp.service(request, response);
-        assertEquals("ECHO", new String(response.getResponseBody()));
+        assertEquals("ECHO", new String(response.getResponseBytes()));
     }
 
     /**
@@ -167,16 +149,12 @@ public class DefaultWebApplicationRequestMapperTest {
         webApp.addServletMapping("echo", "/*");
         webApp.initialize();
         webApp.start();
-
-        TestHttpServletRequest request = new TestHttpServletRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setServletPath("/echo/test.echo");
-
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setBodyOnly(true);
         webApp.service(request, response);
-        assertEquals("ECHO", new String(response.getResponseBody()));
+        assertEquals("ECHO", new String(response.getResponseBytes()));
     }
 
     /**

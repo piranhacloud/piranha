@@ -31,8 +31,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha.test</groupId>
-            <artifactId>utils</artifactId>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-embedded</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -41,6 +41,7 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- TODO make this a profile as we do not want to have two versions of JAXB on classpath -->
         <!-- make sure JDK 9+ works -->
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>

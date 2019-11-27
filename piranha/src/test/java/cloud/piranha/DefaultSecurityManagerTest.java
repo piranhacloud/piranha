@@ -52,7 +52,7 @@ public class DefaultSecurityManagerTest {
      */
     @Test
     public void testAddUser() {
-        TestHttpServletRequest request = new TestHttpServletRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setUserPrincipal(new UserPrincipal("username"));
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         securityManager.addUser("username", "password", new String[]{"role1", "role2"});
@@ -67,8 +67,8 @@ public class DefaultSecurityManagerTest {
      */
     @Test(expected = ServletException.class)
     public void testAuthenticate() throws ServletException, IOException {
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.BASIC_AUTH);
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         assertFalse(securityManager.authenticate(request, response));
@@ -83,8 +83,8 @@ public class DefaultSecurityManagerTest {
      */
     @Test(expected = ServletException.class)
     public void testAuthenticate2() throws ServletException, IOException {
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.CLIENT_CERT_AUTH);
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         assertFalse(securityManager.authenticate(request, response));
@@ -99,8 +99,8 @@ public class DefaultSecurityManagerTest {
      */
     @Test(expected = ServletException.class)
     public void testAuthenticate3() throws ServletException, IOException {
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.DIGEST_AUTH);
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         assertFalse(securityManager.authenticate(request, response));
@@ -115,8 +115,8 @@ public class DefaultSecurityManagerTest {
      */
     @Test(expected = ServletException.class)
     public void testAuthenticate4() throws ServletException, IOException {
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.FORM_AUTH);
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         assertFalse(securityManager.authenticate(request, response));
@@ -130,10 +130,10 @@ public class DefaultSecurityManagerTest {
      */
     @Test
     public void testAuthenticate5() throws ServletException, IOException {
-        TestHttpServletRequest request = new TestHttpServletRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setParameter("j_username", new String[]{"username"});
         request.setParameter("j_password", new String[]{"password"});
-        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.FORM_AUTH);
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         securityManager.addUser("username", "password", new String[]{"role1"});
@@ -148,11 +148,11 @@ public class DefaultSecurityManagerTest {
      */
     @Test
     public void testAuthenticate6() throws ServletException, IOException {
-        TestHttpServletRequest request = new TestHttpServletRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setParameter("j_username", new String[]{"username"});
         request.setParameter("j_password", new String[]{"password"});
         HttpServletRequestWrapper wrappedRequest = new HttpServletRequestWrapper(request);
-        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.FORM_AUTH);
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         securityManager.addUser("username", "password", new String[]{"role1"});
@@ -166,8 +166,8 @@ public class DefaultSecurityManagerTest {
      */
     @Test
     public void testLogin() throws ServletException {
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        TestHttpServletResponse response = new TestHttpServletResponse();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         webApp.linkRequestAndResponse(request, response);
@@ -181,7 +181,7 @@ public class DefaultSecurityManagerTest {
      */
     @Test
     public void testRemoveUser() {
-        TestHttpServletRequest request = new TestHttpServletRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setUserPrincipal(new UserPrincipal("username"));
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         securityManager.addUser("username", "password", new String[]{"role1", "role2"});

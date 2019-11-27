@@ -27,55 +27,45 @@
  */
 package com.manorrock.piranha.test.springmvc;
 
-import cloud.piranha.DefaultDirectoryResource;
-import cloud.piranha.DefaultLoggingManager;
-import cloud.piranha.DefaultWebApplication;
-import com.manorrock.piranha.test.utils.TestHttpServletRequest;
-import com.manorrock.piranha.test.utils.TestHttpServletResponse;
-import com.manorrock.piranha.test.utils.TestServletOutputStream;
-import java.io.File;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
  * The JUnit tests for the HelloSpringController class.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HelloSpringControllerTest {
+
     /**
      * Test GET method.
-     * 
+     *
      * @throws Exception
      */
     @Test
     public void testGetMethod2() throws Exception {
-        DefaultLoggingManager loggingManager = new DefaultLoggingManager();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setLoggingManager(loggingManager);
-        webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
-        webApp.addServletMapping("Spring", "*.do");
-        webApp.addServlet("Spring", "org.springframework.web.servlet.DispatcherServlet");
-        webApp.addInitializer("cloud.piranha.pages.jasper.JasperInitializer");
-        webApp.initialize();
-        webApp.start();
-        
-        TestHttpServletRequest request = new TestHttpServletRequest();
-        request.setServletPath("/hellospring.do");
-        request.setWebApplication(webApp);
-        
-        TestHttpServletResponse response = new TestHttpServletResponse();
-        TestServletOutputStream outputStream = new TestServletOutputStream();
-        response.setOutputStream(outputStream);
-        outputStream.setResponse(response);
-        
-        webApp.service(request, response);
-
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/main/webapp")
+                .servletMapping("Spring", "*.do")
+                .servlet("Spring", "org.springframework.web.servlet.DispatcherServlet")
+                .initializer("cloud.piranha.pages.jasper.JasperInitializer")
+                .build()
+                .initialize()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/hellospring.do")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
-        assertTrue(new String(response.getResponseBody()).contains("Hello Spring"));
-
-        webApp.stop();
-        webApp.destroy();
+        assertTrue(response.getResponseAsString().contains("Hello Spring"));
+        piranha.stop()
+                .destroy();
     }
 }
