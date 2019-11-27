@@ -161,7 +161,7 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
             Thread.currentThread().setContextClassLoader(oldClassLoader);
         }
         
-        HTTPContext httpContext = new HTTPContext("localhost", 8080);
+        HTTPContext httpContext = new HTTPContext("localhost", 9090);
         for (String servletName : servletNames) {
             httpContext.add(new Servlet(servletName, "/"));
         }
