@@ -27,7 +27,6 @@
  */
 package cloud.piranha.embedded;
 
-import java.io.ByteArrayOutputStream;
 import org.junit.Test;
 
 /**

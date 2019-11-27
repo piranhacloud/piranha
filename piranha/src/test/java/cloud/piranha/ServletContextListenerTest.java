@@ -27,7 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplication;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import static org.junit.Assert.assertNotNull;

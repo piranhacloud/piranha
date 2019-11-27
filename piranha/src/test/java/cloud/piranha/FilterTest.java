@@ -27,7 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.api.WebApplication;
 import java.io.IOException;
 import javax.servlet.Filter;

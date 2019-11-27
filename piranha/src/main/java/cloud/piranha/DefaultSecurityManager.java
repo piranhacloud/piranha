@@ -203,6 +203,7 @@ public class DefaultSecurityManager implements SecurityManager {
      * Logout.
      *
      * @param request the request.
+     * @param response the response.
      * @throws ServletException when a serious error occurs.
      */
     @Override

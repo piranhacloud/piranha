@@ -27,7 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultPrefixJarResource;
 import static org.junit.Assert.assertNull;
 import org.junit.Test;
 

@@ -27,7 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplication;
 import java.util.Set;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;

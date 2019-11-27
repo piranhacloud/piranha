@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.manorrock.piranha.tck</groupId>
+        <groupId>cloud.piranha.tck</groupId>
         <artifactId>project</artifactId>
         <version>19.12.0-SNAPSHOT</version>
     </parent>
@@ -12,7 +12,7 @@
     <artifactId>piranha-tck-servlet</artifactId>
     <packaging>pom</packaging>
 
-    <name>Manorrock Piranha TCK - Servlet TCK</name>
+    <name>Piranha TCK - Servlet</name>
 
     <build>
         <plugins>
@@ -171,7 +171,7 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>com.manorrock.piranha</groupId>
+                                    <groupId>cloud.piranha</groupId>
                                     <artifactId>piranha-servlet-api</artifactId>
                                     <version>${project.version}</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
@@ -189,7 +189,7 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>com.manorrock.piranha</groupId>
+                                    <groupId>cloud.piranha</groupId>
                                     <artifactId>piranha-standard</artifactId>
                                     <version>${project.version}</version>
                                     <type>zip</type>

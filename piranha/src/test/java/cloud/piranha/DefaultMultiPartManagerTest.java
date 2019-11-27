@@ -27,8 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultMultiPartManager;
-import cloud.piranha.DefaultWebApplicationRequest;
 import java.util.Collection;
 import javax.servlet.http.Part;
 import static org.junit.Assert.assertNull;

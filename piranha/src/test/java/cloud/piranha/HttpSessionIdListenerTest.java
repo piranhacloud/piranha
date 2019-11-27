@@ -27,9 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplicationServer;
-import cloud.piranha.DefaultHttpSessionManager;
-import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.api.WebApplication;
 import java.io.IOException;
 import javax.servlet.ServletException;

@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Pages - Project</name>
+    <name>Piranha Pages</name>
 
     <modules>
         <module>jasper</module>

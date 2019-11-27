@@ -27,7 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultSecurityPrincipal;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

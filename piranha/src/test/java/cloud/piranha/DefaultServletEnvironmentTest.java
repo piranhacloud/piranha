@@ -27,7 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultServletEnvironment;
 import javax.servlet.MultipartConfigElement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

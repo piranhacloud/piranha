@@ -27,9 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.DefaultHttpSession;
-import cloud.piranha.DefaultHttpSessionManager;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

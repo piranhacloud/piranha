@@ -27,8 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.DefaultSecurityManager;
 import com.sun.security.auth.UserPrincipal;
 import java.io.IOException;
 import javax.servlet.ServletException;

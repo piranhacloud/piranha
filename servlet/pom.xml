@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Servlet - Project</name>
+    <name>Piranha Servlet</name>
 
     <modules>
         <module>api</module>
