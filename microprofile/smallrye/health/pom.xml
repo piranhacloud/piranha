@@ -4,16 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha</groupId>
+        <groupId>cloud.piranha.microprofile.smallrye</groupId>
         <artifactId>project</artifactId>
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.manorrock.piranha</groupId>
     <artifactId>piranha-microprofile-smallrye-health</artifactId>
     <packaging>jar</packaging>
 
-    <name>Manorrock Piranha Smallrye Health Integration</name>
+    <name>Piranha MicroProfile - SmallRye - Health Integration</name>
 
     <dependencies>
         <dependency>
