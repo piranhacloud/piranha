@@ -7,7 +7,7 @@
         <artifactId>project</artifactId>
         <version>19.12.0-SNAPSHOT</version>
     </parent>
-    
+
     <artifactId>piranha</artifactId>
     <packaging>jar</packaging>
 
