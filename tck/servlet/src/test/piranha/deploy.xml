@@ -1,7 +1,7 @@
 <project name="Piranha Deployment" default="deploy">
     
     <target name="-deploy">
-        <echo message="Starting Manorrock Piranha deploy"/>
+        <echo message="Starting Piranha deploy"/>
         <echoproperties/>
         <copy todir="${deploy.dir}" flatten="true" includeEmptyDirs="false" verbose="true">
             <fileset dir="${dist.dir}"/>

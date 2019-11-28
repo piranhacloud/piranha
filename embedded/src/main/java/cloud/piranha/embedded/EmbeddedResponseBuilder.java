@@ -31,11 +31,11 @@ import cloud.piranha.DefaultWebApplication;
 
 /**
  * The Embedded response builder.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class EmbeddedResponseBuilder {
-    
+
     /**
      * Stores the response.
      */
@@ -49,17 +49,28 @@ public class EmbeddedResponseBuilder {
     }
 
     /**
+     * Set the body only flag.
+     *
+     * @param bodyOnly the body only flag.
+     * @return the builder.
+     */
+    public EmbeddedResponseBuilder bodyOnly(boolean bodyOnly) {
+        response.setBodyOnly(bodyOnly);
+        return this;
+    }
+
+    /**
      * Build the response.
-     * 
+     *
      * @return the response.
      */
     public EmbeddedResponse build() {
         return response;
     }
-    
+
     /**
      * Set the web application.
-     * 
+     *
      * @param webApp the web application.
      * @return the builder.
      */
