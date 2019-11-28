@@ -29,7 +29,6 @@ package cloud.piranha.embedded;
 
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.api.WebApplication;
-import cloud.piranha.servlet.webxml.WebXmlFeature;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -52,7 +51,6 @@ public class EmbeddedPiranha {
      */
     public EmbeddedPiranha() {
         webApplication = new DefaultWebApplication();
-        webApplication.addFeature(new WebXmlFeature());
     }
 
     /**

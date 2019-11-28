@@ -94,6 +94,7 @@ import cloud.piranha.api.WebApplication;
 import cloud.piranha.api.WebApplicationRequestMapper;
 import cloud.piranha.api.WebApplicationRequestMapping;
 import cloud.piranha.api.WebXmlManager;
+import java.util.logging.Level;
 
 /**
  * The default WebApplication.
@@ -324,13 +325,30 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Add the feature.
+     * Add a feature.
      *
      * @param feature the feature.
      */
     @Override
     public void addFeature(Feature feature) {
         features.add(feature);
+    }
+
+    /**
+     * Add a feature.
+     *
+     * @param className the class name.
+     */
+    @Override
+    public void addFeature(String className) {
+        try {
+            Class<Feature> clazz = (Class<Feature>) getClassLoader().loadClass(className);
+            features.add(clazz.newInstance());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, "Unable to add feature: " + className, ex);
+            }
+        }
     }
 
     /**
@@ -475,12 +493,14 @@ public class DefaultWebApplication implements WebApplication {
         if (status != SETUP) {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
-
         try {
             @SuppressWarnings("unchecked")
             Class<EventListener> clazz = (Class<EventListener>) getClassLoader().loadClass(className);
             addListener(clazz);
         } catch (ClassNotFoundException exception) {
+            if (LOGGER.isLoggable(WARNING)) {
+                LOGGER.log(WARNING, "Unable to add listener: " + className, exception);
+            }
         }
     }
 
@@ -494,11 +514,13 @@ public class DefaultWebApplication implements WebApplication {
         if (status != SETUP) {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
-
         try {
             EventListener listener = createListener(type);
             addListener(listener);
         } catch (ServletException exception) {
+            if (LOGGER.isLoggable(WARNING)) {
+                LOGGER.log(WARNING, "Unable to add listener: " + type, exception);
+            }
         }
     }
 
@@ -956,7 +978,6 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public String getRealPath(String path) {
         String realPath = null;
-
         try {
             if (getResource(path) != null) {
                 File file = new File(getResource(path).toURI());
@@ -965,8 +986,10 @@ public class DefaultWebApplication implements WebApplication {
                 }
             }
         } catch (MalformedURLException | URISyntaxException | IllegalArgumentException exception) {
+            if (LOGGER.isLoggable(WARNING)) {
+                LOGGER.log(WARNING, "Unable to get real path: " + path, exception);
+            }
         }
-
         return realPath;
     }
 
@@ -1218,23 +1241,18 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void initialize() {
         LOGGER.log(FINE, "Initializing web application at {0}", contextPath);
-
         verifyState(SETUP, "Unable to initialize web application");
         try {
             initializeFeatures();
             initializeInitializers();
-
             @SuppressWarnings("unchecked")
             List<ServletContextListener> listeners = (List<ServletContextListener>) contextListeners.clone();
             listeners.stream().forEach((listener) -> {
                 listener.contextInitialized(new ServletContextEvent(this));
             });
-
             initializeFilters();
             initializeServlets();
-
             status = INITIALIZED;
-
             LOGGER.log(FINE, "Initialized web application at {0}", contextPath);
         } catch (ServletException se) {
             if (LOGGER.isLoggable(WARNING)) {
@@ -1265,6 +1283,9 @@ public class DefaultWebApplication implements WebApplication {
                 environment.initialize();
                 environment.getFilter().init(environment);
             } catch (ServletException exception) {
+                if (LOGGER.isLoggable(WARNING)) {
+                    LOGGER.log(WARNING, "Unable to initialize filter: " + environment.getFilterName(), exception);
+                }
                 environment.setStatus(UNAVAILABLE);
             }
         });
@@ -1299,7 +1320,6 @@ public class DefaultWebApplication implements WebApplication {
     private void initializeServlet(DefaultServletEnvironment environment) {
         try {
             LOGGER.log(FINE, "Initializing servlet: {0}", environment.servletName);
-
             if (environment.getServlet() == null) {
                 Class clazz = environment.getServletClass();
                 if (clazz == null) {
@@ -1320,8 +1340,6 @@ public class DefaultWebApplication implements WebApplication {
             if (LOGGER.isLoggable(WARNING)) {
                 LOGGER.log(WARNING, "Unable to initialize servlet: " + environment.className, exception);
             }
-
-            // Should not throw exception here instead of effectively ignoring?
             environment.setServlet(null);
             environment.setStatus(DefaultServletEnvironment.UNAVAILABLE);
         }

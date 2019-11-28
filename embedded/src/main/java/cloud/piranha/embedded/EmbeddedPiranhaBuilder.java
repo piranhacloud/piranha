@@ -93,6 +93,17 @@ public class EmbeddedPiranhaBuilder {
         piranha.getWebApplication().addResource(new DefaultDirectoryResource(path));
         return this;
     }
+    
+    /** 
+     * Add a feature.
+     * 
+     * @param className the class name.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder feature(String className) {
+        piranha.getWebApplication().addFeature(className);
+        return this;
+    }
 
     /**
      * Add a filter.
