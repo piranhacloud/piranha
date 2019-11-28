@@ -17,7 +17,7 @@
 
     <modules>
         <module>el</module>
-        <module>jsp</module>
+        <module>pages</module>
         <module>servlet</module>
     </modules>
 </project>

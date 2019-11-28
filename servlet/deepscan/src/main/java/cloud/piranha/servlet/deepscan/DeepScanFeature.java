@@ -57,7 +57,7 @@ public class DeepScanFeature implements Feature {
             ClassLoader classLoader = webApplication.getClassLoader();
             Class<ServletContainerInitializer> clazz
                     = (Class<ServletContainerInitializer>) classLoader.
-                            loadClass("cloud.piranha.servlet.deepscan.DeepScanInitializer");
+                            loadClass(DeepScanInitializer.class.getName());
             ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
             webApplication.addInitializer(initializer);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException

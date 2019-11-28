@@ -57,7 +57,7 @@ public class WebXmlFeature implements Feature {
             ClassLoader classLoader = webApplication.getClassLoader();
             Class<ServletContainerInitializer> clazz
                     = (Class<ServletContainerInitializer>) classLoader.
-                            loadClass("cloud.piranha.servlet.webxml.WebXmlInitializer");
+                            loadClass(WebXmlInitializer.class.getName());
             ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
             webApplication.addInitializer(initializer);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
