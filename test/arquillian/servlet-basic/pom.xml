@@ -11,5 +11,5 @@
     <artifactId>servlet-basic</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Arquillian Test - Servlet Basic</name>
+    <name>Manorrock Piranha Arquillian Test - Servlet Basic</name>
 </project>

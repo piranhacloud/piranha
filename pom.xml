@@ -10,8 +10,8 @@
 
     <name>Piranha Project</name>
     <description>
-        The Piranha Project delivers you with a cloud container
-        and useful add-on modules
+        The Piranha Project delivers you with a variety of cloud containers
+        and several useful add-on modules
     </description>
     <url>https://github.com/manorrock/piranha</url>
     <licenses>
@@ -33,6 +33,7 @@
     <modules>
         <!-- Core -->
         <module>api</module>
+        <module>builder</module>
         <module>piranha</module>
     
         <!-- Logical components -->
@@ -56,13 +57,12 @@
         
         <!-- Connectors -->
         <module>arquillian</module>
-        <module>builder</module>
     </modules>
 
     <scm>
-        <connection>scm:git:git://github.com/manorrock/piranha.git</connection>
-        <developerConnection>scm:git:git@github.com:manorrock/piranha.git</developerConnection>
-        <url>https://github.com/manorrock/piranha</url>
+        <connection>scm:git:git://github.com/piranhacloud/piranha.git</connection>
+        <developerConnection>scm:git:git@github.com:piranhacloud/piranha.git</developerConnection>
+        <url>https://github.com/piranhacloud/piranha</url>
     </scm>
 
     <properties>

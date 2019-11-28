@@ -1,1 +1,1 @@
-com.manorrock.piranha.arquillian.server.PiranhaServerLoadableExtension
+cloud.piranha.arquillian.server.PiranhaServerLoadableExtension
