@@ -27,9 +27,9 @@
  */
 package com.manorrock.piranha.test.authorization.exousia;
 
-import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
-import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
-import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
 import static cloud.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
@@ -44,7 +44,7 @@ import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 
 import cloud.piranha.api.WebApplication;
-import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
+import cloud.piranha.security.exousia.AuthorizationPreInitializer;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;

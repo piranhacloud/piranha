@@ -25,9 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.authorization.exousia;
+package cloud.piranha.security.exousia;
 
-import static cloud.piranha.authorization.exousia.AuthorizationPreFilter.localServletRequest;
+import static cloud.piranha.security.exousia.AuthorizationPreFilter.localServletRequest;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toList;

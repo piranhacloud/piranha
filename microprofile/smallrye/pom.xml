@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha MicroProfile - SmallRye - Project</name>
+    <name>Piranha MicroProfile - SmallRye</name>
 
     <modules>
         <module>health</module>

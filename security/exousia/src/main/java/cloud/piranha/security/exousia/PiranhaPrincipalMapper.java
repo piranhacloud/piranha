@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.authorization.exousia;
+package cloud.piranha.security.exousia;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
