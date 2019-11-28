@@ -3,16 +3,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.manorrock.piranha.arquillian</groupId>
+        <groupId>cloud.piranha.arquillian</groupId>
         <artifactId>project</artifactId>
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>arquillian-piranha-server</artifactId>
+    <artifactId>piranha-arquillian-server</artifactId>
 
-    <name>Arquillian Container Piranha Server</name>
+    <name>Piranha Arquillian - Server</name>
     <description>
-        Piranha Server Container integration for the Arquillian Project.
+        Piranha integration for the Arquillian Project.
     </description>
 
     <dependencies>

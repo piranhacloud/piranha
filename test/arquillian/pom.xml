@@ -11,7 +11,7 @@
     <artifactId>arquillian</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Arquillian Test</name>
+    <name>Manorrock Piranha Arquillian Test</name>
 
     <modules>
         <module>servlet-basic</module>
@@ -46,8 +46,8 @@
         </dependency>
     
         <dependency>
-            <groupId>com.manorrock.piranha.arquillian</groupId>
-            <artifactId>arquillian-piranha-server</artifactId>
+            <groupId>cloud.piranha.arquillian</groupId>
+            <artifactId>piranha-arquillian-server</artifactId>
             <version>${project.version}</version>
         </dependency>
 
