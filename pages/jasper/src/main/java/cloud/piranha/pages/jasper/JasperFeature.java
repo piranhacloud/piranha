@@ -57,13 +57,13 @@ public class JasperFeature implements Feature {
             ClassLoader classLoader = webApplication.getClassLoader();
             Class<ServletContainerInitializer> clazz
                     = (Class<ServletContainerInitializer>) classLoader.
-                            loadClass("cloud.piranha.page.jasper.JasperFeature");
+                            loadClass(JasperInitializer.class.getName());
             ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
             webApplication.addInitializer(initializer);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
                 | InstantiationException | IllegalAccessException
                 | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.log(Level.WARNING, "Unable to add Jasper integration", ex);
+            LOGGER.log(Level.WARNING, "Unable to enable Jasper feature", ex);
         }
     }
 }
