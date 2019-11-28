@@ -30,6 +30,7 @@ package cloud.piranha.nano;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.UUID;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
@@ -38,17 +39,17 @@ import javax.servlet.ServletContext;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoServletConfig implements ServletConfig {
+class NanoServletConfig implements ServletConfig {
     
     /**
      * Stores the init parameters.
      */
-    private HashMap<String, String> initParameters;
+    private final HashMap<String, String> initParameters;
     
     /**
      * Stores the servlet context.
      */
-    private ServletContext servletContext;
+    private final ServletContext servletContext;
     
     /**
      * Constructor.
@@ -98,7 +99,7 @@ public class NanoServletConfig implements ServletConfig {
      */
     @Override
     public String getServletName() {
-        return "Default";
+        return UUID.randomUUID().toString();
     }
     
     /**

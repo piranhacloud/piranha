@@ -27,9 +27,6 @@
  */
 package com.manorrock.piranha.test.microprofile.smallrye.health;
 
-import cloud.piranha.DefaultDirectoryResource;
-import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.api.WebApplication;
 import cloud.piranha.smallrye.health.SmallRyeReadinessServlet;
 import cloud.piranha.cdi.weld.WeldInitializer;
 import cloud.piranha.embedded.EmbeddedPiranha;

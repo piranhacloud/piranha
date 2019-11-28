@@ -30,6 +30,7 @@ package cloud.piranha.nano;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.UUID;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 
@@ -38,7 +39,7 @@ import javax.servlet.ServletContext;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoFilterConfig implements FilterConfig {
+class NanoFilterConfig implements FilterConfig {
     
     /**
      * Stores the init parameters.
@@ -98,7 +99,7 @@ public class NanoFilterConfig implements FilterConfig {
      */
     @Override
     public String getFilterName() {
-        return "Default";
+        return UUID.randomUUID().toString();
     }
     
     /**

@@ -27,11 +27,15 @@
  */
 package cloud.piranha.nano;
 
+import cloud.piranha.DefaultWebApplication;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.WebConnection;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
@@ -46,9 +50,9 @@ public class NanoRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = NullPointerException.class)
     public void testAuthenticate() throws Exception {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         request.authenticate(null);
     }
 
@@ -57,10 +61,17 @@ public class NanoRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testChangeSessionId() throws Exception {
-        NanoRequest request = new NanoRequest(null);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        NanoResponse response = new NanoResponse();
+        response.setWebApplication(webApplication);
+        NanoRequest request = new NanoRequest();
+        request.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        request.getSession(true);
         request.changeSessionId();
+        webApplication.unlinkRequestAndResponse(request, response);
     }
 
     /**
@@ -68,10 +79,10 @@ public class NanoRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetAuthType() throws Exception {
-        NanoRequest request = new NanoRequest(null);
-        request.getAuthType();
+        NanoRequest request = new NanoRequest();
+        assertNull(request.getAuthType());
     }
 
     /**
@@ -81,17 +92,17 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetContextPath() throws Exception {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertEquals("", request.getContextPath());
     }
 
     /**
      * Test getCookies method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetCookies() {
-        NanoRequest request = new NanoRequest(null);
-        request.getCookies();
+        NanoRequest request = new NanoRequest();
+        assertNull(request.getCookies());
     }
 
     /**
@@ -99,7 +110,7 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetDateHeader() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertEquals(-1, request.getDateHeader("header"));
     }
 
@@ -108,7 +119,7 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetHeader() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertNull(request.getHeader("header"));
     }
 
@@ -117,8 +128,8 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetHeaderNames() {
-        NanoRequest request = new NanoRequest(null);
-        assertFalse(request.getHeaderNames().hasMoreElements());
+        NanoRequest request = new NanoRequest();
+        assertTrue(request.getHeaderNames().hasMoreElements());
     }
 
     /**
@@ -126,7 +137,7 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetHeaders() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertFalse(request.getHeaders("myheader").hasMoreElements());
     }
 
@@ -137,7 +148,7 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetInputStream() throws Exception {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertNotNull(request.getInputStream());
     }
 
@@ -146,7 +157,7 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetIntHeader() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertEquals(-1, request.getIntHeader("header"));
     }
 
@@ -155,10 +166,10 @@ public class NanoRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetPart() throws Exception {
-        NanoRequest request = new NanoRequest(null);
-        assertNotNull(request.getPart("part"));
+        NanoRequest request = new NanoRequest();
+        assertNull(request.getPart("part"));
     }
 
     /**
@@ -166,10 +177,11 @@ public class NanoRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetParts() throws Exception {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertNotNull(request.getParts());
+        assertTrue(request.getParts().isEmpty());
     }
 
     /**
@@ -177,7 +189,7 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetPathInfo() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertNull(request.getPathInfo());
     }
 
@@ -186,10 +198,10 @@ public class NanoRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetPathTranslated() throws Exception {
-        NanoRequest request = new NanoRequest(null);
-        assertNotNull(request.getPathTranslated());
+        NanoRequest request = new NanoRequest();
+        assertNull(request.getPathTranslated());
     }
 
     /**
@@ -197,7 +209,7 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetProtocol() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertEquals("HTTP/1.1", request.getProtocol());
     }
 
@@ -206,10 +218,10 @@ public class NanoRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetRemoteUser() throws Exception {
-        NanoRequest request = new NanoRequest(null);
-        assertNotNull(request.getRemoteUser());
+        NanoRequest request = new NanoRequest();
+        assertNull(request.getRemoteUser());
     }
 
     /**
@@ -217,26 +229,26 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetRequestURI() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertNotNull(request.getRequestURI());
     }
 
     /**
      * Test getRequestURL method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetRequestURL() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertNotNull(request.getRequestURL());
     }
 
     /**
      * Test getRequestedSessionId method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetRequestedSessionId() {
-        NanoRequest request = new NanoRequest(null);
-        assertNotNull(request.getRequestedSessionId());
+        NanoRequest request = new NanoRequest();
+        assertNull(request.getRequestedSessionId());
     }
 
     /**
@@ -244,7 +256,7 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetScheme() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertEquals("http", request.getScheme());
     }
 
@@ -253,7 +265,7 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetServletPath() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertEquals("", request.getServletPath());
     }
 
@@ -262,8 +274,14 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetSession() {
-        NanoRequest request = new NanoRequest(null);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        NanoResponse response = new NanoResponse();
+        response.setWebApplication(webApplication);
+        NanoRequest request = new NanoRequest();
+        request.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         assertNull(request.getSession(false));
+        webApplication.unlinkRequestAndResponse(request, response);
     }
 
     /**
@@ -271,94 +289,134 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetSession2() {
-        NanoRequest request = new NanoRequest(null);
-        assertNull(request.getSession());
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        NanoResponse response = new NanoResponse();
+        response.setWebApplication(webApplication);
+        NanoRequest request = new NanoRequest();
+        request.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        assertNotNull(request.getSession());
+        webApplication.unlinkRequestAndResponse(request, response);
     }
 
     /**
      * Test getUserPrincipal method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetUserPrincipal() {
-        NanoRequest request = new NanoRequest(null);
-        assertNotNull(request.getUserPrincipal());
+        NanoRequest request = new NanoRequest();
+        assertNull(request.getUserPrincipal());
     }
 
     /**
      * Test isRequestedSessionIdFromCookie method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsRequestedSessionIdFromCookie() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertFalse(request.isRequestedSessionIdFromCookie());
     }
 
     /**
      * Test isRequestedSessionIdFromURL method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsRequestedSessionIdFromURL() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertFalse(request.isRequestedSessionIdFromURL());
     }
 
     /**
      * Test isRequestedSessionIdFromUrl method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsRequestedSessionIdFromUrl() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertFalse(request.isRequestedSessionIdFromUrl());
     }
 
     /**
      * Test isRequestedSessionIdValid method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsRequestedSessionIdValid() {
-        NanoRequest request = new NanoRequest(null);
+        NanoRequest request = new NanoRequest();
         assertFalse(request.isRequestedSessionIdValid());
     }
 
     /**
      * Test isUserInRole method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIsUserInRole() {
-        NanoRequest request = new NanoRequest(null);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        NanoResponse response = new NanoResponse();
+        response.setWebApplication(webApplication);
+        NanoRequest request = new NanoRequest();
+        request.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         assertFalse(request.isUserInRole("role"));
+        webApplication.unlinkRequestAndResponse(request, response);
     }
 
     /**
      * Test login method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = ServletException.class)
     public void testLogin() throws Exception {
-        NanoRequest request = new NanoRequest(null);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        NanoResponse response = new NanoResponse();
+        response.setWebApplication(webApplication);
+        NanoRequest request = new NanoRequest();
+        request.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         request.login("username", "password");
     }
 
     /**
      * Test logout method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testLogout() throws Exception {
-        NanoRequest request = new NanoRequest(null);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        NanoResponse response = new NanoResponse();
+        response.setWebApplication(webApplication);
+        NanoRequest request = new NanoRequest();
+        request.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         request.logout();
+        webApplication.unlinkRequestAndResponse(request, response);
     }
 
     /**
      * Test upgrade method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testUpgrade() throws Exception {
-        NanoRequest request = new NanoRequest(null);
-        request.upgrade(HttpUpgradeHandler.class);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        NanoResponse response = new NanoResponse();
+        response.setWebApplication(webApplication);
+        NanoRequest request = new NanoRequest();
+        request.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        request.upgrade(TestHttpUpgradeHandler.class);
+        webApplication.unlinkRequestAndResponse(request, response);
+    }
+
+    public static class TestHttpUpgradeHandler implements HttpUpgradeHandler {
+
+        @Override
+        public void init(WebConnection webConnection) {
+        }
+
+        @Override
+        public void destroy() {
+        }
     }
 }
