@@ -27,6 +27,8 @@
  */
 package cloud.piranha.nano;
 
+import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.api.WebApplication;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -55,16 +57,16 @@ public class NanoPiranha {
     private Servlet servlet;
 
     /**
-     * Stores the servlet context.
+     * Stores the web application.
      */
-    private NanoServletContext servletContext;
+    private WebApplication webApplication;
 
     /**
      * Constructor.
      */
     public NanoPiranha() {
         filters = new LinkedList<>();
-        servletContext = new NanoServletContext();
+        webApplication = new DefaultWebApplication();
     }
 
     /**
@@ -93,14 +95,14 @@ public class NanoPiranha {
     public Servlet getServlet() {
         return servlet;
     }
-    
+
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * Get the web application.
+     * 
+     * @return the web application.
      */
-    public NanoServletContext getServletContext() {
-        return servletContext;
+    public WebApplication getWebApplication() {
+        return webApplication;
     }
 
     /**
@@ -120,17 +122,14 @@ public class NanoPiranha {
             NanoFilterChain previousChain = chain;
             chain = new NanoFilterChain(filter, previousChain);
         }
-        /*
-         * If you are passing in your own ServletContext we are going to assume
-         * you know what your are doing. If you did not supply one, we will supply
-         * ours, provided you used our companion NanoRequest. If you
-         * did not use a NanoRequest we again assume you know what you
-         * are doing.
-         */
         if (servletRequest.getServletContext() == null
                 && servletRequest instanceof NanoRequest) {
             NanoRequest nanoRequest = (NanoRequest) servletRequest;
-            nanoRequest.setServletContext(servletContext);
+            nanoRequest.setWebApplication(webApplication);
+        }
+        if (servletResponse instanceof NanoResponse) {
+            NanoResponse nanoResponse = (NanoResponse) servletResponse;
+            nanoResponse.setWebApplication(webApplication);
         }
         chain.doFilter(servletRequest, servletResponse);
         servletResponse.flushBuffer();
@@ -146,11 +145,11 @@ public class NanoPiranha {
     }
 
     /**
-     * Set the servlet context.
+     * Set the web application.
      *
-     * @param servletContext the Nano servlet context.
+     * @param webApplication the web application.
      */
-    public void setServletContext(NanoServletContext servletContext) {
-        this.servletContext = servletContext;
+    public void setWebApplication(WebApplication webApplication) {
+        this.webApplication = webApplication;
     }
 }

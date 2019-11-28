@@ -31,18 +31,18 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the NanoServletConfig class.
- *
+ * THe JUnit tests for the NanoFilterConfig class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoServletConfigTest {
+public class NanoFilterConfigTest {
 
     /**
-     * Test getServletName method.
+     * Test getInitParameterNames method.
      */
     @Test
-    public void testGetServletName() {
-        NanoServletConfig config = new NanoServletConfig(null);
-        assertNotNull(config.getServletName());
+    public void testGetInitParameterNames() {
+        NanoFilterConfig config = new NanoFilterConfig(null);
+        assertNotNull(config.getInitParameterNames());
     }
 }

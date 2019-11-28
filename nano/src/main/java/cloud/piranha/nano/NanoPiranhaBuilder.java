@@ -28,6 +28,7 @@
 package cloud.piranha.nano;
 
 import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.api.WebApplication;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -87,7 +88,7 @@ public class NanoPiranhaBuilder {
      * @return the builder.
      */
     public NanoPiranhaBuilder directoryResource(String directory) {
-        piranha.getServletContext().addResource(new DefaultDirectoryResource(directory));
+        piranha.getWebApplication().addResource(new DefaultDirectoryResource(directory));
         return this;
     }
 
@@ -99,7 +100,7 @@ public class NanoPiranhaBuilder {
      */
     public NanoPiranhaBuilder filter(Filter filter) {
         piranha.addFilter(filter);
-        filterConfig = new NanoFilterConfig(piranha.getServletContext());
+        filterConfig = new NanoFilterConfig(piranha.getWebApplication());
         configuringFilter = true;
         return this;
     }
@@ -159,19 +160,19 @@ public class NanoPiranhaBuilder {
      */
     public NanoPiranhaBuilder servlet(Servlet servlet) {
         piranha.setServlet(servlet);
-        servletConfig = new NanoServletConfig(piranha.getServletContext());
+        servletConfig = new NanoServletConfig(piranha.getWebApplication());
         this.configuringServlet = true;
         return this;
     }
 
     /**
-     * Set the servlet context.
+     * Set the web application.
      *
-     * @param servletContext the servlet context.
+     * @param webApplication the web application.
      * @return the builder.
      */
-    public NanoPiranhaBuilder servletContext(NanoServletContext servletContext) {
-        piranha.setServletContext(servletContext);
+    public NanoPiranhaBuilder webApplication(WebApplication webApplication) {
+        piranha.setWebApplication(webApplication);
         return this;
     }
 }

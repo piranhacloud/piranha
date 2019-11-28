@@ -37,11 +37,6 @@ import java.io.OutputStream;
 public class NanoResponseBuilder {
     
     /**
-     * Stores if we set the output stream.
-     */
-    private boolean outputStreamSet;
-    
-    /**
      * Stores the response.
      */
     private final NanoResponse response;
@@ -50,7 +45,6 @@ public class NanoResponseBuilder {
      * Constructor.
      */
     public NanoResponseBuilder() {
-        outputStreamSet = false;
         response = new NanoResponse();
     }
     
@@ -72,9 +66,6 @@ public class NanoResponseBuilder {
      * @return the response.
      */
     public NanoResponse build() {
-        if (!outputStreamSet) {
-            throw new RuntimeException("You need set an output stream");
-        }
         return response;
     }
     
@@ -85,8 +76,7 @@ public class NanoResponseBuilder {
      * @return the builder.
      */
     public NanoResponseBuilder outputStream(OutputStream outputStream) {
-        response.setOutputStream(outputStream);
-        outputStreamSet = true;
+        response.setUnderlyingOutputStream(outputStream);
         return this;
     }
 }
