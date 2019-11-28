@@ -27,10 +27,10 @@
  */
 package com.manorrock.piranha.test.authentication.eleos.invoke.cdi;
 
-import static cloud.piranha.authentication.elios.AuthenticationInitializer.AUTH_MODULE_CLASS;
-import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
-import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
-import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.CONSTRAINTS;
+import static cloud.piranha.security.elios.AuthenticationInitializer.AUTH_MODULE_CLASS;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.CONSTRAINTS;
 import static cloud.piranha.builder.WebApplicationBuilder.newWebApplication;
 import static java.util.Arrays.asList;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
@@ -42,9 +42,9 @@ import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 import com.manorrock.herring.DefaultInitialContextFactory;
 import com.manorrock.piranha.test.utils.TestWebApp;
 
-import cloud.piranha.authentication.elios.AuthenticationInitializer;
-import cloud.piranha.authorization.exousia.AuthorizationInitializer;
-import cloud.piranha.authorization.exousia.AuthorizationPreInitializer;
+import cloud.piranha.security.elios.AuthenticationInitializer;
+import cloud.piranha.security.exousia.AuthorizationInitializer;
+import cloud.piranha.security.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 
 import cloud.piranha.cdi.weld.WeldInitializer;

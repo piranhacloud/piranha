@@ -29,8 +29,8 @@ package cloud.piranha.security.jakarta;
 
 import static cloud.piranha.DefaultAuthenticatedIdentity.getCurrentSubject;
 import static cloud.piranha.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
-import static cloud.piranha.authentication.elios.AuthenticationInitializer.AUTH_SERVICE;
-import static cloud.piranha.authorization.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
+import static cloud.piranha.security.elios.AuthenticationInitializer.AUTH_SERVICE;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
 
 import java.io.IOException;
 import java.security.Principal;
