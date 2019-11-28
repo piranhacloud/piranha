@@ -32,19 +32,20 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.servlet.webxml.WebXmlFeature;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the HelloServlet class.
+ * The JUnit tests for the HelloResource class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class JerseyTest {
 
     /**
-     * Test GET /HelloServlet.
+     * Test /rest/hello.
      *
      * @throws Exception when a serious error occurs.
      */
@@ -52,6 +53,7 @@ public class JerseyTest {
     public void testHello() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
+                .feature(WebXmlFeature.class.getName())
                 .build()
                 .initialize()
                 .start();

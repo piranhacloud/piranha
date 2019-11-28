@@ -89,10 +89,8 @@ public class ServletTest {
         webApplicationServer.initialize();
         webApplicationServer.start();
         webApplicationServer.process(request, response);
-        
         assertNotNull(webApplication.getAttribute("Broken Servlet"));
         assertFalse(response.getByteArrayOutputStream().toString().contains("200"));
-        
         webApplicationServer.stop();
     }
 
