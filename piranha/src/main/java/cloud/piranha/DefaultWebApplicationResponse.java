@@ -725,31 +725,30 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
             throw new IllegalStateException("Response already committed in " + methodName);
         }
     }
-    
+
     // -------------------------------------------------------------------------
     //  WebApplicationResponse implementation
     // -------------------------------------------------------------------------
-
     /**
      * Get the cookies.
-     * 
+     *
      * @return the cookies.
      */
     @Override
     public Collection<Cookie> getCookies() {
         return cookies;
     }
-    
+
     /**
      * Get the underlying output stream.
-     * 
-     * @return the underlying output stream. 
+     *
+     * @return the underlying output stream.
      */
     @Override
     public OutputStream getUnderlyingOutputStream() {
         return outputStream;
     }
-    
+
     /**
      * Set the underlying output stream.
      *
@@ -758,8 +757,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     @Override
     public void setUnderlyingOutputStream(OutputStream outputStream) {
         this.outputStream = outputStream;
-    }    
-    
+    }
+
     // -------------------------------------------------------------------------
     //  ServletOutStream implementation
     // -------------------------------------------------------------------------
@@ -772,13 +771,13 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      * Stores the index.
      */
     protected int index;
-    
+
     /**
      * Close the output stream.
-     * 
+     *
      * @throws IOException when an I/O error occurs.
      */
-    @Override    
+    @Override
     public void close() throws IOException {
         if (!isCommitted()) {
             flush();
@@ -792,7 +791,9 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void flush() throws IOException {
-        writeOut();
+        if (!isCommitted()) {
+            writeOut();
+        }
     }
 
     /**
