@@ -8,11 +8,11 @@
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.manorrock.piranha.test</groupId>
+    <groupId>cloud.piranha.test</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Manorrock Piranha Test Project</name>
+    <name>Piranha Test</name>
 
     <modules>
         <module>arquillian</module>

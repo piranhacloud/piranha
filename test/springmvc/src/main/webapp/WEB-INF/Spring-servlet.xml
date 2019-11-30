@@ -6,6 +6,6 @@
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <bean name="/hellospring.do"
-        class="com.manorrock.piranha.test.springmvc.HelloSpringController"/>
+        class="cloud.piranha.test.springmvc.HelloSpringController"/>
 
 </beans>

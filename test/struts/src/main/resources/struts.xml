@@ -5,9 +5,9 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-    <constant name="struts.devMode" value="true"/>
+    <constant name="struts.devMode" value="false"/>
     <package name="struts2" extends="struts-default">
-        <action class="com.manorrock.piranha.test.struts.HelloWorldAction"
+        <action class="cloud.piranha.test.struts.HelloWorldAction"
             method="execute" name="HelloWorld">
             <result name="success">/HelloWorld.jsp</result>
         </action>

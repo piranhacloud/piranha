@@ -13,11 +13,11 @@
         The Piranha Project delivers you with a variety of cloud containers
         and several useful add-on modules
     </description>
-    <url>https://github.com/manorrock/piranha</url>
+    <url>https://github.com/piranhacloud/piranha</url>
     <licenses>
         <license>
             <name>Manorrock License</name>
-            <url>https://github.com/manorrock/piranha/blob/master/LICENSE</url>
+            <url>https://github.com/piranhacloud/piranha/blob/master/LICENSE</url>
         </license>
     </licenses>
 

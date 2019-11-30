@@ -3,15 +3,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.manorrock.piranha.test</groupId>
+        <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>arquillian</artifactId>
+    <groupId>cloud.piranha.test.arquillian</groupId>
+    <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Manorrock Piranha Arquillian Test</name>
+    <name>Piranha Test - Arquillian</name>
 
     <modules>
         <module>servlet-basic</module>

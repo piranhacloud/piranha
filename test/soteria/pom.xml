@@ -4,15 +4,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.manorrock.piranha.test</groupId>
+        <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>soteria</artifactId>
+    <groupId>cloud.piranha.test.soteria</groupId>
+    <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Manorrock Piranha Soteria Test</name>
+    <name>Piranha Test - Soteria</name>
 
     <modules>
         <module>basic</module>
@@ -54,7 +55,7 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>cloud.piranha.cdi</groupId>
             <artifactId>piranha-cdi-weld</artifactId>
             <version>${project.version}</version>
@@ -67,7 +68,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha.test</groupId>
+            <groupId>cloud.piranha.test</groupId>
             <artifactId>utils</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
