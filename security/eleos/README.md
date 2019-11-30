@@ -1,17 +1,17 @@
 
-# Manorrock Piranha Jakarta Authentication integration
+# Piranha Security - Elios integration
 
-The Manorrock Piranha Jakarta Authentication module delivers you with Jakarta Authentication integration.
+The Piranha Security - Elios module delivers you with Elios integration.
 
 Add the following dependency to your project to use it.
 
       <dependency>
-          <groupId>com.manorrock.piranha</groupId>
-          <artifactId>piranha-authentication-elios</artifactId>
+          <groupId>cloud.piranha.security</groupId>
+          <artifactId>piranha-security-elios</artifactId>
           <version>x.y.z</version>
       </dependency>
 
-Make sure you use the same version of Manorrock Piranha itself.
+Make sure you use the same version of Piranha itself.
 
 Note that this example does not set the &lt;scope&gt; but depending on what you
-are using Manorrock Piranha for you might need to add a &lt;scope&gt;.
+are using Piranha for you might need to add a &lt;scope&gt;.

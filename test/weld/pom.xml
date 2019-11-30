@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.manorrock.piranha.test</groupId>
+        <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
         <version>19.12.0-SNAPSHOT</version>
     </parent>
@@ -11,7 +11,7 @@
     <artifactId>weld</artifactId>
     <packaging>war</packaging>
 
-    <name>Manorrock Piranha Weld Test</name>
+    <name>Piranha Test - Weld</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

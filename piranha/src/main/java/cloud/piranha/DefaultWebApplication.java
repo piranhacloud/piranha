@@ -1423,7 +1423,7 @@ public class DefaultWebApplication implements WebApplication {
         // Obtain a reference to the target resource (target Servlet)
         Servlet servlet = getTargetServlet(httpRequest);
         if (servlet == null) {
-            servlet = new DefaultServlet();
+            httpResponse.sendError(404);
         }
 
         // Invoke the Servlet, or first the Filter chain and then the Servlet
@@ -1431,10 +1431,12 @@ public class DefaultWebApplication implements WebApplication {
 
         Exception exception = null;
         try {
-            if (filterEnvironments == null) {
-                servlet.service(request, response);
-            } else {
-                getFilterChain(filterEnvironments, servlet).doFilter(request, response);
+            if (servlet != null) {
+                if (filterEnvironments == null) {
+                    servlet.service(request, response);
+                } else {
+                    getFilterChain(filterEnvironments, servlet).doFilter(request, response);
+                }
             }
         } catch (Exception e) {
             exception = e;

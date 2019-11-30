@@ -30,16 +30,16 @@ for the release you are using in the links below.
 
 ## Documentation for older releases
 
-1. [Version 19.11.0](https://github.com/manorrock/piranha/tree/v19.11.0)
-1. [Version 4.0.15.0](https://github.com/manorrock/piranha/tree/v4.0.15.0)
-1. [Version 4.0.14.0](https://github.com/manorrock/piranha/tree/v4.0.14.0)
-1. [Version 4.0.13.0](https://github.com/manorrock/piranha/tree/v4.0.13.0)
-1. [Version 4.0.12.0](https://github.com/manorrock/piranha/tree/v4.0.12.0)
-1. [Version 4.0.11.0](https://github.com/manorrock/piranha/tree/v4.0.11.0)
-1. [Version 4.0.10.0](https://github.com/manorrock/piranha/tree/v4.0.10.0)
-1. [Version 4.0.9.0](https://github.com/manorrock/piranha/tree/v4.0.9.0)
-1. [Version 4.0.8.0](https://github.com/manorrock/piranha/tree/v4.0.8.0)
-1. [Version 4.0.7.0](https://github.com/manorrock/piranha/tree/v4.0.7.0)
+1. [Version 19.11.0](https://github.com/piranhacloud/piranha/tree/v19.11.0)
+1. [Version 4.0.15.0](https://github.com/piranhacloud/piranha/tree/v4.0.15.0)
+1. [Version 4.0.14.0](https://github.com/piranhacloud/piranha/tree/v4.0.14.0)
+1. [Version 4.0.13.0](https://github.com/piranhacloud/piranha/tree/v4.0.13.0)
+1. [Version 4.0.12.0](https://github.com/piranhacloud/piranha/tree/v4.0.12.0)
+1. [Version 4.0.11.0](https://github.com/piranhacloud/piranha/tree/v4.0.11.0)
+1. [Version 4.0.10.0](https://github.com/piranhacloud/piranha/tree/v4.0.10.0)
+1. [Version 4.0.9.0](https://github.com/piranhacloud/piranha/tree/v4.0.9.0)
+1. [Version 4.0.8.0](https://github.com/piranhacloud/piranha/tree/v4.0.8.0)
+1. [Version 4.0.7.0](https://github.com/piranhacloud/piranha/tree/v4.0.7.0)
 
 ## How do I contribute?
 

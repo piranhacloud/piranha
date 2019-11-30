@@ -50,7 +50,7 @@ public class DefaultWebApplicationClassLoaderTest {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         resourceManager.addResource(new DefaultDirectoryResource(new File("target/classloader/WEB-INF/classes")));
         classLoader.setResourceManager(resourceManager);
-        assertNotNull(classLoader.loadClass("com.manorrock.piranha.test.classloader.Test1Servlet", true));
+        assertNotNull(classLoader.loadClass("cloud.piranha.test.classloader.Test1Servlet", true));
     }
 
     /**
@@ -64,7 +64,7 @@ public class DefaultWebApplicationClassLoaderTest {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         resourceManager.addResource(new DefaultDirectoryResource(new File("target/classloader/WEB-INF/classes")));
         classLoader.setResourceManager(resourceManager);
-        assertNotNull(classLoader.loadClass("com.manorrock.piranha.test.classloader.Test1Servlet", true));
-        assertNotNull(classLoader.loadClass("com.manorrock.piranha.test.classloader.Test1Servlet", true));
+        assertNotNull(classLoader.loadClass("cloud.piranha.test.classloader.Test1Servlet", true));
+        assertNotNull(classLoader.loadClass("cloud.piranha.test.classloader.Test1Servlet", true));
     }
 }

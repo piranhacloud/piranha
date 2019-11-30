@@ -13,7 +13,7 @@
         <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
         <init-param>
             <param-name>applicationClassName</param-name>
-            <param-value>com.manorrock.piranha.test.wicket.WicketApplication</param-value>
+            <param-value>cloud.piranha.test.wicket.WicketApplication</param-value>
         </init-param>
     </filter>
     <filter-mapping>

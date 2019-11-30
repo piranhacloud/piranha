@@ -1,7 +1,7 @@
 
-# Manorrock Piranha Micro
+# Piranha Micro
 
-The Manorrock Piranha Micro module delivers you with the capability to run
+The Piranha Micro module delivers you with the capability to run
 your web application from the command line using a single JAR, with either an
 exploded directory containing the contents of your WAR file, or with your WAR
 file.
@@ -9,7 +9,7 @@ file.
 ## How to use?
 
 Download the JAR file containing the WAR runner from
-[Maven Central](http://repo1.maven.org/maven2/com/manorrock/piranha/piranha-micro/).
+[Maven Central](http://repo1.maven.org/maven2/cloud/piranha/piranha-micro/).
 
 If you have a WAR file you can use the command line below
 
