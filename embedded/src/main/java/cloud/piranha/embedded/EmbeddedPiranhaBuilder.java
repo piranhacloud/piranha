@@ -82,6 +82,17 @@ public class EmbeddedPiranhaBuilder {
     public EmbeddedPiranha build() {
         return piranha;
     }
+    
+    /**
+     * Build and starts the Piranha Embedded instance.
+     *
+     * @return the instance.
+     */
+    public EmbeddedPiranha buildAndStart() {
+        return build()
+                .initialize()
+                .start();
+    }
 
     /**
      * Add a directory resource.
