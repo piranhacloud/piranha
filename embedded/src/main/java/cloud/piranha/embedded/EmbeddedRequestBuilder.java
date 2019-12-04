@@ -27,8 +27,9 @@
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.api.WebApplication;
 import javax.servlet.http.Cookie;
+
+import cloud.piranha.api.WebApplication;
 
 /**
  * The Embedded request builder.
@@ -100,6 +101,18 @@ public class EmbeddedRequestBuilder {
             cookies[0] = cookie;
         }
         request.setCookies(cookies);
+        return this;
+    }
+    
+    /**
+     * Adds a single valued header
+     * 
+     * @param name the name of the header
+     * @param value the value of the header
+     * @return the builder.
+     */
+    public EmbeddedRequestBuilder header(String name, String value) {
+        request.setHeader(name, value);
         return this;
     }
 
