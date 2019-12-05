@@ -30,5 +30,15 @@
             <artifactId>piranha-security-exousia</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cloud.piranha.security</groupId>
+            <artifactId>piranha-security-soteria</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.cdi</groupId>
+            <artifactId>piranha-cdi-weld</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
