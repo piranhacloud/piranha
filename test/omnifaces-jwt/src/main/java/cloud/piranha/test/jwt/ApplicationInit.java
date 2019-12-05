@@ -25,61 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.eleos.dispatching.jsfcdi;
+package cloud.piranha.test.jwt;
 
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.xml.sax.SAXException;
-
-import cloud.piranha.test.utils.TestWebApp;
-import org.junit.Ignore;
+import org.eclipse.microprofile.auth.LoginConfig;
 
 /**
- * The JSF with CDI forward test tests that a SAM is able to forward to a JSF view
- * that uses a CDI backing bean.
+ * Configures the authentication mechanism to be the MicroProfile MP one. 
  * 
  * @author Arjan Tijms
- * 
+ *
  */
-public class JSFCDIForwardTest {
-    
-    TestWebApp webApp;
-    
-    @Before
-    public void testProtected() throws Exception {
-        webApp = Application.get();    
-    }
-    
-    protected TestWebApp getWebApp() {
-        return webApp;
-    }
-
-    @Test
-    @Ignore
-    public void testJSFwithCDIForwardViaPublicResource() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("public/servlet?tech=jsfcdi");
-        
-        System.out.println(response);
-        
-        assertTrue(
-            "Response did not contain output from JSF view with CDI that SAM forwarded to.", 
-            response.contains("response from JSF forward - Called from CDI")
-        );
-    }
-    
-    @Test
-    public void testJSFwithCDIForwardViaProtectedResource() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("protected/servlet?tech=jsfcdi");
-        assertTrue(
-            "Response did not contain output from JSF view with CDI that SAM forwarded to.",
-            response.contains("response from JSF forward - Called from CDI")
-        );
-    }
+@LoginConfig(authMethod = "MP-JWT")
+public class ApplicationInit {
 
 }

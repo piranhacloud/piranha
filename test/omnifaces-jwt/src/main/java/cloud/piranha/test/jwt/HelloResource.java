@@ -25,61 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.eleos.dispatching.jsfcdi;
+package cloud.piranha.test.jwt;
 
-import static org.junit.Assert.assertTrue;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
-import java.io.IOException;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.xml.sax.SAXException;
-
-import cloud.piranha.test.utils.TestWebApp;
-import org.junit.Ignore;
+import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
 /**
- * The JSF with CDI forward test tests that a SAM is able to forward to a JSF view
- * that uses a CDI backing bean.
+ * A Hello resource.
  * 
+ * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
- * 
  */
-public class JSFCDIForwardTest {
+@Path("/hello")
+public class HelloResource {
     
-    TestWebApp webApp;
-    
-    @Before
-    public void testProtected() throws Exception {
-        webApp = Application.get();    
+    /**
+     * GET request
+     * 
+     * @return "Hello" 
+     */
+    @GET
+    @Produces(TEXT_PLAIN)
+    @RolesAllowed("architect")
+    public String hello() {
+        return "Hello";
     }
-    
-    protected TestWebApp getWebApp() {
-        return webApp;
-    }
-
-    @Test
-    @Ignore
-    public void testJSFwithCDIForwardViaPublicResource() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("public/servlet?tech=jsfcdi");
-        
-        System.out.println(response);
-        
-        assertTrue(
-            "Response did not contain output from JSF view with CDI that SAM forwarded to.", 
-            response.contains("response from JSF forward - Called from CDI")
-        );
-    }
-    
-    @Test
-    public void testJSFwithCDIForwardViaProtectedResource() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("protected/servlet?tech=jsfcdi");
-        assertTrue(
-            "Response did not contain output from JSF view with CDI that SAM forwarded to.",
-            response.contains("response from JSF forward - Called from CDI")
-        );
-    }
-
 }

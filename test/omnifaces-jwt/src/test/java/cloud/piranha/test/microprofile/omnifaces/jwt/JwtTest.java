@@ -25,61 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.eleos.dispatching.jsfcdi;
+package cloud.piranha.test.microprofile.omnifaces.jwt;
 
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
+import cloud.piranha.servlet.webxml.WebXmlFeature;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-
-import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
-
-import cloud.piranha.test.utils.TestWebApp;
-import org.junit.Ignore;
 
 /**
- * The JSF with CDI forward test tests that a SAM is able to forward to a JSF view
- * that uses a CDI backing bean.
- * 
+ * The JUnit tests for the HelloServlet class.
+ *
  * @author Arjan Tijms
- * 
  */
-public class JSFCDIForwardTest {
-    
-    TestWebApp webApp;
-    
-    @Before
-    public void testProtected() throws Exception {
-        webApp = Application.get();    
-    }
-    
-    protected TestWebApp getWebApp() {
-        return webApp;
-    }
+public class JwtTest {
 
+    /**
+     * Test GET /HelloServlet.
+     *
+     * @throws Exception when a serious error occurs.
+     */
     @Test
-    @Ignore
-    public void testJSFwithCDIForwardViaPublicResource() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("public/servlet?tech=jsfcdi");
+    public void testHello() throws Exception {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/main/webapp")
+                .feature(WebXmlFeature.class.getName())
+                .initializer(JakartaSecurityAllInitializer.class.getName())
+                .buildAndStart();
         
-        System.out.println(response);
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .contextPath("")
+                .servletPath("/rest")
+                .pathInfo("/hello")
+                .header("Authorization", "Bearer " + JwtTokenGenerator.generateJWTString("jwt-token.json"))
+                .build();
         
-        assertTrue(
-            "Response did not contain output from JSF view with CDI that SAM forwarded to.", 
-            response.contains("response from JSF forward - Called from CDI")
-        );
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
+        
+        assertEquals(200, response.getStatus());
+        assertTrue(response.getResponseAsString().contains("Hello"));
     }
-    
-    @Test
-    public void testJSFwithCDIForwardViaProtectedResource() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("protected/servlet?tech=jsfcdi");
-        assertTrue(
-            "Response did not contain output from JSF view with CDI that SAM forwarded to.",
-            response.contains("response from JSF forward - Called from CDI")
-        );
-    }
-
 }
