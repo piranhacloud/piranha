@@ -55,7 +55,7 @@ public class NanoPiranhaTest {
     @Test
     public void testService() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
-                .servlet(new TestHelloWorldServlet())
+                .servlet("TestHelloWorldServlet", new TestHelloWorldServlet())
                 .build();
 
         NanoRequest request = new NanoRequestBuilder()
@@ -81,11 +81,10 @@ public class NanoPiranhaTest {
     public void testService2() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .directoryResource("src/test/jsp")
-                .servlet(new JspServlet())
-                .initParam("classpath", System.getProperty("java.class.path"))
-                .initParam("compilerSourceVM", "1.8")
-                .initParam("compilerTargetVM", "1.8")
-                .initServlet()
+                .servlet("JSP Servlet", new JspServlet())
+                .servletInitParam("JSP Servlet", "classpath", System.getProperty("java.class.path"))
+                .servletInitParam("JSP Servlet", "compilerSourceVM", "1.8")
+                .servletInitParam("JSP Servlet", "compilerTargetVM", "1.8")
                 .build();
 
         NanoRequest request = new NanoRequestBuilder()
@@ -111,11 +110,10 @@ public class NanoPiranhaTest {
     public void testService3() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .directoryResource("src/test/jsp")
-                .servlet(new JspServlet())
-                .initParam("classpath", System.getProperty("java.class.path"))
-                .initParam("compilerSourceVM", "1.8")
-                .initParam("compilerTargetVM", "1.8")
-                .initServlet()
+                .servlet("JSP Servlet", new JspServlet())
+                .servletInitParam("JSP Servlet", "classpath", System.getProperty("java.class.path"))
+                .servletInitParam("JSP Servlet", "compilerSourceVM", "1.8")
+                .servletInitParam("JSP Servlet", "compilerTargetVM", "1.8")
                 .build();
 
         NanoRequest request = new NanoRequestBuilder()
@@ -140,7 +138,7 @@ public class NanoPiranhaTest {
     @Test
     public void testService4() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
-                .servlet(new TestQueryStringServlet())
+                .servlet("TestQueryStringServlet", new TestQueryStringServlet())
                 .build();
 
         NanoRequest request = new NanoRequestBuilder()
@@ -166,7 +164,7 @@ public class NanoPiranhaTest {
     @Test
     public void testService5() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
-                .servlet(new TestHeaderServlet())
+                .servlet("TestHeaderServlet", new TestHeaderServlet())
                 .build();
 
         NanoRequest request = new NanoRequestBuilder()
@@ -194,11 +192,10 @@ public class NanoPiranhaTest {
     public void testService6() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .directoryResource("src/test/wicket")
-                .filter(new WicketFilter())
-                .initParam("applicationClassName", "cloud.piranha.nano.WicketApplication")
-                .initParam("filterMappingUrlPattern", "/*")
-                .initParam("wicket.configuration", "deployment")
-                .initFilter()
+                .filter("WicketFilter", new WicketFilter())
+                .filterInitParam("WicketFilter", "applicationClassName", "cloud.piranha.nano.WicketApplication")
+                .filterInitParam("WicketFilter", "filterMappingUrlPattern", "/*")
+                .filterInitParam("WicketFilter", "wicket.configuration", "deployment")
                 .build();
 
         NanoRequest request = new NanoRequestBuilder()
@@ -224,11 +221,10 @@ public class NanoPiranhaTest {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .webApplication(new DefaultWebApplication())
                 .directoryResource("src/test/wicket")
-                .filter(new WicketFilter())
-                .initParam("applicationClassName", "cloud.piranha.nano.WicketApplication")
-                .initParam("filterMappingUrlPattern", "/*")
-                .initParam("wicket.configuration", "deployment")
-                .initFilter()
+                .filter("WicketFilter2", new WicketFilter())
+                .filterInitParam("WicketFilter2", "applicationClassName", "cloud.piranha.nano.WicketApplication")
+                .filterInitParam("WicketFilter2", "filterMappingUrlPattern", "/*")
+                .filterInitParam("WicketFilter2", "wicket.configuration", "deployment")
                 .build();
 
         NanoRequest request = new NanoRequestBuilder()

@@ -42,6 +42,11 @@ import javax.servlet.ServletContext;
 class NanoFilterConfig implements FilterConfig {
     
     /**
+     * Stores the filter name.
+     */
+    private String filterName;
+    
+    /**
      * Stores the init parameters.
      */
     private final HashMap<String, String> initParameters;
@@ -57,6 +62,7 @@ class NanoFilterConfig implements FilterConfig {
      * @param servletContext the servlet context.
      */
     public NanoFilterConfig(ServletContext servletContext) {
+        this.filterName = UUID.randomUUID().toString();
         this.initParameters = new HashMap<>();
         this.servletContext = servletContext;
     }
@@ -99,7 +105,16 @@ class NanoFilterConfig implements FilterConfig {
      */
     @Override
     public String getFilterName() {
-        return UUID.randomUUID().toString();
+        return filterName;
+    }
+
+    /**
+     * Set the filter name.
+     * 
+     * @param filterName the filter name.
+     */
+    public void setFilterName(String filterName) {
+        this.filterName = filterName;
     }
     
     /**

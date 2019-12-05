@@ -52,6 +52,11 @@ class NanoServletConfig implements ServletConfig {
     private final ServletContext servletContext;
     
     /**
+     * Stores the servlet name.
+     */
+    private String servletName;
+    
+    /**
      * Constructor.
      * 
      * @param servletContext the servlet context.
@@ -59,6 +64,7 @@ class NanoServletConfig implements ServletConfig {
     public NanoServletConfig(ServletContext servletContext) {
         this.initParameters = new HashMap<>();
         this.servletContext = servletContext;
+        this.servletName = "Default";
     }
 
     /**
@@ -99,7 +105,7 @@ class NanoServletConfig implements ServletConfig {
      */
     @Override
     public String getServletName() {
-        return UUID.randomUUID().toString();
+        return servletName;
     }
     
     /**
@@ -110,5 +116,14 @@ class NanoServletConfig implements ServletConfig {
      */
     public void setInitParameter(String name, String value) {
         initParameters.put(name, value);
+    }
+
+    /**
+     * Set the servlet name.
+     * 
+     * @param servletName the servlet name.
+     */
+    public void setServletName(String servletName) {
+        this.servletName = servletName;
     }
 }

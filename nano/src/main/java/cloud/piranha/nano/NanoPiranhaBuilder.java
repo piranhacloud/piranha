@@ -28,7 +28,13 @@
 package cloud.piranha.nano;
 
 import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.api.Resource;
 import cloud.piranha.api.WebApplication;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -41,35 +47,48 @@ import javax.servlet.ServletException;
 public class NanoPiranhaBuilder {
 
     /**
-     * Stores the configuring filter flag.
+     * Stores the filter init parameters map.
      */
-    private boolean configuringFilter = false;
+    private final HashMap<String, HashMap<String, String>> filterInitParameters;
 
     /**
-     * Stores the configuring servlet flag.
+     * Stores the filter map.
      */
-    private boolean configuringServlet = false;
+    private final HashMap<String, Filter> filters;
+    
+    /**
+     * Stores the resources.
+     */
+    private final List<Resource> resources;
 
     /**
-     * Stores the filter config.
+     * Stores the servlet init parameters.
      */
-    private NanoFilterConfig filterConfig;
+    private final HashMap<String, String> servletInitParameters;
 
     /**
-     * Stores the servlet config.
+     * Stores the servlet.
      */
-    private NanoServletConfig servletConfig;
+    private Servlet servlet;
 
     /**
-     * Stores our instance.
+     * Stores the servlet name.
      */
-    private final NanoPiranha piranha;
+    private String servletName;
+
+    /**
+     * Stores the web application.
+     */
+    private WebApplication webApplication;
 
     /**
      * Constructor.
      */
     public NanoPiranhaBuilder() {
-        piranha = new NanoPiranha();
+        filterInitParameters = new HashMap<>();
+        filters = new HashMap<>();
+        resources = new ArrayList<>();
+        servletInitParameters = new HashMap<>();
     }
 
     /**
@@ -78,6 +97,49 @@ public class NanoPiranhaBuilder {
      * @return our instance of Piranha Nano.
      */
     public NanoPiranha build() {
+        NanoPiranha piranha = new NanoPiranha();
+        if (webApplication == null) {
+            webApplication = new DefaultWebApplication();
+        }
+        piranha.setWebApplication(webApplication);
+        resources.forEach((resource) -> {
+            webApplication.addResource(resource);
+        });
+        filters.entrySet().forEach((entry) -> {
+            String filterName = entry.getKey();
+            Filter filter = entry.getValue();
+            NanoFilterConfig filterConfig = new NanoFilterConfig(piranha.getWebApplication());
+            filterConfig.setFilterName(filterName);
+            Map<String, String> initParameters = filterInitParameters.get(filterName);
+            if (initParameters != null) {
+                initParameters.entrySet().forEach((initParameter) -> {
+                    String name = initParameter.getKey();
+                    String value = initParameter.getValue();
+                    filterConfig.setInitParameter(name, value);
+                });
+            }
+            try {
+                filter.init(filterConfig);
+            } catch (ServletException se) {
+                throw new RuntimeException("Unable to initialize filter", se);
+            }
+            piranha.addFilter(filter);
+        });
+        if (servlet != null) {
+            NanoServletConfig servletConfig = new NanoServletConfig(piranha.getWebApplication());
+            servletConfig.setServletName(servletName);
+            servletInitParameters.entrySet().forEach((entry) -> {
+                String name = entry.getKey();
+                String value = entry.getValue();
+                servletConfig.setInitParameter(name, value);
+            });
+            try {
+                servlet.init(servletConfig);
+            } catch (ServletException se) {
+                throw new RuntimeException("Unable to initialize servlet", se);
+            }
+            piranha.setServlet(servlet);
+        }
         return piranha;
     }
 
@@ -88,80 +150,65 @@ public class NanoPiranhaBuilder {
      * @return the builder.
      */
     public NanoPiranhaBuilder directoryResource(String directory) {
-        piranha.getWebApplication().addResource(new DefaultDirectoryResource(directory));
+        resources.add(new DefaultDirectoryResource(directory));
         return this;
     }
 
     /**
      * Add a filter.
      *
+     * @param filterName the filter name.
      * @param filter the filter.
      * @return the builder.
      */
-    public NanoPiranhaBuilder filter(Filter filter) {
-        piranha.addFilter(filter);
-        filterConfig = new NanoFilterConfig(piranha.getWebApplication());
-        configuringFilter = true;
+    public NanoPiranhaBuilder filter(String filterName, Filter filter) {
+        filters.put(filterName, filter);
         return this;
     }
 
     /**
-     * Initialize the filter.
+     * Set a filter init parameter.
      *
-     * @return the builder.
-     */
-    public NanoPiranhaBuilder initFilter() {
-        configuringFilter = false;
-        try {
-            piranha.getFilters().get(piranha.getFilters().size() - 1).init(filterConfig);
-        } catch (ServletException se) {
-            throw new RuntimeException(se);
-        }
-        return this;
-    }
-
-    /**
-     * Set an init parameter.
-     *
+     * @param filterName the filter name.
      * @param name the name.
      * @param value the value.
      * @return the builder.
      */
-    public NanoPiranhaBuilder initParam(String name, String value) {
-        if (configuringServlet) {
-            servletConfig.setInitParameter(name, value);
+    public NanoPiranhaBuilder filterInitParam(String filterName, String name, String value) {
+        HashMap<String, String> initParameters = filterInitParameters.get(filterName);
+        if (initParameters == null) {
+            initParameters = new HashMap<>();
+            filterInitParameters.put(filterName, initParameters);
         }
-        if (configuringFilter) {
-            filterConfig.setInitParameter(name, value);
-        }
+        initParameters.put(name, value);
         return this;
     }
 
     /**
-     * Initialize the servlet.
+     * Set the Servlet.
      *
+     * @param servletName the Servlet name.
+     * @param servlet the Servlet.
      * @return the builder.
      */
-    public NanoPiranhaBuilder initServlet() {
-        configuringServlet = false;
-        try {
-            piranha.getServlet().init(servletConfig);
-        } catch (ServletException se) {
-            throw new RuntimeException(se);
-        }
+    public NanoPiranhaBuilder servlet(String servletName, Servlet servlet) {
+        this.servlet = servlet;
+        this.servletName = servletName;
         return this;
     }
 
     /**
-     * Set the servlet.
+     * Set a servlet init parameter.
      *
-     * @param servlet the servlet.
+     * @param servletName the servlet name.
+     * @param name the name.
+     * @param value the value.
      * @return the builder.
      */
-    public NanoPiranhaBuilder servlet(Servlet servlet) {
-        piranha.setServlet(servlet);
-        servletConfig = new NanoServletConfig(piranha.getWebApplication());
-        this.configuringServlet = true;
+    public NanoPiranhaBuilder servletInitParam(String servletName, String name, String value) {
+        if (servletName.equals(this.servletName)) {
+            servletInitParameters.put(name, value);
+        }
         return this;
     }
 
@@ -172,7 +219,7 @@ public class NanoPiranhaBuilder {
      * @return the builder.
      */
     public NanoPiranhaBuilder webApplication(WebApplication webApplication) {
-        piranha.setWebApplication(webApplication);
+        this.webApplication = webApplication;
         return this;
     }
 }
