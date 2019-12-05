@@ -103,8 +103,9 @@ public class TestWebApp {
             parameters = toParameterMap(splitPath[1]);
         }
         
-        try {
-            DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        try (DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+                DefaultWebApplicationResponse response = new DefaultWebApplicationResponse()) {
+            
             request.setWebApplication(webApp);
             request.setContextPath("");
             request.setServletPath(servletPath);
@@ -130,7 +131,6 @@ public class TestWebApp {
                 request.setHeader(header.getName(), header.getValue());
             }
             
-            DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
             response.setUnderlyingOutputStream(new ByteArrayOutputStream());
         
             webApp.service(request, response);

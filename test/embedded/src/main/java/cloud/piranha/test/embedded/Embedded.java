@@ -50,10 +50,9 @@ public class Embedded {
      */
     public String execute() {
         String result;
-        try {
+        try (EmbeddedRequest request = new EmbeddedRequest();
+                EmbeddedResponse response = new EmbeddedResponse()) {
             EmbeddedPiranha embedded = new EmbeddedPiranha();
-            EmbeddedRequest request = new EmbeddedRequest();
-            EmbeddedResponse response = new EmbeddedResponse();
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             response.setUnderlyingOutputStream(output);
             embedded.initialize();
