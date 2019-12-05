@@ -60,7 +60,6 @@ public class HelloOpenWebBeansTest {
                 .initializer(MyFacesInitializer.class.getName())
                 .initializer(OpenWebBeansInitializer.class.getName())
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")

@@ -54,10 +54,9 @@ public class HelloHazelcastTest {
     public void testNotFound() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
-                .sessionManager(new HazelcastHttpSessionManager())
+                .httpSessionManager(new HazelcastHttpSessionManager())
                 .initializer(MojarraInitializer.class.getName())
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")
@@ -80,10 +79,9 @@ public class HelloHazelcastTest {
     public void testIndexHtml() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
-                .sessionManager(new HazelcastHttpSessionManager())
+                .httpSessionManager(new HazelcastHttpSessionManager())
                 .initializer(MojarraInitializer.class.getName())
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")

@@ -57,7 +57,6 @@ public class HelloVaadinTest {
                 .servletMapping("Vaadin", "/*")
                 .servlet("Vaadin", "cloud.piranha.test.vaadin.HelloVaadinServlet")
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .servletPath("/index.html")

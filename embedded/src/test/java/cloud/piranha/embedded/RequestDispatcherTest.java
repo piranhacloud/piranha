@@ -56,7 +56,6 @@ public class RequestDispatcherTest {
                 .servlet("Include1bServlet", Include1bServlet.class.getName())
                 .servletMapping("Include1bServlet", "/include/IncludedServlet")
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .servletPath("/TestServlet")

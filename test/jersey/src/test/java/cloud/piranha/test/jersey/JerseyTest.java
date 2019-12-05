@@ -55,7 +55,6 @@ public class JerseyTest {
                 .directoryResource("src/main/webapp")
                 .feature(WebXmlFeature.class.getName())
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")

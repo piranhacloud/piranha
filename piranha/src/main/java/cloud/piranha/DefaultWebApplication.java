@@ -1242,30 +1242,18 @@ public class DefaultWebApplication implements WebApplication {
     public void initialize() {
         LOGGER.log(FINE, "Initializing web application at {0}", contextPath);
         verifyState(SETUP, "Unable to initialize web application");
-        try {
-            initializeFeatures();
-            initializeInitializers();
-            @SuppressWarnings("unchecked")
-            List<ServletContextListener> listeners = (List<ServletContextListener>) contextListeners.clone();
-            listeners.stream().forEach((listener) -> {
-                listener.contextInitialized(new ServletContextEvent(this));
-            });
-            initializeFilters();
-            initializeServlets();
-            status = INITIALIZED;
-            LOGGER.log(FINE, "Initialized web application at {0}", contextPath);
-        } catch (ServletException se) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "An error occured initializing webapplication at " + contextPath, se);
-            }
-            status = ERROR;
-        }
+        initializeFeatures();
+        initializeInitializers();
+        initializeFilters();
+        initializeServlets();
+        initializeFinish();
     }
 
     /**
      * Initialize the features.
      */
-    protected void initializeFeatures() {
+    @Override
+    public void initializeFeatures() {
         Iterator<Feature> iterator = features.iterator();
         while (iterator.hasNext()) {
             Feature feature = iterator.next();
@@ -1274,42 +1262,78 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
+     * Finish the initialization.
+     */
+    @Override
+    public void initializeFinish() {
+        if (status == SETUP) {
+            status = INITIALIZED;
+            LOGGER.log(FINE, "Initialized web application at {0}", contextPath);
+        }
+        if (status == ERROR && LOGGER.isLoggable(WARNING)) {
+            LOGGER.log(WARNING, "An error occured initializing webapplication at {0}", contextPath);
+        }
+    }
+
+    /**
      * Initialize the filters.
      */
-    protected void initializeFilters() {
-        List<String> filterNames = new ArrayList<>(filters.keySet());
-        filterNames.stream().map((filterName) -> filters.get(filterName)).forEach((environment) -> {
-            try {
-                environment.initialize();
-                environment.getFilter().init(environment);
-            } catch (ServletException exception) {
-                if (LOGGER.isLoggable(WARNING)) {
-                    LOGGER.log(WARNING, "Unable to initialize filter: " + environment.getFilterName(), exception);
+    @Override
+    public void initializeFilters() {
+        if (status == SETUP) {
+            List<String> filterNames = new ArrayList<>(filters.keySet());
+            filterNames.stream().map((filterName) -> filters.get(filterName)).forEach((environment) -> {
+                try {
+                    environment.initialize();
+                    environment.getFilter().init(environment);
+                } catch (ServletException exception) {
+                    if (LOGGER.isLoggable(WARNING)) {
+                        LOGGER.log(WARNING, "Unable to initialize filter: " + environment.getFilterName(), exception);
+                    }
+                    environment.setStatus(UNAVAILABLE);
                 }
-                environment.setStatus(UNAVAILABLE);
-            }
-        });
+            });
+        }
     }
 
     /**
      * Initialize the servlet container initializers.
-     *
-     * @throws ServletException when an error occurs.
      */
-    protected void initializeInitializers() throws ServletException {
+    @Override
+    public void initializeInitializers() {
+        boolean error = false;
         for (ServletContainerInitializer initializer : initializers) {
-            initializer.onStartup(annotationManager.getAnnotatedClasses(), this);
+            try {
+                initializer.onStartup(annotationManager.getAnnotatedClasses(), this);
+            } catch (ServletException ex) {
+                if (LOGGER.isLoggable(WARNING)) {
+                    LOGGER.log(Level.WARNING, "Initializer " + initializer.getClass().getName() + " failing onStartup", ex);
+                }
+                error = true;
+            }
+        }
+        if (!error) {
+            @SuppressWarnings("unchecked")
+            List<ServletContextListener> listeners = (List<ServletContextListener>) contextListeners.clone();
+            listeners.stream().forEach((listener) -> {
+                listener.contextInitialized(new ServletContextEvent(this));
+            });
+        } else {
+            status = ERROR;
         }
     }
 
     /**
      * Initialize the servlets.
      */
-    protected void initializeServlets() {
-        List<String> servletNames = new ArrayList<>(servlets.keySet());
-        servletNames.stream().map((servletName) -> servlets.get(servletName)).forEach((environment) -> {
-            initializeServlet(environment);
-        });
+    @Override
+    public void initializeServlets() {
+        if (status == SETUP) {
+            List<String> servletNames = new ArrayList<>(servlets.keySet());
+            servletNames.stream().map((servletName) -> servlets.get(servletName)).forEach((environment) -> {
+                initializeServlet(environment);
+            });
+        }
     }
 
     /**

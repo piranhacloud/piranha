@@ -56,7 +56,6 @@ public class HelloSpringControllerTest {
                 .servletMapping("Spring", "*.do")
                 .servlet("Spring", "org.springframework.web.servlet.DispatcherServlet")
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .servletPath("/hellospring.do")

@@ -58,7 +58,6 @@ public class MojarraTest {
                 .directoryResource("src/main/webapp")
                 .initializer(MojarraInitializer.class.getName())
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")
@@ -83,7 +82,6 @@ public class MojarraTest {
                 .directoryResource("src/main/webapp")
                 .initializer(MojarraInitializer.class.getName())
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")

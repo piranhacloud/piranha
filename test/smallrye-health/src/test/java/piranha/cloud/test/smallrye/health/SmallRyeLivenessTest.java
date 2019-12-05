@@ -59,7 +59,6 @@ public class SmallRyeLivenessTest {
                 .servlet("Liveness", SmallRyeLivenessServlet.class.getName())
                 .servletMapping("Liveness", "/health/live")
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")

@@ -60,7 +60,6 @@ public class SmallRyeReadinessTest {
                 .servlet("Readiness", SmallRyeReadinessServlet.class.getName())
                 .servletMapping("Readiness", "/health/ready")
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")

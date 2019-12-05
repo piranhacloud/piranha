@@ -59,7 +59,6 @@ public class HelloStrutsFilterTest {
                 .servlet("Default", DefaultServlet.class.getName())
                 .servletMapping("Default", "/*")
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .servletPath("/HelloWorld.action")

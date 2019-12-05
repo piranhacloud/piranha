@@ -55,13 +55,12 @@ public class WicketTest {
                 .directoryResource("src/main/webapp")
                 .directoryResource("src/main/java")
                 .filter("wicket", "org.apache.wicket.protocol.http.WicketFilter")
-                .initParam("applicationClassName", "cloud.piranha.test.wicket.WicketApplication")
+                .filterInitParam("wicket", "applicationClassName", "cloud.piranha.test.wicket.WicketApplication")
                 .filterMapping("wicket", "/*")
                 .servlet("Default", DefaultServlet.class.getName())
                 .servletMapping("Default", "/*")
-                .build();
-        piranha.initialize();
-        piranha.start();
+                .build()
+                .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .webApplication(piranha.getWebApplication())
                 .servletPath("/")
