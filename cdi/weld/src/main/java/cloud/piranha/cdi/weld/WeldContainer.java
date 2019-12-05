@@ -31,8 +31,8 @@ import javax.enterprise.inject.spi.CDI;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.jboss.weld.environment.Container;
-import org.jboss.weld.environment.ContainerContext;
+import org.jboss.weld.environment.servlet.Container;
+import org.jboss.weld.environment.servlet.ContainerContext;
 import org.jboss.weld.manager.api.WeldManager;
 import org.jboss.weld.resources.spi.ResourceLoader;
 
