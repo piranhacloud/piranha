@@ -45,7 +45,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.piranha</groupId>
+            <groupId>cloud.piranha</groupId>
             <artifactId>piranha-builder</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
