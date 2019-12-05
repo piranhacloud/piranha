@@ -144,12 +144,10 @@ public class JakartaSecurityManager implements SecurityManager {
     
     private void setIdentityForCurrentRequest(HttpServletRequest request, Principal callerPrincipal, Set<String> groups) {
         // TODO: consider not setting principal in request separately
-        Principal currentPrincipal = callerPrincipal == null ? null : callerPrincipal.getName() == null ? null : callerPrincipal;
-        
         DefaultWebApplicationRequest defaultWebApplicationRequest = (DefaultWebApplicationRequest) request;
-        defaultWebApplicationRequest.setUserPrincipal(currentPrincipal);
+        defaultWebApplicationRequest.setUserPrincipal(callerPrincipal);
         
-        DefaultAuthenticatedIdentity.setCurrentIdentity(currentPrincipal, groups);
+        DefaultAuthenticatedIdentity.setCurrentIdentity(callerPrincipal, groups);
     }
 
     @Override
