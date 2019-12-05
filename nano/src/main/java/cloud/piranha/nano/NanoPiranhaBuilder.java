@@ -33,6 +33,7 @@ import cloud.piranha.api.Resource;
 import cloud.piranha.api.WebApplication;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.Filter;
@@ -54,7 +55,7 @@ public class NanoPiranhaBuilder {
     /**
      * Stores the filter map.
      */
-    private final HashMap<String, Filter> filters;
+    private final LinkedHashMap<String, Filter> filters;
     
     /**
      * Stores the resources.
@@ -86,7 +87,7 @@ public class NanoPiranhaBuilder {
      */
     public NanoPiranhaBuilder() {
         filterInitParameters = new HashMap<>();
-        filters = new HashMap<>();
+        filters = new LinkedHashMap<>();
         resources = new ArrayList<>();
         servletInitParameters = new HashMap<>();
     }

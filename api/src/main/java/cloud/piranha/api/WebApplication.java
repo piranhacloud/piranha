@@ -213,6 +213,31 @@ public interface WebApplication extends ServletContext {
      * Initialize the web application.
      */
     void initialize();
+    
+    /**
+     * Initialize the features.
+     */
+    void initializeFeatures();
+    
+    /**
+     * Finish the initialization.
+     */
+    void initializeFinish();
+    
+    /**
+     * Initialize the filters.
+     */
+    void initializeFilters();
+    
+    /**
+     * Initialize the servlet container initializers.
+     */
+    void initializeInitializers();
+
+    /**
+     * Initialize the servlets.
+     */
+    void initializeServlets();
 
     /**
      * Link the request and response.

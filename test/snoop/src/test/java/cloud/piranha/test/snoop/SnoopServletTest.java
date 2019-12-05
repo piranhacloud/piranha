@@ -56,7 +56,6 @@ public class SnoopServletTest {
                 .servletMapping("Snoop", "/Snoop")
                 .servlet("Snoop", SnoopServlet.class.getName())
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .servletPath("/Snoop")
@@ -81,7 +80,6 @@ public class SnoopServletTest {
                 .servletMapping("Snoop", "/Snoop")
                 .servlet("Snoop", SnoopServlet.class.getName())
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .servletPath("/Snoop")
@@ -108,7 +106,6 @@ public class SnoopServletTest {
                 .servletMapping("Snoop", "/Snoop")
                 .servlet("Snoop", SnoopServlet.class.getName())
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .method("POST")

@@ -55,7 +55,6 @@ public class HelloMyFacesTest {
                 .directoryResource("src/main/webapp")
                 .initializer(MyFacesInitializer.class.getName())
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")
@@ -80,7 +79,6 @@ public class HelloMyFacesTest {
                 .directoryResource("src/main/webapp")
                 .initializer(MyFacesInitializer.class.getName())
                 .build()
-                .initialize()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")
