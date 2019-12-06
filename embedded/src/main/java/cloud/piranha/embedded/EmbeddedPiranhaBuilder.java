@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletRegistration;
 
@@ -47,6 +48,11 @@ import javax.servlet.ServletRegistration;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class EmbeddedPiranhaBuilder {
+    
+    /**
+     * Stores the attributes.
+     */
+    private final LinkedHashMap<String, Object> attributes;
 
     /**
      * Stores the features.
@@ -102,6 +108,7 @@ public class EmbeddedPiranhaBuilder {
      * Constructor.
      */
     public EmbeddedPiranhaBuilder() {
+        attributes = new LinkedHashMap<>();
         features = new ArrayList<>();
         filters = new LinkedHashMap<>();
         filterInitParameters = new LinkedHashMap<>();
@@ -124,6 +131,18 @@ public class EmbeddedPiranhaBuilder {
         resources.add(new DefaultAliasedDirectoryResource(new File(path), alias));
         return this;
     }
+    
+    /**
+     * Add an attribute.
+     * 
+     * @param name the name.
+     * @param value the value.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder attribute(String name, Object value) {
+        attributes.put(name, value);
+        return this;
+    }
 
     /**
      * Build the Piranha Embedded instance.
@@ -136,6 +155,11 @@ public class EmbeddedPiranhaBuilder {
         if (httpSessionManager != null) {
             webApplication.setHttpSessionManager(httpSessionManager);
         }
+        attributes.entrySet().forEach((attribute) -> {
+            String attributeName = attribute.getKey();
+            Object attributeValue = attribute.getValue();
+            webApplication.setAttribute(attributeName, attributeValue);
+        });
         resources.forEach((resource) -> {
             webApplication.addResource(resource);
         });

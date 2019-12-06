@@ -25,17 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.jwt;
+package cloud.piranha.test.microprofile.omnifaces.jwt;
 
-import org.eclipse.microprofile.auth.LoginConfig;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
+
+import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
 /**
- * Configures the authentication mechanism to be the MicroProfile MP one. 
+ * A Hello resource.
  * 
+ * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
- *
  */
-@LoginConfig(authMethod = "MP-JWT")
-public class ApplicationInit {
-
+@Path("/hello")
+public class HelloResource {
+    
+    /**
+     * GET request
+     * 
+     * @return "Hello" 
+     */
+    @GET
+    @Produces(TEXT_PLAIN)
+    @RolesAllowed("architect")
+    public String hello() {
+        return "Hello";
+    }
 }

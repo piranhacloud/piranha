@@ -12,7 +12,7 @@
     <artifactId>omnifaces-jwt</artifactId>
     <packaging>war</packaging>
 
-    <name>Manorrock Piranha OmniFaces JWT Test</name>
+    <name>Piranha Test - OmniFaces JWT</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

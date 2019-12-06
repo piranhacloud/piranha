@@ -27,28 +27,24 @@
  */
 package cloud.piranha.test.exousia;
 
-import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
-import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
-import static cloud.piranha.security.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
-import static cloud.piranha.builder.WebApplicationBuilder.newWebApplication;
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import javax.security.jacc.WebUserDataPermission;
-
-import org.junit.Test;
-import org.omnifaces.exousia.modules.def.DefaultPolicy;
-import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
-
-
-import cloud.piranha.api.WebApplication;
-import cloud.piranha.security.exousia.AuthorizationPreInitializer;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.security.exousia.AuthorizationPreInitializer;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
+import static java.util.Arrays.asList;
+import javax.security.jacc.WebUserDataPermission;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import org.omnifaces.exousia.modules.def.DefaultPolicy;
+import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 /**
  * The JUnit tests for the basic connection test
@@ -64,31 +60,26 @@ public class BasicConnectionTest {
      */
     @Test
     public void testNonSecureConnection() throws Exception {
-        WebApplication webApp = 
-            newWebApplication()
-                .addAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
-                .addAttribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
-                .addAttribute(UNCHECKED_PERMISSIONS, asList(
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
+                .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
+                .attribute(UNCHECKED_PERMISSIONS, asList(
                     new WebUserDataPermission("/*", "!GET"),
                     new WebUserDataPermission("/*", "GET:CONFIDENTIAL")))
-                .addInitializer(AuthorizationPreInitializer.class)
-                
-                .addInitializer(JakartaSecurityInitializer.class)
-                
-                .addServlet(PublicServlet.class, "/public/servlet")
+                .initializer(AuthorizationPreInitializer.class.getName())
+                .initializer(JakartaSecurityInitializer.class.getName())
+                .servlet("PublicServlet", PublicServlet.class.getName())
+                .servletMapping("PublicServlet", "/public/servlet")
+                .build()
                 .start();
-        
         EmbeddedRequest request = new EmbeddedRequestBuilder()
-                .webApplication(webApp)
                 .contextPath("")
                 .servletPath("/public/servlet")
                 .build();
-        
         EmbeddedResponse response = new EmbeddedResponse();
-        
-        webApp.service(request, response);
-
+        piranha.service(request, response);
         assertFalse(response.getResponseAsString().contains("Hello, from Servlet!"));
+        piranha.stop().destroy();
     }
     
     /**
@@ -98,61 +89,51 @@ public class BasicConnectionTest {
      */
     @Test
     public void testSecureConnection() throws Exception {
-        WebApplication webApp = 
-            newWebApplication()
-                .addAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
-                .addAttribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
-                .addAttribute(UNCHECKED_PERMISSIONS, asList(
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
+                .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
+                .attribute(UNCHECKED_PERMISSIONS, asList(
                     new WebUserDataPermission("/*", "!GET"),
                     new WebUserDataPermission("/*", "GET:CONFIDENTIAL")))
-                .addInitializer(AuthorizationPreInitializer.class)
-                
-                .addServlet(PublicServlet.class, "/public/servlet")
+                .initializer(AuthorizationPreInitializer.class.getName())
+                .servlet("PublicServlet", PublicServlet.class.getName())
+                .servletMapping("PublicServlet", "/public/servlet")
+                .build()
                 .start();
-        
-        
         EmbeddedRequest request = new EmbeddedRequestBuilder()
-                .webApplication(webApp)
                 .contextPath("")
                 .servletPath("/public/servlet")
                 .scheme("https")
                 .build();
-        
         EmbeddedResponse response = new EmbeddedResponse();
-
-        webApp.service(request, response);
-
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Hello, from Servlet!"));
+        piranha.stop().destroy();
     }
     
     @Test
     public void testSecureConnectionExactMapping() throws Exception {
-        WebApplication webApp = 
-            newWebApplication()
-                .addAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
-                .addAttribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
-                .addAttribute(UNCHECKED_PERMISSIONS, asList(
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
+                .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
+                .attribute(UNCHECKED_PERMISSIONS, asList(
                     new WebUserDataPermission("/public/servlet", "!GET"),
                     new WebUserDataPermission("/public/servlet", "GET:CONFIDENTIAL")))
-                .addInitializer(AuthorizationPreInitializer.class)
-                
-                .addServlet(PublicServlet.class, "/public/servlet")
+                .initializer(AuthorizationPreInitializer.class.getName())
+                .servlet("PublicServlet", PublicServlet.class.getName())
+                .servletMapping("PublicServlet", "/public/servlet")
+                .build()
                 .start();
-        
-        
         EmbeddedRequest request = new EmbeddedRequestBuilder()
-                .webApplication(webApp)
                 .contextPath("")
                 .servletPath("/public/servlet")
                 .scheme("https")
                 .build();
-        
         EmbeddedResponse response = new EmbeddedResponse();
-
-        webApp.service(request, response);
-
+        piranha.service(request, response);
         assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Hello, from Servlet!"));
+        piranha.stop().destroy();
     }
 }
