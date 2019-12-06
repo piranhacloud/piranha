@@ -12,7 +12,7 @@
     <artifactId>piranha-security-jakarta</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Secutiry - Jakarta Security Integration</name>
+    <name>Piranha Security - Jakarta Security Integration</name>
 
     <dependencies>
         <dependency>
@@ -24,6 +24,12 @@
             <groupId>cloud.piranha.security</groupId>
             <artifactId>piranha-security-eleos</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.security</groupId>

@@ -28,6 +28,12 @@
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>exousia</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

@@ -9,12 +9,11 @@
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>cloud.piranha.test.jwt</param-value>
+            <param-value>cloud.piranha.test.microprofile.omnifaces.jwt</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
-
 </web-app>
