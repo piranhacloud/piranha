@@ -440,7 +440,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
                 if (characterEncoding == null) {
                     characterEncoding = "ISO-8859-1";
                 }
-                writer = new PrintWriter(new OutputStreamWriter(this, characterEncoding));
+                writer = new PrintWriter(new OutputStreamWriter(this, characterEncoding), false);
             }
             result = writer;
         } else {
@@ -791,9 +791,6 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void flush() throws IOException {
-        if (!isCommitted()) {
-            writeOut();
-        }
     }
 
     /**

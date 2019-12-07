@@ -139,6 +139,7 @@ public class DefaultServletRequestDispatcherTest {
         webApp.linkRequestAndResponse(request, response);
         RequestDispatcher dispatcher = webApp.getNamedDispatcher("Echo");
         dispatcher.include(request, response);
+        response.flushBuffer();
         String responseText = new String(response.getResponseBytes());
         webApp.unlinkRequestAndResponse(request, response);
         webApp.stop();
@@ -161,6 +162,7 @@ public class DefaultServletRequestDispatcherTest {
         webApp.linkRequestAndResponse(request, response);
         RequestDispatcher dispatcher = webApp.getNamedDispatcher("Echo2");
         dispatcher.include(request, response);
+        response.flushBuffer();
         String responseText = new String(response.getResponseBytes());
         webApp.unlinkRequestAndResponse(request, response);
         webApp.stop();
