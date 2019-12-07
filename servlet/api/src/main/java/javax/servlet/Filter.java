@@ -39,7 +39,7 @@ public interface Filter {
     /**
      * Destroy the filter.
      */
-    default public void destroy() {
+    default void destroy() {
     }
 
     /**
@@ -51,7 +51,7 @@ public interface Filter {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
      */
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException;
+    void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException;
 
     /**
      * Initialize the filter.

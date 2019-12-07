@@ -14,7 +14,7 @@
     </fileSets>
     <files>
         <file>
-            <source>${project.build.directory}/piranha-standard.jar</source>
+            <source>${project.build.directory}/piranha-server.jar</source>
             <outputDirectory>lib</outputDirectory>
         </file>
     </files>

@@ -44,6 +44,7 @@ import cloud.piranha.security.soteria.SoteriaInitializer;
 import static java.util.Arrays.asList;
 import java.util.Base64;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+import javax.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -51,6 +52,7 @@ import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
+@BasicAuthenticationMechanismDefinition(realmName = "test")
 public class BasicTest {
 
     @Test

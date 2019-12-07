@@ -37,6 +37,12 @@
             <artifactId>microprofile-jwt-auth</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>jakarta.enterprise</groupId>

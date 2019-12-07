@@ -41,7 +41,7 @@ public interface ServletContextListener extends EventListener {
      *
      * @param event the event.
      */
-    default public void contextDestroyed(ServletContextEvent event) {
+    default void contextDestroyed(ServletContextEvent event) {
     }
 
     /**
@@ -49,6 +49,6 @@ public interface ServletContextListener extends EventListener {
      *
      * @param event the event.
      */
-    default public void contextInitialized(ServletContextEvent event) {
+    default void contextInitialized(ServletContextEvent event) {
     }
 }

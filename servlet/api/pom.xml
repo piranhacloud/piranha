@@ -44,7 +44,7 @@
                         <comparisonArtifact>
                             <groupId>jakarta.servlet</groupId>
                             <artifactId>jakarta.servlet-api</artifactId>
-                            <version>4.0.2</version>
+                            <version>4.0.3</version>
                         </comparisonArtifact>
                     </comparisonArtifacts>
                     <failOnError>false</failOnError>

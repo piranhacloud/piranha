@@ -41,7 +41,7 @@ public interface ServletRequestListener extends EventListener {
      *
      * @param event the event.
      */
-    default public void requestDestroyed(ServletRequestEvent event) {
+    default void requestDestroyed(ServletRequestEvent event) {
     }
 
     /**
@@ -49,6 +49,6 @@ public interface ServletRequestListener extends EventListener {
      *
      * @param event the event.
      */
-    default public void requestInitialized(ServletRequestEvent event) {
+    default void requestInitialized(ServletRequestEvent event) {
     }
 }

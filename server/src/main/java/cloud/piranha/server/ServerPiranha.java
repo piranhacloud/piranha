@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.standard;
+package cloud.piranha.server;
 
 import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultHttpServer;
@@ -56,12 +56,12 @@ import java.util.zip.ZipInputStream;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardPiranha implements Runnable {
+public class ServerPiranha implements Runnable {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(StandardPiranha.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ServerPiranha.class.getName());
 
     /**
      * Main method.
@@ -69,7 +69,7 @@ public class StandardPiranha implements Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        StandardPiranha piranha = new StandardPiranha();
+        ServerPiranha piranha = new ServerPiranha();
         piranha.run();
     }
 
