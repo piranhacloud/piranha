@@ -33,6 +33,7 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -60,6 +61,7 @@ public class JspWriterTest {
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
         assertEquals(200, response.getStatus());
+        assertFalse(response.getResponseAsString().contains("Test FAILED"));
         assertTrue(response.getResponseAsString().contains("Test PASSED"));
     }
 }
