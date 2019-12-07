@@ -14,14 +14,14 @@ See the list below for what is available.
 
 1. [Piranha Servlet container](piranha/README.md)
 1. [Piranha Grizzly integration](http/grizzly/README.md)
-1. [Piranha Hazelcast HTTP Session integration](piranha-session-hazelcast/README.md)
+1. [Piranha Hazelcast HTTP Session integration](session/hazelcast/README.md)
 1. [Piranha Jasper integration](pages/jasper/README.md)
 1. [Piranha MyFaces integration](faces/myfaces/README.md)
 1. [Piranha Mojarra integration](faces/mojarra/README.md)
 1. [Piranha Netty integration](http/netty/README.md)
 1. [Piranha OpenWebBeans integration](cdi/openwebbeans/README.md)
-1. [Piranha Servlet API](piranha-servlet-api/README.md)
-1. [Piranha Single Threaded](http/singlethread/README.md)
+1. [Piranha Servlet API](servlet/api/README.md)
+1. [Piranha Single Thread Server](http/singlethread/README.md)
 1. [Piranha Weld integration](cdi/weld/README.md)
 
 Note the documentation for the master branch might show features that are NOT 

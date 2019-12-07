@@ -29,7 +29,6 @@ package cloud.piranha.resource.shrinkwrap;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.ProtectionDomain;
 import java.util.Enumeration;
 
 import cloud.piranha.DefaultResourceManagerClassLoader;

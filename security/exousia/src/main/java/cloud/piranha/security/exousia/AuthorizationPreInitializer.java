@@ -67,16 +67,16 @@ import cloud.piranha.api.WebApplication;
  */
 public class AuthorizationPreInitializer implements ServletContainerInitializer {
 
-    public final static String AUTHZ_SERVICE = AuthorizationPreInitializer.class.getName() + ".authz.service";
+    public static final String AUTHZ_SERVICE = AuthorizationPreInitializer.class.getName() + ".authz.service";
 
-    public final static String AUTHZ_FACTORY_CLASS = AuthorizationPreInitializer.class.getName() + ".authz.factory.class";
-    public final static String AUTHZ_POLICY_CLASS = AuthorizationPreInitializer.class.getName() + ".authz.module.class";
+    public static final String AUTHZ_FACTORY_CLASS = AuthorizationPreInitializer.class.getName() + ".authz.factory.class";
+    public static final String AUTHZ_POLICY_CLASS = AuthorizationPreInitializer.class.getName() + ".authz.module.class";
 
-    public final static String UNCHECKED_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".unchecked.permissions";
-    public final static String PERROLE_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".perrole.permissions";
-    public final static String CONSTRAINTS = AuthorizationPreInitializer.class.getName() + ".constraints";
-    public final static String SECURITY_ELEMENTS = AuthorizationPreInitializer.class.getName() + ".security.elements";
-    public final static String SECURITY_ANNOTATIONS = AuthorizationPreInitializer.class.getName() + ".security.annotations";
+    public static final String UNCHECKED_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".unchecked.permissions";
+    public static final String PERROLE_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".perrole.permissions";
+    public static final String CONSTRAINTS = AuthorizationPreInitializer.class.getName() + ".constraints";
+    public static final String SECURITY_ELEMENTS = AuthorizationPreInitializer.class.getName() + ".security.elements";
+    public static final String SECURITY_ANNOTATIONS = AuthorizationPreInitializer.class.getName() + ".security.annotations";
 
     /**
      * Initialize Exousia

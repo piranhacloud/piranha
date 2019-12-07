@@ -9,12 +9,12 @@
         <version>19.12.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-standard</artifactId>
+    <artifactId>piranha-server</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Standard</name>
+    <name>Piranha Server</name>
     <description>
-        The standard version of Piranha.
+        The server version of Piranha.
     </description>
 
     <dependencies>
@@ -55,7 +55,7 @@
     </dependencies>
 
     <build>
-        <finalName>piranha-standard</finalName>
+        <finalName>piranha-server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -82,7 +82,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>cloud.piranha.standard.StandardPiranha</mainClass>
+                            <mainClass>cloud.piranha.server.ServerPiranha</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

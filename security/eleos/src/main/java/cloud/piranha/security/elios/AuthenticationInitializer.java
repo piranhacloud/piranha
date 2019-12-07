@@ -52,8 +52,8 @@ import cloud.piranha.api.WebApplication;
  */
 public class AuthenticationInitializer implements ServletContainerInitializer {
     
-    public final static String AUTH_MODULE_CLASS = AuthenticationInitializer.class.getName() + ".auth.module.class";
-    public final static String AUTH_SERVICE = AuthenticationInitializer.class.getName() + ".auth.service";
+    public static final String AUTH_MODULE_CLASS = AuthenticationInitializer.class.getName() + ".auth.module.class";
+    public static final String AUTH_SERVICE = AuthenticationInitializer.class.getName() + ".auth.service";
 
     
     /**

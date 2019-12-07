@@ -190,7 +190,7 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>cloud.piranha</groupId>
-                                    <artifactId>piranha-standard</artifactId>
+                                    <artifactId>piranha-server</artifactId>
                                     <version>${project.version}</version>
                                     <type>zip</type>
                                     <outputDirectory>${project.build.directory}</outputDirectory>

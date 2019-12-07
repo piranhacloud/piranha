@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 cd ..
 
@@ -10,6 +10,8 @@ else
     JAVA_BIN=${JAVA_HOME}/bin/java
 fi
 
-${JAVA_BIN} -jar lib/piranha-standard.jar &
+${JAVA_BIN} -jar lib/piranha-server.jar &
 
-echo $! >> tmp/piranha.pid
+PID=$!
+echo $PID >> tmp/piranha.pid
+wait $PID

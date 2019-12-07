@@ -41,7 +41,7 @@ public interface ServletRequestAttributeListener extends EventListener {
      *
      * @param event the event.
      */
-    default public void attributeAdded(ServletRequestAttributeEvent event) {
+    default void attributeAdded(ServletRequestAttributeEvent event) {
     }
 
     /**
@@ -49,7 +49,7 @@ public interface ServletRequestAttributeListener extends EventListener {
      *
      * @param event the event.
      */
-    default public void attributeRemoved(ServletRequestAttributeEvent event) {
+    default void attributeRemoved(ServletRequestAttributeEvent event) {
     }
 
     /**
@@ -57,6 +57,6 @@ public interface ServletRequestAttributeListener extends EventListener {
      *
      * @param event the event.
      */
-    default public void attributeReplaced(ServletRequestAttributeEvent event) {
+    default void attributeReplaced(ServletRequestAttributeEvent event) {
     }
 }

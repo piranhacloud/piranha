@@ -50,7 +50,7 @@
         <module>nano</module>
         <module>embedded</module>
         <module>micro</module>
-        <module>standard</module>
+        <module>server</module>
         
         <!-- MicroProfile -->
         <module>microprofile</module>
@@ -365,6 +365,11 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
@@ -464,6 +469,40 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <linkXRef>false</linkXRef>
+                    <checkstyleRules>
+                        <module name="Checker">
+                            <property name="fileExtensions" value="java"/>
+                            <module name="Header">
+                                <property name="header"
+                                          value="/*\n * Copyright (c) 2002-2019 Manorrock.com. All Rights Reserved.\n *"/>
+                            </module>
+                            <module name="TreeWalker">
+                                <module name="ConstantName"/>
+                                <module name="ModifierOrder"/>
+                                <module name="UnusedImports"/>
+                            </module>
+                        </module>
+                    </checkstyleRules>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <executions>
                     <execution>
@@ -474,7 +513,7 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.0.5</version>
+                                    <version>3.1.0</version>
                                 </requireMavenVersion>
                             </rules>    
                         </configuration>

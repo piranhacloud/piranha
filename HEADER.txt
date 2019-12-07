@@ -23,28 +23,3 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro;
-
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.BeforeBeanDiscovery;
-import javax.enterprise.inject.spi.Extension;
-
-/**
- * This extension registers an identity store in case callers (users) / credentials have been added
- * to it.
- * 
- * @author Arjan Tijms
- *
- */
-public class CdiExtension implements Extension {
-
-    public void register(@Observes BeforeBeanDiscovery beforeBean, BeanManager beanManager) {
-        if (!InMemmoryIdentityStore.getCALLER_TO_CREDENTIALS().isEmpty()) {
-            beforeBean.addAnnotatedType(
-                beanManager.createAnnotatedType(InMemmoryIdentityStore.class), 
-                "Piranha " + InMemmoryIdentityStore.class.getName());
-        }
-    }
-    
-}
