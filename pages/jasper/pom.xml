@@ -20,12 +20,18 @@
             <artifactId>piranha</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
-        </dependency>  
+        </dependency> 
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
             <scope>provided</scope>
-        </dependency>    
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-embedded</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>   
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
