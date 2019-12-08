@@ -116,7 +116,7 @@ public interface WebXml {
          */
         String getMimeType();
     }
-
+    
     /**
      * Add a context param.
      *
@@ -148,6 +148,14 @@ public interface WebXml {
      * @param mimeType the mime type.
      */
     void addMimeMapping(String extension, String mimeType);
+    
+    /**
+     * Add a servlet mapping.
+     * 
+     * @param servletName the servlet name.
+     * @param urlPattern the URL pattern.
+     */
+    void addServletMapping(String servletName, String urlPattern);
 
     /**
      * Get the context params.
@@ -176,4 +184,11 @@ public interface WebXml {
      * @return the the mime mappings.
      */
     Collection<MimeMapping> getMimeMappings();
+    
+    /**
+     * Get the servlet mappings.
+     * 
+     * @return the servlet mappings.
+     */
+    Collection<WebXmlServletMapping> getServletMappings();
 }

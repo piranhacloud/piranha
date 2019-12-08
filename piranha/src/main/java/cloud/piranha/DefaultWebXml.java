@@ -28,6 +28,7 @@
 package cloud.piranha;
 
 import cloud.piranha.api.WebXml;
+import cloud.piranha.api.WebXmlServletMapping;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,11 +50,6 @@ public class DefaultWebXml implements Serializable, WebXml {
     public List<DefaultWebXml.Servlet> servlets = new ArrayList<>();
 
     /**
-     * Stores the servlet mappings.
-     */
-    public List<DefaultWebXml.ServletMapping> servletMappings = new ArrayList<>();
-
-    /**
      * Stores the security constraints
      */
     public List<SecurityConstraint> securityConstraints = new ArrayList<>();
@@ -70,7 +66,6 @@ public class DefaultWebXml implements Serializable, WebXml {
      * security constraint to be denied.
      */
     public boolean denyUncoveredHttpMethods;
-
 
     /**
      * The &lt;servlet&gt; snippet inside a web.xml / webfragment.xml.
@@ -221,22 +216,6 @@ public class DefaultWebXml implements Serializable, WebXml {
         public String formErrorPage;
     }
 
-    /**
-     * The &lt;servlet-mapping&gt; snippet inside a web.xml / webfragment.xml.
-     */
-    public static class ServletMapping {
-
-        /**
-         * Stores the servlet name.
-         */
-        public String servletName;
-
-        /**
-         * Stores the URL pattern.
-         */
-        public String urlPattern;
-    }
-
     // -------------------------------------------------------------------------
     /**
      * The error-page.
@@ -260,7 +239,7 @@ public class DefaultWebXml implements Serializable, WebXml {
 
         /**
          * Constructor.
-         * 
+         *
          * @param errorCode the error code.
          * @param exceptionType the exception type.
          * @param location the location.
@@ -273,7 +252,7 @@ public class DefaultWebXml implements Serializable, WebXml {
 
         /**
          * Get the error code.
-         * 
+         *
          * @return the error code.
          */
         @Override
@@ -283,7 +262,7 @@ public class DefaultWebXml implements Serializable, WebXml {
 
         /**
          * Get the exception type.
-         * 
+         *
          * @return the exception type.
          */
         @Override
@@ -293,7 +272,7 @@ public class DefaultWebXml implements Serializable, WebXml {
 
         /**
          * Get the location.
-         * 
+         *
          * @return the location.
          */
         @Override
@@ -301,7 +280,7 @@ public class DefaultWebXml implements Serializable, WebXml {
             return location;
         }
     }
-    
+
     /**
      * Stores the error pages.
      */
@@ -309,7 +288,7 @@ public class DefaultWebXml implements Serializable, WebXml {
 
     /**
      * Add error page.
-     * 
+     *
      * @param errorCode the error code.
      * @param exceptionType the exception type.
      * @param location the location.
@@ -321,14 +300,14 @@ public class DefaultWebXml implements Serializable, WebXml {
 
     /**
      * Get the error pages.
-     * 
+     *
      * @return the error pages.
      */
     @Override
     public Collection<ErrorPage> getErrorPages() {
         return Collections.unmodifiableCollection(errorPages);
     }
-    
+
     // -------------------------------------------------------------------------
     /**
      * The context-param.
@@ -529,5 +508,32 @@ public class DefaultWebXml implements Serializable, WebXml {
     @Override
     public Collection<MimeMapping> getMimeMappings() {
         return Collections.unmodifiableCollection(mimeMappings);
+    }
+
+    // -------------------------------------------------------------------------
+    /**
+     * Stores the servlet mappings.
+     */
+    private final ArrayList<WebXmlServletMapping> servletMappings = new ArrayList<>();
+    
+    /**
+     * Add a servlet mapping.
+     * 
+     * @param servletName the servlet name.
+     * @param urlPattern the URL pattern.
+     */
+    @Override
+    public void addServletMapping(String servletName, String urlPattern) {
+        servletMappings.add(new DefaultWebXmlServletMapping(servletName, urlPattern));
+    }
+    
+    /**
+     * Get the servlet mappings.
+     * 
+     * @return the servlet mappings.
+     */
+    @Override
+    public Collection<WebXmlServletMapping> getServletMappings() {
+        return Collections.unmodifiableCollection(servletMappings);
     }
 }
