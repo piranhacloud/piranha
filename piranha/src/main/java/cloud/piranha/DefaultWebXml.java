@@ -54,11 +54,6 @@ public class DefaultWebXml implements Serializable, WebXml {
     public List<DefaultWebXml.ServletMapping> servletMappings = new ArrayList<>();
 
     /**
-     * Stores the error pages.
-     */
-    public List<ErrorPage> errorPages = new ArrayList<>();
-
-    /**
      * Stores the security constraints
      */
     public List<SecurityConstraint> securityConstraints = new ArrayList<>();
@@ -75,6 +70,7 @@ public class DefaultWebXml implements Serializable, WebXml {
      * security constraint to be denied.
      */
     public boolean denyUncoveredHttpMethods;
+
 
     /**
      * The &lt;servlet&gt; snippet inside a web.xml / webfragment.xml.
@@ -241,29 +237,98 @@ public class DefaultWebXml implements Serializable, WebXml {
         public String urlPattern;
     }
 
+    // -------------------------------------------------------------------------
     /**
-     * The &lt;error-page&gt; snippet inside a web.xml / webfragment.xml.
+     * The error-page.
      */
-    public static class ErrorPage {
+    class DefaultErrorPage implements ErrorPage {
 
         /**
-         * Stores the code corresponding to the error-code element
+         * Stores the error code.
          */
-        public String errorCode;
+        private final String errorCode;
 
         /**
-         * Stores the exception corresponding to the exception-type element
+         * Stores the exception type.
          */
-        public String exceptionType;
+        private final String exceptionType;
 
         /**
-         * Stores the location of the resource corresponding to the location
-         * element
+         * Stores the location.
          */
-        public String location;
+        private final String location;
 
+        /**
+         * Constructor.
+         * 
+         * @param errorCode the error code.
+         * @param exceptionType the exception type.
+         * @param location the location.
+         */
+        public DefaultErrorPage(String errorCode, String exceptionType, String location) {
+            this.errorCode = errorCode;
+            this.exceptionType = exceptionType;
+            this.location = location;
+        }
+
+        /**
+         * Get the error code.
+         * 
+         * @return the error code.
+         */
+        @Override
+        public String getErrorCode() {
+            return errorCode;
+        }
+
+        /**
+         * Get the exception type.
+         * 
+         * @return the exception type.
+         */
+        @Override
+        public String getExceptionType() {
+            return exceptionType;
+        }
+
+        /**
+         * Get the location.
+         * 
+         * @return the location.
+         */
+        @Override
+        public String getLocation() {
+            return location;
+        }
+    }
+    
+    /**
+     * Stores the error pages.
+     */
+    ArrayList<ErrorPage> errorPages = new ArrayList<>();
+
+    /**
+     * Add error page.
+     * 
+     * @param errorCode the error code.
+     * @param exceptionType the exception type.
+     * @param location the location.
+     */
+    @Override
+    public void addErrorPage(String errorCode, String exceptionType, String location) {
+        errorPages.add(new DefaultErrorPage(errorCode, exceptionType, location));
     }
 
+    /**
+     * Get the error pages.
+     * 
+     * @return the error pages.
+     */
+    @Override
+    public Collection<ErrorPage> getErrorPages() {
+        return Collections.unmodifiableCollection(errorPages);
+    }
+    
     // -------------------------------------------------------------------------
     /**
      * The context-param.
