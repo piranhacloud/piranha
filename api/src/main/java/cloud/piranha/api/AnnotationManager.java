@@ -35,6 +35,7 @@ import java.util.Set;
  * The AnnotationManager API.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
  */
 public interface AnnotationManager {
     
@@ -51,16 +52,21 @@ public interface AnnotationManager {
             return null;
         }
     }
-
+ 
+    
+    <T> List<AnnotationInfo<T>> getAnnotations(Class<T> annotationClass);
+    List<AnnotationInfo<?>> getAnnotations(Class<?>... annotationClasses);
+    
+    <T> List<Class<T>> getInstances(Class<T> instanceClass);
+    List<Class<?>> getInstances(Class<?>... instanceClasses);
+    
+    
     /**
      * Get the set of all annotated classes.
      * 
      * @return the set of all annotated classes
      */
     Set<Class<?>> getAnnotatedClasses();
-    
-    <T> List<AnnotationInfo<T>> getAnnotations(Class<T> annotationClass);
-    
     <T> List<AnnotationInfo<T>> getAnnotationsByTarget(Class<T> annotationClass, AnnotatedElement type);
     
 }
