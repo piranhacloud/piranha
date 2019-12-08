@@ -27,6 +27,7 @@
  */
 package cloud.piranha.api;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -39,7 +40,7 @@ public interface WebXml {
     /**
      * A context parameter.
      */
-    interface ContextParam {
+    interface ContextParam extends Serializable {
 
         /**
          * Get the name.
@@ -57,9 +58,36 @@ public interface WebXml {
     }
 
     /**
+     * An error page.
+     */
+    interface ErrorPage extends Serializable {
+
+        /**
+         * Get the error code.
+         *
+         * @return the error code.
+         */
+        String getErrorCode();
+
+        /**
+         * Get the exception type.
+         *
+         * @return the error code.
+         */
+        String getExceptionType();
+        
+        /**
+         * Get the location.
+         * 
+         * @return the location.
+         */
+        String getLocation();
+    }
+
+    /**
      * A listener.
      */
-    interface Listener {
+    interface Listener extends Serializable {
 
         /**
          * Get the class name.
@@ -72,7 +100,7 @@ public interface WebXml {
     /**
      * A mime mapping.
      */
-    interface MimeMapping {
+    interface MimeMapping extends Serializable {
 
         /**
          * Get the extension.
@@ -96,6 +124,15 @@ public interface WebXml {
      * @param value the value.
      */
     void addContextParam(String name, String value);
+    
+    /**
+     * Add an error page.
+     * 
+     * @param errorCode the error code.
+     * @param exceptionType the exception type.
+     * @param location the location.
+     */
+    void addErrorPage(String errorCode, String exceptionType, String location);
 
     /**
      * Add a listener.
@@ -103,10 +140,10 @@ public interface WebXml {
      * @param className the class name.
      */
     void addListener(String className);
-    
+
     /**
      * Add a mime type.
-     * 
+     *
      * @param extension the extension.
      * @param mimeType the mime type.
      */
@@ -118,6 +155,13 @@ public interface WebXml {
      * @return the context params.
      */
     Collection<ContextParam> getContextParams();
+    
+    /**
+     * Get the error pages.
+     * 
+     * @return the error pages.
+     */
+    Collection<ErrorPage> getErrorPages();
 
     /**
      * Get the listeners.

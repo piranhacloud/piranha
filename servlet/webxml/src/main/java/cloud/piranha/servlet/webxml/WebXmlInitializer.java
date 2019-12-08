@@ -64,8 +64,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import cloud.piranha.api.WebApplication;
-import cloud.piranha.DefaultWebXml.ErrorPage;
 import cloud.piranha.api.WebXml;
+import cloud.piranha.api.WebXml.ErrorPage;
 import cloud.piranha.api.WebXml.MimeMapping;
 
 /**
@@ -193,11 +193,11 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 list = (NodeList) xPath.evaluate("//error-page", document, NODESET);
                 if (list != null) {
                     processErrorPages(xPath, webXml, list);
-                    for (ErrorPage errorPage : webXml.errorPages) {
-                        if (errorPage.errorCode != null && !errorPage.errorCode.isEmpty()) {
-                            webApp.addErrorPage(Integer.parseInt(errorPage.errorCode), errorPage.location);
-                        } else if (errorPage.exceptionType != null && !errorPage.exceptionType.isEmpty() ) {
-                            webApp.addErrorPage(errorPage.exceptionType, errorPage.location);
+                    for (ErrorPage errorPage : webXml.getErrorPages()) {
+                        if (errorPage.getErrorCode() != null && !errorPage.getErrorCode().isEmpty()) {
+                            webApp.addErrorPage(Integer.parseInt(errorPage.getErrorCode()), errorPage.getLocation());
+                        } else if (errorPage.getExceptionType() != null && !errorPage.getExceptionType().isEmpty() ) {
+                            webApp.addErrorPage(errorPage.getExceptionType(), errorPage.getLocation());
                         }
                     }
                 }
@@ -479,12 +479,10 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     }
     
     private void processErrorPage(XPath xPath, DefaultWebXml webXml, Node node) throws XPathExpressionException {
-        ErrorPage errorPage = new ErrorPage();
-        errorPage.errorCode = getString(xPath, node, "error-code/text()");
-        errorPage.exceptionType = getString(xPath, node, "exception-type/text()");
-        errorPage.location = getString(xPath, node, "location/text()");
-        
-        webXml.errorPages.add(errorPage);
+        String errorCode = getString(xPath, node, "error-code/text()");
+        String exceptionType = getString(xPath, node, "exception-type/text()");
+        String location = getString(xPath, node, "location/text()");        
+        webXml.addErrorPage(errorCode, exceptionType, location);
     }
     
     
