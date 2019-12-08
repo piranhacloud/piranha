@@ -33,11 +33,13 @@ import static java.util.stream.Collectors.toList;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 import cloud.piranha.api.AnnotationManager;
 
@@ -69,8 +71,77 @@ public class DefaultAnnotationManager implements AnnotationManager {
         }
     }
     
-    private Map<Class<?>, List<AnnotationInfo<?>>> annotations = new ConcurrentHashMap<>();
-
+    private final Map<Class<?>, List<AnnotationInfo<?>>> annotations = new ConcurrentHashMap<>();
+    private final Map<Class<?>, List<Class<?>>> instances = new ConcurrentHashMap<>();
+   
+    
+    @Override
+    public List<AnnotationInfo<?>> getAnnotations(Class<?>... annotationClasses) {
+        return 
+            Arrays.stream(annotationClasses)
+                  .flatMap(e -> getAnnotationStream(e))
+                  .collect(toList());
+    }
+    
+    @Override
+    public <T> List<AnnotationInfo<T>> getAnnotations(Class<T> annotationClass) {
+        return 
+            getAnnotationStream(annotationClass)
+                .collect(toList());
+    }
+    
+    @Override
+    public List<Class<?>> getInstances(Class<?>... instanceClasses) {
+        return 
+            Arrays.stream(instanceClasses)
+                  .flatMap(e -> getInstanceStream(e))
+                  .collect(toList());
+    }
+    
+    @Override
+    public <T> List<Class<T>> getInstances(Class<T> instanceClass) {
+        return
+            getInstanceStream(instanceClass)
+                .collect(toList());
+    }
+    
+    public DefaultAnnotationManager addAnnotation(AnnotationInfo<?> annotationInfo) {
+        annotations.computeIfAbsent(
+            ((Annotation) annotationInfo.getInstance()).annotationType(), 
+            e -> new ArrayList<>())
+                   .add(annotationInfo);
+        
+        return this;
+    }
+    
+    public DefaultAnnotationManager addInstance(Class<?> instanceClass, Class<?> implementingClass) {
+        instances.computeIfAbsent(
+            instanceClass, 
+            e -> new ArrayList<>())
+                     .add(implementingClass);
+        
+        return this;
+    }
+    
+    
+    // ### Private methods
+    
+    @SuppressWarnings("unchecked")
+    private <T> Stream<AnnotationInfo<T>> getAnnotationStream(Class<T> annotationClass) {
+        return annotations.getOrDefault(annotationClass, emptyList())
+                          .stream()
+                          .map(e -> (AnnotationInfo<T>) e);
+    }
+    
+    @SuppressWarnings("unchecked")
+    private <T> Stream<Class<T>> getInstanceStream(Class<T> instanceClass) {
+        return instances.getOrDefault(instanceClass, emptyList())
+                          .stream()
+                          .map(e -> (Class<T>) e);
+    }
+    
+    // ### Not implemented
+    
     /**
      * Get the annotated classes.
      * 
@@ -81,26 +152,9 @@ public class DefaultAnnotationManager implements AnnotationManager {
         return new HashSet<>();
     }
     
-    @Override
-    public <T> List<AnnotationInfo<T>> getAnnotations(Class<T> annotationClass) {
-        return 
-            annotations.getOrDefault(annotationClass, emptyList())
-                       .stream()
-                       .map(e -> (AnnotationInfo<T>) e)
-                       .collect(toList());
-    }
     
     @Override
     public <T> List<AnnotationInfo<T>> getAnnotationsByTarget(Class<T> annotationClass, AnnotatedElement type) {
         return null;
-    }
-    
-    public DefaultAnnotationManager addAnnotation(AnnotationInfo<?> annotationInfo) {
-        annotations.computeIfAbsent(
-            ((Annotation) annotationInfo.getInstance()).annotationType(), 
-            e -> new ArrayList<>())
-                   .add(annotationInfo);
-        
-        return this;
     }
 }
