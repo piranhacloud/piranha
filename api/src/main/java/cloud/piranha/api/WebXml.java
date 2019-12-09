@@ -98,26 +98,6 @@ public interface WebXml {
     }
 
     /**
-     * A mime mapping.
-     */
-    interface MimeMapping extends Serializable {
-
-        /**
-         * Get the extension.
-         *
-         * @return the extension.
-         */
-        String getExtension();
-
-        /**
-         * Get the mime type.
-         *
-         * @return the mime type.
-         */
-        String getMimeType();
-    }
-    
-    /**
      * Add a context param.
      *
      * @param name the name.
@@ -177,13 +157,20 @@ public interface WebXml {
      * @return the listeners.
      */
     Collection<Listener> getListeners();
+    
+    /**
+     * Get the login config.
+     * 
+     * @return the login config.
+     */
+    WebXmlLoginConfig getLoginConfig();
 
     /**
      * Get the mime mappings.
      *
      * @return the the mime mappings.
      */
-    Collection<MimeMapping> getMimeMappings();
+    Collection<WebXmlMimeMapping> getMimeMappings();
     
     /**
      * Get the servlet mappings.
@@ -191,4 +178,11 @@ public interface WebXml {
      * @return the servlet mappings.
      */
     Collection<WebXmlServletMapping> getServletMappings();
+    
+    /**
+     * Set the login config.
+     * 
+     * @param loginConfig the login config.
+     */
+    void setLoginConfig(WebXmlLoginConfig loginConfig);
 }
