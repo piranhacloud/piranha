@@ -28,6 +28,8 @@
 package cloud.piranha;
 
 import cloud.piranha.api.WebXml;
+import cloud.piranha.api.WebXmlLoginConfig;
+import cloud.piranha.api.WebXmlMimeMapping;
 import cloud.piranha.api.WebXmlServletMapping;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -53,13 +55,6 @@ public class DefaultWebXml implements Serializable, WebXml {
      * Stores the security constraints
      */
     public List<SecurityConstraint> securityConstraints = new ArrayList<>();
-
-    /**
-     * Stores the login config - This sets and configures the build-in Servlet
-     * authentication mechanisms.
-     *
-     */
-    public LoginConfig loginConfig = new LoginConfig();
 
     /**
      * When true, this boolean causes HTTP methods that are not subject to a
@@ -178,42 +173,6 @@ public class DefaultWebXml implements Serializable, WebXml {
              */
             public List<String> httpMethodOmissions = new ArrayList<>();
         }
-    }
-
-    /**
-     * The &lt;login-config&gt; snippet inside a web.xml / webfragment.xml.
-     */
-    public static class LoginConfig {
-
-        /**
-         * The list &lt;auth-method-name&gt; snippet inside &lt;login-config&gt;
-         *
-         */
-        public String authMethod;
-
-        /**
-         * The list &lt;realm-name&gt; snippet inside &lt;login-config&gt;
-         *
-         */
-        public String realmName;
-
-        /**
-         * The list &lt;form-login-page&gt; snippet inside
-         * &lt;form-login-config&gt;
-         *
-         * Note that we don't map the &lt;form-login-config&gt; element
-         * separately here
-         */
-        public String formLoginPage;
-
-        /**
-         * The list &lt;form-error-page&gt; snippet inside
-         * &lt;form-login-config&gt;
-         *
-         * Note that we don't map the &lt;form-login-config&gt; element
-         * separately here
-         */
-        public String formErrorPage;
     }
 
     // -------------------------------------------------------------------------
@@ -438,56 +397,19 @@ public class DefaultWebXml implements Serializable, WebXml {
 
     // -------------------------------------------------------------------------
     /**
-     * The mime-mapping.
+     * Stores the login config.
      */
-    class DefaultMimeMapping implements MimeMapping {
-
-        /**
-         * Stores the extension.
-         */
-        private final String extension;
-
-        /**
-         * Stores the mime type.
-         */
-        private final String mimeType;
-
-        /**
-         * Constructor.
-         *
-         * @param extension the extension.
-         * @param mimeType the mime type.
-         */
-        private DefaultMimeMapping(String extension, String mimeType) {
-            this.extension = extension;
-            this.mimeType = mimeType;
-        }
-
-        /**
-         * Get the extension.
-         *
-         * @return the extension.
-         */
-        @Override
-        public String getExtension() {
-            return extension;
-        }
-
-        /**
-         * Get the mime type.
-         *
-         * @return the mime type.
-         */
-        @Override
-        public String getMimeType() {
-            return mimeType;
-        }
-    }
-
+    private WebXmlLoginConfig loginConfig;
+    
     /**
      * Stores the mime mappings.
      */
-    ArrayList<MimeMapping> mimeMappings = new ArrayList<>();
+    private final ArrayList<WebXmlMimeMapping> mimeMappings = new ArrayList<>();
+    
+    /**
+     * Stores the servlet mappings.
+     */
+    private final ArrayList<WebXmlServletMapping> servletMappings = new ArrayList<>();
 
     /**
      * Add a mime mapping.
@@ -497,28 +419,12 @@ public class DefaultWebXml implements Serializable, WebXml {
      */
     @Override
     public void addMimeMapping(String extension, String mimeType) {
-        mimeMappings.add(new DefaultMimeMapping(extension, mimeType));
+        mimeMappings.add(new DefaultWebXmlMimeMapping(extension, mimeType));
     }
 
-    /**
-     * Get the mime mappings.
-     *
-     * @return the mime mappings.
-     */
-    @Override
-    public Collection<MimeMapping> getMimeMappings() {
-        return Collections.unmodifiableCollection(mimeMappings);
-    }
-
-    // -------------------------------------------------------------------------
-    /**
-     * Stores the servlet mappings.
-     */
-    private final ArrayList<WebXmlServletMapping> servletMappings = new ArrayList<>();
-    
     /**
      * Add a servlet mapping.
-     * 
+     *
      * @param servletName the servlet name.
      * @param urlPattern the URL pattern.
      */
@@ -526,14 +432,44 @@ public class DefaultWebXml implements Serializable, WebXml {
     public void addServletMapping(String servletName, String urlPattern) {
         servletMappings.add(new DefaultWebXmlServletMapping(servletName, urlPattern));
     }
+
+    /**
+     * Get the login config.
+     * 
+     * @return the login config.
+     */
+    @Override
+    public WebXmlLoginConfig getLoginConfig() {
+        return loginConfig;
+    }
     
     /**
+     * Get the mime mappings.
+     *
+     * @return the mime mappings.
+     */
+    @Override
+    public Collection<WebXmlMimeMapping> getMimeMappings() {
+        return mimeMappings;
+    }
+
+    /**
      * Get the servlet mappings.
-     * 
+     *
      * @return the servlet mappings.
      */
     @Override
     public Collection<WebXmlServletMapping> getServletMappings() {
-        return Collections.unmodifiableCollection(servletMappings);
+        return servletMappings;
+    }
+
+    /**
+     * Set the login config.
+     * 
+     * @param loginConfig the login config.
+     */
+    @Override
+    public void setLoginConfig(WebXmlLoginConfig loginConfig) {
+        this.loginConfig = loginConfig;
     }
 }

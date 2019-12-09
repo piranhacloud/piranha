@@ -28,6 +28,7 @@
 package cloud.piranha.servlet.webxml;
 
 import cloud.piranha.DefaultWebXml;
+import cloud.piranha.DefaultWebXmlLoginConfig;
 import static java.util.logging.Level.WARNING;
 import static javax.xml.xpath.XPathConstants.NODE;
 import static javax.xml.xpath.XPathConstants.NODESET;
@@ -66,7 +67,7 @@ import org.xml.sax.SAXException;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.api.WebXml;
 import cloud.piranha.api.WebXml.ErrorPage;
-import cloud.piranha.api.WebXml.MimeMapping;
+import cloud.piranha.api.WebXmlMimeMapping;
 import cloud.piranha.api.WebXmlServletMapping;
 
 /**
@@ -145,13 +146,8 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 }
 
                 /*
-                 * Process <mime-mapping> entries
+                 * Process
                  */
-                list = (NodeList) xPath.evaluate("//mime-mapping", document, NODESET);
-                if (list != null) {
-                    processMimeMappings(webXml, list);
-                }
-
                 processServlets(webApp);
                 processServletMappings(webApp);
 
@@ -164,29 +160,14 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 }
 
                 /*
-                 * Process <login-config> entry
-                 */
-                Node node = (Node) xPath.evaluate("//login-config", document, NODE);
-                if (node != null) {
-                    processLoginConfig(xPath, webXml, node);
-                }
-
-                /*
                  * Process <deny-uncovered-http-methods> entry
                  */
-                node = (Node) xPath.evaluate("//deny-uncovered-http-methods", document, NODE);
+                Node node = (Node) xPath.evaluate("//deny-uncovered-http-methods", document, NODE);
                 if (node != null) {
                     webXml.denyUncoveredHttpMethods = true;
                 }
 
-                /*
-                 * Process <mime-mapping> entries
-                 */
-                Iterator<MimeMapping> mappingIterator = webXml.getMimeMappings().iterator();
-                while (mappingIterator.hasNext()) {
-                    MimeMapping mapping = mappingIterator.next();
-                    webApp.getMimeTypeManager().addMimeType(mapping.getExtension(), mapping.getMimeType());
-                }
+                processMimeMappings(webApp);
 
                 /*
                  * Process <error-page> entries
@@ -241,10 +222,10 @@ public class WebXmlInitializer implements ServletContainerInitializer {
             result.servlets.addAll((List<DefaultWebXml.Servlet>) parseList(
                     xPath, document, "//servlet", WebXmlInitializer::parseServlet));
 
-            NodeList list = (NodeList) xPath.evaluate("//servlet-mapping", document, NODESET);
-            if (list != null) {
-                parseServletMappings(result, xPath, list);
-            }
+            parseLoginConfig(result, xPath, document);
+            parseMimeMappings(result, xPath, document);
+            parseServletMappings(result, xPath, document);
+
         } catch (Throwable t) {
             LOGGER.log(WARNING, "Unable to parse web.xml", t);
         }
@@ -357,37 +338,6 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         }
     }
 
-    /**
-     * Process the mime-mapping section.
-     *
-     * @param webXml the web.xml to add to.
-     * @param nodeList the node list.
-     * @return the web.xml.
-     */
-    private void processMimeMappings(DefaultWebXml webXml, NodeList nodeList) {
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            processMimeMapping(webXml, nodeList.item(i));
-        }
-    }
-
-    /**
-     * Process the mime-mapping entries.
-     *
-     * @param webXml the web.xml to add to.
-     * @param node the DOM node.
-     * @return the web.xml.
-     */
-    private void processMimeMapping(DefaultWebXml webXml, Node node) {
-        try {
-            XPath xPath = XPathFactory.newInstance().newXPath();
-            String extension = (String) xPath.evaluate("//extension/text()", node, XPathConstants.STRING);
-            String mimeType = (String) xPath.evaluate("//mime-type/text()", node, XPathConstants.STRING);
-            webXml.addMimeMapping(extension, mimeType);
-        } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse <mime-mapping> section", xpe);
-        }
-    }
-
     private void processSecurityConstraints(DefaultWebXml webXml, NodeList nodeList) {
         for (int i = 0; i < nodeList.getLength(); i++) {
             processSecurityConstraint(webXml, nodeList.item(i));
@@ -428,13 +378,6 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         } catch (Exception xpe) {
             LOGGER.log(WARNING, "Unable to parse <servlet> section", xpe);
         }
-    }
-
-    private void processLoginConfig(XPath xPath, DefaultWebXml webXml, Node node) throws XPathExpressionException {
-        webXml.loginConfig.authMethod = getString(xPath, node, "//auth-method/text()");
-        webXml.loginConfig.realmName = getString(xPath, node, "//realm-name/text()");
-        webXml.loginConfig.formLoginPage = getString(xPath, node, "//form-login-config/form-login-page/text()");
-        webXml.loginConfig.formErrorPage = getString(xPath, node, "//form-login-config/form-error-page/text()");
     }
 
     private void processErrorPages(XPath xPath, DefaultWebXml webXml, NodeList nodeList) throws XPathExpressionException {
@@ -566,7 +509,87 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     // -------------------------------------------------------------------------
     //  Parsing
     // -------------------------------------------------------------------------
-    
+    /**
+     * Parse the login-config.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param node the DOM node.
+     */
+    private void parseLoginConfig(WebXml webXml, XPath xPath, Node node) {
+        try {
+            Node configNode = (Node) xPath.evaluate("//login-config", node, NODE);
+            if (configNode != null) {
+                String authMethod = parseString(xPath, 
+                        "//auth-method/text()", configNode);
+                String realmName = parseString(xPath,
+                        "//realm-name/text()", configNode);
+                String formLoginPage = parseString(xPath,
+                        "//form-login-config/form-login-page/text()", configNode);
+                String formErrorPage = parseString(xPath,
+                        "//form-login-config/form-error-page/text()", configNode);
+                DefaultWebXmlLoginConfig config = new DefaultWebXmlLoginConfig(
+                        authMethod, realmName, formLoginPage, formErrorPage);
+                webXml.setLoginConfig(config);
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse login config", xpe);
+        }
+    }
+
+    /**
+     * Parse the mime-mapping entries.
+     *
+     * @param webXml the web.xml to add to.
+     * @param XPath the XPath to use.
+     * @param node the DOM node.
+     * @return the web.xml.
+     */
+    private void parseMimeMapping(WebXml webXml, XPath xPath, Node node) {
+        try {
+            String extension = parseString(xPath, "//extension/text()", node);
+            String mimeType = parseString(xPath, "//mime-type/text()", node);
+            webXml.addMimeMapping(extension, mimeType);
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse mime-mapping", xpe);
+        }
+    }
+
+    /**
+     * Parse a string.
+     *
+     * @param xPath the XPath to use.
+     * @param expression the expression.
+     * @param node the node.
+     * @return the string.
+     * @throws XPathExpressionException when the expression was invalid.
+     */
+    private String parseString(XPath xPath, String expression, Node node)
+            throws XPathExpressionException {
+        return (String) xPath.evaluate(expression, node, XPathConstants.STRING);
+    }
+
+    /**
+     * Parse the mime-mapping section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param nodeList the node list.
+     * @return the web.xml.
+     */
+    private void parseMimeMappings(WebXml webXml, XPath xPath, Node node) {
+        try {
+            NodeList nodeList = (NodeList) xPath.evaluate("//mime-mapping", node, NODESET);
+            if (nodeList != null) {
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    parseMimeMapping(webXml, xPath, nodeList.item(i));
+                }
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse mime mappings", xpe);
+        }
+    }
+
     /**
      * Parse a servlet-mapping.
      *
@@ -576,12 +599,12 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      */
     private void parseServletMapping(WebXml webXml, XPath xPath, Node node) {
         try {
-            String servletName = (String) xPath.evaluate("servlet-name/text()", node, XPathConstants.STRING);
-            String urlPattern = (String) xPath.evaluate("url-pattern/text()", node, XPathConstants.STRING);
+            String servletName = parseString(xPath, "servlet-name/text()", node);
+            String urlPattern = parseString(xPath, "url-pattern/text()", node);
             webXml.addServletMapping(servletName, urlPattern);
         } catch (XPathExpressionException xee) {
             if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to parse <servlet-mapping>", xee);
+                LOGGER.log(WARNING, "Unable to parse servlet mapping", xee);
             }
         }
     }
@@ -593,9 +616,18 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      * @param xPath the XPath to use.
      * @param nodeList the Node list to parse.
      */
-    private void parseServletMappings(WebXml webXml, XPath xPath, NodeList nodeList) throws XPathExpressionException {
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            parseServletMapping(webXml, xPath, nodeList.item(i));
+    private void parseServletMappings(WebXml webXml, XPath xPath, Node node) {
+        try {
+            NodeList nodeList = (NodeList) xPath.evaluate("//servlet-mapping", node, NODESET);
+            if (nodeList != null) {
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    parseServletMapping(webXml, xPath, nodeList.item(i));
+                }
+            }
+        } catch (XPathExpressionException xee) {
+            if (LOGGER.isLoggable(WARNING)) {
+                LOGGER.log(WARNING, "Unable to parse servlet mappings", xee);
+            }
         }
     }
 
@@ -603,7 +635,22 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     //  Processing
     // -------------------------------------------------------------------------
     /**
-     * Process the servlet-mappings.
+     * Process the mime mappings.
+     *
+     * @param webApplication the web application.
+     */
+    private void processMimeMappings(WebApplication webApplication) {
+        Iterator<WebXmlMimeMapping> mappingIterator = webApplication.
+                getWebXmlManager().getWebXml().getMimeMappings().iterator();
+        while (mappingIterator.hasNext()) {
+            WebXmlMimeMapping mapping = mappingIterator.next();
+            webApplication.getMimeTypeManager()
+                    .addMimeType(mapping.getExtension(), mapping.getMimeType());
+        }
+    }
+
+    /**
+     * Process the servlet mappings.
      *
      * @param webApplication the web application.
      */
@@ -612,7 +659,8 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         Iterator<WebXmlServletMapping> iterator = webXml.getServletMappings().iterator();
         while (iterator.hasNext()) {
             WebXmlServletMapping mapping = iterator.next();
-            webApplication.addServletMapping(mapping.getServletName(), mapping.getUrlPattern());
+            webApplication.addServletMapping(
+                    mapping.getServletName(), mapping.getUrlPattern());
         }
     }
 }
