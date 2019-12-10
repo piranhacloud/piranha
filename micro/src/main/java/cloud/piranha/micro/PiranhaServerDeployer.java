@@ -48,6 +48,10 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.ext.Provider;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
@@ -72,6 +76,7 @@ import cloud.piranha.DefaultWebApplicationServer;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
+import cloud.piranha.rest.jersey.JerseyInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.servlet.webservlet.WebServletInitializer;
 import cloud.piranha.servlet.webxml.WebXmlInitializer;
@@ -92,9 +97,16 @@ public class PiranhaServerDeployer {
        WebFilter.class,
        ServletSecurity.class,
        MultipartConfig.class,
+       
+       // REST
+       Path.class, 
+       Provider.class, 
+       ApplicationPath.class
     };
     
     Class<?>[] instances = new Class<?>[] {
+        // REST
+        Application.class
     };
     
     private HttpServer httpServer;
@@ -143,6 +155,7 @@ public class PiranhaServerDeployer {
             webApplication.addInitializer(new WebServletInitializer());
             
             webApplication.addInitializer(JakartaSecurityAllInitializer.class.getName());
+            webApplication.addInitializer(JerseyInitializer.class.getName());
             
             webApplicationServer.initialize();
             webApplicationServer.start();
