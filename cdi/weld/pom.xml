@@ -37,7 +37,10 @@
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
-            <scope>runtime</scope>
+        </dependency>
+         <dependency>
+            <groupId>jakarta.security.enterprise</groupId>
+            <artifactId>jakarta.security.enterprise-api</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.el</groupId>
