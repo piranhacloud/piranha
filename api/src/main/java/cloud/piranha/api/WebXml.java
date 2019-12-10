@@ -35,20 +35,7 @@ import java.util.Collection;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebXml {
-
-    /**
-     * A listener.
-     */
-    interface Listener extends Serializable {
-
-        /**
-         * Get the class name.
-         *
-         * @return the class name.
-         */
-        String getClassName();
-    }
+public interface WebXml extends Serializable {
 
     /**
      * Add a context param.
@@ -109,7 +96,7 @@ public interface WebXml {
      *
      * @return the listeners.
      */
-    Collection<Listener> getListeners();
+    Collection<WebXmlListener> getListeners();
     
     /**
      * Get the login config.
