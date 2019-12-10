@@ -27,70 +27,105 @@
  */
 package cloud.piranha.test.soteria.form;
 
-
-import cloud.piranha.DefaultWebApplicationResponse;
+import cloud.piranha.DefaultServlet;
+import cloud.piranha.cdi.weld.WeldInitializer;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.security.elios.AuthenticationInitializer;
+import cloud.piranha.security.exousia.AuthorizationInitializer;
+import cloud.piranha.security.exousia.AuthorizationPreInitializer;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
+import static cloud.piranha.security.exousia.AuthorizationPreInitializer.CONSTRAINTS;
+import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
+import cloud.piranha.security.soteria.SoteriaInitializer;
+import java.net.URL;
+import static java.util.Arrays.asList;
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+import javax.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
+import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
+import javax.servlet.http.Cookie;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.net.URL;
-
-import org.junit.Before;
 import org.junit.Test;
-
-import cloud.piranha.test.utils.TestWebApp;
-import org.junit.Ignore;
+import org.omnifaces.exousia.constraints.SecurityConstraint;
+import org.omnifaces.exousia.modules.def.DefaultPolicy;
+import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 /**
- * 
+ *
  * @author Arjan Tijms
  */
+@FormAuthenticationMechanismDefinition(
+        loginToContinue = @LoginToContinue(
+                loginPage = "/login-page",
+                errorPage = "/error-page"))
 public class FormTest {
-    
-    TestWebApp webApp;
-    
 
-    @Before
-    public void testProtected() throws Exception {
-        webApp = Application.get();    
-    }
-    
-    protected TestWebApp getWebApp() {
-        return webApp;
-    }
-    
     @Test
-    public void testAuthenticated() throws IOException {
-        
-        String loginPage = getWebApp().getFromServerPath("/protected/servlet");
-        
-        System.out.println("Received response for login page: \n" + loginPage);
-        
+    public void testAuthenticated() throws Exception {
+        System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .initializer(WeldInitializer.class.getName())
+                .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
+                .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
+                .attribute(CONSTRAINTS, asList(
+                        new SecurityConstraint("/protected/servlet", "architect")))
+                .initializer(AuthorizationPreInitializer.class.getName())
+                .initializer(AuthenticationInitializer.class.getName())
+                .initializer(AuthorizationInitializer.class.getName())
+                .initializer(JakartaSecurityInitializer.class.getName())
+                .initializer(SoteriaInitializer.class.getName())
+                .servlet("ProtectedServlet", ProtectedServlet.class.getName())
+                .servletMapping("ProtectedServlet", "/protected/servlet")
+                .servlet("ErrorPageServlet", ErrorPageServlet.class.getName())
+                .servletMapping("ErrorPageServlet", "/error-page")
+                .servlet("LoginPageServlet", LoginPageServlet.class.getName())
+                .servletMapping("LoginPageServlet", "/login-page")
+                .servlet("DefaultServlet", DefaultServlet.class.getName())
+                .servletMapping("DefaultServlet", "/*")
+                .buildAndStart();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/protected/servlet")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
         assertTrue(
-            "Should have received login page, but did not",
-            loginPage.contains("Enter name and password to authenticate")
+                "Should have received login page, but did not",
+                response.getResponseAsString().contains(
+                        "Enter name and password to authenticate")
         );
         
+        Cookie sessionCookie = response.getCookies().iterator().next();
+        request = new EmbeddedRequestBuilder()
+                .method("POST")
+                .servletPath("/j_security_check")
+                .parameter("j_username", "test")
+                .parameter("j_password", "test")
+                .requestedSessionId(sessionCookie.getValue())
+                .requestedSessionIdFromCookie(true)
+                .cookie(sessionCookie)
+                .build();
+        response = new EmbeddedResponse();
+        piranha.service(request, response);
+        assertTrue(
+                "Should redirect",
+                response.getStatus() == 302
+        );
         
-        DefaultWebApplicationResponse testResponse = getWebApp().responseFromServerPath ("POST", "/j_security_check?j_username=test&j_password=test");
+        URL redirectUrl = new URL(response.getHeader("Location"));
+        request = new EmbeddedRequestBuilder()
+                .servletPath(redirectUrl.getPath())
+                .requestedSessionId(sessionCookie.getValue())
+                .requestedSessionIdFromCookie(true)
+                .cookie(sessionCookie)
+                .build();
+        response = new EmbeddedResponse();
+        piranha.service(request, response);
 
-        // TestWebApp is not following redirects, so check & handle manually here
-        
-        assertTrue(
-            "Should redirect",
-            testResponse.getStatus() == 302
-        );
-        
-        URL redirectUrl = new URL(testResponse.getHeader("Location"));
-        
-        String redirectPath = redirectUrl.getPath(); // omit params
-            
-        
-        System.out.println("Redirecting to: " + redirectPath);
-        
-        String response = getWebApp().getFromServerPath(redirectPath);
-        
-        
         // Not only does the page needs to be accessible, the caller should have
         // the correct
         // name and roles as well
@@ -102,13 +137,13 @@ public class FormTest {
         assertFalse(
             "Protected resource could be accessed, but the user appears to be the unauthenticated user. " + 
             "This should not be possible", 
-            response.contains("web username: null")
+                response.getResponseAsString().contains("web username: null")
         );
-        
+
         // An authenticated user should have the exact name "test" and nothing else.
         assertTrue(
-            "Protected resource could be accessed, but the username is not correct.",
-            response.contains("web username: test")
+                "Protected resource could be accessed, but the username is not correct.",
+                response.getResponseAsString().contains("web username: test")
         );
 
         // Being able to access a page protected by role "architect" but failing
@@ -116,13 +151,20 @@ public class FormTest {
         // authorization system checks roles on the authenticated subject, but does not
         // correctly expose or propagate these to the HttpServletRequest
         assertTrue(
-            "Resource protected by role \"architect\" could be accessed, but user fails test for this role." + 
-            "This should not be possible", 
-            response.contains("web user has role \"architect\": true")
+                "Resource protected by role \"architect\" could be accessed, but user fails test for this role."
+                + "This should not be possible",
+                response.getResponseAsString().contains("web user has role \"architect\": true")
         );
-        
-        response = getWebApp().getFromServerPath("/protected/servlet");
-        
+
+        request = new EmbeddedRequestBuilder()
+                .servletPath("/protected/servlet")
+                .requestedSessionId(sessionCookie.getValue())
+                .requestedSessionIdFromCookie(true)
+                .cookie(sessionCookie)
+                .build();
+        response = new EmbeddedResponse();
+        piranha.service(request, response);
+
         // Being able to access a page protected by a role but then seeing the un-authenticated
         // (anonymous) user would normally be impossible, but could happen if the authorization
         // system checks roles on the authenticated subject, but does not correctly expose
@@ -130,13 +172,13 @@ public class FormTest {
         assertFalse(
             "Protected resource could be accessed, but the user appears to be the unauthenticated user. " + 
             "This should not be possible", 
-            response.contains("web username: null")
+                response.getResponseAsString().contains("web username: null")
         );
-        
+
         // An authenticated user should have the exact name "test" and nothing else.
         assertTrue(
-            "Protected resource could be accessed, but the username is not correct.",
-            response.contains("web username: test")
+                "Protected resource could be accessed, but the username is not correct.",
+                response.getResponseAsString().contains("web username: test")
         );
 
         // Being able to access a page protected by role "architect" but failing
@@ -146,8 +188,7 @@ public class FormTest {
         assertTrue(
             "Resource protected by role \"architect\" could be accessed, but user fails test for this role." + 
             "This should not be possible", 
-            response.contains("web user has role \"architect\": true")
+                response.getResponseAsString().contains("web user has role \"architect\": true")
         );
     }
-
 }

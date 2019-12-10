@@ -151,6 +151,28 @@ public class EmbeddedRequestBuilder {
     }
 
     /**
+     * Set the requested session id.
+     * 
+     * @param requestedSessionId the requested session id.
+     * @return the builder.
+     */
+    public EmbeddedRequestBuilder requestedSessionId(String requestedSessionId) {
+        request.setRequestedSessionId(requestedSessionId);
+        return this;
+    }
+
+    /**
+     * Set the requested session id from cookie flag.
+     * 
+     * @param requestedSessionIdFromCookie the requested session id from cookie flag.
+     * @return the builder.
+     */
+    public EmbeddedRequestBuilder requestedSessionIdFromCookie(boolean requestedSessionIdFromCookie) {
+        request.setRequestedSessionIdFromCookie(requestedSessionIdFromCookie);
+        return this;
+    }
+
+    /**
      * Set the scheme.
      *
      * @param scheme the scheme.
