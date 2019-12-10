@@ -38,26 +38,6 @@ import java.util.Collection;
 public interface WebXml {
 
     /**
-     * A context parameter.
-     */
-    interface ContextParam extends Serializable {
-
-        /**
-         * Get the name.
-         *
-         * @return the name.
-         */
-        String getName();
-
-        /**
-         * Get the value.
-         *
-         * @return the value.
-         */
-        String getValue();
-    }
-
-    /**
      * An error page.
      */
     interface ErrorPage extends Serializable {
@@ -142,7 +122,7 @@ public interface WebXml {
      *
      * @return the context params.
      */
-    Collection<ContextParam> getContextParams();
+    Collection<WebXmlContextParam> getContextParams();
     
     /**
      * Get the error pages.
