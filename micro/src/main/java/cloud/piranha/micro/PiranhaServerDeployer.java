@@ -27,11 +27,10 @@
  */
 package cloud.piranha.micro;
 
-import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
-import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static java.util.Arrays.stream;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import static javax.xml.xpath.XPathConstants.NODESET;
+import static org.jboss.jandex.AnnotationTarget.Kind.CLASS;
 import static org.jboss.jandex.DotName.createSimple;
 
 import java.io.ByteArrayInputStream;
@@ -56,17 +55,14 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.jboss.jandex.AnnotationInstance;
+import org.jboss.jandex.AnnotationTarget;
+import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.Index;
 import org.jboss.jandex.IndexReader;
 import org.jboss.shrinkwrap.api.Archive;
-import org.omnifaces.exousia.modules.def.DefaultPolicy;
-import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import cloud.piranha.cdi.weld.WeldInitializer;
-import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 
 import cloud.piranha.DefaultAnnotationManager;
 import cloud.piranha.DefaultAnnotationManager.DefaultAnnotationInfo;
@@ -75,12 +71,8 @@ import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationServer;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.WebApplication;
-import cloud.piranha.security.elios.AuthenticationInitializer;
-import cloud.piranha.security.exousia.AuthorizationInitializer;
-import cloud.piranha.security.exousia.AuthorizationPreInitializer;
-import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
-import cloud.piranha.security.soteria.SoteriaInitializer;
-import cloud.piranha.security.soteria.SoteriaPreCDIInitializer;
+import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
+import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.servlet.webservlet.WebServletInitializer;
 import cloud.piranha.servlet.webxml.WebXmlInitializer;
 
@@ -93,12 +85,17 @@ import cloud.piranha.servlet.webxml.WebXmlInitializer;
 public class PiranhaServerDeployer {
     
     Class<?>[] webAnnotations = new Class<?>[] {
+       // Servlet
        WebServlet.class, 
        WebListener.class,
        WebInitParam.class,
        WebFilter.class,
        ServletSecurity.class,
-       MultipartConfig.class};
+       MultipartConfig.class,
+    };
+    
+    Class<?>[] instances = new Class<?>[] {
+    };
     
     private HttpServer httpServer;
     
@@ -129,26 +126,23 @@ public class PiranhaServerDeployer {
                                 annotationManager.addAnnotation(
                                     new DefaultAnnotationInfo<>(annotationInstance,  annotationTarget)))));
             
+            
+            forEachInstance(instanceClass ->
+                getInstances(index, instanceClass)
+                    .map(indexedInstance -> getTarget(indexedInstance))
+                    .forEach(implementingClass -> 
+                        annotationManager.addInstance(instanceClass, implementingClass)));
+                        
+            
             getCallerCredentials(System.getProperty("io.piranha.identitystore.callers"));
             
-            DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
+            DefaultWebApplicationServer webApplicationServer = new cloud.piranha.DefaultWebApplicationServer();
             webApplicationServer.addWebApplication(webApplication);
             
             webApplication.addInitializer(new WebXmlInitializer());
             webApplication.addInitializer(new WebServletInitializer());
             
-            webApplication.addInitializer(SoteriaPreCDIInitializer.class.getName());
-            webApplication.addInitializer(WeldInitializer.class.getName());
-            
-            webApplication.setAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class);
-            webApplication.setAttribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class);
-            
-            webApplication.addInitializer(AuthorizationPreInitializer.class.getName());
-            webApplication.addInitializer(AuthenticationInitializer.class.getName());
-            webApplication.addInitializer(AuthorizationInitializer.class.getName());
-            webApplication.addInitializer(JakartaSecurityInitializer.class.getName());
-            
-            webApplication.addInitializer(SoteriaInitializer.class.getName());
+            webApplication.addInitializer(JakartaSecurityAllInitializer.class.getName());
             
             webApplicationServer.initialize();
             webApplicationServer.start();
@@ -198,18 +192,44 @@ public class PiranhaServerDeployer {
                  .stream();
     }
     
+    Stream<ClassInfo> getInstances(Index index, Class<?> instanceClass) {
+        return
+            Stream.concat(
+                index.getAllKnownSubclasses(
+                        createSimple(instanceClass.getName()))
+                     .stream(),
+                 index.getAllKnownImplementors(
+                         createSimple(instanceClass.getName()))
+                      .stream());
+    }
+    
     Class<?> getTarget (AnnotationInstance annotationInstance) {
+        return getTarget(annotationInstance.target());
+    }
+    
+    Class<?> getTarget (AnnotationTarget target) {
         try {
-            return Class.forName(annotationInstance.target().asClass().toString());
+            if (target.kind() == CLASS) {
+                return Class.forName(
+                    target.asClass().toString(), true, 
+                    Thread.currentThread().getContextClassLoader());
+            }
+            
+            return Class.forName(
+                target.asMethod().declaringClass().toString(), true,
+                Thread.currentThread().getContextClassLoader());
         } catch (ClassNotFoundException e) {
-           throw new IllegalStateException(e);
+            throw new IllegalStateException(e);
         }
     }
     
     Stream<Annotation> getAnnotationInstances(Class<?> target, Class<?> annotationType) {
         return stream(target.getAnnotations())
                 .filter(e -> e.annotationType().isAssignableFrom(annotationType));
-                
+    }
+    
+    void forEachInstance(Consumer<? super Class<?>> consumer) {
+        stream(instances).forEach(consumer);
     }
     
     void getCallerCredentials(String callersAsXml) {
