@@ -27,12 +27,6 @@
     <dependencies>
         <dependency>
             <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-builder</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha</groupId>
             <artifactId>piranha-embedded</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -70,12 +64,6 @@
         <dependency>
             <groupId>cloud.piranha.faces</groupId>
             <artifactId>piranha-faces-mojarra</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.test</groupId>
-            <artifactId>utils</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

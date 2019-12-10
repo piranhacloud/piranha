@@ -35,7 +35,6 @@
         <module>vaadin</module>
         <module>weld</module>
         <module>wicket</module>
-        <module>test-utils</module>
         <module>embedded</module>
     </modules>
 

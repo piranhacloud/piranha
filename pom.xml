@@ -33,7 +33,6 @@
     <modules>
         <!-- Core -->
         <module>api</module>
-        <module>builder</module>
         <module>piranha</module>
     
         <!-- Logical components -->

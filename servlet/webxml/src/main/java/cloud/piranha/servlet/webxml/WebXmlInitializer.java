@@ -520,7 +520,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         try {
             Node configNode = (Node) xPath.evaluate("//login-config", node, NODE);
             if (configNode != null) {
-                String authMethod = parseString(xPath, 
+                String authMethod = parseString(xPath,
                         "//auth-method/text()", configNode);
                 String realmName = parseString(xPath,
                         "//realm-name/text()", configNode);
@@ -538,20 +538,49 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     }
 
     /**
-     * Parse the mime-mapping entries.
+     * Parse the mime-mapping section.
      *
      * @param webXml the web.xml to add to.
-     * @param XPath the XPath to use.
-     * @param node the DOM node.
+     * @param xPath the XPath to use.
+     * @param nodeList the node list.
      * @return the web.xml.
      */
-    private void parseMimeMapping(WebXml webXml, XPath xPath, Node node) {
+    private void parseMimeMappings(WebXml webXml, XPath xPath, Node node) {
         try {
-            String extension = parseString(xPath, "//extension/text()", node);
-            String mimeType = parseString(xPath, "//mime-type/text()", node);
-            webXml.addMimeMapping(extension, mimeType);
+            NodeList nodeList = (NodeList) xPath.evaluate("//mime-mapping", node, NODESET);
+            if (nodeList != null) {
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    String extension = parseString(xPath, "//extension/text()", nodeList.item(i));
+                    String mimeType = parseString(xPath, "//mime-type/text()", nodeList.item(i));
+                    webXml.addMimeMapping(extension, mimeType);
+                }
+            }
         } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse mime-mapping", xpe);
+            LOGGER.log(WARNING, "Unable to parse mime mappings", xpe);
+        }
+    }
+
+    /**
+     * Parse the servlet-mappings.
+     *
+     * @param webXml the web.xml to use.
+     * @param xPath the XPath to use.
+     * @param nodeList the Node list to parse.
+     */
+    private void parseServletMappings(WebXml webXml, XPath xPath, Node node) {
+        try {
+            NodeList nodeList = (NodeList) xPath.evaluate("//servlet-mapping", node, NODESET);
+            if (nodeList != null) {
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    String servletName = parseString(xPath, "servlet-name/text()", nodeList.item(i));
+                    String urlPattern = parseString(xPath, "url-pattern/text()", nodeList.item(i));
+                    webXml.addServletMapping(servletName, urlPattern);
+                }
+            }
+        } catch (XPathExpressionException xee) {
+            if (LOGGER.isLoggable(WARNING)) {
+                LOGGER.log(WARNING, "Unable to parse servlet mappings", xee);
+            }
         }
     }
 
@@ -567,68 +596,6 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     private String parseString(XPath xPath, String expression, Node node)
             throws XPathExpressionException {
         return (String) xPath.evaluate(expression, node, XPathConstants.STRING);
-    }
-
-    /**
-     * Parse the mime-mapping section.
-     *
-     * @param webXml the web.xml to add to.
-     * @param xPath the XPath to use.
-     * @param nodeList the node list.
-     * @return the web.xml.
-     */
-    private void parseMimeMappings(WebXml webXml, XPath xPath, Node node) {
-        try {
-            NodeList nodeList = (NodeList) xPath.evaluate("//mime-mapping", node, NODESET);
-            if (nodeList != null) {
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    parseMimeMapping(webXml, xPath, nodeList.item(i));
-                }
-            }
-        } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse mime mappings", xpe);
-        }
-    }
-
-    /**
-     * Parse a servlet-mapping.
-     *
-     * @param xPath the XPath to use.
-     * @param node the DOM node to parse.
-     * @return the servlet-mapping, or null if an error occurred.
-     */
-    private void parseServletMapping(WebXml webXml, XPath xPath, Node node) {
-        try {
-            String servletName = parseString(xPath, "servlet-name/text()", node);
-            String urlPattern = parseString(xPath, "url-pattern/text()", node);
-            webXml.addServletMapping(servletName, urlPattern);
-        } catch (XPathExpressionException xee) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to parse servlet mapping", xee);
-            }
-        }
-    }
-
-    /**
-     * Parse the servlet-mapping(s).
-     *
-     * @param webXml the web.xml to use.
-     * @param xPath the XPath to use.
-     * @param nodeList the Node list to parse.
-     */
-    private void parseServletMappings(WebXml webXml, XPath xPath, Node node) {
-        try {
-            NodeList nodeList = (NodeList) xPath.evaluate("//servlet-mapping", node, NODESET);
-            if (nodeList != null) {
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    parseServletMapping(webXml, xPath, nodeList.item(i));
-                }
-            }
-        } catch (XPathExpressionException xee) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to parse servlet mappings", xee);
-            }
-        }
     }
 
     // -------------------------------------------------------------------------
