@@ -68,6 +68,7 @@ import cloud.piranha.api.WebApplication;
 import cloud.piranha.api.WebXml;
 import cloud.piranha.api.WebXmlErrorPage;
 import cloud.piranha.api.WebXmlContextParam;
+import cloud.piranha.api.WebXmlListener;
 import cloud.piranha.api.WebXmlMimeMapping;
 import cloud.piranha.api.WebXmlServletMapping;
 
@@ -135,22 +136,11 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 webApp.setServletContextName(displayName);
 
                 /*
-                 * Process <listener> entries
-                 */
-                NodeList list = (NodeList) xPath.evaluate("//listener", document, NODESET);
-                if (list != null) {
-                    for (int i = 0; i < list.getLength(); i++) {
-                        String className = (String) xPath.evaluate("listener-class/text()", list.item(i), XPathConstants.STRING);
-                        webXml.addListener(className);
-                        webApp.addListener(className);
-                    }
-                }
-
-                /*
                  * Process
                  */
                 processContextParameters(webApp);
                 processErrorPages(webApp);
+                processListeners(webApp);
                 processMimeMappings(webApp);
                 processServlets(webApp);
                 processServletMappings(webApp);
@@ -158,7 +148,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 /*
                  * Process <security-constraint> entries
                  */
-                list = (NodeList) xPath.evaluate("//security-constraint", document, NODESET);
+                NodeList list = (NodeList) xPath.evaluate("//security-constraint", document, NODESET);
                 if (list != null) {
                     processSecurityConstraints(webXml, list);
                 }
@@ -198,6 +188,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
 
             parseContextParameters(result, xPath, document);
             parseErrorPages(result, xPath, document);
+            parseListeners(result, xPath, document);
             parseLoginConfig(result, xPath, document);
             parseMimeMappings(result, xPath, document);
             parseServletMappings(result, xPath, document);
@@ -487,6 +478,27 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     }
 
     /**
+     * Parse the listener section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param node the DOM node.
+     */
+    private void parseListeners(WebXml webXml, XPath xPath, Node node) {
+        try {
+            NodeList nodeList = (NodeList) xPath.evaluate("//listener", node, NODESET);
+            if (nodeList != null) {
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    String className = parseString(xPath, "listener-class/text()", nodeList.item(i));
+                    webXml.addListener(className);
+                }
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse listeners", xpe);
+        }
+    }
+
+    /**
      * Parse the login-config section.
      *
      * @param webXml the web.xml to add to.
@@ -604,6 +616,20 @@ public class WebXmlInitializer implements ServletContainerInitializer {
             } else if (errorPage.getExceptionType() != null && !errorPage.getExceptionType().isEmpty()) {
                 webApplication.addErrorPage(errorPage.getExceptionType(), errorPage.getLocation());
             }
+        }
+    }
+
+    /**
+     * Process the listeners.
+     *
+     * @param webApplication the web application.
+     */
+    private void processListeners(WebApplication webApplication) {
+        Iterator<WebXmlListener> iterator = webApplication.
+                getWebXmlManager().getWebXml().getListeners().iterator();
+        while (iterator.hasNext()) {
+            WebXmlListener listener = iterator.next();
+            webApplication.addListener(listener.getClassName());
         }
     }
 

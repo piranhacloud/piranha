@@ -30,6 +30,7 @@ package cloud.piranha;
 import cloud.piranha.api.WebXml;
 import cloud.piranha.api.WebXmlContextParam;
 import cloud.piranha.api.WebXmlErrorPage;
+import cloud.piranha.api.WebXmlListener;
 import cloud.piranha.api.WebXmlLoginConfig;
 import cloud.piranha.api.WebXmlMimeMapping;
 import cloud.piranha.api.WebXmlServletMapping;
@@ -179,60 +180,6 @@ public class DefaultWebXml implements Serializable, WebXml {
 
     // -------------------------------------------------------------------------
     /**
-     * The listener.
-     */
-    class DefaultListener implements Listener {
-
-        /**
-         * Stores the class name.
-         */
-        String className;
-
-        /**
-         * Constructor.
-         */
-        public DefaultListener(String className) {
-            this.className = className;
-        }
-
-        /**
-         * Get the class name.
-         *
-         * @return the class name.
-         */
-        @Override
-        public String getClassName() {
-            return className;
-        }
-    }
-
-    /**
-     * Stores the listeners.
-     */
-    ArrayList<Listener> listeners = new ArrayList<>();
-
-    /**
-     * Add a listener.
-     *
-     * @param className the class name.
-     */
-    @Override
-    public void addListener(String className) {
-        listeners.add(new DefaultListener(className));
-    }
-
-    /**
-     * Get the listeners.
-     *
-     * @return the listeners.
-     */
-    @Override
-    public Collection<Listener> getListeners() {
-        return Collections.unmodifiableCollection(listeners);
-    }
-
-    // -------------------------------------------------------------------------
-    /**
      * Stores the context params.
      */
     private final ArrayList<WebXmlContextParam> contextParams = new ArrayList<>();
@@ -241,6 +188,11 @@ public class DefaultWebXml implements Serializable, WebXml {
      * Stores the error pages.
      */
     private final ArrayList<WebXmlErrorPage> errorPages = new ArrayList<>();
+
+    /**
+     * Stores the listeners.
+     */
+    private final ArrayList<WebXmlListener> listeners = new ArrayList<>();
 
     /**
      * Stores the login config.
@@ -281,6 +233,16 @@ public class DefaultWebXml implements Serializable, WebXml {
     }
 
     /**
+     * Add a listener.
+     *
+     * @param className the class name.
+     */
+    @Override
+    public void addListener(String className) {
+        listeners.add(new DefaultWebXmlListener(className));
+    }
+
+    /**
      * Add a mime mapping.
      *
      * @param extension the extension.
@@ -303,16 +265,6 @@ public class DefaultWebXml implements Serializable, WebXml {
     }
 
     /**
-     * Get the login config.
-     *
-     * @return the login config.
-     */
-    @Override
-    public WebXmlLoginConfig getLoginConfig() {
-        return loginConfig;
-    }
-
-    /**
      * Get the context params.
      *
      * @return the context params.
@@ -330,6 +282,26 @@ public class DefaultWebXml implements Serializable, WebXml {
     @Override
     public Collection<WebXmlErrorPage> getErrorPages() {
         return errorPages;
+    }
+
+    /**
+     * Get the login config.
+     *
+     * @return the login config.
+     */
+    @Override
+    public WebXmlLoginConfig getLoginConfig() {
+        return loginConfig;
+    }
+
+    /**
+     * Get the listeners.
+     *
+     * @return the listeners.
+     */
+    @Override
+    public Collection<WebXmlListener> getListeners() {
+        return Collections.unmodifiableCollection(listeners);
     }
 
     /**
