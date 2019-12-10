@@ -75,6 +75,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      * @param delegateClassLoader classloader which is consulted first
      */
     public DefaultResourceManagerClassLoader(ClassLoader delegateClassLoader) {
+        super(null);
         this.delegateClassLoader = delegateClassLoader;
     }
 
@@ -84,6 +85,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      * @param resourceManager the resource manager.
      */
     public DefaultResourceManagerClassLoader(ResourceManager resourceManager) {
+        super(null);
         this.resourceManager = resourceManager;
     }
 
