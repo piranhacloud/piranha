@@ -28,6 +28,7 @@
 package cloud.piranha;
 
 import cloud.piranha.api.WebXml;
+import cloud.piranha.api.WebXmlContextParam;
 import cloud.piranha.api.WebXmlLoginConfig;
 import cloud.piranha.api.WebXmlMimeMapping;
 import cloud.piranha.api.WebXmlServletMapping;
@@ -269,80 +270,6 @@ public class DefaultWebXml implements Serializable, WebXml {
 
     // -------------------------------------------------------------------------
     /**
-     * The context-param.
-     */
-    class DefaultContextParam implements ContextParam {
-
-        /**
-         * Stores the name.
-         */
-        private final String name;
-
-        /**
-         * Stores the value.
-         */
-        private final String value;
-
-        /**
-         * Constructor.
-         *
-         * @param name the name.
-         * @param value the value.
-         */
-        private DefaultContextParam(String name, String value) {
-            this.name = name;
-            this.value = value;
-        }
-
-        /**
-         * Get the name.
-         *
-         * @return the name.
-         */
-        @Override
-        public String getName() {
-            return name;
-        }
-
-        /**
-         * Get the value.
-         *
-         * @return the value.
-         */
-        @Override
-        public String getValue() {
-            return value;
-        }
-    }
-
-    /**
-     * Stores the context params.
-     */
-    ArrayList<ContextParam> contextParams = new ArrayList<>();
-
-    /**
-     * Add a context param.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
-    @Override
-    public void addContextParam(String name, String value) {
-        contextParams.add(new DefaultContextParam(name, value));
-    }
-
-    /**
-     * Get the context params.
-     *
-     * @return the context params.
-     */
-    @Override
-    public Collection<ContextParam> getContextParams() {
-        return Collections.unmodifiableCollection(contextParams);
-    }
-
-    // -------------------------------------------------------------------------
-    /**
      * The listener.
      */
     class DefaultListener implements Listener {
@@ -397,19 +324,35 @@ public class DefaultWebXml implements Serializable, WebXml {
 
     // -------------------------------------------------------------------------
     /**
+     * Stores the context params.
+     */
+    private final ArrayList<WebXmlContextParam> contextParams = new ArrayList<>();
+
+    /**
      * Stores the login config.
      */
     private WebXmlLoginConfig loginConfig;
-    
+
     /**
      * Stores the mime mappings.
      */
     private final ArrayList<WebXmlMimeMapping> mimeMappings = new ArrayList<>();
-    
+
     /**
      * Stores the servlet mappings.
      */
     private final ArrayList<WebXmlServletMapping> servletMappings = new ArrayList<>();
+
+    /**
+     * Add a context param.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    @Override
+    public void addContextParam(String name, String value) {
+        contextParams.add(new DefaultWebXmlContextParam(name, value));
+    }
 
     /**
      * Add a mime mapping.
@@ -435,14 +378,24 @@ public class DefaultWebXml implements Serializable, WebXml {
 
     /**
      * Get the login config.
-     * 
+     *
      * @return the login config.
      */
     @Override
     public WebXmlLoginConfig getLoginConfig() {
         return loginConfig;
     }
-    
+
+    /**
+     * Get the context params.
+     *
+     * @return the context params.
+     */
+    @Override
+    public Collection<WebXmlContextParam> getContextParams() {
+        return contextParams;
+    }
+
     /**
      * Get the mime mappings.
      *
@@ -465,7 +418,7 @@ public class DefaultWebXml implements Serializable, WebXml {
 
     /**
      * Set the login config.
-     * 
+     *
      * @param loginConfig the login config.
      */
     @Override

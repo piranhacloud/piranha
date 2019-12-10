@@ -67,6 +67,7 @@ import org.xml.sax.SAXException;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.api.WebXml;
 import cloud.piranha.api.WebXml.ErrorPage;
+import cloud.piranha.api.WebXmlContextParam;
 import cloud.piranha.api.WebXmlMimeMapping;
 import cloud.piranha.api.WebXmlServletMapping;
 
@@ -167,6 +168,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                     webXml.denyUncoveredHttpMethods = true;
                 }
 
+                processContextParameters(webApp);
                 processMimeMappings(webApp);
 
                 /*
@@ -184,18 +186,6 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                     }
                 }
 
-                /*
-                 * Process <context-param> entries
-                 */
-                list = (NodeList) xPath.evaluate("//context-param", document, NODESET);
-                if (list != null) {
-                    processContextParameters(webXml, list);
-                    Iterator<WebXml.ContextParam> iterator = webXml.getContextParams().iterator();
-                    while (iterator.hasNext()) {
-                        WebXml.ContextParam contextParam = iterator.next();
-                        webApp.setInitParameter(contextParam.getName(), contextParam.getValue());
-                    }
-                }
             } else {
                 if (LOGGER.isLoggable(Level.FINE)) {
                     LOGGER.info("No web.xml found!");
@@ -222,6 +212,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
             result.servlets.addAll((List<DefaultWebXml.Servlet>) parseList(
                     xPath, document, "//servlet", WebXmlInitializer::parseServlet));
 
+            parseContextParameters(result, xPath, document);
             parseLoginConfig(result, xPath, document);
             parseMimeMappings(result, xPath, document);
             parseServletMappings(result, xPath, document);
@@ -304,37 +295,6 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                     registration.setInitParameter(initParam.name, initParam.value);
                 });
             }
-        }
-    }
-
-    /**
-     * Process the context-param entries.
-     *
-     * @param webXml the web.xml to add to.
-     * @param nodeList the node list.
-     * @return the web.xml.
-     */
-    private void processContextParameters(DefaultWebXml webXml, NodeList nodeList) {
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            processContextParameter(webXml, nodeList.item(i));
-        }
-    }
-
-    /**
-     * Process the context-param section.
-     *
-     * @param webXml the web.xml to add to.
-     * @param node the DOM node.
-     * @return the web.xml.
-     */
-    private void processContextParameter(DefaultWebXml webXml, Node node) {
-        try {
-            XPath xPath = XPathFactory.newInstance().newXPath();
-            String name = (String) xPath.evaluate("//param-name/text()", node, XPathConstants.STRING);
-            String value = (String) xPath.evaluate("//param-value/text()", node, XPathConstants.STRING);
-            webXml.addContextParam(name, value);
-        } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse <context-param> section", xpe);
         }
     }
 
@@ -510,6 +470,28 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     //  Parsing
     // -------------------------------------------------------------------------
     /**
+     * Parse the context-param section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param nodeList the node list.
+     */
+    private void parseContextParameters(WebXml webXml, XPath xPath, Node node) {
+        try {
+            NodeList nodeList = (NodeList) xPath.evaluate("//context-param", node, NODESET);
+            if (nodeList != null) {
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    String name = parseString(xPath, "//param-name/text()", nodeList.item(i));
+                    String value = parseString(xPath, "//param-value/text()", nodeList.item(i));
+                    webXml.addContextParam(name, value);
+                }
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse context parameters", xpe);
+        }
+    }
+
+    /**
      * Parse the login-config.
      *
      * @param webXml the web.xml to add to.
@@ -543,7 +525,6 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
      * @param nodeList the node list.
-     * @return the web.xml.
      */
     private void parseMimeMappings(WebXml webXml, XPath xPath, Node node) {
         try {
@@ -601,6 +582,20 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     // -------------------------------------------------------------------------
     //  Processing
     // -------------------------------------------------------------------------
+    /**
+     * Process the context parameters.
+     *
+     * @param webApplication the web application.
+     */
+    private void processContextParameters(WebApplication webApplication) {
+        Iterator<WebXmlContextParam> iterator = webApplication.getWebXmlManager()
+                .getWebXml().getContextParams().iterator();
+        while (iterator.hasNext()) {
+            WebXmlContextParam contextParam = iterator.next();
+            webApplication.setInitParameter(contextParam.getName(), contextParam.getValue());
+        }
+    }
+
     /**
      * Process the mime mappings.
      *
