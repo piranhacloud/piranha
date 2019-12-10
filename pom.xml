@@ -150,6 +150,11 @@
                 <artifactId>jersey-hk2</artifactId>
                 <version>2.29.1</version>
             </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.ext.cdi</groupId>
+                <artifactId>jersey-cdi1x</artifactId>
+                <version>2.29.1</version>
+            </dependency>
             
             <!-- Jakarta Faces -->
             <dependency>
