@@ -20,11 +20,6 @@
             <artifactId>piranha</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
-        </dependency> 
-        <dependency>
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-web-api</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha</groupId>

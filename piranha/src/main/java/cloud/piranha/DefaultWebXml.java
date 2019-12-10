@@ -29,6 +29,7 @@ package cloud.piranha;
 
 import cloud.piranha.api.WebXml;
 import cloud.piranha.api.WebXmlContextParam;
+import cloud.piranha.api.WebXmlErrorPage;
 import cloud.piranha.api.WebXmlLoginConfig;
 import cloud.piranha.api.WebXmlMimeMapping;
 import cloud.piranha.api.WebXmlServletMapping;
@@ -178,98 +179,6 @@ public class DefaultWebXml implements Serializable, WebXml {
 
     // -------------------------------------------------------------------------
     /**
-     * The error-page.
-     */
-    class DefaultErrorPage implements ErrorPage {
-
-        /**
-         * Stores the error code.
-         */
-        private final String errorCode;
-
-        /**
-         * Stores the exception type.
-         */
-        private final String exceptionType;
-
-        /**
-         * Stores the location.
-         */
-        private final String location;
-
-        /**
-         * Constructor.
-         *
-         * @param errorCode the error code.
-         * @param exceptionType the exception type.
-         * @param location the location.
-         */
-        public DefaultErrorPage(String errorCode, String exceptionType, String location) {
-            this.errorCode = errorCode;
-            this.exceptionType = exceptionType;
-            this.location = location;
-        }
-
-        /**
-         * Get the error code.
-         *
-         * @return the error code.
-         */
-        @Override
-        public String getErrorCode() {
-            return errorCode;
-        }
-
-        /**
-         * Get the exception type.
-         *
-         * @return the exception type.
-         */
-        @Override
-        public String getExceptionType() {
-            return exceptionType;
-        }
-
-        /**
-         * Get the location.
-         *
-         * @return the location.
-         */
-        @Override
-        public String getLocation() {
-            return location;
-        }
-    }
-
-    /**
-     * Stores the error pages.
-     */
-    ArrayList<ErrorPage> errorPages = new ArrayList<>();
-
-    /**
-     * Add error page.
-     *
-     * @param errorCode the error code.
-     * @param exceptionType the exception type.
-     * @param location the location.
-     */
-    @Override
-    public void addErrorPage(String errorCode, String exceptionType, String location) {
-        errorPages.add(new DefaultErrorPage(errorCode, exceptionType, location));
-    }
-
-    /**
-     * Get the error pages.
-     *
-     * @return the error pages.
-     */
-    @Override
-    public Collection<ErrorPage> getErrorPages() {
-        return Collections.unmodifiableCollection(errorPages);
-    }
-
-    // -------------------------------------------------------------------------
-    /**
      * The listener.
      */
     class DefaultListener implements Listener {
@@ -329,6 +238,11 @@ public class DefaultWebXml implements Serializable, WebXml {
     private final ArrayList<WebXmlContextParam> contextParams = new ArrayList<>();
 
     /**
+     * Stores the error pages.
+     */
+    private final ArrayList<WebXmlErrorPage> errorPages = new ArrayList<>();
+
+    /**
      * Stores the login config.
      */
     private WebXmlLoginConfig loginConfig;
@@ -352,6 +266,18 @@ public class DefaultWebXml implements Serializable, WebXml {
     @Override
     public void addContextParam(String name, String value) {
         contextParams.add(new DefaultWebXmlContextParam(name, value));
+    }
+
+    /**
+     * Add error page.
+     *
+     * @param errorCode the error code.
+     * @param exceptionType the exception type.
+     * @param location the location.
+     */
+    @Override
+    public void addErrorPage(String errorCode, String exceptionType, String location) {
+        errorPages.add(new DefaultWebXmlErrorPage(errorCode, exceptionType, location));
     }
 
     /**
@@ -394,6 +320,16 @@ public class DefaultWebXml implements Serializable, WebXml {
     @Override
     public Collection<WebXmlContextParam> getContextParams() {
         return contextParams;
+    }
+
+    /**
+     * Get the error pages.
+     *
+     * @return the error pages.
+     */
+    @Override
+    public Collection<WebXmlErrorPage> getErrorPages() {
+        return errorPages;
     }
 
     /**

@@ -32,6 +32,7 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
+import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -39,13 +40,13 @@ import org.junit.Test;
 
 /**
  * JUnit tests verifying JspWriter functionality.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class JspWriterTest {
 
     /**
-     * Test JspWriter.clearBuffer method.
+     * Test clearBuffer method.
      *
      * @throws Exception when a serious error occurs.
      */
@@ -60,8 +61,74 @@ public class JspWriterTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
+        piranha.stop().destroy();
         assertEquals(200, response.getStatus());
         assertFalse(response.getResponseAsString().contains("Test FAILED"));
         assertTrue(response.getResponseAsString().contains("Test PASSED"));
+    }
+
+    /**
+     * Test close method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testClose() throws Exception {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/test/webapp/jspwriter")
+                .initializer(JasperInitializer.class.getName())
+                .buildAndStart();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/close.jsp")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        try {
+            piranha.service(request, response);
+        } catch (IOException ioe) {
+            assertEquals("Stream closed", ioe.getMessage());
+        }
+        piranha.stop().destroy();
+    }
+
+    /**
+     * Test close method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testClose2() throws Exception {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/test/webapp/jspwriter")
+                .initializer(JasperInitializer.class.getName())
+                .buildAndStart();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/close2.jsp")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        try {
+            piranha.service(request, response);
+        } catch (IOException ioe) {
+            assertEquals("Stream closed", ioe.getMessage());
+        }
+        piranha.stop().destroy();
+    }
+
+    /**
+     * Test close method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testClose3() throws Exception {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/test/webapp/jspwriter")
+                .initializer(JasperInitializer.class.getName())
+                .buildAndStart();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/close3.jsp")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
+        piranha.stop().destroy();
     }
 }

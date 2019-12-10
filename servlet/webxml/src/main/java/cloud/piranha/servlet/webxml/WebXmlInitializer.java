@@ -66,7 +66,7 @@ import org.xml.sax.SAXException;
 
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.api.WebXml;
-import cloud.piranha.api.WebXml.ErrorPage;
+import cloud.piranha.api.WebXmlErrorPage;
 import cloud.piranha.api.WebXmlContextParam;
 import cloud.piranha.api.WebXmlMimeMapping;
 import cloud.piranha.api.WebXmlServletMapping;
@@ -149,6 +149,9 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 /*
                  * Process
                  */
+                processContextParameters(webApp);
+                processErrorPages(webApp);
+                processMimeMappings(webApp);
                 processServlets(webApp);
                 processServletMappings(webApp);
 
@@ -167,25 +170,6 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 if (node != null) {
                     webXml.denyUncoveredHttpMethods = true;
                 }
-
-                processContextParameters(webApp);
-                processMimeMappings(webApp);
-
-                /*
-                 * Process <error-page> entries
-                 */
-                list = (NodeList) xPath.evaluate("//error-page", document, NODESET);
-                if (list != null) {
-                    processErrorPages(xPath, webXml, list);
-                    for (ErrorPage errorPage : webXml.getErrorPages()) {
-                        if (errorPage.getErrorCode() != null && !errorPage.getErrorCode().isEmpty()) {
-                            webApp.addErrorPage(Integer.parseInt(errorPage.getErrorCode()), errorPage.getLocation());
-                        } else if (errorPage.getExceptionType() != null && !errorPage.getExceptionType().isEmpty()) {
-                            webApp.addErrorPage(errorPage.getExceptionType(), errorPage.getLocation());
-                        }
-                    }
-                }
-
             } else {
                 if (LOGGER.isLoggable(Level.FINE)) {
                     LOGGER.info("No web.xml found!");
@@ -213,6 +197,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                     xPath, document, "//servlet", WebXmlInitializer::parseServlet));
 
             parseContextParameters(result, xPath, document);
+            parseErrorPages(result, xPath, document);
             parseLoginConfig(result, xPath, document);
             parseMimeMappings(result, xPath, document);
             parseServletMappings(result, xPath, document);
@@ -338,19 +323,6 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         } catch (Exception xpe) {
             LOGGER.log(WARNING, "Unable to parse <servlet> section", xpe);
         }
-    }
-
-    private void processErrorPages(XPath xPath, DefaultWebXml webXml, NodeList nodeList) throws XPathExpressionException {
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            processErrorPage(xPath, webXml, nodeList.item(i));
-        }
-    }
-
-    private void processErrorPage(XPath xPath, DefaultWebXml webXml, Node node) throws XPathExpressionException {
-        String errorCode = getString(xPath, node, "error-code/text()");
-        String exceptionType = getString(xPath, node, "exception-type/text()");
-        String location = getString(xPath, node, "location/text()");
-        webXml.addErrorPage(errorCode, exceptionType, location);
     }
 
     // ### Utility methods
@@ -492,7 +464,30 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     }
 
     /**
-     * Parse the login-config.
+     * Parse the error-page section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param node the DOM node.
+     */
+    private void parseErrorPages(WebXml webXml, XPath xPath, Node node) {
+        try {
+            NodeList nodeList = (NodeList) xPath.evaluate("//error-page", node, NODESET);
+            if (nodeList != null) {
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    String errorCode = parseString(xPath, "error-code/text()", nodeList.item(i));
+                    String exceptionType = parseString(xPath, "exception-type/text()", nodeList.item(i));
+                    String location = parseString(xPath, "location/text()", nodeList.item(i));
+                    webXml.addErrorPage(errorCode, exceptionType, location);
+                }
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse error pages", xpe);
+        }
+    }
+
+    /**
+     * Parse the login-config section.
      *
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
@@ -542,7 +537,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     }
 
     /**
-     * Parse the servlet-mappings.
+     * Parse the servlet-mapping section.
      *
      * @param webXml the web.xml to use.
      * @param xPath the XPath to use.
@@ -593,6 +588,22 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         while (iterator.hasNext()) {
             WebXmlContextParam contextParam = iterator.next();
             webApplication.setInitParameter(contextParam.getName(), contextParam.getValue());
+        }
+    }
+
+    /**
+     * Process the error pages.
+     *
+     * @param webApplication the web application.
+     */
+    private void processErrorPages(WebApplication webApplication) {
+        WebXml webXml = webApplication.getWebXmlManager().getWebXml();
+        for (WebXmlErrorPage errorPage : webXml.getErrorPages()) {
+            if (errorPage.getErrorCode() != null && !errorPage.getErrorCode().isEmpty()) {
+                webApplication.addErrorPage(Integer.parseInt(errorPage.getErrorCode()), errorPage.getLocation());
+            } else if (errorPage.getExceptionType() != null && !errorPage.getExceptionType().isEmpty()) {
+                webApplication.addErrorPage(errorPage.getExceptionType(), errorPage.getLocation());
+            }
         }
     }
 

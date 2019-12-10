@@ -38,33 +38,6 @@ import java.util.Collection;
 public interface WebXml {
 
     /**
-     * An error page.
-     */
-    interface ErrorPage extends Serializable {
-
-        /**
-         * Get the error code.
-         *
-         * @return the error code.
-         */
-        String getErrorCode();
-
-        /**
-         * Get the exception type.
-         *
-         * @return the error code.
-         */
-        String getExceptionType();
-        
-        /**
-         * Get the location.
-         * 
-         * @return the location.
-         */
-        String getLocation();
-    }
-
-    /**
      * A listener.
      */
     interface Listener extends Serializable {
@@ -129,7 +102,7 @@ public interface WebXml {
      * 
      * @return the error pages.
      */
-    Collection<ErrorPage> getErrorPages();
+    Collection<WebXmlErrorPage> getErrorPages();
 
     /**
      * Get the listeners.
