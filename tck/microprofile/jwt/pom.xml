@@ -15,6 +15,7 @@
     <name>Piranha TCK - JWT</name>
 
     <modules>
+        <module>extension</module>
         <module>suite</module>
     </modules>
 
@@ -36,5 +37,4 @@
             <type>test-jar</type>
         </dependency>
     </dependencies>
-
 </project>
