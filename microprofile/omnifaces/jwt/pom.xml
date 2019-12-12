@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>microprofile-jwt-auth</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>jakarta.servlet</groupId>
