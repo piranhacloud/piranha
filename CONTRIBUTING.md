@@ -1,6 +1,6 @@
 # Contributing
 
-How can I contribute to Manorrock Piranha? Well it all depends on the level of 
+How can I contribute to Piranha? Well it all depends on the level of 
 involvement you are aiming for. The following comes to mind:
 
 1. Write blog entries with example applications

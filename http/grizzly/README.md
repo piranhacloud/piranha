@@ -1,8 +1,8 @@
 
-# Manorrock Piranha HTTP - Grizzly Integration
+# Piranha HTTP - Grizzly Integration
 
-The Manorrock Piranha HTTP - Grizzly Integration module is a module that can be
-used to run Manorrock Piranha using Grizzly.
+The Piranha HTTP - Grizzly Integration module is a module that can be
+used to run Piranha using Grizzly.
 
 ## How to use?
 

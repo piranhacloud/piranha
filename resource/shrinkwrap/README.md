@@ -1,6 +1,5 @@
 
-# Manorrock Piranha Shrinkwrap Integration
+# Piranha Resource - Shrinkwrap Integration
 
-The Manorrock Shrinkwrap Integration module is a module that can be used to have Piranha
-run war archives created using Shrinkwrap.
-
+The Piranha Resource - Shrinkwrap Integration module is a module that can be used
+to have Piranha run war archives created using Shrinkwrap.
