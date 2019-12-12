@@ -1,7 +1,7 @@
 
-# Manorrock Piranha Hazelcast HTTP Session Integration
+# Piranha HTTP Session - Hazelcast Integration
 
-The Manorrock Piranha Hazelcast HTTP Session integration module is a module that
+The Piranha HTTP Session - Hazelcast integration module is a module that
 can be used to have Hazelcast be the session manager.
 
 ## How to use?
