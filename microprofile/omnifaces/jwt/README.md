@@ -9,7 +9,7 @@ Note you will first need to enable CDI integration, like [Weld](../piranha-weld/
 Then add the following dependency to your project.
 
       <dependency>
-          <groupId>com.manorrock.piranha</groupId>
+          <groupId>cloud.piranha.microprofile.omnifaces</groupId>
           <artifactId>piranha-microprofile-omnifaces-jwt</artifactId>
           <version>x.y.z</version>
       </dependency>
