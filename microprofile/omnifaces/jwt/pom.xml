@@ -19,12 +19,10 @@
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-api</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.smallrye</groupId>
             <artifactId>smallrye-config</artifactId>
-            <scope>compile</scope>
             <exclusions>
                 <exclusion>
                     <groupId>javax.enterprise</groupId>
@@ -35,8 +33,7 @@
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>microprofile-jwt-auth</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
+            <version>1.0.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>jakarta.servlet</groupId>
@@ -47,12 +44,10 @@
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.json</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
