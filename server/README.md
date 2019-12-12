@@ -8,8 +8,7 @@ applications by means of an installed version of Piranha.
 
 ### Installing Manorrock Piranha
 
-Download the ZIP file from
-[Maven Central](http://repo1.maven.org/maven2/cloud/piranha/piranha-standard/).
+Download the ZIP file.
 
 Unzip the ZIP file.
 
