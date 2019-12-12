@@ -155,6 +155,11 @@
                 <artifactId>jersey-cdi1x</artifactId>
                 <version>2.29.1</version>
             </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-json-processing</artifactId>
+                <version>2.29.1</version>
+            </dependency>
             
             <!-- Jakarta Faces -->
             <dependency>
