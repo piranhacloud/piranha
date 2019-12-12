@@ -1,15 +1,14 @@
 
-# Piranha Standard
+# Piranha Server
 
-The Piranha Standard module delivers you with the capability to run your web 
+The Piranha Server module delivers you with the capability to run your web 
 applications by means of an installed version of Piranha.
 
 ## How to use?
 
-### Installing Manorrock Piranha
+### Installing Piranha Server
 
-Download the ZIP file from
-[Maven Central](http://repo1.maven.org/maven2/cloud/piranha/piranha-standard/).
+Download the ZIP file.
 
 Unzip the ZIP file.
 

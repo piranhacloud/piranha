@@ -1,7 +1,7 @@
 
-# Manorrock Piranha Jasper integration
+# Piranha Pages - Jasper integration
 
-The Manorrock Piranha Jasper integration module delivers JSP integration using
+The Piranha Pages - Jasper integration module delivers Pages integration using
 Jasper.
 
 ## How to use?

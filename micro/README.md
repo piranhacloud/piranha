@@ -8,8 +8,7 @@ file.
 
 ## How to use?
 
-Download the JAR file containing the WAR runner from
-[Maven Central](http://repo1.maven.org/maven2/cloud/piranha/piranha-micro/).
+Download the JAR file.
 
 If you have a WAR file you can use the command line below
 

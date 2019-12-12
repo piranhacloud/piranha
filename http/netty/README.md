@@ -1,8 +1,8 @@
 
-# Manorrock Piranha HTTP - Netty Integration
+# Piranha HTTP - Netty Integration
 
-The Manorrock Piranha HTTP - Netty Integration module is a module that can be used
-to run Manorrock Piranha using Netty.
+The Piranha HTTP - Netty Integration module is a module that can be used
+to run Piranha using Netty.
 
 ## How to use?
 

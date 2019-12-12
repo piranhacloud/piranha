@@ -1,8 +1,8 @@
 
-# Manorrock Piranha HTTP - Single-Thread Server
+# Piranha HTTP - Single-Thread Server
 
-The Manorrock Piranha HTTP - Single-Thread Server module is a module that can be
-used to run Manorrock Piranha constrained to a single server thread.
+The Piranha HTTP - Single-Thread Server module is a module that can be
+used to run Piranha constrained to a single server thread.
 
 ## How to use?
 
