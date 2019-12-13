@@ -1,3 +1,4 @@
+![#piranhacloud](piranha_cloud.svg)
 
 # Piranha Project
 
