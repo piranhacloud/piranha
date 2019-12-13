@@ -12,7 +12,7 @@
     <artifactId>piranha-rest-jersey</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Jersey - Jersey Integration</name>
+    <name>Piranha REST - Jersey Integration</name>
 
     <dependencies>
         <dependency>
