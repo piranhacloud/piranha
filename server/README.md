@@ -8,7 +8,7 @@ applications by means of an installed version of Piranha.
 
 ### Installing Piranha Server
 
-Download the ZIP file.
+Download the ZIP file from [Bintray](https://dl.bintray.com/piranhacloud/maven/cloud/piranha/piranha-server/)
 
 Unzip the ZIP file.
 

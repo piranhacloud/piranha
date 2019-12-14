@@ -8,12 +8,18 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=manorrock_piranha&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=manorrock_piranha&metric=security_rating)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
 
-The Piranha Project delivers you with Cloud ready container and
-some useful add-on modules.
+The Piranha Project delivers you with Cloud ready containers and useful add-on / 
+4integration modules.
 
-See the list below for what is available.
+The following distributions are available.
 
-1. [Piranha Servlet container](piranha/README.md)
+1. [Piranha Nano](nano/)
+1. [Piranha Embedded](embedded/)
+1. [Piranha Micro](micro/)
+1. [Piranha Server](server/)
+
+See the list below for what add-on / integration modules are available.
+
 1. [Piranha Grizzly integration](http/grizzly/README.md)
 1. [Piranha Hazelcast HTTP Session integration](session/hazelcast/README.md)
 1. [Piranha Jasper integration](pages/jasper/README.md)
@@ -31,6 +37,7 @@ for the release you are using in the links below.
 
 ## Documentation for older releases
 
+1. [Version 19.12.0](https://github.com/piranhacloud/piranha/tree/v19.12.0)
 1. [Version 19.11.0](https://github.com/piranhacloud/piranha/tree/v19.11.0)
 1. [Version 4.0.15.0](https://github.com/piranhacloud/piranha/tree/v4.0.15.0)
 1. [Version 4.0.14.0](https://github.com/piranhacloud/piranha/tree/v4.0.14.0)
@@ -40,7 +47,6 @@ for the release you are using in the links below.
 1. [Version 4.0.10.0](https://github.com/piranhacloud/piranha/tree/v4.0.10.0)
 1. [Version 4.0.9.0](https://github.com/piranhacloud/piranha/tree/v4.0.9.0)
 1. [Version 4.0.8.0](https://github.com/piranhacloud/piranha/tree/v4.0.8.0)
-1. [Version 4.0.7.0](https://github.com/piranhacloud/piranha/tree/v4.0.7.0)
 
 ## How do I contribute?
 
