@@ -8,7 +8,7 @@ file.
 
 ## How to use?
 
-Download the JAR file.
+Download the JAR file from [Bintray](https://dl.bintray.com/piranhacloud/maven/cloud/piranha/piranha-micro/)
 
 If you have a WAR file you can use the command line below
 
