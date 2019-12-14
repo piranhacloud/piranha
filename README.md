@@ -9,12 +9,12 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=manorrock_piranha&metric=security_rating)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
 
 The Piranha Project delivers you with Cloud ready containers and useful add-on / 
-integration modules.
+4integration modules.
 
 The following distributions are available.
 
-1. [Piranha Nano](nano/README.md)
-1. [Piranha Embedded](embedded/README.md)
+1. [Piranha Nano](nano/)
+1. [Piranha Embedded](embedded/)
 1. [Piranha Micro](micro/)
 1. [Piranha Server](server/)
 
