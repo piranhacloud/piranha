@@ -114,7 +114,7 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
                 Maven.configureResolver()
                      //.workOffline() // TODO: config setting
                      .resolve(
-                        "cloud.piranha:piranha-micro:19.12.0-SNAPSHOT" // TODO config for version
+                        "cloud.piranha:piranha-micro:20.1.0-SNAPSHOT" // TODO config for version
                         // TODO: may add other dependencies via external config
                       )
                      .withTransitivity()
