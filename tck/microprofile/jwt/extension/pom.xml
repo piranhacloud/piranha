@@ -3,12 +3,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>piranha-tck-microprofile-jwt</groupId>
-    <artifactId>omnifaces-jwt-extension</artifactId>
-    <version>19.12.0-SNAPSHOT</version>
+    <parent>
+        <groupId>cloud.piranha.tck.microprofile.jwt</groupId>
+        <artifactId>project</artifactId>
+        <version>20.1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>piranha-tck-microprofile-jwt-extension</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha TCK - OmniFaces JWT - Extension</name>
+    <name>Piranha TCK - MicroProfile - JWT - Extension</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
