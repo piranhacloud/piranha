@@ -10,7 +10,7 @@ else
     JAVA_BIN=${JAVA_HOME}/bin/java
 fi
 
-${JAVA_BIN} -jar lib/piranha-server.jar &
+exec ${JAVA_BIN} -jar lib/piranha-server.jar &
 
 PID=$!
 echo $PID >> tmp/piranha.pid
