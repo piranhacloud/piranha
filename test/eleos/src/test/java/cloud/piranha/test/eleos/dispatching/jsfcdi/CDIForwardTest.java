@@ -136,6 +136,7 @@ public class CDIForwardTest {
      * @throws SAXException
      */
     @Test
+    @Ignore
     public void testCDIForwardWithRequestInjectPublic() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("public/servlet");
