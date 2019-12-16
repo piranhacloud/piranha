@@ -66,6 +66,7 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
         
         repositoriesList = Arrays.stream(repositories.split(","))
                                  .map(e -> e.trim())
+                                 .filter(e -> !e.isEmpty())
                                  .collect(toList());
         
         mergedDependencies = modulesList.stream()
