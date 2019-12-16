@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
@@ -50,6 +51,7 @@ import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
+import org.jboss.shrinkwrap.resolver.api.maven.ConfigurableMavenResolverSystem;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 
 import cloud.piranha.DefaultResourceManager;
@@ -107,8 +109,13 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
             
             // Resolve all the dependencies that make up a Piranha runtime configuration
             
+            ConfigurableMavenResolverSystem mavenResolver = Maven.configureResolver();
+            
+            configuration.getRepositoriesList().stream().forEach(repo ->
+                mavenResolver.withRemoteRepo(UUID.randomUUID().toString(), repo, "default"));
+            
             JavaArchive[] piranhaArchives = 
-                Maven.configureResolver()
+                mavenResolver
                      .workOffline(configuration.isOffline())
                      .resolve(configuration.getMergedDependencies())
                      .withTransitivity()
