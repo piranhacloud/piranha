@@ -50,6 +50,7 @@ import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
+import org.jboss.shrinkwrap.resolver.api.maven.ConfigurableMavenResolverSystem;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 
 import cloud.piranha.resource.shrinkwrap.IsolatingResourceManagerClassLoader;
@@ -85,6 +86,7 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
     @Override
     public void setup(PiranhaServerContainerConfiguration configuration) {
         this.configuration = configuration;
+        configuration.validate();
     }
 
     @Override
@@ -106,6 +108,10 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
         try {
             
             // Resolve all the dependencies that make up a Piranha runtime configuration
+            
+            ConfigurableMavenResolverSystem mavenResolver = Maven.configureResolver();
+            
+           //if 
             
             // Note that this uses the "piranha-runner-war" dependency, which is 
             // a Maven Shade assembled war. If needed additionally dependencies can be added
