@@ -44,18 +44,20 @@ import org.jboss.arquillian.container.spi.client.container.ContainerConfiguratio
  */
 public class PiranhaServerContainerConfiguration implements ContainerConfiguration {
     
-    private String version = System.getProperty("piranha.version", "20-1.0-SNAPSHOT");
+    private String version = System.getProperty("piranha.version", "20.1.0-SNAPSHOT");
 
-    private String modules = System.getProperty("piranha.modules","");
+    private String modules = System.getProperty("piranha.modules","piranha-micro");
     
     private String repositories = System.getProperty("piranha.repositories","");
     
-    private boolean offline = Boolean.valueOf(System.getProperty("piranha.offline", "true"));
+    private boolean offline = Boolean.valueOf(System.getProperty("piranha.offline", "false"));
 
     private List<String> modulesList;
     
     private List<String> repositoriesList;
     
+    private List<String> mergedDependencies;
+
     @Override
     public void validate() throws ConfigurationException {
         modulesList = Arrays.stream(modules.split(","))
@@ -65,6 +67,10 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
         repositoriesList = Arrays.stream(repositories.split(","))
                                  .map(e -> e.trim())
                                  .collect(toList());
+        
+        mergedDependencies = modulesList.stream()
+                                        .map(e -> "cloud.piranha:" + e + ":" + version)
+                                        .collect(toList());
     }
     
     public String getVersion() {
@@ -110,6 +116,10 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
 
     public List<String> getRepositoriesList() {
         return repositoriesList;
+    }
+    
+    public List<String> getMergedDependencies() {
+        return mergedDependencies;
     }
 
 }
