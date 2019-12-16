@@ -52,10 +52,9 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 
+import cloud.piranha.DefaultResourceManager;
 import cloud.piranha.resource.shrinkwrap.IsolatingResourceManagerClassLoader;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
-
-import cloud.piranha.DefaultResourceManager;
 
 /**
  * The Piranha Arquillian connector.
@@ -85,6 +84,7 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
     @Override
     public void setup(PiranhaServerContainerConfiguration configuration) {
         this.configuration = configuration;
+        configuration.validate();
     }
 
     @Override
@@ -107,16 +107,10 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
             
             // Resolve all the dependencies that make up a Piranha runtime configuration
             
-            // Note that this uses the "piranha-runner-war" dependency, which is 
-            // a Maven Shade assembled war. If needed additionally dependencies can be added
-            // here.
             JavaArchive[] piranhaArchives = 
                 Maven.configureResolver()
-                     //.workOffline() // TODO: config setting
-                     .resolve(
-                        "cloud.piranha:piranha-micro:20.1.0-SNAPSHOT" // TODO config for version
-                        // TODO: may add other dependencies via external config
-                      )
+                     .workOffline(configuration.isOffline())
+                     .resolve(configuration.getMergedDependencies())
                      .withTransitivity()
                      .as(JavaArchive.class);
 
