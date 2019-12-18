@@ -10,4 +10,10 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
-      run: mvn -B clean install -f server/pom -amd -DskipTests=true
+      run: mvn -B clean install -f server/pom.xml -amd -DskipTests=true
+    - name: Build the Docker image
+      run: cd server ; docker build -f src/main/docker/Dockerfile -t piranhacloud/server:snapshot .
+    - name: Login to Docker Hub
+      run: docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
+    - name: Push image to Docker Hub
+      run: docker push piranhacloud/server:snapshot
