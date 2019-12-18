@@ -12,7 +12,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B -DskipTests=true -f pom.xml clean install
     - name: Build the Docker image
-      run: cd server ; docker build -f src/main/docker/Dockerfile -t piranhacloud/server:snapshot .
+      run: cd server ; docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/server:snapshot .
     - name: Login to Docker Hub
       run: docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
     - name: Push image to Docker Hub
