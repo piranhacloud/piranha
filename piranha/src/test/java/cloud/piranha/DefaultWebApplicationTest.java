@@ -27,11 +27,18 @@
  */
 package cloud.piranha;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.Set;
+
 import javax.servlet.DispatcherType;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -42,11 +49,7 @@ import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.http.HttpServletRequest;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 /**
@@ -853,6 +856,9 @@ public class DefaultWebApplicationTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         webApp.addServletMapping("Snoop", "/Snoop");
+        webApp.addServlet("DefaultServlet", DefaultServlet.class.getName());
+        webApp.addServletMapping("DefaultServlet", "/*");
+        
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
@@ -881,15 +887,19 @@ public class DefaultWebApplicationTest {
      */
     @Test
     public void testService3() throws Exception {
-        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setServletPath("/Snoop");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        request.setWebApplication(webApp);
-        response.setWebApplication(webApp);
+        webApp.setWebApplicationRequestMapper(new DefaultWebApplicationRequestMapper());
         webApp.addServletMapping("Snoop", "/Snoop");
+        webApp.addServlet("DefaultServlet", DefaultServlet.class.getName());
+        webApp.addServletMapping("DefaultServlet", "/*");
+        
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setWebApplication(webApp);
+        request.setServletPath("/Snoop");
+        
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApp);
+        
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
