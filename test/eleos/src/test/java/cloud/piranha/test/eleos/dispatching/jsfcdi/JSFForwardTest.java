@@ -59,6 +59,7 @@ public class JSFForwardTest {
     }
 
     @Test
+    @Ignore
     public void testJSFForwardViaPublicResource() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("public/servlet?tech=jsf");
