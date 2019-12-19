@@ -50,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.Filter;
@@ -94,7 +95,6 @@ import cloud.piranha.api.WebApplication;
 import cloud.piranha.api.WebApplicationRequestMapper;
 import cloud.piranha.api.WebApplicationRequestMapping;
 import cloud.piranha.api.WebXmlManager;
-import java.util.logging.Level;
 
 /**
  * The default WebApplication.
@@ -1446,24 +1446,23 @@ public class DefaultWebApplication implements WebApplication {
 
         // Obtain a reference to the target resource (target Servlet)
         Servlet servlet = getTargetServlet(httpRequest);
-        if (servlet == null) {
-            httpResponse.sendError(404);
-        }
 
         // Invoke the Servlet, or first the Filter chain and then the Servlet
         List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(httpRequest);
 
         Exception exception = null;
-        try {
-            if (servlet != null) {
-                if (filterEnvironments == null) {
-                    servlet.service(request, response);
-                } else {
+        if (servlet == null && filterEnvironments == null) {
+            httpResponse.sendError(404);
+        } else {
+            try {
+                if (filterEnvironments != null) {
                     getFilterChain(filterEnvironments, servlet).doFilter(request, response);
+                } else {
+                    servlet.service(request, response);
                 }
+            } catch (Exception e) {
+                exception = e;
             }
-        } catch (Exception e) {
-            exception = e;
         }
 
         String location = null;
