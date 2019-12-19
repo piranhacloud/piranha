@@ -27,13 +27,17 @@
  */
 package cloud.piranha;
 
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * The default FilterChain.
@@ -97,6 +101,8 @@ public class DefaultFilterChain implements FilterChain {
             filter.doFilter(request, response, nextFilterChain);
         } else if (servlet != null) {
             servlet.service(request, response);
+        } else if (response instanceof HttpServletResponse) {
+            ((HttpServletResponse) response).sendError(SC_NOT_FOUND);
         }
     }
 }
