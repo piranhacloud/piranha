@@ -101,12 +101,12 @@ public class PiranhaServerDeployer {
        // REST
        Path.class, 
        Provider.class, 
-       ApplicationPath.class
+       ApplicationPath.class,
     };
     
     Class<?>[] instances = new Class<?>[] {
         // REST
-        Application.class
+        Application.class,
     };
     
     private HttpServer httpServer;

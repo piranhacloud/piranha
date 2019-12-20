@@ -56,9 +56,9 @@ import cloud.piranha.api.WebApplication;
  */
 public class AuthorizationPreFilter extends HttpFilter {
    
-    private static final long serialVersionUID = 8478463438252262094L;
-
     public static ThreadLocal<HttpServletRequest> localServletRequest = new ThreadLocal<>();
+
+    private static final long serialVersionUID = 8478463438252262094L;
     
     private SecurityManager securityManager;
     

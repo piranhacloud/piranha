@@ -39,14 +39,15 @@ import cloud.piranha.api.AuthenticatedIdentity;
 
 /**
  * Default implementation of AuthenticatedIdentity.
- * 
+ *
  * <p>
- * This implementation is an immutable structure, with a facility to store it in TLS. It's
- * the responsibility of the context, e.g. the HTTP request handler, to remove the identity
- * from TLS at the end of the context (e.g. end of the HTTP request), or at any other appropriate
- * time (e.g. when logging out mid-request).
- * 
- * 
+ * This implementation is an immutable structure, with a facility to store it in
+ * TLS. It's the responsibility of the context, e.g. the HTTP request handler,
+ * to remove the identity from TLS at the end of the context (e.g. end of the
+ * HTTP request), or at any other appropriate time (e.g. when logging out
+ * mid-request).
+ *
+ *
  * @author Arjan Tijms
  *
  */
@@ -57,7 +58,12 @@ public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
 
     private Principal callerPrincipal;
     private Set<String> groups = new HashSet<>();
-    
+
+    public DefaultAuthenticatedIdentity(Principal callerPrincipal, Set<String> groups) {
+        this.callerPrincipal = callerPrincipal;
+        this.groups = unmodifiableSet(groups);
+    }
+
     public static void setCurrentIdentity(Principal callerPrincipal, Set<String> groups) {
         setCurrentIdentity(new DefaultAuthenticatedIdentity(callerPrincipal, groups));
     }
@@ -65,7 +71,7 @@ public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
     public static void setCurrentIdentity(AuthenticatedIdentity identity) {
         Subject subject = new Subject();
         subject.getPrincipals().add(identity);
-        
+
         currentIdentity.set(identity);
         currentSubject.set(subject);
     }
@@ -73,19 +79,14 @@ public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
     public static Subject getCurrentSubject() {
         return currentSubject.get();
     }
-    
+
     public static AuthenticatedIdentity getCurrentIdentity() {
         return currentIdentity.get();
     }
-    
+
     public static void clear() {
         currentIdentity.remove();
         currentSubject.remove();
-    }
-
-    public DefaultAuthenticatedIdentity(Principal callerPrincipal, Set<String> groups) {
-        this.callerPrincipal = callerPrincipal;
-        this.groups = unmodifiableSet(groups);
     }
 
     @Override

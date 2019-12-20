@@ -78,8 +78,8 @@ public class JakartaSecurityAllInitializer implements ServletContainerInitialize
         new JakartaSecurityInitializer(),
         
         // Configures Soteria, which implements Jakarta EE and sets itself as an authentication module
-        new SoteriaInitializer()
-    } ; 
+        new SoteriaInitializer(),
+    }; 
     
     /**
      * Initialize Jakarta Security

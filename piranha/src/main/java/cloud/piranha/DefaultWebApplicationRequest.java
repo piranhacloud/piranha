@@ -274,6 +274,16 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the web application
      */
     protected WebApplication webApplication;
+    
+    /**
+     * Stores the finished flag.
+     */
+    private boolean finished;
+
+    /**
+     * Stores the read listener.
+     */
+    private ReadListener readListener;
 
     /**
      * Constructor.
@@ -1537,16 +1547,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     // -------------------------------------------------------------------------
     //  ServletInputStream methods
     // -------------------------------------------------------------------------
-    /**
-     * Stores the finished flag.
-     */
-    private boolean finished;
-
-    /**
-     * Stores the read listener.
-     */
-    private ReadListener readListener;
-
     /**
      * Is the Servlet input stream finished?
      *
