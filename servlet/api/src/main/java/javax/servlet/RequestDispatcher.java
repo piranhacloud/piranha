@@ -64,7 +64,7 @@ public interface RequestDispatcher {
     /**
      * Defines the ERROR_STATUS_CODE constant.
      */
-    public static final String ERROR_STATUS_CODE = "javax.servlet.error.status_code";
+    static final String ERROR_STATUS_CODE = "javax.servlet.error.status_code";
 
     /**
      * Defines the FORWARD_CONTEXT_PATH constant.
@@ -134,7 +134,7 @@ public interface RequestDispatcher {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
      */
-    public void forward(ServletRequest request, ServletResponse response) throws IOException, ServletException;
+    void forward(ServletRequest request, ServletResponse response) throws IOException, ServletException;
 
     /**
      * Include into the request.
@@ -144,5 +144,5 @@ public interface RequestDispatcher {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
      */
-    public void include(ServletRequest request, ServletResponse response) throws IOException, ServletException;
+    void include(ServletRequest request, ServletResponse response) throws IOException, ServletException;
 }

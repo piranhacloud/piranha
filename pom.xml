@@ -91,7 +91,7 @@
                 <version>3.12.4</version>
             </dependency>
             
-             <!-- HTTP / Network -->
+            <!-- HTTP / Network -->
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
@@ -503,7 +503,10 @@
                                           value="/*\n * Copyright (c) 2002-2019 Manorrock.com. All Rights Reserved.\n *"/>
                             </module>
                             <module name="TreeWalker">
+                                <module name="ArrayTrailingComma"/>
                                 <module name="ConstantName"/>
+                                <module name="CovariantEquals"/>
+                                <module name="DeclarationOrder"/>
                                 <module name="ModifierOrder"/>
                                 <module name="UnusedImports"/>
                             </module>

@@ -60,6 +60,11 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     protected boolean bodyOnly;
 
     /**
+     * Stores the buffer.
+     */
+    protected byte[] buffer;
+    
+    /**
      * Stores the character encoding.
      */
     protected String characterEncoding;
@@ -108,6 +113,11 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      * Stores the header manager.
      */
     protected DefaultHttpHeaderManager headerManager;
+
+    /**
+     * Stores the index.
+     */
+    protected int index;
 
     /**
      * Stores the locale.
@@ -762,16 +772,6 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     // -------------------------------------------------------------------------
     //  ServletOutStream implementation
     // -------------------------------------------------------------------------
-    /**
-     * Stores the buffer.
-     */
-    protected byte[] buffer;
-
-    /**
-     * Stores the index.
-     */
-    protected int index;
-
     /**
      * Close the output stream.
      *

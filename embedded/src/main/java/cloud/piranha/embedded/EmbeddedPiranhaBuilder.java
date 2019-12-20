@@ -279,7 +279,7 @@ public class EmbeddedPiranhaBuilder {
      *
      * @param filterName the filter name.
      * @param urlPatterns the URL patterns.
-     * @return
+     * @return the builder.
      */
     public EmbeddedPiranhaBuilder filterMapping(String filterName, String... urlPatterns) {
         filterMappings.put(filterName, Arrays.asList(urlPatterns));
@@ -290,7 +290,7 @@ public class EmbeddedPiranhaBuilder {
      * Set the HTTP session manager.
      *
      * @param httpSessionManager the HTTP session manager.
-     * @return
+     * @return the builder.
      */
     public EmbeddedPiranhaBuilder httpSessionManager(HttpSessionManager httpSessionManager) {
         this.httpSessionManager = httpSessionManager;

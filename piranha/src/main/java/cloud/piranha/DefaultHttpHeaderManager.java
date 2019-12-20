@@ -44,16 +44,16 @@ import java.util.Locale;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultHttpHeaderManager implements HttpHeaderManager {
-    
-    /**
-     * Stores the Locale.
-     */
-    private Locale locale;
 
     /**
      * Stores the headers.
      */
     protected final HashMap<String, DefaultHttpHeader> headers;
+
+    /**
+     * Stores the Locale.
+     */
+    private Locale locale;
 
     /**
      * Constructor.

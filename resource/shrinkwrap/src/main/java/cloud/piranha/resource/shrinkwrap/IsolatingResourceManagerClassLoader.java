@@ -43,17 +43,28 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
     private final ClassLoader systemClassLoader;
     private final String classLoaderId;
     
+    /**
+     * Constructor.
+     */
     public IsolatingResourceManagerClassLoader() {
         this("");
     }
 
     /**
      * Constructor.
+     * 
+     * @param classLoaderId the id for the class loader.
      */
     public IsolatingResourceManagerClassLoader(String classLoaderId) {
         this(getSystemClassLoader().getParent(), classLoaderId);
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param classLoader the delegate class loader.
+     * @param classLoaderId the id for the class loader.
+     */
     public IsolatingResourceManagerClassLoader(ClassLoader classLoader, String classLoaderId) {
         super(classLoader);
         this.systemClassLoader = getSystemClassLoader();

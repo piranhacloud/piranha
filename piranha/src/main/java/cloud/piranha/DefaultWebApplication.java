@@ -116,11 +116,6 @@ import cloud.piranha.api.WebXmlManager;
 public class DefaultWebApplication implements WebApplication {
 
     /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = Logger.getLogger(DefaultWebApplication.class.getName());
-
-    /**
      * Stores the INITIALIZED constant.
      */
     protected static final int INITIALIZED = 1;
@@ -139,6 +134,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the SERVICING constant.
      */
     protected static final int SERVICING = 2;
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(DefaultWebApplication.class.getName());
 
     /**
      * Stores the class loader.
@@ -274,7 +274,7 @@ public class DefaultWebApplication implements WebApplication {
     protected HttpRequestManager httpRequestManager;
 
     /**
-     * Stores the mime tyoe manager.
+     * Stores the mime type manager.
      */
     protected MimeTypeManager mimeTypeManager;
 
@@ -282,8 +282,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the request character encoding.
      */
     protected String requestCharacterEncoding;
-
-    // ### Mappers
+    
     /**
      * Stores the web application request mapper.
      */
