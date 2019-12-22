@@ -279,6 +279,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the finished flag.
      */
     private boolean finished;
+    
+    /**
+     * The number of items read from the input stream
+     */
+    private int index;
 
     /**
      * Stores the read listener.
@@ -1594,10 +1599,16 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public int read() throws IOException {
+        if (finished) {
+            return -1;
+        }
+        
         int read = inputStream.read();
-        if (read == -1) {
+        index++;
+        if (index == getContentLength()) {
             finished = true;
         }
+        
         return read;
     }
 }
