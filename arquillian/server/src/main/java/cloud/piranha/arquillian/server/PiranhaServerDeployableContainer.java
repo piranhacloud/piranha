@@ -57,6 +57,8 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import cloud.piranha.DefaultResourceManager;
 import cloud.piranha.resource.shrinkwrap.IsolatingResourceManagerClassLoader;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The Piranha Arquillian connector.
@@ -69,6 +71,11 @@ import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
  *
  */
 public class PiranhaServerDeployableContainer implements DeployableContainer<PiranhaServerContainerConfiguration> {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(PiranhaServerDeployableContainer.class.getName());
     
     private PiranhaServerContainerConfiguration configuration;
     private Object piranhaServerDeployer;
@@ -232,8 +239,10 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
         
         try {
             writer.write(index);
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (IOException ioe) {
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, "Unable to write out index", ioe);
+            }
         }
         
         return indexBytes.toByteArray();
@@ -242,8 +251,10 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
     private void addToIndex(String className, ShrinkWrapResource resource, Indexer indexer) {
         try (InputStream classAsStream = resource.getResourceAsStream(className)) {
             indexer.index(classAsStream);
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (IOException ioe) {
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, "Unable to add to index", ioe);
+            }
         }
     }
     
@@ -260,7 +271,9 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
                 .getMethod("stop")
                 .invoke(piranhaServerDeployer);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-            e.printStackTrace();
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, "Error occurred during undeploy", e);
+            }
         }
     }
     
