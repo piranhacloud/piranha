@@ -27,6 +27,8 @@
  */
 package cloud.piranha.arquillian.server;
 
+import static org.jboss.shrinkwrap.resolver.api.maven.repository.MavenUpdatePolicy.UPDATE_POLICY_NEVER;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +36,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
@@ -53,12 +57,12 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 import org.jboss.shrinkwrap.resolver.api.maven.ConfigurableMavenResolverSystem;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.jboss.shrinkwrap.resolver.api.maven.repository.MavenRemoteRepositories;
+import org.jboss.shrinkwrap.resolver.api.maven.repository.MavenRemoteRepository;
 
 import cloud.piranha.DefaultResourceManager;
 import cloud.piranha.resource.shrinkwrap.IsolatingResourceManagerClassLoader;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The Piranha Arquillian connector.
@@ -118,8 +122,8 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
             
             ConfigurableMavenResolverSystem mavenResolver = Maven.configureResolver();
             
-            configuration.getRepositoriesList().stream().forEach(repo ->
-                mavenResolver.withRemoteRepo(UUID.randomUUID().toString(), repo, "default"));
+            configuration.getRepositoriesList().stream().forEach(repoUrl ->
+                mavenResolver.withRemoteRepo(createRepo(repoUrl)));
             
             JavaArchive[] piranhaArchives = 
                 mavenResolver
@@ -256,6 +260,15 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
                 LOGGER.log(Level.WARNING, "Unable to add to index", ioe);
             }
         }
+    }
+    
+    private MavenRemoteRepository createRepo(String repoUrl) {
+        MavenRemoteRepository repo = MavenRemoteRepositories.createRemoteRepository(
+            UUID.randomUUID().toString(), repoUrl, "default");
+        
+        repo.setUpdatePolicy(UPDATE_POLICY_NEVER);
+        
+        return repo;
     }
     
     @Override
