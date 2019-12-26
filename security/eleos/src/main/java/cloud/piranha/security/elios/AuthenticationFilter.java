@@ -40,6 +40,7 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cloud.piranha.api.FilterPriority;
 import cloud.piranha.api.SecurityManager;
 import cloud.piranha.api.WebApplication;
 
@@ -47,17 +48,22 @@ import cloud.piranha.api.WebApplication;
  * This filter is uses to call a Jakarta Authentication system module at the start of an HTTP request.
  * 
  * <p>
- * Note, this Filter *MUST* be installed as the first filter, and it should *NOT* be possible to place
- * a filter before this filter. The standard Servlet API does not provide facilitities for this.
+ * Note, this Filter *MUST* be installed after the authorization pre-filter and before the authorization filter.
  * 
  * @author Arjan Tijms
  *
  */
-public class AuthenticationFilter extends HttpFilter {
+public class AuthenticationFilter extends HttpFilter implements FilterPriority {
 
     private static final long serialVersionUID = 1L;
+    private static int PRIORITY = 5;
 
     private SecurityManager securityManager;
+    
+    @Override
+    public int getPriority() {
+        return PRIORITY;
+    }
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
