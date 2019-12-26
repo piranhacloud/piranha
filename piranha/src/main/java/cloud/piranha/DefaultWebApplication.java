@@ -30,6 +30,7 @@ package cloud.piranha;
 import static cloud.piranha.DefaultFilterEnvironment.UNAVAILABLE;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
+import static java.util.stream.Collectors.toList;
 
 import java.io.File;
 import java.io.IOException;
@@ -82,6 +83,7 @@ import javax.servlet.http.HttpSessionListener;
 
 import cloud.piranha.api.AnnotationManager;
 import cloud.piranha.api.Feature;
+import cloud.piranha.api.FilterPriority;
 import cloud.piranha.api.HttpRequestManager;
 import cloud.piranha.api.HttpSessionManager;
 import cloud.piranha.api.JspManager;
@@ -1788,8 +1790,22 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     private FilterChain getFilterChain(List<DefaultFilterEnvironment> filterEnvironments, Servlet servlet) {
-        List<DefaultFilterEnvironment> currentEnvironments = new ArrayList<>(filterEnvironments);
+        
+        List<DefaultFilterEnvironment> prioritisedFilters = filterEnvironments.stream()
+            .filter(e -> e.getFilter() instanceof FilterPriority)
+            .sorted((x,y) -> sortOnPriority(x, y))
+            .collect(toList());
+        
+        List<DefaultFilterEnvironment> notPrioritisedFilters = filterEnvironments.stream()
+                .filter(e -> e.getFilter() instanceof FilterPriority == false)
+                .collect(toList());
+        
+        List<DefaultFilterEnvironment> currentEnvironments = new ArrayList<>();
+        currentEnvironments.addAll(prioritisedFilters);
+        currentEnvironments.addAll(notPrioritisedFilters);
+        
         Collections.reverse(currentEnvironments);
+        
         DefaultFilterChain downFilterChain = new DefaultFilterChain(servlet);
         DefaultFilterChain upFilterChain;
         for (DefaultFilterEnvironment filterEnvironment : currentEnvironments) {
@@ -1798,6 +1814,13 @@ public class DefaultWebApplication implements WebApplication {
         }
 
         return downFilterChain;
+    }
+    
+    private int sortOnPriority(DefaultFilterEnvironment x, DefaultFilterEnvironment y) {
+        FilterPriority filterX = (FilterPriority) x.getFilter();
+        FilterPriority filterY = (FilterPriority) y.getFilter();
+        
+        return Integer.compare(filterX.getPriority() , filterY.getPriority());
     }
 
     /**
