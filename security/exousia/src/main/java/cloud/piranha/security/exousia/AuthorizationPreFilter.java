@@ -41,6 +41,7 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cloud.piranha.api.FilterPriority;
 import cloud.piranha.api.SecurityManager;
 import cloud.piranha.api.WebApplication;
 
@@ -54,13 +55,19 @@ import cloud.piranha.api.WebApplication;
  * @author Arjan Tijms
  *
  */
-public class AuthorizationPreFilter extends HttpFilter {
+public class AuthorizationPreFilter extends HttpFilter implements FilterPriority  {
    
     public static ThreadLocal<HttpServletRequest> localServletRequest = new ThreadLocal<>();
+    public static int PRIORITY = 0;
 
     private static final long serialVersionUID = 8478463438252262094L;
     
     private SecurityManager securityManager;
+    
+    @Override
+    public int getPriority() {
+        return PRIORITY;
+    }
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
