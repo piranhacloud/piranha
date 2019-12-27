@@ -27,7 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.WebApplication;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -37,12 +36,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
 import javax.servlet.FilterRegistration.Dynamic;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+
+import cloud.piranha.api.WebApplication;
 
 /**
  * The default FilterEnvironment.
@@ -137,11 +139,12 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      * Add the mappings.
      *
      * @param dispatcherTypes the dispatcher types.
-     * @param isMatchAfter is a match after.
+     * @param isMatchAfter true to call the filter this mapping applies to after declared ones, false to call it before declared ones.
      * @param urlPatterns the url patterns.
      */
     @Override
     public void addMappingForUrlPatterns(EnumSet<DispatcherType> dispatcherTypes, boolean isMatchAfter, String... urlPatterns) {
+        webApplication.addFilterMapping(filterName, isMatchAfter, urlPatterns);
     }
 
     /**
