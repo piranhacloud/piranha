@@ -48,12 +48,29 @@ public interface WebApplicationRequestMapper {
 
     /**
      * Add a filter mapping.
+     * 
+     * <p>
+     * This adds the filter mappings at the end of list of existing mappings (if any).
      *
      * @param filterName the filter name.
      * @param urlPatterns the URL patterns to map (aka mappings).
      * @return the URL patterns that were added.
      */
     Set<String> addFilterMapping(String filterName, String... urlPatterns);
+    
+    /**
+     * Add a filter mapping.
+     * 
+     * <p>
+     * This adds the filter mappings at the start of list of existing mappings (if any). 
+     * If there are existing mappings these are shifted to the right.
+     *
+     * @param filterName the filter name.
+     * @param urlPatterns the URL patterns to map (aka mappings).
+     * @return the URL patterns that were added.
+     */
+    Set<String> addFilterMappingBeforeExisting(String filterName, String... urlPatterns);
+    
 
     /**
      * Find the filter mappings for the given path.
