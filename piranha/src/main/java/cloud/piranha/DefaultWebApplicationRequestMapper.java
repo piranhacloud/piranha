@@ -54,13 +54,6 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
      */
     protected final ConcurrentHashMap<String, String> servletMappings = new ConcurrentHashMap<>();
 
-    /**
-     * Add the filter mapping.
-     *
-     * @param filterName the filter name.
-     * @param urlPatterns the URL patterns.
-     * @return the URL patterns that were already added.
-     */
     @Override
     public Set<String> addFilterMapping(String filterName, String... urlPatterns) {
         Set<String> result = new HashSet<>();
@@ -70,6 +63,20 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
                 result.add(urlPattern);
             } else {
                 filterMappings.add(filterMapping);
+            }
+        }
+        return result;
+    }
+    
+    @Override
+    public Set<String> addFilterMappingBeforeExisting(String filterName, String... urlPatterns) {
+        Set<String> result = new HashSet<>();
+        for (String urlPattern : urlPatterns) {
+            DefaultFilterMapping filterMapping = new DefaultFilterMapping(filterName, urlPattern);
+            if (filterMappings.contains(filterMapping)) {
+                result.add(urlPattern);
+            } else {
+                filterMappings.add(0, filterMapping);
             }
         }
         return result;

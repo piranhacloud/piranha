@@ -41,7 +41,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.HashMap;
@@ -435,18 +434,18 @@ public class DefaultWebApplication implements WebApplication {
 
     }
 
-    /**
-     * Add a mapping for the given filter.
-     *
-     * @param filterName the filter name.
-     * @param urlPatterns the URL patterns.
-     * @return the possible empty set of already mapped URL patterns.
-     * @see FilterRegistration#addMappingForUrlPatterns(EnumSet, boolean,
-     * String...)
-     */
     @Override
     public Set<String> addFilterMapping(String filterName, String... urlPatterns) {
         return webApplicationRequestMapper.addFilterMapping(filterName, urlPatterns);
+    }
+    
+    @Override
+    public Set<String> addFilterMapping(String filterName, boolean isMatchAfter, String... urlPatterns) {
+        if (isMatchAfter) {
+            return webApplicationRequestMapper.addFilterMapping(filterName, urlPatterns);
+        } else {
+            return webApplicationRequestMapper.addFilterMappingBeforeExisting(filterName, urlPatterns);
+        }
     }
 
     /**

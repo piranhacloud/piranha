@@ -87,6 +87,18 @@ public interface WebApplication extends ServletContext {
      * String...)
      */
     Set<String> addFilterMapping(String filterName, String... urlPatterns);
+    
+    /**
+     * Add a mapping for the given filter.
+     *
+     * @param filterName the filter name.
+     * @param isMatchAfter true to call the filter this mapping applies to after declared ones, false to call it before declared ones. 
+     * @param urlPatterns the URL patterns.
+     * @return the possible empty set of already mapped URL patterns.
+     * @see FilterRegistration#addMappingForUrlPatterns(EnumSet, boolean,
+     * String...)
+     */
+    Set<String> addFilterMapping(String filterName, boolean isMatchAfter, String... urlPatterns);
 
     /**
      * Add a servlet container initializer.
