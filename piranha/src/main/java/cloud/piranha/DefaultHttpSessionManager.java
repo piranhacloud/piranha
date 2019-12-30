@@ -144,6 +144,78 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         sessionTimeout = 10;
         sessions = new ConcurrentHashMap<>();
     }
+    
+    /**
+     * Create the session.
+     *
+     * @param webApplication the web application.
+     * @param request the request.
+     * @return the session.
+     */
+    @Override
+    public synchronized HttpSession createSession(WebApplication webApplication, HttpServletRequest request) {
+        String sessionId = UUID.randomUUID().toString();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication, sessionId, true);
+        session.setSessionManager(this);
+        sessions.put(sessionId, session);
+        
+        HttpServletResponse response = (HttpServletResponse) webApplication.getResponse(request);
+        Cookie cookie = new Cookie(name, sessionId);
+        
+        if (path != null) {
+            cookie.setPath(path);
+        } else {
+            cookie.setPath("".equals(webApplication.getContextPath())? "/" : webApplication.getContextPath());
+        }
+        
+        response.addCookie(cookie);
+
+        sessionListeners.stream().forEach((sessionListener) -> {
+            sessionListener.sessionCreated(new HttpSessionEvent(session));
+        });
+
+        return session;
+    }
+    
+    /**
+     * Get the session.
+     *
+     * @param webApplication the web application.
+     * @param request the request.
+     * @param currentSessionId the current session id.
+     * @return the session.
+     */
+    @Override
+    public HttpSession getSession(WebApplication webApplication, HttpServletRequest request, String currentSessionId) {
+        return sessions.get(currentSessionId);
+    }
+    
+    /**
+     * Change the session id.
+     *
+     * @param request the request.
+     * @return the session id.
+     */
+    @Override
+    public String changeSessionId(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            throw new IllegalStateException("No session active");
+        }
+        
+        String oldSessionId = session.getId();
+        sessions.remove(oldSessionId);
+        String sessionId = UUID.randomUUID().toString();
+        DefaultHttpSession newSession = (DefaultHttpSession) session;
+        newSession.setId(sessionId);
+        sessions.put(sessionId, (DefaultHttpSession) session);
+
+        idListeners.stream().forEach((idListener) -> {
+            idListener.sessionIdChanged(new HttpSessionEvent(session), oldSessionId);
+        });
+        
+        return sessionId;
+    }
 
     /**
      * Add a listener.
@@ -179,20 +251,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
             listener.attributeAdded(new HttpSessionBindingEvent(session, name, value));
         });
     }
-
-    /**
-     * Attributed removed.
-     * 
-     * @param session the HTTP session.
-     * @param name the name.
-     */
-    @Override
-    public void attributeRemoved(HttpSession session, String name) {
-        attributeListeners.stream().forEach((listener) -> {
-            listener.attributeRemoved(new HttpSessionBindingEvent(session, name));
-        });
-    }
-
+    
     /**
      * Attribute removed.
      *
@@ -208,54 +267,16 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     /**
-     * Change the session id.
-     *
-     * @param request the request.
-     * @return the session id.
+     * Attributed removed.
+     * 
+     * @param session the HTTP session.
+     * @param name the name.
      */
     @Override
-    public String changeSessionId(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        String key = null;
-        if (session != null) {
-            String oldSessionId = session.getId();
-            sessions.remove(oldSessionId);
-            key = UUID.randomUUID().toString();
-            DefaultHttpSession newSession = (DefaultHttpSession) session;
-            newSession.setId(key);
-            sessions.put(key, (DefaultHttpSession) session);
-
-            idListeners.stream().forEach((idListener) -> {
-                idListener.sessionIdChanged(new HttpSessionEvent(session), oldSessionId);
-            });
-        } else {
-            throw new IllegalStateException("No session active");
-        }
-        return key;
-    }
-
-    /**
-     * Create the session.
-     *
-     * @param webApplication the web application.
-     * @param request the request.
-     * @return the session.
-     */
-    @Override
-    public synchronized HttpSession createSession(WebApplication webApplication, HttpServletRequest request) {
-        String key = UUID.randomUUID().toString();
-        DefaultHttpSession result = new DefaultHttpSession(webApplication, key, true);
-        result.setSessionManager(this);
-        sessions.put(key, result);
-        HttpServletResponse response = (HttpServletResponse) webApplication.getResponse(request);
-        Cookie cookie = new Cookie(name, key);
-        response.addCookie(cookie);
-
-        sessionListeners.stream().forEach((sessionListener) -> {
-            sessionListener.sessionCreated(new HttpSessionEvent(result));
+    public void attributeRemoved(HttpSession session, String name) {
+        attributeListeners.stream().forEach((listener) -> {
+            listener.attributeRemoved(new HttpSessionBindingEvent(session, name));
         });
-
-        return result;
     }
     
     @Override
@@ -360,27 +381,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     public String getPath() {
         return path;
     }
-
-    /**
-     * Get the session.
-     *
-     * @param webApplication the web application.
-     * @param request the request.
-     * @param currentSessionId the current session id.
-     * @return the session.
-     */
-    @Override
-    public HttpSession getSession(WebApplication webApplication, 
-            HttpServletRequest request, String currentSessionId) {
-        DefaultHttpSession result;
-        HttpServletResponse response = (HttpServletResponse) webApplication.getResponse(request);
-        result = (DefaultHttpSession) sessions.get(currentSessionId);
-        Cookie cookie = new Cookie(name, currentSessionId);
-        response.addCookie(cookie);
-        result.setNew(false);
-        return result;
-    }
-
+    
     /**
      * Get the session cookie config.
      *
