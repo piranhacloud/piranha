@@ -996,18 +996,20 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public HttpSession getSession(boolean create) {
-        HttpSession result = null;
+        HttpSession session = null;
         HttpSessionManager manager = webApplication.getHttpSessionManager();
         if (currentSessionId == null && requestedSessionId != null) {
             currentSessionId = requestedSessionId;
         }
+        
         if (manager.hasSession(currentSessionId)) {
-            result = manager.getSession(webApplication, this, currentSessionId);
+            session = manager.getSession(webApplication, this, currentSessionId);
         } else if (create) {
-            result = manager.createSession(webApplication, this);
-            currentSessionId = result.getId();
+            session = manager.createSession(webApplication, this);
+            currentSessionId = session.getId();
         }
-        return result;
+        
+        return session;
     }
 
     /**
