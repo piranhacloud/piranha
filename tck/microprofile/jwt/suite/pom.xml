@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.tck.microprofile.jwt</groupId>
-            <artifactId>cloud-piranha-tck-microprofile-jwt-extension</artifactId>
+            <artifactId>piranha-tck-microprofile-jwt-extension</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
