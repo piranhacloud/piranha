@@ -52,6 +52,12 @@ public class PiranhaBeanArchiveHandler implements BeanArchiveHandler {
     @Override
     public BeanArchiveBuilder handle(String beanArchiveReference) {
         
+        // We're only handling the classes in the application archive, which is represented
+        // by /WEB-INF/classes
+        if (!"/WEB-INF/classes".equals(beanArchiveReference)) {
+            return null;
+        }
+        
         // The beanArchiveBuilder is a builder the native archive type for Weld.
         // It roughly corresponds to a Shrinkwrap Archive builder.
         BeanArchiveBuilder beanArchiveBuilder = new BeanArchiveBuilder();
