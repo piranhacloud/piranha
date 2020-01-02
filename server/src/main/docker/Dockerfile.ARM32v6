@@ -1,4 +1,4 @@
-FROM manorrock/zulu
+FROM manorrock/zulu:arm32v6
 ADD target/piranha-server.tar.gz /usr/local/
 WORKDIR /usr/local/piranha/bin
 CMD ["sh", "run.sh"]
