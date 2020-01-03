@@ -31,6 +31,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.jboss.arquillian.container.spi.ConfigurationException;
 import org.jboss.arquillian.container.spi.client.container.ContainerConfiguration;
@@ -46,10 +47,12 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
     
     private String version = System.getProperty("piranha.version", "20.1.0-SNAPSHOT");
 
-    private String modules = System.getProperty("piranha.modules","piranha-micro");
-    
-    private String repositories = System.getProperty("piranha.repositories","");
-    
+    private String modules = System.getProperty("piranha.modules", "piranha-micro");
+
+    private String dependencies = System.getProperty("piranha.dependencies", "");
+
+    private String repositories = System.getProperty("piranha.repositories", "");
+
     private boolean offline = Boolean.valueOf(System.getProperty("piranha.offline", "false"));
 
     private List<String> modulesList;
@@ -64,14 +67,23 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
                             .map(e -> e.trim())
                             .collect(toList());
         
+        Stream<String> moduleDependenciesStream = 
+            modulesList.stream()
+                       .map(e -> "cloud.piranha:" + e + ":" + version);
+        
+        Stream<String> dependenciesStream  = 
+            Arrays.stream(dependencies.split(","))
+                  .map(e -> e.trim())
+                  .filter(e -> !e.isEmpty());
+        
         repositoriesList = Arrays.stream(repositories.split(","))
                                  .map(e -> e.trim())
                                  .filter(e -> !e.isEmpty())
                                  .collect(toList());
         
-        mergedDependencies = modulesList.stream()
-                                        .map(e -> "cloud.piranha:" + e + ":" + version)
-                                        .collect(toList());
+        mergedDependencies = 
+            Stream.concat(moduleDependenciesStream, dependenciesStream)
+                  .collect(toList());
     }
     
     public String getVersion() {
