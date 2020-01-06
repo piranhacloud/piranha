@@ -41,6 +41,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha.faces</groupId>
+            <artifactId>piranha-faces-mojarra</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.rest</groupId>
             <artifactId>piranha-rest-jersey</artifactId>
             <version>${project.version}</version>

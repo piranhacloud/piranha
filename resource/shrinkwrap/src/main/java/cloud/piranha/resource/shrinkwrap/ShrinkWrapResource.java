@@ -30,6 +30,8 @@ package cloud.piranha.resource.shrinkwrap;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLStreamHandler;
+import java.util.Collection;
 import java.util.stream.Stream;
 
 import org.jboss.shrinkwrap.api.Archive;
@@ -72,25 +74,52 @@ public class ShrinkWrapResource implements Resource {
     }
 
     @Override
-    public URL getResource(String location) {
-        if (getAsset(archive, location) == null) {
+    public URL getResource(String url) {
+        String location = getLocationFromUrl(url);
+        if (location == null) {
             return null;
         }
         
+        Node node = getNode(archive, location);
+        if (node == null) {
+            return null;
+        }
+        
+        URLStreamHandler streamHandler = archiveStreamHandler;
+        Asset asset = node.getAsset();
+        if (asset == null) {
+            // Node was a directory
+            streamHandler = new NodeURLStreamHandler(getContentFromNode(node));
+        }
+        
         try {
-            return new URL(null, "ShrinkWrap:" + archive.getName() + location, archiveStreamHandler);
+            return new URL(null, 
+                "shrinkwrap://" + archive.getName() + (location.startsWith("/")? "" : archive.getName().endsWith("/")? "" : "/") + location, 
+                streamHandler);
         } catch (MalformedURLException e) {
             throw new IllegalStateException(e);
         }
     }
 
     @Override
-    public InputStream getResourceAsStream(String location) {
-        Asset asset = getAsset(archive, location);
-        if (asset == null) {
+    public InputStream getResourceAsStream(String url) {
+        String location = getLocationFromUrl(url);
+        if (location == null) {
             return null;
         }
         
+        Node node = getNode(archive, location);
+        if (node == null) {
+            return null;
+        }
+        
+        Asset asset = node.getAsset();
+        if (asset == null) {
+            // Node was a directory
+            return new ShrinkWrapDirectoryInputStream(getContentFromNode(node));
+        }
+        
+        // Node was an asset
         return asset.openStream();
     }
     
@@ -107,6 +136,40 @@ public class ShrinkWrapResource implements Resource {
                    .map(e -> e.get())
                    .filter(e -> getAsset(archiveToGetFrom, e) != null)                
                    ;
+    }
+    
+    private Collection<Node> getContentFromNode(Node node) {
+        return 
+            archive.getContent(
+                        e -> e.get().startsWith(node.getPath().get()))
+                   .values();
+    }
+    
+    private String getLocationFromUrl(String url) {
+        if (url == null) {
+            return null;
+        }
+        
+        if (!url.contains("shrinkwrap://")) {
+            // Already a relative URL, so should be the location
+            return url;
+        }
+        
+        // Relative URL: [shrinkwrap://][jar name][location]
+        try {
+            String cleanedUrl = url.replace("cloud/piranha/shrinkwrap://", "shrinkwrap://");
+            
+            URL archiveURL = new URL(cleanedUrl);
+            
+            String archiveName = archiveURL.getHost();
+            if (!archive.getName().equals(archiveName)) {
+                return null;
+            }
+            
+            return archiveURL.getPath().replace("//", "/");
+        } catch (MalformedURLException e) {
+            throw new IllegalStateException(e);
+        }
     }
     
     private Asset getAsset(Archive<?> archiveToGetFrom, String location) {
