@@ -25,60 +25,38 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.eleos.dispatching.jsfcdi;
-
-import static org.junit.Assert.assertTrue;
+package cloud.piranha.resource.shrinkwrap;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
+import java.util.Collection;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.xml.sax.SAXException;
-
-import cloud.piranha.test.utils.TestWebApp;
+import org.jboss.shrinkwrap.api.Node;
 
 /**
- * The JSF with CDI forward test tests that a SAM is able to forward to a JSF view
- * that uses a CDI backing bean.
+ * Stream handler used for URLs that represent directories.
  * 
  * @author Arjan Tijms
- * 
  */
-public class JSFCDIForwardTest {
+public class NodeURLStreamHandler extends URLStreamHandler {
     
-    TestWebApp webApp;
+    private Collection<Node> nodes;
     
-    @Before
-    public void testProtected() throws Exception {
-        webApp = Application.get();    
+    public NodeURLStreamHandler(Collection<Node> nodes) {
+        this.nodes = nodes;
     }
     
-    protected TestWebApp getWebApp() {
-        return webApp;
-    }
-
-    @Test
-    public void testJSFwithCDIForwardViaPublicResource() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("public/servlet?tech=jsfcdi");
-        
-        System.out.println(response);
-        
-        assertTrue(
-            "Response did not contain output from JSF view with CDI that SAM forwarded to.", 
-            response.contains("response from JSF forward - Called from CDI")
-        );
-    }
-    
-    @Test @Ignore
-    public void testJSFwithCDIForwardViaProtectedResource() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("protected/servlet?tech=jsfcdi");
-        assertTrue(
-            "Response did not contain output from JSF view with CDI that SAM forwarded to.",
-            response.contains("response from JSF forward - Called from CDI")
-        );
+    @Override
+    protected URLConnection openConnection(URL requestedUrl) throws IOException {
+        return new StreamConnection(requestedUrl) {
+            @Override
+            public InputStream getInputStream() throws IOException {
+                return new ShrinkWrapDirectoryInputStream(nodes);
+            }
+        };
     }
 
 }

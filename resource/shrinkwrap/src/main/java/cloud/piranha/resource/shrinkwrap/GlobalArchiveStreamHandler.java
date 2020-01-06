@@ -25,60 +25,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.eleos.dispatching.jsfcdi;
-
-import static org.junit.Assert.assertTrue;
+package cloud.piranha.resource.shrinkwrap;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.xml.sax.SAXException;
-
-import cloud.piranha.test.utils.TestWebApp;
+import cloud.piranha.api.WebApplication;
 
 /**
- * The JSF with CDI forward test tests that a SAM is able to forward to a JSF view
- * that uses a CDI backing bean.
+ * Stream handler for the <code>shrinkwrap</code> protocol (urls starting with <code>shrinkwrap://</code>).
+ * 
+ * <p>
+ * This is for URLs that don't have the embedded stream handler, which is for instance the case when
+ * resource URLs obtained from Piranha Micro are converted to external string form and used to create
+ * a new URL. 
  * 
  * @author Arjan Tijms
- * 
+ *
  */
-public class JSFCDIForwardTest {
+public class GlobalArchiveStreamHandler extends URLStreamHandler {
     
-    TestWebApp webApp;
+    private WebApplication webApplication;
     
-    @Before
-    public void testProtected() throws Exception {
-        webApp = Application.get();    
+    public GlobalArchiveStreamHandler(WebApplication webApplication) {
+        this.webApplication = webApplication;
     }
     
-    protected TestWebApp getWebApp() {
-        return webApp;
-    }
+    @Override
+    protected URLConnection openConnection(URL requestedUrl) throws IOException {
+        return new StreamConnection(requestedUrl) {
+            @Override
+            public InputStream getInputStream() throws IOException {
+                return webApplication.getResourceAsStream(requestedUrl.toString());
+            }
+        };
+                
 
-    @Test
-    public void testJSFwithCDIForwardViaPublicResource() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("public/servlet?tech=jsfcdi");
-        
-        System.out.println(response);
-        
-        assertTrue(
-            "Response did not contain output from JSF view with CDI that SAM forwarded to.", 
-            response.contains("response from JSF forward - Called from CDI")
-        );
-    }
-    
-    @Test @Ignore
-    public void testJSFwithCDIForwardViaProtectedResource() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("protected/servlet?tech=jsfcdi");
-        assertTrue(
-            "Response did not contain output from JSF view with CDI that SAM forwarded to.",
-            response.contains("response from JSF forward - Called from CDI")
-        );
     }
 
 }
