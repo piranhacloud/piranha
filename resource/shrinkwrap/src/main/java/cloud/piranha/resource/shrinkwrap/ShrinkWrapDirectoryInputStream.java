@@ -25,60 +25,38 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.eleos.dispatching.jsfcdi;
+package cloud.piranha.resource.shrinkwrap;
 
-import static org.junit.Assert.assertTrue;
-
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.xml.sax.SAXException;
-
-import cloud.piranha.test.utils.TestWebApp;
+import org.jboss.shrinkwrap.api.Node;
 
 /**
- * The JSF with CDI forward test tests that a SAM is able to forward to a JSF view
- * that uses a CDI backing bean.
+ * Input stream for reading from an archive entry that represents a directory.
  * 
  * @author Arjan Tijms
- * 
  */
-public class JSFCDIForwardTest {
+public class ShrinkWrapDirectoryInputStream extends ZipInputStream {
     
-    TestWebApp webApp;
-    
-    @Before
-    public void testProtected() throws Exception {
-        webApp = Application.get();    
+    private Iterator<Node> childrenIterator;
+
+    public ShrinkWrapDirectoryInputStream(Collection<Node> nodes) {
+        super(new ByteArrayInputStream(new byte[] {}));
+        childrenIterator = nodes.iterator();
     }
     
-    protected TestWebApp getWebApp() {
-        return webApp;
-    }
-
-    @Test
-    public void testJSFwithCDIForwardViaPublicResource() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("public/servlet?tech=jsfcdi");
+    @Override
+    public ZipEntry getNextEntry() throws IOException {
+        if (!childrenIterator.hasNext()) {
+            return null;
+        }
         
-        System.out.println(response);
-        
-        assertTrue(
-            "Response did not contain output from JSF view with CDI that SAM forwarded to.", 
-            response.contains("response from JSF forward - Called from CDI")
-        );
-    }
-    
-    @Test @Ignore
-    public void testJSFwithCDIForwardViaProtectedResource() throws IOException, SAXException {
-
-        String response = getWebApp().getFromServerPath("protected/servlet?tech=jsfcdi");
-        assertTrue(
-            "Response did not contain output from JSF view with CDI that SAM forwarded to.",
-            response.contains("response from JSF forward - Called from CDI")
-        );
+        return new ZipEntry(childrenIterator.next().getPath().get());
     }
 
 }

@@ -37,6 +37,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -75,6 +76,8 @@ import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationServer;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.WebApplication;
+import cloud.piranha.faces.mojarra.MojarraInitializer;
+import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import cloud.piranha.rest.jersey.JerseyInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
@@ -117,6 +120,10 @@ public class PiranhaServerDeployer {
             
             WebApplication webApplication = getWebApplication(applicationArchive, classLoader);
             
+            URL.setURLStreamHandlerFactory(protocol -> 
+                protocol.equals("shrinkwrap")? new GlobalArchiveStreamHandler(webApplication) : null
+            );
+            
             // Source of annotations
             Index index = getIndex();
             
@@ -156,6 +163,7 @@ public class PiranhaServerDeployer {
             
             webApplication.addInitializer(JakartaSecurityAllInitializer.class.getName());
             webApplication.addInitializer(JerseyInitializer.class.getName());
+            webApplication.addInitializer(MojarraInitializer.class.getName());
             
             webApplicationServer.initialize();
             webApplicationServer.start();
