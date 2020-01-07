@@ -39,6 +39,9 @@ import javax.servlet.ServletRegistration.Dynamic;
 /**
  * The Mojarra initializer.
  * 
+ * <p>
+ * Note at some point have to delegate and/or invoke actual Mojara Initializer.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class MojarraInitializer implements ServletContainerInitializer {
@@ -53,7 +56,7 @@ public class MojarraInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         Dynamic dynamic = servletContext.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
-        dynamic.addMapping("/faces/*", "*.html", "*.xhtml");
+        dynamic.addMapping("/faces/*", "*.html", "*.xhtml", "*.jsf");
         servletContext.setAttribute("com.sun.faces.facesInitializerMappingsAdded", TRUE);
         servletContext.addListener("com.sun.faces.config.ConfigureListener");
     }
