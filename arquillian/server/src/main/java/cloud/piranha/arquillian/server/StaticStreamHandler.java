@@ -25,53 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource.shrinkwrap;
+package cloud.piranha.arquillian.server;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
+import java.util.Map;
+import java.util.function.Function;
 
-import cloud.piranha.api.WebApplication;
+public class StaticStreamHandler extends URLStreamHandler {
+    
+    private final String protocol;
+    private final Map<String, Function<URL, URLConnection>> handlers;
+    
+    public StaticStreamHandler(String protocol, Map<String, Function<URL, URLConnection>> handlers) {
+        this.protocol = protocol;
+        this.handlers = handlers;
+    }
 
-/**
- * Stream handler for the <code>shrinkwrap</code> protocol (urls starting with <code>shrinkwrap://</code>).
- * 
- * <p>
- * This is for URLs that don't have the embedded stream handler, which is for instance the case when
- * resource URLs obtained from Piranha Micro are converted to external string form and used to create
- * a new URL. 
- * 
- * @author Arjan Tijms
- *
- */
-public class GlobalArchiveStreamHandler extends URLStreamHandler {
-    
-    private WebApplication webApplication;
-    
-    public GlobalArchiveStreamHandler(WebApplication webApplication) {
-        this.webApplication = webApplication;
-    }
-    
-    public URLConnection connect(URL requestedUrl) {
-        try {
-            return openConnection(requestedUrl);
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-    
     @Override
-    public URLConnection openConnection(URL requestedUrl) throws IOException {
-        return new StreamConnection(requestedUrl) {
-            @Override
-            public InputStream getInputStream() throws IOException {
-                return webApplication.getResourceAsStream(requestedUrl.toString());
-            }
-        };
-                
-
+    protected URLConnection openConnection(URL u) throws IOException {
+        return handlers.get(protocol).apply(u);
     }
-
+    
 }
