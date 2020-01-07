@@ -38,9 +38,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -114,15 +117,16 @@ public class PiranhaServerDeployer {
     
     private HttpServer httpServer;
     
-    public Set<String> start(Archive<?> applicationArchive, ClassLoader classLoader) {
+    public Set<String> start(Archive<?> applicationArchive, ClassLoader classLoader, Map<String, Function<URL, URLConnection>> handlers) {
         try {
             System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
             
             WebApplication webApplication = getWebApplication(applicationArchive, classLoader);
             
-            URL.setURLStreamHandlerFactory(protocol -> 
-                protocol.equals("shrinkwrap")? new GlobalArchiveStreamHandler(webApplication) : null
-            );
+            // TODO: UGLY HACK
+            GlobalArchiveStreamHandler streamHandler = new GlobalArchiveStreamHandler(webApplication);
+            
+            handlers.put("shrinkwrap", e -> streamHandler.connect(e));
             
             // Source of annotations
             Index index = getIndex();

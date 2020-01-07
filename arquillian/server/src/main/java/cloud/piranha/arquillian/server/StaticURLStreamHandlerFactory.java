@@ -25,53 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource.shrinkwrap;
+package cloud.piranha.arquillian.server;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
-import cloud.piranha.api.WebApplication;
+public class StaticURLStreamHandlerFactory implements URLStreamHandlerFactory {
+    
+    private final static Map<String, Function<URL, URLConnection>> handlers = new ConcurrentHashMap<>();
 
-/**
- * Stream handler for the <code>shrinkwrap</code> protocol (urls starting with <code>shrinkwrap://</code>).
- * 
- * <p>
- * This is for URLs that don't have the embedded stream handler, which is for instance the case when
- * resource URLs obtained from Piranha Micro are converted to external string form and used to create
- * a new URL. 
- * 
- * @author Arjan Tijms
- *
- */
-public class GlobalArchiveStreamHandler extends URLStreamHandler {
-    
-    private WebApplication webApplication;
-    
-    public GlobalArchiveStreamHandler(WebApplication webApplication) {
-        this.webApplication = webApplication;
+    public static Map<String, Function<URL, URLConnection>> getHandlers() {
+        return handlers;
     }
-    
-    public URLConnection connect(URL requestedUrl) {
-        try {
-            return openConnection(requestedUrl);
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-    
+
     @Override
-    public URLConnection openConnection(URL requestedUrl) throws IOException {
-        return new StreamConnection(requestedUrl) {
-            @Override
-            public InputStream getInputStream() throws IOException {
-                return webApplication.getResourceAsStream(requestedUrl.toString());
-            }
-        };
-                
-
+    public URLStreamHandler createURLStreamHandler(String protocol) {
+        if (!handlers.containsKey(protocol)) {
+            return null;
+        }
+        
+        return new StaticStreamHandler(protocol, handlers);
     }
-
 }
