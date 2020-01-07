@@ -979,8 +979,11 @@ public class DefaultWebApplication implements WebApplication {
     public String getRealPath(String path) {
         String realPath = null;
         try {
-            if (getResource(path) != null) {
-                File file = new File(getResource(path).toURI());
+            
+            URL resourceUrl = getResource(path);
+            
+            if (resourceUrl != null && "file".equals(resourceUrl.getProtocol())) {
+                File file = new File(resourceUrl.toURI());
                 if (file.exists()) {
                     realPath = file.toString();
                 }
