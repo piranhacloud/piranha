@@ -33,7 +33,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -153,6 +155,12 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
             ClassLoader webInfClassLoader = getWebInfClassLoader(archive, piranhaClassLoader);
             
             Thread.currentThread().setContextClassLoader(webInfClassLoader);
+            
+            try {
+                URL.setURLStreamHandlerFactory(new StaticURLStreamHandlerFactory());
+            } catch (Error error) { // Yes, we know...
+                // Ignore
+            }
         
             piranhaServerDeployer = 
                 Class.forName(
@@ -164,8 +172,8 @@ public class PiranhaServerDeployableContainer implements DeployableContainer<Pir
             servletNames.addAll((Set<String>) 
                 piranhaServerDeployer
                     .getClass()
-                    .getMethod("start", Archive.class, ClassLoader.class)
-                    .invoke(piranhaServerDeployer, archive, webInfClassLoader));
+                    .getMethod("start", Archive.class, ClassLoader.class, Map.class)
+                    .invoke(piranhaServerDeployer, archive, webInfClassLoader, StaticURLStreamHandlerFactory.getHandlers()));
         
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             throw new DeploymentException("", e);
