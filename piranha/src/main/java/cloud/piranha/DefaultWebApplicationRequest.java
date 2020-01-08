@@ -27,11 +27,6 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.AttributeManager;
-import cloud.piranha.api.HttpHeaderManager;
-import cloud.piranha.api.HttpSessionManager;
-import cloud.piranha.api.WebApplication;
-import cloud.piranha.api.WebApplicationRequest;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -49,6 +44,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
 import javax.servlet.ReadListener;
@@ -62,6 +58,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
+
+import cloud.piranha.api.AttributeManager;
+import cloud.piranha.api.HttpHeaderManager;
+import cloud.piranha.api.HttpSessionManager;
+import cloud.piranha.api.WebApplication;
+import cloud.piranha.api.WebApplicationRequest;
 
 /**
  * The default WebApplicationRequest.
@@ -691,7 +693,15 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                         }
                     }
                 }
-                if (contentType != null && contentType.equals("application/x-www-form-urlencoded")) {
+                
+                boolean hasBody = 
+                    // FORM submission
+                    (contentType != null && contentType.equals("application/x-www-form-urlencoded")) ||
+                    
+                    // PUT parameters
+                    ("put".equalsIgnoreCase(getMethod()) &&  getContentLength() > 0);
+                
+                if (hasBody) {
                     ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
                     int read = inputStream.read();
                     int index = 0;
@@ -703,9 +713,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                             break;
                         }
                     }
+                    
                     if (read != -1) {
                         byteOutput.write(read);
                     }
+                    
                     String parameterString = new String(byteOutput.toByteArray());
                     String[] pairs = parameterString.trim().split("&");
                     if (pairs != null) {
