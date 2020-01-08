@@ -252,6 +252,9 @@ public class DefaultWebApplicationServer
             request.setServletPath(requestUri.substring(contextPath.length()));
             request.setWebApplication(webApplication);
             response.setWebApplication(webApplication);
+            
+            // Make sure the request is fully read wrt parameters
+            request.getParameterMap();
 
             webApplication.service(request, response);
         } finally {
