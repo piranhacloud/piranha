@@ -703,15 +703,10 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                 
                 if (hasBody) {
                     ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-                    int read = inputStream.read();
-                    int index = 0;
+                    int read = read();
                     while (read != -1) {
                         byteOutput.write(read);
-                        read = inputStream.read();
-                        index++;
-                        if (index + 1 == getContentLength()) {
-                            break;
-                        }
+                        read = read();
                     }
                     
                     if (read != -1) {
@@ -1613,13 +1608,13 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public int read() throws IOException {
-        if (finished) {
+        if (finished || getContentLength() == 0) {
             return -1;
         }
         
         int read = inputStream.read();
         index++;
-        if (index == getContentLength()) {
+        if (index == getContentLength() || read == -1) {
             finished = true;
         }
         
