@@ -28,6 +28,7 @@
 package cloud.piranha.security.elios;
 
 import static cloud.piranha.api.SecurityManager.AuthenticateSource.PRE_REQUEST_CONTAINER;
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
 import java.io.IOException;
 
@@ -83,6 +84,14 @@ public class AuthenticationFilter extends HttpFilter implements FilterPriority {
                 securityManager.getAuthenticatedResponse(request, response));
             
             securityManager.postRequestProcess(request, response);
+            
+            return;
+        }
+        
+        if ((response.getStatus() < 400 || response.getStatus() > 599) && !response.isCommitted()) {
+            // Authentication Mechanism did not set an error status. Set the default 403 here.
+            response.setStatus(SC_FORBIDDEN);
+            response.getWriter().println("Forbidden");
         }
     }
 
