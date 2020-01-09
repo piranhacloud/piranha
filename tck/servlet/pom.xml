@@ -93,7 +93,15 @@
                             <target>
                                 <!-- run the signature tests -->
                                 <exec executable="${ant.home}/bin/ant"
-                                      dir="${tck.home}/src/com/sun/ts/tests/signaturetest">
+                                      dir="${tck.home}/src/com/sun/ts/tests/signaturetest"
+                                      os="unix">
+                                    <arg value="-Dwork.dir=${signature.home}/work"/>
+                                    <arg value="-Dreport.dir=${signature.home}/report"/>
+                                    <arg value="runclient"/>
+                                </exec>
+                                <exec executable="${ant.home}/bin/ant.cmd"
+                                      dir="${tck.home}/src/com/sun/ts/tests/signaturetest"
+                                      os="windows">
                                     <arg value="-Dwork.dir=${signature.home}/work"/>
                                     <arg value="-Dreport.dir=${signature.home}/report"/>
                                     <arg value="runclient"/>
@@ -111,14 +119,23 @@
                             <target>
                                 <!-- deploy all the WARs -->
                                 <exec executable="${ant.home}/bin/ant" 
-                                      dir="${tck.home}/bin">
+                                      dir="${tck.home}/bin"
+                                      os="unix">
+                                    <arg value="-Dwork.dir=${piranha.home}/work"/>
+                                    <arg value="-Dreport.dir=${piranha.home}/report"/>
+                                    <arg value="deploy.all"/>
+                                </exec>
+                                <exec executable="${ant.home}/bin/ant.cmd" 
+                                      dir="${tck.home}/bin"
+                                      os="windows">
                                     <arg value="-Dwork.dir=${piranha.home}/work"/>
                                     <arg value="-Dreport.dir=${piranha.home}/report"/>
                                     <arg value="deploy.all"/>
                                 </exec>
                                 <!-- start the server -->
                                 <exec executable="${piranha.home}/bin/start.sh"
-                                      dir="${piranha.home}/bin"/>
+                                      dir="${piranha.home}/bin"
+                                      os="unix"/>
                                 <!-- give the server some time to settle down -->
                                 <sleep seconds="30"/>
                             </target>
