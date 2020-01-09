@@ -33,6 +33,7 @@ import static java.util.Collections.list;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
@@ -100,6 +101,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
     @Override
     protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
         Class<?> result;
+        
         try {
             result = delegateClassLoader.loadClass(name);
         } catch (ClassNotFoundException cnfe) {
@@ -107,64 +109,110 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         }
         
         if (result == null) {
-            if (classes.containsKey(name)) {
-                result = classes.get(name);
-            } else {
-                try {
-                    // Check with the super class. This can contain dynamic classes
-                    // that have been "hacked" into our classloader by e.g. Weld or
-                    // Javasist.
-                    try {
-                        result = super.loadClass(name, resolve);
-                    } catch (ClassNotFoundException cnfe) {
-                        // Ignore
+            try {
+                if (classes.contains(name)) {
+                    return classes.get(name);
+                }
+                
+                result = _loadClass(name, resolve);
+            } catch (Throwable throwable) {
+                throw new ClassNotFoundException("Unable to load class: " + name, throwable);
+            }
+        }
+        
+        if (result == null) {
+            throw new ClassNotFoundException("Unable to load class: " + name);
+        }
+        
+        return result;
+    }
+    
+    protected Class<?> _loadClass(String name, boolean resolve) {
+        Class<?> result = null;
+        try {
+            // Check with the super class. This can contain dynamic classes
+            // that have been "hacked" into our classloader by e.g. Weld or
+            // Javasist.
+            try {
+                result = super.loadClass(name, resolve);
+            } catch (ClassNotFoundException cnfe) {
+                // Ignore
+            }
+            
+            if (result == null) {
+                
+                // Define class
+                
+                byte[] bytes = null;
+                try (InputStream resourceStream = resourceManager.getResourceAsStream(normalizeName(name))) {
+                    if (resourceStream == null) {
+                        return null;
                     }
                     
+                    bytes = readClassBytes(resourceStream);
+                }
+                
+                synchronized (this) {
+                    result = classes.get(name);
+                     
                     if (result == null) {
-                        
-                        // Define class
-                        
-                        String normalizedName = name.replaceAll("\\.", "/") + ".class";
-                        BufferedInputStream inputStream = new BufferedInputStream(resourceManager.getResourceAsStream(normalizedName));
-                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                        int read = inputStream.read();
-                        while (read != -1) {
-                            outputStream.write((byte) read);
-                            read = inputStream.read();
-                        }
-                        byte[] bytes = outputStream.toByteArray();
-                        result = defineClass(name, bytes, 0, bytes.length);
-                        
-                        // Define package
-                        
-                        String packageName = null;
-                        int lastDotPosition = name.lastIndexOf('.');
-                        if (lastDotPosition != -1) {
-                            packageName = name.substring(0, lastDotPosition);
-                        }
-    
-                        if (packageName != null) {
-                            Package classPackage = getPackage(packageName);
-    
-                            if (classPackage == null) {
-                                try {
-                                definePackage(packageName, null, null, null, null, null, null, null);
-                                } catch (IllegalArgumentException e) {
-                                    // Ignore, package already defined
-                                }
-                            }
-                        }
-                        
-                        if (resolve) {
-                            resolveClass(result);
-                        }
+                        result = _defineClass(name, bytes, resolve);
                         classes.put(name, result);
                     }
-                } catch (Throwable throwable) {
-                    throw new ClassNotFoundException("Unable to load class: " + name, throwable);
+                }
+            }
+        } catch (Throwable throwable) {
+            throw new IllegalStateException("Unable to load class: " + name, throwable);
+        }
+        
+        return result;
+    }
+    
+    protected String normalizeName(String name) {
+        return name.replaceAll("\\.", "/") + ".class";
+    }
+    
+    protected byte[] readClassBytes(InputStream resourceStream) throws IOException {
+        BufferedInputStream inputStream = new BufferedInputStream(resourceStream);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        int read = inputStream.read();
+        while (read != -1) {
+            outputStream.write((byte) read);
+            read = inputStream.read();
+        }
+        
+        return outputStream.toByteArray();
+    }
+    
+    protected Class<?> _defineClass(String name, byte[] bytes, boolean resolve) {
+        
+        Class<?> result = defineClass(name, bytes, 0, bytes.length);
+        
+        
+        // Define package
+        
+        String packageName = null;
+        int lastDotPosition = name.lastIndexOf('.');
+        if (lastDotPosition != -1) {
+            packageName = name.substring(0, lastDotPosition);
+        }
+
+        if (packageName != null) {
+            Package classPackage = getPackage(packageName);
+
+            if (classPackage == null) {
+                try {
+                definePackage(packageName, null, null, null, null, null, null, null);
+                } catch (IllegalArgumentException e) {
+                    // Ignore, package already defined
                 }
             }
         }
+        
+        if (resolve) {
+            resolveClass(result);
+        }
+        
         return result;
     }
     
