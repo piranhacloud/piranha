@@ -36,6 +36,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
 import cloud.piranha.api.HttpSessionManager;
+import java.util.UUID;
 
 /**
  * The default HttpSession.
@@ -95,6 +96,7 @@ public class DefaultHttpSession implements HttpSession {
      * @param servletContext the servlet context.
      */
     public DefaultHttpSession(ServletContext servletContext) {
+        this.id = UUID.randomUUID().toString();
         this.servletContext = servletContext;
         this.creationTime = System.currentTimeMillis();
         this.lastAccessedTime = System.currentTimeMillis();
@@ -109,8 +111,8 @@ public class DefaultHttpSession implements HttpSession {
      * @param newFlag the new flag.
      */
     public DefaultHttpSession(ServletContext servletContext, String id, boolean newFlag) {
-        this.servletContext = servletContext;
         this.id = id;
+        this.servletContext = servletContext;
         this.newFlag = newFlag;
         this.creationTime = System.currentTimeMillis();
         this.lastAccessedTime = System.currentTimeMillis();

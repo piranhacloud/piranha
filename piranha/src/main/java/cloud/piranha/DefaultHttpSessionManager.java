@@ -279,13 +279,17 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         });
     }
     
+    /**
+     * Destroy the session.
+     * 
+     * @param session the session. 
+     */
     @Override
     public synchronized void destroySession(HttpSession session) {
         sessionListeners.stream().forEach((sessionListener) -> {
             sessionListener.sessionDestroyed(new HttpSessionEvent(session));
         });
-        
-        // TODO clear session
+        sessions.remove(session.getId());
     }
     
     /**
