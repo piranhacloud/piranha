@@ -151,7 +151,8 @@
                             <target>
                                 <!-- run all the tests -->
                                 <exec executable="${ant.home}/bin/ant" 
-                                      dir="${test.home}">
+                                      dir="${test.home}"
+                                      os="unix">
                                     <arg value="-Dwork.dir=${piranha.home}/work"/>
                                     <arg value="-Dreport.dir=${piranha.home}/report"/>
                                     <arg value="runclient"/>
@@ -166,7 +167,8 @@
                             <target>
                                 <!-- stop the server -->
                                 <exec executable="${piranha.home}/bin/stop.sh"
-                                      dir="${piranha.home}/bin"/>
+                                      dir="${piranha.home}/bin"
+                                      os="unix"/>
                             </target>
                         </configuration>
                         <goals>
