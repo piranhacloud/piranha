@@ -10,6 +10,6 @@ else
     JAVA_BIN=${JAVA_HOME}/bin/java
 fi
 
-${JAVA_BIN} -jar lib/piranha-server.jar &
+${JAVA_BIN} -Djava.util.logging.config.file=etc/logging.properties -jar lib/piranha-server.jar  &
 
 echo $! >> tmp/piranha.pid
