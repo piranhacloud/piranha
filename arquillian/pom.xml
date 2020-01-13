@@ -5,10 +5,34 @@
 
     <groupId>cloud.piranha.arquillian</groupId>
     <artifactId>project</artifactId>
-    <version>20.1.0-SNAPSHOT</version>
+    <version>20.1.0</version>
     <packaging>pom</packaging>
 
     <name>Piranha Arquillian</name>
+    
+    <description>
+        The Piranha Arquillian Project delivers you with Arquillian support.
+    </description>
+    <url>https://github.com/piranhacloud/piranha/arquillian</url>
+    <licenses>
+        <license>
+            <name>Piranha License</name>
+            <url>https://github.com/piranhacloud/piranha/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>mriem</id>
+            <name>Manfred Riem</name>
+            <email>mriem@manorrock.com</email>
+            <organization>Manorrock.com</organization>
+        </developer>
+        <developer>
+            <id>atijms</id>
+            <name>Arjan Tijms</name>
+        </developer>
+    </developers>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,6 +43,12 @@
     <modules>
         <module>server</module>
     </modules>
+    
+    <scm>
+        <connection>scm:git:git://github.com/piranhacloud/piranha.git</connection>
+        <developerConnection>scm:git:git@github.com:piranhacloud/piranha.git</developerConnection>
+        <url>https://github.com/piranhacloud/piranha</url>
+    </scm>
     
     <build>
         <pluginManagement>
