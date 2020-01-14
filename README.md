@@ -37,6 +37,9 @@ for the release you are using in the links below.
 
 ## Documentation for older releases
 
+1. [Version 20.1.2](https://github.com/piranhacloud/piranha/tree/v20.1.2)
+1. [Version 20.1.1](https://github.com/piranhacloud/piranha/tree/v20.1.1)
+1. [Version 20.1.0](https://github.com/piranhacloud/piranha/tree/v20.1.0)
 1. [Version 19.12.0](https://github.com/piranhacloud/piranha/tree/v19.12.0)
 1. [Version 19.11.0](https://github.com/piranhacloud/piranha/tree/v19.11.0)
 1. [Version 4.0.15.0](https://github.com/piranhacloud/piranha/tree/v4.0.15.0)
@@ -44,9 +47,6 @@ for the release you are using in the links below.
 1. [Version 4.0.13.0](https://github.com/piranhacloud/piranha/tree/v4.0.13.0)
 1. [Version 4.0.12.0](https://github.com/piranhacloud/piranha/tree/v4.0.12.0)
 1. [Version 4.0.11.0](https://github.com/piranhacloud/piranha/tree/v4.0.11.0)
-1. [Version 4.0.10.0](https://github.com/piranhacloud/piranha/tree/v4.0.10.0)
-1. [Version 4.0.9.0](https://github.com/piranhacloud/piranha/tree/v4.0.9.0)
-1. [Version 4.0.8.0](https://github.com/piranhacloud/piranha/tree/v4.0.8.0)
 
 ## How do I contribute?
 
