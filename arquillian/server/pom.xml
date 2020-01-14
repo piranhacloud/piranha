@@ -5,18 +5,41 @@
     <parent>
         <groupId>cloud.piranha.arquillian</groupId>
         <artifactId>project</artifactId>
-        <version>20.1.1</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>20.1.2</version>
     </parent>
-
-
     <artifactId>piranha-arquillian-server</artifactId>
-
     <name>Piranha Arquillian - Server</name>
     <description>
         Piranha integration for the Arquillian Project.
     </description>
+    <url>https://github.com/piranhacloud/piranha/arquillian/server</url>
+    
+    <licenses>
+        <license>
+            <name>Piranha License</name>
+            <url>https://github.com/piranhacloud/piranha/blob/master/LICENSE</url>
+        </license>
+    </licenses>
 
+    <developers>
+        <developer>
+            <id>mriem</id>
+            <name>Manfred Riem</name>
+            <email>mriem@manorrock.com</email>
+            <organization>Manorrock.com</organization>
+        </developer>
+        <developer>
+            <id>atijms</id>
+            <name>Arjan Tijms</name>
+        </developer>
+    </developers>
+    
+    <scm>
+        <connection>scm:git:git://github.com/piranhacloud/piranha.git</connection>
+        <developerConnection>scm:git:git@github.com:piranhacloud/piranha.git</developerConnection>
+        <url>https://github.com/piranhacloud/piranha</url>
+    </scm>
+    
     <dependencies>
         <dependency>
             <groupId>org.jboss</groupId>
@@ -92,6 +115,7 @@
                 <artifactId>flatten-maven-plugin</artifactId>
                 <version>1.1.0</version>
                 <configuration>
+                    <flattenMode>ossrh</flattenMode>
                 </configuration>
                 <executions>
                     <execution>
