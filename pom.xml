@@ -62,8 +62,8 @@
         <!-- Connectors -->
         <module>arquillian</module>
 
-        <!-- Web Applications -->
-        <module>webapp</module>
+        <!-- Admin Applications -->
+        <module>admin</module>
     </modules>
 
     <scm>
