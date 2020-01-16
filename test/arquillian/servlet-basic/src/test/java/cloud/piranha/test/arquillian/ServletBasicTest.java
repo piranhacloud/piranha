@@ -48,9 +48,11 @@ import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.TextPage;
 import com.gargoylesoftware.htmlunit.WebClient;
+import org.junit.Ignore;
 
 
 @RunWith(Arquillian.class)
+@Ignore
 public class ServletBasicTest {
 
     @ArquillianResource
