@@ -30,6 +30,8 @@ package cloud.piranha;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.AsyncContext;
 import javax.servlet.AsyncEvent;
 import javax.servlet.AsyncListener;
@@ -44,6 +46,11 @@ import javax.servlet.ServletResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultAsyncContext implements AsyncContext {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(DefaultAsyncContext.class.getName());
 
     /**
      * Stores the listeners.
@@ -104,6 +111,9 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void complete() {
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Completing async processing");
+        }
         if (!listeners.isEmpty()) {
             listeners.forEach((listener) -> {
                 try {
@@ -112,6 +122,9 @@ public class DefaultAsyncContext implements AsyncContext {
                     // nothing can be done at this point.
                 }
             });
+        }
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Flushing async response buffer");
         }
         if (!response.isCommitted()) {
             try {
@@ -135,6 +148,9 @@ public class DefaultAsyncContext implements AsyncContext {
         try {
             return type.getConstructor().newInstance();
         } catch (Throwable t) {
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, "Unable to create AsyncListener: " + type.getName(), t);
+            }
             throw new ServletException("Unable to create listener", t);
         }
     }
@@ -225,5 +241,10 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void start(Runnable runnable) {
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(Level.FINE, "Starting async context with: {0}", runnable);
+        }
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 }

@@ -25,72 +25,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.embedded;
 
-import cloud.piranha.api.WebXml;
-import cloud.piranha.api.WebXmlManager;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.TimerTask;
+import javax.servlet.AsyncContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- * The default web.xml manager.
+ * A bad async servlet.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebXmlManager implements WebXmlManager {
-    
-    /**
-     * Stores the unparsed web fragments.
-     */
-    private final ArrayList<WebXml> unparsedWebFragments = new ArrayList<>();
-    
-    /**
-     * Stores the unparsed web.xml.
-     */
-    private WebXml unparsedWebXml;
+public class BadAsyncServlet extends HttpServlet {
 
     /**
-     * Stores the web.xml.
+     * Constructor.
      */
-    private WebXml webXml;
-    
-    /**
-     * Get the unparsed web fragments.
-     * 
-     * @return the unparsed web fragments.
-     */
-    @Override
-    public List<WebXml> getUnparsedWebFragments() {
-        return unparsedWebFragments;
+    public BadAsyncServlet() {
     }
 
     /**
-     * Get the web.xml.
-     * 
-     * @return the web.xml.
-     */
-    @Override
-    public WebXml getWebXml() {
-        return webXml;
-    }
-
-    /**
-     * Set the web.xml.
+     * Handle GET request.
      *
-     * @param webXml the web.xml.
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public void setWebXml(WebXml webXml) {
-        this.webXml = webXml;
-    }
-
-    @Override
-    public WebXml getUnparsedWebXml() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setUnparsedWebXml(WebXml unparsedWebXml) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        final AsyncContext context = request.startAsync();
+        try {
+            context.createListener(BadAsyncListener.class);
+        } catch (ServletException se) {
+            response.getWriter().println("SUCCESS");
+        } catch (Throwable t) {
+        }
+        context.start(new TimerTask() {
+            @Override
+            public void run() {
+                context.complete();
+            }
+        });
     }
 }
