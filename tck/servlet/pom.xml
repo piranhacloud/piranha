@@ -449,18 +449,20 @@
                                                dest="${project.build.directory}"/>
                                         <move file="${project.build.directory}/apache-ant-1.8.4"
                                               tofile="${project.build.directory}/ant"/>
-                                        <chmod dir="${ant.home}/bin"
-                                               perm="ugo+rx"
-                                               includes="*"/>
                                 
                                         <!-- keep copy of original ts.jte -->
                                         <copy file="${tck.home}/bin/ts.jte"
                                               tofile="${tck.home}/bin/ts.jte.orig"/> 
                                 
                                         <!-- setup ts.jte for signature tests -->
+                                        <pathconvert property="servlet.classes" dirsep="/">
+                                            <path>
+                                                <pathelement path="${signature.home}/piranha-servlet-api.jar"/>
+                                            </path>
+                                        </pathconvert>
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="servlet\.classes=(.*)"
-                                                       replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar"
+                                                       replace="servlet\.classes=${servlet.classes}"
                                                        byline="true"/>
                                 
                                         <!-- copy Piranha script into the TCK -->
@@ -473,9 +475,15 @@
                                                        match="impl\.vi=(.*)"
                                                        replace="impl\.vi=piranha"
                                                        byline="true"/>
+                                        
+                                        <pathconvert property="deploy.dir" dirsep="/">
+                                            <path>
+                                                <pathelement path="${piranha.home}/webapps"/>
+                                            </path>
+                                        </pathconvert>
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="impl\.vi\.deploy\.dir=(.*)"
-                                                       replace="impl\.vi\.deploy\.dir=${piranha.home}/webapps"
+                                                       replace="impl\.vi\.deploy\.dir=${deploy.dir}"
                                                        byline="true"/>
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="webServerHost=(.*)"
@@ -500,7 +508,7 @@
                                 <configuration>
                                     <target>
                                         <!-- run the signature tests -->
-                                        <exec executable="${ant.home}/bin/ant.cmd"
+                                        <exec executable="${ant.home}/bin/ant.bat"
                                               dir="${tck.home}/src/com/sun/ts/tests/signaturetest">
                                             <arg value="-Dwork.dir=${signature.home}/work"/>
                                             <arg value="-Dreport.dir=${signature.home}/report"/>
@@ -518,14 +526,15 @@
                                 <configuration>
                                     <target>
                                         <!-- deploy all the WARs -->
-                                        <exec executable="${ant.home}/bin/ant.cmd" 
+                                        <exec executable="${ant.home}/bin/ant.bat" 
                                               dir="${tck.home}/bin">
                                             <arg value="-Dwork.dir=${piranha.home}/work"/>
                                             <arg value="-Dreport.dir=${piranha.home}/report"/>
                                             <arg value="deploy.all"/>
                                         </exec>
                                         <!-- start the server -->
-                                        <!-- TODO -->
+                                        <exec executable="${piranha.home}/bin/start.cmd"
+                                              dir="${piranha.home}/bin"/>
                                         <!-- give the server some time to settle down -->
                                         <sleep seconds="30"/>
                                     </target>
@@ -540,7 +549,12 @@
                                 <configuration>
                                     <target>
                                         <!-- run all the tests -->
-                                        <!-- TODO -->
+                                        <exec executable="${ant.home}/bin/ant.bat" 
+                                              dir="${test.home}">
+                                            <arg value="-Dwork.dir=${piranha.home}/work"/>
+                                            <arg value="-Dreport.dir=${piranha.home}/report"/>
+                                            <arg value="runclient"/>
+                                        </exec>
                                     </target>
                                 </configuration>
                             </execution>
