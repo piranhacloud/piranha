@@ -90,10 +90,10 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
      * @param mergedDependencies List of merged dependencies.
      */
     public PiranhaServerContainerConfiguration(
-        final String version, final String modules, final String dependencies,
-        final String repositories, final boolean offline,
-        final List<String> modulesList, final List<String> repositoriesList,
-        final List<String> mergedDependencies
+        String version, String modules, String dependencies,
+        String repositories, boolean offline,
+        List<String> modulesList, List<String> repositoriesList,
+        List<String> mergedDependencies
     ) {
         this.version = version;
         this.modules = modules;
@@ -107,29 +107,29 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
 
     @Override
     public void validate() throws ConfigurationException {
-        this.modulesList = Arrays.stream(this.modules.split(","))
+        modulesList = Arrays.stream(modules.split(","))
                             .map(module -> module.trim())
                             .collect(toList());
 
-        Stream<String> moduleDependenciesStream = this.modulesList.stream()
-            .map(module -> "cloud.piranha:" + module + ":" + this.version);
+        Stream<String> moduleDependenciesStream = modulesList.stream()
+            .map(module -> "cloud.piranha:" + module + ":" + version);
 
         Stream<String> dependenciesStream = Arrays.stream(
-            this.dependencies.split(",")
+            dependencies.split(",")
         ).map(dep -> dep.trim()).filter(dep -> !dep.isEmpty());
 
-        this.repositoriesList = Arrays.stream(this.repositories.split(","))
+        repositoriesList = Arrays.stream(repositories.split(","))
                                  .map(repo -> repo.trim())
                                  .filter(repo -> !repo.isEmpty())
                                  .collect(toList());
 
-        this.mergedDependencies = Stream.concat(
+        mergedDependencies = Stream.concat(
             moduleDependenciesStream, dependenciesStream
         ).collect(toList());
     }
 
     public String getVersion() {
-        return this.version;
+        return version;
     }
 
 
@@ -139,7 +139,7 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
 
 
     public String getModules() {
-        return this.modules;
+        return modules;
     }
 
 
@@ -149,7 +149,7 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
 
 
     public String getRepositories() {
-        return this.repositories;
+        return repositories;
     }
 
 
@@ -158,7 +158,7 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
     }
 
     public boolean isOffline() {
-        return this.offline;
+        return offline;
     }
 
     public void setOffline(boolean offline) {
@@ -166,15 +166,15 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
     }
 
     public List<String> getModulesList() {
-        return this.modulesList;
+        return modulesList;
     }
 
     public List<String> getRepositoriesList() {
-        return this.repositoriesList;
+        return repositoriesList;
     }
 
     public List<String> getMergedDependencies() {
-        return this.mergedDependencies;
+        return mergedDependencies;
     }
 
 }
