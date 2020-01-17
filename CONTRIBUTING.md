@@ -24,8 +24,9 @@ can use those contributions in any manner Manorrock.com so desires.
 mvn clean install
 ```
 
-Note the tests are in the `test` profile because we do NOT release them as part of
-a release, but they are activated automatically for local development.
+Note our more complex tests are in the `test` profile because we do NOT release
+them as part of a release, but they are activated automatically for local
+development.
 
 ### Running a singular test
 
