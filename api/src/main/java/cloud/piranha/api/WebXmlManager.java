@@ -27,12 +27,28 @@
  */
 package cloud.piranha.api;
 
+import java.util.List;
+
 /**
  * The WebXmlManager API.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface WebXmlManager {
+    
+    /**
+     * Get unparsed web fragments.
+     * 
+     * @return the unparsed web fragments.
+     */
+    List<WebXml> getUnparsedWebFragments();
+    
+    /**
+     * Get the unparsed web.xml.
+     * 
+     * @return unparsed web.xml.
+     */
+    WebXml getUnparsedWebXml();
 
     /**
      * Get the web.xml.
@@ -40,6 +56,13 @@ public interface WebXmlManager {
      * @return the web.xml.
      */
     WebXml getWebXml();
+    
+    /**
+     * Set the unparsed web.xml.
+     * 
+     * @param unparsedWebXml the unparsed web.xml
+     */
+    void setUnparsedWebXml(WebXml unparsedWebXml);
 
     /**
      * Set the web.xml.
@@ -48,4 +71,3 @@ public interface WebXmlManager {
      */
     void setWebXml(WebXml webXml);
 }
-

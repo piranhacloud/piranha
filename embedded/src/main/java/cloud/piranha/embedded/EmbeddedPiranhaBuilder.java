@@ -49,6 +49,11 @@ import javax.servlet.ServletRegistration;
 public class EmbeddedPiranhaBuilder {
     
     /**
+     * Stores the async supported flags.
+     */
+    private final LinkedHashMap<String, Boolean> asyncSupportedServlets;
+    
+    /**
      * Stores the attributes.
      */
     private final LinkedHashMap<String, Object> attributes;
@@ -107,6 +112,7 @@ public class EmbeddedPiranhaBuilder {
      * Constructor.
      */
     public EmbeddedPiranhaBuilder() {
+        asyncSupportedServlets = new LinkedHashMap<>();
         attributes = new LinkedHashMap<>();
         features = new ArrayList<>();
         filters = new LinkedHashMap<>();
@@ -201,6 +207,7 @@ public class EmbeddedPiranhaBuilder {
                     servlet.setInitParameter(name, value);
                 });
             }
+            servlet.setAsyncSupported(asyncSupportedServlets.get(servletName));
         });
         servletMappings.entrySet().forEach((servetMapping) -> {
             String servletName = servetMapping.getKey();
@@ -316,10 +323,23 @@ public class EmbeddedPiranhaBuilder {
      * @return the builder.
      */
     public EmbeddedPiranhaBuilder servlet(String servletName, String className) {
-        servlets.put(servletName, className);
-        return this;
+        return servlet(servletName, className, false);
     }
 
+    /**
+     * Add a servlet.
+     *
+     * @param servletName the servlet name.
+     * @param className the class name.
+     * @param asyncSupported the async supported flag.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder servlet(String servletName, String className, boolean asyncSupported) {
+        servlets.put(servletName, className);
+        asyncSupportedServlets.put(servletName, asyncSupported);
+        return this;
+    }
+    
     /**
      * Set a servlet init parameter.
      *

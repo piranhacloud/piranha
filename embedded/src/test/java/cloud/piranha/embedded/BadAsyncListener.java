@@ -25,72 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.embedded;
 
-import cloud.piranha.api.WebXml;
-import cloud.piranha.api.WebXmlManager;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import javax.servlet.AsyncEvent;
+import javax.servlet.AsyncListener;
 
 /**
- * The default web.xml manager.
- *
+ * A bad async listener.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebXmlManager implements WebXmlManager {
-    
-    /**
-     * Stores the unparsed web fragments.
-     */
-    private final ArrayList<WebXml> unparsedWebFragments = new ArrayList<>();
-    
-    /**
-     * Stores the unparsed web.xml.
-     */
-    private WebXml unparsedWebXml;
+public class BadAsyncListener implements AsyncListener {
 
-    /**
-     * Stores the web.xml.
-     */
-    private WebXml webXml;
-    
-    /**
-     * Get the unparsed web fragments.
-     * 
-     * @return the unparsed web fragments.
-     */
-    @Override
-    public List<WebXml> getUnparsedWebFragments() {
-        return unparsedWebFragments;
-    }
-
-    /**
-     * Get the web.xml.
-     * 
-     * @return the web.xml.
-     */
-    @Override
-    public WebXml getWebXml() {
-        return webXml;
-    }
-
-    /**
-     * Set the web.xml.
-     *
-     * @param webXml the web.xml.
-     */
-    @Override
-    public void setWebXml(WebXml webXml) {
-        this.webXml = webXml;
+    public BadAsyncListener() {
+        throw new RuntimeException("Bad async listener");
     }
 
     @Override
-    public WebXml getUnparsedWebXml() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void onComplete(AsyncEvent event) throws IOException {
+        throw new UnsupportedOperationException("Not supported.");
     }
 
     @Override
-    public void setUnparsedWebXml(WebXml unparsedWebXml) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void onError(AsyncEvent event) throws IOException {
+        throw new UnsupportedOperationException("Not supported.");
+    }
+
+    @Override
+    public void onStartAsync(AsyncEvent event) throws IOException {
+        throw new UnsupportedOperationException("Not supported.");
+    }
+
+    @Override
+    public void onTimeout(AsyncEvent event) throws IOException {
+        throw new UnsupportedOperationException("Not supported.");
     }
 }

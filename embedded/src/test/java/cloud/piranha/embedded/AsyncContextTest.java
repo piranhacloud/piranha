@@ -25,72 +25,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.embedded;
 
-import cloud.piranha.api.WebXml;
-import cloud.piranha.api.WebXmlManager;
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 /**
- * The default web.xml manager.
+ * The tests for the AsyncContext API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebXmlManager implements WebXmlManager {
-    
-    /**
-     * Stores the unparsed web fragments.
-     */
-    private final ArrayList<WebXml> unparsedWebFragments = new ArrayList<>();
-    
-    /**
-     * Stores the unparsed web.xml.
-     */
-    private WebXml unparsedWebXml;
+public class AsyncContextTest {
 
     /**
-     * Stores the web.xml.
-     */
-    private WebXml webXml;
-    
-    /**
-     * Get the unparsed web fragments.
-     * 
-     * @return the unparsed web fragments.
-     */
-    @Override
-    public List<WebXml> getUnparsedWebFragments() {
-        return unparsedWebFragments;
-    }
-
-    /**
-     * Get the web.xml.
-     * 
-     * @return the web.xml.
-     */
-    @Override
-    public WebXml getWebXml() {
-        return webXml;
-    }
-
-    /**
-     * Set the web.xml.
+     * Test a bad async listener.
      *
-     * @param webXml the web.xml.
+     * @throws Exception when a serious error occurs.
      */
-    @Override
-    public void setWebXml(WebXml webXml) {
-        this.webXml = webXml;
-    }
-
-    @Override
-    public WebXml getUnparsedWebXml() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setUnparsedWebXml(WebXml unparsedWebXml) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Test
+    public void testBadAsyncListener() throws Exception {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .servlet("BadAsyncServlet", BadAsyncServlet.class.getName(), true)
+                .servletMapping("BadAsyncServlet", "/badasync/*")
+                .build()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/badasync/BadAsyncListener")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponseBuilder()
+                .bodyOnly(false)
+                .build();
+        piranha.service(request, response);
+        while(!response.isCommitted()) {
+            Thread.sleep(500);
+        }
+        assertTrue(response.getResponseAsString().contains("HTTP/1.1 200"));
+        assertTrue(response.getResponseAsString().contains("SUCCESS"));
+        piranha.stop()
+                .destroy();
     }
 }
