@@ -27,6 +27,7 @@
  */
 package cloud.piranha;
 
+import cloud.piranha.api.WebApplication;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +36,14 @@ import java.util.logging.Logger;
 import javax.servlet.AsyncContext;
 import javax.servlet.AsyncEvent;
 import javax.servlet.AsyncListener;
+import javax.servlet.DispatcherType;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 
 /**
  * The default AsyncContext.
@@ -46,7 +51,7 @@ import javax.servlet.ServletResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultAsyncContext implements AsyncContext {
-    
+
     /**
      * Stores the logger.
      */
@@ -179,6 +184,34 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void dispatch(ServletContext servletContext, String path) {
+        WebApplication webApplication = (WebApplication) servletContext;
+        RequestDispatcher dispatcher = webApplication.getRequestDispatcher(path);
+        try {
+            HttpServletRequestWrapper wrappedRequest = 
+                    new HttpServletRequestWrapper((HttpServletRequest) request) {
+                 
+                private boolean asyncStarted = false;
+
+                @Override
+                public boolean isAsyncStarted() {
+                    return asyncStarted;
+                }
+                        
+                @Override
+                public DispatcherType getDispatcherType() {
+                    return DispatcherType.ASYNC;
+                }
+
+                public void setAsyncStarted(boolean asyncStarted) {
+                    this.asyncStarted = asyncStarted;
+                }
+            };
+            dispatcher.forward(wrappedRequest, response);
+        } catch (IOException | ServletException e) {
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, "An error occurred during async dispatch", e);
+            }
+        }
     }
 
     /**

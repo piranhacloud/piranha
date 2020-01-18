@@ -56,11 +56,38 @@ public class AsyncContextTest {
                 .bodyOnly(false)
                 .build();
         piranha.service(request, response);
-        while(!response.isCommitted()) {
+        while (!response.isCommitted()) {
             Thread.sleep(500);
         }
         assertTrue(response.getResponseAsString().contains("HTTP/1.1 200"));
         assertTrue(response.getResponseAsString().contains("SUCCESS"));
+        piranha.stop()
+                .destroy();
+    }
+
+    /**
+     * Test dispatching to another servlet.
+     */
+    @Test
+    public void testDispatch() throws Exception {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .servlet("Dispatch1Servlet", Dispatch1Servlet.class.getName(), true)
+                .servletMapping("Dispatch1Servlet", "/dispatch1/*")
+                .servlet("Dispatch1bServlet", Dispatch1bServlet.class.getName(), true)
+                .servletMapping("Dispatch1bServlet", "/dispatch1b/*")
+                .build()
+                .start();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/dispatch1/Dispatch")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponseBuilder()
+                .bodyOnly(false)
+                .build();
+        piranha.service(request, response);
+        while (!response.isCommitted()) {
+            Thread.sleep(500);
+        }
+        assertTrue(response.getResponseAsString().contains("HTTP/1.1 200"));
         piranha.stop()
                 .destroy();
     }
