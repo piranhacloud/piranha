@@ -25,22 +25,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
+package cloud.piranha.embedded;
 
-import javax.servlet.DispatcherType;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.AsyncContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- * The WebApplicationRequest API.
- * 
+ * An Async Servlet dispatching to another.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebApplicationRequest extends HttpServletRequest {
-    
+public class Dispatch1Servlet extends HttpServlet {
+
     /**
-     * Set the dispatcher type.
-     * 
-     * @param dispatcherType the dispatcher type.
+     * Handle GET request.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
      */
-    void setDispatcherType(DispatcherType dispatcherType);
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        String path = "/dispatch1b/Dispatched";
+        PrintWriter writer = response.getWriter();
+        writer.println("Dispatch1Servlet");
+        writer.println("IsAsyncSupported=" + request.isAsyncSupported());
+        writer.println("IsAsyncStarted=" + request.isAsyncStarted());
+        writer.println("DispatcherType=" + request.getDispatcherType());
+        AsyncContext context = request.startAsync();
+        context.dispatch(request.getServletContext(), path);
+    }
 }

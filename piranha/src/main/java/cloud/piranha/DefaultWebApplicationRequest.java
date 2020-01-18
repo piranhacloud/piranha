@@ -1283,6 +1283,16 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
             }
         }
     }
+    
+    /**
+     * Set the dispatcher type.
+     * 
+     * @param dispatcherType the dispatcher type.
+     */
+    @Override
+    public void setDispatcherType(DispatcherType dispatcherType) {
+        this.dispatcherType = dispatcherType;
+    }
 
     /**
      * Set the header.
