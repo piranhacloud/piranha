@@ -30,49 +30,55 @@ package cloud.piranha.servlet.webxml;
 import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultWebApplication;
 import java.io.File;
-import javax.servlet.ServletRegistration;
+import java.io.InputStream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the WebXmlInitializer class.
+ * The JUnit tests for the WebXmlParser class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlInitializerTest {
-
+public class WebXmlParserTest {
+    
     /**
-     * Test onStartup method.
-     *
+     * Test parse method.
+     * 
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testOnStartup() throws Exception {
+    public void testParseWebXml() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test1")));
-        webApplication.addInitializer(new WebXmlInitializer());
-        webApplication.initialize();
-        ServletRegistration registration = webApplication.getServletRegistration("Test Servlet");
-        assertNotNull(registration);
-        assertFalse(registration.getMappings().isEmpty());
-        assertEquals("*.html", registration.getMappings().iterator().next());
-        assertEquals("application/x-java-class", webApplication.getMimeType("my.class"));
-        assertEquals("myvalue", webApplication.getInitParameter("myname"));
-        assertEquals("myservletcontext", webApplication.getServletContextName());
+        webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test3")));
+        InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
+        WebXmlParser parser = new WebXmlParser();
+        WebXml webXml = parser.parse(inputStream);
+        assertFalse(webXml.getServlets().isEmpty());
+        assertEquals(2, webXml.getServlets().size());
+        assertNotEquals(webXml.getServlets().get(0).getServletName(), webXml.getServlets().get(1).getServletName());
+        assertTrue(webXml.getServlets().get(0).isAsyncSupported());
+        assertFalse(webXml.getFilters().isEmpty());
+        assertEquals(1, webXml.getFilters().size());
+        assertTrue(webXml.getDenyUncoveredHttpMethods());
+        assertTrue(webXml.isDistributable());
     }
     
     /**
-     * Test onStartup method.
-     *
+     * Test parse method.
+     * 
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testOnStartup2() throws Exception {
+    public void testParseWebXml2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test2")));
-        webApplication.addInitializer(new WebXmlInitializer());
-        webApplication.initialize();
+        webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test4")));
+        InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
+        WebXmlParser parser = new WebXmlParser();
+        WebXml webXml = parser.parse(inputStream);
+        assertFalse(webXml.getDenyUncoveredHttpMethods());
+        assertFalse(webXml.isDistributable());
     }
 }

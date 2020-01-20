@@ -207,6 +207,16 @@ public class JakartaSecurityManager implements SecurityManager {
     protected AuthorizationService getAuthorizationService(HttpServletRequest request) {
         return (AuthorizationService) request.getServletContext().getAttribute(AUTHZ_SERVICE);
     }
+
+    @Override
+    public boolean getDenyUncoveredHttpMethods() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
     class MarkerPrincipal implements Principal {
         

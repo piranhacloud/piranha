@@ -29,8 +29,6 @@ package cloud.piranha.servlet.webxml;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,70 +38,16 @@ import java.util.List;
  */
 public class WebXml implements Serializable {
 
-    private static final long serialVersionUID = 6143204024206508136L;
-
     /**
-     * Stores the servlets.
+     * Stores the serial version UID.
      */
-    public List<WebXml.Servlet> servlets = new ArrayList<>();
+    private static final long serialVersionUID = 6143204024206508136L;
 
     /**
      * Stores the security constraints
      */
     public List<SecurityConstraint> securityConstraints = new ArrayList<>();
 
-    /**
-     * When true, this boolean causes HTTP methods that are not subject to a
-     * security constraint to be denied.
-     */
-    public boolean denyUncoveredHttpMethods;
-
-    /**
-     * The &lt;servlet&gt; snippet inside a web.xml / webfragment.xml.
-     */
-    public static class Servlet {
-
-        /**
-         * Stores the async supported flag.
-         */
-        public boolean asyncSupported;
-
-        /**
-         * Stores the servlet name.
-         */
-        public String name;
-
-        /**
-         * Stores the servlet class.
-         */
-        public String className;
-
-        /**
-         * Stores the load on startup.
-         */
-        public int loadOnStartup;
-
-        /**
-         * Stores the init parameters.
-         */
-        public List<InitParam> initParams = new ArrayList<>();
-
-        /**
-         * The &lt;init-param&gt; snippet inside a &lt;servlet&gt; snippet.
-         */
-        public static class InitParam {
-
-            /**
-             * Stores the name.
-             */
-            public String name;
-
-            /**
-             * Stores the value.
-             */
-            public String value;
-        }
-    }
 
     /**
      * The &lt;security-constraint&gt; snippet inside a web.xml /
@@ -176,6 +120,16 @@ public class WebXml implements Serializable {
      * Stores the context params.
      */
     private final ArrayList<WebXmlContextParam> contextParams = new ArrayList<>();
+    
+    /**
+     * Store if we are denying uncovered HTTP methods.
+     */
+    private boolean denyUncoveredHttpMethods = false;
+    
+    /**
+     * Store if we are distributable.
+     */
+    private boolean distributable = false;
 
     /**
      * Stores the error pages.
@@ -208,94 +162,39 @@ public class WebXml implements Serializable {
     private final ArrayList<WebXmlMimeMapping> mimeMappings = new ArrayList<>();
 
     /**
+     * Stores the servlets.
+     */
+    private final List<WebXmlServlet> servlets = new ArrayList<>();
+
+    /**
      * Stores the servlet mappings.
      */
     private final ArrayList<WebXmlServletMapping> servletMappings = new ArrayList<>();
-
-    /**
-     * Add a context param.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
-    public void addContextParam(String name, String value) {
-        contextParams.add(new WebXmlContextParam(name, value));
-    }
-
-    /**
-     * Add error page.
-     *
-     * @param errorCode the error code.
-     * @param exceptionType the exception type.
-     * @param location the location.
-     */
-    public void addErrorPage(String errorCode, String exceptionType, String location) {
-        errorPages.add(new WebXmlErrorPage(errorCode, exceptionType, location));
-    }
-
-    /**
-     * Add a filter.
-     *
-     * @param filter the filter.
-     */
-    public void addFilter(WebXmlFilter filter) {
-        filters.add(filter);
-    }
-
-    /**
-     * Add the filter mappings.
-     *
-     * @param filterName the filter name.
-     * @param urlPattern the URL pattern.
-     */
-    public void addFilterMapping(String filterName, String urlPattern) {
-        filterMappings.add(new WebXmlFilterMapping(filterName, urlPattern));
-    }
-
-    /**
-     * Add a listener.
-     *
-     * @param className the class name.
-     */
-    public void addListener(String className) {
-        listeners.add(new WebXmlListener(className));
-    }
-
-    /**
-     * Add a mime mapping.
-     *
-     * @param extension the extension.
-     * @param mimeType the mime type.
-     */
-    public void addMimeMapping(String extension, String mimeType) {
-        mimeMappings.add(new WebXmlMimeMapping(extension, mimeType));
-    }
-
-    /**
-     * Add a servlet mapping.
-     *
-     * @param servletName the servlet name.
-     * @param urlPattern the URL pattern.
-     */
-    public void addServletMapping(String servletName, String urlPattern) {
-        servletMappings.add(new WebXmlServletMapping(servletName, urlPattern));
-    }
 
     /**
      * Get the context params.
      *
      * @return the context params.
      */
-    public Collection<WebXmlContextParam> getContextParams() {
+    public List<WebXmlContextParam> getContextParams() {
         return contextParams;
     }
 
+    /**
+     * Get if we are denying uncovered HTTP methods.
+     * 
+     * @return true if we are, false otherwise.
+     */
+    public boolean getDenyUncoveredHttpMethods() {
+        return denyUncoveredHttpMethods;
+    }
+    
     /**
      * Get the error pages.
      *
      * @return the error pages.
      */
-    public Collection<WebXmlErrorPage> getErrorPages() {
+    public List<WebXmlErrorPage> getErrorPages() {
         return errorPages;
     }
 
@@ -304,7 +203,7 @@ public class WebXml implements Serializable {
      *
      * @return the filters.
      */
-    public Collection<WebXmlFilter> getFilters() {
+    public List<WebXmlFilter> getFilters() {
         return filters;
     }
 
@@ -313,7 +212,7 @@ public class WebXml implements Serializable {
      *
      * @return the filter mappings.
      */
-    public Collection<WebXmlFilterMapping> getFilterMappings() {
+    public List<WebXmlFilterMapping> getFilterMappings() {
         return filterMappings;
     }
 
@@ -331,8 +230,8 @@ public class WebXml implements Serializable {
      *
      * @return the listeners.
      */
-    public Collection<WebXmlListener> getListeners() {
-        return Collections.unmodifiableCollection(listeners);
+    public List<WebXmlListener> getListeners() {
+        return listeners;
     }
 
     /**
@@ -340,8 +239,17 @@ public class WebXml implements Serializable {
      *
      * @return the mime mappings.
      */
-    public Collection<WebXmlMimeMapping> getMimeMappings() {
+    public List<WebXmlMimeMapping> getMimeMappings() {
         return mimeMappings;
+    }
+    
+    /**
+     * Get the servlets.
+     * 
+     * @return the servlets.
+     */
+    public List<WebXmlServlet> getServlets() {
+        return servlets;
     }
 
     /**
@@ -349,10 +257,37 @@ public class WebXml implements Serializable {
      *
      * @return the servlet mappings.
      */
-    public Collection<WebXmlServletMapping> getServletMappings() {
+    public List<WebXmlServletMapping> getServletMappings() {
         return servletMappings;
     }
+    
+    /**
+     * Is the application distributable.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    public boolean isDistributable() {
+        return distributable;
+    }
 
+    /**
+     * Set if we are denying uncovered HTTP methods.
+     * 
+     * @param denyUncoveredHttpMethods the boolean value.
+     */
+    public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
+        this.denyUncoveredHttpMethods = denyUncoveredHttpMethods;
+    }
+    
+    /**
+     * Set if we are distributable.
+     * 
+     * @param distributable the boolean value. 
+     */
+    public void setDistributable(boolean distributable) {
+        this.distributable = distributable;
+    }
+    
     /**
      * Set the login config.
      *

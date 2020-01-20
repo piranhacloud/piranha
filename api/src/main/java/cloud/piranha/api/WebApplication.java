@@ -143,6 +143,13 @@ public interface WebApplication extends ServletContext {
      * @return the annotation manager.
      */
     AnnotationManager getAnnotationManager();
+    
+    /**
+     * Are we denying uncovered HTTP methods.
+     * 
+     * @return true if we are, false otherwise.
+     */
+    boolean getDenyUncoveredHttpMethods();
 
     /**
      * Get the mime type manager.
@@ -243,6 +250,13 @@ public interface WebApplication extends ServletContext {
      * Initialize the servlets.
      */
     void initializeServlets();
+    
+    /**
+     * Is the application distributable.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    boolean isDistributable();
 
     /**
      * Link the request and response.
@@ -276,6 +290,20 @@ public interface WebApplication extends ServletContext {
      * @param contextPath the context path.
      */
     void setContextPath(String contextPath);
+    
+    /**
+     * Set if we are denying uncovered HTTP methods.
+     * 
+     * @param denyUncoveredHttpMethods the boolean value.
+     */
+    void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods);
+
+    /**
+     * Set if the web application is distributable.
+     * 
+     * @param distributable the distributable flag.
+     */
+    void setDistributable(boolean distributable);
 
     /**
      * Set the HTTP session manager.
