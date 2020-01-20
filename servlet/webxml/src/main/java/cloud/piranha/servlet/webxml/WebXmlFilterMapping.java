@@ -25,21 +25,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
-
-import java.io.Serializable;
+package cloud.piranha.servlet.webxml;
 
 /**
- * A web.xml listener.
+ * The web.xml filter-mapping.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebXmlListener extends Serializable {
+public class WebXmlFilterMapping {
+    
+    /**
+     * Stores the filter name.
+     */
+    private String filterName;
+    
+    /**
+     * Stores the URL pattern.
+     */
+    private String urlPattern;
 
     /**
-     * Get the class name.
-     *
-     * @return the class name.
+     * Constructor.
+     * 
+     * @param filterName the filter name.
+     * @param urlPattern the URL pattern.
      */
-    String getClassName();
+    public WebXmlFilterMapping(String filterName, String urlPattern) {
+        this.filterName = filterName;
+        this.urlPattern = urlPattern;
+    }
+
+    /**
+     * Get the filter name.
+     * 
+     * @return the filter name.
+     */
+    public String getFilterName() {
+        return filterName;
+    }
+
+    /**
+     * Get the URL pattern.
+     * 
+     * @return the URL pattern.
+     */
+    public String getUrlPattern() {
+        return urlPattern;
+    }
 }
+

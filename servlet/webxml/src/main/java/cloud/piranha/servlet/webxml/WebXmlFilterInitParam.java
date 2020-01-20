@@ -25,28 +25,58 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
-
-import java.io.Serializable;
+package cloud.piranha.servlet.webxml;
 
 /**
- * A mime mapping.
+ * The web.xml filter init-param.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebXmlMimeMapping extends Serializable {
+public class WebXmlFilterInitParam {
+    
+    /**
+     * Stores the name.
+     */
+    private String name;
+    
+    /**
+     * Stores the value.
+     */
+    private String value;
 
     /**
-     * Get the extension.
-     *
-     * @return the extension.
+     * Get the name.
+     * 
+     * @return the name.
      */
-    String getExtension();
+    public String getName() {
+        return name;
+    }
+    
+    /**
+     * Get the value.
+     * 
+     * @return the value.
+     */
+    public String getValue() {
+        return value;
+    }
+    
+    /**
+     * Set the name.
+     * 
+     * @param name the name.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
-     * Get the mime type.
-     *
-     * @return the mime type.
+     * Set the value.
+     * 
+     * @param value the value.
      */
-    String getMimeType();
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

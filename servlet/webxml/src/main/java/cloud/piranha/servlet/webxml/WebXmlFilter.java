@@ -25,55 +25,107 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.servlet.webxml;
 
-import cloud.piranha.api.WebXmlServletMapping;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * The default web.xml servlet-mapping
+ * The web.xml filter.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebXmlServletMapping implements WebXmlServletMapping {
-
+public class WebXmlFilter {
+    
+    /**
+     * Stores the class name.
+     */
+    private String className;
+    
+    /**
+     * Stores the filter name.
+     */
+    private String filterName;
+    
+    /**
+     * Stores the init params.
+     */
+    private final ArrayList<WebXmlFilterInitParam> initParams = new ArrayList<>();
+    
     /**
      * Stores the servlet name.
      */
-    private final String servletName;
+    private String servletName;
 
     /**
-     * Stores the URL pattern.
+     * Add init param.
+     * 
+     * @param initParam the init param.
      */
-    private final String urlPattern;
-
-    /**
-     * Constructor.
-     *
-     * @param servletName the servlet name.
-     * @param urlPattern the URL pattern.
-     */
-    public DefaultWebXmlServletMapping(String servletName, String urlPattern) {
-        this.servletName = servletName;
-        this.urlPattern = urlPattern;
+    public void addInitParam(WebXmlFilterInitParam initParam) {
+        this.initParams.add(initParam);
     }
 
     /**
+     * Get the class name.
+     * 
+     * @return the class name.
+     */
+    public String getClassName() {
+        return className;
+    }
+
+    /**
+     * Get the filter name.
+     * 
+     * @return the filter name.
+     */
+    public String getFilterName() {
+        return filterName;
+    }
+
+    /**
+     * Get the init params.
+     * 
+     * @return the init params.
+     */
+    public List<WebXmlFilterInitParam> getInitParams() {
+        return initParams;
+    }
+    
+    /**
      * Get the servlet name.
-     *
+     * 
      * @return the servlet name.
      */
-    @Override
     public String getServletName() {
         return servletName;
     }
+    
+    /**
+     * Set the class name.
+     *
+     * @param className the class name.
+     */
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
     /**
-     * Get the URL pattern.
-     *
-     * @return the URL pattern.
+     * Set the filter name.
+     * 
+     * @param filterName the filter name. 
      */
-    @Override
-    public String getUrlPattern() {
-        return urlPattern;
+    public void setFilterName(String filterName) {
+        this.filterName = filterName;
+    }
+
+    /**
+     * Set the servlet name.
+     * 
+     * @param servletName the servlet name.
+     */
+    public void setServletName(String servletName) {
+        this.servletName = servletName;
     }
 }

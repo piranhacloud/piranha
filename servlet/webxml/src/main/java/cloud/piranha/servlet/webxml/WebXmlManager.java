@@ -25,28 +25,70 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
+package cloud.piranha.servlet.webxml;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * A web.xml context-param.
+ * The web.xml manager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebXmlContextParam extends Serializable {
+public class WebXmlManager  {
+    
+    /**
+     * Stores the application scoped key.
+     */
+    public static final String KEY = WebXmlManager.class.getName();
+    
+    /**
+     * Stores the unparsed web fragments.
+     */
+    private final ArrayList<WebXml> unparsedWebFragments = new ArrayList<>();
+    
+    /**
+     * Stores the unparsed web.xml.
+     */
+    private WebXml unparsedWebXml;
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * Stores the web.xml.
      */
-    String getName();
+    private WebXml webXml;
+    
+    /**
+     * Get the unparsed web fragments.
+     * 
+     * @return the unparsed web fragments.
+     */
+    public List<WebXml> getUnparsedWebFragments() {
+        return unparsedWebFragments;
+    }
 
     /**
-     * Get the value.
-     *
-     * @return the value.
+     * Get the web.xml.
+     * 
+     * @return the web.xml.
      */
-    String getValue();
+    public WebXml getWebXml() {
+        return webXml;
+    }
+    
+    /**
+     * Set the web.xml.
+     *
+     * @param webXml the web.xml.
+     */
+    public void setWebXml(WebXml webXml) {
+        this.webXml = webXml;
+    }
+
+    public WebXml getUnparsedWebXml() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void setUnparsedWebXml(WebXml unparsedWebXml) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

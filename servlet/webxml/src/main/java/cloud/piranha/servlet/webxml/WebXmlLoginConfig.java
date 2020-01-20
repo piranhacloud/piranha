@@ -25,35 +25,83 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
-
-import java.io.Serializable;
+package cloud.piranha.servlet.webxml;
 
 /**
- * A web.xml error-page.
- * 
+ * The default web.xml login-config.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebXmlErrorPage extends Serializable {
+public class WebXmlLoginConfig {
 
     /**
-     * Get the error code.
-     *
-     * @return the error code.
+     * Stores the auth method.
      */
-    String getErrorCode();
+    private final String authMethod;
 
     /**
-     * Get the exception type.
-     *
-     * @return the error code.
+     * Stores the realm name.
      */
-    String getExceptionType();
+    private final String realmName;
 
     /**
-     * Get the location.
-     *
-     * @return the location.
+     * Stores the form login page.
      */
-    String getLocation();
+    private final String formLoginPage;
+
+    /**
+     * Stores the form error page.
+     */
+    private final String formErrorPage;
+
+    /**
+     * Constructor.
+     *
+     * @param authMethod the auth method.
+     * @param realmName the realm name.
+     * @param formLoginPage the form login page.
+     * @param formErrorPage the form error page.
+     */
+    public WebXmlLoginConfig(String authMethod, String realmName, String formLoginPage, String formErrorPage) {
+        this.authMethod = authMethod;
+        this.realmName = realmName;
+        this.formLoginPage = formLoginPage;
+        this.formErrorPage = formErrorPage;
+    }
+
+    /**
+     * Get the auth method.
+     *
+     * @return the auth method.
+     */
+    public String getAuthMethod() {
+        return authMethod;
+    }
+
+    /**
+     * Get the realm name.
+     *
+     * @return the realm name.
+     */
+    public String getRealmName() {
+        return realmName;
+    }
+
+    /**
+     * Get the form login page.
+     *
+     * @return the form login page.
+     */
+    public String getFormLoginPage() {
+        return formLoginPage;
+    }
+
+    /**
+     * Get the form error page.
+     *
+     * @return the form error page.
+     */
+    public String getFormErrorPage() {
+        return formErrorPage;
+    }
 }

@@ -25,72 +25,67 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
-
-import cloud.piranha.api.WebXml;
-import cloud.piranha.api.WebXmlManager;
-import java.util.ArrayList;
-import java.util.List;
+package cloud.piranha.servlet.webxml;
 
 /**
- * The default web.xml manager.
+ * The default web.xml error-page.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebXmlManager implements WebXmlManager {
-    
-    /**
-     * Stores the unparsed web fragments.
-     */
-    private final ArrayList<WebXml> unparsedWebFragments = new ArrayList<>();
-    
-    /**
-     * Stores the unparsed web.xml.
-     */
-    private WebXml unparsedWebXml;
+public class WebXmlErrorPage  {
 
     /**
-     * Stores the web.xml.
+     * Stores the error code.
      */
-    private WebXml webXml;
-    
-    /**
-     * Get the unparsed web fragments.
-     * 
-     * @return the unparsed web fragments.
-     */
-    @Override
-    public List<WebXml> getUnparsedWebFragments() {
-        return unparsedWebFragments;
-    }
+    private final String errorCode;
 
     /**
-     * Get the web.xml.
-     * 
-     * @return the web.xml.
+     * Stores the exception type.
      */
-    @Override
-    public WebXml getWebXml() {
-        return webXml;
-    }
+    private final String exceptionType;
 
     /**
-     * Set the web.xml.
+     * Stores the location.
+     */
+    private final String location;
+
+    /**
+     * Constructor.
      *
-     * @param webXml the web.xml.
+     * @param errorCode the error code.
+     * @param exceptionType the exception type.
+     * @param location the location.
      */
-    @Override
-    public void setWebXml(WebXml webXml) {
-        this.webXml = webXml;
+    public WebXmlErrorPage(String errorCode, String exceptionType, String location) {
+        this.errorCode = errorCode;
+        this.exceptionType = exceptionType;
+        this.location = location;
     }
 
-    @Override
-    public WebXml getUnparsedWebXml() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * Get the error code.
+     *
+     * @return the error code.
+     */
+    public String getErrorCode() {
+        return errorCode;
     }
 
-    @Override
-    public void setUnparsedWebXml(WebXml unparsedWebXml) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * Get the exception type.
+     *
+     * @return the exception type.
+     */
+    public String getExceptionType() {
+        return exceptionType;
+    }
+
+    /**
+     * Get the location.
+     *
+     * @return the location.
+     */
+    public String getLocation() {
+        return location;
     }
 }

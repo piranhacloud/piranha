@@ -25,72 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
-
-import cloud.piranha.api.WebXmlErrorPage;
+package cloud.piranha.servlet.webxml;
 
 /**
- * The default web.xml error-page.
+ * The web.xml listener.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebXmlErrorPage implements WebXmlErrorPage {
+public class WebXmlListener {
 
     /**
-     * Stores the error code.
+     * Stores the class name.
      */
-    private final String errorCode;
-
-    /**
-     * Stores the exception type.
-     */
-    private final String exceptionType;
-
-    /**
-     * Stores the location.
-     */
-    private final String location;
+    String className;
 
     /**
      * Constructor.
-     *
-     * @param errorCode the error code.
-     * @param exceptionType the exception type.
-     * @param location the location.
+     * 
+     * @param className the class name.
      */
-    public DefaultWebXmlErrorPage(String errorCode, String exceptionType, String location) {
-        this.errorCode = errorCode;
-        this.exceptionType = exceptionType;
-        this.location = location;
+    public WebXmlListener(String className) {
+        this.className = className;
     }
 
     /**
-     * Get the error code.
+     * Get the class name.
      *
-     * @return the error code.
+     * @return the class name.
      */
-    @Override
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    /**
-     * Get the exception type.
-     *
-     * @return the exception type.
-     */
-    @Override
-    public String getExceptionType() {
-        return exceptionType;
-    }
-
-    /**
-     * Get the location.
-     *
-     * @return the location.
-     */
-    @Override
-    public String getLocation() {
-        return location;
+    public String getClassName() {
+        return className;
     }
 }

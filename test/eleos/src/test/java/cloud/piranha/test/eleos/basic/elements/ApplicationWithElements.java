@@ -52,6 +52,7 @@ import cloud.piranha.security.elios.AuthenticationInitializer;
 import cloud.piranha.security.exousia.AuthorizationInitializer;
 import cloud.piranha.security.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
+import cloud.piranha.servlet.webxml.WebXmlInitializer;
 
 /**
  * @author Arjan Tijms
@@ -61,6 +62,7 @@ public class ApplicationWithElements {
     public static TestWebApp get() {
         return 
             new TestWebApp(newWebApplication()
+                .addInitializer(WebXmlInitializer.class)
                 .addAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .addAttribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
                 .addAttribute(SECURITY_ELEMENTS, asList(

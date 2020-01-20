@@ -39,6 +39,7 @@ import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_F
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.CONSTRAINTS;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
+import cloud.piranha.servlet.webxml.WebXmlInitializer;
 import static java.util.Arrays.asList;
 import org.junit.After;
 import static org.junit.Assert.assertTrue;
@@ -91,6 +92,7 @@ public class WrappingTest {
     @Before
     public void before() throws Exception {
         piranha = new EmbeddedPiranhaBuilder()
+                .initializer(WebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
                 .attribute(CONSTRAINTS, asList(

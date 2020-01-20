@@ -50,6 +50,7 @@ import cloud.piranha.test.utils.TestWebApp;
 import cloud.piranha.security.elios.AuthenticationInitializer;
 import cloud.piranha.security.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
+import cloud.piranha.servlet.webxml.WebXmlInitializer;
 
 /**
  * This tests that a call from a Servlet to HttpServletRequest#authenticate can result
@@ -66,6 +67,7 @@ public class ProgrammaticAuthenticationTest {
     public void testPublic() throws Exception {
         webApp = 
             new TestWebApp(newWebApplication()  
+                .addInitializer(WebXmlInitializer.class)
                 .addAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .addAttribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
                 .addAttribute(UNCHECKED_PERMISSIONS, asList(

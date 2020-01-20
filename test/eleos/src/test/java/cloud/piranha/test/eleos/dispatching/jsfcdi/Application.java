@@ -52,6 +52,7 @@ import cloud.piranha.security.elios.AuthenticationInitializer;
 import cloud.piranha.security.exousia.AuthorizationInitializer;
 import cloud.piranha.security.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
+import cloud.piranha.servlet.webxml.WebXmlInitializer;
 
 /**
  * @author Arjan Tijms
@@ -63,6 +64,7 @@ public class Application {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DefaultInitialContextFactory.class.getName());
         
             WebApplication webApp = newWebApplication()
+                .addInitializer(WebXmlInitializer.class)
                 .addInitializer(WeldInitializer.class)
                 .addInitializer(MojarraInitializer.class)
                     
