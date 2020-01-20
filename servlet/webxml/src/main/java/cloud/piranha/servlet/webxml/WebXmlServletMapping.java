@@ -25,55 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
-
-import cloud.piranha.api.WebXmlContextParam;
+package cloud.piranha.servlet.webxml;
 
 /**
- * The context-param.
+ * The default web.xml servlet-mapping
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebXmlContextParam implements WebXmlContextParam {
+public class WebXmlServletMapping {
 
     /**
-     * Stores the name.
+     * Stores the servlet name.
      */
-    private final String name;
+    private final String servletName;
 
     /**
-     * Stores the value.
+     * Stores the URL pattern.
      */
-    private final String value;
+    private final String urlPattern;
 
     /**
      * Constructor.
      *
-     * @param name the name.
-     * @param value the value.
+     * @param servletName the servlet name.
+     * @param urlPattern the URL pattern.
      */
-    public DefaultWebXmlContextParam(String name, String value) {
-        this.name = name;
-        this.value = value;
+    public WebXmlServletMapping(String servletName, String urlPattern) {
+        this.servletName = servletName;
+        this.urlPattern = urlPattern;
     }
 
     /**
-     * Get the name.
+     * Get the servlet name.
      *
-     * @return the name.
+     * @return the servlet name.
      */
-    @Override
-    public String getName() {
-        return name;
+    public String getServletName() {
+        return servletName;
     }
 
     /**
-     * Get the value.
+     * Get the URL pattern.
      *
-     * @return the value.
+     * @return the URL pattern.
      */
-    @Override
-    public String getValue() {
-        return value;
+    public String getUrlPattern() {
+        return urlPattern;
     }
 }

@@ -41,6 +41,7 @@ import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_P
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.CONSTRAINTS;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 import cloud.piranha.security.soteria.SoteriaInitializer;
+import cloud.piranha.servlet.webxml.WebXmlInitializer;
 import static java.util.Arrays.asList;
 import java.util.Base64;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
@@ -59,10 +60,11 @@ public class BasicTest {
     public void testAuthenticated() throws Exception {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .initializer(WebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
                 .attribute(CONSTRAINTS, asList(
-                    new SecurityConstraint("/protected/servlet", "architect")))
+                        new SecurityConstraint("/protected/servlet", "architect")))
                 .initializer(WeldInitializer.class.getName())
                 .initializer(AuthorizationPreInitializer.class.getName())
                 .initializer(AuthenticationInitializer.class.getName())
@@ -82,31 +84,30 @@ public class BasicTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        
+
         // Now has to be logged-in so page is accessible
         assertTrue(
-            "Should have been authenticated, but could not access protected resource",
-            response.getResponseAsString().contains("This is a protected servlet")
+                "Should have been authenticated, but could not access protected resource",
+                response.getResponseAsString().contains("This is a protected servlet")
         );
-        
+
         // Not only does the page needs to be accessible, the caller should have
         // the correct
         // name and roles as well
-
         // Being able to access a page protected by a role but then seeing the un-authenticated
         // (anonymous) user would normally be impossible, but could happen if the authorization
         // system checks roles on the authenticated subject, but does not correctly expose
         // or propagate these to the HttpServletRequest
         assertFalse(
-            "Protected resource could be accessed, but the user appears to be the unauthenticated user. " + 
-            "This should not be possible", 
-            response.getResponseAsString().contains("web username: null")
+                "Protected resource could be accessed, but the user appears to be the unauthenticated user. "
+                + "This should not be possible",
+                response.getResponseAsString().contains("web username: null")
         );
-        
+
         // An authenticated user should have the exact name "test" and nothing else.
         assertTrue(
-            "Protected resource could be accessed, but the username is not correct.",
-            response.getResponseAsString().contains("web username: test")
+                "Protected resource could be accessed, but the username is not correct.",
+                response.getResponseAsString().contains("web username: test")
         );
 
         // Being able to access a page protected by role "architect" but failing
@@ -114,9 +115,9 @@ public class BasicTest {
         // authorization system checks roles on the authenticated subject, but does not
         // correctly expose or propagate these to the HttpServletRequest
         assertTrue(
-            "Resource protected by role \"architect\" could be accessed, but user fails test for this role." + 
-            "This should not be possible", 
-            response.getResponseAsString().contains("web user has role \"architect\": true")
+                "Resource protected by role \"architect\" could be accessed, but user fails test for this role."
+                + "This should not be possible",
+                response.getResponseAsString().contains("web user has role \"architect\": true")
         );
         piranha.stop().destroy();
     }

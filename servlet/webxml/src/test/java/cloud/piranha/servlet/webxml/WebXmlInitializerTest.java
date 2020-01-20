@@ -27,8 +27,6 @@
  */
 package cloud.piranha.servlet.webxml;
 
-import cloud.piranha.DefaultWebXml;
-import cloud.piranha.servlet.webxml.WebXmlInitializer;
 import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultWebApplication;
 import java.io.File;
@@ -92,10 +90,12 @@ public class WebXmlInitializerTest {
         webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test3")));
         WebXmlInitializer initializer = new WebXmlInitializer();
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
-        DefaultWebXml webXml = initializer.parseWebXml(inputStream);
+        WebXml webXml = initializer.parseWebXml(inputStream);
         assertFalse(webXml.servlets.isEmpty());
         assertEquals(2, webXml.servlets.size());
         assertNotEquals(webXml.servlets.get(0).name, webXml.servlets.get(1).name);
         assertTrue(webXml.servlets.get(0).asyncSupported);
+        assertFalse(webXml.getFilters().isEmpty());
+        assertEquals(1, webXml.getFilters().size());
     }
 }

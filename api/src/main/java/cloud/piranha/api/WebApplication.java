@@ -215,13 +215,6 @@ public interface WebApplication extends ServletContext {
     SecurityManager getSecurityManager();
 
     /**
-     * Get the web.xml manager.
-     *
-     * @return the web.xml manager.
-     */
-    WebXmlManager getWebXmlManager();
-
-    /**
      * Initialize the web application.
      */
     void initialize();

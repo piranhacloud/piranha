@@ -42,6 +42,7 @@ import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_P
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.CONSTRAINTS;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 import cloud.piranha.security.soteria.SoteriaInitializer;
+import cloud.piranha.servlet.webxml.WebXmlInitializer;
 import java.net.URL;
 import static java.util.Arrays.asList;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
@@ -69,6 +70,7 @@ public class FormTest {
     public void testAuthenticated() throws Exception {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .initializer(WebXmlInitializer.class.getName())
                 .initializer(WeldInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
@@ -98,7 +100,7 @@ public class FormTest {
                 response.getResponseAsString().contains(
                         "Enter name and password to authenticate")
         );
-        
+
         Cookie sessionCookie = response.getCookies().iterator().next();
         request = new EmbeddedRequestBuilder()
                 .method("POST")
@@ -115,7 +117,7 @@ public class FormTest {
                 "Should redirect",
                 response.getStatus() == 302
         );
-        
+
         URL redirectUrl = new URL(response.getHeader("Location"));
         request = new EmbeddedRequestBuilder()
                 .servletPath(redirectUrl.getPath())
@@ -129,14 +131,13 @@ public class FormTest {
         // Not only does the page needs to be accessible, the caller should have
         // the correct
         // name and roles as well
-
         // Being able to access a page protected by a role but then seeing the un-authenticated
         // (anonymous) user would normally be impossible, but could happen if the authorization
         // system checks roles on the authenticated subject, but does not correctly expose
         // or propagate these to the HttpServletRequest
         assertFalse(
-            "Protected resource could be accessed, but the user appears to be the unauthenticated user. " + 
-            "This should not be possible", 
+                "Protected resource could be accessed, but the user appears to be the unauthenticated user. "
+                + "This should not be possible",
                 response.getResponseAsString().contains("web username: null")
         );
 
@@ -170,8 +171,8 @@ public class FormTest {
         // system checks roles on the authenticated subject, but does not correctly expose
         // or propagate these to the HttpServletRequest
         assertFalse(
-            "Protected resource could be accessed, but the user appears to be the unauthenticated user. " + 
-            "This should not be possible", 
+                "Protected resource could be accessed, but the user appears to be the unauthenticated user. "
+                + "This should not be possible",
                 response.getResponseAsString().contains("web username: null")
         );
 
@@ -186,8 +187,8 @@ public class FormTest {
         // authorization system checks roles on the authenticated subject, but does not
         // correctly expose or propagate these to the HttpServletRequest
         assertTrue(
-            "Resource protected by role \"architect\" could be accessed, but user fails test for this role." + 
-            "This should not be possible", 
+                "Resource protected by role \"architect\" could be accessed, but user fails test for this role."
+                + "This should not be possible",
                 response.getResponseAsString().contains("web user has role \"architect\": true")
         );
     }

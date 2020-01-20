@@ -25,55 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.servlet.webxml;
 
-import cloud.piranha.api.WebXmlMimeMapping;
+import java.io.IOException;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 /**
- * The default mime-mapping.
- *
+ * A test filter
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebXmlMimeMapping implements WebXmlMimeMapping {
-
+public class TestFilter implements Filter {
+    
     /**
-     * Stores the extension.
-     */
-    private final String extension;
-
-    /**
-     * Stores the mime type.
-     */
-    private final String mimeType;
-
-    /**
-     * Constructor.
-     *
-     * @param extension the extension.
-     * @param mimeType the mime type.
-     */
-    public DefaultWebXmlMimeMapping(String extension, String mimeType) {
-        this.extension = extension;
-        this.mimeType = mimeType;
-    }
-
-    /**
-     * Get the extension.
-     *
-     * @return the extension.
+     * Filter processing.
+     * 
+     * @param request the request.
+     * @param response the response.
+     * @param chain the chain.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public String getExtension() {
-        return extension;
-    }
-
-    /**
-     * Get the mime type.
-     *
-     * @return the mime type.
-     */
-    @Override
-    public String getMimeType() {
-        return mimeType;
+    public void doFilter(ServletRequest request, ServletResponse response, 
+            FilterChain chain) throws IOException, ServletException {
     }
 }

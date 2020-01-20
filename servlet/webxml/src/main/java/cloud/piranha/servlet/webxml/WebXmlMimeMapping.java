@@ -25,89 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
-
-import cloud.piranha.api.WebXmlLoginConfig;
+package cloud.piranha.servlet.webxml;
 
 /**
- * The default web.xml login-config.
+ * The default mime-mapping.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebXmlLoginConfig implements WebXmlLoginConfig {
+public class WebXmlMimeMapping {
 
     /**
-     * Stores the auth method.
+     * Stores the extension.
      */
-    private final String authMethod;
+    private final String extension;
 
     /**
-     * Stores the realm name.
+     * Stores the mime type.
      */
-    private final String realmName;
-
-    /**
-     * Stores the form login page.
-     */
-    private final String formLoginPage;
-
-    /**
-     * Stores the form error page.
-     */
-    private final String formErrorPage;
+    private final String mimeType;
 
     /**
      * Constructor.
      *
-     * @param authMethod the auth method.
-     * @param realmName the realm name.
-     * @param formLoginPage the form login page.
-     * @param formErrorPage the form error page.
+     * @param extension the extension.
+     * @param mimeType the mime type.
      */
-    public DefaultWebXmlLoginConfig(String authMethod, String realmName, String formLoginPage, String formErrorPage) {
-        this.authMethod = authMethod;
-        this.realmName = realmName;
-        this.formLoginPage = formLoginPage;
-        this.formErrorPage = formErrorPage;
+    public WebXmlMimeMapping(String extension, String mimeType) {
+        this.extension = extension;
+        this.mimeType = mimeType;
     }
 
     /**
-     * Get the auth method.
+     * Get the extension.
      *
-     * @return the auth method.
+     * @return the extension.
      */
-    @Override
-    public String getAuthMethod() {
-        return authMethod;
+    public String getExtension() {
+        return extension;
     }
 
     /**
-     * Get the realm name.
+     * Get the mime type.
      *
-     * @return the realm name.
+     * @return the mime type.
      */
-    @Override
-    public String getRealmName() {
-        return realmName;
-    }
-
-    /**
-     * Get the form login page.
-     *
-     * @return the form login page.
-     */
-    @Override
-    public String getFormLoginPage() {
-        return formLoginPage;
-    }
-
-    /**
-     * Get the form error page.
-     *
-     * @return the form error page.
-     */
-    @Override
-    public String getFormErrorPage() {
-        return formErrorPage;
+    public String getMimeType() {
+        return mimeType;
     }
 }

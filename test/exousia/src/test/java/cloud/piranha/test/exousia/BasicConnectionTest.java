@@ -37,6 +37,7 @@ import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_F
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
+import cloud.piranha.servlet.webxml.WebXmlInitializer;
 import static java.util.Arrays.asList;
 import javax.security.jacc.WebUserDataPermission;
 import static org.junit.Assert.assertEquals;
@@ -61,6 +62,7 @@ public class BasicConnectionTest {
     @Test
     public void testNonSecureConnection() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .initializer(WebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
                 .attribute(UNCHECKED_PERMISSIONS, asList(
@@ -90,6 +92,7 @@ public class BasicConnectionTest {
     @Test
     public void testSecureConnection() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .initializer(WebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
                 .attribute(UNCHECKED_PERMISSIONS, asList(
@@ -115,6 +118,7 @@ public class BasicConnectionTest {
     @Test
     public void testSecureConnectionExactMapping() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .initializer(WebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
                 .attribute(UNCHECKED_PERMISSIONS, asList(

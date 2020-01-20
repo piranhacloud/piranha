@@ -25,15 +25,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.servlet.webxml;
 
-import cloud.piranha.api.WebXml;
-import cloud.piranha.api.WebXmlContextParam;
-import cloud.piranha.api.WebXmlErrorPage;
-import cloud.piranha.api.WebXmlListener;
-import cloud.piranha.api.WebXmlLoginConfig;
-import cloud.piranha.api.WebXmlMimeMapping;
-import cloud.piranha.api.WebXmlServletMapping;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,14 +38,14 @@ import java.util.List;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebXml implements Serializable, WebXml {
+public class WebXml implements Serializable {
 
     private static final long serialVersionUID = 6143204024206508136L;
 
     /**
      * Stores the servlets.
      */
-    public List<DefaultWebXml.Servlet> servlets = new ArrayList<>();
+    public List<WebXml.Servlet> servlets = new ArrayList<>();
 
     /**
      * Stores the security constraints
@@ -190,6 +183,16 @@ public class DefaultWebXml implements Serializable, WebXml {
     private final ArrayList<WebXmlErrorPage> errorPages = new ArrayList<>();
 
     /**
+     * Stores the filters.
+     */
+    private final ArrayList<WebXmlFilter> filters = new ArrayList<>();
+
+    /**
+     * Stores the filter mappings.
+     */
+    private final ArrayList<WebXmlFilterMapping> filterMappings = new ArrayList<>();
+
+    /**
      * Stores the listeners.
      */
     private final ArrayList<WebXmlListener> listeners = new ArrayList<>();
@@ -215,9 +218,8 @@ public class DefaultWebXml implements Serializable, WebXml {
      * @param name the name.
      * @param value the value.
      */
-    @Override
     public void addContextParam(String name, String value) {
-        contextParams.add(new DefaultWebXmlContextParam(name, value));
+        contextParams.add(new WebXmlContextParam(name, value));
     }
 
     /**
@@ -227,9 +229,27 @@ public class DefaultWebXml implements Serializable, WebXml {
      * @param exceptionType the exception type.
      * @param location the location.
      */
-    @Override
     public void addErrorPage(String errorCode, String exceptionType, String location) {
-        errorPages.add(new DefaultWebXmlErrorPage(errorCode, exceptionType, location));
+        errorPages.add(new WebXmlErrorPage(errorCode, exceptionType, location));
+    }
+
+    /**
+     * Add a filter.
+     *
+     * @param filter the filter.
+     */
+    public void addFilter(WebXmlFilter filter) {
+        filters.add(filter);
+    }
+
+    /**
+     * Add the filter mappings.
+     *
+     * @param filterName the filter name.
+     * @param urlPattern the URL pattern.
+     */
+    public void addFilterMapping(String filterName, String urlPattern) {
+        filterMappings.add(new WebXmlFilterMapping(filterName, urlPattern));
     }
 
     /**
@@ -237,9 +257,8 @@ public class DefaultWebXml implements Serializable, WebXml {
      *
      * @param className the class name.
      */
-    @Override
     public void addListener(String className) {
-        listeners.add(new DefaultWebXmlListener(className));
+        listeners.add(new WebXmlListener(className));
     }
 
     /**
@@ -248,9 +267,8 @@ public class DefaultWebXml implements Serializable, WebXml {
      * @param extension the extension.
      * @param mimeType the mime type.
      */
-    @Override
     public void addMimeMapping(String extension, String mimeType) {
-        mimeMappings.add(new DefaultWebXmlMimeMapping(extension, mimeType));
+        mimeMappings.add(new WebXmlMimeMapping(extension, mimeType));
     }
 
     /**
@@ -259,9 +277,8 @@ public class DefaultWebXml implements Serializable, WebXml {
      * @param servletName the servlet name.
      * @param urlPattern the URL pattern.
      */
-    @Override
     public void addServletMapping(String servletName, String urlPattern) {
-        servletMappings.add(new DefaultWebXmlServletMapping(servletName, urlPattern));
+        servletMappings.add(new WebXmlServletMapping(servletName, urlPattern));
     }
 
     /**
@@ -269,7 +286,6 @@ public class DefaultWebXml implements Serializable, WebXml {
      *
      * @return the context params.
      */
-    @Override
     public Collection<WebXmlContextParam> getContextParams() {
         return contextParams;
     }
@@ -279,9 +295,26 @@ public class DefaultWebXml implements Serializable, WebXml {
      *
      * @return the error pages.
      */
-    @Override
     public Collection<WebXmlErrorPage> getErrorPages() {
         return errorPages;
+    }
+
+    /**
+     * Get the filters.
+     *
+     * @return the filters.
+     */
+    public Collection<WebXmlFilter> getFilters() {
+        return filters;
+    }
+
+    /**
+     * Get the filter mappings.
+     *
+     * @return the filter mappings.
+     */
+    public Collection<WebXmlFilterMapping> getFilterMappings() {
+        return filterMappings;
     }
 
     /**
@@ -289,7 +322,6 @@ public class DefaultWebXml implements Serializable, WebXml {
      *
      * @return the login config.
      */
-    @Override
     public WebXmlLoginConfig getLoginConfig() {
         return loginConfig;
     }
@@ -299,7 +331,6 @@ public class DefaultWebXml implements Serializable, WebXml {
      *
      * @return the listeners.
      */
-    @Override
     public Collection<WebXmlListener> getListeners() {
         return Collections.unmodifiableCollection(listeners);
     }
@@ -309,7 +340,6 @@ public class DefaultWebXml implements Serializable, WebXml {
      *
      * @return the mime mappings.
      */
-    @Override
     public Collection<WebXmlMimeMapping> getMimeMappings() {
         return mimeMappings;
     }
@@ -319,7 +349,6 @@ public class DefaultWebXml implements Serializable, WebXml {
      *
      * @return the servlet mappings.
      */
-    @Override
     public Collection<WebXmlServletMapping> getServletMappings() {
         return servletMappings;
     }
@@ -329,7 +358,6 @@ public class DefaultWebXml implements Serializable, WebXml {
      *
      * @param loginConfig the login config.
      */
-    @Override
     public void setLoginConfig(WebXmlLoginConfig loginConfig) {
         this.loginConfig = loginConfig;
     }

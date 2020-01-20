@@ -25,40 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
+package cloud.piranha.servlet.webxml;
 
 /**
- * The web.xml login-config.
+ * The web.xml context-param.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebXmlLoginConfig {
+public class WebXmlContextParam {
 
     /**
-     * Get the auth method.
-     *
-     * @return the auth method.
+     * Stores the name.
      */
-    String getAuthMethod();
+    private final String name;
 
     /**
-     * Get the realm name.
-     *
-     * @return the realm name.
+     * Stores the value.
      */
-    String getRealmName();
+    private final String value;
 
     /**
-     * Get the form login page.
+     * Constructor.
      *
-     * @return the form login page.
+     * @param name the name.
+     * @param value the value.
      */
-    String getFormLoginPage();
+    public WebXmlContextParam(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
 
     /**
-     * Get the error page.
+     * Get the name.
      *
-     * @return the form error page.
+     * @return the name.
      */
-    String getFormErrorPage();
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Get the value.
+     *
+     * @return the value.
+     */
+    public String getValue() {
+        return value;
+    }
 }

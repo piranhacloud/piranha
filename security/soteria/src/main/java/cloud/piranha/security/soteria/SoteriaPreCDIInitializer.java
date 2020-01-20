@@ -28,7 +28,8 @@
 package cloud.piranha.security.soteria;
 
 import cloud.piranha.api.WebApplication;
-import cloud.piranha.api.WebXml;
+import cloud.piranha.servlet.webxml.WebXml;
+import cloud.piranha.servlet.webxml.WebXmlManager;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,7 +62,8 @@ public class SoteriaPreCDIInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication context = (WebApplication) servletContext;
-        WebXml webXml = context.getWebXmlManager().getWebXml();
+        WebXmlManager manager = (WebXmlManager) context.getAttribute(WebXmlManager.KEY);
+        WebXml webXml = manager.getWebXml();
         if (webXml != null && webXml.getLoginConfig() != null
                 && webXml.getLoginConfig().getAuthMethod() != null) {
             LOGGER.log(Level.INFO, "AuthMethod {0} configured in web.xml and handled by Soteria.",
