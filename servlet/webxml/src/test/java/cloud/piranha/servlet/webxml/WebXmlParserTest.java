@@ -62,8 +62,10 @@ public class WebXmlParserTest {
         assertTrue(webXml.getServlets().get(0).isAsyncSupported());
         assertFalse(webXml.getFilters().isEmpty());
         assertEquals(1, webXml.getFilters().size());
+        assertEquals("/defaultContextPath", webXml.getDefaultContextPath());
         assertTrue(webXml.getDenyUncoveredHttpMethods());
         assertTrue(webXml.isDistributable());
+        assertEquals("UTF-8", webXml.getResponseCharacterEncoding());
     }
     
     /**
@@ -78,7 +80,9 @@ public class WebXmlParserTest {
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
         WebXmlParser parser = new WebXmlParser();
         WebXml webXml = parser.parse(inputStream);
+        assertNotEquals("/defaultContextPath", webXml.getDefaultContextPath());
         assertFalse(webXml.getDenyUncoveredHttpMethods());
         assertFalse(webXml.isDistributable());
+        assertNotEquals("UTF-8", webXml.getResponseCharacterEncoding());
     }
 }

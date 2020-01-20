@@ -70,6 +70,7 @@ public class WebXmlParser {
             XPath xPath = XPathFactory.newInstance().newXPath();
 
             parseContextParameters(webXml, xPath, document);
+            parseDefaultContextPath(webXml, xPath, document);
             parseDenyUncoveredHttpMethods(webXml, xPath, document);
             parseDistributable(webXml, xPath, document);
             parseErrorPages(webXml, xPath, document);
@@ -78,9 +79,10 @@ public class WebXmlParser {
             parseListeners(webXml, xPath, document);
             parseLoginConfig(webXml, xPath, document);
             parseMimeMappings(webXml, xPath, document);
+            parseResponseCharacterEncoding(webXml, xPath, document);
             parseServletMappings(webXml, xPath, document);
             parseServlets(webXml, xPath, document);
-
+            
         } catch (Throwable t) {
             LOGGER.log(WARNING, "Unable to parse web.xml", t);
         }
@@ -147,10 +149,30 @@ public class WebXmlParser {
             LOGGER.log(WARNING, "Unable to parse <deny-uncovered-http-methods> section", xpe);
         }
     }
-    
+
+    /**
+     * Parse the default-context-path section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param node the DOM node.
+     */
+    private void parseDefaultContextPath(WebXml webXml, XPath xPath, Node node) {
+        try {  
+            String defaultContextPath = parseString(
+                    xPath, "//default-context-path", node);
+            if (defaultContextPath != null) {
+                webXml.setDefaultContextPath(defaultContextPath);
+            }
+            
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse <default-context-path> section", xpe);
+        }
+    }
+
     /**
      * Parse the distributable section.
-     * 
+     *
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
      * @param node the DOM node.
@@ -165,7 +187,7 @@ public class WebXmlParser {
             LOGGER.log(WARNING, "Unable to parse <distributable> section", xpe);
         }
     }
-    
+
     /**
      * Parse the error-page sections.
      *
@@ -322,6 +344,25 @@ public class WebXmlParser {
             }
         } catch (XPathException xpe) {
             LOGGER.log(WARNING, "Unable to parse <mime-mapping> sections", xpe);
+        }
+    }
+
+    /**
+     * Parse the response-character-encoding section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param node the DOM node.
+     */
+    private void parseResponseCharacterEncoding(WebXml webXml, XPath xPath, Node node) {
+        try {  
+            String responseCharacterEncoding = parseString(
+                    xPath, "//response-character-encoding", node);
+            if (responseCharacterEncoding != null) {
+                webXml.setResponseCharacterEncoding(responseCharacterEncoding);
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse <response-character-encoding> section", xpe);
         }
     }
 
