@@ -64,6 +64,7 @@ public class WebXmlParserTest {
         assertEquals(1, webXml.getFilters().size());
         assertEquals("/defaultContextPath", webXml.getDefaultContextPath());
         assertTrue(webXml.getDenyUncoveredHttpMethods());
+        assertEquals("myServletContextName", webXml.getDisplayName());
         assertTrue(webXml.isDistributable());
         assertEquals("UTF-8", webXml.getResponseCharacterEncoding());
     }
@@ -82,6 +83,7 @@ public class WebXmlParserTest {
         WebXml webXml = parser.parse(inputStream);
         assertNotEquals("/defaultContextPath", webXml.getDefaultContextPath());
         assertFalse(webXml.getDenyUncoveredHttpMethods());
+        assertNotEquals("myServletContextName", webXml.getDisplayName());
         assertFalse(webXml.isDistributable());
         assertNotEquals("UTF-8", webXml.getResponseCharacterEncoding());
     }

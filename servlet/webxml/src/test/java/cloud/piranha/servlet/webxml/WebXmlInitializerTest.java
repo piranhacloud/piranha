@@ -29,6 +29,7 @@ package cloud.piranha.servlet.webxml;
 
 import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.DefaultWebApplicationClassLoader;
 import java.io.File;
 import javax.servlet.ServletRegistration;
 import static org.junit.Assert.assertEquals;
@@ -74,5 +75,19 @@ public class WebXmlInitializerTest {
         webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test2")));
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
+    }
+    
+    /**
+     * Test onStartup method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testOnStartup3() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.setClassLoader(new DefaultWebApplicationClassLoader(new File("src/test/webxml/test5")));
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
+        assertEquals("/webfragmentInClassesMetaInf", webApplication.getContextPath());
     }
 }

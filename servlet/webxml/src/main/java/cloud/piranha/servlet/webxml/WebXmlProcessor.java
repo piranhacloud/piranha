@@ -49,6 +49,7 @@ public class WebXmlProcessor {
         processContextParameters(webApplication, webXml);
         processDefaultContextPath(webApplication, webXml);
         processDenyUncoveredHttpMethods(webApplication, webXml);
+        processDisplayName(webApplication, webXml);
         processDistributable(webApplication, webXml);
         processErrorPages(webApplication, webXml);
         processFilters(webApplication, webXml);
@@ -92,6 +93,16 @@ public class WebXmlProcessor {
      */
     private void processDenyUncoveredHttpMethods(WebApplication webApplication, WebXml webXml) {
         webApplication.setDenyUncoveredHttpMethods(webXml.getDenyUncoveredHttpMethods());
+    }
+
+    /**
+     * Process the display name flag.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processDisplayName(WebApplication webApplication, WebXml webXml) {
+        webApplication.setServletContextName(webXml.getDisplayName());
     }
 
     /**
