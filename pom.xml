@@ -296,7 +296,7 @@
             <dependency>
                 <groupId>com.manorrock.herring</groupId>
                 <artifactId>herring</artifactId>
-                <version>19.11.0</version>
+                <version>20.1.0</version>
             </dependency>
 
             <!-- JSON -->            
