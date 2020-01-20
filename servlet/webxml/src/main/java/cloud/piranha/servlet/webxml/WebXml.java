@@ -48,7 +48,6 @@ public class WebXml implements Serializable {
      */
     public List<SecurityConstraint> securityConstraints = new ArrayList<>();
 
-
     /**
      * The &lt;security-constraint&gt; snippet inside a web.xml /
      * webfragment.xml.
@@ -122,6 +121,11 @@ public class WebXml implements Serializable {
     private final ArrayList<WebXmlContextParam> contextParams = new ArrayList<>();
     
     /**
+     * Stores the default context path.
+     */
+    private String defaultContextPath;
+    
+    /**
      * Store if we are denying uncovered HTTP methods.
      */
     private boolean denyUncoveredHttpMethods = false;
@@ -160,6 +164,11 @@ public class WebXml implements Serializable {
      * Stores the mime mappings.
      */
     private final ArrayList<WebXmlMimeMapping> mimeMappings = new ArrayList<>();
+    
+    /**
+     * Stores the response character encoding.
+     */
+    private String responseCharacterEncoding;
 
     /**
      * Stores the servlets.
@@ -180,6 +189,15 @@ public class WebXml implements Serializable {
         return contextParams;
     }
 
+    /**
+     * Get the default context path.
+     * 
+     * @return the default context path.
+     */
+    public String getDefaultContextPath() {
+        return defaultContextPath;
+    }
+    
     /**
      * Get if we are denying uncovered HTTP methods.
      * 
@@ -242,6 +260,15 @@ public class WebXml implements Serializable {
     public List<WebXmlMimeMapping> getMimeMappings() {
         return mimeMappings;
     }
+
+    /**
+     * Get the response character encoding.
+     * 
+     * @return the response character encoding.
+     */
+    public String getResponseCharacterEncoding() {
+        return responseCharacterEncoding;
+    }
     
     /**
      * Get the servlets.
@@ -269,6 +296,15 @@ public class WebXml implements Serializable {
     public boolean isDistributable() {
         return distributable;
     }
+    
+    /**
+     * Set the default context path.
+     * 
+     * @param defaultContextPath the default context path.
+     */
+    public void setDefaultContextPath(String defaultContextPath) {
+        this.defaultContextPath = defaultContextPath;
+    }
 
     /**
      * Set if we are denying uncovered HTTP methods.
@@ -295,5 +331,14 @@ public class WebXml implements Serializable {
      */
     public void setLoginConfig(WebXmlLoginConfig loginConfig) {
         this.loginConfig = loginConfig;
+    }
+
+    /**
+     * Set the response character encoding.
+     * 
+     * @param responseCharacterEncoding the response character encoding.
+     */
+    public void setResponseCharacterEncoding(String responseCharacterEncoding) {
+        this.responseCharacterEncoding = responseCharacterEncoding;
     }
 }

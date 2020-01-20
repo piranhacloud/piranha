@@ -47,6 +47,7 @@ public class WebXmlProcessor {
      */
     public void process(WebXml webXml, WebApplication webApplication) {
         processContextParameters(webApplication, webXml);
+        processDefaultContextPath(webApplication, webXml);
         processDenyUncoveredHttpMethods(webApplication, webXml);
         processDistributable(webApplication, webXml);
         processErrorPages(webApplication, webXml);
@@ -54,6 +55,7 @@ public class WebXmlProcessor {
         processFilterMappings(webApplication, webXml);
         processListeners(webApplication, webXml);
         processMimeMappings(webApplication, webXml);
+        processResponseCharacterEncoding(webApplication, webXml);
         processServlets(webApplication, webXml);
         processServletMappings(webApplication, webXml);
     }
@@ -62,6 +64,7 @@ public class WebXmlProcessor {
      * Process the context parameters.
      *
      * @param webApplication the web application.
+     * @param webXml the web.xml.
      */
     private void processContextParameters(WebApplication webApplication, WebXml webXml) {
         Iterator<WebXmlContextParam> iterator = webXml.getContextParams().iterator();
@@ -72,9 +75,20 @@ public class WebXmlProcessor {
     }
 
     /**
+     * Process the default context path.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processDefaultContextPath(WebApplication webApplication, WebXml webXml) {
+        webApplication.setContextPath(webXml.getDefaultContextPath());
+    }
+
+    /**
      * Process the deny uncovered HTTP methods flag.
      *
      * @param webApplication the web application.
+     * @param webXml the web.xml.
      */
     private void processDenyUncoveredHttpMethods(WebApplication webApplication, WebXml webXml) {
         webApplication.setDenyUncoveredHttpMethods(webXml.getDenyUncoveredHttpMethods());
@@ -84,6 +98,7 @@ public class WebXmlProcessor {
      * Process the distributable flag.
      *
      * @param webApplication the web application.
+     * @param webXml the web.xml.
      */
     private void processDistributable(WebApplication webApplication, WebXml webXml) {
         webApplication.setDistributable(webXml.isDistributable());
@@ -93,6 +108,7 @@ public class WebXmlProcessor {
      * Process the error pages.
      *
      * @param webApplication the web application.
+     * @param webXml the web.xml.
      */
     private void processErrorPages(WebApplication webApplication, WebXml webXml) {
         Iterator<WebXmlErrorPage> iterator = webXml.getErrorPages().iterator();
@@ -110,6 +126,7 @@ public class WebXmlProcessor {
      * Process the filter mappings mappings.
      *
      * @param webApplication the web application.
+     * @param webXml the web.xml.
      */
     private void processFilterMappings(WebApplication webApplication, WebXml webXml) {
         Iterator<WebXmlFilterMapping> iterator = webXml.getFilterMappings().iterator();
@@ -124,6 +141,7 @@ public class WebXmlProcessor {
      * Process the filters.
      *
      * @param webApplication the web application.
+     * @param webXml the web.xml.
      */
     private void processFilters(WebApplication webApplication, WebXml webXml) {
         webXml.getFilters().forEach((filter) -> {
@@ -148,6 +166,7 @@ public class WebXmlProcessor {
      * Process the listeners.
      *
      * @param webApplication the web application.
+     * @param webXml the web.xml.
      */
     private void processListeners(WebApplication webApplication, WebXml webXml) {
         Iterator<WebXmlListener> iterator = webXml.getListeners().iterator();
@@ -161,6 +180,7 @@ public class WebXmlProcessor {
      * Process the mime mappings.
      *
      * @param webApplication the web application.
+     * @param webXml the web.xml.
      */
     private void processMimeMappings(WebApplication webApplication, WebXml webXml) {
         Iterator<WebXmlMimeMapping> mappingIterator = webXml.getMimeMappings().iterator();
@@ -172,9 +192,20 @@ public class WebXmlProcessor {
     }
 
     /**
+     * Process the response character encoding.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processResponseCharacterEncoding(WebApplication webApplication, WebXml webXml) {
+        webApplication.setResponseCharacterEncoding(webXml.getResponseCharacterEncoding());
+    }
+
+    /**
      * Process the servlet mappings.
      *
      * @param webApplication the web application.
+     * @param webXml the web.xml.
      */
     private void processServletMappings(WebApplication webApplication, WebXml webXml) {
         Iterator<WebXmlServletMapping> iterator = webXml.getServletMappings().iterator();
@@ -189,6 +220,7 @@ public class WebXmlProcessor {
      * Process the servlets.
      *
      * @param webApplication the web application.
+     * @param webXml the web.xml.
      */
     private void processServlets(WebApplication webApplication, WebXml webXml) {
         Iterator<WebXmlServlet> iterator = webXml.getServlets().iterator();
