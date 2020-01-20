@@ -43,27 +43,22 @@ public class WebXmlManager  {
     public static final String KEY = WebXmlManager.class.getName();
     
     /**
-     * Stores the unparsed web fragments.
+     * Stores the web fragments.
      */
-    private final ArrayList<WebXml> unparsedWebFragments = new ArrayList<>();
+    private List<WebXml> webFragments = new ArrayList<>();
     
-    /**
-     * Stores the unparsed web.xml.
-     */
-    private WebXml unparsedWebXml;
-
     /**
      * Stores the web.xml.
      */
     private WebXml webXml;
     
     /**
-     * Get the unparsed web fragments.
+     * Get the web fragments.
      * 
-     * @return the unparsed web fragments.
+     * @return the web fragments.
      */
-    public List<WebXml> getUnparsedWebFragments() {
-        return unparsedWebFragments;
+    public List<WebXml> getWebFragments() {
+        return webFragments;
     }
 
     /**
@@ -84,11 +79,12 @@ public class WebXmlManager  {
         this.webXml = webXml;
     }
 
-    public WebXml getUnparsedWebXml() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void setUnparsedWebXml(WebXml unparsedWebXml) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * Set the web fragments.
+     * 
+     * @param webFragments the web fragments.
+     */
+    public void setWebFragments(List<WebXml> webFragments) {
+        this.webFragments = webFragments;
     }
 }

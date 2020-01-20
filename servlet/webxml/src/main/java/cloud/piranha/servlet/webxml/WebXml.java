@@ -131,6 +131,11 @@ public class WebXml implements Serializable {
     private boolean denyUncoveredHttpMethods = false;
     
     /**
+     * Store the display name.
+     */
+    private String displayName;
+    
+    /**
      * Store if we are distributable.
      */
     private boolean distributable = false;
@@ -205,6 +210,15 @@ public class WebXml implements Serializable {
      */
     public boolean getDenyUncoveredHttpMethods() {
         return denyUncoveredHttpMethods;
+    }
+    
+    /**
+     * Get the display name.
+     * 
+     * @return the display name.
+     */
+    public String getDisplayName() {
+        return displayName;
     }
     
     /**
@@ -313,6 +327,15 @@ public class WebXml implements Serializable {
      */
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
         this.denyUncoveredHttpMethods = denyUncoveredHttpMethods;
+    }
+    
+    /**
+     * Set the display name.
+     * 
+     * @param displayName the display name.
+     */
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
     
     /**

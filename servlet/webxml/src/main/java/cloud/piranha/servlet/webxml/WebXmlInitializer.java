@@ -36,7 +36,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,11 +71,6 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     private static final Logger LOGGER = Logger.getLogger(WebXmlInitializer.class.getName());
 
     /**
-     * Stores the WebXML context-param name.
-     */
-    private static final String WEB_FRAGMENTS = "cloud.piranha.servlet.webxml.WebFragments";
-
-    /**
      * On startup.
      *
      * @param classes the classes.
@@ -97,44 +91,37 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 manager.setWebXml(webXml);
             }
 
-            Enumeration<URL> webFragments = servletContext.getClassLoader().getResources("/META-INF/web-fragment.xml");
-            ArrayList<WebXml> webXmls = new ArrayList<>();
-            while (webFragments.hasMoreElements()) {
-                URL url = webFragments.nextElement();
-                webXmls.add(parser.parse(url.openStream()));
+            Enumeration<URL> webFragmentUrls = servletContext.getClassLoader().getResources("/META-INF/web-fragment.xml");
+            ArrayList<WebXml> webFragments = new ArrayList<>();
+            while (webFragmentUrls.hasMoreElements()) {
+                URL url = webFragmentUrls.nextElement();
+                webFragments.add(parser.parse(url.openStream()));
             }
-            if (!webXmls.isEmpty()) {
-                webApp.setAttribute(WEB_FRAGMENTS, webXmls);
+            if (!webFragments.isEmpty()) {
+                manager.setWebFragments(webFragments);
             }
 
-            if (manager.getWebXml() == null) {
-                List<WebXml> fragments = (List<WebXml>) webApp.getAttribute(WEB_FRAGMENTS);
-                if (fragments != null && !fragments.isEmpty()) {
-                    manager.setWebXml(fragments.get(0));
-                }
+            if (manager.getWebXml() == null && !webFragments.isEmpty()) {
+                manager.setWebXml(webFragments.get(0));
             }
 
             if (manager.getWebXml() != null) {
                 WebXml webXml = (WebXml) manager.getWebXml();
-                DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-                Document document = documentBuilder.parse(inputStream);
-                XPath xPath = XPathFactory.newInstance().newXPath();
-
-                /*
-                 * Process <display-name> content.
-                 */
-                String displayName = (String) xPath.evaluate("//display-name/text()", document, XPathConstants.STRING);
-                webApp.setServletContextName(displayName);
-
                 WebXmlProcessor processor = new WebXmlProcessor();
                 processor.process(webXml, webApp);
 
-                /*
-                 * Process <security-constraint> entries
-                 */
-                NodeList list = (NodeList) xPath.evaluate("//security-constraint", document, NODESET);
-                if (list != null) {
-                    processSecurityConstraints(webXml, list);
+                if (inputStream != null) {
+                    DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                    Document document = documentBuilder.parse(inputStream);
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+                    
+                    /*
+                     * Process <security-constraint> entries
+                     */
+                    NodeList list = (NodeList) xPath.evaluate("//security-constraint", document, NODESET);
+                    if (list != null) {
+                        processSecurityConstraints(webXml, list);
+                    }
                 }
             } else {
                 if (LOGGER.isLoggable(Level.FINE)) {

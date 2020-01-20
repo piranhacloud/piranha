@@ -68,10 +68,10 @@ public class WebXmlParser {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = documentBuilder.parse(inputStream);
             XPath xPath = XPathFactory.newInstance().newXPath();
-
             parseContextParameters(webXml, xPath, document);
             parseDefaultContextPath(webXml, xPath, document);
             parseDenyUncoveredHttpMethods(webXml, xPath, document);
+            parseDisplayName(webXml, xPath, document);
             parseDistributable(webXml, xPath, document);
             parseErrorPages(webXml, xPath, document);
             parseFilterMappings(webXml, xPath, document);
@@ -82,7 +82,6 @@ public class WebXmlParser {
             parseResponseCharacterEncoding(webXml, xPath, document);
             parseServletMappings(webXml, xPath, document);
             parseServlets(webXml, xPath, document);
-            
         } catch (Throwable t) {
             LOGGER.log(WARNING, "Unable to parse web.xml", t);
         }
@@ -158,15 +157,32 @@ public class WebXmlParser {
      * @param node the DOM node.
      */
     private void parseDefaultContextPath(WebXml webXml, XPath xPath, Node node) {
-        try {  
-            String defaultContextPath = parseString(
-                    xPath, "//default-context-path", node);
+        try {
+            String defaultContextPath = parseString(xPath, "//default-context-path/text()", node);
             if (defaultContextPath != null) {
                 webXml.setDefaultContextPath(defaultContextPath);
             }
-            
+
         } catch (XPathException xpe) {
             LOGGER.log(WARNING, "Unable to parse <default-context-path> section", xpe);
+        }
+    }
+
+    /**
+     * Parse the display-name section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param node the DOM node.
+     */
+    private void parseDisplayName(WebXml webXml, XPath xPath, Node node) {
+        try {
+            String displayName = parseString(xPath, "//display-name/text()", node);
+            if (displayName != null) {
+                webXml.setDisplayName(displayName);
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse <display-name> section", xpe);
         }
     }
 
@@ -355,7 +371,7 @@ public class WebXmlParser {
      * @param node the DOM node.
      */
     private void parseResponseCharacterEncoding(WebXml webXml, XPath xPath, Node node) {
-        try {  
+        try {
             String responseCharacterEncoding = parseString(
                     xPath, "//response-character-encoding", node);
             if (responseCharacterEncoding != null) {

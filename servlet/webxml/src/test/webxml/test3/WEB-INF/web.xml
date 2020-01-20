@@ -6,7 +6,6 @@
             http://xmlns.jcp.org/xml/ns/javaee
             http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-    <display-name>myservletcontext</display-name>
     <context-param>
         <param-name>myname</param-name>
         <param-value>myvalue</param-value>
@@ -38,6 +37,7 @@
     </mime-mapping>
     <default-context-path>/defaultContextPath</default-context-path>
     <deny-uncovered-http-methods/>
+    <display-name>myServletContextName</display-name>
     <distributable/>
     <response-character-encoding>UTF-8</response-character-encoding>
 </web-app>
