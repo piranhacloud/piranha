@@ -149,6 +149,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the context path.
      */
     protected String contextPath;
+    
+    /**
+     * Stores the boolean flag indicating if the web application is distributable.
+     */
+    protected boolean distributable;
 
     /**
      * Stores the servlet context name.
@@ -165,7 +170,6 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected String responseCharacterEncoding;
 
-    // ### Volatile state
     /**
      * Stores the status.
      */
@@ -752,6 +756,16 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
+     * Are we denying uncovered HTTP methods.
+     * 
+     * @return true if we are, false otherwise.
+     */
+    @Override
+    public boolean getDenyUncoveredHttpMethods() {
+        return securityManager.getDenyUncoveredHttpMethods();
+    }
+    
+    /**
      * Get the class loader.
      *
      * @return the class loader.
@@ -1323,6 +1337,16 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
+     * Is the web application distributable.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    @Override
+    public boolean isDistributable() {
+        return distributable;
+    }
+
+    /**
      * Initialize the servlet.
      *
      * @param environment the default servlet environment.
@@ -1532,7 +1556,27 @@ public class DefaultWebApplication implements WebApplication {
     public void setContextPath(String contextPath) {
         this.contextPath = contextPath;
     }
+    
+    /**
+     * Set if we are denying uncovered HTTP methods.
+     * 
+     * @param denyUncoveredHttpMethods the boolean value.
+     */
+    @Override
+    public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
+        securityManager.setDenyUncoveredHttpMethods(denyUncoveredHttpMethods);
+    }
 
+    /**
+     * Set if the web application is distributable.
+     * 
+     * @param distributable the boolean value.
+     */
+    @Override
+    public void setDistributable(boolean distributable) {
+        this.distributable = distributable;
+    }
+    
     /**
      * Set the HTTP session manager.
      *

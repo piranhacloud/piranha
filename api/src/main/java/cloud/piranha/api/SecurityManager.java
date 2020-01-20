@@ -62,6 +62,13 @@ public interface SecurityManager {
     }
 
     /**
+     * Get if we are denying uncovered HTTP methods.
+     * 
+     * @return true if we are, false otherwise.
+     */
+    boolean getDenyUncoveredHttpMethods();
+    
+    /**
      * Check if the current request adheres to the user data constraint, if any.
      * 
      * <p>
@@ -214,10 +221,18 @@ public interface SecurityManager {
      * Logout.
      *
      * @param request the request.
+     * @param response the response.
      * @throws ServletException when a servlet error occurs.
      */
     void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException;
 
+    /**
+     * Set if we are denying uncovered HTTP methods.
+     * 
+     * @param denyUncoveredHttpMethods the boolean value.
+     */
+    void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods);
+    
     /**
      * Set the web application.
      *

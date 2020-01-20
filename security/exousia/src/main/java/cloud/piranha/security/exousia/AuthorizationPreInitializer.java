@@ -129,16 +129,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     }
 
     private boolean isDenyUncoveredHttpMethods(WebApplication webApp) throws ServletException {
-        WebXmlManager manager = (WebXmlManager) webApp.getAttribute(WebXmlManager.KEY);
-        if (manager == null) {
-            return false;
-        }
-        WebXml webXml = (WebXml) manager.getWebXml();
-        if (webXml == null) {
-            return false;
-        }
-
-        return webXml.denyUncoveredHttpMethods;
+        return webApp.getDenyUncoveredHttpMethods();
     }
 
     public static void addToRole(PolicyConfiguration policyConfiguration, String role, Permission permission) {

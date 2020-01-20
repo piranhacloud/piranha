@@ -53,6 +53,11 @@ import cloud.piranha.api.WebApplication;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultSecurityManager implements SecurityManager {
+    
+    /**
+     * Stores if we are denying uncovered HTTP methods.
+     */
+    protected boolean denyUncoveredHttpMethods = false;
 
     /**
      * Stores the logins.
@@ -139,6 +144,16 @@ public class DefaultSecurityManager implements SecurityManager {
     }
 
     /**
+     * Get if we are denying uncovered HTTP methods.
+     * 
+     * @return true if we are, false otherwise.
+     */
+    @Override
+    public boolean getDenyUncoveredHttpMethods() {
+        return denyUncoveredHttpMethods;
+    }
+    
+    /**
      * Get the web application.
      *
      * @return the web application.
@@ -220,6 +235,16 @@ public class DefaultSecurityManager implements SecurityManager {
         userRoles.remove(username);
     }
 
+    /**
+     * Set if we are denying uncovered HTTP methods.
+     * 
+     * @param denyUncoveredHttpMethods the boolean value.
+     */
+    @Override
+    public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
+        this.denyUncoveredHttpMethods = denyUncoveredHttpMethods;
+    }
+    
     /**
      * Set the web application.
      *
