@@ -28,48 +28,32 @@
 package cloud.piranha.servlet.webxml;
 
 /**
- * The web.xml mime-mapping.
+ * The web.xml session-config.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlMimeMapping {
+public class WebXmlSessionConfig {
 
     /**
-     * Stores the extension.
+     * Stores the session timeout.
      */
-    private final String extension;
+    private int sessionTimeout;
 
     /**
-     * Stores the mime type.
+     * Get the session timeout.
+     * 
+     * @return the session timeout.
      */
-    private final String mimeType;
-
-    /**
-     * Constructor.
-     *
-     * @param extension the extension.
-     * @param mimeType the mime type.
-     */
-    public WebXmlMimeMapping(String extension, String mimeType) {
-        this.extension = extension;
-        this.mimeType = mimeType;
+    public int getSessionTimeout() {
+        return sessionTimeout;
     }
-
+    
     /**
-     * Get the extension.
-     *
-     * @return the extension.
+     * Set the session timeout.
+     * 
+     * @param sessionTimeout the session timeout.
      */
-    public String getExtension() {
-        return extension;
-    }
-
-    /**
-     * Get the mime type.
-     *
-     * @return the mime type.
-     */
-    public String getMimeType() {
-        return mimeType;
+    public void setSessionTimeout(int sessionTimeout) {
+        this.sessionTimeout = sessionTimeout;
     }
 }

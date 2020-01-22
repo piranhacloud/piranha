@@ -28,48 +28,32 @@
 package cloud.piranha.servlet.webxml;
 
 /**
- * The web.xml mime-mapping.
+ * The web.xml session-config cookie-config.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlMimeMapping {
+public class WebXmlCookieConfig {
+    
+    /**
+     * Stores the cookie name.
+     */
+    private String name;
 
     /**
-     * Stores the extension.
+     * Get the name.
+     * 
+     * @return the name.
      */
-    private final String extension;
-
-    /**
-     * Stores the mime type.
-     */
-    private final String mimeType;
-
-    /**
-     * Constructor.
-     *
-     * @param extension the extension.
-     * @param mimeType the mime type.
-     */
-    public WebXmlMimeMapping(String extension, String mimeType) {
-        this.extension = extension;
-        this.mimeType = mimeType;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Get the extension.
-     *
-     * @return the extension.
+     * Set the name.
+     * 
+     * @param name the name.
      */
-    public String getExtension() {
-        return extension;
-    }
-
-    /**
-     * Get the mime type.
-     *
-     * @return the mime type.
-     */
-    public String getMimeType() {
-        return mimeType;
+    public void setName(String name) {
+        this.name = name;
     }
 }

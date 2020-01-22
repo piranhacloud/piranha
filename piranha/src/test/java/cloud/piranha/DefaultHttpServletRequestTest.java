@@ -384,7 +384,7 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testSetCharacterEncoding() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNull(request.getCharacterEncoding());
+        assertEquals("ISO-8859-1", request.getCharacterEncoding());
         request.setCharacterEncoding("UTF-8");
         assertEquals("UTF-8", request.getCharacterEncoding());
     }

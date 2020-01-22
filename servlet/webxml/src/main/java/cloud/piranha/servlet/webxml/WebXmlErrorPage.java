@@ -28,7 +28,7 @@
 package cloud.piranha.servlet.webxml;
 
 /**
- * The default web.xml error-page.
+ * The web.xml error-page.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

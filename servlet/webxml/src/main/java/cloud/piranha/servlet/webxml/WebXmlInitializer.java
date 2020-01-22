@@ -27,7 +27,6 @@
  */
 package cloud.piranha.servlet.webxml;
 
-import static java.util.logging.Level.WARNING;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.STRING;
 
@@ -57,6 +56,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import cloud.piranha.api.WebApplication;
+import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.WARNING;
 
 /**
  * The web.xml initializer.
@@ -79,6 +80,9 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Entering WebXmlInitializer.onStartup");
+        }
         try {
             WebXmlParser parser = new WebXmlParser();
             WebXmlManager manager = new WebXmlManager();
@@ -95,7 +99,9 @@ public class WebXmlInitializer implements ServletContainerInitializer {
             ArrayList<WebXml> webFragments = new ArrayList<>();
             while (webFragmentUrls.hasMoreElements()) {
                 URL url = webFragmentUrls.nextElement();
-                webFragments.add(parser.parse(url.openStream()));
+                WebXml webFragment = parser.parse(url.openStream());
+                webFragment.setFragment(true);
+                webFragments.add(webFragment);
             }
             if (!webFragments.isEmpty()) {
                 manager.setWebFragments(webFragments);
@@ -124,13 +130,16 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                     }
                 }
             } else {
-                if (LOGGER.isLoggable(Level.FINE)) {
+                if (LOGGER.isLoggable(FINE)) {
                     LOGGER.info("No web.xml found!");
                 }
             }
         } catch (SAXException | XPathExpressionException | IOException
                 | ParserConfigurationException e) {
             LOGGER.log(WARNING, "Unable to parse web.xml", e);
+        }
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(Level.FINE, "Exiting WebXmlInitializer.onStartup");
         }
     }
 

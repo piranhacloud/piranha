@@ -28,7 +28,7 @@
 package cloud.piranha.servlet.webxml;
 
 /**
- * The default web.xml servlet-mapping
+ * The web.xml servlet-mapping
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
