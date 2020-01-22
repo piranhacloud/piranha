@@ -29,6 +29,9 @@ package cloud.piranha.servlet.webxml;
 
 import cloud.piranha.api.WebApplication;
 import java.util.Iterator;
+import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.FINER;
+import java.util.logging.Logger;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletRegistration;
 
@@ -40,12 +43,20 @@ import javax.servlet.ServletRegistration;
 public class WebXmlProcessor {
 
     /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(WebXmlProcessor.class.getName());
+
+    /**
      * Process the web.xml into the web application.
      *
      * @param webXml the web.xml
      * @param webApplication the web application.
      */
     public void process(WebXml webXml, WebApplication webApplication) {
+        if (LOGGER.isLoggable(FINER)) {
+            LOGGER.log(FINER, "Started WebXmlProcessor.process");
+        }
         processContextParameters(webApplication, webXml);
         processDefaultContextPath(webApplication, webXml);
         processDenyUncoveredHttpMethods(webApplication, webXml);
@@ -56,9 +67,13 @@ public class WebXmlProcessor {
         processFilterMappings(webApplication, webXml);
         processListeners(webApplication, webXml);
         processMimeMappings(webApplication, webXml);
+        processRequestCharacterEncoding(webApplication, webXml);
         processResponseCharacterEncoding(webApplication, webXml);
         processServlets(webApplication, webXml);
         processServletMappings(webApplication, webXml);
+        if (LOGGER.isLoggable(FINER)) {
+            LOGGER.log(FINER, "Finished WebXmlProcessor.process");
+        }
     }
 
     /**
@@ -82,7 +97,9 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processDefaultContextPath(WebApplication webApplication, WebXml webXml) {
-        webApplication.setContextPath(webXml.getDefaultContextPath());
+        if (webXml.getDefaultContextPath() != null) {
+            webApplication.setContextPath(webXml.getDefaultContextPath());
+        }
     }
 
     /**
@@ -203,13 +220,27 @@ public class WebXmlProcessor {
     }
 
     /**
+     * Process the request character encoding.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processRequestCharacterEncoding(WebApplication webApplication, WebXml webXml) {
+        if (webXml.getRequestCharacterEncoding() != null) {
+            webApplication.setRequestCharacterEncoding(webXml.getRequestCharacterEncoding());
+        }
+    }
+
+    /**
      * Process the response character encoding.
      *
      * @param webApplication the web application.
      * @param webXml the web.xml.
      */
     private void processResponseCharacterEncoding(WebApplication webApplication, WebXml webXml) {
-        webApplication.setResponseCharacterEncoding(webXml.getResponseCharacterEncoding());
+        if (webXml.getResponseCharacterEncoding() != null) {
+            webApplication.setResponseCharacterEncoding(webXml.getResponseCharacterEncoding());
+        }
     }
 
     /**
@@ -237,6 +268,9 @@ public class WebXmlProcessor {
         Iterator<WebXmlServlet> iterator = webXml.getServlets().iterator();
         while (iterator.hasNext()) {
             WebXmlServlet servlet = iterator.next();
+            if (LOGGER.isLoggable(FINE)) {
+                LOGGER.log(FINE, "Configuring Servlet: " + servlet.getServletName());
+            }
             ServletRegistration.Dynamic dynamic = webApplication.addServlet(
                     servlet.getServletName(), servlet.getClassName());
             if (servlet.isAsyncSupported()) {
@@ -245,6 +279,9 @@ public class WebXmlProcessor {
             servlet.getInitParams().forEach((initParam) -> {
                 dynamic.setInitParameter(initParam.getName(), initParam.getValue());
             });
+            if (LOGGER.isLoggable(FINE)) {
+                LOGGER.log(FINE, "Configured Servlet: " + servlet.getServletName());
+            }
         }
     }
 }

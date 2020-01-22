@@ -1554,6 +1554,9 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setContextPath(String contextPath) {
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Setting context path to: {0}", contextPath);
+        }
         this.contextPath = contextPath;
     }
     

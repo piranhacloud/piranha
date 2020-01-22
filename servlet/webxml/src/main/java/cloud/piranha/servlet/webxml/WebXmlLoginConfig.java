@@ -28,7 +28,7 @@
 package cloud.piranha.servlet.webxml;
 
 /**
- * The default web.xml login-config.
+ * The web.xml login-config.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

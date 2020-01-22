@@ -123,7 +123,7 @@ public class WebXml implements Serializable {
     /**
      * Stores the default context path.
      */
-    private String defaultContextPath;
+    private String defaultContextPath = null;
     
     /**
      * Store if we are denying uncovered HTTP methods.
@@ -154,6 +154,16 @@ public class WebXml implements Serializable {
      * Stores the filter mappings.
      */
     private final ArrayList<WebXmlFilterMapping> filterMappings = new ArrayList<>();
+    
+    /**
+     * Stores if we are a fragment.
+     */
+    private boolean fragment = false;
+    
+    /**
+     * Stores the fragment name.
+     */
+    private String fragmentName;
 
     /**
      * Stores the listeners.
@@ -171,9 +181,14 @@ public class WebXml implements Serializable {
     private final ArrayList<WebXmlMimeMapping> mimeMappings = new ArrayList<>();
     
     /**
+     * Stores the request character encoding.
+     */
+    private String requestCharacterEncoding = null;
+    
+    /**
      * Stores the response character encoding.
      */
-    private String responseCharacterEncoding;
+    private String responseCharacterEncoding = null;
 
     /**
      * Stores the servlets.
@@ -184,6 +199,11 @@ public class WebXml implements Serializable {
      * Stores the servlet mappings.
      */
     private final ArrayList<WebXmlServletMapping> servletMappings = new ArrayList<>();
+    
+    /**
+     * Stores the session configuration.
+     */
+    private WebXmlSessionConfig sessionConfig;
 
     /**
      * Get the context params.
@@ -247,6 +267,15 @@ public class WebXml implements Serializable {
     public List<WebXmlFilterMapping> getFilterMappings() {
         return filterMappings;
     }
+    
+    /**
+     * Get the fragment name.
+     * 
+     * @return the fragment name.
+     */
+    public String getFragmentName() {
+        return fragmentName;
+    }
 
     /**
      * Get the login config.
@@ -273,6 +302,15 @@ public class WebXml implements Serializable {
      */
     public List<WebXmlMimeMapping> getMimeMappings() {
         return mimeMappings;
+    }
+    
+    /**
+     * Get the request character encoding.
+     * 
+     * @return the request character encoding.
+     */
+    public String getRequestCharacterEncoding() {
+        return requestCharacterEncoding;
     }
 
     /**
@@ -303,12 +341,30 @@ public class WebXml implements Serializable {
     }
     
     /**
+     * Get the session config.
+     * 
+     * @return the session config.
+     */
+    public WebXmlSessionConfig getSessionConfig() {
+        return sessionConfig;
+    }
+    
+    /**
      * Is the application distributable.
      * 
      * @return true if it is, false otherwise.
      */
     public boolean isDistributable() {
         return distributable;
+    }
+    
+    /**
+     * Is this a web-fragment.
+     * 
+     * @return true if it, false otherwise.
+     */
+    public boolean isFragment() {
+        return fragment;
     }
     
     /**
@@ -348,6 +404,24 @@ public class WebXml implements Serializable {
     }
     
     /**
+     * Set if we are a fragment.
+     * 
+     * @param fragment the boolean value.
+     */
+    public void setFragment(boolean fragment) {
+        this.fragment = fragment;
+    }
+    
+    /**
+     * Set the fragment name.
+     * 
+     * @param fragmentName the fragment name.
+     */
+    public void setFragmentName(String fragmentName) {
+        this.fragmentName = fragmentName;
+    }
+    
+    /**
      * Set the login config.
      *
      * @param loginConfig the login config.
@@ -357,11 +431,29 @@ public class WebXml implements Serializable {
     }
 
     /**
+     * Set the request character encoding.
+     * 
+     * @param requestCharacterEncoding the request character encoding.
+     */
+    public void setRequestCharacterEncoding(String requestCharacterEncoding) {
+        this.requestCharacterEncoding = requestCharacterEncoding;
+    }
+
+    /**
      * Set the response character encoding.
      * 
      * @param responseCharacterEncoding the response character encoding.
      */
     public void setResponseCharacterEncoding(String responseCharacterEncoding) {
         this.responseCharacterEncoding = responseCharacterEncoding;
+    }
+    
+    /**
+     * Set the session config.
+     * 
+     * @param sessionConfig the session comfig.
+     */
+    public void setSessionConfig(WebXmlSessionConfig sessionConfig) {
+        this.sessionConfig = sessionConfig;
     }
 }

@@ -29,6 +29,7 @@ package cloud.piranha.servlet.webxml;
 
 import java.io.InputStream;
 import java.util.List;
+import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -79,9 +80,11 @@ public class WebXmlParser {
             parseListeners(webXml, xPath, document);
             parseLoginConfig(webXml, xPath, document);
             parseMimeMappings(webXml, xPath, document);
+            parseRequestCharacterEncoding(webXml, xPath, document);
             parseResponseCharacterEncoding(webXml, xPath, document);
             parseServletMappings(webXml, xPath, document);
             parseServlets(webXml, xPath, document);
+            parseSessionConfig(webXml, xPath, document);
         } catch (Throwable t) {
             LOGGER.log(WARNING, "Unable to parse web.xml", t);
         }
@@ -158,11 +161,13 @@ public class WebXmlParser {
      */
     private void parseDefaultContextPath(WebXml webXml, XPath xPath, Node node) {
         try {
-            String defaultContextPath = parseString(xPath, "//default-context-path/text()", node);
-            if (defaultContextPath != null) {
-                webXml.setDefaultContextPath(defaultContextPath);
+            Node contextPathNode = (Node) xPath.evaluate("//default-context-path", node, NODE);
+            if (contextPathNode != null) {
+                String defaultContextPath = parseString(xPath, "//default-context-path/text()", node);
+                if (defaultContextPath != null) {
+                    webXml.setDefaultContextPath(defaultContextPath);
+                }
             }
-
         } catch (XPathException xpe) {
             LOGGER.log(WARNING, "Unable to parse <default-context-path> section", xpe);
         }
@@ -291,6 +296,21 @@ public class WebXmlParser {
     }
 
     /**
+     * Parse an integer.
+     *
+     * @param xPath the XPath to use.
+     * @param expression the expression.
+     * @param node the node.
+     * @return the string.
+     * @throws XPathExpressionException when the expression was invalid.
+     */
+    private int parseInteger(XPath xPath, String expression, Node node)
+            throws XPathExpressionException {
+        Double doubleValue = (Double) xPath.evaluate(expression, node, XPathConstants.NUMBER);
+        return doubleValue.intValue();
+    }
+
+    /**
      * Parse the listener sections.
      *
      * @param webXml the web.xml to add to.
@@ -364,6 +384,26 @@ public class WebXmlParser {
     }
 
     /**
+     * Parse the request-character-encoding section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param node the DOM node.
+     */
+    private void parseRequestCharacterEncoding(WebXml webXml, XPath xPath, Node node) {
+        try {
+            Node rceNode = (Node) xPath.evaluate("//request-character-encoding", node, NODE);
+            if (rceNode != null) {
+                String requestCharacterEncoding = parseString(
+                        xPath, "//request-character-encoding/text()", node);
+                webXml.setRequestCharacterEncoding(requestCharacterEncoding);
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse <request-character-encoding> section", xpe);
+        }
+    }
+
+    /**
      * Parse the response-character-encoding section.
      *
      * @param webXml the web.xml to add to.
@@ -372,9 +412,10 @@ public class WebXmlParser {
      */
     private void parseResponseCharacterEncoding(WebXml webXml, XPath xPath, Node node) {
         try {
-            String responseCharacterEncoding = parseString(
-                    xPath, "//response-character-encoding", node);
-            if (responseCharacterEncoding != null) {
+            Node rceNode = (Node) xPath.evaluate("//response-character-encoding", node, NODE);
+            if (rceNode != null) {
+                String responseCharacterEncoding = parseString(
+                        xPath, "//response-character-encoding/text()", node);
                 webXml.setResponseCharacterEncoding(responseCharacterEncoding);
             }
         } catch (XPathException xpe) {
@@ -425,24 +466,57 @@ public class WebXmlParser {
                     servlet.setServletName(servletName);
                     String className = parseString(xPath, "servlet-class/text()", nodeList.item(i));
                     servlet.setClassName(className);
-                    Boolean asyncSupported = (Boolean) parseBoolean(xPath, "async-supported/text()", nodeList.item(i));
+                    Boolean asyncSupported = parseBoolean(xPath, "async-supported/text()", nodeList.item(i));
                     if (asyncSupported != null) {
                         servlet.setAsyncSupported(asyncSupported);
                     }
                     servlets.add(servlet);
                     NodeList paramNodeList = (NodeList) xPath.evaluate("init-param", nodeList.item(i), NODESET);
                     for (int j = 0; j < paramNodeList.getLength(); j++) {
-                        WebXmlFilterInitParam initParam = new WebXmlFilterInitParam();
+                        WebXmlServletInitParam initParam = new WebXmlServletInitParam();
                         String name = parseString(xPath, "param-name/text()", paramNodeList.item(j));
                         initParam.setName(name);
                         String value = parseString(xPath, "param-value/text()", paramNodeList.item(j));
                         initParam.setValue(value);
                         servlet.addInitParam(initParam);
                     }
+                    if (LOGGER.isLoggable(FINE)) {
+                        LOGGER.log(FINE, "Configured servlet: {0}", servlet.toString());
+                    }
                 }
             }
         } catch (XPathException xpe) {
             LOGGER.log(WARNING, "Unable to parse <filter> sections", xpe);
+        }
+    }
+
+    /**
+     * Parse the session-config section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param node the DOM node.
+     */
+    private void parseSessionConfig(WebXml webXml, XPath xPath, Node node) {
+        try {
+            Node scNode = (Node) xPath.evaluate("session-config", node, NODE);
+            if (scNode != null) {
+                WebXmlSessionConfig sessionConfig = new WebXmlSessionConfig();
+                int sessionTimeout = parseInteger(
+                        xPath, "session-timeout/text()", scNode);
+                sessionConfig.setSessionTimeout(sessionTimeout);
+                webXml.setSessionConfig(sessionConfig);
+                Node cNode = (Node) xPath.evaluate("cookie-config", scNode, NODE);
+                if (cNode != null) {
+                    WebXmlCookieConfig cookieConfig = new WebXmlCookieConfig();
+                    String name = parseString(xPath, "name/text()", cNode);
+                    if (name != null) {
+                        cookieConfig.setName(name);
+                    }
+                }
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse <session-config> section", xpe);
         }
     }
 

@@ -50,7 +50,7 @@ public class WebXmlServlet {
     /**
      * Stores the init params.
      */
-    private final ArrayList<WebXmlFilterInitParam> initParams = new ArrayList<>();
+    private final ArrayList<WebXmlServletInitParam> initParams = new ArrayList<>();
     
     /**
      * Stores the servlet name.
@@ -62,7 +62,7 @@ public class WebXmlServlet {
      * 
      * @param initParam the init param.
      */
-    public void addInitParam(WebXmlFilterInitParam initParam) {
+    public void addInitParam(WebXmlServletInitParam initParam) {
         this.initParams.add(initParam);
     }
 
@@ -80,7 +80,7 @@ public class WebXmlServlet {
      * 
      * @return the init params.
      */
-    public List<WebXmlFilterInitParam> getInitParams() {
+    public List<WebXmlServletInitParam> getInitParams() {
         return initParams;
     }
     
@@ -127,5 +127,20 @@ public class WebXmlServlet {
      */
     public void setServletName(String servletName) {
         this.servletName = servletName;
+    }
+
+    /**
+     * Return string representation.
+     * 
+     * @return the string representation.
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Servlet[");
+        builder.append("servletName=").append(servletName).append(",");
+        builder.append("className=").append(className).append(",");
+        builder.append("asyncSupported=").append(asyncSupported).append("]");
+        return builder.toString();
     }
 }
