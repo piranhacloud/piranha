@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.embedded;
+package cloud.piranha;
 
 import cloud.piranha.api.WebApplication;
 import java.util.Set;
@@ -33,43 +33,46 @@ import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 import cloud.piranha.api.WebApplicationExtension;
+import cloud.piranha.api.WebApplicationExtensionContext;
 
 /**
- * The JUnit tests for the EmbeddedPiranha class.
+ * The JUnit tests for the DefaultWebApplicationExtensionContext.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EmbeddedPiranhaTest {
+public class DefaultWebApplicationExtensionContextTest {
 
     /**
-     * Test service method.
-     *
-     * @throws Exception when a serious error occurs.
+     * Test add method.
      */
     @Test
-    public void testService() throws Exception {
-        EmbeddedRequest request = new EmbeddedRequest();
-        EmbeddedResponse response = new EmbeddedResponse();
-        EmbeddedPiranha piranha = new EmbeddedPiranha();
-        piranha.initialize();
-        piranha.start();
-        piranha.service(request, response);
-        piranha.stop();
+    public void testAdd() {
+        DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
+        context.add(TestExtension.class);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        for (WebApplicationExtension extension : context.getExtensions()) {
+            extension.configure(webApplication);
+        }
+        webApplication.initialize();
+        assertNotNull(webApplication.getAttribute(TestInitializer.class.getName()));
     }
 
     /**
-     * Test extension handling.
-     *
-     * @throws Exception when a serious error occurs.
+     * Test remove method.
      */
     @Test
-    public void testExtensionHandling() throws Exception {
-        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .extension(TestExtension.class)
-                .buildAndStart();
-        assertNotNull(piranha.getWebApplication().getAttribute(TestInitializer.class.getName()));
+    public void testRemove() {
+        DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
+        context.add(Test3Extension.class);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        for (WebApplicationExtension extension : context.getExtensions()) {
+            extension.configure(webApplication);
+        }
+        webApplication.initialize();
+        assertNull(webApplication.getAttribute(TestInitializer.class.getName()));
     }
 
     /**
@@ -85,6 +88,39 @@ public class EmbeddedPiranhaTest {
         @Override
         public void configure(WebApplication webApplication) {
             webApplication.addInitializer(TestInitializer.class.getName());
+        }
+    }
+
+    /**
+     * A test extension.
+     */
+    public static class Test2Extension implements WebApplicationExtension {
+
+        /**
+         * Extend the web application.
+         *
+         * @param context the context.
+         */
+        @Override
+        public void extend(WebApplicationExtensionContext context) {
+            context.remove(TestExtension.class);
+        }
+    }
+
+    /**
+     * A test extension.
+     */
+    public static class Test3Extension implements WebApplicationExtension {
+
+        /**
+         * Extend the web application.
+         *
+         * @param context the context.
+         */
+        @Override
+        public void extend(WebApplicationExtensionContext context) {
+            context.add(TestExtension.class);
+            context.add(Test2Extension.class);
         }
     }
 
