@@ -29,6 +29,7 @@ package cloud.piranha.embedded;
 
 import cloud.piranha.DefaultAliasedDirectoryResource;
 import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultWebApplicationExtensionContext;
 import cloud.piranha.api.HttpSessionManager;
 import cloud.piranha.api.Resource;
 import cloud.piranha.api.WebApplication;
@@ -40,6 +41,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletRegistration;
+import cloud.piranha.api.WebApplicationExtension;
 
 /**
  * The Embedded Piranha builder.
@@ -57,6 +59,11 @@ public class EmbeddedPiranhaBuilder {
      * Stores the attributes.
      */
     private final LinkedHashMap<String, Object> attributes;
+    
+    /**
+     * Stores the extension.
+     */
+    private Class<? extends WebApplicationExtension> extensionClass;
 
     /**
      * Stores the features.
@@ -157,6 +164,13 @@ public class EmbeddedPiranhaBuilder {
     public EmbeddedPiranha build() {
         EmbeddedPiranha piranha = new EmbeddedPiranha();
         WebApplication webApplication = piranha.getWebApplication();
+        if (extensionClass != null) {
+            DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
+            context.add(extensionClass);
+            for(WebApplicationExtension extension : context.getExtensions()) {
+                extension.configure(webApplication);
+            }
+        }
         if (httpSessionManager != null) {
             webApplication.setHttpSessionManager(httpSessionManager);
         }
@@ -237,6 +251,17 @@ public class EmbeddedPiranhaBuilder {
      */
     public EmbeddedPiranhaBuilder directoryResource(String path) {
         resources.add(new DefaultDirectoryResource(path));
+        return this;
+    }
+    
+    /**
+     * Set the web application extension.
+     * 
+     * @param extensionClass the extension class.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder extension(Class<? extends WebApplicationExtension> extensionClass) {
+        this.extensionClass = extensionClass;
         return this;
     }
 
