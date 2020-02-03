@@ -66,11 +66,6 @@ public class EmbeddedPiranhaBuilder {
     private Class<? extends WebApplicationExtension> extensionClass;
 
     /**
-     * Stores the features.
-     */
-    private final ArrayList<String> features;
-
-    /**
      * Stores the initializers.
      */
     private final ArrayList<String> initializers;
@@ -121,7 +116,6 @@ public class EmbeddedPiranhaBuilder {
     public EmbeddedPiranhaBuilder() {
         asyncSupportedServlets = new LinkedHashMap<>();
         attributes = new LinkedHashMap<>();
-        features = new ArrayList<>();
         filters = new LinkedHashMap<>();
         filterInitParameters = new LinkedHashMap<>();
         filterMappings = new LinkedHashMap<>();
@@ -180,10 +174,6 @@ public class EmbeddedPiranhaBuilder {
         resources.forEach((resource) -> {
             webApplication.addResource(resource);
         });
-        features.forEach((feature) -> {
-            webApplication.addFeature(feature);
-        });
-        webApplication.initializeFeatures();
         initializers.forEach((initializer) -> {
             webApplication.addInitializer(initializer);
         });
@@ -260,17 +250,6 @@ public class EmbeddedPiranhaBuilder {
      */
     public EmbeddedPiranhaBuilder extension(Class<? extends WebApplicationExtension> extensionClass) {
         this.extensionClass = extensionClass;
-        return this;
-    }
-
-    /**
-     * Add a feature.
-     *
-     * @param className the class name.
-     * @return the builder.
-     */
-    public EmbeddedPiranhaBuilder feature(String className) {
-        features.add(className);
         return this;
     }
 
