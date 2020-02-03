@@ -32,7 +32,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-deepscan</artifactId>
+            <artifactId>piranha-servlet-annotationscan</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

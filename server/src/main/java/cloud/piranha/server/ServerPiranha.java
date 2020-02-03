@@ -33,9 +33,6 @@ import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationClassLoader;
 import cloud.piranha.DefaultWebApplicationExtensionContext;
 import cloud.piranha.DefaultWebApplicationServer;
-import cloud.piranha.pages.jasper.JasperExtension;
-import cloud.piranha.servlet.deepscan.DeepScanFeature;
-import cloud.piranha.servlet.webxml.WebXmlFeature;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -146,11 +143,8 @@ public class ServerPiranha implements Runnable {
                     webApplication.setClassLoader(classLoader);
 
                     DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                    extensionContext.add(JasperExtension.class);
+                    extensionContext.add(ServerExtension.class);
                     extensionContext.configure(webApplication);
-
-                    webApplication.addFeature(new DeepScanFeature());
-                    webApplication.addFeature(new WebXmlFeature());
 
                     if (contextPath.equalsIgnoreCase("ROOT")) {
                         contextPath = "";
