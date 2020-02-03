@@ -167,9 +167,7 @@ public class EmbeddedPiranhaBuilder {
         if (extensionClass != null) {
             DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
             context.add(extensionClass);
-            for(WebApplicationExtension extension : context.getExtensions()) {
-                extension.configure(webApplication);
-            }
+            context.configure(webApplication);
         }
         if (httpSessionManager != null) {
             webApplication.setHttpSessionManager(httpSessionManager);

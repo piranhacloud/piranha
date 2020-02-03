@@ -51,11 +51,9 @@ public class DefaultWebApplicationExtensionContextTest {
     @Test
     public void testAdd() {
         DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
-        context.add(TestExtension.class);
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        for (WebApplicationExtension extension : context.getExtensions()) {
-            extension.configure(webApplication);
-        }
+        context.add(TestExtension.class);
+        context.configure(webApplication);
         webApplication.initialize();
         assertNotNull(webApplication.getAttribute(TestInitializer.class.getName()));
     }
@@ -66,11 +64,9 @@ public class DefaultWebApplicationExtensionContextTest {
     @Test
     public void testRemove() {
         DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
-        context.add(Test3Extension.class);
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        for (WebApplicationExtension extension : context.getExtensions()) {
-            extension.configure(webApplication);
-        }
+        context.add(Test3Extension.class);
+        context.configure(webApplication);
         webApplication.initialize();
         assertNull(webApplication.getAttribute(TestInitializer.class.getName()));
     }

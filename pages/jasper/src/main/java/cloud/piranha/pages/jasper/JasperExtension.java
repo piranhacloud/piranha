@@ -27,32 +27,32 @@
  */
 package cloud.piranha.pages.jasper;
 
-import cloud.piranha.api.Feature;
 import cloud.piranha.api.WebApplication;
+import cloud.piranha.api.WebApplicationExtension;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContainerInitializer;
 
 /**
- * The feature that will enable Jasper integration (aka. JSP).
+ * The extension that will enable Jasper integration (aka. JSP).
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JasperFeature implements Feature {
+public class JasperExtension implements WebApplicationExtension {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(JasperFeature.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(JasperExtension.class.getName());
 
     /**
-     * Initialize the feature.
+     * Configure the web application.
      *
      * @param webApplication the web application.
      */
     @Override
-    public void initialize(WebApplication webApplication) {
+    public void configure(WebApplication webApplication) {
         try {
             ClassLoader classLoader = webApplication.getClassLoader();
             Class<ServletContainerInitializer> clazz
@@ -63,7 +63,7 @@ public class JasperFeature implements Feature {
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
                 | InstantiationException | IllegalAccessException
                 | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.log(Level.WARNING, "Unable to enable Jasper feature", ex);
+            LOGGER.log(Level.WARNING, "Unable to enable the Jasper extension", ex);
         }
     }
 }
