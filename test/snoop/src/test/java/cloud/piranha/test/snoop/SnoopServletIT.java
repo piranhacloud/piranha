@@ -27,9 +27,10 @@
  */
 package cloud.piranha.test.snoop;
 
+import cloud.piranha.DefaultWebApplicationExtensionContext;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.micro.MicroPiranha;
-import cloud.piranha.servlet.webxml.WebXmlFeature;
+import cloud.piranha.servlet.webxml.WebXmlExtension;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -56,7 +57,9 @@ public class SnoopServletIT {
         final MicroPiranha piranha = new MicroPiranha();
         WebApplication webApplication = piranha.configure(new String[]{
             "--webapp", "target/snoop-exploded", "--war", "target/snoop.war"});
-        webApplication.addFeature(new WebXmlFeature());
+        DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
+        context.add(WebXmlExtension.class);
+        context.configure(webApplication);
         Thread thread = new Thread(piranha);
         thread.start();
         try {
