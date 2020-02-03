@@ -27,8 +27,8 @@
  */
 package cloud.piranha;
 
+import cloud.piranha.api.WebApplication;
 import java.util.ArrayList;
-import java.util.List;
 import cloud.piranha.api.WebApplicationExtension;
 import cloud.piranha.api.WebApplicationExtensionContext;
 
@@ -58,15 +58,6 @@ public class DefaultWebApplicationExtensionContext implements WebApplicationExte
     }
     
     /**
-     * Get the extensions.
-     * 
-     * @return the extensions.
-     */
-    public List<WebApplicationExtension> getExtensions() {
-        return extensions;
-    }
-
-    /**
      * Add the extension.
      * 
      * @param extension the extension.
@@ -81,6 +72,17 @@ public class DefaultWebApplicationExtensionContext implements WebApplicationExte
         } catch (InstantiationException | IllegalAccessException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    /**
+     * Configure the web application.
+     * 
+     * @param webApplication the web application.
+     */
+    public void configure(WebApplication webApplication) {
+        extensions.forEach((extension) -> {
+            extension.configure(webApplication);
+        });
     }
 
     /**

@@ -31,8 +31,9 @@ import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultHttpServer;
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationClassLoader;
+import cloud.piranha.DefaultWebApplicationExtensionContext;
 import cloud.piranha.DefaultWebApplicationServer;
-import cloud.piranha.pages.jasper.JasperFeature;
+import cloud.piranha.pages.jasper.JasperExtension;
 import cloud.piranha.servlet.deepscan.DeepScanFeature;
 import cloud.piranha.servlet.webxml.WebXmlFeature;
 import java.io.BufferedOutputStream;
@@ -137,14 +138,20 @@ public class ServerPiranha implements Runnable {
                     String contextPath = webapp.getName().substring(0, webapp.getName().length() - 4);
                     File webAppDirectory = new File(webappsDirectory, contextPath);
                     extractWarFile(webapp, webAppDirectory);
+
                     DefaultWebApplication webApplication = new DefaultWebApplication();
+                    webApplication.addResource(new DefaultDirectoryResource(webAppDirectory));
                     DefaultWebApplicationClassLoader classLoader
                             = new DefaultWebApplicationClassLoader(webAppDirectory);
+                    webApplication.setClassLoader(classLoader);
+
+                    DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
+                    extensionContext.add(JasperExtension.class);
+                    extensionContext.configure(webApplication);
+
                     webApplication.addFeature(new DeepScanFeature());
                     webApplication.addFeature(new WebXmlFeature());
-                    webApplication.addFeature(new JasperFeature());
-                    webApplication.addResource(new DefaultDirectoryResource(webAppDirectory));
-                    webApplication.setClassLoader(classLoader);
+
                     if (contextPath.equalsIgnoreCase("ROOT")) {
                         contextPath = "";
                     } else if (!contextPath.startsWith("/")) {
