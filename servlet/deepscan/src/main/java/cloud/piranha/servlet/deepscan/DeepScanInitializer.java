@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.servlet.annotationscan;
+package cloud.piranha.servlet.deepscan;
 
 import static java.util.Arrays.stream;
 
@@ -57,12 +57,12 @@ import cloud.piranha.api.WebApplication;
  * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AnnotationScanInitializer implements ServletContainerInitializer {
+public class DeepScanInitializer implements ServletContainerInitializer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(AnnotationScanInitializer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DeepScanInitializer.class.getName());
 
     /**
      * On startup.

@@ -44,6 +44,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +81,7 @@ import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
 
 import cloud.piranha.api.AnnotationManager;
+import cloud.piranha.api.Feature;
 import cloud.piranha.api.FilterPriority;
 import cloud.piranha.api.HttpRequestManager;
 import cloud.piranha.api.HttpSessionManager;
@@ -182,6 +184,12 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the active responses and the associated requests.
      */
     protected final Map<ServletResponse, ServletRequest> responses;
+
+    // ### Application parts
+    /**
+     * Stores our features.
+     */
+    protected List<Feature> features;
 
     /**
      * Stores the servlet container initializers.
@@ -294,6 +302,7 @@ public class DefaultWebApplication implements WebApplication {
         contextAttributeListeners = new ArrayList<>(1);
         contextListeners = new ArrayList<>(1);
         contextPath = "";
+        features = new ArrayList<>(1);
         filters = new LinkedHashMap<>(1);
         httpSessionManager = new DefaultHttpSessionManager();
         httpRequestManager = new DefaultHttpRequestManager();
@@ -310,6 +319,33 @@ public class DefaultWebApplication implements WebApplication {
         securityManager = new DefaultSecurityManager();
         servlets = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
+    }
+
+    /**
+     * Add a feature.
+     *
+     * @param feature the feature.
+     */
+    @Override
+    public void addFeature(Feature feature) {
+        features.add(feature);
+    }
+
+    /**
+     * Add a feature.
+     *
+     * @param className the class name.
+     */
+    @Override
+    public void addFeature(String className) {
+        try {
+            Class<Feature> clazz = (Class<Feature>) getClassLoader().loadClass(className);
+            features.add(clazz.newInstance());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.log(Level.WARNING, "Unable to add feature: " + className, ex);
+            }
+        }
     }
 
     /**
@@ -1206,10 +1242,23 @@ public class DefaultWebApplication implements WebApplication {
     public void initialize() {
         LOGGER.log(FINE, "Initializing web application at {0}", contextPath);
         verifyState(SETUP, "Unable to initialize web application");
+        initializeFeatures();
         initializeInitializers();
         initializeFilters();
         initializeServlets();
         initializeFinish();
+    }
+
+    /**
+     * Initialize the features.
+     */
+    @Override
+    public void initializeFeatures() {
+        Iterator<Feature> iterator = features.iterator();
+        while (iterator.hasNext()) {
+            Feature feature = iterator.next();
+            feature.initialize(this);
+        }
     }
 
     /**
