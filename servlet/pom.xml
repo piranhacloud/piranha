@@ -17,7 +17,7 @@
 
     <modules>
         <module>api</module>
-        <module>annotationscan</module>
+        <module>deepscan</module>
         <module>webservlet</module>
         <module>webxml</module>
     </modules>
