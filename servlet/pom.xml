@@ -16,8 +16,8 @@
     <name>Piranha Servlet</name>
 
     <modules>
+        <module>annotationscan</module>
         <module>api</module>
-        <module>deepscan</module>
         <module>webservlet</module>
         <module>webxml</module>
     </modules>

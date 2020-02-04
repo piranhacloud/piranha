@@ -25,45 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.servlet.webxml;
+package cloud.piranha.server;
 
-import cloud.piranha.api.Feature;
-import cloud.piranha.api.WebApplication;
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.ServletContainerInitializer;
+import cloud.piranha.api.WebApplicationExtension;
+import cloud.piranha.api.WebApplicationExtensionContext;
+import cloud.piranha.pages.jasper.JasperExtension;
+import cloud.piranha.servlet.annotationscan.AnnotationScanExtension;
+import cloud.piranha.servlet.webxml.WebXmlExtension;
 
 /**
- * The feature that will enable web.xml processing.
- *
+ * The extension each web application using Piranha Server gets configured with.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlFeature implements Feature {
+public class ServerExtension implements WebApplicationExtension {
 
     /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = Logger.getLogger(WebXmlFeature.class.getName());
-
-    /**
-     * Initialize the feature.
-     *
-     * @param webApplication the web application.
+     * Extend the web application.
+     * 
+     * @param context the context. 
      */
     @Override
-    public void initialize(WebApplication webApplication) {
-        try {
-            ClassLoader classLoader = webApplication.getClassLoader();
-            Class<ServletContainerInitializer> clazz
-                    = (Class<ServletContainerInitializer>) classLoader.
-                            loadClass(WebXmlInitializer.class.getName());
-            ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
-            webApplication.addInitializer(initializer);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
-                | InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.log(Level.WARNING, "Unable to enable WebXmlFeature", ex);
-        }
+    public void extend(WebApplicationExtensionContext context) {
+        context.add(AnnotationScanExtension.class);
+        context.add(WebXmlExtension.class);
+        context.add(JasperExtension.class);
     }
 }

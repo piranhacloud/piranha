@@ -9,10 +9,10 @@
         <version>20.2.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-servlet-deepscan</artifactId>
+    <artifactId>piranha-servlet-annotationscan</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Servlet - Deep Scan Integration</name>
+    <name>Piranha Servlet - Annotation Scan Integration</name>
 
     <dependencies>
         <dependency>
