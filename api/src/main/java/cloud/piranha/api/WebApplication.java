@@ -64,20 +64,6 @@ public interface WebApplication extends ServletContext {
     void addErrorPage(String exception, String location);
 
     /**
-     * Add a feature.
-     *
-     * @param feature the feature.
-     */
-    void addFeature(Feature feature);
-
-    /**
-     * Add a feature.
-     * 
-     * @param className the class name.
-     */
-    void addFeature(String className);
-
-    /**
      * Add a mapping for the given filter.
      *
      * @param filterName the filter name.
@@ -225,11 +211,6 @@ public interface WebApplication extends ServletContext {
      * Initialize the web application.
      */
     void initialize();
-    
-    /**
-     * Initialize the features.
-     */
-    void initializeFeatures();
     
     /**
      * Finish the initialization.

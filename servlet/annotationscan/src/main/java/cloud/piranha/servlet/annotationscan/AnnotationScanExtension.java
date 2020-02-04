@@ -25,19 +25,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
+package cloud.piranha.servlet.annotationscan;
+
+import cloud.piranha.api.WebApplication;
+import cloud.piranha.api.WebApplicationExtension;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContainerInitializer;
 
 /**
- * A feature.
- * 
+ * The extension that enables annotation scanning.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface Feature {
+public class AnnotationScanExtension implements WebApplicationExtension {
 
     /**
-     * Initialize the feature.
-     * 
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(AnnotationScanExtension.class.getName());
+
+    /**
+     * Configure the web application.
+     *
      * @param webApplication the web application.
      */
-    public void initialize(WebApplication webApplication);
+    @Override
+    public void configure(WebApplication webApplication) {
+        try {
+            ClassLoader classLoader = webApplication.getClassLoader();
+            Class<ServletContainerInitializer> clazz
+                    = (Class<ServletContainerInitializer>) classLoader.
+                            loadClass(AnnotationScanInitializer.class.getName());
+            ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
+            webApplication.addInitializer(initializer);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
+                | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException ex) {
+            LOGGER.log(Level.WARNING, "Unable to enable AnnotationScanExtension", ex);
+        }
+    }
 }

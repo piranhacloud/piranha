@@ -180,10 +180,6 @@ public class EmbeddedPiranhaBuilder {
         resources.forEach((resource) -> {
             webApplication.addResource(resource);
         });
-        features.forEach((feature) -> {
-            webApplication.addFeature(feature);
-        });
-        webApplication.initializeFeatures();
         initializers.forEach((initializer) -> {
             webApplication.addInitializer(initializer);
         });
