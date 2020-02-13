@@ -45,7 +45,7 @@ import org.jboss.arquillian.container.spi.client.container.ContainerConfiguratio
  */
 public class PiranhaServerContainerConfiguration implements ContainerConfiguration {
     
-    private String version = System.getProperty("piranha.version", "20.2.0-SNAPSHOT");
+    private String version = System.getProperty("piranha.version", "20.2.0");
 
     private String modules = System.getProperty("piranha.modules", "piranha-micro");
 
