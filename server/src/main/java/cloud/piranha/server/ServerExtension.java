@@ -31,6 +31,7 @@ import cloud.piranha.api.WebApplicationExtension;
 import cloud.piranha.api.WebApplicationExtensionContext;
 import cloud.piranha.pages.jasper.JasperExtension;
 import cloud.piranha.servlet.annotationscan.AnnotationScanExtension;
+import cloud.piranha.servlet.servletcontainerinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.servlet.webxml.WebXmlExtension;
 
 /**
@@ -50,5 +51,6 @@ public class ServerExtension implements WebApplicationExtension {
         context.add(AnnotationScanExtension.class);
         context.add(WebXmlExtension.class);
         context.add(JasperExtension.class);
+        context.add(ServletContainerInitializerExtension.class);
     }
 }
