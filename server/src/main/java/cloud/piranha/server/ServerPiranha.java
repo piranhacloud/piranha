@@ -44,11 +44,14 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * The main entry point for the standard version of Piranha.
+ * The main entry point for Piranha Server.
  *
  * <p>
- * This version Piranha allows you to run multiple web applications at the same
- * time. It has a shutdown mechanism that allows you to shutdown the server by
+ * This version of Piranha makes it possible for you to run multiple web
+ * applications at the same time.
+ * </p>
+ * <p>
+ * It has a shutdown mechanism that allows you to shutdown the server by
  * removing the piranha.pid file that should be created by the startup script.
  * </p>
  *
