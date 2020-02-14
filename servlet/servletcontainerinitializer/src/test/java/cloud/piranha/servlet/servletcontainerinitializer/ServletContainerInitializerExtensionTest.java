@@ -38,7 +38,7 @@ import org.junit.Test;
 public class ServletContainerInitializerExtensionTest {
 
     /**
-     * Test configure method, of.
+     * Test configure method.
      */
     @Test
     public void testConfigure() {
