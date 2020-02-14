@@ -20,5 +20,6 @@
         <module>api</module>
         <module>webservlet</module>
         <module>webxml</module>
+        <module>servletcontainerinitializer</module>
     </modules>
 </project>
