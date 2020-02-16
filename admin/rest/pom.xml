@@ -7,9 +7,10 @@
         <groupId>cloud.piranha.admin</groupId>
         <version>20.3.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-admin-webapp</artifactId>
+    <artifactId>rest</artifactId>
+    <version>20.3.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Piranha Admin - Web Application</name>
+    <name>Piranha Admin - REST Application</name>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
