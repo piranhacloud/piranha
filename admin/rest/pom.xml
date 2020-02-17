@@ -7,7 +7,7 @@
         <groupId>cloud.piranha.admin</groupId>
         <version>20.3.0-SNAPSHOT</version>
     </parent>
-    <artifactId>rest</artifactId>
+    <artifactId>pirnaha-admin-rest</artifactId>
     <version>20.3.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Piranha Admin - REST Application</name>

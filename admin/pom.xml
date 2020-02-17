@@ -17,5 +17,6 @@
     <modules>
         <module>rest</module>
         <module>webapp</module>
-    </modules>
+    <module>jmx</module>
+  </modules>
 </project>
