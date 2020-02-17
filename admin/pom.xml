@@ -15,8 +15,8 @@
     <name>Piranha Admin</name>
 
     <modules>
+        <module>jmx</module>
         <module>rest</module>
         <module>webapp</module>
-    <module>jmx</module>
-  </modules>
+    </modules>
 </project>
