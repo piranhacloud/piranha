@@ -52,7 +52,15 @@
                                 <!-- setup ts.jte for signature tests -->
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="servlet\.classes=(.*)"
-                                               replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar"
+                                               replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar${pathsep}${signature.home}/jakarta.servlet.jsp.jar${pathsep}${signature.home}/jakarta.servlet.jsp-api.jar"
+                                               byline="true"/>
+                                <replaceregexp file="${tck.home}/bin/ts.jte"
+                                               match="el\.classes=(.*)"
+                                               replace="el\.classes=${signature.home}/jakarta.el-api.jar${pathsep}${signature.home}/jakarta.el.jar"
+                                               byline="true"/>
+                                <replaceregexp file="${tck.home}/bin/ts.jte"
+                                               match="sigTestClasspath=="
+                                               replace="sigTestClasspath=${el.classes}${pathsep}${jspservlet.classes}${pathsep}${JAVA_HOME}/jre/lib/rt.jar"
                                                byline="true"/>
                                 
                                 <!-- copy Piranha script into the TCK -->
@@ -187,6 +195,34 @@
                                     <version>${project.version}</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
                                     <destFileName>piranha-servlet-api.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.glassfish.web</groupId>
+                                    <artifactId>jakarta.servlet.jsp</artifactId>
+                                    <version>${jakarta.pages.impl.version}</version>
+                                    <outputDirectory>${signature.home}</outputDirectory>
+                                    <destFileName>jakarta.servlet.jsp.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>jakarta.servlet.jsp</groupId>
+                                    <artifactId>jakarta.servlet.jsp-api</artifactId>
+                                    <version>${jakarta.pages.api.version}</version>
+                                    <outputDirectory>${signature.home}</outputDirectory>
+                                    <destFileName>jakarta.servlet.jsp-api.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>jakarta.el</groupId>
+                                    <artifactId>jakarta.el-api</artifactId>
+                                    <version>${jakarta.el.version}</version>
+                                    <outputDirectory>${signature.home}</outputDirectory>
+                                    <destFileName>jakarta.el-api.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.glassfish</groupId>
+                                    <artifactId>jakarta.el</artifactId>
+                                    <version>${jakarta.el.version}</version>
+                                    <outputDirectory>${signature.home}</outputDirectory>
+                                    <destFileName>jakarta.el.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

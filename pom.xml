@@ -73,6 +73,9 @@
     </scm>
 
     <properties>
+        <jakarta.el.version>3.0.3</jakarta.el.version>
+        <jakarta.pages.api.version>2.3.6</jakarta.pages.api.version>
+        <jakarta.pages.impl.version>2.3.5</jakarta.pages.impl.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -122,7 +125,7 @@
             <dependency>
                 <groupId>org.glassfish.web</groupId>
                 <artifactId>jakarta.servlet.jsp</artifactId>
-                <version>2.3.5</version>
+                <version>${jakarta.pages.impl.version}</version>
             </dependency>
             
             <!-- Jakarta WebSocket -->
@@ -221,12 +224,12 @@
             <dependency>
                 <groupId>jakarta.el</groupId>
                 <artifactId>jakarta.el-api</artifactId>
-                <version>3.0.3</version>
+                <version>${jakarta.el.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.el</artifactId>
-                <version>3.0.3</version>
+                <version>${jakarta.el.version}</version>
             </dependency>
             
             <!-- Jakarta Persistence -->
