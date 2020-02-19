@@ -51,7 +51,7 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
 
     private String dependencies = System.getProperty("piranha.dependencies", "");
 
-    private String repositories = System.getProperty("piranha.repositories", "");
+    private String repositories = System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2");
 
     private boolean offline = Boolean.valueOf(System.getProperty("piranha.offline", "false"));
 
