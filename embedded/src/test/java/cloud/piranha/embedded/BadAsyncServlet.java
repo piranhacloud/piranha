@@ -62,9 +62,11 @@ public class BadAsyncServlet extends HttpServlet {
         final AsyncContext context = request.startAsync();
         try {
             context.createListener(BadAsyncListener.class);
+            response.getWriter().println("FAILED");
         } catch (ServletException se) {
             response.getWriter().println("SUCCESS");
         } catch (Throwable t) {
+            response.getWriter().println("FAILED");
         }
         context.start(new TimerTask() {
             @Override
