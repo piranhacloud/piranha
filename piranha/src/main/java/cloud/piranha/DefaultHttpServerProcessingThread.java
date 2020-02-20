@@ -76,10 +76,12 @@ class DefaultHttpServerProcessingThread implements Runnable {
             DefaultHttpServerResponse response = new DefaultHttpServerResponse(socket);
             server.processor.process(request, response);
         } finally {
-            try {
-                socket.close();
-            } catch (IOException exception) {
-                LOGGER.log(WARNING, "An I/O error occurred during processing of the request", exception);
+            if (!server.processor.isAsync()) {
+                try {
+                    socket.close();
+                } catch (IOException exception) {
+                    LOGGER.log(WARNING, "An I/O error occurred during processing of the request", exception);
+                }
             }
         }
     }

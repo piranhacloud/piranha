@@ -33,6 +33,15 @@ package cloud.piranha.api;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface HttpServerProcessor {
+    
+    /**
+     * Is the request being processed asynchronously?
+     * 
+     * @return true if it is, false otherwise.
+     */
+    default boolean isAsync() {
+        return false;
+    }
 
     /**
      * Process the request.

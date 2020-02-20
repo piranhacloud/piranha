@@ -60,6 +60,11 @@ public class DefaultWebApplicationServer
     private static final Logger LOGGER = Logger.getLogger(DefaultWebApplicationServer.class.getName());
 
     /**
+     * Stores the async boolean.
+     */
+    protected boolean async = false;
+    
+    /**
      * Stores the request mapper.
      */
     protected WebApplicationServerRequestMapper requestMapper;
@@ -206,6 +211,16 @@ public class DefaultWebApplicationServer
     }
 
     /**
+     * Are we processing the request asynchronously.
+     * 
+     * @return true if we are, false otherwise.
+     */
+    @Override
+    public boolean isAsync() {
+        return async;
+    }
+
+    /**
      * Process the request.
      *
      * @param request the request.
@@ -257,6 +272,10 @@ public class DefaultWebApplicationServer
             
             // Make sure the request is fully read wrt parameters (if any still)
             request.getParameterMap();
+            
+            if (request.isAsyncStarted()) {
+                async = true;
+            }            
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
         }
