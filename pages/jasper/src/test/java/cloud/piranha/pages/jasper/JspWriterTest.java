@@ -27,6 +27,7 @@
  */
 package cloud.piranha.pages.jasper;
 
+import cloud.piranha.api.WebApplication;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
@@ -35,6 +36,8 @@ import cloud.piranha.embedded.EmbeddedResponse;
 import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -129,6 +132,33 @@ public class JspWriterTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
+        piranha.stop().destroy();
+    }
+
+    /**
+     * Test close method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testClose4() throws Exception {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/test/webapp/jspwriter")
+                .initializer(JasperInitializer.class.getName())
+                .buildAndStart();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/close4.jsp")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        try {
+            piranha.service(request, response);
+        } catch (IOException ioe) {
+            assertEquals("Stream closed", ioe.getMessage());
+        }
+        WebApplication webApplication = piranha.getWebApplication();
+        assertNotNull(webApplication.getAttribute("flush.exception"));
+        assertNotNull(webApplication.getAttribute("write.exception"));
+        assertNull(webApplication.getAttribute("close.exception"));
         piranha.stop().destroy();
     }
 }
