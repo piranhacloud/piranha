@@ -41,9 +41,11 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
 /**
- * The Piranha Nano builder.
+ * The builder so you can easily build instances of
+ * {@link cloud.piranha.nano.NanoPiranha}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.nano.NanoPiranha
  */
 public class NanoPiranhaBuilder {
 
@@ -56,7 +58,7 @@ public class NanoPiranhaBuilder {
      * Stores the filter map.
      */
     private final LinkedHashMap<String, Filter> filters;
-    
+
     /**
      * Stores the resources.
      */

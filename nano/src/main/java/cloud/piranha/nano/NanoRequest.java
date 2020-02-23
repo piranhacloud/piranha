@@ -30,9 +30,10 @@ package cloud.piranha.nano;
 import cloud.piranha.DefaultWebApplicationRequest;
 
 /**
- * The Nano version of a WebApplicationRequest.
+ * The WebApplicationRequest class used by {@link cloud.piranha.nano.NanoPiranha}
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.nano.NanoPiranha
  */
 public class NanoRequest extends DefaultWebApplicationRequest {
     

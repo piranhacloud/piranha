@@ -35,30 +35,32 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 
 /**
- * The Nano version of FilterConfig.
- * 
+ * The FilterConfig class used by {@link cloud.piranha.nano.NanoPiranhaBuilder}
+ * so it can initialize a Filter.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.nano
  */
 class NanoFilterConfig implements FilterConfig {
-    
+
     /**
      * Stores the filter name.
      */
     private String filterName;
-    
+
     /**
      * Stores the init parameters.
      */
     private final HashMap<String, String> initParameters;
-    
+
     /**
      * Stores the servlet context.
      */
     private final ServletContext servletContext;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param servletContext the servlet context.
      */
     public NanoFilterConfig(ServletContext servletContext) {
@@ -69,7 +71,7 @@ class NanoFilterConfig implements FilterConfig {
 
     /**
      * Get the init parameter.
-     * 
+     *
      * @param name the name.
      * @return the value, or null if not found.
      */
@@ -80,7 +82,7 @@ class NanoFilterConfig implements FilterConfig {
 
     /**
      * Get the init parameter names.
-     * 
+     *
      * @return the init parameter names.
      */
     @Override
@@ -90,7 +92,7 @@ class NanoFilterConfig implements FilterConfig {
 
     /**
      * Get the servlet context.
-     * 
+     *
      * @return the servlet context.
      */
     @Override
@@ -100,7 +102,7 @@ class NanoFilterConfig implements FilterConfig {
 
     /**
      * Get the filter name.
-     * 
+     *
      * @return the filter name.
      */
     @Override
@@ -110,16 +112,16 @@ class NanoFilterConfig implements FilterConfig {
 
     /**
      * Set the filter name.
-     * 
+     *
      * @param filterName the filter name.
      */
     public void setFilterName(String filterName) {
         this.filterName = filterName;
     }
-    
+
     /**
      * Set the init parameter.
-     * 
+     *
      * @param name the name.
      * @param value the value.
      */

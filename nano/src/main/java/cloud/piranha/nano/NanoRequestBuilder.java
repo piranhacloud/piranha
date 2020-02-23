@@ -28,9 +28,11 @@
 package cloud.piranha.nano;
 
 /**
- * The Nano request builder.
+ * The builder so you can easily build instances of
+ * {@link cloud.piranha.nano.NanoRequest}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.nano.NanoRequest
  */
 public class NanoRequestBuilder {
     

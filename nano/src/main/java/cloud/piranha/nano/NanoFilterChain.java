@@ -36,9 +36,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * The Nano version of the FilterChain we use for processing.
- *
+ * The FilterChain class used by {@link cloud.piranha.nano.NanoPiranha} for
+ * processing of a request and generating a response.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.nano
  */
 class NanoFilterChain implements FilterChain {
 
@@ -48,7 +50,7 @@ class NanoFilterChain implements FilterChain {
     private Filter filter;
 
     /**
-     * Stores the filter chain.
+     * Stores the next filter chain.
      */
     private FilterChain filterChain;
 
@@ -59,9 +61,9 @@ class NanoFilterChain implements FilterChain {
 
     /**
      * Constructor.
-     * 
+     *
      * @param filter the filter.
-     * @param filterChain the filter chain.
+     * @param filterChain the next filter chain.
      */
     public NanoFilterChain(Filter filter, FilterChain filterChain) {
         this.filter = filter;
@@ -70,7 +72,7 @@ class NanoFilterChain implements FilterChain {
 
     /**
      * Constructor.
-     * 
+     *
      * @param servlet the servlet.
      */
     public NanoFilterChain(Servlet servlet) {
