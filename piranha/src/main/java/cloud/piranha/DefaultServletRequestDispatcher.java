@@ -127,6 +127,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 asyncRequest.setWebApplication(servletEnvironment.getWebApplication());
                 asyncRequest.setContextPath(request.getContextPath());
                 asyncRequest.setDispatcherType(DispatcherType.ASYNC);
+                asyncRequest.setAsyncSupported(servletEnvironment.asyncSupported);
 
                 if (path != null) {
                     setForwardAttribute(request, asyncRequest, AsyncContext.ASYNC_CONTEXT_PATH);

@@ -27,6 +27,7 @@
  */
 package cloud.piranha.embedded;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -88,6 +89,7 @@ public class AsyncContextTest {
             Thread.sleep(500);
         }
         assertTrue(response.getResponseAsString().contains("HTTP/1.1 200"));
+        assertFalse(response.getResponseAsString().contains("IsAsyncSupported=false"));
         piranha.stop()
                 .destroy();
     }
