@@ -32,9 +32,11 @@ import javax.servlet.http.Cookie;
 import cloud.piranha.api.WebApplication;
 
 /**
- * The Embedded request builder.
+ * The builder so you can easily build instances of
+ * {@link cloud.piranha.embedded.EmbeddedRequest}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.embedded.EmbeddedRequest
  */
 public class EmbeddedRequestBuilder {
 
