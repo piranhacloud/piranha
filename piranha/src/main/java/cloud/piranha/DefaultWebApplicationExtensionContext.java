@@ -34,7 +34,7 @@ import cloud.piranha.api.WebApplicationExtensionContext;
 
 /**
  * The default web application extension context.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultWebApplicationExtensionContext implements WebApplicationExtensionContext {
@@ -43,12 +43,12 @@ public class DefaultWebApplicationExtensionContext implements WebApplicationExte
      * Stores the exteions.
      */
     private final ArrayList<WebApplicationExtension> extensions;
-    
+
     /**
      * Stores the extension clasess.
      */
     private final ArrayList<Class<? extends WebApplicationExtension>> extensionClasses;
-   
+
     /**
      * Constructor.
      */
@@ -56,10 +56,10 @@ public class DefaultWebApplicationExtensionContext implements WebApplicationExte
         extensions = new ArrayList<>();
         extensionClasses = new ArrayList<>();
     }
-    
+
     /**
      * Add the extension.
-     * 
+     *
      * @param extension the extension.
      */
     @Override
@@ -73,10 +73,22 @@ public class DefaultWebApplicationExtensionContext implements WebApplicationExte
             ex.printStackTrace();
         }
     }
-    
+
+    /**
+     * Add the extension.
+     *
+     * @param extension the extension.
+     */
+    @Override
+    public void add(WebApplicationExtension extension) {
+        extension.extend(this);
+        extensions.add(extension);
+        extensionClasses.add(extension.getClass());
+    }
+
     /**
      * Configure the web application.
-     * 
+     *
      * @param webApplication the web application.
      */
     public void configure(WebApplication webApplication) {
@@ -87,8 +99,8 @@ public class DefaultWebApplicationExtensionContext implements WebApplicationExte
 
     /**
      * Remove the extension.
-     * 
-     * @param extension the extension. 
+     *
+     * @param extension the extension.
      */
     @Override
     public void remove(Class<? extends WebApplicationExtension> extension) {

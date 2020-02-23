@@ -33,11 +33,13 @@ import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationClassLoader;
 import cloud.piranha.DefaultWebApplicationExtensionContext;
 import cloud.piranha.DefaultWebApplicationServer;
+import cloud.piranha.api.WebApplicationExtension;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
@@ -144,10 +146,17 @@ public class ServerPiranha implements Runnable {
                     DefaultWebApplicationClassLoader classLoader
                             = new DefaultWebApplicationClassLoader(webAppDirectory);
                     webApplication.setClassLoader(classLoader);
-
-                    DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                    extensionContext.add(ServerExtension.class);
-                    extensionContext.configure(webApplication);
+                    
+                    if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
+                        DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
+                        extensionContext.add(ServerExtension.class);
+                        extensionContext.configure(webApplication);
+                    } else {
+                        DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
+                        ServiceLoader<WebApplicationExtension> serviceLoader = ServiceLoader.load(WebApplicationExtension.class, classLoader);
+                        extensionContext.add(serviceLoader.iterator().next());
+                        extensionContext.configure(webApplication);
+                    }
 
                     if (contextPath.equalsIgnoreCase("ROOT")) {
                         contextPath = "";

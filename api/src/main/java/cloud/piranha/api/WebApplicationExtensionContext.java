@@ -47,6 +47,18 @@ public interface WebApplicationExtensionContext {
     void add(Class<? extends WebApplicationExtension> extension);
 
     /**
+     * Add the extension to the web application.
+     *
+     * <p>
+     * This will add this extension to the list of extensions that will be used
+     * when configuring the web application.
+     * </p>
+     *
+     * @param extension the extension.
+     */
+    void add(WebApplicationExtension extension);
+
+    /**
      * Remove the extension from the web application.
      *
      * <p>
