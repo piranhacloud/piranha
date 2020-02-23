@@ -31,9 +31,10 @@ import cloud.piranha.DefaultWebApplicationResponse;
 import java.io.ByteArrayOutputStream;
 
 /**
- * The Nano version of a WebApplicationResponse.
+ * The WebApplicationResponse class used by {@link cloud.piranha.nano.NanoPiranha}
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.nano.NanoPiranha
  */
 public class NanoResponse extends DefaultWebApplicationResponse {
 

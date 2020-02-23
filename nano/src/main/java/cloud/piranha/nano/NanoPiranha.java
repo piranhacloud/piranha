@@ -40,9 +40,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * The Nano version of Piranha.
+ * The smallest version of Piranha in our lineup.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.nano
  */
 public class NanoPiranha {
 
