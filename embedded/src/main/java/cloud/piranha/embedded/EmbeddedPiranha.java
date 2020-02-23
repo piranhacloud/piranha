@@ -35,7 +35,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * The main entry point for embedded Piranha.
+ * The embeddable servlet container version of Piranha.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

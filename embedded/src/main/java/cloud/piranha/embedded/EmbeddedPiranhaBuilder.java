@@ -44,22 +44,24 @@ import javax.servlet.ServletRegistration;
 import cloud.piranha.api.WebApplicationExtension;
 
 /**
- * The Embedded Piranha builder.
+ * The builder so you can easily build instances of
+ * {@link cloud.piranha.embedded.EmbeddedPiranha}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.embedded.EmbeddedPiranha
  */
 public class EmbeddedPiranhaBuilder {
-    
+
     /**
      * Stores the async supported flags.
      */
     private final LinkedHashMap<String, Boolean> asyncSupportedServlets;
-    
+
     /**
      * Stores the attributes.
      */
     private final LinkedHashMap<String, Object> attributes;
-    
+
     /**
      * Stores the extension.
      */
@@ -143,10 +145,10 @@ public class EmbeddedPiranhaBuilder {
         resources.add(new DefaultAliasedDirectoryResource(new File(path), alias));
         return this;
     }
-    
+
     /**
      * Add an attribute.
-     * 
+     *
      * @param name the name.
      * @param value the value.
      * @return the builder.
@@ -247,10 +249,10 @@ public class EmbeddedPiranhaBuilder {
         resources.add(new DefaultDirectoryResource(path));
         return this;
     }
-    
+
     /**
      * Set the web application extension.
-     * 
+     *
      * @param extensionClass the extension class.
      * @return the builder.
      */
@@ -358,7 +360,7 @@ public class EmbeddedPiranhaBuilder {
         asyncSupportedServlets.put(servletName, asyncSupported);
         return this;
     }
-    
+
     /**
      * Set a servlet init parameter.
      *
