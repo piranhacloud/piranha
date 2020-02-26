@@ -67,10 +67,10 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
      */
     public PiranhaServerContainerConfiguration() {
         this (
-            System.getProperty("piranha.version", "20.2.0-SNAPSHOT"),
+            System.getProperty("piranha.version", "20.2.0"),
             System.getProperty("piranha.modules", "piranha-micro"),
             System.getProperty("piranha.dependencies", ""),
-            System.getProperty("piranha.repositories", ""),
+            System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"),
             Boolean.valueOf(System.getProperty("piranha.offline", "false")),
             null,
             null,

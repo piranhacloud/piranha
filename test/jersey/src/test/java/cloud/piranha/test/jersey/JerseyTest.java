@@ -32,7 +32,7 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
-import cloud.piranha.servlet.webxml.WebXmlFeature;
+import cloud.piranha.servlet.webxml.WebXmlExtension;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -53,7 +53,7 @@ public class JerseyTest {
     public void testHello() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
-                .feature(WebXmlFeature.class.getName())
+                .extension(WebXmlExtension.class)
                 .build()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()

@@ -29,6 +29,7 @@ package cloud.piranha.embedded;
 
 import cloud.piranha.DefaultAliasedDirectoryResource;
 import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.DefaultWebApplicationExtensionContext;
 import cloud.piranha.api.HttpSessionManager;
 import cloud.piranha.api.Resource;
 import cloud.piranha.api.WebApplication;
@@ -40,18 +41,31 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletRegistration;
+import cloud.piranha.api.WebApplicationExtension;
 
 /**
- * The Embedded Piranha builder.
+ * The builder so you can easily build instances of
+ * {@link cloud.piranha.embedded.EmbeddedPiranha}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.embedded.EmbeddedPiranha
  */
 public class EmbeddedPiranhaBuilder {
-    
+
+    /**
+     * Stores the async supported flags.
+     */
+    private final LinkedHashMap<String, Boolean> asyncSupportedServlets;
+
     /**
      * Stores the attributes.
      */
     private final LinkedHashMap<String, Object> attributes;
+
+    /**
+     * Stores the extension.
+     */
+    private Class<? extends WebApplicationExtension> extensionClass;
 
     /**
      * Stores the features.
@@ -107,6 +121,7 @@ public class EmbeddedPiranhaBuilder {
      * Constructor.
      */
     public EmbeddedPiranhaBuilder() {
+        asyncSupportedServlets = new LinkedHashMap<>();
         attributes = new LinkedHashMap<>();
         features = new ArrayList<>();
         filters = new LinkedHashMap<>();
@@ -130,10 +145,10 @@ public class EmbeddedPiranhaBuilder {
         resources.add(new DefaultAliasedDirectoryResource(new File(path), alias));
         return this;
     }
-    
+
     /**
      * Add an attribute.
-     * 
+     *
      * @param name the name.
      * @param value the value.
      * @return the builder.
@@ -151,6 +166,11 @@ public class EmbeddedPiranhaBuilder {
     public EmbeddedPiranha build() {
         EmbeddedPiranha piranha = new EmbeddedPiranha();
         WebApplication webApplication = piranha.getWebApplication();
+        if (extensionClass != null) {
+            DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
+            context.add(extensionClass);
+            context.configure(webApplication);
+        }
         if (httpSessionManager != null) {
             webApplication.setHttpSessionManager(httpSessionManager);
         }
@@ -162,10 +182,6 @@ public class EmbeddedPiranhaBuilder {
         resources.forEach((resource) -> {
             webApplication.addResource(resource);
         });
-        features.forEach((feature) -> {
-            webApplication.addFeature(feature);
-        });
-        webApplication.initializeFeatures();
         initializers.forEach((initializer) -> {
             webApplication.addInitializer(initializer);
         });
@@ -201,6 +217,7 @@ public class EmbeddedPiranhaBuilder {
                     servlet.setInitParameter(name, value);
                 });
             }
+            servlet.setAsyncSupported(asyncSupportedServlets.get(servletName));
         });
         servletMappings.entrySet().forEach((servetMapping) -> {
             String servletName = servetMapping.getKey();
@@ -230,6 +247,17 @@ public class EmbeddedPiranhaBuilder {
      */
     public EmbeddedPiranhaBuilder directoryResource(String path) {
         resources.add(new DefaultDirectoryResource(path));
+        return this;
+    }
+
+    /**
+     * Set the web application extension.
+     *
+     * @param extensionClass the extension class.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder extension(Class<? extends WebApplicationExtension> extensionClass) {
+        this.extensionClass = extensionClass;
         return this;
     }
 
@@ -316,7 +344,20 @@ public class EmbeddedPiranhaBuilder {
      * @return the builder.
      */
     public EmbeddedPiranhaBuilder servlet(String servletName, String className) {
+        return servlet(servletName, className, false);
+    }
+
+    /**
+     * Add a servlet.
+     *
+     * @param servletName the servlet name.
+     * @param className the class name.
+     * @param asyncSupported the async supported flag.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder servlet(String servletName, String className, boolean asyncSupported) {
         servlets.put(servletName, className);
+        asyncSupportedServlets.put(servletName, asyncSupported);
         return this;
     }
 

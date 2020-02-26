@@ -34,30 +34,31 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
 /**
- * The Nano version of ServletConfig.
- * 
+ * The ServletConfig class used by {@link cloud.piranha.nano.NanoPiranhaBuilder}
+ * so it can initialize the Servlet.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class NanoServletConfig implements ServletConfig {
-    
+
     /**
      * Stores the init parameters.
      */
     private final HashMap<String, String> initParameters;
-    
+
     /**
      * Stores the servlet context.
      */
     private final ServletContext servletContext;
-    
+
     /**
      * Stores the servlet name.
      */
     private String servletName;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param servletContext the servlet context.
      */
     public NanoServletConfig(ServletContext servletContext) {
@@ -68,7 +69,7 @@ class NanoServletConfig implements ServletConfig {
 
     /**
      * Get the init parameter.
-     * 
+     *
      * @param name the name.
      * @return the value, or null if not found.
      */
@@ -79,7 +80,7 @@ class NanoServletConfig implements ServletConfig {
 
     /**
      * Get the init parameter names.
-     * 
+     *
      * @return the init parameter names.
      */
     @Override
@@ -89,7 +90,7 @@ class NanoServletConfig implements ServletConfig {
 
     /**
      * Get the servlet context.
-     * 
+     *
      * @return the servlet context.
      */
     @Override
@@ -99,17 +100,17 @@ class NanoServletConfig implements ServletConfig {
 
     /**
      * Get the servlet name.
-     * 
+     *
      * @return the servlet name.
      */
     @Override
     public String getServletName() {
         return servletName;
     }
-    
+
     /**
      * Set the init parameter.
-     * 
+     *
      * @param name the name.
      * @param value the value.
      */
@@ -119,7 +120,7 @@ class NanoServletConfig implements ServletConfig {
 
     /**
      * Set the servlet name.
-     * 
+     *
      * @param servletName the servlet name.
      */
     public void setServletName(String servletName) {

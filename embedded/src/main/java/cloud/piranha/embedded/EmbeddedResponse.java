@@ -31,9 +31,11 @@ import cloud.piranha.DefaultWebApplicationResponse;
 import java.io.ByteArrayOutputStream;
 
 /**
- * The Embedded version of a WebApplicationResponse.
+ * The WebApplicationResponse class used by
+ * {@link cloud.piranha.embedded.EmbeddedPiranha}
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.embedded.EmbeddedPiranha
  */
 public class EmbeddedResponse extends DefaultWebApplicationResponse {
 

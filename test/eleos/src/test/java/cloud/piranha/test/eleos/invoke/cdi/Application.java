@@ -48,6 +48,7 @@ import cloud.piranha.security.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 
 import cloud.piranha.cdi.weld.WeldInitializer;
+import cloud.piranha.servlet.webxml.WebXmlInitializer;
 
 /**
  * @author Arjan Tijms
@@ -60,6 +61,7 @@ public class Application {
         
         return 
             new TestWebApp(newWebApplication()
+                .addInitializer(WebXmlInitializer.class)
                 .addInitializer(WeldInitializer.class)
                     
                 .addAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)

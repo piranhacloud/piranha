@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>20.2.0-SNAPSHOT</version>
+        <version>20.3.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-server</artifactId>
@@ -32,7 +32,13 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-deepscan</artifactId>
+            <artifactId>piranha-servlet-annotationscan</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-servletcontainerinitializer</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -72,6 +78,18 @@
                                 <descriptor>src/main/assembly/zip.xml</descriptor>
                             </descriptors>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

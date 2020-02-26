@@ -39,6 +39,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cloud.piranha.api.CurrentRequestHolder;
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
 
 /**
  * The default ServletRequestDispatcher.
@@ -120,45 +122,90 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
         response.resetBuffer();
 
-        try (DefaultWebApplicationRequest forwardedRequest = new DefaultWebApplicationRequest()) {
-            forwardedRequest.setWebApplication(servletEnvironment.getWebApplication());
-            forwardedRequest.setContextPath(request.getContextPath());
+        if (request.getDispatcherType().equals(DispatcherType.ASYNC)) {
+            try (DefaultWebApplicationRequest asyncRequest = new DefaultWebApplicationRequest()) {
+                asyncRequest.setWebApplication(servletEnvironment.getWebApplication());
+                asyncRequest.setContextPath(request.getContextPath());
+                asyncRequest.setDispatcherType(DispatcherType.ASYNC);
+                asyncRequest.setAsyncSupported(servletEnvironment.asyncSupported);
 
-            if (path != null) {
-                setForwardAttribute(request, forwardedRequest, RequestDispatcher.FORWARD_CONTEXT_PATH);
-                setForwardAttribute(request, forwardedRequest, RequestDispatcher.FORWARD_PATH_INFO);
-                setForwardAttribute(request, forwardedRequest, RequestDispatcher.FORWARD_QUERY_STRING);
-                setForwardAttribute(request, forwardedRequest, RequestDispatcher.FORWARD_REQUEST_URI);
-                setForwardAttribute(request, forwardedRequest, RequestDispatcher.FORWARD_SERVLET_PATH);
+                if (path != null) {
+                    setForwardAttribute(request, asyncRequest, AsyncContext.ASYNC_CONTEXT_PATH);
+                    setForwardAttribute(request, asyncRequest, AsyncContext.ASYNC_PATH_INFO);
+                    setForwardAttribute(request, asyncRequest, AsyncContext.ASYNC_QUERY_STRING);
+                    setForwardAttribute(request, asyncRequest, AsyncContext.ASYNC_REQUEST_URI);
+                    setForwardAttribute(request, asyncRequest, AsyncContext.ASYNC_SERVLET_PATH);
 
-                String servletPath = !path.contains("?") ? path : path.substring(0, path.indexOf("?"));
-                forwardedRequest.setServletPath(servletPath);
+                    String servletPath = !path.contains("?") ? path : path.substring(0, path.indexOf("?"));
+                    asyncRequest.setServletPath(servletPath);
 
-                String queryString = !path.contains("?") ? null : path.substring(path.indexOf("?") + 1);
-                forwardedRequest.setQueryString(queryString);
+                    String queryString = !path.contains("?") ? null : path.substring(path.indexOf("?") + 1);
+                    asyncRequest.setQueryString(queryString);
 
-            } else {
-                forwardedRequest.setServletPath("/" + servletEnvironment.getServletName());
-            }
-
-            CurrentRequestHolder currentRequestHolder = (CurrentRequestHolder) request.getAttribute(CURRENT_REQUEST_ATTRIBUTE);
-            if (currentRequestHolder != null) {
-                currentRequestHolder.setRequest(forwardedRequest);
-                forwardedRequest.setAttribute(CURRENT_REQUEST_ATTRIBUTE, currentRequestHolder);
-            }
-
-            try {
-                servletEnvironment.getWebApplication().linkRequestAndResponse(forwardedRequest, servletResponse);
-                servletEnvironment.getServlet().service(forwardedRequest, servletResponse);
-                servletEnvironment.getWebApplication().unlinkRequestAndResponse(forwardedRequest, servletResponse);
-            } catch (IOException | ServletException exception) {
-                throw exception;
-            } finally {
-                if (currentRequestHolder != null) {
-                    currentRequestHolder.setRequest(request);
+                } else {
+                    asyncRequest.setServletPath("/" + servletEnvironment.getServletName());
                 }
+
+                CurrentRequestHolder currentRequestHolder = (CurrentRequestHolder) request.getAttribute(CURRENT_REQUEST_ATTRIBUTE);
+                if (currentRequestHolder != null) {
+                    currentRequestHolder.setRequest(asyncRequest);
+                    asyncRequest.setAttribute(CURRENT_REQUEST_ATTRIBUTE, currentRequestHolder);
+                }
+
+                try {
+                    servletEnvironment.getWebApplication().linkRequestAndResponse(asyncRequest, servletResponse);
+                    servletEnvironment.getServlet().service(asyncRequest, servletResponse);
+                    servletEnvironment.getWebApplication().unlinkRequestAndResponse(asyncRequest, servletResponse);
+                } catch (IOException | ServletException exception) {
+                    throw exception;
+                } finally {
+                    if (currentRequestHolder != null) {
+                        currentRequestHolder.setRequest(request);
+                    }
+                }
+                response.flushBuffer();
             }
-            response.flushBuffer();
+        } else {
+            try (DefaultWebApplicationRequest forwardedRequest = new DefaultWebApplicationRequest()) {
+                forwardedRequest.setWebApplication(servletEnvironment.getWebApplication());
+                forwardedRequest.setContextPath(request.getContextPath());
+
+                if (path != null) {
+                    setForwardAttribute(request, forwardedRequest, RequestDispatcher.FORWARD_CONTEXT_PATH);
+                    setForwardAttribute(request, forwardedRequest, RequestDispatcher.FORWARD_PATH_INFO);
+                    setForwardAttribute(request, forwardedRequest, RequestDispatcher.FORWARD_QUERY_STRING);
+                    setForwardAttribute(request, forwardedRequest, RequestDispatcher.FORWARD_REQUEST_URI);
+                    setForwardAttribute(request, forwardedRequest, RequestDispatcher.FORWARD_SERVLET_PATH);
+
+                    String servletPath = !path.contains("?") ? path : path.substring(0, path.indexOf("?"));
+                    forwardedRequest.setServletPath(servletPath);
+
+                    String queryString = !path.contains("?") ? null : path.substring(path.indexOf("?") + 1);
+                    forwardedRequest.setQueryString(queryString);
+
+                } else {
+                    forwardedRequest.setServletPath("/" + servletEnvironment.getServletName());
+                }
+
+                CurrentRequestHolder currentRequestHolder = (CurrentRequestHolder) request.getAttribute(CURRENT_REQUEST_ATTRIBUTE);
+                if (currentRequestHolder != null) {
+                    currentRequestHolder.setRequest(forwardedRequest);
+                    forwardedRequest.setAttribute(CURRENT_REQUEST_ATTRIBUTE, currentRequestHolder);
+                }
+
+                try {
+                    servletEnvironment.getWebApplication().linkRequestAndResponse(forwardedRequest, servletResponse);
+                    servletEnvironment.getServlet().service(forwardedRequest, servletResponse);
+                    servletEnvironment.getWebApplication().unlinkRequestAndResponse(forwardedRequest, servletResponse);
+                } catch (IOException | ServletException exception) {
+                    throw exception;
+                } finally {
+                    if (currentRequestHolder != null) {
+                        currentRequestHolder.setRequest(request);
+                    }
+                }
+                response.flushBuffer();
+            }
         }
     }
 

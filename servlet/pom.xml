@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>20.2.0-SNAPSHOT</version>
+        <version>20.3.0-SNAPSHOT</version>
     </parent>
 
     <groupId>cloud.piranha.servlet</groupId>
@@ -16,8 +16,9 @@
     <name>Piranha Servlet</name>
 
     <modules>
+        <module>annotationscan</module>
         <module>api</module>
-        <module>deepscan</module>
+        <module>servletcontainerinitializer</module>
         <module>webservlet</module>
         <module>webxml</module>
     </modules>

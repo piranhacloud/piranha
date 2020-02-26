@@ -30,9 +30,11 @@ package cloud.piranha.nano;
 import java.io.OutputStream;
 
 /**
- * The Nano response builder.
+ * The builder so you can easily build instances of
+ * {@link cloud.piranha.nano.NanoResponse}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.nano.NanoResponse
  */
 public class NanoResponseBuilder {
     

@@ -30,7 +30,7 @@ package cloud.piranha;
 import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -74,10 +74,10 @@ public class HttpServletRequestTest {
      */
     @Test
     public void testSetCharacterEncoding2() throws Exception {
-        assertNull(httpServletRequest.getCharacterEncoding());
+        assertEquals("ISO-8859-1", httpServletRequest.getCharacterEncoding());
         httpServletRequest.getReader();
-        httpServletRequest.setCharacterEncoding("ISO-8859-1");
-        assertNull(httpServletRequest.getCharacterEncoding());
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        assertNotEquals("UTF-8", httpServletRequest.getCharacterEncoding());
     }
 
     /**

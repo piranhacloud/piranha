@@ -27,18 +27,25 @@
  */
 package cloud.piranha.embedded;
 
+import cloud.piranha.api.WebApplication;
+import java.util.Set;
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
+import cloud.piranha.api.WebApplicationExtension;
 
 /**
  * The JUnit tests for the EmbeddedPiranha class.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class EmbeddedPiranhaTest {
 
     /**
      * Test service method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -50,5 +57,52 @@ public class EmbeddedPiranhaTest {
         piranha.start();
         piranha.service(request, response);
         piranha.stop();
+    }
+
+    /**
+     * Test extension handling.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testExtensionHandling() throws Exception {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .extension(TestExtension.class)
+                .buildAndStart();
+        assertNotNull(piranha.getWebApplication().getAttribute(TestInitializer.class.getName()));
+    }
+
+    /**
+     * A test extension.
+     */
+    public static class TestExtension implements WebApplicationExtension {
+
+        /**
+         * Configure the web application.
+         *
+         * @param webApplication the web application.
+         */
+        @Override
+        public void configure(WebApplication webApplication) {
+            webApplication.addInitializer(TestInitializer.class.getName());
+        }
+    }
+
+    /**
+     * A test servlet container initializer.
+     */
+    public static class TestInitializer implements ServletContainerInitializer {
+
+        /**
+         * On startup.
+         *
+         * @param classes the list of annotated classes.
+         * @param servletContext the Servlet context.
+         * @throws ServletException when a Servlet error occurs.
+         */
+        @Override
+        public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+            servletContext.setAttribute(TestInitializer.class.getName(), true);
+        }
     }
 }

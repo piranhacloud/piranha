@@ -57,8 +57,9 @@ import org.omnifaces.exousia.constraints.WebResourceCollection;
 import org.omnifaces.exousia.constraints.transformer.ElementsToConstraintsTransformer;
 
 import cloud.piranha.DefaultAuthenticatedIdentity;
-import cloud.piranha.DefaultWebXml;
+import cloud.piranha.servlet.webxml.WebXml;
 import cloud.piranha.api.WebApplication;
+import cloud.piranha.servlet.webxml.WebXmlManager;
 
 /**
  * The Exousia initializer.
@@ -128,12 +129,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     }
 
     private boolean isDenyUncoveredHttpMethods(WebApplication webApp) throws ServletException {
-        DefaultWebXml webXml = (DefaultWebXml) webApp.getWebXmlManager().getWebXml();
-        if (webXml == null) {
-            return false;
-        }
-
-        return webXml.denyUncoveredHttpMethods;
+        return webApp.getDenyUncoveredHttpMethods();
     }
 
     public static void addToRole(PolicyConfiguration policyConfiguration, String role, Permission permission) {
@@ -195,7 +191,8 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     }
 
     public List<SecurityConstraint> getConstraintsFromWebXMl(WebApplication context) throws ServletException {
-        DefaultWebXml webXml = (DefaultWebXml) context.getWebXmlManager().getWebXml();
+        WebXmlManager manager = (WebXmlManager) context.getAttribute(WebXmlManager.KEY);
+        WebXml webXml = (WebXml) manager.getWebXml();
         
         if (webXml == null || webXml.securityConstraints == null) {
             return null;
@@ -203,10 +200,10 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
 
         List<SecurityConstraint> constraints = new ArrayList<>();
 
-        for (DefaultWebXml.SecurityConstraint xmlConstraint : webXml.securityConstraints) {
+        for (WebXml.SecurityConstraint xmlConstraint : webXml.securityConstraints) {
 
             List<WebResourceCollection> webResourceCollections = new ArrayList<>();
-            for (DefaultWebXml.SecurityConstraint.WebResourceCollection xmlCollection : xmlConstraint.webResourceCollections) {
+            for (WebXml.SecurityConstraint.WebResourceCollection xmlCollection : xmlConstraint.webResourceCollections) {
                 webResourceCollections.add(new WebResourceCollection(
                         xmlCollection.urlPatterns,
                         xmlCollection.httpMethods,

@@ -44,7 +44,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +80,6 @@ import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
 
 import cloud.piranha.api.AnnotationManager;
-import cloud.piranha.api.Feature;
 import cloud.piranha.api.FilterPriority;
 import cloud.piranha.api.HttpRequestManager;
 import cloud.piranha.api.HttpSessionManager;
@@ -95,7 +93,6 @@ import cloud.piranha.api.SecurityManager;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.api.WebApplicationRequestMapper;
 import cloud.piranha.api.WebApplicationRequestMapping;
-import cloud.piranha.api.WebXmlManager;
 
 /**
  * The default WebApplication.
@@ -150,6 +147,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the context path.
      */
     protected String contextPath;
+    
+    /**
+     * Stores the boolean flag indicating if the web application is distributable.
+     */
+    protected boolean distributable;
 
     /**
      * Stores the servlet context name.
@@ -166,7 +168,6 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected String responseCharacterEncoding;
 
-    // ### Volatile state
     /**
      * Stores the status.
      */
@@ -181,12 +182,6 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the active responses and the associated requests.
      */
     protected final Map<ServletResponse, ServletRequest> responses;
-
-    // ### Application parts
-    /**
-     * Stores our features.
-     */
-    protected List<Feature> features;
 
     /**
      * Stores the servlet container initializers.
@@ -290,11 +285,6 @@ public class DefaultWebApplication implements WebApplication {
     protected WebApplicationRequestMapper webApplicationRequestMapper;
 
     /**
-     * Stores the web.xml manager.
-     */
-    protected WebXmlManager webXmlManager;
-
-    /**
      * Constructor.
      */
     public DefaultWebApplication() {
@@ -304,7 +294,6 @@ public class DefaultWebApplication implements WebApplication {
         contextAttributeListeners = new ArrayList<>(1);
         contextListeners = new ArrayList<>(1);
         contextPath = "";
-        features = new ArrayList<>(1);
         filters = new LinkedHashMap<>(1);
         httpSessionManager = new DefaultHttpSessionManager();
         httpRequestManager = new DefaultHttpRequestManager();
@@ -321,34 +310,6 @@ public class DefaultWebApplication implements WebApplication {
         securityManager = new DefaultSecurityManager();
         servlets = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
-        webXmlManager = new DefaultWebXmlManager();
-    }
-
-    /**
-     * Add a feature.
-     *
-     * @param feature the feature.
-     */
-    @Override
-    public void addFeature(Feature feature) {
-        features.add(feature);
-    }
-
-    /**
-     * Add a feature.
-     *
-     * @param className the class name.
-     */
-    @Override
-    public void addFeature(String className) {
-        try {
-            Class<Feature> clazz = (Class<Feature>) getClassLoader().loadClass(className);
-            features.add(clazz.newInstance());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.log(Level.WARNING, "Unable to add feature: " + className, ex);
-            }
-        }
     }
 
     /**
@@ -758,6 +719,16 @@ public class DefaultWebApplication implements WebApplication {
         return Collections.enumeration(attributes.keySet());
     }
 
+    /**
+     * Are we denying uncovered HTTP methods.
+     * 
+     * @return true if we are, false otherwise.
+     */
+    @Override
+    public boolean getDenyUncoveredHttpMethods() {
+        return securityManager.getDenyUncoveredHttpMethods();
+    }
+    
     /**
      * Get the class loader.
      *
@@ -1229,39 +1200,16 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the web.xml manager.
-     *
-     * @return the web.xml manager.
-     */
-    @Override
-    public WebXmlManager getWebXmlManager() {
-        return webXmlManager;
-    }
-
-    /**
      * Initialize the web application.
      */
     @Override
     public void initialize() {
         LOGGER.log(FINE, "Initializing web application at {0}", contextPath);
         verifyState(SETUP, "Unable to initialize web application");
-        initializeFeatures();
         initializeInitializers();
         initializeFilters();
         initializeServlets();
         initializeFinish();
-    }
-
-    /**
-     * Initialize the features.
-     */
-    @Override
-    public void initializeFeatures() {
-        Iterator<Feature> iterator = features.iterator();
-        while (iterator.hasNext()) {
-            Feature feature = iterator.next();
-            feature.initialize(this);
-        }
     }
 
     /**
@@ -1337,6 +1285,16 @@ public class DefaultWebApplication implements WebApplication {
                 initializeServlet(environment);
             });
         }
+    }
+
+    /**
+     * Is the web application distributable.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    @Override
+    public boolean isDistributable() {
+        return distributable;
     }
 
     /**
@@ -1547,9 +1505,32 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setContextPath(String contextPath) {
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Setting context path to: {0}", contextPath);
+        }
         this.contextPath = contextPath;
     }
+    
+    /**
+     * Set if we are denying uncovered HTTP methods.
+     * 
+     * @param denyUncoveredHttpMethods the boolean value.
+     */
+    @Override
+    public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
+        securityManager.setDenyUncoveredHttpMethods(denyUncoveredHttpMethods);
+    }
 
+    /**
+     * Set if the web application is distributable.
+     * 
+     * @param distributable the boolean value.
+     */
+    @Override
+    public void setDistributable(boolean distributable) {
+        this.distributable = distributable;
+    }
+    
     /**
      * Set the HTTP session manager.
      *

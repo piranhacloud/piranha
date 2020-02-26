@@ -103,7 +103,7 @@ public class JasperInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext)
             throws ServletException {
-        LOGGER.info("Initializing Jasper integration");
+        LOGGER.fine("Initializing Jasper integration");
         
         if (JspFactory.getDefaultFactory() == null) {
             JspFactory.setDefaultFactory(new JspFactoryImpl());
@@ -115,8 +115,8 @@ public class JasperInitializer implements ServletContainerInitializer {
                 + getClassesDirectory(servletContext)
                 + getJarFiles(servletContext);
         
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.log(Level.INFO, "Jasper classpath is: {0}", classpath);
+        if (LOGGER.isLoggable(Level.FINER)) {
+            LOGGER.log(Level.FINER, "Jasper classpath is: {0}", classpath);
         }
         
         registration.setInitParameter("classpath", classpath);
@@ -124,6 +124,6 @@ public class JasperInitializer implements ServletContainerInitializer {
         registration.setInitParameter("compilerTargetVM", "1.8");
         WebApplication webApplication = (WebApplication) servletContext;
         webApplication.setJspManager(new JasperJspManager());
-        LOGGER.info("Initializing Jasper integration");
+        LOGGER.fine("Initialized Jasper integration");
     }
 }

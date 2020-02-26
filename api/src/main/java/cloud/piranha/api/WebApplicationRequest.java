@@ -27,6 +27,7 @@
  */
 package cloud.piranha.api;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -35,4 +36,11 @@ import javax.servlet.http.HttpServletRequest;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface WebApplicationRequest extends HttpServletRequest {
+    
+    /**
+     * Set the dispatcher type.
+     * 
+     * @param dispatcherType the dispatcher type.
+     */
+    void setDispatcherType(DispatcherType dispatcherType);
 }

@@ -2,13 +2,18 @@
 
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         version="3.0">
-    <display-name>myservletcontext</display-name>
+         xsi:schemaLocation="
+            http://xmlns.jcp.org/xml/ns/javaee
+            http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
     <context-param>
         <param-name>myname</param-name>
         <param-value>myvalue</param-value>
     </context-param>
+    <filter>
+        <filter-name>>Test Filter</filter-name>
+        <filter-class>cloud.piranha.servlet.webxml.TestFilter</filter-class>
+    </filter>
     <servlet>
         <servlet-name>Test Servlet</servlet-name>
         <servlet-class>cloud.piranha.servlet.webxml.TestServlet</servlet-class>
@@ -30,4 +35,9 @@
         <extension>class</extension>
         <mime-type>application/x-java-class</mime-type>
     </mime-mapping>
+    <default-context-path>/defaultContextPath</default-context-path>
+    <deny-uncovered-http-methods/>
+    <display-name>myServletContextName</display-name>
+    <distributable/>
+    <response-character-encoding>UTF-8</response-character-encoding>
 </web-app>

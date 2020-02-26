@@ -6,13 +6,25 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>20.2.0-SNAPSHOT</version>
+        <version>20.3.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-embedded</artifactId>
     <packaging>jar</packaging>
 
     <name>Piranha Embedded</name>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <docfilessubdirs>true</docfilessubdirs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>

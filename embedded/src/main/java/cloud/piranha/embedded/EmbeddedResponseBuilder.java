@@ -30,9 +30,11 @@ package cloud.piranha.embedded;
 import cloud.piranha.DefaultWebApplication;
 
 /**
- * The Embedded response builder.
+ * The builder so you can easily build instances of
+ * {@link cloud.piranha.embedded.EmbeddedResponse}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.embedded.EmbeddedResponse
  */
 public class EmbeddedResponseBuilder {
 

@@ -15,3 +15,34 @@ Which ever level you pick we welcome you!
 Note if you file issues, answer questions and/or issue pull requests you agree
 that those contributions will be owned by Manorrock.com and that Manorrock.com 
 can use those contributions in any manner Manorrock.com so desires.
+
+## Building and testing Piranha locally
+
+### Building Piranha and running the tests
+
+```
+mvn clean install
+```
+
+Note our more complex tests are in the `test` profile because we do NOT release
+them as part of a release, but they are activated automatically for local
+development.
+
+### Running a singular test
+
+To run a singular test pass in `-Dtest=expression`, see the `surefire` plugin
+documentation for more information.
+
+### Run the TCKs
+
+To run all the TCKs use:
+
+```
+mvn clean verify -Ptck
+```
+
+Or go into the directory of the TCK you want to run and use:
+
+```
+mvn clean verify
+```

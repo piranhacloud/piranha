@@ -276,12 +276,12 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the web application
      */
     protected WebApplication webApplication;
-    
+
     /**
      * Stores the finished flag.
      */
     private boolean finished;
-    
+
     /**
      * The number of items read from the input stream
      */
@@ -300,7 +300,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.asyncStarted = false;
         this.asyncSupported = false;
         this.attributeManager = new DefaultAttributeManager();
-        this.characterEncoding = null;
+        this.characterEncoding = "ISO-8859-1";
         this.contentLength = -1;
         this.contentType = null;
         this.contextPath = "";
@@ -579,7 +579,12 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (languages.hasMoreElements()) {
             String localeString = languages.nextElement();
             String[] localeStrings = localeString.split(",");
-            result = new Locale(localeStrings[0]);
+            if (localeStrings[0].contains("-")) {
+                String[] localeString1 = localeStrings[0].split("-");
+                result = new Locale(localeString1[0].trim(), localeString1[1].trim());
+            } else {
+                result = new Locale(localeStrings[0].trim());
+            }
         }
         return result;
     }
@@ -597,7 +602,12 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
             String localeString = languages.nextElement();
             String[] localeStrings = localeString.split(",");
             for (String localeString1 : localeStrings) {
-                locales.add(new Locale(localeString1.trim()));
+                if (localeString1.contains("-")) {
+                    String[] localeString2 = localeString1.split("-");
+                    locales.add(new Locale(localeString2[0].trim(), localeString2[1].trim()));
+                } else {
+                    locales.add(new Locale(localeString1.trim()));
+                }
             }
         } else {
             locales = new ArrayList<>();
@@ -693,14 +703,13 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                         }
                     }
                 }
-                
-                boolean hasBody = 
-                    // FORM submission
-                    (contentType != null && contentType.equals("application/x-www-form-urlencoded")) ||
-                    
-                    // PUT parameters
-                    ("put".equalsIgnoreCase(getMethod()) &&  getContentLength() > 0);
-                
+
+                boolean hasBody
+                        = // FORM submission
+                        (contentType != null && contentType.equals("application/x-www-form-urlencoded"))
+                        || // PUT parameters
+                        ("put".equalsIgnoreCase(getMethod()) && getContentLength() > 0);
+
                 if (hasBody) {
                     ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
                     int read = read();
@@ -708,11 +717,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                         byteOutput.write(read);
                         read = read();
                     }
-                    
+
                     if (read != -1) {
                         byteOutput.write(read);
                     }
-                    
+
                     String parameterString = new String(byteOutput.toByteArray());
                     String[] pairs = parameterString.trim().split("&");
                     if (pairs != null) {
@@ -1008,14 +1017,14 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (currentSessionId == null && requestedSessionId != null) {
             currentSessionId = requestedSessionId;
         }
-        
+
         if (manager.hasSession(currentSessionId)) {
             session = manager.getSession(webApplication, this, currentSessionId);
         } else if (create) {
             session = manager.createSession(webApplication, this);
             currentSessionId = session.getId();
         }
-        
+
         return session;
     }
 
@@ -1282,6 +1291,16 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                 this.cookies[i] = (Cookie) cookies[i].clone();
             }
         }
+    }
+
+    /**
+     * Set the dispatcher type.
+     *
+     * @param dispatcherType the dispatcher type.
+     */
+    @Override
+    public void setDispatcherType(DispatcherType dispatcherType) {
+        this.dispatcherType = dispatcherType;
     }
 
     /**
@@ -1611,13 +1630,13 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (finished || getContentLength() == 0) {
             return -1;
         }
-        
+
         int read = inputStream.read();
         index++;
         if (index == getContentLength() || read == -1) {
             finished = true;
         }
-        
+
         return read;
     }
 }

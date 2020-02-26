@@ -30,12 +30,14 @@ package cloud.piranha.embedded;
 import cloud.piranha.DefaultWebApplicationRequest;
 
 /**
- * The embedded version of a WebApplicationRequest.
- * 
+ * The WebApplicationRequest class used by
+ * {@link cloud.piranha.embedded.EmbeddedPiranha}
+ *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.embedded.EmbeddedPiranha
  */
 public class EmbeddedRequest extends DefaultWebApplicationRequest {
-    
+
     /**
      * Constructor.
      */

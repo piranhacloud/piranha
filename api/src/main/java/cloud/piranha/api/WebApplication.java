@@ -64,20 +64,6 @@ public interface WebApplication extends ServletContext {
     void addErrorPage(String exception, String location);
 
     /**
-     * Add a feature.
-     *
-     * @param feature the feature.
-     */
-    void addFeature(Feature feature);
-
-    /**
-     * Add a feature.
-     * 
-     * @param className the class name.
-     */
-    void addFeature(String className);
-
-    /**
      * Add a mapping for the given filter.
      *
      * @param filterName the filter name.
@@ -143,6 +129,13 @@ public interface WebApplication extends ServletContext {
      * @return the annotation manager.
      */
     AnnotationManager getAnnotationManager();
+    
+    /**
+     * Are we denying uncovered HTTP methods.
+     * 
+     * @return true if we are, false otherwise.
+     */
+    boolean getDenyUncoveredHttpMethods();
 
     /**
      * Get the mime type manager.
@@ -215,21 +208,9 @@ public interface WebApplication extends ServletContext {
     SecurityManager getSecurityManager();
 
     /**
-     * Get the web.xml manager.
-     *
-     * @return the web.xml manager.
-     */
-    WebXmlManager getWebXmlManager();
-
-    /**
      * Initialize the web application.
      */
     void initialize();
-    
-    /**
-     * Initialize the features.
-     */
-    void initializeFeatures();
     
     /**
      * Finish the initialization.
@@ -250,6 +231,13 @@ public interface WebApplication extends ServletContext {
      * Initialize the servlets.
      */
     void initializeServlets();
+    
+    /**
+     * Is the application distributable.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    boolean isDistributable();
 
     /**
      * Link the request and response.
@@ -283,6 +271,20 @@ public interface WebApplication extends ServletContext {
      * @param contextPath the context path.
      */
     void setContextPath(String contextPath);
+    
+    /**
+     * Set if we are denying uncovered HTTP methods.
+     * 
+     * @param denyUncoveredHttpMethods the boolean value.
+     */
+    void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods);
+
+    /**
+     * Set if the web application is distributable.
+     * 
+     * @param distributable the distributable flag.
+     */
+    void setDistributable(boolean distributable);
 
     /**
      * Set the HTTP session manager.

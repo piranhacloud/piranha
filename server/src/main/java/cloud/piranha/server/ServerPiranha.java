@@ -31,26 +31,29 @@ import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultHttpServer;
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationClassLoader;
+import cloud.piranha.DefaultWebApplicationExtensionContext;
 import cloud.piranha.DefaultWebApplicationServer;
-import cloud.piranha.pages.jasper.JasperFeature;
-import cloud.piranha.servlet.deepscan.DeepScanFeature;
-import cloud.piranha.servlet.webxml.WebXmlFeature;
+import cloud.piranha.api.WebApplicationExtension;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * The main entry point for the standard version of Piranha.
+ * The main entry point for Piranha Server.
  *
  * <p>
- * This version Piranha allows you to run multiple web applications at the same
- * time. It has a shutdown mechanism that allows you to shutdown the server by
+ * This version of Piranha makes it possible for you to run multiple web
+ * applications at the same time.
+ * </p>
+ * <p>
+ * It has a shutdown mechanism that allows you to shutdown the server by
  * removing the piranha.pid file that should be created by the startup script.
  * </p>
  *
@@ -137,14 +140,24 @@ public class ServerPiranha implements Runnable {
                     String contextPath = webapp.getName().substring(0, webapp.getName().length() - 4);
                     File webAppDirectory = new File(webappsDirectory, contextPath);
                     extractWarFile(webapp, webAppDirectory);
+
                     DefaultWebApplication webApplication = new DefaultWebApplication();
+                    webApplication.addResource(new DefaultDirectoryResource(webAppDirectory));
                     DefaultWebApplicationClassLoader classLoader
                             = new DefaultWebApplicationClassLoader(webAppDirectory);
-                    webApplication.addFeature(new DeepScanFeature());
-                    webApplication.addFeature(new WebXmlFeature());
-                    webApplication.addFeature(new JasperFeature());
-                    webApplication.addResource(new DefaultDirectoryResource(webAppDirectory));
                     webApplication.setClassLoader(classLoader);
+                    
+                    if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
+                        DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
+                        extensionContext.add(ServerExtension.class);
+                        extensionContext.configure(webApplication);
+                    } else {
+                        DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
+                        ServiceLoader<WebApplicationExtension> serviceLoader = ServiceLoader.load(WebApplicationExtension.class, classLoader);
+                        extensionContext.add(serviceLoader.iterator().next());
+                        extensionContext.configure(webApplication);
+                    }
+
                     if (contextPath.equalsIgnoreCase("ROOT")) {
                         contextPath = "";
                     } else if (!contextPath.startsWith("/")) {
