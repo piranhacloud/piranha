@@ -35,16 +35,19 @@ import cloud.piranha.servlet.servletcontainerinitializer.ServletContainerInitial
 import cloud.piranha.servlet.webxml.WebXmlExtension;
 
 /**
- * The extension each web application using Piranha Server gets configured with.
- * 
+ * The {@link cloud.piranha.api.WebApplicationExtension} used by
+ * {@link cloud.piranha.server.ServerPiranha} to configure each web application.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.server.ServerPiranha
+ * @see cloud.piranha.api.WebApplicationExtension
  */
 public class ServerExtension implements WebApplicationExtension {
 
     /**
      * Extend the web application.
-     * 
-     * @param context the context. 
+     *
+     * @param context the context.
      */
     @Override
     public void extend(WebApplicationExtensionContext context) {
