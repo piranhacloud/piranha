@@ -46,12 +46,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * The main entry point for Piranha Server.
+ * The Servlet container version of Piranha.
  *
  * <p>
  * This version of Piranha makes it possible for you to run multiple web
  * applications at the same time.
  * </p>
+ *
  * <p>
  * It has a shutdown mechanism that allows you to shutdown the server by
  * removing the piranha.pid file that should be created by the startup script.
@@ -146,7 +147,7 @@ public class ServerPiranha implements Runnable {
                     DefaultWebApplicationClassLoader classLoader
                             = new DefaultWebApplicationClassLoader(webAppDirectory);
                     webApplication.setClassLoader(classLoader);
-                    
+
                     if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                         DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
                         extensionContext.add(ServerExtension.class);
