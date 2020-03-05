@@ -66,6 +66,20 @@ public class ServerPiranha implements Runnable {
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(ServerPiranha.class.getName());
+    
+    /**
+     * Stores the one and only instance of the server.
+     */
+    private static ServerPiranha INSTANCE;
+    
+    /**
+     * Get the instance.
+     * 
+     * @return the instance.
+     */
+    public static ServerPiranha get() {
+        return INSTANCE;
+    }
 
     /**
      * Main method.
@@ -73,8 +87,8 @@ public class ServerPiranha implements Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        ServerPiranha piranha = new ServerPiranha();
-        piranha.run();
+        INSTANCE = new ServerPiranha();
+        INSTANCE.run();
     }
 
     /**
