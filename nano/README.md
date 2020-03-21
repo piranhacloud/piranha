@@ -1,4 +1,4 @@
 
 # Piranha Nano
 
-Please see [https://piranha.cloud/nano](https://piranha.cloud/nano) for more information
+See [Piranha Nano API documentation](https://javadoc.piranha.cloud/cloud/piranha/nano/package-summary.html)
