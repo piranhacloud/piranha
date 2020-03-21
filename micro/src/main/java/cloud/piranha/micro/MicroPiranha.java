@@ -53,6 +53,11 @@ public class MicroPiranha implements Runnable {
      * Stores the HTTP server.
      */
     private DefaultHttpServer httpServer;
+    
+    /**
+     * Stores the HTTP port.
+     */
+    private int port = 8080;
 
     /**
      * Stores the WAR file.
@@ -88,6 +93,9 @@ public class MicroPiranha implements Runnable {
                 }
                 if (arguments[i].equals("--war")) {
                     warFile = new File(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--port")) {
+                    port = Integer.parseInt(arguments[i + 1]);
                 }
             }
         }
@@ -182,7 +190,7 @@ public class MicroPiranha implements Runnable {
         webApplicationServer.addWebApplication(webApplication);
         webApplicationServer.initialize();
         webApplicationServer.start();
-        httpServer = new DefaultHttpServer(8080, webApplicationServer);
+        httpServer = new DefaultHttpServer(port, webApplicationServer);
         httpServer.start();
         while (httpServer.isRunning()) {
             try {
