@@ -74,12 +74,12 @@ public class MicroPiranhaTest {
     @Test
     public void testChangingPort() throws Exception {
         final MicroPiranha piranha = new MicroPiranha();
-        piranha.configure(new String[] { "--port", "8888"});
+        piranha.configure(new String[] { "--port", "8088"});
         Thread thread = new Thread(piranha);
         thread.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8888/does-not-exist");
+            HttpGet request = new HttpGet("http://localhost:8088/does-not-exist");
             HttpResponse response = client.execute(request);
             assertEquals(404, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
