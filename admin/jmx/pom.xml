@@ -5,7 +5,7 @@
     <parent>
         <artifactId>project</artifactId>
         <groupId>cloud.piranha.admin</groupId>
-        <version>20.3.0-SNAPSHOT</version>
+        <version>20.4.0-SNAPSHOT</version>
     </parent>
     <artifactId>piranha-admin-jmx</artifactId>
     <packaging>war</packaging>
