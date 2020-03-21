@@ -34,6 +34,12 @@ Note the documentation for the master branch might show features that are NOT
 yet available as it is under active development. Please see the documentation
 for the release you are using in the links below.
 
+## Documentation for the master branch
+
+[latest SNAPSHOT documentation](https://javadoc.jitpack.io/com/github/piranhacloud/piranha/project/master-SNAPSHOT/javadoc/), 
+[![latest SNAPSHOT documentation](https://jitpack.io/v/piranhacloud/piranha.svg)]
+(https://javadoc.jitpack.io/com/github/piranhacloud/piranha/project/master-SNAPSHOT/javadoc/)
+
 ## Documentation for older releases
 
 1. [Version 20.3.0](https://github.com/piranhacloud/piranha/tree/v20.3.0)
