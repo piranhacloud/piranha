@@ -37,8 +37,7 @@ for the release you are using in the links below.
 ## Documentation for the master branch
 
 [latest SNAPSHOT documentation](https://javadoc.jitpack.io/com/github/piranhacloud/piranha/project/master-SNAPSHOT/javadoc/), 
-[![latest SNAPSHOT documentation](https://jitpack.io/v/piranhacloud/piranha.svg)]
-(https://javadoc.jitpack.io/com/github/piranhacloud/piranha/project/master-SNAPSHOT/javadoc/)
+courtesy of JitPack.io.
 
 ## Documentation for older releases
 
