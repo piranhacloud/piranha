@@ -64,4 +64,28 @@ public class MicroPiranhaTest {
         piranha.stop();
         Thread.sleep(3000);
     }
+    
+  
+    /**
+     * Test changing port.
+     * 
+     * @throws Exception when an error occurs.
+     */
+    @Test
+    public void testChangingPort() throws Exception {
+        final MicroPiranha piranha = new MicroPiranha();
+        piranha.configure(new String[] { "--port", "8888"});
+        Thread thread = new Thread(piranha);
+        thread.start();
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8888/does-not-exist");
+            HttpResponse response = client.execute(request);
+            assertEquals(404, response.getStatusLine().getStatusCode());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+        piranha.stop();
+        Thread.sleep(3000);
+    }    
 }

@@ -70,6 +70,17 @@
  * <pre>
  * java -jar piranha-micro.jar --webapp your_webapp_directory
  * </pre>
+ * 
+ * <h2>Changing the HTTP port</h2>
+ * 
+ * <p>
+ * If you want to use a different HTTP port (e.g to port 8888) you can use the 
+ * command line below:
+ * </p>
+ *
+ * <pre>
+ * java -jar piranha-micro.jar --war your_webapplication.war --port 8888
+ * </pre>
  *
  * <h2>Architecture diagram</h2>
  *
