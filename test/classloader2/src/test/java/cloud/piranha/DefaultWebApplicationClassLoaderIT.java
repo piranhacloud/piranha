@@ -32,11 +32,11 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the DefaultWebApplicationClassLoader.
+ * The integration tests for the DefaultWebApplicationClassLoader.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationClassLoaderTest {
+public class DefaultWebApplicationClassLoaderIT {
 
 
     /**
