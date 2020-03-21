@@ -715,9 +715,6 @@
         
         <profile>
             <id>test</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <modules>
                 <module>test</module>
             </modules>
