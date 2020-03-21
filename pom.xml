@@ -571,13 +571,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <inherited>true</inherited>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <inherited>true</inherited>
+                    </execution>
+                    <execution>
+                        <id>attach-aggregate-javadocs</id>
+                        <goals>
+                            <goal>aggregate-jar</goal>
+                        </goals>
+                        <inherited>false</inherited>
                     </execution>
                 </executions>
             </plugin>
