@@ -53,6 +53,7 @@ public class MicroPiranhaTest {
         piranha.configure(new String[] {});
         Thread thread = new Thread(piranha);
         thread.start();
+        Thread.sleep(3000);
         try {
             HttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet("http://localhost:8080/does-not-exist");
@@ -77,6 +78,7 @@ public class MicroPiranhaTest {
         piranha.configure(new String[] { "--port", "8088"});
         Thread thread = new Thread(piranha);
         thread.start();
+        Thread.sleep(3000);
         try {
             HttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet("http://localhost:8088/does-not-exist");
