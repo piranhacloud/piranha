@@ -20,6 +20,10 @@
             <url>https://github.com/piranhacloud/piranha/blob/master/LICENSE</url>
         </license>
     </licenses>
+    <organization>
+        <name>Piranha Cloud</name>
+        <url>https://piranha.cloud</url>
+    </organization>
 
     <developers>
         <developer>
