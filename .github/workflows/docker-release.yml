@@ -24,7 +24,7 @@ jobs:
       run: |
         cd server
         TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}+1
+        INDEX=${TAG%v*}
         VERSION=${TAG:${#INDEX}}
         docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/server:$VERSION .
         docker push piranhacloud/server
@@ -32,7 +32,7 @@ jobs:
       run: |
         cd server
         TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}+1
+        INDEX=${TAG%v*}
         VERSION=${TAG:${#INDEX}}
         docker build -f src/main/docker/Dockerfile.ARM32v6 -t piranhacloud/server:arm32v6-$VERSION .
         docker push piranhacloud/server:arm32v6
