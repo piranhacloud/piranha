@@ -1,7 +1,7 @@
 name: tck-servlet
 on:
   schedule:
-  - cron: "0 2 * * *"
+  - cron: "0 2 * * 1"
 jobs:
   build:
     runs-on: ${{ matrix.os }}
