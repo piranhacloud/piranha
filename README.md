@@ -3,10 +3,10 @@
 # Piranha Project
 
 ![master branch status](https://github.com/piranhacloud/piranha/workflows/master/badge.svg)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=coverage)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=security_rating)](https://sonarcloud.io/dashboard?id=manorrock_piranha)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=coverage)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=security_rating)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
 
 The Piranha Project delivers you with Cloud ready containers and useful add-on / 
 4integration modules.
@@ -28,7 +28,6 @@ See the list below for what add-on / integration modules are available.
 1. [Piranha Netty integration](http/netty/README.md)
 1. [Piranha OpenWebBeans integration](cdi/openwebbeans/README.md)
 1. [Piranha Servlet API](servlet/api/README.md)
-1. [Piranha Single Thread Server](http/singlethread/README.md)
 
 Note the documentation for the master branch might show features that are NOT 
 yet available as it is under active development. Please see the documentation
@@ -37,7 +36,7 @@ for the release you are using in the links below.
 ## Documentation for the master branch
 
 See [latest SNAPSHOT documentation](https://javadoc.jitpack.io/com/github/piranhacloud/piranha/project/master-SNAPSHOT/javadoc/), 
-courtesy of JitPack.io.
+courtesy of [JitPack.io](https://jitpack.io).
 
 ## Documentation for older releases
 

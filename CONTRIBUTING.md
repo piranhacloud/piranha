@@ -21,28 +21,41 @@ can use those contributions in any manner Manorrock.com so desires.
 ### Building Piranha and running the tests
 
 ```
-mvn clean install
+mvn verify
 ```
 
-Note our more complex tests are in the `test` profile because we do NOT release
-them as part of a release, but they are activated automatically for local
-development.
+If you do not want the tests to run use:
+
+```
+mvn -DskipTests -DskipITs verify 
+```
 
 ### Running a singular test
 
 To run a singular test pass in `-Dtest=expression`, see the `surefire` plugin
 documentation for more information.
 
+### Running our more complex tests
+
+Our more complex tests are in the `test` profile which we do not release as part
+of a release because these modules only test functionality.
+
+You can run our more complex tests using:
+
+```
+mvn -P test verify
+```
+
 ### Run the TCKs
 
 To run all the TCKs use:
 
 ```
-mvn clean verify -Ptck
+mvn verify -P tck
 ```
 
 Or go into the directory of the TCK you want to run and use:
 
 ```
-mvn clean verify
+mvn verify
 ```
