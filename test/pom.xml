@@ -15,7 +15,6 @@
     <name>Piranha Test</name>
 
     <modules>
-        <module>arquillian</module>
         <module>classloader</module>
         <module>classloader2</module>
         <module>eleos</module>
