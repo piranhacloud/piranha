@@ -63,9 +63,6 @@
         <!-- MicroProfile -->
         <module>microprofile</module>
         
-        <!-- Connectors -->
-        <module>arquillian</module>
-
         <!-- Admin Applications -->
         <module>admin</module>
     </modules>
