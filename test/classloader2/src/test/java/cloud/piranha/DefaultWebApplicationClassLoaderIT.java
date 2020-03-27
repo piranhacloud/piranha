@@ -27,6 +27,8 @@
  */
 package cloud.piranha;
 
+import cloud.piranha.resource.DefaultResourceManager;
+import cloud.piranha.resource.DirectoryResource;
 import java.io.File;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
@@ -48,7 +50,7 @@ public class DefaultWebApplicationClassLoaderIT {
     public void testLoadClass() throws Exception {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
         DefaultResourceManager resourceManager = new DefaultResourceManager();
-        resourceManager.addResource(new DefaultDirectoryResource(new File("target/classloader/WEB-INF/classes")));
+        resourceManager.addResource(new DirectoryResource(new File("target/classloader/WEB-INF/classes")));
         classLoader.setResourceManager(resourceManager);
         assertNotNull(classLoader.loadClass("cloud.piranha.test.classloader.Test1Servlet", true));
     }
@@ -62,7 +64,7 @@ public class DefaultWebApplicationClassLoaderIT {
     public void testLoadClass2() throws Exception {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
         DefaultResourceManager resourceManager = new DefaultResourceManager();
-        resourceManager.addResource(new DefaultDirectoryResource(new File("target/classloader/WEB-INF/classes")));
+        resourceManager.addResource(new DirectoryResource(new File("target/classloader/WEB-INF/classes")));
         classLoader.setResourceManager(resourceManager);
         assertNotNull(classLoader.loadClass("cloud.piranha.test.classloader.Test1Servlet", true));
         assertNotNull(classLoader.loadClass("cloud.piranha.test.classloader.Test1Servlet", true));

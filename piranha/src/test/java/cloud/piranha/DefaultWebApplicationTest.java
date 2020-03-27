@@ -27,6 +27,8 @@
  */
 package cloud.piranha;
 
+import cloud.piranha.resource.DefaultResourceManager;
+import cloud.piranha.resource.DirectoryResource;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -112,7 +114,7 @@ public class DefaultWebApplicationTest {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setResourceManager(resourceManager);
-        webApp.addResource(new DefaultDirectoryResource(new File(".")));
+        webApp.addResource(new DirectoryResource(new File(".")));
         assertNotNull(webApp.getResource("/src/main/java"));
     }
 
@@ -441,7 +443,7 @@ public class DefaultWebApplicationTest {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setResourceManager(resourceManager);
-        webApp.addResource(new DefaultDirectoryResource(new File(".")));
+        webApp.addResource(new DirectoryResource(new File(".")));
         assertNotNull(webApp.getRealPath("/src/main/java"));
     }
 
@@ -491,7 +493,7 @@ public class DefaultWebApplicationTest {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setResourceManager(resourceManager);
-        webApp.addResource(new DefaultDirectoryResource(new File(".")));
+        webApp.addResource(new DirectoryResource(new File(".")));
         assertNotNull(webApp.getResourceAsStream("/pom.xml"));
     }
 

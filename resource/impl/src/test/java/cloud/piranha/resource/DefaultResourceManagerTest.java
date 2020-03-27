@@ -25,10 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.resource;
 
 import java.io.File;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /**
@@ -46,7 +47,7 @@ public class DefaultResourceManagerTest {
     @Test
     public void testGetResource() throws Exception {
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(new DefaultDirectoryResource(new File("")));
+        manager.addResource(new DirectoryResource(new File("")));
         assertNull(manager.getResource("/doesnotexist"));
     }
 
@@ -58,7 +59,7 @@ public class DefaultResourceManagerTest {
     @Test
     public void testGetResource2() throws Exception {
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(new DefaultDirectoryResource(new File(".")));
+        manager.addResource(new DirectoryResource(new File(".")));
         assertNotNull(manager.getResource("src"));
     }
 
@@ -70,9 +71,9 @@ public class DefaultResourceManagerTest {
     @Test
     public void testGetResource3() throws Exception {
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(new DefaultDirectoryResource(new File(".")));
-        manager.addResource(new DefaultDirectoryResource(new File("")));
-        assertNotNull(manager.getResource("/src/main/java/cloud/piranha/DefaultResourceManager.java"));
+        manager.addResource(new DirectoryResource(new File(".")));
+        manager.addResource(new DirectoryResource(new File("")));
+        assertNotNull(manager.getResource("/src/main/java/cloud/piranha/resource/DefaultResourceManager.java"));
     }
 
     /**
@@ -81,7 +82,7 @@ public class DefaultResourceManagerTest {
     @Test
     public void testGetResourceAsStream() {
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(new DefaultDirectoryResource(new File("")));
+        manager.addResource(new DirectoryResource(new File("")));
         assertNull(manager.getResourceAsStream("/doesnotexist"));
     }
 
@@ -91,8 +92,8 @@ public class DefaultResourceManagerTest {
     @Test
     public void testGetResourceAsStream2() {
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(new DefaultDirectoryResource(new File(".")));
-        manager.addResource(new DefaultDirectoryResource(new File("")));
-        assertNotNull(manager.getResourceAsStream("/src/main/java/cloud/piranha/DefaultResourceManager.java"));
+        manager.addResource(new DirectoryResource(new File(".")));
+        manager.addResource(new DirectoryResource(new File("")));
+        assertNotNull(manager.getResourceAsStream("/src/main/java/cloud/piranha/resource/DefaultResourceManager.java"));
     }
 }

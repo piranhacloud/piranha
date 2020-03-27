@@ -25,44 +25,53 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.resource.api;
 
-import java.io.File;
-import static org.junit.Assert.assertNull;
-import org.junit.Test;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collection;
+import java.util.stream.Stream;
 
 /**
- * The JUnit tests for the DefaultJarResource class.
+ * The ResourceManager API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultJarResourceTest {
+public interface ResourceManager {
 
     /**
-     * Test getResource method.
+     * Add the resource.
+     *
+     * @param resource the resource.
      */
-    @Test
-    public void testGetResource() {
-        DefaultJarResource resource = new DefaultJarResource();
-        assertNull(resource.getResource(null));
-    }
+    void addResource(Resource resource);
 
     /**
-     * Test getResource method.
+     * Get the resource.
+     *
+     * @param location the location.
+     * @return the URL.
+     * @throws MalformedURLException when the location is malformed.
      */
-    @Test(expected = NullPointerException.class)
-    public void testGetResource2() {
-        DefaultJarResource resource = new DefaultJarResource();
-        assertNull(resource.getResource("we_wont_find_this"));
-    }
+    URL getResource(String location) throws MalformedURLException;
+    
+    /**
+     * Get the resources.
+     * 
+     * @param location the location
+     * @return the URLs.
+     * @throws  MalformedURLException when the location is malformed.
+     */
+    Collection<URL> getResources(String location) throws MalformedURLException;
 
     /**
-     * Test getResource method.
+     * Get the resource as a stream.
+     *
+     * @param location the location.
+     * @return the input stream, or null if not found.
      */
-    @Test
-    public void testGetResource3() {
-        DefaultJarResource resource = new DefaultJarResource();
-        resource.setJarFile(new File("this_jar_file_does_not_exist.jar"));
-        assertNull(resource.getResource("we_wont_find_this"));
-    }
+    InputStream getResourceAsStream(String location);
+    
+    Stream<String> getAllLocations();
 }

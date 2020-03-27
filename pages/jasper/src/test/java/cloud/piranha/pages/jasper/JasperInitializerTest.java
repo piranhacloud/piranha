@@ -27,8 +27,8 @@
  */
 package cloud.piranha.pages.jasper;
 
-import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.resource.DirectoryResource;
 import java.io.File;
 import java.util.HashSet;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class JasperInitializerTest {
     @Test
     public void testOnStartup() throws Exception {
         DefaultWebApplication servletContext = new DefaultWebApplication();
-        servletContext.addResource(new DefaultDirectoryResource(new File("src/test/webapp/webapp1")));
+        servletContext.addResource(new DirectoryResource(new File("src/test/webapp/webapp1")));
         JasperInitializer initializer = new JasperInitializer();
         initializer.onStartup(new HashSet(), servletContext);
     }

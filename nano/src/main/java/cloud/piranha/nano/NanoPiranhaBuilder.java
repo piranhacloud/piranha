@@ -27,10 +27,10 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.api.Resource;
 import cloud.piranha.api.WebApplication;
+import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.resource.api.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -153,7 +153,7 @@ public class NanoPiranhaBuilder {
      * @return the builder.
      */
     public NanoPiranhaBuilder directoryResource(String directory) {
-        resources.add(new DefaultDirectoryResource(directory));
+        resources.add(new DirectoryResource(directory));
         return this;
     }
 

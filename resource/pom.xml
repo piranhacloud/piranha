@@ -13,9 +13,11 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Resource</name>
+    <name>Piranha Resource - Project</name>
 
     <modules>
+        <module>api</module>
         <module>shrinkwrap</module>
+        <module>impl</module>
     </modules>
 </project>

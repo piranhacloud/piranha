@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.resource;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,14 +35,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.stream.Stream;
 
-import cloud.piranha.api.Resource;
+import cloud.piranha.resource.api.Resource;
 
 /**
  * The default DirectoryResource.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultDirectoryResource implements Resource {
+public class DirectoryResource implements Resource {
 
     /**
      * Stores the root directory.
@@ -52,7 +52,7 @@ public class DefaultDirectoryResource implements Resource {
     /**
      * Constructor.
      */
-    public DefaultDirectoryResource() {
+    public DirectoryResource() {
     }
     
     /**
@@ -60,7 +60,7 @@ public class DefaultDirectoryResource implements Resource {
      *
      * @param rootDirectory the root directory.
      */
-    public DefaultDirectoryResource(String rootDirectory) {
+    public DirectoryResource(String rootDirectory) {
         this (new File(rootDirectory));
     }
 
@@ -69,7 +69,7 @@ public class DefaultDirectoryResource implements Resource {
      *
      * @param rootDirectory the root directory.
      */
-    public DefaultDirectoryResource(File rootDirectory) {
+    public DirectoryResource(File rootDirectory) {
         this.rootDirectory = rootDirectory;
     }
 

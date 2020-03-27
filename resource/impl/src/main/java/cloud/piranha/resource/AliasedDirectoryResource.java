@@ -25,45 +25,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.resource;
 
-import cloud.piranha.api.Resource;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.stream.Stream;
 
+import cloud.piranha.resource.api.Resource;
+
 /**
- * The default JarResource.
+ * The default AliasedDirectoryResource.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultJarResource implements Resource {
+public class AliasedDirectoryResource implements Resource {
 
     /**
-     * Stores the JAR file.
+     * Stores the root directory.
      */
-    private File jarFile;
+    private File rootDirectory;
+
+    /**
+     * Stores the alias.
+     */
+    private String alias;
 
     /**
      * Constructor.
      */
-    public DefaultJarResource() {
+    public AliasedDirectoryResource() {
+        this.rootDirectory = null;
+        this.alias = null;
     }
 
     /**
      * Constructor.
      *
-     * @param jarFile the JAR file.
+     * @param rootDirectory the root directory.
+     * @param alias the alias.
      */
-    public DefaultJarResource(File jarFile) {
-        this.jarFile = jarFile;
+    public AliasedDirectoryResource(File rootDirectory, String alias) {
+        this.rootDirectory = rootDirectory;
+        this.alias = alias;
     }
 
     /*
@@ -74,28 +81,20 @@ public class DefaultJarResource implements Resource {
     @Override
     public URL getResource(String location) {
         URL result = null;
-        if (location != null) {
-            try {
-                try (JarFile jar = new JarFile(jarFile)) {
-                    if (jar.getJarEntry(location) != null) {
-                        result = new URL("jar:" + jarFile.toURI() + "!/" + location);
-                    }
+        if (location.startsWith(alias)) {
+            location = location.substring(alias.length());
+            File file = new File(rootDirectory, location);
+            if (file.exists()) {
+                try {
+                    result = file.toURI().toURL();
+                } catch (MalformedURLException exception) {
                 }
-            } catch (IOException ioe) {
-                result = null;
             }
         }
         return result;
     }
 
     /**
-     * Get the resource as a stream.
-     *
-     * <p>
-     * Note that this method will read the content of a JAR entry into a
-     * byte-array to avoid locking the JAR file.
-     * </p>
-     *
      * @param location the resource location.
      * @return the input stream, or null if not found.
      * @see Resource#getResourceAsStream(java.lang.String)
@@ -103,31 +102,12 @@ public class DefaultJarResource implements Resource {
     @Override
     public InputStream getResourceAsStream(String location) {
         InputStream result = null;
-        JarFile jar = null;
-        try {
-            jar = new JarFile(jarFile);
-            JarEntry entry = jar.getJarEntry(location);
-            if (entry != null) {
-                InputStream inputStream;
-                try (InputStream jarInputStream = jar.getInputStream(entry)) {
-                    inputStream = new BufferedInputStream(jarInputStream);
-                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                    int read = inputStream.read();
-                    while (read != -1) {
-                        outputStream.write((byte) read);
-                        read = inputStream.read();
-                    }
-                    result = new ByteArrayInputStream(outputStream.toByteArray());
-                }
-                inputStream.close();
-            }
-        } catch (IOException exception) {
-        } finally {
-            if (jar != null) {
-                try {
-                    jar.close();
-                } catch (IOException ioe) {
-                }
+        if (location.startsWith(alias)) {
+            location = location.substring(alias.length() + 1);
+            File file = new File(rootDirectory, location);
+            try {
+                result = new FileInputStream(file);
+            } catch (FileNotFoundException exception) {
             }
         }
         return result;
@@ -139,20 +119,38 @@ public class DefaultJarResource implements Resource {
     }
 
     /**
-     * Get the JAR file.
+     * Get the alias.
      *
-     * @return the JAR file.
+     * @return the alias.
      */
-    public File getJarFile() {
-        return this.jarFile;
+    public String getAlias() {
+        return this.alias;
     }
 
     /**
-     * Set the JAR file.
+     * Get the root directory.
      *
-     * @param jarFile the JAR file.
+     * @return the root directory.
      */
-    public void setJarFile(File jarFile) {
-        this.jarFile = jarFile;
+    public File getRootDirectory() {
+        return this.rootDirectory;
+    }
+
+    /**
+     * Set the alias.
+     *
+     * @param alias the alias.
+     */
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    /**
+     * Set the root directory.
+     *
+     * @param rootDirectory the root directory.
+     */
+    public void setRootDirectory(File rootDirectory) {
+        this.rootDirectory = rootDirectory;
     }
 }

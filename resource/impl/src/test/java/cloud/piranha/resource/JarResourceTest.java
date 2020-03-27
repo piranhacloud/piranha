@@ -25,34 +25,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
+package cloud.piranha.resource;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.util.stream.Stream;
+import cloud.piranha.resource.JarResource;
+import java.io.File;
+import static org.junit.Assert.assertNull;
+import org.junit.Test;
 
 /**
- * The Resource API.
+ * The JUnit tests for the DefaultJarResource class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface Resource {
+public class JarResourceTest {
 
     /**
-     * Get the resource.
-     *
-     * @param location the location.
-     * @return the URL.
+     * Test getResource method.
      */
-    URL getResource(String location);
+    @Test
+    public void testGetResource() {
+        JarResource resource = new JarResource();
+        assertNull(resource.getResource(null));
+    }
 
     /**
-     * Get the resource as a stream.
-     *
-     * @param location the location.
-     * @return the resource as a stream, or null if not found.
+     * Test getResource method.
      */
-    InputStream getResourceAsStream(String location);
-    
-    Stream<String> getAllLocations();
+    @Test(expected = NullPointerException.class)
+    public void testGetResource2() {
+        JarResource resource = new JarResource();
+        assertNull(resource.getResource("we_wont_find_this"));
+    }
+
+    /**
+     * Test getResource method.
+     */
+    @Test
+    public void testGetResource3() {
+        JarResource resource = new JarResource();
+        resource.setJarFile(new File("this_jar_file_does_not_exist.jar"));
+        assertNull(resource.getResource("we_wont_find_this"));
+    }
 }

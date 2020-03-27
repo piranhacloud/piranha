@@ -27,12 +27,12 @@
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.DefaultAliasedDirectoryResource;
-import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultWebApplicationExtensionContext;
 import cloud.piranha.api.HttpSessionManager;
-import cloud.piranha.api.Resource;
 import cloud.piranha.api.WebApplication;
+import cloud.piranha.resource.AliasedDirectoryResource;
+import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.resource.api.Resource;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -142,7 +142,7 @@ public class EmbeddedPiranhaBuilder {
      * @return the builder.
      */
     public EmbeddedPiranhaBuilder aliasedDirectoryResource(String path, String alias) {
-        resources.add(new DefaultAliasedDirectoryResource(new File(path), alias));
+        resources.add(new AliasedDirectoryResource(new File(path), alias));
         return this;
     }
 
@@ -246,7 +246,7 @@ public class EmbeddedPiranhaBuilder {
      * @return the builder.
      */
     public EmbeddedPiranhaBuilder directoryResource(String path) {
-        resources.add(new DefaultDirectoryResource(path));
+        resources.add(new DirectoryResource(path));
         return this;
     }
 

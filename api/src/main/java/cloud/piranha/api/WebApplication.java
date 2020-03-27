@@ -27,6 +27,8 @@
  */
 package cloud.piranha.api;
 
+import cloud.piranha.resource.api.ResourceManager;
+import cloud.piranha.resource.api.Resource;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;

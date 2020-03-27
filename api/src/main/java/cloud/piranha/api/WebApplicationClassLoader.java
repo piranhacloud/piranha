@@ -27,6 +27,8 @@
  */
 package cloud.piranha.api;
 
+import cloud.piranha.resource.api.ResourceManagerClassLoader;
+
 /**
  * The WebApplicationClassLoader API.
  *

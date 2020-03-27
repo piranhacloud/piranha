@@ -31,6 +31,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.servlet</groupId>
             <artifactId>piranha-servlet-annotationscan</artifactId>
             <version>${project.version}</version>

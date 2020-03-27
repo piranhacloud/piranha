@@ -25,46 +25,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.resource;
 
+import cloud.piranha.resource.DirectoryResource;
 import java.io.File;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- * The JUnit test for AliasedDirectoryResource.
+ * The JUnit tests for DirectoryResource class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultAliasedDirectoryResourceTest {
-
-    /**
-     * Test getResource.
-     */
-    @Test
-    public void testGetResource() {
-        DefaultAliasedDirectoryResource resource = new DefaultAliasedDirectoryResource(null, "/alias");
-        assertNull(resource.getResource("resource"));
-    }
-
-    /**
-     * Test getResource.
-     */
-    @Test
-    public void testGetResource2() {
-        DefaultAliasedDirectoryResource resource = new DefaultAliasedDirectoryResource();
-        resource.setRootDirectory(new File("src/main/java"));
-        resource.setAlias("/alias");
-        assertNotNull(resource.getResource("/alias/cloud/piranha/DefaultDirectoryResource.java"));
-    }
+public class DirectoryResourceTest {
 
     /**
      * Test getResource method.
      */
     @Test
-    public void testGetResource3() {
-        DefaultAliasedDirectoryResource resource = new DefaultAliasedDirectoryResource(new File("src/test/java/org"), "/org");
-        assertNull(resource.getResource("/cloud/piranha/AliasedDirectoryResourceTest2.java"));
+    public void testGetResource() {
+        DirectoryResource resource = new DirectoryResource();
+        assertNull(resource.getResource("/resource"));
     }
 
     /**
@@ -72,7 +53,7 @@ public class DefaultAliasedDirectoryResourceTest {
      */
     @Test
     public void testGetResourceAsStream() {
-        DefaultAliasedDirectoryResource resource = new DefaultAliasedDirectoryResource(null, "/alias");
+        DirectoryResource resource = new DirectoryResource();
         assertNull(resource.getResourceAsStream("/resource"));
     }
 
@@ -81,36 +62,17 @@ public class DefaultAliasedDirectoryResourceTest {
      */
     @Test
     public void testGetResourceAsStream2() {
-        DefaultAliasedDirectoryResource resource = new DefaultAliasedDirectoryResource(new File("src/main/java"), "/alias");
-        assertNotNull(resource.getResourceAsStream("/alias/cloud/piranha/DefaultDirectoryResource.java"));
+        DirectoryResource resource = new DirectoryResource(new File("."));
+        assertNotNull(resource.getResourceAsStream("pom.xml"));
     }
 
     /**
-     * Test getResourceAsStream method.
-     */
-    @Test
-    public void testGetResourceAsStream3() {
-        DefaultAliasedDirectoryResource resource = new DefaultAliasedDirectoryResource(new File("src/main/java"), "/alias");
-        assertNull(resource.getResourceAsStream("/alias/cloud/piranha/DirectoryResource.class"));
-    }
-
-    /**
-     * Test getAlias method.
-     */
-    @Test
-    public void testGetAlias() {
-        DefaultAliasedDirectoryResource resource = new DefaultAliasedDirectoryResource(null, "/alias");
-        assertEquals("/alias", resource.getAlias());
-    }
-
-    /**
-     * Test getRootDirectory method.
+     * Test getRootDirectory method, of class DirectoryResource.
      */
     @Test
     public void testGetRootDirectory() {
-        DefaultAliasedDirectoryResource resource = new DefaultAliasedDirectoryResource();
+        DirectoryResource resource = new DirectoryResource();
         resource.setRootDirectory(new File("src/main/java"));
-        resource.setAlias("/alias");
         assertNotNull(resource.getRootDirectory());
     }
 }

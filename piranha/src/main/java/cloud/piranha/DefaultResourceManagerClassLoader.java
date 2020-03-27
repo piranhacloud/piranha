@@ -41,8 +41,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import cloud.piranha.api.ResourceManager;
-import cloud.piranha.api.ResourceManagerClassLoader;
+import cloud.piranha.resource.api.ResourceManager;
+import cloud.piranha.resource.api.ResourceManagerClassLoader;
 
 /**
  * The default WebApplicationClassLoader.

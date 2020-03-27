@@ -25,10 +25,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.resource;
 
-import cloud.piranha.api.ResourceManager;
-import cloud.piranha.api.Resource;
+import cloud.piranha.resource.api.ResourceManager;
+import cloud.piranha.resource.api.Resource;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
