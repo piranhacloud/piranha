@@ -41,7 +41,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
-import cloud.piranha.api.Resource;
+import cloud.piranha.resource.api.Resource;
 
 /**
  * 

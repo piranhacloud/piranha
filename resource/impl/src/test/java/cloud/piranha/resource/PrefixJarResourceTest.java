@@ -25,22 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
+package cloud.piranha.resource;
+
+import cloud.piranha.resource.PrefixJarResource;
+import static org.junit.Assert.assertNull;
+import org.junit.Test;
 
 /**
- * The WebApplicationClassLoader API.
+ * The JUnit tests for the DefaultJarResource class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @author Arjan Tijms
  */
-public interface ResourceManagerClassLoader {
+public class PrefixJarResourceTest {
 
     /**
-     * Set the resource manager.
-     *
-     * @param resourceManager the resource manager.
+     * Test getResource method.
      */
-    void setResourceManager(ResourceManager resourceManager);
-    
-    ResourceManager getResourceManager();
+    @Test(expected = NullPointerException.class)
+    public void testGetResource() {
+        PrefixJarResource resource = new PrefixJarResource();
+        assertNull(resource.getResource(null));
+    }
+
+    /**
+     * Test getResource method.
+     */
+    @Test(expected = NullPointerException.class)
+    public void testGetResource2() {
+        PrefixJarResource resource = new PrefixJarResource();
+        assertNull(resource.getResource("we_wont_find_this"));
+    }
 }

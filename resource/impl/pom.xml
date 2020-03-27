@@ -1,36 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha.resource</groupId>
         <artifactId>project</artifactId>
         <version>20.4.0-SNAPSHOT</version>
     </parent>
-
-    <artifactId>piranha-resource-shrinkwrap</artifactId>
+    <artifactId>piranha-resource</artifactId>
     <packaging>jar</packaging>
-
-    <name>Piranha Resource - Shrinkwrap Integration</name>
-
+    <name>Piranha Resource</name>
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource</artifactId>
+            <artifactId>piranha-resource-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap</groupId>
-            <artifactId>shrinkwrap-impl-base</artifactId>
-            <version>1.2.6</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

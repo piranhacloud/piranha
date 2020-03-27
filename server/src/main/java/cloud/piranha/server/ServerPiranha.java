@@ -27,13 +27,13 @@
  */
 package cloud.piranha.server;
 
-import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultHttpServer;
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationClassLoader;
 import cloud.piranha.DefaultWebApplicationExtensionContext;
 import cloud.piranha.DefaultWebApplicationServer;
 import cloud.piranha.api.WebApplicationExtension;
+import cloud.piranha.resource.DirectoryResource;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -157,7 +157,7 @@ public class ServerPiranha implements Runnable {
                     extractWarFile(webapp, webAppDirectory);
 
                     DefaultWebApplication webApplication = new DefaultWebApplication();
-                    webApplication.addResource(new DefaultDirectoryResource(webAppDirectory));
+                    webApplication.addResource(new DirectoryResource(webAppDirectory));
                     DefaultWebApplicationClassLoader classLoader
                             = new DefaultWebApplicationClassLoader(webAppDirectory);
                     webApplication.setClassLoader(classLoader);

@@ -27,7 +27,7 @@
  */
 package cloud.piranha.servlet.webxml;
 
-import cloud.piranha.DefaultDirectoryResource;
+import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.DefaultWebApplication;
 import java.io.File;
 import java.io.InputStream;
@@ -52,7 +52,7 @@ public class WebXmlParserTest {
     @Test
     public void testParseWebXml() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test3")));
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/test3")));
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
         WebXmlParser parser = new WebXmlParser();
         WebXml webXml = parser.parse(inputStream);
@@ -77,7 +77,7 @@ public class WebXmlParserTest {
     @Test
     public void testParseWebXml2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test4")));
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/test4")));
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
         WebXmlParser parser = new WebXmlParser();
         WebXml webXml = parser.parse(inputStream);

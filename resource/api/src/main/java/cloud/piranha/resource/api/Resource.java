@@ -25,51 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
+package cloud.piranha.resource.api;
 
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.stream.Stream;
 
 /**
- * The ResourceManager API.
+ * The Resource API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface ResourceManager {
-
-    /**
-     * Add the resource.
-     *
-     * @param resource the resource.
-     */
-    void addResource(Resource resource);
+public interface Resource {
 
     /**
      * Get the resource.
      *
      * @param location the location.
      * @return the URL.
-     * @throws MalformedURLException when the location is malformed.
      */
-    URL getResource(String location) throws MalformedURLException;
-    
-    /**
-     * Get the resources.
-     * 
-     * @param location the location
-     * @return the URLs.
-     * @throws  MalformedURLException when the location is malformed.
-     */
-    Collection<URL> getResources(String location) throws MalformedURLException;
+    URL getResource(String location);
 
     /**
      * Get the resource as a stream.
      *
      * @param location the location.
-     * @return the input stream, or null if not found.
+     * @return the resource as a stream, or null if not found.
      */
     InputStream getResourceAsStream(String location);
     

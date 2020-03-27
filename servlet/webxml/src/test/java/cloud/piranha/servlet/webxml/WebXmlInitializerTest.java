@@ -27,9 +27,9 @@
  */
 package cloud.piranha.servlet.webxml;
 
-import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationClassLoader;
+import cloud.piranha.resource.DirectoryResource;
 import java.io.File;
 import javax.servlet.ServletRegistration;
 import static org.junit.Assert.assertEquals;
@@ -52,7 +52,7 @@ public class WebXmlInitializerTest {
     @Test
     public void testOnStartup() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test1")));
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/test1")));
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
         ServletRegistration registration = webApplication.getServletRegistration("Test Servlet");
@@ -72,7 +72,7 @@ public class WebXmlInitializerTest {
     @Test
     public void testOnStartup2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DefaultDirectoryResource(new File("src/test/webxml/test2")));
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/test2")));
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
     }

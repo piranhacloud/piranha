@@ -27,6 +27,7 @@
  */
 package cloud.piranha;
 
+import cloud.piranha.resource.DefaultResourceManager;
 import static cloud.piranha.DefaultFilterEnvironment.UNAVAILABLE;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
@@ -87,8 +88,8 @@ import cloud.piranha.api.JspManager;
 import cloud.piranha.api.LoggingManager;
 import cloud.piranha.api.MimeTypeManager;
 import cloud.piranha.api.ObjectInstanceManager;
-import cloud.piranha.api.Resource;
-import cloud.piranha.api.ResourceManager;
+import cloud.piranha.resource.api.Resource;
+import cloud.piranha.resource.api.ResourceManager;
 import cloud.piranha.api.SecurityManager;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.api.WebApplicationRequestMapper;

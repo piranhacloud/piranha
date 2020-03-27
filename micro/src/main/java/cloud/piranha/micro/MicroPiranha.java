@@ -27,13 +27,13 @@
  */
 package cloud.piranha.micro;
 
-import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.DefaultHttpServer;
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationClassLoader;
 import cloud.piranha.DefaultWebApplicationServer;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.WebApplication;
+import cloud.piranha.resource.DirectoryResource;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -105,7 +105,7 @@ public class MicroPiranha implements Runnable {
         webApplication = new DefaultWebApplication();
         if (webApplicationDirectory != null) {
             webApplication.setClassLoader(new DefaultWebApplicationClassLoader(webApplicationDirectory));
-            webApplication.addResource(new DefaultDirectoryResource(webApplicationDirectory));
+            webApplication.addResource(new DirectoryResource(webApplicationDirectory));
         }
         return webApplication;
     }

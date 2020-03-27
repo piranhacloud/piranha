@@ -46,8 +46,8 @@ import cloud.piranha.cdi.weld.WeldInitializer;
 import cloud.piranha.faces.mojarra.MojarraInitializer;
 import cloud.piranha.test.utils.TestWebApp;
 
-import cloud.piranha.DefaultDirectoryResource;
 import cloud.piranha.api.WebApplication;
+import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.security.elios.AuthenticationInitializer;
 import cloud.piranha.security.exousia.AuthorizationInitializer;
 import cloud.piranha.security.exousia.AuthorizationPreInitializer;
@@ -88,7 +88,7 @@ public class Application {
                 
                 .getWebApplication();
             
-            webApp.addResource(new DefaultDirectoryResource(new File("src/main/webapp")));
+            webApp.addResource(new DirectoryResource(new File("src/main/webapp")));
             
             webApp.initialize();
             webApp.start();

@@ -25,9 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.resource;
 
-import cloud.piranha.api.Resource;
+import cloud.piranha.resource.api.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -41,7 +41,7 @@ import java.util.stream.Stream;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultPrefixJarResource implements Resource {
+public class PrefixJarResource implements Resource {
 
     /**
      * Stores the JAR file.
@@ -56,7 +56,7 @@ public class DefaultPrefixJarResource implements Resource {
     /**
      * Constructor.
      */
-    public DefaultPrefixJarResource() {
+    public PrefixJarResource() {
         this.jarFile = null;
         this.prefix = null;
     }
@@ -67,7 +67,7 @@ public class DefaultPrefixJarResource implements Resource {
      * @param jarFile the JAR file.
      * @param prefix the prefix.
      */
-    public DefaultPrefixJarResource(JarFile jarFile, String prefix) {
+    public PrefixJarResource(JarFile jarFile, String prefix) {
         this.jarFile = jarFile;
         if (!prefix.endsWith("/")) {
             this.prefix = prefix + "/";
