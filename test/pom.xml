@@ -18,6 +18,7 @@
         <module>classloader</module>
         <module>classloader2</module>
         <module>eleos</module>
+        <module>embedded</module>
         <module>exousia</module>
         <module>soteria</module>
         <module>hazelcast</module>
@@ -34,8 +35,19 @@
         <module>vaadin</module>
         <module>weld</module>
         <module>wicket</module>
-        <module>embedded</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cloud.piranha</groupId>
+                <artifactId>bom</artifactId>
+                <version>${project.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

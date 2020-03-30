@@ -14,6 +14,17 @@
 
     <name>Piranha TCK - Pages</name>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cloud.piranha</groupId>
+                <artifactId>bom</artifactId>
+                <version>${project.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>
@@ -199,14 +210,14 @@
                                 <artifactItem>
                                     <groupId>org.glassfish.web</groupId>
                                     <artifactId>jakarta.servlet.jsp</artifactId>
-                                    <version>${jakarta.pages.impl.version}</version>
+                                    <version>${jakarta.pages.version}</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
                                     <destFileName>jakarta.servlet.jsp.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>jakarta.servlet.jsp</groupId>
                                     <artifactId>jakarta.servlet.jsp-api</artifactId>
-                                    <version>${jakarta.pages.api.version}</version>
+                                    <version>${jakarta.pages.version}</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
                                     <destFileName>jakarta.servlet.jsp-api.jar</destFileName>
                                 </artifactItem>

@@ -1,22 +1,22 @@
 name: tck-microprofile-jwt
 on:
   schedule:
-  - cron: "0 3 * * *"
+  - cron: "0 2 * * 3"
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        java: ['1.8']
-        os: [ubuntu-latest]
+        java: [ '9', '10', '11' ]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
     - name: Checkout Sources
       uses: actions/checkout@v1
-    - name: Set up JDK
+    - name: Set up Java
       uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
-    - name: Setup TCK
+    - name: Setup for TCK
       run: mvn -B -DskipTests=true install
     - name: Run TCK
       run: mvn -amd -B -P tck -pl tck/microprofile/jwt verify
