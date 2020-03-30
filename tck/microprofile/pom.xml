@@ -25,6 +25,13 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>cloud.piranha</groupId>
+                <artifactId>bom</artifactId>
+                <version>${project.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
                 <version>1.5.0.Final</version>

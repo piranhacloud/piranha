@@ -15,6 +15,17 @@
 
     <name>Piranha Pages</name>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cloud.piranha</groupId>
+                <artifactId>bom</artifactId>
+                <version>${project.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <modules>
         <module>jasper</module>
     </modules>

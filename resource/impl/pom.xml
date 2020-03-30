@@ -8,7 +8,7 @@
     </parent>
     <artifactId>piranha-resource</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha Resource</name>
+    <name>Piranha Resource - Implementation</name>
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
