@@ -47,15 +47,16 @@
         <module>piranha</module>
     
         <!-- Logical components -->
+        <module>cdi</module>
+        <module>faces</module>
         <module>http</module>
+        <module>jndi</module>
         <module>session</module>
         <module>resource</module>
-        <module>cdi</module>
-        <module>servlet</module>
         <module>pages</module>
-        <module>security</module>
         <module>rest</module>
-        <module>faces</module>
+        <module>servlet</module>
+        <module>security</module>
         
         <!-- Distributions -->
         <module>nano</module>
