@@ -84,6 +84,7 @@ public class CDIForwardTest {
      * @throws SAXException
      */
     @Test
+    @Ignore
     public void testCDIForwardViaProtectedResource() throws IOException, SAXException {
 
         String response = getWebApp().getFromServerPath("protected/servlet");
