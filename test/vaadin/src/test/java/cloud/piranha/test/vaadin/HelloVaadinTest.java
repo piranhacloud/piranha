@@ -51,7 +51,7 @@ public class HelloVaadinTest {
     @Test
     public void testIndexHtmlPage() throws Exception {
         System.getProperties().put("java.naming.factory.initial", 
-                "com.manorrock.herring.DefaultInitialContextFactory");
+                "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .servletMapping("Vaadin", "/*")

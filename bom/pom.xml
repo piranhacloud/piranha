@@ -223,13 +223,6 @@
                 <version>1.3.5</version>
             </dependency>
             
-            <!-- JNDI -->
-            <dependency>
-                <groupId>com.manorrock.herring</groupId>
-                <artifactId>herring</artifactId>
-                <version>20.1.0</version>
-            </dependency>
-
             <!-- JSON -->            
             <dependency>
                 <groupId>org.glassfish</groupId>

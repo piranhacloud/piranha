@@ -29,13 +29,14 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.herring</groupId>
-            <artifactId>herring</artifactId>
+            <groupId>cloud.piranha.cdi</groupId>
+            <artifactId>piranha-cdi-openwebbeans</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.cdi</groupId>
-            <artifactId>piranha-cdi-openwebbeans</artifactId>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-embedded</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -46,8 +47,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-embedded</artifactId>
+            <groupId>cloud.piranha.jndi</groupId>
+            <artifactId>piranha-jndi-memory</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

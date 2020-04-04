@@ -39,7 +39,7 @@ import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
-import com.manorrock.herring.DefaultInitialContextFactory;
+import cloud.piranha.jndi.memory.DefaultInitialContextFactory;
 import cloud.piranha.test.utils.TestWebApp;
 
 import cloud.piranha.security.elios.AuthenticationInitializer;
