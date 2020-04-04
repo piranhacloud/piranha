@@ -24,8 +24,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.herring</groupId>
-            <artifactId>herring</artifactId>
+            <groupId>cloud.piranha.jndi</groupId>
+            <artifactId>piranha-jndi-memory</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

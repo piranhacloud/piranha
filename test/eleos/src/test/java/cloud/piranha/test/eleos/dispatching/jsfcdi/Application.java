@@ -41,8 +41,8 @@ import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
-import com.manorrock.herring.DefaultInitialContextFactory;
 import cloud.piranha.cdi.weld.WeldInitializer;
+import cloud.piranha.jndi.memory.DefaultInitialContextFactory;
 import cloud.piranha.faces.mojarra.MojarraInitializer;
 import cloud.piranha.test.utils.TestWebApp;
 

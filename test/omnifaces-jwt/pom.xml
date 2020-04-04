@@ -30,6 +30,12 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha.jndi</groupId>
+            <artifactId>piranha-jndi-memory</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet-core</artifactId>
             <scope>test</scope>
@@ -37,11 +43,6 @@
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.manorrock.herring</groupId>
-            <artifactId>herring</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
