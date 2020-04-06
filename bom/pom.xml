@@ -37,6 +37,13 @@
                 <version>2.4.4</version>
             </dependency>
             
+            <!-- H2 database -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>1.4.200</version>
+            </dependency>
+            
             <!-- Jakarta Servlet -->
             <dependency>
                 <groupId>jakarta.servlet</groupId>
