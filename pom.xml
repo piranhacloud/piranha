@@ -57,6 +57,7 @@
         <module>rest</module>
         <module>servlet</module>
         <module>security</module>
+        <module>transaction</module>
         
         <!-- Distributions -->
         <module>nano</module>
