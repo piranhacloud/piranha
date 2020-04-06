@@ -26,7 +26,6 @@
  */
 package cloud.piranha.transaction.nonxa;
 
-import cloud.piranha.transaction.nonxa.DefaultTransactionManager;
 import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -61,7 +60,7 @@ public class JPA2DatabasesTest {
         dataSource2.setURL("jdbc:h2:./target/JPADatabaseTest3");
         initialContext.bind("java:/JPADatabaseTest3", dataSource2);
         DefaultTransactionManager transactionManager = new DefaultTransactionManager();
-        initialContext.bind("java:/TransactionManager", transactionManager);
+        initialContext.rebind("java:/TransactionManager", transactionManager);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPADatabaseTest2");
         EntityManagerFactory emf2 = Persistence.createEntityManagerFactory("JPADatabaseTest3");
         transactionManager.begin();

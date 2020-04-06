@@ -26,7 +26,6 @@
  */
 package cloud.piranha.transaction.nonxa;
 
-import cloud.piranha.transaction.nonxa.DefaultTransactionManager;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.InvalidTransactionException;

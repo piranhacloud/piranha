@@ -26,7 +26,6 @@
  */
 package cloud.piranha.transaction.nonxa;
 
-import cloud.piranha.transaction.nonxa.DefaultTransaction;
 import javax.transaction.RollbackException;
 import javax.transaction.Synchronization;
 import javax.transaction.xa.XAException;

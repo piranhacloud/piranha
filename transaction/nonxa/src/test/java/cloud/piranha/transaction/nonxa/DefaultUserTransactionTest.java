@@ -26,8 +26,6 @@
  */
 package cloud.piranha.transaction.nonxa;
 
-import cloud.piranha.transaction.nonxa.DefaultTransactionManager;
-import cloud.piranha.transaction.nonxa.DefaultUserTransaction;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.Status;

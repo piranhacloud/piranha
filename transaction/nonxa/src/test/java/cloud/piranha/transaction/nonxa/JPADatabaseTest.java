@@ -26,7 +26,6 @@
  */
 package cloud.piranha.transaction.nonxa;
 
-import cloud.piranha.transaction.nonxa.DefaultTransactionManager;
 import javax.naming.InitialContext;
 import javax.naming.NameNotFoundException;
 import javax.persistence.EntityManager;
@@ -67,7 +66,7 @@ public class JPADatabaseTest {
             transactionManager = (DefaultTransactionManager) initialContext.lookup("java:/TransactionManager");
         } catch (NameNotFoundException nnfe) {
             transactionManager = new DefaultTransactionManager();
-            initialContext.bind("java:/TransactionManager", transactionManager);
+            initialContext.rebind("java:/TransactionManager", transactionManager);
         }
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPADatabaseTest");
         transactionManager.begin();
