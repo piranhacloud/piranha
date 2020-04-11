@@ -30,6 +30,7 @@ package cloud.piranha.micro;
 import cloud.piranha.DefaultHttpServer;
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationClassLoader;
+import cloud.piranha.DefaultWebApplicationExtensionContext;
 import cloud.piranha.DefaultWebApplicationServer;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.WebApplication;
@@ -53,7 +54,7 @@ public class MicroPiranha implements Runnable {
      * Stores the HTTP server.
      */
     private DefaultHttpServer httpServer;
-    
+
     /**
      * Stores the HTTP port.
      */
@@ -107,6 +108,9 @@ public class MicroPiranha implements Runnable {
             webApplication.setClassLoader(new DefaultWebApplicationClassLoader(webApplicationDirectory));
             webApplication.addResource(new DirectoryResource(webApplicationDirectory));
         }
+        DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
+        extensionContext.add(MicroExtension.class);
+        extensionContext.configure(webApplication);
         return webApplication;
     }
 
@@ -176,6 +180,7 @@ public class MicroPiranha implements Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
+        System.setProperty("java.naming.factory.initial", "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
         MicroPiranha runner = new MicroPiranha();
         runner.configure(arguments);
         runner.run();

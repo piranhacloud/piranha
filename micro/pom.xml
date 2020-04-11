@@ -30,11 +30,13 @@
             <groupId>org.jboss</groupId>
             <artifactId>jandex</artifactId>
             <version>2.1.1.Final</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-shrinkwrap</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha</groupId>
@@ -55,31 +57,55 @@
             <groupId>cloud.piranha.faces</groupId>
             <artifactId>piranha-faces-mojarra</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.rest</groupId>
             <artifactId>piranha-rest-jersey</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.security</groupId>
             <artifactId>piranha-security-jakarta</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.security</groupId>
             <artifactId>piranha-security-soteria</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.microprofile.omnifaces</groupId>
             <artifactId>piranha-microprofile-omnifaces-jwt</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.cdi</groupId>
             <artifactId>piranha-cdi-weld</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-annotationscan</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-servletcontainerinitializer</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.pages</groupId>
+            <artifactId>piranha-pages-jasper</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
