@@ -120,7 +120,6 @@ public class DefaultWebApplicationServerRequestMapper implements WebApplicationS
 
         while (prefixes.hasMoreElements()) {
             String prefix = prefixes.nextElement();
-            prefix = prefix.substring(0, prefix.length());
             if (path.startsWith(prefix)) {
                 if (result == null) {
                     result = prefix;
