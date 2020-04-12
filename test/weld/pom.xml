@@ -24,20 +24,20 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.jndi</groupId>
-            <artifactId>piranha-jndi-memory</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.cdi</groupId>
             <artifactId>piranha-cdi-weld</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.faces</groupId>
             <artifactId>piranha-faces-mojarra</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.jndi</groupId>
+            <artifactId>piranha-jndi-memory</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -50,6 +50,16 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

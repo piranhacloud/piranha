@@ -90,6 +90,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha.jndi</groupId>
+            <artifactId>piranha-jndi-memory</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.servlet</groupId>
             <artifactId>piranha-servlet-annotationscan</artifactId>
             <version>${project.version}</version>
@@ -105,6 +111,11 @@
             <groupId>cloud.piranha.pages</groupId>
             <artifactId>piranha-pages-jasper</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>

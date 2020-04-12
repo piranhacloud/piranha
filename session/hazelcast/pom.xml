@@ -16,15 +16,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast</artifactId>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

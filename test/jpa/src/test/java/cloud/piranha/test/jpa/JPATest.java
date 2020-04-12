@@ -54,7 +54,8 @@ public class JPATest {
      */
     @Test
     public void testIndexHtml() throws Exception {
-        System.getProperties().put("java.naming.factory.initial", "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
+        System.getProperties().put("java.naming.factory.initial", 
+                "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
         InitialContext initialContext = new InitialContext();
         JDBCDataSource ds = new JDBCDataSource();
         ds.setUrl("jdbc:hsqldb:mem:demo");

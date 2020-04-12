@@ -14,13 +14,24 @@
 
     <name>Piranha Pages - Jasper Integration</name>
 
-    <dependencies>      
+    <dependencies>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp</artifactId>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.glassfish</groupId>
+                    <artifactId>javax.el</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
-        </dependency>      
+        </dependency>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource</artifactId>
@@ -32,16 +43,11 @@
             <artifactId>piranha-embedded</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
-        </dependency>   
+        </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jakarta.servlet.jsp</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
