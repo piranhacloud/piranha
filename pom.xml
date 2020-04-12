@@ -71,8 +71,8 @@
         <!-- Admin Applications -->
         <module>admin</module>
 
-	<!-- Arquillian -->
-	<module>arquillian</module>
+        <!-- Arquillian -->
+        <module>arquillian</module>
     </modules>
 
     <scm>
@@ -82,8 +82,6 @@
     </scm>
 
     <properties>
-        <jakarta.el.version>3.0.3</jakarta.el.version>
-        <jakarta.pages.version>2.3.6</jakarta.pages.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>9</maven.compiler.source>
         <maven.compiler.target>9</maven.compiler.target>

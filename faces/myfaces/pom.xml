@@ -19,32 +19,17 @@
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-api</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.pages</groupId>
             <artifactId>piranha-pages-jasper</artifactId>
             <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.el</groupId>
-            <artifactId>jakarta.el-api</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet.jsp.jstl</groupId>
-            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-            <scope>runtime</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.websocket</groupId>
             <artifactId>jakarta.websocket-api</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.el</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
