@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        java: [ '9' ]
+        java: [ '10' ]
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
