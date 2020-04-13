@@ -5,10 +5,10 @@
     <parent>
         <artifactId>project</artifactId>
         <groupId>cloud.piranha.admin</groupId>
-        <version>20.4.0-SNAPSHOT</version>
+        <version>20.4.0</version>
     </parent>
     <artifactId>pirnaha-admin-rest</artifactId>
-    <version>20.4.0-SNAPSHOT</version>
+    <version>20.4.0</version>
     <packaging>war</packaging>
     <name>Piranha Admin - REST Application</name>
     

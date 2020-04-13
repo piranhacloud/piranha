@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>20.4.0-SNAPSHOT</version>
+        <version>20.4.0</version>
     </parent>
 
     <artifactId>piranha-micro</artifactId>
