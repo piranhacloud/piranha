@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha.arquillian</groupId>
         <artifactId>project</artifactId>
-        <version>20.4.0-SNAPSHOT</version>
+        <version>20.5.0-SNAPSHOT</version>
     </parent>
 
     <groupId>cloud.piranha.arquillian.test</groupId>
