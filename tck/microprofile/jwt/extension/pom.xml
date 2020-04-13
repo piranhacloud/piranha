@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.tck.microprofile.jwt</groupId>
         <artifactId>project</artifactId>
-        <version>20.4.0-SNAPSHOT</version>
+        <version>20.5.0-SNAPSHOT</version>
     </parent>
     <artifactId>piranha-tck-microprofile-jwt-extension</artifactId>
     <packaging>jar</packaging>
