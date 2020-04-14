@@ -40,6 +40,7 @@ courtesy of [JitPack.io](https://jitpack.io).
 
 ## Documentation for older releases
 
+1. [Version 20.4.0](https://javadoc.piranha.cloud/index.html?overview-summary.html)
 1. [Version 20.3.0](https://github.com/piranhacloud/piranha/tree/v20.3.0)
 1. [Version 20.2.0](https://github.com/piranhacloud/piranha/tree/v20.2.0)
 1. [Version 20.1.2](https://github.com/piranhacloud/piranha/tree/v20.1.2)
