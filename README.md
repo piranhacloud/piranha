@@ -50,7 +50,6 @@ courtesy of [JitPack.io](https://jitpack.io).
 1. [Version 19.11.0](https://github.com/piranhacloud/piranha/tree/v19.11.0)
 1. [Version 4.0.15.0](https://github.com/piranhacloud/piranha/tree/v4.0.15.0)
 1. [Version 4.0.14.0](https://github.com/piranhacloud/piranha/tree/v4.0.14.0)
-1. [Version 4.0.13.0](https://github.com/piranhacloud/piranha/tree/v4.0.13.0)
 
 ## How do I contribute?
 
