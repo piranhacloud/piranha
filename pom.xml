@@ -58,6 +58,7 @@
         <module>servlet</module>
         <module>security</module>
         <module>transaction</module>
+        <module>upload</module>
         
         <!-- Distributions -->
         <module>nano</module>

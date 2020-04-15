@@ -168,7 +168,9 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetPart() throws Exception {
+        NanoPiranha piranha = new NanoPiranha();
         NanoRequest request = new NanoRequest();
+        request.setWebApplication(piranha.getWebApplication());
         assertNull(request.getPart("part"));
     }
 
@@ -179,7 +181,9 @@ public class NanoRequestTest {
      */
     @Test
     public void testGetParts() throws Exception {
+        NanoPiranha piranha = new NanoPiranha();
         NanoRequest request = new NanoRequest();
+        request.setWebApplication(piranha.getWebApplication());
         assertNotNull(request.getParts());
         assertTrue(request.getParts().isEmpty());
     }

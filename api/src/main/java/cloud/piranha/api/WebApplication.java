@@ -145,6 +145,13 @@ public interface WebApplication extends ServletContext {
      * @return the mime type manager.
      */
     MimeTypeManager getMimeTypeManager();
+    
+    /**
+     * Get the multi part manager.
+     * 
+     * @return the multi part manager.
+     */
+    MultiPartManager getMultiPartManager();
 
     /**
      * Returns the unique Id of this web application corresponding to this
@@ -323,6 +330,13 @@ public interface WebApplication extends ServletContext {
      */
     void setMimeTypeManager(MimeTypeManager mimeTypeManager);
 
+    /**
+     * Set the multi part manager.
+     * 
+     * @param multiPartManager the multi part manager.
+     */
+    void setMultiPartManager(MultiPartManager multiPartManager);
+    
     /**
      * Set the object instance manager.
      *

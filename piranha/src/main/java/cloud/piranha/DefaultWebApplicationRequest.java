@@ -183,11 +183,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     protected boolean parametersParsed;
 
     /**
-     * Stores the parts.
-     */
-    protected HashMap<String, Part> parts;
-
-    /**
      * Stores the path info.
      */
     protected String pathInfo;
@@ -316,7 +311,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.serverPort = 80;
         this.servletPath = "";
         this.parameters = new HashMap<>();
-        this.parts = new HashMap<>();
         this.upgraded = false;
     }
 
@@ -757,7 +751,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Part getPart(String name) throws IOException, ServletException {
         verifyMultipartFormData();
-        return parts.get(name);
+        return webApplication.getMultiPartManager().getPart(webApplication, this, name);
     }
 
     /**
@@ -770,7 +764,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Collection<Part> getParts() throws IOException, ServletException {
         verifyMultipartFormData();
-        return parts.values();
+        return webApplication.getMultiPartManager().getParts(webApplication, this);
     }
 
     /**
@@ -1572,7 +1566,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * @throws ServletException the exception thrown when it is not.
      */
     protected void verifyMultipartFormData() throws ServletException {
-        if (contentType != null && !contentType.equals("multipart/form-data")) {
+        if (contentType != null && !contentType.startsWith("multipart/form-data")) {
             throw new ServletException("Request not of type multipart/form-data");
         }
     }

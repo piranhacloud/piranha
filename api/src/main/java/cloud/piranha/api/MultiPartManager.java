@@ -28,6 +28,7 @@
 package cloud.piranha.api;
 
 import java.util.Collection;
+import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 
 /**
@@ -40,17 +41,21 @@ public interface MultiPartManager {
     /**
      * Get the parts.
      *
+     * @param webApplication the web application.
      * @param request the web application request.
      * @return the parts.
+     * @throws ServletException when the request is not a multipart/form-data request.
      */
-    Collection<Part> getParts(WebApplicationRequest request);
+    Collection<Part> getParts(WebApplication webApplication, WebApplicationRequest request) throws ServletException;
 
     /**
      * Get the part.
      *
+     * @param webApplication the web application.
      * @param request the web application request.
      * @param name the name of the part.
      * @return the part, or null if not found.
+     * @throws ServletException when the request is not a multipart/form-data request.
      */
-    Part getPart(WebApplicationRequest request, String name);
+    Part getPart(WebApplication webApplication, WebApplicationRequest request, String name) throws ServletException;
 }

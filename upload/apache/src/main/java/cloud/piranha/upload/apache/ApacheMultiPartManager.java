@@ -25,29 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.upload.apache;
 
 import cloud.piranha.api.MultiPartManager;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.api.WebApplicationRequest;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
- * The default MultiPartManager.
+ * The Apache Commons FileUpload MultiPartManager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultMultiPartManager implements MultiPartManager {
+public class ApacheMultiPartManager implements MultiPartManager {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(DefaultMultiPartManager.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ApacheMultiPartManager.class.getName());
 
     /**
      * Get the parts.
@@ -55,16 +61,28 @@ public class DefaultMultiPartManager implements MultiPartManager {
      * @param webApplication the web application.
      * @param request the request.
      * @return the parts.
-     * @throws ServletException when the request is not a multipart/form-data
-     * request.
      */
     @Override
     public Collection<Part> getParts(WebApplication webApplication,
             WebApplicationRequest request) throws ServletException {
+
+        Collection<Part> parts = new ArrayList<>();
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.log(Level.FINE, "Getting parts for request: {0}", request);
         }
-        return Collections.EMPTY_LIST;
+        if (ServletFileUpload.isMultipartContent(request)) {
+            try {
+                ServletFileUpload upload = setupFileUpload(webApplication);
+                List<FileItem> items = upload.parseRequest(request);
+                items.forEach((item) -> {
+                    parts.add(new ApacheMultiPart(item));
+                });
+            } catch (FileUploadException fue) {
+            }
+        } else {
+            throw new ServletException("Not a multipart/form-data request");
+        }
+        return parts;
     }
 
     /**
@@ -74,15 +92,50 @@ public class DefaultMultiPartManager implements MultiPartManager {
      * @param request the request.
      * @param name the name of the part.
      * @return the part, or null if not found.
-     * @throws ServletException when the request is not a multipart/form-data
-     * request.
      */
     @Override
-    public Part getPart(WebApplication webApplication,
+    public Part getPart(WebApplication webApplication, 
             WebApplicationRequest request, String name) throws ServletException {
-        if (LOGGER.isLoggable(Level.FINE)) {
+        
+        ApacheMultiPart result = null;
+        if (LOGGER.isLoggable(Level.FINEST)) {
             LOGGER.log(Level.FINE, "Getting part: {0} for request: {0}", new Object[]{name, request});
         }
-        return null;
+        if (ServletFileUpload.isMultipartContent(request)) {
+            try {
+                ServletFileUpload upload = setupFileUpload(webApplication);
+                List<FileItem> items = upload.parseRequest(request);
+                for (FileItem item : items) {
+                    if (item.getName().equals(name)) {
+                        result = new ApacheMultiPart(item);
+                        break;
+                    }
+                }
+            } catch (FileUploadException fue) {
+            }
+        } else {
+            throw new ServletException("Not a multipart/form-data request");
+        }
+        return result;
+    }
+
+    /**
+     * Setup servlet file upload.
+     * 
+     * @param webApplication the web application.
+     */
+    private synchronized ServletFileUpload setupFileUpload(WebApplication webApplication) {
+        ServletFileUpload upload = (ServletFileUpload) 
+                webApplication.getAttribute(ApacheMultiPartManager.class.getName());
+        
+        if (upload == null) {
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            factory.setSizeThreshold(8192);
+            File repository = (File) webApplication.getAttribute("javax.servlet.context.tempdir");
+            factory.setRepository(repository);
+            upload = new ServletFileUpload(factory);
+            webApplication.setAttribute(ApacheMultiPartManager.class.getName(), upload);
+        }
+        return upload;
     }
 }

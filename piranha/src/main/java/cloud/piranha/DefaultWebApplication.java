@@ -87,6 +87,7 @@ import cloud.piranha.api.HttpSessionManager;
 import cloud.piranha.api.JspManager;
 import cloud.piranha.api.LoggingManager;
 import cloud.piranha.api.MimeTypeManager;
+import cloud.piranha.api.MultiPartManager;
 import cloud.piranha.api.ObjectInstanceManager;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.api.ResourceManager;
@@ -274,6 +275,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the mime type manager.
      */
     protected MimeTypeManager mimeTypeManager;
+    
+    /**
+     * Stores the multi part manager.
+     */
+    protected MultiPartManager multiPartManager;
 
     /**
      * Stores the request character encoding.
@@ -303,6 +309,7 @@ public class DefaultWebApplication implements WebApplication {
         jspManager = new DefaultJspFileManager();
         loggingManager = new DefaultLoggingManager();
         mimeTypeManager = new DefaultMimeTypeManager();
+        multiPartManager = new DefaultMultiPartManager();
         objectInstanceManager = new DefaultObjectInstanceManager();
         requestListeners = new ArrayList<>(1);
         requests = new ConcurrentHashMap<>(1);
@@ -801,6 +808,16 @@ public class DefaultWebApplication implements WebApplication {
         return getMinorVersion();
     }
 
+    /**
+     * Get the multi part manager.
+     * 
+     * @return the multi part manager.
+     */
+    @Override
+    public MultiPartManager getMultiPartManager() {
+        return multiPartManager;
+    }
+    
     /**
      * Get the effective tracking modes.
      *
@@ -1601,6 +1618,16 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void setMimeTypeManager(MimeTypeManager mimeTypeManager) {
         this.mimeTypeManager = mimeTypeManager;
+    }
+    
+    /**
+     * Set the multi part manager.
+     * 
+     * @param multiPartManager the multi part manager.
+     */
+    @Override
+    public void setMultiPartManager(MultiPartManager multiPartManager) {
+        this.multiPartManager = multiPartManager;
     }
 
     /**

@@ -25,50 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.upload.apache;
 
-import java.util.Collection;
+import cloud.piranha.api.WebApplication;
+import java.util.Set;
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.Part;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 
 /**
- * The JUnit tests for the DefaultMultiPartManager.
- *
+ * The Apache Commons FileUpload initializer.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultMultiPartManagerTest {
+public class ApacheMultiPartInitializer implements ServletContainerInitializer {
 
     /**
-     * Test getParts method.
+     * Initialize Apache Commons FileUpload.
      * 
-     * @throws Exception when a serious error occurs.
+     * @param classes the classes.
+     * @param servletContext the Servlet context.
+     * @throws ServletException when a Servlet error occurs.
      */
-    @Test
-    public void testGetParts() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultMultiPartManager manager = new DefaultMultiPartManager();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest() {
-        };
-        request.setContentType("multipart/form-data; boundary=------------------------12345");
-        Collection<Part> result = manager.getParts(webApplication, request);
-        assertTrue(result.isEmpty());
-    }
-
-    /**
-     * Test getPart method.
-     * 
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    public void testGetPart() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultMultiPartManager manager = new DefaultMultiPartManager();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest() {
-        };
-        request.setContentType("multipart/form-data; boundary=------------------------12345");
-        assertNull(manager.getPart(webApplication, request, "notfound"));
+    @Override
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        WebApplication webApplication = (WebApplication) servletContext;
+        webApplication.setMultiPartManager(new ApacheMultiPartManager());
+        webApplication.addListener("org.apache.commons.fileupload.servlet.FileCleanerCleanup");
     }
 }
