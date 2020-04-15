@@ -202,7 +202,9 @@ public class DefaultHttpServletRequestTest {
      */
     @Test
     public void testGetPart2() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setWebApplication(webApplication);
         request.setContentType("multipart/form-data");
         assertNull(request.getPart("not_there"));
     }
