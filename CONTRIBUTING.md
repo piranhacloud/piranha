@@ -59,3 +59,8 @@ Or go into the directory of the TCK you want to run and use:
 ```
 mvn verify
 ```
+
+## Code conventions
+
+We have compiled a list of code conventions we try to adhere to, 
+see [Code Conventions](CODE_CONVENTIONS.md).
