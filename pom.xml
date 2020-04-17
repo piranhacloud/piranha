@@ -74,6 +74,9 @@
 
         <!-- Arquillian -->
         <module>arquillian</module>
+        
+        <!-- Maven -->
+        <module>maven</module>
     </modules>
 
     <scm>
