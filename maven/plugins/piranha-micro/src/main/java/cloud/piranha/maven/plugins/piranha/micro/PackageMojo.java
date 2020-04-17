@@ -35,18 +35,61 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * The Mojo that will run your Piranha Micro application.
+ * The Mojo that will package your application with Piranha Micro.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Mojo(name = "run", defaultPhase = LifecyclePhase.NONE)
-public class RunMojo extends MicroMojo {
+@Mojo(name = "package", defaultPhase = LifecyclePhase.PACKAGE)
+public class PackageMojo extends MicroMojo {
 
     /**
-     * Stores the web application directory (used only by the plugin).
+     * Stores the web application extensions.
+     *
+     * <p>
+     * Each extension will be added as a dependency to be resolved by Shrinkwrap
+     * and during initialization of MicroPiranha they will be used in order to
+     * bootstrap MicroPiranha with the given extensions.
+     * </p>
+     *
+     * </p>
+     * Note each extensions should be in groupId:artifactId:version format, if
+     * version is omitted the same version as this plugin is assumed.
+     * </p>
      */
-    @Parameter(defaultValue = "target/webapp", required = false)
-    private File pluginWebappDirectory;
+    @Parameter(required = false)
+    private String[] extensions;
+
+    /**
+     * Stores the WAR dependency.
+     *
+     * <p>
+     * If you already have an existing WAR file on a Maven repository you can
+     * use this parameter to refer to it instead of copying it.
+     * </p>
+     *
+     * <p>
+     * Note this should be in groupId:artifactId:version format, if version is
+     * omitted the same version as this plugin is assumed.
+     * </p>
+     */
+    @Parameter(required = false)
+    private String warDependency;
+
+    /**
+     * Stores the WAR file.
+     *
+     * <p>
+     * If you have an existing WAR file you can use this to refer to it.
+     * </p>
+     *
+     * <p>
+     * Note if the WAR file is not specified, but copied to
+     * <pre>src/main/piranha-micro/ROOT.war</pre> it will automatically pick it
+     * up without the need to configure this parameter in the POM file.
+     * </p>
+     */
+    @Parameter(defaultValue = "src/main/piranha-micro/ROOT.war", required = false)
+    private File warFile;
 
     /**
      * Execute the mojo.
@@ -57,11 +100,5 @@ public class RunMojo extends MicroMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         showBanner();
-
-        /*
-         * 0. Show the banner (if applicable).
-         * 1. Create the process.
-         * 2. Wait for the process.
-         */
     }
 }
