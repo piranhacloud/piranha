@@ -566,9 +566,9 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetServletContextName() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNull(webApp.getServletContextName());
         webApp.setServletContextName("MYNAME");
         assertNotNull(webApp.getServletContextName());
+        assertEquals("MYNAME", webApp.getServletContextName());
     }
 
     /**
