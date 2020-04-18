@@ -80,6 +80,7 @@ public abstract class HttpServerTest {
         assertTrue(server.isRunning());
         server.stop();
         assertFalse(server.isRunning());
+        Thread.sleep(2000);
     }
 
     /**
@@ -103,6 +104,7 @@ public abstract class HttpServerTest {
             server.stop();
             assertFalse(server.isRunning());
         }
+        Thread.sleep(2000);
     }
 
     /**
@@ -126,6 +128,7 @@ public abstract class HttpServerTest {
             server.stop();
             assertFalse(server.isRunning());
         }
+        Thread.sleep(2000);
     }
 
     /**
@@ -149,6 +152,7 @@ public abstract class HttpServerTest {
             server.stop();
             assertFalse(server.isRunning());
         }
+        Thread.sleep(2000);
     }
 
     /**
@@ -177,5 +181,6 @@ public abstract class HttpServerTest {
             server.stop();
             assertFalse(server.isRunning());
         }
+        Thread.sleep(2000);
     }
 }
