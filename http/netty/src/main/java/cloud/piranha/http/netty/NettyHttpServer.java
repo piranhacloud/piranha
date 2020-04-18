@@ -31,6 +31,7 @@ import cloud.piranha.DefaultHttpServerProcessor;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.HttpServerProcessor;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -47,6 +48,11 @@ public class NettyHttpServer implements HttpServer {
      */
     private EventLoopGroup bossGroup;
     
+    /**
+     * Stores the channel future.
+     */
+    private ChannelFuture channelFuture;
+
     /**
      * Stores the HTTP server processor.
      */
@@ -98,7 +104,7 @@ public class NettyHttpServer implements HttpServer {
      */
     @Override
     public boolean isRunning() {
-        return (bossGroup != null && workerGroup != null);
+        return (bossGroup != null && workerGroup != null && channelFuture != null);
     }
 
     /**
@@ -109,7 +115,7 @@ public class NettyHttpServer implements HttpServer {
         bossGroup = new NioEventLoopGroup(1);
         workerGroup = new NioEventLoopGroup();
         ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap.group(bossGroup, workerGroup)
+        channelFuture = bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new NettyHttpServerInitializer(httpServerProcessor))
                 .bind(serverPort);
@@ -122,7 +128,9 @@ public class NettyHttpServer implements HttpServer {
     public void stop() {
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
+        channelFuture.channel().close();
         bossGroup = null;
         workerGroup = null;
+        channelFuture = null;
     }
 }
