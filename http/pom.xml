@@ -30,5 +30,7 @@
         <module>grizzly</module>
         <module>netty</module>
         <module>singlethread</module>
+        <module>undertow</module>
+        <module>tests</module>
     </modules>
 </project>

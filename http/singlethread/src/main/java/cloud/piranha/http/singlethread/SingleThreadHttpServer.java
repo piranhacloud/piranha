@@ -86,11 +86,22 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
     protected int soTimeout;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public SingleThreadHttpServer() {
         processor = new DefaultHttpServerProcessor();
         serverPort = 8080;
+        serverStopRequest = false;
+    }
+
+    /**
+     * Constructor.
+     * 
+     * @param serverPort the server port.
+     */
+    public SingleThreadHttpServer(int serverPort) {
+        this.serverPort = serverPort;
+        processor = new DefaultHttpServerProcessor();
         serverStopRequest = false;
     }
 

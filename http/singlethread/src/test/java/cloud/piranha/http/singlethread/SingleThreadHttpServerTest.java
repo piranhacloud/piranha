@@ -27,92 +27,37 @@
  */
 package cloud.piranha.http.singlethread;
 
-import java.io.IOException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import cloud.piranha.api.HttpServer;
+import cloud.piranha.api.HttpServerProcessor;
+import cloud.piranha.http.tests.HttpServerTest;
 
 /**
- * The JUnit tests for the DefaultHttpServer class.
+ * The JUnit tests for the SingleThreadHttpServer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SingleThreadHttpServerTest {
+public class SingleThreadHttpServerTest extends HttpServerTest {
 
     /**
-     * Test start and stop method.
+     * Create the Netty HTTP server.
+     *
+     * @param portNumber the port number.
+     * @return the Netty HTTP server.
      */
-    @Test
-    public void testStartAndStop() {
-        SingleThreadHttpServer server = new SingleThreadHttpServer();
-        server.serverPort = 18001;
-        server.start();
-        assertTrue(server.isRunning());
-        server.stop();
-        assertFalse(server.isRunning());
+    @Override
+    protected HttpServer createServer(int portNumber) {
+        return new SingleThreadHttpServer(portNumber);
     }
 
     /**
-     * Test processing.
+     * Create the Netty HTTP server.
+     *
+     * @param portNumber the port number.
+     * @param processor the HTTP server processor.
+     * @return the Netty HTTP server.
      */
-    @Test
-    public void testProcessing() {
-        SingleThreadHttpServer server = new SingleThreadHttpServer();
-        server.serverPort = 18002;
-        server.start();
-        try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:18002");
-            HttpResponse response = client.execute(request);
-            assertEquals(200, response.getStatusLine().getStatusCode());
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
-        }
-        server.stop();
-        assertFalse(server.isRunning());
-    }
-
-    /**
-     * Test file not found.
-     */
-    @Test
-    public void testFileNotFound() {
-        SingleThreadHttpServer server = new SingleThreadHttpServer();
-        server.serverPort = 18003;
-        server.start();
-        try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:18003/this_is_certainly_not_there");
-            HttpResponse response = client.execute(request);
-            assertEquals(404, response.getStatusLine().getStatusCode());
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
-        }
-        server.stop();
-        assertFalse(server.isRunning());
-    }
-
-    /**
-     * Test file.
-     */
-    @Test
-    public void testFile() {
-        SingleThreadHttpServer server = new SingleThreadHttpServer();
-        server.serverPort = 18004;
-        server.start();        try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:18004/pom.xml");
-            HttpResponse response = client.execute(request);
-            assertEquals(200, response.getStatusLine().getStatusCode());
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
-        }
-        server.stop();
-        assertFalse(server.isRunning());
+    @Override
+    protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
+        return new SingleThreadHttpServer(portNumber, processor);
     }
 }

@@ -25,39 +25,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.netty;
+package cloud.piranha.http.undertow;
 
-import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.HttpServerProcessor;
-import cloud.piranha.http.tests.HttpServerTest;
+import io.undertow.server.HttpHandler;
+import io.undertow.server.HttpServerExchange;
 
 /**
- * The JUnit tests for the NettyHttpServer class.
+ * The Undertow HttpHandler.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NettyHttpServerTest extends HttpServerTest {
+public class UndertowHttpHandler implements HttpHandler {
 
     /**
-     * Create the Netty HTTP server.
-     * 
-     * @param portNumber the port number.
-     * @return the Netty HTTP server.
+     * Stores the HTTP server processor.
      */
-    @Override
-    protected HttpServer createServer(int portNumber) {
-        return new NettyHttpServer(portNumber);
+    private final HttpServerProcessor httpServerProcessor;
+
+    /**
+     * Constructor.
+     *
+     * @param httpServerProcessor the HTTP server processor.
+     */
+    public UndertowHttpHandler(HttpServerProcessor httpServerProcessor) {
+        this.httpServerProcessor = httpServerProcessor;
     }
 
     /**
-     * Create the Netty HTTP server.
-     * 
-     * @param portNumber the port number.
-     * @param processor the HTTP server processor.
-     * @return the Netty HTTP server.
+     * Handle the request.
+     *
+     * @param exchange the HTTP server exchange.
+     * @throws Exception when a serious error occurs.
      */
     @Override
-    protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
-        return new NettyHttpServer(portNumber, processor);
+    public void handleRequest(HttpServerExchange exchange) throws Exception {
+        if (exchange.isInIoThread()) {
+            exchange.dispatch(this);
+            return;
+        }
+        httpServerProcessor.process(
+                new UndertowHttpRequest(exchange),
+                new UndertowHttpResponse(exchange));
     }
 }

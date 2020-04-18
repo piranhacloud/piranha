@@ -27,111 +27,37 @@
  */
 package cloud.piranha.http.grizzly;
 
-import cloud.piranha.DefaultHttpServerProcessor;
-import java.io.IOException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import cloud.piranha.api.HttpServer;
+import cloud.piranha.api.HttpServerProcessor;
+import cloud.piranha.http.tests.HttpServerTest;
 
 /**
  * The JUnit tests for the DefaultHttpServer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class GrizzlyHttpServerTest {
+public class GrizzlyHttpServerTest extends HttpServerTest {
 
     /**
-     * Test start and stop method.
-     */
-    @Test
-    public void testStartAndStop() {
-        GrizzlyHttpServer server = new GrizzlyHttpServer(28001);
-        server.start();
-        assertTrue(server.isRunning());
-        server.stop();
-        assertFalse(server.isRunning());
-    }
-
-    /**
-     * Test processing.
-     */
-    @Test
-    public void testProcessing() {
-        GrizzlyHttpServer server = new GrizzlyHttpServer(28002);
-        server.start();
-        try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:28002");
-            HttpResponse response = client.execute(request);
-            assertEquals(200, response.getStatusLine().getStatusCode());
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
-        }
-        server.stop();
-        assertFalse(server.isRunning());
-    }
-
-    /**
-     * Test processing.
-     */
-    @Test
-    public void testProcessing2() {
-        GrizzlyHttpServer server = new GrizzlyHttpServer(28003, new DefaultHttpServerProcessor());
-        server.start();
-        try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:28003");
-            HttpResponse response = client.execute(request);
-            assertEquals(200, response.getStatusLine().getStatusCode());
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
-        }
-        server.stop();
-        assertFalse(server.isRunning());
-    }
-    
-    /**
-     * Test file not found.
-     */
-    @Test
-    public void testFileNotFound() {
-        GrizzlyHttpServer server = new GrizzlyHttpServer(28004);
-        server.start();
-        try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:28004/this_is_certainly_not_there");
-            HttpResponse response = client.execute(request);
-            assertEquals(404, response.getStatusLine().getStatusCode());
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
-        }
-        server.stop();
-        assertFalse(server.isRunning());
-    }
-
-    /**
-     * Test file.
+     * Create the Netty HTTP server.
      * 
-     * @throws Exception when a serious error occurs.
+     * @param portNumber the port number.
+     * @return the Netty HTTP server.
      */
-    @Test
-    public void testFile() throws Exception {
-        GrizzlyHttpServer server = new GrizzlyHttpServer(28005);
-        server.start();
-        try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:28005/pom.xml");
-            HttpResponse response = client.execute(request);
-            assertEquals(200, response.getStatusLine().getStatusCode());
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
-        }
-        server.stop();
-        assertFalse(server.isRunning());
+    @Override
+    protected HttpServer createServer(int portNumber) {
+        return new GrizzlyHttpServer(portNumber);
+    }
+
+    /**
+     * Create the Netty HTTP server.
+     * 
+     * @param portNumber the port number.
+     * @param processor the HTTP server processor.
+     * @return the Netty HTTP server.
+     */
+    @Override
+    protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
+        return new GrizzlyHttpServer(portNumber, processor);
     }
 }

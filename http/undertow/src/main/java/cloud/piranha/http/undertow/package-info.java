@@ -25,39 +25,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.netty;
-
-import cloud.piranha.api.HttpServer;
-import cloud.piranha.api.HttpServerProcessor;
-import cloud.piranha.http.tests.HttpServerTest;
 
 /**
- * The JUnit tests for the NettyHttpServer class.
- *
+ * A Undertow based HTTP engine.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NettyHttpServerTest extends HttpServerTest {
-
-    /**
-     * Create the Netty HTTP server.
-     * 
-     * @param portNumber the port number.
-     * @return the Netty HTTP server.
-     */
-    @Override
-    protected HttpServer createServer(int portNumber) {
-        return new NettyHttpServer(portNumber);
-    }
-
-    /**
-     * Create the Netty HTTP server.
-     * 
-     * @param portNumber the port number.
-     * @param processor the HTTP server processor.
-     * @return the Netty HTTP server.
-     */
-    @Override
-    protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
-        return new NettyHttpServer(portNumber, processor);
-    }
-}
+package cloud.piranha.http.undertow;
