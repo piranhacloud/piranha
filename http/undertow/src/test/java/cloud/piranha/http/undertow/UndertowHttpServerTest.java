@@ -30,12 +30,14 @@ package cloud.piranha.http.undertow;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.HttpServerProcessor;
 import cloud.piranha.http.tests.HttpServerTest;
+import org.junit.Ignore;
 
 /**
  * The JUnit tests for the UndertowHttpServer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@Ignore
 public class UndertowHttpServerTest extends HttpServerTest {
 
     /**
