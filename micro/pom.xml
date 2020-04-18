@@ -44,14 +44,28 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha.jndi</groupId>
+            <artifactId>piranha-jndi-memory</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-tempdir</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.servlet</groupId>
             <artifactId>piranha-servlet-webservlet</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.servlet</groupId>
             <artifactId>piranha-servlet-webxml</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.faces</groupId>
@@ -88,12 +102,6 @@
             <artifactId>piranha-cdi-weld</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.jndi</groupId>
-            <artifactId>piranha-jndi-memory</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.servlet</groupId>
