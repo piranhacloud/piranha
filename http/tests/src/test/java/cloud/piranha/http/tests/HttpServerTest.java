@@ -169,8 +169,9 @@ public abstract class HttpServerTest {
             assertTrue(responseText.contains("modelVersion"));
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
+        } finally {
+            server.stop();
         }
-        server.stop();
         assertFalse(server.isRunning());
     }
 }
