@@ -32,5 +32,6 @@
         <module>servletcontainerinitializer</module>
         <module>webservlet</module>
         <module>webxml</module>
+        <module>tempdir</module>
     </modules>
 </project>

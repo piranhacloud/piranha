@@ -61,6 +61,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-tempdir</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.servlet</groupId>
             <artifactId>piranha-servlet-webxml</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>

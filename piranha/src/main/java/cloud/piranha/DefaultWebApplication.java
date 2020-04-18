@@ -95,6 +95,7 @@ import cloud.piranha.api.SecurityManager;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.api.WebApplicationRequestMapper;
 import cloud.piranha.api.WebApplicationRequestMapping;
+import java.util.UUID;
 
 /**
  * The default WebApplication.
@@ -316,6 +317,7 @@ public class DefaultWebApplication implements WebApplication {
         resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
         securityManager = new DefaultSecurityManager();
+        servletContextName = UUID.randomUUID().toString();
         servlets = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
     }
