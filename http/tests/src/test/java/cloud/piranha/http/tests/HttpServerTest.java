@@ -37,6 +37,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -98,9 +99,10 @@ public abstract class HttpServerTest {
             assertEquals(200, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
+        } finally {
+            server.stop();
+            assertFalse(server.isRunning());
         }
-        server.stop();
-        assertFalse(server.isRunning());
     }
 
     /**
@@ -120,9 +122,10 @@ public abstract class HttpServerTest {
             assertEquals(200, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
+        } finally {
+            server.stop();
+            assertFalse(server.isRunning());
         }
-        server.stop();
-        assertFalse(server.isRunning());
     }
 
     /**
@@ -142,9 +145,10 @@ public abstract class HttpServerTest {
             assertEquals(404, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
+        } finally {
+            server.stop();
+            assertFalse(server.isRunning());
         }
-        server.stop();
-        assertFalse(server.isRunning());
     }
 
     /**
@@ -171,7 +175,7 @@ public abstract class HttpServerTest {
             throw new RuntimeException(ioe);
         } finally {
             server.stop();
+            assertFalse(server.isRunning());
         }
-        assertFalse(server.isRunning());
     }
 }
