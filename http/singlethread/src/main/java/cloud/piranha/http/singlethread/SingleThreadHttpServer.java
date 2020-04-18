@@ -176,5 +176,7 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
             }
             running = false;
         }
+        serverStopRequest = true;
+        serverProcessingThread.interrupt();
     }
 }
