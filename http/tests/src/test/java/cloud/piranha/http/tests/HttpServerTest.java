@@ -79,8 +79,8 @@ public abstract class HttpServerTest {
         Thread.sleep(2000);
         assertTrue(server.isRunning());
         server.stop();
-        assertFalse(server.isRunning());
         Thread.sleep(2000);
+        assertFalse(server.isRunning());
     }
 
     /**
@@ -102,9 +102,9 @@ public abstract class HttpServerTest {
             throw new RuntimeException(ioe);
         } finally {
             server.stop();
-            assertFalse(server.isRunning());
+            Thread.sleep(2000);
         }
-        Thread.sleep(2000);
+        assertFalse(server.isRunning());
     }
 
     /**
@@ -126,9 +126,9 @@ public abstract class HttpServerTest {
             throw new RuntimeException(ioe);
         } finally {
             server.stop();
-            assertFalse(server.isRunning());
+            Thread.sleep(2000);
         }
-        Thread.sleep(2000);
+        assertFalse(server.isRunning());
     }
 
     /**
@@ -150,9 +150,9 @@ public abstract class HttpServerTest {
             throw new RuntimeException(ioe);
         } finally {
             server.stop();
-            assertFalse(server.isRunning());
+            Thread.sleep(2000);
         }
-        Thread.sleep(2000);
+        assertFalse(server.isRunning());
     }
 
     /**
@@ -179,8 +179,8 @@ public abstract class HttpServerTest {
             throw new RuntimeException(ioe);
         } finally {
             server.stop();
-            assertFalse(server.isRunning());
+            Thread.sleep(2000);
         }
-        Thread.sleep(2000);
+        assertFalse(server.isRunning());
     }
 }
