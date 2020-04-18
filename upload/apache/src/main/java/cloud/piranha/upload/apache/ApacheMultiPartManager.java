@@ -35,7 +35,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
+import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import org.apache.commons.fileupload.FileItem;
@@ -67,8 +70,8 @@ public class ApacheMultiPartManager implements MultiPartManager {
             WebApplicationRequest request) throws ServletException {
 
         Collection<Part> parts = new ArrayList<>();
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Getting parts for request: {0}", request);
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Getting parts for request: {0}", request);
         }
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
@@ -98,8 +101,8 @@ public class ApacheMultiPartManager implements MultiPartManager {
             WebApplicationRequest request, String name) throws ServletException {
         
         ApacheMultiPart result = null;
-        if (LOGGER.isLoggable(Level.FINEST)) {
-            LOGGER.log(Level.FINE, "Getting part: {0} for request: {0}", new Object[]{name, request});
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.log(FINE, "Getting part: {0} for request: {0}", new Object[]{name, request});
         }
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
@@ -112,6 +115,9 @@ public class ApacheMultiPartManager implements MultiPartManager {
                     }
                 }
             } catch (FileUploadException fue) {
+                if (LOGGER.isLoggable(WARNING)) {
+                    LOGGER.log(WARNING, "Error getting part", fue);
+                }
             }
         } else {
             throw new ServletException("Not a multipart/form-data request");
@@ -131,7 +137,7 @@ public class ApacheMultiPartManager implements MultiPartManager {
         if (upload == null) {
             DiskFileItemFactory factory = new DiskFileItemFactory();
             factory.setSizeThreshold(8192);
-            File repository = (File) webApplication.getAttribute("javax.servlet.context.tempdir");
+            File repository = (File) webApplication.getAttribute(ServletContext.TEMPDIR);
             factory.setRepository(repository);
             upload = new ServletFileUpload(factory);
             webApplication.setAttribute(ApacheMultiPartManager.class.getName(), upload);
