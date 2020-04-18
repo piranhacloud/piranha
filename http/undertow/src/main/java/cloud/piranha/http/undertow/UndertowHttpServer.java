@@ -25,39 +25,91 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.netty;
+package cloud.piranha.http.undertow;
 
+import cloud.piranha.DefaultHttpServerProcessor;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.HttpServerProcessor;
-import cloud.piranha.http.tests.HttpServerTest;
+import io.undertow.Undertow;
 
 /**
- * The JUnit tests for the NettyHttpServer class.
+ * The Netty HTTP server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NettyHttpServerTest extends HttpServerTest {
+public class UndertowHttpServer implements HttpServer {
 
     /**
-     * Create the Netty HTTP server.
-     * 
-     * @param portNumber the port number.
-     * @return the Netty HTTP server.
+     * Stores the HTTP server processor.
      */
-    @Override
-    protected HttpServer createServer(int portNumber) {
-        return new NettyHttpServer(portNumber);
+    private final HttpServerProcessor httpServerProcessor;
+
+    /**
+     * Stores the server port.
+     */
+    private final int serverPort;
+
+    /**
+     * Stores the Undertow server.
+     */
+    private Undertow undertow;
+
+    /**
+     * Constructor.
+     */
+    public UndertowHttpServer() {
+        httpServerProcessor = new DefaultHttpServerProcessor();
+        serverPort = 8080;
     }
 
     /**
-     * Create the Netty HTTP server.
-     * 
-     * @param portNumber the port number.
-     * @param processor the HTTP server processor.
-     * @return the Netty HTTP server.
+     * Constructor.
+     *
+     * @param serverPort the server port.
+     */
+    public UndertowHttpServer(int serverPort) {
+        this.httpServerProcessor = new DefaultHttpServerProcessor();
+        this.serverPort = serverPort;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param serverPort the server port.
+     * @param httpServerProcessor the HTTP server processor.
+     */
+    public UndertowHttpServer(int serverPort, HttpServerProcessor httpServerProcessor) {
+        this.httpServerProcessor = httpServerProcessor;
+        this.serverPort = serverPort;
+    }
+
+    /**
+     * Is the server running?
+     *
+     * @return true if running, false otherwise.
      */
     @Override
-    protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
-        return new NettyHttpServer(portNumber, processor);
+    public boolean isRunning() {
+        return undertow != null;
+    }
+
+    /**
+     * Start the server.
+     */
+    @Override
+    public void start() {
+        undertow = Undertow.builder()
+                .addHttpListener(serverPort, "localhost")
+                .setHandler(new UndertowHttpHandler(httpServerProcessor)).build();
+        undertow.start();
+    }
+
+    /**
+     * Stops the server.
+     */
+    @Override
+    public void stop() {
+        undertow.stop();
+        undertow = null;
     }
 }
