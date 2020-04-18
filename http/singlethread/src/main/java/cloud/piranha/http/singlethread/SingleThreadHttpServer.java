@@ -35,7 +35,8 @@ import cloud.piranha.api.HttpServerProcessor;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Level;
+import static java.util.logging.Level.INFO;
+import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 
 /**
@@ -96,7 +97,7 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param serverPort the server port.
      */
     public SingleThreadHttpServer(int serverPort) {
@@ -143,6 +144,7 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
             } catch (Throwable throwable) {
             }
         }
+        LOGGER.log(INFO, "Shutting down HTTP server");
     }
 
     /**
@@ -150,6 +152,9 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
      */
     @Override
     public void start() {
+        if (LOGGER.isLoggable(INFO)) {
+            LOGGER.log(INFO, "Start HTTP server");            
+        }
         try {
             serverStopRequest = false;
             serverSocket = new ServerSocket(serverPort);
@@ -159,7 +164,7 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
             serverProcessingThread.start();
             running = true;
         } catch (IOException exception) {
-            LOGGER.log(Level.WARNING, "An I/O error occurred while starting the HTTP server", exception);
+            LOGGER.log(WARNING, "An I/O error occurred while starting the HTTP server", exception);
         }
     }
 
@@ -168,15 +173,18 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
      */
     @Override
     public void stop() {
+        if (LOGGER.isLoggable(INFO)) {
+            LOGGER.log(INFO, "Stopping HTTP server");            
+        }
+        serverStopRequest = true;
+        serverProcessingThread.interrupt();
         if (serverSocket != null) {
             try {
                 serverSocket.close();
             } catch (IOException exception) {
-                LOGGER.log(Level.WARNING, "An I/O error occurred while stopping the HTTP server", exception);
+                LOGGER.log(WARNING, "An I/O error occurred while stopping the HTTP server", exception);
             }
             running = false;
         }
-        serverStopRequest = true;
-        serverProcessingThread.interrupt();
     }
 }
