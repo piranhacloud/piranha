@@ -75,10 +75,8 @@ public abstract class HttpServerTest {
     public void testStartAndStop() throws Exception {
         HttpServer server = createServer(28001);
         server.start();
-        Thread.sleep(2000);
         assertTrue(server.isRunning());
         server.stop();
-        Thread.sleep(2000);
         assertFalse(server.isRunning());
     }
 
@@ -91,7 +89,6 @@ public abstract class HttpServerTest {
     public void testProcessing() throws Exception {
         HttpServer server = createServer(28002);
         server.start();
-        Thread.sleep(2000);
         try {
             HttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet("http://localhost:28002");
@@ -101,9 +98,7 @@ public abstract class HttpServerTest {
             throw new RuntimeException(ioe);
         } finally {
             server.stop();
-            Thread.sleep(2000);
         }
-        assertFalse(server.isRunning());
     }
 
     /**
@@ -115,7 +110,6 @@ public abstract class HttpServerTest {
     public void testProcessing2() throws Exception {
         HttpServer server = createServer(28003, new DefaultHttpServerProcessor());
         server.start();
-        Thread.sleep(2000);
         try {
             HttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet("http://localhost:28003");
@@ -125,9 +119,7 @@ public abstract class HttpServerTest {
             throw new RuntimeException(ioe);
         } finally {
             server.stop();
-            Thread.sleep(2000);
         }
-        assertFalse(server.isRunning());
     }
 
     /**
@@ -139,7 +131,6 @@ public abstract class HttpServerTest {
     public void testFileNotFound() throws Exception {
         HttpServer server = createServer(28004);
         server.start();
-        Thread.sleep(2000);
         try {
             HttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet("http://localhost:28004/this_is_certainly_not_there");
@@ -149,7 +140,6 @@ public abstract class HttpServerTest {
             throw new RuntimeException(ioe);
         } finally {
             server.stop();
-            Thread.sleep(2000);
         }
         assertFalse(server.isRunning());
     }
@@ -163,7 +153,6 @@ public abstract class HttpServerTest {
     public void testFile() throws Exception {
         HttpServer server = createServer(28005);
         server.start();
-        Thread.sleep(2000);
         try {
             HttpClient client = HttpClients.createDefault();
             HttpGet request = new HttpGet("http://localhost:28005/pom.xml");
@@ -178,7 +167,6 @@ public abstract class HttpServerTest {
             throw new RuntimeException(ioe);
         } finally {
             server.stop();
-            Thread.sleep(2000);
         }
         assertFalse(server.isRunning());
     }
