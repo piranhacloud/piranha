@@ -200,6 +200,7 @@ public class DefaultHttpServer implements HttpServer {
         if (LOGGER.isLoggable(INFO)) {
             LOGGER.log(INFO, "Stopping HTTP server on port {0}", serverPort);
         }
+        serverStopRequest = true;
         if (serverSocket != null) {
             try {
                 serverSocket.close();
