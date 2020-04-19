@@ -61,6 +61,17 @@ public class NettyHttpServerResponse implements HttpServerResponse {
     }
 
     /**
+     * Get the header.
+     * 
+     * @param name the name of the header.
+     * @return the value, or null if not found.
+     */
+    @Override
+    public String getHeader(String name) {
+        return response.headers().get(name);
+    }
+
+    /**
      * Get the output stream.
      *
      * @return the output stream.

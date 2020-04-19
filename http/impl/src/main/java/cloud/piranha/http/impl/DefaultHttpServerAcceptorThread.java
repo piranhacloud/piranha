@@ -25,30 +25,55 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.http.impl;
 
-import java.util.concurrent.ThreadFactory;
+import java.io.IOException;
+import java.net.Socket;
+import static java.util.logging.Level.WARNING;
+import java.util.logging.Logger;
 
 /**
- * The default HttpServerThreadFactory.
+ * The default HttpServerAcceptorThread.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultHttpServerThreadFactory implements ThreadFactory {
+class DefaultHttpServerAcceptorThread implements Runnable {
 
     /**
-     * Stores the id.
+     * Stores the logger.
      */
-    private int id = 0;
+    private static final Logger LOGGER = Logger.getLogger(
+            DefaultHttpServerAcceptorThread.class.getPackage().getName());
+    
+    /**
+     * Stores the HTTP server.
+     */
+    private final DefaultHttpServer server;
 
     /**
-     * Create the new thread.
+     * Constructor.
      *
-     * @param runnable the runnable.
-     * @return the thread.
+     * @param server the server we are working for.
+     */
+    public DefaultHttpServerAcceptorThread(DefaultHttpServer server) {
+        this.server = server;
+    }
+
+    /**
+     * Handle the socket request.
      */
     @Override
-    public Thread newThread(Runnable runnable) {
-        return new Thread(runnable, "DefaultHttpServer-ProcessingThread-" + id++);
+    public void run() {
+        while (!server.serverStopRequest) {
+            try {
+                Socket socket = server.serverSocket.accept();
+                server.executorService.execute(new DefaultHttpServerProcessingThread(server, socket));
+            } catch (IOException exception) {
+            } catch (Throwable throwable) {
+                if (LOGGER.isLoggable(WARNING)) {
+                    LOGGER.log(WARNING, "Your application has a problem", throwable);
+                }
+            }
+        }
     }
 }

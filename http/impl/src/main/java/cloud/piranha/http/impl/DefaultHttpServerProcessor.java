@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.http.impl;
 
 import cloud.piranha.api.HttpServerResponse;
 import cloud.piranha.api.HttpServerRequest;
@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.logging.Level;
+import static java.util.logging.Level.SEVERE;
 import java.util.logging.Logger;
 
 /**
@@ -50,7 +50,8 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(DefaultHttpServerProcessor.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(
+            DefaultHttpServerProcessor.class.getPackage().getName());
 
     /**
      * Process the request.
@@ -89,7 +90,9 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
                 writer.println("</body></html>");
                 writer.flush();
             } catch (IOException exception) {
-                LOGGER.log(Level.SEVERE, "An I/O error occurred while writing the response", exception);
+                if (LOGGER.isLoggable(SEVERE)) {
+                    LOGGER.log(SEVERE, "An I/O error occurred while writing the response", exception);
+                }
             }
         } else if (file.exists() && !file.isDirectory()) {
             response.setHeader("Content-Type", "application/octet-stream");
@@ -107,7 +110,9 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
                     outputStream.flush();
                 }
             } catch (IOException exception) {
-                LOGGER.log(Level.SEVERE, "An I/O error occurred while writing the response", exception);
+                if (LOGGER.isLoggable(SEVERE)) {
+                    LOGGER.log(SEVERE, "An I/O error occurred while writing the response", exception);
+                }
             }
         } else {
             try {
@@ -115,7 +120,9 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
                 response.writeStatusLine();
                 response.writeHeaders();
             } catch (IOException exception) {
-                LOGGER.log(Level.SEVERE, "An I/O error occurred while writing the response", exception);
+                if (LOGGER.isLoggable(SEVERE)) {
+                    LOGGER.log(SEVERE, "An I/O error occurred while writing the response", exception);
+                }
             }
         }
     }

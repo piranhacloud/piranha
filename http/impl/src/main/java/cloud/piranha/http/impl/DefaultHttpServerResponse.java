@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.http.impl;
 
 import cloud.piranha.api.HttpServerResponse;
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.net.Socket;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
+import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 
 /**
@@ -47,7 +47,8 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(DefaultHttpServerResponse.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(
+            DefaultHttpServerResponse.class.getPackage().getName());
 
     /**
      * Stores the headers.
@@ -78,6 +79,17 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
         this.headers = new ConcurrentHashMap<>(1);
         this.socket = socket;
     }
+    
+    /**
+     * Get the header.
+     * 
+     * @param name the name of the header.
+     * @return the header.
+     */
+    @Override
+    public String getHeader(String name) {
+        return headers.get(name);
+    }
 
     /**
      * Get the output stream.
@@ -87,16 +99,16 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     @Override
     public OutputStream getOutputStream() {
         OutputStream result = outputStream;
-
         if (outputStream == null) {
             try {
                 outputStream = socket.getOutputStream();
                 result = outputStream;
             } catch (IOException exception) {
-                LOGGER.log(Level.WARNING, "An I/O error occurred while acquiring the output stream", exception);
+                if (LOGGER.isLoggable(WARNING)) {
+                    LOGGER.log(WARNING, "An I/O error occurred while acquiring the output stream", exception);
+                }
             }
         }
-
         return result;
     }
 

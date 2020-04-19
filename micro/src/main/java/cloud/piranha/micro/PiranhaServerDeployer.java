@@ -74,7 +74,7 @@ import org.xml.sax.SAXException;
 
 import cloud.piranha.DefaultAnnotationManager;
 import cloud.piranha.DefaultAnnotationManager.DefaultAnnotationInfo;
-import cloud.piranha.DefaultHttpServer;
+import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationServer;
 import cloud.piranha.api.HttpServer;

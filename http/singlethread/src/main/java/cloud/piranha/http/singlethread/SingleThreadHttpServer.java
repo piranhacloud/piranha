@@ -27,9 +27,9 @@
  */
 package cloud.piranha.http.singlethread;
 
-import cloud.piranha.DefaultHttpServerProcessor;
-import cloud.piranha.DefaultHttpServerRequest;
-import cloud.piranha.DefaultHttpServerResponse;
+import cloud.piranha.http.impl.DefaultHttpServerProcessor;
+import cloud.piranha.http.impl.DefaultHttpServerRequest;
+import cloud.piranha.http.impl.DefaultHttpServerResponse;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.HttpServerProcessor;
 import java.io.IOException;

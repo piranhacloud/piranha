@@ -25,96 +25,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.http.impl;
 
-import cloud.piranha.api.HttpServerResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.util.concurrent.ThreadFactory;
+import static java.util.logging.Level.FINER;
+import java.util.logging.Logger;
 
 /**
- * The HttpServerResponse used for testing.
+ * The default HttpServerThreadFactory.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestHttpServerResponse implements HttpServerResponse {
+class DefaultHttpServerThreadFactory implements ThreadFactory {
 
     /**
-     * Stores the output stream.
+     * Stores the logger.
      */
-    private final ByteArrayOutputStream outputStream;
+    private static final Logger LOGGER = Logger.getLogger(
+            DefaultHttpServerThreadFactory.class.getPackage().getName());
 
     /**
-     * Constructor.
+     * Stores the id.
      */
-    public TestHttpServerResponse() {
-        this.outputStream = new ByteArrayOutputStream();
-    }
+    private int id = 0;
 
     /**
-     * Get the byte-array output stream.
-     * 
-     * @return the byte-array output stream.
-     */
-    public ByteArrayOutputStream getByteArrayOutputStream() {
-        return outputStream;
-    }
-
-    /**
-     * Get the header.
-     * 
-     * @param name the name.
-     * @return the value, or null if not found.
-     */
-    @Override
-    public String getHeader(String name) {
-        return null;
-    }
-
-    /**
-     * Get the output stream.
+     * Create the new thread.
      *
-     * @return the output stream.
+     * @param runnable the runnable.
+     * @return the thread.
      */
     @Override
-    public OutputStream getOutputStream() {
-        return outputStream;
-    }
-
-    /**
-     * Set the header.
-     * 
-     * @param name the name.
-     * @param value the value.
-     */
-    @Override
-    public void setHeader(String name, String value) {
-    }
-
-    /**
-     * Set the status.
-     *
-     * @param status the status.
-     */
-    @Override
-    public void setStatus(int status) {
-    }
-
-    /**
-     * Write the headers.
-     * 
-     * @throws IOException when an I/O error occurs.
-     */
-    @Override
-    public void writeHeaders() throws IOException {
-    }
-
-    /**
-     * Write the status line.
-     * 
-     * @throws IOException when an I/O error occurs.
-     */
-    @Override
-    public void writeStatusLine() throws IOException {
+    public Thread newThread(Runnable runnable) {
+        if (LOGGER.isLoggable(FINER)) {
+            LOGGER.log(FINER, "Creating new processing thread");
+        }
+        return new Thread(runnable, "DefaultHttpServer-ProcessingThread-" + id++);
     }
 }

@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.http.impl;
 
 import cloud.piranha.api.HttpServerProcessor;
 import cloud.piranha.api.HttpServer;
@@ -35,7 +35,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
+import static java.util.logging.Level.INFO;
+import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 
 /**
@@ -48,7 +49,8 @@ public class DefaultHttpServer implements HttpServer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(DefaultHttpServer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(
+            DefaultHttpServer.class.getPackage().getName());
 
     /**
      * Stores the executor service.
@@ -96,7 +98,19 @@ public class DefaultHttpServer implements HttpServer {
     public DefaultHttpServer() {
         threadFactory = new DefaultHttpServerThreadFactory();
         processor = new DefaultHttpServerProcessor();
-        serverPort = 8080;
+        serverPort = 8765;
+        serverStopRequest = false;
+    }
+
+    /**
+     * Constructor.
+     * 
+     * @param serverPort the server port.
+     */
+    public DefaultHttpServer(int serverPort) {
+        this.serverPort = serverPort;
+        threadFactory = new DefaultHttpServerThreadFactory();
+        processor = new DefaultHttpServerProcessor();
         serverStopRequest = false;
     }
 
@@ -156,8 +170,8 @@ public class DefaultHttpServer implements HttpServer {
      */
     @Override
     public void start() {
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Starting HTTP server on port {0}", serverPort);
+        if (LOGGER.isLoggable(INFO)) {
+            LOGGER.log(INFO, "Starting HTTP server on port {0}", serverPort);
         }
         try {
             executorService = Executors.newCachedThreadPool(threadFactory);
@@ -168,12 +182,12 @@ public class DefaultHttpServer implements HttpServer {
             serverAcceptorThread = new Thread(new DefaultHttpServerAcceptorThread(this),
                     "DefaultHttpServer-AcceptorThread");
             serverAcceptorThread.start();
-            if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.log(Level.FINE, "Started HTTP server on port {0}", serverPort);
+            if (LOGGER.isLoggable(INFO)) {
+                LOGGER.log(INFO, "Started HTTP server on port {0}", serverPort);
             }
         } catch (IOException exception) {
-            if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.log(Level.WARNING, "An I/O error occurred while starting the HTTP server", exception);
+            if (LOGGER.isLoggable(WARNING)) {
+                LOGGER.log(WARNING, "An I/O error occurred while starting the HTTP server", exception);
             }
         }
     }
@@ -183,15 +197,15 @@ public class DefaultHttpServer implements HttpServer {
      */
     @Override
     public void stop() {
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Stopping HTTP server on port {0}", serverPort);
+        if (LOGGER.isLoggable(INFO)) {
+            LOGGER.log(INFO, "Stopping HTTP server on port {0}", serverPort);
         }
         if (serverSocket != null) {
             try {
                 serverSocket.close();
             } catch (IOException exception) {
-                if (LOGGER.isLoggable(Level.WARNING)) {
-                    LOGGER.log(Level.WARNING, "An I/O error occurred while stopping the HTTP server", exception);
+                if (LOGGER.isLoggable(WARNING)) {
+                    LOGGER.log(WARNING, "An I/O error occurred while stopping the HTTP server", exception);
                 }
             }
         }
@@ -200,14 +214,14 @@ public class DefaultHttpServer implements HttpServer {
             try {
                 executorService.awaitTermination(120, TimeUnit.SECONDS);
             } catch (InterruptedException exception) {
-                if (LOGGER.isLoggable(Level.WARNING)) {
-                    LOGGER.log(Level.WARNING, "Termination of the executor service was interrupted", exception);
+                if (LOGGER.isLoggable(WARNING)) {
+                    LOGGER.log(WARNING, "Termination of the executor service was interrupted", exception);
                 }
                 Thread.currentThread().interrupt();
             }
         }
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Stopped HTTP server on port {0}", serverPort);
+        if (LOGGER.isLoggable(INFO)) {
+            LOGGER.log(INFO, "Stopped HTTP server on port {0}", serverPort);
         }
     }
 }

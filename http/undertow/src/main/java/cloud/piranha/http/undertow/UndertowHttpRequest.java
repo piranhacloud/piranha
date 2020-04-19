@@ -98,7 +98,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
      */
     @Override
     public String getLocalAddress() {
-        return exchange.getHostName();
+        return exchange.getDestinationAddress().getAddress().getHostAddress();
     }
 
     /**
