@@ -118,7 +118,7 @@ public class NettyHttpServer implements HttpServer {
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new NettyHttpServerInitializer(httpServerProcessor))
-                .bind(serverPort);
+                .bind(serverPort).awaitUninterruptibly();
     }
 
     /**
