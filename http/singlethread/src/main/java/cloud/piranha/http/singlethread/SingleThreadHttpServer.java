@@ -169,7 +169,7 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
         try {
             serverStopRequest = false;
             serverSocket = new ServerSocket(serverPort);
-            serverSocket.setReuseAddress(false);
+            serverSocket.setReuseAddress(true);
             serverSocket.setSoTimeout(soTimeout);
             serverProcessingThread = new Thread(this, "SingleThreadHttpServer");
             serverProcessingThread.start();
