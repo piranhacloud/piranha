@@ -141,7 +141,6 @@ public abstract class HttpServerTest {
         } finally {
             server.stop();
         }
-        assertFalse(server.isRunning());
     }
 
     /**
@@ -168,6 +167,5 @@ public abstract class HttpServerTest {
         } finally {
             server.stop();
         }
-        assertFalse(server.isRunning());
     }
 }
