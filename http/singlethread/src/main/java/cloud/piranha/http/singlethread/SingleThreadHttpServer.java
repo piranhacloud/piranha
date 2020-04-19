@@ -189,6 +189,7 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
         if (LOGGER.isLoggable(INFO)) {
             LOGGER.log(INFO, "Stopping HTTP server");
         }
+        serverStopRequest = true;
         if (serverSocket != null) {
             try {
                 serverSocket.close();
@@ -198,7 +199,6 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
                 }
             }
         }
-        serverStopRequest = true;
         running = false;
     }
 }
