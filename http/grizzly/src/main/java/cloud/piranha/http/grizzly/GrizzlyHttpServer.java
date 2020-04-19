@@ -28,7 +28,7 @@
 package cloud.piranha.http.grizzly;
 
 import cloud.piranha.http.impl.DefaultHttpServerProcessor;
-import cloud.piranha.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServerProcessor;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +42,7 @@ import org.glassfish.grizzly.http.server.Response;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class GrizzlyHttpServer implements cloud.piranha.api.HttpServer {
+public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
 
     /**
      * Stores the logger.

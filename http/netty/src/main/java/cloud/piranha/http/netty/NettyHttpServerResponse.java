@@ -27,7 +27,7 @@
  */
 package cloud.piranha.http.netty;
 
-import cloud.piranha.api.HttpServerResponse;
+import cloud.piranha.http.api.HttpServerResponse;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;

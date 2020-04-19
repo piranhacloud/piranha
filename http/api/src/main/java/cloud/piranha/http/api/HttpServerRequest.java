@@ -25,59 +25,108 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
+package cloud.piranha.http.api;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
+import java.util.Iterator;
 
 /**
- * THe HttpServerResponse API.
+ * The HttpServerRequest API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface HttpServerResponse {
+public interface HttpServerRequest {
 
     /**
      * Get the header.
+     *
+     * @param name.
+     * @return the value, or null.
+     */
+    String getHeader(String name);
+
+    /**
+     * Get the header names.
+     *
+     * @return the header names.
+     */
+    Iterator<String> getHeaderNames();
+
+    /**
+     * Get the input stream.
+     *
+     * @return the input stream.
+     */
+    InputStream getInputStream();
+
+    /**
+     * Get the local address.
+     *
+     * @return the local address.
+     */
+    String getLocalAddress();
+
+    /**
+     * Get the local hostname.
+     *
+     * @return the local hostname.
+     */
+    String getLocalHostname();
+
+    /**
+     * Get the local port.
+     *
+     * @return the local port.
+     */
+    int getLocalPort();
+
+    /**
+     * Get the method.
+     *
+     * @return the method.
+     */
+    String getMethod();
+    
+    /**
+     * Get the query parameter.
      * 
      * @param name the name.
      * @return the value, or null if not found.
      */
-    public String getHeader(String name);
+    String getQueryParameter(String name);
     
     /**
-     * Get the output stream.
-     *
-     * @return the output stream.
+     * Get the query string.
+     * 
+     * @return the query string.
      */
-    public OutputStream getOutputStream();
+    String getQueryString();
 
     /**
-     * Set the specified header.
+     * Get the remote address.
      *
-     * @param name the header name.
-     * @param value the header value.
+     * @return the remote address.
      */
-    public void setHeader(String name, String value);
+    String getRemoteAddress();
+    
+    /**
+     * Get the remote hostname.
+     * 
+     * @return the remote hostname.
+     */
+    String getRemoteHostname();
 
     /**
-     * Set the status.
+     * Get the remote port.
      *
-     * @param status the status.
+     * @return the remote port.
      */
-    public void setStatus(int status);
+    int getRemotePort();
 
     /**
-     * Write the response headers.
+     * Get the request target.
      *
-     * @throws IOException when an I/O error occurs.
+     * @return the request target.
      */
-    public void writeHeaders() throws IOException;
-
-    /**
-     * Write the status line.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
-    public void writeStatusLine() throws IOException;
+    String getRequestTarget();
 }

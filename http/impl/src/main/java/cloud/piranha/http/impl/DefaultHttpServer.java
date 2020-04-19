@@ -27,8 +27,8 @@
  */
 package cloud.piranha.http.impl;
 
-import cloud.piranha.api.HttpServerProcessor;
-import cloud.piranha.api.HttpServer;
+import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServer;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
@@ -177,7 +177,7 @@ public class DefaultHttpServer implements HttpServer {
             executorService = Executors.newCachedThreadPool(threadFactory);
             serverStopRequest = false;
             serverSocket = new ServerSocket(serverPort);
-            serverSocket.setReuseAddress(false);
+            serverSocket.setReuseAddress(true);
             serverSocket.setSoTimeout(soTimeout);
             serverAcceptorThread = new Thread(new DefaultHttpServerAcceptorThread(this),
                     "DefaultHttpServer-AcceptorThread");

@@ -27,7 +27,7 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.HttpServerRequest;
+import cloud.piranha.http.api.HttpServerRequest;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;

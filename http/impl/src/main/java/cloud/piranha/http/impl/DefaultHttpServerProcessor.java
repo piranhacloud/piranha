@@ -27,9 +27,9 @@
  */
 package cloud.piranha.http.impl;
 
-import cloud.piranha.api.HttpServerResponse;
-import cloud.piranha.api.HttpServerRequest;
-import cloud.piranha.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServerResponse;
+import cloud.piranha.http.api.HttpServerRequest;
+import cloud.piranha.http.api.HttpServerProcessor;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;

@@ -27,7 +27,7 @@
  */
 package cloud.piranha.http.undertow;
 
-import cloud.piranha.api.HttpServerResponse;
+import cloud.piranha.http.api.HttpServerResponse;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HttpString;
 import java.io.IOException;
