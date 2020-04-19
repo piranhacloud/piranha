@@ -28,8 +28,8 @@
 package cloud.piranha.http.undertow;
 
 import cloud.piranha.http.impl.DefaultHttpServerProcessor;
-import cloud.piranha.api.HttpServer;
-import cloud.piranha.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.api.HttpServerProcessor;
 import io.undertow.Undertow;
 
 /**

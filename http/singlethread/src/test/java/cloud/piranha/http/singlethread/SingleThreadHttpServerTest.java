@@ -27,8 +27,8 @@
  */
 package cloud.piranha.http.singlethread;
 
-import cloud.piranha.api.HttpServer;
-import cloud.piranha.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.tests.HttpServerTest;
 import org.junit.Ignore;
 

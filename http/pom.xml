@@ -33,5 +33,6 @@
         <module>undertow</module>
         <module>tests</module>
         <module>impl</module>
+        <module>api</module>
     </modules>
 </project>

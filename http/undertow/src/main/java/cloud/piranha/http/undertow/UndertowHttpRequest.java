@@ -27,7 +27,7 @@
  */
 package cloud.piranha.http.undertow;
 
-import cloud.piranha.api.HttpServerRequest;
+import cloud.piranha.http.api.HttpServerRequest;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HttpString;
 import java.io.InputStream;

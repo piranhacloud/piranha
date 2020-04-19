@@ -27,7 +27,7 @@
  */
 package cloud.piranha.http.netty;
 
-import cloud.piranha.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServerProcessor;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

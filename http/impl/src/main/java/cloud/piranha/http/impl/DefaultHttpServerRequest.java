@@ -27,7 +27,7 @@
  */
 package cloud.piranha.http.impl;
 
-import cloud.piranha.api.HttpServerRequest;
+import cloud.piranha.http.api.HttpServerRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;

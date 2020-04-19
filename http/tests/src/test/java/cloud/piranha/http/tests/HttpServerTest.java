@@ -27,10 +27,10 @@
  */
 package cloud.piranha.http.tests;
 
-import cloud.piranha.api.HttpServer;
-import cloud.piranha.api.HttpServerProcessor;
-import cloud.piranha.api.HttpServerRequest;
-import cloud.piranha.api.HttpServerResponse;
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServerRequest;
+import cloud.piranha.http.api.HttpServerResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;

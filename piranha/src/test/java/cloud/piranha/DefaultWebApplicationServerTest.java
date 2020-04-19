@@ -28,7 +28,7 @@
 package cloud.piranha;
 
 import cloud.piranha.http.impl.DefaultHttpServer;
-import cloud.piranha.api.HttpServer;
+import cloud.piranha.http.api.HttpServer;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

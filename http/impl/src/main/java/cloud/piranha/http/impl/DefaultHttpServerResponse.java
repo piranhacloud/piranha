@@ -27,7 +27,7 @@
  */
 package cloud.piranha.http.impl;
 
-import cloud.piranha.api.HttpServerResponse;
+import cloud.piranha.http.api.HttpServerResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;

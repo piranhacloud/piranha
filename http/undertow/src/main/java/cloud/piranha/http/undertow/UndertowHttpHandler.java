@@ -27,7 +27,7 @@
  */
 package cloud.piranha.http.undertow;
 
-import cloud.piranha.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServerProcessor;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 
