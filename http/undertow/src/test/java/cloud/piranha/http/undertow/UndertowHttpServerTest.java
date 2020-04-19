@@ -37,7 +37,6 @@ import org.junit.Ignore;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Ignore
 public class UndertowHttpServerTest extends HttpServerTest {
 
     /**
