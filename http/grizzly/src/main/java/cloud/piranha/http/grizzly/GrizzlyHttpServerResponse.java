@@ -52,6 +52,17 @@ public class GrizzlyHttpServerResponse implements HttpServerResponse {
     public GrizzlyHttpServerResponse(Response response) {
         this.response = response;
     }
+    
+    /**
+     * Get the header.
+     * 
+     * @param name the name of the header.
+     * @return the value, or null if not found.
+     */
+    @Override
+    public String getHeader(String name) {
+        return response.getHeader(name);
+    }
 
     /**
      * Get the output stream.

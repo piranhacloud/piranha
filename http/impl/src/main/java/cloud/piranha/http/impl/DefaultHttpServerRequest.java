@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.http.impl;
 
 import cloud.piranha.api.HttpServerRequest;
 import java.io.IOException;
@@ -39,7 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
+import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 
 /**
@@ -52,7 +52,8 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(DefaultHttpServerRequest.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(
+            DefaultHttpServerRequest.class.getPackage().getName());
 
     /**
      * Stores the headers.
@@ -107,10 +108,10 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
      * @param value the value.
      */
     public void addHeader(String name, String value) {
-        if (!headers.containsKey(name.toUpperCase())) {
-            headers.put(name.toUpperCase(), value);
+        if (!headers.containsKey(name)) {
+            headers.put(name, value);
         } else {
-            headers.put(name.toUpperCase(), headers.get(name.toUpperCase()) + "," + value);
+            headers.put(name, headers.get(name) + "," + value);
         }
     }
 
@@ -122,7 +123,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
      */
     @Override
     public String getHeader(String name) {
-        return headers.get(name.toUpperCase());
+        return headers.get(name);
     }
 
     /**
@@ -149,7 +150,9 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
                 inputStream = socket.getInputStream();
                 result = inputStream;
             } catch (IOException exception) {
-                LOGGER.log(Level.WARNING, "An I/O error occurred while acquiring input stream", exception);
+                if (LOGGER.isLoggable(WARNING)) {
+                    LOGGER.log(WARNING, "An I/O error occurred while acquiring input stream", exception);
+                }
             }
         }
 
@@ -336,7 +339,9 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
                 }
             }
         } catch (IOException exception) {
-            LOGGER.log(Level.WARNING, "An I/O error occurred while parsing the request", exception);
+            if (LOGGER.isLoggable(WARNING)) {
+                LOGGER.log(WARNING, "An I/O error occurred while parsing the request", exception);
+            }
         }
     }
 

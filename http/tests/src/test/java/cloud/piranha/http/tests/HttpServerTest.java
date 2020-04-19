@@ -27,11 +27,14 @@
  */
 package cloud.piranha.http.tests;
 
-import cloud.piranha.DefaultHttpServerProcessor;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.HttpServerProcessor;
+import cloud.piranha.api.HttpServerRequest;
+import cloud.piranha.api.HttpServerResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Iterator;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -67,17 +70,248 @@ public abstract class HttpServerTest {
     protected abstract HttpServer createServer(int portNumber, HttpServerProcessor processor);
 
     /**
-     * Test start and stop method.
+     * Test addHeader method.
+     */
+    @Test
+    public void testAddHeader() {
+        HttpServer server = createServer(8765,
+                (HttpServerRequest request, HttpServerResponse response) -> {
+                    try {
+                        response.setStatus(200);
+                        response.setHeader("Content-Type", "text/plain");
+                        response.setHeader("Keep-Alive", "close");
+                        response.writeStatusLine();
+                        response.writeHeaders();
+                        OutputStream outputStream = response.getOutputStream();
+                        Iterator<String> headerNames = request.getHeaderNames();
+                        while (headerNames.hasNext()) {
+                            String name = headerNames.next();
+                            outputStream.write(name.getBytes());
+                            outputStream.write("\n".getBytes());
+                            outputStream.write(request.getHeader(name).getBytes());
+                            outputStream.write("\n".getBytes());
+                        }
+                        outputStream.flush();
+                    } catch (IOException ioe) {
+                    }
+                });
+        server.start();
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8765");
+            request.addHeader("name", "value1");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpEntity entity = response.getEntity();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            entity.writeTo(outputStream);
+            String body = outputStream.toString("UTF-8");
+            assertTrue(body.contains("name"));
+            assertTrue(body.contains("value1"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        } finally {
+            server.stop();
+        }
+    }
+
+    /**
+     * Test file.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testFile() throws Exception {
+        HttpServer server = createServer(8765);
+        server.start();
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8765/pom.xml");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpEntity entity = response.getEntity();
+            ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+            entity.writeTo(byteOutput);
+            String responseText = byteOutput.toString("UTF-8");
+            assertTrue(responseText.contains("modelVersion"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        } finally {
+            server.stop();
+        }
+    }
+
+    /**
+     * Test file not found.
      *
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testStartAndStop() throws Exception {
-        HttpServer server = createServer(28001);
+    public void testFileNotFound() throws Exception {
+        HttpServer server = createServer(8765);
         server.start();
-        assertTrue(server.isRunning());
-        server.stop();
-        assertFalse(server.isRunning());
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8765/this_is_certainly_not_there");
+            HttpResponse response = client.execute(request);
+            assertEquals(404, response.getStatusLine().getStatusCode());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        } finally {
+            server.stop();
+        }
+    }
+
+    /**
+     * Test getLocalAddress method.
+     */
+    @Test
+    public void testGetLocalAddress() {
+        HttpServer server = createServer(8765,
+                (HttpServerRequest request, HttpServerResponse response) -> {
+                    try {
+                        response.setStatus(200);
+                        response.setHeader("Content-Type", "text/plain");
+                        response.setHeader("Keep-Alive", "close");
+                        response.writeStatusLine();
+                        response.writeHeaders();
+                        String value = request.getLocalAddress();
+                        OutputStream outputStream = response.getOutputStream();
+                        outputStream.write(value.getBytes());
+                        outputStream.flush();
+                    } catch (IOException ioe) {
+                    }
+                });
+        server.start();
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8765");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpEntity entity = response.getEntity();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            entity.writeTo(outputStream);
+            String body = outputStream.toString("UTF-8");;
+            assertTrue(body.contains("127.0.0.1"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        } finally {
+            server.stop();
+        }
+    }
+
+    /**
+     * Test getQueryParameter method.
+     */
+    @Test
+    public void testGetQueryParameter() {
+        HttpServer server = createServer(8765,
+                (HttpServerRequest request, HttpServerResponse response) -> {
+                    try {
+                        response.setStatus(200);
+                        response.setHeader("Content-Type", "text/plain");
+                        response.setHeader("Keep-Alive", "close");
+                        response.writeStatusLine();
+                        response.writeHeaders();
+                        String value = request.getQueryParameter("name");
+                        OutputStream outputStream = response.getOutputStream();
+                        outputStream.write(value.getBytes());
+                        outputStream.flush();
+                    } catch (IOException ioe) {
+                    }
+                });
+        server.start();
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8765/?name=value");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpEntity entity = response.getEntity();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            entity.writeTo(outputStream);
+            String body = outputStream.toString("UTF-8");
+            assertTrue(body.contains("value"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        } finally {
+            server.stop();
+        }
+    }
+
+    /**
+     * Test getQueryParameter method.
+     */
+    @Test
+    public void testGetQueryParameter2() {
+        HttpServer server = createServer(8765,
+                (HttpServerRequest request, HttpServerResponse response) -> {
+                    try {
+                        response.setStatus(200);
+                        response.setHeader("Content-Type", "text/plain");
+                        response.setHeader("Keep-Alive", "close");
+                        response.writeStatusLine();
+                        response.writeHeaders();
+                        String value = request.getQueryParameter("name");
+                        OutputStream outputStream = response.getOutputStream();
+                        outputStream.write(value.getBytes());
+                    } catch (IOException ioe) {
+                    }
+                });
+        server.start();
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8765/?name=value&name=value2");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpEntity entity = response.getEntity();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            entity.writeTo(outputStream);
+            String body = outputStream.toString("UTF-8");
+            assertTrue(body.contains("value"));
+            assertFalse(body.contains("value2"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        } finally {
+            server.stop();
+        }
+    }
+
+    /**
+     * Test getQueryString method.
+     */
+    @Test
+    public void testGetQueryString() {
+        HttpServer server = createServer(8765,
+                (HttpServerRequest request, HttpServerResponse response) -> {
+                    try {
+                        response.setStatus(200);
+                        response.setHeader("Content-Type", "text/plain");
+                        response.setHeader("Keep-Alive", "close");
+                        response.writeStatusLine();
+                        response.writeHeaders();
+                        String queryString = request.getQueryString();
+                        OutputStream outputStream = response.getOutputStream();
+                        outputStream.write(queryString.getBytes());
+                        outputStream.flush();
+                    } catch (IOException ioe) {
+                    }
+                });
+        server.start();
+        try {
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8765/?name=value");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpEntity entity = response.getEntity();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            entity.writeTo(outputStream);
+            String body = outputStream.toString("UTF-8");
+            assertTrue(body.contains("name=value"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        } finally {
+            server.stop();
+        }
     }
 
     /**
@@ -87,11 +321,11 @@ public abstract class HttpServerTest {
      */
     @Test
     public void testProcessing() throws Exception {
-        HttpServer server = createServer(28002);
+        HttpServer server = createServer(8765);
         server.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:28002");
+            HttpGet request = new HttpGet("http://localhost:8765");
             HttpResponse response = client.execute(request);
             assertEquals(200, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
@@ -108,11 +342,11 @@ public abstract class HttpServerTest {
      */
     @Test
     public void testProcessing2() throws Exception {
-        HttpServer server = createServer(28003, new DefaultHttpServerProcessor());
+        HttpServer server = createServer(8765);
         server.start();
         try {
             HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:28003");
+            HttpGet request = new HttpGet("http://localhost:8765");
             HttpResponse response = client.execute(request);
             assertEquals(200, response.getStatusLine().getStatusCode());
         } catch (IOException ioe) {
@@ -123,49 +357,16 @@ public abstract class HttpServerTest {
     }
 
     /**
-     * Test file not found.
+     * Test start and stop method.
      *
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testFileNotFound() throws Exception {
-        HttpServer server = createServer(28004);
+    public void testStartAndStop() throws Exception {
+        HttpServer server = createServer(8765);
         server.start();
-        try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:28004/this_is_certainly_not_there");
-            HttpResponse response = client.execute(request);
-            assertEquals(404, response.getStatusLine().getStatusCode());
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
-        } finally {
-            server.stop();
-        }
-    }
-
-    /**
-     * Test file.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    public void testFile() throws Exception {
-        HttpServer server = createServer(28005);
-        server.start();
-        try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:28005/pom.xml");
-            HttpResponse response = client.execute(request);
-            assertEquals(200, response.getStatusLine().getStatusCode());
-            HttpEntity entity = response.getEntity();
-            ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-            entity.writeTo(byteOutput);
-            String responseText = byteOutput.toString("UTF-8");
-            assertTrue(responseText.contains("modelVersion"));
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
-        } finally {
-            server.stop();
-        }
+        assertTrue(server.isRunning());
+        server.stop();
+        assertFalse(server.isRunning());
     }
 }

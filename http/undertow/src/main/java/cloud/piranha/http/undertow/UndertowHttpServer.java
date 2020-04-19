@@ -27,7 +27,7 @@
  */
 package cloud.piranha.http.undertow;
 
-import cloud.piranha.DefaultHttpServerProcessor;
+import cloud.piranha.http.impl.DefaultHttpServerProcessor;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.HttpServerProcessor;
 import io.undertow.Undertow;
@@ -99,8 +99,9 @@ public class UndertowHttpServer implements HttpServer {
     @Override
     public void start() {
         undertow = Undertow.builder()
-                .addHttpListener(serverPort, "localhost")
-                .setHandler(new UndertowHttpHandler(httpServerProcessor)).build();
+                .addHttpListener(serverPort, "0.0.0.0")
+                .setHandler(new UndertowHttpHandler(httpServerProcessor))
+                .build();
         undertow.start();
     }
 

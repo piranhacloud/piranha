@@ -27,7 +27,7 @@
  */
 package cloud.piranha.micro;
 
-import cloud.piranha.DefaultHttpServer;
+import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationClassLoader;
 import cloud.piranha.DefaultWebApplicationExtensionContext;

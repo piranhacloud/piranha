@@ -25,96 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.http.impl;
 
 import cloud.piranha.api.HttpServerResponse;
+import cloud.piranha.api.HttpServerRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 /**
- * The HttpServerResponse used for testing.
+ * The JUnit tests for the DefaultHttpServerRequest class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestHttpServerResponse implements HttpServerResponse {
+public class DefaultHttpServerRequestTest {
 
-    /**
-     * Stores the output stream.
-     */
-    private final ByteArrayOutputStream outputStream;
 
-    /**
-     * Constructor.
-     */
-    public TestHttpServerResponse() {
-        this.outputStream = new ByteArrayOutputStream();
-    }
-
-    /**
-     * Get the byte-array output stream.
-     * 
-     * @return the byte-array output stream.
-     */
-    public ByteArrayOutputStream getByteArrayOutputStream() {
-        return outputStream;
-    }
-
-    /**
-     * Get the header.
-     * 
-     * @param name the name.
-     * @return the value, or null if not found.
-     */
-    @Override
-    public String getHeader(String name) {
-        return null;
-    }
-
-    /**
-     * Get the output stream.
-     *
-     * @return the output stream.
-     */
-    @Override
-    public OutputStream getOutputStream() {
-        return outputStream;
-    }
-
-    /**
-     * Set the header.
-     * 
-     * @param name the name.
-     * @param value the value.
-     */
-    @Override
-    public void setHeader(String name, String value) {
-    }
-
-    /**
-     * Set the status.
-     *
-     * @param status the status.
-     */
-    @Override
-    public void setStatus(int status) {
-    }
-
-    /**
-     * Write the headers.
-     * 
-     * @throws IOException when an I/O error occurs.
-     */
-    @Override
-    public void writeHeaders() throws IOException {
-    }
-
-    /**
-     * Write the status line.
-     * 
-     * @throws IOException when an I/O error occurs.
-     */
-    @Override
-    public void writeStatusLine() throws IOException {
-    }
 }

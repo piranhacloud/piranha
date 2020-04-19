@@ -38,6 +38,14 @@ import java.io.OutputStream;
 public interface HttpServerResponse {
 
     /**
+     * Get the header.
+     * 
+     * @param name the name.
+     * @return the value, or null if not found.
+     */
+    public String getHeader(String name);
+    
+    /**
      * Get the output stream.
      *
      * @return the output stream.

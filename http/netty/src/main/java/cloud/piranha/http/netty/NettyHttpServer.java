@@ -27,7 +27,7 @@
  */
 package cloud.piranha.http.netty;
 
-import cloud.piranha.DefaultHttpServerProcessor;
+import cloud.piranha.http.impl.DefaultHttpServerProcessor;
 import cloud.piranha.api.HttpServer;
 import cloud.piranha.api.HttpServerProcessor;
 import io.netty.bootstrap.ServerBootstrap;

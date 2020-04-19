@@ -25,64 +25,67 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.http.impl;
 
-import static java.util.logging.Level.WARNING;
-
+import cloud.piranha.api.HttpServer;
+import cloud.piranha.api.HttpServerProcessor;
+import cloud.piranha.http.tests.HttpServerTest;
 import java.io.IOException;
-import java.net.Socket;
-import java.util.logging.Logger;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
- * The default HttpServerProcessingThread.
+ * The JUnit tests for the DefaultHttpServer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultHttpServerProcessingThread implements Runnable {
+public class DefaultHttpServerTest extends HttpServerTest {
 
     /**
-     * Stores the logger.
+     * Create the server.
+     * 
+     * @param portNumber the port number.
+     * @return the HTTP server.
      */
-    private static final Logger LOGGER = Logger.getLogger(DefaultHttpServerProcessingThread.class.getName());
-
-    /**
-     * Stores the server.
-     */
-    private final DefaultHttpServer server;
-
-    /**
-     * Stores the socket.
-     */
-    private final Socket socket;
-
-    /**
-     * Constructor.
-     *
-     * @param server the server we are working for.
-     * @param socket the socket we are dealing with.
-     */
-    public DefaultHttpServerProcessingThread(DefaultHttpServer server, Socket socket) {
-        this.server = server;
-        this.socket = socket;
+    @Override
+    protected HttpServer createServer(int portNumber) {
+        return new DefaultHttpServer(portNumber, new DefaultHttpServerProcessor());
     }
 
     /**
-     * Handle the socket request.
+     * Create the server.
+     * 
+     * @param portNumber the port number.
+     * @param processor the HTTP server processor.
+     * @return the HTTP server.
      */
     @Override
-    public void run() {
+    protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
+        return new DefaultHttpServer(portNumber, processor);
+    }
+
+    /**
+     * Test SO_TIMEOUT.
+     */
+    @Test
+    public void testSoTimeout() {
+        DefaultHttpServer server = new DefaultHttpServer(
+                8765, new DefaultHttpServerProcessor(), 2000);
+        assertEquals(2000, server.getSoTimeout());
+        server.start();
         try {
-            DefaultHttpServerRequest request = new DefaultHttpServerRequest(socket);
-            DefaultHttpServerResponse response = new DefaultHttpServerResponse(socket);
-            server.processor.process(request, response);
+            HttpClient client = HttpClients.createDefault();
+            HttpGet request = new HttpGet("http://localhost:8765/");
+            HttpResponse response = client.execute(request);
+            assertEquals(200, response.getStatusLine().getStatusCode());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
         } finally {
-            if (!server.processor.isAsync()) {
-                try {
-                    socket.close();
-                } catch (IOException exception) {
-                    LOGGER.log(WARNING, "An I/O error occurred during processing of the request", exception);
-                }
-            }
+            server.stop();
         }
     }
 }

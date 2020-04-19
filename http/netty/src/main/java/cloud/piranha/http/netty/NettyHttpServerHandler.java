@@ -28,6 +28,8 @@
 package cloud.piranha.http.netty;
 
 import cloud.piranha.api.HttpServerProcessor;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
@@ -43,7 +45,7 @@ import java.util.logging.Logger;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> {
+public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     /**
      * Stores the logger.
@@ -57,13 +59,13 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> 
 
     /**
      * Constructor.
-     * 
+     *
      * @param httpServerProcessor the HTTP server processor.
      */
     public NettyHttpServerHandler(HttpServerProcessor httpServerProcessor) {
         this.httpServerProcessor = httpServerProcessor;
     }
-    
+
     /**
      * Complete the channel read.
      *
@@ -81,15 +83,13 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<Object> 
      * @param object the object read.
      */
     @Override
-    protected void channelRead0(ChannelHandlerContext context, Object object) {
-        if (object instanceof FullHttpRequest) {
-            FullHttpRequest httpRequest = (FullHttpRequest) object;
-            NettyHttpServerRequest nettyRequest = new NettyHttpServerRequest(context, httpRequest);
-            FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK);
-            NettyHttpServerResponse nettyResponse = new NettyHttpServerResponse(response);
-            httpServerProcessor.process(nettyRequest, nettyResponse);
-            context.write(response);
-        }
+    protected void channelRead0(ChannelHandlerContext context, FullHttpRequest object) {
+        NettyHttpServerRequest nettyRequest = new NettyHttpServerRequest(context, object);
+        FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, true);
+        NettyHttpServerResponse nettyResponse = new NettyHttpServerResponse(response);
+        httpServerProcessor.process(nettyRequest, nettyResponse);
+        ChannelFuture future = context.channel().writeAndFlush(response);
+        future.addListener(ChannelFutureListener.CLOSE);
     }
 
     /**

@@ -25,30 +25,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha;
+package cloud.piranha.http.impl;
+
+import static java.util.logging.Level.WARNING;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.logging.Logger;
 
 /**
- * The default HttpServerAcceptorThread.
+ * The default HttpServerProcessingThread.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultHttpServerAcceptorThread implements Runnable {
+class DefaultHttpServerProcessingThread implements Runnable {
 
     /**
-     * Stores the HTTP server.
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(
+            DefaultHttpServerProcessingThread.class.getPackage().getName());
+
+    /**
+     * Stores the server.
      */
     private final DefaultHttpServer server;
+
+    /**
+     * Stores the socket.
+     */
+    private final Socket socket;
 
     /**
      * Constructor.
      *
      * @param server the server we are working for.
+     * @param socket the socket we are dealing with.
      */
-    public DefaultHttpServerAcceptorThread(DefaultHttpServer server) {
+    public DefaultHttpServerProcessingThread(DefaultHttpServer server, Socket socket) {
         this.server = server;
+        this.socket = socket;
     }
 
     /**
@@ -56,12 +72,19 @@ class DefaultHttpServerAcceptorThread implements Runnable {
      */
     @Override
     public void run() {
-        while (!server.serverStopRequest) {
-            try {
-                Socket socket = server.serverSocket.accept();
-                server.executorService.execute(new DefaultHttpServerProcessingThread(server, socket));
-            } catch (IOException exception) {
-            } catch (Throwable throwable) {
+        try {
+            DefaultHttpServerRequest request = new DefaultHttpServerRequest(socket);
+            DefaultHttpServerResponse response = new DefaultHttpServerResponse(socket);
+            server.processor.process(request, response);
+        } finally {
+            if (!server.processor.isAsync()) {
+                try {
+                    socket.close();
+                } catch (IOException exception) {
+                    if (LOGGER.isLoggable(WARNING)) {
+                        LOGGER.log(WARNING, "An I/O error occurred during processing of the request", exception);
+                    }
+                }
             }
         }
     }

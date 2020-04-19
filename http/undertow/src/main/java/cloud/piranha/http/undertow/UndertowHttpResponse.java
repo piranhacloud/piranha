@@ -53,6 +53,17 @@ public class UndertowHttpResponse implements HttpServerResponse {
     public UndertowHttpResponse(HttpServerExchange exchange) {
         this.exchange = exchange;
     }
+    
+    /**
+     * Get the header.
+     * 
+     * @param name the name of the header.
+     * @return the value, or null if not found.
+     */
+    @Override
+    public String getHeader(String name) {
+        return exchange.getResponseHeaders().getFirst(name);
+    }
 
     /**
      * Get the output stream.

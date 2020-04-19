@@ -27,7 +27,7 @@
  */
 package cloud.piranha.http.grizzly;
 
-import cloud.piranha.DefaultHttpServerProcessor;
+import cloud.piranha.http.impl.DefaultHttpServerProcessor;
 import cloud.piranha.api.HttpServerProcessor;
 import java.io.IOException;
 import java.util.logging.Level;
