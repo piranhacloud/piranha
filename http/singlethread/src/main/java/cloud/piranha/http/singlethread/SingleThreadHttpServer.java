@@ -35,7 +35,9 @@ import cloud.piranha.api.HttpServerProcessor;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import static java.util.logging.Level.INFO;
+import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 
@@ -93,6 +95,7 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
         processor = new DefaultHttpServerProcessor();
         serverPort = 8080;
         serverStopRequest = false;
+        soTimeout = 2000;
     }
 
     /**
@@ -104,6 +107,8 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
         this.serverPort = serverPort;
         processor = new DefaultHttpServerProcessor();
         serverStopRequest = false;
+        soTimeout = 2000;
+
     }
 
     /**
@@ -140,8 +145,15 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
                     DefaultHttpServerResponse response = new DefaultHttpServerResponse(socket);
                     processor.process(request, response);
                 }
+            } catch (SocketException se) {
             } catch (IOException ioe) {
+                if (LOGGER.isLoggable(WARNING)) {
+                    LOGGER.log(WARNING, "An I/O error occurred during processing", ioe);
+                }
             } catch (Throwable throwable) {
+                if (LOGGER.isLoggable(SEVERE)) {
+                    LOGGER.log(SEVERE, "A severe error occurred during processing", throwable);
+                }
             }
         }
     }
@@ -163,7 +175,9 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
             serverProcessingThread.start();
             running = true;
         } catch (IOException exception) {
-            LOGGER.log(WARNING, "An I/O error occurred while starting the HTTP server", exception);
+            if (LOGGER.isLoggable(WARNING)) {
+                LOGGER.log(WARNING, "An I/O error occurred while starting the HTTP server", exception);
+            }
         }
     }
 
@@ -179,10 +193,12 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
             try {
                 serverSocket.close();
             } catch (IOException exception) {
-                LOGGER.log(WARNING, "An I/O error occurred while stopping the HTTP server", exception);
+                if (LOGGER.isLoggable(WARNING)) {
+                    LOGGER.log(WARNING, "An I/O error occurred while stopping the HTTP server", exception);
+                }
             }
-            running = false;
         }
         serverStopRequest = true;
+        running = false;
     }
 }
