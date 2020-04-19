@@ -128,7 +128,7 @@ public class NettyHttpServer implements HttpServer {
     public void stop() {
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
-        channelFuture.channel().close();
+        channelFuture.channel().flush().disconnect().channel().close();
         bossGroup = null;
         workerGroup = null;
         channelFuture = null;
