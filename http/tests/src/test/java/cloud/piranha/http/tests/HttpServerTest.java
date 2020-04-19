@@ -254,6 +254,7 @@ public abstract class HttpServerTest {
                         String value = request.getQueryParameter("name");
                         OutputStream outputStream = response.getOutputStream();
                         outputStream.write(value.getBytes());
+                        outputStream.flush();
                     } catch (IOException ioe) {
                     }
                 });
