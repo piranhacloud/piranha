@@ -32,6 +32,7 @@ import cloud.piranha.http.api.HttpServerProcessor;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.glassfish.grizzly.CompletionHandler;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.Request;
@@ -52,8 +53,8 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
     /**
      * Stores the Grizzly HttpServer.
      */
-    private final HttpServer httpServer;
-    
+    private HttpServer httpServer;
+
     /**
      * Stores the HTTP server processor.
      */
@@ -101,7 +102,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
         this.httpServerProcessor = new DefaultHttpServerProcessor();
         addHttpHandler();
     }
-    
+
     /**
      * Add the HTTP handler.
      */
@@ -115,7 +116,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
             }
         });
     }
-    
+
     /**
      * Is the server running.
      *
@@ -123,7 +124,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
      */
     @Override
     public boolean isRunning() {
-        return httpServer.isStarted();
+        return httpServer != null;
     }
 
     /**
@@ -143,6 +144,42 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
      */
     @Override
     public void stop() {
-        httpServer.shutdownNow();
+        Object shutdownLock = new Object();
+        httpServer.shutdown().addCompletionHandler(new CompletionHandler<HttpServer>() {
+            @Override
+            public void cancelled() {
+                synchronized (shutdownLock) {
+                    shutdownLock.notify();
+                }
+            }
+
+            @Override
+            public void failed(Throwable thrwbl) {
+                synchronized (shutdownLock) {
+                    shutdownLock.notify();
+                }
+            }
+
+            @Override
+            public void completed(HttpServer e) {
+                synchronized (shutdownLock) {
+                    shutdownLock.notify();
+                }
+            }
+
+            @Override
+            public void updated(HttpServer e) {
+                synchronized (shutdownLock) {
+                    shutdownLock.notify();
+                }
+            }
+        });
+        try {
+            synchronized (shutdownLock) {
+                shutdownLock.wait();
+            }
+        } catch (InterruptedException ie) {
+        }
+        httpServer = null;
     }
 }
