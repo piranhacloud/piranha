@@ -134,28 +134,16 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
     @Override
     public void run() {
         while (!serverStopRequest) {
-            Socket closeSocket = null;
             try {
                 try (Socket socket = serverSocket.accept()) {
                     DefaultHttpServerRequest request = new DefaultHttpServerRequest(socket);
                     DefaultHttpServerResponse response = new DefaultHttpServerResponse(socket);
                     processor.process(request, response);
-                    closeSocket = socket;
                 }
             } catch (IOException ioe) {
             } catch (Throwable throwable) {
             }
-            if (serverStopRequest && closeSocket != null) {
-                try {
-                    closeSocket.close();
-                } catch (IOException ioe) {
-                    if (LOGGER.isLoggable(WARNING)) {
-                        LOGGER.log(WARNING, "Unable to close socket", ioe);
-                    }
-                }
-            }
         }
-        LOGGER.log(INFO, "Shutting down HTTP server");
     }
 
     /**
@@ -187,8 +175,6 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
         if (LOGGER.isLoggable(INFO)) {
             LOGGER.log(INFO, "Stopping HTTP server");
         }
-        serverStopRequest = true;
-        serverProcessingThread.interrupt();
         if (serverSocket != null) {
             try {
                 serverSocket.close();
@@ -197,5 +183,6 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
             }
             running = false;
         }
+        serverStopRequest = true;
     }
 }
