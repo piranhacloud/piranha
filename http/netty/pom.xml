@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
-            <artifactId>tests</artifactId>
+            <artifactId>piranha-http-api</artifactId>
             <version>${project.version}</version>
             <classifier>tests</classifier>
             <type>test-jar</type>

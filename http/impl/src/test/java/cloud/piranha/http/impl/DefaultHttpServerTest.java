@@ -29,7 +29,7 @@ package cloud.piranha.http.impl;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.tests.HttpServerTest;
+import cloud.piranha.http.api.HttpServerTest;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

@@ -29,7 +29,7 @@ package cloud.piranha.http.singlethread;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.tests.HttpServerTest;
+import cloud.piranha.http.api.HttpServerTest;
 import org.junit.Ignore;
 
 /**
