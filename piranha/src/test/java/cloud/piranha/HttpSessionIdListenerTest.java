@@ -54,11 +54,6 @@ public class HttpSessionIdListenerTest {
      * Stores the web application.
      */
     protected WebApplication webApplication;
-    
-    /**
-     * Stores the web application server.
-     */
-    protected DefaultWebApplicationServer webApplicationServer;
 
     /**
      * Setup before testing.
@@ -67,10 +62,8 @@ public class HttpSessionIdListenerTest {
      */
     @Before
     public void setUp() throws Exception {
-        webApplicationServer = new DefaultWebApplicationServer();
         webApplication = new DefaultWebApplication();
         webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
-        webApplicationServer.addWebApplication(webApplication);
     }
 
     /**
@@ -84,12 +77,14 @@ public class HttpSessionIdListenerTest {
         webApplication.addServlet("sessionIdChangedServlet",
                 new TestHttpSessionIdChangedServlet());
         webApplication.addServletMapping("sessionIdChangedServlet", "/sessionIdChanged");
-        TestHttpServerResponse response = new TestHttpServerResponse();
-        TestHttpServerRequest request = new TestHttpServerRequest();
-        request.setRequestTarget("/sessionIdChanged");
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        webApplicationServer.process(request, response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/sessionIdChanged");
+        request.setWebApplication(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
         assertNotNull(webApplication.getAttribute("originalSessionId"));
         assertNotNull(webApplication.getAttribute("oldSessionId"));
         assertNotNull(webApplication.getAttribute("newSessionId"));
@@ -97,7 +92,7 @@ public class HttpSessionIdListenerTest {
                 webApplication.getAttribute("oldSessionId"));
         assertNotEquals(webApplication.getAttribute("oldSessionId"),
                 webApplication.getAttribute("newSessionId"));
-        webApplicationServer.stop();
+        webApplication.stop();
     }
 
     /**
