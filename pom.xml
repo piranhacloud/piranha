@@ -47,6 +47,7 @@
         <module>piranha</module>
     
         <!-- Logical components -->
+        <module>appserver</module>
         <module>cdi</module>
         <module>faces</module>
         <module>http</module>

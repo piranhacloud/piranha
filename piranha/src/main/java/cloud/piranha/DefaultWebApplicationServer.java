@@ -41,10 +41,10 @@ import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
 import cloud.piranha.api.WebApplication;
-import cloud.piranha.api.WebApplicationServer;
-import cloud.piranha.api.WebApplicationServerRequest;
-import cloud.piranha.api.WebApplicationServerRequestMapper;
-import cloud.piranha.api.WebApplicationServerResponse;
+import cloud.piranha.appserver.api.WebApplicationServer;
+import cloud.piranha.appserver.api.WebApplicationServerRequest;
+import cloud.piranha.appserver.api.WebApplicationServerRequestMapper;
+import cloud.piranha.appserver.api.WebApplicationServerResponse;
 
 /**
  * The default WebApplicationServer.
