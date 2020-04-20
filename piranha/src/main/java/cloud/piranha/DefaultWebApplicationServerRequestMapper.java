@@ -27,8 +27,8 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.WebApplicationServerRequestMapper;
 import cloud.piranha.api.WebApplication;
+import cloud.piranha.appserver.api.WebApplicationServerRequestMapper;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;

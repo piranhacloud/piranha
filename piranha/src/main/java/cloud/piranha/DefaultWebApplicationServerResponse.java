@@ -27,7 +27,7 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.WebApplicationServerResponse;
+import cloud.piranha.appserver.api.WebApplicationServerResponse;
 
 /**
  * The default WebApplicationServerResponse.

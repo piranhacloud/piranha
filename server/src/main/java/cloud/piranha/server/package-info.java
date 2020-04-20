@@ -74,10 +74,10 @@
  * <p>
  * The image below illustrates how the request and response handling is done by
  * Piranha Server. When a request comes in to the HTTP server it dispatches it
- * to the {@link cloud.piranha.api.WebApplicationServer} which uses a
- * {@link cloud.piranha.api.WebApplicationServerRequestMapper} to determine
- * which web application needs to serve the request and it the dispatches to it
- * and then in turn the WebApplication uses
+ * to the {@link cloud.piranha.appserver.api.WebApplicationServer} which uses a
+ * {@link cloud.piranha.appserver.api.WebApplicationServerRequestMapper} to
+ * determine which web application needs to serve the request and it the
+ * dispatches to it and then in turn the WebApplication uses
  * {@link cloud.piranha.api.WebApplicationRequestMapper} to determine which
  * FilterChain needs to process the incoming request and it dispatches to it.
  * </p>

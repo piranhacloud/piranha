@@ -25,14 +25,31 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
+package cloud.piranha.appserver.api;
+
+import cloud.piranha.api.WebApplication;
+import cloud.piranha.api.WebApplicationRequest;
 
 /**
- * The WebApplicationServerResponse API.
- *
+ * The WebApplicationServerRequest API.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebApplicationServerResponse extends WebApplicationResponse {
+public interface WebApplicationServerRequest extends WebApplicationRequest {
+
+    /**
+     * Set the context path.
+     * 
+     * @param contextPath the context path.
+     */
+    public void setContextPath(String contextPath);
+
+    /**
+     * Set the servlet path.
+     * 
+     * @param servletPath the servlet path. 
+     */
+    public void setServletPath(String servletPath);
 
     /**
      * Set the web application.
