@@ -44,6 +44,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha.appserver</groupId>
+            <artifactId>piranha-appserver-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.jndi</groupId>
             <artifactId>piranha-jndi-memory</artifactId>
             <version>${project.version}</version>

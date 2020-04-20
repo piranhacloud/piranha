@@ -42,8 +42,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * The JUnit tests for testing everything related to the HttpSessionListener
- * API.
+ * The JUnit tests for the HttpSessionListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -53,11 +52,6 @@ public class HttpSessionListenerTest {
      * Stores the web application.
      */
     protected WebApplication webApplication;
-    
-    /**
-     * Stores the web application server.
-     */
-    protected DefaultWebApplicationServer webApplicationServer;
 
     /**
      * Setup before testing.
@@ -66,10 +60,8 @@ public class HttpSessionListenerTest {
      */
     @Before
     public void setUp() throws Exception {
-        webApplicationServer = new DefaultWebApplicationServer();
         webApplication = new DefaultWebApplication();
         webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
-        webApplicationServer.addWebApplication(webApplication);
     }
 
     /**
@@ -82,15 +74,17 @@ public class HttpSessionListenerTest {
         webApplication.addListener(new TestHttpSessionListener());
         webApplication.addServlet("sessionCreatedServlet", new TestHttpSessionCreatedServlet());
         webApplication.addServletMapping("sessionCreatedServlet", "/sessionCreated");
-        TestHttpServerResponse response = new TestHttpServerResponse();
-        TestHttpServerRequest request = new TestHttpServerRequest();
-        request.setRequestTarget("/sessionCreated");
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        webApplicationServer.process(request, response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/sessionCreated");
+        request.setWebApplication(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
         assertNotNull(webApplication.getAttribute("sessionCreated"));
         assertTrue(webApplication.getAttribute("session") instanceof HttpSession);
-        webApplicationServer.stop();
+        webApplication.stop();
     }
 
     /**
@@ -103,12 +97,14 @@ public class HttpSessionListenerTest {
         webApplication.addListener(new TestHttpSessionListener());
         webApplication.addServlet("sessionDestroyedServlet", new TestHttpSessionDestroyedServlet());
         webApplication.addServletMapping("sessionDestroyedServlet", "/sessionDestroyed");
-        TestHttpServerResponse response = new TestHttpServerResponse();
-        TestHttpServerRequest request = new TestHttpServerRequest();
-        request.setRequestTarget("/sessionDestroyed");
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        webApplicationServer.process(request, response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/sessionDestroyed");
+        request.setWebApplication(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
         assertNotNull(webApplication.getAttribute("sessionDestroyed"));
         webApplication.stop();
         webApplication.destroy();

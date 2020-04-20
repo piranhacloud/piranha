@@ -31,7 +31,7 @@ import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationClassLoader;
 import cloud.piranha.DefaultWebApplicationExtensionContext;
-import cloud.piranha.DefaultWebApplicationServer;
+import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.resource.DirectoryResource;

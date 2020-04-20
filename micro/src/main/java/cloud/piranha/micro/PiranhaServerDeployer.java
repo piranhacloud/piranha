@@ -76,7 +76,7 @@ import cloud.piranha.DefaultAnnotationManager;
 import cloud.piranha.DefaultAnnotationManager.DefaultAnnotationInfo;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.DefaultWebApplicationServer;
+import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.faces.mojarra.MojarraInitializer;
@@ -159,7 +159,7 @@ public class PiranhaServerDeployer {
             
             getCallerCredentials(System.getProperty("io.piranha.identitystore.callers"));
             
-            DefaultWebApplicationServer webApplicationServer = new cloud.piranha.DefaultWebApplicationServer();
+            DefaultWebApplicationServer webApplicationServer = new cloud.piranha.appserver.impl.DefaultWebApplicationServer();
             webApplicationServer.addWebApplication(webApplication);
             
             webApplication.addInitializer(new WebXmlInitializer());

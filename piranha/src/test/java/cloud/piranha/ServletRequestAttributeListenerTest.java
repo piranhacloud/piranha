@@ -40,8 +40,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * The JUnit tests for testing everything related to the
- * ServletRequestAttributeListener API.
+ * The JUnit tests for the ServletRequestAttributeListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -53,21 +52,14 @@ public class ServletRequestAttributeListenerTest {
     protected WebApplication webApplication;
 
     /**
-     * Stores the web application server.
-     */
-    protected DefaultWebApplicationServer webApplicationServer;
-
-    /**
      * Setup before testing.
      *
      * @throws Exception when a serious error occurs.
      */
     @Before
     public void setUp() throws Exception {
-        webApplicationServer = new DefaultWebApplicationServer();
         webApplication = new DefaultWebApplication();
         webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
-        webApplicationServer.addWebApplication(webApplication);
     }
 
     /**
@@ -82,14 +74,16 @@ public class ServletRequestAttributeListenerTest {
                 new TestServletRequestAttributeServlet());
         webApplication.addServletMapping("servletRequestAttributeServlet",
                 "/servletRequestAttribute");
-        TestHttpServerResponse response = new TestHttpServerResponse();
-        TestHttpServerRequest request = new TestHttpServerRequest();
-        request.setRequestTarget("/servletRequestAttribute");
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        webApplicationServer.process(request, response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/servletRequestAttribute");
+        request.setWebApplication(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
         assertNotNull(webApplication.getAttribute("attributeAdded"));
-        webApplicationServer.stop();
+        webApplication.stop();
     }
 
     /**
@@ -104,14 +98,16 @@ public class ServletRequestAttributeListenerTest {
                 new TestServletRequestAttributeServlet());
         webApplication.addServletMapping("servletRequestAttributeServlet",
                 "/servletRequestAttribute");
-        TestHttpServerResponse response = new TestHttpServerResponse();
-        TestHttpServerRequest request = new TestHttpServerRequest();
-        request.setRequestTarget("/servletRequestAttribute");
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        webApplicationServer.process(request, response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/servletRequestAttribute");
+        request.setWebApplication(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
         assertNotNull(webApplication.getAttribute("attributeRemoved"));
-        webApplicationServer.stop();
+        webApplication.stop();
     }
 
     /**
@@ -126,14 +122,16 @@ public class ServletRequestAttributeListenerTest {
                 new TestServletRequestAttributeServlet());
         webApplication.addServletMapping("servletRequestAttributeServlet",
                 "/servletRequestAttribute");
-        TestHttpServerResponse response = new TestHttpServerResponse();
-        TestHttpServerRequest request = new TestHttpServerRequest();
-        request.setRequestTarget("/servletRequestAttribute");
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        webApplicationServer.process(request, response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/servletRequestAttribute");
+        request.setWebApplication(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
         assertNotNull(webApplication.getAttribute("attributeReplaced"));
-        webApplicationServer.stop();
+        webApplication.stop();
     }
 
     /**

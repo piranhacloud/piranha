@@ -35,8 +35,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * The JUnit tests for testing everything related to the ServletRequestListener
- * API.
+ * The JUnit tests for ServletRequestListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -48,21 +47,14 @@ public class ServletRequestListenerTest {
     protected WebApplication webApplication;
 
     /**
-     * Stores the web application server.
-     */
-    protected DefaultWebApplicationServer webApplicationServer;
-
-    /**
      * Setup before testing.
      *
      * @throws Exception when a serious error occurs.
      */
     @Before
     public void setUp() throws Exception {
-        webApplicationServer = new DefaultWebApplicationServer();
         webApplication = new DefaultWebApplication();
         webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
-        webApplicationServer.addWebApplication(webApplication);
     }
 
     /**
@@ -73,13 +65,13 @@ public class ServletRequestListenerTest {
     @Test
     public void testRequestDestroyed() throws Exception {
         webApplication.addListener(new TestServletRequestListener());
-        TestHttpServerResponse response = new TestHttpServerResponse();
-        TestHttpServerRequest request = new TestHttpServerRequest();
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        webApplicationServer.process(request, response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
         assertNotNull(webApplication.getAttribute("requestDestroyed"));
-        webApplicationServer.stop();
+        webApplication.stop();
     }
 
     /**
@@ -90,13 +82,13 @@ public class ServletRequestListenerTest {
     @Test
     public void testRequestInitialized() throws Exception {
         webApplication.addListener(new TestServletRequestListener());
-        TestHttpServerResponse response = new TestHttpServerResponse();
-        TestHttpServerRequest request = new TestHttpServerRequest();
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        webApplicationServer.process(request, response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
         assertNotNull(webApplication.getAttribute("requestInitialized"));
-        webApplicationServer.stop();
+        webApplication.stop();
     }
 
     public class TestServletRequestListener implements ServletRequestListener {

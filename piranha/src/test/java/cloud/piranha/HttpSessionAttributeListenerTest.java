@@ -41,8 +41,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * The JUnit tests for testing everything related to the
- * HttpSessionAttributeListener API.
+ * The JUnit tests for the HttpSessionAttributeListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -52,11 +51,6 @@ public class HttpSessionAttributeListenerTest {
      * Stores the web application.
      */
     protected WebApplication webApplication;
-    
-    /**
-     * Stores the web application server.
-     */
-    protected DefaultWebApplicationServer webApplicationServer;
 
     /**
      * Setup before testing.
@@ -65,10 +59,8 @@ public class HttpSessionAttributeListenerTest {
      */
     @Before
     public void setUp() throws Exception {
-        webApplicationServer = new DefaultWebApplicationServer();
         webApplication = new DefaultWebApplication();
         webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
-        webApplicationServer.addWebApplication(webApplication);
     }
 
     /**
@@ -83,14 +75,16 @@ public class HttpSessionAttributeListenerTest {
                 new TestHttpSessionAttributeServlet());
         webApplication.addServletMapping("httpSessionAttributeServlet",
                 "/httpSessionAttribute");
-        TestHttpServerResponse response = new TestHttpServerResponse();
-        TestHttpServerRequest request = new TestHttpServerRequest();
-        request.setRequestTarget("/httpSessionAttribute");
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        webApplicationServer.process(request, response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/httpSessionAttribute");
+        request.setWebApplication(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
         assertNotNull(webApplication.getAttribute("attributeAdded"));
-        webApplicationServer.stop();
+        webApplication.stop();
     }
 
     /**
@@ -105,14 +99,16 @@ public class HttpSessionAttributeListenerTest {
                 new TestHttpSessionAttributeServlet());
         webApplication.addServletMapping("httpSessionAttributeServlet",
                 "/httpSessionAttribute");
-        TestHttpServerResponse response = new TestHttpServerResponse();
-        TestHttpServerRequest request = new TestHttpServerRequest();
-        request.setRequestTarget("/httpSessionAttribute");
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        webApplicationServer.process(request, response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/httpSessionAttribute");
+        request.setWebApplication(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
         assertNotNull(webApplication.getAttribute("attributeRemoved"));
-        webApplicationServer.stop();
+        webApplication.stop();
     }
 
     /**
@@ -127,14 +123,16 @@ public class HttpSessionAttributeListenerTest {
                 new TestHttpSessionAttributeServlet());
         webApplication.addServletMapping("httpSessionAttributeServlet",
                 "/httpSessionAttribute");
-        TestHttpServerResponse response = new TestHttpServerResponse();
-        TestHttpServerRequest request = new TestHttpServerRequest();
-        request.setRequestTarget("/httpSessionAttribute");
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        webApplicationServer.process(request, response);
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/httpSessionAttribute");
+        request.setWebApplication(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
         assertNotNull(webApplication.getAttribute("attributeReplaced"));
-        webApplicationServer.stop();
+        webApplication.stop();
     }
 
     /**
