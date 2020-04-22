@@ -81,7 +81,6 @@
         
         <!-- Compatability -->
         <module>compat</module>
-        <module>tomcat9</module>
     </modules>
 
     <scm>
