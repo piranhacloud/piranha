@@ -24,7 +24,7 @@ jobs:
       run: |        
         mv -v target/staging .site
         cp -rv .site/* .
-        rmd -rfv .site
+        rm -rfv .site
     - name: Commit to GitHub pages
       env:
         PUBLISH_PASSWORD: ${{ secrets.PUBLISH_PASSWORD }}
