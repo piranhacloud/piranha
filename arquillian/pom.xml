@@ -68,7 +68,14 @@
                 <version>4.13</version>
             </dependency>
         </dependencies>
-    </dependencyManagement>
+    </dependencyManagement>    
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/arquillian</url>
+        </site>        
+    </distributionManagement>
+
     
     <profiles>
         <profile>

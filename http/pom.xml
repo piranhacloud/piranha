@@ -26,6 +26,12 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/http</url>
+        </site>        
+    </distributionManagement>
     <modules>
         <module>grizzly</module>
         <module>netty</module>

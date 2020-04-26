@@ -26,6 +26,12 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/security</url>
+        </site>        
+    </distributionManagement>
     <modules>
         <module>eleos</module>
         <module>exousia</module>

@@ -25,7 +25,13 @@
                 <type>pom</type>
             </dependency>
         </dependencies>
-    </dependencyManagement>
+    </dependencyManagement>    
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/maven</url>
+        </site>        
+    </distributionManagement>
     <modules>
         <module>plugins</module>
     </modules>

@@ -25,7 +25,13 @@
                 <type>pom</type>
             </dependency>
         </dependencies>
-    </dependencyManagement>
+    </dependencyManagement>    
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/faces</url>
+        </site>        
+    </distributionManagement>
     <modules>
         <module>mojarra</module>
         <module>myfaces</module>

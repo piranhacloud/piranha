@@ -25,7 +25,13 @@
                 <type>pom</type>
             </dependency>
         </dependencies>
-    </dependencyManagement>
+    </dependencyManagement>    
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/cdi</url>
+        </site>        
+    </distributionManagement>
     <modules>
         <module>openwebbeans</module>
         <module>weld</module>
