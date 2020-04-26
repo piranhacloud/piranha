@@ -22,8 +22,9 @@ jobs:
     - name: Move site to root directory
       run: |        
         mv -v target/staging .site
-        cp -rv .site/* .
-        rm -rfv .site
+        rm -rfv *
+        mv -v .site/* .
+        rmdir .site
     - name: Commit to GitHub pages
       env:
         PUBLISH_PASSWORD: ${{ secrets.PUBLISH_PASSWORD }}
