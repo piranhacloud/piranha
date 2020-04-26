@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!--bootstrap cdn-->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <!-- google fonts cdn -->
+    <link
+      href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,600,700|PT+Sans:400,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--custom style sheet-->
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <title>Piranha | cloud</title>
+  </head>
+  
+  <body>
+    <!-- landing page section -->
+    <section class="landing d-flex flex-column">
+      <nav>
+     	<img src="/img/yellow-cloud.svg" alt="Piranha - cloud" class="img-fluid" />
+        <img src="/img/nav-logo.svg" alt="Piranha - cloud" class="img-fluid" />
+      </nav>
+
+      <div class="hero-text m-auto text-center w-100">
+        <h1>
+          You want Cloud?<br />
+          We got Clout!
+        </h1>
+        
+        <p class="mb-0">
+          Piranha is a cloud native extensible runtime, which delivers various 
+          integration libraries facilitating running applications in a non 
+          application server centric way. Some examples of integration libraries
+          include JakartaEE libraries, as well as MicroProfile libraries, and 
+          integration libraries for various web frameworks, such as Faces, Vaadin,
+          Wicket, etceteras.
+        </p>
+        
+        <a href="https://github.com/piranhacloud/piranha">
+	        <button type="button">
+	          <img src="/img/github-icon.svg" alt="" />VIEW ON GITHUB
+	        </button>
+        </a>
+      </div>
+    </section>
+
+    <!-- intro section -->
+    <section class="intro">
+      <div class="row">
+        <div class="col-lg-6 text px-0">
+          <h1>
+            Can Piranha really strip a server to the core in under a minute?
+          </h1>
+          <p>
+            A traditional Enterprise Java runtime is an installed application
+            server acting as a deployment target, which supports running multiple
+            applications via archives, which are each isolated by classloaders,
+            and serves these applications via remote protocols such as HTTP.
+          </p>
+          <p>
+            Piranha’s scalable architecture can strip away all these features
+            until only the bare libraries remain. A web application can be run
+            having only the libraries on the flat classpath, and not even having
+            an HTTP server running.
+          </p>
+        </div>
+        <div class="col-lg-6 image px-0 d-flex">
+          <div class="m-auto">
+            <img src="/img/server-fish.svg" alt="" class="img-fluid m-auto" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- features section -->
+    <section class="features">
+      <h1 class="text-center px-2">Scalable architecture</h1>
+      <div class="d-flex">
+        <p class="text-center mx-auto mb-0 px-3">
+          Piranha can scale down to essentially a serverless framework, or you can
+          use it as a unit testing framework, all the way up to something more 
+          akin to a traditional application server, and many steps in between.
+        </p>
+      </div>
+
+      <div class="row">
+      
+        <!-- Nano -->
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card-green">
+            <div class="d-flex">
+              <div class="mx-auto">
+                <img
+                  src="/img/green-cloud.svg"
+                  alt=""
+                  class="img-fluid mx-auto"
+                />
+              </div>
+            </div>
+            <h5>Piranha Nano</h5>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/green-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                The smallest in our lineup. <br/>
+                <br/>
+              </p>
+            </div>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/green-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                Delivers you with a cloud native embeddedable container.
+              </p>
+            </div>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/green-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                While very small it most certainly is very capable.
+              </p>
+            </div>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/green-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                Very easy to use. <br/>
+                <br/>
+              </p>
+            </div>
+            <a href="https://javadoc.piranha.cloud/cloud/piranha/nano/package-summary.html">
+                <button type="button" class="w-100">LEARN MORE</button>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Embedded -->
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card-yellow">
+            <div class="d-flex">
+              <div class="mx-auto">
+                <img
+                  src="/img/yellow-cloud.svg"
+                  alt=""
+                  class="img-fluid mx-auto"
+                />
+              </div>
+            </div>
+            
+            <h5>Piranha Embedded</h5>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/yellow-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                Meant for embedding in your own application.
+              </p>
+            </div>
+
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/yellow-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                Used extensively within the Piranha project to verify its
+                functionality.
+              </p>
+            </div>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/yellow-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                No HTTP stack running. <br/>
+                <br/>
+              </p>
+            </div>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/yellow-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                No Archives. <br/>
+                <br/>
+              </p>
+            </div>
+            <a href="https://javadoc.piranha.cloud/cloud/piranha/embedded/package-summary.html">
+            	<button type="button" class="w-100">LEARN MORE</button>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Micro -->
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card-purple">
+            <div class="d-flex">
+              <div class="mx-auto">
+                <img
+                  src="/img/purple-cloud.svg"
+                  alt=""
+                  class="img-fluid mx-auto"
+                />
+              </div>
+            </div>
+            <h5>Piranha Micro</h5>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/purple-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                Delivers you with a single executable JAR file.
+              </p>
+            </div>
+
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/purple-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                  At minimum can be used as a Servlet container.
+              </p>
+            </div>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/purple-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                Includes an HTTP server. <br/>
+                <br/>
+              </p>
+            </div>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/purple-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                One web application archive. <br/>
+                <br/>
+              </p>
+            </div>
+            <a href="https://javadoc.piranha.cloud/cloud/piranha/micro/package-summary.html">
+            <button type="button" class="w-100">LEARN MORE</button>
+            </a>
+          </div>
+        </div>
+        
+        <div class="col-xl-3 col-lg-4 col-md-6 mx-auto">
+          <div class="card-blue">
+            <div class="d-flex">
+              <div class="mx-auto">
+                <img
+                  src="/img/blue-cloud.svg"
+                  alt=""
+                  class="img-fluid mx-auto"
+                />
+              </div>
+            </div>
+            <h5>Piranha Server</h5>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/blue-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                Delivers you with an installed version of Piranha.
+              </p>
+            </div>
+
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/blue-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                  At minimum can be used as a Servlet container. 
+              </p>
+            </div>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/blue-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                  Includes an HTTP server. <br/>
+                  <br/>
+              </p>
+            </div>
+            <div class="d-flex">
+              <div class="mb-auto">
+                <img src="/img/blue-bracket.svg" class="mb-auto" alt="" />
+              </div>
+              <p>
+                  Supports multiple web applications. <br/>
+                  <br/>
+              </p>
+            </div>
+            <a href="https://javadoc.piranha.cloud/cloud/piranha/server/package-summary.html">
+            <button type="button" class="w-100">LEARN MORE</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- native intro section -->
+    <section class="native-intro">
+      <div class="row">
+        <div class="col-lg-6">
+          <h1>Cloud Native</h1>
+          <p>
+            The cloud deployment model focusses on small, immutable units. With
+            containers like Docker and platforms like Kubernetes, the archive
+            and deployment features of a traditional application server are not
+            necessarily needed anymore, but the Jakarta EE and MicroProfile APIs
+            themselves are still really useful. Piranha can focus on only these
+            APIs, and completely omitting (not just hiding) all functionality
+            related to archives and deployment, making it optimally suited for a
+            cloud environment.
+          </p>
+        </div>
+        <div class="col-lg-6 d-flex">
+          <div class="m-auto">
+            <img src="/img/cloud-guy.svg" alt="" class="img-fluid m-auto" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- unit testing section -->
+    <section class="testing">
+      <h1>Unit (like) testing</h1>
+      <div class="d-flex p-4">
+        <p class="mx-auto">
+          Because traditional Jakarta EE products come with the deployment
+          model, there is a bit more involved with testing code. Tools like
+          Arquillian make integration testing quite easy, but often developers
+          like a more unit testing oriented approach as well.
+        </p>
+      </div>
+
+      <!-- code editor -->
+      <div class="editor-wrapper d-flex p-4">
+        <div class="mx-auto editor d-flex flex-column">
+          <div class="yellow-bar"></div>
+          <div class="code-wrapper">
+            <div class="code-container">
+              <p>
+                <span class="purple">EmbeddedPiranha</span> piranha = new
+                <span class="purple">EmbeddedPiranhaBuilder</span>()<br />
+                <span class="tab"></span>.<span class="blue">servlet</span
+                >("<span class="red">SnoopServlet</span>",
+                <span class="purple">SnoopServlet</span>.<span class="blue"
+                  >class.getName</span
+                >()) <br /><span class="tab"></span>.<span class="blue"
+                  >servletMapping</span
+                >("<span class="red">SnoopServlet</span>", "<span class="red"
+                  >/SnoopServlet</span
+                >") <br /><span class="tab"></span>.<span class="blue"
+                  >build</span
+                >() <br /><span class="tab"></span>.<span class="blue"
+                  >start</span
+                >(); <br /><br /><span class="purple">EmbeddedRequest</span>
+                request = new
+                <span class="purple">EmbeddedRequestBuilder</span>() <br /><span
+                  class="tab"
+                ></span
+                >.<span class="blue">servletPath</span>("<span class="red"
+                  >/SnoopServlet</span
+                >") <br /><span class="tab"></span>.<span class="blue"
+                  >build</span
+                >(); <br /><br /><span class="purple">EmbeddedResponse</span>
+                response = new
+                <span class="purple">EmbeddedResponseBuilder</span>()
+                <br /><span class="tab"></span>.<span class="blue">build</span
+                >(); <br /><br />piranha.<span class="blue">service</span
+                >(request, response);
+                <span class="purple">assertTrue</span>(response.<span
+                  class="purple"
+                  >getResponseAsString</span
+                >().<span class="blue">endsWith</span>("<span class="red"
+                  >SUCCESS</span
+                >"));<br /><br />
+                piranha.<span class="blue">stop</span>()<br />
+                <span class="tab"></span>.<span class="blue">destroy</span>();
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h5>PIRANHA TEAM ACCOLADES</h5>
+      <div class="d-flex">
+        <div class="d-flex accolades-wrapper mx-auto flex-wrap">
+          <div>
+            <h3>1</h3>
+            <p>JAVA CHAMPION</p>
+          </div>
+          <div>
+            <h3>2</h3>
+            <p>SPEC/PROJECT LEAD</p>
+          </div>
+          <div>
+            <h3>1</h3>
+            <p>DUKE CHOICE AWARD</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--section class="news-letter">
+      <div class="row">
+        <div class="col-lg-7">
+          <h1>Subscribe to our newsletter</h1>
+          <div class="d-flex form">
+            <input type="email" placeholder="E-mail Address*" />
+            <button type="submit">SUBMIT</button>
+          </div>
+        </div>
+        <div class="col-lg-5 text-right">
+          <img src="/img/news-letter.svg" alt="" class="img-fluid" />
+        </div>
+      </div>
+    </section-->
+
+    <footer>
+      <div class="row">
+        <div class="col-lg-5"><p>Copyright 2019-2020 Piranha Cloud</p></div>
+        <div class="col-lg-4 d-flex">
+          <p class="mr-4 ml-auto"><!--Privacy Policy--></p>
+          <p><!--Terms of Service--></p>
+        </div>
+        <div class="col-lg-3 text-right">
+          <!--img src="/img/facebook.svg" alt="" /-->
+          <a href="https://twitter.com/piranha_cloud" style="text-decoration: none;">
+          	<img src="/img/twitter.svg" alt="" />
+          </a>
+          <a href="https://github.com/piranhacloud/piranha" style="text-decoration: none;">
+          	<img src="/img/github.svg" alt="" />
+          </a>
+          <!--img src="/img/linkedin.svg" alt="" /-->
+        </div>
+      </div>
+    </footer>
+
+    <!--bootstrap CDN-->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
