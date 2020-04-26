@@ -26,6 +26,12 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/servlet</url>
+        </site>        
+    </distributionManagement>
     <modules>
         <module>annotationscan</module>
         <module>api</module>

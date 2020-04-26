@@ -21,9 +21,15 @@
                 <type>pom</type>
             </dependency>
         </dependencies>
-    </dependencyManagement>
+    </dependencyManagement>    
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/compatibility</url>
+        </site>        
+    </distributionManagement>
     <modules>
-      <module>tomcat9</module>
+        <module>tomcat9</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

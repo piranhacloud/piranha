@@ -26,6 +26,12 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/transaction</url>
+        </site>        
+    </distributionManagement>
     <modules>
         <module>api</module>
         <module>nonxa</module>

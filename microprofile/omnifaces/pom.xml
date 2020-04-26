@@ -14,7 +14,12 @@
     <packaging>pom</packaging>
 
     <name>Piranha MicroProfile - OmniFaces</name>
-
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/microprofile/omnifaces</url>
+        </site>        
+    </distributionManagement>
     <modules>
         <module>jwt</module>
     </modules>

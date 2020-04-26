@@ -14,7 +14,12 @@
     <packaging>pom</packaging>
 
     <name>Piranha MicroProfile - SmallRye</name>
-
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/microprofile/smallrye</url>
+        </site>        
+    </distributionManagement>
     <modules>
         <module>health</module>
     </modules>

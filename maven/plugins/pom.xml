@@ -14,7 +14,12 @@
     <packaging>pom</packaging>
 
     <name>Piranha Maven Plugins</name>
-    
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/maven/plugins</url>
+        </site>        
+    </distributionManagement>
     <modules>
         <module>piranha-micro</module>
     </modules>
