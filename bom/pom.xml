@@ -323,7 +323,13 @@
                 <version>4.13</version>
             </dependency>
         </dependencies>
-    </dependencyManagement>
+    </dependencyManagement>    
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/bom</url>
+        </site>        
+    </distributionManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

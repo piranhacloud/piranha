@@ -69,7 +69,12 @@
             </plugin>
         </plugins>
     </build>
-
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/impl</url>
+        </site>        
+    </distributionManagement>
     <reporting>
         <plugins>
             <plugin>

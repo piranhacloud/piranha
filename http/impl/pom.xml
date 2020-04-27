@@ -40,4 +40,10 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/http/impl</url>
+        </site>        
+    </distributionManagement>
 </project>

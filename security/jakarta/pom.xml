@@ -47,4 +47,10 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/security/jakarta</url>
+        </site>        
+    </distributionManagement>
 </project>

@@ -23,5 +23,10 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/admin/rest</url>
+        </site>        
+    </distributionManagement>
 </project>

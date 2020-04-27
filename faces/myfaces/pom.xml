@@ -38,4 +38,10 @@
             <scope>runtime</scope>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/faces/myfaces</url>
+        </site>        
+    </distributionManagement>
 </project>

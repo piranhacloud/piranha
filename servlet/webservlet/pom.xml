@@ -26,4 +26,10 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/servlet/webservlet</url>
+        </site>        
+    </distributionManagement>
 </project>

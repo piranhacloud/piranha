@@ -53,4 +53,10 @@
             </exclusions>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/transaction/nonxa</url>
+        </site>        
+    </distributionManagement>
 </project>
