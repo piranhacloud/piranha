@@ -25,7 +25,7 @@
     <distributionManagement>
         <site>
             <id>piranha.cloud</id>
-            <url>https://piranha.cloud/compatibility</url>
+            <url>https://piranha.cloud/compat</url>
         </site>        
     </distributionManagement>
     <modules>

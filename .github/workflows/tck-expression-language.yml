@@ -7,8 +7,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        java: [ '10' ]
-        os: [ubuntu-latest]
+        java: [ '10', '11' ]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
     - name: Checkout Sources
       uses: actions/checkout@v1
