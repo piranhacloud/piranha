@@ -37,5 +37,11 @@
             <artifactId>jakarta.faces</artifactId>
             <scope>runtime</scope>
         </dependency>
-    </dependencies>
+    </dependencies>    
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/faces/mojarra</url>
+        </site>        
+    </distributionManagement>
 </project>

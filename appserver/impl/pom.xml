@@ -10,7 +10,6 @@
     <artifactId>piranha-appserver-impl</artifactId>
     <packaging>jar</packaging>
     <name>Piranha Application Server - Implementation</name>
-    
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.appserver</groupId>
@@ -34,5 +33,11 @@
             <artifactId>httpclient</artifactId>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+    </dependencies>    
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/appserver/impl</url>
+        </site>        
+    </distributionManagement>
 </project>

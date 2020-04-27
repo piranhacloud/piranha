@@ -54,4 +54,10 @@
             </plugin>
         </plugins>
     </build>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/servlet/api</url>
+        </site>        
+    </distributionManagement>
 </project>

@@ -28,5 +28,11 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/maven/plugins/piranha-micro</url>
+        </site>        
+    </distributionManagement>
     
 </project>

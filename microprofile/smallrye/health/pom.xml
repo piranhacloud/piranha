@@ -37,4 +37,10 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/microprofile/smallrye/health</url>
+        </site>        
+    </distributionManagement>
 </project>

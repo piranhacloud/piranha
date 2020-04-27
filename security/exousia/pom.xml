@@ -36,4 +36,10 @@
             </exclusions>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/security/exousia</url>
+        </site>        
+    </distributionManagement>
 </project>

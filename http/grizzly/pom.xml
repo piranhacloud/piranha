@@ -44,5 +44,11 @@
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+    </dependencies>    
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/http/grizzly</url>
+        </site>        
+    </distributionManagement>
 </project>

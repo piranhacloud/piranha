@@ -108,6 +108,13 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/arquillian/server</url>
+        </site>        
+    </distributionManagement>
+    
     <build>
         <plugins>
             <plugin>

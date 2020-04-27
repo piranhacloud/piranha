@@ -31,4 +31,10 @@
             </exclusions>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/security/eleos</url>
+        </site>        
+    </distributionManagement>
 </project>

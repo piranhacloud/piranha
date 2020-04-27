@@ -32,4 +32,10 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/upload/apachecommons</url>
+        </site>        
+    </distributionManagement>
 </project>
