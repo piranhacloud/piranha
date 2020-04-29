@@ -132,6 +132,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha.upload</groupId>
+            <artifactId>piranha-upload-apache</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <scope>test</scope>
