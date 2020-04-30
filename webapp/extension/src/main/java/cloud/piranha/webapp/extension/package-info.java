@@ -25,35 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server;
-
-import cloud.piranha.api.WebApplicationExtension;
-import cloud.piranha.api.WebApplicationExtensionContext;
-import cloud.piranha.pages.jasper.JasperExtension;
-import cloud.piranha.servlet.annotationscan.AnnotationScanExtension;
-import cloud.piranha.servlet.servletcontainerinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.servlet.webxml.WebXmlExtension;
-
 /**
- * The {@link cloud.piranha.api.WebApplicationExtension} used by
- * {@link cloud.piranha.server.ServerPiranha} to configure each web application.
+ * <p>
+ * The Piranha Web Application Extension package contains the default
+ * {@link cloud.piranha.api.WebApplicationExtension} used to configure a web
+ * application.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @see cloud.piranha.server.ServerPiranha
- * @see cloud.piranha.api.WebApplicationExtension
  */
-public class ServerExtension implements WebApplicationExtension {
-
-    /**
-     * Extend the web application.
-     *
-     * @param context the context.
-     */
-    @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(AnnotationScanExtension.class);
-        context.add(WebXmlExtension.class);
-        context.add(JasperExtension.class);
-        context.add(ServletContainerInitializerExtension.class);
-    }
-}
+package cloud.piranha.webapp.extension;
