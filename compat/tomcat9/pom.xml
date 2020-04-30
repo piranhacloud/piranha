@@ -12,59 +12,65 @@
     <packaging>jar</packaging>
     <name>Piranha Compatibility - Tomcat 9</name>
     <dependencies>
-        <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-api</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- Jakarta Pages (Jasper) integration -->
+        <!-- Jakarta Pages - Jasper -->
         <dependency>
             <groupId>cloud.piranha.pages</groupId>
             <artifactId>piranha-pages-jasper</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Servlet annotation scan integration -->
+        <!-- Piranha Webapplication - Annotation Scan -->
         <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-annotationscan</artifactId>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-annotationscan</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Servlet container initializer integration -->
+        <!-- Piranha Webapplication - ServletContainerInitializer -->
         <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-servletcontainerinitializer</artifactId>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-initializer</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Servlet ServletContext.TEMPDIR integration -->
+        <!-- Piranha Webapplication - TEMPDIR -->
         <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-tempdir</artifactId>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-tempdir</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Servlet @WebServlet integration -->
+        <!-- Piranha Webapplication - @WebServlet -->
         <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-webservlet</artifactId>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-webservlet</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Servlet web.xml processing integration -->
+        <!-- Piranha Webapplication - web.xml -->
         <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-webxml</artifactId>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-webxml</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Jakarta EL -->
+        <!-- Piranha Webapplication API -->
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Jakarta Expression Language -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
-            <version>3.0.3</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Jakarta WebSocket -->
+        <dependency>
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-api</artifactId>
             <scope>runtime</scope>
         </dependency>
     </dependencies>

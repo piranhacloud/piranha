@@ -15,6 +15,11 @@
         <module>api</module>
         <module>extension</module>
         <module>impl</module>
+        <module>webxml</module>
+        <module>webservlet</module>
+        <module>tempdir</module>
+        <module>initializer</module>
+        <module>annotationscan</module>
     </modules>
     <dependencyManagement>
         <dependencies>

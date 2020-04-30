@@ -50,7 +50,7 @@ import cloud.piranha.test.utils.TestWebApp;
 import cloud.piranha.security.elios.AuthenticationInitializer;
 import cloud.piranha.security.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
-import cloud.piranha.servlet.webxml.WebXmlInitializer;
+import cloud.piranha.webapp.webxml.WebXmlInitializer;
 
 /**
  * This tests that a call from a Servlet to HttpServletRequest#authenticate can result

@@ -42,7 +42,7 @@ import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_P
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.CONSTRAINTS;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 import cloud.piranha.security.soteria.SoteriaInitializer;
-import cloud.piranha.servlet.webxml.WebXmlInitializer;
+import cloud.piranha.webapp.webxml.WebXmlInitializer;
 import java.net.URL;
 import static java.util.Arrays.asList;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;

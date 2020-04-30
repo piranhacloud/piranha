@@ -30,9 +30,9 @@ package cloud.piranha.webapp.extension;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 import cloud.piranha.pages.jasper.JasperExtension;
-import cloud.piranha.servlet.annotationscan.AnnotationScanExtension;
-import cloud.piranha.servlet.servletcontainerinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.servlet.webxml.WebXmlExtension;
+import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
+import cloud.piranha.webapp.initializer.ServletContainerInitializerExtension;
+import cloud.piranha.webapp.webxml.WebXmlExtension;
 
 /**
  * The default {@link cloud.piranha.webapp.api.WebApplicationExtension} used to

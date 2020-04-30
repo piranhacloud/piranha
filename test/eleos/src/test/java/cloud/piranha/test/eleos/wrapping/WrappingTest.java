@@ -39,7 +39,7 @@ import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_F
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.CONSTRAINTS;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
-import cloud.piranha.servlet.webxml.WebXmlInitializer;
+import cloud.piranha.webapp.webxml.WebXmlInitializer;
 import static java.util.Arrays.asList;
 import org.junit.After;
 import static org.junit.Assert.assertTrue;

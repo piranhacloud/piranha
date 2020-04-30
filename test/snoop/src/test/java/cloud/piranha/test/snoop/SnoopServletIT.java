@@ -30,7 +30,7 @@ package cloud.piranha.test.snoop;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.micro.MicroPiranha;
-import cloud.piranha.servlet.webxml.WebXmlExtension;
+import cloud.piranha.webapp.webxml.WebXmlExtension;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

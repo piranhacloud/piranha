@@ -28,8 +28,8 @@
 package cloud.piranha.security.soteria;
 
 import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.servlet.webxml.WebXml;
-import cloud.piranha.servlet.webxml.WebXmlManager;
+import cloud.piranha.webapp.webxml.WebXml;
+import cloud.piranha.webapp.webxml.WebXmlManager;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
