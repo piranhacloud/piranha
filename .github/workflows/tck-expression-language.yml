@@ -1,5 +1,6 @@
 name: tck-expression-language
 on:
+  push:
   schedule:
   - cron: "0 2 * * 4"
 jobs:
@@ -8,7 +9,7 @@ jobs:
     strategy:
       matrix:
         java: [ '10', '11' ]
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
       uses: actions/checkout@v1
