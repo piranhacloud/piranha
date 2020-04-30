@@ -40,7 +40,7 @@ import javax.servlet.http.Cookie;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.appserver.api.WebApplicationServer;
 import cloud.piranha.appserver.api.WebApplicationServerRequest;
 import cloud.piranha.appserver.api.WebApplicationServerRequestMapper;

@@ -40,9 +40,9 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cloud.piranha.api.FilterPriority;
-import cloud.piranha.api.SecurityManager;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.FilterPriority;
+import cloud.piranha.webapp.api.SecurityManager;
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * This filter is used to call a Jakarta Authorization system module at the start of an HTTP request.

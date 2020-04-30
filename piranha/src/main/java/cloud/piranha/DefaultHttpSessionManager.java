@@ -47,8 +47,8 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
 
-import cloud.piranha.api.HttpSessionManager;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The default HttpSessionManager.

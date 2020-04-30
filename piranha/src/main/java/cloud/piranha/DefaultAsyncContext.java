@@ -27,8 +27,8 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.WebApplication;
-import cloud.piranha.api.WebApplicationResponse;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

@@ -37,7 +37,7 @@ import javax.security.auth.Subject;
 
 import org.omnifaces.exousia.spi.PrincipalMapper;
 
-import cloud.piranha.api.AuthenticatedIdentity;
+import cloud.piranha.webapp.api.AuthenticatedIdentity;
 
 /**
  * @author Arjan Tijms

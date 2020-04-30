@@ -36,7 +36,7 @@ import javax.servlet.Filter;
 import javax.servlet.Servlet;
 
 import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.resource.api.Resource;
 
 /**

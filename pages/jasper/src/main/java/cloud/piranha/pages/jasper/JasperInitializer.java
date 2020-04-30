@@ -27,7 +27,7 @@
  */
 package cloud.piranha.pages.jasper;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import java.io.File;
 import java.util.Set;
 import java.util.logging.Level;

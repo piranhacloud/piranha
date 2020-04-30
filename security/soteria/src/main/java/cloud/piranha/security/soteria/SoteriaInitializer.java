@@ -36,7 +36,7 @@ import javax.servlet.ServletException;
 
 import org.glassfish.soteria.servlet.SamRegistrationInstaller;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The Soteria initializer.

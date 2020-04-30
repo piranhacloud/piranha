@@ -27,7 +27,7 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 import static org.junit.Assert.assertNotNull;

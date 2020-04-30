@@ -27,7 +27,7 @@
  */
 package cloud.piranha;
 
-import static cloud.piranha.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
+import static cloud.piranha.webapp.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
 
 import java.io.IOException;
 
@@ -38,7 +38,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cloud.piranha.api.CurrentRequestHolder;
+import cloud.piranha.webapp.api.CurrentRequestHolder;
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
 

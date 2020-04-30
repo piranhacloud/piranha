@@ -42,7 +42,7 @@ import javax.servlet.http.Cookie;
 import cloud.piranha.DefaultHttpHeader;
 import cloud.piranha.DefaultWebApplicationRequest;
 import cloud.piranha.DefaultWebApplicationResponse;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import java.io.ByteArrayOutputStream;
 
 /**

@@ -27,7 +27,7 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.MimeTypeManager;
+import cloud.piranha.webapp.api.MimeTypeManager;
 import java.util.HashMap;
 
 /**

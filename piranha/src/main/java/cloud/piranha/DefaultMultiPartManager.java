@@ -27,9 +27,9 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.MultiPartManager;
-import cloud.piranha.api.WebApplication;
-import cloud.piranha.api.WebApplicationRequest;
+import cloud.piranha.webapp.api.MultiPartManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.logging.Level;

@@ -27,7 +27,7 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.AttributeManager;
+import cloud.piranha.webapp.api.AttributeManager;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;

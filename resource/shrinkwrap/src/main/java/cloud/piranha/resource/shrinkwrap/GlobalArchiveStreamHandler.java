@@ -33,7 +33,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * Stream handler for the <code>shrinkwrap</code> protocol (urls starting with <code>shrinkwrap://</code>).

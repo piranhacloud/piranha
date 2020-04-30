@@ -28,8 +28,8 @@
 package cloud.piranha.embedded;
 
 import cloud.piranha.DefaultWebApplicationExtensionContext;
-import cloud.piranha.api.HttpSessionManager;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.resource.AliasedDirectoryResource;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.resource.api.Resource;
@@ -41,7 +41,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletRegistration;
-import cloud.piranha.api.WebApplicationExtension;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
  * The builder so you can easily build instances of

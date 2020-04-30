@@ -37,8 +37,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
-import cloud.piranha.api.SecurityManager;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.SecurityManager;
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The default SecurityManager.

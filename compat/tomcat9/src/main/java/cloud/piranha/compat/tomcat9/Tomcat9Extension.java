@@ -27,8 +27,8 @@
  */
 package cloud.piranha.compat.tomcat9;
 
-import cloud.piranha.api.WebApplicationExtension;
-import cloud.piranha.api.WebApplicationExtensionContext;
+import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 import cloud.piranha.pages.jasper.JasperExtension;
 import cloud.piranha.servlet.annotationscan.AnnotationScanExtension;
 import cloud.piranha.servlet.servletcontainerinitializer.ServletContainerInitializerExtension;

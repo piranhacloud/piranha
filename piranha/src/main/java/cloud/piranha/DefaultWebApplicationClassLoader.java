@@ -33,7 +33,7 @@ import cloud.piranha.resource.DirectoryResource;
 import java.io.File;
 
 import cloud.piranha.resource.api.ResourceManager;
-import cloud.piranha.api.WebApplicationClassLoader;
+import cloud.piranha.webapp.api.WebApplicationClassLoader;
 
 /**
  * The default WebApplicationClassLoader.

@@ -35,7 +35,7 @@ import javax.servlet.ServletRequestAttributeEvent;
 import javax.servlet.ServletRequestAttributeListener;
 import javax.servlet.http.HttpServletRequest;
 
-import cloud.piranha.api.HttpRequestManager;
+import cloud.piranha.webapp.api.HttpRequestManager;
 
 /**
  * 

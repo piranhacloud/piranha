@@ -80,21 +80,21 @@ import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
 
-import cloud.piranha.api.AnnotationManager;
-import cloud.piranha.api.FilterPriority;
-import cloud.piranha.api.HttpRequestManager;
-import cloud.piranha.api.HttpSessionManager;
-import cloud.piranha.api.JspManager;
-import cloud.piranha.api.LoggingManager;
-import cloud.piranha.api.MimeTypeManager;
-import cloud.piranha.api.MultiPartManager;
-import cloud.piranha.api.ObjectInstanceManager;
+import cloud.piranha.webapp.api.AnnotationManager;
+import cloud.piranha.webapp.api.FilterPriority;
+import cloud.piranha.webapp.api.HttpRequestManager;
+import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.JspManager;
+import cloud.piranha.webapp.api.LoggingManager;
+import cloud.piranha.webapp.api.MimeTypeManager;
+import cloud.piranha.webapp.api.MultiPartManager;
+import cloud.piranha.webapp.api.ObjectInstanceManager;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.api.ResourceManager;
-import cloud.piranha.api.SecurityManager;
-import cloud.piranha.api.WebApplication;
-import cloud.piranha.api.WebApplicationRequestMapper;
-import cloud.piranha.api.WebApplicationRequestMapping;
+import cloud.piranha.webapp.api.SecurityManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequestMapper;
+import cloud.piranha.webapp.api.WebApplicationRequestMapping;
 import java.util.UUID;
 
 /**

@@ -27,7 +27,7 @@
  */
 package cloud.piranha.cdi.weld;
 
-import cloud.piranha.api.ObjectInstanceManager;
+import cloud.piranha.webapp.api.ObjectInstanceManager;
 import java.util.EventListener;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;

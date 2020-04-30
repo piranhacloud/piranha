@@ -27,7 +27,7 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.FilterMapping;
+import cloud.piranha.webapp.api.FilterMapping;
 import java.util.Objects;
 
 /**

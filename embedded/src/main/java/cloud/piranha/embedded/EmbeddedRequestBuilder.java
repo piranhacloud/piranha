@@ -29,7 +29,7 @@ package cloud.piranha.embedded;
 
 import javax.servlet.http.Cookie;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The builder so you can easily build instances of
