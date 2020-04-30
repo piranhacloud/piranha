@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Application Server</name>
+    <name>Piranha Application Server - Project</name>
     
     <dependencyManagement>
         <dependencies>
@@ -35,6 +35,9 @@
     <modules>
         <module>api</module>
         <module>impl</module>
+        <module>jmx</module>
+        <module>rest</module>
+        <module>webapp</module>
     </modules>
     <reporting>
         <plugins>

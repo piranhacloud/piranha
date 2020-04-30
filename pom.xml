@@ -70,7 +70,6 @@
         <module>microprofile</module>
         
         <!-- Admin Applications -->
-        <module>admin</module>
 
         <!-- Arquillian -->
         <module>arquillian</module>

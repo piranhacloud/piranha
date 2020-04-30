@@ -4,13 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>project</artifactId>
-        <groupId>cloud.piranha.admin</groupId>
+        <groupId>cloud.piranha.appserver</groupId>
         <version>20.5.0-SNAPSHOT</version>
     </parent>
-    <artifactId>pirnaha-admin-rest</artifactId>
-    <version>20.5.0-SNAPSHOT</version>
+    <artifactId>piranha-appserver-webapp</artifactId>
     <packaging>war</packaging>
-    <name>Piranha Admin - REST Application</name>
+    <name>Piranha Application Server - Web Admin</name>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,7 +25,8 @@
     <distributionManagement>
         <site>
             <id>piranha.cloud</id>
-            <url>https://piranha.cloud/admin/rest</url>
+            <url>https://piranha.cloud/appserver/webapp</url>
         </site>        
     </distributionManagement>
+    
 </project>
