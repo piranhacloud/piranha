@@ -27,7 +27,7 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.DefaultWebApplicationRequest;
+import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 
 /**
  * The WebApplicationRequest class used by {@link cloud.piranha.nano.NanoPiranha}

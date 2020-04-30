@@ -27,7 +27,7 @@
  */
 package cloud.piranha.appserver.impl;
 
-import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.api.HttpServer;
 import java.io.IOException;

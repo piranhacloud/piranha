@@ -27,7 +27,7 @@
  */
 package cloud.piranha.servlet.tempdir;
 
-import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.File;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

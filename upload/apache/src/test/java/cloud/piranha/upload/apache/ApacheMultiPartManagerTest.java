@@ -27,8 +27,8 @@
  */
 package cloud.piranha.upload.apache;
 
-import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.DefaultWebApplicationRequest;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import static org.junit.Assert.assertNull;
 import org.junit.Test;
 

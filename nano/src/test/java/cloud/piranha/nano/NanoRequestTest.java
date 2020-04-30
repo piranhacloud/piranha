@@ -27,7 +27,7 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.WebConnection;

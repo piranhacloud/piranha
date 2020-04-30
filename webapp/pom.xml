@@ -14,6 +14,7 @@
     <modules>
         <module>api</module>
         <module>extension</module>
+        <module>impl</module>
     </modules>
     <dependencyManagement>
         <dependencies>

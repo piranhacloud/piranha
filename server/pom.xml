@@ -30,8 +30,8 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha</artifactId>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

@@ -44,8 +44,8 @@ import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 
-import cloud.piranha.DefaultAnnotationManager;
-import cloud.piranha.DefaultAnnotationManager.DefaultAnnotationInfo;
+import cloud.piranha.webapp.impl.DefaultAnnotationManager;
+import cloud.piranha.webapp.impl.DefaultAnnotationManager.DefaultAnnotationInfo;
 import cloud.piranha.webapp.api.AnnotationManager;
 import cloud.piranha.resource.api.ResourceManagerClassLoader;
 import cloud.piranha.webapp.api.WebApplication;

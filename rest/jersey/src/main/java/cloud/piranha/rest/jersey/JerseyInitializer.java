@@ -42,7 +42,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.glassfish.jersey.servlet.init.JerseyServletContainerInitializer;
 
-import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 
 /**
  * The Jersey initializer.

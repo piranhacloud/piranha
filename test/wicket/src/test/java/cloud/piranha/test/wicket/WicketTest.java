@@ -27,7 +27,7 @@
  */
 package cloud.piranha.test.wicket;
 
-import cloud.piranha.DefaultServlet;
+import cloud.piranha.webapp.impl.DefaultServlet;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;

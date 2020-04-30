@@ -16,11 +16,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.security</groupId>
             <artifactId>piranha-security-eleos</artifactId>
             <version>${project.version}</version>
@@ -44,6 +39,11 @@
         <dependency>
             <groupId>cloud.piranha.cdi</groupId>
             <artifactId>piranha-cdi-weld</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

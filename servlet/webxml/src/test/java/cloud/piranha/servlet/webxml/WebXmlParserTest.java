@@ -28,7 +28,7 @@
 package cloud.piranha.servlet.webxml;
 
 import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.File;
 import java.io.InputStream;
 import static org.junit.Assert.assertEquals;

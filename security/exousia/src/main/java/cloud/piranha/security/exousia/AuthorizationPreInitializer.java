@@ -56,7 +56,7 @@ import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.constraints.WebResourceCollection;
 import org.omnifaces.exousia.constraints.transformer.ElementsToConstraintsTransformer;
 
-import cloud.piranha.DefaultAuthenticatedIdentity;
+import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
 import cloud.piranha.servlet.webxml.WebXml;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.servlet.webxml.WebXmlManager;

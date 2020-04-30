@@ -27,7 +27,7 @@
  */
 package cloud.piranha.test.snoop;
 
-import cloud.piranha.DefaultWebApplicationExtensionContext;
+import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.micro.MicroPiranha;
 import cloud.piranha.servlet.webxml.WebXmlExtension;
