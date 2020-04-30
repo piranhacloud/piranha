@@ -63,7 +63,7 @@
     <distributionManagement>
         <site>
             <id>piranha.cloud</id>
-            <url>https://piranha.cloud/webapp</url>
+            <url>https://piranha.cloud/webapp/extension</url>
         </site>        
     </distributionManagement>
 </project>
