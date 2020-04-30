@@ -4,12 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>project</artifactId>
-        <groupId>cloud.piranha.admin</groupId>
+        <groupId>cloud.piranha.appserver</groupId>
         <version>20.5.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-admin-jmx</artifactId>
+    <artifactId>pirnaha-appserver-rest</artifactId>
+    <version>20.5.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Piranha Admin - JMX Application</name>
+    <name>Piranha Application Server - REST Admin</name>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,7 +26,7 @@
     <distributionManagement>
         <site>
             <id>piranha.cloud</id>
-            <url>https://piranha.cloud/admin/jmx</url>
+            <url>https://piranha.cloud/appserver/rest</url>
         </site>        
     </distributionManagement>
 </project>
