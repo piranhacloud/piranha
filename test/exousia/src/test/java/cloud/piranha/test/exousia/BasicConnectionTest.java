@@ -37,7 +37,7 @@ import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_F
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
-import cloud.piranha.servlet.webxml.WebXmlInitializer;
+import cloud.piranha.webapp.webxml.WebXmlInitializer;
 import static java.util.Arrays.asList;
 import javax.security.jacc.WebUserDataPermission;
 import static org.junit.Assert.assertEquals;

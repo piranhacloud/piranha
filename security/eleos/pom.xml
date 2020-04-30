@@ -19,6 +19,7 @@
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.omnifaces</groupId>

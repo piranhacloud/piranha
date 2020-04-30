@@ -84,8 +84,8 @@ import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import cloud.piranha.rest.jersey.JerseyInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
-import cloud.piranha.servlet.webservlet.WebServletInitializer;
-import cloud.piranha.servlet.webxml.WebXmlInitializer;
+import cloud.piranha.webapp.webservlet.WebServletInitializer;
+import cloud.piranha.webapp.webxml.WebXmlInitializer;
 
 /**
  * Deploys a shrinkwrap application archive to a newly started embedded Piranha instance.

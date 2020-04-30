@@ -18,38 +18,8 @@
     </description>
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-api</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.pages</groupId>
             <artifactId>piranha-pages-jasper</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-annotationscan</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-servletcontainerinitializer</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-tempdir</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-webxml</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -57,7 +27,43 @@
             <groupId>cloud.piranha.upload</groupId>
             <artifactId>piranha-upload-apache</artifactId>
             <version>${project.version}</version>
-            <scope>runtime</scope>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-annotationscan</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-initializer</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-tempdir</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-webservlet</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-webxml</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <distributionManagement>

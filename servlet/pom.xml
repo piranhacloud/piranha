@@ -33,12 +33,7 @@
         </site>        
     </distributionManagement>
     <modules>
-        <module>annotationscan</module>
         <module>api</module>
-        <module>servletcontainerinitializer</module>
-        <module>webservlet</module>
-        <module>webxml</module>
-        <module>tempdir</module>
     </modules>
     <reporting>
         <plugins>

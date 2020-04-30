@@ -16,13 +16,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-webxml</artifactId>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-impl</artifactId>
+            <artifactId>piranha-webapp-webxml</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

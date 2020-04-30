@@ -16,12 +16,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-api</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>io.smallrye.config</groupId>
             <artifactId>smallrye-config</artifactId>
             <scope>compile</scope>
@@ -30,6 +24,18 @@
             <groupId>io.smallrye</groupId>
             <artifactId>smallrye-health</artifactId>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.enterprise</groupId>

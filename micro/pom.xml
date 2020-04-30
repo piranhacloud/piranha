@@ -60,24 +60,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-tempdir</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-webservlet</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-webxml</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.faces</groupId>
             <artifactId>piranha-faces-mojarra</artifactId>
             <version>${project.version}</version>
@@ -112,18 +94,6 @@
             <artifactId>piranha-cdi-weld</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-annotationscan</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-servletcontainerinitializer</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.pages</groupId>
