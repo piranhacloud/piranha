@@ -81,6 +81,7 @@
         
         <!-- Compatability -->
         <module>compat</module>
+        <module>webapp</module>
     </modules>
 
     <scm>

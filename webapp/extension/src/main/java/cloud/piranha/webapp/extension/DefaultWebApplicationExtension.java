@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro;
+package cloud.piranha.webapp.extension;
 
 import cloud.piranha.api.WebApplicationExtension;
 import cloud.piranha.api.WebApplicationExtensionContext;
@@ -35,14 +35,13 @@ import cloud.piranha.servlet.servletcontainerinitializer.ServletContainerInitial
 import cloud.piranha.servlet.webxml.WebXmlExtension;
 
 /**
- * The {@link cloud.piranha.api.WebApplicationExtension} used by
- * {@link cloud.piranha.micro.MicroPiranha} to configure each web application.
+ * The default {@link cloud.piranha.api.WebApplicationExtension} used to
+ * configure a web application.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @see cloud.piranha.micro.MicroPiranha
  * @see cloud.piranha.api.WebApplicationExtension
  */
-public class MicroExtension implements WebApplicationExtension {
+public class DefaultWebApplicationExtension implements WebApplicationExtension {
 
     /**
      * Extend the web application.

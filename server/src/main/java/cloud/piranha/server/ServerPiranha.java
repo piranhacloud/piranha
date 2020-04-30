@@ -27,6 +27,7 @@
  */
 package cloud.piranha.server;
 
+import cloud.piranha.webapp.extension.DefaultWebApplicationExtension;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.DefaultWebApplicationClassLoader;
@@ -164,7 +165,7 @@ public class ServerPiranha implements Runnable {
 
                     if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                         DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                        extensionContext.add(ServerExtension.class);
+                        extensionContext.add(DefaultWebApplicationExtension.class);
                         extensionContext.configure(webApplication);
                     } else {
                         DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();

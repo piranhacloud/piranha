@@ -35,6 +35,7 @@ import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.api.WebApplication;
 import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.webapp.extension.DefaultWebApplicationExtension;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -109,7 +110,7 @@ public class MicroPiranha implements Runnable {
             webApplication.addResource(new DirectoryResource(webApplicationDirectory));
         }
         DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-        extensionContext.add(MicroExtension.class);
+        extensionContext.add(DefaultWebApplicationExtension.class);
         extensionContext.configure(webApplication);
         return webApplication;
     }
