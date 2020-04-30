@@ -55,7 +55,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
 

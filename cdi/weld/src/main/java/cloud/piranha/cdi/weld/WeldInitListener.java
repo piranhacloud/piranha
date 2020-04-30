@@ -35,7 +35,7 @@ import org.jboss.weld.environment.servlet.Listener;
 import org.jboss.weld.servlet.api.ServletListener;
 import org.jboss.weld.servlet.api.helpers.ForwardingServletListener;
 
-import cloud.piranha.api.CurrentRequestHolder;
+import cloud.piranha.webapp.api.CurrentRequestHolder;
 
 /**
  * This Piranha specific Weld initializer forwards all initialization

@@ -43,7 +43,6 @@
         <module>bom</module>
         
         <!-- Core -->
-        <module>api</module>
         <module>piranha</module>
     
         <!-- Logical components -->

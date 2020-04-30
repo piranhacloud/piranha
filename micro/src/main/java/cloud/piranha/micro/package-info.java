@@ -87,10 +87,11 @@
  * <p>
  * The image below illustrates how the request and response handling is done by
  * Piranha Micro. When a request comes in to the HTTP server it dispatches it to
- * the {@link cloud.piranha.appserver.api.WebApplicationServer} which in turn
- * dispatches it to the WebApplication which then in turn uses
- * {@link cloud.piranha.api.WebApplicationRequestMapper} to determine which
- * FilterChain needs to process the incoming request and it dispatches to it.
+ * the {@link cloud.piranha.appserver.api.WebApplicationServer} which in
+ * turn dispatches it to the WebApplication which then in turn uses
+ * {@link cloud.piranha.webapp.api.WebApplicationRequestMapper} to determine
+ * which FilterChain needs to process the incoming request and it dispatches to
+ * it.
  * </p>
  *
  * <p>

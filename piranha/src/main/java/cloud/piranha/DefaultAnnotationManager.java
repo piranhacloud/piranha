@@ -41,7 +41,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
-import cloud.piranha.api.AnnotationManager;
+import cloud.piranha.webapp.api.AnnotationManager;
 
 /**
  * The default AnnotationManager.

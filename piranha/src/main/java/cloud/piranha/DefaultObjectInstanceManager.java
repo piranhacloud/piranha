@@ -27,7 +27,7 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.ObjectInstanceManager;
+import cloud.piranha.webapp.api.ObjectInstanceManager;
 import java.util.EventListener;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;

@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <name>Piranha Webapplication - Project</name>
     <modules>
+        <module>api</module>
         <module>extension</module>
     </modules>
     <dependencyManagement>

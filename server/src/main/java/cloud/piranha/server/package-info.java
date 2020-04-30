@@ -78,8 +78,9 @@
  * {@link cloud.piranha.appserver.api.WebApplicationServerRequestMapper} to
  * determine which web application needs to serve the request and it the
  * dispatches to it and then in turn the WebApplication uses
- * {@link cloud.piranha.api.WebApplicationRequestMapper} to determine which
- * FilterChain needs to process the incoming request and it dispatches to it.
+ * {@link cloud.piranha.webapp.api.WebApplicationRequestMapper} to determine
+ * which FilterChain needs to process the incoming request and it dispatches to
+ * it.
  * </p>
  *
  * <p>

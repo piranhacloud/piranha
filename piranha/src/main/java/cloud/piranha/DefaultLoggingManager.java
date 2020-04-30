@@ -27,7 +27,7 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.LoggingManager;
+import cloud.piranha.webapp.api.LoggingManager;
 
 /**
  * The default LoggingManager.

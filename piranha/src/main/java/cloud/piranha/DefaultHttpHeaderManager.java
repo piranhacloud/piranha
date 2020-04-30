@@ -27,7 +27,7 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.HttpHeaderManager;
+import cloud.piranha.webapp.api.HttpHeaderManager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

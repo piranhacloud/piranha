@@ -78,7 +78,7 @@ import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.DefaultWebApplication;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.faces.mojarra.MojarraInitializer;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;

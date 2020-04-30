@@ -37,8 +37,8 @@ import javax.security.enterprise.identitystore.IdentityStoreHandler;
 import javax.servlet.http.HttpServletRequest;
 
 import cloud.piranha.DefaultAuthenticatedIdentity;
-import cloud.piranha.api.AuthenticatedIdentity;
-import cloud.piranha.api.SecurityManager.UsernamePasswordLoginHandler;
+import cloud.piranha.webapp.api.AuthenticatedIdentity;
+import cloud.piranha.webapp.api.SecurityManager.UsernamePasswordLoginHandler;
 
 /**
  * @author Arjan Tijms

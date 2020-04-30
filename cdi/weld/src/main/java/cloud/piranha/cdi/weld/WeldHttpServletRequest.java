@@ -27,12 +27,12 @@
  */
 package cloud.piranha.cdi.weld;
 
-import static cloud.piranha.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
+import static cloud.piranha.webapp.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
 
 import javax.servlet.http.HttpServletRequest;
 
 import cloud.piranha.DefaultCurrentRequestHolder;
-import cloud.piranha.api.CurrentRequestHolder;
+import cloud.piranha.webapp.api.CurrentRequestHolder;
 
 /**
  * An HttpServletRequest wrapper that always delegates every operation to what has been set as

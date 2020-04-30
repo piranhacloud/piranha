@@ -27,10 +27,10 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import java.util.ArrayList;
-import cloud.piranha.api.WebApplicationExtension;
-import cloud.piranha.api.WebApplicationExtensionContext;
+import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 
 /**
  * The default web application extension context.

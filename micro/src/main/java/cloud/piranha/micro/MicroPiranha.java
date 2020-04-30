@@ -33,7 +33,7 @@ import cloud.piranha.DefaultWebApplicationClassLoader;
 import cloud.piranha.DefaultWebApplicationExtensionContext;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.extension.DefaultWebApplicationExtension;
 import java.io.BufferedOutputStream;

@@ -43,7 +43,7 @@ import org.omnifaces.eleos.config.factory.DefaultConfigFactory;
 import org.omnifaces.eleos.config.factory.DefaultConfigParser;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The Eleos initializer.

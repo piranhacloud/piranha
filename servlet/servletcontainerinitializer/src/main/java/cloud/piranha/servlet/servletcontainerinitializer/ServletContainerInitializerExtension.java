@@ -27,8 +27,8 @@
  */
 package cloud.piranha.servlet.servletcontainerinitializer;
 
-import cloud.piranha.api.WebApplication;
-import cloud.piranha.api.WebApplicationExtension;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 import java.util.ServiceLoader;
 import javax.servlet.ServletContainerInitializer;
 

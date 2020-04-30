@@ -59,11 +59,11 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
-import cloud.piranha.api.AttributeManager;
-import cloud.piranha.api.HttpHeaderManager;
-import cloud.piranha.api.HttpSessionManager;
-import cloud.piranha.api.WebApplication;
-import cloud.piranha.api.WebApplicationRequest;
+import cloud.piranha.webapp.api.AttributeManager;
+import cloud.piranha.webapp.api.HttpHeaderManager;
+import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 
 /**
  * The default WebApplicationRequest.

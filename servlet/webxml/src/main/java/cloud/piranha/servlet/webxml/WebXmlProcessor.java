@@ -27,7 +27,7 @@
  */
 package cloud.piranha.servlet.webxml;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import java.util.Iterator;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.FINER;

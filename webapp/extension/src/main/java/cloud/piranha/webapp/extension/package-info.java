@@ -28,8 +28,8 @@
 /**
  * <p>
  * The Piranha Web Application Extension package contains the default
- * {@link cloud.piranha.api.WebApplicationExtension} used to configure a web
- * application.
+ * {@link cloud.piranha.webapp.api.WebApplicationExtension} used to configure a
+ * web application.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)

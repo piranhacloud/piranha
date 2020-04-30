@@ -27,8 +27,8 @@
  */
 package cloud.piranha.pages.jasper;
 
-import cloud.piranha.api.WebApplication;
-import cloud.piranha.api.WebApplicationExtension;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -18,8 +18,8 @@
     </description>
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-api</artifactId>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

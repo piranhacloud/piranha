@@ -28,7 +28,7 @@
 package cloud.piranha.embedded;
 
 import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;

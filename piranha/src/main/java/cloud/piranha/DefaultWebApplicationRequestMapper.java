@@ -27,8 +27,8 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.FilterMapping;
-import cloud.piranha.api.WebApplicationRequestMapper;
+import cloud.piranha.webapp.api.FilterMapping;
+import cloud.piranha.webapp.api.WebApplicationRequestMapper;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;

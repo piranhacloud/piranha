@@ -35,7 +35,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
-import cloud.piranha.api.HttpSessionManager;
+import cloud.piranha.webapp.api.HttpSessionManager;
 import java.util.UUID;
 
 /**

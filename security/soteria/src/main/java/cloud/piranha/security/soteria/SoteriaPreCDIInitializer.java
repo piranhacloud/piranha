@@ -27,7 +27,7 @@
  */
 package cloud.piranha.security.soteria;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.servlet.webxml.WebXml;
 import cloud.piranha.servlet.webxml.WebXmlManager;
 import java.util.Set;

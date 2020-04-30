@@ -27,19 +27,19 @@
  */
 package cloud.piranha.webapp.extension;
 
-import cloud.piranha.api.WebApplicationExtension;
-import cloud.piranha.api.WebApplicationExtensionContext;
+import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 import cloud.piranha.pages.jasper.JasperExtension;
 import cloud.piranha.servlet.annotationscan.AnnotationScanExtension;
 import cloud.piranha.servlet.servletcontainerinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.servlet.webxml.WebXmlExtension;
 
 /**
- * The default {@link cloud.piranha.api.WebApplicationExtension} used to
+ * The default {@link cloud.piranha.webapp.api.WebApplicationExtension} used to
  * configure a web application.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @see cloud.piranha.api.WebApplicationExtension
+ * @see cloud.piranha.webapp.api.WebApplicationExtension
  */
 public class DefaultWebApplicationExtension implements WebApplicationExtension {
 

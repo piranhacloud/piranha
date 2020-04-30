@@ -28,7 +28,7 @@
 package cloud.piranha.security.jakarta;
 
 import static cloud.piranha.DefaultAuthenticatedIdentity.getCurrentSubject;
-import static cloud.piranha.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
+import static cloud.piranha.webapp.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
 import static cloud.piranha.security.elios.AuthenticationInitializer.AUTH_SERVICE;
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
 
@@ -47,9 +47,9 @@ import org.omnifaces.exousia.AuthorizationService;
 
 import cloud.piranha.DefaultAuthenticatedIdentity;
 import cloud.piranha.DefaultWebApplicationRequest;
-import cloud.piranha.api.AuthenticatedIdentity;
-import cloud.piranha.api.SecurityManager;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.AuthenticatedIdentity;
+import cloud.piranha.webapp.api.SecurityManager;
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * SecurityManager implementation that uses Jakarta Security semantics.

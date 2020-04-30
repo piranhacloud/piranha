@@ -35,7 +35,7 @@ import java.util.Set;
 
 import javax.security.auth.Subject;
 
-import cloud.piranha.api.AuthenticatedIdentity;
+import cloud.piranha.webapp.api.AuthenticatedIdentity;
 
 /**
  * Default implementation of AuthenticatedIdentity.

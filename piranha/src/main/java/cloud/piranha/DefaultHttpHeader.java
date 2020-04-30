@@ -27,7 +27,7 @@
  */
 package cloud.piranha;
 
-import cloud.piranha.api.HttpHeader;
+import cloud.piranha.webapp.api.HttpHeader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;

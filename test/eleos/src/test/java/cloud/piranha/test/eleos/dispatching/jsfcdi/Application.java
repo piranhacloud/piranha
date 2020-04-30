@@ -46,7 +46,7 @@ import cloud.piranha.jndi.memory.DefaultInitialContextFactory;
 import cloud.piranha.faces.mojarra.MojarraInitializer;
 import cloud.piranha.test.utils.TestWebApp;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.security.elios.AuthenticationInitializer;
 import cloud.piranha.security.exousia.AuthorizationInitializer;

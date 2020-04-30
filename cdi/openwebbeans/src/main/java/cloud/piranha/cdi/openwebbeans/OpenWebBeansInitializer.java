@@ -27,7 +27,7 @@
  */
 package cloud.piranha.cdi.openwebbeans;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import java.util.Set;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;

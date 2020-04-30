@@ -28,7 +28,7 @@
 package cloud.piranha.nano;
 
 import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.resource.api.Resource;
 import java.util.ArrayList;

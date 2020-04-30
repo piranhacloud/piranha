@@ -27,7 +27,7 @@
  */
 package cloud.piranha.appserver.api;
 
-import cloud.piranha.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplication;
 import java.util.Set;
 
 /**
