@@ -27,7 +27,7 @@
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.DefaultWebApplicationExtensionContext;
+import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.webapp.api.HttpSessionManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.resource.AliasedDirectoryResource;

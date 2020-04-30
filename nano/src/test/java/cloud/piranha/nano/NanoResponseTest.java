@@ -27,7 +27,7 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.ByteArrayOutputStream;
 import javax.servlet.http.Cookie;
 import static org.junit.Assert.assertEquals;

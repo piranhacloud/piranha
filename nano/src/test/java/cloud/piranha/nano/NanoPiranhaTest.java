@@ -27,7 +27,7 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.servlet.ServletException;

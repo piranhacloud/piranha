@@ -27,8 +27,8 @@
  */
 package cloud.piranha.servlet.webxml;
 
-import cloud.piranha.DefaultWebApplication;
-import cloud.piranha.DefaultWebApplicationClassLoader;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.resource.DirectoryResource;
 import java.io.File;
 import javax.servlet.ServletRegistration;

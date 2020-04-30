@@ -27,7 +27,7 @@
  */
 package cloud.piranha.pages.jasper;
 
-import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.resource.DirectoryResource;
 import java.io.File;
 import java.util.HashSet;

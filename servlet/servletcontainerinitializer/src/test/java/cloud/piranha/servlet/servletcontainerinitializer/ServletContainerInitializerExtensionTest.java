@@ -27,7 +27,7 @@
  */
 package cloud.piranha.servlet.servletcontainerinitializer;
 
-import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import org.junit.Test;
 
 /**

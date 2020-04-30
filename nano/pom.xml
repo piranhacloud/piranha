@@ -41,13 +41,13 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha</artifactId>
+            <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource</artifactId>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

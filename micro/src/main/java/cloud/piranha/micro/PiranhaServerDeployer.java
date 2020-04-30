@@ -72,10 +72,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import cloud.piranha.DefaultAnnotationManager;
-import cloud.piranha.DefaultAnnotationManager.DefaultAnnotationInfo;
+import cloud.piranha.webapp.impl.DefaultAnnotationManager;
+import cloud.piranha.webapp.impl.DefaultAnnotationManager.DefaultAnnotationInfo;
 import cloud.piranha.http.impl.DefaultHttpServer;
-import cloud.piranha.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.webapp.api.WebApplication;

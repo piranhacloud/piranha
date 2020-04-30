@@ -39,9 +39,9 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 
-import cloud.piranha.DefaultHttpHeader;
-import cloud.piranha.DefaultWebApplicationRequest;
-import cloud.piranha.DefaultWebApplicationResponse;
+import cloud.piranha.webapp.impl.DefaultHttpHeader;
+import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 import cloud.piranha.webapp.api.WebApplication;
 import java.io.ByteArrayOutputStream;
 

@@ -27,7 +27,7 @@
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.DefaultWebApplicationResponse;
+import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 import java.io.ByteArrayOutputStream;
 
 /**

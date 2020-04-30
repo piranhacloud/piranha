@@ -42,8 +42,8 @@
         <!-- BOM -->
         <module>bom</module>
         
-        <!-- Core -->
-        <module>piranha</module>
+        <!-- Web application modules -->
+        <module>webapp</module>
     
         <!-- Logical components -->
         <module>appserver</module>
@@ -78,9 +78,8 @@
         <!-- Maven -->
         <module>maven</module>
         
-        <!-- Compatability -->
+        <!-- Compatibility -->
         <module>compat</module>
-        <module>webapp</module>
     </modules>
 
     <scm>

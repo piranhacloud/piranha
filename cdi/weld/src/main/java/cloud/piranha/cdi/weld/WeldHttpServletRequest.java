@@ -31,7 +31,7 @@ import static cloud.piranha.webapp.api.CurrentRequestHolder.CURRENT_REQUEST_ATTR
 
 import javax.servlet.http.HttpServletRequest;
 
-import cloud.piranha.DefaultCurrentRequestHolder;
+import cloud.piranha.webapp.impl.DefaultCurrentRequestHolder;
 import cloud.piranha.webapp.api.CurrentRequestHolder;
 
 /**

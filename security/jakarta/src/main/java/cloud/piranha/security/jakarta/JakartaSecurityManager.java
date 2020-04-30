@@ -27,7 +27,7 @@
  */
 package cloud.piranha.security.jakarta;
 
-import static cloud.piranha.DefaultAuthenticatedIdentity.getCurrentSubject;
+import static cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity.getCurrentSubject;
 import static cloud.piranha.webapp.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
 import static cloud.piranha.security.elios.AuthenticationInitializer.AUTH_SERVICE;
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
@@ -45,8 +45,8 @@ import org.omnifaces.eleos.config.helper.Caller;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
 import org.omnifaces.exousia.AuthorizationService;
 
-import cloud.piranha.DefaultAuthenticatedIdentity;
-import cloud.piranha.DefaultWebApplicationRequest;
+import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
+import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import cloud.piranha.webapp.api.AuthenticatedIdentity;
 import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
