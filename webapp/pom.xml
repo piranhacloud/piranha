@@ -10,7 +10,7 @@
     <groupId>cloud.piranha.webapp</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
-    <name>Piranha Webapplication</name>
+    <name>Piranha Webapplication - Project</name>
     <modules>
         <module>extension</module>
     </modules>
