@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-webapp-extension</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha Webapplication Extension</name>
+    <name>Piranha Webapplication - Extension</name>
     <description>
         This module delivers the default implementation of a 
         WebApplicationExtension. It is used by both Piranha Micro and Piranha
