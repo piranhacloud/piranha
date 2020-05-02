@@ -25,34 +25,53 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.servlet.tempdir;
+package cloud.piranha.webapp.tempdir;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.File;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import java.util.Set;
+import java.util.logging.Logger;
+
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import static java.util.logging.Level.INFO;
+import static javax.servlet.ServletContext.TEMPDIR;
 
 /**
- * The JUnit test for the TempDirInitializer class.
+ * The ServletContext temporary directory initializer.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TempDirInitializerTest {
+public class TempDirInitializer implements ServletContainerInitializer {
 
     /**
-     * Test of onStartup method, of class TempDirInitializer.
-     * 
-     * @throws Exception when a serious error occurs.
+     * Stores the logger.
      */
-    @Test
-    public void testOnStartup() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.setServletContextName("my_servlet_context_name");
-        TempDirInitializer initializer = new TempDirInitializer();
-        initializer.onStartup(null, webApplication);
-        File tempDir = new File("temp/my_servlet_context_name");
-        assertTrue(tempDir.exists());
-        tempDir.delete();
-        tempDir.getParentFile().delete();
+    private static final Logger LOGGER = Logger.getLogger(TempDirInitializer.class.getName());
+
+    /**
+     * On startup.
+     *
+     * @param classes the classes.
+     * @param servletContext the servlet context.
+     * @throws ServletException when a servlet error occurs.
+     */
+    @Override
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        File baseDir = new File("tmp");
+        String name = servletContext.getContextPath();
+        name = name.replaceAll("/", "_");
+        if (name.trim().equals("")) {
+            name = "ROOT";
+        }
+        File tempDir = new File(baseDir, name);
+        if (!tempDir.exists()) {
+            tempDir.mkdirs();
+        }
+        if (LOGGER.isLoggable(INFO)) {
+            LOGGER.log(INFO, "Setting TEMPDIR for context ''{0}'' to ''{1}''",
+                    new Object[]{servletContext.getContextPath(), tempDir});
+        }
+        servletContext.setAttribute(TEMPDIR, tempDir);
     }
 }
