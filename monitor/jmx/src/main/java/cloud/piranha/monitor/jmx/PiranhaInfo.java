@@ -25,50 +25,64 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.initializer;
+package cloud.piranha.monitor.jmx;
 
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-import java.util.ServiceLoader;
-import static java.util.logging.Level.INFO;
-import java.util.logging.Logger;
-import javax.servlet.ServletContainerInitializer;
+import cloud.piranha.api.Piranha;
 
 /**
- * The WebApplication extension that enables ServletContainerInitializer
- * processing.
- *
+ * The Piranha Info MBean implementation.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletContainerInitializerExtension implements WebApplicationExtension {
-
+public class PiranhaInfo implements PiranhaInfoMBean {
+    
     /**
-     * Stores the logger.
+     * Stores the reference to Piranha.
      */
-    private static final Logger LOGGER = Logger.getLogger(
-            ServletContainerInitializerExtension.class.getPackage().getName());
-
+    private Piranha piranha;
+    
     /**
-     * Configure the web application.
-     *
-     * @param webApplication the web application.
+     * Constructor.
+     */
+    public PiranhaInfo() {
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param piranha the reference to Piranha.
+     */
+    public PiranhaInfo(Piranha piranha) {
+        this.piranha = piranha;
+    }
+    
+    /**
+     * Get the reference to Piranha.
+     * 
+     * @return the reference to Piranha.
      */
     @Override
-    public void configure(WebApplication webApplication) {
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Starting ServletContainerInitializer processing");
-        }
-        ServiceLoader<ServletContainerInitializer> serviceLoader = ServiceLoader.load(
-                ServletContainerInitializer.class, webApplication.getClassLoader());
+    public Piranha getPiranha() {
+        return piranha;
+    }
 
-        for (ServletContainerInitializer initializer : serviceLoader) {
-            if (LOGGER.isLoggable(INFO)) {
-                LOGGER.log(INFO, "Adding initializer: {0}", initializer.getClass().getName());
-            }
-            webApplication.addInitializer(initializer);
-        }
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Finished ServletContainerInitializer processing");
-        }
+    /**
+     * Get the version.
+     * 
+     * @return the version.
+     */
+    @Override
+    public String getVersion() {
+        return piranha.getVersion();
+    }
+    
+    /**
+     * Set the reference to Piranha.
+     * 
+     * @param piranha the reference to Piranha.
+     */
+    @Override
+    public void setPiranha(Piranha piranha) {
+        this.piranha = piranha;
     }
 }

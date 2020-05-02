@@ -21,6 +21,12 @@
             <artifactId>jakarta.jakartaee-web-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>cloud.piranha.monitor</groupId>
+            <artifactId>piranha-monitor-jmx</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
     <distributionManagement>
         <site>

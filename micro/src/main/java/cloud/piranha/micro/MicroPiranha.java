@@ -27,15 +27,16 @@
  */
 package cloud.piranha.micro;
 
+import cloud.piranha.api.Piranha;
+import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
+import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
+import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.extension.DefaultWebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.webapp.extension.DefaultWebApplicationExtension;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,7 +50,12 @@ import java.util.zip.ZipInputStream;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class MicroPiranha implements Runnable {
+public class MicroPiranha implements Piranha, Runnable {
+
+    /**
+     * Defines the attribute name for the MicroPiranha reference.
+     */
+    static final String MICRO_PIRANHA = "cloud.piranha.micro.MicroPiranha";
 
     /**
      * Stores the HTTP server.
@@ -105,6 +111,7 @@ public class MicroPiranha implements Runnable {
             extractWarFile();
         }
         webApplication = new DefaultWebApplication();
+        webApplication.setAttribute(MICRO_PIRANHA, this);
         if (webApplicationDirectory != null) {
             webApplication.setClassLoader(new DefaultWebApplicationClassLoader(webApplicationDirectory));
             webApplication.addResource(new DirectoryResource(webApplicationDirectory));
@@ -164,6 +171,16 @@ public class MicroPiranha implements Runnable {
      */
     public HttpServer getHttpServer() {
         return httpServer;
+    }
+
+    /**
+     * Get the version.
+     *
+     * @return the version.
+     */
+    @Override
+    public String getVersion() {
+        return getClass().getPackage().getImplementationVersion();
     }
 
     /**
