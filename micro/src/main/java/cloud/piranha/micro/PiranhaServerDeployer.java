@@ -84,7 +84,6 @@ import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import cloud.piranha.rest.jersey.JerseyInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
-import cloud.piranha.webapp.webservlet.WebServletInitializer;
 import cloud.piranha.webapp.webxml.WebXmlInitializer;
 
 /**
@@ -163,7 +162,7 @@ public class PiranhaServerDeployer {
             webApplicationServer.addWebApplication(webApplication);
             
             webApplication.addInitializer(new WebXmlInitializer());
-            webApplication.addInitializer(new WebServletInitializer());
+//            webApplication.addInitializer(new WebServletInitializer());
             
             webApplication.addInitializer(JakartaSecurityAllInitializer.class.getName());
             webApplication.addInitializer(JerseyInitializer.class.getName());
