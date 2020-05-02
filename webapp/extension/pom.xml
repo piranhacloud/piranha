@@ -17,53 +17,74 @@
         to support.
     </description>
     <dependencies>
-        <dependency>
-            <groupId>cloud.piranha.pages</groupId>
-            <artifactId>piranha-pages-jasper</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
+        <!-- Apache FileUpload support -->
         <dependency>
             <groupId>cloud.piranha.upload</groupId>
             <artifactId>piranha-upload-apache</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>runtime</scope>
         </dependency>
+        <!-- Annotation Scanning support --> 
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-annotationscan</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Piranha Webapplication API -->
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- ServletContainerInitializer support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-initializer</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- TEMPDIR support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-tempdir</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>runtime</scope>
         </dependency>
+        <!-- @WebServlet support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-webservlet</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>runtime</scope>
         </dependency>
+        <!-- web.xml support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-webxml</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Jakarta Expression Language -->
         <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>3.0.1-b11</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Jakarta Pages -->
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Jakarta WebSocket -->
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-container-servlet</artifactId>
+            <version>1.16</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
     <distributionManagement>
