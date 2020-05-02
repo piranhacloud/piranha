@@ -27,8 +27,9 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.api.Piranha;
 import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -45,7 +46,7 @@ import javax.servlet.ServletResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  * @see cloud.piranha.webapp.api
  */
-public class NanoPiranha {
+public class NanoPiranha implements Piranha {
 
     /**
      * Stores the filters.
@@ -81,7 +82,7 @@ public class NanoPiranha {
 
     /**
      * Get the filters.
-     * 
+     *
      * @return the filters.
      */
     public List<Filter> getFilters() {
@@ -90,7 +91,7 @@ public class NanoPiranha {
 
     /**
      * Get the servlet.
-     * 
+     *
      * @return the servlet.
      */
     public Servlet getServlet() {
@@ -98,8 +99,18 @@ public class NanoPiranha {
     }
 
     /**
+     * Get the version.
+     *
+     * @return the version.
+     */
+    @Override
+    public String getVersion() {
+        return getClass().getPackage().getImplementationVersion();
+    }
+
+    /**
      * Get the web application.
-     * 
+     *
      * @return the web application.
      */
     public WebApplication getWebApplication() {

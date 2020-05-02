@@ -27,6 +27,7 @@
  */
 package cloud.piranha.embedded;
 
+import cloud.piranha.api.Piranha;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.api.WebApplication;
 import java.io.IOException;
@@ -39,7 +40,7 @@ import javax.servlet.ServletResponse;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EmbeddedPiranha {
+public class EmbeddedPiranha implements Piranha {
 
     /**
      * Stores the web application.
@@ -51,6 +52,26 @@ public class EmbeddedPiranha {
      */
     public EmbeddedPiranha() {
         webApplication = new DefaultWebApplication();
+    }
+
+    /**
+     * Destroy the web application.
+     *
+     * @return the instance.
+     */
+    public EmbeddedPiranha destroy() {
+        webApplication.destroy();
+        return this;
+    }
+
+    /**
+     * Get the version.
+     *
+     * @return the version.
+     */
+    @Override
+    public String getVersion() {
+        return getClass().getPackage().getImplementationVersion();
     }
 
     /**
@@ -113,16 +134,6 @@ public class EmbeddedPiranha {
      */
     public EmbeddedPiranha stop() {
         webApplication.stop();
-        return this;
-    }
-
-    /**
-     * Destroy the web application.
-     *
-     * @return the instance.
-     */
-    public EmbeddedPiranha destroy() {
-        webApplication.destroy();
         return this;
     }
 }

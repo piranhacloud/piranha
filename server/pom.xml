@@ -30,6 +30,12 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-api</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
@@ -91,6 +97,31 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>cloud.piranha.appserver</groupId>
+                            <artifactId>piranha-appserver-jmx</artifactId>
+                            <version>${project.version}</version>
+                            <type>war</type>
+                            <outputDirectory>${project.build.directory}/webapps</outputDirectory>
+                            <destFileName>jmx.war</destFileName>
+                        </artifactItem>
+                    </artifactItems>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -27,6 +27,7 @@
  */
 package cloud.piranha.server;
 
+import cloud.piranha.api.Piranha;
 import cloud.piranha.webapp.extension.DefaultWebApplicationExtension;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
@@ -61,21 +62,26 @@ import java.util.zip.ZipInputStream;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServerPiranha implements Runnable {
+public class ServerPiranha implements Piranha, Runnable {
 
     /**
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(ServerPiranha.class.getName());
-    
+
     /**
      * Stores the one and only instance of the server.
      */
     private static ServerPiranha INSTANCE;
-    
+
+    /**
+     * Defines the attribute name for the ServerPiranha reference.
+     */
+    private static final String SERVER_PIRANHA = "cloud.piranha.server.ServerPiranha";
+
     /**
      * Get the instance.
-     * 
+     *
      * @return the instance.
      */
     public static ServerPiranha get() {
@@ -135,6 +141,16 @@ public class ServerPiranha implements Runnable {
     }
 
     /**
+     * Get the version.
+     *
+     * @return the version.
+     */
+    @Override
+    public String getVersion() {
+        return getClass().getPackage().getImplementationVersion();
+    }
+
+    /**
      * Start method.
      */
     @Override
@@ -158,6 +174,7 @@ public class ServerPiranha implements Runnable {
                     extractWarFile(webapp, webAppDirectory);
 
                     DefaultWebApplication webApplication = new DefaultWebApplication();
+                    webApplication.setAttribute(SERVER_PIRANHA, this);
                     webApplication.addResource(new DirectoryResource(webAppDirectory));
                     DefaultWebApplicationClassLoader classLoader
                             = new DefaultWebApplicationClassLoader(webAppDirectory);

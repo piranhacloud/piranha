@@ -12,6 +12,10 @@
             <directory>${project.basedir}/src/main/zip</directory>
             <outputDirectory></outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/webapps</directory>
+            <outputDirectory>webapps</outputDirectory>
+        </fileSet>
     </fileSets>
     <files>
         <file>

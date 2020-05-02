@@ -79,6 +79,8 @@
         
         <!-- Compatibility -->
         <module>compat</module>
+        <module>monitor</module>
+        <module>api</module>
     </modules>
 
     <scm>
@@ -284,6 +286,10 @@
                 <inherited>true</inherited>
                 <configuration>
                     <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
                         <manifestEntries>
                             <Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
                             <Build-Version>${project.version}</Build-Version>
