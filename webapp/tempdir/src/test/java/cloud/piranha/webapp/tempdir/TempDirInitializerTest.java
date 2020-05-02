@@ -25,56 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.servlet.tempdir;
+package cloud.piranha.webapp.tempdir;
 
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.File;
-import java.util.Set;
-import java.util.logging.Logger;
-
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.INFO;
-import static javax.servlet.ServletContext.TEMPDIR;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 /**
- * The ServletContext temporary directory initializer.
+ * The JUnit test for the TempDirInitializer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TempDirInitializer implements ServletContainerInitializer {
+public class TempDirInitializerTest {
 
     /**
-     * Stores the logger.
+     * Test of onStartup method, of class TempDirInitializer.
+     * 
+     * @throws Exception when a serious error occurs.
      */
-    private static final Logger LOGGER = Logger.getLogger(TempDirInitializer.class.getName());
-
-    /**
-     * On startup.
-     *
-     * @param classes the classes.
-     * @param servletContext the servlet context.
-     * @throws ServletException when a servlet error occurs.
-     */
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.entering(TempDirInitializer.class.getName(), "onStartup");
-        }
-        File baseDir = new File("temp");
-        String name = servletContext.getServletContextName();
-        File tempDir = new File(baseDir, name);
-        if (!tempDir.exists()) {
-            tempDir.mkdirs();
-        }
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Setting temporary directory for context ''{0}'' to ''{1}''",
-                    new Object[]{servletContext.getContextPath(), tempDir});
-        }
-        servletContext.setAttribute(TEMPDIR, tempDir);
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.exiting(TempDirInitializer.class.getName(), "onStartup");
-        }
+    @Test
+    public void testOnStartup() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.setContextPath("my_servlet_context_name");
+        TempDirInitializer initializer = new TempDirInitializer();
+        initializer.onStartup(null, webApplication);
+        File tempDir = new File("tmp/my_servlet_context_name");
+        assertTrue(tempDir.exists());
+        tempDir.delete();
+        tempDir.getParentFile().delete();
     }
 }
