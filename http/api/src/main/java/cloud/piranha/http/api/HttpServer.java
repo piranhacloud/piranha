@@ -33,7 +33,7 @@ package cloud.piranha.http.api;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface HttpServer {
-
+    
     /**
      * Is the server running.
      *

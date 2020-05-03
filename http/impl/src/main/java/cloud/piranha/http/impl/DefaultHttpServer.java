@@ -31,13 +31,18 @@ import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServer;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import static java.util.logging.Level.INFO;
+import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
 
 /**
  * The default HttpServer.
@@ -88,6 +93,11 @@ public class DefaultHttpServer implements HttpServer {
     protected int soTimeout;
 
     /**
+     * Stores the SSL flag.
+     */
+    protected boolean ssl;
+
+    /**
      * Stores the thread factory.
      */
     protected ThreadFactory threadFactory;
@@ -104,7 +114,7 @@ public class DefaultHttpServer implements HttpServer {
 
     /**
      * Constructor.
-     * 
+     *
      * @param serverPort the server port.
      */
     public DefaultHttpServer(int serverPort) {
@@ -120,11 +130,12 @@ public class DefaultHttpServer implements HttpServer {
      * @param serverPort the server port.
      * @param processor the HTTP server processor.
      */
-    public DefaultHttpServer(int serverPort, HttpServerProcessor processor) {
+    public DefaultHttpServer(int serverPort, HttpServerProcessor processor, boolean ssl) {
         this.threadFactory = new DefaultHttpServerThreadFactory();
         this.processor = processor;
         this.serverPort = serverPort;
         this.serverStopRequest = false;
+        this.ssl = ssl;
     }
 
     /**
@@ -176,7 +187,12 @@ public class DefaultHttpServer implements HttpServer {
         try {
             executorService = Executors.newCachedThreadPool(threadFactory);
             serverStopRequest = false;
-            serverSocket = new ServerSocket(serverPort);
+            if (ssl) {
+                SSLServerSocketFactory factory = SSLContext.getDefault().getServerSocketFactory();
+                serverSocket = factory.createServerSocket(serverPort);
+            } else {
+                serverSocket = new ServerSocket(serverPort);
+            }
             serverSocket.setReuseAddress(true);
             serverSocket.setSoTimeout(soTimeout);
             serverAcceptorThread = new Thread(new DefaultHttpServerAcceptorThread(this),
@@ -188,6 +204,10 @@ public class DefaultHttpServer implements HttpServer {
         } catch (IOException exception) {
             if (LOGGER.isLoggable(WARNING)) {
                 LOGGER.log(WARNING, "An I/O error occurred while starting the HTTP server", exception);
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            if (LOGGER.isLoggable(SEVERE)) {
+                LOGGER.log(WARNING, "Unable to match SSL algorithm", ex);
             }
         }
     }

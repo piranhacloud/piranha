@@ -31,12 +31,6 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.micro.MicroPiranha;
 import cloud.piranha.webapp.extension.DefaultWebApplicationExtension;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.WebSocket;
-import java.net.http.WebSocket.Listener;
-import java.util.concurrent.CompletionStage;
-import static org.junit.Assert.assertEquals;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -65,16 +59,16 @@ public class TyrusIT {
         Thread thread = new Thread(piranha);
         thread.start();
 
-        HttpClient client = HttpClient.newHttpClient();
-        WebSocket webSocket = client.newWebSocketBuilder()
-                .buildAsync(URI.create("ws://localhost:8080/endpoint"), new Listener() {
-                    @Override
-                    public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
-                        return webSocket.sendText(data, true);
-                    }
-                }).join();
-        Object result = webSocket.sendText("message", true).get();
-        assertEquals("message", result);
+//        HttpClient client = HttpClient.newHttpClient();
+//        WebSocket webSocket = client.newWebSocketBuilder()
+//                .buildAsync(URI.create("ws://localhost:8080/endpoint"), new Listener() {
+//                    @Override
+//                    public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
+//                        return webSocket.sendText(data, true);
+//                    }
+//                }).join();
+//        Object result = webSocket.sendText("message", true).get();
+//        assertEquals("message", result);
 
         piranha.stop();
         Thread.sleep(3000);
