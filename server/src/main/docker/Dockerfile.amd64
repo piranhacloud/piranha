@@ -1,4 +1,19 @@
-FROM manorrock/zulu
+#
+# Use AdoptOpenJDK 11 image.
+#
+FROM adoptopenjdk:11-jdk-hotspot
+
+#
+# Install Piranha Server
+#
 ADD target/piranha-server.tar.gz /usr/local/
+
+#
+# Setup WORKDIR.
+#
 WORKDIR /usr/local/piranha/bin
+
+#
+# Setup CMD.
+#
 CMD ["sh", "run.sh"]

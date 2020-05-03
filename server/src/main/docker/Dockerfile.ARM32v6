@@ -1,4 +1,51 @@
-FROM manorrock/zulu:arm32v6
+#
+# Use balenalib Raspberry Pi image.
+#
+FROM balenalib/raspberry-pi
+
+#
+# Setup for cross platform building.
+#
+RUN ["cross-build-start"]
+
+#
+# Update Raspbian and install binaries needed to run Zulu Embedded.
+#
+RUN apt-get update && \
+    apt-get -y upgrade && \
+    apt-get install -y curl gzip libfontconfig1 libfreetype6 tar && \
+    rm -rf /var/lib/apt/lists/*
+
+#
+# Install Zulu Embedded.
+#
+RUN cd /usr/local && \
+    curl --insecure -L -O https://cdn.azul.com/zulu-embedded/bin/zulu11.39.61-ca-jdk11.0.7-linux_aarch32hf.tar.gz && \
+    tar xfvz zulu11.39.61-ca-jdk11.0.7-linux_aarch32hf.tar.gz && \
+    mv zulu11.39.61-ca-jdk11.0.7-linux_aarch32hf jdk && \
+    rm zulu11.39.61-ca-jdk11.0.7-linux_aarch32hf.tar.gz
+
+#
+# Setup PATH.
+#
+ENV PATH=$PATH:/usr/local/jdk/bin
+
+#
+# Install Piranha.
+#
 ADD target/piranha-server.tar.gz /usr/local/
+
+#
+# Set WORKDIR.
+#
 WORKDIR /usr/local/piranha/bin
+
+#
+# Cleanup cross platform building.
+#
+RUN ["cross-build-end"]
+
+#
+# Setup CMD.
+#
 CMD ["sh", "run.sh"]
