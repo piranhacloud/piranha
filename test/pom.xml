@@ -20,7 +20,6 @@
         <module>eleos</module>
         <module>embedded</module>
         <module>exousia</module>
-        <module>soteria</module>
         <module>hazelcast</module>
         <module>jersey</module>
         <module>jpa</module>
@@ -30,8 +29,10 @@
         <module>smallrye-health</module>
         <module>omnifaces-jwt</module>
         <module>snoop</module>
+        <module>soteria</module>
         <module>springmvc</module>
         <module>struts</module>
+        <module>tyrus</module>
         <module>vaadin</module>
         <module>weld</module>
         <module>wicket</module>

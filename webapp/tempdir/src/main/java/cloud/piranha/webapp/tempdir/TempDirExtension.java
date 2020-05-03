@@ -25,34 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.extension;
+package cloud.piranha.webapp.tempdir;
 
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.api.WebApplicationExtensionContext;
-import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
-import cloud.piranha.webapp.initializer.ServletContainerInitializerExtension;
-import cloud.piranha.webapp.tempdir.TempDirExtension;
-import cloud.piranha.webapp.webxml.WebXmlExtension;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContainerInitializer;
 
 /**
- * The default {@link cloud.piranha.webapp.api.WebApplicationExtension} used to
- * configure a web application.
+ * The TEMPDIR WebApplicationExtension.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @see cloud.piranha.webapp.api.WebApplicationExtension
  */
-public class DefaultWebApplicationExtension implements WebApplicationExtension {
+public class TempDirExtension implements WebApplicationExtension {
 
     /**
-     * Extend the web application.
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(
+            TempDirExtension.class.getPackage().getName());
+
+    /**
+     * Configure the web application.
      *
-     * @param context the context.
+     * @param webApplication the web application.
      */
     @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(AnnotationScanExtension.class);
-        context.add(WebXmlExtension.class);
-        context.add(TempDirExtension.class);
-        context.add(ServletContainerInitializerExtension.class);
+    public void configure(WebApplication webApplication) {
+        try {
+            ClassLoader classLoader = webApplication.getClassLoader();
+            
+            Class<ServletContainerInitializer> clazz
+                    = (Class<ServletContainerInitializer>) classLoader.
+                            loadClass(TempDirInitializer.class.getName());
+            
+            ServletContainerInitializer initializer
+                    = clazz.getDeclaredConstructor().newInstance();
+            
+            webApplication.addInitializer(initializer);
+            
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
+                | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException ex) {
+            LOGGER.log(Level.WARNING, "Unable to enable TEMPDIR WebApplicationExtension", ex);
+        }
     }
 }
