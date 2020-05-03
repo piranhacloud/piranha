@@ -34,6 +34,7 @@
     </distributionManagement>
     <modules>
         <module>plugins</module>
+        <module>skins</module>
     </modules>
     <reporting>
         <plugins>
