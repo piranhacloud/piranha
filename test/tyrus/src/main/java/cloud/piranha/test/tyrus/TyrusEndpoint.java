@@ -25,34 +25,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.extension;
+package cloud.piranha.test.tyrus;
 
-import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.api.WebApplicationExtensionContext;
-import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
-import cloud.piranha.webapp.initializer.ServletContainerInitializerExtension;
-import cloud.piranha.webapp.tempdir.TempDirExtension;
-import cloud.piranha.webapp.webxml.WebXmlExtension;
+import javax.websocket.OnMessage;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 
 /**
- * The default {@link cloud.piranha.webapp.api.WebApplicationExtension} used to
- * configure a web application.
+ * A Tyrus (WebSocket) endpoint.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @see cloud.piranha.webapp.api.WebApplicationExtension
  */
-public class DefaultWebApplicationExtension implements WebApplicationExtension {
+@ServerEndpoint("/endpoint")
+public class TyrusEndpoint {
 
     /**
-     * Extend the web application.
-     *
-     * @param context the context.
+     * Handle the message.
+     * 
+     * @param message the message.
+     * @param session the session.
+     * @return the message.
      */
-    @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(AnnotationScanExtension.class);
-        context.add(WebXmlExtension.class);
-        context.add(TempDirExtension.class);
-        context.add(ServletContainerInitializerExtension.class);
+    @OnMessage
+    public String onMessage(String message, Session session) {
+        return message;
     }
 }

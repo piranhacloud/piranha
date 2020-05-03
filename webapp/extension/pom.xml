@@ -24,12 +24,25 @@
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
-        <!-- Annotation Scanning support --> 
+        <!-- Annotation Scanning support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-annotationscan</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <!-- Jakarta Pages -->
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Jakarta WebSocket -->
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-container-servlet</artifactId>
+            <version>1.16</version>
+            <scope>runtime</scope>
         </dependency>
         <!-- Piranha Webapplication API -->
         <dependency>
@@ -50,7 +63,7 @@
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-tempdir</artifactId>
             <version>${project.version}</version>
-            <scope>runtime</scope>
+            <scope>compile</scope>
         </dependency>
         <!-- @WebServlet support -->
         <dependency>
@@ -71,19 +84,6 @@
             <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>
             <version>3.0.1-b11</version>
-            <scope>runtime</scope>
-        </dependency>
-        <!-- Jakarta Pages -->
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jakarta.servlet.jsp</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <!-- Jakarta WebSocket -->
-        <dependency>
-            <groupId>org.glassfish.tyrus</groupId>
-            <artifactId>tyrus-container-servlet</artifactId>
-            <version>1.16</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
