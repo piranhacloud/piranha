@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cloud.piranha.website</groupId>
+    <artifactId>project</artifactId>
+    <version>20.5.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Piranha Cloud</name>
+    <description>
+        The Piranha Cloud Project delivers you with a variety of cloud containers
+        and several useful add-on modules
+    </description>
+    <url>https://github.com/piranhacloud/piranha</url>
+    <licenses>
+        <license>
+            <name>Piranha License</name>
+            <url>https://github.com/piranhacloud/piranha/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+    <organization>
+        <name>Piranha Cloud</name>
+        <url>https://piranha.cloud</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>mriem</id>
+            <name>Manfred Riem</name>
+            <email>mriem@manorrock.com</email>
+            <organization>Manorrock.com</organization>
+        </developer>
+        <developer>
+            <id>atijms</id>
+            <name>Arjan Tijms</name>
+        </developer>
+    </developers>
+    
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.0.0</version>
+                <reportSets>
+                    <reportSet/>
+                </reportSets>
+            </plugin>        
+        </plugins>
+    </reporting>
+</project>

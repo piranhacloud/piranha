@@ -1,5 +1,6 @@
 name: github-pages
 on:
+  push:
   schedule:
   - cron: "0 11 * * *"
 jobs:
@@ -13,14 +14,17 @@ jobs:
       with:
         java-version: 10
     - name: Build with Maven
-      run: mvn -B clean install site site:stage
+      run: |
+        cd website 
+        mvn -B clean install site site:stage
     - name: Checkout gh-pages branch
       uses: actions/checkout@v2
       with:
         ref: 'gh-pages'
         clean: 'false'
     - name: Move site to root directory
-      run: |        
+      run: |
+        cd website
         mv -v target/staging .site
         rm -rfv *
         mv -v .site/* .
