@@ -41,6 +41,9 @@ import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLParameters;
+import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 
 /**
@@ -187,8 +190,17 @@ public class DefaultHttpServer implements HttpServer {
             executorService = Executors.newCachedThreadPool(threadFactory);
             serverStopRequest = false;
             if (ssl) {
-                SSLServerSocketFactory factory = SSLContext.getDefault().getServerSocketFactory();
-                serverSocket = factory.createServerSocket(serverPort);
+                SSLContext context = SSLContext.getDefault();
+                SSLEngine engine = context.createSSLEngine();
+                SSLServerSocketFactory factory = context.getServerSocketFactory();
+                SSLServerSocket socket = (SSLServerSocket) factory.createServerSocket(serverPort);
+                SSLParameters parameters = new SSLParameters();
+                parameters.setCipherSuites(engine.getSupportedCipherSuites());
+                parameters.setProtocols(engine.getSupportedProtocols());
+                parameters.setNeedClientAuth(false);
+                parameters.setWantClientAuth(true);
+                socket.setSSLParameters(parameters);
+                serverSocket = socket;
             } else {
                 serverSocket = new ServerSocket(serverPort);
             }
