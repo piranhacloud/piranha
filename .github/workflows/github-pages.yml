@@ -24,8 +24,7 @@ jobs:
         clean: 'false'
     - name: Move site to root directory
       run: |
-        cd website
-        mv -v target/staging .site
+        mv -v website/target/staging .site
         rm -rfv *
         mv -v .site/* .
         rmdir .site
