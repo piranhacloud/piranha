@@ -78,6 +78,11 @@ public class ServerPiranha implements Piranha, Runnable {
      * Defines the attribute name for the ServerPiranha reference.
      */
     private static final String SERVER_PIRANHA = "cloud.piranha.server.ServerPiranha";
+    
+    /**
+     * Stores the SSL flag.
+     */
+    private boolean ssl = false;
 
     /**
      * Get the instance.
@@ -95,6 +100,7 @@ public class ServerPiranha implements Piranha, Runnable {
      */
     public static void main(String[] arguments) {
         INSTANCE = new ServerPiranha();
+        INSTANCE.processArguments(arguments);
         INSTANCE.run();
     }
 
@@ -151,6 +157,21 @@ public class ServerPiranha implements Piranha, Runnable {
     }
 
     /**
+     * Process the arguments.
+     * 
+     * @param arguments the arguments.
+     */
+    private void processArguments(String[] arguments) {
+        if (arguments != null) {
+            for(String argument : arguments) {
+                if (argument.equals("--ssl")) {
+                    ssl = true;
+                }
+            }
+        }
+    }
+
+    /**
      * Start method.
      */
     @Override
@@ -161,7 +182,7 @@ public class ServerPiranha implements Piranha, Runnable {
         }
         File pidFile = new File("tmp/piranha.pid");
         DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
-        DefaultHttpServer httpServer = new DefaultHttpServer(8080, webApplicationServer);
+        DefaultHttpServer httpServer = new DefaultHttpServer(8080, webApplicationServer, ssl);
         httpServer.start();
         webApplicationServer.start();
         File webappsDirectory = new File("webapps");

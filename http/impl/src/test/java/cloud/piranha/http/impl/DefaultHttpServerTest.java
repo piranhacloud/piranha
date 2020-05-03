@@ -53,7 +53,7 @@ public class DefaultHttpServerTest extends HttpServerTest {
      */
     @Override
     protected HttpServer createServer(int portNumber) {
-        return new DefaultHttpServer(portNumber, new DefaultHttpServerProcessor());
+        return new DefaultHttpServer(portNumber, new DefaultHttpServerProcessor(), false);
     }
 
     /**
@@ -65,7 +65,7 @@ public class DefaultHttpServerTest extends HttpServerTest {
      */
     @Override
     protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
-        return new DefaultHttpServer(portNumber, processor);
+        return new DefaultHttpServer(portNumber, processor, false);
     }
 
     /**

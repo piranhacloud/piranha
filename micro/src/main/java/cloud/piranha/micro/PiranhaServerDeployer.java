@@ -171,7 +171,7 @@ public class PiranhaServerDeployer {
             webApplicationServer.initialize();
             webApplicationServer.start();
             
-            httpServer = new DefaultHttpServer(9090, webApplicationServer);
+            httpServer = new DefaultHttpServer(9090, webApplicationServer, false);
             httpServer.start();
             
             return webApplication.getServletRegistrations().keySet();
