@@ -19,22 +19,24 @@
             <groupId>cloud.piranha.jndi</groupId>
             <artifactId>piranha-jndi-memory</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-webxml</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.omnifaces</groupId>
@@ -47,10 +49,4 @@
             <version>1.1-m02</version>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/security/soteria</url>
-        </site>        
-    </distributionManagement>
 </project>

@@ -25,6 +25,13 @@
                 <version>8.0.0</version>
             </dependency>
             
+            <!-- Jakarta Expression Language -->
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>3.0.1-b11</version>
+            </dependency>
+            
             <!-- Hazelcast HTTP Session integration -->
             <dependency>
                 <groupId>com.hazelcast</groupId>
