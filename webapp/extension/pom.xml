@@ -58,6 +58,13 @@
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- Piranha Security - OmniFaces Exousia integration -->
+        <dependency>
+            <groupId>cloud.piranha.security</groupId>
+            <artifactId>piranha-security-exousia</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
         <!-- ServletContainerInitializer support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>

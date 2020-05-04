@@ -17,7 +17,6 @@
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>1.4</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -32,10 +31,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/upload/apache</url>
-        </site>        
-    </distributionManagement>
 </project>
