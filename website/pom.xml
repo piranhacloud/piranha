@@ -24,6 +24,16 @@
         <name>Piranha Cloud</name>
         <url>https://piranha.cloud</url>
     </organization>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.9.0</version>
+            </plugin>
+        </plugins>
+    </build>
 
     <developers>
         <developer>
@@ -53,12 +63,27 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changes-plugin</artifactId>
+                <version>2.12.1</version>
+                <configuration>
+                    <teamlist>none</teamlist>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>changes-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>3.0.0</version>
                 <reportSets>
                     <reportSet/>
                 </reportSets>
-            </plugin>        
+            </plugin>
         </plugins>
     </reporting>
 </project>
