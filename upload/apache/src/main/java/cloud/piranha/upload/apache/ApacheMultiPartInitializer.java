@@ -29,26 +29,47 @@ package cloud.piranha.upload.apache;
 
 import cloud.piranha.webapp.api.WebApplication;
 import java.util.Set;
+import static java.util.logging.Level.INFO;
+import java.util.logging.Logger;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 /**
- * The Apache Commons FileUpload initializer.
- * 
+ * The ServletContainerInitializer for the ApacheMultiPartManager.
+ *
+ * <p>
+ * The ServletContainerInitializer performs the following steps:
+ * </p>
+ *
+ * <ol>
+ * <li>Sets the MultiPartManager to an instance of ApacheMultiPartManager.</li>
+ * <li>Adds the FileCleanerCleanup listener that cleans up the temporary
+ * files.</li>
+ * </ol>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class ApacheMultiPartInitializer implements ServletContainerInitializer {
 
     /**
-     * Initialize Apache Commons FileUpload.
-     * 
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(
+            ApacheMultiPartInitializer.class.getPackageName());
+
+    /**
+     * @see ServletContainerInitializer#onStartup(java.util.Set,
+     * javax.servlet.ServletContext)
      */
     @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext)
+            throws ServletException {
+
+        if (LOGGER.isLoggable(INFO)) {
+            LOGGER.info("Initializing ApacheMultiPartManager");
+        }
+
         WebApplication webApplication = (WebApplication) servletContext;
         webApplication.setMultiPartManager(new ApacheMultiPartManager());
         webApplication.addListener("org.apache.commons.fileupload.servlet.FileCleanerCleanup");

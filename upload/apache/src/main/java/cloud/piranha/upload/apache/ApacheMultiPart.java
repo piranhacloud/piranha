@@ -36,7 +36,12 @@ import javax.servlet.http.Part;
 import org.apache.commons.fileupload.FileItem;
 
 /**
- * The Part implementation for the ApacheMultiPartManager.
+ * The Part for the ApacheMultiPartManager.
+ *
+ * <p>
+ * This class implements the Servlet Part API and delegates to an Apache Commons
+ * FileItem for its functionality.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -57,9 +62,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * Delete the part.
-     *
-     * @throws IOException when an I/O error occurs.
+     * @see Part#delete() 
      */
     @Override
     public void delete() throws IOException {
@@ -67,9 +70,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * Get the content type.
-     *
-     * @return the content type.
+     * @see Part#getContentType() 
      */
     @Override
     public String getContentType() {
@@ -77,10 +78,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * Get the header.
-     *
-     * @param name the name of the header.
-     * @return the header, or null if not found.
+     * @see Part#getHeader(java.lang.String) 
      */
     @Override
     public String getHeader(String name) {
@@ -88,9 +86,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * @see Part#getHeaderNames() 
      */
     @Override
     public Collection<String> getHeaderNames() {
@@ -100,10 +96,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * Get the header values.
-     *
-     * @param name the name of the header.
-     * @return the values of the header, or empty collection if none.
+     * @see Part#getHeaders(java.lang.String) 
      */
     @Override
     public Collection<String> getHeaders(String name) {
@@ -113,10 +106,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * Get the input stream.
-     *
-     * @return the input stream.
-     * @throws IOException when an I/O error occurs.
+     * @see Part#getInputStream() 
      */
     @Override
     public InputStream getInputStream() throws IOException {
@@ -124,9 +114,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * @see Part#getName() 
      */
     @Override
     public String getName() {
@@ -134,9 +122,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * Get the size.
-     *
-     * @return the size.
+     * @see Part#getSize()
      */
     @Override
     public long getSize() {
@@ -144,9 +130,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * Get the submitted filename.
-     *
-     * @return the submitted filename.
+     * @see Part#getSubmittedFileName()
      */
     @Override
     public String getSubmittedFileName() {
@@ -154,10 +138,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * Write the content to the given filename.
-     *
-     * @param filename the filename.
-     * @throws IOException when an I/O error occurs.
+     * @see Part#write(java.lang.String)
      */
     @Override
     public void write(String filename) throws IOException {
