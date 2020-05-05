@@ -27,16 +27,14 @@
  */
 /**
  * <p>
- * This package delivers a MultiPartManager that is backed by Apache Commons
- * File Upload.
+ * This package delivers our default Jakarta EE Web Profile support, backed by
+ * Eclipse implementations.
  * </p>
  *
- * <p>
- * For more information about Apache Commons File Upload, see the
- * <a href="http://commons.apache.org/proper/commons-fileupload/">Apache Commons
- * File Upload website</a>.
- * </p>
+ * For more information about the Jakarta EE Web Profile, see the
+ * <a href="https://jakarta.ee/specifications/webprofile/">Jakarta EE Web
+ * Profile website</a>.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-package cloud.piranha.upload.apache;
+package cloud.piranha.webprofile.eclipse;

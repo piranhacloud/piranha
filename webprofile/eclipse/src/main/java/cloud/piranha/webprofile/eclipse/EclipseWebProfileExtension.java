@@ -25,18 +25,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.webprofile.eclipse;
+
+import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.webapp.api.WebApplicationExtensionContext;
+import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
+import cloud.piranha.webapp.initializer.ServletContainerInitializerExtension;
+import cloud.piranha.webapp.tempdir.TempDirExtension;
+import cloud.piranha.webapp.webxml.WebXmlExtension;
+
 /**
- * <p>
- * This package delivers a MultiPartManager that is backed by Apache Commons
- * File Upload.
- * </p>
+ * The EclipseWebProfileExtension.
  *
  * <p>
- * For more information about Apache Commons File Upload, see the
- * <a href="http://commons.apache.org/proper/commons-fileupload/">Apache Commons
- * File Upload website</a>.
- * </p>
+ * This WebApplicationExtension extends the web application with the following
+ * extensions:
+ * <p>
+ *
+ * <ol>
+ * <li>AnnotationScanExtension - adds Annotation Scanning support</li>
+ * <li>WebXmlExtension - adds web.xml support</li>
+ * <li>TempDirExtension - add TEMPDIR support</li>
+ * <li>ServletContainerInitializerExtension - adds ServletContainerInitializer
+ * support</li>
+ * </ol>
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.webapp.api.WebApplicationExtension
  */
-package cloud.piranha.upload.apache;
+public class EclipseWebProfileExtension implements WebApplicationExtension {
+
+    /**
+     * Extend the web application.
+     *
+     * @param context the context.
+     */
+    @Override
+    public void extend(WebApplicationExtensionContext context) {
+        context.add(AnnotationScanExtension.class);
+        context.add(WebXmlExtension.class);
+        context.add(TempDirExtension.class);
+        context.add(ServletContainerInitializerExtension.class);
+    }
+}
