@@ -43,6 +43,13 @@
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- Piranha Security - Jakarta Security integration -->
+        <dependency>
+            <groupId>cloud.piranha.security</groupId>
+            <artifactId>piranha-security-jakarta</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
         <!-- Piranha Security - Soteria integration -->
         <dependency>
             <groupId>cloud.piranha.security</groupId>
