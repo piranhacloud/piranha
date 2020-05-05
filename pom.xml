@@ -17,7 +17,7 @@
     <licenses>
         <license>
             <name>Piranha License</name>
-            <url>https://github.com/piranhacloud/piranha/blob/master/LICENSE</url>
+            <url>https://raw.githubusercontent.com/piranhacloud/piranha/master/LICENSE</url>
         </license>
     </licenses>
     <organization>
@@ -29,7 +29,6 @@
         <developer>
             <id>mriem</id>
             <name>Manfred Riem</name>
-            <email>mriem@manorrock.com</email>
             <organization>Manorrock.com</organization>
         </developer>
         <developer>
@@ -42,7 +41,9 @@
         <!-- BOM -->
         <module>bom</module>
         
-        <!-- Web application modules -->
+        <!-- Core modules -->
+        <module>api</module>
+        <module>servlet</module>
         <module>webapp</module>
     
         <!-- Logical components -->
@@ -51,11 +52,11 @@
         <module>faces</module>
         <module>http</module>
         <module>jndi</module>
+        <module>monitor</module>
         <module>session</module>
         <module>resource</module>
         <module>pages</module>
         <module>rest</module>
-        <module>servlet</module>
         <module>security</module>
         <module>transaction</module>
         <module>upload</module>
@@ -69,7 +70,8 @@
         <!-- MicroProfile -->
         <module>microprofile</module>
         
-        <!-- Admin Applications -->
+        <!-- Web Profile -->
+        <module>webprofile</module>
 
         <!-- Arquillian -->
         <module>arquillian</module>
@@ -79,8 +81,6 @@
         
         <!-- Compatibility -->
         <module>compat</module>
-        <module>monitor</module>
-        <module>api</module>
     </modules>
 
     <scm>
