@@ -1,7 +1,8 @@
 name: github-pages
 on:
-  schedule:
-  - cron: "0 11 * * 1"
+  push:
+    tags:        
+      - v*
 jobs:
   build:
     runs-on: ubuntu-latest
