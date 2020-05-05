@@ -27,6 +27,7 @@
         </dependencies>
     </dependencyManagement>
     <modules>
+        <module>apache</module>
         <module>eclipse</module>
     </modules>
 </project>
