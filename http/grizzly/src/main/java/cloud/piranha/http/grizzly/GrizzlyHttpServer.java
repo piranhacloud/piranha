@@ -39,9 +39,10 @@ import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
 
 /**
- * The Grizzly-based HTTP Server.
+ * The Grizzly implementation of HTTP Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.http.api.HttpServer
  */
 public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
 
@@ -118,9 +119,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
     }
 
     /**
-     * Is the server running.
-     *
-     * @return true if it is, false otherwise.
+     * @see cloud.piranha.http.api.HttpServer#isRunning() 
      */
     @Override
     public boolean isRunning() {
@@ -128,7 +127,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
     }
 
     /**
-     * Start the server.
+     * @see cloud.piranha.http.api.HttpServer#start() 
      */
     @Override
     public void start() {
@@ -140,7 +139,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
     }
 
     /**
-     * Stop the server.
+     * @see cloud.piranha.http.api.HttpServer#stop() 
      */
     @Override
     public void stop() {

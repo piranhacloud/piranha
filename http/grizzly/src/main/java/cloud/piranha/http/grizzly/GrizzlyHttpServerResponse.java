@@ -33,9 +33,10 @@ import java.io.OutputStream;
 import org.glassfish.grizzly.http.server.Response;
 
 /**
- * The Grizzly HTTP server response.
+ * The Grizzly implementation of HTTP Server Response.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see HttpServerResponse
  */
 public class GrizzlyHttpServerResponse implements HttpServerResponse {
     
@@ -54,10 +55,7 @@ public class GrizzlyHttpServerResponse implements HttpServerResponse {
     }
     
     /**
-     * Get the header.
-     * 
-     * @param name the name of the header.
-     * @return the value, or null if not found.
+     * @see HttpServerResponse#getHeader(java.lang.String) 
      */
     @Override
     public String getHeader(String name) {
@@ -65,9 +63,7 @@ public class GrizzlyHttpServerResponse implements HttpServerResponse {
     }
 
     /**
-     * Get the output stream.
-     * 
-     * @return the output stream.
+     * @see HttpServerResponse#getOutputStream() 
      */
     @Override
     public OutputStream getOutputStream() {
@@ -75,10 +71,7 @@ public class GrizzlyHttpServerResponse implements HttpServerResponse {
     }
 
     /**
-     * Set the header.
-     * 
-     * @param name the name.
-     * @param value the value.
+     * @see HttpServerResponse#setHeader(java.lang.String, java.lang.String) 
      */
     @Override
     public void setHeader(String name, String value) {
@@ -86,9 +79,7 @@ public class GrizzlyHttpServerResponse implements HttpServerResponse {
     }
 
     /**
-     * Set the status.
-     * 
-     * @param status the status.
+     * @see HttpServerResponse#setStatus(int) 
      */
     @Override
     public void setStatus(int status) {
@@ -96,18 +87,14 @@ public class GrizzlyHttpServerResponse implements HttpServerResponse {
     }
 
     /**
-     * Write the headers.
-     * 
-     * @throws IOException when an I/O error occurs.
+     * @see HttpServerResponse#writeHeaders() 
      */
     @Override
     public void writeHeaders() throws IOException {
     }
 
     /**
-     * Write the status line.
-     * 
-     * @throws IOException when an I/O error occurs.
+     * @see HttpServerResponse#writeStatusLine() 
      */
     @Override
     public void writeStatusLine() throws IOException {
