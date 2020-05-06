@@ -204,6 +204,11 @@ public class WebXml implements Serializable {
      * Stores the session configuration.
      */
     private WebXmlSessionConfig sessionConfig;
+    
+    /**
+     * Stores the welcome files.
+     */
+    private final ArrayList<String> welcomeFiles = new ArrayList<>();
 
     /**
      * Get the context params.
@@ -347,6 +352,15 @@ public class WebXml implements Serializable {
      */
     public WebXmlSessionConfig getSessionConfig() {
         return sessionConfig;
+    }
+    
+    /**
+     * Get the welcome files.
+     * 
+     * @return welcome files.
+     */
+    public List<String> getWelcomeFiles() {
+        return welcomeFiles;
     }
     
     /**

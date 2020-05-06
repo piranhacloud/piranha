@@ -215,6 +215,13 @@ public interface WebApplication extends ServletContext {
      * @return the security manager.
      */
     SecurityManager getSecurityManager();
+    
+    /**
+     * Get the welcome file manager.
+     * 
+     * @return the welcome file manager.
+     */
+    WelcomeFileManager getWelcomeFileManager();
 
     /**
      * Initialize the web application.
@@ -379,6 +386,13 @@ public interface WebApplication extends ServletContext {
      */
     void setWebApplicationRequestMapper(WebApplicationRequestMapper webApplicationRequestMapper);
 
+    /**
+     * Set the welcome file manager.
+     * 
+     * @param welcomeFileManager the welcome file manager.
+     */
+    void setWelcomeFileManager(WelcomeFileManager welcomeFileManager);
+    
     /**
      * Start servicing.
      */
