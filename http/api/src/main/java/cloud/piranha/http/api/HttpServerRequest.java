@@ -33,6 +33,11 @@ import java.util.Iterator;
 /**
  * The HttpServerRequest API.
  *
+ * <p>
+ * This API delivers an abstraction over the HTTP request line, the HTTP request
+ * headers and the HTTP request body.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface HttpServerRequest {
@@ -40,7 +45,7 @@ public interface HttpServerRequest {
     /**
      * Get the header.
      *
-     * @param name.
+     * @param name the name of the header.
      * @return the value, or null.
      */
     String getHeader(String name);
@@ -86,18 +91,18 @@ public interface HttpServerRequest {
      * @return the method.
      */
     String getMethod();
-    
+
     /**
      * Get the query parameter.
-     * 
+     *
      * @param name the name.
      * @return the value, or null if not found.
      */
     String getQueryParameter(String name);
-    
+
     /**
      * Get the query string.
-     * 
+     *
      * @return the query string.
      */
     String getQueryString();
@@ -108,10 +113,10 @@ public interface HttpServerRequest {
      * @return the remote address.
      */
     String getRemoteAddress();
-    
+
     /**
      * Get the remote hostname.
-     * 
+     *
      * @return the remote hostname.
      */
     String getRemoteHostname();

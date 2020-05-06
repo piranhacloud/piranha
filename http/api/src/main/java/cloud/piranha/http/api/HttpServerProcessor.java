@@ -30,13 +30,17 @@ package cloud.piranha.http.api;
 /**
  * The HTTP Server Processor API.
  *
+ * <p>
+ * This API is defined as the main entry point for HTTP request processing.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface HttpServerProcessor {
-    
+
     /**
-     * Is the request being processed asynchronously?
-     * 
+     * Check if this request is being processed asynchronously.
+     *
      * @return true if it is, false otherwise.
      */
     default boolean isAsync() {
@@ -46,8 +50,8 @@ public interface HttpServerProcessor {
     /**
      * Process the request.
      *
-     * @param request the HTTP server request.
-     * @param response the HTTP server response.
+     * @param request the HTTP Server Request.
+     * @param response the HTTP Server Response.
      */
     void process(HttpServerRequest request, HttpServerResponse response);
 }
