@@ -85,6 +85,7 @@ public class WebXmlParser {
             parseServletMappings(webXml, xPath, document);
             parseServlets(webXml, xPath, document);
             parseSessionConfig(webXml, xPath, document);
+            parseWelcomeFiles(webXml, xPath, document);
         } catch (Throwable t) {
             LOGGER.log(WARNING, "Unable to parse web.xml", t);
         }
@@ -532,5 +533,30 @@ public class WebXmlParser {
     private String parseString(XPath xPath, String expression, Node node)
             throws XPathExpressionException {
         return (String) xPath.evaluate(expression, node, XPathConstants.STRING);
+    }
+    
+    /**
+     * Parse the welcome file section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param node the DOM node.
+     */
+    private void parseWelcomeFiles(WebXml webXml, XPath xPath, Node node) {
+        try {
+            NodeList nodeList = (NodeList) xPath.evaluate("//welcome-file-list", node, NODESET);
+            if (nodeList != null) {
+                List<String> welcomeFiles = webXml.getWelcomeFiles();
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    String welcomeFile = parseString(xPath, "welcome-file/text()", nodeList.item(i));
+                    welcomeFiles.add(welcomeFile);
+                    if (LOGGER.isLoggable(FINE)) {
+                        LOGGER.log(FINE, "Parsed welcome-file: {0}", welcomeFile);
+                    }
+                }
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse <welcome-file-list> sections", xpe);
+        }
     }
 }

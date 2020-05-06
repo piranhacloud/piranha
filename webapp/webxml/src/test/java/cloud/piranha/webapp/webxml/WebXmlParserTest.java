@@ -87,4 +87,19 @@ public class WebXmlParserTest {
         assertFalse(webXml.isDistributable());
         assertNotEquals("UTF-8", webXml.getResponseCharacterEncoding());
     }
+    
+    /**
+     * Test parse method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testParseWebXml3() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/test6")));
+        InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
+        WebXmlParser parser = new WebXmlParser();
+        WebXml webXml = parser.parse(inputStream);
+        assertEquals("index.html", webXml.getWelcomeFiles().get(0));
+    }
 }

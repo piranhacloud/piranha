@@ -95,6 +95,7 @@ import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
 import cloud.piranha.webapp.api.WebApplicationRequestMapping;
+import cloud.piranha.webapp.api.WelcomeFileManager;
 import java.util.UUID;
 
 /**
@@ -291,6 +292,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the web application request mapper.
      */
     protected WebApplicationRequestMapper webApplicationRequestMapper;
+    
+    /**
+     * Stores the welcome file manager.
+     */
+    protected WelcomeFileManager welcomeFileManager;
 
     /**
      * Constructor.
@@ -320,6 +326,7 @@ public class DefaultWebApplication implements WebApplication {
         servletContextName = UUID.randomUUID().toString();
         servlets = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
+        welcomeFileManager = new DefaultWelcomeFileManager();
     }
 
     /**
@@ -1220,6 +1227,16 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
+     * Get the welcome file manager.
+     * 
+     * @return the welcome file manager.
+     */
+    @Override
+    public WelcomeFileManager getWelcomeFileManager() {
+        return welcomeFileManager;
+    }
+
+    /**
      * Initialize the web application.
      */
     @Override
@@ -1731,6 +1748,16 @@ public class DefaultWebApplication implements WebApplication {
         this.webApplicationRequestMapper = webApplicationRequestMapper;
     }
 
+    /**
+     * Set the welcome file manager.
+     * 
+     * @param welcomeFileManager the welcome file manager.
+     */
+    @Override
+    public void setWelcomeFileManager(WelcomeFileManager welcomeFileManager) {
+        this.welcomeFileManager = welcomeFileManager;
+    }
+    
     /**
      * Start servicing.
      */
