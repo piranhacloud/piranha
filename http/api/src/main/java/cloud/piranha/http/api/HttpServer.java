@@ -28,14 +28,24 @@
 package cloud.piranha.http.api;
 
 /**
- * The HttpServer API.
+ * The HTTP Server API.
+ * 
+ * <p>
+ *  This API makes it possible to interact with an HTTP server implementation on
+ * a very basic level. It supports the following:
+ * </p>
+ * <ol>
+ *  <li>Starting the server.</li>
+ *  <li>Stopping the server.</li>
+ *  <li>Checking if the server is running.</li>
+ * </ol>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface HttpServer {
     
     /**
-     * Is the server running.
+     * Check if the server is running.
      *
      * @return true if it is, false otherwise.
      */

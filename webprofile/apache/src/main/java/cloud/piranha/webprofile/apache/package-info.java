@@ -27,13 +27,14 @@
  */
 /**
  * <p>
- * This package delivers our default Jakarta EE Web Profile support, backed by
- * Eclipse implementations.
+ * This package delivers a Jakarta EE Web Profile support, backed by Apache
+ * implementations.
  * </p>
- *
+ * <p>
  * For more information about the Jakarta EE Web Profile, see the
  * <a href="https://jakarta.ee/specifications/webprofile/">Jakarta EE Web
  * Profile website</a>.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

@@ -25,65 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.api;
-
-import java.io.IOException;
-import java.io.OutputStream;
-
 /**
- * THe HttpServerResponse API.
- *
  * <p>
- * This API delivers an abstraction over the HTTP response status line, the HTTP
- * response headers and the HTTP response body.
+ * This package delivers our HTTP Server API.
  * </p>
- *
+ * <p>
+ *  This is our abstraction of a HTTP Server that is used by the various HTTP
+ *  Server implementations we support.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface HttpServerResponse {
-
-    /**
-     * Get the header.
-     *
-     * @param name the name.
-     * @return the value, or null if not found.
-     */
-    public String getHeader(String name);
-
-    /**
-     * Get the output stream.
-     *
-     * @return the output stream.
-     */
-    public OutputStream getOutputStream();
-
-    /**
-     * Set the specified header.
-     *
-     * @param name the header name.
-     * @param value the header value.
-     */
-    public void setHeader(String name, String value);
-
-    /**
-     * Set the status.
-     *
-     * @param status the status.
-     */
-    public void setStatus(int status);
-
-    /**
-     * Write the response headers.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
-    public void writeHeaders() throws IOException;
-
-    /**
-     * Write the status line.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
-    public void writeStatusLine() throws IOException;
-}
+package cloud.piranha.http.api;
