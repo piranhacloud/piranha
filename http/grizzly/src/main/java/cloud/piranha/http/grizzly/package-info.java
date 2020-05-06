@@ -27,8 +27,10 @@
  */
 
 /**
- * A Grizzly based HTTP server front-end.
- * 
+ * <p>
+ * This package delivers a Grizzly implementation of the HTTP Server API.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 package cloud.piranha.http.grizzly;
