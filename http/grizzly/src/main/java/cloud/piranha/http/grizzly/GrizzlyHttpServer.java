@@ -149,28 +149,28 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
             @Override
             public void cancelled() {
                 synchronized (shutdownLock) {
-                    shutdownLock.notify();
+                    shutdownLock.notifyAll();
                 }
             }
 
             @Override
             public void failed(Throwable thrwbl) {
                 synchronized (shutdownLock) {
-                    shutdownLock.notify();
+                    shutdownLock.notifyAll();
                 }
             }
 
             @Override
             public void completed(HttpServer e) {
                 synchronized (shutdownLock) {
-                    shutdownLock.notify();
+                    shutdownLock.notifyAll();
                 }
             }
 
             @Override
             public void updated(HttpServer e) {
                 synchronized (shutdownLock) {
-                    shutdownLock.notify();
+                    shutdownLock.notifyAll();
                 }
             }
         });
