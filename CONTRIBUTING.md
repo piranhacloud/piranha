@@ -64,3 +64,14 @@ mvn verify
 
 We have compiled a list of code conventions we try to adhere to, 
 see [Code Conventions](CODE_CONVENTIONS.md).
+
+## Release process
+
+Any committer can start a release by pushing a tag with the following format:
+
+```
+  release-BRANCH-VERSION
+```
+
+where BRANCH is the branch that should be used to cut the release from and VERSION
+is the version number the release should be tagged with.

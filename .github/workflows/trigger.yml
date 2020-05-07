@@ -1,0 +1,33 @@
+name: trigger
+on:
+  push:
+    tags:        
+      - release-*
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GIT_PASSWORD }}
+    - name: Release from given branch with given version
+      run: |
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+        TAG=${GITHUB_REF}
+        RELEASE=${TAG%%-*}
+        CANDIDATE=${TAG:${#RELEASE}+1}
+        VERSION=${CANDIDATE#*-}
+        BRANCH=${CANDIDATE%-*}
+        echo "Releasing $VERSION from $BRANCH branch"
+        git checkout $BRANCH
+        git checkout -b release
+        mvn -B versions:set versions:commit -DnewVersion=$VERSION
+        git config --global user.email "noreply@piranha.cloud"
+        git config --global user.name "Automated release"
+        git commit -a -m "Releasing version $VERSION from $BRANCH branch"
+        git tag v$VERSION -f
+        git push origin v$VERSION -f
+        git checkout $BRANCH
+        git branch -D release
+        git push origin :${TAG}
