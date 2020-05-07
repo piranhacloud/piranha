@@ -1,7 +1,7 @@
-name: docker-snapshot
+name: nightly
 on:
   schedule:
-  - cron: "0 12 * * *"
+  - cron: "0 0 * * *"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,19 +19,13 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Build amd64 image
+    - name: Build and push Docker images
       run: |
         cd server
         docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/server:amd64-snapshot .
         docker push piranhacloud/server:amd64-snapshot
-    - name: Build ARM32v6 image
-      run: |
-        cd server
         docker build -f src/main/docker/Dockerfile.ARM32v6 -t piranhacloud/server:arm32v6-snapshot .
         docker push piranhacloud/server:arm32v6-snapshot
-    - name: Create multi-arch manifest
-      run: |
-        cd server
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create piranhacloud/server:snapshot \
           piranhacloud/server:amd64-snapshot \
@@ -41,3 +35,9 @@ jobs:
         docker manifest annotate piranhacloud/server:snapshot \
           piranhacloud/server:arm32v6-snapshot --os linux --arch arm
         docker manifest push piranhacloud/server:snapshot
+    - name: Analyze with SonarCloud
+      run: |
+        mvn --no-transfer-progress -B -Ptest -Pcoverage install verify site \
+        sonar:sonar -Dsonar.projectKey=piranhacloud_piranha \
+        -Dsonar.organization=piranhacloud -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${{ secrets.SONAR_LOGIN }}

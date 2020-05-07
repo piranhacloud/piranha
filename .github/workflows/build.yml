@@ -1,5 +1,11 @@
-name: master
-on: [push]
+name: build
+on: 
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - 'release-*'
+      - 'v*'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -15,4 +21,4 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Build with Maven
-      run: mvn -P test --no-transfer-progress verify
+      run: mvn --no-transfer-progress -P test verify
