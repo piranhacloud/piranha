@@ -55,10 +55,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/pages/jasper</url>
-        </site>        
-    </distributionManagement>
 </project>

@@ -15,7 +15,7 @@
     <name>Piranha Web Profile - Eclipse</name>
     <description>
         This Maven module delivers the Jakarta EE Web Profile backed by Eclipse
-        implementation projects.
+        implementation projects (where possible).
     </description>
     <dependencies>
         <!-- Jakarta Expression Language -->

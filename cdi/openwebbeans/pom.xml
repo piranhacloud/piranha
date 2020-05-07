@@ -47,11 +47,5 @@
             <artifactId>jakarta.annotation-api</artifactId>
             <scope>runtime</scope>
         </dependency>
-    </dependencies>    
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/cdi/openwebbeans</url>
-        </site>        
-    </distributionManagement>
+    </dependencies>
 </project>

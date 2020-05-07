@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-appserver-jmx</artifactId>
     <packaging>war</packaging>
-    <name>Piranha Application Server - JMX</name>
+    <name>Piranha Application Server - JMX Admin</name>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,10 +28,4 @@
             <scope>runtime</scope>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/appserver/jmx</url>
-        </site>        
-    </distributionManagement>
 </project>

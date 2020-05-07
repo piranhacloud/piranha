@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-api</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha API</name>
+    <name>Piranha - API</name>
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.http</groupId>

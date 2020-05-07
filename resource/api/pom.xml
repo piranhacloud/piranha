@@ -13,10 +13,4 @@
     <artifactId>piranha-resource-api</artifactId>
     <name>Piranha Resource - API</name>
     <packaging>jar</packaging>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/resource/api</url>
-        </site>        
-    </distributionManagement>
 </project>

@@ -33,11 +33,5 @@
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
-    </dependencies>    
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/webapp/api</url>
-        </site>        
-    </distributionManagement>
+    </dependencies>
 </project>

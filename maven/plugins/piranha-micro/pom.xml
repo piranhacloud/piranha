@@ -12,7 +12,7 @@
     <artifactId>piranha-micro-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
 
-    <name>Piranha Maven Plugins - Piranha Micro Maven Plugin</name>
+    <name>Piranha Maven Plugins - Piranha Micro</name>
     
     <dependencies>
         <dependency>
@@ -28,11 +28,5 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/maven/plugins/piranha-micro</url>
-        </site>        
-    </distributionManagement>
     
 </project>
