@@ -67,7 +67,7 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
      */
     public PiranhaServerContainerConfiguration() {
         this (
-            System.getProperty("piranha.version", "20.2.0"),
+            System.getProperty("piranha.version", PiranhaServerContainerConfiguration.class.getPackage().getImplementationVersion()),
             System.getProperty("piranha.modules", "piranha-micro"),
             System.getProperty("piranha.dependencies", ""),
             System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"),
