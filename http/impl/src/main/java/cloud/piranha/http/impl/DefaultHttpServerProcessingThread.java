@@ -34,7 +34,12 @@ import java.net.Socket;
 import java.util.logging.Logger;
 
 /**
- * The default HttpServerProcessingThread.
+ * A processing thread used by the default implementation of HTTP server.
+ *
+ * <p>
+ * This thread is used to process a HTTP Server Request and generate a HTTP
+ * Server Response. It does so by giving it to a HTTP Server Processor.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -44,7 +49,7 @@ class DefaultHttpServerProcessingThread implements Runnable {
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(
-            DefaultHttpServerProcessingThread.class.getPackage().getName());
+            DefaultHttpServerProcessingThread.class.getPackageName());
 
     /**
      * Stores the server.
@@ -68,7 +73,7 @@ class DefaultHttpServerProcessingThread implements Runnable {
     }
 
     /**
-     * Handle the socket request.
+     * @see Runnable#run()
      */
     @Override
     public void run() {

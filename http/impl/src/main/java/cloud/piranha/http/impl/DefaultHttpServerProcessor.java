@@ -41,7 +41,13 @@ import static java.util.logging.Level.SEVERE;
 import java.util.logging.Logger;
 
 /**
- * The default HttpServerProcessor.
+ * The default implementation of a HTTP Server Processor.
+ *
+ * <p>
+ * This HTTP Server Processor will either show the user with a directory
+ * listing, or stream back contents of the file clicked on in the browser, or it
+ * will return a 404 error because neither could be found.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -51,13 +57,12 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(
-            DefaultHttpServerProcessor.class.getPackage().getName());
+            DefaultHttpServerProcessor.class.getPackageName());
 
     /**
-     * Process the request.
-     *
-     * @param request the HTTP server request.
-     * @param response the HTTP server response.
+     * @see
+     * HttpServerProcessor#process(cloud.piranha.http.api.HttpServerRequest,
+     * cloud.piranha.http.api.HttpServerResponse)
      */
     @Override
     public void process(HttpServerRequest request, HttpServerResponse response) {

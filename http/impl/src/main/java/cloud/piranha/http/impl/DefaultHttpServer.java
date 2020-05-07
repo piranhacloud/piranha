@@ -36,7 +36,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
-import static java.util.logging.Level.INFO;
+import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
@@ -47,7 +47,7 @@ import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 
 /**
- * The default HttpServer.
+ * The default implementation of HTTP Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -57,7 +57,7 @@ public class DefaultHttpServer implements HttpServer {
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(
-            DefaultHttpServer.class.getPackage().getName());
+            DefaultHttpServer.class.getPackageName());
 
     /**
      * Stores the executor service.
@@ -131,6 +131,7 @@ public class DefaultHttpServer implements HttpServer {
      *
      * @param serverPort the server port.
      * @param processor the HTTP server processor.
+     * @param ssl the SSL flag.
      */
     public DefaultHttpServer(int serverPort, HttpServerProcessor processor, boolean ssl) {
         this.threadFactory = new DefaultHttpServerThreadFactory();
@@ -165,9 +166,7 @@ public class DefaultHttpServer implements HttpServer {
     }
 
     /**
-     * Is the server running.
-     *
-     * @return true if it is, false otherwise.
+     * @see HttpServer#isRunning()
      */
     @Override
     public boolean isRunning() {
@@ -179,12 +178,12 @@ public class DefaultHttpServer implements HttpServer {
     }
 
     /**
-     * Start the server.
+     * @see HttpServer#start()
      */
     @Override
     public void start() {
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Starting HTTP server on port {0}", serverPort);
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Starting HTTP server on port {0}", serverPort);
         }
         try {
             executorService = Executors.newCachedThreadPool(threadFactory);
@@ -209,8 +208,8 @@ public class DefaultHttpServer implements HttpServer {
             serverAcceptorThread = new Thread(new DefaultHttpServerAcceptorThread(this),
                     "DefaultHttpServer-AcceptorThread");
             serverAcceptorThread.start();
-            if (LOGGER.isLoggable(INFO)) {
-                LOGGER.log(INFO, "Started HTTP server on port {0}", serverPort);
+            if (LOGGER.isLoggable(FINE)) {
+                LOGGER.log(FINE, "Started HTTP server on port {0}", serverPort);
             }
         } catch (IOException exception) {
             if (LOGGER.isLoggable(WARNING)) {
@@ -224,12 +223,12 @@ public class DefaultHttpServer implements HttpServer {
     }
 
     /**
-     * Stop the server.
+     * @see HttpServer#stop()
      */
     @Override
     public void stop() {
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Stopping HTTP server on port {0}", serverPort);
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Stopping HTTP server on port {0}", serverPort);
         }
         serverStopRequest = true;
         if (serverSocket != null) {
@@ -252,8 +251,8 @@ public class DefaultHttpServer implements HttpServer {
                 Thread.currentThread().interrupt();
             }
         }
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Stopped HTTP server on port {0}", serverPort);
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Stopped HTTP server on port {0}", serverPort);
         }
     }
 }

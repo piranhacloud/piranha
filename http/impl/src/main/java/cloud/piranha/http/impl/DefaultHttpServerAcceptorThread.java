@@ -33,7 +33,12 @@ import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 
 /**
- * The default HttpServerAcceptorThread.
+ * The acceptor thread used by the default implementation of HTTP server.
+ *
+ * <p>
+ * This thread is waiting for socket connections, and once it gets a socket
+ * connection it hands it off for processing to a processing thread.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -43,8 +48,8 @@ class DefaultHttpServerAcceptorThread implements Runnable {
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(
-            DefaultHttpServerAcceptorThread.class.getPackage().getName());
-    
+            DefaultHttpServerAcceptorThread.class.getPackageName());
+
     /**
      * Stores the HTTP server.
      */
@@ -60,7 +65,7 @@ class DefaultHttpServerAcceptorThread implements Runnable {
     }
 
     /**
-     * Handle the socket request.
+     * @see Runnable#run()
      */
     @Override
     public void run() {
@@ -71,7 +76,7 @@ class DefaultHttpServerAcceptorThread implements Runnable {
             } catch (IOException exception) {
             } catch (Throwable throwable) {
                 if (LOGGER.isLoggable(WARNING)) {
-                    LOGGER.log(WARNING, "Your application has a problem", throwable);
+                    LOGGER.log(WARNING, "An error occurred while accepting a socket connection", throwable);
                 }
             }
         }
