@@ -70,11 +70,5 @@
             <artifactId>jakarta.transaction-api</artifactId>
             <scope>provided</scope>
         </dependency>
-    </dependencies>    
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/cdi/weld</url>
-        </site>        
-    </distributionManagement>
+    </dependencies>
 </project>

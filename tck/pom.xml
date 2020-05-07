@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha TCK</name>
+    <name>Piranha TCK - Project</name>
 
     <modules>
         <module>el</module>

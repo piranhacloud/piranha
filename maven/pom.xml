@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Maven</name>
+    <name>Piranha Maven - Project</name>
     
     <dependencyManagement>
         <dependencies>

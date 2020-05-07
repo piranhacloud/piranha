@@ -27,10 +27,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/session/hazelcast</url>
-        </site>        
-    </distributionManagement>
 </project>

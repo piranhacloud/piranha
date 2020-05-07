@@ -12,7 +12,7 @@
     <artifactId>piranha-micro</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Micro</name>
+    <name>Piranha - Micro</name>
 
     <dependencyManagement>
         <dependencies>

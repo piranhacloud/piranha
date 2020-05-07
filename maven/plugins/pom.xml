@@ -13,15 +13,8 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Maven Plugins</name>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/maven/plugins</url>
-        </site>        
-    </distributionManagement>
+    <name>Piranha Maven Plugins - Project</name>
     <modules>
         <module>piranha-micro</module>
     </modules>
 </project>
-

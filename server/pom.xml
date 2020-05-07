@@ -12,7 +12,7 @@
     <artifactId>piranha-server</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Server</name>
+    <name>Piranha - Server</name>
     <description>
         The server version of Piranha.
     </description>
@@ -70,13 +70,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/server</url>
-        </site>        
-    </distributionManagement>
-
     <build>
         <finalName>piranha-server</finalName>
         <plugins>

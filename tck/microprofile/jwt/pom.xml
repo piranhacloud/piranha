@@ -12,7 +12,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha TCK - MicroProfile - JWT</name>
+    <name>Piranha TCK - MicroProfile - JWT - Project</name>
 
     <modules>
         <module>extension</module>

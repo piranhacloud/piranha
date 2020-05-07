@@ -13,13 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha MicroProfile - SmallRye</name>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/microprofile/smallrye</url>
-        </site>        
-    </distributionManagement>
+    <name>Piranha MicroProfile - SmallRye - Project</name>
     <modules>
         <module>health</module>
     </modules>

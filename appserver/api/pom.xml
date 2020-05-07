@@ -31,10 +31,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/appserver/api</url>
-        </site>        
-    </distributionManagement>
 </project>

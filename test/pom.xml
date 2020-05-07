@@ -12,7 +12,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Test</name>
+    <name>Piranha Test - Project</name>
 
     <modules>
         <module>classloader</module>
@@ -53,28 +53,4 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>3.1.12.2</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-                <inherited>true</inherited>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.0.0</version>
-                <reportSets>
-                    <reportSet>
-                        <reports/>
-                    </reportSet>
-                </reportSets>
-            </plugin>        
-        </plugins>
-    </reporting>
 </project>

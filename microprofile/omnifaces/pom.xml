@@ -13,13 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha MicroProfile - OmniFaces</name>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/microprofile/omnifaces</url>
-        </site>        
-    </distributionManagement>
+    <name>Piranha MicroProfile - OmniFaces - Project</name>
     <modules>
         <module>jwt</module>
     </modules>
