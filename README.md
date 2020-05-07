@@ -2,14 +2,14 @@
 
 # Piranha Project
 
-![master branch status](https://github.com/piranhacloud/piranha/workflows/master/badge.svg)
+![build status](https://github.com/piranhacloud/piranha/workflows/build/badge.svg)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=coverage)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=security_rating)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
 
 The Piranha Project delivers you with Cloud ready containers and useful add-on / 
-4integration modules.
+integration modules.
 
 The following distributions are available.
 
@@ -27,7 +27,6 @@ See the list below for what add-on / integration modules are available.
 1. [Piranha Mojarra integration](faces/mojarra/README.md)
 1. [Piranha Netty integration](http/netty/README.md)
 1. [Piranha OpenWebBeans integration](cdi/openwebbeans/README.md)
-1. [Piranha Servlet API](servlet/api/README.md)
 
 Note the documentation for the master branch might show features that are NOT 
 yet available as it is under active development. Please see the documentation
