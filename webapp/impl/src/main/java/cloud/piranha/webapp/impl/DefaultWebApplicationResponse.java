@@ -63,7 +63,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      * Stores the buffer.
      */
     protected byte[] buffer;
-    
+
     /**
      * Stores the character encoding.
      */
@@ -249,7 +249,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public String encodeRedirectUrl(String url) {
-        throw new UnsupportedOperationException("HttpServletResponse.encodeRedirectUrl is no longer supported");
+        return encodeRedirectURL(url);
     }
 
     /**
@@ -278,7 +278,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public String encodeUrl(String url) {
-        throw new UnsupportedOperationException("HttpServletResponse.encodeUrl is no longer supported");
+        return encodeURL(url);
     }
 
     /**
@@ -700,8 +700,9 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setStatus(int status) {
-        verifyNotCommitted("setStatus");
-        this.status = status;
+        if (!isCommitted()) {
+            this.status = status;
+        }
     }
 
     /**
@@ -874,7 +875,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (cookie.isHttpOnly()) {
             outputStream.write("; HttpOnly".getBytes());
         }
-        
+
         if (cookie.getPath() != null) {
             outputStream.write(("; Path=" + cookie.getPath()).getBytes());
         }
