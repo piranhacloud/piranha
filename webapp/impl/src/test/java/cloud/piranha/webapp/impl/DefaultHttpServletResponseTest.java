@@ -79,45 +79,45 @@ public class DefaultHttpServletResponseTest {
     /**
      * Test encodeRedirectUrl method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testEncodeRedirectUrl() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
-        response.encodeRedirectUrl("/encodeMe");
+        assertNotNull(response.encodeRedirectURL("/encodeMe"));
     }
 
     /**
      * Test encodeRedirectUrl method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testEncodeRedirectUrl2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
-        response.encodeRedirectUrl("/encodeMe");
+        assertNotNull(response.encodeRedirectUrl("/encodeMe"));
     }
 
     /**
      * Test encodeUrl method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testEncodeUrl() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
-        response.encodeUrl("/encodeMe");
+        assertNotNull(response.encodeURL("/encodeMe"));
     }
 
     /**
      * Test encodeUrl method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testEncodeUrl2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
-        response.encodeUrl("/encodeMe");
+        assertNotNull(response.encodeUrl("/encodeMe"));
     }
 
     /**

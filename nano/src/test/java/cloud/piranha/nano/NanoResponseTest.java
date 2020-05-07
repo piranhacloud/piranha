@@ -104,10 +104,11 @@ public class NanoResponseTest {
     /**
      * Test encodeRedirectUrl method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testEncodeRedirectUrl() {
         NanoResponse response = new NanoResponse();
-        response.encodeRedirectUrl("url");
+        response.setWebApplication(new DefaultWebApplication());
+        assertEquals("url", response.encodeRedirectUrl("url"));
     }
 
     /**
@@ -124,10 +125,11 @@ public class NanoResponseTest {
     /**
      * Test elcodeUrl method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testEncodeUrl() {
         NanoResponse response = new NanoResponse();
-        response.encodeUrl("url");
+        response.setWebApplication(new DefaultWebApplication());
+        assertEquals("url", response.encodeUrl("url"));
     }
 
     /**
