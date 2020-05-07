@@ -43,7 +43,7 @@ import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 
 /**
- * The default HttpServerRequest.
+ * The default implementation of HTTP Server Request.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -53,7 +53,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(
-            DefaultHttpServerRequest.class.getPackage().getName());
+            DefaultHttpServerRequest.class.getPackageName());
 
     /**
      * Stores the headers.
@@ -116,10 +116,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the header.
-     *
-     * @param name the name.
-     * @return the value or null if not found.
+     * @see HttpServerRequest#getHeader(java.lang.String) 
      */
     @Override
     public String getHeader(String name) {
@@ -127,9 +124,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * @see HttpServerRequest#getHeaderNames() 
      */
     @Override
     public Iterator<String> getHeaderNames() {
@@ -137,9 +132,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the input stream.
-     *
-     * @return the input stream.
+     * @see HttpServerRequest#getInputStream() 
      */
     @Override
     public InputStream getInputStream() {
@@ -160,9 +153,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the local address.
-     *
-     * @return the local address.
+     * @see HttpServerRequest#getLocalAddress() 
      */
     @Override
     public String getLocalAddress() {
@@ -170,9 +161,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the local hostname.
-     *
-     * @return the local hostname.
+     * @see HttpServerRequest#getLocalHostname() 
      */
     @Override
     public String getLocalHostname() {
@@ -180,9 +169,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the local port.
-     *
-     * @return the local port.
+     * @see HttpServerRequest#getLocalPort() 
      */
     @Override
     public int getLocalPort() {
@@ -190,9 +177,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the method.
-     *
-     * @return the method.
+     * @see HttpServerRequest#getMethod() 
      */
     @Override
     public String getMethod() {
@@ -200,10 +185,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the query parameter.
-     *
-     * @param name the name.
-     * @return the value, or null.
+     * @see HttpServerRequest#getQueryParameter(java.lang.String) 
      */
     @Override
     public String getQueryParameter(String name) {
@@ -238,9 +220,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the query string.
-     *
-     * @return the query string.
+     * @see HttpServerRequest#getQueryString() 
      */
     @Override
     public String getQueryString() {
@@ -258,9 +238,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the remote hostname.
-     *
-     * @return the remote hostname.
+     * @see HttpServerRequest#getRemoteHostname() 
      */
     @Override
     public String getRemoteHostname() {
@@ -268,9 +246,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the remote port.
-     *
-     * @return the remote port.
+     * @see HttpServerRequest#getRemotePort() 
      */
     @Override
     public int getRemotePort() {
@@ -278,9 +254,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the request target.
-     *
-     * @return the request target.
+     * @see HttpServerRequest#getRequestTarget() 
      */
     @Override
     public String getRequestTarget() {

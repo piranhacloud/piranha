@@ -38,7 +38,7 @@ import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 
 /**
- * The default HttpServerResponse.
+ * The default implementation of HTTP Server Response.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -48,7 +48,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(
-            DefaultHttpServerResponse.class.getPackage().getName());
+            DefaultHttpServerResponse.class.getPackageName());
 
     /**
      * Stores the headers.
@@ -81,10 +81,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     }
     
     /**
-     * Get the header.
-     * 
-     * @param name the name of the header.
-     * @return the header.
+     * @see HttpServerResponse#getHeader(java.lang.String) 
      */
     @Override
     public String getHeader(String name) {
@@ -92,9 +89,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     }
 
     /**
-     * Get the output stream.
-     *
-     * @return the output stream.
+     * @see HttpServerResponse#getOutputStream() 
      */
     @Override
     public OutputStream getOutputStream() {
@@ -113,10 +108,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     }
 
     /**
-     * Add the header.
-     *
-     * @param name the name.
-     * @param value the value.
+     * @see HttpServerResponse#setHeader(java.lang.String, java.lang.String) 
      */
     @Override
     public void setHeader(String name, String value) {
@@ -124,9 +116,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     }
 
     /**
-     * Set the status.
-     *
-     * @param status the status.
+     * @see HttpServerResponse#setStatus(int) 
      */
     @Override
     public void setStatus(int status) {
@@ -151,9 +141,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     }
 
     /**
-     * Write the headers.
-     *
-     * @throws IOException when an I/O error occurs.
+     * @see HttpServerResponse#writeHeaders() 
      */
     @Override
     public void writeHeaders() throws IOException {
@@ -171,9 +159,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     }
 
     /**
-     * Write the status line.
-     *
-     * @throws IOException when an I/O error occurs.
+     * @see HttpServerResponse#writeStatusLine() 
      */
     @Override
     public void writeStatusLine() throws IOException {

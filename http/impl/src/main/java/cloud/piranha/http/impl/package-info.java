@@ -25,44 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.impl;
-
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
-import static java.util.logging.Level.FINE;
-import java.util.logging.Logger;
 
 /**
- * The thread factory used by the default implementation of HTTP server.
- *
  * <p>
- *  This thread factory is when vending new processing threads.
+ * This package delivers the default implementation of the HTTP Server API.
  * </p>
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultHttpServerThreadFactory implements ThreadFactory {
-
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = Logger.getLogger(
-            DefaultHttpServerThreadFactory.class.getPackageName());
-
-    /**
-     * Stores the id.
-     */
-    private final AtomicInteger id = new AtomicInteger(0);
-
-    /**
-     * @see ThreadFactory#newThread(java.lang.Runnable)
-     */
-    @Override
-    public Thread newThread(Runnable runnable) {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Creating new processing thread");
-        }
-        return new Thread(runnable, "DefaultHttpServer-ProcessingThread-"
-                + id.getAndIncrement());
-    }
-}
+package cloud.piranha.http.impl;
