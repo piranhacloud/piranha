@@ -55,7 +55,8 @@
                                 <configuration>
                                     <target>
                                         <!-- download, unzip and rename TCK -->
-                                        <get src="https://download.eclipse.org/jakartaee/servlet/4.0/jakarta-servlet-tck-4.0.0.zip"
+                                        <!-- https://download.eclipse.org/jakartaee/servlet/4.0/jakarta-servlet-tck-4.0.0.zip -->
+                                        <get src="http://download.eclipse.org/ee4j/jakartaee-tck/jakartaee8/promoted/servlet-tck-4.0.0.zip"
                                              dest="${project.build.directory}/tck.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/tck.zip"
                                                dest="${project.build.directory}"/>
@@ -81,6 +82,12 @@
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="servlet\.classes=(.*)"
                                                        replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar"
+                                                       byline="true"/>
+                                        
+                                        <!-- remove java.endorsed.dirs by \ -->
+                                        <replaceregexp file="${tck.home}/bin/ts.jte"
+                                                       match="\s+-Djava\.endorsed\.dirs=(.*)"
+                                                       replace="\\\"
                                                        byline="true"/>
                                 
                                         <!-- copy Piranha script into the TCK -->
@@ -251,7 +258,8 @@
                                 <configuration>
                                     <target>
                                         <!-- download, unzip and rename TCK -->
-                                        <get src="https://download.eclipse.org/jakartaee/servlet/4.0/jakarta-servlet-tck-4.0.0.zip"
+                                        <!-- https://download.eclipse.org/jakartaee/servlet/4.0/jakarta-servlet-tck-4.0.0.zip -->
+                                        <get src="http://download.eclipse.org/ee4j/jakartaee-tck/jakartaee8/promoted/servlet-tck-4.0.0.zip"
                                              dest="${project.build.directory}/tck.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/tck.zip"
                                                dest="${project.build.directory}"/>
@@ -277,6 +285,12 @@
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="servlet\.classes=(.*)"
                                                        replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar"
+                                                       byline="true"/>
+                                        
+                                        <!-- remove java.endorsed.dirs by \ -->
+                                        <replaceregexp file="${tck.home}/bin/ts.jte"
+                                                       match="\s+-Djava\.endorsed\.dirs=(.*)"
+                                                       replace="\\\"
                                                        byline="true"/>
                                 
                                         <!-- copy Piranha script into the TCK -->
@@ -447,7 +461,8 @@
                                 <configuration>
                                     <target>
                                         <!-- download, unzip and rename TCK -->
-                                        <get src="https://download.eclipse.org/jakartaee/servlet/4.0/jakarta-servlet-tck-4.0.0.zip"
+                                        <!-- https://download.eclipse.org/jakartaee/servlet/4.0/jakarta-servlet-tck-4.0.0.zip -->
+                                        <get src="http://download.eclipse.org/ee4j/jakartaee-tck/jakartaee8/promoted/servlet-tck-4.0.0.zip"
                                              dest="${project.build.directory}/tck.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/tck.zip"
                                                dest="${project.build.directory}"/>
@@ -476,7 +491,13 @@
                                                        match="servlet\.classes=(.*)"
                                                        replace="servlet\.classes=${servlet.classes}"
                                                        byline="true"/>
-                                
+
+                                        <!-- remove java.endorsed.dirs by \ -->
+                                        <replaceregexp file="${tck.home}/bin/ts.jte"
+                                                       match="\s+-Djava\.endorsed\.dirs=(.*)"
+                                                       replace="\\\"
+                                                       byline="true"/>
+                                                                
                                         <!-- copy Piranha script into the TCK -->
                                         <copy todir="${tck.home}/bin/xml/impl/piranha">
                                             <fileset dir="${project.basedir}/src/test/piranha"/>
