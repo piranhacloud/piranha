@@ -25,52 +25,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.tyrus;
+package cloud.piranha.webapp.scinitializer;
 
-import cloud.piranha.extension.servlet.ServletExtension;
-import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.micro.MicroPiranha;
-import org.junit.Ignore;
-import org.junit.Test;
+import cloud.piranha.webapp.api.WebApplicationExtension;
+import java.util.ServiceLoader;
+import static java.util.logging.Level.INFO;
+import java.util.logging.Logger;
+import javax.servlet.ServletContainerInitializer;
 
 /**
- * An integration test to verify running a exploded web application coming from
- * a supplied WAR.
+ * The WebApplication extension that enables ServletContainerInitializer
+ * processing.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TyrusIT {
+public class ServletContainerInitializerExtension implements WebApplicationExtension {
 
     /**
-     * Test configure method.
-     *
-     * @throws Exception when an error occurs.
+     * Stores the logger.
      */
-    @Test
-    @Ignore
-    public void testConfigure() throws Exception {
-        final MicroPiranha piranha = new MicroPiranha();
-        WebApplication webApplication = piranha.configure(new String[]{
-            "--webapp", "target/tyrus-exploded", "--war", "target/tyrus.war"});
-        DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
-        context.add(ServletExtension.class);
-        context.configure(webApplication);
-        Thread thread = new Thread(piranha);
-        thread.start();
+    private static final Logger LOGGER = Logger.getLogger(
+            ServletContainerInitializerExtension.class.getPackage().getName());
 
-//        HttpClient client = HttpClient.newHttpClient();
-//        WebSocket webSocket = client.newWebSocketBuilder()
-//                .buildAsync(URI.create("ws://localhost:8080/endpoint"), new Listener() {
-//                    @Override
-//                    public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
-//                        return webSocket.sendText(data, true);
-//                    }
-//                }).join();
-//        Object result = webSocket.sendText("message", true).get();
-//        assertEquals("message", result);
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        if (LOGGER.isLoggable(INFO)) {
+            LOGGER.log(INFO, "Starting ServletContainerInitializer processing");
+        }
+        ServiceLoader<ServletContainerInitializer> serviceLoader = ServiceLoader.load(
+                ServletContainerInitializer.class, webApplication.getClassLoader());
 
-        piranha.stop();
-        Thread.sleep(3000);
+        for (ServletContainerInitializer initializer : serviceLoader) {
+            if (LOGGER.isLoggable(INFO)) {
+                LOGGER.log(INFO, "Adding initializer: {0}", initializer.getClass().getName());
+            }
+            webApplication.addInitializer(initializer);
+        }
+        if (LOGGER.isLoggable(INFO)) {
+            LOGGER.log(INFO, "Finished ServletContainerInitializer processing");
+        }
     }
 }

@@ -25,52 +25,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.tyrus;
+package cloud.piranha.webapp.scinitializer;
 
-import cloud.piranha.extension.servlet.ServletExtension;
-import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.micro.MicroPiranha;
-import org.junit.Ignore;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import org.junit.Test;
 
 /**
- * An integration test to verify running a exploded web application coming from
- * a supplied WAR.
+ * The JUnit tests for the ServletContainerInitializerExtension class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TyrusIT {
+public class ServletContainerInitializerExtensionTest {
 
     /**
      * Test configure method.
-     *
-     * @throws Exception when an error occurs.
      */
     @Test
-    @Ignore
-    public void testConfigure() throws Exception {
-        final MicroPiranha piranha = new MicroPiranha();
-        WebApplication webApplication = piranha.configure(new String[]{
-            "--webapp", "target/tyrus-exploded", "--war", "target/tyrus.war"});
-        DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
-        context.add(ServletExtension.class);
-        context.configure(webApplication);
-        Thread thread = new Thread(piranha);
-        thread.start();
-
-//        HttpClient client = HttpClient.newHttpClient();
-//        WebSocket webSocket = client.newWebSocketBuilder()
-//                .buildAsync(URI.create("ws://localhost:8080/endpoint"), new Listener() {
-//                    @Override
-//                    public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
-//                        return webSocket.sendText(data, true);
-//                    }
-//                }).join();
-//        Object result = webSocket.sendText("message", true).get();
-//        assertEquals("message", result);
-
-        piranha.stop();
-        Thread.sleep(3000);
+    public void testConfigure() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        ServletContainerInitializerExtension extension = new ServletContainerInitializerExtension();
+        extension.configure(webApplication);
     }
 }

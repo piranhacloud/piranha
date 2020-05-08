@@ -29,11 +29,11 @@ package cloud.piranha.micro;
 
 import cloud.piranha.api.Piranha;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
+import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.extension.DefaultWebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
@@ -117,7 +117,7 @@ public class MicroPiranha implements Piranha, Runnable {
             webApplication.addResource(new DirectoryResource(webApplicationDirectory));
         }
         DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-        extensionContext.add(DefaultWebApplicationExtension.class);
+        extensionContext.add(ServletExtension.class);
         extensionContext.configure(webApplication);
         return webApplication;
     }
