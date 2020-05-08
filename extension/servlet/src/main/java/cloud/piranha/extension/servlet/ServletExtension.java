@@ -25,52 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.tyrus;
+package cloud.piranha.extension.servlet;
 
-import cloud.piranha.extension.servlet.ServletExtension;
-import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.micro.MicroPiranha;
-import org.junit.Ignore;
-import org.junit.Test;
+import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.webapp.api.WebApplicationExtensionContext;
+import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
+import cloud.piranha.webapp.scinitializer.ServletContainerInitializerExtension;
+import cloud.piranha.webapp.tempdir.TempDirExtension;
+import cloud.piranha.webapp.webxml.WebXmlExtension;
 
 /**
- * An integration test to verify running a exploded web application coming from
- * a supplied WAR.
+ * The default {@link cloud.piranha.webapp.api.WebApplicationExtension} used to
+ * configure a web application.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.webapp.api.WebApplicationExtension
  */
-public class TyrusIT {
+public class ServletExtension implements WebApplicationExtension {
 
     /**
-     * Test configure method.
+     * Extend the web application.
      *
-     * @throws Exception when an error occurs.
+     * @param context the context.
      */
-    @Test
-    @Ignore
-    public void testConfigure() throws Exception {
-        final MicroPiranha piranha = new MicroPiranha();
-        WebApplication webApplication = piranha.configure(new String[]{
-            "--webapp", "target/tyrus-exploded", "--war", "target/tyrus.war"});
-        DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
-        context.add(ServletExtension.class);
-        context.configure(webApplication);
-        Thread thread = new Thread(piranha);
-        thread.start();
-
-//        HttpClient client = HttpClient.newHttpClient();
-//        WebSocket webSocket = client.newWebSocketBuilder()
-//                .buildAsync(URI.create("ws://localhost:8080/endpoint"), new Listener() {
-//                    @Override
-//                    public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
-//                        return webSocket.sendText(data, true);
-//                    }
-//                }).join();
-//        Object result = webSocket.sendText("message", true).get();
-//        assertEquals("message", result);
-
-        piranha.stop();
-        Thread.sleep(3000);
+    @Override
+    public void extend(WebApplicationExtensionContext context) {
+        context.add(AnnotationScanExtension.class);
+        context.add(WebXmlExtension.class);
+        context.add(TempDirExtension.class);
+        context.add(ServletContainerInitializerExtension.class);
     }
 }

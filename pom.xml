@@ -41,12 +41,12 @@
         <!-- BOM -->
         <module>bom</module>
         
-        <!-- Core modules -->
+        <!-- Core -->
         <module>api</module>
         <module>servlet</module>
         <module>webapp</module>
     
-        <!-- Logical components -->
+        <!-- Components -->
         <module>appserver</module>
         <module>cdi</module>
         <module>faces</module>
@@ -60,7 +60,10 @@
         <module>security</module>
         <module>transaction</module>
         <module>upload</module>
-        
+
+	<!-- Extensions -->
+	<module>extension</module>
+
         <!-- Distributions -->
         <module>nano</module>
         <module>embedded</module>
@@ -70,17 +73,11 @@
         <!-- MicroProfile -->
         <module>microprofile</module>
         
-        <!-- Web Profile -->
-        <module>webprofile</module>
-
         <!-- Arquillian -->
         <module>arquillian</module>
         
         <!-- Maven -->
         <module>maven</module>
-        
-        <!-- Compatibility -->
-        <module>compat</module>
     </modules>
 
     <scm>

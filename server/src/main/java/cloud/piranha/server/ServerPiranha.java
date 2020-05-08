@@ -28,12 +28,12 @@
 package cloud.piranha.server;
 
 import cloud.piranha.api.Piranha;
-import cloud.piranha.webapp.extension.DefaultWebApplicationExtension;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
+import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.resource.DirectoryResource;
 import java.io.BufferedOutputStream;
@@ -203,7 +203,7 @@ public class ServerPiranha implements Piranha, Runnable {
 
                     if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                         DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                        extensionContext.add(DefaultWebApplicationExtension.class);
+                        extensionContext.add(ServletExtension.class);
                         extensionContext.configure(webApplication);
                     } else {
                         DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
