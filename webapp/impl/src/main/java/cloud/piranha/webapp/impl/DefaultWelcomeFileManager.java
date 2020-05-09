@@ -39,6 +39,11 @@ import java.util.List;
 public class DefaultWelcomeFileManager implements WelcomeFileManager {
     
     /**
+     * Stores the remove defaults flag.
+     */
+    private boolean removeDefaults;
+    
+    /**
      * Stores the welcome file list.
      */
     private final ArrayList<String> welcomeFileList;
@@ -47,7 +52,11 @@ public class DefaultWelcomeFileManager implements WelcomeFileManager {
      * Constructor.
      */
     public DefaultWelcomeFileManager() {
+        removeDefaults = true;
         welcomeFileList = new ArrayList<>();
+        welcomeFileList.add("index.jsp");
+        welcomeFileList.add("index.html");
+        welcomeFileList.add("index.htm");
     }
 
     /** 
@@ -57,6 +66,13 @@ public class DefaultWelcomeFileManager implements WelcomeFileManager {
      */
     @Override
     public void addWelcomeFile(String welcomeFile) {
+        /*
+         * Upon the first welcome-file added the default list is deleted.
+         */
+        if (removeDefaults) {
+            welcomeFileList.clear();
+            removeDefaults = false;
+        }
         welcomeFileList.add(welcomeFile);
     }
 

@@ -35,6 +35,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import javax.servlet.FilterRegistration;
+import javax.servlet.Servlet;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -131,6 +132,13 @@ public interface WebApplication extends ServletContext {
      * @return the annotation manager.
      */
     AnnotationManager getAnnotationManager();
+    
+    /**
+     * Get the default Servlet.
+     *
+     * @return the default Servlet.
+     */
+    Servlet getDefaultServlet();
     
     /**
      * Are we denying uncovered HTTP methods.
@@ -287,6 +295,13 @@ public interface WebApplication extends ServletContext {
      * @param contextPath the context path.
      */
     void setContextPath(String contextPath);
+    
+    /**
+     * Set the default servlet.
+     * 
+     * @param defaultServlet the default servlet.
+     */
+    void setDefaultServlet(Servlet defaultServlet);
     
     /**
      * Set if we are denying uncovered HTTP methods.
