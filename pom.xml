@@ -422,12 +422,5 @@
                 <module>test</module>
             </modules>
         </profile>
-        
-        <profile>
-            <id>website</id>
-            <modules>
-                <module>website</module>
-            </modules>
-        </profile>
     </profiles>
 </project>
