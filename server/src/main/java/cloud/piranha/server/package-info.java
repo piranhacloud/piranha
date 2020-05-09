@@ -27,46 +27,7 @@
  */
 /**
  * <p>
- * The Piranha Server package delivers you with a Servlet container that is
- * capable of hosting several web applications.
- * </p>
- *
- * <h2>Installing Piranha Server</h2>
- *
- * <p>
- * Download the ZIP file from
- * <a href="https://repo1.maven.org/maven2/cloud/piranha/piranha-server">Maven
- * Central</a> and unzip it in a directory of your choice.
- * </p>
- *
- * <h2>Start the server</h2>
- *
- * <p>
- * Starting the server is done by issuing the command line below from the
- * <code>bin</code> directory.
- * </p>
- *
- * <pre>
- * start.sh
- * </pre>
- *
- * <h2>Stop the server</h2>
- *
- * <p>
- * Stopping the server is done by issuing the command line below from the
- * <code>bin</code> directory.
- * </p>
- *
- * <pre>
- * stop.sh
- * </pre>
- *
- * <h2>Deploying a web application</h2>
- *
- * <p>
- * Deploying a web application is a simple as copying your WAR file to the
- * <code>webapps</code> directory. Note if the server is already running you
- * will need to stop and start the server.
+ * This package delivers you with a Servlet container version of Piranha.
  * </p>
  *
  * <h2>Architecture diagram</h2>
@@ -86,21 +47,12 @@
  * <p>
  * <img alt="Request and response handling" src="doc-files/request-response.png">
  * </p>
- *
- * <h2>Maven coordinates</h2>
- *
- * <pre>
- * &lt;dependency&gt;
- *   &lt;groupId&gt;cloud.piranha&lt;/groupId&gt;
- *   &lt;artifactId&gt;piranha-server&lt;/artifactId&gt;
- *   &lt;version&gt;y.m.p&lt;/version&gt;
- *   &lt;version&gt;y.m.p&lt;/version&gt;
- * &lt;dependency&gt;
- * </pre>
- *
+ * 
+ * <h2>How do I use Piranha Server?</h2>
+ * 
  * <p>
- * where y is the year, m is the month and p is the patch version of the release
- * you want to use.
+ *  See our <a href="https://piranha.cloud/server/">documentation</a> for more
+ *  information.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)

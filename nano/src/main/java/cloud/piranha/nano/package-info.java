@@ -93,6 +93,13 @@
  * you want to use.
  * </p>
  *
+ * <h2>How do I use Piranha Nano?</h2>
+ *
+ * <p>
+ * See our <a href="https://piranha.cloud/nano/">documentation</a> for more
+ * information.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  * @see cloud.piranha.nano.NanoPiranhaBuilder
  */
