@@ -151,9 +151,15 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the context path.
      */
     protected String contextPath;
-    
+
     /**
-     * Stores the boolean flag indicating if the web application is distributable.
+     * Stores the default servlet (if any).
+     */
+    protected Servlet defaultServlet;
+
+    /**
+     * Stores the boolean flag indicating if the web application is
+     * distributable.
      */
     protected boolean distributable;
 
@@ -277,7 +283,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the mime type manager.
      */
     protected MimeTypeManager mimeTypeManager;
-    
+
     /**
      * Stores the multi part manager.
      */
@@ -287,12 +293,12 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the request character encoding.
      */
     protected String requestCharacterEncoding;
-    
+
     /**
      * Stores the web application request mapper.
      */
     protected WebApplicationRequestMapper webApplicationRequestMapper;
-    
+
     /**
      * Stores the welcome file manager.
      */
@@ -416,7 +422,7 @@ public class DefaultWebApplication implements WebApplication {
     public Set<String> addFilterMapping(String filterName, String... urlPatterns) {
         return webApplicationRequestMapper.addFilterMapping(filterName, urlPatterns);
     }
-    
+
     @Override
     public Set<String> addFilterMapping(String filterName, boolean isMatchAfter, String... urlPatterns) {
         if (isMatchAfter) {
@@ -738,14 +744,14 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Are we denying uncovered HTTP methods.
-     * 
+     *
      * @return true if we are, false otherwise.
      */
     @Override
     public boolean getDenyUncoveredHttpMethods() {
         return securityManager.getDenyUncoveredHttpMethods();
     }
-    
+
     /**
      * Get the class loader.
      *
@@ -778,13 +784,19 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the default session tracking modes.
-     *
-     * @return the default session tracking modes.
+     * @see WebApplication#getDefaultSessionTrackingModes()
      */
     @Override
     public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
         return httpSessionManager.getDefaultSessionTrackingModes();
+    }
+
+    /**
+     * @see WebApplication#getDefaultServlet()
+     */
+    @Override
+    public Servlet getDefaultServlet() {
+        return defaultServlet;
     }
 
     /**
@@ -819,14 +831,14 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Get the multi part manager.
-     * 
+     *
      * @return the multi part manager.
      */
     @Override
     public MultiPartManager getMultiPartManager() {
         return multiPartManager;
     }
-    
+
     /**
      * Get the effective tracking modes.
      *
@@ -977,9 +989,9 @@ public class DefaultWebApplication implements WebApplication {
     public String getRealPath(String path) {
         String realPath = null;
         try {
-            
+
             URL resourceUrl = getResource(path);
-            
+
             if (resourceUrl != null && "file".equals(resourceUrl.getProtocol())) {
                 File file = new File(resourceUrl.toURI());
                 if (file.exists()) {
@@ -1228,7 +1240,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Get the welcome file manager.
-     * 
+     *
      * @return the welcome file manager.
      */
     @Override
@@ -1326,7 +1338,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Is the web application distributable.
-     * 
+     *
      * @return true if it is, false otherwise.
      */
     @Override
@@ -1439,14 +1451,59 @@ public class DefaultWebApplication implements WebApplication {
         linkRequestAndResponse(request, response);
         requestInitialized(request);
 
-        DefaultWebApplicationRequest httpRequest = (DefaultWebApplicationRequest) request;
+        DefaultWebApplicationRequest webappRequest = (DefaultWebApplicationRequest) request;
         DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
 
         // Obtain a reference to the target resource (target Servlet)
-        Servlet servlet = getTargetServlet(httpRequest);
+        Servlet servlet = getTargetServlet(webappRequest);
+
+        /*
+         * We did not find a Servlet, so we are now going to see if we can map any
+         * of the welcome-file entries to a file availabe using
+         * ServletContext.getResource, if so we will change the original request
+         * by adding it to the end of the request and then we let the default
+         * Servlet handle it.
+         */
+        boolean matchedResource = false;
+        if (servlet == null) {
+            String originalPathInfo = webappRequest.getPathInfo() != null
+                    ? webappRequest.getPathInfo() : "";
+            for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
+                webappRequest.setPathInfo(originalPathInfo + welcomeFile);
+                if (getResource(webappRequest.getRequestURI()) != null) {
+                    matchedResource = true;
+                    break;
+                }
+            }
+        }
+
+        /*
+         * We did not find a Servlet, so we are now going to see if we can map any
+         * of the welcome-file entries to a Servlet. If we can we will use the
+         * first match we find.
+         */
+        if (servlet == null && !matchedResource) {
+            String originalPathInfo = webappRequest.getPathInfo() != null
+                    ? webappRequest.getPathInfo() : "";
+            for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
+                webappRequest.setPathInfo(originalPathInfo + welcomeFile);
+                servlet = getTargetServlet(webappRequest);
+                if (servlet != null) {
+                    break;
+                }
+            }
+        }
+
+        /**
+         * We did not find a Servlet, so we are now going to check if a default
+         * Servlet is set and if set we are going to use it.
+         */
+        if (servlet == null && defaultServlet != null) {
+            servlet = defaultServlet;
+        }
 
         // Invoke the Servlet, or first the Filter chain and then the Servlet
-        List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(httpRequest);
+        List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(webappRequest);
 
         Exception exception = null;
         if (servlet == null && filterEnvironments == null) {
@@ -1472,12 +1529,12 @@ public class DefaultWebApplication implements WebApplication {
 
         if (location != null) {
             request.getRequestDispatcher(location)
-                    .forward(httpRequest, httpResponse);
+                    .forward(webappRequest, httpResponse);
         } else if (exception != null) {
             rethrow(exception);
         }
 
-        if (!httpResponse.isCommitted() && !httpRequest.isAsyncStarted()) {
+        if (!httpResponse.isCommitted() && !webappRequest.isAsyncStarted()) {
             httpResponse.flushBuffer();
         }
 
@@ -1547,10 +1604,18 @@ public class DefaultWebApplication implements WebApplication {
         }
         this.contextPath = contextPath;
     }
-    
+
+    /**
+     * @see WebApplication#setDefaultServlet(javax.servlet.Servlet) 
+     */
+    @Override
+    public void setDefaultServlet(Servlet defaultServlet) {
+        this.defaultServlet = defaultServlet;
+    }
+
     /**
      * Set if we are denying uncovered HTTP methods.
-     * 
+     *
      * @param denyUncoveredHttpMethods the boolean value.
      */
     @Override
@@ -1560,14 +1625,14 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Set if the web application is distributable.
-     * 
+     *
      * @param distributable the boolean value.
      */
     @Override
     public void setDistributable(boolean distributable) {
         this.distributable = distributable;
     }
-    
+
     /**
      * Set the HTTP session manager.
      *
@@ -1638,10 +1703,10 @@ public class DefaultWebApplication implements WebApplication {
     public void setMimeTypeManager(MimeTypeManager mimeTypeManager) {
         this.mimeTypeManager = mimeTypeManager;
     }
-    
+
     /**
      * Set the multi part manager.
-     * 
+     *
      * @param multiPartManager the multi part manager.
      */
     @Override
@@ -1750,14 +1815,14 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Set the welcome file manager.
-     * 
+     *
      * @param welcomeFileManager the welcome file manager.
      */
     @Override
     public void setWelcomeFileManager(WelcomeFileManager welcomeFileManager) {
         this.welcomeFileManager = welcomeFileManager;
     }
-    
+
     /**
      * Start servicing.
      */
@@ -1830,22 +1895,22 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     private FilterChain getFilterChain(List<DefaultFilterEnvironment> filterEnvironments, Servlet servlet) {
-        
+
         List<DefaultFilterEnvironment> prioritisedFilters = filterEnvironments.stream()
-            .filter(e -> e.getFilter() instanceof FilterPriority)
-            .sorted((x,y) -> sortOnPriority(x, y))
-            .collect(toList());
-        
+                .filter(e -> e.getFilter() instanceof FilterPriority)
+                .sorted((x, y) -> sortOnPriority(x, y))
+                .collect(toList());
+
         List<DefaultFilterEnvironment> notPrioritisedFilters = filterEnvironments.stream()
                 .filter(e -> e.getFilter() instanceof FilterPriority == false)
                 .collect(toList());
-        
+
         List<DefaultFilterEnvironment> currentEnvironments = new ArrayList<>();
         currentEnvironments.addAll(prioritisedFilters);
         currentEnvironments.addAll(notPrioritisedFilters);
-        
+
         Collections.reverse(currentEnvironments);
-        
+
         DefaultFilterChain downFilterChain = new DefaultFilterChain(servlet);
         DefaultFilterChain upFilterChain;
         for (DefaultFilterEnvironment filterEnvironment : currentEnvironments) {
@@ -1855,12 +1920,12 @@ public class DefaultWebApplication implements WebApplication {
 
         return downFilterChain;
     }
-    
+
     private int sortOnPriority(DefaultFilterEnvironment x, DefaultFilterEnvironment y) {
         FilterPriority filterX = (FilterPriority) x.getFilter();
         FilterPriority filterY = (FilterPriority) y.getFilter();
-        
-        return Integer.compare(filterX.getPriority() , filterY.getPriority());
+
+        return Integer.compare(filterX.getPriority(), filterY.getPriority());
     }
 
     /**
