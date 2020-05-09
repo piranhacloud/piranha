@@ -41,7 +41,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The Netty HTTP server handler.
+ * The Netty Handler used by the Netty implementation of HTTP Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

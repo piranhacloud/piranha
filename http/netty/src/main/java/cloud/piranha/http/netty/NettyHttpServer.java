@@ -37,7 +37,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import java.util.logging.Logger;
 
 /**
- * The Netty HTTP server.
+ * The Netty implementation of HTTP Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -98,9 +98,7 @@ public class NettyHttpServer implements HttpServer {
     }
 
     /**
-     * Is the server running?
-     *
-     * @return true if running, false otherwise.
+     * @see HttpServer#isRunning() 
      */
     @Override
     public boolean isRunning() {
@@ -108,7 +106,7 @@ public class NettyHttpServer implements HttpServer {
     }
 
     /**
-     * Start the server.
+     * @see HttpServer#start() 
      */
     @Override
     public void start() {
@@ -122,7 +120,7 @@ public class NettyHttpServer implements HttpServer {
     }
 
     /**
-     * Stops the server.
+     * @see HttpServer#stop() 
      */
     @Override
     public void stop() {
