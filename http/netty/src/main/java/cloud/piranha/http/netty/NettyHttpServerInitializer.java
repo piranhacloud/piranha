@@ -37,7 +37,7 @@ import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 
 /**
- * The Netty HTTP server initializer.
+ * The Netty Initializer used by the Netty implementation of HTTP Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
