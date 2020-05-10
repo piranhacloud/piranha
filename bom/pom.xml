@@ -25,18 +25,11 @@
                 <version>8.0.0</version>
             </dependency>
             
-            <!-- Jakarta Expression Language -->
-            <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>javax.el</artifactId>
-                <version>3.0.1-b11</version>
-            </dependency>
-            
             <!-- Hazelcast HTTP Session integration -->
             <dependency>
                 <groupId>com.hazelcast</groupId>
                 <artifactId>hazelcast</artifactId>
-                <version>4.0</version>
+                <version>4.0.1</version>
             </dependency>
             
             <!-- HTTP / Network -->
@@ -53,7 +46,7 @@
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-core</artifactId>
-                <version>2.0.30.Final</version>
+                <version>2.1.0.Final</version>
             </dependency>
             
             <!-- H2 database -->
@@ -272,12 +265,12 @@
             <dependency>
                 <groupId>io.smallrye.config</groupId>
                 <artifactId>smallrye-config</artifactId>
-                <version>1.7.0</version>
+                <version>1.8.0</version>
             </dependency>
             <dependency>
                 <groupId>io.smallrye</groupId>
                 <artifactId>smallrye-health</artifactId>
-                <version>2.2.0</version>
+                <version>2.2.1</version>
             </dependency>
                        
             <!-- MVC Frameworks -->
@@ -286,17 +279,17 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-client-compiled</artifactId>
-                <version>8.10.3</version>
+                <version>8.10.4</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-server</artifactId>
-                <version>8.10.3</version>
+                <version>8.10.4</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-themes</artifactId>
-                <version>8.10.3</version>
+                <version>8.10.4</version>
             </dependency>
            
             <!-- Struts -->
@@ -317,7 +310,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>5.2.5.RELEASE</version>
+                <version>5.2.6.RELEASE</version>
             </dependency>
             
             <!-- Test -->

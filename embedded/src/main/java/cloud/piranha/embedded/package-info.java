@@ -27,61 +27,29 @@
  */
 /**
  * <p>
- * Piranha Embedded delivers you with an embeddable implementation of a Servlet
- * container. It is used extensively within the Piranha project itself to test
- * all the Servlet functionality.
+ * This package delivers you with an embbeddable Servlet container that hosts
+ * only a single application without exposing an HTTP endpoint. It is used
+ * extensively within the Piranha project itself to test all the Servlet
+ * functionality.
  * </p>
  *
  * <p>
  * The image below illustrates how the request and response handling is done by
- * Piranha Embedded. When an {@link cloud.piranha.embedded.EmbeddedRequest} comes
- * in it uses a {@link cloud.piranha.webapp.api.WebApplicationRequestMapper} to
- * determine which FilterChain needs to process the incoming request.
+ * Piranha Embedded. When an {@link cloud.piranha.embedded.EmbeddedRequest}
+ * comes in it uses a
+ * {@link cloud.piranha.webapp.api.WebApplicationRequestMapper} to determine
+ * which FilterChain needs to process the incoming request.
  * </p>
  *
  * <p>
  * <img alt="Embedded request and response handling" src="doc-files/request-response.png">
  * </p>
- *
- * <h2>Recommendation</h2>
- *
- * <p>
- * We recommend using {@link cloud.piranha.embedded.EmbeddedPiranhaBuilder} to
- * create your instances of {@link cloud.piranha.embedded.EmbeddedPiranha}..
- * </p>
- *
- * <h2>Expectations and assumptions</h2>
- *
- * <ul>
- * <li>You take care of class loading (if more isolation is needed)</li>
- * <li>You setup the request object</li>
- * <li>You setup the response object</li>
- * </ul>
- *
- * <h2>Limitations</h2>
- *
- * <ul>
- * <li>Only supports one web application per
- * {@link cloud.piranha.embedded.EmbeddedPiranha} instance.</li>
- * </ul>
- *
- * <h2>Maven coordinates</h2>
+ * 
+ * <h2>How do I use Piranha Embedded?</h2>
  *
  * <p>
- * Please use the following dependency.
- * </p>
- *
- * <pre>
- * &lt;dependency&gt;
- *   &lt;groupId&gt;cloud.piranha&lt;/groupId&gt;
- *   &lt;artifactId&gt;piranha-embedded&lt;/artifactId&gt;
- *   &lt;version&gt;y.m.p&lt;/version&gt;
- * &lt;dependency&gt;
- * </pre>
- *
- * <p>
- * where y is the year, m is the month and p is the patch version of the release
- * you want to use.
+ * See our <a href="https://piranha.cloud/embedded/">documentation</a> for more
+ * information.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)

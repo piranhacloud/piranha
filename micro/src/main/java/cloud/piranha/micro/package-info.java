@@ -27,7 +27,7 @@
  */
 /**
  * <p>
- * This package delivers you with a Servlet container that only hosts one web
+ * This package delivers you with a Servlet container that hosts only a single
  * application.
  * </p>
  *
