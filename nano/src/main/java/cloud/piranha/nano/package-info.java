@@ -44,55 +44,6 @@
  * <img alt="Nano request and response chain" src="doc-files/request-response.png">
  * </p>
  *
- * <h2>Recommendation</h2>
- *
- * <p>
- * We recommend using {@link cloud.piranha.nano.NanoPiranhaBuilder} to create
- * your instance of {@link cloud.piranha.nano.NanoPiranha} as it will take care
- * of the initialization of the Filters and the Servlet.
- * </p>
- *
- * <h2>Expectations and assumptions</h2>
- *
- * <ul>
- * <li>You take care of class loading (if more isolation is needed)</li>
- * <li>You add and initialize the filters you want to use in the right
- * order</li>
- * <li>You add and initialize the one servlet you want to use (optional)</li>
- * <li>You setup the request object</li>
- * <li>You setup the response object</li>
- * </ul>
- *
- * <h2>Limitations</h2>
- *
- * <ul>
- * <li>Does not support the ServletContainerInitializer API</li>
- * <li>Does not support the ServletContextListener API</li>
- * <li>Does not support the ServletRequestListener API</li>
- * <li>Does not support request dispatching API</li>
- * <li>Does not support asynchronous Servlet API</li>
- * <li>Does not support HTTP sessions</li>
- * </ul>
- *
- * <h2>Maven coordinates</h2>
- *
- * <p>
- * Please use the following dependency.
- * </p>
- *
- * <pre>
- * &lt;dependency&gt;
- *   &lt;groupId&gt;cloud.piranha&lt;/groupId&gt;
- *   &lt;artifactId&gt;piranha-nano&lt;/artifactId&gt;
- *   &lt;version&gt;y.m.p&lt;/version&gt;
- * &lt;dependency&gt;
- * </pre>
- *
- * <p>
- * where y is the year, m is the month and p is the patch version of the release
- * you want to use.
- * </p>
- *
  * <h2>How do I use Piranha Nano?</h2>
  *
  * <p>
