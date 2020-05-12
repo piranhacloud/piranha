@@ -67,7 +67,7 @@ public class ServerPiranha implements Piranha, Runnable {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(ServerPiranha.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ServerPiranha.class.getPackageName());
 
     /**
      * Stores the one and only instance of the server.

@@ -30,6 +30,8 @@ package cloud.piranha.webapp.scinitializer;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import java.util.ServiceLoader;
+import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.FINER;
 import static java.util.logging.Level.INFO;
 import java.util.logging.Logger;
 import javax.servlet.ServletContainerInitializer;
@@ -55,20 +57,20 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
      */
     @Override
     public void configure(WebApplication webApplication) {
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Starting ServletContainerInitializer processing");
+        if (LOGGER.isLoggable(FINER)) {
+            LOGGER.log(FINER, "Starting ServletContainerInitializer processing");
         }
         ServiceLoader<ServletContainerInitializer> serviceLoader = ServiceLoader.load(
                 ServletContainerInitializer.class, webApplication.getClassLoader());
 
         for (ServletContainerInitializer initializer : serviceLoader) {
-            if (LOGGER.isLoggable(INFO)) {
+            if (LOGGER.isLoggable(FINE)) {
                 LOGGER.log(INFO, "Adding initializer: {0}", initializer.getClass().getName());
             }
             webApplication.addInitializer(initializer);
         }
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Finished ServletContainerInitializer processing");
+        if (LOGGER.isLoggable(FINER)) {
+            LOGGER.log(FINER, "Finished ServletContainerInitializer processing");
         }
     }
 }
