@@ -22,10 +22,7 @@ The following distributions are available.
 
 For hands-on documentation, see our [website](https://piranha.cloud)
 
-### JavaDoc Documentation for the master branch
-
-See [latest SNAPSHOT JavaDoc documentation](https://javadoc.jitpack.io/com/github/piranhacloud/piranha/project/master-SNAPSHOT/javadoc/), 
-courtesy of [JitPack.io](https://jitpack.io).
+For our Javadoc documentation, see our [JavaDoc website](https://javadoc.piranha.cloud)
 
 ## How do I contribute?
 
