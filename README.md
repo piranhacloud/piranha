@@ -20,9 +20,8 @@ The following distributions are available.
 
 ## Documentation
 
-For hands-on documentation, see our [website](https://piranha.cloud)
-
-For our Javadoc documentation, see our [JavaDoc website](https://javadoc.piranha.cloud)
+1. [Hands-on documentation](https://piranha.cloud)
+1. [JavaDoc documentation](https://javadoc.piranha.cloud)
 
 ## How do I contribute?
 
