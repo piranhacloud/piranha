@@ -13,31 +13,23 @@ integration modules.
 
 The following distributions are available.
 
-1. [Piranha Nano](nano/)
-1. [Piranha Embedded](embedded/)
-1. [Piranha Micro](micro/)
-1. [Piranha Server](server/)
+1. [Piranha Nano](https://piranha.cloud/nano/)
+1. [Piranha Embedded](https://piranha.cloud/embedded/)
+1. [Piranha Micro](https://piranha.cloud/micro/)
+1. [Piranha Server](https://piranha.cloud/server/)
 
-See the list below for what add-on / integration modules are available.
+## Documentation
 
-1. [Piranha Grizzly integration](http/grizzly/README.md)
-1. [Piranha Hazelcast HTTP Session integration](session/hazelcast/README.md)
-1. [Piranha Jasper integration](pages/jasper/README.md)
-1. [Piranha MyFaces integration](faces/myfaces/README.md)
-1. [Piranha Mojarra integration](faces/mojarra/README.md)
-1. [Piranha Netty integration](http/netty/README.md)
-1. [Piranha OpenWebBeans integration](cdi/openwebbeans/README.md)
+### Documentation
 
-Note the documentation for the master branch might show features that are NOT 
-yet available as it is under active development. Please see the documentation
-for the release you are using in the links below.
+For more documentation, see our [website](https://piranha.cloud)
 
-## Documentation for the master branch
+### JavaDoc Documentation for the master branch
 
 See [latest SNAPSHOT documentation](https://javadoc.jitpack.io/com/github/piranhacloud/piranha/project/master-SNAPSHOT/javadoc/), 
 courtesy of [JitPack.io](https://jitpack.io).
 
-## Documentation for older releases
+### Documentation for older releases
 
 1. [Version 20.4.0](https://javadoc.piranha.cloud/index.html?overview-summary.html)
 1. [Version 20.3.0](https://github.com/piranhacloud/piranha/tree/v20.3.0)
