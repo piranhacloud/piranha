@@ -11,6 +11,8 @@
 The Piranha Project delivers you with Cloud ready containers and useful add-on / 
 integration modules.
 
+## Distributions
+
 The following distributions are available.
 
 1. [Piranha Nano](https://piranha.cloud/nano/)
@@ -19,6 +21,8 @@ The following distributions are available.
 1. [Piranha Server](https://piranha.cloud/server/)
 
 ## Documentation
+
+The following documentations is available:
 
 1. [Hands-on documentation](https://piranha.cloud)
 1. [JavaDoc documentation](https://javadoc.piranha.cloud)
