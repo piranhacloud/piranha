@@ -30,7 +30,7 @@ package cloud.piranha.monitor.jmx;
 import cloud.piranha.api.Piranha;
 import java.lang.management.ManagementFactory;
 import java.util.Set;
-import static java.util.logging.Level.INFO;
+import static java.util.logging.Level.FINER;
 import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 import javax.management.InstanceAlreadyExistsException;
@@ -80,8 +80,8 @@ public class JMXServerInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> annotatedClasses,
             ServletContext servletContext) throws ServletException {
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Initializing JMX server");
+        if (LOGGER.isLoggable(FINER)) {
+            LOGGER.log(FINER, "Initializing JMX server");
         }
 
         Piranha piranha = null;
@@ -113,8 +113,8 @@ public class JMXServerInitializer implements ServletContainerInitializer {
             }
         }
 
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Initialized JMX server");
+        if (LOGGER.isLoggable(FINER)) {
+            LOGGER.log(FINER, "Initialized JMX server");
         }
     }
 }

@@ -29,12 +29,12 @@ package cloud.piranha.webapp.tempdir;
 
 import java.io.File;
 import java.util.Set;
+import static java.util.logging.Level.FINE;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import static java.util.logging.Level.INFO;
 import static javax.servlet.ServletContext.TEMPDIR;
 
 /**
@@ -68,8 +68,8 @@ public class TempDirInitializer implements ServletContainerInitializer {
         if (!tempDir.exists()) {
             tempDir.mkdirs();
         }
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Setting TEMPDIR for context ''{0}'' to ''{1}''",
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Setting TEMPDIR for context ''{0}'' to ''{1}''",
                     new Object[]{servletContext.getContextPath(), tempDir});
         }
         servletContext.setAttribute(TEMPDIR, tempDir);
