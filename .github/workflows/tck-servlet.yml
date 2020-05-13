@@ -1,6 +1,5 @@
 name: tck-servlet
 on:
-  push:
   schedule:
   - cron: "0 2 * * 1"
 jobs:
