@@ -8,23 +8,23 @@
         <artifactId>project</artifactId>
         <version>20.6.0-SNAPSHOT</version>
     </parent>
+
     <groupId>cloud.piranha.arquillian</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
     <name>Piranha Arquillian - Project</name>
-    
     <description>
         The Piranha Arquillian Project delivers you with Arquillian support.
     </description>
-    
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    
+
     <modules>
         <module>server</module>
     </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -69,7 +69,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
     <profiles>
         <profile>
             <id>release</id>
@@ -98,5 +98,4 @@
             </modules>
         </profile>
     </profiles>
-    
 </project>

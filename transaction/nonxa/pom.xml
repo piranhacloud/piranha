@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>cloud.piranha.transaction</groupId>
         <artifactId>project</artifactId>
         <version>20.6.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>piranha-transaction-nonxa</artifactId>
     <packaging>jar</packaging>
+
     <name>Piranha Transaction - Non XA</name>
+
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/transaction/nonxa</url>
+        </site>        
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.transaction</groupId>
@@ -53,10 +61,4 @@
             </exclusions>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/transaction/nonxa</url>
-        </site>        
-    </distributionManagement>
 </project>

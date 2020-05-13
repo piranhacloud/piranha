@@ -15,20 +15,21 @@
 
     <name>Piranha Resource - Project</name>
 
+    <modules>
+        <module>api</module>
+        <module>impl</module>
+        <module>shrinkwrap</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>cloud.piranha</groupId>
                 <artifactId>bom</artifactId>
                 <version>${project.version}</version>
-                <scope>import</scope>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <modules>
-        <module>api</module>
-        <module>impl</module>
-        <module>shrinkwrap</module>
-    </modules>
 </project>
