@@ -2,20 +2,30 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <artifactId>project</artifactId>
         <groupId>cloud.piranha.appserver</groupId>
+        <artifactId>project</artifactId>
         <version>20.6.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>pirnaha-appserver-rest</artifactId>
     <version>20.6.0-SNAPSHOT</version>
     <packaging>war</packaging>
+
     <name>Piranha Application Server - REST Admin</name>
-    
+
+    <distributionManagement>
+        <site>
+            <id>piranha.cloud</id>
+            <url>https://piranha.cloud/appserver/rest</url>
+        </site>        
+    </distributionManagement>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>jakarta.platform</groupId>
@@ -23,10 +33,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <site>
-            <id>piranha.cloud</id>
-            <url>https://piranha.cloud/appserver/rest</url>
-        </site>        
-    </distributionManagement>
 </project>
