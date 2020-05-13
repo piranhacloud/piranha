@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.webapp</groupId>
         <artifactId>project</artifactId>
-        <version>20.5.0-SNAPSHOT</version>
+        <version>20.5.0</version>
     </parent>
 
     <artifactId>piranha-webapp-webservlet</artifactId>
