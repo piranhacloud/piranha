@@ -14,16 +14,16 @@
         and several useful add-on modules
     </description>
     <url>https://github.com/piranhacloud/piranha</url>
+    <organization>
+        <name>Piranha Cloud</name>
+        <url>https://piranha.cloud</url>
+    </organization>
     <licenses>
         <license>
             <name>Piranha License</name>
             <url>https://raw.githubusercontent.com/piranhacloud/piranha/master/LICENSE</url>
         </license>
     </licenses>
-    <organization>
-        <name>Piranha Cloud</name>
-        <url>https://piranha.cloud</url>
-    </organization>
 
     <developers>
         <developer>
@@ -85,6 +85,12 @@
         <developerConnection>scm:git:git@github.com:piranhacloud/piranha.git</developerConnection>
         <url>https://github.com/piranhacloud/piranha</url>
     </scm>
+    <distributionManagement>      
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -392,13 +398,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>      
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <profiles>
         <profile>

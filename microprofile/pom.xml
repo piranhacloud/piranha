@@ -15,19 +15,20 @@
 
     <name>Piranha MicroProfile - Project</name>
 
+    <modules>
+        <module>smallrye</module>
+        <module>omnifaces</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>cloud.piranha</groupId>
                 <artifactId>bom</artifactId>
                 <version>${project.version}</version>
-                <scope>import</scope>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <modules>
-        <module>smallrye</module>
-        <module>omnifaces</module>
-    </modules>
 </project>

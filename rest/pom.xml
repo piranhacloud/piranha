@@ -15,18 +15,19 @@
 
     <name>Piranha REST</name>
 
+    <modules>
+        <module>jersey</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>cloud.piranha</groupId>
                 <artifactId>bom</artifactId>
                 <version>${project.version}</version>
-                <scope>import</scope>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <modules>
-        <module>jersey</module>
-    </modules>
 </project>

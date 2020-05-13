@@ -13,7 +13,7 @@
     <packaging>maven-plugin</packaging>
 
     <name>Piranha Maven Plugins - Piranha Micro</name>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -28,5 +28,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    
 </project>

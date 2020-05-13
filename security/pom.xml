@@ -15,21 +15,22 @@
 
     <name>Piranha Security - Project</name>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>cloud.piranha</groupId>
-                <artifactId>bom</artifactId>
-                <version>${project.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <modules>
         <module>eleos</module>
         <module>exousia</module>
         <module>jakarta</module>
         <module>soteria</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cloud.piranha</groupId>
+                <artifactId>bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

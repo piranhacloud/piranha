@@ -14,19 +14,20 @@
     <packaging>pom</packaging>
 
     <name>Piranha Upload - Project</name>
-    
+
+    <modules>
+        <module>apache</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>cloud.piranha</groupId>
                 <artifactId>bom</artifactId>
                 <version>${project.version}</version>
-                <scope>import</scope>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <modules>
-        <module>apache</module>
-    </modules>
 </project>

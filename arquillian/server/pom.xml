@@ -7,13 +7,14 @@
         <artifactId>project</artifactId>
         <version>20.6.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>piranha-arquillian-server</artifactId>
+
     <name>Piranha Arquillian - Server</name>
     <description>
         Piranha integration for the Arquillian Project.
     </description>
     <url>https://github.com/piranhacloud/arquillian/server</url>
-
     <licenses>
         <license>
             <name>Piranha License</name>
@@ -33,13 +34,13 @@
             <name>Arjan Tijms</name>
         </developer>
     </developers>
-    
+
     <scm>
         <connection>scm:git:git://github.com/piranhacloud/arquillian.git</connection>
         <developerConnection>scm:git:git@github.com:piranhacloud/arquillian.git</developerConnection>
         <url>https://github.com/piranhacloud/arquillian</url>
     </scm>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.jboss</groupId>
@@ -107,7 +108,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -135,7 +136,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <profiles>
         <profile>
             <id>release</id>
