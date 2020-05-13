@@ -14,6 +14,7 @@
     <packaging>pom</packaging>
 
     <name>Piranha MicroProfile - SmallRye - Project</name>
+
     <modules>
         <module>health</module>
     </modules>

@@ -14,20 +14,21 @@
     <packaging>pom</packaging>
 
     <name>Piranha Transaction - Project</name>
-    
+
+    <modules>
+        <module>api</module>
+        <module>nonxa</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>cloud.piranha</groupId>
                 <artifactId>bom</artifactId>
                 <version>${project.version}</version>
-                <scope>import</scope>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <modules>
-        <module>api</module>
-        <module>nonxa</module>
-    </modules>
 </project>
