@@ -61,8 +61,8 @@
         <module>transaction</module>
         <module>upload</module>
 
-	<!-- Extensions -->
-	<module>extension</module>
+        <!-- Extensions -->
+        <module>extension</module>
 
         <!-- Distributions -->
         <module>nano</module>
@@ -268,8 +268,11 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.2.3</version>
+                                    <version>3.2.5</version>
                                 </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>11</version>
+                                </requireJavaVersion>
                             </rules>    
                         </configuration>
                     </execution>
