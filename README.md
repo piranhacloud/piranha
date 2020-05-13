@@ -24,7 +24,7 @@ The following distributions are available.
 
 The following documentations is available:
 
-1. [Hands-on documentation](https://piranha.cloud)
+1. [Hands-on documentation](https://piranha.cloud/overview.html)
 1. [JavaDoc documentation](https://javadoc.piranha.cloud)
 
 ## How do I contribute?
