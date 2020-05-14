@@ -36,22 +36,23 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import static java.util.logging.Level.INFO;
+import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 
 /**
- * A single thread HttpServer.
+ * A single threaded implementation of HTTP Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see cloud.piranha.http.api.HttpServer
  */
 public class SingleThreadHttpServer implements HttpServer, Runnable {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(HttpServer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(HttpServer.class.getPackageName());
 
     /**
      * Stores the processor.
@@ -124,9 +125,7 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
     }
 
     /**
-     * Is the server running.
-     *
-     * @return true if it is, false otherwise.
+     * @see HttpServer#isRunning() 
      */
     @Override
     public boolean isRunning() {
@@ -134,7 +133,7 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
     }
 
     /**
-     * Handle the socket request.
+     * @see Runnable#run() 
      */
     @Override
     public void run() {
@@ -159,12 +158,12 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
     }
 
     /**
-     * Start the server.
+     * @see HttpServer#start() 
      */
     @Override
     public void start() {
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Start HTTP server");
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Start HTTP server");
         }
         try {
             serverStopRequest = false;
@@ -182,12 +181,12 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
     }
 
     /**
-     * Stop the server.
+     * @see HttpServer#stop() 
      */
     @Override
     public void stop() {
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.log(INFO, "Stopping HTTP server");
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Stopping HTTP server");
         }
         serverStopRequest = true;
         if (serverSocket != null) {
