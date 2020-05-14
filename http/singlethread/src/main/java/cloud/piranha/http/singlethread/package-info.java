@@ -27,9 +27,10 @@
  */
 
 /**
- * A single threaded HttpServer implementation that can be used if you want to
- * run Piranha on single thread.
- * 
+ * <p>
+ * This package delivers a single threaded implementation of the HTTP Server API.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 package cloud.piranha.http.singlethread;
