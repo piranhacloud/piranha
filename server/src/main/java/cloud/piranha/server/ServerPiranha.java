@@ -28,14 +28,15 @@
 package cloud.piranha.server;
 
 import cloud.piranha.api.Piranha;
+import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
+import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.impl.DefaultHttpServer;
+import cloud.piranha.jndi.memory.DefaultInitialContextFactory;
+import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
-import cloud.piranha.extension.servlet.ServletExtension;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.resource.DirectoryResource;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -78,7 +79,7 @@ public class ServerPiranha implements Piranha, Runnable {
      * Defines the attribute name for the ServerPiranha reference.
      */
     private static final String SERVER_PIRANHA = "cloud.piranha.server.ServerPiranha";
-    
+
     /**
      * Stores the SSL flag.
      */
@@ -99,6 +100,9 @@ public class ServerPiranha implements Piranha, Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
+        if (System.getProperty("java.naming.factory.initial") == null) {
+            System.setProperty("java.naming.factory.initial", DefaultInitialContextFactory.class.getName());
+        }
         INSTANCE = new ServerPiranha();
         INSTANCE.processArguments(arguments);
         INSTANCE.run();
@@ -112,7 +116,7 @@ public class ServerPiranha implements Piranha, Runnable {
      * @throws IOException when an I/O error occurs.
      */
     private void extractZipInputStream(ZipInputStream zipInput, String filePath) throws IOException {
-        try (BufferedOutputStream bufferOutput = new BufferedOutputStream(new FileOutputStream(filePath))) {
+        try ( BufferedOutputStream bufferOutput = new BufferedOutputStream(new FileOutputStream(filePath))) {
             byte[] bytesIn = new byte[8192];
             int read;
             while ((read = zipInput.read(bytesIn)) != -1) {
@@ -128,7 +132,7 @@ public class ServerPiranha implements Piranha, Runnable {
         if (!webApplicationDirectory.exists()) {
             webApplicationDirectory.mkdirs();
         }
-        try (ZipInputStream zipInput = new ZipInputStream(new FileInputStream(warFile))) {
+        try ( ZipInputStream zipInput = new ZipInputStream(new FileInputStream(warFile))) {
             ZipEntry entry = zipInput.getNextEntry();
             while (entry != null) {
                 String filePath = webApplicationDirectory + File.separator + entry.getName();
@@ -158,12 +162,12 @@ public class ServerPiranha implements Piranha, Runnable {
 
     /**
      * Process the arguments.
-     * 
+     *
      * @param arguments the arguments.
      */
     private void processArguments(String[] arguments) {
         if (arguments != null) {
-            for(String argument : arguments) {
+            for (String argument : arguments) {
                 if (argument.equals("--ssl")) {
                     ssl = true;
                 }
@@ -180,7 +184,6 @@ public class ServerPiranha implements Piranha, Runnable {
         if (LOGGER.isLoggable(Level.INFO)) {
             LOGGER.info("Starting Piranha");
         }
-        File pidFile = new File("tmp/piranha.pid");
         DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
         DefaultHttpServer httpServer = new DefaultHttpServer(8080, webApplicationServer, ssl);
         httpServer.start();
@@ -235,11 +238,17 @@ public class ServerPiranha implements Piranha, Runnable {
             } catch (InterruptedException ie) {
                 Thread.currentThread().interrupt();
             }
+            File pidFile = new File("tmp/piranha.pid");
             if (!pidFile.exists()) {
                 webApplicationServer.stop();
                 httpServer.stop();
                 System.exit(0);
             }
+        }
+        finishTime = System.currentTimeMillis();
+        if (LOGGER.isLoggable(Level.INFO)) {
+            LOGGER.info("Stopped Piranha");
+            LOGGER.log(Level.INFO, "We ran for {0} milliseconds", finishTime - startTime);
         }
     }
 }
