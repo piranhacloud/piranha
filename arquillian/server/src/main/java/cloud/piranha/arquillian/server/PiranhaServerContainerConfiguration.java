@@ -62,24 +62,19 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
     private List<String> mergedDependencies;
 
     /**
-     * Default constructor. Initializes most of the stuff from
-     * System properties.
+     * Default constructor. Initializes most of the stuff from System properties.
      */
     public PiranhaServerContainerConfiguration() {
-        this (
+        this(
             System.getProperty("piranha.version", PiranhaServerContainerConfiguration.class.getPackage().getImplementationVersion()),
-            System.getProperty("piranha.modules", "piranha-micro"),
-            System.getProperty("piranha.dependencies", ""),
-            System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"),
-            Boolean.valueOf(System.getProperty("piranha.offline", "false")),
-            null,
-            null,
-            null
-        );
+            System.getProperty("piranha.modules", "piranha-micro"), System.getProperty("piranha.dependencies", ""),
+            System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"), Boolean.valueOf(System.getProperty("piranha.offline", "false")),
+                null, null, null);
     }
 
     /**
      * Constructor.
+     * 
      * @param version Piranha version.
      * @param modules Piranha modules.
      * @param dependencies Piranha dependencies.
@@ -89,12 +84,8 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
      * @param repositoriesList List of repos.
      * @param mergedDependencies List of merged dependencies.
      */
-    public PiranhaServerContainerConfiguration(
-        String version, String modules, String dependencies,
-        String repositories, boolean offline,
-        List<String> modulesList, List<String> repositoriesList,
-        List<String> mergedDependencies
-    ) {
+    public PiranhaServerContainerConfiguration(String version, String modules, String dependencies, String repositories, boolean offline,
+            List<String> modulesList, List<String> repositoriesList, List<String> mergedDependencies) {
         this.version = version;
         this.modules = modules;
         this.dependencies = dependencies;
@@ -107,51 +98,36 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
 
     @Override
     public void validate() throws ConfigurationException {
-        modulesList = Arrays.stream(modules.split(","))
-                            .map(module -> module.trim())
-                            .collect(toList());
+        modulesList = Arrays.stream(modules.split(",")).map(module -> module.trim()).collect(toList());
 
-        Stream<String> moduleDependenciesStream = modulesList.stream()
-            .map(module -> "cloud.piranha:" + module + ":" + version);
+        Stream<String> moduleDependenciesStream = modulesList.stream().map(module -> "cloud.piranha:" + module + ":" + version);
 
-        Stream<String> dependenciesStream = Arrays.stream(
-            dependencies.split(",")
-        ).map(dep -> dep.trim()).filter(dep -> !dep.isEmpty());
+        Stream<String> dependenciesStream = Arrays.stream(dependencies.split(",")).map(dep -> dep.trim()).filter(dep -> !dep.isEmpty());
 
-        repositoriesList = Arrays.stream(repositories.split(","))
-                                 .map(repo -> repo.trim())
-                                 .filter(repo -> !repo.isEmpty())
-                                 .collect(toList());
+        repositoriesList = Arrays.stream(repositories.split(",")).map(repo -> repo.trim()).filter(repo -> !repo.isEmpty()).collect(toList());
 
-        mergedDependencies = Stream.concat(
-            moduleDependenciesStream, dependenciesStream
-        ).collect(toList());
+        mergedDependencies = Stream.concat(moduleDependenciesStream, dependenciesStream).collect(toList());
     }
 
     public String getVersion() {
         return version;
     }
 
-
     public void setVersion(String version) {
         this.version = version;
     }
-
 
     public String getModules() {
         return modules;
     }
 
-
     public void setModules(String modules) {
         this.modules = modules;
     }
 
-
     public String getRepositories() {
         return repositories;
     }
-
 
     public void setRepositories(String repositories) {
         this.repositories = repositories;

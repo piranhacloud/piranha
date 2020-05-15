@@ -157,9 +157,7 @@ public class ShrinkWrapResource implements Resource {
         
         // Relative URL: [shrinkwrap://][jar name][location]
         try {
-            String cleanedUrl = url.replace("cloud/piranha/shrinkwrap://", "shrinkwrap://");
-            
-            URL archiveURL = new URL(cleanedUrl);
+            URL archiveURL = new URL(url.substring(url.indexOf("shrinkwrap://")));
             
             String archiveName = archiveURL.getHost();
             if (!archive.getName().equals(archiveName)) {
