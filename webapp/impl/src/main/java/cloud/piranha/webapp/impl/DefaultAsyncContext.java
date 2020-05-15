@@ -28,6 +28,7 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,6 +75,11 @@ public class DefaultAsyncContext implements AsyncContext {
      * Stores the response.
      */
     private final ServletResponse response;
+    
+    /**
+     * Stores the underlying request.
+     */
+    private final WebApplicationRequest underlyingRequest;
 
     /**
      * Stores the timeout.
@@ -89,6 +95,13 @@ public class DefaultAsyncContext implements AsyncContext {
     public DefaultAsyncContext(ServletRequest request, ServletResponse response) {
         this.request = request;
         this.response = response;
+        
+        ServletRequest current = request;
+        while(current instanceof ServletRequestWrapper) {
+            ServletRequestWrapper wrapper = (ServletRequestWrapper) current;
+            current = wrapper.getRequest();
+        }
+        underlyingRequest = (WebApplicationRequest) current;
     }
 
     /**
@@ -184,36 +197,18 @@ public class DefaultAsyncContext implements AsyncContext {
     }
 
     /**
-     * Dispatch.
+     * @see AsyncContext.dispatch()
      */
     @Override
     public void dispatch() {
-        if (!response.isCommitted()) {
-            try {
-                response.flushBuffer();
-            } catch (IOException ioe) {
-                if (LOGGER.isLoggable(Level.WARNING)) {
-                    LOGGER.log(Level.WARNING, "IOException when flushing async response buffer", ioe);
-                }
-                // nothing can be done at this point.
-            }
+        String path;
+        if (request instanceof HttpServletRequest) {
+            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+            path = httpServletRequest.getRequestURI();
+        } else {
+            path = underlyingRequest.getRequestURI();
         }
-        ServletResponse servletResponse = response;
-        while (servletResponse instanceof ServletResponseWrapper) {
-            ServletResponseWrapper wrapper = (ServletResponseWrapper) servletResponse;
-            servletResponse = wrapper.getResponse();
-        }
-        if (servletResponse instanceof WebApplicationResponse) {
-            try {
-                WebApplicationResponse underlyingResponse = (WebApplicationResponse) servletResponse;
-                underlyingResponse.getUnderlyingOutputStream().flush();
-                underlyingResponse.getUnderlyingOutputStream().close();
-            } catch (IOException ioe) {
-                if (LOGGER.isLoggable(Level.WARNING)) {
-                    LOGGER.log(Level.WARNING, "IOException when flushing the underlying async output stream", ioe);
-                }
-            }
-        }
+        dispatch(path);
     }
 
     /**

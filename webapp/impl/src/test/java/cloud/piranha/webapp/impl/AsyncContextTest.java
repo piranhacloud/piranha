@@ -27,24 +27,26 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import java.io.ByteArrayOutputStream;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the DefaultAnnotationManager class.
+ * The JUnit tests for the AsyncContext API.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultAnnotationManagerTest {
+public class AsyncContextTest {
     
     /**
-     * Test getClasses method.
+     * Test dispatch() method.
      */
     @Test
-    public void testGetClasses() {
-        DefaultAnnotationManager manager = new DefaultAnnotationManager();
-        assertNotNull(manager.getAnnotatedClasses());
-        assertTrue(manager.getAnnotatedClasses().isEmpty());
+    public void testDispatch() {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
+        DefaultAsyncContext context = new DefaultAsyncContext(request, response);
+        context.dispatch();
     }
 }
