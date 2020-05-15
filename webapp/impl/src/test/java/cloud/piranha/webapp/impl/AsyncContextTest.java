@@ -38,7 +38,7 @@ import org.junit.Test;
 public class AsyncContextTest {
     
     /**
-     * Test dispatch() method.
+     * Test dispatch method.
      */
     @Test
     public void testDispatch() {
