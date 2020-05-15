@@ -1286,9 +1286,9 @@ public class DefaultWebApplication implements WebApplication {
                 try {
                     environment.initialize();
                     environment.getFilter().init(environment);
-                } catch (ServletException exception) {
+                } catch (Throwable t) {
                     if (LOGGER.isLoggable(WARNING)) {
-                        LOGGER.log(WARNING, "Unable to initialize filter: " + environment.getFilterName(), exception);
+                        LOGGER.log(WARNING, "Unable to initialize filter: " + environment.getFilterName(), t);
                     }
                     environment.setStatus(UNAVAILABLE);
                 }
@@ -1305,9 +1305,9 @@ public class DefaultWebApplication implements WebApplication {
         for (ServletContainerInitializer initializer : initializers) {
             try {
                 initializer.onStartup(annotationManager.getAnnotatedClasses(), this);
-            } catch (ServletException ex) {
+            } catch (Throwable t) {
                 if (LOGGER.isLoggable(WARNING)) {
-                    LOGGER.log(Level.WARNING, "Initializer " + initializer.getClass().getName() + " failing onStartup", ex);
+                    LOGGER.log(Level.WARNING, "Initializer " + initializer.getClass().getName() + " failing onStartup", t);
                 }
                 error = true;
             }
@@ -1370,9 +1370,9 @@ public class DefaultWebApplication implements WebApplication {
             }
             environment.getServlet().init(environment);
             LOGGER.log(FINE, "Initialized servlet: {0}", environment.servletName);
-        } catch (ServletException | ClassNotFoundException exception) {
+        } catch (Throwable t) {
             if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to initialize servlet: " + environment.className, exception);
+                LOGGER.log(WARNING, "Unable to initialize servlet: " + environment.className, t);
             }
             environment.setServlet(null);
             environment.setStatus(DefaultServletEnvironment.UNAVAILABLE);
