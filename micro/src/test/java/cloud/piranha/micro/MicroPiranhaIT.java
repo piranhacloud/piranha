@@ -32,6 +32,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -47,6 +49,7 @@ public class MicroPiranhaIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
+    @Ignore
     public void testCommandLine() throws Exception {
         String version = System.getProperty("VERSION");
         ProcessBuilder builder = new ProcessBuilder();
