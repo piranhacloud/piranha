@@ -25,27 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.api;
+package cloud.piranha.webapp.impl;
 
+import cloud.piranha.webapp.api.AsyncDispatcher;
+import cloud.piranha.webapp.api.WebApplication;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * The AsyncManager API.
+ * The default AsyncDispatcher.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface AsyncManager {
+public class DefaultAsyncDispatcher implements AsyncDispatcher {
 
     /**
-     * Get the async dispatcher.
+     * Constructor.
      * 
      * @param webApplication the web application.
      * @param path the path.
-     * @param request the servlet request.
-     * @param response the servlet response.
-     * @return the async dispatcher.
+     * @param request the request.
+     * @param response the response.
      */
-    AsyncDispatcher getDispatcher(WebApplication webApplication, String path, 
-            ServletRequest request, ServletResponse response);
+    public DefaultAsyncDispatcher(WebApplication webApplication, String path, ServletRequest request, ServletResponse response) {
+    }
+
+    /**
+     * @see AsyncDispatcher#dispatch() 
+     */
+    @Override
+    public void dispatch() {
+    }
 }

@@ -27,25 +27,15 @@
  */
 package cloud.piranha.webapp.api;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
 /**
- * The AsyncManager API.
+ * The AsyncDispatcher API.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface AsyncManager {
+public interface AsyncDispatcher {
 
     /**
-     * Get the async dispatcher.
-     * 
-     * @param webApplication the web application.
-     * @param path the path.
-     * @param request the servlet request.
-     * @param response the servlet response.
-     * @return the async dispatcher.
+     * Dispatch.
      */
-    AsyncDispatcher getDispatcher(WebApplication webApplication, String path, 
-            ServletRequest request, ServletResponse response);
+    void dispatch();
 }

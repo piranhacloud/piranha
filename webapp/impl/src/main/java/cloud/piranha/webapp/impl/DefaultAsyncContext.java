@@ -27,9 +27,10 @@
  */
 package cloud.piranha.webapp.impl;
 
+import cloud.piranha.webapp.api.AsyncDispatcher;
+import cloud.piranha.webapp.api.AsyncManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
-import cloud.piranha.webapp.api.WebApplicationResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,16 +39,12 @@ import java.util.logging.Logger;
 import javax.servlet.AsyncContext;
 import javax.servlet.AsyncEvent;
 import javax.servlet.AsyncListener;
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
-import javax.servlet.ServletResponseWrapper;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 
 /**
  * The default AsyncContext.
@@ -75,7 +72,7 @@ public class DefaultAsyncContext implements AsyncContext {
      * Stores the response.
      */
     private final ServletResponse response;
-    
+
     /**
      * Stores the underlying request.
      */
@@ -95,9 +92,9 @@ public class DefaultAsyncContext implements AsyncContext {
     public DefaultAsyncContext(ServletRequest request, ServletResponse response) {
         this.request = request;
         this.response = response;
-        
+
         ServletRequest current = request;
-        while(current instanceof ServletRequestWrapper) {
+        while (current instanceof ServletRequestWrapper) {
             ServletRequestWrapper wrapper = (ServletRequestWrapper) current;
             current = wrapper.getRequest();
         }
@@ -212,38 +209,11 @@ public class DefaultAsyncContext implements AsyncContext {
     }
 
     /**
-     * Dispatch.
-     *
-     * @param path the path.
+     * @see AsyncContext#dispatch(java.lang.String)
      */
     @Override
     public void dispatch(String path) {
-        if (!response.isCommitted()) {
-            try {
-                response.flushBuffer();
-            } catch (IOException ioe) {
-                if (LOGGER.isLoggable(Level.WARNING)) {
-                    LOGGER.log(Level.WARNING, "IOException when flushing async response buffer", ioe);
-                }
-                // nothing can be done at this point.
-            }
-        }
-        ServletResponse servletResponse = response;
-        while (servletResponse instanceof ServletResponseWrapper) {
-            ServletResponseWrapper wrapper = (ServletResponseWrapper) servletResponse;
-            servletResponse = wrapper.getResponse();
-        }
-        if (servletResponse instanceof WebApplicationResponse) {
-            try {
-                WebApplicationResponse underlyingResponse = (WebApplicationResponse) servletResponse;
-                underlyingResponse.getUnderlyingOutputStream().flush();
-                underlyingResponse.getUnderlyingOutputStream().close();
-            } catch (IOException ioe) {
-                if (LOGGER.isLoggable(Level.WARNING)) {
-                    LOGGER.log(Level.WARNING, "IOException when flushing the underlying async output stream", ioe);
-                }
-            }
-        }
+        dispatch(request.getServletContext(), path);
     }
 
     /**
@@ -255,69 +225,10 @@ public class DefaultAsyncContext implements AsyncContext {
     @Override
     public void dispatch(ServletContext servletContext, String path) {
         WebApplication webApplication = (WebApplication) servletContext;
-        RequestDispatcher dispatcher = webApplication.getRequestDispatcher(path);
-        try {
-            ServletRequest servletRequest = request;
-            while (servletRequest instanceof ServletRequestWrapper) {
-                ServletRequestWrapper wrapper = (ServletRequestWrapper) servletRequest;
-                servletRequest = wrapper.getRequest();
-            }
-            HttpServletRequestWrapper wrappedRequest
-                    = new HttpServletRequestWrapper((HttpServletRequest) servletRequest) {
-
-                private boolean asyncStarted = false;
-
-                @Override
-                public boolean isAsyncStarted() {
-                    return asyncStarted;
-                }
-
-                @Override
-                public DispatcherType getDispatcherType() {
-                    return DispatcherType.ASYNC;
-                }
-
-                public void setAsyncStarted(boolean asyncStarted) {
-                    this.asyncStarted = asyncStarted;
-                }
-            };
-            ServletResponse servletResponse = response;
-            while (servletResponse instanceof ServletResponseWrapper) {
-                ServletResponseWrapper wrapper = (ServletResponseWrapper) servletResponse;
-                servletResponse = wrapper.getResponse();
-            }
-            dispatcher.forward(wrappedRequest, servletResponse);
-        } catch (IOException | ServletException e) {
-            if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.log(Level.WARNING, "An error occurred during async dispatch", e);
-            }
-        }
-        if (!response.isCommitted()) {
-            try {
-                response.flushBuffer();
-            } catch (IOException ioe) {
-                if (LOGGER.isLoggable(Level.WARNING)) {
-                    LOGGER.log(Level.WARNING, "IOException when flushing async response buffer", ioe);
-                }
-                // nothing can be done at this point.
-            }
-        }
-        ServletResponse servletResponse = response;
-        while (servletResponse instanceof ServletResponseWrapper) {
-            ServletResponseWrapper wrapper = (ServletResponseWrapper) servletResponse;
-            servletResponse = wrapper.getResponse();
-        }
-        if (servletResponse instanceof WebApplicationResponse) {
-            try {
-                WebApplicationResponse underlyingResponse = (WebApplicationResponse) servletResponse;
-                underlyingResponse.getUnderlyingOutputStream().flush();
-                underlyingResponse.getUnderlyingOutputStream().close();
-            } catch (IOException ioe) {
-                if (LOGGER.isLoggable(Level.WARNING)) {
-                    LOGGER.log(Level.WARNING, "IOException when flushing the underlying async output stream", ioe);
-                }
-            }
-        }
+        AsyncManager asyncManager = webApplication.getAsyncManager();
+        AsyncDispatcher dispatcher = asyncManager.getDispatcher(
+                webApplication, path, request, response);
+        dispatcher.dispatch();
     }
 
     /**
