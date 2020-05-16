@@ -68,4 +68,20 @@ public class AsyncContextTest {
         DefaultAsyncContext context = new DefaultAsyncContext(request, response);
         context.dispatch("/mypath");
     }
+    
+    /**
+     * Test dispatch method.
+     */
+    @Test
+    public void testDispatch3() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApp);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
+        response.setWebApplication(webApp);
+        DefaultAsyncContext context = new DefaultAsyncContext(request, response);
+        context.dispatch(webApp, "/mypath");
+    }
 }
