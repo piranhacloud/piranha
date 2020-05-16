@@ -134,6 +134,13 @@ public interface WebApplication extends ServletContext {
     AnnotationManager getAnnotationManager();
     
     /**
+     * Get the async manager.
+     * 
+     * @return the async manager.
+     */
+    AsyncManager getAsyncManager();
+    
+    /**
      * Get the default Servlet.
      *
      * @return the default Servlet.

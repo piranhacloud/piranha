@@ -91,6 +91,7 @@ import cloud.piranha.webapp.api.MultiPartManager;
 import cloud.piranha.webapp.api.ObjectInstanceManager;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.api.ResourceManager;
+import cloud.piranha.webapp.api.AsyncManager;
 import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
@@ -142,6 +143,11 @@ public class DefaultWebApplication implements WebApplication {
      */
     private static final Logger LOGGER = Logger.getLogger(DefaultWebApplication.class.getName());
 
+    /**
+     * Stores the async manager.
+     */
+    protected AsyncManager asyncManager;
+    
     /**
      * Stores the class loader.
      */
@@ -309,6 +315,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     public DefaultWebApplication() {
         annotationManager = new DefaultAnnotationManager();
+        asyncManager = new DefaultAsyncManager();
         attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
         contextAttributeListeners = new ArrayList<>(1);
@@ -1999,5 +2006,15 @@ public class DefaultWebApplication implements WebApplication {
         contextAttributeListeners.stream().forEach((listener) -> {
             listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value));
         });
+    }
+
+    /**
+     * Get the async manager.
+     * 
+     * @return the async manager.
+     */
+    @Override
+    public AsyncManager getAsyncManager() {
+        return asyncManager;
     }
 }
