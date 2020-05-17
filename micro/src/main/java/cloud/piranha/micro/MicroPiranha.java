@@ -27,28 +27,20 @@
  */
 package cloud.piranha.micro;
 
-import cloud.piranha.api.Piranha;
-import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
-import cloud.piranha.extension.servlet.ServletExtension;
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.impl.DefaultHttpServer;
-import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
-import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+
+import cloud.piranha.api.Piranha;
 
 /**
  * The micro version of Piranha.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
  */
 public class MicroPiranha implements Piranha, Runnable {
 
@@ -58,47 +50,45 @@ public class MicroPiranha implements Piranha, Runnable {
     static final String MICRO_PIRANHA = "cloud.piranha.micro.MicroPiranha";
 
     /**
-     * Stores the HTTP server.
-     */
-    private DefaultHttpServer httpServer;
-
-    /**
-     * Stores the HTTP port.
+     * The HTTP port on which Piranha accepts requests
      */
     private int port = 8080;
 
     /**
      * Stores the WAR file.
      */
-    private File warFile;
+    private Archive<?> archive;
+
+    private MicroOuterDeployer outerDeployer;
 
     /**
-     * Stores the web application.
+     * Main method.
+     *
+     * @param arguments the arguments.
      */
-    private WebApplication webApplication;
-
-    /**
-     * Stores the (exploded) web application directory.
-     */
-    private File webApplicationDirectory = new File("webapp");
-
-    /**
-     * Stores the web application server.
-     */
-    private DefaultWebApplicationServer webApplicationServer;
+    public static void main(String[] arguments) {
+        MicroPiranha runner = new MicroPiranha();
+        runner.configure(arguments);
+        runner.run();
+        while (true) { //tmp
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
 
     /**
      * Configure.
      *
      * @param arguments the arguments.
-     * @return the web application.
      */
-    public WebApplication configure(String[] arguments) {
+    public void configure(String[] arguments) {
+        File warFile = null;
+
         if (arguments.length > 0) {
             for (int i = 0; i < arguments.length; i++) {
-                if (arguments[i].equals("--webapp")) {
-                    webApplicationDirectory = new File(arguments[i + 1]);
-                }
                 if (arguments[i].equals("--war")) {
                     warFile = new File(arguments[i + 1]);
                 }
@@ -107,70 +97,12 @@ public class MicroPiranha implements Piranha, Runnable {
                 }
             }
         }
+
         if (warFile != null) {
-            extractWarFile();
+            archive = ShrinkWrap.create(ZipImporter.class).importFrom(warFile).as(WebArchive.class);
+        } else {
+            archive = ShrinkWrap.create(WebArchive.class);
         }
-        webApplication = new DefaultWebApplication();
-        webApplication.setAttribute(MICRO_PIRANHA, this);
-        if (webApplicationDirectory != null) {
-            webApplication.setClassLoader(new DefaultWebApplicationClassLoader(webApplicationDirectory));
-            webApplication.addResource(new DirectoryResource(webApplicationDirectory));
-        }
-        DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-        extensionContext.add(ServletExtension.class);
-        extensionContext.configure(webApplication);
-        return webApplication;
-    }
-
-    /**
-     * Extract the zip input stream.
-     *
-     * @param zipInput the zip input stream.
-     * @param filePath the file path.
-     * @throws IOException when an I/O error occurs.
-     */
-    private void extractZipInputStream(ZipInputStream zipInput, String filePath) throws IOException {
-        try (BufferedOutputStream bufferOutput = new BufferedOutputStream(new FileOutputStream(filePath))) {
-            byte[] bytesIn = new byte[8192];
-            int read;
-            while ((read = zipInput.read(bytesIn)) != -1) {
-                bufferOutput.write(bytesIn, 0, read);
-            }
-        }
-    }
-
-    /**
-     * Extract the WAR file.
-     */
-    private void extractWarFile() {
-        if (!webApplicationDirectory.exists()) {
-            webApplicationDirectory.mkdirs();
-        }
-        try (ZipInputStream zipInput = new ZipInputStream(new FileInputStream(warFile))) {
-            ZipEntry entry = zipInput.getNextEntry();
-            while (entry != null) {
-                String filePath = webApplicationDirectory + File.separator + entry.getName();
-                if (!entry.isDirectory()) {
-                    File file = new File(filePath);
-                    if (!file.getParentFile().exists()) {
-                        file.getParentFile().mkdirs();
-                    }
-                    extractZipInputStream(zipInput, filePath);
-                }
-                zipInput.closeEntry();
-                entry = zipInput.getNextEntry();
-            }
-        } catch (IOException ioe) {
-        }
-    }
-
-    /**
-     * Get the HTTP server.
-     *
-     * @return the HTTP server.
-     */
-    public HttpServer getHttpServer() {
-        return httpServer;
     }
 
     /**
@@ -184,52 +116,23 @@ public class MicroPiranha implements Piranha, Runnable {
     }
 
     /**
-     * Get the web application.
-     *
-     * @return the web application.
-     */
-    public WebApplication getWebApplication() {
-        return webApplication;
-    }
-
-    /**
-     * Main method.
-     *
-     * @param arguments the arguments.
-     */
-    public static void main(String[] arguments) {
-        System.setProperty("java.naming.factory.initial", "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
-        MicroPiranha runner = new MicroPiranha();
-        runner.configure(arguments);
-        runner.run();
-    }
-
-    /**
      * Start method.
      */
     @Override
     public void run() {
-        webApplicationServer = new DefaultWebApplicationServer();
-        webApplicationServer.addWebApplication(webApplication);
-        webApplicationServer.initialize();
-        webApplicationServer.start();
-        httpServer = new DefaultHttpServer(port, webApplicationServer, false);
-        httpServer.start();
-        while (httpServer.isRunning()) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-            }
-        }
+        MicroConfiguration configuration = new MicroConfiguration();
+        configuration.setPort(port);
+        
+        outerDeployer = new MicroOuterDeployer(configuration.postConstruct());
+        outerDeployer.deploy(archive);
     }
 
     /**
      * Stop method.
      */
     public void stop() {
-        if (httpServer != null) {
-            httpServer.stop();
+        if (outerDeployer != null) {
+            outerDeployer.stop();
         }
     }
 }

@@ -25,30 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.arquillian.server;
+package cloud.piranha.micro;
 
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-public class StaticURLStreamHandlerFactory implements URLStreamHandlerFactory {
+public class StaticStreamHandler extends URLStreamHandler {
     
-    private static final Map<String, Function<URL, URLConnection>> HANDLERS = new ConcurrentHashMap<>();
-
-    public static Map<String, Function<URL, URLConnection>> getHandlers() {
-        return HANDLERS;
+    private final String protocol;
+    private final Map<String, Function<URL, URLConnection>> handlers;
+    
+    public StaticStreamHandler(String protocol, Map<String, Function<URL, URLConnection>> handlers) {
+        this.protocol = protocol;
+        this.handlers = handlers;
     }
 
     @Override
-    public URLStreamHandler createURLStreamHandler(String protocol) {
-        if (!HANDLERS.containsKey(protocol)) {
-            return null;
-        }
-        
-        return new StaticStreamHandler(protocol, HANDLERS);
+    protected URLConnection openConnection(URL u) throws IOException {
+        return handlers.get(protocol).apply(u);
     }
+    
 }

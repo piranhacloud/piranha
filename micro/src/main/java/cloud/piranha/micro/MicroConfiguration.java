@@ -25,51 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.arquillian.server;
+package cloud.piranha.micro;
 
+import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Stream.concat;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.jboss.arquillian.container.spi.ConfigurationException;
-import org.jboss.arquillian.container.spi.client.container.ContainerConfiguration;
-
 /**
- * The configuration settings for the Piranha Arquillian connector.
+ * The configuration settings for Piranha Micro
  *
  *
  * @author Arjan Tijms
  *
  */
-public class PiranhaServerContainerConfiguration implements ContainerConfiguration {
+public class MicroConfiguration {
 
     private String version;
-
     private String modules;
-
     private String dependencies;
-
     private String repositories;
-
     private boolean offline;
+    private int port;
 
     private List<String> modulesList;
-
     private List<String> repositoriesList;
-
     private List<String> mergedDependencies;
+    
 
     /**
      * Default constructor. Initializes most of the stuff from System properties.
      */
-    public PiranhaServerContainerConfiguration() {
+    public MicroConfiguration() {
         this(
-            System.getProperty("piranha.version", PiranhaServerContainerConfiguration.class.getPackage().getImplementationVersion()),
-            System.getProperty("piranha.modules", "piranha-micro"), System.getProperty("piranha.dependencies", ""),
-            System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"), Boolean.valueOf(System.getProperty("piranha.offline", "false")),
-                null, null, null);
+            System.getProperty("piranha.version", MicroConfiguration.class.getPackage().getImplementationVersion()),
+            System.getProperty("piranha.modules", "piranha-micro"), 
+            System.getProperty("piranha.dependencies", ""),
+            System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"), 
+            Boolean.valueOf(System.getProperty("piranha.offline", "false")),
+            Integer.valueOf(System.getProperty("piranha.port", "8080")),
+            
+            null, 
+            null, 
+            null);
     }
 
     /**
@@ -80,33 +80,56 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
      * @param dependencies Piranha dependencies.
      * @param repositories Piranha repositories.
      * @param offline Offline flag.
+     * @param port http port on which Piranha listens to requests
      * @param modulesList List of modules.
      * @param repositoriesList List of repos.
      * @param mergedDependencies List of merged dependencies.
      */
-    public PiranhaServerContainerConfiguration(String version, String modules, String dependencies, String repositories, boolean offline,
-            List<String> modulesList, List<String> repositoriesList, List<String> mergedDependencies) {
+    public MicroConfiguration(
+        String version, 
+        String modules, 
+        String dependencies, 
+        String repositories, 
+        boolean offline, 
+        int port,
+        
+        List<String> modulesList, 
+        List<String> repositoriesList, 
+        List<String> mergedDependencies) {
+        
         this.version = version;
         this.modules = modules;
         this.dependencies = dependencies;
         this.repositories = repositories;
         this.offline = offline;
+        this.port = port;
+        
         this.modulesList = modulesList;
         this.repositoriesList = repositoriesList;
         this.mergedDependencies = mergedDependencies;
     }
 
-    @Override
-    public void validate() throws ConfigurationException {
-        modulesList = Arrays.stream(modules.split(",")).map(module -> module.trim()).collect(toList());
+    public MicroConfiguration postConstruct() {
+        modulesList = stream(modules.split(","))
+                .map(module -> module.trim())
+                .collect(toList());
 
-        Stream<String> moduleDependenciesStream = modulesList.stream().map(module -> "cloud.piranha:" + module + ":" + version);
+        Stream<String> moduleDependenciesStream = modulesList.stream()
+                .map(module -> "cloud.piranha:" + module + ":" + version);
 
-        Stream<String> dependenciesStream = Arrays.stream(dependencies.split(",")).map(dep -> dep.trim()).filter(dep -> !dep.isEmpty());
+        Stream<String> dependenciesStream = stream(dependencies.split(","))
+                .map(dep -> dep.trim())
+                .filter(dep -> !dep.isEmpty());
 
-        repositoriesList = Arrays.stream(repositories.split(",")).map(repo -> repo.trim()).filter(repo -> !repo.isEmpty()).collect(toList());
+        repositoriesList = stream(repositories.split(","))
+                .map(repo -> repo.trim())
+                .filter(repo -> !repo.isEmpty())
+                .collect(toList());
 
-        mergedDependencies = Stream.concat(moduleDependenciesStream, dependenciesStream).collect(toList());
+        mergedDependencies = concat(moduleDependenciesStream, dependenciesStream)
+                .collect(toList());
+        
+        return this;
     }
 
     public String getVersion() {
@@ -139,6 +162,14 @@ public class PiranhaServerContainerConfiguration implements ContainerConfigurati
 
     public void setOffline(boolean offline) {
         this.offline = offline;
+    }
+    
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 
     public List<String> getModulesList() {
