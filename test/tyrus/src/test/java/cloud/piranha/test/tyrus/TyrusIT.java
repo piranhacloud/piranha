@@ -50,6 +50,7 @@ public class TyrusIT {
     @Test
     @Ignore
     public void testConfigure() throws Exception {
+        /*
         final MicroPiranha piranha = new MicroPiranha();
         WebApplication webApplication = piranha.configure(new String[]{
             "--webapp", "target/tyrus-exploded", "--war", "target/tyrus.war"});
@@ -72,5 +73,6 @@ public class TyrusIT {
 
         piranha.stop();
         Thread.sleep(3000);
+        */
     }
 }

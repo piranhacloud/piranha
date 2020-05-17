@@ -27,16 +27,7 @@
  */
 package cloud.piranha.test.snoop;
 
-import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.micro.MicroPiranha;
-import cloud.piranha.webapp.webxml.WebXmlExtension;
-import java.io.IOException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-import static org.junit.Assert.assertEquals;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -53,7 +44,9 @@ public class SnoopServletIT {
      * @throws Exception when an error occurs.
      */
     @Test
+    @Ignore
     public void testConfigure() throws Exception {
+        /*
         final MicroPiranha piranha = new MicroPiranha();
         WebApplication webApplication = piranha.configure(new String[]{
             "--webapp", "target/snoop-exploded", "--war", "target/snoop.war"});
@@ -72,5 +65,6 @@ public class SnoopServletIT {
         }
         piranha.stop();
         Thread.sleep(3000);
+        */
     }
 }
