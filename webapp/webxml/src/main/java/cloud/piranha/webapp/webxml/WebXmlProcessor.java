@@ -162,7 +162,7 @@ public class WebXmlProcessor {
         Iterator<WebXmlFilterMapping> iterator = webXml.getFilterMappings().iterator();
         while (iterator.hasNext()) {
             WebXmlFilterMapping filterMapping = iterator.next();
-            webApplication.addServletMapping(
+            webApplication.addFilterMapping(
                     filterMapping.getFilterName(), filterMapping.getUrlPattern());
         }
     }
