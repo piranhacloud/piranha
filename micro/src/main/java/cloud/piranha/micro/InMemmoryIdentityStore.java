@@ -45,6 +45,10 @@ import javax.security.enterprise.identitystore.IdentityStore;
 /**
  * A basic in-memory identity store.
  * 
+ * <p>
+ * This identity store functions as the default identity store for among others
+ * Servlet security.
+ * 
  * @author Arjan Tijms
  *
  */
