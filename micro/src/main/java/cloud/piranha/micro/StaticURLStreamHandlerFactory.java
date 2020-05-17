@@ -25,28 +25,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.arquillian.server;
+package cloud.piranha.micro;
 
-import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-public class StaticStreamHandler extends URLStreamHandler {
+/**
+ * A factory for URL stream handlers using a static map to contain handlers.
+ * 
+ * <p>
+ * This factory should be registered with the JVM early. Later on the <code>HANDLERS</code> map
+ * can be used to register individual URL stream handlers for various protocols.
+ * 
+ * <p>
+ * TODO: use URLStreamHandlerProvider
+ * 
+ * @author Arjan Tijms
+ *
+ */
+public class StaticURLStreamHandlerFactory implements URLStreamHandlerFactory {
     
-    private final String protocol;
-    private final Map<String, Function<URL, URLConnection>> handlers;
-    
-    public StaticStreamHandler(String protocol, Map<String, Function<URL, URLConnection>> handlers) {
-        this.protocol = protocol;
-        this.handlers = handlers;
+    private static final Map<String, Function<URL, URLConnection>> HANDLERS = new ConcurrentHashMap<>();
+
+    public static Map<String, Function<URL, URLConnection>> getHandlers() {
+        return HANDLERS;
     }
 
     @Override
-    protected URLConnection openConnection(URL u) throws IOException {
-        return handlers.get(protocol).apply(u);
+    public URLStreamHandler createURLStreamHandler(String protocol) {
+        if (!HANDLERS.containsKey(protocol)) {
+            return null;
+        }
+        
+        return new StaticStreamHandler(protocol, HANDLERS);
     }
-    
 }

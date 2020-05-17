@@ -27,6 +27,7 @@
  */
 package cloud.piranha.micro;
 
+import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import static javax.xml.xpath.XPathConstants.NODESET;
@@ -39,7 +40,6 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -72,27 +72,31 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import cloud.piranha.webapp.impl.DefaultAnnotationManager;
-import cloud.piranha.webapp.impl.DefaultAnnotationManager.DefaultAnnotationInfo;
-import cloud.piranha.http.impl.DefaultHttpServer;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
+//import cloud.piranha.faces.mojarra.MojarraInitializer;
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.faces.mojarra.MojarraInitializer;
+import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import cloud.piranha.rest.jersey.JerseyInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.impl.DefaultAnnotationManager;
+import cloud.piranha.webapp.impl.DefaultAnnotationManager.DefaultAnnotationInfo;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.webapp.webservlet.WebServletInitializer;
 import cloud.piranha.webapp.webxml.WebXmlInitializer;
 
 /**
  * Deploys a shrinkwrap application archive to a newly started embedded Piranha instance.
  * 
+ * <p>
+ * This class is expected to be run within in its own inner (isolated) class loader
+ * 
  * @author arjan
  *
  */
-public class PiranhaServerDeployer {
+public class MicroInnerDeployer {
     
     Class<?>[] webAnnotations = new Class<?>[] {
        // Servlet
@@ -116,15 +120,18 @@ public class PiranhaServerDeployer {
     
     private HttpServer httpServer;
     
-    public Set<String> start(Archive<?> applicationArchive, ClassLoader classLoader, Map<String, Function<URL, URLConnection>> handlers) {
+    public Set<String> start(Archive<?> applicationArchive, ClassLoader classLoader, Map<String, Function<URL, URLConnection>> handlers, Integer port) {
         try {
             System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
             
             WebApplication webApplication = getWebApplication(applicationArchive, classLoader);
             
-            // TODO: UGLY HACK
+            // The global archive stream handler is set to resolve "shrinkwrap://" URLs (created from strings).
+            // Such URLs come into being primarily when code takes resolves a class or resource from the class loader by URL
+            // and then takes the string form of the URL representing the class or resource.
             GlobalArchiveStreamHandler streamHandler = new GlobalArchiveStreamHandler(webApplication);
             
+            // Life map to the StaticURLStreamHandlerFactory used by the root class loader
             handlers.put("shrinkwrap", e -> streamHandler.connect(e));
             
             // Source of annotations
@@ -148,7 +155,7 @@ public class PiranhaServerDeployer {
                                 annotationManager.addAnnotation(
                                     new DefaultAnnotationInfo<>(annotationInstance,  annotationTarget)))));
             
-            
+            // Collect sub-classes of our "instances" collection
             forEachInstance(instanceClass ->
                 getInstances(index, instanceClass)
                     .map(indexedInstance -> getTarget(indexedInstance))
@@ -158,20 +165,20 @@ public class PiranhaServerDeployer {
             
             getCallerCredentials(System.getProperty("io.piranha.identitystore.callers"));
             
-            DefaultWebApplicationServer webApplicationServer = new cloud.piranha.appserver.impl.DefaultWebApplicationServer();
+            DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
             webApplicationServer.addWebApplication(webApplication);
             
             webApplication.addInitializer(new WebXmlInitializer());
-//            webApplication.addInitializer(new WebServletInitializer());
+            webApplication.addInitializer(new WebServletInitializer());
             
             webApplication.addInitializer(JakartaSecurityAllInitializer.class.getName());
             webApplication.addInitializer(JerseyInitializer.class.getName());
-            webApplication.addInitializer(MojarraInitializer.class.getName());
+            // webApplication.addInitializer(MojarraInitializer.class.getName()); JSTL error, needs fixing first
             
             webApplicationServer.initialize();
             webApplicationServer.start();
             
-            httpServer = new DefaultHttpServer(9090, webApplicationServer, false);
+            httpServer = new DefaultHttpServer(port, webApplicationServer, false);
             httpServer.start();
             
             return webApplication.getServletRegistrations().keySet();
@@ -284,7 +291,7 @@ public class PiranhaServerDeployer {
                 String password = callerAttributes.getNamedItem("password").getNodeValue(); 
                 String groups = callerAttributes.getNamedItem("groups").getNodeValue();
                 
-                InMemmoryIdentityStore.addCredential(caller, password, Arrays.asList(groups.split(",")));
+                InMemmoryIdentityStore.addCredential(caller, password, asList(groups.split(",")));
             }
         
         } catch (SAXException | IOException | ParserConfigurationException | XPathExpressionException e) {
