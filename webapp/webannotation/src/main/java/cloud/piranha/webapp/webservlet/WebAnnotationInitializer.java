@@ -58,15 +58,21 @@ import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The web annotations initializer.
+ * 
+ * <p>
+ * This class initializes web artifacts based on annotations in a similar way as
+ * 
+ * 
+ * 
  *
  * @author Arjan Tijms
  */
-public class WebServletInitializer implements ServletContainerInitializer {
+public class WebAnnotationInitializer implements ServletContainerInitializer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(WebServletInitializer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(WebAnnotationInitializer.class.getName());
 
     /**
      * On startup.
