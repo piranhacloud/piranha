@@ -84,7 +84,7 @@ import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultAnnotationManager;
 import cloud.piranha.webapp.impl.DefaultAnnotationManager.DefaultAnnotationInfo;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.webservlet.WebServletInitializer;
+import cloud.piranha.webapp.webservlet.WebAnnotationInitializer;
 import cloud.piranha.webapp.webxml.WebXmlInitializer;
 
 /**
@@ -169,7 +169,7 @@ public class MicroInnerDeployer {
             webApplicationServer.addWebApplication(webApplication);
             
             webApplication.addInitializer(new WebXmlInitializer());
-            webApplication.addInitializer(new WebServletInitializer());
+            webApplication.addInitializer(new WebAnnotationInitializer());
             
             webApplication.addInitializer(JakartaSecurityAllInitializer.class.getName());
             webApplication.addInitializer(JerseyInitializer.class.getName());
