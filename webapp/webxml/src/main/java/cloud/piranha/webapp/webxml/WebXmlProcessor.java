@@ -179,8 +179,7 @@ public class WebXmlProcessor {
             if (filter.getClassName() != null) {
                 dynamic = webApplication.addFilter(
                         filter.getFilterName(), filter.getClassName());
-            }
-            if (filter.getServletName() != null) {
+            } else if (filter.getServletName() != null) {
                 dynamic = webApplication.addFilter(
                         filter.getFilterName(), filter.getServletName());
             }
