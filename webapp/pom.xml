@@ -20,9 +20,9 @@
         <module>api</module>
         <module>impl</module>
         <module>tempdir</module>
-        <module>webservlet</module>
         <module>scinitializer</module>
         <module>webxml</module>
+        <module>webannotation</module>
     </modules>
 
     <dependencyManagement>

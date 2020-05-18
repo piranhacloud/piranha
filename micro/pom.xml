@@ -79,7 +79,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-webservlet</artifactId>
+            <artifactId>piranha-webapp-webannotation</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
