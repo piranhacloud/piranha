@@ -40,12 +40,12 @@ import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 public class DefaultWebApplicationExtensionContext implements WebApplicationExtensionContext {
 
     /**
-     * Stores the exteions.
+     * Stores the extensions.
      */
     private final ArrayList<WebApplicationExtension> extensions;
 
     /**
-     * Stores the extension clasess.
+     * Stores the extension classes.
      */
     private final ArrayList<Class<? extends WebApplicationExtension>> extensionClasses;
 

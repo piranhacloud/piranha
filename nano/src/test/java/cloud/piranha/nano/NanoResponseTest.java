@@ -123,7 +123,7 @@ public class NanoResponseTest {
     }
 
     /**
-     * Test elcodeUrl method.
+     * Test encodeUrl method.
      */
     @Test
     public void testEncodeUrl() {

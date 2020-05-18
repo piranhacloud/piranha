@@ -99,7 +99,7 @@ public interface SecurityManager {
      * 
      * <p>
      * If the unauthenticated caller is authorized, then this means the resource is public (aka unconstrained, aka
-     * unchecked), and the outcome of this method MUST be consistend with
+     * unchecked), and the outcome of this method MUST be consistent with
      * {@link #isRequestedResourcePublic(HttpServletRequest)}.
      * 
      * 

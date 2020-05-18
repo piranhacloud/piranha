@@ -269,7 +269,7 @@ public interface HttpServletResponse extends ServletResponse {
     public void addHeader(String name, String value);
 
     /**
-     * Add the inttheader.
+     * Add the intheader.
      *
      * @param name the name.
      * @param value the value.

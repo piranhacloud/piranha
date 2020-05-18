@@ -55,11 +55,11 @@ public class DefaultResourceManagerTest {
     @Test
     public void testGetResource() throws Exception {
         
-        Resource resouce = new ShrinkWrapResource(create(WebArchive.class)
+        Resource resource = new ShrinkWrapResource(create(WebArchive.class)
                                .addClass(DefaultResourceManagerTest.class));
         
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(resouce);
+        manager.addResource(resource);
         
         URL resourceUrl = manager.getResource("/WEB-INF/classes/cloud/piranha/resource/shrinkwrap/DefaultResourceManagerTest.class");
         
@@ -74,11 +74,11 @@ public class DefaultResourceManagerTest {
     @Test
     public void testGetResourceAsStream() throws Exception {
         
-        Resource resouce = new ShrinkWrapResource(create(WebArchive.class)
+        Resource resource = new ShrinkWrapResource(create(WebArchive.class)
                                .addClass(DefaultResourceManagerTest.class));
         
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(resouce);
+        manager.addResource(resource);
         
         InputStream resourceStream = manager.getResourceAsStream("/WEB-INF/classes/cloud/piranha/resource/shrinkwrap/DefaultResourceManagerTest.class");
         
@@ -93,11 +93,11 @@ public class DefaultResourceManagerTest {
     @Test
     public void testGetResourceFlattenPath() throws Exception {
         
-        Resource resouce = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)
+        Resource resource = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)
                                .addClass(DefaultResourceManagerTest.class));
         
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(resouce);
+        manager.addResource(resource);
         
         URL resourceUrl = manager.getResource("/cloud/piranha/resource/shrinkwrap/DefaultResourceManagerTest.class");
         
@@ -112,11 +112,11 @@ public class DefaultResourceManagerTest {
     @Test
     public void testGetResourceAsStreamFlattenPath() throws Exception {
         
-        Resource resouce = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)
+        Resource resource = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)
                                .addClass(DefaultResourceManagerTest.class));
         
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(resouce);
+        manager.addResource(resource);
         
         InputStream resourceStream = manager.getResourceAsStream("/cloud/piranha/resource/shrinkwrap/DefaultResourceManagerTest.class");
         

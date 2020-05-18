@@ -128,7 +128,7 @@ public abstract class GenericServlet implements Servlet, ServletConfig, Serializ
      * the method, call <code>super.init(config)</code>.
      *
      * @param config the <code>ServletConfig</code> object that contains
-     * configutation information for this servlet
+     * configuration information for this servlet
      *
      * @exception ServletException if an exception occurs that interrupts the
      * servlet's normal operation

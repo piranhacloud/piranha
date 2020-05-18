@@ -28,7 +28,7 @@
 package javax.servlet.http;
 
 /**
- * The HttpUgradeHandler API.
+ * The HttpUpgradeHandler API.
  */
 public interface HttpUpgradeHandler {
 
