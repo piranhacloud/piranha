@@ -97,7 +97,7 @@
         <!-- Piranha Webapplication - @WebServlet support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-webservlet</artifactId>
+            <artifactId>piranha-webapp-webannotation</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
