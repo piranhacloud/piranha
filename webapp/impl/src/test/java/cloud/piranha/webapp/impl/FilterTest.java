@@ -133,7 +133,7 @@ public class FilterTest {
     }
 
     /**
-     * Test addFilter methd.
+     * Test addFilter method.
      *
      * @throws Exception when a serious error occurs.
      */

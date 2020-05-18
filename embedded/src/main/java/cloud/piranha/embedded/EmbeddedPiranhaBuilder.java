@@ -219,9 +219,9 @@ public class EmbeddedPiranhaBuilder {
             }
             servlet.setAsyncSupported(asyncSupportedServlets.get(servletName));
         });
-        servletMappings.entrySet().forEach((servetMapping) -> {
-            String servletName = servetMapping.getKey();
-            List<String> urlPatterns = servetMapping.getValue();
+        servletMappings.entrySet().forEach((servletMapping) -> {
+            String servletName = servletMapping.getKey();
+            List<String> urlPatterns = servletMapping.getValue();
             webApplication.addServletMapping(servletName, urlPatterns.toArray(new String[0]));
         });
         webApplication.initializeServlets();

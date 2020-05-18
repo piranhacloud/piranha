@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The default WelcomFileManager.
+ * The default WelcomeFileManager.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
