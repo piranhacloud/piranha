@@ -110,7 +110,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         
         if (result == null) {
             try {
-                if (classes.contains(name)) {
+                if (classes.containsKey(name)) {
                     return classes.get(name);
                 }
                 
