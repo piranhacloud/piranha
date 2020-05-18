@@ -30,7 +30,7 @@ fi
 #
 # SSL_KEY_STORE_PASSWORD=-Djavax.net.ssl.keyStorePassword=password
 
-${JAVA_BIN} ${SSL_DEBUG} ${SSL_KEY_STORE} ${SSL_KEY_STORE_PASSWORD} \
+${JAVA_BIN} ${JAVA_ARGS} ${SSL_DEBUG} ${SSL_KEY_STORE} ${SSL_KEY_STORE_PASSWORD} \
   -Djava.util.logging.config.file=etc/logging.properties -jar \
   lib/piranha-server.jar ${SSL_ON} &
 
