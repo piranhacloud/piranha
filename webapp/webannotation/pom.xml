@@ -9,7 +9,7 @@
         <version>20.6.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-webapp-webservlet</artifactId>
+    <artifactId>piranha-webapp-webannotation</artifactId>
     <packaging>jar</packaging>
 
     <name>Piranha Webapplication - @WebServlet</name>
