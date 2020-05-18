@@ -97,6 +97,7 @@
             <groupId>cloud.piranha.upload</groupId>
             <artifactId>piranha-upload-apache</artifactId>
             <version>${project.version}</version>
+            <classifier>shaded</classifier>
             <scope>runtime</scope>
         </dependency>
         <!-- Piranha Webapplication - Annotation Scanning support -->

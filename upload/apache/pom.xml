@@ -26,6 +26,8 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>shaded</shadedClassifierName>
                             <relocations>
                                 <relocation>
                                     <pattern>org.apache.commons.fileupload</pattern>
