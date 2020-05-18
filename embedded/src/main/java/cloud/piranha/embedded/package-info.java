@@ -27,7 +27,7 @@
  */
 /**
  * <p>
- * This package delivers you with an embbeddable Servlet container that hosts
+ * This package delivers you with an embeddable Servlet container that hosts
  * only a single application without exposing an HTTP endpoint. It is used
  * extensively within the Piranha project itself to test all the Servlet
  * functionality.

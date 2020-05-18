@@ -53,11 +53,11 @@ public class DefaultWebApplicationClassLoaderTest {
     public void testLoadClass() throws Exception {
         IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader("test");
         
-        Resource resouce = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)
+        Resource resource = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)
                 .addClass(DefaultResourceManagerTest.class));
 
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(resouce);
+        manager.addResource(resource);
         
         classLoader.setResourceManager(manager);
         

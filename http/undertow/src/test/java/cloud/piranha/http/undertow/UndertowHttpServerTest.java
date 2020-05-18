@@ -50,7 +50,7 @@ public class UndertowHttpServerTest extends HttpServerTest {
     }
 
     /**
-     * Create the Underow HTTP server.
+     * Create the Undertow HTTP server.
      * 
      * @param portNumber the port number.
      * @param processor the HTTP server processor.

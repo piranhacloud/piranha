@@ -114,7 +114,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      * Constructor.
      *
      * @param webApp the web application.
-     * @param servletName the serlvet name.
+     * @param servletName the servlet name.
      */
     public DefaultServletEnvironment(DefaultWebApplication webApp, String servletName) {
         this.asyncSupported = false;

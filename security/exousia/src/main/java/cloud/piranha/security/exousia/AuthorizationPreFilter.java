@@ -50,7 +50,7 @@ import cloud.piranha.webapp.api.WebApplication;
  * 
  * <p>
  * Note, this Filter *MUST* be installed as the first filter, and it should *NOT* be possible to place
- * a filter before this filter. The standard Servlet API does not provide facilitities for this.
+ * a filter before this filter. The standard Servlet API does not provide facilities for this.
  * 
  * @author Arjan Tijms
  *

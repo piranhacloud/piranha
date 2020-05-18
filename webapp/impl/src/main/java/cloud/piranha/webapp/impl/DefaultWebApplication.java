@@ -1278,7 +1278,7 @@ public class DefaultWebApplication implements WebApplication {
             LOGGER.log(FINE, "Initialized web application at {0}", contextPath);
         }
         if (status == ERROR && LOGGER.isLoggable(WARNING)) {
-            LOGGER.log(WARNING, "An error occured initializing webapplication at {0}", contextPath);
+            LOGGER.log(WARNING, "An error occurred initializing webapplication at {0}", contextPath);
         }
     }
 
@@ -1466,7 +1466,7 @@ public class DefaultWebApplication implements WebApplication {
 
         /*
          * We did not find a Servlet, so we are now going to see if we can map any
-         * of the welcome-file entries to a file availabe using
+         * of the welcome-file entries to a file available using
          * ServletContext.getResource, if so we will change the original request
          * by adding it to the end of the request and then we let the default
          * Servlet handle it.
