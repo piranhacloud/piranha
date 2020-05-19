@@ -27,26 +27,48 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultMimeTypeManager;
+import cloud.piranha.webapp.api.MimeTypeManager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the DefaultMimeTypeManager class.
+ * The JUnit tests for the MimeTypeManager API.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultMimeTypeManagerTest {
+public class MimeTypeManagerTest {
+    
+    /**
+     * Stores the mime type manager.
+     */
+    protected MimeTypeManager manager;
+    
+    /**
+     * Before testing.
+     */
+    @Before
+    public void before() {
+        manager = new DefaultMimeTypeManager();
+    }
     
     /**
      * Test addMimeType method.
      */
     @Test
     public void testAddMimeType() {
-        DefaultMimeTypeManager manager = new DefaultMimeTypeManager();
         assertNull(manager.getMimeType("my.class"));
         manager.addMimeType("class", "application/x-java-class");
         assertEquals("application/x-java-class", manager.getMimeType("my.class"));
+    }
+    
+    /**
+     * Test getMimeType method.
+     */
+    @Test
+    public void testGetMimeType() {
+        assertEquals("text/css", manager.getMimeType("TEST.CSS"));
+        assertEquals("text/javascript", manager.getMimeType("TEST.JS"));
     }
 }
