@@ -58,7 +58,7 @@ public class DefaultMimeTypeManager implements MimeTypeManager {
      */
     @Override
     public void addMimeType(String extension, String mimeType) {
-        mimeTypes.put(extension, mimeType);
+        mimeTypes.put(extension.toLowerCase(), mimeType);
     }
 
     /**
@@ -72,7 +72,7 @@ public class DefaultMimeTypeManager implements MimeTypeManager {
         String result = null;
         if (filename.contains(".")) {
             String extension = filename.substring(filename.lastIndexOf(".") + 1);
-            result = mimeTypes.get(extension);
+            result = mimeTypes.get(extension.toLowerCase());
         }
         return result;
     }
