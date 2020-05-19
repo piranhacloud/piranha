@@ -44,13 +44,13 @@ import java.util.stream.Stream;
 public class MicroConfiguration {
 
     private String version;
-    private String modules;
+    private String extensions;
     private String dependencies;
     private String repositories;
     private boolean offline;
     private int port;
 
-    private List<String> modulesList;
+    private List<String> extensionsList;
     private List<String> repositoriesList;
     private List<String> mergedDependencies;
     
@@ -61,8 +61,10 @@ public class MicroConfiguration {
     public MicroConfiguration() {
         this(
             System.getProperty("piranha.version", MicroConfiguration.class.getPackage().getImplementationVersion()),
-            System.getProperty("piranha.modules", "piranha-micro"), 
-            System.getProperty("piranha.dependencies", ""),
+            System.getProperty("piranha.extensions", "micro-servlet"), 
+            System.getProperty(
+                "piranha.dependencies", 
+                "cloud.piranha:piranha-micro:" +  System.getProperty("piranha.version", MicroConfiguration.class.getPackage().getImplementationVersion())),
             System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"), 
             Boolean.valueOf(System.getProperty("piranha.offline", "false")),
             Integer.valueOf(System.getProperty("piranha.port", "8080")),
@@ -76,48 +78,48 @@ public class MicroConfiguration {
      * Constructor.
      * 
      * @param version Piranha version.
-     * @param modules Piranha modules.
+     * @param extensions Piranha extensions.
      * @param dependencies Piranha dependencies.
      * @param repositories Piranha repositories.
      * @param offline Offline flag.
      * @param port http port on which Piranha listens to requests
-     * @param modulesList List of modules.
+     * @param extensionsList List of extensions.
      * @param repositoriesList List of repos.
      * @param mergedDependencies List of merged dependencies.
      */
     public MicroConfiguration(
         String version, 
-        String modules, 
+        String extensions, 
         String dependencies, 
         String repositories, 
         boolean offline, 
         int port,
         
-        List<String> modulesList, 
+        List<String> extensionsList, 
         List<String> repositoriesList, 
         List<String> mergedDependencies) {
         
         this.version = version;
-        this.modules = modules;
+        this.extensions = extensions;
         this.dependencies = dependencies;
         this.repositories = repositories;
         this.offline = offline;
         this.port = port;
         
-        this.modulesList = modulesList;
+        this.extensionsList = extensionsList;
         this.repositoriesList = repositoriesList;
         this.mergedDependencies = mergedDependencies;
     }
 
     public MicroConfiguration postConstruct() {
-        modulesList = stream(modules.split(","))
-                .map(module -> module.trim())
+        extensionsList = stream(extensions.split(","))
+                .map(extension -> extension.trim())
                 .collect(toList());
 
-        Stream<String> moduleDependenciesStream = modulesList.stream()
-                .map(module -> "cloud.piranha:" + module + ":" + version);
+        Stream<String> dependenciesFromExtensionsStream = extensionsList.stream()
+                .map(extension -> "cloud.piranha.extension:piranha-extension-" + extension + ":" + version);
 
-        Stream<String> dependenciesStream = stream(dependencies.split(","))
+        Stream<String> directDependenciesStream = stream(dependencies.split(","))
                 .map(dep -> dep.trim())
                 .filter(dep -> !dep.isEmpty());
 
@@ -126,7 +128,7 @@ public class MicroConfiguration {
                 .filter(repo -> !repo.isEmpty())
                 .collect(toList());
 
-        mergedDependencies = concat(moduleDependenciesStream, dependenciesStream)
+        mergedDependencies = concat(dependenciesFromExtensionsStream, directDependenciesStream)
                 .collect(toList());
         
         return this;
@@ -140,12 +142,12 @@ public class MicroConfiguration {
         this.version = version;
     }
 
-    public String getModules() {
-        return modules;
+    public String getExtensions() {
+        return extensions;
     }
 
-    public void setModules(String modules) {
-        this.modules = modules;
+    public void setExtensions(String extensions) {
+        this.extensions = extensions;
     }
 
     public String getRepositories() {
@@ -172,8 +174,8 @@ public class MicroConfiguration {
         this.port = port;
     }
 
-    public List<String> getModulesList() {
-        return modulesList;
+    public List<String> getExtensionsList() {
+        return extensionsList;
     }
 
     public List<String> getRepositoriesList() {

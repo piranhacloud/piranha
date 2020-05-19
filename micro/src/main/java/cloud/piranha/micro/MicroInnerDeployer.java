@@ -41,6 +41,7 @@ import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -52,10 +53,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.ext.Provider;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
@@ -78,14 +75,12 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
-import cloud.piranha.rest.jersey.JerseyInitializer;
-import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultAnnotationManager;
 import cloud.piranha.webapp.impl.DefaultAnnotationManager.DefaultAnnotationInfo;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.webservlet.WebAnnotationInitializer;
-import cloud.piranha.webapp.webxml.WebXmlInitializer;
+import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 
 /**
  * Deploys a shrinkwrap application archive to a newly started embedded Piranha instance.
@@ -107,15 +102,16 @@ public class MicroInnerDeployer {
        ServletSecurity.class,
        MultipartConfig.class,
        
+       // DISABLE FOR NOW, HANDLE DIFFERENTLY LATER
        // REST
-       Path.class, 
-       Provider.class, 
-       ApplicationPath.class,
+       // Path.class, 
+       //Provider.class, 
+       // ApplicationPath.class,
     };
     
     Class<?>[] instances = new Class<?>[] {
         // REST
-        Application.class,
+        // Application.class,
     };
     
     private HttpServer httpServer;
@@ -168,12 +164,11 @@ public class MicroInnerDeployer {
             DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
             webApplicationServer.addWebApplication(webApplication);
             
-            webApplication.addInitializer(new WebXmlInitializer());
-            webApplication.addInitializer(new WebAnnotationInitializer());
-            
-            webApplication.addInitializer(JakartaSecurityAllInitializer.class.getName());
-            webApplication.addInitializer(JerseyInitializer.class.getName());
-            // webApplication.addInitializer(MojarraInitializer.class.getName()); JSTL error, needs fixing first
+            DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
+            for (WebApplicationExtension extension : ServiceLoader.load(WebApplicationExtension.class)) {
+                extensionContext.add(extension);
+            }
+            extensionContext.configure(webApplication);
             
             webApplicationServer.initialize();
             webApplicationServer.start();
