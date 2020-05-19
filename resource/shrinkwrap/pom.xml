@@ -16,16 +16,21 @@
 
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
+            <!-- Only used for DefaultResourceManagerClassLoader -->
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>cloud.piranha.http</groupId>
+                    <artifactId>piranha-http-impl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>cloud.piranha.appserver</groupId>
+                    <artifactId>piranha-appserver-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap</groupId>
