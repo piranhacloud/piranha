@@ -36,6 +36,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.CodeSigner;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -185,10 +188,12 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
     }
     
     protected Class<?> _defineClass(String name, byte[] bytes, boolean resolve) {
-        
-        Class<?> result = defineClass(name, bytes, 0, bytes.length);
-        
-        
+
+        CodeSource codeSource = new CodeSource(getResource(normalizeName(name)), (CodeSigner[]) null);
+        ProtectionDomain protectionDomain = new ProtectionDomain(codeSource, null);
+        Class<?> result = defineClass(name, bytes, 0, bytes.length, protectionDomain);
+
+
         // Define package
         
         String packageName = null;
