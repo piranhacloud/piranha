@@ -48,6 +48,10 @@ public class DefaultMimeTypeManager implements MimeTypeManager {
     public DefaultMimeTypeManager() {
         mimeTypes.put("css", "text/css");
         mimeTypes.put("js", "text/javascript");
+        mimeTypes.put("ico", "image/x-icon");
+        mimeTypes.put("svg", "image/svg+xml");
+        mimeTypes.put("png", "image/png");
+        mimeTypes.put("ttf", "font/ttf");
     }
 
     /**
