@@ -27,10 +27,6 @@
  */
 package cloud.piranha.test.tyrus;
 
-import cloud.piranha.extension.servlet.ServletExtension;
-import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.micro.MicroPiranha;
 import org.junit.Ignore;
 import org.junit.Test;
 
