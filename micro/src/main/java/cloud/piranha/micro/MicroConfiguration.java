@@ -61,10 +61,8 @@ public class MicroConfiguration {
     public MicroConfiguration() {
         this(
             System.getProperty("piranha.version", MicroConfiguration.class.getPackage().getImplementationVersion()),
-            System.getProperty("piranha.extensions", "micro-servlet"), 
-            System.getProperty(
-                "piranha.dependencies", 
-                "cloud.piranha:piranha-micro:" +  System.getProperty("piranha.version", MicroConfiguration.class.getPackage().getImplementationVersion())),
+            System.getProperty("piranha.extensions", "micro-core,micro-servlet"), 
+                System.getProperty("piranha.dependencies", ""),
             System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"), 
             Boolean.valueOf(System.getProperty("piranha.offline", "false")),
             Integer.valueOf(System.getProperty("piranha.port", "8080")),
