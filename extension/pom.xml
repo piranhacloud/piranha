@@ -16,6 +16,7 @@
 
     <modules>
         <module>apachewebprofile</module>
+        <module>micro-core</module>
         <module>micro-servlet</module>     
         <module>servlet</module>
         <module>tomcat9</module>
