@@ -232,13 +232,15 @@ public class ServerPiranha implements Piranha, Runnable {
             LOGGER.info("Started Piranha");
             LOGGER.log(Level.INFO, "It took {0} milliseconds", finishTime - startTime);
         }
+
+        File pidFile = new File("tmp/piranha.pid");
         while (httpServer.isRunning()) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ie) {
                 Thread.currentThread().interrupt();
             }
-            File pidFile = new File("tmp/piranha.pid");
+
             if (!pidFile.exists()) {
                 webApplicationServer.stop();
                 httpServer.stop();
