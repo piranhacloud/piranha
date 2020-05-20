@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.impl;
+package cloud.piranha.resource;
 
 import static java.util.Collections.enumeration;
 import static java.util.Collections.list;
@@ -102,7 +102,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      * @throws ClassNotFoundException when the class cannot be found.
      */
     @Override
-    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+    public Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
         Class<?> result;
         
         try {
@@ -203,7 +203,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         }
 
         if (packageName != null) {
-            Package classPackage = getPackage(packageName);
+            Package classPackage = getDefinedPackage(packageName);
 
             if (classPackage == null) {
                 try {

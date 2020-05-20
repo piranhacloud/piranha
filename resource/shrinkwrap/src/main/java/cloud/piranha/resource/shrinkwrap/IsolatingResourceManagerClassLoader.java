@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 
-import cloud.piranha.webapp.impl.DefaultResourceManagerClassLoader;
+import cloud.piranha.resource.DefaultResourceManagerClassLoader;
 
 /**
  * The default WebApplicationClassLoader.
@@ -72,7 +72,7 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
     }
     
     @Override
-    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+    public Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
         if (name.startsWith("org.jboss.shrinkwrap")) {
             return systemClassLoader.loadClass(name);
         }
