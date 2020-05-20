@@ -28,6 +28,7 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.resource.DefaultResourceManager;
+import cloud.piranha.resource.DefaultResourceManagerClassLoader;
 import cloud.piranha.resource.JarResource;
 import cloud.piranha.resource.DirectoryResource;
 import java.io.File;
