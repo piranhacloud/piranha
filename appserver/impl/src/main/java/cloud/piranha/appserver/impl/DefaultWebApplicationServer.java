@@ -150,7 +150,12 @@ public class DefaultWebApplicationServer
                 if (cookieCandidates.length > 0) {
                     for (String cookieCandidate : cookieCandidates) {
                         String[] cookieString = cookieCandidate.split("=");
-                        Cookie cookie = new Cookie(cookieString[0].trim(), cookieString[1].trim());
+                        String cookieName = cookieString[0].trim();
+                        String cookieValue = null;
+                         if (cookieString.length == 2) {
+                            cookieValue = cookieString[1].trim();
+                        }
+                        Cookie cookie = new Cookie(cookieName, cookieValue);
                         if (cookie.getName().equals("JSESSIONID")) {
                             result.setRequestedSessionIdFromCookie(true);
                             result.setRequestedSessionId(cookie.getValue());
