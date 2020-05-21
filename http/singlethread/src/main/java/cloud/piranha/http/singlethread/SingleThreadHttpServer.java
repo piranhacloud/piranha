@@ -42,7 +42,7 @@ import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 
 /**
- * A single threaded implementation of HTTP Server.
+ * The single threaded implementation of HTTP Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  * @see cloud.piranha.http.api.HttpServer
