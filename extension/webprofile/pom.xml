@@ -108,6 +108,13 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Piranha Bean Validation - Hibernate Validator Integration -->
+        <dependency>
+            <groupId>cloud.piranha.beanvalidation</groupId>
+            <artifactId>piranha-beanvalidation-hibernatevalidator</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- Tyrus - WebSocket support -->
         <dependency>
             <groupId>org.glassfish.tyrus</groupId>
