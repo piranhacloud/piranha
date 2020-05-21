@@ -59,6 +59,20 @@
             <artifactId>jakarta.annotation-api</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- Jakarta XML Binding -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
         
         <!-- Piranha CDI - Weld integration -->
         <dependency>
