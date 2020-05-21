@@ -48,6 +48,7 @@
     
         <!-- Components -->
         <module>appserver</module>
+        <module>beanvalidation</module>
         <module>cdi</module>
         <module>faces</module>
         <module>http</module>
