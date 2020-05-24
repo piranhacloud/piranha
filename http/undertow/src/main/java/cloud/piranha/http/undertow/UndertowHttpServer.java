@@ -33,7 +33,7 @@ import cloud.piranha.http.api.HttpServerProcessor;
 import io.undertow.Undertow;
 
 /**
- * The Netty HTTP server.
+ * The Undertow HTTP server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
