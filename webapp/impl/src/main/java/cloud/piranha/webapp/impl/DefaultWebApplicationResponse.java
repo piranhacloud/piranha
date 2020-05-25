@@ -852,6 +852,10 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (contentType != null) {
             outputStream.write("Content-Type: ".getBytes());
             outputStream.write(contentType.getBytes());
+            if (characterEncodingSet) {
+                outputStream.write(";charset=".getBytes());
+                outputStream.write(characterEncoding.toLowerCase().getBytes());
+            }
             outputStream.write("\n".getBytes());
         }
     }
