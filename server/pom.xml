@@ -83,6 +83,13 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Piranha Bean Validation -->
+        <dependency>
+            <groupId>cloud.piranha.beanvalidation</groupId>
+            <artifactId>piranha-beanvalidation-hibernatevalidator</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
