@@ -235,7 +235,24 @@
                 <artifactId>openwebbeans-spi</artifactId>
                 <version>2.0.16</version>
             </dependency>
-            
+
+            <!-- Jakarta Bean Validation -->
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>2.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator-cdi</artifactId>
+                <version>6.1.5.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.bval</groupId>
+                <artifactId>bval-jsr</artifactId>
+                <version>2.0.3</version>
+            </dependency>
+
             <!-- Jakarta XML Bind -->
             <dependency>
                 <groupId>jakarta.xml.bind</groupId>
