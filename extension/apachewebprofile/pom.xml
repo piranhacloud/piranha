@@ -108,11 +108,16 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha Bean Validation - BVal Integration -->
+        <!-- Jakarta Bean Validation - Apache BVal -->
         <dependency>
-            <groupId>cloud.piranha.beanvalidation</groupId>
-            <artifactId>piranha-beanvalidation-bval</artifactId>
-            <version>${project.version}</version>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.bval</groupId>
+            <artifactId>bval-jsr</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <!-- Tyrus - WebSocket support -->
         <dependency>
