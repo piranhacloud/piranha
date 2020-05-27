@@ -279,13 +279,40 @@
                 <version>1.3.3</version>
             </dependency>
 
-            <!-- JSON -->            
+            <!-- JSON Processing -->
+            <dependency>
+                <groupId>jakarta.json</groupId>
+                <artifactId>jakarta.json-api</artifactId>
+                <version>1.1.6</version>
+            </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.json</artifactId>
                 <version>1.1.6</version>
             </dependency>
-            
+            <dependency>
+                <groupId>org.apache.johnzon</groupId>
+                <artifactId>johnzon-core</artifactId>
+                <version>1.2.6</version>
+            </dependency>
+
+            <!-- JSON Binding -->
+            <dependency>
+                <groupId>jakarta.json.bind</groupId>
+                <artifactId>jakarta.json.bind-api</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse</groupId>
+                <artifactId>yasson</artifactId>
+                <version>1.0.7</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.johnzon</groupId>
+                <artifactId>johnzon-jsonb</artifactId>
+                <version>1.2.6</version>
+            </dependency>
+
             <!-- MicroProfile -->
             <dependency>
                 <groupId>io.smallrye.config</groupId>
