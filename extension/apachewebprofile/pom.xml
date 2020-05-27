@@ -108,12 +108,6 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha Bean Validation - BVal Integration -->
-        <dependency>
-            <groupId>cloud.piranha.beanvalidation</groupId>
-            <artifactId>piranha-beanvalidation-bval</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- Tyrus - WebSocket support -->
         <dependency>
             <groupId>org.glassfish.tyrus</groupId>
