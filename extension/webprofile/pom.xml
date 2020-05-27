@@ -108,12 +108,16 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha Bean Validation - Hibernate Validator Integration -->
+        <!-- Jakarta Bean Validation - Hibernate Validator -->
         <dependency>
-            <groupId>cloud.piranha.beanvalidation</groupId>
-            <artifactId>piranha-beanvalidation-hibernatevalidator</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator-cdi</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <!-- Tyrus - WebSocket support -->
         <dependency>
