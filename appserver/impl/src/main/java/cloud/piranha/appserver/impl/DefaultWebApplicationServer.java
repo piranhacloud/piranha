@@ -121,18 +121,8 @@ public class DefaultWebApplicationServer
      */
     private WebApplicationServerRequest createRequest(HttpServerRequest request) {
         DefaultWebApplicationServerRequest result = new DefaultWebApplicationServerRequest();
-        result.setLocalAddr(request.getLocalAddress());
-        result.setLocalName(request.getLocalHostname());
-        result.setLocalPort(request.getLocalPort());
-        result.setRemoteAddr(request.getRemoteAddress());
-        result.setRemoteHost(request.getRemoteHostname());
-        result.setRemotePort(request.getRemotePort());
-        result.setServerName(request.getLocalHostname());
-        result.setServerPort(request.getLocalPort());
-        result.setMethod(request.getMethod());
-        result.setContextPath(request.getRequestTarget());
+        copyRequestToResult(request, result);
         result.setServletPath("");
-        result.setQueryString(request.getQueryString());
         Iterator<String> headerNames = request.getHeaderNames();
         while (headerNames.hasNext()) {
             String name = headerNames.next();
@@ -145,30 +135,46 @@ public class DefaultWebApplicationServer
                 result.setContentLength(Integer.parseInt(value));
             }
             if (name.equalsIgnoreCase("COOKIE")) {
-                ArrayList<Cookie> cookieList = new ArrayList<>();
-                String[] cookieCandidates = value.split(";");
-                if (cookieCandidates.length > 0) {
-                    for (String cookieCandidate : cookieCandidates) {
-                        String[] cookieString = cookieCandidate.split("=");
-                        String cookieName = cookieString[0].trim();
-                        String cookieValue = null;
-                         if (cookieString.length == 2) {
-                            cookieValue = cookieString[1].trim();
-                        }
-                        Cookie cookie = new Cookie(cookieName, cookieValue);
-                        if (cookie.getName().equals("JSESSIONID")) {
-                            result.setRequestedSessionIdFromCookie(true);
-                            result.setRequestedSessionId(cookie.getValue());
-                        } else {
-                            cookieList.add(cookie);
-                        }
-                    }
-                }
-                result.setCookies(cookieList.toArray(new Cookie[0]));
+                result.setCookies(processCookies(result, value));
             }
         }
-        result.setInputStream(request.getInputStream());
         return result;
+    }
+
+    private Cookie[] processCookies(DefaultWebApplicationServerRequest result, String cookiesValue) {
+        ArrayList<Cookie> cookieList = new ArrayList<>();
+        String[] cookieCandidates = cookiesValue.split(";");
+        for (String cookieCandidate : cookieCandidates) {
+            String[] cookieString = cookieCandidate.split("=");
+            String cookieName = cookieString[0].trim();
+            String cookieValue = null;
+            if (cookieString.length == 2) {
+                cookieValue = cookieString[1].trim();
+            }
+            Cookie cookie = new Cookie(cookieName, cookieValue);
+            if (cookie.getName().equals("JSESSIONID")) {
+                result.setRequestedSessionIdFromCookie(true);
+                result.setRequestedSessionId(cookie.getValue());
+            } else {
+                cookieList.add(cookie);
+            }
+        }
+        return cookieList.toArray(new Cookie[0]);
+    }
+
+    private void copyRequestToResult(HttpServerRequest request, DefaultWebApplicationServerRequest result) {
+        result.setLocalAddr(request.getLocalAddress());
+        result.setLocalName(request.getLocalHostname());
+        result.setLocalPort(request.getLocalPort());
+        result.setRemoteAddr(request.getRemoteAddress());
+        result.setRemoteHost(request.getRemoteHostname());
+        result.setRemotePort(request.getRemotePort());
+        result.setServerName(request.getLocalHostname());
+        result.setServerPort(request.getLocalPort());
+        result.setMethod(request.getMethod());
+        result.setContextPath(request.getRequestTarget());
+        result.setQueryString(request.getQueryString());
+        result.setInputStream(request.getInputStream());
     }
 
     /**
