@@ -27,13 +27,14 @@
  */
 package cloud.piranha.webapp.impl;
 
+import cloud.piranha.resource.*;
+import cloud.piranha.resource.api.Resource;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultMimeTypeManager;
 import cloud.piranha.webapp.impl.DefaultServlet;
-import cloud.piranha.resource.DefaultResourceManager;
-import cloud.piranha.resource.DirectoryResource;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -509,6 +510,31 @@ public class DefaultWebApplicationTest {
     public void testGetResourcePaths() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getResourcePaths("/this_will_be_null/"));
+    }
+
+    @Test
+    public void testGetResourcePaths2() {
+        DefaultResourceManager resourceManager = new DefaultResourceManager();
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setResourceManager(resourceManager);
+        webApp.addResource(new DirectoryResource("."));
+
+        Set<String> resourcePathsRoot = webApp.getResourcePaths("/");
+        assertNotNull(resourcePathsRoot);
+        assertTrue(resourcePathsRoot.contains("/src/"));
+        assertTrue(resourcePathsRoot.contains("/pom.xml"));
+
+        Set<String> resourcePathsCatalog = webApp.getResourcePaths("/src");
+        assertNotNull(resourcePathsCatalog);
+        assertTrue(resourcePathsCatalog.contains("/src/main/"));
+        assertTrue(resourcePathsCatalog.contains("/src/test/"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetResourcePaths3() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        assertNull(webApp.getResourcePaths(null));
+        webApp.getResourcePaths("");
     }
 
     /**

@@ -39,6 +39,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -49,6 +51,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -97,7 +100,9 @@ import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
 import cloud.piranha.webapp.api.WebApplicationRequestMapping;
 import cloud.piranha.webapp.api.WelcomeFileManager;
-import java.util.UUID;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The default WebApplication.
@@ -1087,6 +1092,16 @@ public class DefaultWebApplication implements WebApplication {
         return resourceManager.getResourceAsStream(location);
     }
 
+    private Stream<String> getResourcePathsImpl(String path) throws IOException, URISyntaxException {
+        URL resource = resourceManager.getResource(path);
+        if (resource == null)
+            return Stream.empty();
+        return Files.list(Paths.get(resource.toURI())).map(x -> {
+            String root = path.endsWith("/") ? path : path + "/";
+            String slash = (Files.isDirectory(x) ? "/" : "");
+            return root + x.getFileName().toString() + slash;
+        });
+    }
     /**
      * Get the resource paths.
      *
@@ -1095,7 +1110,22 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Set<String> getResourcePaths(String path) {
-        return null;
+        if (path == null)
+            return null;
+        if (!path.startsWith("/"))
+            throw new IllegalArgumentException("Path must start with /");
+        final String META_INF_RESOURCES = "/META-INF/resources";
+        try {
+            Set<String> paths = Stream.concat(
+                getResourcePathsImpl(path),
+                getResourcePathsImpl(META_INF_RESOURCES + path)
+            ).collect(Collectors.toSet());
+            if (paths.isEmpty())
+                return null;
+            return paths;
+        } catch (IOException | URISyntaxException e) {
+            return null;
+        }
     }
 
     /**
