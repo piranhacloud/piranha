@@ -870,7 +870,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         outputStream.write("Set-Cookie: ".getBytes());
         outputStream.write(cookie.getName().getBytes());
         outputStream.write("=".getBytes());
-        outputStream.write(cookie.getValue().getBytes());
+        if (cookie.getValue() != null)
+            outputStream.write(cookie.getValue().getBytes());
 
         if (cookie.getSecure()) {
             outputStream.write("; Secure".getBytes());
