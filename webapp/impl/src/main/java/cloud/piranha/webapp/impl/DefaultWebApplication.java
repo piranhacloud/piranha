@@ -49,6 +49,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -97,7 +98,8 @@ import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
 import cloud.piranha.webapp.api.WebApplicationRequestMapping;
 import cloud.piranha.webapp.api.WelcomeFileManager;
-import java.util.UUID;
+
+import java.util.stream.Collectors;
 
 /**
  * The default WebApplication.
@@ -1088,6 +1090,54 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
+     * Returns the file path or the first nested folder
+     *
+     * @apiNote
+     *  <p><b>Examples.</b>
+     * <pre>{@code
+     *  getFileOrFirstFolder("/rootFolder", "/rootFolder/file.html").equals("/rootFolder/file.html")
+     * }</pre>
+     *
+     * <pre>{@code
+     *  getFileOrFirstFolder("/rootFolder", "/rootFolder/nestedFolder/file.html").equals("/rootFolder/nestedFolder/")
+     * }</pre>
+     *
+     * <pre>{@code
+     *  getFileOrFirstFolder("/rootFolder/nestedFolder", "/rootFolder/nestedFolder/file.html")
+     *      .equals("/rootFolder/nestedFolder/file.html")
+     * }</pre>
+     *
+     * @param path the path of root folder
+     * @param resource the resource that is a file directory or file
+     * @return the file path or the first nested folder
+     */
+    private String getFileOrFirstFolder(String path, String resource){
+        String normalizedPath = path.endsWith("/") ? path : path + "/";
+        String[] split = resource.replace(normalizedPath, "/").split("/");
+        // It's a directory
+        if (split.length > 2)
+            return normalizedPath + split[1] + "/";
+        // It's a file
+        return normalizedPath + split[1];
+    }
+
+    /**
+     * Returns a directory-like listing of all the paths to resources
+     * within the web application whose longest sub-path matches the supplied path argument.
+     * @param path the partial path used to match the resources
+     * @return a Set containing the directory listing, or null if there are no resources in the web application
+     * whose path begins with the supplied path.
+     */
+    private Set<String> getResourcePathsImpl(String path) {
+        Set<String> collect = resourceManager.getAllLocations()
+                .filter(resource -> resource.startsWith(path))
+                .map(resource -> getFileOrFirstFolder(path, resource))
+                .collect(Collectors.toSet());
+        if (collect.isEmpty())
+            return null;
+        return collect;
+    }
+    /**
      * Get the resource paths.
      *
      * @param path the path.
@@ -1095,7 +1145,11 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Set<String> getResourcePaths(String path) {
-        return null;
+        if (path == null)
+            return null;
+        if (!path.startsWith("/"))
+            throw new IllegalArgumentException("Path must start with /");
+        return getResourcePathsImpl(path);
     }
 
     /**
