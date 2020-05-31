@@ -27,13 +27,15 @@
  */
 package cloud.piranha.webapp.impl;
 
+import cloud.piranha.resource.DefaultResourceManager;
+import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.resource.api.Resource;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultMimeTypeManager;
 import cloud.piranha.webapp.impl.DefaultServlet;
-import cloud.piranha.resource.DefaultResourceManager;
-import cloud.piranha.resource.DirectoryResource;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -509,6 +511,39 @@ public class DefaultWebApplicationTest {
     public void testGetResourcePaths() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getResourcePaths("/this_will_be_null/"));
+        assertNull(webApp.getResourcePaths(null));
+    }
+
+    @Test
+    public void testGetResourcePaths2() {
+        // Simulating the Javadoc example of the getResourcePaths method
+        DefaultResourceManager resourceManager = new DefaultResourceManager();
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setResourceManager(resourceManager);
+        webApp.addResource(new DirectoryResource("src/test/webapp/resourcepaths"));
+
+        Set<String> resourcePathsRoot = webApp.getResourcePaths("/");
+        assertNotNull(resourcePathsRoot);
+        assertTrue(resourcePathsRoot.contains("/catalog/"));
+        assertTrue(resourcePathsRoot.contains("/customer/"));
+        assertTrue(resourcePathsRoot.contains("/welcome.html"));
+
+        Set<String> resourcePathsCatalog = webApp.getResourcePaths("/catalog/");
+        assertNotNull(resourcePathsCatalog);
+        assertTrue(resourcePathsCatalog.contains("/catalog/offers/"));
+        assertTrue(resourcePathsCatalog.contains("/catalog/products.html"));
+        assertTrue(resourcePathsCatalog.contains("/catalog/index.html"));
+
+        Set<String> resourcePathsCatalogOffers = webApp.getResourcePaths("/catalog/offers");
+        assertNotNull(resourcePathsCatalogOffers);
+        assertTrue(resourcePathsCatalogOffers.contains("/catalog/offers/books.html"));
+        assertTrue(resourcePathsCatalogOffers.contains("/catalog/offers/music.html"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetResourcePaths3() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.getResourcePaths("");
     }
 
     /**
