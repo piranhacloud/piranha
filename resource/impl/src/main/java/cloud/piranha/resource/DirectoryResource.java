@@ -31,8 +31,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import cloud.piranha.resource.api.Resource;
@@ -115,7 +120,17 @@ public class DirectoryResource implements Resource {
     
     @Override
     public Stream<String> getAllLocations() {
-        return Stream.empty();
+        try {
+            Path rootPath = Paths.get(rootDirectory.toURI());
+            Path root = Paths.get("/");
+            return Files.walk(rootPath)
+                .filter(Predicate.not(Files::isDirectory))
+                .map(rootPath::relativize)
+                .map(root::resolve)
+                .map(Path::toString);
+        } catch (IOException e) {
+            return Stream.empty();
+        }
     }
 
     /**

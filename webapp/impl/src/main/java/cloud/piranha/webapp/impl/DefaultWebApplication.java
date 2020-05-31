@@ -39,8 +39,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -102,7 +100,6 @@ import cloud.piranha.webapp.api.WebApplicationRequestMapping;
 import cloud.piranha.webapp.api.WelcomeFileManager;
 
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * The default WebApplication.
@@ -1092,15 +1089,53 @@ public class DefaultWebApplication implements WebApplication {
         return resourceManager.getResourceAsStream(location);
     }
 
-    private Stream<String> getResourcePathsImpl(String path) throws IOException, URISyntaxException {
-        URL resource = resourceManager.getResource(path);
-        if (resource == null)
-            return Stream.empty();
-        return Files.list(Paths.get(resource.toURI())).map(x -> {
-            String root = path.endsWith("/") ? path : path + "/";
-            String slash = (Files.isDirectory(x) ? "/" : "");
-            return root + x.getFileName().toString() + slash;
-        });
+    /**
+     * Returns the file path or the first nested folder
+     *
+     * @apiNote
+     *  <p><b>Examples.</b>
+     * <pre>{@code
+     *  getFileOrFirstFolder("/rootFolder", "/rootFolder/file.html").equals("/rootFolder/file.html")
+     * }</pre>
+     *
+     * <pre>{@code
+     *  getFileOrFirstFolder("/rootFolder", "/rootFolder/nestedFolder/file.html").equals("/rootFolder/nestedFolder/")
+     * }</pre>
+     *
+     * <pre>{@code
+     *  getFileOrFirstFolder("/rootFolder/nestedFolder", "/rootFolder/nestedFolder/file.html")
+     *      .equals("/rootFolder/nestedFolder/file.html")
+     * }</pre>
+     *
+     * @param path the path of root folder
+     * @param resource the resource that is a file directory or file
+     * @return the file path or the first nested folder
+     */
+    private String getFileOrFirstFolder(String path, String resource){
+        String normalizedPath = path.endsWith("/") ? path : path + "/";
+        String[] split = resource.replace(normalizedPath, "/").split("/");
+        // It's a directory
+        if (split.length > 2)
+            return normalizedPath + split[1] + "/";
+        // It's a file
+        return normalizedPath + split[1];
+    }
+
+    /**
+     * Returns a directory-like listing of all the paths to resources
+     * within the web application whose longest sub-path matches the supplied path argument.
+     * @param path the partial path used to match the resources
+     * @return a Set containing the directory listing, or null if there are no resources in the web application
+     * whose path begins with the supplied path.
+     */
+    private Set<String> getResourcePathsImpl(String path) {
+        Set<String> collect = resourceManager.getAllLocations()
+                .filter(resource -> resource.startsWith(path))
+                .map(resource -> getFileOrFirstFolder(path, resource))
+                .collect(Collectors.toSet());
+        if (collect.isEmpty())
+            return null;
+        return collect;
     }
     /**
      * Get the resource paths.
@@ -1114,18 +1149,7 @@ public class DefaultWebApplication implements WebApplication {
             return null;
         if (!path.startsWith("/"))
             throw new IllegalArgumentException("Path must start with /");
-        final String META_INF_RESOURCES = "/META-INF/resources";
-        try {
-            Set<String> paths = Stream.concat(
-                getResourcePathsImpl(path),
-                getResourcePathsImpl(META_INF_RESOURCES + path)
-            ).collect(Collectors.toSet());
-            if (paths.isEmpty())
-                return null;
-            return paths;
-        } catch (IOException | URISyntaxException e) {
-            return null;
-        }
+        return getResourcePathsImpl(path);
     }
 
     /**
