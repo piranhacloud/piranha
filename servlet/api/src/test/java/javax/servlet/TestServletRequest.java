@@ -77,7 +77,7 @@ public class TestServletRequest extends ServletRequestWrapper {
      */
     @Override
     public Enumeration<String> getAttributeNames() {
-        return Collections.enumeration(new ArrayList());
+        return Collections.enumeration(new ArrayList<>());
     }
 
     /**

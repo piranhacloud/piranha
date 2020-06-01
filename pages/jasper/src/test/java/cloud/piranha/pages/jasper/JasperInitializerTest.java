@@ -50,6 +50,6 @@ public class JasperInitializerTest {
         DefaultWebApplication servletContext = new DefaultWebApplication();
         servletContext.addResource(new DirectoryResource(new File("src/test/webapp/webapp1")));
         JasperInitializer initializer = new JasperInitializer();
-        initializer.onStartup(new HashSet(), servletContext);
+        initializer.onStartup(new HashSet<>(), servletContext);
     }
 }
