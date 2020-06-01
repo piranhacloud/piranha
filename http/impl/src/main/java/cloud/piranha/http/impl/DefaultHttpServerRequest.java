@@ -282,7 +282,6 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     /**
      * Parse the request.
      *
-     * @param request the request.
      */
     private void parse() {
         try {
@@ -322,7 +321,6 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     /**
      * Parse the header.
      *
-     * @param request the request.
      * @param line the header line.
      */
     private void parseHeader(String line) {
@@ -334,7 +332,6 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     /**
      * Parse the request line.
      *
-     * @param request the request.
      * @param line the request line.
      */
     private void parseRequestLine(String line) {
