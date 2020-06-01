@@ -45,6 +45,7 @@ import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -69,6 +70,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import cloud.piranha.api.Piranha;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
 //import cloud.piranha.faces.mojarra.MojarraInitializer;
 import cloud.piranha.http.api.HttpServer;
@@ -92,6 +94,13 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
  *
  */
 public class MicroInnerDeployer {
+    
+    /**
+     * Defines the attribute name for the MicroPiranha reference.
+     */
+    static final String MICRO_PIRANHA = "cloud.piranha.micro.MicroPiranha";
+    
+    private static final Logger LOGGER = Logger.getLogger(MicroInnerDeployer.class.getName());
     
     Class<?>[] webAnnotations = new Class<?>[] {
        // Servlet
@@ -121,6 +130,10 @@ public class MicroInnerDeployer {
             System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
             
             WebApplication webApplication = getWebApplication(applicationArchive, classLoader);
+            
+            LOGGER.info(
+                "Starting web application " + applicationArchive.getName() + " on Piranha Micro" + webApplication.getAttribute(MICRO_PIRANHA));
+                      
             
             // The global archive stream handler is set to resolve "shrinkwrap://" URLs (created from strings).
             // Such URLs come into being primarily when code takes resolves a class or resource from the class loader by URL
@@ -187,6 +200,18 @@ public class MicroInnerDeployer {
         WebApplication webApplication = new DefaultWebApplication();
         webApplication.setClassLoader(newClassLoader);
         webApplication.addResource(new ShrinkWrapResource(archive));
+        
+        // Set version
+        webApplication.setAttribute(MICRO_PIRANHA, new Piranha() {
+            @Override
+            public String getVersion() {
+                return System.getProperty("micro.version");
+            }
+            @Override
+            public String toString() {
+                return getVersion();
+            }
+        });
         
         return webApplication;
     }

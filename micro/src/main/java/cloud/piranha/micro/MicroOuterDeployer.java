@@ -141,6 +141,8 @@ public class MicroOuterDeployer {
             } catch (Error error) { // Yes, we know...
                 // Ignore
             }
+            
+            System.setProperty("micro.version", getClass().getPackage().getImplementationVersion());
         
             microInnerDeployer = 
                 Class.forName(
