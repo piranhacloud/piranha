@@ -34,15 +34,13 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
-import cloud.piranha.api.Piranha;
-
 /**
  * The micro version of Piranha.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
  */
-public class MicroPiranha implements Piranha, Runnable {
+public class MicroPiranha implements Runnable {
 
     /**
      * Defines the attribute name for the MicroPiranha reference.
@@ -103,16 +101,6 @@ public class MicroPiranha implements Piranha, Runnable {
         } else {
             archive = ShrinkWrap.create(WebArchive.class);
         }
-    }
-
-    /**
-     * Get the version.
-     *
-     * @return the version.
-     */
-    @Override
-    public String getVersion() {
-        return getClass().getPackage().getImplementationVersion();
     }
 
     /**
