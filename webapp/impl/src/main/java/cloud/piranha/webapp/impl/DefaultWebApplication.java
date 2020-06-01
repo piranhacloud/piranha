@@ -27,7 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.resource.DefaultResourceManager;
 import static cloud.piranha.webapp.impl.DefaultFilterEnvironment.UNAVAILABLE;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
@@ -53,6 +52,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -81,7 +81,11 @@ import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
 
+import cloud.piranha.resource.DefaultResourceManager;
+import cloud.piranha.resource.api.Resource;
+import cloud.piranha.resource.api.ResourceManager;
 import cloud.piranha.webapp.api.AnnotationManager;
+import cloud.piranha.webapp.api.AsyncManager;
 import cloud.piranha.webapp.api.FilterPriority;
 import cloud.piranha.webapp.api.HttpRequestManager;
 import cloud.piranha.webapp.api.HttpSessionManager;
@@ -90,16 +94,11 @@ import cloud.piranha.webapp.api.LoggingManager;
 import cloud.piranha.webapp.api.MimeTypeManager;
 import cloud.piranha.webapp.api.MultiPartManager;
 import cloud.piranha.webapp.api.ObjectInstanceManager;
-import cloud.piranha.resource.api.Resource;
-import cloud.piranha.resource.api.ResourceManager;
-import cloud.piranha.webapp.api.AsyncManager;
 import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
 import cloud.piranha.webapp.api.WebApplicationRequestMapping;
 import cloud.piranha.webapp.api.WelcomeFileManager;
-
-import java.util.stream.Collectors;
 
 /**
  * The default WebApplication.
@@ -1527,8 +1526,7 @@ public class DefaultWebApplication implements WebApplication {
          */
         boolean matchedResource = false;
         if (servlet == null) {
-            String originalPathInfo = webappRequest.getPathInfo() != null
-                    ? webappRequest.getPathInfo() : "";
+            String originalPathInfo = webappRequest.getPathInfo() != null ? webappRequest.getPathInfo() : "";
             for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
                 webappRequest.setPathInfo(originalPathInfo + welcomeFile);
                 if (getResource(webappRequest.getRequestURI()) != null) {
@@ -1536,22 +1534,26 @@ public class DefaultWebApplication implements WebApplication {
                     break;
                 }
             }
+            if (!matchedResource) {
+                webappRequest.setPathInfo(originalPathInfo);
+            }
         }
 
         /*
-         * We did not find a Servlet, so we are now going to see if we can map any
-         * of the welcome-file entries to a Servlet. If we can we will use the
-         * first match we find.
+         * We did not find a Servlet, so we are now going to see if we can map any of the welcome-file entries to a Servlet. If
+         * we can we will use the first match we find.
          */
         if (servlet == null && !matchedResource) {
-            String originalPathInfo = webappRequest.getPathInfo() != null
-                    ? webappRequest.getPathInfo() : "";
+            String originalPathInfo = webappRequest.getPathInfo() != null ? webappRequest.getPathInfo() : "";
             for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
                 webappRequest.setPathInfo(originalPathInfo + welcomeFile);
                 servlet = getTargetServlet(webappRequest);
                 if (servlet != null) {
                     break;
                 }
+            }
+            if (servlet == null) {
+                webappRequest.setPathInfo(originalPathInfo);
             }
         }
 
