@@ -31,6 +31,7 @@ import java.io.File;
 
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.importer.ExplodedImporter;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
@@ -84,12 +85,18 @@ public class MicroPiranha implements Runnable {
      */
     public void configure(String[] arguments) {
         File warFile = null;
+        File explodedDir = null;
 
         if (arguments.length > 0) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--war")) {
                     warFile = new File(arguments[i + 1]);
                 }
+                
+                if (arguments[i].equals("--webapp")) {
+                    explodedDir = new File(arguments[i + 1]);
+                }
+                
                 if (arguments[i].equals("--port")) {
                     port = Integer.parseInt(arguments[i + 1]);
                 }
@@ -98,6 +105,8 @@ public class MicroPiranha implements Runnable {
 
         if (warFile != null) {
             archive = ShrinkWrap.create(ZipImporter.class).importFrom(warFile).as(WebArchive.class);
+        } else if (explodedDir != null) {
+            archive = ShrinkWrap.create(ExplodedImporter.class).importDirectory(explodedDir).as(WebArchive.class);
         } else {
             archive = ShrinkWrap.create(WebArchive.class);
         }
