@@ -55,9 +55,10 @@ public class JasperExtension implements WebApplicationExtension {
     public void configure(WebApplication webApplication) {
         try {
             ClassLoader classLoader = webApplication.getClassLoader();
-            Class<ServletContainerInitializer> clazz
-                    = (Class<ServletContainerInitializer>) classLoader.
-                            loadClass(JasperInitializer.class.getName());
+            Class<? extends ServletContainerInitializer> clazz
+                    = classLoader.
+                            loadClass(JasperInitializer.class.getName())
+                            .asSubclass(ServletContainerInitializer.class);
             ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
             webApplication.addInitializer(initializer);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException

@@ -264,7 +264,7 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
     public void initialize() throws ServletException {
         if (filter == null) {
             try {
-                Class<? extends Filter> clazz = (Class<? extends Filter>) webApplication.getClassLoader().loadClass(className);
+                Class<? extends Filter> clazz = webApplication.getClassLoader().loadClass(className).asSubclass(Filter.class);
                 filter = webApplication.createFilter(clazz);
             } catch (Throwable throwable) {
                 throw new ServletException("Unable to initialize the filter", throwable);

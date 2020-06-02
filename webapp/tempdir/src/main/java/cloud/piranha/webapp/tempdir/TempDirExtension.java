@@ -56,11 +56,12 @@ public class TempDirExtension implements WebApplicationExtension {
     public void configure(WebApplication webApplication) {
         try {
             ClassLoader classLoader = webApplication.getClassLoader();
-            
-            Class<ServletContainerInitializer> clazz
-                    = (Class<ServletContainerInitializer>) classLoader.
-                            loadClass(TempDirInitializer.class.getName());
-            
+
+            Class<? extends ServletContainerInitializer> clazz
+                    = classLoader.
+                            loadClass(TempDirInitializer.class.getName())
+                            .asSubclass(ServletContainerInitializer.class);
+
             ServletContainerInitializer initializer
                     = clazz.getDeclaredConstructor().newInstance();
             
