@@ -64,7 +64,7 @@ public class DefaultMultiPartManager implements MultiPartManager {
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.log(Level.FINE, "Getting parts for request: {0}", request);
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     /**

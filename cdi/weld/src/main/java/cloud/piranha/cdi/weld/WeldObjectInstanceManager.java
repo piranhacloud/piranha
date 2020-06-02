@@ -57,7 +57,7 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
         boolean constructed = false;
         try {
             BeanManager beanManager = CDI.current().getBeanManager();
-            Unmanaged<T> unmanaged = new Unmanaged(beanManager, filterClass);
+            Unmanaged<T> unmanaged = new Unmanaged<>(beanManager, filterClass);
             Unmanaged.UnmanagedInstance<T> unmanagedInstance = unmanaged.newInstance();
             result = unmanagedInstance.produce().inject().postConstruct().get();
             constructed = true;
@@ -87,7 +87,7 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
         boolean constructed = false;
         try {
             BeanManager beanManager = CDI.current().getBeanManager();
-            Unmanaged<T> unmanaged = new Unmanaged(beanManager, clazz);
+            Unmanaged<T> unmanaged = new Unmanaged<>(beanManager, clazz);
             Unmanaged.UnmanagedInstance<T> unmanagedInstance = unmanaged.newInstance();
             result = unmanagedInstance.produce().inject().postConstruct().get();
             constructed = true;
@@ -117,7 +117,7 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
         boolean constructed = false;
         try {
             BeanManager beanManager = CDI.current().getBeanManager();
-            Unmanaged<T> unmanaged = new Unmanaged(beanManager, servletClass);
+            Unmanaged<T> unmanaged = new Unmanaged<>(beanManager, servletClass);
             Unmanaged.UnmanagedInstance<T> unmanagedInstance = unmanaged.newInstance();
             result = unmanagedInstance.produce().inject().postConstruct().get();
             constructed = true;
