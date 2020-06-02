@@ -546,6 +546,18 @@ public class DefaultWebApplicationTest {
         webApp.getResourcePaths("");
     }
 
+    @Test
+    public void testGetResourcePaths4() {
+        DefaultResourceManager resourceManager = new DefaultResourceManager();
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setResourceManager(resourceManager);
+        webApp.addResource(new DirectoryResource("src/test/webapp/resourcepaths"));
+
+        assertNull(webApp.getResourcePaths("/welcome.html"));
+        assertNull(webApp.getResourcePaths("/catalog/products.html"));
+        assertNull(webApp.getResourcePaths("/catalog/offers/books.html"));
+    }
+
     /**
      * Test getResponseCharacterEncoding.
      */
