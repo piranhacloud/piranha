@@ -117,7 +117,7 @@ public class WebXmlParser {
      *
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
-     * @param nodeList the node list.
+     * @param node the node to use.
      */
     private void parseContextParameters(WebXml webXml, XPath xPath, Node node) {
         try {
@@ -239,7 +239,7 @@ public class WebXmlParser {
      *
      * @param webXml the web.xml to use.
      * @param xPath the XPath to use.
-     * @param nodeList the Node list to parse.
+     * @param node the node to use.
      */
     private void parseFilterMappings(WebXml webXml, XPath xPath, Node node) {
         try {
@@ -366,7 +366,7 @@ public class WebXmlParser {
      *
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
-     * @param nodeList the node list.
+     * @param node the node to use.
      */
     private void parseMimeMappings(WebXml webXml, XPath xPath, Node node) {
         try {
@@ -429,7 +429,7 @@ public class WebXmlParser {
      *
      * @param webXml the web.xml to use.
      * @param xPath the XPath to use.
-     * @param nodeList the Node list to parse.
+     * @param node the node to use.
      */
     private void parseServletMappings(WebXml webXml, XPath xPath, Node node) {
         try {
