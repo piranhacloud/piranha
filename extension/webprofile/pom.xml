@@ -99,7 +99,7 @@
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-webannotation</artifactId>
             <version>${project.version}</version>
-            <scope>runtime</scope>
+            <scope>compile</scope>
         </dependency>
         <!-- Piranha Webapplication - web.xml support -->
         <dependency>
