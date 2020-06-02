@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -1130,6 +1131,7 @@ public class DefaultWebApplication implements WebApplication {
     private Set<String> getResourcePathsImpl(String path) {
         Set<String> collect = resourceManager.getAllLocations()
                 .filter(resource -> resource.startsWith(path))
+                .filter(Predicate.not(Predicate.isEqual(path)))
                 .map(resource -> getFileOrFirstFolder(path, resource))
                 .collect(Collectors.toSet());
         if (collect.isEmpty())
