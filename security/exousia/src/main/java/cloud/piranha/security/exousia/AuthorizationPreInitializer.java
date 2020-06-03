@@ -56,9 +56,9 @@ import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.constraints.WebResourceCollection;
 import org.omnifaces.exousia.constraints.transformer.ElementsToConstraintsTransformer;
 
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
 import cloud.piranha.webapp.webxml.WebXml;
-import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.webxml.WebXmlManager;
 
 /**
@@ -77,7 +77,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     public static final String PERROLE_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".perrole.permissions";
     public static final String CONSTRAINTS = AuthorizationPreInitializer.class.getName() + ".constraints";
     public static final String SECURITY_ELEMENTS = AuthorizationPreInitializer.class.getName() + ".security.elements";
-    public static final String SECURITY_ANNOTATIONS = AuthorizationPreInitializer.class.getName() + ".security.annotations";
+    public static final String SECURITY_ANNOTATIONS = "cloud.piranha.authorization.exousia.AuthorizationPreInitializer.security.annotations";
 
     /**
      * Initialize Exousia
