@@ -216,23 +216,23 @@ public class MicroOuterDeployer {
      * @return A class loader giving access to the application code
      */
     ClassLoader getWebInfClassLoader(Archive<?> applicationArchive, ClassLoader piranhaClassloader) {
-        // Add the main application archive to this class loader, and set the classes to be loaded from the
-        // /WEB-INF/classes folder
+        // Create the resource that holds all classes from the WEB-INF/classes folder
         ShrinkWrapResource applicationResource = new ShrinkWrapResource("/WEB-INF/classes", applicationArchive);
         
-        
+        // Create the resources that hold all classes from the WEB-INF/lib folder. 
+        // Each resource holds the classes from a single jar
         ShrinkWrapResource jarResources = new ShrinkWrapResource("/WEB-INF/lib", applicationArchive);
-        List<JavaArchive> webLibArchives = jarResources.getAllLocations()
-                    .filter(location -> location.endsWith(".jar"))
-                    .map(location -> jarResources.getResourceAsStreamByLocation(location))
-                    .map(stream -> ShrinkWrap.create(ZipImporter.class).importFrom(stream).as(JavaArchive.class))
-                    .collect(toList());
+        List<ShrinkWrapResource> webLibResources = 
+            jarResources.getAllLocations()
+                        .filter(location -> location.endsWith(".jar"))
+                        .map(location -> importAsShrinkWrapResource(jarResources, location))
+                        .collect(toList());
         
-        // Create a separate archive that contains an index of the application archive. This index
-        // can be obtained from the class loader by getting the "META-INF/piranha.idx" resource.
+        // Create a separate archive that contains an index of the application archive and the library archives. 
+        // This index can be obtained from the class loader by getting the "META-INF/piranha.idx" resource.
         ShrinkWrapResource indexResource = new ShrinkWrapResource(
             ShrinkWrap.create(JavaArchive.class)
-                      .add(new ByteArrayAsset(createIndex(applicationResource)), "META-INF/piranha.idx"));
+                      .add(new ByteArrayAsset(createIndex(applicationResource, webLibResources)), "META-INF/piranha.idx"));
         
         
         IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader(piranhaClassloader, "WebInf Loader");
@@ -240,22 +240,48 @@ public class MicroOuterDeployer {
         // Add the resources representing the application archive and index archive to the resource manager
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(applicationResource);
-        for (JavaArchive archive : webLibArchives) {
-            manager.addResource(new ShrinkWrapResource(archive));
+        for (ShrinkWrapResource webLibResource : webLibResources) {
+            manager.addResource(webLibResource);
         }
         manager.addResource(indexResource);
         
-        // Make the application classes and the index available to the class loader by setting the resource manager
+        // Make the application and library classes, as well as the index available to the class loader by setting the resource manager
         // that contains these.
         classLoader.setResourceManager(manager);
         
         return classLoader;
     }
     
-    private byte[] createIndex(ShrinkWrapResource applicationResource) {
+    /**
+     * Helper method that gets and imports a ZipFileEntry resource from a ShrinkWrapResource as
+     * another ShrinkWrapResource.
+     * 
+     * @param resource the ShrinkWrapResource used as the source
+     * @param location the location of the target resource within the resource
+     * @return a ShrinkWrapResource version of the target resource
+     */
+    private ShrinkWrapResource importAsShrinkWrapResource(ShrinkWrapResource resource, String location) {
+        return new ShrinkWrapResource(
+            ShrinkWrap.create(ZipImporter.class)
+                      .importFrom(
+                          resource.getResourceAsStreamByLocation(location))
+                      .as(JavaArchive.class));
+    }
+    
+    private byte[] createIndex(ShrinkWrapResource applicationResource, List<ShrinkWrapResource> libResources) {
         Indexer indexer = new Indexer();
         
-        // Add all classes from the application resource to the indexer
+        // Add all classes from the library resources (the jar files in WEB-INF/lib)
+        libResources
+            .stream()
+            .forEach(libResource -> 
+                libResource.getAllLocations()
+                           .filter(e -> e.endsWith(".class"))
+                           .forEach(className -> addToIndex(className, libResource, indexer)));
+        
+        
+        // Add all classes from the application resource (the class files in WEB-INF/classes to the indexer)
+        // Note this must be done last as according to the Servlet spec, WEB-INF/classes overrides WEB-INF/lib)
         applicationResource
             .getAllLocations()
             .filter(e -> e.endsWith(".class"))
