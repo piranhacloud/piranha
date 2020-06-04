@@ -63,13 +63,21 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
      */
     private HttpServerProcessor httpServerProcessor;
 
+    /***
+     * Stores the SSL flag
+     */
+    private boolean ssl;
+
+    /***
+     * Stores the server port
+     */
+    private int port;
+
     /**
      * Constructor.
      */
     public GrizzlyHttpServer() {
-        httpServer = HttpServer.createSimpleServer();
         httpServerProcessor = new DefaultHttpServerProcessor();
-        addHttpHandler();
     }
 
     /**
@@ -78,9 +86,8 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
      * @param serverPort the server port.
      */
     public GrizzlyHttpServer(int serverPort) {
-        httpServer = HttpServer.createSimpleServer(null, serverPort);
+        port = serverPort;
         httpServerProcessor = new DefaultHttpServerProcessor();
-        addHttpHandler();
     }
 
     /**
@@ -90,9 +97,8 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
      * @param httpServerProcessor the HTTP server processor;
      */
     public GrizzlyHttpServer(int serverPort, HttpServerProcessor httpServerProcessor) {
-        httpServer = HttpServer.createSimpleServer(null, serverPort);
+        port = serverPort;
         this.httpServerProcessor = httpServerProcessor;
-        addHttpHandler();
     }
 
     /**
@@ -103,7 +109,6 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
     public GrizzlyHttpServer(HttpServer httpServer) {
         this.httpServer = httpServer;
         this.httpServerProcessor = new DefaultHttpServerProcessor();
-        addHttpHandler();
     }
 
     /**
@@ -133,6 +138,10 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
      */
     @Override
     public void start() {
+        if (httpServer == null) {
+            httpServer = HttpServer.createSimpleServer(null, port);
+        }
+        addHttpHandler();
         try {
             httpServer.start();
         } catch (IOException ioe) {
@@ -174,5 +183,35 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
         } catch (InterruptedException ie) {
         }
         httpServer = null;
+    }
+
+    @Override
+    public int getServerPort() {
+        return port;
+    }
+
+    @Override
+    public void setServerPort(int serverPort) {
+        this.port = serverPort;
+    }
+
+    @Override
+    public void setSSL(boolean ssl) {
+        this.ssl = ssl;
+    }
+
+    @Override
+    public boolean getSSL() {
+        return this.ssl;
+    }
+
+    @Override
+    public void setHttpServerProcessor(HttpServerProcessor httpServerProcessor) {
+        this.httpServerProcessor = httpServerProcessor;
+    }
+
+    @Override
+    public HttpServerProcessor getHttpServerProcessor() {
+        return httpServerProcessor;
     }
 }

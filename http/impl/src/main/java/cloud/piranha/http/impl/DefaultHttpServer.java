@@ -141,6 +141,7 @@ public class DefaultHttpServer implements HttpServer {
         this.ssl = ssl;
     }
 
+
     /**
      * Constructor
      *
@@ -254,5 +255,35 @@ public class DefaultHttpServer implements HttpServer {
         if (LOGGER.isLoggable(FINE)) {
             LOGGER.log(FINE, "Stopped HTTP server on port {0}", serverPort);
         }
+    }
+
+    @Override
+    public int getServerPort() {
+        return serverPort;
+    }
+
+    @Override
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
+    }
+
+    @Override
+    public void setSSL(boolean ssl) {
+        this.ssl = ssl;
+    }
+
+    @Override
+    public boolean getSSL() {
+        return ssl;
+    }
+
+    @Override
+    public void setHttpServerProcessor(HttpServerProcessor httpServerProcessor) {
+        processor = httpServerProcessor;
+    }
+
+    @Override
+    public HttpServerProcessor getHttpServerProcessor() {
+        return processor;
     }
 }
