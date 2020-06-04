@@ -103,7 +103,10 @@ public class ShrinkWrapResource implements Resource {
 
     @Override
     public InputStream getResourceAsStream(String url) {
-        String location = getLocationFromUrl(url);
+        return getResourceAsStreamByLocation(getLocationFromUrl(url));
+    }
+    
+    public InputStream getResourceAsStreamByLocation(String location) {
         if (location == null) {
             return null;
         }
