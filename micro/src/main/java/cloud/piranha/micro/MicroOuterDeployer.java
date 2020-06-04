@@ -28,6 +28,7 @@
 package cloud.piranha.micro;
 
 import static java.util.logging.Level.WARNING;
+import static java.util.stream.Collectors.toList;
 import static org.jboss.shrinkwrap.resolver.api.maven.repository.MavenUpdatePolicy.UPDATE_POLICY_NEVER;
 
 import java.io.ByteArrayOutputStream;
@@ -36,6 +37,7 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -48,6 +50,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.ConfigurableMavenResolverSystem;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
@@ -217,6 +220,14 @@ public class MicroOuterDeployer {
         // /WEB-INF/classes folder
         ShrinkWrapResource applicationResource = new ShrinkWrapResource("/WEB-INF/classes", applicationArchive);
         
+        
+        ShrinkWrapResource jarResources = new ShrinkWrapResource("/WEB-INF/lib", applicationArchive);
+        List<JavaArchive> webLibArchives = jarResources.getAllLocations()
+                    .filter(location -> location.endsWith(".jar"))
+                    .map(location -> jarResources.getResourceAsStreamByLocation(location))
+                    .map(stream -> ShrinkWrap.create(ZipImporter.class).importFrom(stream).as(JavaArchive.class))
+                    .collect(toList());
+        
         // Create a separate archive that contains an index of the application archive. This index
         // can be obtained from the class loader by getting the "META-INF/piranha.idx" resource.
         ShrinkWrapResource indexResource = new ShrinkWrapResource(
@@ -229,6 +240,9 @@ public class MicroOuterDeployer {
         // Add the resources representing the application archive and index archive to the resource manager
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(applicationResource);
+        for (JavaArchive archive : webLibArchives) {
+            manager.addResource(new ShrinkWrapResource(archive));
+        }
         manager.addResource(indexResource);
         
         // Make the application classes and the index available to the class loader by setting the resource manager
