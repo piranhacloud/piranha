@@ -89,6 +89,12 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
      */
     protected int soTimeout;
 
+    /***
+     * Stores the SSL flag
+     */
+    private boolean ssl;
+
+
     /**
      * Constructor.
      */
@@ -199,5 +205,35 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
             }
         }
         running = false;
+    }
+
+    @Override
+    public int getServerPort() {
+        return serverPort;
+    }
+
+    @Override
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
+    }
+
+    @Override
+    public void setSSL(boolean ssl) {
+        this.ssl = ssl;
+    }
+
+    @Override
+    public boolean getSSL() {
+        return ssl;
+    }
+
+    @Override
+    public void setHttpServerProcessor(HttpServerProcessor httpServerProcessor) {
+        processor = httpServerProcessor;
+    }
+
+    @Override
+    public HttpServerProcessor getHttpServerProcessor() {
+        return processor;
     }
 }

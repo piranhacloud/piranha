@@ -53,6 +53,8 @@ public class MicroPiranha implements Runnable {
      */
     private int port = 8080;
 
+    private String httpServer = "impl";
+
     /**
      * Stores the WAR file.
      */
@@ -100,6 +102,10 @@ public class MicroPiranha implements Runnable {
                 if (arguments[i].equals("--port")) {
                     port = Integer.parseInt(arguments[i + 1]);
                 }
+
+                if (arguments[i].equals("--http")) {
+                    httpServer = arguments[i + 1];
+                }
             }
         }
 
@@ -119,7 +125,8 @@ public class MicroPiranha implements Runnable {
     public void run() {
         MicroConfiguration configuration = new MicroConfiguration();
         configuration.setPort(port);
-        
+        configuration.setHttpServer(httpServer);
+
         outerDeployer = new MicroOuterDeployer(configuration.postConstruct());
         outerDeployer.deploy(archive);
     }

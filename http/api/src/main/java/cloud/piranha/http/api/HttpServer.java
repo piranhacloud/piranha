@@ -38,6 +38,9 @@ package cloud.piranha.http.api;
  *  <li>Starting the server.</li>
  *  <li>Stopping the server.</li>
  *  <li>Checking if the server is running.</li>
+ *  <li>Set/get the port of the server.</li>
+ *  <li>Set/get the SSL flag.</li>
+ *  <li>Set/get the HttpServerProcessor.</li>
  * </ol>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -60,4 +63,41 @@ public interface HttpServer {
      * Stop the server.
      */
     void stop();
+
+    /***
+     * Get the server port
+     * @return the server port
+     */
+    int getServerPort();
+
+    /***
+     * Set the server port
+     * @param serverPort the port
+     */
+    void setServerPort(int serverPort);
+
+    /***
+     * Get the SSL flag
+     * @return the server port
+     */
+
+    boolean getSSL();
+
+    /***
+     * Set the SSL flag
+     * @param ssl the SSL flag
+     */
+    void setSSL(boolean ssl);
+
+    /***
+     * Get the http server processor
+     * @return the http server processor
+     */
+    HttpServerProcessor getHttpServerProcessor();
+
+    /***
+     * Set the http server processor
+     * @param httpServerProcessor the http server processor
+     */
+    void setHttpServerProcessor(HttpServerProcessor httpServerProcessor);
 }
