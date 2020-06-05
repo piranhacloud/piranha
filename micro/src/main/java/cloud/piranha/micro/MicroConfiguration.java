@@ -29,9 +29,9 @@ package cloud.piranha.micro;
 
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Stream.concat;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
@@ -43,6 +43,7 @@ import java.util.stream.Stream;
  */
 public class MicroConfiguration {
 
+    private String httpServer;
     private String version;
     private String extensions;
     private String dependencies;
@@ -66,9 +67,10 @@ public class MicroConfiguration {
             System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"), 
             Boolean.valueOf(System.getProperty("piranha.offline", "false")),
             Integer.valueOf(System.getProperty("piranha.port", "8080")),
-            
-            null, 
-            null, 
+            System.getProperty("piranha.http.server", "impl"),
+
+            null,
+            null,
             null);
     }
 
@@ -92,9 +94,10 @@ public class MicroConfiguration {
         String repositories, 
         boolean offline, 
         int port,
-        
-        List<String> extensionsList, 
-        List<String> repositoriesList, 
+        String httpServer,
+
+        List<String> extensionsList,
+        List<String> repositoriesList,
         List<String> mergedDependencies) {
         
         this.version = version;
@@ -103,7 +106,8 @@ public class MicroConfiguration {
         this.repositories = repositories;
         this.offline = offline;
         this.port = port;
-        
+        this.httpServer = httpServer;
+
         this.extensionsList = extensionsList;
         this.repositoriesList = repositoriesList;
         this.mergedDependencies = mergedDependencies;
@@ -126,9 +130,13 @@ public class MicroConfiguration {
                 .filter(repo -> !repo.isEmpty())
                 .collect(toList());
 
-        mergedDependencies = concat(dependenciesFromExtensionsStream, directDependenciesStream)
-                .collect(toList());
-        
+
+        mergedDependencies = Stream.of(
+            Stream.of("cloud.piranha.http:piranha-http-" + httpServer + ":" + version),
+            dependenciesFromExtensionsStream,
+            directDependenciesStream
+        ).flatMap(Function.identity()).collect(toList());
+
         return this;
     }
 
@@ -170,6 +178,14 @@ public class MicroConfiguration {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public String getHttpServer() {
+        return httpServer;
+    }
+
+    public void setHttpServer(String httpServer) {
+        this.httpServer = httpServer;
     }
 
     public List<String> getExtensionsList() {

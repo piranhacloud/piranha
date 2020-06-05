@@ -56,17 +56,23 @@ public class NettyHttpServer implements HttpServer {
     /**
      * Stores the HTTP server processor.
      */
-    private final HttpServerProcessor httpServerProcessor;
+    private HttpServerProcessor httpServerProcessor;
 
     /**
      * Stores the server port.
      */
-    private final int serverPort;
+    private int serverPort;
 
     /**
      * Stores the worker event loop group.
      */
     private EventLoopGroup workerGroup;
+
+    /***
+     * Stores the SSL flag
+     */
+    private boolean ssl;
+
 
     /**
      * Constructor.
@@ -128,5 +134,35 @@ public class NettyHttpServer implements HttpServer {
         bossGroup.shutdownGracefully().awaitUninterruptibly();
         bossGroup = null;
         workerGroup = null;
+    }
+
+    @Override
+    public int getServerPort() {
+        return serverPort;
+    }
+
+    @Override
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
+    }
+
+    @Override
+    public void setSSL(boolean ssl) {
+        this.ssl = ssl;
+    }
+
+    @Override
+    public boolean getSSL() {
+        return ssl;
+    }
+
+    @Override
+    public void setHttpServerProcessor(HttpServerProcessor httpServerProcessor) {
+        this.httpServerProcessor = httpServerProcessor;
+    }
+
+    @Override
+    public HttpServerProcessor getHttpServerProcessor() {
+        return httpServerProcessor;
     }
 }

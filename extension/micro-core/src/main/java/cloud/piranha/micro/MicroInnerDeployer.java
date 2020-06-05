@@ -72,9 +72,7 @@ import org.xml.sax.SAXException;
 
 import cloud.piranha.api.Piranha;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
-//import cloud.piranha.faces.mojarra.MojarraInitializer;
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import cloud.piranha.webapp.api.WebApplication;
@@ -185,8 +183,12 @@ public class MicroInnerDeployer {
             
             webApplicationServer.initialize();
             webApplicationServer.start();
-            
-            httpServer = new DefaultHttpServer(port, webApplicationServer, false);
+
+            ServiceLoader<HttpServer> httpServers = ServiceLoader.load(HttpServer.class);
+            httpServer = httpServers.findFirst().orElseThrow();
+            httpServer.setServerPort(port);
+            httpServer.setSSL(false);
+            httpServer.setHttpServerProcessor(webApplicationServer);
             httpServer.start();
             
             return webApplication.getServletRegistrations().keySet();
@@ -195,7 +197,7 @@ public class MicroInnerDeployer {
             throw e;
         }
     }
-    
+
     WebApplication getWebApplication(Archive<?> archive, ClassLoader newClassLoader) {
         WebApplication webApplication = new DefaultWebApplication();
         webApplication.setClassLoader(newClassLoader);
