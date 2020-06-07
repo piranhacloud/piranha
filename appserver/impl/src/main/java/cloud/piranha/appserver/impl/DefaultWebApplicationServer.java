@@ -27,32 +27,33 @@
  */
 package cloud.piranha.appserver.impl;
 
+import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.WARNING;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 
-import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.api.HttpServerRequest;
-import cloud.piranha.http.api.HttpServerResponse;
-import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.appserver.api.WebApplicationServer;
 import cloud.piranha.appserver.api.WebApplicationServerRequest;
 import cloud.piranha.appserver.api.WebApplicationServerRequestMapper;
 import cloud.piranha.appserver.api.WebApplicationServerResponse;
+import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServerRequest;
+import cloud.piranha.http.api.HttpServerResponse;
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The default WebApplicationServer.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServer
-        implements HttpServerProcessor, WebApplicationServer {
+public class DefaultWebApplicationServer implements HttpServerProcessor, WebApplicationServer {
 
     /**
      * Stores the logger.
@@ -63,7 +64,7 @@ public class DefaultWebApplicationServer
      * Stores the async boolean.
      */
     protected boolean async = false;
-    
+
     /**
      * Stores the request mapper.
      */
@@ -106,9 +107,10 @@ public class DefaultWebApplicationServer
      */
     @Override
     public void addWebApplication(WebApplication webApplication) {
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Adding web application with context path: {0}", webApplication.getContextPath());
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Adding web application with context path: {0}", webApplication.getContextPath());
         }
+        
         webApplications.put(webApplication.getContextPath(), webApplication);
         requestMapper.addMapping(webApplication, webApplication.getContextPath());
     }
@@ -120,25 +122,27 @@ public class DefaultWebApplicationServer
      * @return the web application server request.
      */
     private WebApplicationServerRequest createRequest(HttpServerRequest request) {
-        DefaultWebApplicationServerRequest result = new DefaultWebApplicationServerRequest();
-        copyRequestToResult(request, result);
-        result.setServletPath("");
+        DefaultWebApplicationServerRequest applicationServerRequest = new DefaultWebApplicationServerRequest();
+        copyHttpRequestToApplicationRequest(request, applicationServerRequest);
+        applicationServerRequest.setServletPath("");
+        
         Iterator<String> headerNames = request.getHeaderNames();
         while (headerNames.hasNext()) {
             String name = headerNames.next();
             String value = request.getHeader(name);
-            result.setHeader(name, value);
+            applicationServerRequest.setHeader(name, value);
             if (name.equalsIgnoreCase("Content-Type")) {
-                result.setContentType(value);
+                applicationServerRequest.setContentType(value);
             }
             if (name.equalsIgnoreCase("Content-Length")) {
-                result.setContentLength(Integer.parseInt(value));
+                applicationServerRequest.setContentLength(Integer.parseInt(value));
             }
             if (name.equalsIgnoreCase("COOKIE")) {
-                result.setCookies(processCookies(result, value));
+                applicationServerRequest.setCookies(processCookies(applicationServerRequest, value));
             }
         }
-        return result;
+        
+        return applicationServerRequest;
     }
 
     private Cookie[] processCookies(DefaultWebApplicationServerRequest result, String cookiesValue) {
@@ -148,9 +152,11 @@ public class DefaultWebApplicationServer
             String[] cookieString = cookieCandidate.split("=");
             String cookieName = cookieString[0].trim();
             String cookieValue = null;
+            
             if (cookieString.length == 2) {
                 cookieValue = cookieString[1].trim();
             }
+            
             Cookie cookie = new Cookie(cookieName, cookieValue);
             if (cookie.getName().equals("JSESSIONID")) {
                 result.setRequestedSessionIdFromCookie(true);
@@ -162,31 +168,41 @@ public class DefaultWebApplicationServer
         return cookieList.toArray(new Cookie[0]);
     }
 
-    private void copyRequestToResult(HttpServerRequest request, DefaultWebApplicationServerRequest result) {
-        result.setLocalAddr(request.getLocalAddress());
-        result.setLocalName(request.getLocalHostname());
-        result.setLocalPort(request.getLocalPort());
-        result.setRemoteAddr(request.getRemoteAddress());
-        result.setRemoteHost(request.getRemoteHostname());
-        result.setRemotePort(request.getRemotePort());
-        result.setServerName(request.getLocalHostname());
-        result.setServerPort(request.getLocalPort());
-        result.setMethod(request.getMethod());
-        result.setContextPath(request.getRequestTarget());
-        result.setQueryString(request.getQueryString());
-        result.setInputStream(request.getInputStream());
+    private void copyHttpRequestToApplicationRequest(HttpServerRequest httpRequest, DefaultWebApplicationServerRequest applicationRequest) {
+        applicationRequest.setLocalAddr(httpRequest.getLocalAddress());
+        applicationRequest.setLocalName(httpRequest.getLocalHostname());
+        applicationRequest.setLocalPort(httpRequest.getLocalPort());
+        applicationRequest.setRemoteAddr(httpRequest.getRemoteAddress());
+        applicationRequest.setRemoteHost(httpRequest.getRemoteHostname());
+        applicationRequest.setRemotePort(httpRequest.getRemotePort());
+        applicationRequest.setServerName(httpRequest.getLocalHostname());
+        applicationRequest.setServerPort(httpRequest.getLocalPort());
+        applicationRequest.setMethod(httpRequest.getMethod());
+        applicationRequest.setContextPath(httpRequest.getRequestTarget());
+        applicationRequest.setQueryString(httpRequest.getQueryString());
+        applicationRequest.setInputStream(httpRequest.getInputStream());
+        
     }
 
     /**
      * Create the web application server response.
      *
-     * @param response the HTTP server response.
+     * @param httpResponse the HTTP server response.
      * @return the web application server response.
      */
-    public WebApplicationServerResponse createResponse(HttpServerResponse response) {
-        DefaultWebApplicationServerResponse result = new DefaultWebApplicationServerResponse();
-        result.setUnderlyingOutputStream(response.getOutputStream());
-        return result;
+    public WebApplicationServerResponse createResponse(HttpServerResponse httpResponse) {
+        DefaultWebApplicationServerResponse applicationResponse = new DefaultWebApplicationServerResponse();
+        applicationResponse.setUnderlyingOutputStream(httpResponse.getOutputStream());
+        
+        applicationResponse.setResponseCloser(() -> {
+            try {
+                httpResponse.closeResponse();
+            } catch (IOException ioe) {
+                LOGGER.log(WARNING, ioe, () -> "IOException when flushing the underlying async output stream");
+            }
+        });
+        
+        return applicationResponse;
     }
 
     /**
@@ -204,9 +220,10 @@ public class DefaultWebApplicationServer
      */
     @Override
     public void initialize() {
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Starting initialization of {0} web application(s)", webApplications.size());
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Starting initialization of {0} web application(s)", webApplications.size());
         }
+        
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -216,8 +233,9 @@ public class DefaultWebApplicationServer
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Finished initialization of {0} web application(s)", webApplications.size());
+        
+        if (LOGGER.isLoggable(FINE)) {
+            LOGGER.log(FINE, "Finished initialization of {0} web application(s)", webApplications.size());
         }
     }
 
@@ -242,6 +260,7 @@ public class DefaultWebApplicationServer
         try {
             DefaultWebApplicationServerRequest serverRequest = (DefaultWebApplicationServerRequest) createRequest(request);
             DefaultWebApplicationServerResponse serverResponse = (DefaultWebApplicationServerResponse) createResponse(response);
+            
             service(serverRequest, serverResponse);
         } catch (Exception exception) {
             exception.printStackTrace(System.err);
@@ -280,13 +299,13 @@ public class DefaultWebApplicationServer
             response.setWebApplication(webApplication);
 
             webApplication.service(request, response);
-            
+
             // Make sure the request is fully read wrt parameters (if any still)
             request.getParameterMap();
-            
+
             if (request.isAsyncStarted()) {
                 async = true;
-            }            
+            }
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
         }
@@ -307,9 +326,10 @@ public class DefaultWebApplicationServer
      */
     @Override
     public void start() {
-        if (LOGGER.isLoggable(Level.FINE)) {
+        if (LOGGER.isLoggable(FINE)) {
             LOGGER.info("Starting WebApplication server engine");
         }
+        
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -319,7 +339,8 @@ public class DefaultWebApplicationServer
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        if (LOGGER.isLoggable(Level.FINE)) {
+        
+        if (LOGGER.isLoggable(FINE)) {
             LOGGER.info("Started WebApplication server engine");
         }
     }
@@ -329,9 +350,10 @@ public class DefaultWebApplicationServer
      */
     @Override
     public void stop() {
-        if (LOGGER.isLoggable(Level.FINE)) {
+        if (LOGGER.isLoggable(FINE)) {
             LOGGER.info("Stopping WebApplication server engine");
         }
+        
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -341,7 +363,8 @@ public class DefaultWebApplicationServer
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        if (LOGGER.isLoggable(Level.FINE)) {
+        
+        if (LOGGER.isLoggable(FINE)) {
             LOGGER.info("Stopped WebApplication server engine");
         }
     }

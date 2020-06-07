@@ -44,7 +44,9 @@ public interface WebApplicationResponse extends HttpServletResponse {
      *
      * @return the cookies.
      */
-    public Collection<Cookie> getCookies();
+    Collection<Cookie> getCookies();
+    
+    void closeAsyncResponse();
 
     /**
      * Get the underlying output stream.

@@ -27,8 +27,8 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationResponse;
+import static java.util.Collections.list;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -37,15 +37,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationResponse;
 
 /**
  * The default WebApplicationResponse.
@@ -291,6 +294,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (!isCommitted()) {
             writeOut();
         }
+        
         if (gotWriter) {
             writer.flush();
         }
@@ -357,12 +361,13 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public Collection<String> getHeaderNames() {
-        ArrayList<String> result = new ArrayList<>();
+        List<String> headerNames = new ArrayList<>();
         Enumeration<String> enumeration = headerManager.getHeaderNames();
         if (enumeration != null) {
-            result = Collections.list(enumeration);
+            headerNames = list(enumeration);
         }
-        return result;
+        
+        return headerNames;
     }
 
     /**
@@ -376,8 +381,9 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         ArrayList<String> result = new ArrayList<>();
         Enumeration<String> enumeration = headerManager.getHeaders(name);
         if (enumeration != null) {
-            result = Collections.list(enumeration);
+            result = list(enumeration);
         }
+        
         return result;
     }
 
@@ -402,9 +408,9 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (!gotWriter) {
             gotOutput = true;
             return this;
-        } else {
-            throw new IllegalStateException("Cannot get output stream as the writer was already acquired");
         }
+        
+        throw new IllegalStateException("Cannot get output stream as the writer was already acquired");
     }
 
     /**
@@ -769,6 +775,11 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     public void setUnderlyingOutputStream(OutputStream outputStream) {
         this.outputStream = outputStream;
     }
+    
+    @Override
+    public void closeAsyncResponse() {
+        // Do nothing
+    }
 
     // -------------------------------------------------------------------------
     //  ServletOutStream implementation
@@ -956,4 +967,5 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         }
         outputStream.write("\n".getBytes());
     }
+   
 }
