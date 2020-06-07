@@ -27,15 +27,17 @@
  */
 package cloud.piranha.http.impl;
 
-import cloud.piranha.http.api.HttpServerResponse;
+import static java.util.logging.Level.WARNING;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
+
+import cloud.piranha.http.api.HttpServerResponse;
 
 /**
  * The default implementation of HTTP Server Response.
@@ -93,18 +95,15 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
      */
     @Override
     public OutputStream getOutputStream() {
-        OutputStream result = outputStream;
         if (outputStream == null) {
             try {
                 outputStream = socket.getOutputStream();
-                result = outputStream;
             } catch (IOException exception) {
-                if (LOGGER.isLoggable(WARNING)) {
-                    LOGGER.log(WARNING, "An I/O error occurred while acquiring the output stream", exception);
-                }
+                LOGGER.log(WARNING, exception, () -> "An I/O error occurred while acquiring the output stream");
             }
         }
-        return result;
+
+        return outputStream;
     }
 
     /**
@@ -121,6 +120,12 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     @Override
     public void setStatus(int status) {
         this.status = status;
+    }
+    
+    @Override
+    public void closeResponse() throws IOException {
+        HttpServerResponse.super.closeResponse();
+        socket.close();
     }
 
     /**

@@ -27,15 +27,14 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.AsyncDispatcher;
-import cloud.piranha.webapp.api.AsyncManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
+import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.WARNING;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.AsyncContext;
 import javax.servlet.AsyncEvent;
 import javax.servlet.AsyncListener;
@@ -45,6 +44,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import cloud.piranha.webapp.api.AsyncDispatcher;
+import cloud.piranha.webapp.api.AsyncManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.webapp.api.WebApplicationResponse;
 
 /**
  * The default AsyncContext.
@@ -129,47 +134,35 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void complete() {
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Completing async processing");
-        }
+        LOGGER.log(FINE, () -> "Completing async processing");
+        
         if (!listeners.isEmpty()) {
             listeners.forEach((listener) -> {
                 try {
                     listener.onComplete(new AsyncEvent(this));
                 } catch (IOException ioe) {
-                    if (LOGGER.isLoggable(Level.WARNING)) {
-                        LOGGER.log(Level.WARNING, "IOException when calling onComplete on AsyncListener", ioe);
-                    }
+                    LOGGER.log(WARNING,ioe, () -> "IOException when calling onComplete on AsyncListener");
                     // nothing can be done at this point.
                 }
             });
         }
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Flushing async response buffer");
-        }
+        
+        LOGGER.log(FINE, () -> "Flushing async response buffer");
+        
         if (!response.isCommitted()) {
             try {
                 response.flushBuffer();
             } catch (IOException ioe) {
-                if (LOGGER.isLoggable(Level.WARNING)) {
-                    LOGGER.log(Level.WARNING, "IOException when flushing async response buffer", ioe);
-                }
+                    LOGGER.log(WARNING, ioe, () -> "IOException when flushing async response buffer");
                 // nothing can be done at this point.
             }
         }
+        
         /*
          * TODO - review this as it exposes implementation detail and we should not have to do so.
          */
-        if (response instanceof DefaultWebApplicationResponse) {
-            try {
-                DefaultWebApplicationResponse underlyingResponse = (DefaultWebApplicationResponse) response;
-                underlyingResponse.getUnderlyingOutputStream().flush();
-                underlyingResponse.getUnderlyingOutputStream().close();
-            } catch (IOException ioe) {
-                if (LOGGER.isLoggable(Level.WARNING)) {
-                    LOGGER.log(Level.WARNING, "IOException when flushing the underlying async output stream", ioe);
-                }
-            }
+        if (response instanceof WebApplicationResponse) {
+            ((WebApplicationResponse) response).closeAsyncResponse();
         }
     }
 
@@ -186,9 +179,7 @@ public class DefaultAsyncContext implements AsyncContext {
         try {
             return type.getConstructor().newInstance();
         } catch (Throwable t) {
-            if (LOGGER.isLoggable(Level.WARNING)) {
-                LOGGER.log(Level.WARNING, "Unable to create AsyncListener: " + type.getName(), t);
-            }
+            LOGGER.log(WARNING, t, () -> "Unable to create AsyncListener: " + type.getName());
             throw new ServletException("Unable to create listener", t);
         }
     }
@@ -226,9 +217,11 @@ public class DefaultAsyncContext implements AsyncContext {
     public void dispatch(ServletContext servletContext, String path) {
         WebApplication webApplication = (WebApplication) servletContext;
         AsyncManager asyncManager = webApplication.getAsyncManager();
-        AsyncDispatcher dispatcher = asyncManager.getDispatcher(
-                webApplication, path, request, response);
+        AsyncDispatcher dispatcher = asyncManager.getDispatcher(webApplication, path, request, response);
         dispatcher.dispatch();
+        
+        // TMP TMP TMP TMP
+        complete();
     }
 
     /**
@@ -291,9 +284,7 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void start(Runnable runnable) {
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Starting async context with: {0}", runnable);
-        }
+        LOGGER.log(FINE,  "Starting async context with: {0}", runnable);
         Thread thread = new Thread(runnable);
         thread.start();
     }
