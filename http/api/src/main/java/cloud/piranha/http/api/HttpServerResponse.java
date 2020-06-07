@@ -49,14 +49,14 @@ public interface HttpServerResponse {
      * @param name the name.
      * @return the value, or null if not found.
      */
-    public String getHeader(String name);
+    String getHeader(String name);
 
     /**
      * Get the output stream.
      *
      * @return the output stream.
      */
-    public OutputStream getOutputStream();
+    OutputStream getOutputStream();
 
     /**
      * Set the specified header.
@@ -64,26 +64,31 @@ public interface HttpServerResponse {
      * @param name the header name.
      * @param value the header value.
      */
-    public void setHeader(String name, String value);
+    void setHeader(String name, String value);
 
     /**
      * Set the status.
      *
      * @param status the status.
      */
-    public void setStatus(int status);
+    void setStatus(int status);
 
     /**
      * Write the response headers.
      *
      * @throws IOException when an I/O error occurs.
      */
-    public void writeHeaders() throws IOException;
+    void writeHeaders() throws IOException;
 
     /**
      * Write the status line.
      *
      * @throws IOException when an I/O error occurs.
      */
-    public void writeStatusLine() throws IOException;
+    void writeStatusLine() throws IOException;
+    
+    default void closeResponse() throws IOException {
+        getOutputStream().flush();
+        getOutputStream().close();
+    }
 }
