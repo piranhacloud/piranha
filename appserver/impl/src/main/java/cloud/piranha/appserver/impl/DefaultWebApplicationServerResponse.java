@@ -27,15 +27,26 @@
  */
 package cloud.piranha.appserver.impl;
 
-import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 import cloud.piranha.appserver.api.WebApplicationServerResponse;
+import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 
 /**
  * The default WebApplicationServerResponse.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerResponse
-        extends DefaultWebApplicationResponse
-        implements WebApplicationServerResponse {
+public class DefaultWebApplicationServerResponse extends DefaultWebApplicationResponse implements WebApplicationServerResponse {
+    
+    private Runnable responseCloser;
+
+    public void setResponseCloser(Runnable responseCloser) {
+        this.responseCloser = responseCloser;
+    }
+    
+    @Override
+    public void closeAsyncResponse() {
+        responseCloser.run();
+    }
+    
+    
 }

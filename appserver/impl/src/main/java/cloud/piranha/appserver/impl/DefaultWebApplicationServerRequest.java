@@ -35,7 +35,5 @@ import cloud.piranha.appserver.api.WebApplicationServerRequest;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerRequest 
-        extends DefaultWebApplicationRequest
-        implements WebApplicationServerRequest {
+public class DefaultWebApplicationServerRequest extends DefaultWebApplicationRequest implements WebApplicationServerRequest {
 }
