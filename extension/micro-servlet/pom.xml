@@ -23,7 +23,7 @@
         <dependency>
             <groupId>cloud.piranha.servlet</groupId>
             <artifactId>piranha-servlet-api</artifactId>
-            <version>20.6.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     
         <!-- Jakarta Expression Language -->

@@ -33,7 +33,6 @@
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>microprofile-jwt-auth</artifactId>
-            <version>1.0.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>jakarta.servlet</groupId>
@@ -52,7 +51,6 @@
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-common</artifactId>
-            <version>2.29</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
