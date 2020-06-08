@@ -41,12 +41,10 @@
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>javax.security.enterprise</artifactId>
-            <version>1.1-m02</version>
         </dependency>
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>soteria-bean-decorator-weld</artifactId>
-            <version>1.1-m02</version>
         </dependency>
     </dependencies>
 </project>
