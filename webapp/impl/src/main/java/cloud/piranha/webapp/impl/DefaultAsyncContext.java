@@ -43,6 +43,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
+import javax.servlet.ServletResponseWrapper;
 import javax.servlet.http.HttpServletRequest;
 
 import cloud.piranha.webapp.api.AsyncDispatcher;
@@ -82,6 +83,11 @@ public class DefaultAsyncContext implements AsyncContext {
      * Stores the underlying request.
      */
     private final WebApplicationRequest underlyingRequest;
+    
+    /**
+     * Stores the underlying response.
+     */
+    private final WebApplicationResponse underlyingResponse;
 
     /**
      * Stores the timeout.
@@ -98,12 +104,19 @@ public class DefaultAsyncContext implements AsyncContext {
         this.request = request;
         this.response = response;
 
-        ServletRequest current = request;
-        while (current instanceof ServletRequestWrapper) {
-            ServletRequestWrapper wrapper = (ServletRequestWrapper) current;
-            current = wrapper.getRequest();
+        ServletRequest currentRequest = request;
+        while (currentRequest instanceof ServletRequestWrapper) {
+            ServletRequestWrapper wrapper = (ServletRequestWrapper) currentRequest;
+            currentRequest = wrapper.getRequest();
         }
-        underlyingRequest = (WebApplicationRequest) current;
+        underlyingRequest = (WebApplicationRequest) currentRequest;
+        
+        ServletResponse currentResponse = response;
+        while (currentResponse instanceof ServletResponseWrapper) {
+            ServletResponseWrapper wrapper = (ServletResponseWrapper) currentResponse;
+            currentResponse = wrapper.getResponse();
+        }
+        underlyingResponse = (WebApplicationResponse) currentResponse;
     }
 
     /**
@@ -161,9 +174,7 @@ public class DefaultAsyncContext implements AsyncContext {
         /*
          * TODO - review this as it exposes implementation detail and we should not have to do so.
          */
-        if (response instanceof WebApplicationResponse) {
-            ((WebApplicationResponse) response).closeAsyncResponse();
-        }
+        underlyingResponse.closeAsyncResponse();
     }
 
     /**
