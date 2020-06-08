@@ -146,7 +146,6 @@
         <dependency>
             <groupId>org.glassfish.tyrus</groupId>
             <artifactId>tyrus-container-servlet</artifactId>
-            <version>1.16</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
