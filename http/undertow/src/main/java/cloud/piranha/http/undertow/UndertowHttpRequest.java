@@ -88,6 +88,9 @@ public class UndertowHttpRequest implements HttpServerRequest {
      */
     @Override
     public InputStream getInputStream() {
+        if (!exchange.isBlocking()) {
+            exchange.startBlocking();
+        }
         return exchange.getInputStream();
     }
 
