@@ -1,13 +1,13 @@
 
-# Piranha Security - Elios integration
+# Piranha Security - Eleos integration
 
-The Piranha Security - Elios module delivers you with Elios integration.
+The Piranha Security - Eleos module delivers you with Eleos integration.
 
 Add the following dependency to your project to use it.
 
       <dependency>
           <groupId>cloud.piranha.security</groupId>
-          <artifactId>piranha-security-elios</artifactId>
+          <artifactId>piranha-security-eleos</artifactId>
           <version>x.y.z</version>
       </dependency>
 
