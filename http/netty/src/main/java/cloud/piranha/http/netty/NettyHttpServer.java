@@ -68,7 +68,7 @@ public class NettyHttpServer implements HttpServer {
      */
     private EventLoopGroup workerGroup;
 
-    /***
+    /**
      * Stores the SSL flag
      */
     private boolean ssl;
@@ -121,7 +121,7 @@ public class NettyHttpServer implements HttpServer {
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new NettyHttpServerInitializer(httpServerProcessor))
+                .childHandler(new NettyHttpServerInitializer(httpServerProcessor, ssl))
                 .bind(serverPort).awaitUninterruptibly();
     }
 

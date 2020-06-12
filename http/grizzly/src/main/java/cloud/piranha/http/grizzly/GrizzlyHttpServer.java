@@ -140,6 +140,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
     public void start() {
         if (httpServer == null) {
             httpServer = HttpServer.createSimpleServer(null, port);
+            httpServer.getListener("grizzly").setSecure(ssl);
         }
         addHttpHandler();
         try {
