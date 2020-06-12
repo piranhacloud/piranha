@@ -32,12 +32,23 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import io.undertow.Undertow;
 
+import javax.net.ssl.SSLContext;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Logger;
+
+import static java.util.logging.Level.SEVERE;
+import static java.util.logging.Level.WARNING;
+
 /**
  * The Undertow HTTP server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class UndertowHttpServer implements HttpServer {
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(UndertowHttpServer.class.getName());
 
     /**
      * Stores the HTTP server processor.
@@ -104,10 +115,20 @@ public class UndertowHttpServer implements HttpServer {
      */
     @Override
     public void start() {
-        undertow = Undertow.builder()
-                .addHttpListener(serverPort, "0.0.0.0")
-                .setHandler(new UndertowHttpHandler(httpServerProcessor))
-                .build();
+        Undertow.Builder builder = Undertow.builder()
+                .setHandler(new UndertowHttpHandler(httpServerProcessor));
+        if (ssl) {
+            try {
+                builder.addHttpsListener(serverPort, "0.0.0.0", SSLContext.getDefault());
+            } catch (NoSuchAlgorithmException e) {
+                if (LOGGER.isLoggable(SEVERE)) {
+                    LOGGER.log(WARNING, "Unable to match SSL algorithm", e);
+                }
+            }
+        } else {
+            builder.addHttpListener(serverPort, "0.0.0.0");
+        }
+        undertow = builder.build();
         undertow.start();
     }
 

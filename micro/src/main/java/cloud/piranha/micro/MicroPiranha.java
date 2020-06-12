@@ -106,6 +106,10 @@ public class MicroPiranha implements Runnable {
                 if (arguments[i].equals("--http")) {
                     httpServer = arguments[i + 1];
                 }
+
+                if (arguments[i].equals("--ssl")) {
+                    System.setProperty("piranha.http.ssl", "true");
+                }
             }
         }
 
