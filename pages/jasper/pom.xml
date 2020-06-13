@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.pages</groupId>
         <artifactId>project</artifactId>
-        <version>20.6.0-SNAPSHOT</version>
+        <version>20.6.0</version>
     </parent>
 
     <artifactId>piranha-pages-jasper</artifactId>
