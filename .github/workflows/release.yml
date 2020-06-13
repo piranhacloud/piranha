@@ -39,6 +39,9 @@ jobs:
     - name: Create multi-arch manifest
       run: |
         cd server
+        TAG=${GITHUB_REF}
+        INDEX=${TAG%v*}
+        VERSION=${TAG:${#INDEX}}
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create piranhacloud/server:$VERSION \
           piranhacloud/server:amd64-$VERSION \
