@@ -1,13 +1,13 @@
 name: tck-servlet
 on:
   schedule:
-  - cron: "0 2 * * 1"
+  - cron: "0 2 * * *"
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        java: [ '11' ]
+        java: [ '12' ]
         os: [ubuntu-latest]
     steps:
     - name: Checkout sources
