@@ -28,14 +28,6 @@ jobs:
         VERSION=${TAG:${#INDEX}}
         docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/server:amd64-$VERSION .
         docker push piranhacloud/server:amd64-$VERSION
-    - name: Build ARM32v6 image
-      run: |
-        cd server
-        TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}
-        VERSION=${TAG:${#INDEX}}
-        docker build -f src/main/docker/Dockerfile.ARM32v6 -t piranhacloud/server:arm32v6-$VERSION .
-        docker push piranhacloud/server:arm32v6-$VERSION
     - name: Create multi-arch manifest
       run: |
         cd server
@@ -44,10 +36,7 @@ jobs:
         VERSION=${TAG:${#INDEX}}
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create piranhacloud/server:$VERSION \
-          piranhacloud/server:amd64-$VERSION \
-          piranhacloud/server:arm32v6-$VERSION
+          piranhacloud/server:amd64-$VERSION
         docker manifest annotate piranhacloud/server:$VERSION \
           piranhacloud/server:amd64-$VERSION --os linux --arch amd64
-        docker manifest annotate piranhacloud/server:$VERSION \
-          piranhacloud/server:arm32v6-$VERSION --os linux --arch arm
         docker manifest push piranhacloud/server:$VERSION

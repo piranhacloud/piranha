@@ -24,16 +24,14 @@ jobs:
         cd server
         docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/server:amd64-snapshot .
         docker push piranhacloud/server:amd64-snapshot
-        docker build -f src/main/docker/Dockerfile.ARM32v6 -t piranhacloud/server:arm32v6-snapshot .
-        docker push piranhacloud/server:arm32v6-snapshot
+    - name: Push multi-arch Docker manifest
+      run: |
+        cd server
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create piranhacloud/server:snapshot \
-          piranhacloud/server:amd64-snapshot \
-          piranhacloud/server:arm32v6-snapshot
+          piranhacloud/server:amd64-snapshot
         docker manifest annotate piranhacloud/server:snapshot \
           piranhacloud/server:amd64-snapshot --os linux --arch amd64
-        docker manifest annotate piranhacloud/server:snapshot \
-          piranhacloud/server:arm32v6-snapshot --os linux --arch arm
         docker manifest push piranhacloud/server:snapshot
     - name: Analyze with SonarCloud
       run: |
