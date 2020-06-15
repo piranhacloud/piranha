@@ -27,12 +27,14 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.logging.Logger;
 
 import javax.servlet.AsyncContext;
@@ -92,6 +94,9 @@ public class DefaultAsyncContext implements AsyncContext {
      * Stores the timeout.
      */
     private long timeout = 30000; // 30 seconds, as mandated by spec
+    
+    
+    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1); // TMP TMP TMP
 
     /**
      * Constructor.
@@ -117,7 +122,10 @@ public class DefaultAsyncContext implements AsyncContext {
         }
         underlyingResponse = (WebApplicationResponse) currentResponse;
 
-        
+        // TMP TMP TMP
+        // Initial naive approach - there's likely more complex scenarios to take into account.
+        // Is this the right place to start? What about the timeout being changed after this? 
+        scheduledThreadPoolExecutor.schedule(() -> onTimeOut() , timeout, MILLISECONDS);  
     }
 
     /**
@@ -203,6 +211,10 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void complete() {
+        
+        // TMP TMP TMP
+        scheduledThreadPoolExecutor.shutdownNow();
+        
         LOGGER.log(FINE, () -> "Completing async processing");
         
         if (!listeners.isEmpty()) {
@@ -231,6 +243,41 @@ public class DefaultAsyncContext implements AsyncContext {
          * TODO - review this as it exposes implementation detail and we should not have to do so.
          */
         underlyingResponse.closeAsyncResponse();
+    }
+    
+    public void onTimeOut() {
+        scheduledThreadPoolExecutor.shutdownNow();
+        
+        if (!listeners.isEmpty()) {
+            listeners.forEach((listener) -> {
+                try {
+                    listener.onTimeout(new AsyncEvent(this));
+                } catch (IOException ioe) {
+                    LOGGER.log(WARNING,ioe, () -> "IOException when calling onTimeout on AsyncListener");
+                    // nothing can be done at this point.
+                }
+            });
+        }
+        
+        // If not extended
+        
+        LOGGER.log(FINE, () -> "Flushing async response buffer");
+        
+        if (!response.isCommitted()) {
+            try {
+                response.flushBuffer();
+            } catch (IOException ioe) {
+                    LOGGER.log(WARNING, ioe, () -> "IOException when flushing async response buffer");
+                // nothing can be done at this point.
+            }
+        }
+        
+        /*
+         * TODO - review this as it exposes implementation detail and we should not have to do so.
+         */
+        underlyingResponse.closeAsyncResponse();
+        
+        
     }
 
     /**
