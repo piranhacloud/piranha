@@ -114,9 +114,9 @@ public class MicroPiranha implements Runnable {
         }
 
         if (warFile != null) {
-            archive = ShrinkWrap.create(ZipImporter.class).importFrom(warFile).as(WebArchive.class);
+            archive = ShrinkWrap.create(ZipImporter.class, warFile.getName()).importFrom(warFile).as(WebArchive.class);
         } else if (explodedDir != null) {
-            archive = ShrinkWrap.create(ExplodedImporter.class).importDirectory(explodedDir).as(WebArchive.class);
+            archive = ShrinkWrap.create(ExplodedImporter.class, explodedDir.getName()).importDirectory(explodedDir).as(WebArchive.class);
         } else {
             archive = ShrinkWrap.create(WebArchive.class);
         }
