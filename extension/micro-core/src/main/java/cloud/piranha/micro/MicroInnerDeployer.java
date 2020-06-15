@@ -130,9 +130,9 @@ public class MicroInnerDeployer {
             WebApplication webApplication = getWebApplication(applicationArchive, classLoader);
             
             LOGGER.info(
-                "Starting web application " + applicationArchive.getName() + " on Piranha Micro" + webApplication.getAttribute(MICRO_PIRANHA));
-                      
-            
+                "Starting web application " + applicationArchive.getName() + " on Piranha Micro " + webApplication.getAttribute(MICRO_PIRANHA));
+
+
             // The global archive stream handler is set to resolve "shrinkwrap://" URLs (created from strings).
             // Such URLs come into being primarily when code takes resolves a class or resource from the class loader by URL
             // and then takes the string form of the URL representing the class or resource.
@@ -187,7 +187,7 @@ public class MicroInnerDeployer {
             ServiceLoader<HttpServer> httpServers = ServiceLoader.load(HttpServer.class);
             httpServer = httpServers.findFirst().orElseThrow();
             httpServer.setServerPort(port);
-            httpServer.setSSL(false);
+            httpServer.setSSL(Boolean.getBoolean("piranha.http.ssl"));
             httpServer.setHttpServerProcessor(webApplicationServer);
             httpServer.start();
             
