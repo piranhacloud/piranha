@@ -52,8 +52,10 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
+import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
@@ -1517,9 +1519,22 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (!isAsyncSupported()) {
             throw new IllegalStateException("Async is not supported");
         }
-        asyncContext = new DefaultAsyncContext(this, this.webApplication.getResponse(this));
-        asyncStarted = true;
-        return asyncContext;
+        
+        return startAsync(this, this.webApplication.getResponse(this));
+    }
+    
+    public HttpServletRequest unwrap(HttpServletRequest request) {
+        ServletRequest currentRequest = request;
+        while (currentRequest instanceof ServletRequestWrapper) {
+            ServletRequestWrapper wrapper = (ServletRequestWrapper) currentRequest;
+            currentRequest = wrapper.getRequest();
+        }
+        return (WebApplicationRequest) currentRequest;
+    }
+    
+    
+    public void setAsyncStarted(boolean asyncStarted) {
+        this.asyncStarted = asyncStarted;
     }
 
     /**
@@ -1535,8 +1550,25 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (!isAsyncSupported()) {
             throw new IllegalStateException("Async is not supported");
         }
+        
         asyncContext = new DefaultAsyncContext(request, response);
         asyncStarted = true;
+        
+        Object previousAttribute = request.getAttribute("PREVIOUS_REQUEST");
+        while (previousAttribute instanceof HttpServletRequest) {
+            HttpServletRequest previousRequest = unwrap((HttpServletRequest) previousAttribute);
+            
+            if (previousRequest instanceof DefaultWebApplicationRequest) {
+                @SuppressWarnings("resource")
+                DefaultWebApplicationRequest defaultRequest = (DefaultWebApplicationRequest) previousRequest;
+                
+                defaultRequest.setAsyncStarted(true);
+            }
+            
+            previousAttribute = previousRequest.getAttribute("PREVIOUS_REQUEST");
+        }
+        
+        
         return asyncContext;
     }
 

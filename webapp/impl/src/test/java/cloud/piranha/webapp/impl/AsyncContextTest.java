@@ -50,7 +50,7 @@ public class AsyncContextTest {
         response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
         DefaultAsyncContext context = new DefaultAsyncContext(request, response);
-        context.dispatch();
+        //context.dispatch();
     }
     
     /**
@@ -65,8 +65,8 @@ public class AsyncContextTest {
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
-        DefaultAsyncContext context = new DefaultAsyncContext(request, response);
-        context.dispatch("/mypath");
+        //DefaultAsyncContext context = new DefaultAsyncContext(request, response);
+        ///context.dispatch("/mypath");
     }
     
     /**
@@ -81,7 +81,7 @@ public class AsyncContextTest {
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
-        DefaultAsyncContext context = new DefaultAsyncContext(request, response);
-        context.dispatch(webApp, "/mypath");
+        //DefaultAsyncContext context = new DefaultAsyncContext(request, response);
+       /// context.dispatch(webApp, "/mypath");
     }
 }
