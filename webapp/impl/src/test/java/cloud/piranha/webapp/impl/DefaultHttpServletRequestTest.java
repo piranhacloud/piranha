@@ -549,9 +549,14 @@ public class DefaultHttpServletRequestTest {
      */
     @Test(expected = IllegalStateException.class)
     public void testStartAsync2() {
+        try {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         request.setAsyncSupported(false);
         request.startAsync();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     /**

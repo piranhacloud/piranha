@@ -39,16 +39,8 @@ import javax.servlet.ServletResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultAsyncManager implements AsyncManager {
-
-    /**
-     * @see AsyncManager#getDispatcher(cloud.piranha.webapp.api.WebApplication,
-     * java.lang.String, javax.servlet.ServletRequest,
-     * javax.servlet.ServletResponse)
-     */
     @Override
-    public AsyncDispatcher getDispatcher(WebApplication webApplication, 
-            String path, ServletRequest request, ServletResponse response) {
-        
+    public AsyncDispatcher getDispatcher(WebApplication webApplication, String path, ServletRequest request, ServletResponse response) {
         return new DefaultAsyncDispatcher(webApplication, path, request, response);
     }
 }
