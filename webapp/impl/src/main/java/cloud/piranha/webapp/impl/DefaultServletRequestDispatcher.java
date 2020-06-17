@@ -1,27 +1,27 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
@@ -58,7 +58,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
     /**
      * The servletEnvironment corresponding to the target resource to which this dispatcher forwards or includes.
-     * 
+     *
      * <p>
      * It contains the actual Servlet, to process the forwarded or included request, as well as meta data for
      * this Servlet.
@@ -92,33 +92,33 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     public void forward(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
 
         if (servletRequest.getDispatcherType().equals(ASYNC)) {
-                
+
                 if (servletRequest instanceof AsyncHttpDispatchWrapper == false) {
                     throw new IllegalStateException("Async invocations without AsyncHttpDispatchWrapper not supported at this moment.");
                 }
-                
+
                 AsyncHttpDispatchWrapper asyncHttpDispatchWrapper = (AsyncHttpDispatchWrapper) servletRequest;
-                
-                
+
+
                 HttpServletRequest asyncStartRequest = asyncHttpDispatchWrapper.getRequest();
-                
+
                 if (asyncStartRequest instanceof DefaultWebApplicationRequest) {
-                    
+
                 }
 
                 if (path != null) {
-                    
+
                     asList(ASYNC_CONTEXT_PATH, ASYNC_PATH_INFO, ASYNC_QUERY_STRING, ASYNC_REQUEST_URI, ASYNC_SERVLET_PATH).forEach(attribute -> {
                         // Set the spec demanded attributes on asyncHttpDispatchWrapper with the values taken from asyncStartRequest
                         setForwardAttribute(asyncStartRequest, asyncHttpDispatchWrapper, attribute);
-                        
+
                         // Record that this attribute lives in the wrapper
                         asyncHttpDispatchWrapper.getWrapperAttributes().add(attribute);
                     });
-                    
+
 
                     asyncHttpDispatchWrapper.setServletPath(getServletPath(path));
-                    
+
                     // TODO: this is likely not entirely correct, maybe needs to be done earlier
                     String queryString = getQueryString(path);
                     if (queryString != null && !queryString.isEmpty()) {
@@ -126,40 +126,40 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                     } else {
                         asyncHttpDispatchWrapper.setQueryString(asyncStartRequest.getQueryString());
                     }
-                    
+
                     asyncHttpDispatchWrapper.setAttribute("PREVIOUS_REQUEST", asyncStartRequest);
                     asyncHttpDispatchWrapper.getWrapperAttributes().add("PREVIOUS_REQUEST");
 
                 } else {
                     asyncHttpDispatchWrapper.setServletPath("/" + servletEnvironment.getServletName());
                 }
-                
+
 
                 servletEnvironment.getWebApplication().linkRequestAndResponse(asyncHttpDispatchWrapper, servletResponse);
                 servletEnvironment.getServlet().service(asyncHttpDispatchWrapper, servletResponse);
                 servletEnvironment.getWebApplication().unlinkRequestAndResponse(asyncHttpDispatchWrapper, servletResponse);
-                
-                
+
+
                 servletResponse.flushBuffer();
         } else {
             try (DefaultWebApplicationRequest forwardedRequest = new DefaultWebApplicationRequest()) {
-                
+
                 HttpServletRequest request = (HttpServletRequest) servletRequest;
                 HttpServletResponse response = (HttpServletResponse) servletResponse;
-                
+
                 response.resetBuffer();
-                
+
                 forwardedRequest.setWebApplication(servletEnvironment.getWebApplication());
                 forwardedRequest.setContextPath(request.getContextPath());
                 forwardedRequest.setDispatcherType(FORWARD);
                 forwardedRequest.setAsyncSupported(request.isAsyncSupported());
 
                 if (path != null) {
-                    setForwardAttributes(request, forwardedRequest, 
-                        FORWARD_CONTEXT_PATH, 
-                        FORWARD_PATH_INFO, 
+                    setForwardAttributes(request, forwardedRequest,
+                        FORWARD_CONTEXT_PATH,
+                        FORWARD_PATH_INFO,
                         FORWARD_QUERY_STRING,
-                        FORWARD_REQUEST_URI, 
+                        FORWARD_REQUEST_URI,
                         FORWARD_SERVLET_PATH);
 
                     forwardedRequest.setServletPath(getServletPath(path));
@@ -168,7 +168,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 } else {
                     forwardedRequest.setServletPath("/" + servletEnvironment.getServletName());
                 }
-                
+
                 CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, forwardedRequest);
 
                 try {
@@ -178,7 +178,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 } finally {
                     restoreCurrentRequest(currentRequestHolder, request);
                 }
-                
+
                 response.flushBuffer();
             }
         }
@@ -206,18 +206,18 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             includedRequest.setServletPath(path);
             includedRequest.setPathInfo(null);
             includedRequest.setQueryString(null);
-            
+
             servletEnvironment.getServlet().service(servletRequest, servletResponse);
         }
     }
-    
+
     private void setForwardAttributes(HttpServletRequest originalRequest, HttpServletRequest forwardedRequest, String... dispatcherKeys) {
         for (String dispatcherKey : dispatcherKeys) {
             setForwardAttribute(originalRequest, forwardedRequest, dispatcherKey);
         }
-        
+
     }
-    
+
     /**
      * Set forward attribute.
      *
@@ -250,29 +250,29 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
         forwardedRequest.setAttribute(dispatcherKey, value);
     }
-    
+
     private CurrentRequestHolder updateCurrentRequest(HttpServletRequest originalRequest, HttpServletRequest forwardedRequest) {
         CurrentRequestHolder currentRequestHolder = (CurrentRequestHolder) originalRequest.getAttribute(CURRENT_REQUEST_ATTRIBUTE);
         if (currentRequestHolder != null) {
             currentRequestHolder.setRequest(forwardedRequest);
             forwardedRequest.setAttribute(CURRENT_REQUEST_ATTRIBUTE, currentRequestHolder);
         }
-        
+
         forwardedRequest.setAttribute("PREVIOUS_REQUEST", originalRequest);
-        
+
         return currentRequestHolder;
     }
-    
+
     private void restoreCurrentRequest(CurrentRequestHolder currentRequestHolder, HttpServletRequest originalRequest) {
         if (currentRequestHolder != null) {
             currentRequestHolder.setRequest(originalRequest);
         }
     }
-    
+
     private String getServletPath(String path) {
         return !path.contains("?") ? path : path.substring(0, path.indexOf("?"));
     }
-    
+
     private String getQueryString(String path) {
         return !path.contains("?") ? null : path.substring(path.indexOf("?") + 1);
     }

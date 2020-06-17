@@ -1,27 +1,27 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
@@ -702,9 +702,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
                 boolean hasBody
                         = // FORM submission
-                        (contentType != null && contentType.equals("application/x-www-form-urlencoded"))
+                        contentType != null && contentType.equals("application/x-www-form-urlencoded")
                         || // PUT parameters
-                        ("put".equalsIgnoreCase(getMethod()) && getContentLength() > 0);
+                        "put".equalsIgnoreCase(getMethod()) && getContentLength() > 0;
 
                 if (hasBody) {
                     ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
@@ -835,6 +835,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * @return the real path.
      * @deprecated
      */
+    @Deprecated
     @Override
     public String getRealPath(String path) {
         throw new UnsupportedOperationException("HttpServletRequest.getRealPath is no longer supported");
@@ -1089,6 +1090,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * @return if the requested session id from the request url.
      * @deprecated
      */
+    @Deprecated
     @Override
     public boolean isRequestedSessionIdFromUrl() {
         return isRequestedSessionIdFromURL();
@@ -1277,9 +1279,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * @param cookies the cookies.
      */
     public void setCookies(Cookie[] cookies) {
-        if (cookies == null) {
-            this.cookies = null;
-        } else if (cookies.length == 0) {
+        if (cookies == null || cookies.length == 0) {
             this.cookies = null;
         } else {
             this.cookies = new Cookie[cookies.length];
@@ -1519,10 +1519,10 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (!isAsyncSupported()) {
             throw new IllegalStateException("Async is not supported");
         }
-        
+
         return startAsync(this, this.webApplication.getResponse(this));
     }
-    
+
     public HttpServletRequest unwrap(HttpServletRequest request) {
         ServletRequest currentRequest = request;
         while (currentRequest instanceof ServletRequestWrapper) {
@@ -1531,8 +1531,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
         return (WebApplicationRequest) currentRequest;
     }
-    
-    
+
+
     public void setAsyncStarted(boolean asyncStarted) {
         this.asyncStarted = asyncStarted;
     }
@@ -1550,25 +1550,25 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (!isAsyncSupported()) {
             throw new IllegalStateException("Async is not supported");
         }
-        
+
         asyncContext = new DefaultAsyncContext(request, response);
         asyncStarted = true;
-        
+
         Object previousAttribute = request.getAttribute("PREVIOUS_REQUEST");
         while (previousAttribute instanceof HttpServletRequest) {
             HttpServletRequest previousRequest = unwrap((HttpServletRequest) previousAttribute);
-            
+
             if (previousRequest instanceof DefaultWebApplicationRequest) {
                 @SuppressWarnings("resource")
                 DefaultWebApplicationRequest defaultRequest = (DefaultWebApplicationRequest) previousRequest;
-                
+
                 defaultRequest.setAsyncStarted(true);
             }
-            
+
             previousAttribute = previousRequest.getAttribute("PREVIOUS_REQUEST");
         }
-        
-        
+
+
         return asyncContext;
     }
 
