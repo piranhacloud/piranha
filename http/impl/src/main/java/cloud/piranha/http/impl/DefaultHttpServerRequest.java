@@ -1,33 +1,34 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package cloud.piranha.http.impl;
 
-import cloud.piranha.http.api.HttpServerRequest;
+import static java.util.logging.Level.WARNING;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -39,8 +40,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
+
+import cloud.piranha.http.api.HttpServerRequest;
 
 /**
  * The default implementation of HTTP Server Request.
@@ -116,7 +118,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * @see HttpServerRequest#getHeader(java.lang.String) 
+     * @see HttpServerRequest#getHeader(java.lang.String)
      */
     @Override
     public String getHeader(String name) {
@@ -124,7 +126,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * @see HttpServerRequest#getHeaderNames() 
+     * @see HttpServerRequest#getHeaderNames()
      */
     @Override
     public Iterator<String> getHeaderNames() {
@@ -132,7 +134,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * @see HttpServerRequest#getInputStream() 
+     * @see HttpServerRequest#getInputStream()
      */
     @Override
     public InputStream getInputStream() {
@@ -153,7 +155,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * @see HttpServerRequest#getLocalAddress() 
+     * @see HttpServerRequest#getLocalAddress()
      */
     @Override
     public String getLocalAddress() {
@@ -161,7 +163,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * @see HttpServerRequest#getLocalHostname() 
+     * @see HttpServerRequest#getLocalHostname()
      */
     @Override
     public String getLocalHostname() {
@@ -169,7 +171,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * @see HttpServerRequest#getLocalPort() 
+     * @see HttpServerRequest#getLocalPort()
      */
     @Override
     public int getLocalPort() {
@@ -177,7 +179,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * @see HttpServerRequest#getMethod() 
+     * @see HttpServerRequest#getMethod()
      */
     @Override
     public String getMethod() {
@@ -185,7 +187,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * @see HttpServerRequest#getQueryParameter(java.lang.String) 
+     * @see HttpServerRequest#getQueryParameter(java.lang.String)
      */
     @Override
     public String getQueryParameter(String name) {
@@ -220,7 +222,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * @see HttpServerRequest#getQueryString() 
+     * @see HttpServerRequest#getQueryString()
      */
     @Override
     public String getQueryString() {
@@ -238,7 +240,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * @see HttpServerRequest#getRemoteHostname() 
+     * @see HttpServerRequest#getRemoteHostname()
      */
     @Override
     public String getRemoteHostname() {
@@ -246,7 +248,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * @see HttpServerRequest#getRemotePort() 
+     * @see HttpServerRequest#getRemotePort()
      */
     @Override
     public int getRemotePort() {
@@ -254,7 +256,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * @see HttpServerRequest#getRequestTarget() 
+     * @see HttpServerRequest#getRequestTarget()
      */
     @Override
     public String getRequestTarget() {

@@ -1,27 +1,27 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
@@ -30,13 +30,13 @@ package cloud.piranha.webapp.impl;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
 import cloud.piranha.webapp.api.HttpSessionManager;
-import java.util.UUID;
 
 /**
  * The default HttpSession.
@@ -121,7 +121,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Get the attribute value.
-     * 
+     *
      * @param name the attribute name.
      * @return the attribute value.
      * @see HttpSession#getAttribute(java.lang.String)
@@ -134,7 +134,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Get the attribute names.
-     * 
+     *
      * @return the attribute names.
      * @see HttpSession#getAttributeNames()
      */
@@ -146,7 +146,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Get the creation time.
-     * 
+     *
      * @return the creation time.
      * @see HttpSession#getCreationTime()
      */
@@ -158,7 +158,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Get the id.
-     * 
+     *
      * @return the id.
      * @see HttpSession#getId()
      */
@@ -169,7 +169,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Get the last accessed time.
-     * 
+     *
      * @return the last accessed time.
      * @see HttpSession#getLastAccessedTime()
      */
@@ -181,7 +181,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Get the maximum inactive interval.
-     * 
+     *
      * @return the maximum inactive interval.
      * @see HttpSession#getMaxInactiveInterval()
      */
@@ -192,7 +192,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Get the servlet context.
-     * 
+     *
      * @return the servlet context.
      * @see HttpSession#getServletContext()
      */
@@ -203,7 +203,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Get the session context.
-     * 
+     *
      * @return null
      * @see HttpSession#getSessionContext()
      */
@@ -215,7 +215,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Get the value.
-     * 
+     *
      * @param name the attribute name.
      * @return the value.
      * @see HttpSession#getValue(java.lang.String)
@@ -228,7 +228,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Get the attribute names.
-     * 
+     *
      * @return the attribute names.
      * @see HttpSession#getValueNames()
      */
@@ -241,7 +241,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Invalidate the session.
-     * 
+     *
      * @see HttpSession#invalidate()
      */
     @Override
@@ -253,7 +253,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Is the session new.
-     * 
+     *
      * @return true if it is, false otherwise.
      * @see HttpSession#isNew()
      */
@@ -265,7 +265,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Set the value.
-     * 
+     *
      * @param name the attribute name.
      * @param value the attribute value.
      * @see HttpSession#putValue(java.lang.String, java.lang.Object)
@@ -278,7 +278,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Remove the attribute.
-     * 
+     *
      * @param name the attribute name.
      * @see HttpSession#removeAttribute(java.lang.String)
      */
@@ -291,7 +291,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Remove the value.
-     * 
+     *
      * @param name the attribute name.
      * @see HttpSession#removeValue(java.lang.String)
      */
@@ -303,7 +303,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Set the attribute.
-     * 
+     *
      * @param name the attribute name.
      * @param value the attribute value.
      * @see HttpSession#setAttribute(java.lang.String, java.lang.Object)
@@ -338,7 +338,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Set the maximum inactive interval.
-     * 
+     *
      * @param maxInactiveInterval the maximum inactive interval.
      * @see HttpSession#setMaxInactiveInterval(int)
      */
@@ -368,7 +368,7 @@ public class DefaultHttpSession implements HttpSession {
 
     /**
      * Verify if the session is valid.
-     * 
+     *
      * @param methodName the method name.
      */
     private void verifyValid(String methodName) {

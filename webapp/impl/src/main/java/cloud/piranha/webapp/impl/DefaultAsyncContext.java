@@ -1,27 +1,27 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
@@ -71,12 +71,12 @@ public class DefaultAsyncContext implements AsyncContext {
 
     /**
      * The request that comes from a call to <code>request.startAsync()</code>
-     * 
+     *
      * <p>
      * This is either the request the caller passed in when using <code>request.startAsync(someRequest, someResponse)</code>
      * or it's the request object on which <code>startAsync</code> was called when using the zero argument version
      * <code>request.startAsync()</code>.
-     * 
+     *
      * <p>
      * In the latter case, the request is guaranteed to be the "original request", which is the request passed to the servlet
      * that started the async cycle. In the former case it can either be the "original request", or it can be that request
@@ -86,13 +86,13 @@ public class DefaultAsyncContext implements AsyncContext {
 
     /**
      * The response that comes from a call to <code>request.startAsync()</code>
-     * 
+     *
      * <p>
      * This is either the response the caller passed in when using
      * <code>request.startAsync(someRequest, someResponse)</code> or it's the response object associated with the request
      * object on which <code>startAsync</code> was called when using the zero argument version
      * <code>request.startAsync()</code>.
-     * 
+     *
      * <p>
      * In the latter case, the response is guaranteed to be the "original response", which is the response passed to the servlet
      * that started the async cycle. In the former case it can either be the "original response", or it can be that response
@@ -101,12 +101,12 @@ public class DefaultAsyncContext implements AsyncContext {
     private final ServletResponse asyncStartResponse;
 
     /**
-     * "the request object passed to the first servlet object in the call chain that received the request from the client." 
+     * "the request object passed to the first servlet object in the call chain that received the request from the client."
      */
     private final WebApplicationRequest originalRequest;
-    
+
     /**
-     * The response object passed to the first servlet object in the call chain that received the request from the client." 
+     * The response object passed to the first servlet object in the call chain that received the request from the client."
      */
     private final WebApplicationResponse originalResponse;
 
@@ -114,8 +114,8 @@ public class DefaultAsyncContext implements AsyncContext {
      * Stores the timeout.
      */
     private long timeout = 30000; // 30 seconds, as mandated by spec
-    
-    
+
+
     private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1); // TMP TMP TMP
 
     /**
@@ -127,14 +127,14 @@ public class DefaultAsyncContext implements AsyncContext {
     public DefaultAsyncContext(ServletRequest asyncStartRequest, ServletResponse asyncStartResponse) {
         this.asyncStartRequest = asyncStartRequest;
         this.asyncStartResponse = asyncStartResponse;
-        
+
         originalRequest = unwrapFully(asyncStartRequest);
         originalResponse = unwrapFully(asyncStartResponse);
 
         // TMP TMP TMP
         // Initial naive approach - there's likely more complex scenarios to take into account.
-        // Is this the right place to start? What about the timeout being changed after this? 
-        scheduledThreadPoolExecutor.schedule(() -> onTimeOut() , timeout, MILLISECONDS);  
+        // Is this the right place to start? What about the timeout being changed after this?
+        scheduledThreadPoolExecutor.schedule(() -> onTimeOut() , timeout, MILLISECONDS);
     }
 
     /**
@@ -214,18 +214,18 @@ public class DefaultAsyncContext implements AsyncContext {
         asyncManager.getDispatcher(webApplication, path, asyncStartRequest, asyncStartResponse)
                     .dispatch();
     }
-    
+
     /**
      * Complete the async context.
      */
     @Override
     public void complete() {
-        
+
         // TMP TMP TMP
         scheduledThreadPoolExecutor.shutdownNow();
-        
+
         LOGGER.log(FINE, () -> "Completing async processing");
-        
+
         if (!listeners.isEmpty()) {
             listeners.forEach((listener) -> {
                 try {
@@ -236,9 +236,9 @@ public class DefaultAsyncContext implements AsyncContext {
                 }
             });
         }
-        
+
         LOGGER.log(FINE, () -> "Flushing async asyncStartResponse buffer");
-        
+
         if (!asyncStartResponse.isCommitted()) {
             try {
                 asyncStartResponse.flushBuffer();
@@ -247,16 +247,16 @@ public class DefaultAsyncContext implements AsyncContext {
                 // nothing can be done at this point.
             }
         }
-        
+
         /*
          * TODO - review this as it exposes implementation detail and we should not have to do so.
          */
         originalResponse.closeAsyncResponse();
     }
-    
+
     public void onTimeOut() {
         scheduledThreadPoolExecutor.shutdownNow();
-        
+
         if (!listeners.isEmpty()) {
             listeners.forEach((listener) -> {
                 try {
@@ -267,11 +267,11 @@ public class DefaultAsyncContext implements AsyncContext {
                 }
             });
         }
-        
+
         // If not extended
-        
+
         LOGGER.log(FINE, () -> "Flushing async asyncStartResponse buffer");
-        
+
         if (!asyncStartResponse.isCommitted()) {
             try {
                 asyncStartResponse.flushBuffer();
@@ -280,7 +280,7 @@ public class DefaultAsyncContext implements AsyncContext {
                 // nothing can be done at this point.
             }
         }
-        
+
         /*
          * TODO - review this as it exposes implementation detail and we should not have to do so.
          */
