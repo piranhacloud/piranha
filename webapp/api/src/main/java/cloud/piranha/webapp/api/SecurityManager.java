@@ -1,27 +1,27 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
@@ -63,14 +63,14 @@ public interface SecurityManager {
 
     /**
      * Get if we are denying uncovered HTTP methods.
-     * 
+     *
      * @return true if we are, false otherwise.
      */
     boolean getDenyUncoveredHttpMethods();
-    
+
     /**
      * Check if the current request adheres to the user data constraint, if any.
-     * 
+     *
      * <p>
      * In practice this means checking if HTTPS is used when so required by the application.
      *
@@ -86,7 +86,7 @@ public interface SecurityManager {
 
     /**
      * Check if the requested resource, represented by the request, is public or not.
-     * 
+     *
      * @param request the request.
      * @return true if the requested resource can be accessed by public (unauthenticated) callers, otherwise false
      */
@@ -96,13 +96,13 @@ public interface SecurityManager {
 
     /**
      * Check if the current caller (which can be the anonymous caller) is authorized to access the requested resource.
-     * 
+     *
      * <p>
      * If the unauthenticated caller is authorized, then this means the resource is public (aka unconstrained, aka
      * unchecked), and the outcome of this method MUST be consistent with
      * {@link #isRequestedResourcePublic(HttpServletRequest)}.
-     * 
-     * 
+     *
+     *
      * @param request the request.
      * @return true if the current caller is allowed to access the requested resource, false otherwise
      */
@@ -123,11 +123,11 @@ public interface SecurityManager {
 
     /**
      * Gets the request object the security system wants to put in place.
-     * 
+     *
      * <p>
      * This method allows the security system (or authentication module being delegated to) a custom or, more likely,
      * wrapped request.
-     * 
+     *
      * @param request the request.
      * @param response the response.
      * @return a request object that the runtime should put into service
@@ -138,11 +138,11 @@ public interface SecurityManager {
 
     /**
      * Gets the response object the security system wants to put in place.
-     * 
+     *
      * <p>
      * This method allows the security system (or authentication module being delegated to) a custom or, more likely,
      * wrapped response.
-     * 
+     *
      * @param request the request.
      * @param response the response.
      * @return a response object that the runtime should put into service
@@ -171,11 +171,11 @@ public interface SecurityManager {
     /**
      * Gives the security system the opportunity to process the response after the request (after the target resource has
      * been invoked).
-     * 
+     *
      * <p>
      * Although this may be rare to used in practice, it allows for encryption of the response, inserting security tokens,
      * signing the response, etc.
-     * 
+     *
      * @param request the request.
      * @param response the response.
      * @throws IOException when an I/O error occurs.
@@ -228,11 +228,11 @@ public interface SecurityManager {
 
     /**
      * Set if we are denying uncovered HTTP methods.
-     * 
+     *
      * @param denyUncoveredHttpMethods the boolean value.
      */
     void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods);
-    
+
     /**
      * Set the web application.
      *
@@ -242,7 +242,7 @@ public interface SecurityManager {
 
     /**
      * Set the handler that may be used by the login method to contact an identity store.
-     * 
+     *
      * @param usernamePasswordLoginHandler the handler
      */
     default void setUsernamePasswordLoginHandler(UsernamePasswordLoginHandler usernamePasswordLoginHandler) {

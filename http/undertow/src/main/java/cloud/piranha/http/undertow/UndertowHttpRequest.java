@@ -1,46 +1,47 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package cloud.piranha.http.undertow;
 
-import cloud.piranha.http.api.HttpServerRequest;
-import io.undertow.server.HttpServerExchange;
-import io.undertow.util.HttpString;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import cloud.piranha.http.api.HttpServerRequest;
+import io.undertow.server.HttpServerExchange;
+import io.undertow.util.HttpString;
+
 /**
  * The Undertow WebApplicationServerRequest.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class UndertowHttpRequest implements HttpServerRequest {
-    
+
     /**
      * Stores the HTTP server exchange.
      */
@@ -48,7 +49,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Constructor.
-     * 
+     *
      * @param exchange the HTTP server exchange.
      */
     public UndertowHttpRequest(HttpServerExchange exchange) {
@@ -57,7 +58,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the header.
-     * 
+     *
      * @param name the name.
      * @return the value.
      */
@@ -68,7 +69,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the header names.
-     * 
+     *
      * @return the header names.
      */
     @Override
@@ -83,7 +84,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the input stream.
-     * 
+     *
      * @return the input stream.
      */
     @Override
@@ -96,7 +97,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the local address.
-     * 
+     *
      * @return the local address.
      */
     @Override
@@ -106,7 +107,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the local hostname.
-     * 
+     *
      * @return the local hostname.
      */
     @Override
@@ -116,7 +117,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the local port.
-     * 
+     *
      * @return the local port.
      */
     @Override
@@ -126,7 +127,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the method.
-     * 
+     *
      * @return the method.
      */
     @Override
@@ -136,7 +137,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the query parameter.
-     * 
+     *
      * @param name the name.
      * @return the value.
      */
@@ -147,7 +148,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the query string.
-     * 
+     *
      * @return the query string.
      */
     @Override
@@ -157,7 +158,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the remote address.
-     * 
+     *
      * @return the remote address.
      */
     @Override
@@ -167,7 +168,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the remote hostname.
-     * 
+     *
      * @return the remote hostname.
      */
     @Override
@@ -177,7 +178,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the remote port.
-     * 
+     *
      * @return the remote port.
      */
     @Override
@@ -187,7 +188,7 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     /**
      * Get the request target.
-     * 
+     *
      * @return the request target.
      */
     @Override

@@ -27,12 +27,14 @@
  */
 package cloud.piranha.webapp.webservlet;
 
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.ServletContainerInitializer;
+
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
  * The extension for WebAnnotation processing.

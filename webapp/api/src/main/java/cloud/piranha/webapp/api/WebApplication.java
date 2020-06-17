@@ -1,34 +1,32 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package cloud.piranha.webapp.api;
 
-import cloud.piranha.resource.api.ResourceManager;
-import cloud.piranha.resource.api.Resource;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -42,6 +40,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+
+import cloud.piranha.resource.api.Resource;
+import cloud.piranha.resource.api.ResourceManager;
 
 /**
  * The WebApplication API.
@@ -76,12 +77,12 @@ public interface WebApplication extends ServletContext {
      * String...)
      */
     Set<String> addFilterMapping(String filterName, String... urlPatterns);
-    
+
     /**
      * Add a mapping for the given filter.
      *
      * @param filterName the filter name.
-     * @param isMatchAfter true to call the filter this mapping applies to after declared ones, false to call it before declared ones. 
+     * @param isMatchAfter true to call the filter this mapping applies to after declared ones, false to call it before declared ones.
      * @param urlPatterns the URL patterns.
      * @return the possible empty set of already mapped URL patterns.
      * @see FilterRegistration#addMappingForUrlPatterns(EnumSet, boolean,
@@ -132,24 +133,24 @@ public interface WebApplication extends ServletContext {
      * @return the annotation manager.
      */
     AnnotationManager getAnnotationManager();
-    
+
     /**
      * Get the async manager.
-     * 
+     *
      * @return the async manager.
      */
     AsyncManager getAsyncManager();
-    
+
     /**
      * Get the default Servlet.
      *
      * @return the default Servlet.
      */
     Servlet getDefaultServlet();
-    
+
     /**
      * Are we denying uncovered HTTP methods.
-     * 
+     *
      * @return true if we are, false otherwise.
      */
     boolean getDenyUncoveredHttpMethods();
@@ -160,10 +161,10 @@ public interface WebApplication extends ServletContext {
      * @return the mime type manager.
      */
     MimeTypeManager getMimeTypeManager();
-    
+
     /**
      * Get the multi part manager.
-     * 
+     *
      * @return the multi part manager.
      */
     MultiPartManager getMultiPartManager();
@@ -230,10 +231,10 @@ public interface WebApplication extends ServletContext {
      * @return the security manager.
      */
     SecurityManager getSecurityManager();
-    
+
     /**
      * Get the welcome file manager.
-     * 
+     *
      * @return the welcome file manager.
      */
     WelcomeFileManager getWelcomeFileManager();
@@ -242,17 +243,17 @@ public interface WebApplication extends ServletContext {
      * Initialize the web application.
      */
     void initialize();
-    
+
     /**
      * Finish the initialization.
      */
     void initializeFinish();
-    
+
     /**
      * Initialize the filters.
      */
     void initializeFilters();
-    
+
     /**
      * Initialize the servlet container initializers.
      */
@@ -262,10 +263,10 @@ public interface WebApplication extends ServletContext {
      * Initialize the servlets.
      */
     void initializeServlets();
-    
+
     /**
      * Is the application distributable.
-     * 
+     *
      * @return true if it is, false otherwise.
      */
     boolean isDistributable();
@@ -302,24 +303,24 @@ public interface WebApplication extends ServletContext {
      * @param contextPath the context path.
      */
     void setContextPath(String contextPath);
-    
+
     /**
      * Set the default servlet.
-     * 
+     *
      * @param defaultServlet the default servlet.
      */
     void setDefaultServlet(Servlet defaultServlet);
-    
+
     /**
      * Set if we are denying uncovered HTTP methods.
-     * 
+     *
      * @param denyUncoveredHttpMethods the boolean value.
      */
     void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods);
 
     /**
      * Set if the web application is distributable.
-     * 
+     *
      * @param distributable the distributable flag.
      */
     void setDistributable(boolean distributable);
@@ -343,7 +344,7 @@ public interface WebApplication extends ServletContext {
      *
      * @param jspManager the JSP manager.
      */
-    public void setJspManager(JspManager jspManager);
+    void setJspManager(JspManager jspManager);
 
     /**
      * Set the logging manager.
@@ -361,11 +362,11 @@ public interface WebApplication extends ServletContext {
 
     /**
      * Set the multi part manager.
-     * 
+     *
      * @param multiPartManager the multi part manager.
      */
     void setMultiPartManager(MultiPartManager multiPartManager);
-    
+
     /**
      * Set the object instance manager.
      *
@@ -410,11 +411,11 @@ public interface WebApplication extends ServletContext {
 
     /**
      * Set the welcome file manager.
-     * 
+     *
      * @param welcomeFileManager the welcome file manager.
      */
     void setWelcomeFileManager(WelcomeFileManager welcomeFileManager);
-    
+
     /**
      * Start servicing.
      */
