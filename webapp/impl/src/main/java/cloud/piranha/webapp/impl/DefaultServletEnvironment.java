@@ -27,7 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.WebApplication;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,12 +35,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration.Dynamic;
 import javax.servlet.ServletSecurityElement;
+
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The default ServletEnvironment.
@@ -93,7 +95,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
     /**
      * Stores the servlet class.
      */
-    protected Class servletClass;
+    protected Class<? extends Servlet> servletClass;
 
     /**
      * Stores the servlet name.
@@ -266,7 +268,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      *
      * @return the servlet class.
      */
-    public Class getServletClass() {
+    public Class<? extends Servlet> getServletClass() {
         return servletClass;
     }
 

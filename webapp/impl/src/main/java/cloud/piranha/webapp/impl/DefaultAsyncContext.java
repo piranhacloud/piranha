@@ -27,6 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static cloud.piranha.webapp.utils.ServletUtils.unwrapFully;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
@@ -43,9 +44,7 @@ import javax.servlet.AsyncListener;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
-import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
-import javax.servlet.ServletResponseWrapper;
 import javax.servlet.http.HttpServletRequest;
 
 import cloud.piranha.webapp.api.AsyncManager;
@@ -71,24 +70,45 @@ public class DefaultAsyncContext implements AsyncContext {
     private final List<AsyncListener> listeners = new ArrayList<>();
 
     /**
-     * Stores the request.
+     * The request that comes from a call to <code>request.startAsync()</code>
+     * 
+     * <p>
+     * This is either the request the caller passed in when using <code>request.startAsync(someRequest, someResponse)</code>
+     * or it's the request object on which <code>startAsync</code> was called when using the zero argument version
+     * <code>request.startAsync()</code>.
+     * 
+     * <p>
+     * In the latter case, the request is guaranteed to be the "original request", which is the request passed to the servlet
+     * that started the async cycle. In the former case it can either be the "original request", or it can be that request
+     * but wrapped by user code.
      */
-    private final ServletRequest request;
+    private final ServletRequest asyncStartRequest;
 
     /**
-     * Stores the response.
+     * The response that comes from a call to <code>request.startAsync()</code>
+     * 
+     * <p>
+     * This is either the response the caller passed in when using
+     * <code>request.startAsync(someRequest, someResponse)</code> or it's the response object associated with the request
+     * object on which <code>startAsync</code> was called when using the zero argument version
+     * <code>request.startAsync()</code>.
+     * 
+     * <p>
+     * In the latter case, the response is guaranteed to be the "original response", which is the response passed to the servlet
+     * that started the async cycle. In the former case it can either be the "original response", or it can be that response
+     * but wrapped by user code.
      */
-    private final ServletResponse response;
+    private final ServletResponse asyncStartResponse;
 
     /**
-     * Stores the underlying request.
+     * "the request object passed to the first servlet object in the call chain that received the request from the client." 
      */
-    private final WebApplicationRequest underlyingRequest;
+    private final WebApplicationRequest originalRequest;
     
     /**
-     * Stores the underlying response.
+     * The response object passed to the first servlet object in the call chain that received the request from the client." 
      */
-    private final WebApplicationResponse underlyingResponse;
+    private final WebApplicationResponse originalResponse;
 
     /**
      * Stores the timeout.
@@ -101,26 +121,15 @@ public class DefaultAsyncContext implements AsyncContext {
     /**
      * Constructor.
      *
-     * @param request the servlet request.
-     * @param response the servlet response.
+     * @param asyncStartRequest the servlet asyncStartRequest.
+     * @param asyncStartResponse the servlet asyncStartResponse.
      */
-    public DefaultAsyncContext(ServletRequest request, ServletResponse response) {
-        this.request = request;
-        this.response = response;
-
-        ServletRequest currentRequest = request;
-        while (currentRequest instanceof ServletRequestWrapper) {
-            ServletRequestWrapper wrapper = (ServletRequestWrapper) currentRequest;
-            currentRequest = wrapper.getRequest();
-        }
-        underlyingRequest = (WebApplicationRequest) currentRequest;
+    public DefaultAsyncContext(ServletRequest asyncStartRequest, ServletResponse asyncStartResponse) {
+        this.asyncStartRequest = asyncStartRequest;
+        this.asyncStartResponse = asyncStartResponse;
         
-        ServletResponse currentResponse = response;
-        while (currentResponse instanceof ServletResponseWrapper) {
-            ServletResponseWrapper wrapper = (ServletResponseWrapper) currentResponse;
-            currentResponse = wrapper.getResponse();
-        }
-        underlyingResponse = (WebApplicationResponse) currentResponse;
+        originalRequest = unwrapFully(asyncStartRequest);
+        originalResponse = unwrapFully(asyncStartResponse);
 
         // TMP TMP TMP
         // Initial naive approach - there's likely more complex scenarios to take into account.
@@ -143,8 +152,8 @@ public class DefaultAsyncContext implements AsyncContext {
      * Add the listener.
      *
      * @param listener the listener.
-     * @param request the servlet request.
-     * @param response the servlet response.
+     * @param request the servlet asyncStartRequest.
+     * @param response the servlet asyncStartResponse.
      */
     @Override
     public void addListener(AsyncListener listener, ServletRequest request, ServletResponse response) {
@@ -175,11 +184,11 @@ public class DefaultAsyncContext implements AsyncContext {
     @Override
     public void dispatch() {
         String path;
-        if (request instanceof HttpServletRequest) {
-            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        if (asyncStartRequest instanceof HttpServletRequest) {
+            HttpServletRequest httpServletRequest = (HttpServletRequest) asyncStartRequest;
             path = httpServletRequest.getRequestURI();
         } else {
-            path = underlyingRequest.getRequestURI();
+            path = originalRequest.getRequestURI();
         }
         dispatch(path);
     }
@@ -189,7 +198,7 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void dispatch(String path) {
-        dispatch(request.getServletContext(), path);
+        dispatch(asyncStartRequest.getServletContext(), path);
     }
 
     /**
@@ -202,7 +211,7 @@ public class DefaultAsyncContext implements AsyncContext {
     public void dispatch(ServletContext servletContext, String path) {
         WebApplication webApplication = (WebApplication) servletContext;
         AsyncManager asyncManager = webApplication.getAsyncManager();
-        asyncManager.getDispatcher(webApplication, path, request, response)
+        asyncManager.getDispatcher(webApplication, path, asyncStartRequest, asyncStartResponse)
                     .dispatch();
     }
     
@@ -228,13 +237,13 @@ public class DefaultAsyncContext implements AsyncContext {
             });
         }
         
-        LOGGER.log(FINE, () -> "Flushing async response buffer");
+        LOGGER.log(FINE, () -> "Flushing async asyncStartResponse buffer");
         
-        if (!response.isCommitted()) {
+        if (!asyncStartResponse.isCommitted()) {
             try {
-                response.flushBuffer();
+                asyncStartResponse.flushBuffer();
             } catch (IOException ioe) {
-                    LOGGER.log(WARNING, ioe, () -> "IOException when flushing async response buffer");
+                    LOGGER.log(WARNING, ioe, () -> "IOException when flushing async asyncStartResponse buffer");
                 // nothing can be done at this point.
             }
         }
@@ -242,7 +251,7 @@ public class DefaultAsyncContext implements AsyncContext {
         /*
          * TODO - review this as it exposes implementation detail and we should not have to do so.
          */
-        underlyingResponse.closeAsyncResponse();
+        originalResponse.closeAsyncResponse();
     }
     
     public void onTimeOut() {
@@ -261,13 +270,13 @@ public class DefaultAsyncContext implements AsyncContext {
         
         // If not extended
         
-        LOGGER.log(FINE, () -> "Flushing async response buffer");
+        LOGGER.log(FINE, () -> "Flushing async asyncStartResponse buffer");
         
-        if (!response.isCommitted()) {
+        if (!asyncStartResponse.isCommitted()) {
             try {
-                response.flushBuffer();
+                asyncStartResponse.flushBuffer();
             } catch (IOException ioe) {
-                    LOGGER.log(WARNING, ioe, () -> "IOException when flushing async response buffer");
+                    LOGGER.log(WARNING, ioe, () -> "IOException when flushing async asyncStartResponse buffer");
                 // nothing can be done at this point.
             }
         }
@@ -275,31 +284,29 @@ public class DefaultAsyncContext implements AsyncContext {
         /*
          * TODO - review this as it exposes implementation detail and we should not have to do so.
          */
-        underlyingResponse.closeAsyncResponse();
-        
-        
+        originalResponse.closeAsyncResponse();
     }
 
     /**
-     * Get the request.
+     * Get the asyncStartRequest.
      *
-     * @return the request.
+     * @return the asyncStartRequest.
      * @see AsyncContext#getRequest()
      */
     @Override
     public ServletRequest getRequest() {
-        return request;
+        return asyncStartRequest;
     }
 
     /**
-     * Get the response.
+     * Get the asyncStartResponse.
      *
-     * @return the response.
+     * @return the asyncStartResponse.
      * @see AsyncContext#getResponse()
      */
     @Override
     public ServletResponse getResponse() {
-        return response;
+        return asyncStartResponse;
     }
 
     /**
@@ -314,7 +321,7 @@ public class DefaultAsyncContext implements AsyncContext {
     }
 
     /**
-     * Do we have the original request and response?
+     * Do we have the original asyncStartRequest and asyncStartResponse?
      *
      * @return true if we do, false otherwise.
      */

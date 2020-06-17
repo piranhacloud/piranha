@@ -28,9 +28,14 @@
 package cloud.piranha.webapp.impl;
 
 import static cloud.piranha.webapp.impl.DefaultFilterEnvironment.UNAVAILABLE;
+import static java.util.Collections.enumeration;
+import static java.util.Collections.unmodifiableMap;
+import static java.util.function.Predicate.isEqual;
+import static java.util.function.Predicate.not;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,10 +55,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Predicate;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -717,6 +719,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected List<DefaultFilterEnvironment> findFilterEnvironments(HttpServletRequest request) {
         List<DefaultFilterEnvironment> result = null;
+        
         String path = request.getServletPath() + (request.getPathInfo() == null ? "" : request.getPathInfo());
         Collection<String> filterNames = webApplicationRequestMapper.findFilterMappings(path);
         if (!filterNames.isEmpty()) {
@@ -727,6 +730,7 @@ public class DefaultWebApplication implements WebApplication {
                 }
             }
         }
+        
         return result;
     }
 
@@ -748,7 +752,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Enumeration<String> getAttributeNames() {
-        return Collections.enumeration(attributes.keySet());
+        return enumeration(attributes.keySet());
     }
 
     /**
@@ -876,7 +880,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Map<String, ? extends FilterRegistration> getFilterRegistrations() {
-        return Collections.unmodifiableMap(filters);
+        return unmodifiableMap(filters);
     }
 
     /**
@@ -897,7 +901,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Enumeration<String> getInitParameterNames() {
-        return Collections.enumeration(initParameters.keySet());
+        return enumeration(initParameters.keySet());
     }
 
     /**
@@ -1008,9 +1012,7 @@ public class DefaultWebApplication implements WebApplication {
                 }
             }
         } catch (MalformedURLException | URISyntaxException | IllegalArgumentException exception) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to get real path: " + path, exception);
-            }
+            LOGGER.log(WARNING, exception, () ->"Unable to get real path: " + path);
         }
         return realPath;
     }
@@ -1045,6 +1047,7 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
         RequestDispatcher requestDispatcher = null;
+        
         WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
         if (mapping != null) {
             String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
@@ -1114,9 +1117,12 @@ public class DefaultWebApplication implements WebApplication {
     private String getFileOrFirstFolder(String path, String resource){
         String normalizedPath = path.endsWith("/") ? path : path + "/";
         String[] split = resource.replace(normalizedPath, "/").split("/");
+        
         // It's a directory
-        if (split.length > 2)
+        if (split.length > 2) {
             return normalizedPath + split[1] + "/";
+        }
+        
         // It's a file
         return normalizedPath + split[1];
     }
@@ -1129,13 +1135,17 @@ public class DefaultWebApplication implements WebApplication {
      * whose path begins with the supplied path.
      */
     private Set<String> getResourcePathsImpl(String path) {
-        Set<String> collect = resourceManager.getAllLocations()
-                .filter(resource -> resource.startsWith(path))
-                .filter(Predicate.not(Predicate.isEqual(path)))
-                .map(resource -> getFileOrFirstFolder(path, resource))
-                .collect(Collectors.toSet());
-        if (collect.isEmpty())
+        Set<String> collect = 
+            resourceManager.getAllLocations()
+                           .filter(resource -> resource.startsWith(path))
+                           .filter(not(isEqual(path)))
+                           .map(resource -> getFileOrFirstFolder(path, resource))
+                           .collect(toSet());
+       
+        if (collect.isEmpty()) {
             return null;
+        }
+        
         return collect;
     }
     /**
@@ -1146,10 +1156,14 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Set<String> getResourcePaths(String path) {
-        if (path == null)
+        if (path == null) {
             return null;
-        if (!path.startsWith("/"))
+        }
+        
+        if (!path.startsWith("/")) {
             throw new IllegalArgumentException("Path must start with /");
+        }
+        
         return getResourcePathsImpl(path);
     }
 
@@ -1246,7 +1260,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Map<String, ? extends ServletRegistration> getServletRegistrations() {
-        return Collections.unmodifiableMap(servlets);
+        return unmodifiableMap(servlets);
     }
 
     /**
@@ -1349,9 +1363,7 @@ public class DefaultWebApplication implements WebApplication {
                     environment.initialize();
                     environment.getFilter().init(environment);
                 } catch (Throwable t) {
-                    if (LOGGER.isLoggable(WARNING)) {
-                        LOGGER.log(WARNING, "Unable to initialize filter: " + environment.getFilterName(), t);
-                    }
+                    LOGGER.log(WARNING, t, () -> "Unable to initialize filter: " + environment.getFilterName());
                     environment.setStatus(UNAVAILABLE);
                 }
             });
@@ -1368,9 +1380,7 @@ public class DefaultWebApplication implements WebApplication {
             try {
                 initializer.onStartup(annotationManager.getAnnotatedClasses(), this);
             } catch (Throwable t) {
-                if (LOGGER.isLoggable(WARNING)) {
-                    LOGGER.log(Level.WARNING, "Initializer " + initializer.getClass().getName() + " failing onStartup", t);
-                }
+                LOGGER.log(WARNING, t,  () -> "Initializer " + initializer.getClass().getName() + " failing onStartup");
                 error = true;
             }
         }
@@ -1413,11 +1423,12 @@ public class DefaultWebApplication implements WebApplication {
      *
      * @param environment the default servlet environment.
      */
+    @SuppressWarnings("unchecked")
     private void initializeServlet(DefaultServletEnvironment environment) {
         try {
             LOGGER.log(FINE, "Initializing servlet: {0}", environment.servletName);
             if (environment.getServlet() == null) {
-                Class clazz = environment.getServletClass();
+                Class<? extends Servlet> clazz = environment.getServletClass();
                 if (clazz == null) {
                     ClassLoader loader = getClassLoader();
                     if (loader == null) {
@@ -1426,7 +1437,7 @@ public class DefaultWebApplication implements WebApplication {
                     if (loader == null) {
                         loader = ClassLoader.getSystemClassLoader();
                     }
-                    clazz = loader.loadClass(environment.getClassName());
+                    clazz = (Class<? extends Servlet>) loader.loadClass(environment.getClassName());
                 }
                 environment.setServlet(createServlet(clazz));
             }
@@ -1436,6 +1447,7 @@ public class DefaultWebApplication implements WebApplication {
             if (LOGGER.isLoggable(WARNING)) {
                 LOGGER.log(WARNING, "Unable to initialize servlet: " + environment.className, t);
             }
+            
             environment.setServlet(null);
             environment.setStatus(DefaultServletEnvironment.UNAVAILABLE);
         }

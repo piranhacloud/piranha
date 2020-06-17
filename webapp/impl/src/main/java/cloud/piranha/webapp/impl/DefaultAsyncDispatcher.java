@@ -27,19 +27,16 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static javax.servlet.DispatcherType.ASYNC;
-
 import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletRequest;
-import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 
 import cloud.piranha.webapp.api.AsyncDispatcher;
 import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.utils.AsyncDispatchWrapper;
+import cloud.piranha.webapp.utils.AsyncHttpDispatchWrapper;
 
 /**
  * The default AsyncDispatcher.
@@ -50,8 +47,8 @@ public class DefaultAsyncDispatcher implements AsyncDispatcher {
     
     private final WebApplication webApplication;
     private final String path; 
-    private final ServletRequest request;
-    private final ServletResponse response;
+    private final ServletRequest asyncStartRequest;
+    private final ServletResponse asyncStartResponse;
     
 
     /**
@@ -59,14 +56,14 @@ public class DefaultAsyncDispatcher implements AsyncDispatcher {
      * 
      * @param webApplication the web application.
      * @param path the path.
-     * @param request the request.
-     * @param response the response.
+     * @param asyncStartRequest the request.
+     * @param asyncStartResponse the asyncStartResponse.
      */
-    public DefaultAsyncDispatcher(WebApplication webApplication, String path, ServletRequest request, ServletResponse response) {
+    public DefaultAsyncDispatcher(WebApplication webApplication, String path, ServletRequest asyncStartRequest, ServletResponse asyncStartResponse) {
         this.webApplication = webApplication;
         this.path = path;
-        this.request = setAsync(request);
-        this.response = response;
+        this.asyncStartRequest = asyncStartRequest;
+        this.asyncStartResponse = asyncStartResponse;
     }
 
     /**
@@ -74,14 +71,14 @@ public class DefaultAsyncDispatcher implements AsyncDispatcher {
      */
     @Override
     public void dispatch() {
-        AsyncContext asyncContext = request.getAsyncContext();
+        AsyncContext asyncContext = asyncStartRequest.getAsyncContext();
         RequestDispatcher requestDispatcher = webApplication.getRequestDispatcher(path);
         
         new Thread(() -> {
             Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
             
             try {
-                requestDispatcher.forward(request, response);
+                requestDispatcher.forward(addAsyncWrapper(asyncStartRequest), asyncStartResponse);
             } catch (Throwable t) {
                 // TODO: Notify listeners
             }
@@ -92,22 +89,12 @@ public class DefaultAsyncDispatcher implements AsyncDispatcher {
         }).start();
     }
     
-    private ServletRequest setAsync(ServletRequest request) {
+    private ServletRequest addAsyncWrapper(ServletRequest request) {
         if (request instanceof HttpServletRequest) {
-            return new HttpServletRequestWrapper((HttpServletRequest)request) {
-                @Override
-                public DispatcherType getDispatcherType() {
-                    return ASYNC;
-                }  
-            };
-        } 
-        
-        return new ServletRequestWrapper(request) {
-            @Override
-            public DispatcherType getDispatcherType() {
-                return ASYNC;
-            }
-        };
-        
+            return new AsyncHttpDispatchWrapper((HttpServletRequest) request);
+        }
+
+        return new AsyncDispatchWrapper(request);
     }
+    
 }

@@ -40,7 +40,7 @@ import javax.servlet.ServletResponse;
  */
 public class DefaultAsyncManager implements AsyncManager {
     @Override
-    public AsyncDispatcher getDispatcher(WebApplication webApplication, String path, ServletRequest request, ServletResponse response) {
-        return new DefaultAsyncDispatcher(webApplication, path, request, response);
+    public AsyncDispatcher getDispatcher(WebApplication webApplication, String path, ServletRequest asyncStartRequest, ServletResponse asyncStartResponse) {
+        return new DefaultAsyncDispatcher(webApplication, path, asyncStartRequest, asyncStartResponse);
     }
 }
