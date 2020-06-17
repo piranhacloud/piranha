@@ -28,7 +28,7 @@
 package cloud.piranha.webapp.impl;
 
 import static cloud.piranha.webapp.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
-import static java.util.Collections.list;
+import static java.util.Arrays.asList;
 import static javax.servlet.AsyncContext.ASYNC_CONTEXT_PATH;
 import static javax.servlet.AsyncContext.ASYNC_PATH_INFO;
 import static javax.servlet.AsyncContext.ASYNC_QUERY_STRING;
@@ -47,6 +47,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cloud.piranha.webapp.api.CurrentRequestHolder;
+import cloud.piranha.webapp.utils.AsyncHttpDispatchWrapper;
 
 /**
  * The default ServletRequestDispatcher.
@@ -56,7 +57,11 @@ import cloud.piranha.webapp.api.CurrentRequestHolder;
 public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
     /**
-     * Stores the servlet environment.
+     * The servletEnvironment corresponding to the target resource to which this dispatcher forwards or includes.
+     * 
+     * <p>
+     * It contains the actual Servlet, to process the forwarded or included request, as well as meta data for
+     * this Servlet.
      */
     private final DefaultServletEnvironment servletEnvironment;
     /**
@@ -85,58 +90,65 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
      */
     @Override
     public void forward(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        response.resetBuffer();
-
-        if (request.getDispatcherType().equals(ASYNC)) {
-            try (DefaultWebApplicationRequest asyncRequest = new DefaultWebApplicationRequest()) {
-                asyncRequest.setWebApplication(servletEnvironment.getWebApplication());
-                asyncRequest.setContextPath(request.getContextPath());
-                asyncRequest.setDispatcherType(ASYNC);
-                asyncRequest.setAsyncSupported(servletEnvironment.asyncSupported);
+        if (servletRequest.getDispatcherType().equals(ASYNC)) {
                 
-                for (String attributeName : list(request.getAttributeNames())) {
-                    asyncRequest.setAttribute(attributeName, request.getAttribute(attributeName));
+                if (servletRequest instanceof AsyncHttpDispatchWrapper == false) {
+                    throw new IllegalStateException("Async invocations without AsyncHttpDispatchWrapper not supported at this moment.");
+                }
+                
+                AsyncHttpDispatchWrapper asyncHttpDispatchWrapper = (AsyncHttpDispatchWrapper) servletRequest;
+                
+                
+                HttpServletRequest asyncStartRequest = asyncHttpDispatchWrapper.getRequest();
+                
+                if (asyncStartRequest instanceof DefaultWebApplicationRequest) {
+                    
                 }
 
                 if (path != null) {
-                    setForwardAttributes(request, asyncRequest, 
-                        ASYNC_CONTEXT_PATH, 
-                        ASYNC_PATH_INFO, 
-                        ASYNC_QUERY_STRING, 
-                        ASYNC_REQUEST_URI, 
-                        ASYNC_SERVLET_PATH);
+                    
+                    asList(ASYNC_CONTEXT_PATH, ASYNC_PATH_INFO, ASYNC_QUERY_STRING, ASYNC_REQUEST_URI, ASYNC_SERVLET_PATH).forEach(attribute -> {
+                        // Set the spec demanded attributes on asyncHttpDispatchWrapper with the values taken from asyncStartRequest
+                        setForwardAttribute(asyncStartRequest, asyncHttpDispatchWrapper, attribute);
+                        
+                        // Record that this attribute lives in the wrapper
+                        asyncHttpDispatchWrapper.getWrapperAttributes().add(attribute);
+                    });
+                    
 
-                    asyncRequest.setServletPath(getServletPath(path));
+                    asyncHttpDispatchWrapper.setServletPath(getServletPath(path));
                     
                     // TODO: this is likely not entirely correct, maybe needs to be done earlier
                     String queryString = getQueryString(path);
                     if (queryString != null && !queryString.isEmpty()) {
-                        asyncRequest.setQueryString(queryString);
+                        asyncHttpDispatchWrapper.setQueryString(queryString);
                     } else {
-                        asyncRequest.setQueryString(request.getQueryString());
+                        asyncHttpDispatchWrapper.setQueryString(asyncStartRequest.getQueryString());
                     }
+                    
+                    asyncHttpDispatchWrapper.setAttribute("PREVIOUS_REQUEST", asyncStartRequest);
+                    asyncHttpDispatchWrapper.getWrapperAttributes().add("PREVIOUS_REQUEST");
 
                 } else {
-                    asyncRequest.setServletPath("/" + servletEnvironment.getServletName());
+                    asyncHttpDispatchWrapper.setServletPath("/" + servletEnvironment.getServletName());
                 }
                 
-                CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, asyncRequest);
 
-                try {
-                    servletEnvironment.getWebApplication().linkRequestAndResponse(asyncRequest, servletResponse);
-                    servletEnvironment.getServlet().service(asyncRequest, servletResponse);
-                    servletEnvironment.getWebApplication().unlinkRequestAndResponse(asyncRequest, servletResponse);
-                } finally {
-                    restoreCurrentRequest(currentRequestHolder, request);
-                }
+                servletEnvironment.getWebApplication().linkRequestAndResponse(asyncHttpDispatchWrapper, servletResponse);
+                servletEnvironment.getServlet().service(asyncHttpDispatchWrapper, servletResponse);
+                servletEnvironment.getWebApplication().unlinkRequestAndResponse(asyncHttpDispatchWrapper, servletResponse);
                 
-                response.flushBuffer();
-            }
+                
+                servletResponse.flushBuffer();
         } else {
             try (DefaultWebApplicationRequest forwardedRequest = new DefaultWebApplicationRequest()) {
+                
+                HttpServletRequest request = (HttpServletRequest) servletRequest;
+                HttpServletResponse response = (HttpServletResponse) servletResponse;
+                
+                response.resetBuffer();
+                
                 forwardedRequest.setWebApplication(servletEnvironment.getWebApplication());
                 forwardedRequest.setContextPath(request.getContextPath());
                 forwardedRequest.setDispatcherType(FORWARD);

@@ -25,26 +25,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.api;
+package cloud.piranha.webapp.utils;
 
+import static javax.servlet.DispatcherType.ASYNC;
+
+import java.util.Map;
+
+import javax.servlet.DispatcherType;
 import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.ServletRequestWrapper;
+import javax.servlet.http.HttpServletRequest;
 
-/**
- * The AsyncManager API.
- * 
- * @author Manfred Riem (mriem@manorrock.com)
- */
-public interface AsyncManager {
-
+public class AsyncDispatchWrapper extends ServletRequestWrapper {
+    
+    private String servletPath;
+    private String pathInfo;
+    private String requestURI;
+    private String queryString;
+    
     /**
-     * Get the async dispatcher.
-     * 
-     * @param webApplication the web application.
-     * @param path the path.
-     * @param asyncStartRequest the servlet request coming from a call to request.asyncStart.
-     * @param asyncStartResponse the servlet response coming from a call to request.asyncStart.
-     * @return the async dispatcher.
+     * Stores the attributes.
      */
-    AsyncDispatcher getDispatcher(WebApplication webApplication, String path, ServletRequest asyncStartRequest, ServletResponse asyncStartResponse);
+    private Map<String, Object> attributes;
+
+    public AsyncDispatchWrapper(HttpServletRequest request) {
+        super(request);
+    }
+    
+    public AsyncDispatchWrapper(ServletRequest request) {
+        super(request);
+    }
+    
+    @Override
+    public DispatcherType getDispatcherType() {
+        return ASYNC;
+    }
+    
+    
+    
 }

@@ -25,26 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.api;
+package cloud.piranha.webapp.utils;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
+import javax.servlet.ServletResponseWrapper;
 
-/**
- * The AsyncManager API.
- * 
- * @author Manfred Riem (mriem@manorrock.com)
- */
-public interface AsyncManager {
+public class ServletUtils {
 
-    /**
-     * Get the async dispatcher.
-     * 
-     * @param webApplication the web application.
-     * @param path the path.
-     * @param asyncStartRequest the servlet request coming from a call to request.asyncStart.
-     * @param asyncStartResponse the servlet response coming from a call to request.asyncStart.
-     * @return the async dispatcher.
-     */
-    AsyncDispatcher getDispatcher(WebApplication webApplication, String path, ServletRequest asyncStartRequest, ServletResponse asyncStartResponse);
+    @SuppressWarnings("unchecked")
+    public static <T extends ServletRequest> T unwrapFully(ServletRequest request) {
+        ServletRequest currentRequest = request;
+        while (currentRequest instanceof ServletRequestWrapper) {
+            ServletRequestWrapper wrapper = (ServletRequestWrapper) currentRequest;
+            currentRequest = wrapper.getRequest();
+        }
+        return (T) currentRequest;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static <T extends ServletResponse> T unwrapFully(ServletResponse response) {
+        ServletResponse currentResponse = response;
+        while (currentResponse instanceof ServletResponseWrapper) {
+            ServletResponseWrapper wrapper = (ServletResponseWrapper) currentResponse;
+            currentResponse = wrapper.getResponse();
+        }
+        return (T) currentResponse;
+    }
+    
 }
