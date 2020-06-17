@@ -262,7 +262,7 @@ public class MicroOuterDeployer {
      */
     private ShrinkWrapResource importAsShrinkWrapResource(ShrinkWrapResource resource, String location) {
         return new ShrinkWrapResource(
-            ShrinkWrap.create(ZipImporter.class)
+            ShrinkWrap.create(ZipImporter.class, location.substring(1))
                       .importFrom(
                           resource.getResourceAsStreamByLocation(location))
                       .as(JavaArchive.class));

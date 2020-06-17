@@ -8,10 +8,10 @@ jobs:
     steps:
     - name: Checkout sources
       uses: actions/checkout@v1
-    - name: Set up Java 11
+    - name: Set up Java 12
       uses: actions/setup-java@v1
       with:
-        java-version: 11
+        java-version: 12
     - name: Build with Maven
       run: mvn -B -DskipTests=true -f pom.xml clean install
     - name: Login to Docker Hub
@@ -24,16 +24,14 @@ jobs:
         cd server
         docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/server:amd64-snapshot .
         docker push piranhacloud/server:amd64-snapshot
-        docker build -f src/main/docker/Dockerfile.ARM32v6 -t piranhacloud/server:arm32v6-snapshot .
-        docker push piranhacloud/server:arm32v6-snapshot
+    - name: Push multi-arch Docker manifest
+      run: |
+        cd server
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create piranhacloud/server:snapshot \
-          piranhacloud/server:amd64-snapshot \
-          piranhacloud/server:arm32v6-snapshot
+          piranhacloud/server:amd64-snapshot
         docker manifest annotate piranhacloud/server:snapshot \
           piranhacloud/server:amd64-snapshot --os linux --arch amd64
-        docker manifest annotate piranhacloud/server:snapshot \
-          piranhacloud/server:arm32v6-snapshot --os linux --arch arm
         docker manifest push piranhacloud/server:snapshot
     - name: Analyze with SonarCloud
       run: |

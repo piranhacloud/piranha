@@ -5,7 +5,7 @@
 
     <groupId>cloud.piranha</groupId>
     <artifactId>project</artifactId>
-    <version>20.6.0-SNAPSHOT</version>
+    <version>20.7.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Piranha - Project</name>
@@ -94,8 +94,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>12</maven.compiler.source>
+        <maven.compiler.target>12</maven.compiler.target>
     </properties>
 
     <build>
@@ -175,7 +175,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.2.3</version>
+                    <version>3.2.4</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -274,10 +274,10 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.2.5</version>
+                                    <version>3.3.1</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>11</version>
+                                    <version>12</version>
                                 </requireJavaVersion>
                             </rules>    
                         </configuration>

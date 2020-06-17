@@ -32,6 +32,12 @@ import cloud.piranha.http.impl.DefaultHttpServerRequest;
 import cloud.piranha.http.impl.DefaultHttpServerResponse;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLParameters;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -39,6 +45,8 @@ import java.net.SocketException;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
+
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
 
 /**
@@ -173,7 +181,21 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
         }
         try {
             serverStopRequest = false;
-            serverSocket = new ServerSocket(serverPort);
+            if (ssl) {
+                SSLContext context = SSLContext.getDefault();
+                SSLEngine engine = context.createSSLEngine();
+                SSLServerSocketFactory factory = context.getServerSocketFactory();
+                SSLServerSocket socket = (SSLServerSocket) factory.createServerSocket(serverPort);
+                SSLParameters parameters = new SSLParameters();
+                parameters.setCipherSuites(engine.getSupportedCipherSuites());
+                parameters.setProtocols(engine.getSupportedProtocols());
+                parameters.setNeedClientAuth(false);
+                parameters.setWantClientAuth(true);
+                socket.setSSLParameters(parameters);
+                serverSocket = socket;
+            } else {
+                serverSocket = new ServerSocket(serverPort);
+            }
             serverSocket.setReuseAddress(true);
             serverSocket.setSoTimeout(soTimeout);
             serverProcessingThread = new Thread(this, "SingleThreadHttpServer");
@@ -182,6 +204,10 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
         } catch (IOException exception) {
             if (LOGGER.isLoggable(WARNING)) {
                 LOGGER.log(WARNING, "An I/O error occurred while starting the HTTP server", exception);
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            if (LOGGER.isLoggable(SEVERE)) {
+                LOGGER.log(WARNING, "Unable to match SSL algorithm", ex);
             }
         }
     }

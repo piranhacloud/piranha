@@ -35,6 +35,15 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
+import io.netty.handler.ssl.SslHandler;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLEngine;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Logger;
+
+import static java.util.logging.Level.SEVERE;
+import static java.util.logging.Level.WARNING;
 
 /**
  * The Netty Initializer used by the Netty implementation of HTTP Server.
@@ -43,19 +52,31 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
  */
 @Sharable
 public class NettyHttpServerInitializer extends ChannelInitializer<SocketChannel> {
-    
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(NettyHttpServerInitializer.class.getName());
+
     /**
      * Stores the HTTP server processor.
      */
-    private HttpServerProcessor httpServerProcessor;
-    
+    private final HttpServerProcessor httpServerProcessor;
+
+    /**
+     * Stores the ssl flag
+     */
+    private final boolean ssl;
+
     /**
      * Constructor.
      * 
      * @param httpServerProcessor the HTTP server processor.
+     * @param ssl the ssl flag
      */
-    public NettyHttpServerInitializer(HttpServerProcessor httpServerProcessor) {
+    public NettyHttpServerInitializer(HttpServerProcessor httpServerProcessor, boolean ssl) {
         this.httpServerProcessor = httpServerProcessor;
+        this.ssl = ssl;
     }
 
     /**
@@ -66,6 +87,18 @@ public class NettyHttpServerInitializer extends ChannelInitializer<SocketChannel
     @Override
     public void initChannel(SocketChannel channel) {
         ChannelPipeline pipeline = channel.pipeline();
+        if (ssl) {
+            try {
+                SSLContext sslContext = SSLContext.getDefault();
+                SSLEngine sslEngine = sslContext.createSSLEngine();
+                sslEngine.setUseClientMode(false);
+                pipeline.addLast(new SslHandler(sslEngine));
+            } catch (NoSuchAlgorithmException e) {
+                if (LOGGER.isLoggable(SEVERE)) {
+                    LOGGER.log(WARNING, "Unable to match SSL algorithm", e);
+                }
+            }
+        }
         pipeline.addLast(new HttpRequestDecoder());
         pipeline.addLast(new HttpResponseEncoder());
         pipeline.addLast(new HttpObjectAggregator(10*1024*1024));
