@@ -1,27 +1,27 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
@@ -151,7 +151,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the async manager.
      */
     protected AsyncManager asyncManager;
-    
+
     /**
      * Stores the class loader.
      */
@@ -719,7 +719,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected List<DefaultFilterEnvironment> findFilterEnvironments(HttpServletRequest request) {
         List<DefaultFilterEnvironment> result = null;
-        
+
         String path = request.getServletPath() + (request.getPathInfo() == null ? "" : request.getPathInfo());
         Collection<String> filterNames = webApplicationRequestMapper.findFilterMappings(path);
         if (!filterNames.isEmpty()) {
@@ -730,7 +730,7 @@ public class DefaultWebApplication implements WebApplication {
                 }
             }
         }
-        
+
         return result;
     }
 
@@ -1047,7 +1047,7 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
         RequestDispatcher requestDispatcher = null;
-        
+
         WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
         if (mapping != null) {
             String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
@@ -1117,12 +1117,12 @@ public class DefaultWebApplication implements WebApplication {
     private String getFileOrFirstFolder(String path, String resource){
         String normalizedPath = path.endsWith("/") ? path : path + "/";
         String[] split = resource.replace(normalizedPath, "/").split("/");
-        
+
         // It's a directory
         if (split.length > 2) {
             return normalizedPath + split[1] + "/";
         }
-        
+
         // It's a file
         return normalizedPath + split[1];
     }
@@ -1135,17 +1135,17 @@ public class DefaultWebApplication implements WebApplication {
      * whose path begins with the supplied path.
      */
     private Set<String> getResourcePathsImpl(String path) {
-        Set<String> collect = 
+        Set<String> collect =
             resourceManager.getAllLocations()
                            .filter(resource -> resource.startsWith(path))
                            .filter(not(isEqual(path)))
                            .map(resource -> getFileOrFirstFolder(path, resource))
                            .collect(toSet());
-       
+
         if (collect.isEmpty()) {
             return null;
         }
-        
+
         return collect;
     }
     /**
@@ -1159,11 +1159,11 @@ public class DefaultWebApplication implements WebApplication {
         if (path == null) {
             return null;
         }
-        
+
         if (!path.startsWith("/")) {
             throw new IllegalArgumentException("Path must start with /");
         }
-        
+
         return getResourcePathsImpl(path);
     }
 
@@ -1216,6 +1216,7 @@ public class DefaultWebApplication implements WebApplication {
      * @throws ServletException when a Servlet error occurs.
      * @deprecated
      */
+    @Deprecated
     @Override
     public Servlet getServlet(String name) throws ServletException {
         throw new UnsupportedOperationException("ServletContext.getServlet(String) is no longer supported");
@@ -1237,6 +1238,7 @@ public class DefaultWebApplication implements WebApplication {
      * @return the servlet names.
      * @deprecated
      */
+    @Deprecated
     @Override
     public Enumeration<String> getServletNames() {
         throw new UnsupportedOperationException("ServletContext.getServletNames() is no longer supported");
@@ -1269,6 +1271,7 @@ public class DefaultWebApplication implements WebApplication {
      * @return the servlets (empty enumeration).
      * @deprecated
      */
+    @Deprecated
     @Override
     public Enumeration<Servlet> getServlets() {
         throw new UnsupportedOperationException("ServletContext.getServlets() is no longer supported");
@@ -1447,7 +1450,7 @@ public class DefaultWebApplication implements WebApplication {
             if (LOGGER.isLoggable(WARNING)) {
                 LOGGER.log(WARNING, "Unable to initialize servlet: " + environment.className, t);
             }
-            
+
             environment.setServlet(null);
             environment.setStatus(DefaultServletEnvironment.UNAVAILABLE);
         }
@@ -1472,6 +1475,7 @@ public class DefaultWebApplication implements WebApplication {
      * @param message the message.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void log(Exception exception, String message) {
         throw new UnsupportedOperationException("ServletContext.log(Exception, String) is no longer supported");
@@ -1683,7 +1687,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * @see WebApplication#setDefaultServlet(javax.servlet.Servlet) 
+     * @see WebApplication#setDefaultServlet(javax.servlet.Servlet)
      */
     @Override
     public void setDefaultServlet(Servlet defaultServlet) {
@@ -1940,7 +1944,7 @@ public class DefaultWebApplication implements WebApplication {
 
     // ### Private methods
     private void verifyRequestResponseTypes(ServletRequest request, ServletResponse response) throws ServletException {
-        if (!(request instanceof DefaultWebApplicationRequest && response instanceof DefaultWebApplicationResponse)) {
+        if (!(request instanceof DefaultWebApplicationRequest) || !(response instanceof DefaultWebApplicationResponse)) {
             throw new ServletException("Invalid request or response");
         }
     }
@@ -2080,7 +2084,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Get the async manager.
-     * 
+     *
      * @return the async manager.
      */
     @Override

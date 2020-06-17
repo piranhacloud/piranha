@@ -1,27 +1,27 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
@@ -110,7 +110,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
         if (LOGGER.isLoggable(FINE)) {
             LOGGER.log(FINE, "Adding web application with context path: {0}", webApplication.getContextPath());
         }
-        
+
         webApplications.put(webApplication.getContextPath(), webApplication);
         requestMapper.addMapping(webApplication, webApplication.getContextPath());
     }
@@ -125,7 +125,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
         DefaultWebApplicationServerRequest applicationServerRequest = new DefaultWebApplicationServerRequest();
         copyHttpRequestToApplicationRequest(request, applicationServerRequest);
         applicationServerRequest.setServletPath("");
-        
+
         Iterator<String> headerNames = request.getHeaderNames();
         while (headerNames.hasNext()) {
             String name = headerNames.next();
@@ -141,7 +141,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
                 applicationServerRequest.setCookies(processCookies(applicationServerRequest, value));
             }
         }
-        
+
         return applicationServerRequest;
     }
 
@@ -152,11 +152,11 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
             String[] cookieString = cookieCandidate.split("=");
             String cookieName = cookieString[0].trim();
             String cookieValue = null;
-            
+
             if (cookieString.length == 2) {
                 cookieValue = cookieString[1].trim();
             }
-            
+
             Cookie cookie = new Cookie(cookieName, cookieValue);
             if (cookie.getName().equals("JSESSIONID")) {
                 result.setRequestedSessionIdFromCookie(true);
@@ -181,7 +181,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
         applicationRequest.setContextPath(httpRequest.getRequestTarget());
         applicationRequest.setQueryString(httpRequest.getQueryString());
         applicationRequest.setInputStream(httpRequest.getInputStream());
-        
+
     }
 
     /**
@@ -193,7 +193,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
     public WebApplicationServerResponse createResponse(HttpServerResponse httpResponse) {
         DefaultWebApplicationServerResponse applicationResponse = new DefaultWebApplicationServerResponse();
         applicationResponse.setUnderlyingOutputStream(httpResponse.getOutputStream());
-        
+
         applicationResponse.setResponseCloser(() -> {
             try {
                 httpResponse.closeResponse();
@@ -201,7 +201,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
                 LOGGER.log(WARNING, ioe, () -> "IOException when flushing the underlying async output stream");
             }
         });
-        
+
         return applicationResponse;
     }
 
@@ -223,7 +223,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
         if (LOGGER.isLoggable(FINE)) {
             LOGGER.log(FINE, "Starting initialization of {0} web application(s)", webApplications.size());
         }
-        
+
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -233,7 +233,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        
+
         if (LOGGER.isLoggable(FINE)) {
             LOGGER.log(FINE, "Finished initialization of {0} web application(s)", webApplications.size());
         }
@@ -241,7 +241,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
 
     /**
      * Are we processing the request asynchronously.
-     * 
+     *
      * @return true if we are, false otherwise.
      */
     @Override
@@ -260,7 +260,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
         try {
             DefaultWebApplicationServerRequest serverRequest = (DefaultWebApplicationServerRequest) createRequest(request);
             DefaultWebApplicationServerResponse serverResponse = (DefaultWebApplicationServerResponse) createResponse(response);
-            
+
             service(serverRequest, serverResponse);
         } catch (Exception exception) {
             exception.printStackTrace(System.err);
@@ -329,7 +329,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
         if (LOGGER.isLoggable(FINE)) {
             LOGGER.info("Starting WebApplication server engine");
         }
-        
+
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -339,7 +339,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        
+
         if (LOGGER.isLoggable(FINE)) {
             LOGGER.info("Started WebApplication server engine");
         }
@@ -353,7 +353,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
         if (LOGGER.isLoggable(FINE)) {
             LOGGER.info("Stopping WebApplication server engine");
         }
-        
+
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -363,7 +363,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        
+
         if (LOGGER.isLoggable(FINE)) {
             LOGGER.info("Stopped WebApplication server engine");
         }
