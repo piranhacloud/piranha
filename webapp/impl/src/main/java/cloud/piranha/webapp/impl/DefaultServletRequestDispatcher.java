@@ -47,7 +47,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cloud.piranha.webapp.api.CurrentRequestHolder;
-import cloud.piranha.webapp.utils.AsyncHttpDispatchWrapper;
 
 /**
  * The default ServletRequestDispatcher.

@@ -27,7 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static cloud.piranha.webapp.utils.ServletUtils.unwrapFully;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
@@ -51,6 +50,8 @@ import cloud.piranha.webapp.api.AsyncManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
+import javax.servlet.ServletRequestWrapper;
+import javax.servlet.ServletResponseWrapper;
 
 /**
  * The default AsyncContext.
@@ -350,5 +351,37 @@ public class DefaultAsyncContext implements AsyncContext {
         LOGGER.log(FINE,  "Starting async context with: {0}", runnable);
         Thread thread = new Thread(runnable);
         thread.start();
+    }
+    
+    /**
+     * Unwrap the servlet request.
+     * 
+     * @param <T> the type.
+     * @param request the request to unwrap.
+     * @return the unwrapped request.
+     */
+    private <T extends ServletRequest> T unwrapFully(ServletRequest request) {
+        ServletRequest currentRequest = request;
+        while (currentRequest instanceof ServletRequestWrapper) {
+            ServletRequestWrapper wrapper = (ServletRequestWrapper) currentRequest;
+            currentRequest = wrapper.getRequest();
+        }
+        return (T) currentRequest;
+    }
+
+    /**
+     * Unwrap the servlet response.
+     * 
+     * @param <T> the type.
+     * @param response the response to unwrap.
+     * @return the unwrapped response.
+     */
+    private <T extends ServletResponse> T unwrapFully(ServletResponse response) {
+        ServletResponse currentResponse = response;
+        while (currentResponse instanceof ServletResponseWrapper) {
+            ServletResponseWrapper wrapper = (ServletResponseWrapper) currentResponse;
+            currentResponse = wrapper.getResponse();
+        }
+        return (T) currentResponse;
     }
 }
