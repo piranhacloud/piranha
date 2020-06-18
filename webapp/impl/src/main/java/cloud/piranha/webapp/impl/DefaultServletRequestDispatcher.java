@@ -36,8 +36,11 @@ import static javax.servlet.AsyncContext.ASYNC_REQUEST_URI;
 import static javax.servlet.AsyncContext.ASYNC_SERVLET_PATH;
 import static javax.servlet.DispatcherType.ASYNC;
 import static javax.servlet.DispatcherType.FORWARD;
+import static org.omnifaces.utils.Lang.isEmpty;
+import static org.omnifaces.utils.Lang.isOneOf;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -55,6 +58,9 @@ import cloud.piranha.webapp.api.CurrentRequestHolder;
  */
 public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
+    private static final List<String> ASYNC_ATTRIBUTES = asList(ASYNC_CONTEXT_PATH, ASYNC_PATH_INFO, ASYNC_QUERY_STRING, ASYNC_REQUEST_URI, ASYNC_SERVLET_PATH);
+
+
     /**
      * The servletEnvironment corresponding to the target resource to which this dispatcher forwards or includes.
      *
@@ -63,6 +69,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
      * this Servlet.
      */
     private final DefaultServletEnvironment servletEnvironment;
+
     /**
      * Stores the path.
      */
@@ -89,97 +96,51 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
      */
     @Override
     public void forward(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-
         if (servletRequest.getDispatcherType().equals(ASYNC)) {
+            asyncForward(servletRequest, servletResponse);
+            return;
+        }
 
-                if (servletRequest instanceof AsyncHttpDispatchWrapper == false) {
-                    throw new IllegalStateException("Async invocations without AsyncHttpDispatchWrapper not supported at this moment.");
-                }
+        // Regular (synchronous) forward
 
-                AsyncHttpDispatchWrapper asyncHttpDispatchWrapper = (AsyncHttpDispatchWrapper) servletRequest;
+        try (DefaultWebApplicationRequest forwardedRequest = new DefaultWebApplicationRequest()) {
 
+            HttpServletRequest request = (HttpServletRequest) servletRequest;
+            HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-                HttpServletRequest asyncStartRequest = asyncHttpDispatchWrapper.getRequest();
+            response.resetBuffer();
 
-                if (asyncStartRequest instanceof DefaultWebApplicationRequest) {
+            forwardedRequest.setWebApplication(servletEnvironment.getWebApplication());
+            forwardedRequest.setContextPath(request.getContextPath());
+            forwardedRequest.setDispatcherType(FORWARD);
+            forwardedRequest.setAsyncSupported(request.isAsyncSupported());
 
-                }
+            if (path != null) {
+                setForwardAttributes(request, forwardedRequest,
+                    FORWARD_CONTEXT_PATH,
+                    FORWARD_PATH_INFO,
+                    FORWARD_QUERY_STRING,
+                    FORWARD_REQUEST_URI,
+                    FORWARD_SERVLET_PATH);
 
-                if (path != null) {
+                forwardedRequest.setServletPath(getServletPath(path));
+                forwardedRequest.setQueryString(getQueryString(path));
 
-                    asList(ASYNC_CONTEXT_PATH, ASYNC_PATH_INFO, ASYNC_QUERY_STRING, ASYNC_REQUEST_URI, ASYNC_SERVLET_PATH).forEach(attribute -> {
-                        // Set the spec demanded attributes on asyncHttpDispatchWrapper with the values taken from asyncStartRequest
-                        setForwardAttribute(asyncStartRequest, asyncHttpDispatchWrapper, attribute);
-
-                        // Record that this attribute lives in the wrapper
-                        asyncHttpDispatchWrapper.getWrapperAttributes().add(attribute);
-                    });
-
-
-                    asyncHttpDispatchWrapper.setServletPath(getServletPath(path));
-
-                    // TODO: this is likely not entirely correct, maybe needs to be done earlier
-                    String queryString = getQueryString(path);
-                    if (queryString != null && !queryString.isEmpty()) {
-                        asyncHttpDispatchWrapper.setQueryString(queryString);
-                    } else {
-                        asyncHttpDispatchWrapper.setQueryString(asyncStartRequest.getQueryString());
-                    }
-
-                    asyncHttpDispatchWrapper.setAttribute("PREVIOUS_REQUEST", asyncStartRequest);
-                    asyncHttpDispatchWrapper.getWrapperAttributes().add("PREVIOUS_REQUEST");
-
-                } else {
-                    asyncHttpDispatchWrapper.setServletPath("/" + servletEnvironment.getServletName());
-                }
-
-
-                servletEnvironment.getWebApplication().linkRequestAndResponse(asyncHttpDispatchWrapper, servletResponse);
-                servletEnvironment.getServlet().service(asyncHttpDispatchWrapper, servletResponse);
-                servletEnvironment.getWebApplication().unlinkRequestAndResponse(asyncHttpDispatchWrapper, servletResponse);
-
-
-                servletResponse.flushBuffer();
-        } else {
-            try (DefaultWebApplicationRequest forwardedRequest = new DefaultWebApplicationRequest()) {
-
-                HttpServletRequest request = (HttpServletRequest) servletRequest;
-                HttpServletResponse response = (HttpServletResponse) servletResponse;
-
-                response.resetBuffer();
-
-                forwardedRequest.setWebApplication(servletEnvironment.getWebApplication());
-                forwardedRequest.setContextPath(request.getContextPath());
-                forwardedRequest.setDispatcherType(FORWARD);
-                forwardedRequest.setAsyncSupported(request.isAsyncSupported());
-
-                if (path != null) {
-                    setForwardAttributes(request, forwardedRequest,
-                        FORWARD_CONTEXT_PATH,
-                        FORWARD_PATH_INFO,
-                        FORWARD_QUERY_STRING,
-                        FORWARD_REQUEST_URI,
-                        FORWARD_SERVLET_PATH);
-
-                    forwardedRequest.setServletPath(getServletPath(path));
-                    forwardedRequest.setQueryString(getQueryString(path));
-
-                } else {
-                    forwardedRequest.setServletPath("/" + servletEnvironment.getServletName());
-                }
-
-                CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, forwardedRequest);
-
-                try {
-                    servletEnvironment.getWebApplication().linkRequestAndResponse(forwardedRequest, servletResponse);
-                    servletEnvironment.getServlet().service(forwardedRequest, servletResponse);
-                    servletEnvironment.getWebApplication().unlinkRequestAndResponse(forwardedRequest, servletResponse);
-                } finally {
-                    restoreCurrentRequest(currentRequestHolder, request);
-                }
-
-                response.flushBuffer();
+            } else {
+                forwardedRequest.setServletPath("/" + servletEnvironment.getServletName());
             }
+
+            CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, forwardedRequest);
+
+            try {
+                servletEnvironment.getWebApplication().linkRequestAndResponse(forwardedRequest, servletResponse);
+                servletEnvironment.getServlet().service(forwardedRequest, servletResponse);
+                servletEnvironment.getWebApplication().unlinkRequestAndResponse(forwardedRequest, servletResponse);
+            } finally {
+                restoreCurrentRequest(currentRequestHolder, request);
+            }
+
+            response.flushBuffer();
         }
     }
 
@@ -210,11 +171,70 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
     }
 
+    private void asyncForward(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
+        if (!isOneOf(true, servletRequest instanceof AsyncHttpDispatchWrapper, servletRequest instanceof AsyncNonHtttpDispatchWrapper)) {
+            throw new IllegalStateException("Async invocations without wrapper not supported at this moment.");
+        }
+
+        if (servletRequest instanceof AsyncHttpDispatchWrapper) {
+            asyncHttpForward((AsyncHttpDispatchWrapper) servletRequest, servletResponse);
+            return;
+        }
+    }
+
+    private void asyncHttpForward(AsyncHttpDispatchWrapper asyncHttpDispatchWrapper, ServletResponse servletResponse) throws ServletException, IOException {
+        HttpServletRequest asyncStartRequest = asyncHttpDispatchWrapper.getRequest();
+
+        if (asyncStartRequest instanceof DefaultWebApplicationRequest) {
+
+        }
+
+        if (path != null) {
+
+            setAsyncAttributes(asyncStartRequest, asyncHttpDispatchWrapper);
+
+            asyncHttpDispatchWrapper.setServletPath(getServletPath(path));
+
+            // TODO: this is likely not entirely correct, maybe needs to be done earlier
+            String queryString = getQueryString(path);
+            if (!isEmpty(queryString)) {
+                asyncHttpDispatchWrapper.setQueryString(queryString);
+            } else {
+                asyncHttpDispatchWrapper.setQueryString(asyncStartRequest.getQueryString());
+            }
+
+            asyncHttpDispatchWrapper.setAttribute("PREVIOUS_REQUEST", asyncStartRequest);
+            asyncHttpDispatchWrapper.getWrapperAttributes().add("PREVIOUS_REQUEST");
+
+        } else {
+            asyncHttpDispatchWrapper.setServletPath("/" + servletEnvironment.getServletName());
+        }
+
+
+        servletEnvironment.getWebApplication().linkRequestAndResponse(asyncHttpDispatchWrapper, servletResponse);
+        servletEnvironment.getServlet().service(asyncHttpDispatchWrapper, servletResponse);
+        servletEnvironment.getWebApplication().unlinkRequestAndResponse(asyncHttpDispatchWrapper, servletResponse);
+
+        servletResponse.flushBuffer();
+    }
+
+
+    private void asyncNonHttpForward(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
+
+    }
+
+
     private void setForwardAttributes(HttpServletRequest originalRequest, HttpServletRequest forwardedRequest, String... dispatcherKeys) {
         for (String dispatcherKey : dispatcherKeys) {
             setForwardAttribute(originalRequest, forwardedRequest, dispatcherKey);
         }
+    }
 
+    private void setAsyncAttributes(HttpServletRequest asyncStartRequest, AsyncHttpDispatchWrapper asyncHttpDispatchWrapper) {
+        for (String asyncAttribute : ASYNC_ATTRIBUTES) {
+            // Set the spec demanded attributes on asyncHttpDispatchWrapper with the values taken from asyncStartRequest
+            setAsyncAttribute(asyncStartRequest, asyncHttpDispatchWrapper, asyncAttribute);
+        }
     }
 
     /**
@@ -248,6 +268,32 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
 
         forwardedRequest.setAttribute(dispatcherKey, value);
+    }
+
+    private void setAsyncAttribute(HttpServletRequest originalRequest, AsyncHttpDispatchWrapper asyncHttpDispatchWrapper, String dispatcherKey) {
+        String value = null;
+
+        if (originalRequest.getAttribute(dispatcherKey) != null) {
+            value = (String) originalRequest.getAttribute(dispatcherKey);
+        } else {
+            if (dispatcherKey.equals(ASYNC_CONTEXT_PATH)) {
+                value = originalRequest.getContextPath();
+            }
+            if (dispatcherKey.equals(ASYNC_PATH_INFO)) {
+                value = originalRequest.getPathInfo();
+            }
+            if (dispatcherKey.equals(ASYNC_QUERY_STRING)) {
+                value = originalRequest.getQueryString();
+            }
+            if (dispatcherKey.equals(ASYNC_REQUEST_URI)) {
+                value = originalRequest.getRequestURI();
+            }
+            if (dispatcherKey.equals(ASYNC_SERVLET_PATH)) {
+                value = originalRequest.getServletPath();
+            }
+        }
+
+        asyncHttpDispatchWrapper.setAsWrapperAttribute(dispatcherKey, value);
     }
 
     private CurrentRequestHolder updateCurrentRequest(HttpServletRequest originalRequest, HttpServletRequest forwardedRequest) {

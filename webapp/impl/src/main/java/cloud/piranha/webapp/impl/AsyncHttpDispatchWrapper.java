@@ -98,6 +98,10 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper {
         this.queryString = queryString;
     }
 
+    public void setAsWrapperAttribute(String name, Object value) {
+        attributeManager.setAttribute(name, value);
+    }
+
     public List<String> getWrapperAttributes() {
         return wrapperAttributes;
     }
