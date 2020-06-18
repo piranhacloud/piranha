@@ -35,8 +35,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import cloud.piranha.webapp.api.AsyncDispatcher;
 import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.utils.AsyncDispatchWrapper;
-import cloud.piranha.webapp.utils.AsyncHttpDispatchWrapper;
 
 /**
  * The default AsyncDispatcher.

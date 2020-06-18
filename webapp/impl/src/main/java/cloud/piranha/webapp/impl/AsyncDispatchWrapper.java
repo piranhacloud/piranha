@@ -25,38 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.utils;
+package cloud.piranha.webapp.impl;
 
 import static javax.servlet.DispatcherType.ASYNC;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletRequestWrapper;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 
-import cloud.piranha.webapp.api.AttributeManager;
-import cloud.piranha.webapp.impl.DefaultAttributeManager;
-
-public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper {
+public class AsyncDispatchWrapper extends ServletRequestWrapper {
 
     private String servletPath;
     private String pathInfo;
     private String requestURI;
     private String queryString;
 
-    private AttributeManager attributeManager = new DefaultAttributeManager();
+    /**
+     * Stores the attributes.
+     */
+    private Map<String, Object> attributes;
 
-    private List<String> wrapperAttributes = new ArrayList<>();
-
-    public AsyncHttpDispatchWrapper(HttpServletRequest request) {
+    public AsyncDispatchWrapper(HttpServletRequest request) {
         super(request);
     }
 
-    @Override
-    public HttpServletRequest getRequest() {
-        return (HttpServletRequest) super.getRequest();
+    public AsyncDispatchWrapper(ServletRequest request) {
+        super(request);
     }
 
     @Override
@@ -64,43 +61,6 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper {
         return ASYNC;
     }
 
-    @Override
-    public String getServletPath() {
-        return servletPath;
-    }
 
-    public void setServletPath(String servletPath) {
-        this.servletPath = servletPath;
-    }
-
-    @Override
-    public String getPathInfo() {
-        return pathInfo;
-    }
-    public void setPathInfo(String pathInfo) {
-        this.pathInfo = pathInfo;
-    }
-
-    @Override
-    public String getRequestURI() {
-        return requestURI;
-    }
-
-    public void setRequestURI(String requestURI) {
-        this.requestURI = requestURI;
-    }
-
-    @Override
-    public String getQueryString() {
-        return queryString;
-    }
-
-    public void setQueryString(String queryString) {
-        this.queryString = queryString;
-    }
-
-    public List<String> getWrapperAttributes() {
-        return wrapperAttributes;
-    }
 
 }

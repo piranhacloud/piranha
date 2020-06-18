@@ -25,35 +25,37 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.utils;
+package cloud.piranha.webapp.impl;
 
 import static javax.servlet.DispatcherType.ASYNC;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.DispatcherType;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletRequestWrapper;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 
-public class AsyncDispatchWrapper extends ServletRequestWrapper {
+import cloud.piranha.webapp.api.AttributeManager;
+
+public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper {
 
     private String servletPath;
     private String pathInfo;
     private String requestURI;
     private String queryString;
 
-    /**
-     * Stores the attributes.
-     */
-    private Map<String, Object> attributes;
+    private AttributeManager attributeManager = new DefaultAttributeManager();
 
-    public AsyncDispatchWrapper(HttpServletRequest request) {
+    private List<String> wrapperAttributes = new ArrayList<>();
+
+    public AsyncHttpDispatchWrapper(HttpServletRequest request) {
         super(request);
     }
 
-    public AsyncDispatchWrapper(ServletRequest request) {
-        super(request);
+    @Override
+    public HttpServletRequest getRequest() {
+        return (HttpServletRequest) super.getRequest();
     }
 
     @Override
@@ -61,6 +63,43 @@ public class AsyncDispatchWrapper extends ServletRequestWrapper {
         return ASYNC;
     }
 
+    @Override
+    public String getServletPath() {
+        return servletPath;
+    }
 
+    public void setServletPath(String servletPath) {
+        this.servletPath = servletPath;
+    }
+
+    @Override
+    public String getPathInfo() {
+        return pathInfo;
+    }
+    public void setPathInfo(String pathInfo) {
+        this.pathInfo = pathInfo;
+    }
+
+    @Override
+    public String getRequestURI() {
+        return requestURI;
+    }
+
+    public void setRequestURI(String requestURI) {
+        this.requestURI = requestURI;
+    }
+
+    @Override
+    public String getQueryString() {
+        return queryString;
+    }
+
+    public void setQueryString(String queryString) {
+        this.queryString = queryString;
+    }
+
+    public List<String> getWrapperAttributes() {
+        return wrapperAttributes;
+    }
 
 }
