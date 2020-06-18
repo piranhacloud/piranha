@@ -65,4 +65,13 @@ public interface AttributeManager {
      * @param value the value.
      */
     void setAttribute(String name, Object value);
+    
+    /**
+     * Checks if this manager has the given attribute
+     * @param name the name of the attribute to check for
+     * @return true if this manager contains the attribute, false otherwise
+     */
+    default boolean containsAttribute(String name) {
+        return getAttribute(name) != null;
+    }
 }
