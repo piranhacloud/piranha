@@ -64,9 +64,6 @@ public class DefaultAsyncDispatcher implements AsyncDispatcher {
         this.asyncStartResponse = asyncStartResponse;
     }
 
-    /**
-     * @see AsyncDispatcher#dispatch()
-     */
     @Override
     public void dispatch() {
         AsyncContext asyncContext = asyncStartRequest.getAsyncContext();
