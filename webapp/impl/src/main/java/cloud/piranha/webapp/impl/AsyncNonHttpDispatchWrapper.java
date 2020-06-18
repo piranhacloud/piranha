@@ -34,23 +34,13 @@ import java.util.Map;
 import javax.servlet.DispatcherType;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestWrapper;
-import javax.servlet.http.HttpServletRequest;
 
 public class AsyncNonHttpDispatchWrapper extends ServletRequestWrapper {
-
-    private String servletPath;
-    private String pathInfo;
-    private String requestURI;
-    private String queryString;
 
     /**
      * Stores the attributes.
      */
     private Map<String, Object> attributes;
-
-    public AsyncNonHttpDispatchWrapper(HttpServletRequest request) {
-        super(request);
-    }
 
     public AsyncNonHttpDispatchWrapper(ServletRequest request) {
         super(request);
