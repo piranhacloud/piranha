@@ -37,8 +37,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import cloud.piranha.webapp.api.AttributeManager;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 
-public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper {
+public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implements WebApplicationRequest {
 
     private String servletPath;
     private String pathInfo;
@@ -104,6 +105,12 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper {
 
     public List<String> getWrapperAttributes() {
         return wrapperAttributes;
+    }
+
+    @Override
+    public void setDispatcherType(DispatcherType dispatcherType) {
+        // TODO Auto-generated method stub
+
     }
 
 }
