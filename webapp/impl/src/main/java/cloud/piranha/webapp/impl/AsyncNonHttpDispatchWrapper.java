@@ -36,7 +36,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestWrapper;
 import javax.servlet.http.HttpServletRequest;
 
-public class AsyncNonHtttpDispatchWrapper extends ServletRequestWrapper {
+public class AsyncNonHttpDispatchWrapper extends ServletRequestWrapper {
 
     private String servletPath;
     private String pathInfo;
@@ -48,11 +48,11 @@ public class AsyncNonHtttpDispatchWrapper extends ServletRequestWrapper {
      */
     private Map<String, Object> attributes;
 
-    public AsyncNonHtttpDispatchWrapper(HttpServletRequest request) {
+    public AsyncNonHttpDispatchWrapper(HttpServletRequest request) {
         super(request);
     }
 
-    public AsyncNonHtttpDispatchWrapper(ServletRequest request) {
+    public AsyncNonHttpDispatchWrapper(ServletRequest request) {
         super(request);
     }
 

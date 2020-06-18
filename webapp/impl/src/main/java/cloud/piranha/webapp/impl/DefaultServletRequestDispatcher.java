@@ -172,7 +172,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     }
 
     private void asyncForward(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-        if (!isOneOf(true, servletRequest instanceof AsyncHttpDispatchWrapper, servletRequest instanceof AsyncNonHtttpDispatchWrapper)) {
+        if (!isOneOf(true, servletRequest instanceof AsyncHttpDispatchWrapper, servletRequest instanceof AsyncNonHttpDispatchWrapper)) {
             throw new IllegalStateException("Async invocations without wrapper not supported at this moment.");
         }
 
