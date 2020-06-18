@@ -42,10 +42,10 @@ import javax.enterprise.inject.spi.Extension;
 public class CdiExtension implements Extension {
 
     public void register(@Observes BeforeBeanDiscovery beforeBean, BeanManager beanManager) {
-        if (!InMemmoryIdentityStore.getCALLER_TO_CREDENTIALS().isEmpty()) {
+        if (!InMemoryIdentityStore.getCALLER_TO_CREDENTIALS().isEmpty()) {
             beforeBean.addAnnotatedType(
-                beanManager.createAnnotatedType(InMemmoryIdentityStore.class), 
-                "Piranha " + InMemmoryIdentityStore.class.getName());
+                beanManager.createAnnotatedType(InMemoryIdentityStore.class), 
+                "Piranha " + InMemoryIdentityStore.class.getName());
         }
     }
     

@@ -313,7 +313,7 @@ public class MicroInnerDeployer {
                 String password = callerAttributes.getNamedItem("password").getNodeValue(); 
                 String groups = callerAttributes.getNamedItem("groups").getNodeValue();
                 
-                InMemmoryIdentityStore.addCredential(caller, password, asList(groups.split(",")));
+                InMemoryIdentityStore.addCredential(caller, password, asList(groups.split(",")));
             }
         
         } catch (SAXException | IOException | ParserConfigurationException | XPathExpressionException e) {
