@@ -92,7 +92,7 @@ public class DefaultAsyncDispatcher implements AsyncDispatcher {
             return new AsyncHttpDispatchWrapper((HttpServletRequest) request);
         }
 
-        return new AsyncDispatchWrapper(request);
+        return new AsyncNonHtttpDispatchWrapper(request);
     }
 
 }

@@ -360,6 +360,7 @@ public class DefaultAsyncContext implements AsyncContext {
      * @param request the request to unwrap.
      * @return the unwrapped request.
      */
+    @SuppressWarnings("unchecked")
     private <T extends ServletRequest> T unwrapFully(ServletRequest request) {
         ServletRequest currentRequest = request;
         while (currentRequest instanceof ServletRequestWrapper) {
@@ -376,6 +377,7 @@ public class DefaultAsyncContext implements AsyncContext {
      * @param response the response to unwrap.
      * @return the unwrapped response.
      */
+    @SuppressWarnings("unchecked")
     private <T extends ServletResponse> T unwrapFully(ServletResponse response) {
         ServletResponse currentResponse = response;
         while (currentResponse instanceof ServletResponseWrapper) {
