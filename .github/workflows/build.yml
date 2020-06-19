@@ -6,6 +6,9 @@ on:
     tags-ignore:
       - 'release-*'
       - 'v*'
+  pull_request:
+    branches:
+      - master  
 jobs:
   build:
     runs-on: ${{ matrix.os }}
