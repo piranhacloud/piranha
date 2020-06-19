@@ -45,6 +45,7 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
+import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -271,7 +272,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             // In this case our asyncHttpDispatchWrapper is both the object with which the Servlet will be invoked, as well as the
             // object on which the path and attributes for the previous path will be set.
 
-            invokeTargetAsyncServlet(asyncHttpDispatchWrapper, asyncHttpDispatchWrapper, servletResponse);
+            invokeTargetAsyncServlet(asyncHttpDispatchWrapper, servletResponse);
 
         } else if (asyncStartRequest instanceof HttpServletRequestWrapper) {
             // Application wrapped request passed-in. We now need no make sure that the applications sees this request
@@ -297,12 +298,55 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
     }
 
+    private void asyncNonHttpForward(AsyncNonHttpDispatchWrapper asyncNonHttpDispatchWrapper, ServletResponse servletResponse) throws ServletException, IOException {
+        // A typical chain to arrive here is DefaultAsyncContext#dispatch -> DefaultAsyncDispatcher#dispatch -> forward -> asyncForward -> asyncNonHttpForward
+
+        ServletRequest asyncStartRequest = asyncNonHttpDispatchWrapper.getRequest();
+
+        if (asyncStartRequest instanceof ServletRequestWrapper) {
+
+            ServletRequestWrapper applicationProvidedWrapper = (ServletRequestWrapper) asyncStartRequest;
+
+            HttpServletRequest httpServletRequestInChain = findHttpServletRequestInChain(applicationProvidedWrapper);
+
+            if (httpServletRequestInChain != null) {
+
+                // We swap our asyncHttpDispatchWrapper from being the head of the chain, with a new wrapper, wrapping the HttpServletRequest that we found, and put
+                // that in between the request that was provided by the application and the request it is wrapping.
+
+                ServletRequest wrappedRequest = applicationProvidedWrapper.getRequest();
+
+                AsyncHttpDispatchWrapper newAsyncHttpDispatchWrapper = new AsyncHttpDispatchWrapper(null);
+                // Note that by doing this, methods called on HttpServletRequestWrapper itself (and not its super interface) will throw.
+                newAsyncHttpDispatchWrapper.setRequest(wrappedRequest);
+
+                applicationProvidedWrapper.setRequest(newAsyncHttpDispatchWrapper);
+
+                // Original chain: asyncNonHttpDispatchWrapper -> applicationProvidedWrapper (asyncStartRequest) -> wrappedRequest -> .... -> HttpServletRequest
+
+                // New chain: applicationProvidedWrapper (asyncStartRequest) -> newAsyncHttpDispatchWrapper -> wrappedRequest -> .... -> HttpServletRequest
+
+                invokeTargetAsyncServlet(asyncStartRequest, httpServletRequestInChain, newAsyncHttpDispatchWrapper, servletResponse);
+            }
+
+        }
+    }
+
+
+    private void invokeTargetAsyncServlet(AsyncHttpDispatchWrapper asyncHttpDispatchWrapper, ServletResponse servletResponse) throws ServletException, IOException {
+        invokeTargetAsyncServlet(asyncHttpDispatchWrapper, asyncHttpDispatchWrapper, servletResponse);
+    }
+
     private void invokeTargetAsyncServlet(HttpServletRequest invokeServletRequest, AsyncHttpDispatchWrapper asyncHttpDispatchWrapper, ServletResponse servletResponse) throws ServletException, IOException {
+        invokeTargetAsyncServlet(invokeServletRequest, invokeServletRequest, asyncHttpDispatchWrapper, servletResponse);
+    }
+
+    private void invokeTargetAsyncServlet(ServletRequest invokeServletRequest, HttpServletRequest previousPathRequest, AsyncHttpDispatchWrapper asyncHttpDispatchWrapper, ServletResponse servletResponse) throws ServletException, IOException {
         // A typical call chain to arrive here is DefaultAsyncContext#dispatch -> DefaultAsyncDispatcher#dispatch -> forward -> asyncForwrd -> asyncHttpForward -> invokeTargetAsyncServlet
 
         if (path != null) {
 
-            setAsyncAttributes(invokeServletRequest, asyncHttpDispatchWrapper);
+            setAsyncAttributes(previousPathRequest, asyncHttpDispatchWrapper);
 
             asyncHttpDispatchWrapper.setServletPath(getServletPath(path));
 
@@ -312,7 +356,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             if (!isEmpty(queryString)) {
                 asyncHttpDispatchWrapper.setQueryString(queryString);
             } else {
-                asyncHttpDispatchWrapper.setQueryString(invokeServletRequest.getQueryString());
+                asyncHttpDispatchWrapper.setQueryString(previousPathRequest.getQueryString());
             }
             asyncHttpDispatchWrapper.setAttribute("PREVIOUS_REQUEST", invokeServletRequest);
             asyncHttpDispatchWrapper.getWrapperAttributes().add("PREVIOUS_REQUEST");
@@ -321,17 +365,15 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             asyncHttpDispatchWrapper.setServletPath("/" + servletEnvironment.getServletName());
         }
 
-        servletEnvironment.getWebApplication().linkRequestAndResponse(asyncHttpDispatchWrapper, servletResponse);
-        servletEnvironment.getServlet().service(asyncHttpDispatchWrapper, servletResponse);
-        servletEnvironment.getWebApplication().unlinkRequestAndResponse(asyncHttpDispatchWrapper, servletResponse);
+        servletEnvironment.getWebApplication().linkRequestAndResponse(invokeServletRequest, servletResponse);
+        servletEnvironment.getServlet().service(invokeServletRequest, servletResponse);
+        servletEnvironment.getWebApplication().unlinkRequestAndResponse(invokeServletRequest, servletResponse);
 
         servletResponse.flushBuffer();
     }
 
 
-    private void asyncNonHttpForward(AsyncNonHttpDispatchWrapper servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-        // A typical chain to arrive here is DefaultAsyncContext#dispatch -> DefaultAsyncDispatcher#dispatch -> forward -> asyncForward -> asyncNonHttpForward
-    }
+
 
     private void setAsyncAttributes(HttpServletRequest asyncStartRequest, AsyncHttpDispatchWrapper asyncHttpDispatchWrapper) {
         for (String asyncAttribute : ASYNC_ATTRIBUTES) {
@@ -372,5 +414,18 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
     private String getQueryString(String path) {
         return !path.contains("?") ? null : path.substring(path.indexOf("?") + 1);
+    }
+
+    private HttpServletRequest findHttpServletRequestInChain(ServletRequest request) {
+        ServletRequest currentRequest = request;
+        while (currentRequest instanceof ServletRequestWrapper) {
+            ServletRequestWrapper wrapper = (ServletRequestWrapper) currentRequest;
+            currentRequest = wrapper.getRequest();
+
+            if (currentRequest instanceof HttpServletRequest) {
+                return (HttpServletRequest) currentRequest;
+            }
+        }
+        return null;
     }
 }
