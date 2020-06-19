@@ -43,15 +43,15 @@ import javax.servlet.AsyncListener;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
+import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
+import javax.servlet.ServletResponseWrapper;
 import javax.servlet.http.HttpServletRequest;
 
 import cloud.piranha.webapp.api.AsyncManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
-import javax.servlet.ServletRequestWrapper;
-import javax.servlet.ServletResponseWrapper;
 
 /**
  * The default AsyncContext.
@@ -114,7 +114,7 @@ public class DefaultAsyncContext implements AsyncContext {
     /**
      * Stores the timeout.
      */
-    private long timeout = 30000; // 30 seconds, as mandated by spec
+    private long timeout = Long.valueOf(System.getProperty("piranha.async.timeout", "30000")); // 30 seconds, as mandated by spec
 
 
     private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1); // TMP TMP TMP
@@ -352,10 +352,10 @@ public class DefaultAsyncContext implements AsyncContext {
         Thread thread = new Thread(runnable);
         thread.start();
     }
-    
+
     /**
      * Unwrap the servlet request.
-     * 
+     *
      * @param <T> the type.
      * @param request the request to unwrap.
      * @return the unwrapped request.
@@ -372,7 +372,7 @@ public class DefaultAsyncContext implements AsyncContext {
 
     /**
      * Unwrap the servlet response.
-     * 
+     *
      * @param <T> the type.
      * @param response the response to unwrap.
      * @return the unwrapped response.
