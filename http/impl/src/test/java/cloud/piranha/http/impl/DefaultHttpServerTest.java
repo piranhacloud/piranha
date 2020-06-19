@@ -31,10 +31,11 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerTest;
 import java.io.IOException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -78,11 +79,11 @@ public class DefaultHttpServerTest extends HttpServerTest {
         assertEquals(2000, server.getSoTimeout());
         server.start();
         try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8765/");
-            HttpResponse response = client.execute(request);
-            assertEquals(200, response.getStatusLine().getStatusCode());
-        } catch (IOException ioe) {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/")).build();
+            HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
+            assertEquals(200, response.statusCode());
+        } catch (IOException | InterruptedException ioe) {
             throw new RuntimeException(ioe);
         } finally {
             server.stop();

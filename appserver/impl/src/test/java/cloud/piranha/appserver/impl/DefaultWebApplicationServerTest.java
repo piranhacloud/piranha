@@ -31,10 +31,11 @@ import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.api.HttpServer;
 import java.io.IOException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
@@ -111,10 +112,10 @@ public class DefaultWebApplicationServerTest {
         server.start();
         httpServer.start();
         try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8180/context/snoop/index.html");
-            HttpResponse response = client.execute(request);
-            assertEquals(200, response.getStatusLine().getStatusCode());
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8180/context/snoop/index.html")).build();
+            HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
+            assertEquals(200, response.statusCode());
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }

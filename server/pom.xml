@@ -29,12 +29,6 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <!-- Apache HTTP client -->
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!-- JUnit -->
         <dependency>
             <groupId>junit</groupId>
