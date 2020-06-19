@@ -153,11 +153,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
         Iterator<String> names = headers.keySet().iterator();
         while (names.hasNext()) {
             String name = names.next();
-            if (names.hasNext()) {
-                writeHeader(name, false);
-            } else {
-                writeHeader(name, true);
-            }
+            writeHeader(name, true);
         }
         OutputStream output = getOutputStream();
         output.write("\n".getBytes());

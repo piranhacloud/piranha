@@ -28,10 +28,10 @@
 package cloud.piranha.micro;
 
 import java.io.IOException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import static org.junit.Assert.assertEquals;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -58,10 +58,10 @@ public class MicroPiranhaTest {
         thread.start();
         Thread.sleep(3000);
         try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8080/does-not-exist");
-            HttpResponse response = client.execute(request);
-            assertEquals(404, response.getStatusLine().getStatusCode());
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/does-not-exist")).build();
+            HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
+            assertEquals(404, response.statusCode());
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
@@ -84,10 +84,10 @@ public class MicroPiranhaTest {
         thread.start();
         Thread.sleep(3000);
         try {
-            HttpClient client = HttpClients.createDefault();
-            HttpGet request = new HttpGet("http://localhost:8088/does-not-exist");
-            HttpResponse response = client.execute(request);
-            assertEquals(404, response.getStatusLine().getStatusCode());
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8088/does-not-exist")).build();
+            HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
+            assertEquals(404, response.statusCode());
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }

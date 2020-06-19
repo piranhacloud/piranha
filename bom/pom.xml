@@ -32,14 +32,7 @@
                 <artifactId>commons-fileupload</artifactId>
                 <version>1.4</version>
             </dependency>
-            
-            <!-- Apache HTTP client -->
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>4.5.12</version>
-            </dependency>
-            
+
             <!-- Apache Johnzon -->
             <dependency>
                 <groupId>org.apache.johnzon</groupId>
