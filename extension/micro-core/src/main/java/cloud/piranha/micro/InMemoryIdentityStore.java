@@ -53,7 +53,7 @@ import javax.security.enterprise.identitystore.IdentityStore;
  *
  */
 @ApplicationScoped
-public class InMemmoryIdentityStore implements IdentityStore {
+public class InMemoryIdentityStore implements IdentityStore {
     
     public static class Credential {
         

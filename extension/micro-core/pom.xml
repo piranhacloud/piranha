@@ -11,7 +11,7 @@
 
     <artifactId>piranha-extension-micro-core</artifactId>
 
-    <name>Piranha Extension - Micro Servlet</name>
+    <name>Piranha Extension - Micro Core</name>
 
     <dependencyManagement>
         <dependencies>

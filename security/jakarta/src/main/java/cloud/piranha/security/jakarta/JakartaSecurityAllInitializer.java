@@ -41,7 +41,7 @@ import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 import cloud.piranha.cdi.weld.WeldInitializer;
-import cloud.piranha.security.elios.AuthenticationInitializer;
+import cloud.piranha.security.eleos.AuthenticationInitializer;
 import cloud.piranha.security.exousia.AuthorizationInitializer;
 import cloud.piranha.security.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.soteria.DynamicInitialContextFactory;
