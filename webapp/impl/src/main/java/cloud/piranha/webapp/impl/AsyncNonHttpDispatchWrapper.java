@@ -25,33 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.utils;
+package cloud.piranha.webapp.impl;
 
+import static javax.servlet.DispatcherType.ASYNC;
+
+import java.util.Map;
+
+import javax.servlet.DispatcherType;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestWrapper;
-import javax.servlet.ServletResponse;
-import javax.servlet.ServletResponseWrapper;
 
-public class ServletUtils {
+public class AsyncNonHttpDispatchWrapper extends ServletRequestWrapper {
 
-    @SuppressWarnings("unchecked")
-    public static <T extends ServletRequest> T unwrapFully(ServletRequest request) {
-        ServletRequest currentRequest = request;
-        while (currentRequest instanceof ServletRequestWrapper) {
-            ServletRequestWrapper wrapper = (ServletRequestWrapper) currentRequest;
-            currentRequest = wrapper.getRequest();
-        }
-        return (T) currentRequest;
+    /**
+     * Stores the attributes.
+     */
+    private Map<String, Object> attributes;
+
+    public AsyncNonHttpDispatchWrapper(ServletRequest request) {
+        super(request);
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T extends ServletResponse> T unwrapFully(ServletResponse response) {
-        ServletResponse currentResponse = response;
-        while (currentResponse instanceof ServletResponseWrapper) {
-            ServletResponseWrapper wrapper = (ServletResponseWrapper) currentResponse;
-            currentResponse = wrapper.getResponse();
-        }
-        return (T) currentResponse;
+    @Override
+    public DispatcherType getDispatcherType() {
+        return ASYNC;
     }
+
+
 
 }

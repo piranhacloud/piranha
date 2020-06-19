@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.utils;
+package cloud.piranha.webapp.impl;
 
 import static javax.servlet.DispatcherType.ASYNC;
 
@@ -37,9 +37,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import cloud.piranha.webapp.api.AttributeManager;
-import cloud.piranha.webapp.impl.DefaultAttributeManager;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 
-public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper {
+public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implements WebApplicationRequest {
 
     private String servletPath;
     private String pathInfo;
@@ -99,8 +99,18 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper {
         this.queryString = queryString;
     }
 
+    public void setAsWrapperAttribute(String name, Object value) {
+        attributeManager.setAttribute(name, value);
+    }
+
     public List<String> getWrapperAttributes() {
         return wrapperAttributes;
+    }
+
+    @Override
+    public void setDispatcherType(DispatcherType dispatcherType) {
+        // TODO Auto-generated method stub
+
     }
 
 }

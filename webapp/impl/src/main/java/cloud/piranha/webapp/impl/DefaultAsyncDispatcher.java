@@ -35,8 +35,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import cloud.piranha.webapp.api.AsyncDispatcher;
 import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.utils.AsyncDispatchWrapper;
-import cloud.piranha.webapp.utils.AsyncHttpDispatchWrapper;
 
 /**
  * The default AsyncDispatcher.
@@ -66,9 +64,6 @@ public class DefaultAsyncDispatcher implements AsyncDispatcher {
         this.asyncStartResponse = asyncStartResponse;
     }
 
-    /**
-     * @see AsyncDispatcher#dispatch()
-     */
     @Override
     public void dispatch() {
         AsyncContext asyncContext = asyncStartRequest.getAsyncContext();
@@ -94,7 +89,7 @@ public class DefaultAsyncDispatcher implements AsyncDispatcher {
             return new AsyncHttpDispatchWrapper((HttpServletRequest) request);
         }
 
-        return new AsyncDispatchWrapper(request);
+        return new AsyncNonHttpDispatchWrapper(request);
     }
 
 }

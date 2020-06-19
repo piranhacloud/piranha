@@ -53,43 +53,21 @@ public class DefaultAttributeManager implements AttributeManager {
         attributes = new ConcurrentHashMap<>();
     }
 
-    /**
-     * Get the attribute.
-     *
-     * @param name the name.
-     * @return the value.
-     */
     @Override
     public Object getAttribute(String name) {
         return attributes.get(name);
     }
 
-    /**
-     * Get the attribute names.
-     *
-     * @return the attribute names.
-     */
     @Override
     public Enumeration<String> getAttributeNames() {
         return Collections.enumeration(attributes.keySet());
     }
 
-    /**
-     * Remove the attribute.
-     *
-     * @param name the name.
-     */
     @Override
     public void removeAttribute(String name) {
         attributes.remove(name);
     }
 
-    /**
-     * Set the attribute.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
     @Override
     public void setAttribute(String name, Object value) {
         if (value != null) {
@@ -97,5 +75,10 @@ public class DefaultAttributeManager implements AttributeManager {
         } else {
             attributes.remove(name);
         }
+    }
+    
+    @Override
+    public boolean containsAttribute(String name) {
+        return attributes.containsKey(name);
     }
 }
