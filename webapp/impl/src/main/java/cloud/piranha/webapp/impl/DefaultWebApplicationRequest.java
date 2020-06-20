@@ -1551,6 +1551,10 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
             throw new IllegalStateException("Async is not supported");
         }
 
+        if (asyncContext != null) {
+            throw new IllegalStateException("Async cycle has already been started");
+        }
+
         asyncContext = new DefaultAsyncContext(request, response);
         asyncStarted = true;
 
