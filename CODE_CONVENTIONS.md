@@ -19,8 +19,8 @@ number between 0 and 100.
 
 Based on the advice from Uncle Bob's Clean Code, specifically:
 
-* No cryptic abbreviations like c, ta, rx, ct, with the exception of the well established i and J in loops
-* No variable names like ret, rvalue, result etc for variables that are returned from methods. Instead, the should be named after what they actually return. 
+* No cryptic abbreviations like c, ta, rx, ct, except for the well-established i and j in loops
+* No variable names like ret, rvalue, result etc for variables that are returned from methods. Instead, they should be named after what they actually return.
 
 For example:
 
@@ -149,7 +149,7 @@ public class SomeClass {
 }
 ```
 
-### Omit using the pubic modifier for interface methods.
+### Omit using the public modifier for interface methods.
 
 For example:
 
