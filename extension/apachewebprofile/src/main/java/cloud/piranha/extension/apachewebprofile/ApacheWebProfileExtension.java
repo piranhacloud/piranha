@@ -41,7 +41,7 @@ import cloud.piranha.webapp.webxml.WebXmlExtension;
  * <p>
  * This WebApplicationExtension extends the web application with the following
  * extensions:
- * <p>
+ * </p>
  *
  * <ol>
  * <li>AnnotationScanExtension - adds Annotation Scanning support</li>
