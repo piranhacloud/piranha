@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -61,11 +62,6 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
     private static final Logger LOGGER = Logger.getLogger(DefaultWebApplicationServer.class.getName());
 
     /**
-     * Stores the async boolean.
-     */
-    protected boolean async = false;
-
-    /**
      * Stores the request mapper.
      */
     protected WebApplicationServerRequestMapper requestMapper;
@@ -73,7 +69,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
     /**
      * Stores the web applications.
      */
-    protected final HashMap<String, WebApplication> webApplications;
+    protected final Map<String, WebApplication> webApplications;
 
     /**
      * Constructor.
@@ -240,31 +236,25 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
     }
 
     /**
-     * Are we processing the request asynchronously.
-     *
-     * @return true if we are, false otherwise.
-     */
-    @Override
-    public boolean isAsync() {
-        return async;
-    }
-
-    /**
      * Process the request.
      *
      * @param request the request.
      * @param response the response.
      */
     @Override
-    public void process(HttpServerRequest request, HttpServerResponse response) {
+    public boolean process(HttpServerRequest request, HttpServerResponse response) {
         try {
             DefaultWebApplicationServerRequest serverRequest = (DefaultWebApplicationServerRequest) createRequest(request);
             DefaultWebApplicationServerResponse serverResponse = (DefaultWebApplicationServerResponse) createResponse(response);
 
             service(serverRequest, serverResponse);
+
+            return serverRequest.isAsyncStarted();
         } catch (Exception exception) {
             exception.printStackTrace(System.err);
         }
+
+        return false;
     }
 
     /**
@@ -302,10 +292,6 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
 
             // Make sure the request is fully read wrt parameters (if any still)
             request.getParameterMap();
-
-            if (request.isAsyncStarted()) {
-                async = true;
-            }
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
         }

@@ -67,7 +67,7 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
      * cloud.piranha.http.api.HttpServerResponse)
      */
     @Override
-    public void process(HttpServerRequest request, HttpServerResponse response) {
+    public boolean process(HttpServerRequest request, HttpServerResponse response) {
         response.setStatus(200);
         File baseDir = new File(System.getProperty("user.dir"));
         File file = new File(baseDir, request.getRequestTarget());
@@ -132,5 +132,7 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
                 }
             }
         }
+
+        return false;
     }
 }

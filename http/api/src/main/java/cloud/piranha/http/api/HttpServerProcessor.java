@@ -39,19 +39,12 @@ package cloud.piranha.http.api;
 public interface HttpServerProcessor {
 
     /**
-     * Check if this request is being processed asynchronously.
-     *
-     * @return true if it is, false otherwise.
-     */
-    default boolean isAsync() {
-        return false;
-    }
-
-    /**
      * Process the request.
      *
      * @param request the HTTP Server Request.
      * @param response the HTTP Server Response.
+     *
+     * @return true if the request triggered async processing, false otherwise
      */
-    void process(HttpServerRequest request, HttpServerResponse response);
+    boolean process(HttpServerRequest request, HttpServerResponse response);
 }
