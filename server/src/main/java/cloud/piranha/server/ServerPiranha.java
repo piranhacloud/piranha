@@ -1,31 +1,44 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package cloud.piranha.server;
+
+import static java.util.logging.Level.INFO;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ServiceLoader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import cloud.piranha.api.Piranha;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
@@ -37,16 +50,6 @@ import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ServiceLoader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 /**
  * The Servlet container version of Piranha.
@@ -181,16 +184,16 @@ public class ServerPiranha implements Piranha, Runnable {
     @Override
     public void run() {
         long startTime = System.currentTimeMillis();
-        if (LOGGER.isLoggable(Level.INFO)) {
-            LOGGER.info("Starting Piranha");
-        }
+        LOGGER.log(INFO, () -> "Starting Piranha");
+
         DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
         DefaultHttpServer httpServer = new DefaultHttpServer(8080, webApplicationServer, ssl);
         httpServer.start();
         webApplicationServer.start();
+
         File webappsDirectory = new File("webapps");
         File[] webapps = webappsDirectory.listFiles();
-        if (webapps != null && webapps.length > 0) {
+        if (webapps != null) {
             for (File webapp : webapps) {
                 if (webapp.getName().toLowerCase().endsWith(".war")) {
                     String contextPath = webapp.getName().substring(0, webapp.getName().length() - 4);
@@ -200,8 +203,7 @@ public class ServerPiranha implements Piranha, Runnable {
                     DefaultWebApplication webApplication = new DefaultWebApplication();
                     webApplication.setAttribute(SERVER_PIRANHA, this);
                     webApplication.addResource(new DirectoryResource(webAppDirectory));
-                    DefaultWebApplicationClassLoader classLoader
-                            = new DefaultWebApplicationClassLoader(webAppDirectory);
+                    DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDirectory);
                     webApplication.setClassLoader(classLoader);
 
                     if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
@@ -222,15 +224,19 @@ public class ServerPiranha implements Piranha, Runnable {
                     }
                     webApplication.setContextPath(contextPath);
                     webApplicationServer.addWebApplication(webApplication);
-                    webApplication.initialize();
-                    webApplication.start();
+                    try {
+                        webApplication.initialize();
+                        webApplication.start();
+                    } catch (Exception e) {
+                        LOGGER.log(Level.SEVERE, e, () -> "Failed to initialize app " + webapp.getName());
+                    }
                 }
             }
         }
         long finishTime = System.currentTimeMillis();
-        if (LOGGER.isLoggable(Level.INFO)) {
+        if (LOGGER.isLoggable(INFO)) {
             LOGGER.info("Started Piranha");
-            LOGGER.log(Level.INFO, "It took {0} milliseconds", finishTime - startTime);
+            LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
         }
 
         File pidFile = new File("tmp/piranha.pid");
@@ -247,10 +253,11 @@ public class ServerPiranha implements Piranha, Runnable {
                 System.exit(0);
             }
         }
+
         finishTime = System.currentTimeMillis();
-        if (LOGGER.isLoggable(Level.INFO)) {
+        if (LOGGER.isLoggable(INFO)) {
             LOGGER.info("Stopped Piranha");
-            LOGGER.log(Level.INFO, "We ran for {0} milliseconds", finishTime - startTime);
+            LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
         }
     }
 }
