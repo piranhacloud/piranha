@@ -77,12 +77,13 @@ class DefaultHttpServerProcessingThread implements Runnable {
      */
     @Override
     public void run() {
+        boolean async = false;
         try {
             DefaultHttpServerRequest request = new DefaultHttpServerRequest(socket);
             DefaultHttpServerResponse response = new DefaultHttpServerResponse(socket);
-            server.processor.process(request, response);
+            async = server.processor.process(request, response);
         } finally {
-            if (!server.processor.isAsync()) {
+            if (!async) {
                 try {
                     socket.close();
                 } catch (IOException exception) {
