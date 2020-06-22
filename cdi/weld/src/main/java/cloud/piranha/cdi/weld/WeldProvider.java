@@ -28,8 +28,8 @@
 package cloud.piranha.cdi.weld;
 
 import java.util.concurrent.ConcurrentHashMap;
-import javax.enterprise.inject.spi.CDI;
-import javax.enterprise.inject.spi.CDIProvider;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDIProvider;
 
 /**
  * The Weld CDI provider.

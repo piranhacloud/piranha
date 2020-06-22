@@ -29,9 +29,9 @@ package cloud.piranha.cdi.weld;
 
 import java.security.Principal;
 
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.spi.CDI;
-import javax.security.enterprise.SecurityContext;
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.security.enterprise.SecurityContext;
 
 import org.jboss.weld.security.spi.SecurityServices;
 

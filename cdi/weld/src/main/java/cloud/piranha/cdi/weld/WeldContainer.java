@@ -27,7 +27,7 @@
  */
 package cloud.piranha.cdi.weld;
 
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDI;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 

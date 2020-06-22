@@ -27,7 +27,7 @@
  */
 package cloud.piranha.cdi.weld;
 
-import javax.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.inject.spi.BeanManager;
 import org.jboss.weld.AbstractCDI;
 import org.jboss.weld.manager.api.WeldManager;
 
