@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>20.7.0-SNAPSHOT</version>
+        <version>p20.6.1</version>
     </parent>
 
     <artifactId>bom</artifactId>
@@ -56,36 +56,36 @@
             <dependency>
                 <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-impl</artifactId>
-                <version>2.0.16</version>
+                <version>2.0.17</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-jsf</artifactId>
-                <version>2.0.16</version>
+                <version>2.0.17</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-spi</artifactId>
-                <version>2.0.16</version>
+                <version>2.0.17</version>
             </dependency>
 
             <!-- Arquillian -->
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.6.0.Final</version>
+                <version>1.7.0.Alpha1</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-build</artifactId>
-                <version>1.6.0.Final</version>
+                <version>1.7.0.Alpha1</version>
             </dependency>
             
             <!-- Grizzly -->
             <dependency>
                 <groupId>org.glassfish.grizzly</groupId>
                 <artifactId>grizzly-http-server</artifactId>
-                <version>2.4.4</version>
+                <version>3.0.0-M1</version>
             </dependency>        
 
             <!-- H2 database -->
@@ -113,57 +113,57 @@
             <dependency>
                 <groupId>net.sourceforge.htmlunit</groupId>
                 <artifactId>htmlunit</artifactId>
-                <version>2.36.0</version>
+                <version>2.41.0</version>
             </dependency>
             
             <!-- Jakarta Annotation -->
             <dependency>
                 <groupId>jakarta.annotation</groupId>
                 <artifactId>jakarta.annotation-api</artifactId>
-                <version>1.3.5</version>
+                <version>2.0.0-RC1</version>
             </dependency>
 
             <!-- Jakarta Authentication -->
             <dependency>
                 <groupId>jakarta.security.auth.message</groupId>
                 <artifactId>jakarta.security.auth.message-api</artifactId>
-                <version>1.1.3</version>
+                <version>2.0.0-RC1</version>
             </dependency>
             <dependency>
                 <groupId>org.omnifaces</groupId>
                 <artifactId>eleos</artifactId>
-                <version>0.3.2</version>
+                <version>1.0-M1</version>
             </dependency>
             
             <!-- Jakarta Authorization -->
             <dependency>
                 <groupId>jakarta.authorization</groupId>
                 <artifactId>jakarta.authorization-api</artifactId>
-                <version>1.5.0</version>
+                <version>2.0.0-RC1</version>
             </dependency>
             <dependency>
                 <groupId>org.omnifaces</groupId>
                 <artifactId>exousia</artifactId>
-                <version>0.4.3</version>
+                <version>1.0-M1</version>
             </dependency>
 
             <!-- Jakarta Bean Validation -->
             <dependency>
                 <groupId>jakarta.validation</groupId>
                 <artifactId>jakarta.validation-api</artifactId>
-                <version>2.0.2</version>
+                <version>3.0.0-M1</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator-cdi</artifactId>
-                <version>6.1.5.Final</version>
+                <version>7.0.0.Alpha3</version>
             </dependency>
             
             <!-- Jakarta Contexts Dependency Injection -->
             <dependency>
                 <groupId>jakarta.enterprise</groupId>
                 <artifactId>jakarta.enterprise.cdi-api</artifactId>
-                <version>2.0.2</version>
+                <version>3.0.0-M4</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.weld.servlet</groupId>
@@ -180,178 +180,173 @@
             <dependency>
                 <groupId>jakarta.platform</groupId>
                 <artifactId>jakarta.jakartaee-web-api</artifactId>
-                <version>8.0.0</version>
+                <version>9.0.0-RC2</version>
             </dependency>
             
             <!-- Jakarta Expression Language -->
             <dependency>
                 <groupId>jakarta.el</groupId>
                 <artifactId>jakarta.el-api</artifactId>
-                <version>3.0.3</version>
+                <version>4.0.0-RC1</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.el</artifactId>
-                <version>3.0.3</version>
+                <version>4.0.0-RC2</version>
             </dependency>
             
             <!-- Jakarta Faces -->
             <dependency>
                 <groupId>jakarta.faces</groupId>
                 <artifactId>jakarta.faces-api</artifactId>
-                <version>2.3.2</version>
+                <version>3.0.0-RC1</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.faces</artifactId>
-                <version>2.3.14</version>
+                <version>3.0.0-M1</version>
             </dependency>
 
             <!-- Jakarta JSON Binding -->
             <dependency>
                 <groupId>jakarta.json.bind</groupId>
                 <artifactId>jakarta.json.bind-api</artifactId>
-                <version>1.0.2</version>
+                <version>2.0.0-RC2</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse</groupId>
                 <artifactId>yasson</artifactId>
-                <version>1.0.7</version>
+                <version>2.0.0-M2</version>
             </dependency>
 
             <!-- Jakarta JSON Processing -->
             <dependency>
                 <groupId>jakarta.json</groupId>
                 <artifactId>jakarta.json-api</artifactId>
-                <version>1.1.6</version>
+                <version>2.0.0-RC3</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.json</artifactId>
-                <version>1.1.6</version>
+                <version>2.0.0-RC3</version>
             </dependency>
             
             <!-- Jakarta Persistence -->
             <dependency>
                 <groupId>jakarta.persistence</groupId>
                 <artifactId>jakarta.persistence-api</artifactId>
-                <version>2.2.3</version>
+                <version>3.0.0-RC2</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>eclipselink</artifactId>
-                <version>2.7.7</version>
+                <version>3.0.0-M1</version>
             </dependency>
             
             <!-- Jakarta REST -->
             <dependency>
                 <groupId>jakarta.ws.rs</groupId>
                 <artifactId>jakarta.ws.rs-api</artifactId>
-                <version>2.1.6</version>
+                <version>3.0.0-M1</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet</artifactId>
-                <version>2.31</version>
+                <version>3.0.0-M6</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet-core</artifactId>
-                <version>2.31</version>
+                <version>3.0.0-M6</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>jersey-common</artifactId>
-                <version>2.31</version>
+                <version>3.0.0-M6</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.inject</groupId>
                 <artifactId>jersey-hk2</artifactId>
-                <version>2.31</version>
+                <version>3.0.0-M6</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.ext.cdi</groupId>
                 <artifactId>jersey-cdi1x</artifactId>
-                <version>2.31</version>
+                <version>3.0.0-M6</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.media</groupId>
                 <artifactId>jersey-media-json-processing</artifactId>
-                <version>2.31</version>
+                <version>3.0.0-M6</version>
             </dependency>
             
             <!-- Jakarta Security -->
             <dependency>
                 <groupId>jakarta.security.enterprise</groupId>
                 <artifactId>jakarta.security.enterprise-api</artifactId>
-                <version>1.0.2</version>
+                <version>2.0.0-RC2</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.soteria</groupId>
                 <artifactId>jakarta.security.enterprise</artifactId>
-                <version>1.0.1</version>
+                <version>2.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>org.omnifaces</groupId>
-                <artifactId>javax.security.enterprise</artifactId>
-                <version>1.1-m02</version>
-            </dependency>
-            <dependency>
-                <groupId>org.omnifaces</groupId>
+                <groupId>org.glassfish.soteria</groupId>
                 <artifactId>soteria-bean-decorator-weld</artifactId>
-                <version>1.1-m02</version>
+                <version>2.0.0-SNAPSHOT</version>
             </dependency>
 
             <!-- Jakarta Server Pages -->
             <dependency>
                 <groupId>org.glassfish.web</groupId>
                 <artifactId>jakarta.servlet.jsp</artifactId>
-                <version>2.3.6</version>
+                <version>3.0.0-RC1</version>
             </dependency>
 
             <!-- Jakarta Servlet -->
             <dependency>
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
-                <version>4.0.3</version>
+                <version>5.0.0-M1</version>
             </dependency>
             
             <!-- Jakarta Standard Tag Library -->            
             <dependency>
                 <groupId>jakarta.servlet.jsp.jstl</groupId>
                 <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-                <version>1.2.7</version>
+                <version>2.0.0-RC1</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.web</groupId>
                 <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-                <version>1.2.6</version>
+                <version>2.0.0-M1</version>
             </dependency>
             
             <!-- Jakarta Transactions -->
             <dependency>
                 <groupId>jakarta.transaction</groupId>
                 <artifactId>jakarta.transaction-api</artifactId>
-                <version>1.3.3</version>
+                <version>2.0.0-RC2</version>
             </dependency>
 
             <!-- Jakarta XML Binding -->
             <dependency>
                 <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>2.3.3</version>
+                <version>3.0.0-RC3</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jaxb</groupId>
                 <artifactId>jaxb-runtime</artifactId>
-                <version>2.3.3</version>
+                <version>3.0.0-M4</version>
             </dependency>
             
             <!-- Jakarta WebSocket -->
             <dependency>
                 <groupId>jakarta.websocket</groupId>
                 <artifactId>jakarta.websocket-api</artifactId>
-                <version>1.1.2</version>
+                <version>2.0.0-RC1</version>
             </dependency>
 
             <!-- Jandex -->
@@ -384,7 +379,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.50.Final</version>
+                <version>5.0.0.Alpha2</version>
             </dependency>
             
             <!-- OmniFaces JWT -->
@@ -442,7 +437,7 @@
             <dependency>
                 <groupId>io.smallrye.config</groupId>
                 <artifactId>smallrye-config</artifactId>
-                <version>1.8.0</version>
+                <version>1.8.1</version>
             </dependency>
             <dependency>
                 <groupId>io.smallrye</groupId>
@@ -454,7 +449,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>5.2.6.RELEASE</version>
+                <version>5.2.7.RELEASE</version>
             </dependency>
            
             <!-- Struts -->
@@ -468,7 +463,7 @@
             <dependency>
                 <groupId>org.glassfish.tyrus</groupId>
                 <artifactId>tyrus-container-servlet</artifactId>
-                <version>1.17</version>
+                <version>2.0.0-M2</version>
             </dependency>
             
             <!-- Undertow -->
@@ -499,7 +494,7 @@
             <dependency>
                 <groupId>org.apache.wicket</groupId>
                 <artifactId>wicket-core</artifactId>
-                <version>8.8.0</version>
+                <version>9.0.0-M5</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

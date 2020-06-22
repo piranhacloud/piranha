@@ -28,7 +28,7 @@
 package cloud.piranha.micro;
 
 import static java.util.Collections.emptySet;
-import static javax.security.enterprise.identitystore.CredentialValidationResult.INVALID_RESULT;
+import static jakarta.security.enterprise.identitystore.CredentialValidationResult.INVALID_RESULT;
 
 import java.util.HashSet;
 import java.util.List;
@@ -36,11 +36,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.security.enterprise.CallerPrincipal;
-import javax.security.enterprise.credential.UsernamePasswordCredential;
-import javax.security.enterprise.identitystore.CredentialValidationResult;
-import javax.security.enterprise.identitystore.IdentityStore;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.security.enterprise.CallerPrincipal;
+import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.security.enterprise.identitystore.CredentialValidationResult;
+import jakarta.security.enterprise.identitystore.IdentityStore;
 
 /**
  * A basic in-memory identity store.

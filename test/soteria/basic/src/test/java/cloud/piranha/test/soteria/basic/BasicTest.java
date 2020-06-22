@@ -45,7 +45,7 @@ import cloud.piranha.webapp.webxml.WebXmlInitializer;
 import static java.util.Arrays.asList;
 import java.util.Base64;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
-import javax.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
+import jakarta.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

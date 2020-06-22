@@ -28,7 +28,7 @@
 package cloud.piranha.test.jpa;
 
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

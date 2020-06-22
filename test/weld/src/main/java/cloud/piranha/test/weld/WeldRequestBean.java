@@ -27,7 +27,7 @@
  */
 package cloud.piranha.test.weld;
 
-import javax.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 /**
