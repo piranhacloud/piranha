@@ -82,7 +82,8 @@ public class MicroConfiguration {
      * @param dependencies Piranha dependencies.
      * @param repositories Piranha repositories.
      * @param offline Offline flag.
-     * @param port http port on which Piranha listens to requests
+     * @param port http port on which Piranha listens to requests.
+     * @param httpServer the HTTP server implementation to use.
      * @param extensionsList List of extensions.
      * @param repositoriesList List of repos.
      * @param mergedDependencies List of merged dependencies.
