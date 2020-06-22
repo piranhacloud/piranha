@@ -28,11 +28,13 @@
 package cloud.piranha.webapp.impl;
 
 import java.io.UnsupportedEncodingException;
-import javax.servlet.http.HttpServletRequest;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.Test;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * The JUnit tests for testing everything related to the HttpServletRequest API.

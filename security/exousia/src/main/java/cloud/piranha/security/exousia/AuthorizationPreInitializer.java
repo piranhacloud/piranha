@@ -28,12 +28,12 @@
 package cloud.piranha.security.exousia;
 
 import static cloud.piranha.security.exousia.AuthorizationPreFilter.localServletRequest;
+import static jakarta.servlet.annotation.ServletSecurity.TransportGuarantee.CONFIDENTIAL;
+import static jakarta.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.concat;
-import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.CONFIDENTIAL;
-import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
 
 import java.security.Permission;
 import java.security.Policy;
@@ -43,13 +43,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.security.jacc.PolicyConfiguration;
-import javax.security.jacc.PolicyContextException;
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletSecurityElement;
-import javax.servlet.annotation.ServletSecurity;
+import jakarta.security.jacc.PolicyConfiguration;
+import jakarta.security.jacc.PolicyContextException;
 
 import org.omnifaces.exousia.AuthorizationService;
 import org.omnifaces.exousia.constraints.SecurityConstraint;
@@ -60,6 +55,11 @@ import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
 import cloud.piranha.webapp.webxml.WebXml;
 import cloud.piranha.webapp.webxml.WebXmlManager;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletSecurityElement;
+import jakarta.servlet.annotation.ServletSecurity;
 
 /**
  * The Exousia initializer.

@@ -28,9 +28,10 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.util.Locale;
-import javax.servlet.http.HttpServletResponse;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

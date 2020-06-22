@@ -48,12 +48,6 @@ import java.util.function.Function;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.ServletSecurity;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
-import javax.servlet.annotation.WebListener;
-import javax.servlet.annotation.WebServlet;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
@@ -79,6 +73,12 @@ import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultAnnotationManager;
 import cloud.piranha.webapp.impl.DefaultAnnotationManager.DefaultAnnotationInfo;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.ServletSecurity;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.annotation.WebInitParam;
+import jakarta.servlet.annotation.WebListener;
+import jakarta.servlet.annotation.WebServlet;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 

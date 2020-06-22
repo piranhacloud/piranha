@@ -34,10 +34,9 @@ import static java.util.logging.Level.INFO;
 import java.util.ServiceLoader;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletContainerInitializer;
-
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
+import jakarta.servlet.ServletContainerInitializer;
 
 /**
  * The WebApplication extension that enables ServletContainerInitializer

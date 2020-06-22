@@ -84,7 +84,6 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
      * @param context the context.
      * @param object the object read.
      */
-    @Override
     protected void channelRead0(ChannelHandlerContext context, FullHttpRequest object) {
         NettyHttpServerRequest nettyRequest = new NettyHttpServerRequest(context, object);
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, true);
@@ -106,5 +105,11 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
             LOGGER.log(Level.WARNING, "Exception caught in NettyHttpServerHandler", throwable);
         }
         context.close();
+    }
+
+    @Override
+    protected void messageReceived(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception {
+        channelRead0(ctx, msg);
+
     }
 }

@@ -30,6 +30,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
+import jakarta.transaction.TransactionRequiredException;
+
 /**
  * The JUnit tests for the TransactionRequiredException class.
  * 

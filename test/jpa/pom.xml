@@ -30,7 +30,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.eclipse.persistence</groupId>
-                    <artifactId>javax.persistence</artifactId>
+                    <artifactId>jakarta.persistence</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

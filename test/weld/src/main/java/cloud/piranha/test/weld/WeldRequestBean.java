@@ -28,7 +28,7 @@
 package cloud.piranha.test.weld;
 
 import jakarta.enterprise.context.RequestScoped;
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 /**
  * A simple request bean.

@@ -25,11 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet.http;
+package jakarta.servlet.http;
 
 import java.util.Collections;
 import java.util.Enumeration;
-import javax.servlet.ServletContext;
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionContext;
 
 /**
  * A Test HttpSession.

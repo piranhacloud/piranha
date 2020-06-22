@@ -37,9 +37,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-
 import cloud.piranha.appserver.api.WebApplicationServer;
 import cloud.piranha.appserver.api.WebApplicationServerRequest;
 import cloud.piranha.appserver.api.WebApplicationServerRequestMapper;
@@ -48,6 +45,8 @@ import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
 import cloud.piranha.webapp.api.WebApplication;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 
 /**
  * The default WebApplicationServer.

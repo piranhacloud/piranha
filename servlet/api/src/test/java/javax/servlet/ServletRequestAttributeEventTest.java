@@ -25,10 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet;
+package jakarta.servlet;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletRequestAttributeEvent;
 
 /**
  * The JUnit tests for the ServletRequestAttributeEvent class.

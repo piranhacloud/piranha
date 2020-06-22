@@ -25,7 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet;
+package jakarta.servlet;
+
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.AsyncListener;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 /**
  * A Test AsyncContext.

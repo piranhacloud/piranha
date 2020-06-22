@@ -29,9 +29,9 @@ package cloud.piranha.embedded;
 
 import cloud.piranha.webapp.api.WebApplication;
 import java.util.Set;
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import cloud.piranha.webapp.api.WebApplicationExtension;

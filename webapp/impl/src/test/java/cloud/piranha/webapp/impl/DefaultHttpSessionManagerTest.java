@@ -29,7 +29,8 @@ package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.impl.DefaultHttpSessionManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
+
 import static org.junit.Assert.*;
 import org.junit.Test;
 

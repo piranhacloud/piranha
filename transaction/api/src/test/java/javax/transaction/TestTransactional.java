@@ -28,6 +28,8 @@ package javax.transaction;
 
 import java.lang.annotation.Annotation;
 
+import jakarta.transaction.Transactional;
+
 /**
  * A test Transactional.
  * 

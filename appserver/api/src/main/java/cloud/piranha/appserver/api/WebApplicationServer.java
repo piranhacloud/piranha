@@ -29,9 +29,8 @@ package cloud.piranha.appserver.api;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
-
 import cloud.piranha.webapp.api.WebApplication;
+import jakarta.servlet.ServletException;
 
 /**
  * The WebApplicationServer API.

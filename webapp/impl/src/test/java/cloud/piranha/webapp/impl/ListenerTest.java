@@ -28,10 +28,12 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.ServletRequestListener;
+import jakarta.servlet.http.HttpSessionListener;
+
 import java.util.EventListener;
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletRequestListener;
-import javax.servlet.http.HttpSessionListener;
+
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 

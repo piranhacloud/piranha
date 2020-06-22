@@ -36,17 +36,16 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.Set;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.omnifaces.eleos.config.helper.Caller;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
 import org.omnifaces.exousia.AuthorizationService;
 
 import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import cloud.piranha.webapp.api.AuthenticatedIdentity;
 import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;

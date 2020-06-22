@@ -83,7 +83,7 @@ public class NettyHttpServerRequest implements HttpServerRequest {
      */
     @Override
     public String getHeader(String name) {
-        return request.headers().get(name);
+        return String.valueOf(request.headers().get(name));
     }
 
     /**
@@ -91,7 +91,7 @@ public class NettyHttpServerRequest implements HttpServerRequest {
      */
     @Override
     public Iterator<String> getHeaderNames() {
-        return request.headers().names().iterator();
+        return request.headers().names().stream().map(e -> String.valueOf(e)).iterator();
     }
 
     /**
@@ -139,7 +139,7 @@ public class NettyHttpServerRequest implements HttpServerRequest {
      */
     @Override
     public String getMethod() {
-        return request.method().name();
+        return String.valueOf(request.method().name());
     }
 
     /**

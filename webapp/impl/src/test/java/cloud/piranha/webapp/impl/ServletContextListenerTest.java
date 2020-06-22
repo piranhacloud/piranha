@@ -28,8 +28,9 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 

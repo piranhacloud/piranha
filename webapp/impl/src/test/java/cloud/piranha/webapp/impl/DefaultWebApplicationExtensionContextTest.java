@@ -29,11 +29,12 @@ package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import cloud.piranha.webapp.api.WebApplication;
 import java.util.Set;
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import org.junit.Test;

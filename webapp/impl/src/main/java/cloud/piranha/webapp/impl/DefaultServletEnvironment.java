@@ -36,14 +36,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRegistration.Dynamic;
-import javax.servlet.ServletSecurityElement;
-
 import cloud.piranha.webapp.api.WebApplication;
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletSecurityElement;
+import jakarta.servlet.ServletRegistration.Dynamic;
 
 /**
  * The default ServletEnvironment.

@@ -27,10 +27,11 @@
  */
 package cloud.piranha.webapp.impl;
 
-import javax.servlet.ServletRequest;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
+
+import jakarta.servlet.ServletRequest;
 
 /**
  * The JUnit tests for the ServletRequest API.

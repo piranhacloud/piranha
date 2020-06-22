@@ -29,15 +29,15 @@ package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.impl.DefaultHttpSessionManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import cloud.piranha.webapp.api.WebApplication;
 import java.io.IOException;
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

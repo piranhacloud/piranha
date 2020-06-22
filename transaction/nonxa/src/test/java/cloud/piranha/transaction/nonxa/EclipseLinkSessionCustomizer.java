@@ -27,10 +27,12 @@
 package cloud.piranha.transaction.nonxa;
 
 import javax.naming.InitialContext;
-import javax.transaction.TransactionManager;
+
 import org.eclipse.persistence.config.SessionCustomizer;
 import org.eclipse.persistence.sessions.Session;
 import org.eclipse.persistence.transaction.JTATransactionController;
+
+import jakarta.transaction.TransactionManager;
 
 /**
  * A session customizer that sets the external transaction controller to use JTA.

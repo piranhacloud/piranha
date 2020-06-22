@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet;
+package jakarta.servlet;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -34,7 +34,17 @@ import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.Map;
 import java.util.Set;
-import javax.servlet.descriptor.JspConfigDescriptor;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.SessionCookieConfig;
+import jakarta.servlet.SessionTrackingMode;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 
 /**
  * A Test ServletContext.

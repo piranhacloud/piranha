@@ -37,21 +37,20 @@ import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.logging.Logger;
 
-import javax.servlet.AsyncContext;
-import javax.servlet.AsyncEvent;
-import javax.servlet.AsyncListener;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletRequestWrapper;
-import javax.servlet.ServletResponse;
-import javax.servlet.ServletResponseWrapper;
-import javax.servlet.http.HttpServletRequest;
-
 import cloud.piranha.webapp.api.AsyncManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.AsyncEvent;
+import jakarta.servlet.AsyncListener;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletRequestWrapper;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.ServletResponseWrapper;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * The default AsyncContext.
@@ -142,7 +141,7 @@ public class DefaultAsyncContext implements AsyncContext {
      * Add the listener.
      *
      * @param listener the listener.
-     * @see AsyncContext#addListener(javax.servlet.AsyncListener)
+     * @see AsyncContext#addListener(jakarta.servlet.AsyncListener)
      */
     @Override
     public void addListener(AsyncListener listener) {

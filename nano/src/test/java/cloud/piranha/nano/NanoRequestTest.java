@@ -28,9 +28,9 @@
 package cloud.piranha.nano;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpUpgradeHandler;
-import javax.servlet.http.WebConnection;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.WebConnection;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

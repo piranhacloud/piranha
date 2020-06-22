@@ -27,16 +27,12 @@
  */
 package cloud.piranha.security.eleos;
 
-import static javax.security.auth.message.config.AuthConfigFactory.DEFAULT_FACTORY_SECURITY_PROPERTY;
+import static jakarta.security.auth.message.config.AuthConfigFactory.DEFAULT_FACTORY_SECURITY_PROPERTY;
 
 import java.security.Security;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 
 import org.omnifaces.eleos.config.factory.ConfigParser;
 import org.omnifaces.eleos.config.factory.DefaultConfigFactory;
@@ -44,6 +40,9 @@ import org.omnifaces.eleos.config.factory.DefaultConfigParser;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
 
 import cloud.piranha.webapp.api.WebApplication;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 /**
  * The Eleos initializer.

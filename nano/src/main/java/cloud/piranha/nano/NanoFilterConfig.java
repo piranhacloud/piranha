@@ -31,8 +31,8 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.UUID;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletContext;
 
 /**
  * The FilterConfig class used by {@link cloud.piranha.nano.NanoPiranhaBuilder}

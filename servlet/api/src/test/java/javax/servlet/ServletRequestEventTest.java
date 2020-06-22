@@ -25,12 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet;
+package jakarta.servlet;
 
-import javax.servlet.http.TestHttpServletRequest;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.TestHttpServletRequest;
+
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * The JUnit tests for the ServletRequestEvent class.

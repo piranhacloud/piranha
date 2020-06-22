@@ -25,12 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet;
+package jakarta.servlet;
 
 import java.lang.annotation.Annotation;
-import javax.servlet.annotation.MultipartConfig;
+
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.annotation.MultipartConfig;
 
 /**
  * The JUnit tests for the MultipartConfigElement class.

@@ -28,12 +28,13 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import com.sun.security.auth.UserPrincipal;
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

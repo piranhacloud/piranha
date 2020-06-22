@@ -25,12 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet;
+package jakarta.servlet;
 
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponseWrapper;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
+
+import jakarta.servlet.AsyncEvent;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
 /**
  * The JUnit tests for the AsyncEvent class.

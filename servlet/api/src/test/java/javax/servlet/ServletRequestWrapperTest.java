@@ -25,13 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet;
+package jakarta.servlet;
 
 import java.util.Locale;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import org.junit.Test;
+
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.ServletRequestWrapper;
 
 /**
  * The JUnit tests for the ServletRequestWrapper class.

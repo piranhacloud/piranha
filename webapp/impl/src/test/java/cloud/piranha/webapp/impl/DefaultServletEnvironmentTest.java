@@ -28,7 +28,8 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.impl.DefaultServletEnvironment;
-import javax.servlet.MultipartConfigElement;
+import jakarta.servlet.MultipartConfigElement;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

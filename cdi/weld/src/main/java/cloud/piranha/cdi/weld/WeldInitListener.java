@@ -27,15 +27,14 @@
  */
 package cloud.piranha.cdi.weld;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletRequestEvent;
-import javax.servlet.http.HttpServletRequest;
-
 import org.jboss.weld.environment.servlet.Listener;
 import org.jboss.weld.servlet.api.ServletListener;
 import org.jboss.weld.servlet.api.helpers.ForwardingServletListener;
 
 import cloud.piranha.webapp.api.CurrentRequestHolder;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This Piranha specific Weld initializer forwards all initialization

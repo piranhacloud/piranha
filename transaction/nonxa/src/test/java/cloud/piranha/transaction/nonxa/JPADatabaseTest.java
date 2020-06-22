@@ -28,10 +28,11 @@ package cloud.piranha.transaction.nonxa;
 
 import javax.naming.InitialContext;
 import javax.naming.NameNotFoundException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.transaction.Transaction;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.transaction.Transaction;
+
 import org.h2.jdbcx.JdbcDataSource;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

@@ -27,11 +27,10 @@
  */
 package cloud.piranha.webapp.impl;
 
-import javax.servlet.ServletRegistration;
-import javax.servlet.descriptor.JspConfigDescriptor;
-
 import cloud.piranha.webapp.api.JspManager;
 import cloud.piranha.webapp.api.WebApplication;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 
 /**
  * The default JspFileManager.

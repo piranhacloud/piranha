@@ -25,10 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet.http;
+package jakarta.servlet.http;
 
 import static org.junit.Assert.assertNull;
 import org.junit.Test;
+
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
 /**
  * The JUnit tests for the HttpServletResponse class.

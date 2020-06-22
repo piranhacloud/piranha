@@ -66,7 +66,7 @@ public class NettyHttpServerResponse implements HttpServerResponse {
      */
     @Override
     public String getHeader(String name) {
-        return response.headers().get(name);
+        return String.valueOf(response.headers().get(name));
     }
 
     /**

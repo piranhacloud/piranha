@@ -32,12 +32,11 @@ import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
-
 import cloud.piranha.webapp.api.MultiPartManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 
 /**
  * The default MultiPartManager.
