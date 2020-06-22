@@ -26,10 +26,12 @@
  */
 package javax.transaction;
 
-import javax.transaction.Transactional.TxType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import org.junit.Test;
+
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 /**
  * The JUnit tests for the Transaction class.

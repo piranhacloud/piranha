@@ -28,10 +28,11 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.http.HttpServlet;
 import cloud.piranha.webapp.api.WebApplication;
 import java.util.HashMap;
-import javax.servlet.ServletRegistration;
-import javax.servlet.http.HttpServlet;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

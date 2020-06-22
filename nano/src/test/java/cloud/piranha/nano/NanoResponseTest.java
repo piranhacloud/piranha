@@ -29,7 +29,7 @@ package cloud.piranha.nano;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.ByteArrayOutputStream;
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

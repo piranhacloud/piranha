@@ -26,14 +26,15 @@
  */
 package cloud.piranha.transaction.nonxa;
 
-import javax.transaction.RollbackException;
-import javax.transaction.Synchronization;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+
+import jakarta.transaction.RollbackException;
+import jakarta.transaction.Synchronization;
 
 /**
  * The JUnit tests for the DefaultTransaction class.

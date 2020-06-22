@@ -25,10 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet.http;
+package jakarta.servlet.http;
 
-import javax.servlet.FilterChain;
 import org.junit.Test;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.http.HttpFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * The JUnit tests for the HttpFilter class.

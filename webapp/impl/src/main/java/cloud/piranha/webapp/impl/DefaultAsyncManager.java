@@ -27,12 +27,11 @@
  */
 package cloud.piranha.webapp.impl;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
 import cloud.piranha.webapp.api.AsyncDispatcher;
 import cloud.piranha.webapp.api.AsyncManager;
 import cloud.piranha.webapp.api.WebApplication;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 /**
  * The default AsyncManager.

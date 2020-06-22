@@ -26,11 +26,12 @@
  */
 package cloud.piranha.transaction.nonxa;
 
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.Status;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+
+import jakarta.transaction.HeuristicRollbackException;
+import jakarta.transaction.NotSupportedException;
+import jakarta.transaction.Status;
 
 /**
  * The JUnit tests for the DefaultUserTransaction class.

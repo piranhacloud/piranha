@@ -28,31 +28,30 @@
 package cloud.piranha.webapp.impl;
 
 import static cloud.piranha.webapp.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
+import static jakarta.servlet.AsyncContext.ASYNC_CONTEXT_PATH;
+import static jakarta.servlet.AsyncContext.ASYNC_PATH_INFO;
+import static jakarta.servlet.AsyncContext.ASYNC_QUERY_STRING;
+import static jakarta.servlet.AsyncContext.ASYNC_REQUEST_URI;
+import static jakarta.servlet.AsyncContext.ASYNC_SERVLET_PATH;
+import static jakarta.servlet.DispatcherType.ASYNC;
+import static jakarta.servlet.DispatcherType.FORWARD;
 import static java.util.Arrays.asList;
-import static javax.servlet.AsyncContext.ASYNC_CONTEXT_PATH;
-import static javax.servlet.AsyncContext.ASYNC_PATH_INFO;
-import static javax.servlet.AsyncContext.ASYNC_QUERY_STRING;
-import static javax.servlet.AsyncContext.ASYNC_REQUEST_URI;
-import static javax.servlet.AsyncContext.ASYNC_SERVLET_PATH;
-import static javax.servlet.DispatcherType.ASYNC;
-import static javax.servlet.DispatcherType.FORWARD;
 import static org.omnifaces.utils.Lang.isEmpty;
 import static org.omnifaces.utils.Lang.isOneOf;
 
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletRequestWrapper;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
-
 import cloud.piranha.webapp.api.CurrentRequestHolder;
 import cloud.piranha.webapp.api.WebApplicationRequest;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletRequestWrapper;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * The default ServletRequestDispatcher.

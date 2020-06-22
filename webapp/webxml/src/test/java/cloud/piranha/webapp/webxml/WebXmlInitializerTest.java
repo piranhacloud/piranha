@@ -29,9 +29,10 @@ package cloud.piranha.webapp.webxml;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
+import jakarta.servlet.ServletRegistration;
 import cloud.piranha.resource.DirectoryResource;
 import java.io.File;
-import javax.servlet.ServletRegistration;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

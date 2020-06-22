@@ -9,7 +9,6 @@
         <version>p20.6.1</version>
     </parent>
 
-    <groupId>cloud.piranha</groupId>
     <artifactId>piranha-nano</artifactId>
     <packaging>jar</packaging>
 
@@ -26,6 +25,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    
     <dependencies>
         <dependency>
             <groupId>cloud.piranha</groupId>
@@ -48,11 +48,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.wicket</groupId>
-            <artifactId>wicket-core</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

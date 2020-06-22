@@ -29,8 +29,8 @@ package cloud.piranha.pages.jasper;
 
 import cloud.piranha.webapp.api.JspManager;
 import cloud.piranha.webapp.api.WebApplication;
-import javax.servlet.ServletRegistration;
-import javax.servlet.descriptor.JspConfigDescriptor;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 
 /**
  * The JSP manager delivered by the Jasper integration.

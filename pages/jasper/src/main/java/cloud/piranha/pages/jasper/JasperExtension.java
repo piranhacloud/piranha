@@ -32,7 +32,7 @@ import cloud.piranha.webapp.api.WebApplicationExtension;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContainerInitializer;
 
 /**
  * The extension that will enable Jasper integration (aka. JSP).

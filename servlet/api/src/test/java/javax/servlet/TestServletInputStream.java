@@ -25,9 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet;
+package jakarta.servlet;
 
 import java.io.IOException;
+
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.ServletInputStream;
 
 /**
  * A test ServletInputStream.

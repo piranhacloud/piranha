@@ -27,8 +27,6 @@
  */
 package cloud.piranha.http.netty;
 
-import java.util.logging.Logger;
-
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.impl.DefaultHttpServerProcessor;
@@ -43,11 +41,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class NettyHttpServer implements HttpServer {
-
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = Logger.getLogger(NettyHttpServer.class.getName());
 
     /**
      * Stores the boss event loop group.

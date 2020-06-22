@@ -33,10 +33,6 @@ import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 
 import java.util.Set;
 
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
@@ -47,6 +43,9 @@ import cloud.piranha.security.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.soteria.DynamicInitialContextFactory;
 import cloud.piranha.security.soteria.SoteriaInitializer;
 import cloud.piranha.security.soteria.SoteriaPreCDIInitializer;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 /**
  * The Jakarta Security All initializer.

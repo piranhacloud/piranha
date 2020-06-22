@@ -25,15 +25,20 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.servlet;
+package jakarta.servlet;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.HttpMethodConstraint;
-import javax.servlet.annotation.ServletSecurity;
+
 import static org.junit.Assert.*;
 import org.junit.Test;
+
+import jakarta.servlet.HttpConstraintElement;
+import jakarta.servlet.HttpMethodConstraintElement;
+import jakarta.servlet.ServletSecurityElement;
+import jakarta.servlet.annotation.HttpConstraint;
+import jakarta.servlet.annotation.HttpMethodConstraint;
+import jakarta.servlet.annotation.ServletSecurity;
 
 /**
  * The JUnit tests for the ServletSecurityElement class.

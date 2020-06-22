@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.webxml;
 
-import javax.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServlet;
 
 /**
  * A test servlet

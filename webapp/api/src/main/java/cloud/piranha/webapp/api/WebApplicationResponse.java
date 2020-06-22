@@ -30,8 +30,8 @@ package cloud.piranha.webapp.api;
 import java.io.OutputStream;
 import java.util.Collection;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * The WebApplicationResponse API.

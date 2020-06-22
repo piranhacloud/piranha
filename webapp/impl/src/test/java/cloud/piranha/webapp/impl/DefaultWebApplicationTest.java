@@ -31,6 +31,16 @@ import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
+import jakarta.servlet.SessionTrackingMode;
+import jakarta.servlet.ServletRegistration.Dynamic;
+import jakarta.servlet.http.HttpServletRequest;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultMimeTypeManager;
@@ -47,17 +57,6 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.Set;
-
-import javax.servlet.DispatcherType;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-import javax.servlet.ServletRegistration.Dynamic;
-import javax.servlet.ServletRequestEvent;
-import javax.servlet.ServletRequestListener;
-import javax.servlet.SessionTrackingMode;
-import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Test;
 

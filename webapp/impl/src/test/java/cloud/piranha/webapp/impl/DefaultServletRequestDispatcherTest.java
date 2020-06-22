@@ -28,9 +28,10 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
+import jakarta.servlet.RequestDispatcher;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 

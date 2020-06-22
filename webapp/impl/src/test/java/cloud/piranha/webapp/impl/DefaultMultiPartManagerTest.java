@@ -28,11 +28,12 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 import cloud.piranha.webapp.impl.DefaultMultiPartManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.util.Collection;
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

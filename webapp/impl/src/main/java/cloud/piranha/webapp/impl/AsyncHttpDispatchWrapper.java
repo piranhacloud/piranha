@@ -27,17 +27,16 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static javax.servlet.DispatcherType.ASYNC;
+import static jakarta.servlet.DispatcherType.ASYNC;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-
 import cloud.piranha.webapp.api.AttributeManager;
 import cloud.piranha.webapp.api.WebApplicationRequest;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implements WebApplicationRequest {
 

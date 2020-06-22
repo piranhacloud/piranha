@@ -27,6 +27,9 @@
 package javax.transaction;
 
 import org.junit.Test;
+
+import jakarta.transaction.HeuristicMixedException;
+
 import static org.junit.Assert.*;
 
 /**

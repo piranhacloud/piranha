@@ -27,12 +27,12 @@
  */
 package cloud.piranha.omnifaces.jwt;
 
-import static javax.ws.rs.RuntimeType.SERVER;
+import static jakarta.ws.rs.RuntimeType.SERVER;
 import static org.glassfish.jersey.internal.spi.AutoDiscoverable.DEFAULT_PRIORITY;
 
-import javax.annotation.Priority;
-import javax.ws.rs.ConstrainedTo;
-import javax.ws.rs.core.FeatureContext;
+import jakarta.annotation.Priority;
+import jakarta.ws.rs.ConstrainedTo;
+import jakarta.ws.rs.core.FeatureContext;
 
 import org.glassfish.jersey.internal.spi.ForcedAutoDiscoverable;
 import org.omnifaces.jwt.jaxrs.RolesAllowedDynamicFeature;

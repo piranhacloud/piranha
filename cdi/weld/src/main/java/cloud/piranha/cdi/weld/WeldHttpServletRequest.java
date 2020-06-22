@@ -29,9 +29,8 @@ package cloud.piranha.cdi.weld;
 
 import static cloud.piranha.webapp.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
 
-import javax.servlet.http.HttpServletRequest;
-
 import cloud.piranha.webapp.impl.DefaultCurrentRequestHolder;
+import jakarta.servlet.http.HttpServletRequest;
 import cloud.piranha.webapp.api.CurrentRequestHolder;
 
 /**

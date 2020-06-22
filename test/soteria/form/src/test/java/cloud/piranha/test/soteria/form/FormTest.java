@@ -48,7 +48,7 @@ import static java.util.Arrays.asList;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import jakarta.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
 import jakarta.security.enterprise.authentication.mechanism.http.LoginToContinue;
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

@@ -29,11 +29,10 @@ package cloud.piranha.security.jakarta;
 
 import java.util.Set;
 
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-
 import cloud.piranha.webapp.api.WebApplication;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 /**
  * The Jakarta Security initializer.

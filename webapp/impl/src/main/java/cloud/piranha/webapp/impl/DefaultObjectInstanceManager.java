@@ -29,11 +29,10 @@ package cloud.piranha.webapp.impl;
 
 import java.util.EventListener;
 
-import javax.servlet.Filter;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-
 import cloud.piranha.webapp.api.ObjectInstanceManager;
+import jakarta.servlet.Filter;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletException;
 
 /**
  * The default object instance manager.

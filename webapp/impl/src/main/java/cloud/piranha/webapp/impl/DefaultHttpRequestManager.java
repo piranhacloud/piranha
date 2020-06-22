@@ -31,11 +31,10 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-import javax.servlet.ServletRequestAttributeEvent;
-import javax.servlet.ServletRequestAttributeListener;
-import javax.servlet.http.HttpServletRequest;
-
 import cloud.piranha.webapp.api.HttpRequestManager;
+import jakarta.servlet.ServletRequestAttributeEvent;
+import jakarta.servlet.ServletRequestAttributeListener;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *

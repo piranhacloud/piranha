@@ -33,11 +33,10 @@ import static java.util.logging.Level.FINER;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletRegistration;
-
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WelcomeFileManager;
+import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.ServletRegistration;
 
 /**
  * The web.xml / web-fragment.xml processor.

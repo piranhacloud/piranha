@@ -27,9 +27,8 @@
  */
 package cloud.piranha.webapp.impl;
 
-import javax.servlet.http.HttpServletRequest;
-
 import cloud.piranha.webapp.api.CurrentRequestHolder;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Default implementation of the CurrentRequestHolder interface.
