@@ -19,19 +19,27 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Build and push Docker images
+    - name: Build amd64 Docker image
       run: |
         cd server
         docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/server:amd64-snapshot .
         docker push piranhacloud/server:amd64-snapshot
+    - name: Build arm32v7 Docker image
+      run: |
+        cd server
+        docker build -f src/main/docker/Dockerfile.arm32v7 -t piranhacloud/server:arm32v7-snapshot .
+        docker push piranhacloud/server:arm32v7-snapshot
     - name: Push multi-arch Docker manifest
       run: |
         cd server
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create piranhacloud/server:snapshot \
-          piranhacloud/server:amd64-snapshot
+          piranhacloud/server:amd64-snapshot \
+          piranhacloud/server:arm32v7-snapshot
         docker manifest annotate piranhacloud/server:snapshot \
           piranhacloud/server:amd64-snapshot --os linux --arch amd64
+        docker manifest annotate piranhacloud/server:snapshot \
+          piranhacloud/server:arm32v7-snapshot --os linux --arch arm32v7
         docker manifest push piranhacloud/server:snapshot
     - name: Analyze with SonarCloud
       run: |
