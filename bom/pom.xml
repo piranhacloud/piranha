@@ -394,13 +394,6 @@
                 <version>1.0.1</version>
             </dependency>
             
-            <!-- OmniFaces Utils -->
-            <dependency>
-                <groupId>org.omnifaces</groupId>
-                <artifactId>omniutils</artifactId>
-                <version>0.11</version>
-            </dependency>
-
             <!-- Shrinkwrap -->
             <dependency>
                 <groupId>org.jboss.shrinkwrap.resolver</groupId>
