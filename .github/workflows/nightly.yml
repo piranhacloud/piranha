@@ -39,7 +39,7 @@ jobs:
         docker manifest annotate piranhacloud/server:snapshot \
           piranhacloud/server:amd64-snapshot --os linux --arch amd64
         docker manifest annotate piranhacloud/server:snapshot \
-          piranhacloud/server:arm32v7-snapshot --os linux --arch arm/armv7l
+          piranhacloud/server:arm32v7-snapshot --os linux --arch arm --variant armv7l
         docker manifest push piranhacloud/server:snapshot
     - name: Analyze with SonarCloud
       run: |
