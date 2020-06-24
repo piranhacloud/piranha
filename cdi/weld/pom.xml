@@ -19,7 +19,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.jboss.weld.servlet</groupId>
+            <groupId>org.omnifaces</groupId>
             <artifactId>weld-servlet-core</artifactId>
             <scope>compile</scope>
             <exclusions>
