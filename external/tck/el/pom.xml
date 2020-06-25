@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.tck</groupId>
+        <groupId>cloud.piranha.external.tck</groupId>
         <artifactId>project</artifactId>
         <version>20.7.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-tck-expression-language</artifactId>
+    <artifactId>piranha-external-tck-expression-language</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha TCK - Expression Language</name>
+    <name>Piranha - External - TCK - Expression Language</name>
 
     <dependencyManagement>
         <dependencies>

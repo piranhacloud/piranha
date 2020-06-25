@@ -19,4 +19,4 @@ jobs:
     - name: Setup for TCK
       run: mvn -B -DskipTests=true install
     - name: Run TCK
-      run: mvn -amd -B -P tck -pl tck/pages verify
+      run: mvn -amd -B -P external -pl external/tck/pages verify

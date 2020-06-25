@@ -9,16 +9,13 @@
         <version>20.7.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cloud.piranha.tck</groupId>
+    <groupId>cloud.piranha.external</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha TCK - Project</name>
+    <name>Piranha - External - Project</name>
 
     <modules>
-        <module>el</module>
-        <module>microprofile</module>
-        <module>pages</module>
-        <module>servlet</module>
+        <module>tck</module>
     </modules>
 </project>

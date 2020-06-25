@@ -422,9 +422,9 @@
         </profile>
         
         <profile>
-            <id>tck</id>
+            <id>external</id>
             <modules>
-                <module>tck</module>
+                <module>external</module>
             </modules>
         </profile>
         
