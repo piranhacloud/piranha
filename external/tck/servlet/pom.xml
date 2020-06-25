@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.tck</groupId>
+        <groupId>cloud.piranha.external.tck</groupId>
         <artifactId>project</artifactId>
         <version>20.7.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-tck-servlet</artifactId>
+    <artifactId>piranha-external-tck-servlet</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha TCK - Servlet</name>
+    <name>Piranha - External - TCK - Servlet</name>
 
     <dependencyManagement>
         <dependencies>
