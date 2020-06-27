@@ -25,69 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
+package com.piranha.test.webxml.webfragmentinjar;
 
-import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
+import cloud.piranha.webapp.webxml.WebXmlInitializer;
 import java.io.File;
-import javax.servlet.ServletRegistration;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 /**
- * The JUnit tests for the WebXmlInitializer class.
+ * The integration tests for the web-fragment.xml support.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlInitializerTest {
+public class WebfragmentInJarIT {
+
 
     /**
-     * Test onStartup method.
+     * Test loadClass method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testOnStartup() throws Exception {
+    public void testLoadClass() throws Exception {
+        DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File("target/webapp"));
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/init")));
+        webApplication.setClassLoader(classLoader);
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
-        ServletRegistration registration = webApplication.getServletRegistration("Test Servlet");
-        assertNotNull(registration);
-        assertFalse(registration.getMappings().isEmpty());
-        assertEquals("*.html", registration.getMappings().iterator().next());
-        assertEquals("application/x-java-class", webApplication.getMimeType("my.class"));
-        assertEquals("myvalue", webApplication.getInitParameter("myname"));
-        assertEquals("myservletcontext", webApplication.getServletContextName());
-    }
-    
-    /**
-     * Test onStartup method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    public void testOnStartup2() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/init2")));
-        webApplication.addInitializer(new WebXmlInitializer());
-        webApplication.initialize();
-    }
-        
-    /**
-     * Test onStartup method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    public void testOnStartup3() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.setClassLoader(new DefaultWebApplicationClassLoader(new File("src/test/webxml/init3")));
-        webApplication.addInitializer(new WebXmlInitializer());
-        webApplication.initialize();
-        assertEquals("/webfragmentInClassesMetaInf", webApplication.getContextPath());
+        assertEquals("/webfragmentInJar", webApplication.getContextPath());
     }
 }

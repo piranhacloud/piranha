@@ -34,6 +34,7 @@
         <module>struts</module>
         <module>tyrus</module>
         <module>vaadin</module>
+        <module>webxml</module>
         <module>weld</module>
         <module>wicket</module>
     </modules>
