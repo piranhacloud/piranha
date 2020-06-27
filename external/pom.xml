@@ -16,6 +16,7 @@
     <name>Piranha - External - Project</name>
 
     <modules>
+        <module>integration</module>
         <module>tck</module>
     </modules>
 </project>

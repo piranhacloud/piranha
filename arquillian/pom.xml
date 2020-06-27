@@ -74,11 +74,5 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>test</id>
-            <modules>
-                <module>test</module>
-            </modules>
-        </profile>
     </profiles>
 </project>

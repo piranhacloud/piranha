@@ -43,7 +43,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.Ignore;
 
 import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
@@ -52,8 +51,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 
 
 @RunWith(Arquillian.class)
-@Ignore
-public class ServletBasicTest {
+public class ServletBasicIT {
 
     @ArquillianResource
     private URL base;
