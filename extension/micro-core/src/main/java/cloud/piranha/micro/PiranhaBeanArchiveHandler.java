@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.annotation.Priority;
+import javax.enterprise.inject.spi.BeanManager;
 
 import org.jboss.jandex.Index;
 import org.jboss.jandex.IndexReader;
@@ -74,7 +75,14 @@ public class PiranhaBeanArchiveHandler implements BeanArchiveHandler {
              .stream()
              .map(e -> e.asClass().name().toString())
              .forEach(className -> beanArchiveBuilder.addClass(className));
-        
+
+        if (beanArchiveBuilder.getClasses().isEmpty()) {
+            // If the war does not contain any class, we still need
+            // to create a valid bean archive, to enable the Soteria
+            // module startup correctly
+            beanArchiveBuilder.addClass(BeanManager.class.getName());
+        }
+
         return beanArchiveBuilder;
     }
     

@@ -49,7 +49,6 @@ public class MicroPiranhaIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    @Ignore
     public void testCommandLine() throws Exception {
         String version = System.getProperty("VERSION");
         ProcessBuilder builder = new ProcessBuilder();
@@ -57,7 +56,7 @@ public class MicroPiranhaIT {
         Process process = builder.start();
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8080/")).build();
-        HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
         assertEquals(404, response.statusCode());
         process.destroyForcibly();
     }
