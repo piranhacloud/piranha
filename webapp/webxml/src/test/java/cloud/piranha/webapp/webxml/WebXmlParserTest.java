@@ -53,7 +53,7 @@ public class WebXmlParserTest {
     @Test
     public void testParseWebXml() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/test3")));
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/parse")));
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
         WebXmlParser parser = new WebXmlParser();
         WebXml webXml = parser.parse(inputStream);
@@ -78,7 +78,7 @@ public class WebXmlParserTest {
     @Test
     public void testParseWebXml2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/test4")));
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/parse2")));
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
         WebXmlParser parser = new WebXmlParser();
         WebXml webXml = parser.parse(inputStream);
@@ -97,7 +97,7 @@ public class WebXmlParserTest {
     @Test
     public void testParseWebXml3() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/test6")));
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/parse3")));
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
         WebXmlParser parser = new WebXmlParser();
         WebXml webXml = parser.parse(inputStream);
