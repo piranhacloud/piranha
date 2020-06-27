@@ -25,22 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
+package cloud.piranha.webapp.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The web.xml servlet.
+ * The web.xml filter.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlServlet {
-
-    /**
-     * Stores if async is supported.
-     */
-    private boolean asyncSupported;
+public class WebXmlFilter {
 
     /**
      * Stores the class name.
@@ -48,9 +43,14 @@ public class WebXmlServlet {
     private String className;
 
     /**
+     * Stores the filter name.
+     */
+    private String filterName;
+
+    /**
      * Stores the init params.
      */
-    private final ArrayList<WebXmlServletInitParam> initParams = new ArrayList<>();
+    private final ArrayList<WebXmlFilterInitParam> initParams = new ArrayList<>();
 
     /**
      * Stores the servlet name.
@@ -62,7 +62,7 @@ public class WebXmlServlet {
      *
      * @param initParam the init param.
      */
-    public void addInitParam(WebXmlServletInitParam initParam) {
+    public void addInitParam(WebXmlFilterInitParam initParam) {
         this.initParams.add(initParam);
     }
 
@@ -76,21 +76,21 @@ public class WebXmlServlet {
     }
 
     /**
+     * Get the filter name.
+     *
+     * @return the filter name.
+     */
+    public String getFilterName() {
+        return filterName;
+    }
+
+    /**
      * Get the init params.
      *
      * @return the init params.
      */
-    public List<WebXmlServletInitParam> getInitParams() {
+    public List<WebXmlFilterInitParam> getInitParams() {
         return initParams;
-    }
-
-    /**
-     * Is async supported.
-     *
-     * @return true if it is, false otherwise.
-     */
-    public boolean isAsyncSupported() {
-        return asyncSupported;
     }
 
     /**
@@ -112,12 +112,12 @@ public class WebXmlServlet {
     }
 
     /**
-     * Set if async is supported.
+     * Set the filter name.
      *
-     * @param asyncSupported the boolean value.
+     * @param filterName the filter name.
      */
-    public void setAsyncSupported(boolean asyncSupported) {
-        this.asyncSupported = asyncSupported;
+    public void setFilterName(String filterName) {
+        this.filterName = filterName;
     }
 
     /**
@@ -127,20 +127,5 @@ public class WebXmlServlet {
      */
     public void setServletName(String servletName) {
         this.servletName = servletName;
-    }
-
-    /**
-     * Return string representation.
-     *
-     * @return the string representation.
-     */
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Servlet[");
-        builder.append("servletName=").append(servletName).append(",");
-        builder.append("className=").append(className).append(",");
-        builder.append("asyncSupported=").append(asyncSupported).append("]");
-        return builder.toString();
     }
 }

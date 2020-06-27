@@ -25,58 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
+package cloud.piranha.webapp.impl;
 
 /**
- * The web.xml filter init-param.
+ * The web.xml mime-mapping.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlFilterInitParam {
+public class WebXmlMimeMapping {
 
     /**
-     * Stores the name.
+     * Stores the extension.
      */
-    private String name;
+    private final String extension;
 
     /**
-     * Stores the value.
+     * Stores the mime type.
      */
-    private String value;
+    private final String mimeType;
 
     /**
-     * Get the name.
+     * Constructor.
      *
-     * @return the name.
+     * @param extension the extension.
+     * @param mimeType the mime type.
      */
-    public String getName() {
-        return name;
+    public WebXmlMimeMapping(String extension, String mimeType) {
+        this.extension = extension;
+        this.mimeType = mimeType;
     }
 
     /**
-     * Get the value.
+     * Get the extension.
      *
-     * @return the value.
+     * @return the extension.
      */
-    public String getValue() {
-        return value;
+    public String getExtension() {
+        return extension;
     }
 
     /**
-     * Set the name.
+     * Get the mime type.
      *
-     * @param name the name.
+     * @return the mime type.
      */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Set the value.
-     *
-     * @param value the value.
-     */
-    public void setValue(String value) {
-        this.value = value;
+    public String getMimeType() {
+        return mimeType;
     }
 }

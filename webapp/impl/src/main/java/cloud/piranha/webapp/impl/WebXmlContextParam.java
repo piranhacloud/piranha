@@ -25,19 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
+package cloud.piranha.webapp.impl;
 
 /**
- * The web.xml session-config cookie-config.
+ * The web.xml context-param.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlCookieConfig {
+public class WebXmlContextParam {
 
     /**
-     * Stores the cookie name.
+     * Stores the name.
      */
-    private String name;
+    private final String name;
+
+    /**
+     * Stores the value.
+     */
+    private final String value;
+
+    /**
+     * Constructor.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    public WebXmlContextParam(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
 
     /**
      * Get the name.
@@ -49,11 +65,11 @@ public class WebXmlCookieConfig {
     }
 
     /**
-     * Set the name.
+     * Get the value.
      *
-     * @param name the name.
+     * @return the value.
      */
-    public void setName(String name) {
-        this.name = name;
+    public String getValue() {
+        return value;
     }
 }

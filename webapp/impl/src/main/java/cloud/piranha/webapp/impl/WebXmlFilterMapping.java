@@ -25,83 +25,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
+package cloud.piranha.webapp.impl;
 
 /**
- * The web.xml login-config.
+ * The web.xml filter-mapping.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlLoginConfig {
+public class WebXmlFilterMapping {
 
     /**
-     * Stores the auth method.
+     * Stores the filter name.
      */
-    private final String authMethod;
+    private String filterName;
 
     /**
-     * Stores the realm name.
+     * Stores the URL pattern.
      */
-    private final String realmName;
-
-    /**
-     * Stores the form login page.
-     */
-    private final String formLoginPage;
-
-    /**
-     * Stores the form error page.
-     */
-    private final String formErrorPage;
+    private String urlPattern;
 
     /**
      * Constructor.
      *
-     * @param authMethod the auth method.
-     * @param realmName the realm name.
-     * @param formLoginPage the form login page.
-     * @param formErrorPage the form error page.
+     * @param filterName the filter name.
+     * @param urlPattern the URL pattern.
      */
-    public WebXmlLoginConfig(String authMethod, String realmName, String formLoginPage, String formErrorPage) {
-        this.authMethod = authMethod;
-        this.realmName = realmName;
-        this.formLoginPage = formLoginPage;
-        this.formErrorPage = formErrorPage;
+    public WebXmlFilterMapping(String filterName, String urlPattern) {
+        this.filterName = filterName;
+        this.urlPattern = urlPattern;
     }
 
     /**
-     * Get the auth method.
+     * Get the filter name.
      *
-     * @return the auth method.
+     * @return the filter name.
      */
-    public String getAuthMethod() {
-        return authMethod;
+    public String getFilterName() {
+        return filterName;
     }
 
     /**
-     * Get the realm name.
+     * Get the URL pattern.
      *
-     * @return the realm name.
+     * @return the URL pattern.
      */
-    public String getRealmName() {
-        return realmName;
-    }
-
-    /**
-     * Get the form login page.
-     *
-     * @return the form login page.
-     */
-    public String getFormLoginPage() {
-        return formLoginPage;
-    }
-
-    /**
-     * Get the form error page.
-     *
-     * @return the form error page.
-     */
-    public String getFormErrorPage() {
-        return formErrorPage;
+    public String getUrlPattern() {
+        return urlPattern;
     }
 }
+

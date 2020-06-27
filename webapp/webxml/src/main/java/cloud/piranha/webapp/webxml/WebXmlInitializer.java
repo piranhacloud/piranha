@@ -27,6 +27,8 @@
  */
 package cloud.piranha.webapp.webxml;
 
+import cloud.piranha.webapp.impl.WebXmlManager;
+import cloud.piranha.webapp.impl.WebXml;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
 import static javax.xml.xpath.XPathConstants.NODESET;

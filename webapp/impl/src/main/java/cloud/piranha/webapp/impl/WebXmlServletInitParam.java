@@ -25,66 +25,58 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
-
-import java.util.ArrayList;
-import java.util.List;
+package cloud.piranha.webapp.impl;
 
 /**
- * The web.xml manager.
+ * The web.xml servlet init-param.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlManager  {
+public class WebXmlServletInitParam {
 
     /**
-     * Stores the application scoped key.
+     * Stores the name.
      */
-    public static final String KEY = WebXmlManager.class.getName();
+    private String name;
 
     /**
-     * Stores the web fragments.
+     * Stores the value.
      */
-    private List<WebXml> webFragments = new ArrayList<>();
+    private String value;
 
     /**
-     * Stores the web.xml.
-     */
-    private WebXml webXml;
-
-    /**
-     * Get the web fragments.
+     * Get the name.
      *
-     * @return the web fragments.
+     * @return the name.
      */
-    public List<WebXml> getWebFragments() {
-        return webFragments;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Get the web.xml.
+     * Get the value.
      *
-     * @return the web.xml.
+     * @return the value.
      */
-    public WebXml getWebXml() {
-        return webXml;
+    public String getValue() {
+        return value;
     }
 
     /**
-     * Set the web.xml.
+     * Set the name.
      *
-     * @param webXml the web.xml.
+     * @param name the name.
      */
-    public void setWebXml(WebXml webXml) {
-        this.webXml = webXml;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
-     * Set the web fragments.
+     * Set the value.
      *
-     * @param webFragments the web fragments.
+     * @param value the value.
      */
-    public void setWebFragments(List<WebXml> webFragments) {
-        this.webFragments = webFragments;
+    public void setValue(String value) {
+        this.value = value;
     }
 }

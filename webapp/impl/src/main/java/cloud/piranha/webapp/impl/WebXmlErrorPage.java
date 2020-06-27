@@ -25,51 +25,67 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
+package cloud.piranha.webapp.impl;
 
 /**
- * The web.xml mime-mapping.
+ * The web.xml error-page.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlMimeMapping {
+public class WebXmlErrorPage  {
 
     /**
-     * Stores the extension.
+     * Stores the error code.
      */
-    private final String extension;
+    private final String errorCode;
 
     /**
-     * Stores the mime type.
+     * Stores the exception type.
      */
-    private final String mimeType;
+    private final String exceptionType;
+
+    /**
+     * Stores the location.
+     */
+    private final String location;
 
     /**
      * Constructor.
      *
-     * @param extension the extension.
-     * @param mimeType the mime type.
+     * @param errorCode the error code.
+     * @param exceptionType the exception type.
+     * @param location the location.
      */
-    public WebXmlMimeMapping(String extension, String mimeType) {
-        this.extension = extension;
-        this.mimeType = mimeType;
+    public WebXmlErrorPage(String errorCode, String exceptionType, String location) {
+        this.errorCode = errorCode;
+        this.exceptionType = exceptionType;
+        this.location = location;
     }
 
     /**
-     * Get the extension.
+     * Get the error code.
      *
-     * @return the extension.
+     * @return the error code.
      */
-    public String getExtension() {
-        return extension;
+    public String getErrorCode() {
+        return errorCode;
     }
 
     /**
-     * Get the mime type.
+     * Get the exception type.
      *
-     * @return the mime type.
+     * @return the exception type.
      */
-    public String getMimeType() {
-        return mimeType;
+    public String getExceptionType() {
+        return exceptionType;
+    }
+
+    /**
+     * Get the location.
+     *
+     * @return the location.
+     */
+    public String getLocation() {
+        return location;
     }
 }
