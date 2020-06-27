@@ -97,7 +97,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 manager.setWebXml(webXml);
             }
 
-            Enumeration<URL> webFragmentUrls = servletContext.getClassLoader().getResources("/META-INF/web-fragment.xml");
+            Enumeration<URL> webFragmentUrls = servletContext.getClassLoader().getResources("META-INF/web-fragment.xml");
             ArrayList<WebXml> webFragments = new ArrayList<>();
             while (webFragmentUrls.hasMoreElements()) {
                 URL url = webFragmentUrls.nextElement();
