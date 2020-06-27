@@ -25,35 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
+package cloud.piranha.webapp.impl;
 
 /**
- * The web.xml listener.
+ * The web.xml servlet-mapping
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlListener {
+public class WebXmlServletMapping {
 
     /**
-     * Stores the class name.
+     * Stores the servlet name.
      */
-    String className;
+    private final String servletName;
+
+    /**
+     * Stores the URL pattern.
+     */
+    private final String urlPattern;
 
     /**
      * Constructor.
      *
-     * @param className the class name.
+     * @param servletName the servlet name.
+     * @param urlPattern the URL pattern.
      */
-    public WebXmlListener(String className) {
-        this.className = className;
+    public WebXmlServletMapping(String servletName, String urlPattern) {
+        this.servletName = servletName;
+        this.urlPattern = urlPattern;
     }
 
     /**
-     * Get the class name.
+     * Get the servlet name.
      *
-     * @return the class name.
+     * @return the servlet name.
      */
-    public String getClassName() {
-        return className;
+    public String getServletName() {
+        return servletName;
+    }
+
+    /**
+     * Get the URL pattern.
+     *
+     * @return the URL pattern.
+     */
+    public String getUrlPattern() {
+        return urlPattern;
     }
 }

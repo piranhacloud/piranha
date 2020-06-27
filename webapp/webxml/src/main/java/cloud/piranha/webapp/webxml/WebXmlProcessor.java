@@ -27,6 +27,15 @@
  */
 package cloud.piranha.webapp.webxml;
 
+import cloud.piranha.webapp.impl.WebXmlServlet;
+import cloud.piranha.webapp.impl.WebXmlMimeMapping;
+import cloud.piranha.webapp.impl.WebXmlServletMapping;
+import cloud.piranha.webapp.impl.WebXmlListener;
+import cloud.piranha.webapp.impl.WebXmlErrorPage;
+import cloud.piranha.webapp.impl.WebXmlFilterMapping;
+import cloud.piranha.webapp.impl.WebXmlContextParam;
+import cloud.piranha.webapp.impl.WebXml;
+import cloud.piranha.webapp.impl.WebXmlFilterInitParam;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.FINER;
 

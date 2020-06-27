@@ -25,51 +25,89 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
+package cloud.piranha.webapp.impl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * The web.xml context-param.
+ * The web.xml manager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlContextParam {
+public class WebXmlManager  {
 
     /**
-     * Stores the name.
+     * Stores the application scoped key.
      */
-    private final String name;
+    public static final String KEY = WebXmlManager.class.getName();
+    
+    /**
+     * Stores the initial web.xml
+     */
+    private WebXml initialWebXml;
 
     /**
-     * Stores the value.
+     * Stores the web fragments.
      */
-    private final String value;
+    private List<WebXml> webFragments = new ArrayList<>();
 
     /**
-     * Constructor.
-     *
-     * @param name the name.
-     * @param value the value.
+     * Stores the web.xml.
      */
-    public WebXmlContextParam(String name, String value) {
-        this.name = name;
-        this.value = value;
+    private WebXml webXml;
+    
+    /**
+     * Get the initial web.xml.
+     * 
+     * @return the initial web.xml.
+     */
+    public WebXml getInitialWebXml() {
+        return initialWebXml;
     }
 
     /**
-     * Get the name.
+     * Get the web fragments.
      *
-     * @return the name.
+     * @return the web fragments.
      */
-    public String getName() {
-        return name;
+    public List<WebXml> getWebFragments() {
+        return webFragments;
     }
 
     /**
-     * Get the value.
+     * Get the web.xml.
      *
-     * @return the value.
+     * @return the web.xml.
      */
-    public String getValue() {
-        return value;
+    public WebXml getWebXml() {
+        return webXml;
+    }
+    
+    /**
+     * Set the initial web.xml.
+     * 
+     * @param initialWebXml the initial web.xml.
+     */
+    public void setInitialWebXml(WebXml initialWebXml) {
+        this.initialWebXml = initialWebXml;
+    }
+
+    /**
+     * Set the web.xml.
+     *
+     * @param webXml the web.xml.
+     */
+    public void setWebXml(WebXml webXml) {
+        this.webXml = webXml;
+    }
+
+    /**
+     * Set the web fragments.
+     *
+     * @param webFragments the web fragments.
+     */
+    public void setWebFragments(List<WebXml> webFragments) {
+        this.webFragments = webFragments;
     }
 }

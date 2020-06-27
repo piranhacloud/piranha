@@ -25,35 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
+package cloud.piranha.webapp.impl;
 
 /**
- * The web.xml session-config.
+ * The web.xml listener.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlSessionConfig {
+public class WebXmlListener {
 
     /**
-     * Stores the session timeout.
+     * Stores the class name.
      */
-    private int sessionTimeout;
+    String className;
 
     /**
-     * Get the session timeout.
+     * Constructor.
      *
-     * @return the session timeout.
+     * @param className the class name.
      */
-    public int getSessionTimeout() {
-        return sessionTimeout;
+    public WebXmlListener(String className) {
+        this.className = className;
     }
 
     /**
-     * Set the session timeout.
+     * Get the class name.
      *
-     * @param sessionTimeout the session timeout.
+     * @return the class name.
      */
-    public void setSessionTimeout(int sessionTimeout) {
-        this.sessionTimeout = sessionTimeout;
+    public String getClassName() {
+        return className;
     }
 }

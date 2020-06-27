@@ -28,21 +28,21 @@
 package cloud.piranha.security.exousia;
 
 import static cloud.piranha.security.exousia.AuthorizationPreFilter.localServletRequest;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.emptySet;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Stream.concat;
-import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.CONFIDENTIAL;
-import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
-
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
+import cloud.piranha.webapp.impl.WebXml;
+import cloud.piranha.webapp.impl.WebXmlManager;
 import java.security.Permission;
 import java.security.Policy;
 import java.util.ArrayList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Stream.concat;
 import javax.security.jacc.PolicyConfiguration;
 import javax.security.jacc.PolicyContextException;
 import javax.servlet.ServletContainerInitializer;
@@ -50,16 +50,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletSecurityElement;
 import javax.servlet.annotation.ServletSecurity;
-
+import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.CONFIDENTIAL;
+import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
 import org.omnifaces.exousia.AuthorizationService;
 import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.constraints.WebResourceCollection;
 import org.omnifaces.exousia.constraints.transformer.ElementsToConstraintsTransformer;
-
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
-import cloud.piranha.webapp.webxml.WebXml;
-import cloud.piranha.webapp.webxml.WebXmlManager;
 
 /**
  * The Exousia initializer.

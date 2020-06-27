@@ -25,51 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
+package cloud.piranha.webapp.impl;
 
 /**
- * The web.xml servlet-mapping
+ * The web.xml session-config cookie-config.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlServletMapping {
+public class WebXmlCookieConfig {
 
     /**
-     * Stores the servlet name.
+     * Stores the cookie name.
      */
-    private final String servletName;
+    private String name;
 
     /**
-     * Stores the URL pattern.
-     */
-    private final String urlPattern;
-
-    /**
-     * Constructor.
+     * Get the name.
      *
-     * @param servletName the servlet name.
-     * @param urlPattern the URL pattern.
+     * @return the name.
      */
-    public WebXmlServletMapping(String servletName, String urlPattern) {
-        this.servletName = servletName;
-        this.urlPattern = urlPattern;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Get the servlet name.
+     * Set the name.
      *
-     * @return the servlet name.
+     * @param name the name.
      */
-    public String getServletName() {
-        return servletName;
-    }
-
-    /**
-     * Get the URL pattern.
-     *
-     * @return the URL pattern.
-     */
-    public String getUrlPattern() {
-        return urlPattern;
+    public void setName(String name) {
+        this.name = name;
     }
 }

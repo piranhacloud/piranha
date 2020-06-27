@@ -25,67 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
+package cloud.piranha.webapp.impl;
 
 /**
- * The web.xml error-page.
+ * The web.xml session-config.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlErrorPage  {
+public class WebXmlSessionConfig {
 
     /**
-     * Stores the error code.
+     * Stores the session timeout.
      */
-    private final String errorCode;
+    private int sessionTimeout;
 
     /**
-     * Stores the exception type.
-     */
-    private final String exceptionType;
-
-    /**
-     * Stores the location.
-     */
-    private final String location;
-
-    /**
-     * Constructor.
+     * Get the session timeout.
      *
-     * @param errorCode the error code.
-     * @param exceptionType the exception type.
-     * @param location the location.
+     * @return the session timeout.
      */
-    public WebXmlErrorPage(String errorCode, String exceptionType, String location) {
-        this.errorCode = errorCode;
-        this.exceptionType = exceptionType;
-        this.location = location;
+    public int getSessionTimeout() {
+        return sessionTimeout;
     }
 
     /**
-     * Get the error code.
+     * Set the session timeout.
      *
-     * @return the error code.
+     * @param sessionTimeout the session timeout.
      */
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    /**
-     * Get the exception type.
-     *
-     * @return the exception type.
-     */
-    public String getExceptionType() {
-        return exceptionType;
-    }
-
-    /**
-     * Get the location.
-     *
-     * @return the location.
-     */
-    public String getLocation() {
-        return location;
+    public void setSessionTimeout(int sessionTimeout) {
+        this.sessionTimeout = sessionTimeout;
     }
 }

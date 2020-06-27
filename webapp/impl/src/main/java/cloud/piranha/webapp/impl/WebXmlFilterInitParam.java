@@ -25,14 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webxml;
+package cloud.piranha.webapp.impl;
 
 /**
- * The web.xml servlet init-param.
+ * The web.xml filter init-param.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlServletInitParam {
+public class WebXmlFilterInitParam {
 
     /**
      * Stores the name.
