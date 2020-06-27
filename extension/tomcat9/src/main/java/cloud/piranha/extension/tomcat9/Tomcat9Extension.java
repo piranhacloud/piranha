@@ -32,6 +32,7 @@ import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 import cloud.piranha.pages.jasper.JasperExtension;
 import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
 import cloud.piranha.webapp.scinitializer.ServletContainerInitializerExtension;
+import cloud.piranha.webapp.tempdir.TempDirExtension;
 import cloud.piranha.webapp.webservlet.WebAnnotationExtension;
 import cloud.piranha.webapp.webxml.WebXmlExtension;
 
@@ -68,6 +69,7 @@ public class Tomcat9Extension implements WebApplicationExtension {
         context.add(AnnotationScanExtension.class);
         context.add(WebXmlExtension.class);
         context.add(WebAnnotationExtension.class);
+        context.add(TempDirExtension.class);
         context.add(JasperExtension.class);
         context.add(ServletContainerInitializerExtension.class);
     }
