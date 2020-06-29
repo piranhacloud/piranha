@@ -27,10 +27,10 @@
  */
 package cloud.piranha.resource;
 
-import cloud.piranha.resource.JarResource;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the DefaultJarResource class.

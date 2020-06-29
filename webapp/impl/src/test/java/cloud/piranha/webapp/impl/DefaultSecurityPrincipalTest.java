@@ -27,9 +27,9 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultSecurityPrincipal;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the DefaultSecurityPrincipal class.

@@ -27,12 +27,11 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultHttpHeaderManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Manfred Riem (mriem@manorrock.com)

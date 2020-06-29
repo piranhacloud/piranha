@@ -29,8 +29,8 @@ package cloud.piranha.webapp.impl;
 
 import javax.servlet.ServletRequest;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the ServletRequest API.
@@ -49,7 +49,7 @@ public class ServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         request = new TestWebApplicationRequest();
     }

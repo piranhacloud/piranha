@@ -36,7 +36,7 @@ import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the SmallRye Liveness test.

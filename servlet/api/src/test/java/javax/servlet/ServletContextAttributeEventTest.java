@@ -27,8 +27,9 @@
  */
 package javax.servlet;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the ServletContextAttributeEvent class.

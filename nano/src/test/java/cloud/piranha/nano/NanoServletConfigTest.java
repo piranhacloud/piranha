@@ -27,8 +27,9 @@
  */
 package cloud.piranha.nano;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the NanoServletConfig class.

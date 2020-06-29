@@ -27,8 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.webapp.api.WebApplication;
 import java.util.Set;
 import javax.servlet.ServletContainerInitializer;
@@ -36,7 +34,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 

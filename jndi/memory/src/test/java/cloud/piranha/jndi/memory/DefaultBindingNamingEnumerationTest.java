@@ -27,9 +27,10 @@
  */
 package cloud.piranha.jndi.memory;
 
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import javax.naming.NamingException;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the DefaultBindingNamingEnumeration class.

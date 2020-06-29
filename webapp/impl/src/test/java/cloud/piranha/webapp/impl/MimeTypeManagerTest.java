@@ -30,8 +30,8 @@ package cloud.piranha.webapp.impl;
 import cloud.piranha.webapp.api.MimeTypeManager;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the MimeTypeManager API.
@@ -48,7 +48,7 @@ public class MimeTypeManagerTest {
     /**
      * Before testing.
      */
-    @Before
+    @BeforeEach
     public void before() {
         manager = new DefaultMimeTypeManager();
     }

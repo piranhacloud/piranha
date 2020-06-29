@@ -32,7 +32,7 @@ import java.util.NoSuchElementException;
 import javax.naming.NameClassPair;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the DefaultNamingEnumeration class.

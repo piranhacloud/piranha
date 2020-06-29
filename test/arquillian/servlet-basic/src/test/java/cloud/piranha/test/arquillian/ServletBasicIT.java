@@ -39,9 +39,9 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
@@ -69,12 +69,12 @@ public class ServletBasicIT {
             addAsWebInfResource((new File("src/main/webapp/WEB-INF", "web.xml")));
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         webClient = new WebClient();
     }
     
-    @After
+    @AfterEach
     public void tearDown() {
         webClient.getCookieManager().clearCookies();
         webClient.close();

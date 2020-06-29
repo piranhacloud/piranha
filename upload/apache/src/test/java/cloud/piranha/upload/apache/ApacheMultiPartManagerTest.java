@@ -30,7 +30,7 @@ package cloud.piranha.upload.apache;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the ApacheMultiPartManager class.

@@ -27,8 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultHttpSessionManager;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.api.WebApplication;
 import java.io.IOException;
 import javax.servlet.Servlet;
@@ -42,8 +40,8 @@ import javax.servlet.http.HttpServletResponse;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the Servlet API.
@@ -62,7 +60,7 @@ public class ServletTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         webApplication = new DefaultWebApplication();
         webApplication.setHttpSessionManager(new DefaultHttpSessionManager());

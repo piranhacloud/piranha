@@ -27,8 +27,9 @@
  */
 package javax.servlet.http;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the HttpUtils class.

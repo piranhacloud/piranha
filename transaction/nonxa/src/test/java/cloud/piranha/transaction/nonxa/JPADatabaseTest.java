@@ -35,7 +35,7 @@ import javax.transaction.Transaction;
 import org.h2.jdbcx.JdbcDataSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * s

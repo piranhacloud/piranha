@@ -28,11 +28,12 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.resource.DirectoryResource;
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.Test;
 
 /**
  * The JUnit tests to test the welcome-file functionality.

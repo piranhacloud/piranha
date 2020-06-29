@@ -33,8 +33,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the MicroPiranha class.
@@ -49,7 +49,7 @@ public class MicroPiranhaTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    @Ignore
+    @Disabled
     public void testStart() throws Exception {
         System.setProperty("java.naming.factory.initial", "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
         final MicroPiranha piranha = new MicroPiranha();
@@ -75,7 +75,7 @@ public class MicroPiranhaTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    @Ignore
+    @Disabled
     public void testChangingPort() throws Exception {
         System.setProperty("java.naming.factory.initial", "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
         final MicroPiranha piranha = new MicroPiranha();

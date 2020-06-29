@@ -33,8 +33,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * The integration test for the MicroPiranha class.
@@ -49,7 +49,7 @@ public class MicroPiranhaIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    @Ignore
+    @Disabled
     public void testCommandLine() throws Exception {
         String version = System.getProperty("VERSION");
         ProcessBuilder builder = new ProcessBuilder();

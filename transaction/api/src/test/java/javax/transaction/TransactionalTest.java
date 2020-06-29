@@ -29,7 +29,7 @@ package javax.transaction;
 import javax.transaction.Transactional.TxType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the Transaction class.

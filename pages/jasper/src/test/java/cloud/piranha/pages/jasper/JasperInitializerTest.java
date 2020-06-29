@@ -29,9 +29,10 @@ package cloud.piranha.pages.jasper;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.resource.DirectoryResource;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.util.HashSet;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the JasperInitializer.

@@ -33,8 +33,9 @@ import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.Test;
+
 import cloud.piranha.webapp.api.WebApplicationExtension;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the EmbeddedPiranha class.

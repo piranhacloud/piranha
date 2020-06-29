@@ -28,7 +28,7 @@
 package cloud.piranha.nano;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * THe JUnit tests for the NanoFilterConfig class.

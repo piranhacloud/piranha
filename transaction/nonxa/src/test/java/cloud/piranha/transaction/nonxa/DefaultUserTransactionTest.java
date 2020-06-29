@@ -30,7 +30,7 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.Status;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the DefaultUserTransaction class.

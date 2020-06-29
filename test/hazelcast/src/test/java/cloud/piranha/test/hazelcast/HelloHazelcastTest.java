@@ -36,7 +36,7 @@ import cloud.piranha.faces.mojarra.MojarraInitializer;
 import cloud.piranha.session.hazelcast.HazelcastHttpSessionManager;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the Hello Hazelcast web application.

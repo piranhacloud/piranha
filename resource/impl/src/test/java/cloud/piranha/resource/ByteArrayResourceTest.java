@@ -27,12 +27,13 @@
  */
 package cloud.piranha.resource;
 
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayInputStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the ByteArrayResource class.

@@ -28,7 +28,7 @@
 package javax.servlet.http;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the HttpServletResponse class.

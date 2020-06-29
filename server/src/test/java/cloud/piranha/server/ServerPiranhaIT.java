@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import static org.junit.jupiter.api.Assertions.fail;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit integration tests for ServerPiranha class.

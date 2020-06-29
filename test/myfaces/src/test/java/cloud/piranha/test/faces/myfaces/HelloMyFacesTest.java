@@ -35,7 +35,7 @@ import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.faces.myfaces.MyFacesInitializer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the MyFaces web application.

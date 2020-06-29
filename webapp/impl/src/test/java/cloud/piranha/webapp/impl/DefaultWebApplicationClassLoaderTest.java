@@ -29,7 +29,7 @@ package cloud.piranha.webapp.impl;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the DefaultWebApplicationClassLoader.

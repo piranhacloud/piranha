@@ -30,7 +30,7 @@ package javax.servlet;
 import javax.servlet.http.TestHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the ServletRequestEvent class.

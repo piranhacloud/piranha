@@ -27,11 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
-import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
-import cloud.piranha.webapp.impl.DefaultSecurityManager;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -45,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the DefaultWebApplicationRequest class.

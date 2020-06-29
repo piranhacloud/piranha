@@ -34,10 +34,10 @@ import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.webapp.webxml.WebXmlExtension;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the HelloServlet class.

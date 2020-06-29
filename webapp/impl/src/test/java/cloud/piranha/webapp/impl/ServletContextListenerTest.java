@@ -27,11 +27,11 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import org.junit.jupiter.api.Test;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.Test;
 
 /**
  * The JUnit tests for testing everything related to the ServletContextListener

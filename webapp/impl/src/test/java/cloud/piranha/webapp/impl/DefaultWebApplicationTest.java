@@ -29,12 +29,6 @@ package cloud.piranha.webapp.impl;
 
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.resource.api.Resource;
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
-import cloud.piranha.webapp.impl.DefaultSecurityManager;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultMimeTypeManager;
-import cloud.piranha.webapp.impl.DefaultServlet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -59,7 +53,7 @@ import javax.servlet.ServletRequestListener;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.http.HttpServletRequest;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the DefaultWebApplication class.

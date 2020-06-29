@@ -26,6 +26,8 @@
  */
 package cloud.piranha.transaction.nonxa;
 
+import org.junit.jupiter.api.Test;
+
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.InvalidTransactionException;
@@ -34,7 +36,6 @@ import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.xa.XAResource;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the DefaultTransactionManager class.

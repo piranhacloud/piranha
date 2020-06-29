@@ -27,15 +27,11 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
-import cloud.piranha.webapp.impl.DefaultMultiPartManager;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.util.Collection;
-import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the DefaultMultiPartManager.

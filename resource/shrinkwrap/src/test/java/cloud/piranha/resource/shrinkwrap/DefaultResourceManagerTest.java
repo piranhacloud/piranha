@@ -35,7 +35,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.api.Resource;

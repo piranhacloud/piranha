@@ -27,10 +27,11 @@
  */
 package javax.servlet;
 
+import org.junit.jupiter.api.Test;
+
 import java.lang.annotation.Annotation;
 import javax.servlet.annotation.MultipartConfig;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the MultipartConfigElement class.

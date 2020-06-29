@@ -31,8 +31,8 @@ import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for testing everything related to the HttpServletRequest API.
@@ -51,7 +51,7 @@ public class HttpServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         httpServletRequest = new TestWebApplicationRequest();
     }

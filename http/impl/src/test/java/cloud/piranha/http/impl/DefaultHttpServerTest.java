@@ -30,6 +30,8 @@ package cloud.piranha.http.impl;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerTest;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -37,7 +39,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the DefaultHttpServer class.
