@@ -91,7 +91,7 @@ public class NanoRequestTest {
     @Test
     public void testGetContextPath() throws Exception {
         NanoRequest request = new NanoRequest();
-        assertEquals("", request.getContextPath());
+        assertEquals(request.getContextPath(), "");
     }
 
     /**
@@ -109,7 +109,7 @@ public class NanoRequestTest {
     @Test
     public void testGetDateHeader() {
         NanoRequest request = new NanoRequest();
-        assertEquals(-1, request.getDateHeader("header"));
+        assertEquals(request.getDateHeader("header"), -1);
     }
 
     /**
@@ -156,7 +156,7 @@ public class NanoRequestTest {
     @Test
     public void testGetIntHeader() {
         NanoRequest request = new NanoRequest();
-        assertEquals(-1, request.getIntHeader("header"));
+        assertEquals(request.getIntHeader("header"), -1);
     }
 
     /**
@@ -212,7 +212,7 @@ public class NanoRequestTest {
     @Test
     public void testGetProtocol() {
         NanoRequest request = new NanoRequest();
-        assertEquals("HTTP/1.1", request.getProtocol());
+        assertEquals(request.getProtocol(), "HTTP/1.1");
     }
 
     /**
@@ -259,7 +259,7 @@ public class NanoRequestTest {
     @Test
     public void testGetScheme() {
         NanoRequest request = new NanoRequest();
-        assertEquals("http", request.getScheme());
+        assertEquals(request.getScheme(), "http");
     }
 
     /**
@@ -268,7 +268,7 @@ public class NanoRequestTest {
     @Test
     public void testGetServletPath() {
         NanoRequest request = new NanoRequest();
-        assertEquals("", request.getServletPath());
+        assertEquals(request.getServletPath(), "");
     }
 
     /**

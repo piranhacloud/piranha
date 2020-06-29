@@ -99,7 +99,7 @@ public abstract class HttpServerTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765")).header("name", "value1").build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-            assertEquals(200, response.statusCode());
+            assertEquals(response.statusCode(), 200);
             String body = response.body();
             assertTrue(body.contains("name"));
             assertTrue(body.contains("value1"));
@@ -123,7 +123,7 @@ public abstract class HttpServerTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/pom.xml")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-            assertEquals(200, response.statusCode());
+            assertEquals(response.statusCode(), 200);
             String responseText = response.body();
             assertTrue(responseText.contains("modelVersion"));
         } catch (IOException ioe) {
@@ -146,7 +146,7 @@ public abstract class HttpServerTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/this_is_certainly_not_there")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
-            assertEquals(404, response.statusCode());
+            assertEquals(response.statusCode(), 404);
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         } finally {
@@ -181,7 +181,7 @@ public abstract class HttpServerTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-            assertEquals(200, response.statusCode());
+            assertEquals(response.statusCode(), 200);
             String body = response.body();
             assertTrue(body.contains("127.0.0.1"));
         } catch (IOException | InterruptedException e) {
@@ -218,7 +218,7 @@ public abstract class HttpServerTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/?name=value")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-            assertEquals(200, response.statusCode());
+            assertEquals(response.statusCode(), 200);
             String body = response.body();
             assertTrue(body.contains("value"));
         } catch (IOException | InterruptedException e) {
@@ -255,7 +255,7 @@ public abstract class HttpServerTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/?name=value&name=value2")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(200, response.statusCode());
+            assertEquals(response.statusCode(), 200);
             String body = response.body();
             assertTrue(body.contains("value"));
             assertFalse(body.contains("value2"));
@@ -293,7 +293,7 @@ public abstract class HttpServerTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/?name=value")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-            assertEquals(200, response.statusCode());
+            assertEquals(response.statusCode(), 200);
             String body = response.body();
             assertTrue(body.contains("name=value"));
         } catch (IOException | InterruptedException e) {
@@ -316,7 +316,7 @@ public abstract class HttpServerTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
-            assertEquals(200, response.statusCode());
+            assertEquals(response.statusCode(), 200);
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         } finally {
@@ -337,7 +337,7 @@ public abstract class HttpServerTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
-            assertEquals(200, response.statusCode());
+            assertEquals(response.statusCode(), 200);
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         } finally {

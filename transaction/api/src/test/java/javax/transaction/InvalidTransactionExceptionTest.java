@@ -44,7 +44,7 @@ public class InvalidTransactionExceptionTest {
     @Test
     public void testGetMessage() {
         InvalidTransactionException exception = new InvalidTransactionException("message");
-        assertEquals("message", exception.getMessage());
+        assertEquals(exception.getMessage(), "message");
     }    
     /**
      * Test getMessage method.

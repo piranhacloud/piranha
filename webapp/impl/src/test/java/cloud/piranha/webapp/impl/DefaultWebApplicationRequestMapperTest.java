@@ -63,7 +63,7 @@ public class DefaultWebApplicationRequestMapperTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setBodyOnly(true);
         webApp.service(request, response);
-        assertEquals("ECHO", new String(response.getResponseBytes()));
+        assertEquals(new String(response.getResponseBytes()), "ECHO");
     }
 
     /**
@@ -85,7 +85,7 @@ public class DefaultWebApplicationRequestMapperTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setBodyOnly(true);
         webApp.service(request, response);
-        assertEquals("ECHO", new String(response.getResponseBytes()));
+        assertEquals(new String(response.getResponseBytes()), "ECHO");
     }
 
     /**
@@ -132,7 +132,7 @@ public class DefaultWebApplicationRequestMapperTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setBodyOnly(true);
         webApp.service(request, response);
-        assertEquals("ECHO", new String(response.getResponseBytes()));
+        assertEquals(new String(response.getResponseBytes()), "ECHO");
     }
 
     /**
@@ -154,7 +154,7 @@ public class DefaultWebApplicationRequestMapperTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setBodyOnly(true);
         webApp.service(request, response);
-        assertEquals("ECHO", new String(response.getResponseBytes()));
+        assertEquals(new String(response.getResponseBytes()), "ECHO");
     }
 
     /**

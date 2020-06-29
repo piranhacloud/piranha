@@ -48,7 +48,7 @@ public class ByteArrayResourceTest {
     @Test
     public void testGetAllLocations() {
         ByteArrayResource resource = new ByteArrayResource("mylocation", null);
-        assertEquals(1, resource.getAllLocations().count());
+        assertEquals(resource.getAllLocations().count(), 1);
     }
     
     /**

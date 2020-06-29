@@ -63,7 +63,7 @@ public class HelloVaadinTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(response.getResponseAsString().contains("Vaadin"));
         piranha.stop()
                 .destroy();

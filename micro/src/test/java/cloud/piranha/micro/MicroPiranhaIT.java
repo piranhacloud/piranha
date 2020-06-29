@@ -58,7 +58,7 @@ public class MicroPiranhaIT {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8080/")).build();
         HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(404, response.statusCode());
+        assertEquals(response.statusCode(), 404);
         process.destroyForcibly();
     }
 }

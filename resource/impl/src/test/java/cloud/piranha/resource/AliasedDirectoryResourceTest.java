@@ -100,7 +100,7 @@ public class AliasedDirectoryResourceTest {
     @Test
     public void testGetAlias() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource(null, "/alias");
-        assertEquals("/alias", resource.getAlias());
+        assertEquals(resource.getAlias(), "/alias");
     }
 
     /**

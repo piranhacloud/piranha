@@ -65,7 +65,7 @@ public class JspWriterTest {
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
         piranha.stop().destroy();
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertFalse(response.getResponseAsString().contains("Test FAILED"));
         assertTrue(response.getResponseAsString().contains("Test PASSED"));
     }
@@ -88,7 +88,7 @@ public class JspWriterTest {
         try {
             piranha.service(request, response);
         } catch (IOException ioe) {
-            assertEquals("Stream closed", ioe.getMessage());
+            assertEquals(ioe.getMessage(), "Stream closed");
         }
         piranha.stop().destroy();
     }
@@ -111,7 +111,7 @@ public class JspWriterTest {
         try {
             piranha.service(request, response);
         } catch (IOException ioe) {
-            assertEquals("Stream closed", ioe.getMessage());
+            assertEquals(ioe.getMessage(), "Stream closed");
         }
         piranha.stop().destroy();
     }
@@ -153,7 +153,7 @@ public class JspWriterTest {
         try {
             piranha.service(request, response);
         } catch (IOException ioe) {
-            assertEquals("Stream closed", ioe.getMessage());
+            assertEquals(ioe.getMessage(), "Stream closed");
         }
         WebApplication webApplication = piranha.getWebApplication();
         assertNotNull(webApplication.getAttribute("flush.exception"));

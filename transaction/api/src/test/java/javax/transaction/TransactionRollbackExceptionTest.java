@@ -43,7 +43,7 @@ public class TransactionRollbackExceptionTest {
     @Test
     public void testGetMessage() {
         TransactionRolledbackException exception = new TransactionRolledbackException("message");
-        assertEquals("message", exception.getMessage());
+        assertEquals(exception.getMessage(), "message");
     }    
     /**
      * Test getMessage method.

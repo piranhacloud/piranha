@@ -60,7 +60,7 @@ public class HttpServletResponseWrapperTest {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.addDateHeader("date", 0);
-        assertEquals("0", wrapped.getHeader("date"));
+        assertEquals(wrapped.getHeader("date"), "0");
     }
 
     /**
@@ -71,7 +71,7 @@ public class HttpServletResponseWrapperTest {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.addHeader("header", "value");
-        assertEquals("value", wrapped.getHeader("header"));
+        assertEquals(wrapped.getHeader("header"), "value");
     }
 
     /**
@@ -82,7 +82,7 @@ public class HttpServletResponseWrapperTest {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.addIntHeader("int", 1);
-        assertEquals("1", wrapper.getHeader("int"));
+        assertEquals(wrapper.getHeader("int"), "1");
     }
 
     /**
@@ -103,7 +103,7 @@ public class HttpServletResponseWrapperTest {
     public void testEncodeRedirectURL() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
-        assertEquals("url", wrapper.encodeRedirectURL("url"));
+        assertEquals(wrapper.encodeRedirectURL("url"), "url");
     }
 
     /**
@@ -123,7 +123,7 @@ public class HttpServletResponseWrapperTest {
     public void testEncodeURL() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
-        assertEquals("url", wrapper.encodeURL("url"));
+        assertEquals(wrapper.encodeURL("url"), "url");
     }
 
     /**
@@ -145,7 +145,7 @@ public class HttpServletResponseWrapperTest {
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.addIntHeader("int", 1);
         assertNotNull(wrapper.getHeaders("int"));
-        assertEquals(1, wrapper.getHeaders("int").size());
+        assertEquals(wrapper.getHeaders("int").size(), 1);
     }
 
     /**
@@ -157,7 +157,7 @@ public class HttpServletResponseWrapperTest {
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.addIntHeader("int", 1);
         assertNotNull(wrapper.getHeaderNames());
-        assertEquals(1, wrapper.getHeaderNames().size());
+        assertEquals(wrapper.getHeaderNames().size(), 1);
     }
 
     /**
@@ -167,7 +167,7 @@ public class HttpServletResponseWrapperTest {
     public void testGetStatus() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
-        assertEquals(200, wrapper.getStatus());
+        assertEquals(wrapper.getStatus(), 200);
     }
 
     /**
@@ -183,7 +183,7 @@ public class HttpServletResponseWrapperTest {
         outputStream.setResponse(wrapped);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.sendError(400);
-        assertEquals(400, wrapper.getStatus());
+        assertEquals(wrapper.getStatus(), 400);
     }
 
     /**
@@ -199,7 +199,7 @@ public class HttpServletResponseWrapperTest {
         outputStream.setResponse(wrapped);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.sendError(404, "Not found");
-        assertEquals(404, wrapper.getStatus());
+        assertEquals(wrapper.getStatus(), 404);
     }
 
     /**
@@ -215,7 +215,7 @@ public class HttpServletResponseWrapperTest {
         outputStream.setResponse(wrapped);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.sendRedirect("redirect_urL");
-        assertEquals(302, wrapper.getStatus());
+        assertEquals(wrapper.getStatus(), 302);
     }
 
     /**
@@ -226,7 +226,7 @@ public class HttpServletResponseWrapperTest {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.setDateHeader("date", 0);
-        assertEquals("0", wrapped.getHeader("date"));
+        assertEquals(wrapped.getHeader("date"), "0");
     }
 
     /**
@@ -237,7 +237,7 @@ public class HttpServletResponseWrapperTest {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.setHeader("header", "value");
-        assertEquals("value", wrapped.getHeader("header"));
+        assertEquals(wrapped.getHeader("header"), "value");
     }
 
     /**
@@ -248,7 +248,7 @@ public class HttpServletResponseWrapperTest {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.setIntHeader("date", 0);
-        assertEquals("0", wrapped.getHeader("date"));
+        assertEquals(wrapped.getHeader("date"), "0");
     }
 
     /**
@@ -259,7 +259,7 @@ public class HttpServletResponseWrapperTest {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.setStatus(301);
-        assertEquals(301, wrapped.getStatus());
+        assertEquals(wrapped.getStatus(), 301);
     }
 
     /**

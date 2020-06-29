@@ -50,7 +50,7 @@ public class DefaultServletEnvironmentTest {
         TestSnoopServlet servlet = new TestSnoopServlet();
         DefaultServletEnvironment environment = new DefaultServletEnvironment(null, null, servlet);
         environment.setLoadOnStartup(1);
-        assertEquals(1, environment.getLoadOnStartup());
+        assertEquals(environment.getLoadOnStartup(), 1);
     }
 
     /**

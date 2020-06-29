@@ -62,9 +62,9 @@ public class HttpServletRequestWrapperTest {
         HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(null);
         assertNotNull(wrapper.getHttpServletMapping());
         HttpServletMapping mapping = wrapper.getHttpServletMapping();
-        assertEquals("", mapping.getMatchValue());
-        assertEquals("", mapping.getPattern());
-        assertEquals("", mapping.getServletName());
+        assertEquals(mapping.getMatchValue(), "");
+        assertEquals(mapping.getPattern(), "");
+        assertEquals(mapping.getServletName(), "");
         assertNull(mapping.getMappingMatch());
     }
     

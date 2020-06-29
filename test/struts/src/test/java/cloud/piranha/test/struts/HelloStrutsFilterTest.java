@@ -66,7 +66,7 @@ public class HelloStrutsFilterTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(response.getResponseAsString().contains("Hello World Struts"));
         piranha.stop()
                 .destroy();

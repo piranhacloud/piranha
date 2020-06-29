@@ -65,7 +65,7 @@ public class DefaultUserTransactionTest {
                 new DefaultTransactionManager());
         transaction.begin();
         transaction.commit();
-        assertEquals(Status.STATUS_NO_TRANSACTION, transaction.getStatus());
+        assertEquals(transaction.getStatus(), Status.STATUS_NO_TRANSACTION);
     }
 
     /**
@@ -91,7 +91,7 @@ public class DefaultUserTransactionTest {
     public void testGetStatus() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
-        assertEquals(Status.STATUS_NO_TRANSACTION, transaction.getStatus());
+        assertEquals(transaction.getStatus(), Status.STATUS_NO_TRANSACTION);
     }
 
     /**
@@ -104,7 +104,7 @@ public class DefaultUserTransactionTest {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
-        assertEquals(Status.STATUS_ACTIVE, transaction.getStatus());
+        assertEquals(transaction.getStatus(), Status.STATUS_ACTIVE);
     }
 
     /**

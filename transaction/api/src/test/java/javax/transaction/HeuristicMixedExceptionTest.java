@@ -42,7 +42,7 @@ public class HeuristicMixedExceptionTest {
     @Test
     public void testGetMessage() {
         HeuristicMixedException exception = new HeuristicMixedException("message");
-        assertEquals("message", exception.getMessage());
+        assertEquals(exception.getMessage(), "message");
     }    
     /**
      * Test getMessage method.

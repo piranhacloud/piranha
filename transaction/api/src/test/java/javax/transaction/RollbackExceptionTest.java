@@ -43,7 +43,7 @@ public class RollbackExceptionTest {
     @Test
     public void testGetMessage() {
         RollbackException exception = new RollbackException("message");
-        assertEquals("message", exception.getMessage());
+        assertEquals(exception.getMessage(), "message");
     }    
     /**
      * Test getMessage method.

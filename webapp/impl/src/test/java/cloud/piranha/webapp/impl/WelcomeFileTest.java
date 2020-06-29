@@ -61,7 +61,7 @@ public class WelcomeFileTest {
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(byteOutput.toString().contains("index.html"));
         webApp.stop();
     }
@@ -87,7 +87,7 @@ public class WelcomeFileTest {
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(byteOutput.toString().contains("custom.html"));
         webApp.stop();
     }

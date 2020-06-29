@@ -43,7 +43,7 @@ public class TransactionRequiredExceptionTest {
     @Test
     public void testGetMessage() {
         TransactionRequiredException exception = new TransactionRequiredException("message");
-        assertEquals("message", exception.getMessage());
+        assertEquals(exception.getMessage(), "message");
     }    
     /**
      * Test getMessage method.

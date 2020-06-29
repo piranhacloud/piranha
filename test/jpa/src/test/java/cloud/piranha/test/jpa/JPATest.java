@@ -75,7 +75,7 @@ public class JPATest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(response.getResponseAsString().contains("Count: 0"));
         piranha.stop()
                 .destroy();

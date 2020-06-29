@@ -47,6 +47,6 @@ public class EmbeddedTest {
         Embedded embedded = new Embedded();
         String result = embedded.execute();
         assertNotNull(result);
-        assertEquals(0, result.length());
+        assertEquals(result.length(), 0);
     }
 }

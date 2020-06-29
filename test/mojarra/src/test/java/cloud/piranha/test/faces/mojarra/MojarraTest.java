@@ -66,7 +66,7 @@ public class MojarraTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(404, response.getStatus());
+        assertEquals(response.getStatus(), 404);
         piranha.stop()
                 .destroy();
     }
@@ -89,7 +89,7 @@ public class MojarraTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(response.getResponseAsString().contains("Hello Jakarta Faces"));
         piranha.stop()
                 .destroy();

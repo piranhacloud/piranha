@@ -43,7 +43,7 @@ public class HeuristicRollbackExceptionTest {
     @Test
     public void testGetMessage() {
         HeuristicRollbackException exception = new HeuristicRollbackException("message");
-        assertEquals("message", exception.getMessage());
+        assertEquals(exception.getMessage(), "message");
     }    
     /**
      * Test getMessage method.

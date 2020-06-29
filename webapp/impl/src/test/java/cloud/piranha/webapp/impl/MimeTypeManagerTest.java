@@ -60,7 +60,7 @@ public class MimeTypeManagerTest {
     public void testAddMimeType() {
         assertNull(manager.getMimeType("my.class"));
         manager.addMimeType("class", "application/x-java-class");
-        assertEquals("application/x-java-class", manager.getMimeType("my.class"));
+        assertEquals(manager.getMimeType("my.class"), "application/x-java-class");
     }
     
     /**
@@ -68,7 +68,7 @@ public class MimeTypeManagerTest {
      */
     @Test
     public void testGetMimeType() {
-        assertEquals("text/css", manager.getMimeType("TEST.CSS"));
-        assertEquals("text/javascript", manager.getMimeType("TEST.JS"));
+        assertEquals(manager.getMimeType("TEST.CSS"), "text/css");
+        assertEquals(manager.getMimeType("TEST.JS"), "text/javascript");
     }
 }
