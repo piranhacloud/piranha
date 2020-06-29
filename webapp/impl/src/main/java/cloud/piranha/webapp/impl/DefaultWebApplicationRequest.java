@@ -820,7 +820,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (!gotInputStream) {
             gotReader = true;
             if (reader == null) {
-                reader = new BufferedReader(new InputStreamReader(inputStream));
+                reader = new BufferedReader(new InputStreamReader(this));
             }
         } else {
             throw new IllegalStateException("Cannot getReader because getInputStream has been previously called");
