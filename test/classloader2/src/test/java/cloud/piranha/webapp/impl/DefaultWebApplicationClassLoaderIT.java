@@ -30,7 +30,7 @@ package cloud.piranha.webapp.impl;
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DirectoryResource;
 import java.io.File;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.Test;
 
 /**

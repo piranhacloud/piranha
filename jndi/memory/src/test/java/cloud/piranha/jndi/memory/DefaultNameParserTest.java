@@ -29,7 +29,7 @@ package cloud.piranha.jndi.memory;
 
 import javax.naming.Name;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the DefaultNameParser class.

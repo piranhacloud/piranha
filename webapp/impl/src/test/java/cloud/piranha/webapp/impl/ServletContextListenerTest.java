@@ -30,7 +30,7 @@ package cloud.piranha.webapp.impl;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.Test;
 
 /**

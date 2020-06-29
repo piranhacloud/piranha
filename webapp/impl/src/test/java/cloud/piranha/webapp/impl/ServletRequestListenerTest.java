@@ -32,7 +32,7 @@ import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.api.WebApplication;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 

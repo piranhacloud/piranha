@@ -29,7 +29,7 @@ package cloud.piranha.transaction.nonxa;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.Status;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.Test;
 
 /**

@@ -29,7 +29,7 @@ package javax.servlet;
 
 import javax.servlet.http.TestHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.Test;
 
 /**

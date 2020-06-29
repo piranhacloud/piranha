@@ -29,7 +29,7 @@ package cloud.piranha.resource;
 
 import cloud.piranha.resource.JarResource;
 import java.io.File;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.Test;
 
 /**

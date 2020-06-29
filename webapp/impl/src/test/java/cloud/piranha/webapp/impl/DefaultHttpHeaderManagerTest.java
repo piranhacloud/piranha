@@ -31,7 +31,7 @@ import cloud.piranha.webapp.impl.DefaultHttpHeaderManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.Test;
 
 /**

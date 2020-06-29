@@ -33,8 +33,8 @@ import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.Test;
 
 /**
