@@ -30,12 +30,6 @@ package cloud.piranha.webapp.impl;
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DirectoryResource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.File;
 import java.util.Date;
 import java.util.EnumSet;
@@ -54,6 +48,8 @@ import javax.servlet.SessionTrackingMode;
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the DefaultWebApplication class.
@@ -534,10 +530,10 @@ public class DefaultWebApplicationTest {
         assertTrue(resourcePathsCatalogOffers.contains("/catalog/offers/music.html"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetResourcePaths3() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getResourcePaths("");
+        assertThrows(IllegalArgumentException.class, () -> webApp.getResourcePaths(""));
     }
 
     @Test
@@ -599,11 +595,11 @@ public class DefaultWebApplicationTest {
      *
      * @throws Exception
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     @SuppressWarnings("deprecation")
     public void testGetServlet() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getServlet("always_null");
+        assertThrows(UnsupportedOperationException.class, () -> webApp.getServlet("always_null"));
     }
 
     /**
@@ -630,21 +626,21 @@ public class DefaultWebApplicationTest {
     /**
      * Test getServletNames method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     @SuppressWarnings("deprecation")
     public void testGetServletNames() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getServletNames();
+        assertThrows(UnsupportedOperationException.class, () -> webApp.getServletNames());
     }
 
     /**
      * Test getServlets method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     @SuppressWarnings("deprecation")
     public void testGetServlets() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getServlets();
+        assertThrows(UnsupportedOperationException.class, () -> webApp.getServlets());
     }
 
     /**
@@ -824,11 +820,11 @@ public class DefaultWebApplicationTest {
     /**
      * Test log method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     @SuppressWarnings("deprecation")
     public void testLog2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.log(new IllegalStateException(), "TEST");
+        assertThrows(UnsupportedOperationException.class, () -> webApp.log(new IllegalStateException(), "TEST"));
     }
 
     /**
@@ -988,21 +984,21 @@ public class DefaultWebApplicationTest {
     /**
      * Test setInitParameter method.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testSetInitParameter2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.initialize();
         webApp.start();
-        webApp.setInitParameter("name", "value");
+        assertThrows(IllegalStateException.class, () -> webApp.setInitParameter("name", "value"));
     }
 
     /**
      * Test setLoggingManager method.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testSetLoggingManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setLoggingManager(null);
-        webApp.log("KABOOM");
+        assertThrows(NullPointerException.class, () -> webApp.log("KABOOM"));
     }
 }

@@ -34,10 +34,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for testing everything related to the HttpServletResponse
@@ -81,14 +82,14 @@ public class HttpServletResponseTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testRedirect() throws Exception {
         webApplication.addServlet("Servlet", TestRedirectAfterFlushServlet.class);
         webApplication.addServletMapping("Servlet", "/servlet");
         request.setServletPath("/servlet");
         webApplication.initialize();
         webApplication.start();
-        webApplication.service(request, response);
+        assertThrows(IllegalStateException.class, () -> webApplication.service(request, response));
     }
 
     /**

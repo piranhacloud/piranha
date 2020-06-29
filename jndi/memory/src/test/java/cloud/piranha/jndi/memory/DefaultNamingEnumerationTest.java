@@ -30,9 +30,10 @@ package cloud.piranha.jndi.memory;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import javax.naming.NameClassPair;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the DefaultNamingEnumeration class.
@@ -77,10 +78,10 @@ public class DefaultNamingEnumerationTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void testNext() throws Exception {
         DefaultNamingEnumeration enumeration = new DefaultNamingEnumeration(new ArrayList<>());
-        enumeration.next();
+        assertThrows(NoSuchElementException.class, enumeration::next);
     }
 
     /**
@@ -102,9 +103,9 @@ public class DefaultNamingEnumerationTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void testNextElement() throws Exception {
         DefaultNamingEnumeration enumeration = new DefaultNamingEnumeration(new ArrayList<>());
-        enumeration.nextElement();
+        assertThrows(NoSuchElementException.class, enumeration::nextElement);
     }
 }

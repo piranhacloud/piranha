@@ -31,12 +31,10 @@ import cloud.piranha.webapp.impl.DefaultWebApplication;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.WebConnection;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the NanoRequest class.
@@ -50,10 +48,10 @@ public class NanoRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testAuthenticate() throws Exception {
         NanoRequest request = new NanoRequest();
-        request.authenticate(null);
+        assertThrows(NullPointerException.class, () -> request.authenticate(null));
     }
 
     /**
@@ -368,7 +366,7 @@ public class NanoRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = ServletException.class)
+    @Test
     public void testLogin() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         NanoResponse response = new NanoResponse();
@@ -376,7 +374,7 @@ public class NanoRequestTest {
         NanoRequest request = new NanoRequest();
         request.setWebApplication(webApplication);
         webApplication.linkRequestAndResponse(request, response);
-        request.login("username", "password");
+        assertThrows(ServletException.class, () -> request.login("username", "password"));
     }
 
     /**

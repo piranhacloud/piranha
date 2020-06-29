@@ -29,12 +29,10 @@ package cloud.piranha.webapp.impl;
 
 import java.util.Locale;
 import javax.servlet.http.HttpServletResponse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the DefaultWebApplicationResponse class.
@@ -203,11 +201,11 @@ public class DefaultHttpServletResponseTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetOutputStream() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.getWriter();
-        response.getOutputStream();
+        assertThrows(IllegalStateException.class, () -> response.getOutputStream());
     }
 
     /**
@@ -224,11 +222,11 @@ public class DefaultHttpServletResponseTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetWriter() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.getOutputStream();
-        response.getWriter();
+        assertThrows(IllegalStateException.class, () -> response.getWriter());
     }
 
     /**
@@ -261,12 +259,12 @@ public class DefaultHttpServletResponseTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testSendError2() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "error");
         response.flushBuffer();
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        assertThrows(IllegalStateException.class, () -> response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
     }
 
     /**

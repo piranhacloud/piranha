@@ -70,13 +70,13 @@ public class ServletSecurityElementTest {
     /**
      * Test constructor.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructor3() {
         HttpConstraintElement httpConstraintElement = new HttpConstraintElement(ServletSecurity.EmptyRoleSemantic.PERMIT);
         ArrayList<HttpMethodConstraintElement> methodConstraints = new ArrayList<>();
         methodConstraints.add(new HttpMethodConstraintElement("HEAD"));
         methodConstraints.add(new HttpMethodConstraintElement("HEAD"));
-        ServletSecurityElement servletSecurityElement = new ServletSecurityElement(httpConstraintElement, methodConstraints);
+        assertThrows(IllegalArgumentException.class, () -> new ServletSecurityElement(httpConstraintElement, methodConstraints));
     }
 
     /**

@@ -31,12 +31,11 @@ import cloud.piranha.webapp.api.WebApplication;
 import java.util.HashMap;
 import javax.servlet.ServletRegistration;
 import javax.servlet.http.HttpServlet;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for testing everything related to the ServletRegistration
@@ -153,25 +152,25 @@ public class ServletRegistrationTest {
     /**
      * Test setInitParameters method.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetInitParameters2() {
         webApp.addServlet("servlet", TestServlet.class);
         ServletRegistration registration = webApp.getServletRegistration("servlet");
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put(null, null);
-        registration.setInitParameters(parameters);
+        assertThrows(IllegalArgumentException.class, () -> registration.setInitParameters(parameters));
     }
 
     /**
      * Test setInitParameters method.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetInitParameters3() {
         webApp.addServlet("servlet", TestServlet.class);
         ServletRegistration registration = webApp.getServletRegistration("servlet");
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("name", null);
-        registration.setInitParameters(parameters);
+        assertThrows(IllegalArgumentException.class, () -> registration.setInitParameters(parameters));
     }
 
     /**

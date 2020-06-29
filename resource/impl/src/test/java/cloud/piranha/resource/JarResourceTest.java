@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * The JUnit tests for the DefaultJarResource class.
@@ -51,10 +52,10 @@ public class JarResourceTest {
     /**
      * Test getResource method.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetResource2() {
         JarResource resource = new JarResource();
-        assertNull(resource.getResource("we_wont_find_this"));
+        assertThrows(NullPointerException.class, () -> resource.getResource("we_wont_find_this"));
     }
 
     /**

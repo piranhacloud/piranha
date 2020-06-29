@@ -30,6 +30,8 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.Status;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -44,12 +46,12 @@ public class DefaultUserTransactionTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = NotSupportedException.class)
+    @Test
     public void testBegin() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
-        transaction.begin();
+        assertThrows(NotSupportedException.class, transaction::begin);
     }
 
     /**
@@ -71,13 +73,13 @@ public class DefaultUserTransactionTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testCommit2() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
         transaction.commit();
-        transaction.commit();
+        assertThrows(IllegalStateException.class, transaction::commit);
     }
     
     /**
@@ -123,13 +125,13 @@ public class DefaultUserTransactionTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = HeuristicRollbackException.class)
+    @Test
     public void testSetRollbackOnly() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
         transaction.setRollbackOnly();
-        transaction.commit();
+        assertThrows(HeuristicRollbackException.class, transaction::commit);
     }
     
     /**

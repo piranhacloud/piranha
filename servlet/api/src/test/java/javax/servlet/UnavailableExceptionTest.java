@@ -29,8 +29,7 @@ package javax.servlet;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the UnavailableException class.
@@ -51,26 +50,26 @@ public class UnavailableExceptionTest {
     /**
      * Test constructor.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConstructor2() {
-        new UnavailableException(null, "Message");
+        assertThrows(UnsupportedOperationException.class, () -> new UnavailableException(null, "Message"));
     }
 
     /**
      * Test constructor.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConstructor3() {
-        new UnavailableException(100, null, "Message");
+        assertThrows(UnsupportedOperationException.class, () -> new UnavailableException(100, null, "Message"));
     }
 
     /**
      * Test getServlet method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetServlet() {
         UnavailableException exception = new UnavailableException("Unavailable");
-        exception.getServlet();
+        assertThrows(UnsupportedOperationException.class, exception::getServlet);
     }
 
     /**

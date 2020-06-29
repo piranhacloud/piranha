@@ -41,11 +41,11 @@ public class DefaultHttpSessionManagerTest {
     /**
      * Test createSession method.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testCreateSession() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        sessionManager.createSession(webApp, null);
+        assertThrows(NullPointerException.class, () -> sessionManager.createSession(webApp, null));
     }
 
     /**
@@ -102,11 +102,11 @@ public class DefaultHttpSessionManagerTest {
     /**
      * Test getSession method.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetSession() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        sessionManager.getSession(webApp, null, null);
+        assertThrows(NullPointerException.class, () -> sessionManager.getSession(webApp, null, null));
     }
 
     /**

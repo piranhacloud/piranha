@@ -32,6 +32,8 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.ServletRequestListener;
 import javax.servlet.http.HttpSessionListener;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -54,11 +56,11 @@ public class ListenerTest {
     /**
      * Test addListener method.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testAddListener2() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.initialize();
-        webApplication.addListener("ClassNotFoundListener");
+        assertThrows(IllegalStateException.class, () -> webApplication.addListener("ClassNotFoundListener"));
     }
 
     /**
@@ -82,10 +84,10 @@ public class ListenerTest {
     /**
      * Test addListener method.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAddListener5() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addListener(TestInvalidTypeOfListener.class);
+        assertThrows(IllegalArgumentException.class, () -> webApplication.addListener(TestInvalidTypeOfListener.class));
     }
 
     /**
@@ -102,10 +104,10 @@ public class ListenerTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateListener() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.createListener(TestInvalidTypeOfListener.class);
+        assertThrows(IllegalArgumentException.class, () -> webApplication.createListener(TestInvalidTypeOfListener.class));
     }
 
     /**

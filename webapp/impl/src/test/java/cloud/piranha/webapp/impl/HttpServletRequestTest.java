@@ -29,10 +29,11 @@ package cloud.piranha.webapp.impl;
 
 import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for testing everything related to the HttpServletRequest API.
@@ -85,9 +86,9 @@ public class HttpServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedEncodingException.class)
+    @Test
     public void testSetCharacterEncoding3() throws Exception {
-        httpServletRequest.setCharacterEncoding("doesnotexist");
+        assertThrows(UnsupportedEncodingException.class, () -> httpServletRequest.setCharacterEncoding("doesnotexist"));
     }
 
     /**
@@ -95,8 +96,8 @@ public class HttpServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedEncodingException.class)
+    @Test
     public void testSetCharacterEncoding4() throws Exception {
-        httpServletRequest.setCharacterEncoding(null);
+        assertThrows(UnsupportedEncodingException.class, () -> httpServletRequest.setCharacterEncoding(null));
     }
 }

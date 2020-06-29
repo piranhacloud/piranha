@@ -34,13 +34,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.WebConnection;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the DefaultWebApplicationRequest class.
@@ -86,14 +83,14 @@ public class DefaultHttpServletRequestTest {
     /**
      * Test changeSessionId method.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testChangeSessionId() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         webApp.linkRequestAndResponse(request, response);
         request.setWebApplication(webApp);
-        request.changeSessionId();
+        assertThrows(IllegalStateException.class, () -> request.changeSessionId());
     }
 
     /**
@@ -114,10 +111,10 @@ public class DefaultHttpServletRequestTest {
     /**
      * Test getAsyncContext method.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetAsyncContext() {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        request.getAsyncContext();
+        assertThrows(IllegalStateException.class, () -> request.getAsyncContext());
     }
 
     /**
@@ -188,11 +185,11 @@ public class DefaultHttpServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = ServletException.class)
+    @Test
     public void testGetPart() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         request.setContentType("text/html");
-        request.getPart("not_there");
+        assertThrows(ServletException.class, () -> request.getPart("not_there"));
     }
 
     /**
@@ -214,12 +211,12 @@ public class DefaultHttpServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetRealPath() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         request.setWebApplication(webApplication);
-        request.getRealPath("/path");
+        assertThrows(UnsupportedOperationException.class, () -> request.getRealPath("/path"));
     }
 
     /**
@@ -532,26 +529,28 @@ public class DefaultHttpServletRequestTest {
     /**
      * Test startAsync method.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testStartAsync() {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         request.setAsyncSupported(false);
-        request.startAsync(null, null);
+        assertThrows(IllegalStateException.class, () -> request.startAsync(null, null));
     }
 
     /**
      * Test startAsync method.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testStartAsync2() {
-        try {
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setAsyncSupported(false);
-        request.startAsync();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
+        assertThrows(IllegalStateException.class, () -> {
+            try {
+                DefaultWebApplicationRequest request = new TestWebApplicationRequest();
+                request.setAsyncSupported(false);
+                request.startAsync();
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
+        });
     }
 
     /**
@@ -570,10 +569,10 @@ public class DefaultHttpServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = ServletException.class)
+    @Test
     public void testUpgrade2() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        request.upgrade(TestThrowingHandler.class);
+        assertThrows(ServletException.class, () -> request.upgrade(TestThrowingHandler.class));
     }
 
     public static class TestHandler implements HttpUpgradeHandler {

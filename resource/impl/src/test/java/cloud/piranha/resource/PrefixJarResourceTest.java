@@ -28,6 +28,8 @@
 package cloud.piranha.resource;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -40,18 +42,18 @@ public class PrefixJarResourceTest {
     /**
      * Test getResource method.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetResource() {
         PrefixJarResource resource = new PrefixJarResource();
-        assertNull(resource.getResource(null));
+        assertThrows(NullPointerException.class, () -> assertNull(resource.getResource(null)));
     }
 
     /**
      * Test getResource method.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetResource2() {
         PrefixJarResource resource = new PrefixJarResource();
-        assertNull(resource.getResource("we_wont_find_this"));
+        assertThrows(NullPointerException.class, () -> resource.getResource("we_wont_find_this"));
     }
 }

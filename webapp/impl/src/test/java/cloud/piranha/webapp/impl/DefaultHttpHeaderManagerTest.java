@@ -99,11 +99,11 @@ public class DefaultHttpHeaderManagerTest {
     /**
      * Test getDateHeader method.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetDateHeader3() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         manager.addHeader("NAME", "KABOOM");
-        manager.getDateHeader("NAME");
+        assertThrows(IllegalArgumentException.class, () -> manager.getDateHeader("NAME"));
     }
 
     /**
@@ -150,11 +150,11 @@ public class DefaultHttpHeaderManagerTest {
     /**
      * Test getIntHeader method.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetIntHeader2() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         manager.setHeader("NAME", "abcd");
-        assertEquals(1, manager.getIntHeader("NAME"));
+        assertThrows(IllegalArgumentException.class, () -> assertEquals(1, manager.getIntHeader("NAME")));
     }
 
     /**

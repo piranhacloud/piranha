@@ -175,13 +175,13 @@ public class DefaultHttpSessionTest {
      *
      * @throws IllegalStateException when the session is invalid.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testInvalidate2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(new DefaultHttpSessionManager());
         session.invalidate();
-        session.setAttribute("TEST", "TEST");
+        assertThrows(IllegalStateException.class, () -> session.setAttribute("TEST", "TEST"));
     }
 
     /**

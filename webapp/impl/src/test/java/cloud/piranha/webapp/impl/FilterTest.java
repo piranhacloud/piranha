@@ -39,10 +39,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for testing everything related to the addFilter method and
@@ -106,11 +107,11 @@ public class FilterTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testAddFilter4() throws Exception {
         webApp.initialize();
         webApp.start();
-        webApp.addFilter("filter", new TestMultiple1Filter());
+        assertThrows(IllegalStateException.class, () -> webApp.addFilter("filter", new TestMultiple1Filter()));
     }
 
     /**
@@ -136,11 +137,11 @@ public class FilterTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testAddFilter7() throws Exception {
         webApp.initialize();
         webApp.start();
-        webApp.addFilter("filter", "should throw IllegalStateException");
+        assertThrows(IllegalStateException.class, () -> webApp.addFilter("filter", "should throw IllegalStateException"));
     }
 
     /**
@@ -148,10 +149,10 @@ public class FilterTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAddFilter8() throws Exception {
         webApp.initialize();
-        webApp.addFilter(null, "filter name is null so throw IllegalArgumentException");
+        assertThrows(IllegalArgumentException.class, () -> webApp.addFilter(null, "filter name is null so throw IllegalArgumentException"));
     }
 
     /**
@@ -159,10 +160,10 @@ public class FilterTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAddFilter9() throws Exception {
         webApp.initialize();
-        webApp.addFilter(null, Filter.class);
+        assertThrows(IllegalArgumentException.class, () -> webApp.addFilter(null, Filter.class));
     }
 
     /**

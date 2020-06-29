@@ -28,11 +28,10 @@
 package javax.servlet.http;
 
 import javax.servlet.TestServletOutputStream;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the HttpServletResponseWrapper class.
@@ -110,11 +109,11 @@ public class HttpServletResponseWrapperTest {
     /**
      * Test encodeRedirectUrl method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testEncodeRedirectUrl() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
-        wrapper.encodeRedirectUrl("url");
+        assertThrows(UnsupportedOperationException.class, () -> wrapper.encodeRedirectUrl("url"));
     }
 
     /**
@@ -130,11 +129,11 @@ public class HttpServletResponseWrapperTest {
     /**
      * Test encodeRedirectUrl method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testEncodeUrl() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
-        wrapper.encodeUrl("url");
+        assertThrows(UnsupportedOperationException.class, () -> wrapper.encodeUrl("url"));
     }
 
     /**
@@ -266,10 +265,10 @@ public class HttpServletResponseWrapperTest {
     /**
      * Test setStatus method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSetStatus2() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
-        wrapper.setStatus(301, "Moved");
+        assertThrows(UnsupportedOperationException.class, () -> wrapper.setStatus(301, "Moved"));
     }
 }
