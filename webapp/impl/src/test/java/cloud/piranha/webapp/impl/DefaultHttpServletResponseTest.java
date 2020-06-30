@@ -27,16 +27,12 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.util.Locale;
 import javax.servlet.http.HttpServletResponse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the DefaultWebApplicationResponse class.
@@ -52,7 +48,7 @@ public class DefaultHttpServletResponseTest {
     public void testAddDateHeader() {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.addDateHeader("name", 1234);
-        assertEquals("1234", response.getHeader("name"));
+        assertEquals(response.getHeader("name"), "1234");
     }
 
     /**
@@ -62,7 +58,7 @@ public class DefaultHttpServletResponseTest {
     public void testAddIntHeader() {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.addIntHeader("name", 1234);
-        assertEquals("1234", response.getHeader("name"));
+        assertEquals(response.getHeader("name"), "1234");
     }
 
     /**
@@ -137,9 +133,9 @@ public class DefaultHttpServletResponseTest {
     @Test
     public void testGetCharacterEncoding() {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        assertEquals("ISO-8859-1", response.getCharacterEncoding());
+        assertEquals(response.getCharacterEncoding(), "ISO-8859-1");
         response.setCharacterEncoding("UTF-8");
-        assertEquals("UTF-8", response.getCharacterEncoding());
+        assertEquals(response.getCharacterEncoding(), "UTF-8");
     }
 
     /**
@@ -150,7 +146,7 @@ public class DefaultHttpServletResponseTest {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertNull(response.getContentType());
         response.setContentType("text/html");
-        assertEquals("text/html", response.getContentType());
+        assertEquals(response.getContentType(), "text/html");
     }
 
     /**
@@ -161,8 +157,8 @@ public class DefaultHttpServletResponseTest {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertNull(response.getContentType());
         response.setContentType("text/html;charset=UTF-8");
-        assertEquals("text/html", response.getContentType());
-        assertEquals("UTF-8", response.getCharacterEncoding());
+        assertEquals(response.getContentType(), "text/html");
+        assertEquals(response.getCharacterEncoding(), "UTF-8");
     }
 
     /**
@@ -197,7 +193,7 @@ public class DefaultHttpServletResponseTest {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertNull(response.getLocale());
         response.setLocale(Locale.ITALIAN);
-        assertEquals(Locale.ITALIAN, response.getLocale());
+        assertEquals(response.getLocale(), Locale.ITALIAN);
     }
 
     /**
@@ -205,11 +201,11 @@ public class DefaultHttpServletResponseTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetOutputStream() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.getWriter();
-        response.getOutputStream();
+        assertThrows(IllegalStateException.class, () -> response.getOutputStream());
     }
 
     /**
@@ -226,11 +222,11 @@ public class DefaultHttpServletResponseTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetWriter() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.getOutputStream();
-        response.getWriter();
+        assertThrows(IllegalStateException.class, () -> response.getWriter());
     }
 
     /**
@@ -240,7 +236,7 @@ public class DefaultHttpServletResponseTest {
     public void testReset() {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.reset();
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
     }
 
     /**
@@ -253,8 +249,8 @@ public class DefaultHttpServletResponseTest {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "error");
         response.flushBuffer();
-        assertEquals(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, response.getStatus());
-        assertEquals("error", response.getStatusMessage());
+        assertEquals(response.getStatus(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        assertEquals(response.getStatusMessage(), "error");
         assertTrue(response.isCommitted());
     }
 
@@ -263,12 +259,12 @@ public class DefaultHttpServletResponseTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testSendError2() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "error");
         response.flushBuffer();
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        assertThrows(IllegalStateException.class, () -> response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
     }
 
     /**
@@ -278,7 +274,7 @@ public class DefaultHttpServletResponseTest {
     public void testSetContentLength() {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setContentLength(12);
-        assertEquals(12, response.getContentLength());
+        assertEquals(response.getContentLength(), 12);
     }
 
     /**
@@ -288,7 +284,7 @@ public class DefaultHttpServletResponseTest {
     public void testSetContentLength2() {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setContentLengthLong(12L);
-        assertEquals(12, response.getContentLength());
+        assertEquals(response.getContentLength(), 12);
     }
 
     /**
@@ -305,8 +301,8 @@ public class DefaultHttpServletResponseTest {
     public void testContentTypeHeader() throws Exception {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setContentType("text/html");
-        assertEquals("text/html", response.getContentType());
-        assertEquals("ISO-8859-1", response.getCharacterEncoding());
+        assertEquals(response.getContentType(), "text/html");
+        assertEquals(response.getCharacterEncoding(), "ISO-8859-1");
 
         response.setBodyOnly(false);
         response.flushBuffer();
@@ -319,8 +315,8 @@ public class DefaultHttpServletResponseTest {
     public void testContentTypeHeader2() throws Exception {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setContentType("text/html;charset=UTF-8");
-        assertEquals("text/html", response.getContentType());
-        assertEquals("UTF-8", response.getCharacterEncoding());
+        assertEquals(response.getContentType(), "text/html");
+        assertEquals(response.getCharacterEncoding(), "UTF-8");
 
         response.setBodyOnly(false);
         response.flushBuffer();

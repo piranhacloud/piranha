@@ -27,8 +27,8 @@
  */
 package javax.servlet;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the HttpMethodConstraintElement class.
@@ -43,7 +43,7 @@ public class HttpMethodConstraintElementTest {
     @Test
     public void testGetMethodName() {
         HttpMethodConstraintElement element = new HttpMethodConstraintElement("methodName");
-        assertEquals("methodName", element.getMethodName());
+        assertEquals(element.getMethodName(), "methodName");
     }
 
     /**
@@ -52,6 +52,6 @@ public class HttpMethodConstraintElementTest {
     @Test
     public void testGetMethodName2() {
         HttpMethodConstraintElement element = new HttpMethodConstraintElement("methodName", new HttpConstraintElement());
-        assertEquals("methodName", element.getMethodName());
+        assertEquals(element.getMethodName(), "methodName");
     }
 }

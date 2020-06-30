@@ -27,18 +27,15 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapping;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The tests for the ServletRequestMapper class.
@@ -66,7 +63,7 @@ public class DefaultWebApplicationRequestMapperTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setBodyOnly(true);
         webApp.service(request, response);
-        assertEquals("ECHO", new String(response.getResponseBytes()));
+        assertEquals(new String(response.getResponseBytes()), "ECHO");
     }
 
     /**
@@ -88,7 +85,7 @@ public class DefaultWebApplicationRequestMapperTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setBodyOnly(true);
         webApp.service(request, response);
-        assertEquals("ECHO", new String(response.getResponseBytes()));
+        assertEquals(new String(response.getResponseBytes()), "ECHO");
     }
 
     /**
@@ -135,7 +132,7 @@ public class DefaultWebApplicationRequestMapperTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setBodyOnly(true);
         webApp.service(request, response);
-        assertEquals("ECHO", new String(response.getResponseBytes()));
+        assertEquals(new String(response.getResponseBytes()), "ECHO");
     }
 
     /**
@@ -157,7 +154,7 @@ public class DefaultWebApplicationRequestMapperTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setBodyOnly(true);
         webApp.service(request, response);
-        assertEquals("ECHO", new String(response.getResponseBytes()));
+        assertEquals(new String(response.getResponseBytes()), "ECHO");
     }
 
     /**

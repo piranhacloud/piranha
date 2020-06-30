@@ -31,10 +31,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * The integration test for the MicroPiranha class.
@@ -49,7 +49,7 @@ public class MicroPiranhaIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    @Ignore
+    @Disabled
     public void testCommandLine() throws Exception {
         String version = System.getProperty("VERSION");
         ProcessBuilder builder = new ProcessBuilder();
@@ -58,7 +58,7 @@ public class MicroPiranhaIT {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8080/")).build();
         HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(404, response.statusCode());
+        assertEquals(response.statusCode(), 404);
         process.destroyForcibly();
     }
 }

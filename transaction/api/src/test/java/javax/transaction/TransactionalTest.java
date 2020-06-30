@@ -27,9 +27,9 @@
 package javax.transaction;
 
 import javax.transaction.Transactional.TxType;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the Transaction class.
@@ -62,7 +62,7 @@ public class TransactionalTest {
     @Test
     public void testValue() {
         Transactional transactional = new TestTransactional();
-        assertEquals(TxType.MANDATORY, transactional.value());
+        assertEquals(transactional.value(), TxType.MANDATORY);
     }
     
     /**

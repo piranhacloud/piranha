@@ -46,9 +46,9 @@ import static java.util.Arrays.asList;
 import java.util.Base64;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import javax.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
@@ -87,8 +87,8 @@ public class BasicTest {
 
         // Now has to be logged-in so page is accessible
         assertTrue(
-                "Should have been authenticated, but could not access protected resource",
-                response.getResponseAsString().contains("This is a protected servlet")
+                response.getResponseAsString().contains("This is a protected servlet"),
+                "Should have been authenticated, but could not access protected resource"
         );
 
         // Not only does the page needs to be accessible, the caller should have
@@ -99,15 +99,15 @@ public class BasicTest {
         // system checks roles on the authenticated subject, but does not correctly expose
         // or propagate these to the HttpServletRequest
         assertFalse(
+                response.getResponseAsString().contains("web username: null"),
                 "Protected resource could be accessed, but the user appears to be the unauthenticated user. "
-                + "This should not be possible",
-                response.getResponseAsString().contains("web username: null")
+                + "This should not be possible"
         );
 
         // An authenticated user should have the exact name "test" and nothing else.
         assertTrue(
-                "Protected resource could be accessed, but the username is not correct.",
-                response.getResponseAsString().contains("web username: test")
+                response.getResponseAsString().contains("web username: test"),
+                "Protected resource could be accessed, but the username is not correct."
         );
 
         // Being able to access a page protected by role "architect" but failing
@@ -115,9 +115,9 @@ public class BasicTest {
         // authorization system checks roles on the authenticated subject, but does not
         // correctly expose or propagate these to the HttpServletRequest
         assertTrue(
+                response.getResponseAsString().contains("web user has role \"architect\": true"),
                 "Resource protected by role \"architect\" could be accessed, but user fails test for this role."
-                + "This should not be possible",
-                response.getResponseAsString().contains("web user has role \"architect\": true")
+                + "This should not be possible"
         );
         piranha.stop().destroy();
     }

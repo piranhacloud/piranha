@@ -26,6 +26,8 @@
  */
 package cloud.piranha.transaction.nonxa;
 
+import org.junit.jupiter.api.Test;
+
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.InvalidTransactionException;
@@ -34,7 +36,8 @@ import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.xa.XAResource;
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * The JUnit tests for the DefaultTransactionManager class.
@@ -61,12 +64,12 @@ public class DefaultTransactionManagerTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testSuspend2() throws Exception {
         DefaultTransactionManager txManager = new DefaultTransactionManager();
         txManager.begin();
         Transaction tx = txManager.getTransaction();
-        txManager.resume(tx);
+        assertThrows(IllegalStateException.class, () -> txManager.resume(tx));
     }
     
     /**
@@ -74,10 +77,10 @@ public class DefaultTransactionManagerTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = InvalidTransactionException.class)
+    @Test
     public void testSuspend3() throws Exception {
         DefaultTransactionManager txManager = new DefaultTransactionManager();
-        txManager.resume(new Transaction() {
+        assertThrows(InvalidTransactionException.class, () -> txManager.resume(new Transaction() {
             @Override
             public void commit() throws RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
             }
@@ -108,6 +111,6 @@ public class DefaultTransactionManagerTest {
             @Override
             public void setRollbackOnly() throws IllegalStateException, SystemException {
             }
-        });
+        }));
     }
 }

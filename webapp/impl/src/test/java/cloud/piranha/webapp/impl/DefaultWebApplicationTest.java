@@ -29,18 +29,6 @@ package cloud.piranha.webapp.impl;
 
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.resource.api.Resource;
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
-import cloud.piranha.webapp.impl.DefaultSecurityManager;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultMimeTypeManager;
-import cloud.piranha.webapp.impl.DefaultServlet;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Date;
@@ -59,7 +47,9 @@ import javax.servlet.ServletRequestListener;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.http.HttpServletRequest;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the DefaultWebApplication class.
@@ -305,7 +295,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetDispatcherType() throws Exception {
         HttpServletRequest request = new TestWebApplicationRequest();
-        assertEquals(DispatcherType.REQUEST, request.getDispatcherType());
+        assertEquals(request.getDispatcherType(), DispatcherType.REQUEST);
     }
 
     /**
@@ -314,7 +304,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetEffectiveMajorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(4, webApp.getEffectiveMajorVersion());
+        assertEquals(webApp.getEffectiveMajorVersion(), 4);
     }
 
     /**
@@ -323,7 +313,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetEffectiveMinorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(0, webApp.getEffectiveMinorVersion());
+        assertEquals(webApp.getEffectiveMinorVersion(), 0);
     }
 
     /**
@@ -344,7 +334,7 @@ public class DefaultWebApplicationTest {
     public void testGetInitParameter() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setInitParameter("initParameter", Boolean.TRUE.toString());
-        assertEquals("true", webApp.getInitParameter("initParameter"));
+        assertEquals(webApp.getInitParameter("initParameter"), "true");
     }
 
     /**
@@ -355,7 +345,7 @@ public class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setInitParameter("initParameter", Boolean.TRUE.toString());
         Enumeration<String> enumeration = webApp.getInitParameterNames();
-        assertEquals("initParameter", enumeration.nextElement());
+        assertEquals(enumeration.nextElement(), "initParameter");
         assertFalse(enumeration.hasMoreElements());
     }
 
@@ -374,7 +364,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetMajorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(4, webApp.getMajorVersion());
+        assertEquals(webApp.getMajorVersion(), 4);
     }
 
     /**
@@ -406,7 +396,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetMinorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(0, webApp.getMinorVersion());
+        assertEquals(webApp.getMinorVersion(), 0);
     }
 
     /**
@@ -474,7 +464,7 @@ public class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getRequestCharacterEncoding());
         webApp.setRequestCharacterEncoding("UTF-8");
-        assertEquals("UTF-8", webApp.getRequestCharacterEncoding());
+        assertEquals(webApp.getRequestCharacterEncoding(), "UTF-8");
     }
 
     /**
@@ -540,10 +530,10 @@ public class DefaultWebApplicationTest {
         assertTrue(resourcePathsCatalogOffers.contains("/catalog/offers/music.html"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetResourcePaths3() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getResourcePaths("");
+        assertThrows(IllegalArgumentException.class, () -> webApp.getResourcePaths(""));
     }
 
     @Test
@@ -566,7 +556,7 @@ public class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getResponseCharacterEncoding());
         webApp.setResponseCharacterEncoding("UTF-8");
-        assertEquals("UTF-8", webApp.getResponseCharacterEncoding());
+        assertEquals(webApp.getResponseCharacterEncoding(), "UTF-8");
     }
 
     /**
@@ -597,7 +587,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetServerInfo() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals("", webApp.getServerInfo());
+        assertEquals(webApp.getServerInfo(), "");
     }
 
     /**
@@ -605,11 +595,11 @@ public class DefaultWebApplicationTest {
      *
      * @throws Exception
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     @SuppressWarnings("deprecation")
     public void testGetServlet() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getServlet("always_null");
+        assertThrows(UnsupportedOperationException.class, () -> webApp.getServlet("always_null"));
     }
 
     /**
@@ -620,7 +610,7 @@ public class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setServletContextName("MYNAME");
         assertNotNull(webApp.getServletContextName());
-        assertEquals("MYNAME", webApp.getServletContextName());
+        assertEquals(webApp.getServletContextName(), "MYNAME");
     }
 
     /**
@@ -636,21 +626,21 @@ public class DefaultWebApplicationTest {
     /**
      * Test getServletNames method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     @SuppressWarnings("deprecation")
     public void testGetServletNames() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getServletNames();
+        assertThrows(UnsupportedOperationException.class, () -> webApp.getServletNames());
     }
 
     /**
      * Test getServlets method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     @SuppressWarnings("deprecation")
     public void testGetServlets() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getServlets();
+        assertThrows(UnsupportedOperationException.class, () -> webApp.getServlets());
     }
 
     /**
@@ -717,7 +707,7 @@ public class DefaultWebApplicationTest {
     public void testGetVirtualServerName() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setVirtualServerName("myname");
-        assertEquals("myname", webApp.getVirtualServerName());
+        assertEquals(webApp.getVirtualServerName(), "myname");
     }
 
     /**
@@ -830,11 +820,11 @@ public class DefaultWebApplicationTest {
     /**
      * Test log method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     @SuppressWarnings("deprecation")
     public void testLog2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.log(new IllegalStateException(), "TEST");
+        assertThrows(UnsupportedOperationException.class, () -> webApp.log(new IllegalStateException(), "TEST"));
     }
 
     /**
@@ -916,7 +906,7 @@ public class DefaultWebApplicationTest {
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
-        assertEquals(404, response.getStatus());
+        assertEquals(response.getStatus(), 404);
     }
 
     public class TrackServletRequestListener implements ServletRequestListener {
@@ -957,7 +947,7 @@ public class DefaultWebApplicationTest {
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
-        assertEquals(404, response.getStatus());
+        assertEquals(response.getStatus(), 404);
     }
 
     /**
@@ -994,21 +984,21 @@ public class DefaultWebApplicationTest {
     /**
      * Test setInitParameter method.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testSetInitParameter2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.initialize();
         webApp.start();
-        webApp.setInitParameter("name", "value");
+        assertThrows(IllegalStateException.class, () -> webApp.setInitParameter("name", "value"));
     }
 
     /**
      * Test setLoggingManager method.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testSetLoggingManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setLoggingManager(null);
-        webApp.log("KABOOM");
+        assertThrows(NullPointerException.class, () -> webApp.log("KABOOM"));
     }
 }

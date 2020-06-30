@@ -29,8 +29,10 @@ package cloud.piranha.transaction.nonxa;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.Status;
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the DefaultUserTransaction class.
@@ -44,12 +46,12 @@ public class DefaultUserTransactionTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = NotSupportedException.class)
+    @Test
     public void testBegin() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
-        transaction.begin();
+        assertThrows(NotSupportedException.class, transaction::begin);
     }
 
     /**
@@ -63,7 +65,7 @@ public class DefaultUserTransactionTest {
                 new DefaultTransactionManager());
         transaction.begin();
         transaction.commit();
-        assertEquals(Status.STATUS_NO_TRANSACTION, transaction.getStatus());
+        assertEquals(transaction.getStatus(), Status.STATUS_NO_TRANSACTION);
     }
 
     /**
@@ -71,13 +73,13 @@ public class DefaultUserTransactionTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testCommit2() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
         transaction.commit();
-        transaction.commit();
+        assertThrows(IllegalStateException.class, transaction::commit);
     }
     
     /**
@@ -89,7 +91,7 @@ public class DefaultUserTransactionTest {
     public void testGetStatus() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
-        assertEquals(Status.STATUS_NO_TRANSACTION, transaction.getStatus());
+        assertEquals(transaction.getStatus(), Status.STATUS_NO_TRANSACTION);
     }
 
     /**
@@ -102,7 +104,7 @@ public class DefaultUserTransactionTest {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
-        assertEquals(Status.STATUS_ACTIVE, transaction.getStatus());
+        assertEquals(transaction.getStatus(), Status.STATUS_ACTIVE);
     }
 
     /**
@@ -123,13 +125,13 @@ public class DefaultUserTransactionTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = HeuristicRollbackException.class)
+    @Test
     public void testSetRollbackOnly() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
         transaction.setRollbackOnly();
-        transaction.commit();
+        assertThrows(HeuristicRollbackException.class, transaction::commit);
     }
     
     /**

@@ -29,8 +29,8 @@ package cloud.piranha.webapp.tempdir;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.File;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit test for the TempDirInitializer class.

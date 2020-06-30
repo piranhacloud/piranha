@@ -27,9 +27,10 @@
  */
 package cloud.piranha.test.embedded;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * The JUnit tests for the Embedded class.
@@ -46,6 +47,6 @@ public class EmbeddedTest {
         Embedded embedded = new Embedded();
         String result = embedded.execute();
         assertNotNull(result);
-        assertEquals(0, result.length());
+        assertEquals(result.length(), 0);
     }
 }

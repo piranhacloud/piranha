@@ -27,9 +27,9 @@
  */
 package javax.servlet;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the UnavailableException class.
@@ -44,32 +44,32 @@ public class UnavailableExceptionTest {
     @Test
     public void testConstructor() {
         UnavailableException exception = new UnavailableException("Unavailable", 100);
-        assertEquals(100, exception.getUnavailableSeconds());
+        assertEquals(exception.getUnavailableSeconds(), 100);
     }
 
     /**
      * Test constructor.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConstructor2() {
-        new UnavailableException(null, "Message");
+        assertThrows(UnsupportedOperationException.class, () -> new UnavailableException(null, "Message"));
     }
 
     /**
      * Test constructor.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConstructor3() {
-        new UnavailableException(100, null, "Message");
+        assertThrows(UnsupportedOperationException.class, () -> new UnavailableException(100, null, "Message"));
     }
 
     /**
      * Test getServlet method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetServlet() {
         UnavailableException exception = new UnavailableException("Unavailable");
-        exception.getServlet();
+        assertThrows(UnsupportedOperationException.class, exception::getServlet);
     }
 
     /**
@@ -78,7 +78,7 @@ public class UnavailableExceptionTest {
     @Test
     public void testGetUnavailableSeconds() {
         UnavailableException exception = new UnavailableException("Unavailable");
-        assertEquals(-1, exception.getUnavailableSeconds());
+        assertEquals(exception.getUnavailableSeconds(), -1);
     }
 
     /**

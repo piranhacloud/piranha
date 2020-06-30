@@ -26,8 +26,8 @@
  */
 package javax.transaction;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the HeuristicMixedException class.
@@ -42,7 +42,7 @@ public class HeuristicMixedExceptionTest {
     @Test
     public void testGetMessage() {
         HeuristicMixedException exception = new HeuristicMixedException("message");
-        assertEquals("message", exception.getMessage());
+        assertEquals(exception.getMessage(), "message");
     }    
     /**
      * Test getMessage method.

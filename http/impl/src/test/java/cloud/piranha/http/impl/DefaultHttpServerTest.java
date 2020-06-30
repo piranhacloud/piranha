@@ -30,14 +30,15 @@ package cloud.piranha.http.impl;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerTest;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * The JUnit tests for the DefaultHttpServer class.
@@ -76,13 +77,13 @@ public class DefaultHttpServerTest extends HttpServerTest {
     public void testSoTimeout() {
         DefaultHttpServer server = new DefaultHttpServer(
                 8765, new DefaultHttpServerProcessor(), 2000);
-        assertEquals(2000, server.getSoTimeout());
+        assertEquals(server.getSoTimeout(), 2000);
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
-            assertEquals(200, response.statusCode());
+            assertEquals(response.statusCode(), 200);
         } catch (IOException | InterruptedException ioe) {
             throw new RuntimeException(ioe);
         } finally {

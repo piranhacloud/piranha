@@ -36,9 +36,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.jasper.servlet.JspServlet;
 import org.apache.wicket.protocol.http.WicketFilter;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the NanoPiranha class.
@@ -69,7 +69,7 @@ public class NanoPiranhaTest {
                 .build();
 
         piranha.service(request, response);
-        assertEquals("Hello World", outputStream.toString());
+        assertEquals(outputStream.toString(), "Hello World");
     }
 
     /**
@@ -153,7 +153,7 @@ public class NanoPiranhaTest {
                 .build();
 
         piranha.service(request, response);
-        assertEquals("q=value", outputStream.toString());
+        assertEquals(outputStream.toString(), "q=value");
     }
 
     /**
@@ -180,7 +180,7 @@ public class NanoPiranhaTest {
                 .build();
 
         piranha.service(request, response);
-        assertEquals("value", outputStream.toString());
+        assertEquals(outputStream.toString(), "value");
     }
 
     /**

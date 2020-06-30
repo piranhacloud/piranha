@@ -27,9 +27,9 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultSecurityPrincipal;
-import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the DefaultSecurityPrincipal class.
@@ -44,6 +44,6 @@ public class DefaultSecurityPrincipalTest {
     @Test
     public void testGetName() {
         DefaultSecurityPrincipal principal = new DefaultSecurityPrincipal("user");
-        assertEquals("user", principal.getName());
+        assertEquals(principal.getName(), "user");
     }
 }

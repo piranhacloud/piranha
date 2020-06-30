@@ -27,7 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.api.WebApplication;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,10 +34,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for testing everything related to the HttpServletResponse
@@ -68,7 +68,7 @@ public class HttpServletResponseTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         request = new TestWebApplicationRequest();
         response = new TestWebApplicationResponse();
@@ -82,14 +82,14 @@ public class HttpServletResponseTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testRedirect() throws Exception {
         webApplication.addServlet("Servlet", TestRedirectAfterFlushServlet.class);
         webApplication.addServletMapping("Servlet", "/servlet");
         request.setServletPath("/servlet");
         webApplication.initialize();
         webApplication.start();
-        webApplication.service(request, response);
+        assertThrows(IllegalStateException.class, () -> webApplication.service(request, response));
     }
 
     /**
@@ -107,9 +107,9 @@ public class HttpServletResponseTest {
         webApplication.initialize();
         webApplication.start();
         webApplication.service(request, response);
-        assertEquals(302, response.getStatus());
+        assertEquals(response.getStatus(), 302);
         assertNotNull(response.getHeader("Location"));
-        assertEquals("http://localhost:80/servlet2a/servlet2b", response.getHeader("Location"));
+        assertEquals(response.getHeader("Location"), "http://localhost:80/servlet2a/servlet2b");
     }
 
     /**
@@ -125,9 +125,9 @@ public class HttpServletResponseTest {
         webApplication.initialize();
         webApplication.start();
         webApplication.service(request, response);
-        assertEquals(302, response.getStatus());
+        assertEquals(response.getStatus(), 302);
         assertNotNull(response.getHeader("Location"));
-        assertEquals("http://localhost:80/relative_to_root", response.getHeader("Location"));
+        assertEquals(response.getHeader("Location"), "http://localhost:80/relative_to_root");
     }
 
     /**
@@ -143,9 +143,9 @@ public class HttpServletResponseTest {
         webApplication.initialize();
         webApplication.start();
         webApplication.service(request, response);
-        assertEquals(302, response.getStatus());
+        assertEquals(response.getStatus(), 302);
         assertNotNull(response.getHeader("Location"));
-        assertEquals("http://this.is.outside/and_absolute", response.getHeader("Location"));
+        assertEquals(response.getHeader("Location"), "http://this.is.outside/and_absolute");
     }
 
     /**
@@ -155,7 +155,7 @@ public class HttpServletResponseTest {
     public void testSetDateHeader() {
         response.setDateHeader("header", 1);
         response.setDateHeader("header", 2);
-        assertEquals("2", response.getHeader("header"));
+        assertEquals(response.getHeader("header"), "2");
     }
 
     /**
@@ -164,7 +164,7 @@ public class HttpServletResponseTest {
     @Test
     public void testSetDateHeader2() {
         response.setDateHeader("header", 1);
-        assertEquals("1", response.getHeader("header"));
+        assertEquals(response.getHeader("header"), "1");
     }
 
     /**
@@ -175,7 +175,7 @@ public class HttpServletResponseTest {
         response.setHeader("header", "value1");
         response.addHeader("header", "value2");
         response.setHeader("header", "value3");
-        assertEquals("value3", response.getHeader("header"));
+        assertEquals(response.getHeader("header"), "value3");
     }
 
     /**
@@ -185,7 +185,7 @@ public class HttpServletResponseTest {
     public void testSetHeader2() {
         response.setHeader("header", "value1");
         response.setHeader("header", "value2");
-        assertEquals("value2", response.getHeader("header"));
+        assertEquals(response.getHeader("header"), "value2");
     }
 
     /**
@@ -194,7 +194,7 @@ public class HttpServletResponseTest {
     @Test
     public void testSetHeader3() {
         response.setHeader("header", "value1");
-        assertEquals("value1", response.getHeader("header"));
+        assertEquals(response.getHeader("header"), "value1");
     }
 
     /**
@@ -203,7 +203,7 @@ public class HttpServletResponseTest {
     @Test
     public void testSetIntHeader() {
         response.setIntHeader("header", 1);
-        assertEquals("1", response.getHeader("header"));
+        assertEquals(response.getHeader("header"), "1");
     }
 
     /**
@@ -212,7 +212,7 @@ public class HttpServletResponseTest {
     @Test
     public void testSetStatus() {
         response.setStatus(500);
-        assertEquals(500, response.getStatus());
+        assertEquals(response.getStatus(), 500);
     }
 
     /**
@@ -221,7 +221,7 @@ public class HttpServletResponseTest {
     @Test
     public void testSetStatus2() {
         response.setStatus(HttpServletResponse.SC_NOT_FOUND, "Not found");
-        assertEquals(404, response.getStatus());
+        assertEquals(response.getStatus(), 404);
     }
 
     /**

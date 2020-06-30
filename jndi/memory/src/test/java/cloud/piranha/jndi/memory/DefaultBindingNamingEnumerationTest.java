@@ -27,9 +27,12 @@
  */
 package cloud.piranha.jndi.memory;
 
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import javax.naming.NamingException;
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * The JUnit tests for the DefaultBindingNamingEnumeration class.
@@ -43,10 +46,10 @@ public class DefaultBindingNamingEnumerationTest {
      * 
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = NamingException.class)
+    @Test
     public void testCheckClosed() throws Exception {
         DefaultBindingNamingEnumeration enumeration = new DefaultBindingNamingEnumeration(new ArrayList<>());
         enumeration.close();
-        enumeration.close();
+        assertThrows(NamingException.class, enumeration::close);
     }
 }

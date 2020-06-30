@@ -27,10 +27,10 @@
  */
 package cloud.piranha.test.faces.mojarra;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
@@ -66,7 +66,7 @@ public class MojarraTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(404, response.getStatus());
+        assertEquals(response.getStatus(), 404);
         piranha.stop()
                 .destroy();
     }
@@ -89,7 +89,7 @@ public class MojarraTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(response.getResponseAsString().contains("Hello Jakarta Faces"));
         piranha.stop()
                 .destroy();

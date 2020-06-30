@@ -27,11 +27,8 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultHttpSessionManager;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultHttpSession;
-import static org.junit.Assert.*;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the DefaultHttpSession class.
@@ -49,7 +46,7 @@ public class DefaultHttpSessionTest {
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(new DefaultHttpSessionManager());
         session.setAttribute("TEST", "TEST");
-        assertEquals("TEST", session.getAttribute("TEST"));
+        assertEquals(session.getAttribute("TEST"), "TEST");
         session.removeAttribute("TEST");
         assertNull(session.getAttribute("TEST"));
     }
@@ -82,7 +79,7 @@ public class DefaultHttpSessionTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setId("ID");
-        assertEquals("ID", session.getId());
+        assertEquals(session.getId(), "ID");
     }
 
     /**
@@ -104,7 +101,7 @@ public class DefaultHttpSessionTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setMaxInactiveInterval(1000);
-        assertEquals(1000, session.getMaxInactiveInterval());
+        assertEquals(session.getMaxInactiveInterval(), 1000);
     }
 
     /**
@@ -147,7 +144,7 @@ public class DefaultHttpSessionTest {
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(new DefaultHttpSessionManager());
         session.putValue("TEST", "TEST");
-        assertEquals("TEST", session.getValue("TEST"));
+        assertEquals(session.getValue("TEST"), "TEST");
         session.removeValue("TEST");
         assertNull(session.getValue("TEST"));
     }
@@ -178,13 +175,13 @@ public class DefaultHttpSessionTest {
      *
      * @throws IllegalStateException when the session is invalid.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testInvalidate2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(new DefaultHttpSessionManager());
         session.invalidate();
-        session.setAttribute("TEST", "TEST");
+        assertThrows(IllegalStateException.class, () -> session.setAttribute("TEST", "TEST"));
     }
 
     /**

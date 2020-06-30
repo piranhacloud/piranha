@@ -28,11 +28,12 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.resource.DirectoryResource;
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The JUnit tests to test the welcome-file functionality.
@@ -60,7 +61,7 @@ public class WelcomeFileTest {
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(byteOutput.toString().contains("index.html"));
         webApp.stop();
     }
@@ -86,7 +87,7 @@ public class WelcomeFileTest {
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(byteOutput.toString().contains("custom.html"));
         webApp.stop();
     }

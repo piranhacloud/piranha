@@ -27,8 +27,8 @@
  */
 package javax.servlet.http;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the HttpSessionBindingEventTest class.
@@ -44,7 +44,7 @@ public class HttpSessionBindingEventTest {
     public void testGetName() {
         HttpSession session = new TestHttpSession();
         HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, "name");
-        assertEquals("name", event.getName());
+        assertEquals(event.getName(), "name");
     }
 
     /**
@@ -64,6 +64,6 @@ public class HttpSessionBindingEventTest {
     public void testGetValue() {
         HttpSession session = new TestHttpSession();
         HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, "name", "value");
-        assertEquals("value", event.getValue());
+        assertEquals(event.getValue(), "value");
     }
 }

@@ -31,9 +31,10 @@ import javax.transaction.Synchronization;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the DefaultTransaction class.
@@ -59,11 +60,11 @@ public class DefaultTransactionTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = RollbackException.class)
+    @Test
     public void testCommit2() throws Exception {
         DefaultTransaction transaction = new DefaultTransaction();
         transaction.rollback();
-        transaction.commit();
+        assertThrows(RollbackException.class, transaction::commit);
     }
 
 
@@ -135,11 +136,11 @@ public class DefaultTransactionTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = RollbackException.class)
+    @Test
     public void testEnlistResource() throws Exception {
         DefaultTransaction transaction = new DefaultTransaction();
         transaction.setRollbackOnly();
-        transaction.enlistResource(null);
+        assertThrows(RollbackException.class, () -> transaction.enlistResource(null));
     }
 
     /**

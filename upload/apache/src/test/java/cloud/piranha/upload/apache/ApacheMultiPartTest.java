@@ -30,10 +30,11 @@ package cloud.piranha.upload.apache;
 import java.io.File;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItem;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The JUnit tests for the ApacheMultiPart class.
@@ -72,7 +73,7 @@ public class ApacheMultiPartTest {
         FileItem item = new DiskFileItem("fieldName", "text/html", false,
                 "delete.me", 0, file);
         ApacheMultiPart part = new ApacheMultiPart(item);
-        assertEquals("text/html", part.getContentType());
+        assertEquals(part.getContentType(), "text/html");
         file.delete();
     }
 }

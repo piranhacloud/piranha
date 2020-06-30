@@ -33,9 +33,10 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The JUnit tests for the Struts 2 filter.
@@ -65,7 +66,7 @@ public class HelloStrutsFilterTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(response.getResponseAsString().contains("Hello World Struts"));
         piranha.stop()
                 .destroy();

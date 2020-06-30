@@ -27,9 +27,10 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the DefaultWebApplicationClassLoader.
@@ -54,9 +55,9 @@ public class DefaultWebApplicationClassLoaderTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = ClassNotFoundException.class)
+    @Test
     public void testLoadClass2() throws Exception {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
-        classLoader.loadClass("this.is.a.bogus.className", true);
+        assertThrows(ClassNotFoundException.class, () -> classLoader.loadClass("this.is.a.bogus.className", true));
     }
 }

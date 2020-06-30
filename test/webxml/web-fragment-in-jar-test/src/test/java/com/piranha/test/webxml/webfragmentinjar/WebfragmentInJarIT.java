@@ -31,8 +31,8 @@ import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.webapp.webxml.WebXmlInitializer;
 import java.io.File;
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
  * The integration tests for the web-fragment.xml support.
@@ -54,6 +54,6 @@ public class WebfragmentInJarIT {
         webApplication.setClassLoader(classLoader);
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
-        assertEquals("/webfragmentInJar", webApplication.getContextPath());
+        assertEquals(webApplication.getContextPath(), "/webfragmentInJar");
     }
 }

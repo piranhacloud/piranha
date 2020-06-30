@@ -27,8 +27,10 @@
  */
 package javax.servlet.http;
 
-import static org.junit.Assert.assertNotNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * The JUnit tests for the HttpUtils class.
@@ -49,24 +51,24 @@ public class HttpUtilsTest {
     /**
      * Test getRequestURL method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetRequestURL() {
-        HttpUtils.getRequestURL(null);
+        assertThrows(UnsupportedOperationException.class, () -> HttpUtils.getRequestURL(null));
     }
 
     /**
      * Test parsePostData method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testParsePostData() {
-        HttpUtils.parsePostData(0, null);
+        assertThrows(UnsupportedOperationException.class, () -> HttpUtils.parsePostData(0, null));
     }
 
     /**
      * Test parseQueryString method.
      */
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testParseQueryString() {
-        HttpUtils.parseQueryString(null);
+        assertThrows(UnsupportedOperationException.class, () -> HttpUtils.parseQueryString(null));
     }
 }

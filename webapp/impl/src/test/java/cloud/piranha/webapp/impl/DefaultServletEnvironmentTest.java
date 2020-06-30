@@ -27,14 +27,13 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultServletEnvironment;
 import javax.servlet.MultipartConfigElement;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the DefaultServletEnvironment class.
@@ -51,7 +50,7 @@ public class DefaultServletEnvironmentTest {
         TestSnoopServlet servlet = new TestSnoopServlet();
         DefaultServletEnvironment environment = new DefaultServletEnvironment(null, null, servlet);
         environment.setLoadOnStartup(1);
-        assertEquals(1, environment.getLoadOnStartup());
+        assertEquals(environment.getLoadOnStartup(), 1);
     }
 
     /**

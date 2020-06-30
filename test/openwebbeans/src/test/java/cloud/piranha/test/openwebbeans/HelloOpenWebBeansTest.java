@@ -34,9 +34,9 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.faces.myfaces.MyFacesInitializer;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the Hello OpenWebBeans web application.
@@ -67,7 +67,7 @@ public class HelloOpenWebBeansTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(response.getResponseAsString().contains("Hello OpenWebBeans"));
         piranha.stop()
                 .destroy();
