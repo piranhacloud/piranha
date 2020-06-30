@@ -27,10 +27,10 @@
  */
 package cloud.piranha.resource;
 
-import cloud.piranha.resource.DirectoryResource;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
-import static org.junit.Assert.*;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for DirectoryResource class.

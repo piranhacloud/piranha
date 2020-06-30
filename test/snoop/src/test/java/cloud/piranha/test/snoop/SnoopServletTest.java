@@ -33,10 +33,11 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.embedded.EmbeddedResponseBuilder;
+import org.junit.jupiter.api.Test;
+
 import javax.servlet.http.Cookie;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The JUnit tests for the SnoopServlet class.
@@ -63,7 +64,7 @@ public class SnoopServletTest {
         EmbeddedResponse response = new EmbeddedResponseBuilder()
                 .build();
         piranha.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(response.getResponseAsString().contains("Snoop"));
         piranha.stop()
                 .destroy();
@@ -89,7 +90,7 @@ public class SnoopServletTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(response.getResponseAsString().contains("Snoop"));
         piranha.stop()
                 .destroy();
@@ -116,7 +117,7 @@ public class SnoopServletTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(response.getResponseAsString().contains("Snoop"));
         piranha.stop()
                 .destroy();

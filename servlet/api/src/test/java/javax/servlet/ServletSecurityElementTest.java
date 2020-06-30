@@ -32,8 +32,8 @@ import java.util.ArrayList;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.HttpMethodConstraint;
 import javax.servlet.annotation.ServletSecurity;
-import static org.junit.Assert.*;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the ServletSecurityElement class.
@@ -49,7 +49,7 @@ public class ServletSecurityElementTest {
     public void testConstructor() {
         HttpConstraintElement httpConstraintElement = new HttpConstraintElement(ServletSecurity.EmptyRoleSemantic.PERMIT);
         ServletSecurityElement element = new ServletSecurityElement(httpConstraintElement);
-        assertEquals(ServletSecurity.EmptyRoleSemantic.PERMIT, element.getEmptyRoleSemantic());
+        assertEquals(element.getEmptyRoleSemantic(), ServletSecurity.EmptyRoleSemantic.PERMIT);
         assertNotNull(element.getHttpMethodConstraints());
     }
 
@@ -62,21 +62,21 @@ public class ServletSecurityElementTest {
         ArrayList<HttpMethodConstraintElement> methodConstraints = new ArrayList<>();
         methodConstraints.add(new HttpMethodConstraintElement("HEAD"));
         ServletSecurityElement element = new ServletSecurityElement(httpConstraintElement, methodConstraints);
-        assertEquals(ServletSecurity.EmptyRoleSemantic.PERMIT, element.getEmptyRoleSemantic());
+        assertEquals(element.getEmptyRoleSemantic(), ServletSecurity.EmptyRoleSemantic.PERMIT);
         assertNotNull(element.getHttpMethodConstraints());
-        assertEquals("HEAD", element.getHttpMethodConstraints().iterator().next().getMethodName());
+        assertEquals(element.getHttpMethodConstraints().iterator().next().getMethodName(), "HEAD");
     }
 
     /**
      * Test constructor.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructor3() {
         HttpConstraintElement httpConstraintElement = new HttpConstraintElement(ServletSecurity.EmptyRoleSemantic.PERMIT);
         ArrayList<HttpMethodConstraintElement> methodConstraints = new ArrayList<>();
         methodConstraints.add(new HttpMethodConstraintElement("HEAD"));
         methodConstraints.add(new HttpMethodConstraintElement("HEAD"));
-        ServletSecurityElement servletSecurityElement = new ServletSecurityElement(httpConstraintElement, methodConstraints);
+        assertThrows(IllegalArgumentException.class, () -> new ServletSecurityElement(httpConstraintElement, methodConstraints));
     }
 
     /**

@@ -31,12 +31,10 @@ import cloud.piranha.webapp.impl.DefaultWebApplication;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.WebConnection;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the NanoRequest class.
@@ -50,10 +48,10 @@ public class NanoRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testAuthenticate() throws Exception {
         NanoRequest request = new NanoRequest();
-        request.authenticate(null);
+        assertThrows(NullPointerException.class, () -> request.authenticate(null));
     }
 
     /**
@@ -93,7 +91,7 @@ public class NanoRequestTest {
     @Test
     public void testGetContextPath() throws Exception {
         NanoRequest request = new NanoRequest();
-        assertEquals("", request.getContextPath());
+        assertEquals(request.getContextPath(), "");
     }
 
     /**
@@ -111,7 +109,7 @@ public class NanoRequestTest {
     @Test
     public void testGetDateHeader() {
         NanoRequest request = new NanoRequest();
-        assertEquals(-1, request.getDateHeader("header"));
+        assertEquals(request.getDateHeader("header"), -1);
     }
 
     /**
@@ -158,7 +156,7 @@ public class NanoRequestTest {
     @Test
     public void testGetIntHeader() {
         NanoRequest request = new NanoRequest();
-        assertEquals(-1, request.getIntHeader("header"));
+        assertEquals(request.getIntHeader("header"), -1);
     }
 
     /**
@@ -214,7 +212,7 @@ public class NanoRequestTest {
     @Test
     public void testGetProtocol() {
         NanoRequest request = new NanoRequest();
-        assertEquals("HTTP/1.1", request.getProtocol());
+        assertEquals(request.getProtocol(), "HTTP/1.1");
     }
 
     /**
@@ -261,7 +259,7 @@ public class NanoRequestTest {
     @Test
     public void testGetScheme() {
         NanoRequest request = new NanoRequest();
-        assertEquals("http", request.getScheme());
+        assertEquals(request.getScheme(), "http");
     }
 
     /**
@@ -270,7 +268,7 @@ public class NanoRequestTest {
     @Test
     public void testGetServletPath() {
         NanoRequest request = new NanoRequest();
-        assertEquals("", request.getServletPath());
+        assertEquals(request.getServletPath(), "");
     }
 
     /**
@@ -368,7 +366,7 @@ public class NanoRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = ServletException.class)
+    @Test
     public void testLogin() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         NanoResponse response = new NanoResponse();
@@ -376,7 +374,7 @@ public class NanoRequestTest {
         NanoRequest request = new NanoRequest();
         request.setWebApplication(webApplication);
         webApplication.linkRequestAndResponse(request, response);
-        request.login("username", "password");
+        assertThrows(ServletException.class, () -> request.login("username", "password"));
     }
 
     /**

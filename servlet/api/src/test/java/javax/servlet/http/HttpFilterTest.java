@@ -28,7 +28,7 @@
 package javax.servlet.http;
 
 import javax.servlet.FilterChain;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the HttpFilter class.

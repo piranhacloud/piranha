@@ -27,18 +27,15 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import com.sun.security.auth.UserPrincipal;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the SecurityManagerImpl class.
@@ -65,13 +62,13 @@ public class DefaultSecurityManagerTest {
      * @throws ServletException because BASIC authentication is not supported.
      * @throws IOException when an I/O error occurs.
      */
-    @Test(expected = ServletException.class)
+    @Test
     public void testAuthenticate() throws ServletException, IOException {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.BASIC_AUTH);
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        assertFalse(securityManager.authenticate(request, response));
+        assertThrows(ServletException.class, () -> assertFalse(securityManager.authenticate(request, response)));
     }
 
     /**
@@ -81,13 +78,13 @@ public class DefaultSecurityManagerTest {
      * supported.
      * @throws IOException when an I/O error occurs.
      */
-    @Test(expected = ServletException.class)
+    @Test
     public void testAuthenticate2() throws ServletException, IOException {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.CLIENT_CERT_AUTH);
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        assertFalse(securityManager.authenticate(request, response));
+        assertThrows(ServletException.class, () -> assertFalse(securityManager.authenticate(request, response)));
     }
 
     /**
@@ -97,13 +94,13 @@ public class DefaultSecurityManagerTest {
      * supported.
      * @throws IOException when an I/O error occurs.
      */
-    @Test(expected = ServletException.class)
+    @Test
     public void testAuthenticate3() throws ServletException, IOException {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.DIGEST_AUTH);
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        assertFalse(securityManager.authenticate(request, response));
+        assertThrows(ServletException.class, () -> assertFalse(securityManager.authenticate(request, response)));
     }
 
     /**
@@ -113,13 +110,13 @@ public class DefaultSecurityManagerTest {
      * supported.
      * @throws IOException when an I/O error occurs.
      */
-    @Test(expected = ServletException.class)
+    @Test
     public void testAuthenticate4() throws ServletException, IOException {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.FORM_AUTH);
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        assertFalse(securityManager.authenticate(request, response));
+        assertThrows(ServletException.class, () -> assertFalse(securityManager.authenticate(request, response)));
     }
 
     /**

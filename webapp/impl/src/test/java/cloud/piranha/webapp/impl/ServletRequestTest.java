@@ -28,9 +28,11 @@
 package cloud.piranha.webapp.impl;
 
 import javax.servlet.ServletRequest;
-import static org.junit.Assert.assertNotNull;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the ServletRequest API.
@@ -49,7 +51,7 @@ public class ServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         request = new TestWebApplicationRequest();
     }
@@ -69,10 +71,10 @@ public class ServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetInputStream2() throws Exception {
         assertNotNull(request.getInputStream());
-        request.getReader();
+        assertThrows(IllegalStateException.class, () -> request.getReader());
     }
 
     /**
@@ -90,9 +92,9 @@ public class ServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetReader2() throws Exception {
         assertNotNull(request.getReader());
-        request.getInputStream();
+        assertThrows(IllegalStateException.class, () -> request.getInputStream());
     }
 }

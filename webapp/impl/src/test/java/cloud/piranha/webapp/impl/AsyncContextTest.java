@@ -27,8 +27,9 @@
  */
 package cloud.piranha.webapp.impl;
 
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayOutputStream;
-import org.junit.Test;
 
 /**
  * The JUnit tests for the AsyncContext API.

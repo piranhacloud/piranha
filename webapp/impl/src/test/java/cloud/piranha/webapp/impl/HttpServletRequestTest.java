@@ -29,10 +29,11 @@ package cloud.piranha.webapp.impl;
 
 import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for testing everything related to the HttpServletRequest API.
@@ -51,7 +52,7 @@ public class HttpServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         httpServletRequest = new TestWebApplicationRequest();
     }
@@ -64,7 +65,7 @@ public class HttpServletRequestTest {
     @Test
     public void testSetCharacterEncoding() throws Exception {
         httpServletRequest.setCharacterEncoding("UTF-8");
-        assertEquals("UTF-8", httpServletRequest.getCharacterEncoding());
+        assertEquals(httpServletRequest.getCharacterEncoding(), "UTF-8");
     }
 
     /**
@@ -74,10 +75,10 @@ public class HttpServletRequestTest {
      */
     @Test
     public void testSetCharacterEncoding2() throws Exception {
-        assertEquals("ISO-8859-1", httpServletRequest.getCharacterEncoding());
+        assertEquals(httpServletRequest.getCharacterEncoding(), "ISO-8859-1");
         httpServletRequest.getReader();
         httpServletRequest.setCharacterEncoding("UTF-8");
-        assertNotEquals("UTF-8", httpServletRequest.getCharacterEncoding());
+        assertNotEquals(httpServletRequest.getCharacterEncoding(), "UTF-8");
     }
 
     /**
@@ -85,9 +86,9 @@ public class HttpServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedEncodingException.class)
+    @Test
     public void testSetCharacterEncoding3() throws Exception {
-        httpServletRequest.setCharacterEncoding("doesnotexist");
+        assertThrows(UnsupportedEncodingException.class, () -> httpServletRequest.setCharacterEncoding("doesnotexist"));
     }
 
     /**
@@ -95,8 +96,8 @@ public class HttpServletRequestTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = UnsupportedEncodingException.class)
+    @Test
     public void testSetCharacterEncoding4() throws Exception {
-        httpServletRequest.setCharacterEncoding(null);
+        assertThrows(UnsupportedEncodingException.class, () -> httpServletRequest.setCharacterEncoding(null));
     }
 }

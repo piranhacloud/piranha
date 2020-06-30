@@ -28,8 +28,8 @@
 package javax.servlet;
 
 import javax.servlet.annotation.ServletSecurity;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the HttpConstraintElement class.
@@ -45,8 +45,8 @@ public class HttpConstraintElementTest {
     public void testConstructor() {
         HttpConstraintElement element = new HttpConstraintElement(
                 ServletSecurity.TransportGuarantee.NONE, "developer");
-        assertEquals(ServletSecurity.EmptyRoleSemantic.PERMIT, element.getEmptyRoleSemantic());
-        assertEquals(ServletSecurity.TransportGuarantee.NONE, element.getTransportGuarantee());
-        assertEquals("developer", element.getRolesAllowed()[0]);
+        assertEquals(element.getEmptyRoleSemantic(), ServletSecurity.EmptyRoleSemantic.PERMIT);
+        assertEquals(element.getTransportGuarantee(), ServletSecurity.TransportGuarantee.NONE);
+        assertEquals(element.getRolesAllowed()[0], "developer");
     }
 }

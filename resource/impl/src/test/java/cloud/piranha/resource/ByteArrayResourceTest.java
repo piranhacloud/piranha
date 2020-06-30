@@ -27,12 +27,13 @@
  */
 package cloud.piranha.resource;
 
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayInputStream;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The JUnit tests for the ByteArrayResource class.
@@ -47,7 +48,7 @@ public class ByteArrayResourceTest {
     @Test
     public void testGetAllLocations() {
         ByteArrayResource resource = new ByteArrayResource("mylocation", null);
-        assertEquals(1, resource.getAllLocations().count());
+        assertEquals(resource.getAllLocations().count(), 1);
     }
     
     /**

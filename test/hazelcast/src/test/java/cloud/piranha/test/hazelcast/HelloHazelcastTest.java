@@ -34,9 +34,9 @@ import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.faces.mojarra.MojarraInitializer;
 import cloud.piranha.session.hazelcast.HazelcastHttpSessionManager;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the Hello Hazelcast web application.
@@ -65,7 +65,7 @@ public class HelloHazelcastTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(404, response.getStatus());
+        assertEquals(response.getStatus(), 404);
         piranha.stop()
                 .destroy();
     }
@@ -89,7 +89,7 @@ public class HelloHazelcastTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
         assertTrue(response.getResponseAsString().contains("Hello Hazelcast"));
         piranha.stop()
                 .destroy();

@@ -32,9 +32,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import static org.junit.Assert.assertEquals;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the MicroPiranha class.
@@ -49,7 +49,7 @@ public class MicroPiranhaTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    @Ignore
+    @Disabled
     public void testStart() throws Exception {
         System.setProperty("java.naming.factory.initial", "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
         final MicroPiranha piranha = new MicroPiranha();
@@ -61,7 +61,7 @@ public class MicroPiranhaTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/does-not-exist")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
-            assertEquals(404, response.statusCode());
+            assertEquals(response.statusCode(), 404);
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
@@ -75,7 +75,7 @@ public class MicroPiranhaTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    @Ignore
+    @Disabled
     public void testChangingPort() throws Exception {
         System.setProperty("java.naming.factory.initial", "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
         final MicroPiranha piranha = new MicroPiranha();
@@ -87,7 +87,7 @@ public class MicroPiranhaTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8088/does-not-exist")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
-            assertEquals(404, response.statusCode());
+            assertEquals(response.statusCode(), 404);
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }

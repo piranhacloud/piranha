@@ -30,14 +30,14 @@ package cloud.piranha.http.singlethread;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerTest;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 
 /**
  * The JUnit tests for the SingleThreadHttpServer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Ignore
+@Disabled
 public class SingleThreadHttpServerTest extends HttpServerTest {
 
     /**

@@ -28,7 +28,7 @@
 package cloud.piranha.webapp.scinitializer;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the ServletContainerInitializerExtension class.

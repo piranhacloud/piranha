@@ -27,7 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.api.WebApplication;
 import java.io.IOException;
 import java.util.HashMap;
@@ -38,12 +37,11 @@ import javax.servlet.FilterRegistration;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for testing everything related to the FilterRegistration API.
@@ -62,7 +60,7 @@ public class FilterRegistrationTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         webApp = new DefaultWebApplication();
     }
@@ -101,7 +99,7 @@ public class FilterRegistrationTest {
     public void testGetName() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
-        assertEquals("filter", registration.getName());
+        assertEquals(registration.getName(), "filter");
     }
 
     /**
@@ -111,8 +109,8 @@ public class FilterRegistrationTest {
     public void testGetClassName() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
-        assertEquals(TestFilterRegistrationFilter.class.getCanonicalName(),
-                registration.getClassName());
+        assertEquals(registration.getClassName(),
+                TestFilterRegistrationFilter.class.getCanonicalName());
     }
 
     /**
@@ -149,25 +147,25 @@ public class FilterRegistrationTest {
     /**
      * Test setInitParameters method.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetInitParameters2() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put(null, null);
-        registration.setInitParameters(parameters);
+        assertThrows(IllegalArgumentException.class, () -> registration.setInitParameters(parameters));
     }
 
     /**
      * Test setInitParameters method.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetInitParameters3() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("name", null);
-        registration.setInitParameters(parameters);
+        assertThrows(IllegalArgumentException.class, () -> registration.setInitParameters(parameters));
     }
 
     /**

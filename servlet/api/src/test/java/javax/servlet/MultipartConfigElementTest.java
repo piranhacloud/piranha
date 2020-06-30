@@ -27,10 +27,11 @@
  */
 package javax.servlet;
 
+import org.junit.jupiter.api.Test;
+
 import java.lang.annotation.Annotation;
 import javax.servlet.annotation.MultipartConfig;
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * The JUnit tests for the MultipartConfigElement class.
@@ -45,7 +46,7 @@ public class MultipartConfigElementTest {
     @Test
     public void testGetFileSizeThreshold() {
         MultipartConfigElement element = new MultipartConfigElement("location", 0, 0, 1000);
-        assertEquals(1000, element.getFileSizeThreshold());
+        assertEquals(element.getFileSizeThreshold(), 1000);
     }
 
     /**
@@ -54,7 +55,7 @@ public class MultipartConfigElementTest {
     @Test
     public void testGetLocation() {
         MultipartConfigElement element = new MultipartConfigElement("location", 0, 0, 1000);
-        assertEquals("location", element.getLocation());
+        assertEquals(element.getLocation(), "location");
     }
 
     /**
@@ -63,7 +64,7 @@ public class MultipartConfigElementTest {
     @Test
     public void testGetMaxFileSize() {
         MultipartConfigElement element = new MultipartConfigElement("location", 1000, 0, 0);
-        assertEquals(1000, element.getMaxFileSize());
+        assertEquals(element.getMaxFileSize(), 1000);
     }
 
     /**
@@ -72,7 +73,7 @@ public class MultipartConfigElementTest {
     @Test
     public void testGetMaxRequestSize() {
         MultipartConfigElement element = new MultipartConfigElement("location", 0, 1000, 0);
-        assertEquals(1000, element.getMaxRequestSize());
+        assertEquals(element.getMaxRequestSize(), 1000);
     }
 
     /**
@@ -106,6 +107,6 @@ public class MultipartConfigElementTest {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         });
-        assertEquals(1000, element.getMaxRequestSize());
+        assertEquals(element.getMaxRequestSize(), 1000);
     }
 }

@@ -26,9 +26,9 @@
  */
 package javax.transaction;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the TransactionRolledbackException class.
@@ -43,7 +43,7 @@ public class TransactionRollbackExceptionTest {
     @Test
     public void testGetMessage() {
         TransactionRolledbackException exception = new TransactionRolledbackException("message");
-        assertEquals("message", exception.getMessage());
+        assertEquals(exception.getMessage(), "message");
     }    
     /**
      * Test getMessage method.

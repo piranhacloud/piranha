@@ -27,7 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.api.WebApplication;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -40,10 +39,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for testing everything related to the addFilter method and
@@ -63,7 +63,7 @@ public class FilterTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         webApp = new DefaultWebApplication();
     }
@@ -99,7 +99,7 @@ public class FilterTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         webApp.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
     }
 
     /**
@@ -107,11 +107,11 @@ public class FilterTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testAddFilter4() throws Exception {
         webApp.initialize();
         webApp.start();
-        webApp.addFilter("filter", new TestMultiple1Filter());
+        assertThrows(IllegalStateException.class, () -> webApp.addFilter("filter", new TestMultiple1Filter()));
     }
 
     /**
@@ -121,7 +121,7 @@ public class FilterTest {
     public void testAddFilter5() {
         assertNotNull(webApp.addFilter("filter", TestMultiple1Filter.class));
         assertNotNull(webApp.getFilterRegistration("filter"));
-        assertEquals(TestMultiple1Filter.class.getCanonicalName(), webApp.getFilterRegistration("filter").getClassName());
+        assertEquals(webApp.getFilterRegistration("filter").getClassName(), TestMultiple1Filter.class.getCanonicalName());
     }
 
     /**
@@ -137,11 +137,11 @@ public class FilterTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testAddFilter7() throws Exception {
         webApp.initialize();
         webApp.start();
-        webApp.addFilter("filter", "should throw IllegalStateException");
+        assertThrows(IllegalStateException.class, () -> webApp.addFilter("filter", "should throw IllegalStateException"));
     }
 
     /**
@@ -149,10 +149,10 @@ public class FilterTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAddFilter8() throws Exception {
         webApp.initialize();
-        webApp.addFilter(null, "filter name is null so throw IllegalArgumentException");
+        assertThrows(IllegalArgumentException.class, () -> webApp.addFilter(null, "filter name is null so throw IllegalArgumentException"));
     }
 
     /**
@@ -160,10 +160,10 @@ public class FilterTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAddFilter9() throws Exception {
         webApp.initialize();
-        webApp.addFilter(null, Filter.class);
+        assertThrows(IllegalArgumentException.class, () -> webApp.addFilter(null, Filter.class));
     }
 
     /**
@@ -218,7 +218,7 @@ public class FilterTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         webApp.service(request, response);
-        assertEquals(200, response.getStatus());
+        assertEquals(response.getStatus(), 200);
     }
 
     /**

@@ -28,8 +28,8 @@
 package cloud.piranha.resource;
 
 import java.io.File;
-import static org.junit.Assert.*;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit test for AliasedDirectoryResource.
@@ -100,7 +100,7 @@ public class AliasedDirectoryResourceTest {
     @Test
     public void testGetAlias() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource(null, "/alias");
-        assertEquals("/alias", resource.getAlias());
+        assertEquals(resource.getAlias(), "/alias");
     }
 
     /**

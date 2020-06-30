@@ -27,11 +27,11 @@
  */
 package javax.servlet.http;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the Cookie class.
@@ -59,7 +59,7 @@ public class CookieTest {
         Cookie cookie = new Cookie("name", "value");
         assertNull(cookie.getComment());
         cookie.setComment("comment");
-        assertEquals("comment", cookie.getComment());
+        assertEquals(cookie.getComment(), "comment");
     }
 
     /**
@@ -70,7 +70,7 @@ public class CookieTest {
         Cookie cookie = new Cookie("name", "value");
         assertNull(cookie.getDomain());
         cookie.setDomain("domain");
-        assertEquals("domain", cookie.getDomain());
+        assertEquals(cookie.getDomain(), "domain");
     }
 
     /**
@@ -79,9 +79,9 @@ public class CookieTest {
     @Test
     public void testGetMaxAge() {
         Cookie cookie = new Cookie("name", "value");
-        assertEquals(0, cookie.getMaxAge());
+        assertEquals(cookie.getMaxAge(), 0);
         cookie.setMaxAge(10);
-        assertEquals(10, cookie.getMaxAge());
+        assertEquals(cookie.getMaxAge(), 10);
     }
 
     /**
@@ -92,7 +92,7 @@ public class CookieTest {
         Cookie cookie = new Cookie("name", "value");
         assertNull(cookie.getPath());
         cookie.setPath("path");
-        assertEquals("path", cookie.getPath());
+        assertEquals(cookie.getPath(), "path");
     }
 
     /**
@@ -112,9 +112,9 @@ public class CookieTest {
     @Test
     public void testGetVersion() {
         Cookie cookie = new Cookie("name", "value");
-        assertEquals(0, cookie.getVersion());
+        assertEquals(cookie.getVersion(), 0);
         cookie.setVersion(10);
-        assertEquals(10, cookie.getVersion());
+        assertEquals(cookie.getVersion(), 10);
     }
 
     /**
@@ -134,8 +134,8 @@ public class CookieTest {
     @Test
     public void testSetValue() {
         Cookie cookie = new Cookie("name", "value");
-        assertEquals("value", cookie.getValue());
+        assertEquals(cookie.getValue(), "value");
         cookie.setValue("newvalue");
-        assertEquals("newvalue", cookie.getValue());
+        assertEquals(cookie.getValue(), "newvalue");
     }
 }

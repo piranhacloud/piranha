@@ -27,8 +27,8 @@
  */
 package cloud.piranha.test.snoop;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * An integration test to verify running a exploded web application coming from
@@ -44,7 +44,7 @@ public class SnoopServletIT {
      * @throws Exception when an error occurs.
      */
     @Test
-    @Ignore
+    @Disabled
     public void testConfigure() throws Exception {
         /*
         final MicroPiranha piranha = new MicroPiranha();

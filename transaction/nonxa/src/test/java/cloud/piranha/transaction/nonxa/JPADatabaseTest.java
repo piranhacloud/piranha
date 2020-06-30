@@ -33,9 +33,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.transaction.Transaction;
 import org.h2.jdbcx.JdbcDataSource;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * s
@@ -76,9 +76,9 @@ public class JPADatabaseTest {
         em.persist(jpaTest);
         em.flush();
         Transaction transaction = transactionManager.getTransaction();
-        assertEquals(0, transaction.getStatus());
+        assertEquals(transaction.getStatus(), 0);
         transactionManager.commit();
-        assertEquals(3, transaction.getStatus());
+        assertEquals(transaction.getStatus(), 3);
         em = emf.createEntityManager();
         JPATest jpaTest2 = em.find(JPATest.class, 3);
         assertNotNull(jpaTest2);

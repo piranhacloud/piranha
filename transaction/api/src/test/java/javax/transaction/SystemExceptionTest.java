@@ -26,9 +26,9 @@
  */
 package javax.transaction;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the SystemException class.
@@ -43,7 +43,7 @@ public class SystemExceptionTest {
     @Test
     public void testGetMessage() {
         SystemException exception = new SystemException("message");
-        assertEquals("message", exception.getMessage());
+        assertEquals(exception.getMessage(), "message");
     }  
     
     /**
@@ -61,6 +61,6 @@ public class SystemExceptionTest {
     @Test
     public void testGettingErrorCode() {
         SystemException exception = new SystemException(1);
-        assertEquals(1, exception.errorCode);
+        assertEquals(exception.errorCode, 1);
     }
 }

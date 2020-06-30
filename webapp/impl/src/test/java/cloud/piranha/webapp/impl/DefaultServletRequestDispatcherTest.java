@@ -27,14 +27,12 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for DefaultServletRequestDispatcher.
@@ -90,7 +88,7 @@ public class DefaultServletRequestDispatcherTest {
      *
      * @throws Exception when an error occurs.
      */
-    @Test(expected = IOException.class)
+    @Test
     public void testForward3() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
@@ -101,8 +99,7 @@ public class DefaultServletRequestDispatcherTest {
         webApp.initialize();
         webApp.start();
         RequestDispatcher dispatcher = webApp.getRequestDispatcher("/Error");
-        dispatcher.forward(request, response);
-        fail();
+        assertThrows(IOException.class, () -> dispatcher.forward(request, response));
     }
 
     /**
@@ -110,7 +107,7 @@ public class DefaultServletRequestDispatcherTest {
      *
      * @throws Exception when an error occurs.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testForward4() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
@@ -121,8 +118,7 @@ public class DefaultServletRequestDispatcherTest {
         webApp.initialize();
         webApp.start();
         RequestDispatcher dispatcher = webApp.getRequestDispatcher("/Runtime");
-        dispatcher.forward(request, response);
-        fail();
+        assertThrows(RuntimeException.class, () -> dispatcher.forward(request, response));
     }
 
     /**

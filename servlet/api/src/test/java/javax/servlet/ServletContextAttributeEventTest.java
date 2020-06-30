@@ -27,8 +27,9 @@
  */
 package javax.servlet;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * The JUnit tests for the ServletContextAttributeEvent class.
@@ -44,7 +45,7 @@ public class ServletContextAttributeEventTest {
     public void testGetName() {
         ServletContext servletContext = new TestServletContext();
         ServletContextAttributeEvent event = new ServletContextAttributeEvent(servletContext, "name", "value");
-        assertEquals("name", event.getName());
+        assertEquals(event.getName(), "name");
     }
 
     /**
@@ -54,6 +55,6 @@ public class ServletContextAttributeEventTest {
     public void testGetValue() {
         ServletContext servletContext = new TestServletContext();
         ServletContextAttributeEvent event = new ServletContextAttributeEvent(servletContext, "name", "value");
-        assertEquals("value", event.getValue());
+        assertEquals(event.getValue(), "value");
     }
 }

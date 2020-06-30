@@ -29,9 +29,10 @@ package cloud.piranha.webapp.impl;
 
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DirectoryResource;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
-import static org.junit.Assert.assertNotNull;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * The integration tests for the DefaultWebApplicationClassLoader.

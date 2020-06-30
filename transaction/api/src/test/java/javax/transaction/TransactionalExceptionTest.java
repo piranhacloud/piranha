@@ -26,9 +26,9 @@
  */
 package javax.transaction;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the TransactionalException class.
@@ -43,7 +43,7 @@ public class TransactionalExceptionTest {
     @Test
     public void testGetMessage() {
         TransactionalException exception = new TransactionalException("message", new Throwable());
-        assertEquals("message", exception.getMessage());
+        assertEquals(exception.getMessage(), "message");
     }    
     /**
      * Test getMessage method.

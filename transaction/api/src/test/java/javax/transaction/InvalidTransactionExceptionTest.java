@@ -26,9 +26,10 @@
  */
 package javax.transaction;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * The JUnit tests for the InvalidTransactionException class.
@@ -43,7 +44,7 @@ public class InvalidTransactionExceptionTest {
     @Test
     public void testGetMessage() {
         InvalidTransactionException exception = new InvalidTransactionException("message");
-        assertEquals("message", exception.getMessage());
+        assertEquals(exception.getMessage(), "message");
     }    
     /**
      * Test getMessage method.
