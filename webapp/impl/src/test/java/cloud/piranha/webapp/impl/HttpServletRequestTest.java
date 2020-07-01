@@ -75,7 +75,7 @@ public class HttpServletRequestTest {
      */
     @Test
     public void testSetCharacterEncoding2() throws Exception {
-        assertEquals(httpServletRequest.getCharacterEncoding(), "ISO-8859-1");
+        assertNull(httpServletRequest.getCharacterEncoding());
         httpServletRequest.getReader();
         httpServletRequest.setCharacterEncoding("UTF-8");
         assertNotEquals(httpServletRequest.getCharacterEncoding(), "UTF-8");
