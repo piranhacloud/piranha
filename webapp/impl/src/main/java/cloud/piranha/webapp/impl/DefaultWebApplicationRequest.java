@@ -36,6 +36,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -297,7 +298,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.asyncStarted = false;
         this.asyncSupported = false;
         this.attributeManager = new DefaultAttributeManager();
-        this.characterEncoding = "ISO-8859-1";
+        this.characterEncoding = null;
         this.contentLength = -1;
         this.contentType = null;
         this.contextPath = "";
@@ -820,7 +821,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (!gotInputStream) {
             gotReader = true;
             if (reader == null) {
-                reader = new BufferedReader(new InputStreamReader(inputStream));
+                reader = new BufferedReader(new InputStreamReader(this, characterEncoding == null ? StandardCharsets.ISO_8859_1.toString() : characterEncoding));
             }
         } else {
             throw new IllegalStateException("Cannot getReader because getInputStream has been previously called");
@@ -1262,6 +1263,16 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public void setContentType(String contentType) {
         this.contentType = contentType;
+        String[] parts = contentType.split(";");
+        if (parts.length == 1) {
+            return;
+        }
+        String charset = parts[1].trim();
+        String[] pair = charset.split("=");
+        if (pair.length == 1) {
+            return;
+        }
+        characterEncoding = pair[1].trim();
     }
 
     /**
