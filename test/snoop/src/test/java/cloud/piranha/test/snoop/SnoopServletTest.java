@@ -64,7 +64,7 @@ public class SnoopServletTest {
         EmbeddedResponse response = new EmbeddedResponseBuilder()
                 .build();
         piranha.service(request, response);
-        assertEquals(response.getStatus(), 200);
+        assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Snoop"));
         piranha.stop()
                 .destroy();
@@ -90,7 +90,7 @@ public class SnoopServletTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(response.getStatus(), 200);
+        assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Snoop"));
         piranha.stop()
                 .destroy();
@@ -117,7 +117,7 @@ public class SnoopServletTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(response.getStatus(), 200);
+        assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Snoop"));
         piranha.stop()
                 .destroy();

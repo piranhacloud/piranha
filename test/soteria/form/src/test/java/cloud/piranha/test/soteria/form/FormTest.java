@@ -97,7 +97,7 @@ public class FormTest {
         piranha.service(request, response);
         assertTrue(
                 response.getResponseAsString().contains(
-                        "Enter name and password to authenticate"),
+                                "Enter name and password to authenticate"),
                 "Should have received login page, but did not"
         );
 
@@ -138,7 +138,7 @@ public class FormTest {
         assertFalse(
                 response.getResponseAsString().contains("web username: null"),
                 "Protected resource could be accessed, but the user appears to be the unauthenticated user. "
-                + "This should not be possible"
+                        + "This should not be possible"
         );
 
         // An authenticated user should have the exact name "test" and nothing else.
@@ -154,7 +154,7 @@ public class FormTest {
         assertTrue(
                 response.getResponseAsString().contains("web user has role \"architect\": true"),
                 "Resource protected by role \"architect\" could be accessed, but user fails test for this role."
-                + "This should not be possible"
+                        + "This should not be possible"
         );
 
         request = new EmbeddedRequestBuilder()
@@ -173,7 +173,7 @@ public class FormTest {
         assertFalse(
                 response.getResponseAsString().contains("web username: null"),
                 "Protected resource could be accessed, but the user appears to be the unauthenticated user. "
-                + "This should not be possible"
+                        + "This should not be possible"
         );
 
         // An authenticated user should have the exact name "test" and nothing else.
@@ -189,7 +189,7 @@ public class FormTest {
         assertTrue(
                 response.getResponseAsString().contains("web user has role \"architect\": true"),
                 "Resource protected by role \"architect\" could be accessed, but user fails test for this role."
-                + "This should not be possible"
+                        + "This should not be possible"
         );
     }
 }

@@ -70,22 +70,22 @@ public class JPA2DatabasesTest {
         em.persist(jpaTest);
         em.flush();
         Transaction transaction = transactionManager.getTransaction();
-        assertEquals(transaction.getStatus(), 0);
+        assertEquals(0, transaction.getStatus());
         EntityManager em2 = emf2.createEntityManager();
         JPATest jpaTest2 = new JPATest();
         jpaTest2.setId(2);
         em2.persist(jpaTest2);
         em2.flush();
         Transaction transaction2 = transactionManager.getTransaction();
-        assertEquals(transaction2.getStatus(), 0);
+        assertEquals(0, transaction2.getStatus());
         transactionManager.commit();
         
-        assertEquals(transaction.getStatus(), 3);
+        assertEquals(3, transaction.getStatus());
         em = emf.createEntityManager();
         JPATest jpaTestb = em.find(JPATest.class, 1);
         assertNotNull(jpaTestb);
         assertEquals(jpaTest.getId(), jpaTestb.getId());
-        assertEquals(transaction2.getStatus(), 3);
+        assertEquals(3, transaction2.getStatus());
         em2 = emf2.createEntityManager();
         JPATest jpaTest2b = em2.find(JPATest.class, 2);
         assertNotNull(jpaTest2b);

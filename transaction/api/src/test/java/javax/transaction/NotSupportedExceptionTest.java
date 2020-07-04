@@ -43,7 +43,7 @@ public class NotSupportedExceptionTest {
     @Test
     public void testGetMessage() {
         NotSupportedException exception = new NotSupportedException("message");
-        assertEquals(exception.getMessage(), "message");
+        assertEquals("message", exception.getMessage());
     }    
     /**
      * Test getMessage method.

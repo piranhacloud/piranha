@@ -77,13 +77,13 @@ public class DefaultHttpServerTest extends HttpServerTest {
     public void testSoTimeout() {
         DefaultHttpServer server = new DefaultHttpServer(
                 8765, new DefaultHttpServerProcessor(), 2000);
-        assertEquals(server.getSoTimeout(), 2000);
+        assertEquals(2000, server.getSoTimeout());
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
-            assertEquals(response.statusCode(), 200);
+            assertEquals(200, response.statusCode());
         } catch (IOException | InterruptedException ioe) {
             throw new RuntimeException(ioe);
         } finally {

@@ -45,8 +45,8 @@ public class HttpConstraintElementTest {
     public void testConstructor() {
         HttpConstraintElement element = new HttpConstraintElement(
                 ServletSecurity.TransportGuarantee.NONE, "developer");
-        assertEquals(element.getEmptyRoleSemantic(), ServletSecurity.EmptyRoleSemantic.PERMIT);
-        assertEquals(element.getTransportGuarantee(), ServletSecurity.TransportGuarantee.NONE);
-        assertEquals(element.getRolesAllowed()[0], "developer");
+        assertEquals(ServletSecurity.EmptyRoleSemantic.PERMIT, element.getEmptyRoleSemantic());
+        assertEquals(ServletSecurity.TransportGuarantee.NONE, element.getTransportGuarantee());
+        assertEquals("developer", element.getRolesAllowed()[0]);
     }
 }

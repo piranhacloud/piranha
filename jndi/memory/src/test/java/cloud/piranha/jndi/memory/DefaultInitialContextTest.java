@@ -62,7 +62,7 @@ public class DefaultInitialContextTest {
     public void testAddToEnvironment() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.addToEnvironment("test", "test");
-        assertEquals(context.removeFromEnvironment("test"), "test");
+        assertEquals("test", context.removeFromEnvironment("test"));
         assertNull(context.removeFromEnvironment("test"));
     }
 
@@ -90,10 +90,10 @@ public class DefaultInitialContextTest {
         context.createSubcontext("context");
         context.bind("context/name1", "value1");
         assertNotNull(context.lookup("context/name1"));
-        assertEquals(context.lookup("context/name1"), "value1");
+        assertEquals("value1", context.lookup("context/name1"));
         context.bind("context/name2", "value2");
         assertNotNull(context.lookup("context/name2"));
-        assertEquals(context.lookup("context/name2"), "value2");
+        assertEquals("value2", context.lookup("context/name2"));
     }
 
     /**
@@ -361,7 +361,7 @@ public class DefaultInitialContextTest {
         assertNotNull(enumeration);
         assertTrue(enumeration.hasMore());
         Binding binding = enumeration.next();
-        assertEquals(binding.getName(), "name");
+        assertEquals("name", binding.getName());
         assertThrows(NoSuchElementException.class, enumeration::next);
     }
 
@@ -393,7 +393,7 @@ public class DefaultInitialContextTest {
         assertNotNull(enumeration);
         assertTrue(enumeration.hasMoreElements());
         Binding binding = enumeration.nextElement();
-        assertEquals(binding.getName(), "name");
+        assertEquals("name", binding.getName());
     }
 
     /**

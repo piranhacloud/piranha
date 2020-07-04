@@ -59,7 +59,7 @@ public class NanoResponseTest {
     public void testAddDateHeader() {
         NanoResponse response = new NanoResponse();
         response.addDateHeader("name", 0);
-        assertEquals(response.getHeader("name"), "0");
+        assertEquals("0", response.getHeader("name"));
     }
 
     /**
@@ -69,7 +69,7 @@ public class NanoResponseTest {
     public void testAddHeader() {
         NanoResponse response = new NanoResponse();
         response.addHeader("name", "value");
-        assertEquals(response.getHeader("name"), "value");
+        assertEquals("value", response.getHeader("name"));
     }
 
     /**
@@ -79,7 +79,7 @@ public class NanoResponseTest {
     public void testAddIntHeader() {
         NanoResponse response = new NanoResponse();
         response.addIntHeader("name", 1);
-        assertEquals(response.getHeader("name"), "1");
+        assertEquals("1", response.getHeader("name"));
     }
 
     /**
@@ -98,7 +98,7 @@ public class NanoResponseTest {
     public void testEncodeRedirectURL() {
         NanoResponse response = new NanoResponse();
         response.setWebApplication(new DefaultWebApplication());
-        assertEquals(response.encodeRedirectURL("url"), "url");
+        assertEquals("url", response.encodeRedirectURL("url"));
     }
 
     /**
@@ -108,7 +108,7 @@ public class NanoResponseTest {
     public void testEncodeRedirectUrl() {
         NanoResponse response = new NanoResponse();
         response.setWebApplication(new DefaultWebApplication());
-        assertEquals(response.encodeRedirectUrl("url"), "url");
+        assertEquals("url", response.encodeRedirectUrl("url"));
     }
 
     /**
@@ -119,7 +119,7 @@ public class NanoResponseTest {
         NanoResponse response = new NanoResponse();
         response.setWebApplication(new DefaultWebApplication());
         assertNotNull(response.encodeURL("url"));
-        assertEquals(response.encodeURL("url"), "url");
+        assertEquals("url", response.encodeURL("url"));
     }
 
     /**
@@ -129,7 +129,7 @@ public class NanoResponseTest {
     public void testEncodeUrl() {
         NanoResponse response = new NanoResponse();
         response.setWebApplication(new DefaultWebApplication());
-        assertEquals(response.encodeUrl("url"), "url");
+        assertEquals("url", response.encodeUrl("url"));
     }
 
     /**
@@ -165,7 +165,7 @@ public class NanoResponseTest {
     @Test
     public void testGetStatus() {
         NanoResponse response = new NanoResponse();
-        assertEquals(response.getStatus(), 200);
+        assertEquals(200, response.getStatus());
     }
     
     /**
@@ -178,7 +178,7 @@ public class NanoResponseTest {
         NanoResponse response = new NanoResponse();
         response.setUnderlyingOutputStream(new ByteArrayOutputStream());
         response.sendError(500, "Errror");
-        assertEquals(response.getStatus(), 500);
+        assertEquals(500, response.getStatus());
     }
 
     /**
@@ -191,7 +191,7 @@ public class NanoResponseTest {
         NanoResponse response = new NanoResponse();
         response.setUnderlyingOutputStream(new ByteArrayOutputStream());
         response.sendError(500);
-        assertEquals(response.getStatus(), 500);
+        assertEquals(500, response.getStatus());
     }
 
     /**
@@ -228,7 +228,7 @@ public class NanoResponseTest {
     public void testSetHeader() {
         NanoResponse response = new NanoResponse();
         response.setHeader("header", "value");
-        assertEquals(response.getHeader("header"), "value");
+        assertEquals("value", response.getHeader("header"));
     }
 
     /**
@@ -238,6 +238,6 @@ public class NanoResponseTest {
     public void testSetIntHeader() {
         NanoResponse response = new NanoResponse();
         response.setIntHeader("header", 1);
-        assertEquals(response.getHeader("header"), "1");
+        assertEquals("1", response.getHeader("header"));
     }
 }
