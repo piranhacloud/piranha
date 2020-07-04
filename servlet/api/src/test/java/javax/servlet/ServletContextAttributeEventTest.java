@@ -45,7 +45,7 @@ public class ServletContextAttributeEventTest {
     public void testGetName() {
         ServletContext servletContext = new TestServletContext();
         ServletContextAttributeEvent event = new ServletContextAttributeEvent(servletContext, "name", "value");
-        assertEquals(event.getName(), "name");
+        assertEquals("name", event.getName());
     }
 
     /**
@@ -55,6 +55,6 @@ public class ServletContextAttributeEventTest {
     public void testGetValue() {
         ServletContext servletContext = new TestServletContext();
         ServletContextAttributeEvent event = new ServletContextAttributeEvent(servletContext, "name", "value");
-        assertEquals(event.getValue(), "value");
+        assertEquals("value", event.getValue());
     }
 }

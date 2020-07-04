@@ -46,7 +46,7 @@ public class MultipartConfigElementTest {
     @Test
     public void testGetFileSizeThreshold() {
         MultipartConfigElement element = new MultipartConfigElement("location", 0, 0, 1000);
-        assertEquals(element.getFileSizeThreshold(), 1000);
+        assertEquals(1000, element.getFileSizeThreshold());
     }
 
     /**
@@ -55,7 +55,7 @@ public class MultipartConfigElementTest {
     @Test
     public void testGetLocation() {
         MultipartConfigElement element = new MultipartConfigElement("location", 0, 0, 1000);
-        assertEquals(element.getLocation(), "location");
+        assertEquals("location", element.getLocation());
     }
 
     /**
@@ -64,7 +64,7 @@ public class MultipartConfigElementTest {
     @Test
     public void testGetMaxFileSize() {
         MultipartConfigElement element = new MultipartConfigElement("location", 1000, 0, 0);
-        assertEquals(element.getMaxFileSize(), 1000);
+        assertEquals(1000, element.getMaxFileSize());
     }
 
     /**
@@ -73,7 +73,7 @@ public class MultipartConfigElementTest {
     @Test
     public void testGetMaxRequestSize() {
         MultipartConfigElement element = new MultipartConfigElement("location", 0, 1000, 0);
-        assertEquals(element.getMaxRequestSize(), 1000);
+        assertEquals(1000, element.getMaxRequestSize());
     }
 
     /**
@@ -107,6 +107,6 @@ public class MultipartConfigElementTest {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         });
-        assertEquals(element.getMaxRequestSize(), 1000);
+        assertEquals(1000, element.getMaxRequestSize());
     }
 }

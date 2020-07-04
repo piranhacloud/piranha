@@ -110,7 +110,7 @@ public class BasicConnectionTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(response.getStatus(), 200);
+        assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Hello, from Servlet!"));
         piranha.stop().destroy();
     }
@@ -136,7 +136,7 @@ public class BasicConnectionTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(response.getStatus(), 200);
+        assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Hello, from Servlet!"));
         piranha.stop().destroy();
     }

@@ -63,7 +63,7 @@ public class HelloMyFacesTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(response.getStatus(), 404);
+        assertEquals(404, response.getStatus());
         piranha.stop()
                 .destroy();
     }
@@ -86,7 +86,7 @@ public class HelloMyFacesTest {
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertEquals(response.getStatus(), 200);
+        assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Hello MyFaces"));
         piranha.stop()
                 .destroy();

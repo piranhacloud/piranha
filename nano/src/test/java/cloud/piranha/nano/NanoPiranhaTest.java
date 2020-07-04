@@ -69,7 +69,7 @@ public class NanoPiranhaTest {
                 .build();
 
         piranha.service(request, response);
-        assertEquals(outputStream.toString(), "Hello World");
+        assertEquals("Hello World", outputStream.toString());
     }
 
     /**
@@ -153,7 +153,7 @@ public class NanoPiranhaTest {
                 .build();
 
         piranha.service(request, response);
-        assertEquals(outputStream.toString(), "q=value");
+        assertEquals("q=value", outputStream.toString());
     }
 
     /**
@@ -180,7 +180,7 @@ public class NanoPiranhaTest {
                 .build();
 
         piranha.service(request, response);
-        assertEquals(outputStream.toString(), "value");
+        assertEquals("value", outputStream.toString());
     }
 
     /**

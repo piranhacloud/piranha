@@ -43,7 +43,7 @@ public class SystemExceptionTest {
     @Test
     public void testGetMessage() {
         SystemException exception = new SystemException("message");
-        assertEquals(exception.getMessage(), "message");
+        assertEquals("message", exception.getMessage());
     }  
     
     /**
@@ -61,6 +61,6 @@ public class SystemExceptionTest {
     @Test
     public void testGettingErrorCode() {
         SystemException exception = new SystemException(1);
-        assertEquals(exception.errorCode, 1);
+        assertEquals(1, exception.errorCode);
     }
 }

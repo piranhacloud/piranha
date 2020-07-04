@@ -49,7 +49,7 @@ public class ServletSecurityElementTest {
     public void testConstructor() {
         HttpConstraintElement httpConstraintElement = new HttpConstraintElement(ServletSecurity.EmptyRoleSemantic.PERMIT);
         ServletSecurityElement element = new ServletSecurityElement(httpConstraintElement);
-        assertEquals(element.getEmptyRoleSemantic(), ServletSecurity.EmptyRoleSemantic.PERMIT);
+        assertEquals(ServletSecurity.EmptyRoleSemantic.PERMIT, element.getEmptyRoleSemantic());
         assertNotNull(element.getHttpMethodConstraints());
     }
 
@@ -62,9 +62,9 @@ public class ServletSecurityElementTest {
         ArrayList<HttpMethodConstraintElement> methodConstraints = new ArrayList<>();
         methodConstraints.add(new HttpMethodConstraintElement("HEAD"));
         ServletSecurityElement element = new ServletSecurityElement(httpConstraintElement, methodConstraints);
-        assertEquals(element.getEmptyRoleSemantic(), ServletSecurity.EmptyRoleSemantic.PERMIT);
+        assertEquals(ServletSecurity.EmptyRoleSemantic.PERMIT, element.getEmptyRoleSemantic());
         assertNotNull(element.getHttpMethodConstraints());
-        assertEquals(element.getHttpMethodConstraints().iterator().next().getMethodName(), "HEAD");
+        assertEquals("HEAD", element.getHttpMethodConstraints().iterator().next().getMethodName());
     }
 
     /**

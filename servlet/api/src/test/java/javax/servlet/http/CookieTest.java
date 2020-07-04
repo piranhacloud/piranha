@@ -59,7 +59,7 @@ public class CookieTest {
         Cookie cookie = new Cookie("name", "value");
         assertNull(cookie.getComment());
         cookie.setComment("comment");
-        assertEquals(cookie.getComment(), "comment");
+        assertEquals("comment", cookie.getComment());
     }
 
     /**
@@ -70,7 +70,7 @@ public class CookieTest {
         Cookie cookie = new Cookie("name", "value");
         assertNull(cookie.getDomain());
         cookie.setDomain("domain");
-        assertEquals(cookie.getDomain(), "domain");
+        assertEquals("domain", cookie.getDomain());
     }
 
     /**
@@ -79,9 +79,9 @@ public class CookieTest {
     @Test
     public void testGetMaxAge() {
         Cookie cookie = new Cookie("name", "value");
-        assertEquals(cookie.getMaxAge(), 0);
+        assertEquals(0, cookie.getMaxAge());
         cookie.setMaxAge(10);
-        assertEquals(cookie.getMaxAge(), 10);
+        assertEquals(10, cookie.getMaxAge());
     }
 
     /**
@@ -92,7 +92,7 @@ public class CookieTest {
         Cookie cookie = new Cookie("name", "value");
         assertNull(cookie.getPath());
         cookie.setPath("path");
-        assertEquals(cookie.getPath(), "path");
+        assertEquals("path", cookie.getPath());
     }
 
     /**
@@ -112,9 +112,9 @@ public class CookieTest {
     @Test
     public void testGetVersion() {
         Cookie cookie = new Cookie("name", "value");
-        assertEquals(cookie.getVersion(), 0);
+        assertEquals(0, cookie.getVersion());
         cookie.setVersion(10);
-        assertEquals(cookie.getVersion(), 10);
+        assertEquals(10, cookie.getVersion());
     }
 
     /**
@@ -134,8 +134,8 @@ public class CookieTest {
     @Test
     public void testSetValue() {
         Cookie cookie = new Cookie("name", "value");
-        assertEquals(cookie.getValue(), "value");
+        assertEquals("value", cookie.getValue());
         cookie.setValue("newvalue");
-        assertEquals(cookie.getValue(), "newvalue");
+        assertEquals("newvalue", cookie.getValue());
     }
 }

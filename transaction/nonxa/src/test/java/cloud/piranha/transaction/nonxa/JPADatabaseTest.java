@@ -76,9 +76,9 @@ public class JPADatabaseTest {
         em.persist(jpaTest);
         em.flush();
         Transaction transaction = transactionManager.getTransaction();
-        assertEquals(transaction.getStatus(), 0);
+        assertEquals(0, transaction.getStatus());
         transactionManager.commit();
-        assertEquals(transaction.getStatus(), 3);
+        assertEquals(3, transaction.getStatus());
         em = emf.createEntityManager();
         JPATest jpaTest2 = em.find(JPATest.class, 3);
         assertNotNull(jpaTest2);

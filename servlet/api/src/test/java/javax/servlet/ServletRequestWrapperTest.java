@@ -73,7 +73,7 @@ public class ServletRequestWrapperTest {
     @Test
     public void testCharacterEncoding() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
-        assertEquals(wrapper.getCharacterEncoding(), "UTF-8");
+        assertEquals("UTF-8", wrapper.getCharacterEncoding());
     }
     
     /**
@@ -82,7 +82,7 @@ public class ServletRequestWrapperTest {
     @Test
     public void testGetContentLength() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
-        assertEquals(wrapper.getContentLength(), -1);
+        assertEquals(-1, wrapper.getContentLength());
     }
     
     /**
@@ -91,7 +91,7 @@ public class ServletRequestWrapperTest {
     @Test
     public void testGetContentLengthLong() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
-        assertEquals(wrapper.getContentLengthLong(), -1L);
+        assertEquals(-1L, wrapper.getContentLengthLong());
     }
     
     /**
@@ -100,7 +100,7 @@ public class ServletRequestWrapperTest {
     @Test
     public void testGetContentType() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
-        assertEquals(wrapper.getContentType(), "text/html");
+        assertEquals("text/html", wrapper.getContentType());
     }
     
     /**
@@ -109,7 +109,7 @@ public class ServletRequestWrapperTest {
     @Test
     public void testGetDispatcherType() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
-        assertEquals(wrapper.getDispatcherType(), DispatcherType.ERROR);
+        assertEquals(DispatcherType.ERROR, wrapper.getDispatcherType());
     }
     
     /**
@@ -129,7 +129,7 @@ public class ServletRequestWrapperTest {
     @Test
     public void testGetLocalAddr() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
-        assertEquals(wrapper.getLocalAddr(), "127.0.0.1");
+        assertEquals("127.0.0.1", wrapper.getLocalAddr());
     }
     
     /**
@@ -138,7 +138,7 @@ public class ServletRequestWrapperTest {
     @Test
     public void testGetLocalName() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
-        assertEquals(wrapper.getLocalName(), "localhost");
+        assertEquals("localhost", wrapper.getLocalName());
     }
     
     /**
@@ -147,7 +147,7 @@ public class ServletRequestWrapperTest {
     @Test
     public void testGetLocalPort() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
-        assertEquals(wrapper.getLocalPort(), 8180);
+        assertEquals(8180, wrapper.getLocalPort());
     }
     
     /**
@@ -156,7 +156,7 @@ public class ServletRequestWrapperTest {
     @Test
     public void testGetLocale() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
-        assertEquals(wrapper.getLocale(), Locale.getDefault());
+        assertEquals(Locale.getDefault(), wrapper.getLocale());
     }
     
     /**

@@ -46,7 +46,7 @@ public class DefaultHttpSessionTest {
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(new DefaultHttpSessionManager());
         session.setAttribute("TEST", "TEST");
-        assertEquals(session.getAttribute("TEST"), "TEST");
+        assertEquals("TEST", session.getAttribute("TEST"));
         session.removeAttribute("TEST");
         assertNull(session.getAttribute("TEST"));
     }
@@ -79,7 +79,7 @@ public class DefaultHttpSessionTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setId("ID");
-        assertEquals(session.getId(), "ID");
+        assertEquals("ID", session.getId());
     }
 
     /**
@@ -101,7 +101,7 @@ public class DefaultHttpSessionTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setMaxInactiveInterval(1000);
-        assertEquals(session.getMaxInactiveInterval(), 1000);
+        assertEquals(1000, session.getMaxInactiveInterval());
     }
 
     /**
@@ -144,7 +144,7 @@ public class DefaultHttpSessionTest {
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(new DefaultHttpSessionManager());
         session.putValue("TEST", "TEST");
-        assertEquals(session.getValue("TEST"), "TEST");
+        assertEquals("TEST", session.getValue("TEST"));
         session.removeValue("TEST");
         assertNull(session.getValue("TEST"));
     }

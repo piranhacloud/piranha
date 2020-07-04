@@ -73,7 +73,7 @@ public class ApacheMultiPartTest {
         FileItem item = new DiskFileItem("fieldName", "text/html", false,
                 "delete.me", 0, file);
         ApacheMultiPart part = new ApacheMultiPart(item);
-        assertEquals(part.getContentType(), "text/html");
+        assertEquals("text/html", part.getContentType());
         file.delete();
     }
 }

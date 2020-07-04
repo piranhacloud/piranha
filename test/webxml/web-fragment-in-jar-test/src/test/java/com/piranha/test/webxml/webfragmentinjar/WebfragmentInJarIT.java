@@ -54,6 +54,6 @@ public class WebfragmentInJarIT {
         webApplication.setClassLoader(classLoader);
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
-        assertEquals(webApplication.getContextPath(), "/webfragmentInJar");
+        assertEquals("/webfragmentInJar", webApplication.getContextPath());
     }
 }

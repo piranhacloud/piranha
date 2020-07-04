@@ -99,7 +99,7 @@ public class FilterTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         webApp.service(request, response);
-        assertEquals(response.getStatus(), 200);
+        assertEquals(200, response.getStatus());
     }
 
     /**
@@ -121,7 +121,7 @@ public class FilterTest {
     public void testAddFilter5() {
         assertNotNull(webApp.addFilter("filter", TestMultiple1Filter.class));
         assertNotNull(webApp.getFilterRegistration("filter"));
-        assertEquals(webApp.getFilterRegistration("filter").getClassName(), TestMultiple1Filter.class.getCanonicalName());
+        assertEquals(TestMultiple1Filter.class.getCanonicalName(), webApp.getFilterRegistration("filter").getClassName());
     }
 
     /**
@@ -218,7 +218,7 @@ public class FilterTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         webApp.service(request, response);
-        assertEquals(response.getStatus(), 200);
+        assertEquals(200, response.getStatus());
     }
 
     /**
