@@ -44,7 +44,7 @@ public class UnavailableExceptionTest {
     @Test
     public void testConstructor() {
         UnavailableException exception = new UnavailableException("Unavailable", 100);
-        assertEquals(exception.getUnavailableSeconds(), 100);
+        assertEquals(100, exception.getUnavailableSeconds());
     }
 
     /**
@@ -78,7 +78,7 @@ public class UnavailableExceptionTest {
     @Test
     public void testGetUnavailableSeconds() {
         UnavailableException exception = new UnavailableException("Unavailable");
-        assertEquals(exception.getUnavailableSeconds(), -1);
+        assertEquals(-1, exception.getUnavailableSeconds());
     }
 
     /**

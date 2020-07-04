@@ -295,7 +295,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetDispatcherType() throws Exception {
         HttpServletRequest request = new TestWebApplicationRequest();
-        assertEquals(request.getDispatcherType(), DispatcherType.REQUEST);
+        assertEquals(DispatcherType.REQUEST, request.getDispatcherType());
     }
 
     /**
@@ -304,7 +304,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetEffectiveMajorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(webApp.getEffectiveMajorVersion(), 4);
+        assertEquals(4, webApp.getEffectiveMajorVersion());
     }
 
     /**
@@ -313,7 +313,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetEffectiveMinorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(webApp.getEffectiveMinorVersion(), 0);
+        assertEquals(0, webApp.getEffectiveMinorVersion());
     }
 
     /**
@@ -334,7 +334,7 @@ public class DefaultWebApplicationTest {
     public void testGetInitParameter() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setInitParameter("initParameter", Boolean.TRUE.toString());
-        assertEquals(webApp.getInitParameter("initParameter"), "true");
+        assertEquals("true", webApp.getInitParameter("initParameter"));
     }
 
     /**
@@ -345,7 +345,7 @@ public class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setInitParameter("initParameter", Boolean.TRUE.toString());
         Enumeration<String> enumeration = webApp.getInitParameterNames();
-        assertEquals(enumeration.nextElement(), "initParameter");
+        assertEquals("initParameter", enumeration.nextElement());
         assertFalse(enumeration.hasMoreElements());
     }
 
@@ -364,7 +364,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetMajorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(webApp.getMajorVersion(), 4);
+        assertEquals(4, webApp.getMajorVersion());
     }
 
     /**
@@ -396,7 +396,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetMinorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(webApp.getMinorVersion(), 0);
+        assertEquals(0, webApp.getMinorVersion());
     }
 
     /**
@@ -464,7 +464,7 @@ public class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getRequestCharacterEncoding());
         webApp.setRequestCharacterEncoding("UTF-8");
-        assertEquals(webApp.getRequestCharacterEncoding(), "UTF-8");
+        assertEquals("UTF-8", webApp.getRequestCharacterEncoding());
     }
 
     /**
@@ -556,7 +556,7 @@ public class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getResponseCharacterEncoding());
         webApp.setResponseCharacterEncoding("UTF-8");
-        assertEquals(webApp.getResponseCharacterEncoding(), "UTF-8");
+        assertEquals("UTF-8", webApp.getResponseCharacterEncoding());
     }
 
     /**
@@ -587,7 +587,7 @@ public class DefaultWebApplicationTest {
     @Test
     public void testGetServerInfo() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(webApp.getServerInfo(), "");
+        assertEquals("", webApp.getServerInfo());
     }
 
     /**
@@ -610,7 +610,7 @@ public class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setServletContextName("MYNAME");
         assertNotNull(webApp.getServletContextName());
-        assertEquals(webApp.getServletContextName(), "MYNAME");
+        assertEquals("MYNAME", webApp.getServletContextName());
     }
 
     /**
@@ -707,7 +707,7 @@ public class DefaultWebApplicationTest {
     public void testGetVirtualServerName() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setVirtualServerName("myname");
-        assertEquals(webApp.getVirtualServerName(), "myname");
+        assertEquals("myname", webApp.getVirtualServerName());
     }
 
     /**
@@ -906,7 +906,7 @@ public class DefaultWebApplicationTest {
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
-        assertEquals(response.getStatus(), 404);
+        assertEquals(404, response.getStatus());
     }
 
     public class TrackServletRequestListener implements ServletRequestListener {
@@ -947,7 +947,7 @@ public class DefaultWebApplicationTest {
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
-        assertEquals(response.getStatus(), 404);
+        assertEquals(404, response.getStatus());
     }
 
     /**

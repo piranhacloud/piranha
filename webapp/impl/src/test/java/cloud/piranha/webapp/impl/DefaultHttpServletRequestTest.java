@@ -139,7 +139,7 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testGetContentLengthLong() {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(request.getContentLengthLong(), -1L);
+        assertEquals(-1L, request.getContentLengthLong());
     }
 
     /**
@@ -148,7 +148,7 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testGetDateHeader() {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(request.getDateHeader("notfound"), -1L);
+        assertEquals(-1L, request.getDateHeader("notfound"));
     }
 
     /**
@@ -157,7 +157,7 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testGetIntHeader() {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(request.getIntHeader("notfound"), -1);
+        assertEquals(-1, request.getIntHeader("notfound"));
     }
 
     /**
@@ -385,7 +385,7 @@ public class DefaultHttpServletRequestTest {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertNull(request.getCharacterEncoding());
         request.setCharacterEncoding("UTF-8");
-        assertEquals(request.getCharacterEncoding(), "UTF-8");
+        assertEquals("UTF-8", request.getCharacterEncoding());
     }
 
     /**
@@ -401,8 +401,8 @@ public class DefaultHttpServletRequestTest {
         cookies[0] = new Cookie("name", "value");
         request.setCookies(cookies);
         assertNotNull(request.getCookies());
-        assertEquals(request.getCookies()[0].getName(), "name");
-        assertEquals(request.getCookies()[0].getValue(), "value");
+        assertEquals("name", request.getCookies()[0].getName());
+        assertEquals("value", request.getCookies()[0].getValue());
     }
 
     /**
@@ -413,7 +413,7 @@ public class DefaultHttpServletRequestTest {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertNull(request.getLocalAddr());
         request.setLocalAddr("127.0.0.1");
-        assertEquals(request.getLocalAddr(), "127.0.0.1");
+        assertEquals("127.0.0.1", request.getLocalAddr());
     }
 
     /**
@@ -424,7 +424,7 @@ public class DefaultHttpServletRequestTest {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertNull(request.getLocalName());
         request.setLocalName("localhost");
-        assertEquals(request.getLocalName(), "localhost");
+        assertEquals("localhost", request.getLocalName());
     }
 
     /**
@@ -433,9 +433,9 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testSetLocalPort() {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(request.getLocalPort(), 0);
+        assertEquals(0, request.getLocalPort());
         request.setLocalPort(12345);
-        assertEquals(request.getLocalPort(), 12345);
+        assertEquals(12345, request.getLocalPort());
     }
 
     /**
@@ -444,9 +444,9 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testSetProtocol() {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(request.getProtocol(), "HTTP/1.1");
+        assertEquals("HTTP/1.1", request.getProtocol());
         request.setProtocol("HTTP/1.0");
-        assertEquals(request.getProtocol(), "HTTP/1.0");
+        assertEquals("HTTP/1.0", request.getProtocol());
     }
 
     /**
@@ -457,7 +457,7 @@ public class DefaultHttpServletRequestTest {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertNull(request.getRemoteAddr());
         request.setRemoteAddr("127.0.0.1");
-        assertEquals(request.getRemoteAddr(), "127.0.0.1");
+        assertEquals("127.0.0.1", request.getRemoteAddr());
     }
 
     /**
@@ -468,7 +468,7 @@ public class DefaultHttpServletRequestTest {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertNull(request.getRemoteHost());
         request.setRemoteHost("localhost");
-        assertEquals(request.getRemoteHost(), "localhost");
+        assertEquals("localhost", request.getRemoteHost());
     }
 
     /**
@@ -477,9 +477,9 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testSetRemotePort() {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(request.getRemotePort(), 0);
+        assertEquals(0, request.getRemotePort());
         request.setRemotePort(12345);
-        assertEquals(request.getRemotePort(), 12345);
+        assertEquals(12345, request.getRemotePort());
     }
 
     /**
@@ -510,9 +510,9 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testSetServerName() {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(request.getServerName(), "localhost");
+        assertEquals("localhost", request.getServerName());
         request.setServerName("my.host.com");
-        assertEquals(request.getServerName(), "my.host.com");
+        assertEquals("my.host.com", request.getServerName());
     }
 
     /**
@@ -521,9 +521,9 @@ public class DefaultHttpServletRequestTest {
     @Test
     public void testSetServerPort() {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(request.getServerPort(), 80);
+        assertEquals(80, request.getServerPort());
         request.setServerPort(8080);
-        assertEquals(request.getServerPort(), 8080);
+        assertEquals(8080, request.getServerPort());
     }
 
     /**

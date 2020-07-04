@@ -78,7 +78,7 @@ public class ServletRegistrationTest {
         webApp.addServlet("servlet", TestServlet.class);
         ServletRegistration registration = webApp.getServletRegistration("servlet");
         registration.setInitParameter("name", "value");
-        assertEquals(registration.getInitParameter("name"), "value");
+        assertEquals("value", registration.getInitParameter("name"));
     }
     /**
      * Test getInitParameters method.
@@ -108,7 +108,7 @@ public class ServletRegistrationTest {
         ServletRegistration.Dynamic registration = (ServletRegistration.Dynamic) webApp.getServletRegistration("servlet");
         registration.setRunAsRole("role");
         assertNotNull(registration.getRunAsRole());
-        assertEquals(registration.getRunAsRole(), "role");
+        assertEquals("role", registration.getRunAsRole());
     }
 
     /**

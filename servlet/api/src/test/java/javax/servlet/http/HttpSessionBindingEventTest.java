@@ -44,7 +44,7 @@ public class HttpSessionBindingEventTest {
     public void testGetName() {
         HttpSession session = new TestHttpSession();
         HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, "name");
-        assertEquals(event.getName(), "name");
+        assertEquals("name", event.getName());
     }
 
     /**
@@ -64,6 +64,6 @@ public class HttpSessionBindingEventTest {
     public void testGetValue() {
         HttpSession session = new TestHttpSession();
         HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, "name", "value");
-        assertEquals(event.getValue(), "value");
+        assertEquals("value", event.getValue());
     }
 }

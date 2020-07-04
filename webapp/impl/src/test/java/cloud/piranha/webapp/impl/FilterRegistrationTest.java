@@ -99,7 +99,7 @@ public class FilterRegistrationTest {
     public void testGetName() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
-        assertEquals(registration.getName(), "filter");
+        assertEquals("filter", registration.getName());
     }
 
     /**
@@ -109,8 +109,8 @@ public class FilterRegistrationTest {
     public void testGetClassName() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
-        assertEquals(registration.getClassName(),
-                TestFilterRegistrationFilter.class.getCanonicalName());
+        assertEquals(TestFilterRegistrationFilter.class.getCanonicalName(),
+                registration.getClassName());
     }
 
     /**

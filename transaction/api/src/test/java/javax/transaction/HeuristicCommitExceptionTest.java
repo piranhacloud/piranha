@@ -43,7 +43,7 @@ public class HeuristicCommitExceptionTest {
     @Test
     public void testGetMessage() {
         HeuristicCommitException exception = new HeuristicCommitException("message");
-        assertEquals(exception.getMessage(), "message");
+        assertEquals("message", exception.getMessage());
     }    
     /**
      * Test getMessage method.

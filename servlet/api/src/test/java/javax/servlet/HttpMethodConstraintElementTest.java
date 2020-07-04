@@ -43,7 +43,7 @@ public class HttpMethodConstraintElementTest {
     @Test
     public void testGetMethodName() {
         HttpMethodConstraintElement element = new HttpMethodConstraintElement("methodName");
-        assertEquals(element.getMethodName(), "methodName");
+        assertEquals("methodName", element.getMethodName());
     }
 
     /**
@@ -52,6 +52,6 @@ public class HttpMethodConstraintElementTest {
     @Test
     public void testGetMethodName2() {
         HttpMethodConstraintElement element = new HttpMethodConstraintElement("methodName", new HttpConstraintElement());
-        assertEquals(element.getMethodName(), "methodName");
+        assertEquals("methodName", element.getMethodName());
     }
 }

@@ -101,7 +101,7 @@ public class BasicTest {
         assertFalse(
                 response.getResponseAsString().contains("web username: null"),
                 "Protected resource could be accessed, but the user appears to be the unauthenticated user. "
-                + "This should not be possible"
+                        + "This should not be possible"
         );
 
         // An authenticated user should have the exact name "test" and nothing else.
@@ -117,7 +117,7 @@ public class BasicTest {
         assertTrue(
                 response.getResponseAsString().contains("web user has role \"architect\": true"),
                 "Resource protected by role \"architect\" could be accessed, but user fails test for this role."
-                + "This should not be possible"
+                        + "This should not be possible"
         );
         piranha.stop().destroy();
     }

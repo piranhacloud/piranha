@@ -44,6 +44,6 @@ public class DefaultSecurityPrincipalTest {
     @Test
     public void testGetName() {
         DefaultSecurityPrincipal principal = new DefaultSecurityPrincipal("user");
-        assertEquals(principal.getName(), "user");
+        assertEquals("user", principal.getName());
     }
 }

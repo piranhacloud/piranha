@@ -43,7 +43,7 @@ public class TransactionalExceptionTest {
     @Test
     public void testGetMessage() {
         TransactionalException exception = new TransactionalException("message", new Throwable());
-        assertEquals(exception.getMessage(), "message");
+        assertEquals("message", exception.getMessage());
     }    
     /**
      * Test getMessage method.

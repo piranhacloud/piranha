@@ -61,7 +61,7 @@ public class MicroPiranhaTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/does-not-exist")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
-            assertEquals(response.statusCode(), 404);
+            assertEquals(404, response.statusCode());
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
@@ -87,7 +87,7 @@ public class MicroPiranhaTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8088/does-not-exist")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
-            assertEquals(response.statusCode(), 404);
+            assertEquals(404, response.statusCode());
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }

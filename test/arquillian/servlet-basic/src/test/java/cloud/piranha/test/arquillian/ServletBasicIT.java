@@ -100,7 +100,7 @@ public class ServletBasicIT {
         try {
             webClient.getPage(base + "/protected/servlet");
         } catch (FailingHttpStatusCodeException e) {
-            assertEquals(e.getStatusCode(), 401);
+            assertEquals(401, e.getStatusCode());
             return;
         }
         

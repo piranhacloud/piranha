@@ -115,7 +115,7 @@ public class DefaultWebApplicationServerTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8180/context/snoop/index.html")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
-            assertEquals(response.statusCode(), 200);
+            assertEquals(200, response.statusCode());
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }

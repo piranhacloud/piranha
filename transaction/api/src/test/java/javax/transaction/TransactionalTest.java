@@ -62,7 +62,7 @@ public class TransactionalTest {
     @Test
     public void testValue() {
         Transactional transactional = new TestTransactional();
-        assertEquals(transactional.value(), TxType.MANDATORY);
+        assertEquals(TxType.MANDATORY, transactional.value());
     }
     
     /**

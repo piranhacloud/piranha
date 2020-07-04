@@ -58,16 +58,16 @@ public class WebXmlParserTest {
         WebXmlParser parser = new WebXmlParser();
         WebXml webXml = parser.parse(inputStream);
         assertFalse(webXml.getServlets().isEmpty());
-        assertEquals(webXml.getServlets().size(), 2);
-        assertNotEquals(webXml.getServlets().get(1).getServletName(), webXml.getServlets().get(0).getServletName());
+        assertEquals(2, webXml.getServlets().size());
+        assertNotEquals(webXml.getServlets().get(0).getServletName(), webXml.getServlets().get(1).getServletName());
         assertTrue(webXml.getServlets().get(0).isAsyncSupported());
         assertFalse(webXml.getFilters().isEmpty());
-        assertEquals(webXml.getFilters().size(), 1);
-        assertEquals(webXml.getDefaultContextPath(), "/defaultContextPath");
+        assertEquals(1, webXml.getFilters().size());
+        assertEquals("/defaultContextPath", webXml.getDefaultContextPath());
         assertTrue(webXml.getDenyUncoveredHttpMethods());
-        assertEquals(webXml.getDisplayName(), "myServletContextName");
+        assertEquals("myServletContextName", webXml.getDisplayName());
         assertTrue(webXml.isDistributable());
-        assertEquals(webXml.getResponseCharacterEncoding(), "UTF-8");
+        assertEquals("UTF-8", webXml.getResponseCharacterEncoding());
     }
     
     /**
@@ -82,11 +82,11 @@ public class WebXmlParserTest {
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
         WebXmlParser parser = new WebXmlParser();
         WebXml webXml = parser.parse(inputStream);
-        assertNotEquals(webXml.getDefaultContextPath(), "/defaultContextPath");
+        assertNotEquals("/defaultContextPath", webXml.getDefaultContextPath());
         assertFalse(webXml.getDenyUncoveredHttpMethods());
-        assertNotEquals(webXml.getDisplayName(), "myServletContextName");
+        assertNotEquals("myServletContextName", webXml.getDisplayName());
         assertFalse(webXml.isDistributable());
-        assertNotEquals(webXml.getResponseCharacterEncoding(), "UTF-8");
+        assertNotEquals("UTF-8", webXml.getResponseCharacterEncoding());
     }
     
     /**
@@ -101,6 +101,6 @@ public class WebXmlParserTest {
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
         WebXmlParser parser = new WebXmlParser();
         WebXml webXml = parser.parse(inputStream);
-        assertEquals(webXml.getWelcomeFiles().get(0), "index.html");
+        assertEquals("index.html", webXml.getWelcomeFiles().get(0));
     }
 }
