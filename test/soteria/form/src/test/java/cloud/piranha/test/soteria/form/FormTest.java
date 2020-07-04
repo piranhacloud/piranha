@@ -96,9 +96,9 @@ public class FormTest {
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
         assertTrue(
-                "Should have received login page, but did not",
                 response.getResponseAsString().contains(
-                        "Enter name and password to authenticate")
+                                "Enter name and password to authenticate"),
+                "Should have received login page, but did not"
         );
 
         Cookie sessionCookie = response.getCookies().iterator().next();
@@ -114,8 +114,8 @@ public class FormTest {
         response = new EmbeddedResponse();
         piranha.service(request, response);
         assertTrue(
-                "Should redirect",
-                response.getStatus() == 302
+                response.getStatus() == 302,
+                "Should redirect"
         );
 
         URL redirectUrl = new URL(response.getHeader("Location"));
@@ -136,15 +136,15 @@ public class FormTest {
         // system checks roles on the authenticated subject, but does not correctly expose
         // or propagate these to the HttpServletRequest
         assertFalse(
+                response.getResponseAsString().contains("web username: null"),
                 "Protected resource could be accessed, but the user appears to be the unauthenticated user. "
-                + "This should not be possible",
-                response.getResponseAsString().contains("web username: null")
+                        + "This should not be possible"
         );
 
         // An authenticated user should have the exact name "test" and nothing else.
         assertTrue(
-                "Protected resource could be accessed, but the username is not correct.",
-                response.getResponseAsString().contains("web username: test")
+                response.getResponseAsString().contains("web username: test"),
+                "Protected resource could be accessed, but the username is not correct."
         );
 
         // Being able to access a page protected by role "architect" but failing
@@ -152,9 +152,9 @@ public class FormTest {
         // authorization system checks roles on the authenticated subject, but does not
         // correctly expose or propagate these to the HttpServletRequest
         assertTrue(
+                response.getResponseAsString().contains("web user has role \"architect\": true"),
                 "Resource protected by role \"architect\" could be accessed, but user fails test for this role."
-                + "This should not be possible",
-                response.getResponseAsString().contains("web user has role \"architect\": true")
+                        + "This should not be possible"
         );
 
         request = new EmbeddedRequestBuilder()
@@ -171,15 +171,15 @@ public class FormTest {
         // system checks roles on the authenticated subject, but does not correctly expose
         // or propagate these to the HttpServletRequest
         assertFalse(
+                response.getResponseAsString().contains("web username: null"),
                 "Protected resource could be accessed, but the user appears to be the unauthenticated user. "
-                + "This should not be possible",
-                response.getResponseAsString().contains("web username: null")
+                        + "This should not be possible"
         );
 
         // An authenticated user should have the exact name "test" and nothing else.
         assertTrue(
-                "Protected resource could be accessed, but the username is not correct.",
-                response.getResponseAsString().contains("web username: test")
+                response.getResponseAsString().contains("web username: test"),
+                "Protected resource could be accessed, but the username is not correct."
         );
 
         // Being able to access a page protected by role "architect" but failing
@@ -187,9 +187,9 @@ public class FormTest {
         // authorization system checks roles on the authenticated subject, but does not
         // correctly expose or propagate these to the HttpServletRequest
         assertTrue(
+                response.getResponseAsString().contains("web user has role \"architect\": true"),
                 "Resource protected by role \"architect\" could be accessed, but user fails test for this role."
-                + "This should not be possible",
-                response.getResponseAsString().contains("web user has role \"architect\": true")
+                        + "This should not be possible"
         );
     }
 }
