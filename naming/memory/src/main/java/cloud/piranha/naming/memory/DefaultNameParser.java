@@ -25,34 +25,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.jndi.memory;
+package cloud.piranha.naming.memory;
 
-import java.util.Hashtable;
-import javax.naming.Context;
+import javax.naming.CompositeName;
+import javax.naming.Name;
+import javax.naming.NameParser;
 import javax.naming.NamingException;
-import javax.naming.spi.InitialContextFactory;
 
 /**
- * The default InitialContextFactory.
+ * The default NameParser.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultInitialContextFactory implements InitialContextFactory {
+public class DefaultNameParser implements NameParser {
 
     /**
-     * Stores the initial context.
-     */
-    private static final DefaultInitialContext INITIAL_CONTEXT = new DefaultInitialContext();
-    
-    /**
-     * Get the initial context.
+     * Parse the name.
      *
-     * @param environment the environment.
-     * @return the initial context.
-     * @throws NamingException when a naming error occurs.
+     * @param name the name.
+     * @return the parsed name.
+     * @throws NamingException when a serious error occurs.
      */
     @Override
-    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
-        return INITIAL_CONTEXT;
+    public Name parse(String name) throws NamingException {
+        return new CompositeName(name);
     }
 }

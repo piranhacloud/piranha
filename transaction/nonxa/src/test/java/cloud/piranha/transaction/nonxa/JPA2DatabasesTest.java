@@ -51,7 +51,7 @@ public class JPA2DatabasesTest {
      */
     @Test
     public void testJpaDatabase() throws Exception {
-        System.getProperties().put("java.naming.factory.initial", "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
+        System.getProperties().put("java.naming.factory.initial", "cloud.piranha.naming.memory.DefaultInitialContextFactory");
         InitialContext initialContext = new InitialContext();
         JdbcDataSource dataSource = new JdbcDataSource();
         dataSource.setURL("jdbc:h2:./target/JPADatabaseTest2");

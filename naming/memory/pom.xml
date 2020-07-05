@@ -4,20 +4,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.jndi</groupId>
+        <groupId>cloud.piranha.naming</groupId>
         <artifactId>project</artifactId>
         <version>20.7.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-jndi-memory</artifactId>
+    <artifactId>piranha-naming-memory</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha JNDI - Memory</name>
+    <name>Piranha Naming - Memory</name>
 
     <distributionManagement>
         <site>
             <id>piranha.cloud</id>
-            <url>https://piranha.cloud/jndi/memory</url>
+            <url>https://piranha.cloud/naming/memory</url>
         </site>        
     </distributionManagement>
 

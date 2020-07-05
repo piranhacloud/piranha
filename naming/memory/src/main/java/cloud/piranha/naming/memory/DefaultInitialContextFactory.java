@@ -25,84 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.jndi.memory;
+package cloud.piranha.naming.memory;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import javax.naming.NameClassPair;
-import javax.naming.NamingEnumeration;
+import java.util.Hashtable;
+import javax.naming.Context;
 import javax.naming.NamingException;
+import javax.naming.spi.InitialContextFactory;
 
 /**
- * The default NamingEnumeration.
+ * The default InitialContextFactory.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultNamingEnumeration implements NamingEnumeration<NameClassPair> {
+public class DefaultInitialContextFactory implements InitialContextFactory {
 
     /**
-     * Stores the name class pairs.
+     * Stores the initial context.
      */
-    private final Enumeration<NameClassPair> nameClassPairs;
-
-    /**
-     * Constructor.
-     *
-     * @param nameClassPairs the name class pairs.
-     */
-    public DefaultNamingEnumeration(Collection<NameClassPair> nameClassPairs) {
-        this.nameClassPairs = Collections.enumeration(nameClassPairs);
-    }
-
-    /**
-     * Close the enumeration.
-     * 
-     * @throws NamingException when a naming error occurs.
-     */
-    @Override
-    public void close() throws NamingException {
-    }
-
-    /**
-     * Do we have more elements?
-     * 
-     * @return true if we do, false otherwise.
-     * @throws NamingException when a naming error occurs.
-     */
-    @Override
-    public boolean hasMore() throws NamingException {
-        return hasMoreElements();
-    }
-
-    /**
-     * Do we have more elements?
-     * 
-     * @return true if we do, false otherwise.
-     */
-    @Override
-    public boolean hasMoreElements() {
-        return nameClassPairs.hasMoreElements();
-    }
-
-    /**
-     * Get the next element.
-     * 
-     * @return the next element.
-     * @throws NamingException when a naming error occurs.
-     */
-    @Override
-    public NameClassPair next() throws NamingException {
-        return nextElement();
-    }
+    private static final DefaultInitialContext INITIAL_CONTEXT = new DefaultInitialContext();
     
     /**
-     * Get the next element.
+     * Get the initial context.
      *
-     * @return the next element.
+     * @param environment the environment.
+     * @return the initial context.
+     * @throws NamingException when a naming error occurs.
      */
     @Override
-    public NameClassPair nextElement() {
-        return nameClassPairs.nextElement();
+    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
+        return INITIAL_CONTEXT;
     }
 }

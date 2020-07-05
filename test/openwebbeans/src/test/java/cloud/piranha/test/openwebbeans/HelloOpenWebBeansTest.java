@@ -53,7 +53,7 @@ public class HelloOpenWebBeansTest {
     @Test
     public void testIndexHtml() throws Exception {
         System.getProperties().put("java.naming.factory.initial",
-                "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
+                "cloud.piranha.naming.memory.DefaultInitialContextFactory");
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")

@@ -51,8 +51,8 @@
         <module>cdi</module>
         <module>faces</module>
         <module>http</module>
-        <module>jndi</module>
         <module>monitor</module>
+        <module>naming</module>
         <module>session</module>
         <module>resource</module>
         <module>pages</module>

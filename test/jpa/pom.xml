@@ -40,8 +40,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.jndi</groupId>
-            <artifactId>piranha-jndi-memory</artifactId>
+            <groupId>cloud.piranha.naming</groupId>
+            <artifactId>piranha-naming-memory</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

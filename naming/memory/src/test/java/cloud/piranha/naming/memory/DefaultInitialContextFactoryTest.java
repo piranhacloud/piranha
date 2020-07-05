@@ -25,28 +25,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.jndi.memory;
+package cloud.piranha.naming.memory;
 
-import javax.naming.Name;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * The JUnit tests for the DefaultNameParser class.
+ * The JUnit tests for the DefaultInitialContextFactory class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultNameParserTest {
+public class DefaultInitialContextFactoryTest {
 
     /**
-     * Test parse method.
+     * Test getInitialContext method.
      * 
-     * @throws Exception when an error occurs.
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testParse() throws Exception {
-        DefaultNameParser parser = new DefaultNameParser();
-        Name result = parser.parse("MyName");
-        assertNotNull(result);
+    public void testGetInitialContext() throws Exception {
+        DefaultInitialContextFactory factory = new DefaultInitialContextFactory();
+        assertNotNull(factory.getInitialContext(null));
     }
 }

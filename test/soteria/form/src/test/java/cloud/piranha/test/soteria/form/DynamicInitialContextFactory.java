@@ -32,7 +32,7 @@ import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.spi.InitialContextFactory;
 
-import cloud.piranha.jndi.memory.DefaultInitialContext;
+import cloud.piranha.naming.memory.DefaultInitialContext;
 
 /**
  * The default InitialContextFactory.

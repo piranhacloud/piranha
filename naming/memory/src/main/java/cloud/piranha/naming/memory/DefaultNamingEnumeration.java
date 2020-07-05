@@ -25,52 +25,84 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.security.soteria;
+package cloud.piranha.naming.memory;
 
-import java.lang.reflect.Field;
-import java.util.Hashtable;
-
-import javax.naming.Context;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
+import javax.naming.NameClassPair;
+import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
-import javax.naming.spi.InitialContextFactory;
-
-import cloud.piranha.naming.memory.DefaultInitialContext;
 
 /**
- * The default InitialContextFactory.
+ * The default NamingEnumeration.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @author Arjan Tijms
  */
-public class DynamicInitialContextFactory implements InitialContextFactory {
-    
+public class DefaultNamingEnumeration implements NamingEnumeration<NameClassPair> {
+
     /**
-     * Stores the initial context.
+     * Stores the name class pairs.
      */
-    private static final DefaultInitialContext INITIAL_CONTEXT = new DefaultInitialContext();
-    
+    private final Enumeration<NameClassPair> nameClassPairs;
+
     /**
-     * Get the initial context.
+     * Constructor.
      *
-     * @param environment the environment.
-     * @return the initial context.
+     * @param nameClassPairs the name class pairs.
+     */
+    public DefaultNamingEnumeration(Collection<NameClassPair> nameClassPairs) {
+        this.nameClassPairs = Collections.enumeration(nameClassPairs);
+    }
+
+    /**
+     * Close the enumeration.
+     * 
      * @throws NamingException when a naming error occurs.
      */
     @Override
-    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
-        
-        try {
-            Field closedField = DefaultInitialContext.class.getDeclaredField("closed");
-            
-            closedField.setAccessible(true);
-            closedField.setBoolean(INITIAL_CONTEXT, false);
-            
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        
-        return INITIAL_CONTEXT;
+    public void close() throws NamingException {
+    }
+
+    /**
+     * Do we have more elements?
+     * 
+     * @return true if we do, false otherwise.
+     * @throws NamingException when a naming error occurs.
+     */
+    @Override
+    public boolean hasMore() throws NamingException {
+        return hasMoreElements();
+    }
+
+    /**
+     * Do we have more elements?
+     * 
+     * @return true if we do, false otherwise.
+     */
+    @Override
+    public boolean hasMoreElements() {
+        return nameClassPairs.hasMoreElements();
+    }
+
+    /**
+     * Get the next element.
+     * 
+     * @return the next element.
+     * @throws NamingException when a naming error occurs.
+     */
+    @Override
+    public NameClassPair next() throws NamingException {
+        return nextElement();
+    }
+    
+    /**
+     * Get the next element.
+     *
+     * @return the next element.
+     */
+    @Override
+    public NameClassPair nextElement() {
+        return nameClassPairs.nextElement();
     }
 }

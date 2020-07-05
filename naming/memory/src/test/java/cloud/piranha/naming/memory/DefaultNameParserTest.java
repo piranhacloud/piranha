@@ -25,29 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.jndi.memory;
+package cloud.piranha.naming.memory;
 
-import javax.naming.CompositeName;
 import javax.naming.Name;
-import javax.naming.NameParser;
-import javax.naming.NamingException;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * The default NameParser.
+ * The JUnit tests for the DefaultNameParser class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultNameParser implements NameParser {
+public class DefaultNameParserTest {
 
     /**
-     * Parse the name.
-     *
-     * @param name the name.
-     * @return the parsed name.
-     * @throws NamingException when a serious error occurs.
+     * Test parse method.
+     * 
+     * @throws Exception when an error occurs.
      */
-    @Override
-    public Name parse(String name) throws NamingException {
-        return new CompositeName(name);
+    @Test
+    public void testParse() throws Exception {
+        DefaultNameParser parser = new DefaultNameParser();
+        Name result = parser.parse("MyName");
+        assertNotNull(result);
     }
 }

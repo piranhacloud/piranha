@@ -51,7 +51,7 @@ public class MicroPiranhaTest {
     @Test
     @Disabled
     public void testStart() throws Exception {
-        System.setProperty("java.naming.factory.initial", "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
+        System.setProperty("java.naming.factory.initial", "cloud.piranha.naming.memory.DefaultInitialContextFactory");
         final MicroPiranha piranha = new MicroPiranha();
         piranha.configure(new String[]{});
         Thread thread = new Thread(piranha);
@@ -77,7 +77,7 @@ public class MicroPiranhaTest {
     @Test
     @Disabled
     public void testChangingPort() throws Exception {
-        System.setProperty("java.naming.factory.initial", "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
+        System.setProperty("java.naming.factory.initial", "cloud.piranha.naming.memory.DefaultInitialContextFactory");
         final MicroPiranha piranha = new MicroPiranha();
         piranha.configure(new String[]{"--port", "8088"});
         Thread thread = new Thread(piranha);
