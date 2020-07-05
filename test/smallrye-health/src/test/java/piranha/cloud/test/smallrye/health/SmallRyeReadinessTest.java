@@ -54,7 +54,7 @@ public class SmallRyeReadinessTest {
     @Test
     public void testHealth() throws Exception {
         System.getProperties().put("java.naming.factory.initial",
-                "cloud.piranha.jndi.memory.DefaultInitialContextFactory");
+                "cloud.piranha.naming.impl.DefaultInitialContextFactory");
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .initializer(WeldInitializer.class.getName())

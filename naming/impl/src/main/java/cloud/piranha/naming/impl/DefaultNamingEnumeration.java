@@ -25,112 +25,84 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.jndi.memory;
+package cloud.piranha.naming.impl;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import javax.naming.Binding;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
+import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 
 /**
- * The default Binding NamingEnumeration.
+ * The default NamingEnumeration.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultBindingNamingEnumeration implements NamingEnumeration<Binding> {
+public class DefaultNamingEnumeration implements NamingEnumeration<NameClassPair> {
 
     /**
-     * Stores the list of bindings.
+     * Stores the name class pairs.
      */
-    private List<Binding> list;
-
-    /**
-     * Stores the iterator.
-     */
-    private Iterator<Binding> iterator;
+    private final Enumeration<NameClassPair> nameClassPairs;
 
     /**
      * Constructor.
      *
-     * @param list the list of bindings.
+     * @param nameClassPairs the name class pairs.
      */
-    public DefaultBindingNamingEnumeration(List<Binding> list) {
-        this.list = list;
-        this.iterator = list.iterator();
+    public DefaultNamingEnumeration(Collection<NameClassPair> nameClassPairs) {
+        this.nameClassPairs = Collections.enumeration(nameClassPairs);
     }
 
     /**
-     * Get the next binding.
-     *
-     * @return the next binding.
-     * @throws NamingException when a naming error occurs.
-     */
-    @Override
-    public Binding next() throws NamingException {
-        Binding result;
-        checkClosed();
-        if (iterator.hasNext()) {
-            result = iterator.next();
-        } else {
-            throw new NoSuchElementException("Next binding was not found");
-        }
-        return result;
-    }
-
-    /**
-     * Does the enumeration have more elements.
-     *
-     * @return true if it does, false otherwise.
-     * @throws NamingException when a naming error occurs.
-     */
-    @Override
-    public boolean hasMore() throws NamingException {
-        checkClosed();
-        return iterator.hasNext();
-    }
-
-    /**
-     * Close the enumeration for use.
-     *
+     * Close the enumeration.
+     * 
      * @throws NamingException when a naming error occurs.
      */
     @Override
     public void close() throws NamingException {
-        checkClosed();
-        list = null;
-        iterator = null;
     }
 
     /**
-     * Does the enumeration have more elements.
-     *
-     * @return true if it does, false otherwise.
+     * Do we have more elements?
+     * 
+     * @return true if we do, false otherwise.
+     * @throws NamingException when a naming error occurs.
+     */
+    @Override
+    public boolean hasMore() throws NamingException {
+        return hasMoreElements();
+    }
+
+    /**
+     * Do we have more elements?
+     * 
+     * @return true if we do, false otherwise.
      */
     @Override
     public boolean hasMoreElements() {
-        return iterator.hasNext();
+        return nameClassPairs.hasMoreElements();
     }
 
+    /**
+     * Get the next element.
+     * 
+     * @return the next element.
+     * @throws NamingException when a naming error occurs.
+     */
+    @Override
+    public NameClassPair next() throws NamingException {
+        return nextElement();
+    }
+    
     /**
      * Get the next element.
      *
      * @return the next element.
      */
     @Override
-    public Binding nextElement() {
-        return iterator.next();
-    }
-
-    /**
-     * Check if the enumeration has been closed.
-     *
-     * @throws NamingException when a naming error occurs.
-     */
-    private void checkClosed() throws NamingException {
-        if (list == null) {
-            throw new NamingException("Cannot call any method on a closed NamingEnumeration");
-        }
+    public NameClassPair nextElement() {
+        return nameClassPairs.nextElement();
     }
 }

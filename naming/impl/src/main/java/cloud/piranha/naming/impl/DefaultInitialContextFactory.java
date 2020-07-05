@@ -25,31 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.jndi.memory;
+package cloud.piranha.naming.impl;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
+import java.util.Hashtable;
+import javax.naming.Context;
 import javax.naming.NamingException;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import javax.naming.spi.InitialContextFactory;
 
 /**
- * The JUnit tests for the DefaultBindingNamingEnumeration class.
- * 
+ * The default InitialContextFactory.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultBindingNamingEnumerationTest {
-   
+public class DefaultInitialContextFactory implements InitialContextFactory {
+
     /**
-     * Test checkClosed method.
-     * 
-     * @throws Exception when a serious error occurs.
+     * Stores the initial context.
      */
-    @Test
-    public void testCheckClosed() throws Exception {
-        DefaultBindingNamingEnumeration enumeration = new DefaultBindingNamingEnumeration(new ArrayList<>());
-        enumeration.close();
-        assertThrows(NamingException.class, enumeration::close);
+    private static final DefaultInitialContext INITIAL_CONTEXT = new DefaultInitialContext();
+    
+    /**
+     * Get the initial context.
+     *
+     * @param environment the environment.
+     * @return the initial context.
+     * @throws NamingException when a naming error occurs.
+     */
+    @Override
+    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
+        return INITIAL_CONTEXT;
     }
 }

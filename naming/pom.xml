@@ -9,14 +9,14 @@
         <version>20.7.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cloud.piranha.jndi</groupId>
+    <groupId>cloud.piranha.naming</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha JNDI - Project</name>
+    <name>Piranha Naming - Project</name>
 
     <modules>
-        <module>memory</module>
+        <module>impl</module>
     </modules>
 
     <dependencyManagement>
