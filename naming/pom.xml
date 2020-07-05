@@ -16,7 +16,7 @@
     <name>Piranha Naming - Project</name>
 
     <modules>
-        <module>memory</module>
+        <module>impl</module>
     </modules>
 
     <dependencyManagement>

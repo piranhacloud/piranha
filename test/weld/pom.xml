@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-memory</artifactId>
+            <artifactId>piranha-naming-impl</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

@@ -9,15 +9,15 @@
         <version>20.7.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-naming-memory</artifactId>
+    <artifactId>piranha-naming-impl</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Naming - Memory</name>
+    <name>Piranha Naming - Implementation</name>
 
     <distributionManagement>
         <site>
             <id>piranha.cloud</id>
-            <url>https://piranha.cloud/naming/memory</url>
+            <url>https://piranha.cloud/naming/impl</url>
         </site>        
     </distributionManagement>
 

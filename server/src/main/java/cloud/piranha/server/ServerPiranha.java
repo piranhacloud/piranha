@@ -44,7 +44,7 @@ import cloud.piranha.api.Piranha;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
 import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.impl.DefaultHttpServer;
-import cloud.piranha.naming.memory.DefaultInitialContextFactory;
+import cloud.piranha.naming.impl.DefaultInitialContextFactory;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
