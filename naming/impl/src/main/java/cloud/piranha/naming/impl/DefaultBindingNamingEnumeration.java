@@ -25,84 +25,112 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.jndi.memory;
+package cloud.piranha.naming.impl;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import javax.naming.NameClassPair;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import javax.naming.Binding;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 
 /**
- * The default NamingEnumeration.
+ * The default Binding NamingEnumeration.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultNamingEnumeration implements NamingEnumeration<NameClassPair> {
+class DefaultBindingNamingEnumeration implements NamingEnumeration<Binding> {
 
     /**
-     * Stores the name class pairs.
+     * Stores the list of bindings.
      */
-    private final Enumeration<NameClassPair> nameClassPairs;
+    private List<Binding> list;
+
+    /**
+     * Stores the iterator.
+     */
+    private Iterator<Binding> iterator;
 
     /**
      * Constructor.
      *
-     * @param nameClassPairs the name class pairs.
+     * @param list the list of bindings.
      */
-    public DefaultNamingEnumeration(Collection<NameClassPair> nameClassPairs) {
-        this.nameClassPairs = Collections.enumeration(nameClassPairs);
+    public DefaultBindingNamingEnumeration(List<Binding> list) {
+        this.list = list;
+        this.iterator = list.iterator();
     }
 
     /**
-     * Close the enumeration.
-     * 
+     * Get the next binding.
+     *
+     * @return the next binding.
      * @throws NamingException when a naming error occurs.
      */
     @Override
-    public void close() throws NamingException {
+    public Binding next() throws NamingException {
+        Binding result;
+        checkClosed();
+        if (iterator.hasNext()) {
+            result = iterator.next();
+        } else {
+            throw new NoSuchElementException("Next binding was not found");
+        }
+        return result;
     }
 
     /**
-     * Do we have more elements?
-     * 
-     * @return true if we do, false otherwise.
+     * Does the enumeration have more elements.
+     *
+     * @return true if it does, false otherwise.
      * @throws NamingException when a naming error occurs.
      */
     @Override
     public boolean hasMore() throws NamingException {
-        return hasMoreElements();
+        checkClosed();
+        return iterator.hasNext();
     }
 
     /**
-     * Do we have more elements?
-     * 
-     * @return true if we do, false otherwise.
-     */
-    @Override
-    public boolean hasMoreElements() {
-        return nameClassPairs.hasMoreElements();
-    }
-
-    /**
-     * Get the next element.
-     * 
-     * @return the next element.
+     * Close the enumeration for use.
+     *
      * @throws NamingException when a naming error occurs.
      */
     @Override
-    public NameClassPair next() throws NamingException {
-        return nextElement();
+    public void close() throws NamingException {
+        checkClosed();
+        list = null;
+        iterator = null;
     }
-    
+
+    /**
+     * Does the enumeration have more elements.
+     *
+     * @return true if it does, false otherwise.
+     */
+    @Override
+    public boolean hasMoreElements() {
+        return iterator.hasNext();
+    }
+
     /**
      * Get the next element.
      *
      * @return the next element.
      */
     @Override
-    public NameClassPair nextElement() {
-        return nameClassPairs.nextElement();
+    public Binding nextElement() {
+        return iterator.next();
+    }
+
+    /**
+     * Check if the enumeration has been closed.
+     *
+     * @throws NamingException when a naming error occurs.
+     */
+    private void checkClosed() throws NamingException {
+        if (list == null) {
+            throw new NamingException("Cannot call any method on a closed NamingEnumeration");
+        }
     }
 }

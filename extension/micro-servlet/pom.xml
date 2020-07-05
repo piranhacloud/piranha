@@ -113,10 +113,10 @@
             <scope>runtime</scope>
         </dependency>
         
-        <!-- Piranha Webapplication - web.xml support -->
+        <!-- Piranha Naming implementation -->
         <dependency>
-            <groupId>cloud.piranha.jndi</groupId>
-            <artifactId>piranha-jndi-memory</artifactId>
+            <groupId>cloud.piranha.naming</groupId>
+            <artifactId>piranha-naming-impl</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>

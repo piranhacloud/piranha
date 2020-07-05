@@ -25,26 +25,31 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.jndi.memory;
+package cloud.piranha.naming.impl;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import javax.naming.NamingException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * The JUnit tests for the DefaultInitialContextFactory class.
- *
+ * The JUnit tests for the DefaultBindingNamingEnumeration class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultInitialContextFactoryTest {
-
+public class DefaultBindingNamingEnumerationTest {
+   
     /**
-     * Test getInitialContext method.
+     * Test checkClosed method.
      * 
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetInitialContext() throws Exception {
-        DefaultInitialContextFactory factory = new DefaultInitialContextFactory();
-        assertNotNull(factory.getInitialContext(null));
+    public void testCheckClosed() throws Exception {
+        DefaultBindingNamingEnumeration enumeration = new DefaultBindingNamingEnumeration(new ArrayList<>());
+        enumeration.close();
+        assertThrows(NamingException.class, enumeration::close);
     }
 }
