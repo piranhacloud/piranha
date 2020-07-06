@@ -9,7 +9,7 @@
         <version>20.7.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>pirnaha-appserver-rest</artifactId>
+    <artifactId>piranha-appserver-rest</artifactId>
     <version>20.7.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
