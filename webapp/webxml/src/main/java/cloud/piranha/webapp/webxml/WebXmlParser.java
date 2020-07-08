@@ -27,28 +27,17 @@
  */
 package cloud.piranha.webapp.webxml;
 
-import cloud.piranha.webapp.impl.WebXmlServletMapping;
-import cloud.piranha.webapp.impl.WebXmlServlet;
-import cloud.piranha.webapp.impl.WebXmlLoginConfig;
-import cloud.piranha.webapp.impl.WebXmlListener;
-import cloud.piranha.webapp.impl.WebXmlSessionConfig;
-import cloud.piranha.webapp.impl.WebXmlServletInitParam;
-import cloud.piranha.webapp.impl.WebXmlMimeMapping;
-import cloud.piranha.webapp.impl.WebXmlCookieConfig;
-import cloud.piranha.webapp.impl.WebXmlFilterInitParam;
-import cloud.piranha.webapp.impl.WebXml;
-import cloud.piranha.webapp.impl.WebXmlErrorPage;
-import cloud.piranha.webapp.impl.WebXmlFilter;
-import cloud.piranha.webapp.impl.WebXmlContextParam;
-import cloud.piranha.webapp.impl.WebXmlFilterMapping;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
 import static javax.xml.xpath.XPathConstants.NODE;
 import static javax.xml.xpath.XPathConstants.NODESET;
 
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.logging.Logger;
+import java.util.stream.StreamSupport;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -61,6 +50,21 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import cloud.piranha.webapp.impl.WebXml;
+import cloud.piranha.webapp.impl.WebXmlContextParam;
+import cloud.piranha.webapp.impl.WebXmlCookieConfig;
+import cloud.piranha.webapp.impl.WebXmlErrorPage;
+import cloud.piranha.webapp.impl.WebXmlFilter;
+import cloud.piranha.webapp.impl.WebXmlFilterInitParam;
+import cloud.piranha.webapp.impl.WebXmlFilterMapping;
+import cloud.piranha.webapp.impl.WebXmlListener;
+import cloud.piranha.webapp.impl.WebXmlLoginConfig;
+import cloud.piranha.webapp.impl.WebXmlMimeMapping;
+import cloud.piranha.webapp.impl.WebXmlServlet;
+import cloud.piranha.webapp.impl.WebXmlServletInitParam;
+import cloud.piranha.webapp.impl.WebXmlServletMapping;
+import cloud.piranha.webapp.impl.WebXmlSessionConfig;
 
 /**
  * The web.xml / web-fragment.xml parser.
@@ -258,21 +262,28 @@ public class WebXmlParser {
      * @param xPath the XPath to use.
      * @param node the node to use.
      */
-    private void parseFilterMappings(WebXml webXml, XPath xPath, Node node) {
+    private void parseFilterMappings(WebXml webXml, XPath xPath, Node rootNode) {
         try {
-            NodeList nodeList = (NodeList) xPath.evaluate("//filter-mapping", node, NODESET);
-            if (nodeList != null) {
-                List<WebXmlFilterMapping> filterMappings = webXml.getFilterMappings();
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    String filterName = parseString(xPath, "filter-name/text()", nodeList.item(i));
-                    String urlPattern = parseString(xPath, "url-pattern/text()", nodeList.item(i));
-                    filterMappings.add(new WebXmlFilterMapping(filterName, urlPattern));
+            for (Node node : parseNodes(xPath, "//filter-mapping", rootNode)) {
+                String filterName = parseString(xPath, "filter-name/text()", node);
+                WebXmlFilterMapping webXmlFilterMapping = new WebXmlFilterMapping(filterName);
+
+                for (String urlPattern : parseStrings(xPath, "url-pattern/text()", node)) {
+                    webXmlFilterMapping.getUrlPatterns().add(urlPattern);
                 }
+
+                for (String servletName : parseStrings(xPath, "servlet-name/text()", node)) {
+                    webXmlFilterMapping.getServletNames().add(servletName);
+                }
+
+                for (String dispatcher : parseStrings(xPath, "dispatcher/text()", node)) {
+                    webXmlFilterMapping.getDispatchers().add(dispatcher);
+                }
+
+                webXml.getFilterMappings().add(webXmlFilterMapping);
             }
         } catch (XPathExpressionException xee) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to parse <filter-mapping> sections", xee);
-            }
+            LOGGER.log(WARNING, "Unable to parse <filter-mapping> sections", xee);
         }
     }
 
@@ -297,6 +308,7 @@ public class WebXmlParser {
                     String servletName = parseString(xPath, "servlet-name/text()", nodeList.item(i));
                     filter.setServletName(servletName);
                     filters.add(filter);
+
                     NodeList paramNodeList = (NodeList) xPath.evaluate("init-param", nodeList.item(i), NODESET);
                     for (int j = 0; j < paramNodeList.getLength(); j++) {
                         WebXmlFilterInitParam initParam = new WebXmlFilterInitParam();
@@ -322,8 +334,7 @@ public class WebXmlParser {
      * @return the string.
      * @throws XPathExpressionException when the expression was invalid.
      */
-    private int parseInteger(XPath xPath, String expression, Node node)
-            throws XPathExpressionException {
+    private int parseInteger(XPath xPath, String expression, Node node) throws XPathExpressionException {
         Double doubleValue = (Double) xPath.evaluate(expression, node, XPathConstants.NUMBER);
         return doubleValue.intValue();
     }
@@ -547,9 +558,42 @@ public class WebXmlParser {
      * @return the string.
      * @throws XPathExpressionException when the expression was invalid.
      */
-    private String parseString(XPath xPath, String expression, Node node)
-            throws XPathExpressionException {
+    private String parseString(XPath xPath, String expression, Node node) throws XPathExpressionException {
         return (String) xPath.evaluate(expression, node, XPathConstants.STRING);
+    }
+
+    private Iterable<Node> parseNodes(XPath xPath, String expression, Node node) throws XPathExpressionException {
+        return StreamSupport
+                .stream(toIterable((NodeList) xPath.evaluate(expression, node, NODESET)).spliterator(), false)
+                ::iterator;
+    }
+
+    private Iterable<String> parseStrings(XPath xPath, String expression, Node node) throws XPathExpressionException {
+        return StreamSupport
+                .stream(toIterable((NodeList) xPath.evaluate(expression, node, NODESET)).spliterator(), false)
+                .map(e -> e.getNodeValue())
+                ::iterator;
+    }
+
+    public static Iterable<Node> toIterable(NodeList nodes) {
+        return () -> new Iterator<Node>() {
+
+            private int position;
+
+            @Override
+            public boolean hasNext() {
+                return position < nodes.getLength();
+            }
+
+            @Override
+            public Node next() {
+                if (hasNext()) {
+                    return nodes.item(position++);
+                }
+
+                throw new NoSuchElementException();
+            }
+        };
     }
 
     /**

@@ -123,12 +123,12 @@ public class WebXml implements Serializable {
     /**
      * Stores the default context path.
      */
-    private String defaultContextPath = null;
+    private String defaultContextPath;
 
     /**
      * Store if we are denying uncovered HTTP methods.
      */
-    private boolean denyUncoveredHttpMethods = false;
+    private boolean denyUncoveredHttpMethods;
 
     /**
      * Store the display name.
@@ -138,7 +138,7 @@ public class WebXml implements Serializable {
     /**
      * Store if we are distributable.
      */
-    private boolean distributable = false;
+    private boolean distributable;
 
     /**
      * Stores the error pages.
@@ -158,7 +158,7 @@ public class WebXml implements Serializable {
     /**
      * Stores if we are a fragment.
      */
-    private boolean fragment = false;
+    private boolean fragment;
 
     /**
      * Stores the fragment name.
@@ -183,12 +183,12 @@ public class WebXml implements Serializable {
     /**
      * Stores the request character encoding.
      */
-    private String requestCharacterEncoding = null;
+    private String requestCharacterEncoding;
 
     /**
      * Stores the response character encoding.
      */
-    private String responseCharacterEncoding = null;
+    private String responseCharacterEncoding;
 
     /**
      * Stores the servlets.

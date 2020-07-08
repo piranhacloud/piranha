@@ -50,7 +50,7 @@ public class WebXmlFilter {
     /**
      * Stores the init params.
      */
-    private final ArrayList<WebXmlFilterInitParam> initParams = new ArrayList<>();
+    private final List<WebXmlFilterInitParam> initParams = new ArrayList<>();
 
     /**
      * Stores the servlet name.
