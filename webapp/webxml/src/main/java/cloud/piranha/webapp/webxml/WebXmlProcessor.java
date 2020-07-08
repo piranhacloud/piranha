@@ -27,15 +27,6 @@
  */
 package cloud.piranha.webapp.webxml;
 
-import cloud.piranha.webapp.impl.WebXmlServlet;
-import cloud.piranha.webapp.impl.WebXmlMimeMapping;
-import cloud.piranha.webapp.impl.WebXmlServletMapping;
-import cloud.piranha.webapp.impl.WebXmlListener;
-import cloud.piranha.webapp.impl.WebXmlErrorPage;
-import cloud.piranha.webapp.impl.WebXmlFilterMapping;
-import cloud.piranha.webapp.impl.WebXmlContextParam;
-import cloud.piranha.webapp.impl.WebXml;
-import cloud.piranha.webapp.impl.WebXmlFilterInitParam;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.FINER;
 
@@ -47,6 +38,14 @@ import javax.servlet.ServletRegistration;
 
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WelcomeFileManager;
+import cloud.piranha.webapp.impl.WebXml;
+import cloud.piranha.webapp.impl.WebXmlContextParam;
+import cloud.piranha.webapp.impl.WebXmlErrorPage;
+import cloud.piranha.webapp.impl.WebXmlFilterInitParam;
+import cloud.piranha.webapp.impl.WebXmlListener;
+import cloud.piranha.webapp.impl.WebXmlMimeMapping;
+import cloud.piranha.webapp.impl.WebXmlServlet;
+import cloud.piranha.webapp.impl.WebXmlServletMapping;
 
 /**
  * The web.xml / web-fragment.xml processor.
@@ -59,6 +58,8 @@ public class WebXmlProcessor {
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(WebXmlProcessor.class.getName());
+
+    private static final String[] STRING_ARRAY = new String[0];
 
     /**
      * Process the web.xml into the web application.
@@ -171,12 +172,10 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processFilterMappings(WebApplication webApplication, WebXml webXml) {
-        Iterator<WebXmlFilterMapping> iterator = webXml.getFilterMappings().iterator();
-        while (iterator.hasNext()) {
-            WebXmlFilterMapping filterMapping = iterator.next();
+        webXml.getFilterMappings().forEach(filterMapping -> {
             webApplication.addFilterMapping(
-                    filterMapping.getFilterName(), filterMapping.getUrlPattern());
-        }
+                filterMapping.getFilterName(), filterMapping.getUrlPatterns().toArray(STRING_ARRAY));
+        });
     }
 
     /**

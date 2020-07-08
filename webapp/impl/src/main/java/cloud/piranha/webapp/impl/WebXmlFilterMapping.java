@@ -27,6 +27,9 @@
  */
 package cloud.piranha.webapp.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The web.xml filter-mapping.
  *
@@ -42,17 +45,30 @@ public class WebXmlFilterMapping {
     /**
      * Stores the URL pattern.
      */
-    private String urlPattern;
+    private final List<String> urlPatterns = new ArrayList<>();
+
+
+    /**
+     * Names of the Servlets to which a filter is mapped
+     */
+    private final List<String> servletNames = new ArrayList<>();
+
+    /**
+     * The type of dispatch on which the filter is invoked. Valid values:
+     * FORWARD
+     * INCLUDE
+     * REQUEST
+     * ERROR
+     */
+    private final List<String> dispatchers = new ArrayList<>();
 
     /**
      * Constructor.
      *
      * @param filterName the filter name.
-     * @param urlPattern the URL pattern.
      */
-    public WebXmlFilterMapping(String filterName, String urlPattern) {
+    public WebXmlFilterMapping(String filterName) {
         this.filterName = filterName;
-        this.urlPattern = urlPattern;
     }
 
     /**
@@ -65,12 +81,30 @@ public class WebXmlFilterMapping {
     }
 
     /**
-     * Get the URL pattern.
+     * Get the URL patterns.
      *
-     * @return the URL pattern.
+     * @return the URL patterns.
      */
-    public String getUrlPattern() {
-        return urlPattern;
+    public List<String> getUrlPatterns() {
+        return urlPatterns;
+    }
+
+    /**
+     * Get the Servlet names.
+     *
+     * @return the Servlet names.
+     */
+    public List<String> getServletNames() {
+        return servletNames;
+    }
+
+    /**
+     * Get the dispatchers.
+     *
+     * @return the dispatchers.
+     */
+    public List<String> getDispatchers() {
+        return dispatchers;
     }
 }
 

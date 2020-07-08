@@ -27,8 +27,6 @@
  */
 package cloud.piranha.webapp.webxml;
 
-import cloud.piranha.webapp.impl.WebXmlManager;
-import cloud.piranha.webapp.impl.WebXml;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
 import static javax.xml.xpath.XPathConstants.NODESET;
@@ -40,7 +38,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletContainerInitializer;
@@ -60,6 +57,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.impl.WebXml;
+import cloud.piranha.webapp.impl.WebXmlManager;
 
 /**
  * The web.xml initializer.
@@ -82,9 +81,8 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Entering WebXmlInitializer.onStartup");
-        }
+        LOGGER.log(FINE, () -> "Entering WebXmlInitializer.onStartup");
+
         try {
             WebXmlParser parser = new WebXmlParser();
             WebXmlManager manager = new WebXmlManager();
@@ -136,13 +134,11 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                     LOGGER.info("No web.xml found!");
                 }
             }
-        } catch (SAXException | XPathExpressionException | IOException
-                | ParserConfigurationException e) {
+        } catch (SAXException | XPathExpressionException | IOException | ParserConfigurationException e) {
             LOGGER.log(WARNING, "Unable to parse web.xml", e);
         }
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(Level.FINE, "Exiting WebXmlInitializer.onStartup");
-        }
+
+        LOGGER.log(FINE, () -> "Exiting WebXmlInitializer.onStartup");
     }
 
     private void processSecurityConstraints(WebXml webXml, NodeList nodeList) {
