@@ -581,7 +581,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Dynamic addServlet(String servletName, String className) {
-        DefaultServletEnvironment result = servlets.get("servletName");
+        DefaultServletEnvironment result = servlets.get(servletName);
         if (result == null) {
             result = new DefaultServletEnvironment(this, servletName);
             result.setClassName(className);
@@ -717,11 +717,17 @@ public class DefaultWebApplication implements WebApplication {
      * @param request the HTTP servlet request.
      * @return the filter environments.
      */
-    protected List<DefaultFilterEnvironment> findFilterEnvironments(HttpServletRequest request) {
+    protected List<DefaultFilterEnvironment> findFilterEnvironments(HttpServletRequest request, String servletName) {
         List<DefaultFilterEnvironment> result = null;
 
         String path = request.getServletPath() + (request.getPathInfo() == null ? "" : request.getPathInfo());
         Collection<String> filterNames = webApplicationRequestMapper.findFilterMappings(path);
+
+        if (servletName != null) {
+            String servletNamePath = "servlet:// " + servletName;
+            filterNames.addAll(webApplicationRequestMapper.findFilterMappings(servletNamePath));
+        }
+
         if (!filterNames.isEmpty()) {
             result = new ArrayList<>();
             for (String filterName : filterNames) {
@@ -1533,7 +1539,7 @@ public class DefaultWebApplication implements WebApplication {
         DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
 
         // Obtain a reference to the target resource (target Servlet)
-        Servlet servlet = getTargetServlet(webappRequest);
+        DefaultServletEnvironment servletEnvironment = getTargetServlet(webappRequest);
 
         /*
          * We did not find a Servlet, so we are now going to see if we can map any
@@ -1543,7 +1549,7 @@ public class DefaultWebApplication implements WebApplication {
          * Servlet handle it.
          */
         boolean matchedResource = false;
-        if (servlet == null) {
+        if (servletEnvironment == null) {
             String originalPathInfo = webappRequest.getPathInfo() != null ? webappRequest.getPathInfo() : "";
             for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
                 webappRequest.setPathInfo(originalPathInfo + welcomeFile);
@@ -1561,19 +1567,27 @@ public class DefaultWebApplication implements WebApplication {
          * We did not find a Servlet, so we are now going to see if we can map any of the welcome-file entries to a Servlet. If
          * we can we will use the first match we find.
          */
-        if (servlet == null && !matchedResource) {
+        if (servletEnvironment == null && !matchedResource) {
             String originalPathInfo = webappRequest.getPathInfo() != null ? webappRequest.getPathInfo() : "";
             for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
                 webappRequest.setPathInfo(originalPathInfo + welcomeFile);
-                servlet = getTargetServlet(webappRequest);
-                if (servlet != null) {
+                servletEnvironment = getTargetServlet(webappRequest);
+                if (servletEnvironment != null) {
                     break;
                 }
             }
-            if (servlet == null) {
+            if (servletEnvironment == null) {
                 webappRequest.setPathInfo(originalPathInfo);
             }
         }
+
+        Servlet servlet = null;
+        String servletName = null;
+        if (servletEnvironment != null) {
+            servlet = servletEnvironment.getServlet();
+            servletName = servletEnvironment.getName();
+        }
+
 
         /**
          * We did not find a Servlet, so we are now going to check if a default
@@ -1581,10 +1595,11 @@ public class DefaultWebApplication implements WebApplication {
          */
         if (servlet == null && defaultServlet != null) {
             servlet = defaultServlet;
+            servletName = "default";
         }
 
         // Invoke the Servlet, or first the Filter chain and then the Servlet
-        List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(webappRequest);
+        List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(webappRequest, servletName);
 
         Exception exception = null;
         if (servlet == null && filterEnvironments == null) {
@@ -1949,7 +1964,7 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    private Servlet getTargetServlet(DefaultWebApplicationRequest httpRequest) {
+    private DefaultServletEnvironment getTargetServlet(DefaultWebApplicationRequest httpRequest) {
         String path = httpRequest.getServletPath() + (httpRequest.getPathInfo() == null ? "" : httpRequest.getPathInfo());
         WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
         if (mapping == null) {
@@ -1961,7 +1976,7 @@ public class DefaultWebApplication implements WebApplication {
             return null;
         }
 
-        Servlet targetServlet = servlets.get(servletName).getServlet();
+        DefaultServletEnvironment targetServlet = servlets.get(servletName);
         httpRequest.asyncSupported = servlets.get(servletName).asyncSupported;
 
         if (mapping.isExact()) {
