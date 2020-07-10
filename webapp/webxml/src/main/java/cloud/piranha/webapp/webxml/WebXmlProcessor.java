@@ -175,6 +175,9 @@ public class WebXmlProcessor {
         webXml.getFilterMappings().forEach(filterMapping -> {
             webApplication.addFilterMapping(
                 filterMapping.getFilterName(), filterMapping.getUrlPatterns().toArray(STRING_ARRAY));
+            webApplication.addFilterMapping(
+                    filterMapping.getFilterName(),
+                    filterMapping.getServletNames().stream().map(e -> "servlet:// " + e).toArray(String[]::new));
         });
     }
 
