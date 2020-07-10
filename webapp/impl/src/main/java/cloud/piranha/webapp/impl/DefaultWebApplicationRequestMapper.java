@@ -111,27 +111,37 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
      */
     @Override
     public Collection<String> findFilterMappings(String path) {
-        ArrayList<String> result = new ArrayList<>();
+        List<String> result = new ArrayList<>();
+
         if (path.contains("?")) {
             path = path.substring(0, path.indexOf("?"));
         }
+
         for (FilterMapping filterMapping : filterMappings) {
             String filterName = filterMapping.getFilterName();
             String urlPattern = filterMapping.getUrlPattern();
+
             if (path.equals(urlPattern)) {
                 result.add(filterName);
-            } else if (urlPattern.startsWith("*.")) {
-                urlPattern = urlPattern.substring(1);
-                if (path.endsWith(urlPattern)) {
-                    result.add(filterName);
-                }
-            } else if (!urlPattern.startsWith("*.") && urlPattern.endsWith("/*")) {
-                urlPattern = urlPattern.substring(0, urlPattern.length() - 2);
-                if (path.startsWith(urlPattern)) {
-                    result.add(filterName);
+            } else if (!path.startsWith("servlet:// ")) {
+
+                // For Servlet "patterns", only do exact matches.
+                // URL patterns are also matched prefix and extension.
+
+                if (urlPattern.startsWith("*.")) {
+                    urlPattern = urlPattern.substring(1);
+                    if (path.endsWith(urlPattern)) {
+                        result.add(filterName);
+                    }
+                } else if (!urlPattern.startsWith("*.") && urlPattern.endsWith("/*")) {
+                    urlPattern = urlPattern.substring(0, urlPattern.length() - 2);
+                    if (path.startsWith(urlPattern)) {
+                        result.add(filterName);
+                    }
                 }
             }
         }
+
         return result;
     }
 
