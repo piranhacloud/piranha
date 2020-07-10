@@ -390,6 +390,13 @@
                 <version>3.6.0</version>
             </dependency>
 
+            <!-- MicroProfile JWT Auth -->
+            <dependency>
+                <groupId>org.eclipse.microprofile.jwt</groupId>
+                <artifactId>microprofile-jwt-auth-api</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+
             <!-- Netty -->
             <dependency>
                 <groupId>io.netty</groupId>
