@@ -77,6 +77,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
@@ -143,6 +148,8 @@
                 <configuration>
                     <systemProperties>
                         <mp.jwt.tck.jwks.baseURL>http://localhost:9090/</mp.jwt.tck.jwks.baseURL>
+                        <piranha.port>9090</piranha.port>
+                        <piranha.extensions>micro-profile</piranha.extensions>
                     </systemProperties>
                 </configuration>
             </plugin>
