@@ -1,7 +1,7 @@
 name: tck-pages
 on:
   schedule:
-  - cron: "0 2 * * 2"
+  - cron: "0 12 * * *"
 jobs:
   build:
     runs-on: ${{ matrix.os }}
