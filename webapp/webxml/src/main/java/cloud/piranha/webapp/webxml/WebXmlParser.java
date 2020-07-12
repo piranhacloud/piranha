@@ -103,6 +103,7 @@ public class WebXmlParser {
             parseMimeMappings(webXml, xPath, document);
             parseRequestCharacterEncoding(webXml, xPath, document);
             parseResponseCharacterEncoding(webXml, xPath, document);
+            processSecurityConstraints(webXml, xPath, document);
             parseServletMappings(webXml, xPath, document);
             parseServlets(webXml, xPath, document);
             parseSessionConfig(webXml, xPath, document);
@@ -449,6 +450,52 @@ public class WebXmlParser {
             }
         } catch (XPathException xpe) {
             LOGGER.log(WARNING, "Unable to parse <response-character-encoding> section", xpe);
+        }
+    }
+
+    private void processSecurityConstraints(WebXml webXml, XPath xPath, Node rootNode) {
+        try {
+            for (Node node : parseNodes(xPath, "//security-constraint", rootNode)) {
+                processSecurityConstraint(webXml, xPath, node);
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse <security-constraint> sections", xpe);
+        }
+    }
+
+    private void processSecurityConstraint(WebXml webXml, XPath xPath, Node rootNode) {
+        try {
+            WebXml.SecurityConstraint securityConstraint = new WebXml.SecurityConstraint();
+
+            for (Node node : parseNodes(xPath, "web-resource-collection", rootNode)) {
+                WebXml.SecurityConstraint.WebResourceCollection webResourceCollection = new WebXml.SecurityConstraint.WebResourceCollection();
+
+                for (String urlPattern : parseStrings(xPath, "url-pattern/text()", node)) {
+                    webResourceCollection.urlPatterns.add(urlPattern);
+                }
+
+                for (String httpMethod : parseStrings(xPath, "http-method/text()", node)) {
+                    webResourceCollection.httpMethods.add(httpMethod);
+                }
+
+                for (String httpMethodOmission : parseStrings(xPath, "http-method-omission/text()", node)) {
+                    webResourceCollection.httpMethodOmissions.add(httpMethodOmission);
+                }
+
+                securityConstraint.webResourceCollections.add(webResourceCollection);
+            }
+
+            for (Node node : parseNodes(xPath, "auth-constraint", rootNode)) {
+                for (String roleName : parseStrings(xPath, "role-name/text()", node)) {
+                    securityConstraint.roleNames.add(roleName);
+                }
+            }
+
+            securityConstraint.transportGuarantee = parseString(xPath, "user-data-constraint/transport-guarantee/text()", rootNode);
+
+            webXml.securityConstraints.add(securityConstraint);
+        } catch (XPathExpressionException xee) {
+            LOGGER.log(WARNING, "Unable to parse <security-constraint> sections", xee);
         }
     }
 

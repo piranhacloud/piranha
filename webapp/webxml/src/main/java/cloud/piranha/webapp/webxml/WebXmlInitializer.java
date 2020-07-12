@@ -29,8 +29,6 @@ package cloud.piranha.webapp.webxml;
 
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
-import static javax.xml.xpath.XPathConstants.NODESET;
-import static javax.xml.xpath.XPathConstants.STRING;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,18 +41,6 @@ import java.util.logging.Logger;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.WebXml;
@@ -115,112 +101,16 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 WebXml webXml = manager.getWebXml();
                 WebXmlProcessor processor = new WebXmlProcessor();
                 processor.process(webXml, webApp);
-
-                if (inputStream != null) {
-                    DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-                    Document document = documentBuilder.parse(inputStream);
-                    XPath xPath = XPathFactory.newInstance().newXPath();
-
-                    /*
-                     * Process <security-constraint> entries
-                     */
-                    NodeList list = (NodeList) xPath.evaluate("//security-constraint", document, NODESET);
-                    if (list != null) {
-                        processSecurityConstraints(webXml, list);
-                    }
-                }
             } else {
                 if (LOGGER.isLoggable(FINE)) {
                     LOGGER.info("No web.xml found!");
                 }
             }
-        } catch (SAXException | XPathExpressionException | IOException | ParserConfigurationException e) {
+        } catch (IOException e) {
             LOGGER.log(WARNING, "Unable to parse web.xml", e);
         }
 
         LOGGER.log(FINE, () -> "Exiting WebXmlInitializer.onStartup");
     }
 
-    private void processSecurityConstraints(WebXml webXml, NodeList nodeList) {
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            processSecurityConstraint(webXml, nodeList.item(i));
-        }
-    }
-
-    private void processSecurityConstraint(WebXml webXml, Node node) {
-        try {
-            XPath xPath = XPathFactory.newInstance().newXPath();
-            WebXml.SecurityConstraint securityConstraint = new WebXml.SecurityConstraint();
-
-            forEachNode(xPath, node, "//web-resource-collection", webResourceCollectionNode -> {
-                WebXml.SecurityConstraint.WebResourceCollection webResourceCollection = new WebXml.SecurityConstraint.WebResourceCollection();
-
-                forEachString(xPath, webResourceCollectionNode, "//url-pattern",
-                        urlPattern -> webResourceCollection.urlPatterns.add(urlPattern)
-                );
-
-                forEachString(xPath, webResourceCollectionNode, "//http-method",
-                        httpMethod -> webResourceCollection.httpMethods.add(httpMethod)
-                );
-
-                forEachString(xPath, webResourceCollectionNode, "//http-method-omission",
-                        httpMethodOmission -> webResourceCollection.httpMethodOmissions.add(httpMethodOmission)
-                );
-
-                securityConstraint.webResourceCollections.add(webResourceCollection);
-            });
-
-            forEachString(xPath, getNodes(xPath, node, "//auth-constraint"), "//role-name/text()",
-                    roleName -> securityConstraint.roleNames.add(roleName)
-            );
-
-            securityConstraint.transportGuarantee = getString(xPath, node, "//user-data-constraint/transport-guarantee/text()");
-
-            webXml.securityConstraints.add(securityConstraint);
-
-        } catch (Exception xpe) {
-            LOGGER.log(WARNING, "Unable to parse <servlet> section", xpe);
-        }
-    }
-
-    // ### Utility methods
-    /**
-     * Short-cut method for forEachNode - forEachString, when only one node's
-     * string value is needed
-     *
-     */
-    private void forEachString(XPath xPath, NodeList nodes, String expression, ThrowingConsumer<String> consumer) throws XPathExpressionException {
-        for (int i = 0; i < nodes.getLength(); i++) {
-            consumer.accept((String) xPath.evaluate(expression, nodes.item(i), XPathConstants.STRING));
-        }
-    }
-
-    private void forEachString(XPath xPath, Node parent, String expression, ThrowingConsumer<String> consumer) throws XPathExpressionException {
-        forEachNode(xPath, parent, expression, node -> consumer.accept(getString(xPath, node, "child::text()")));
-    }
-
-    private void forEachNode(XPath xPath, Node node, String expression, ThrowingConsumer<Node> consumer) throws XPathExpressionException {
-        NodeList nodes = (NodeList) xPath.evaluate(expression, node, NODESET);
-        for (int i = 0; i < nodes.getLength(); i++) {
-            consumer.accept(nodes.item(i));
-        }
-    }
-
-    private String getString(XPath xPath, Node node, String expression) throws XPathExpressionException {
-        return (String) xPath.evaluate(expression, node, STRING);
-    }
-
-    private NodeList getNodes(XPath xPath, Node node, String expression) throws XPathExpressionException {
-        return (NodeList) xPath.evaluate(expression, node, NODESET);
-    }
-
-    private interface ThrowingConsumer<T> {
-
-        /**
-         * Performs this operation on the given argument.
-         *
-         * @param t the input argument
-         */
-        void accept(T t) throws XPathExpressionException;
-    }
 }
