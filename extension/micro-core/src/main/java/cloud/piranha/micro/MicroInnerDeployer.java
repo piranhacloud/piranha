@@ -42,6 +42,7 @@ import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -55,10 +56,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.ext.Provider;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
@@ -105,25 +102,25 @@ public class MicroInnerDeployer {
 
     private static final Logger LOGGER = Logger.getLogger(MicroInnerDeployer.class.getName());
 
-    Class<?>[] webAnnotations = new Class<?>[] {
-       // Servlet
-       WebServlet.class,
-       WebListener.class,
-       WebInitParam.class,
-       WebFilter.class,
-       ServletSecurity.class,
-       MultipartConfig.class,
+    String[] webAnnotations = new String[] {
+            // Servlet
+            WebServlet.class.getName(),
+            WebListener.class.getName(),
+            WebInitParam.class.getName(),
+            WebFilter.class.getName(),
+            ServletSecurity.class.getName(),
+            MultipartConfig.class.getName(),
 
-       // REST
-       Path.class,
-       Provider.class,
-       ApplicationPath.class,
-    };
+            // REST
+            "javax.ws.rs.Path", //Path.class,
+            "javax.ws.rs.ext.Provider", // Provider.class,
+            "javax.ws.rs.ApplicationPath", //  ApplicationPath.class,
+         };
 
-    Class<?>[] instances = new Class<?>[] {
-        // REST
-        Application.class,
-    };
+     String[] instances = new String[] {
+         // REST
+         "javax.ws.rs.core.Application",
+     };
 
     private HttpServer httpServer;
 
@@ -242,7 +239,19 @@ public class MicroInnerDeployer {
     }
 
     void forEachWebAnnotation(Consumer<? super Class<?>> consumer) {
-        stream(webAnnotations).forEach(consumer);
+        stream(webAnnotations)
+            .map(this::toClass)
+            .flatMap(Optional::stream)
+            .map(e -> (Class<?>) e)
+            .forEach(consumer);
+    }
+
+    Optional<? super Class<?>> toClass(String className) {
+        try {
+            return Optional.of(Class.forName(className, true, Thread.currentThread().getContextClassLoader()));
+        } catch (ClassNotFoundException e) {
+            return Optional.empty();
+        }
     }
 
     Stream<AnnotationInstance> getAnnotations(Index index, Class<?> webAnnotation) {
@@ -289,7 +298,11 @@ public class MicroInnerDeployer {
     }
 
     void forEachInstance(Consumer<? super Class<?>> consumer) {
-        stream(instances).forEach(consumer);
+        stream(instances)
+            .map(this::toClass)
+            .flatMap(Optional::stream)
+            .map(e -> (Class<?>) e)
+            .forEach(consumer);
     }
 
     void getCallerCredentials(String callersAsXml) {
