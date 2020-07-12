@@ -144,7 +144,7 @@
             <dependency>
                 <groupId>org.omnifaces</groupId>
                 <artifactId>exousia</artifactId>
-                <version>0.4.3</version>
+                <version>0.4.4</version>
             </dependency>
 
             <!-- Jakarta Bean Validation -->
