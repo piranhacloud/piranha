@@ -64,6 +64,7 @@ import cloud.piranha.webapp.impl.WebXmlMimeMapping;
 import cloud.piranha.webapp.impl.WebXmlServlet;
 import cloud.piranha.webapp.impl.WebXmlServletInitParam;
 import cloud.piranha.webapp.impl.WebXmlServletMapping;
+import cloud.piranha.webapp.impl.WebXmlServletSecurityRoleRef;
 import cloud.piranha.webapp.impl.WebXmlSessionConfig;
 
 /**
@@ -531,36 +532,42 @@ public class WebXmlParser {
      * @param xPath the XPath to use.
      * @param node the DOM node.
      */
-    private void parseServlets(WebXml webXml, XPath xPath, Node node) {
+    private void parseServlets(WebXml webXml, XPath xPath, Node rootNode) {
         try {
-            NodeList nodeList = (NodeList) xPath.evaluate("//servlet", node, NODESET);
-            if (nodeList != null) {
-                List<WebXmlServlet> servlets = webXml.getServlets();
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    WebXmlServlet servlet = new WebXmlServlet();
-                    String servletName = parseString(xPath, "servlet-name/text()", nodeList.item(i));
-                    servlet.setServletName(servletName);
-                    String className = parseString(xPath, "servlet-class/text()", nodeList.item(i));
-                    servlet.setClassName(className);
-                    Boolean asyncSupported = parseBoolean(xPath, "async-supported/text()", nodeList.item(i));
-                    if (asyncSupported != null) {
-                        servlet.setAsyncSupported(asyncSupported);
-                    }
-                    servlets.add(servlet);
-                    NodeList paramNodeList = (NodeList) xPath.evaluate("init-param", nodeList.item(i), NODESET);
-                    for (int j = 0; j < paramNodeList.getLength(); j++) {
-                        WebXmlServletInitParam initParam = new WebXmlServletInitParam();
-                        String name = parseString(xPath, "param-name/text()", paramNodeList.item(j));
-                        initParam.setName(name);
-                        String value = parseString(xPath, "param-value/text()", paramNodeList.item(j));
-                        initParam.setValue(value);
-                        servlet.addInitParam(initParam);
-                    }
-                    if (LOGGER.isLoggable(FINE)) {
-                        LOGGER.log(FINE, "Configured servlet: {0}", servlet.toString());
-                    }
+            List<WebXmlServlet> servlets = webXml.getServlets();
+            for (Node servletNode : parseNodes(xPath, "//servlet", rootNode)) {
+                WebXmlServlet servlet = new WebXmlServlet();
+                servlet.setServletName(parseString(xPath, "servlet-name/text()", servletNode));
+                servlet.setClassName(parseString(xPath, "servlet-class/text()", servletNode));
+
+                Boolean asyncSupported = parseBoolean(xPath, "async-supported/text()", servletNode);
+                if (asyncSupported != null) {
+                    servlet.setAsyncSupported(asyncSupported);
+                }
+
+                for (Node initParamNode : parseNodes(xPath, "init-param", servletNode)) {
+                    WebXmlServletInitParam initParam = new WebXmlServletInitParam();
+                    initParam.setName(parseString(xPath, "param-name/text()", initParamNode));
+                    initParam.setValue(parseString(xPath, "param-value/text()", initParamNode));
+
+                    servlet.getInitParams().add(initParam);
+                }
+
+                for (Node securityRoleRefNode : parseNodes(xPath, "security-role-ref", servletNode)) {
+                    WebXmlServletSecurityRoleRef securityRoleRef = new WebXmlServletSecurityRoleRef();
+                    securityRoleRef.setRoleName(parseString(xPath, "role-name/text()", securityRoleRefNode));
+                    securityRoleRef.setRoleLink(parseString(xPath, "role-link/text()", securityRoleRefNode));
+
+                    servlet.getSecurityRoleRefs().add(securityRoleRef);
+                }
+
+                servlets.add(servlet);
+
+                if (LOGGER.isLoggable(FINE)) {
+                    LOGGER.log(FINE, "Configured servlet: {0}", servlet.toString());
                 }
             }
+
         } catch (XPathException xpe) {
             LOGGER.log(WARNING, "Unable to parse <filter> sections", xpe);
         }

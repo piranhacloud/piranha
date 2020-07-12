@@ -50,7 +50,9 @@ public class WebXmlServlet {
     /**
      * Stores the init params.
      */
-    private final ArrayList<WebXmlServletInitParam> initParams = new ArrayList<>();
+    private final List<WebXmlServletInitParam> initParams = new ArrayList<>();
+
+    private final List<WebXmlServletSecurityRoleRef> securityRoleRefs = new ArrayList<>();
 
     /**
      * Stores the servlet name.
@@ -82,6 +84,15 @@ public class WebXmlServlet {
      */
     public List<WebXmlServletInitParam> getInitParams() {
         return initParams;
+    }
+
+    /**
+     * Get the security role refs.
+     *
+     * @return the security role refs.
+     */
+    public List<WebXmlServletSecurityRoleRef> getSecurityRoleRefs() {
+        return securityRoleRefs;
     }
 
     /**
