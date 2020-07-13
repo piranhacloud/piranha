@@ -19,7 +19,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <!-- Workaround for 3.6.0 version of the plugin and Java 13 -->
+                <!-- Workaround for 3.6.0 version of the plugin and Java 13+ -->
                 <dependencies>
                     <dependency>
                         <groupId>org.ow2.asm</groupId>
