@@ -4,7 +4,7 @@
     <parent>
         <groupId>cloud.piranha.test.webxml</groupId>
         <artifactId>project</artifactId>
-        <version>20.7.0-SNAPSHOT</version>
+        <version>20.7.0</version>
     </parent>
     <artifactId>web-fragment-in-jar-test</artifactId>
     <packaging>jar</packaging>
