@@ -6,6 +6,7 @@ cloud.piranha.cdi.openwebbeans
 cloud.piranha.cdi.weld
 cloud.piranha.embedded
 cloud.piranha.extension.apachewebprofile
+cloud.piranha.extension.micro.profile
 cloud.piranha.extension.micro.servlet
 cloud.piranha.extension.servlet
 cloud.piranha.extension.tomcat9
@@ -18,10 +19,10 @@ cloud.piranha.http.impl
 cloud.piranha.http.netty
 cloud.piranha.http.singlethread
 cloud.piranha.http.undertow
-cloud.piranha.jndi.memory
 cloud.piranha.maven.plugins.piranha.micro
 cloud.piranha.micro
 cloud.piranha.monitor.jmx
+cloud.piranha.naming.impl
 cloud.piranha.nano
 cloud.piranha.omnifaces.jwt
 cloud.piranha.pages.jasper
@@ -29,7 +30,7 @@ cloud.piranha.resource
 cloud.piranha.resource.api
 cloud.piranha.resource.shrinkwrap
 cloud.piranha.rest.jersey
-cloud.piranha.security.elios
+cloud.piranha.security.eleos
 cloud.piranha.security.exousia
 cloud.piranha.security.jakarta
 cloud.piranha.security.soteria
