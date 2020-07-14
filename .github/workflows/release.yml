@@ -49,5 +49,5 @@ jobs:
         docker manifest annotate piranhacloud/server:$VERSION \
           piranhacloud/server:amd64-$VERSION --os linux --arch amd64
         docker manifest annotate piranhacloud/server:$VERSION \
-          piranhacloud/server:arm32v7-$VERSION --os linux --arch arm32v7
+          piranhacloud/server:arm32v7-$VERSION --os linux --arch arm --variant armv7l
         docker manifest push piranhacloud/server:$VERSION
