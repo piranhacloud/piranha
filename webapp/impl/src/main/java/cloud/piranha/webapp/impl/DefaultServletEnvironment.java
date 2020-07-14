@@ -283,6 +283,15 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
     }
 
     /**
+     * Get the status.
+     * 
+     * @return the status.
+     */
+    public int getStatus() {
+        return status;
+    }
+
+    /**
      * Get the web application.
      *
      * @return the web application.

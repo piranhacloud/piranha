@@ -45,6 +45,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import cloud.piranha.webapp.api.WebApplication;
+import javax.servlet.UnavailableException;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * The JUnit tests for the Servlet API.
@@ -83,9 +85,13 @@ public class ServletTest {
         request.setServletPath("/echo");
         webApplication.initialize();
         webApplication.start();
-        webApplication.service(request, response);
+        try {
+            webApplication.service(request, response);
+            fail();
+        } catch(UnavailableException ue) {
+        }
         assertNotNull(webApplication.getAttribute("Broken Servlet"));
-        assertFalse(new String(response.getResponseBytes()).contains("200"));
+        assertFalse(new String(response.getResponseBytes()).contains("500"));
         webApplication.stop();
     }
 

@@ -653,7 +653,7 @@ public class DefaultWebApplicationTest {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        ServletRegistration.Dynamic dynamic = webApp.addServlet("session", "cloud.piranha.TestSessionServlet");
+        ServletRegistration.Dynamic dynamic = webApp.addServlet("session", "cloud.piranha.webapp.impl.TestSessionServlet");
         assertNotNull(dynamic);
         dynamic.addMapping("/session");
         webApp.initialize();
