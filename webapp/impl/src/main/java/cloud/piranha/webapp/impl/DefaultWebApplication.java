@@ -102,6 +102,7 @@ import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
 import cloud.piranha.webapp.api.WebApplicationRequestMapping;
 import cloud.piranha.webapp.api.WelcomeFileManager;
+import javax.servlet.UnavailableException;
 
 /**
  * The default WebApplication.
@@ -1583,9 +1584,12 @@ public class DefaultWebApplication implements WebApplication {
 
         Servlet servlet = null;
         String servletName = null;
-        if (servletEnvironment != null) {
+        if (servletEnvironment != null && 
+                servletEnvironment.getStatus() != DefaultServletEnvironment.UNAVAILABLE) {
             servlet = servletEnvironment.getServlet();
             servletName = servletEnvironment.getName();
+        } else if (servletEnvironment != null && servletEnvironment.getStatus() == DefaultServletEnvironment.UNAVAILABLE) {
+            throw new UnavailableException("Servlet is unavailable");
         }
 
 
