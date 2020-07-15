@@ -137,10 +137,11 @@
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>3.0.0-M3</version>
                 </plugin>
+                <!-- downgraded to 3.0.0-M4 because 3.0.0-M5 don't find any test in JWT TCK -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.0.0-M5</version>
+                    <version>3.0.0-M4</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
