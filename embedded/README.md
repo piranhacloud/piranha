@@ -11,7 +11,6 @@ EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
     .servlet("SnoopServlet", SnoopServlet.class.getName())
     .servletMapping("SnoopServlet", "/SnoopServlet")
     .build()
-    .initialize()
     .start();
 
 EmbeddedRequest request = new EmbeddedRequestBuilder()
