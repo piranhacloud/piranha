@@ -1176,7 +1176,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public void removeAttribute(String name) {
         attributeManager.removeAttribute(name);
-        webApplication.getHttpRequestManager().attributeRemoved(this, name);
+        if (webApplication != null && webApplication.getHttpRequestManager() != null) {
+            webApplication.getHttpRequestManager().attributeRemoved(this, name);
+        }
     }
 
     /**
@@ -1201,6 +1203,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
             if (attributeManager.getAttribute(name) == null) {
                 added = false;
             }
+
             attributeManager.setAttribute(name, value);
             if (webApplication != null && webApplication.getHttpRequestManager() != null) {
                 if (!added) {

@@ -100,7 +100,12 @@ public class DefaultFilterChain implements FilterChain {
         if (filter != null) {
             filter.doFilter(request, response, nextFilterChain);
         } else if (servlet != null) {
-            servlet.service(request, response);
+            request.setAttribute(DefaultServletEnvironment.class.getName(), servlet.getServletConfig());
+            try {
+                servlet.service(request, response);
+            } finally {
+                request.removeAttribute(DefaultServletEnvironment.class.getName());
+            }
         } else if (response instanceof HttpServletResponse) {
             ((HttpServletResponse) response).sendError(SC_NOT_FOUND);
         }
