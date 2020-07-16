@@ -26,37 +26,44 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <!-- Handling of archives and loading mmodules via Maven -->
+        <!-- Handling of archives and loading modules via Maven -->
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-shrinkwrap</artifactId>
             <version>${project.version}</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap.descriptors</groupId>
             <artifactId>shrinkwrap-descriptors-api-base</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-api-maven</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-spi</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-impl-maven-archive</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- Handling of annotation and class index -->
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jandex</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- Because MicroPiranha implements Piranha. -->
@@ -64,6 +71,7 @@
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-api</artifactId>
             <version>${project.version}</version>
+            <optional>true</optional>
         </dependency>
 
         <!-- -->
@@ -73,6 +81,7 @@
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource</artifactId>
             <version>${project.version}</version>
+            <optional>true</optional>
         </dependency>
 
 
@@ -84,7 +93,6 @@
     </dependencies>
 
     <build>
-        <finalName>piranha-micro</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -113,9 +121,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>all</shadedClassifierName>
-                            <minimizeJar>true</minimizeJar>
+                            <minimizeJar>false</minimizeJar>
                             <filters>
                                 <filter>
                                     <artifact>org.jboss.shrinkwrap:shrinkwrap-impl-base</artifact>
