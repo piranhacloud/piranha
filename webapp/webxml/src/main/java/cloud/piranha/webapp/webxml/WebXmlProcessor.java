@@ -83,6 +83,7 @@ public class WebXmlProcessor {
         processMimeMappings(webApplication, webXml);
         processRequestCharacterEncoding(webApplication, webXml);
         processResponseCharacterEncoding(webApplication, webXml);
+        processRoleNames(webApplication, webXml);
         processServlets(webApplication, webXml);
         processServletMappings(webApplication, webXml);
         processWelcomeFiles(webApplication, webXml);
@@ -256,6 +257,10 @@ public class WebXmlProcessor {
         if (webXml.getResponseCharacterEncoding() != null) {
             webApplication.setResponseCharacterEncoding(webXml.getResponseCharacterEncoding());
         }
+    }
+
+    private void processRoleNames(WebApplication webApplication, WebXml webXml) {
+        webApplication.getSecurityManager().declareRoles(webXml.getRoleNames());
     }
 
     /**

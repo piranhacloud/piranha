@@ -1610,11 +1610,15 @@ public class DefaultWebApplication implements WebApplication {
             httpResponse.sendError(404);
         } else {
             try {
-                request.setAttribute(DefaultServletEnvironment.class.getName(), servlet.getServletConfig());
-                try {
-                    servlet.service(request, response);
-                } finally {
-                    request.removeAttribute(DefaultServletEnvironment.class.getName());
+                if (filterEnvironments != null) {
+                    getFilterChain(filterEnvironments, servlet).doFilter(request, response);
+                } else {
+                    request.setAttribute(DefaultServletEnvironment.class.getName(), servlet.getServletConfig());
+                    try {
+                        servlet.service(request, response);
+                    } finally {
+                        request.removeAttribute(DefaultServletEnvironment.class.getName());
+                    }
                 }
             } catch (Exception e) {
                 exception = e;

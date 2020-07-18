@@ -29,7 +29,6 @@ package cloud.piranha.security.exousia;
 
 import static cloud.piranha.security.exousia.AuthorizationPreFilter.localServletRequest;
 import static java.util.Collections.emptyList;
-import static java.util.Collections.emptySet;
 import static org.omnifaces.exousia.constraints.SecurityConstraint.join;
 
 import java.security.Permission;
@@ -105,12 +104,18 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
                 getOptionalAttribute(servletContext, CONSTRAINTS),
                 getConstraintsFromWebXMl(context));
 
+        if (securityConstraints != null) {
+            for (SecurityConstraint securityConstraint : securityConstraints) {
+                context.getSecurityManager().declareRoles(securityConstraint.getRolesAllowed());
+            }
+        }
+
         if (hasPermissionsSet(context)) {
             setPermissions(context, authorizationService);
         } else {
             authorizationService.addConstraintsToPolicy(
                     securityConstraints != null ? securityConstraints : emptyList(),
-                    emptySet(),
+                    context.getSecurityManager().getRoles(),
                     context.getDenyUncoveredHttpMethods(),
                     getSecurityRoleRefsFromWebXml(context));
         }

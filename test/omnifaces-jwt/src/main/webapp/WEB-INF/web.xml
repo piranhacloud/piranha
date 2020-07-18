@@ -16,4 +16,8 @@
         <servlet-name>Jersey</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
+    
+    <security-role>
+        <role-name>architect</role-name>
+    </security-role>
 </web-app>

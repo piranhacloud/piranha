@@ -31,10 +31,13 @@ import static cloud.piranha.security.eleos.AuthenticationInitializer.AUTH_SERVIC
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
 import static cloud.piranha.webapp.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
 import static cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity.getCurrentSubject;
+import static java.util.Arrays.asList;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -64,10 +67,21 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 public class JakartaSecurityManager implements SecurityManager {
 
     private UsernamePasswordLoginHandler usernamePasswordLoginHandler;
+    private final Set<String> roles = ConcurrentHashMap.newKeySet();
 
     @Override
     public void declareRoles(String[] roles) {
+        this.roles.addAll(asList(roles));
+    }
 
+    @Override
+    public void declareRoles(Collection<String> roles) {
+        this.roles.addAll(roles);
+    }
+
+    @Override
+    public Set<String> getRoles() {
+        return roles;
     }
 
     @Override
@@ -151,18 +165,7 @@ public class JakartaSecurityManager implements SecurityManager {
         if (resultIdentity == null) {
             throw new ServletException();
         }
-
         setIdentityForCurrentRequest(request, resultIdentity.getCallerPrincipal(), resultIdentity.getGroups());
-    }
-
-    private void setIdentityForCurrentRequest(HttpServletRequest request, Principal callerPrincipal, Set<String> groups) {
-        // TODO: consider not setting principal in request separately
-        Principal currentPrincipal = callerPrincipal == null ? null : callerPrincipal.getName() == null ? null : callerPrincipal;
-
-        DefaultWebApplicationRequest defaultWebApplicationRequest = (DefaultWebApplicationRequest) request;
-        defaultWebApplicationRequest.setUserPrincipal(currentPrincipal);
-
-        DefaultAuthenticatedIdentity.setCurrentIdentity(currentPrincipal, groups);
     }
 
     @Override
@@ -218,6 +221,16 @@ public class JakartaSecurityManager implements SecurityManager {
     @Override
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private void setIdentityForCurrentRequest(HttpServletRequest request, Principal callerPrincipal, Set<String> groups) {
+        // TODO: consider not setting principal in request separately
+        Principal currentPrincipal = callerPrincipal == null ? null : callerPrincipal.getName() == null ? null : callerPrincipal;
+
+        DefaultWebApplicationRequest defaultWebApplicationRequest = (DefaultWebApplicationRequest) request;
+        defaultWebApplicationRequest.setUserPrincipal(currentPrincipal);
+
+        DefaultAuthenticatedIdentity.setCurrentIdentity(currentPrincipal, groups);
     }
 
     private String getServletName(HttpServletRequest request) {

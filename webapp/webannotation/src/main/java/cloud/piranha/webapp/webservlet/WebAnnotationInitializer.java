@@ -40,6 +40,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContainerInitializer;
@@ -187,8 +189,16 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
             securityAnnotations
         );
 
-        // Process @WebListener
+        // Collect the roles from various annotations
+        for (AnnotationInfo<RolesAllowed> rolesAllowedInfo : annotationManager.getAnnotations(RolesAllowed.class)) {
+            webApp.declareRoles(rolesAllowedInfo.getInstance().value());
+        }
 
+        for (AnnotationInfo<DeclareRoles> declareRolesInfo : annotationManager.getAnnotations(DeclareRoles.class)) {
+            webApp.declareRoles(declareRolesInfo.getInstance().value());
+        }
+
+        // Process @WebListener
         for (AnnotationInfo<WebListener> annotationInfo : annotationManager.getAnnotations(WebListener.class)) {
             webApp.addListener(getTargetListener(annotationInfo));
         }

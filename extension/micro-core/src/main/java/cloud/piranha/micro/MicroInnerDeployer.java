@@ -50,6 +50,16 @@ import java.util.function.Function;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Priority;
+import javax.annotation.Resource;
+import javax.annotation.Resources;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+import javax.annotation.security.RunAs;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebFilter;
@@ -115,6 +125,19 @@ public class MicroInnerDeployer {
             "javax.ws.rs.Path", //Path.class,
             "javax.ws.rs.ext.Provider", // Provider.class,
             "javax.ws.rs.ApplicationPath", //  ApplicationPath.class,
+
+            // General
+            DeclareRoles.class.getName(), // Not Servlet, but often used on Servlets
+            DenyAll.class.getName(),
+            PermitAll.class.getName(),
+            RolesAllowed.class.getName(),
+            RunAs.class.getName(),
+
+            PostConstruct.class.getName(),
+            PreDestroy.class.getName(),
+            Priority.class.getName(),
+            Resource.class.getName(),
+            Resources.class.getName(),
          };
 
      String[] instances = new String[] {

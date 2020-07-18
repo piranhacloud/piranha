@@ -27,6 +27,7 @@
  */
 package cloud.piranha.security.exousia;
 
+import static java.util.Collections.emptyList;
 import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.CONFIDENTIAL;
 import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
 
@@ -123,7 +124,7 @@ public class PiranhaToExousiaConverter {
         Map<String, List<SecurityRoleRef>> securityRoleRefs = new HashMap<>();
 
         for (String servletName : servletNames) {
-            securityRoleRefs.put(servletName, getSecurityRoleRefsByServletName(webXml, servletName));
+            securityRoleRefs.put(servletName,  webXml == null? emptyList() : getSecurityRoleRefsByServletName(webXml, servletName));
         }
 
         return securityRoleRefs;
@@ -150,7 +151,7 @@ public class PiranhaToExousiaConverter {
     private List<WebXmlServletSecurityRoleRef> getWebXmlSecurityRoleRefsByServletName(WebXml webXml, String servletName) {
         WebXmlServlet servlet = getServletByName(webXml, servletName);
         if (servlet == null) {
-            return Collections.emptyList();
+            return emptyList();
         }
 
         return servlet.getSecurityRoleRefs();

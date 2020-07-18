@@ -31,6 +31,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -141,6 +143,11 @@ public class DefaultSecurityManager implements SecurityManager {
     @Override
     public void declareRoles(String[] roles) {
         this.roles.addAll(Arrays.asList(roles));
+    }
+
+    @Override
+    public Set<String> getRoles() {
+        return new HashSet<>(roles);
     }
 
     /**

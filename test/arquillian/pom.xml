@@ -38,6 +38,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    
     <dependencies>
         <dependency>
             <groupId>cloud.piranha</groupId>
@@ -109,4 +110,22 @@
             <artifactId>jaxb-runtime</artifactId>
         </dependency>
     </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <!-- Must be set to 9090, since the default 8080 is always in use -->
+                        <piranha.port>9090</piranha.port>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    
+    
 </project>
