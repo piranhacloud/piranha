@@ -181,14 +181,6 @@ public class MicroConfiguration {
         this.port = port;
     }
 
-    public String getHttpServer() {
-        return httpServer;
-    }
-
-    public void setHttpServer(String httpServer) {
-        this.httpServer = httpServer;
-    }
-
     public List<String> getExtensionsList() {
         return extensionsList;
     }
@@ -201,4 +193,21 @@ public class MicroConfiguration {
         return mergedDependencies;
     }
 
+    /**
+     * Get the HTTP server engine.
+     * 
+     * @return the HTTP server engine.
+     */
+    public String getHttpServer() {
+        return httpServer;
+    }
+
+    /**
+     * Set the HTTP server engine to use.
+     * 
+     * @param httpServer the HTTP server engine.
+     */
+    public void setHttpServer(String httpServer) {
+        this.httpServer = httpServer;
+    }
 }
