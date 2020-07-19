@@ -30,6 +30,10 @@ as illustrated by the command line below:
 java -jar piranha-micro.jar --war your_webapplication.war --port 8888
 ```
 
+## Additional customizations
+
+1. [Use an alternate HTTP server](httpserver.md)
+
 ## Limitations
 
 1. Only supports one web application per JVM.
