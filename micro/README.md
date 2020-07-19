@@ -4,8 +4,6 @@
  
 Download the JAR file from [Maven Central](https://repo1.maven.org/maven2/cloud/piranha/piranha-micro).
 
-Make sure you download the `-all` JAR file.
-
 ## Running with a WAR file
 
 If you have a WAR file you can use the command line below:
