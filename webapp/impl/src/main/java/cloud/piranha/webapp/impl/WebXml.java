@@ -29,7 +29,9 @@ package cloud.piranha.webapp.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The web.xml in object format.
@@ -118,7 +120,7 @@ public class WebXml implements Serializable {
     /**
      * Stores the context params.
      */
-    private final ArrayList<WebXmlContextParam> contextParams = new ArrayList<>();
+    private final List<WebXmlContextParam> contextParams = new ArrayList<>();
 
     /**
      * Stores the default context path.
@@ -143,17 +145,17 @@ public class WebXml implements Serializable {
     /**
      * Stores the error pages.
      */
-    private final ArrayList<WebXmlErrorPage> errorPages = new ArrayList<>();
+    private final List<WebXmlErrorPage> errorPages = new ArrayList<>();
 
     /**
      * Stores the filters.
      */
-    private final ArrayList<WebXmlFilter> filters = new ArrayList<>();
+    private final List<WebXmlFilter> filters = new ArrayList<>();
 
     /**
      * Stores the filter mappings.
      */
-    private final ArrayList<WebXmlFilterMapping> filterMappings = new ArrayList<>();
+    private final List<WebXmlFilterMapping> filterMappings = new ArrayList<>();
 
     /**
      * Stores if we are a fragment.
@@ -168,7 +170,7 @@ public class WebXml implements Serializable {
     /**
      * Stores the listeners.
      */
-    private final ArrayList<WebXmlListener> listeners = new ArrayList<>();
+    private final List<WebXmlListener> listeners = new ArrayList<>();
 
     /**
      * Stores the login config.
@@ -178,7 +180,7 @@ public class WebXml implements Serializable {
     /**
      * Stores the mime mappings.
      */
-    private final ArrayList<WebXmlMimeMapping> mimeMappings = new ArrayList<>();
+    private final List<WebXmlMimeMapping> mimeMappings = new ArrayList<>();
 
     /**
      * Stores the request character encoding.
@@ -191,6 +193,11 @@ public class WebXml implements Serializable {
     private String responseCharacterEncoding;
 
     /**
+     * Set of all unique role names that have either been explicitly declared, or used in a constraint.
+     */
+    private final Set<String> roleNames = new HashSet<>();
+
+    /**
      * Stores the servlets.
      */
     private final List<WebXmlServlet> servlets = new ArrayList<>();
@@ -198,7 +205,7 @@ public class WebXml implements Serializable {
     /**
      * Stores the servlet mappings.
      */
-    private final ArrayList<WebXmlServletMapping> servletMappings = new ArrayList<>();
+    private final List<WebXmlServletMapping> servletMappings = new ArrayList<>();
 
     /**
      * Stores the session configuration.
@@ -208,7 +215,7 @@ public class WebXml implements Serializable {
     /**
      * Stores the welcome files.
      */
-    private final ArrayList<String> welcomeFiles = new ArrayList<>();
+    private final List<String> welcomeFiles = new ArrayList<>();
 
     /**
      * Get the context params.
@@ -325,6 +332,15 @@ public class WebXml implements Serializable {
      */
     public String getResponseCharacterEncoding() {
         return responseCharacterEncoding;
+    }
+
+    /**
+     * Get all the unique role names that have either been explicitly declared, or used in a constraint.
+     *
+     * @return the unique role names that have either been explicitly declared, or used in a constraint.
+     */
+    public Set<String> getRoleNames() {
+        return roleNames;
     }
 
     /**

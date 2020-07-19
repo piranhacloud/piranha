@@ -1,47 +1,50 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.webapp.api.HttpSessionManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.resource.AliasedDirectoryResource;
-import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.resource.api.Resource;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletRegistration;
+
+import cloud.piranha.resource.AliasedDirectoryResource;
+import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.resource.api.Resource;
+import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 
 /**
  * The builder so you can easily build instances of
@@ -55,42 +58,42 @@ public class EmbeddedPiranhaBuilder {
     /**
      * Stores the async supported flags.
      */
-    private final LinkedHashMap<String, Boolean> asyncSupportedServlets;
+    private final Map<String, Boolean> asyncSupportedServlets;
 
     /**
      * Stores the attributes.
      */
-    private final LinkedHashMap<String, Object> attributes;
+    private final Map<String, Object> attributes;
 
     /**
      * Stores the extension.
      */
-    private Class<? extends WebApplicationExtension> extensionClass;
+    private List<Class<? extends WebApplicationExtension>> extensionClasses;
 
     /**
      * Stores the features.
      */
-    private final ArrayList<String> features;
+    private final List<String> features;
 
     /**
      * Stores the initializers.
      */
-    private final ArrayList<String> initializers;
+    private final List<String> initializers;
 
     /**
      * Stores the filters.
      */
-    private final LinkedHashMap<String, String> filters;
+    private final Map<String, String> filters;
 
     /**
      * Stores the filter init parameters map.
      */
-    private final LinkedHashMap<String, HashMap<String, String>> filterInitParameters;
+    private final Map<String, HashMap<String, String>> filterInitParameters;
 
     /**
      * Stores the filter mappings.
      */
-    private final LinkedHashMap<String, List<String>> filterMappings;
+    private final Map<String, List<String>> filterMappings;
 
     /**
      * Stores the HTTP session manager.
@@ -123,6 +126,7 @@ public class EmbeddedPiranhaBuilder {
     public EmbeddedPiranhaBuilder() {
         asyncSupportedServlets = new LinkedHashMap<>();
         attributes = new LinkedHashMap<>();
+        extensionClasses = new ArrayList<>();
         features = new ArrayList<>();
         filters = new LinkedHashMap<>();
         filterInitParameters = new LinkedHashMap<>();
@@ -165,46 +169,34 @@ public class EmbeddedPiranhaBuilder {
      */
     public EmbeddedPiranha build() {
         EmbeddedPiranha piranha = new EmbeddedPiranha();
+
         WebApplication webApplication = piranha.getWebApplication();
-        if (extensionClass != null) {
+        if (extensionClasses != null && !extensionClasses.isEmpty()) {
             DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
-            context.add(extensionClass);
+            for (Class<? extends WebApplicationExtension> extensionClass : extensionClasses) {
+                context.add(extensionClass);
+            }
             context.configure(webApplication);
         }
+
         if (httpSessionManager != null) {
             webApplication.setHttpSessionManager(httpSessionManager);
         }
+
         attributes.entrySet().forEach((attribute) -> {
             String attributeName = attribute.getKey();
             Object attributeValue = attribute.getValue();
             webApplication.setAttribute(attributeName, attributeValue);
         });
+
         resources.forEach((resource) -> {
             webApplication.addResource(resource);
         });
+
         initializers.forEach((initializer) -> {
             webApplication.addInitializer(initializer);
         });
-        webApplication.initializeInitializers();
-        filters.entrySet().forEach((entry) -> {
-            String filterName = entry.getKey();
-            String className = entry.getValue();
-            FilterRegistration.Dynamic filter = webApplication.addFilter(filterName, className);
-            HashMap<String, String> initParameters = filterInitParameters.get(filterName);
-            if (initParameters != null) {
-                initParameters.entrySet().forEach((initParameter) -> {
-                    String name = initParameter.getKey();
-                    String value = initParameter.getValue();
-                    filter.setInitParameter(name, value);
-                });
-            }
-        });
-        filterMappings.entrySet().forEach((filterMapping) -> {
-            String filterName = filterMapping.getKey();
-            List<String> urlPatterns = filterMapping.getValue();
-            webApplication.addFilterMapping(filterName, urlPatterns.toArray(new String[0]));
-        });
-        webApplication.initializeFilters();
+
         servlets.entrySet().forEach((entry) -> {
             String servletName = entry.getKey();
             String className = entry.getValue();
@@ -224,8 +216,31 @@ public class EmbeddedPiranhaBuilder {
             List<String> urlPatterns = servletMapping.getValue();
             webApplication.addServletMapping(servletName, urlPatterns.toArray(new String[0]));
         });
+
+        filters.entrySet().forEach((entry) -> {
+            String filterName = entry.getKey();
+            String className = entry.getValue();
+            FilterRegistration.Dynamic filter = webApplication.addFilter(filterName, className);
+            HashMap<String, String> initParameters = filterInitParameters.get(filterName);
+            if (initParameters != null) {
+                initParameters.entrySet().forEach((initParameter) -> {
+                    String name = initParameter.getKey();
+                    String value = initParameter.getValue();
+                    filter.setInitParameter(name, value);
+                });
+            }
+        });
+        filterMappings.entrySet().forEach((filterMapping) -> {
+            String filterName = filterMapping.getKey();
+            List<String> urlPatterns = filterMapping.getValue();
+            webApplication.addFilterMapping(filterName, urlPatterns.toArray(new String[0]));
+        });
+
+        webApplication.initializeInitializers();
+        webApplication.initializeFilters();
         webApplication.initializeServlets();
         webApplication.initializeFinish();
+
         return piranha;
     }
 
@@ -257,7 +272,21 @@ public class EmbeddedPiranhaBuilder {
      * @return the builder.
      */
     public EmbeddedPiranhaBuilder extension(Class<? extends WebApplicationExtension> extensionClass) {
-        this.extensionClass = extensionClass;
+        extensionClasses.add(extensionClass);
+        return this;
+    }
+
+    /**
+     * Set the web application extensions.
+     *
+     * @param extensionClasses the extension classes.
+     * @return the builder.
+     */
+    @SafeVarargs
+    public final EmbeddedPiranhaBuilder extensions(Class<? extends WebApplicationExtension>... extensionClasses) {
+        for (Class<? extends WebApplicationExtension> extensionClass : extensionClasses) {
+            extension(extensionClass);
+        }
         return this;
     }
 

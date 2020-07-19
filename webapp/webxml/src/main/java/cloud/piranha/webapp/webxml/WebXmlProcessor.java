@@ -83,6 +83,7 @@ public class WebXmlProcessor {
         processMimeMappings(webApplication, webXml);
         processRequestCharacterEncoding(webApplication, webXml);
         processResponseCharacterEncoding(webApplication, webXml);
+        processRoleNames(webApplication, webXml);
         processServlets(webApplication, webXml);
         processServletMappings(webApplication, webXml);
         processWelcomeFiles(webApplication, webXml);
@@ -258,6 +259,10 @@ public class WebXmlProcessor {
         }
     }
 
+    private void processRoleNames(WebApplication webApplication, WebXml webXml) {
+        webApplication.getSecurityManager().declareRoles(webXml.getRoleNames());
+    }
+
     /**
      * Process the servlet mappings.
      *
@@ -280,23 +285,24 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processServlets(WebApplication webApplication, WebXml webXml) {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Configuring Servlets");
-        }
+        LOGGER.log(FINE, "Configuring Servlets");
+
         Iterator<WebXmlServlet> iterator = webXml.getServlets().iterator();
         while (iterator.hasNext()) {
             WebXmlServlet servlet = iterator.next();
             if (LOGGER.isLoggable(FINE)) {
                 LOGGER.log(FINE, "Configuring Servlet: {0}", servlet.getServletName());
             }
-            ServletRegistration.Dynamic dynamic = webApplication.addServlet(
-                    servlet.getServletName(), servlet.getClassName());
+
+            ServletRegistration.Dynamic dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
             if (servlet.isAsyncSupported()) {
                 dynamic.setAsyncSupported(true);
             }
-            servlet.getInitParams().forEach((initParam) -> {
+
+            servlet.getInitParams().forEach(initParam -> {
                 dynamic.setInitParameter(initParam.getName(), initParam.getValue());
             });
+
             if (LOGGER.isLoggable(FINE)) {
                 LOGGER.log(FINE, "Configured Servlet: {0}", servlet.getServletName());
             }
@@ -310,9 +316,8 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processWelcomeFiles(WebApplication webApplication, WebXml webXml) {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Adding welcome files");
-        }
+        LOGGER.log(FINE, "Adding welcome files");
+
         Iterator<String> iterator = webXml.getWelcomeFiles().iterator();
         WelcomeFileManager welcomeFileManager = webApplication.getWelcomeFileManager();
         while (iterator.hasNext()) {
