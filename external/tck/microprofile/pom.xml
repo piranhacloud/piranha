@@ -149,7 +149,7 @@
                     <systemProperties>
                         <mp.jwt.tck.jwks.baseURL>http://localhost:9090/</mp.jwt.tck.jwks.baseURL>
                         <piranha.port>9090</piranha.port>
-                        <piranha.extensions>micro-profile</piranha.extensions>
+                        <piranha.extensions>microprofile</piranha.extensions>
                     </systemProperties>
                 </configuration>
             </plugin>
