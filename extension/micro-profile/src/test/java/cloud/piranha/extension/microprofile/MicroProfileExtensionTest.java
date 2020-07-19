@@ -25,35 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.micro.profile;
+package cloud.piranha.extension.microprofile;
 
-import cloud.piranha.rest.jersey.JerseyInitializer;
-import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
+import cloud.piranha.security.jakarta.JakartaSecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.webxml.WebXmlInitializer;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The MicroProfile extension.
- *
- * <p>
- * This web application extension enables extensions necessary to deliver
- * a MicroProfile compatible implementation.
- * </p>
- *
- * <ul>
- * <li>MicroProfile JWT Auth</li>
- * </ul>
- *
- * @author Thiago Henrique Hupner
- * @see cloud.piranha.webapp.api.WebApplicationExtension
+ * The JUnit tests for the MicroProfileExtension class.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class MicroProfileExtension implements WebApplicationExtension {
-
-    @Override
-    public void configure(WebApplication webApplication) {
-        webApplication.addInitializer(new WebXmlInitializer());
-        webApplication.addInitializer(new JakartaSecurityAllInitializer());
-        webApplication.addInitializer(new JerseyInitializer());
+public class MicroProfileExtensionTest {
+    
+    /**
+     * Test configure method.
+     */
+    @Test
+    public void testConfigure() {
+        WebApplication webApplication = new DefaultWebApplication();
+        MicroProfileExtension extension = new MicroProfileExtension();
+        extension.configure(webApplication);
+        webApplication.initialize();
+        assertTrue(webApplication.getSecurityManager() instanceof JakartaSecurityManager);
     }
 }
