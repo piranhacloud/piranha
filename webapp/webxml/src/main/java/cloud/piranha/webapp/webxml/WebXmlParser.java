@@ -105,6 +105,7 @@ public class WebXmlParser {
             parseRequestCharacterEncoding(webXml, xPath, document);
             parseResponseCharacterEncoding(webXml, xPath, document);
             processSecurityConstraints(webXml, xPath, document);
+            processSecurityRoles(webXml, xPath, document);
             parseServletMappings(webXml, xPath, document);
             parseServlets(webXml, xPath, document);
             parseSessionConfig(webXml, xPath, document);
@@ -497,6 +498,16 @@ public class WebXmlParser {
             webXml.securityConstraints.add(securityConstraint);
         } catch (XPathExpressionException xee) {
             LOGGER.log(WARNING, "Unable to parse <security-constraint> sections", xee);
+        }
+    }
+
+    private void processSecurityRoles(WebXml webXml, XPath xPath, Node rootNode) {
+        try {
+            for (String roleName : parseStrings(xPath, "//security-role/role-name/text()", rootNode)) {
+                webXml.getRoleNames().add(roleName);
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse <security-constraint> sections", xpe);
         }
     }
 

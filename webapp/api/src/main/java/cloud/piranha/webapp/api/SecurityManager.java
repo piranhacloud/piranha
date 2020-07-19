@@ -28,6 +28,8 @@
 package cloud.piranha.webapp.api;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -190,6 +192,17 @@ public interface SecurityManager {
      * @param roles the roles.
      */
     void declareRoles(String[] roles);
+
+    default void declareRoles(Collection<String> roles) {
+        declareRoles(roles.toArray(String[]::new));
+    }
+
+    /**
+     * Get the declared roles
+     *
+     * @return the roles
+     */
+    Set<String> getRoles();
 
     /**
      * Get the web application.

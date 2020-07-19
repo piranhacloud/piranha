@@ -78,6 +78,7 @@ import javax.servlet.ServletRequestListener;
 import javax.servlet.ServletResponse;
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
+import javax.servlet.UnavailableException;
 import javax.servlet.descriptor.JspConfigDescriptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSessionAttributeListener;
@@ -102,7 +103,6 @@ import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
 import cloud.piranha.webapp.api.WebApplicationRequestMapping;
 import cloud.piranha.webapp.api.WelcomeFileManager;
-import javax.servlet.UnavailableException;
 
 /**
  * The default WebApplication.
@@ -1584,7 +1584,7 @@ public class DefaultWebApplication implements WebApplication {
 
         Servlet servlet = null;
         String servletName = null;
-        if (servletEnvironment != null && 
+        if (servletEnvironment != null &&
                 servletEnvironment.getStatus() != DefaultServletEnvironment.UNAVAILABLE) {
             servlet = servletEnvironment.getServlet();
             servletName = servletEnvironment.getName();
@@ -1613,7 +1613,12 @@ public class DefaultWebApplication implements WebApplication {
                 if (filterEnvironments != null) {
                     getFilterChain(filterEnvironments, servlet).doFilter(request, response);
                 } else {
-                    servlet.service(request, response);
+                    request.setAttribute(DefaultServletEnvironment.class.getName(), servlet.getServletConfig());
+                    try {
+                        servlet.service(request, response);
+                    } finally {
+                        request.removeAttribute(DefaultServletEnvironment.class.getName());
+                    }
                 }
             } catch (Exception e) {
                 exception = e;
