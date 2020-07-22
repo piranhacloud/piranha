@@ -27,11 +27,11 @@
  */
 package cloud.piranha.extension.microprofile;
 
-import cloud.piranha.rest.jersey.JerseyInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.webxml.WebXmlInitializer;
+import org.glassfish.jersey.servlet.init.JerseyServletContainerInitializer;
 
 /**
  * The MicroProfile extension.
@@ -60,6 +60,6 @@ public class MicroProfileExtension implements WebApplicationExtension {
     public void configure(WebApplication webApplication) {
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.addInitializer(new JakartaSecurityAllInitializer());
-        webApplication.addInitializer(new JerseyInitializer());
+        webApplication.addInitializer(new JerseyServletContainerInitializer());
     }
 }

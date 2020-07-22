@@ -79,9 +79,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.rest</groupId>
-            <artifactId>piranha-rest-jersey</artifactId>
-            <version>${project.version}</version>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
