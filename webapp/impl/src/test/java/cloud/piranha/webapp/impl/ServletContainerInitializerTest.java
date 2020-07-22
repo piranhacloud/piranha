@@ -29,11 +29,19 @@ package cloud.piranha.webapp.impl;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.HandlesTypes;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The JUnit tests for testing everything related to the
@@ -81,6 +89,39 @@ public class ServletContainerInitializerTest {
         assertNotNull(webApp.getAttribute("initializerCalled"));
     }
 
+    @Test
+    public void testInitializerWithHandlesTypes () {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.addInitializer(InitializerWithHandlesTypes.class.getName());
+        webApp.initialize();
+        assertTrue(webApp.getAttribute("object_class") instanceof Boolean);
+        assertFalse((Boolean) webApp.getAttribute("object_class"));
+
+        assertTrue(webApp.getAttribute("someannotation_class") instanceof Boolean);
+        assertFalse((Boolean) webApp.getAttribute("someannotation_class"));
+    }
+
+    @Test
+    public void testInitializerWithHandlesTypes2 () {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.addInitializer(InitializerWithHandlesTypes.class.getName());
+        DefaultAnnotationManager annotationManager = (DefaultAnnotationManager) webApp.getAnnotationManager();
+        annotationManager.addInstance(Set.class, Collections.emptySet().getClass());
+        annotationManager.addAnnotation(
+            new DefaultAnnotationManager.DefaultAnnotationInfo<>(
+                ClassAnnotated.class.getAnnotation(SomeAnnotation.class),
+                ClassAnnotated.class
+            )
+        );
+
+        webApp.initialize();
+        assertTrue(webApp.getAttribute("object_class") instanceof Boolean);
+        assertTrue((Boolean) webApp.getAttribute("object_class"));
+
+        assertTrue(webApp.getAttribute("someannotation_class") instanceof Boolean);
+        assertTrue((Boolean) webApp.getAttribute("someannotation_class"));
+    }
+
     /**
      * A test ServletContainerInitializer used to make sure they are called when
      * the web application initializes.
@@ -105,4 +146,25 @@ public class ServletContainerInitializerTest {
             servletContext.setAttribute("initializerCalled", true);
         }
     }
+
+    @HandlesTypes({Set.class, SomeAnnotation.class})
+    public static class InitializerWithHandlesTypes implements ServletContainerInitializer{
+        @Override
+        public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+            Optional<Class<?>> classInstance = classes.stream().filter(Set.class::isAssignableFrom).findFirst();
+            servletContext.setAttribute("object_class", classInstance.isPresent());
+
+            Optional<Class<?>> classWithAnnotation = classes.stream().filter(x -> x.getAnnotation(SomeAnnotation.class) != null).findFirst();
+            servletContext.setAttribute("someannotation_class", classWithAnnotation.isPresent());
+        }
+    }
+
+    @SomeAnnotation
+    public static class ClassAnnotated {
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface SomeAnnotation {
+    }
+
 }

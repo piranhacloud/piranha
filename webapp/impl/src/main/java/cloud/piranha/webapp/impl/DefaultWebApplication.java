@@ -56,6 +56,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -79,6 +81,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.UnavailableException;
+import javax.servlet.annotation.HandlesTypes;
 import javax.servlet.descriptor.JspConfigDescriptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSessionAttributeListener;
@@ -1388,7 +1391,21 @@ public class DefaultWebApplication implements WebApplication {
         boolean error = false;
         for (ServletContainerInitializer initializer : initializers) {
             try {
-                initializer.onStartup(annotationManager.getAnnotatedClasses(), this);
+                HandlesTypes annotation = initializer.getClass().getAnnotation(HandlesTypes.class);
+                Set<Class<?>> classes = Collections.emptySet();
+                if (annotation != null) {
+                    Class<?>[] value = annotation.value();
+                    // Get instances
+                    Stream<Class<?>> instances = annotationManager.getInstances(value).stream();
+
+                    // Get classes by target type
+                    List<AnnotationManager.AnnotationInfo<?>> annotations = annotationManager.getAnnotations(value);
+                    Stream<Class<?>> classStream = annotations.stream().map(AnnotationManager.AnnotationInfo::getTargetType);
+
+                    classes = Stream.concat(instances, classStream).collect(Collectors.toUnmodifiableSet());
+                }
+
+                initializer.onStartup(classes, this);
             } catch (Throwable t) {
                 LOGGER.log(WARNING, t,  () -> "Initializer " + initializer.getClass().getName() + " failing onStartup");
                 error = true;
