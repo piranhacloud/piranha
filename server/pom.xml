@@ -35,6 +35,7 @@
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
+        
         <!-- Piranha API -->
         <dependency>
             <groupId>cloud.piranha</groupId>
@@ -42,6 +43,7 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        
         <!-- Piranha Application Server implementation -->
         <dependency>
             <groupId>cloud.piranha.appserver</groupId>
@@ -49,6 +51,7 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        
         <!-- Piranha Naming implementation -->
         <dependency>
             <groupId>cloud.piranha.naming</groupId>
@@ -56,6 +59,7 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        
         <!-- Piranha Resource -->
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
@@ -63,6 +67,7 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        
         <!-- Piranha Servlet extension -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
@@ -70,6 +75,7 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        
         <!-- Piranha Webapplication implementation -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>

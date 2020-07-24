@@ -194,6 +194,10 @@ public interface SecurityManager {
     void declareRoles(String[] roles);
 
     default void declareRoles(Collection<String> roles) {
+        if (roles == null) {
+            return;
+        }
+
         declareRoles(roles.toArray(String[]::new));
     }
 
