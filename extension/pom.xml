@@ -15,9 +15,9 @@
     <name>Piranha Extension - Project</name>
 
     <modules>
+        <module>micro</module> 
         <module>micro-core</module>
-        <module>microprofile</module>
-        <module>micro</module>     
+        <module>microprofile</module>    
         <module>servlet</module>
         <module>tomcat9</module>
         <module>webprofile</module>

@@ -25,13 +25,31 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.micro;
+
+import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.webapp.webservlet.WebAnnotationInitializer;
+import cloud.piranha.webapp.webxml.WebXmlInitializer;
+
 /**
- * <p>
- * This package contains the default
- * {@link cloud.piranha.webapp.api.WebApplicationExtension} used to configure a
- * micro web application.
- * </p>
+ * The default {@link WebApplicationExtension} used to configure a web 
+ * application for Piranha Micro.
  *
- * @author Arjan Tijms
+ * @see WebApplicationExtension
  */
-package cloud.piranha.extension.micro.servlet;
+public class MicroExtension implements WebApplicationExtension {
+    
+    /**
+     * Configure the web application.
+     * 
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.addInitializer(new WebAnnotationInitializer());
+        webApplication.addInitializer(JakartaSecurityAllInitializer.class.getName());
+    }
+}
