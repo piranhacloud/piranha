@@ -25,41 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.microprofile;
+package cloud.piranha.security.jakarta;
 
-import cloud.piranha.security.jakarta.JakartaSecurityExtension;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.servlet.ServletContainerInitializer;
+
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.api.WebApplicationExtensionContext;
-import cloud.piranha.webapp.scinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.webapp.webxml.WebXmlExtension;
 
 /**
- * The MicroProfile extension.
- *
- * <p>
- * This web application extension delivers the basics for a MicroProfile
- * compatible implementation.
- * </p>
- *
- * <ul>
- * <li>MicroProfile JWT Auth</li>
- * </ul>
+ * The extension for Jakarta Security.
  *
  * @author Thiago Henrique Hupner
- * @author Manfred Riem (mriem@manorrock.com)
- * @see cloud.piranha.webapp.api.WebApplicationExtension
  */
-public class MicroProfileExtension implements WebApplicationExtension {
+public class JakartaSecurityExtension implements WebApplicationExtension {
 
     /**
-     * Extend the web application.
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(JakartaSecurityExtension.class.getName());
+
+    /**
+     * Configure the web application.
      *
-     * @param context the context.
+     * @param webApplication the web application.
      */
     @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(new WebXmlExtension());
-        context.add(new JakartaSecurityExtension());
-        context.add(new ServletContainerInitializerExtension());
+    public void configure(WebApplication webApplication) {
+        try {
+            ClassLoader classLoader = webApplication.getClassLoader();
+            Class<? extends ServletContainerInitializer> clazz
+                    = classLoader.
+                    loadClass(JakartaSecurityAllInitializer.class.getName())
+                    .asSubclass(ServletContainerInitializer.class);
+            ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
+            webApplication.addInitializer(initializer);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
+                | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException ex) {
+            LOGGER.log(Level.WARNING, "Unable to enable the JakartaSecurityExtension", ex);
+        }
     }
 }
