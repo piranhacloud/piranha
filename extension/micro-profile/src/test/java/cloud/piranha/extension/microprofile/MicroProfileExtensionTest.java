@@ -31,6 +31,8 @@ import cloud.piranha.security.jakarta.JakartaSecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -46,8 +48,10 @@ public class MicroProfileExtensionTest {
     @Test
     public void testConfigure() {
         WebApplication webApplication = new DefaultWebApplication();
+        DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
         MicroProfileExtension extension = new MicroProfileExtension();
-        extension.configure(webApplication);
+        context.add(extension);
+        context.configure(webApplication);
         webApplication.initialize();
         assertTrue(webApplication.getSecurityManager() instanceof JakartaSecurityManager);
     }

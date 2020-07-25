@@ -85,12 +85,26 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Piranha REST - Jersey Integration -->
+        <!-- Jersey -->
         <dependency>
-            <groupId>cloud.piranha.rest</groupId>
-            <artifactId>piranha-rest-jersey</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.ext.cdi</groupId>
+            <artifactId>jersey-cdi1x</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-processing</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Jakarta Security -->
@@ -141,6 +155,12 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.6.0</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-scinitializer</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

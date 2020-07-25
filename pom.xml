@@ -56,7 +56,6 @@
         <module>session</module>
         <module>resource</module>
         <module>pages</module>
-        <module>rest</module>
         <module>security</module>
         <module>transaction</module>
         <module>upload</module>
