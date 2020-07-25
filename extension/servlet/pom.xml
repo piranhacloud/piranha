@@ -84,14 +84,7 @@
             <scope>compile</scope>
         </dependency>
         
-        <!-- Piranha Webapplication - @WebServlet support -->
-        <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-webannotation</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        
+        <!-- Piranha Webapplication - web annotation support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-webannotation</artifactId>
