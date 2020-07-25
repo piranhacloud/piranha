@@ -17,7 +17,7 @@
     <modules>
         <module>micro-core</module>
         <module>microprofile</module>
-        <module>micro-servlet</module>     
+        <module>micro</module>     
         <module>servlet</module>
         <module>tomcat9</module>
         <module>webprofile</module>

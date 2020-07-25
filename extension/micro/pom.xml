@@ -9,13 +9,11 @@
         <version>20.8.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-extension-micro-servlet</artifactId>
+    <artifactId>piranha-extension-micro</artifactId>
 
-    <name>Piranha Extension - Micro Servlet</name>
+    <name>Piranha Extension - Micro</name>
     <description>
-        This module delivers the default implementation of a WebApplicationExtension. 
-        It is used by Piranha Micro to deliver the basic functionality a Servlet container is supposed
-        to support.
+        This module delivers the default extension for Piranha Micro.
     </description>
 
     <dependencies>
