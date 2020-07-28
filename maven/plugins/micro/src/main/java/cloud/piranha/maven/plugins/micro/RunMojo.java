@@ -25,64 +25,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.maven.plugins.piranha.micro;
+package cloud.piranha.maven.plugins.micro;
 
-import org.apache.maven.plugin.AbstractMojo;
+import java.io.File;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * The abstract Mojo used as our own base class.
+ * The Mojo that will run your Piranha Micro application.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class MicroMojo extends AbstractMojo {
+@Mojo(name = "run", defaultPhase = LifecyclePhase.NONE)
+public class RunMojo extends MicroMojo {
 
-    /*
-     * Jotting down some thoughts, remove when done with the implementation.
+    /**
+     * Stores the web application directory (used only by the plugin).
+     */
+    @Parameter(defaultValue = "target/webapp", required = false)
+    private File pluginWebappDirectory;
+
+    /**
+     * Execute the mojo.
      *
-     * 1. Create the list of dependencies (Piranha Micro and extensions).
-     * 2. Resolve dependencies and get the file URLs.
-     * 3. Create the class loader for Piranha Micro.
-     * 4. Create the instance of Piranha Micro
-     * 5. Determine war file URL.
-     *    a. Using warFile parameter
-     *    b. Using warDependency parameter
-     *    c. From the project dependency itself
+     * @throws MojoExecutionException when an execution error occurs.
+     * @throws MojoFailureException when a failure occurs.
      */
-    /**
-     * Stores the banner flag (defaults to true).
-     */
-    @Parameter(defaultValue = "true", required = false)
-    protected boolean banner;
+    @Override
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        showBanner();
 
-    /**
-     * Stores the port (defaults to 8080).
-     *
-     * <p>
-     * If you override the port, the resulting JAR file will use that as its
-     * default, unless you override it using the --port command line parameter.
-     * </p>
-     */
-    @Parameter(defaultValue = "8080", required = false)
-    private Integer port;
-    
-    /**
-     * Stores the web application directory.
-     * 
-     * <p>
-     * The temporary directory used by your Piranha Micro application to extract
-     * the web application into.
-     * </p>
-     */
-    @Parameter(defaultValue = "webapp", required = false)
-    private String webappDirectory;
-
-    /**
-     * Shows the banner.
-     */
-    protected void showBanner() {
-        if (banner) {
-            getLog().info("--- Piranha Micro ---");
-        }
+        /*
+         * 0. Show the banner (if applicable).
+         * 1. Create the process.
+         * 2. Wait for the process.
+         */
     }
 }
