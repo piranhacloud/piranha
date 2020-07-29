@@ -32,7 +32,7 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 
 /**
- * The Undertow HttpHandler.
+ * The Undertow HttpHandler used by the Undertow implementation of HTTP Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

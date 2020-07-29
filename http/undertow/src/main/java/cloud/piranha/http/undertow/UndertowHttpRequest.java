@@ -36,7 +36,7 @@ import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HttpString;
 
 /**
- * The Undertow WebApplicationServerRequest.
+ * The Undertow implementation of HTTP Server Request.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
