@@ -27,7 +27,9 @@
  */
 
 /**
- * A Undertow based HTTP engine.
+ * <p>
+ * This package delivers an Undertow implementation of the HTTP Server API.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

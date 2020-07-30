@@ -27,29 +27,27 @@
  */
 package cloud.piranha.http.undertow;
 
-import static java.util.logging.Level.SEVERE;
-import static java.util.logging.Level.WARNING;
-
-import java.security.NoSuchAlgorithmException;
-import java.util.logging.Logger;
-
-import javax.net.ssl.SSLContext;
-
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.impl.DefaultHttpServerProcessor;
 import io.undertow.Undertow;
+import java.security.NoSuchAlgorithmException;
+import static java.util.logging.Level.SEVERE;
+import static java.util.logging.Level.WARNING;
+import java.util.logging.Logger;
+import javax.net.ssl.SSLContext;
 
 /**
- * The Undertow HTTP server.
+ * The Undertow implementation of HTTP Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class UndertowHttpServer implements HttpServer {
+
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(UndertowHttpServer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(UndertowHttpServer.class.getPackageName());
 
     /**
      * Stores the HTTP server processor.
@@ -62,15 +60,15 @@ public class UndertowHttpServer implements HttpServer {
     private int serverPort;
 
     /**
-     * Stores the Undertow server.
-     */
-    private Undertow undertow;
-
-    /***
+     * *
      * Stores the SSL flag
      */
     private boolean ssl;
 
+    /**
+     * Stores the Undertow server.
+     */
+    private Undertow undertow;
 
     /**
      * Constructor.
@@ -102,6 +100,36 @@ public class UndertowHttpServer implements HttpServer {
     }
 
     /**
+     * Get the HTTP server processor.
+     *
+     * @return the HTTP server processor.
+     */
+    @Override
+    public HttpServerProcessor getHttpServerProcessor() {
+        return httpServerProcessor;
+    }
+
+    /**
+     * Get the SSL boolean flag.
+     *
+     * @return the SSL boolean flag.
+     */
+    @Override
+    public boolean getSSL() {
+        return ssl;
+    }
+
+    /**
+     * Get the server port.
+     *
+     * @return the server port.
+     */
+    @Override
+    public int getServerPort() {
+        return serverPort;
+    }
+
+    /**
      * Is the server running?
      *
      * @return true if running, false otherwise.
@@ -109,6 +137,36 @@ public class UndertowHttpServer implements HttpServer {
     @Override
     public boolean isRunning() {
         return undertow != null;
+    }
+
+    /**
+     * Set the HTTP server processor.
+     *
+     * @param httpServerProcessor the HTTP server processor.
+     */
+    @Override
+    public void setHttpServerProcessor(HttpServerProcessor httpServerProcessor) {
+        this.httpServerProcessor = httpServerProcessor;
+    }
+
+    /**
+     * Set the SSL boolean flag.
+     *
+     * @param ssl the SSL boolean flag.
+     */
+    @Override
+    public void setSSL(boolean ssl) {
+        this.ssl = ssl;
+    }
+
+    /**
+     * Set the server port.
+     *
+     * @param serverPort the server port.
+     */
+    @Override
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
     }
 
     /**
@@ -140,35 +198,5 @@ public class UndertowHttpServer implements HttpServer {
     public void stop() {
         undertow.stop();
         undertow = null;
-    }
-
-    @Override
-    public int getServerPort() {
-        return serverPort;
-    }
-
-    @Override
-    public void setServerPort(int serverPort) {
-        this.serverPort = serverPort;
-    }
-
-    @Override
-    public void setSSL(boolean ssl) {
-        this.ssl = ssl;
-    }
-
-    @Override
-    public boolean getSSL() {
-        return ssl;
-    }
-
-    @Override
-    public void setHttpServerProcessor(HttpServerProcessor httpServerProcessor) {
-        this.httpServerProcessor = httpServerProcessor;
-    }
-
-    @Override
-    public HttpServerProcessor getHttpServerProcessor() {
-        return httpServerProcessor;
     }
 }
