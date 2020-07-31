@@ -187,9 +187,9 @@ public class DefaultAsyncContext implements AsyncContext {
         String path;
         if (asyncStartRequest instanceof HttpServletRequest) {
             HttpServletRequest httpServletRequest = (HttpServletRequest) asyncStartRequest;
-            path = httpServletRequest.getRequestURI();
+            path = httpServletRequest.getRequestURI().substring(httpServletRequest.getContextPath().length());
         } else {
-            path = originalRequest.getRequestURI();
+            path = originalRequest.getRequestURI().substring(originalRequest.getContextPath().length());
         }
         dispatch(path);
     }
