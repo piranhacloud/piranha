@@ -27,12 +27,22 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static java.util.Collections.enumeration;
+import static java.util.Collections.list;
+import static java.util.Collections.unmodifiableMap;
 import static javax.servlet.DispatcherType.ASYNC;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
@@ -46,9 +56,12 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     private String requestURI;
     private String queryString;
 
+    private boolean asyncStarted; // Note that asyncStarted is per async cycle, and resets when the request is dispatched
+
     private AttributeManager attributeManager = new DefaultAttributeManager();
 
     private List<String> wrapperAttributes = new ArrayList<>();
+    private Map<String, String[]> wrapperParameters = new HashMap<>();
 
     public AsyncHttpDispatchWrapper(HttpServletRequest request) {
         super(request);
@@ -94,6 +107,102 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     public String getQueryString() {
         return queryString;
     }
+    @Override
+    public AsyncContext startAsync() throws IllegalStateException {
+        AsyncContext asyncContext = super.startAsync();
+        asyncStarted = true;
+
+        return asyncContext;
+    }
+
+    @Override
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
+        AsyncContext asyncContext = super.startAsync(servletRequest, servletResponse);
+        asyncStarted = true;
+
+        return asyncContext;
+    }
+    @Override
+    public boolean isAsyncStarted() {
+        return asyncStarted;
+    }
+
+
+    @Override
+    public Enumeration<String> getAttributeNames() {
+        HashSet<String> attributeNames = new HashSet<>();
+        attributeNames.addAll(list(super.getAttributeNames()));
+        attributeNames.addAll(wrapperAttributes);
+
+        return enumeration(attributeNames);
+    }
+
+    @Override
+    public Object getAttribute(String name) {
+        if (wrapperAttributes.contains(name)) {
+            return attributeManager.getAttribute(name);
+        }
+
+        return super.getAttribute(name);
+    }
+
+    /**
+     * Get the parameter.
+     *
+     * @param name the name.
+     * @return the value.
+     */
+    @Override
+    public String getParameter(String name) {
+        if (getParameterValues(name) == null) {
+            return null;
+        }
+
+        return getParameterValues(name)[0];
+    }
+
+    /**
+     * Get the parameter map.
+     *
+     * @return the parameter map.
+     */
+    @Override
+    public Map<String, String[]> getParameterMap() {
+        Map<String, String[]> parameterMap = new HashMap<>();
+        parameterMap.putAll(super.getParameterMap());
+        parameterMap.putAll(wrapperParameters);
+
+        return unmodifiableMap(parameterMap);
+    }
+
+    /**
+     * Get the parameter names.
+     *
+     * @return the parameter names.
+     */
+    @Override
+    public Enumeration<String> getParameterNames() {
+        HashSet<String> parameterNames = new HashSet<>();
+        parameterNames.addAll(super.getParameterMap().keySet());
+        parameterNames.addAll(wrapperParameters.keySet());
+
+        return enumeration(parameterNames);
+    }
+
+    /**
+     * Get the parameter values.
+     *
+     * @param name the parameter name.
+     * @return the parameter values.
+     */
+    @Override
+    public String[] getParameterValues(String name) {
+        if (wrapperParameters.containsKey(name)) {
+            return wrapperParameters.get(name);
+        }
+
+        return super.getParameterValues(name);
+    }
 
     public void setQueryString(String queryString) {
         this.queryString = queryString;
@@ -107,9 +216,12 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
         return wrapperAttributes;
     }
 
+    public Map<String, String[]> getWrapperParameters() {
+        return wrapperParameters;
+    }
+
     @Override
     public void setDispatcherType(DispatcherType dispatcherType) {
-        // TODO Auto-generated method stub
 
     }
 

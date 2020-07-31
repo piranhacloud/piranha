@@ -38,7 +38,10 @@ import static javax.servlet.DispatcherType.ASYNC;
 import static javax.servlet.DispatcherType.FORWARD;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -336,10 +339,12 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             asyncHttpDispatchWrapper.setServletPath(getServletPath(path));
 
             // TODO: this is likely not entirely correct, maybe needs to be done earlier
-            // TODO: also needs to combine query string from path with existing query string
             String queryString = getQueryString(path);
             if (queryString != null && !queryString.trim().equals("")) {
                 asyncHttpDispatchWrapper.setQueryString(queryString);
+                // TODO: This somewhat combines the query string from the path with existing query string
+                //       but what are the exact requirements here? We now combine in a rather ad-hoc way.
+                setRequestParameters(queryString, asyncHttpDispatchWrapper);
             } else {
                 asyncHttpDispatchWrapper.setQueryString(previousPathRequest.getQueryString());
             }
@@ -349,6 +354,8 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         } else {
             asyncHttpDispatchWrapper.setServletPath("/" + servletEnvironment.getServletName());
         }
+
+
 
         servletEnvironment.getWebApplication().linkRequestAndResponse(invokeServletRequest, servletResponse);
         servletEnvironment.getServlet().service(invokeServletRequest, servletResponse);
@@ -388,6 +395,36 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
 
         asyncHttpDispatchWrapper.setAsWrapperAttribute(dispatcherKey, value);
+    }
+
+    private void setRequestParameters(String queryString, AsyncHttpDispatchWrapper asyncHttpDispatchWrapper) {
+        try {
+            Map<String, String[]> parameters = asyncHttpDispatchWrapper.getWrapperParameters();
+
+            if (queryString != null) {
+                for (String param : queryString.split("&")) {
+                    String pair[] = param.split("=");
+                    String key = URLDecoder.decode(pair[0], "UTF-8");
+                    String value = "";
+                    if (pair.length > 1) {
+                        value = URLDecoder.decode(pair[1], "UTF-8");
+                    }
+                    String[] values = parameters.get(key);
+                    if (values == null) {
+                        values = new String[]{value};
+                        parameters.put(key, values);
+                    } else {
+                        String[] newValues = new String[values.length + 1];
+                        System.arraycopy(values, 0, newValues, 0, values.length);
+                        newValues[values.length] = value;
+                        parameters.put(key, newValues);
+                    }
+                }
+            }
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
+
     }
 
     private String getServletPath(String path) {
