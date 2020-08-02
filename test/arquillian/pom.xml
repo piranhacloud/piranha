@@ -38,7 +38,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
     <dependencies>
         <dependency>
             <groupId>cloud.piranha</groupId>
@@ -110,7 +109,7 @@
             <artifactId>jaxb-runtime</artifactId>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -125,7 +124,4 @@
             </plugin>
         </plugins>
     </build>
-    
-    
-    
 </project>
