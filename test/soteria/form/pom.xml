@@ -13,7 +13,7 @@
     <packaging>war</packaging>
 
     <name>Piranha Test - Soteria - FORM</name>
-     
+
     <profiles>
         <profile>
             <id>jdk11</id>
