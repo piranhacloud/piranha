@@ -328,7 +328,7 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public boolean hasOriginalRequestAndResponse() {
-        return true;
+        return originalRequest == asyncStartRequest && originalResponse == asyncStartResponse;
     }
 
     /**
