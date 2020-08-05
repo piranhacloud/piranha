@@ -39,7 +39,7 @@ public class Cli {
      * 
      * @param arguments the arguments.
      */
-    private void execute(String[] arguments) {
+    public void execute(String[] arguments) {
         if (arguments.length > 0) {
             switch(arguments[0]) {
                 case "version" : version();
