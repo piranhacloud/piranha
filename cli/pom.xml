@@ -10,6 +10,7 @@
     <packaging>jar</packaging>
     <name>Piranha - CLI</name>
     <build>
+        <finalName>piranha</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
