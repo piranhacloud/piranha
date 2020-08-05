@@ -69,14 +69,17 @@
         <module>micro</module>
         <module>server</module>
         
-        <!-- MicroProfile -->
-        <module>microprofile</module>
-        
         <!-- Arquillian -->
         <module>arquillian</module>
         
+        <!-- cli -->
+        <module>cli</module>
+        
         <!-- Maven -->
         <module>maven</module>
+
+        <!-- MicroProfile -->
+        <module>microprofile</module>
     </modules>
 
     <scm>
