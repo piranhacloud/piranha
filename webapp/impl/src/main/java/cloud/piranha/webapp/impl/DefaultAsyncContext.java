@@ -116,8 +116,14 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     private long timeout = Long.valueOf(System.getProperty("piranha.async.timeout", "30000")); // 30 seconds, as mandated by spec
 
+    /**
+     * Tracks whether dispatch() has already been called on this context or not.
+     */
+    private boolean dispatched;
 
     private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1); // TMP TMP TMP
+
+
 
     /**
      * Constructor.
@@ -210,6 +216,11 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void dispatch(ServletContext servletContext, String path) {
+        if (dispatched) {
+            throw new IllegalStateException("Dispatch already called on this async contexct");
+        }
+        dispatched = true;
+
         WebApplication webApplication = (WebApplication) servletContext;
         AsyncManager asyncManager = webApplication.getAsyncManager();
         asyncManager.getDispatcher(webApplication, path, asyncStartRequest, asyncStartResponse)
