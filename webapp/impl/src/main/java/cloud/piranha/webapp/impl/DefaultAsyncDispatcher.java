@@ -72,14 +72,20 @@ public class DefaultAsyncDispatcher implements AsyncDispatcher {
         new Thread(() -> {
             Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
 
+            ServletRequest dispatchedRequest = addAsyncWrapper(asyncStartRequest);
             try {
-                requestDispatcher.forward(addAsyncWrapper(asyncStartRequest), asyncStartResponse);
+                requestDispatcher.forward(dispatchedRequest, asyncStartResponse);
             } catch (Throwable t) {
                 // TODO: Notify listeners
+
+                // TMP
+                t.printStackTrace();
             }
 
-            // TODO: check complete not already called
-            asyncContext.complete();
+            // TODO: or check getAsyncContext != null or ... ?
+            if (!dispatchedRequest.isAsyncStarted()) {
+                asyncContext.complete();
+            } // TODO: cancel timeout
 
         }).start();
     }

@@ -1687,4 +1687,15 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
         return read;
     }
+
+    @Override
+    public String toString() {
+        return getRequestURIWithQueryString() + " " + super.toString();
+    }
+
+    public String getRequestURIWithQueryString() {
+        String requestURI = getRequestURI();
+        String queryString = getQueryString();
+        return (queryString == null) ? requestURI : (requestURI + "?" + queryString);
+    }
 }

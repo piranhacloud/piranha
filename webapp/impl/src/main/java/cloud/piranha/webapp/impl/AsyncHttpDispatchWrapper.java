@@ -91,6 +91,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     public String getPathInfo() {
         return pathInfo;
     }
+
     public void setPathInfo(String pathInfo) {
         this.pathInfo = pathInfo;
     }
@@ -108,16 +109,10 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     public String getQueryString() {
         return queryString;
     }
+
     @Override
     public AsyncContext startAsync() throws IllegalStateException {
-        if (asyncContext != null) {
-            throw new IllegalStateException("Async cycle has already been started");
-        }
-        setAttribute("CALLED_FROM_ASYNC_WRAPPER", "true");
-        asyncContext = super.startAsync();
-        asyncStarted = true;
-
-        return asyncContext;
+        return startAsync(this, (ServletResponse) getAttribute("piranha.response"));
     }
 
     @Override
@@ -233,6 +228,17 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     @Override
     public void setDispatcherType(DispatcherType dispatcherType) {
 
+    }
+
+    @Override
+    public String toString() {
+        return getRequestURIWithQueryString() + " " + super.toString();
+    }
+
+    public String getRequestURIWithQueryString() {
+        String requestURI = getRequestURI();
+        String queryString = getQueryString();
+        return (queryString == null) ? requestURI : (requestURI + "?" + queryString);
     }
 
 }
