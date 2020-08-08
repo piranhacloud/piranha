@@ -1,21 +1,6 @@
-#!/usr/bin/env java --source 13 --class-path piranha.jar
-
-import cloud.piranha.cli.Cli;
-
-/**
- * Bootstrapper script for the Piranha CLI
- *
- * @author Manfred Riem (mriem@manorrock.com)
- */
-public class Piranha {
-
-    /**
-     * Main method.
-     *
-     * @param arguments the arguments.
-     */
-    public static void main(String[] arguments) {
-        Cli cli = new Cli();
-        cli.execute(arguments);
-    }
-}
+#!/bin/sh
+SCRIPT_DIR=`dirname $0`
+WORK_DIR=$PWD
+cd $SCRIPT_DIR
+./piranha-cli $* --work-directory $WORK_DIR
+cd $PWD

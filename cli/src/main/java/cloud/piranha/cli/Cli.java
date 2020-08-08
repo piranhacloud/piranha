@@ -27,6 +27,10 @@
  */
 package cloud.piranha.cli;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * The Piranha CLI.
  * 
@@ -40,9 +44,13 @@ public class Cli {
      * @param arguments the arguments.
      */
     public void execute(String[] arguments) {
+        ArrayList<String> args = new ArrayList<>();
+        args.addAll(Arrays.asList(arguments));
+        args.remove(0);
         if (arguments.length > 0) {
             switch(arguments[0]) {
-                case "version" : version();
+                case "micro" : micro(args); break;
+                case "version" : version(); break;
             }
         }
     }
@@ -55,6 +63,15 @@ public class Cli {
     public static void main(String[] arguments) {
         Cli cli = new Cli();
         cli.execute(arguments);
+    }
+
+    /**
+     * Piranha Micro.
+     * 
+     * @param arguments 
+     */
+    private void micro(List<String> arguments) {
+        System.out.println("Piranha Micro");
     }
 
     /**
