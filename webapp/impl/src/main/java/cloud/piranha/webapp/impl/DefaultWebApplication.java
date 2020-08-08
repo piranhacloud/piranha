@@ -200,7 +200,7 @@ public class DefaultWebApplication implements WebApplication {
     /**
      * Stores the active requests and the associated response.
      */
-    protected final Map<ServletRequest, ServletResponse> requests;
+    //protected final Map<ServletRequest, ServletResponse> requests;
 
     /**
      * Stores the active responses and the associated requests.
@@ -223,9 +223,9 @@ public class DefaultWebApplication implements WebApplication {
     protected final Map<String, Object> attributes;
 
     /**
-     * Stores the servlets.
+     * Stores the servlet environments
      */
-    protected final Map<String, DefaultServletEnvironment> servlets;
+    protected final Map<String, DefaultServletEnvironment> servletEnvironments;
 
     /**
      * Stores the filters.
@@ -340,12 +340,11 @@ public class DefaultWebApplication implements WebApplication {
         multiPartManager = new DefaultMultiPartManager();
         objectInstanceManager = new DefaultObjectInstanceManager();
         requestListeners = new ArrayList<>(1);
-        requests = new ConcurrentHashMap<>(1);
         resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
         securityManager = new DefaultSecurityManager();
         servletContextName = UUID.randomUUID().toString();
-        servlets = new LinkedHashMap<>();
+        servletEnvironments = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
         welcomeFileManager = new DefaultWelcomeFileManager();
     }
@@ -585,11 +584,11 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Dynamic addServlet(String servletName, String className) {
-        DefaultServletEnvironment result = servlets.get(servletName);
+        DefaultServletEnvironment result = servletEnvironments.get(servletName);
         if (result == null) {
             result = new DefaultServletEnvironment(this, servletName);
             result.setClassName(className);
-            servlets.put(servletName, result);
+            servletEnvironments.put(servletName, result);
         } else {
             result.setClassName(className);
         }
@@ -607,7 +606,7 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public Dynamic addServlet(String servletName, Servlet servlet) {
         DefaultServletEnvironment result = new DefaultServletEnvironment(this, servletName, servlet);
-        servlets.put(servletName, result);
+        servletEnvironments.put(servletName, result);
         return result;
     }
 
@@ -702,10 +701,10 @@ public class DefaultWebApplication implements WebApplication {
     public void destroy() {
         verifyState(INITIALIZED, "Unable to destroy web application");
 
-        servlets.values().stream().forEach((servletEnv) -> {
+        servletEnvironments.values().stream().forEach((servletEnv) -> {
             servletEnv.getServlet().destroy();
         });
-        servlets.clear();
+        servletEnvironments.clear();
 
         Collections.reverse(contextListeners);
         contextListeners.stream().forEach((listener) -> {
@@ -995,11 +994,13 @@ public class DefaultWebApplication implements WebApplication {
      * @return the request dispatcher.
      */
     protected RequestDispatcher getNamedDispatcher(String name, String path) {
-        RequestDispatcher result = null;
-        if (servlets.get(name) != null) {
-            result = new DefaultServletRequestDispatcher(servlets.get(name), path);
+        if (servletEnvironments.get(name) == null) {
+            return null;
         }
-        return result;
+
+        // cmp to cloud.piranha.webapp.impl.DefaultWebApplication.getTargetServlet(DefaultWebApplicationRequest)
+
+        return new DefaultServletRequestDispatcher(servletEnvironments.get(name), path);
     }
 
     /**
@@ -1022,7 +1023,7 @@ public class DefaultWebApplication implements WebApplication {
                 }
             }
         } catch (MalformedURLException | URISyntaxException | IllegalArgumentException exception) {
-            LOGGER.log(WARNING, exception, () ->"Unable to get real path: " + path);
+            LOGGER.log(WARNING, exception, () -> "Unable to get real path: " + path);
         }
         return realPath;
     }
@@ -1185,7 +1186,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public ServletResponse getResponse(ServletRequest request) {
-        return requests.get(request);
+        return (ServletResponse) request.getAttribute("piranha.response");
     }
 
     /**
@@ -1262,7 +1263,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public ServletRegistration getServletRegistration(String servletName) {
-        return servlets.get(servletName);
+        return servletEnvironments.get(servletName);
     }
 
     /**
@@ -1272,7 +1273,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Map<String, ? extends ServletRegistration> getServletRegistrations() {
-        return unmodifiableMap(servlets);
+        return unmodifiableMap(servletEnvironments);
     }
 
     /**
@@ -1428,8 +1429,8 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void initializeServlets() {
         if (status == SETUP) {
-            List<String> servletNames = new ArrayList<>(servlets.keySet());
-            servletNames.stream().map((servletName) -> servlets.get(servletName)).forEach((environment) -> {
+            List<String> servletNames = new ArrayList<>(servletEnvironments.keySet());
+            servletNames.stream().map((servletName) -> servletEnvironments.get(servletName)).forEach((environment) -> {
                 initializeServlet(environment);
             });
         }
@@ -1488,7 +1489,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void linkRequestAndResponse(ServletRequest request, ServletResponse response) {
-        requests.put(request, response);
+        request.setAttribute("piranha.response", response);
         responses.put(response, request);
     }
 
@@ -1979,7 +1980,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void unlinkRequestAndResponse(ServletRequest request, ServletResponse response) {
-        requests.remove(request);
+        request.removeAttribute("piranha.response");
         responses.remove(response);
     }
 
@@ -1998,12 +1999,12 @@ public class DefaultWebApplication implements WebApplication {
         }
 
         String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
-        if (servletName == null || !servlets.containsKey(servletName)) {
+        if (servletName == null || !servletEnvironments.containsKey(servletName)) {
             return null;
         }
 
-        DefaultServletEnvironment targetServlet = servlets.get(servletName);
-        httpRequest.asyncSupported = servlets.get(servletName).asyncSupported;
+        DefaultServletEnvironment targetServlet = servletEnvironments.get(servletName);
+        httpRequest.asyncSupported = targetServlet.asyncSupported;
 
         if (mapping.isExact()) {
             httpRequest.setServletPath(path);

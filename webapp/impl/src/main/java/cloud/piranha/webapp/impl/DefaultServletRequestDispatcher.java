@@ -348,8 +348,10 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             } else {
                 asyncHttpDispatchWrapper.setQueryString(previousPathRequest.getQueryString());
             }
-            asyncHttpDispatchWrapper.setAttribute("PREVIOUS_REQUEST", invokeServletRequest);
-            asyncHttpDispatchWrapper.getWrapperAttributes().add("PREVIOUS_REQUEST");
+
+            // TODO setPathInfo
+            asyncHttpDispatchWrapper.setRequestURI(previousPathRequest.getServletContext().getContextPath() + getServletPath(path));
+            asyncHttpDispatchWrapper.setAsWrapperAttribute("PREVIOUS_REQUEST", invokeServletRequest);
 
         } else {
             asyncHttpDispatchWrapper.setServletPath("/" + servletEnvironment.getServletName());
