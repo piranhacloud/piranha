@@ -1,8 +1,5 @@
 name: tck-microprofile-jwt
-on: 
-  push:
-    branches:
-      - '*'
+on:
   schedule:
   - cron: "0 12 * * *"
 jobs:
