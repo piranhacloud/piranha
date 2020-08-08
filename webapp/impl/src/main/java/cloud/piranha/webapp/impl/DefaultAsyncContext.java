@@ -27,6 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
@@ -132,8 +133,8 @@ public class DefaultAsyncContext implements AsyncContext {
      * @param asyncStartResponse the servlet asyncStartResponse.
      */
     public DefaultAsyncContext(ServletRequest asyncStartRequest, ServletResponse asyncStartResponse) {
-        this.asyncStartRequest = asyncStartRequest;
-        this.asyncStartResponse = asyncStartResponse;
+        this.asyncStartRequest = requireNonNull(asyncStartRequest);
+        this.asyncStartResponse = requireNonNull(asyncStartResponse);
 
         originalRequest = unwrapFully(asyncStartRequest);
         originalResponse = unwrapFully(asyncStartResponse);
