@@ -56,6 +56,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     private String requestURI;
     private String queryString;
 
+    private AsyncContext asyncContext;
     private boolean asyncStarted; // Note that asyncStarted is per async cycle, and resets when the request is dispatched
 
     private AttributeManager attributeManager = new DefaultAttributeManager();
@@ -90,6 +91,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     public String getPathInfo() {
         return pathInfo;
     }
+
     public void setPathInfo(String pathInfo) {
         this.pathInfo = pathInfo;
     }
@@ -107,26 +109,29 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     public String getQueryString() {
         return queryString;
     }
+
     @Override
     public AsyncContext startAsync() throws IllegalStateException {
-        AsyncContext asyncContext = super.startAsync();
-        asyncStarted = true;
-
-        return asyncContext;
+        return startAsync(this, (ServletResponse) getAttribute("piranha.response"));
     }
 
     @Override
     public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
-        AsyncContext asyncContext = super.startAsync(servletRequest, servletResponse);
+        if (asyncContext != null) {
+            throw new IllegalStateException("Async cycle has already been started");
+        }
+
+        servletRequest.setAttribute("CALLED_FROM_ASYNC_WRAPPER", "true");
+        asyncContext = super.startAsync(servletRequest, servletResponse);
         asyncStarted = true;
 
         return asyncContext;
     }
+
     @Override
     public boolean isAsyncStarted() {
         return asyncStarted;
     }
-
 
     @Override
     public Enumeration<String> getAttributeNames() {
@@ -223,6 +228,17 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     @Override
     public void setDispatcherType(DispatcherType dispatcherType) {
 
+    }
+
+    @Override
+    public String toString() {
+        return getRequestURIWithQueryString() + " " + super.toString();
+    }
+
+    public String getRequestURIWithQueryString() {
+        String requestURI = getRequestURI();
+        String queryString = getQueryString();
+        return (queryString == null) ? requestURI : (requestURI + "?" + queryString);
     }
 
 }

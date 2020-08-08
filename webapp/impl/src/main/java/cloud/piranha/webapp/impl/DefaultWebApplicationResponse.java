@@ -458,7 +458,19 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
                 if (characterEncoding == null) {
                     characterEncoding = "ISO-8859-1";
                 }
-                writer = new PrintWriter(new OutputStreamWriter(this, characterEncoding), false);
+                if (System.getProperty("piranha.response.debug") != null) {
+                    writer = new PrintWriter(new OutputStreamWriter(this, characterEncoding) {
+                        @Override
+                        public void write(String str, int off, int len) throws IOException {
+                            System.out.print(str);
+                            super.write(str, off, len);
+                        }
+                    }, false);
+                } else {
+                    writer = new PrintWriter(new OutputStreamWriter(this, characterEncoding), false);
+                }
+
+
             }
             result = writer;
         } else {

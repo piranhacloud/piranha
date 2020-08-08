@@ -1565,6 +1565,10 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
             throw new IllegalStateException("Async is not supported");
         }
 
+        if (request.getAttribute("CALLED_FROM_ASYNC_WRAPPER") != null) {
+            return new DefaultAsyncContext(request, response);
+        }
+
         if (asyncContext != null) {
             throw new IllegalStateException("Async cycle has already been started");
         }
@@ -1682,5 +1686,16 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
 
         return read;
+    }
+
+    @Override
+    public String toString() {
+        return getRequestURIWithQueryString() + " " + super.toString();
+    }
+
+    public String getRequestURIWithQueryString() {
+        String requestURI = getRequestURI();
+        String queryString = getQueryString();
+        return (queryString == null) ? requestURI : (requestURI + "?" + queryString);
     }
 }
