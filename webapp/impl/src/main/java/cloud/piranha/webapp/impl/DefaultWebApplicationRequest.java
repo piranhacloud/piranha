@@ -27,6 +27,8 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -1561,6 +1563,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public AsyncContext startAsync(ServletRequest request, ServletResponse response) throws IllegalStateException {
+        requireNonNull(request); requireNonNull(response);
+
         if (!isAsyncSupported()) {
             throw new IllegalStateException("Async is not supported");
         }

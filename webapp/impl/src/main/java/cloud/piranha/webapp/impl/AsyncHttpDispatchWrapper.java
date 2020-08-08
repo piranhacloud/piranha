@@ -30,6 +30,7 @@ package cloud.piranha.webapp.impl;
 import static java.util.Collections.enumeration;
 import static java.util.Collections.list;
 import static java.util.Collections.unmodifiableMap;
+import static java.util.Objects.requireNonNull;
 import static javax.servlet.DispatcherType.ASYNC;
 
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
 
     @Override
     public AsyncContext startAsync() throws IllegalStateException {
-        return startAsync(this, (ServletResponse) getAttribute("piranha.response"));
+        return startAsync(this, requireNonNull((ServletResponse) getAttribute("piranha.response")));
     }
 
     @Override
