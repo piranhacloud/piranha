@@ -362,8 +362,6 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         servletEnvironment.getWebApplication().linkRequestAndResponse(invokeServletRequest, servletResponse);
         servletEnvironment.getServlet().service(invokeServletRequest, servletResponse);
         servletEnvironment.getWebApplication().unlinkRequestAndResponse(invokeServletRequest, servletResponse);
-
-        servletResponse.flushBuffer();
     }
 
     private void setAsyncAttributes(HttpServletRequest asyncStartRequest, AsyncHttpDispatchWrapper asyncHttpDispatchWrapper) {
