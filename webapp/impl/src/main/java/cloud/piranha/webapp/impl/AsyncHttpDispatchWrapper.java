@@ -67,6 +67,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
 
     public AsyncHttpDispatchWrapper(HttpServletRequest request) {
         super(request);
+        wrapperAttributes.add("piranha.response");
     }
 
     @Override
@@ -150,6 +151,24 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
         }
 
         return super.getAttribute(name);
+    }
+
+    @Override
+    public void setAttribute(String name, Object object) {
+        if (wrapperAttributes.contains(name)) {
+            attributeManager.setAttribute(name, object);
+        } else {
+            super.setAttribute(name, object);
+        }
+    }
+
+    @Override
+    public void removeAttribute(String name) {
+        if (wrapperAttributes.contains(name)) {
+            attributeManager.removeAttribute(name);
+        } else {
+            super.removeAttribute(name);
+        }
     }
 
     /**
