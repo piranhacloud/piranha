@@ -245,24 +245,22 @@ public class DefaultAsyncContext implements AsyncContext {
                     listener.onComplete(new AsyncEvent(this));
                 } catch (IOException ioe) {
                     LOGGER.log(WARNING,ioe, () -> "IOException when calling onComplete on AsyncListener");
-                    // nothing can be done at this point.
+                    // Nothing, absolutely nothing can be done at this point.
                 }
             });
         }
 
         LOGGER.log(FINE, () -> "Flushing async asyncStartResponse buffer");
 
-        if (!asyncStartResponse.isCommitted()) {
-            try {
-                asyncStartResponse.flushBuffer();
-            } catch (IOException ioe) {
-                    LOGGER.log(WARNING, ioe, () -> "IOException when flushing async asyncStartResponse buffer");
-                // nothing can be done at this point.
-            }
+        try {
+            asyncStartResponse.flushBuffer();
+        } catch (IOException ioe) {
+            LOGGER.log(WARNING, ioe, () -> "IOException when flushing async asyncStartResponse buffer");
+            // It's over, nothing can be done at this point, nothing...
         }
 
         /*
-         * TODO - review this as it exposes implementation detail and we should not have to do so.
+         * TODO - review this as it exposes implementation details and we should not have to do so.
          */
         originalResponse.closeAsyncResponse();
     }
