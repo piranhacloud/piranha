@@ -50,11 +50,12 @@ public class MicroConfiguration {
     private String repositories;
     private boolean offline;
     private int port;
+    private String root;
 
     private List<String> extensionsList;
     private List<String> repositoriesList;
     private List<String> mergedDependencies;
-    
+
 
     /**
      * Default constructor. Initializes most of the stuff from System properties.
@@ -62,12 +63,14 @@ public class MicroConfiguration {
     public MicroConfiguration() {
         this(
             System.getProperty("piranha.version", MicroConfiguration.class.getPackage().getImplementationVersion()),
-            System.getProperty("piranha.extensions", "micro-core,micro"), 
-                System.getProperty("piranha.dependencies", ""),
-            System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"), 
+            System.getProperty("piranha.extensions", "micro-core,micro"),
+            System.getProperty("piranha.dependencies", ""),
+            System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"),
             Boolean.valueOf(System.getProperty("piranha.offline", "false")),
             Integer.valueOf(System.getProperty("piranha.port", "8080")),
+            System.getProperty("piranha.root"),
             System.getProperty("piranha.http.server", "impl"),
+
 
             null,
             null,
@@ -76,7 +79,7 @@ public class MicroConfiguration {
 
     /**
      * Constructor.
-     * 
+     *
      * @param version Piranha version.
      * @param extensions Piranha extensions.
      * @param dependencies Piranha dependencies.
@@ -89,24 +92,26 @@ public class MicroConfiguration {
      * @param mergedDependencies List of merged dependencies.
      */
     public MicroConfiguration(
-        String version, 
-        String extensions, 
-        String dependencies, 
-        String repositories, 
-        boolean offline, 
+        String version,
+        String extensions,
+        String dependencies,
+        String repositories,
+        boolean offline,
         int port,
+        String root,
         String httpServer,
 
         List<String> extensionsList,
         List<String> repositoriesList,
         List<String> mergedDependencies) {
-        
+
         this.version = version;
         this.extensions = extensions;
         this.dependencies = dependencies;
         this.repositories = repositories;
         this.offline = offline;
         this.port = port;
+        this.root = root;
         this.httpServer = httpServer;
 
         this.extensionsList = extensionsList;
@@ -115,6 +120,14 @@ public class MicroConfiguration {
     }
 
     public MicroConfiguration postConstruct() {
+        if (root != null) {
+            if (root.equalsIgnoreCase("ROOT")) {
+                root = "";
+            } else if (!root.startsWith("/")) {
+                root = "/" + root;
+            }
+        }
+
         extensionsList = stream(extensions.split(","))
                 .map(extension -> extension.trim())
                 .collect(toList());
@@ -172,13 +185,21 @@ public class MicroConfiguration {
     public void setOffline(boolean offline) {
         this.offline = offline;
     }
-    
+
     public int getPort() {
         return port;
     }
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public String getRoot() {
+        return root;
+    }
+
+    public void setRoot(String root) {
+        this.root = root;
     }
 
     public List<String> getExtensionsList() {
@@ -195,7 +216,7 @@ public class MicroConfiguration {
 
     /**
      * Get the HTTP server engine.
-     * 
+     *
      * @return the HTTP server engine.
      */
     public String getHttpServer() {
@@ -204,7 +225,7 @@ public class MicroConfiguration {
 
     /**
      * Set the HTTP server engine to use.
-     * 
+     *
      * @param httpServer the HTTP server engine.
      */
     public void setHttpServer(String httpServer) {
