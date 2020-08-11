@@ -27,13 +27,19 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static java.util.Objects.requireNonNull;
+import static javax.servlet.DispatcherType.REQUEST;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import javax.servlet.DispatcherType;
 
 import cloud.piranha.webapp.api.FilterMapping;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
@@ -56,31 +62,13 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
     protected final ConcurrentHashMap<String, String> servletMappings = new ConcurrentHashMap<>();
 
     @Override
-    public Set<String> addFilterMapping(String filterName, String... urlPatterns) {
-        Set<String> result = new HashSet<>();
-        for (String urlPattern : urlPatterns) {
-            DefaultFilterMapping filterMapping = new DefaultFilterMapping(filterName, urlPattern);
-            if (filterMappings.contains(filterMapping)) {
-                result.add(urlPattern);
-            } else {
-                filterMappings.add(filterMapping);
-            }
-        }
-        return result;
+    public Set<String> addFilterMapping(EnumSet<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
+        return doAddFilterMapping(dispatcherTypes != null? dispatcherTypes : EnumSet.of(REQUEST), filterName, urlPatterns);
     }
 
     @Override
-    public Set<String> addFilterMappingBeforeExisting(String filterName, String... urlPatterns) {
-        Set<String> result = new HashSet<>();
-        for (String urlPattern : urlPatterns) {
-            DefaultFilterMapping filterMapping = new DefaultFilterMapping(filterName, urlPattern);
-            if (filterMappings.contains(filterMapping)) {
-                result.add(urlPattern);
-            } else {
-                filterMappings.add(0, filterMapping);
-            }
-        }
-        return result;
+    public Set<String> addFilterMappingBeforeExisting(EnumSet<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
+       return doAddFilterMappingBeforeExisting(dispatcherTypes != null? dispatcherTypes : EnumSet.of(REQUEST), filterName, urlPatterns);
     }
 
     /**
@@ -142,6 +130,40 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
             }
         }
 
+        return result;
+    }
+
+    private Set<String> doAddFilterMapping(EnumSet<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
+        requireNonNull(dispatcherTypes);
+
+        Set<String> result = new HashSet<>();
+        for (String urlPattern : urlPatterns) {
+            for (DispatcherType dispatcherType : dispatcherTypes) {
+                DefaultFilterMapping filterMapping = new DefaultFilterMapping(dispatcherType, filterName, urlPattern);
+                if (filterMappings.contains(filterMapping)) {
+                    result.add(urlPattern);
+                } else {
+                    filterMappings.add(filterMapping);
+                }
+            }
+        }
+        return result;
+    }
+
+    private Set<String> doAddFilterMappingBeforeExisting(EnumSet<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
+        requireNonNull(dispatcherTypes);
+
+        Set<String> result = new HashSet<>();
+        for (String urlPattern : urlPatterns) {
+            for (DispatcherType dispatcherType : dispatcherTypes) {
+                DefaultFilterMapping filterMapping = new DefaultFilterMapping(dispatcherType, filterName, urlPattern);
+                if (filterMappings.contains(filterMapping)) {
+                    result.add(urlPattern);
+                } else {
+                    filterMappings.add(0, filterMapping);
+                }
+            }
+        }
         return result;
     }
 

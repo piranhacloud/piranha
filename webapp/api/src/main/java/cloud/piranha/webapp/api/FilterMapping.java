@@ -27,6 +27,10 @@
  */
 package cloud.piranha.webapp.api;
 
+import static javax.servlet.DispatcherType.REQUEST;
+
+import javax.servlet.DispatcherType;
+
 /**
  * The FilterMapping API.
  *
@@ -47,4 +51,18 @@ public interface FilterMapping {
      * @return the URL pattern.
      */
     String getUrlPattern();
+
+    /**
+     * Get the dispatcher type.
+     *
+     * <p>
+     * The dispatcher type is the kind of dispatch that the filter
+     * mapping applies to. Default is REQUEST, which represents
+     * the request from the user to the system.
+     *
+     * @return the dispatcher type
+     */
+    default DispatcherType getDispatcherType() {
+        return REQUEST;
+    }
 }
