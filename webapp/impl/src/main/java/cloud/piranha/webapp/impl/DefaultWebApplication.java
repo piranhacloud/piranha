@@ -46,6 +46,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.HashMap;
@@ -59,6 +60,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterRegistration;
@@ -433,17 +435,12 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public Set<String> addFilterMapping(String filterName, String... urlPatterns) {
-        return webApplicationRequestMapper.addFilterMapping(filterName, urlPatterns);
-    }
-
-    @Override
-    public Set<String> addFilterMapping(String filterName, boolean isMatchAfter, String... urlPatterns) {
+    public Set<String> addFilterMapping(EnumSet<DispatcherType> dispatcherTypes, String filterName, boolean isMatchAfter, String... urlPatterns) {
         if (isMatchAfter) {
-            return webApplicationRequestMapper.addFilterMapping(filterName, urlPatterns);
-        } else {
-            return webApplicationRequestMapper.addFilterMappingBeforeExisting(filterName, urlPatterns);
+            return webApplicationRequestMapper.addFilterMapping(dispatcherTypes, filterName, urlPatterns);
         }
+
+        return webApplicationRequestMapper.addFilterMappingBeforeExisting(dispatcherTypes, filterName, urlPatterns);
     }
 
     /**

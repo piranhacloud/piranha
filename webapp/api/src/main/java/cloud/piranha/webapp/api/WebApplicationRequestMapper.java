@@ -28,7 +28,10 @@
 package cloud.piranha.webapp.api;
 
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Set;
+
+import javax.servlet.DispatcherType;
 
 /**
  * The WebApplicationRequestMapper API.
@@ -56,7 +59,21 @@ public interface WebApplicationRequestMapper {
      * @param urlPatterns the URL patterns to map (aka mappings).
      * @return the URL patterns that were added.
      */
-    Set<String> addFilterMapping(String filterName, String... urlPatterns);
+    default Set<String> addFilterMapping(String filterName, String... urlPatterns) {
+        return addFilterMapping(null, filterName, urlPatterns);
+    }
+
+    /**
+     * Add a filter mapping.
+     *
+     * <p>
+     * This adds the filter mappings at the end of list of existing mappings (if any).
+     *
+     * @param filterName the filter name.
+     * @param urlPatterns the URL patterns to map (aka mappings).
+     * @return the URL patterns that were added.
+     */
+    Set<String> addFilterMapping(EnumSet<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns);
 
     /**
      * Add a filter mapping.
@@ -69,7 +86,22 @@ public interface WebApplicationRequestMapper {
      * @param urlPatterns the URL patterns to map (aka mappings).
      * @return the URL patterns that were added.
      */
-    Set<String> addFilterMappingBeforeExisting(String filterName, String... urlPatterns);
+    default Set<String> addFilterMappingBeforeExisting(String filterName, String... urlPatterns) {
+        return addFilterMappingBeforeExisting(null, filterName, urlPatterns);
+    }
+
+    /**
+     * Add a filter mapping.
+     *
+     * <p>
+     * This adds the filter mappings at the start of list of existing mappings (if any).
+     * If there are existing mappings these are shifted to the right.
+     *
+     * @param filterName the filter name.
+     * @param urlPatterns the URL patterns to map (aka mappings).
+     * @return the URL patterns that were added.
+     */
+    Set<String> addFilterMappingBeforeExisting(EnumSet<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns);
 
 
     /**

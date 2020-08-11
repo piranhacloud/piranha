@@ -174,8 +174,11 @@ public class WebXmlProcessor {
      */
     private void processFilterMappings(WebApplication webApplication, WebXml webXml) {
         webXml.getFilterMappings().forEach(filterMapping -> {
+            // Filter is mapped to a URL pattern, e.g. /path/customer
             webApplication.addFilterMapping(
                 filterMapping.getFilterName(), filterMapping.getUrlPatterns().toArray(STRING_ARRAY));
+
+            // Filter is mapped to a named Servlet, e.g. FacesServlet
             webApplication.addFilterMapping(
                     filterMapping.getFilterName(),
                     filterMapping.getServletNames().stream().map(e -> "servlet:// " + e).toArray(String[]::new));
