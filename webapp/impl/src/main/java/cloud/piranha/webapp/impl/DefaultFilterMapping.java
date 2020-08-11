@@ -27,7 +27,11 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static javax.servlet.DispatcherType.REQUEST;
+
 import java.util.Objects;
+
+import javax.servlet.DispatcherType;
 
 import cloud.piranha.webapp.api.FilterMapping;
 
@@ -39,6 +43,11 @@ import cloud.piranha.webapp.api.FilterMapping;
 public class DefaultFilterMapping implements FilterMapping {
 
     /**
+     * Stores the dispatcher type.
+     */
+    private final DispatcherType dispatcherType;
+
+    /**
      * Stores the filter name.
      */
     private final String filterName;
@@ -48,6 +57,7 @@ public class DefaultFilterMapping implements FilterMapping {
      */
     private final String urlPattern;
 
+
     /**
      * Constructor.
      *
@@ -55,6 +65,17 @@ public class DefaultFilterMapping implements FilterMapping {
      * @param urlPattern the URL pattern.
      */
     public DefaultFilterMapping(String filterName, String urlPattern) {
+        this(REQUEST, filterName, urlPattern);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param filterName the filter name.
+     * @param urlPattern the URL pattern.
+     */
+    public DefaultFilterMapping(DispatcherType dispatcherType, String filterName, String urlPattern) {
+        this.dispatcherType = dispatcherType;
         this.filterName = filterName;
         this.urlPattern = urlPattern;
     }
@@ -67,15 +88,30 @@ public class DefaultFilterMapping implements FilterMapping {
      */
     @Override
     public boolean equals(Object object) {
-        boolean result = false;
-        if (object instanceof DefaultFilterMapping) {
-            DefaultFilterMapping mapping = (DefaultFilterMapping) object;
-            if (mapping.filterName.equals(filterName)
-                    && mapping.urlPattern.equals(urlPattern)) {
-                result = true;
-            }
+        if (object instanceof DefaultFilterMapping == false) {
+            return false;
         }
+
+        boolean result = false;
+        DefaultFilterMapping mapping = (DefaultFilterMapping) object;
+        if (mapping.filterName.equals(filterName)
+                && mapping.urlPattern.equals(urlPattern)
+                && mapping.dispatcherType.equals(dispatcherType)
+                ) {
+            result = true;
+        }
+
         return result;
+    }
+
+    /**
+     * Get the dispatcher type.
+     *
+     * @return the dispatcher type.
+     */
+    @Override
+    public DispatcherType getDispatcherType() {
+        return dispatcherType;
     }
 
     /**

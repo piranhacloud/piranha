@@ -73,8 +73,14 @@ public class PiranhaServerDeployableContainer extends PiranhaServerLoadableExten
         Set<String> servletNames = microOuterDeployer.deploy(archive);
 
         HTTPContext httpContext = new HTTPContext("localhost", configuration.getPort());
+
+        String contextRoot = configuration.getRoot();
+        if (contextRoot == null) {
+            contextRoot = "/"; // TODO: tmp, query Piranha later
+        }
+
         for (String servletName : servletNames) {
-            httpContext.add(new Servlet(servletName, configuration.getRoot())); // TODO: use value returned by deploy
+            httpContext.add(new Servlet(servletName, contextRoot)); // TODO: use value returned by deploy
         }
 
         ProtocolMetaData protocolMetaData = new ProtocolMetaData();
