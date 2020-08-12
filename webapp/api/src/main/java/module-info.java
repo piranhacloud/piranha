@@ -26,9 +26,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 module piranha.webapp.api {
-    requires piranha.servlet.api;
-    requires piranha.resource.api;
     requires piranha.http.api;
+    requires piranha.resource.api;
+    requires piranha.servlet.api;
 
     exports cloud.piranha.webapp.api;
 }

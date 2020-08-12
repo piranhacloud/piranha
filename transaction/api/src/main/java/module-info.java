@@ -26,10 +26,11 @@
  */
 
 module piranha.transaction.api {
-    requires java.transaction.xa;
     requires jakarta.interceptor.api;
     requires jakarta.enterprise.cdi.api;
+
     requires java.rmi;
+    requires java.transaction.xa;
 
     exports javax.transaction;
 }

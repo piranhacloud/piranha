@@ -25,11 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.impl.DefaultHttpServer;
+
 module piranha.http.impl {
     requires piranha.http.api;
     requires java.logging;
 
     exports cloud.piranha.http.impl;
 
-    provides cloud.piranha.http.api.HttpServer with cloud.piranha.http.impl.DefaultHttpServer;
+    provides HttpServer with DefaultHttpServer;
 }

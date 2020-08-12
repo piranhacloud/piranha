@@ -26,12 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.faces.myfaces.MyFacesInitializer;
-
-import javax.servlet.ServletContainerInitializer;
-
 module piranha.faces.myfaces {
     requires piranha.servlet.api;
-
-    provides ServletContainerInitializer with MyFacesInitializer;
 }

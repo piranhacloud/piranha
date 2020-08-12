@@ -30,13 +30,12 @@ import javax.servlet.ServletContainerInitializer;
  * POSSIBILITY OF SUCH DAMAGE.
  */
 module piranha.webapp.annotationscan {
-    exports cloud.piranha.webapp.annotationscan;
-    requires piranha.resource.api;
-    requires piranha.webapp.api;
-    requires piranha.servlet.api;
-    requires piranha.webapp.impl;
     requires java.logging;
 
-    provides WebApplicationExtension with cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
-    provides ServletContainerInitializer with cloud.piranha.webapp.annotationscan.AnnotationScanInitializer;
+    requires piranha.resource.api;
+    requires piranha.servlet.api;
+    requires piranha.webapp.api;
+    requires piranha.webapp.impl;
+
+    exports cloud.piranha.webapp.annotationscan;
 }

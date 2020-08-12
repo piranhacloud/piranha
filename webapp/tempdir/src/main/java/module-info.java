@@ -26,18 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.tempdir.TempDirExtension;
-import cloud.piranha.webapp.tempdir.TempDirInitializer;
-
-import javax.servlet.ServletContainerInitializer;
-
 module piranha.webapp.tempdir {
-    exports cloud.piranha.webapp.tempdir;
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
     requires java.logging;
 
-    provides WebApplicationExtension with TempDirExtension;
-    provides ServletContainerInitializer with TempDirInitializer;
+    requires piranha.servlet.api;
+    requires piranha.webapp.api;
+
+    exports cloud.piranha.webapp.tempdir;
 }

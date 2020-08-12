@@ -27,12 +27,13 @@
  */
 
 module piranha.appserver.impl {
+    requires java.logging;
+
     requires piranha.appserver.api;
     requires piranha.http.api;
     requires piranha.servlet.api;
     requires piranha.webapp.api;
     requires piranha.webapp.impl;
-    requires java.logging;
 
     exports cloud.piranha.appserver.impl;
 }

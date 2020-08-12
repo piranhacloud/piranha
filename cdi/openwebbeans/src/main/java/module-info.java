@@ -26,14 +26,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.cdi.openwebbeans.OpenWebBeansInitializer;
-
-import javax.servlet.ServletContainerInitializer;
-
 module piranha.cdi.openwebbeans {
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
     requires jakarta.enterprise.cdi.api;
 
-    provides ServletContainerInitializer with OpenWebBeansInitializer;
+    requires piranha.servlet.api;
+    requires piranha.webapp.api;
 }

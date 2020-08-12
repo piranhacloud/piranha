@@ -31,7 +31,6 @@ import cloud.piranha.security.eleos.AuthenticationInitializer;
 import javax.servlet.ServletContainerInitializer;
 
 module piranha.security.eleos {
-    exports cloud.piranha.security.eleos;
     requires eleos;
 
     requires java.security.auth.message;
@@ -39,5 +38,5 @@ module piranha.security.eleos {
     requires piranha.servlet.api;
     requires piranha.webapp.api;
 
-    provides ServletContainerInitializer with AuthenticationInitializer;
+    exports cloud.piranha.security.eleos;
 }

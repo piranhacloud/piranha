@@ -26,8 +26,9 @@
  */
 
 module piranha.transaction.nonxa {
-    requires piranha.transaction.api;
     requires java.transaction.xa;
+
+    requires piranha.transaction.api;
 
     exports cloud.piranha.transaction.nonxa;
 }

@@ -31,10 +31,11 @@ import cloud.piranha.monitor.jmx.JMXServerInitializer;
 import javax.servlet.ServletContainerInitializer;
 
 module piranha.monitor.jmx {
+    requires java.logging;
+    requires java.management;
+
     requires piranha.api;
     requires piranha.servlet.api;
-    requires java.management;
-    requires java.logging;
 
     provides ServletContainerInitializer with JMXServerInitializer;
 }

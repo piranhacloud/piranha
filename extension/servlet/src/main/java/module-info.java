@@ -26,11 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.extension.servlet.ServletExtension;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-
 module piranha.extension.servlet {
-    exports cloud.piranha.extension.servlet;
     requires piranha.pages.jasper;
     requires piranha.webapp.annotationscan;
     requires piranha.webapp.api;
@@ -39,5 +35,5 @@ module piranha.extension.servlet {
     requires piranha.webapp.webannotation;
     requires piranha.webapp.webxml;
 
-    provides WebApplicationExtension with ServletExtension;
+    exports cloud.piranha.extension.servlet;
 }

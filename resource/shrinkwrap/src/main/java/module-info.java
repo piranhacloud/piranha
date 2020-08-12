@@ -27,10 +27,11 @@
  */
 
 module piranha.resource.shrinkwrap {
-    requires shrinkwrap.api;
-    requires piranha.webapp.api;
-    requires piranha.resource;
     requires piranha.resource.api;
+    requires piranha.resource;
+    requires piranha.webapp.api;
+
+    requires shrinkwrap.api;
 
     exports cloud.piranha.resource.shrinkwrap;
 }

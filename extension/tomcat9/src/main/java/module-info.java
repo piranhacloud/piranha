@@ -26,17 +26,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.extension.tomcat9.Tomcat9Extension;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-
-module piranha.extension.tomcat {
-    requires piranha.webapp.api;
+// It is not recommend to use digits in the module name
+module piranha.extension.tomcat9 {
+    requires piranha.pages.jasper;
     requires piranha.webapp.annotationscan;
+    requires piranha.webapp.api;
+    requires piranha.webapp.scinitializer;
+    requires piranha.webapp.tempdir;
     requires piranha.webapp.webxml;
     requires piranha.webapp.webannotation;
-    requires piranha.webapp.tempdir;
-    requires piranha.pages.jasper;
-    requires piranha.webapp.scinitializer;
-
-    provides WebApplicationExtension with Tomcat9Extension;
 }

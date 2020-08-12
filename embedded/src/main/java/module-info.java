@@ -25,13 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 module piranha.embedded {
     requires piranha.api;
-    requires piranha.webapp.impl;
-    requires piranha.webapp.api;
-    requires piranha.servlet.api;
     requires piranha.resource.api;
     requires piranha.resource;
-
-    exports cloud.piranha.embedded;
+    requires piranha.servlet.api;
+    requires piranha.webapp.impl;
+    requires piranha.webapp.api;
 }

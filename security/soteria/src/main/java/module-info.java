@@ -33,13 +33,13 @@ import cloud.piranha.security.soteria.SoteriaPreCDIInitializer;
 import javax.servlet.ServletContainerInitializer;
 
 module piranha.security.soteria {
+    requires jakarta.enterprise.cdi.api;
+
     requires java.logging;
     requires java.naming;
 
     requires javax.security.enterprise.api;
     requires javax.security.enterprise;
-
-    requires jakarta.enterprise.cdi.api;
 
     requires piranha.naming.impl;
     requires piranha.servlet.api;
@@ -47,6 +47,4 @@ module piranha.security.soteria {
     requires piranha.webapp.impl;
 
     exports cloud.piranha.security.soteria;
-
-    provides ServletContainerInitializer with SoteriaPreCDIInitializer, SoteriaInitializer;
 }

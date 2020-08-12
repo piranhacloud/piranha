@@ -25,17 +25,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.extension.jakartaee.JakartaEEExtension;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-
 module piranha.extension.jakartaee {
     requires piranha.pages.jasper;
-    requires piranha.webapp.api;
     requires piranha.webapp.annotationscan;
+    requires piranha.webapp.api;
     requires piranha.webapp.scinitializer;
     requires piranha.webapp.tempdir;
     requires piranha.webapp.webannotation;
     requires piranha.webapp.webxml;
-
-    provides WebApplicationExtension with JakartaEEExtension;
 }

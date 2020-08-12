@@ -31,10 +31,11 @@ import cloud.piranha.session.hazelcast.HazelcastInitializer;
 import javax.servlet.ServletContainerInitializer;
 
 module piranha.session.hazelcast {
+    requires com.hazelcast.core;
+
     requires piranha.servlet.api;
     requires piranha.webapp.api;
     requires piranha.webapp.impl;
-    requires com.hazelcast.core;
 
     provides ServletContainerInitializer with HazelcastInitializer;
 }

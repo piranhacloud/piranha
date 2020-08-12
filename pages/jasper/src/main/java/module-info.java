@@ -26,20 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.pages.jasper.JasperExtension;
-import cloud.piranha.pages.jasper.JasperInitializer;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-
-import javax.servlet.ServletContainerInitializer;
-
 module piranha.pages.jasper {
-    exports cloud.piranha.pages.jasper;
-    requires piranha.servlet.api;
     requires jakarta.servlet.jsp.api;
     requires jakarta.servlet.jsp;
-    requires piranha.webapp.api;
+
     requires java.logging;
 
-    provides WebApplicationExtension with JasperExtension;
-    provides ServletContainerInitializer with JasperInitializer;
+    requires piranha.servlet.api;
+    requires piranha.webapp.api;
+
+    exports cloud.piranha.pages.jasper;
 }

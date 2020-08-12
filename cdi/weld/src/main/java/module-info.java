@@ -25,15 +25,20 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 module piranha.cdi.weld {
-    exports cloud.piranha.cdi.weld;
-    requires piranha.servlet.api;
-    requires weld.spi;
-    requires weld.servlet.core;
-    requires piranha.webapp.api;
     requires jakarta.security.enterprise.api;
     requires jakarta.enterprise.cdi.api;
-    requires weld.core.impl;
-    requires piranha.webapp.impl;
+
     requires java.naming;
+
+    requires piranha.servlet.api;
+    requires piranha.webapp.api;
+    requires piranha.webapp.impl;
+
+    requires weld.core.impl;
+    requires weld.spi;
+    requires weld.servlet.core;
+
+    exports cloud.piranha.cdi.weld;
 }

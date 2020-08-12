@@ -27,10 +27,10 @@
  */
 
 module piranha.extension.webprofile {
-    requires piranha.webapp.api;
     requires piranha.webapp.annotationscan;
+    requires piranha.webapp.api;
+    requires piranha.webapp.scinitializer;
+    requires piranha.webapp.tempdir;
     requires piranha.webapp.webxml;
     requires piranha.webapp.webannotation;
-    requires piranha.webapp.tempdir;
-    requires piranha.webapp.scinitializer;
 }

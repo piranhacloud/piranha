@@ -51,7 +51,4 @@ module piranha.security.jakarta {
     requires piranha.webapp.impl;
 
     exports cloud.piranha.security.jakarta;
-
-    provides ServletContainerInitializer with JakartaSecurityInitializer, JakartaSecurityAllInitializer;
-    provides WebApplicationExtension with JakartaSecurityExtension;
 }

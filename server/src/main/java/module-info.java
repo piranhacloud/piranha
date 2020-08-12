@@ -28,12 +28,13 @@
 
 module piranha.server {
     requires java.logging;
-    requires piranha.naming.impl;
+
+    requires piranha.api;
     requires piranha.appserver.impl;
+    requires piranha.extension.servlet;
     requires piranha.http.impl;
-    requires piranha.webapp.impl;
+    requires piranha.naming.impl;
     requires piranha.resource;
     requires piranha.webapp.api;
-    requires piranha.extension.servlet;
-    requires piranha.api;
+    requires piranha.webapp.impl;
 }

@@ -33,13 +33,12 @@ import cloud.piranha.webapp.webxml.WebXmlInitializer;
 import javax.servlet.ServletContainerInitializer;
 
 module piranha.webapp.webxml {
-    exports cloud.piranha.webapp.webxml;
-    requires piranha.webapp.api;
     requires java.logging;
-    requires piranha.servlet.api;
-    requires piranha.webapp.impl;
     requires java.xml;
 
-    provides WebApplicationExtension with WebXmlExtension;
-    provides ServletContainerInitializer with WebXmlInitializer;
+    requires piranha.servlet.api;
+    requires piranha.webapp.api;
+    requires piranha.webapp.impl;
+
+    exports cloud.piranha.webapp.webxml;
 }

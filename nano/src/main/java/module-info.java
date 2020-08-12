@@ -28,12 +28,10 @@
 
 module piranha.nano {
     requires piranha.api;
+    requires piranha.resource.api;
+    requires piranha.resource;
     requires piranha.servlet.api;
     requires piranha.webapp.api;
     requires piranha.webapp.impl;
-    requires piranha.resource.api;
-    requires piranha.resource;
-
-    exports cloud.piranha.nano;
 }
 

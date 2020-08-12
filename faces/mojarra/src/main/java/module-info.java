@@ -26,12 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.faces.mojarra.MojarraInitializer;
-
-import javax.servlet.ServletContainerInitializer;
-
 module piranha.faces.mojarra {
     requires piranha.servlet.api;
-
-    provides ServletContainerInitializer with MojarraInitializer;
 }

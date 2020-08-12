@@ -40,6 +40,4 @@ module piranha.security.exousia {
     requires piranha.webapp.impl;
 
     exports cloud.piranha.security.exousia;
-
-    provides ServletContainerInitializer with AuthorizationInitializer;
 }
