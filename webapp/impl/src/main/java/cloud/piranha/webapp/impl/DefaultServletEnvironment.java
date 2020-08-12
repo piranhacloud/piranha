@@ -38,11 +38,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletRegistration.Dynamic;
 import javax.servlet.ServletSecurityElement;
 
+import cloud.piranha.webapp.api.ServletEnvironment;
 import cloud.piranha.webapp.api.WebApplication;
 
 /**
@@ -50,12 +49,7 @@ import cloud.piranha.webapp.api.WebApplication;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultServletEnvironment implements Dynamic, ServletConfig {
-
-    /**
-     * Defines the UNAVAILABLE constant.
-     */
-    public static final int UNAVAILABLE = -1;
+public class DefaultServletEnvironment implements ServletEnvironment {
 
     /**
      * Stores the async supported flag.
@@ -196,6 +190,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      *
      * @return the load on startup.
      */
+    @Override
     public int getLoadOnStartup() {
         return loadOnStartup;
     }
@@ -220,6 +215,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      *
      * @return the multi-part config.
      */
+    @Override
     public MultipartConfigElement getMultipartConfig() {
         return multipartConfig;
     }
@@ -249,6 +245,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      *
      * @return the servlet.
      */
+    @Override
     public Servlet getServlet() {
         return servlet;
     }
@@ -268,6 +265,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      *
      * @return the servlet class.
      */
+    @Override
     public Class<? extends Servlet> getServletClass() {
         return servletClass;
     }
@@ -284,9 +282,10 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
 
     /**
      * Get the status.
-     * 
+     *
      * @return the status.
      */
+    @Override
     public int getStatus() {
         return status;
     }
@@ -296,6 +295,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      *
      * @return the web application.
      */
+    @Override
     public WebApplication getWebApplication() {
         return this.webApp;
     }
@@ -305,6 +305,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      *
      * @return true if it is, false otherwise.
      */
+    @Override
     public boolean isAsyncSupported() {
         return asyncSupported;
     }
@@ -324,6 +325,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      *
      * @param className the class name.
      */
+    @Override
     public void setClassName(String className) {
         this.className = className;
     }
@@ -407,6 +409,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      *
      * @param servlet the servlet.
      */
+    @Override
     public void setServlet(Servlet servlet) {
         this.servlet = servlet;
     }
@@ -427,6 +430,7 @@ public class DefaultServletEnvironment implements Dynamic, ServletConfig {
      *
      * @param status the status.
      */
+    @Override
     public void setStatus(int status) {
         this.status = status;
     }

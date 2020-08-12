@@ -71,6 +71,7 @@ public class DefaultFilterMapping implements FilterMapping {
     /**
      * Constructor.
      *
+     * @param dispatcherType the dispatcher type.
      * @param filterName the filter name.
      * @param urlPattern the URL pattern.
      */
