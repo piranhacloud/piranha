@@ -53,6 +53,8 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 import cloud.piranha.webapp.api.CurrentRequestHolder;
+import cloud.piranha.webapp.api.ServletEnvironment;
+import cloud.piranha.webapp.api.ServletInvocation;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 
 /**
@@ -72,7 +74,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
      * It contains the actual Servlet, to process the forwarded or included
      * request, as well as meta data for this Servlet.
      */
-    private final DefaultServletEnvironment servletEnvironment;
+    private final ServletEnvironment servletEnvironment;
 
     /**
      * Stores the path.
@@ -82,12 +84,11 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     /**
      * Constructor.
      *
-     * @param servletEnvironment the servlet environment.
-     * @param path the path.
+     * @param servletInvocation The servlet invocation containing all info this dispatcher uses to dispatch to the contained Servlet.
      */
-    public DefaultServletRequestDispatcher(DefaultServletEnvironment servletEnvironment, String path) {
-        this.servletEnvironment = servletEnvironment;
-        this.path = path;
+    public DefaultServletRequestDispatcher(ServletInvocation servletInvocation) {
+        this.servletEnvironment = servletInvocation.getServletEnvironment();
+        this.path = servletInvocation.getInvocationPath();
     }
 
     /**

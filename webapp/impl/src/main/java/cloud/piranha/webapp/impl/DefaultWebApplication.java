@@ -104,6 +104,8 @@ import cloud.piranha.webapp.api.MimeTypeManager;
 import cloud.piranha.webapp.api.MultiPartManager;
 import cloud.piranha.webapp.api.ObjectInstanceManager;
 import cloud.piranha.webapp.api.SecurityManager;
+import cloud.piranha.webapp.api.ServletEnvironment;
+import cloud.piranha.webapp.api.ServletInvocation;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
 import cloud.piranha.webapp.api.WebApplicationRequestMapping;
@@ -715,6 +717,8 @@ public class DefaultWebApplication implements WebApplication {
      * Find the filter environments.
      *
      * @param request the HTTP servlet request.
+     * @param servletName name of the servlet if any. Can be null.
+     *
      * @return the filter environments.
      */
     protected List<DefaultFilterEnvironment> findFilterEnvironments(HttpServletRequest request, String servletName) {
@@ -973,34 +977,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the name request dispatcher.
-     *
-     * @param name the name.
-     * @return the request dispatcher.
-     */
-    @Override
-    public RequestDispatcher getNamedDispatcher(String name) {
-        return getNamedDispatcher(name, null);
-    }
-
-    /**
-     * Get the name request dispatcher.
-     *
-     * @param name the name.
-     * @param path the path.
-     * @return the request dispatcher.
-     */
-    protected RequestDispatcher getNamedDispatcher(String name, String path) {
-        if (servletEnvironments.get(name) == null) {
-            return null;
-        }
-
-        // cmp to cloud.piranha.webapp.impl.DefaultWebApplication.getTargetServlet(DefaultWebApplicationRequest)
-
-        return new DefaultServletRequestDispatcher(servletEnvironments.get(name), path);
-    }
-
-    /**
      * Get the real path.
      *
      * @param path the path
@@ -1044,27 +1020,6 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public String getRequestCharacterEncoding() {
         return requestCharacterEncoding;
-    }
-
-    /**
-     * Get the request dispatcher.
-     *
-     * @param path the path.
-     * @return the request dispatcher.
-     */
-    @Override
-    public RequestDispatcher getRequestDispatcher(String path) {
-        RequestDispatcher requestDispatcher = null;
-
-        WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
-        if (mapping != null) {
-            String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
-            if (servletName != null) {
-                requestDispatcher = getNamedDispatcher(servletName, path);
-            }
-        }
-
-        return requestDispatcher;
     }
 
     /**
@@ -1474,7 +1429,7 @@ public class DefaultWebApplication implements WebApplication {
             }
 
             environment.setServlet(null);
-            environment.setStatus(DefaultServletEnvironment.UNAVAILABLE);
+            environment.setStatus(ServletEnvironment.UNAVAILABLE);
         }
     }
 
@@ -1554,18 +1509,27 @@ public class DefaultWebApplication implements WebApplication {
         DefaultWebApplicationRequest webappRequest = (DefaultWebApplicationRequest) request;
         DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
 
-        // Obtain a reference to the target resource (target Servlet)
-        DefaultServletEnvironment servletEnvironment = getTargetServlet(webappRequest);
 
-        /*
-         * We did not find a Servlet, so we are now going to see if we can map any
-         * of the welcome-file entries to a file available using
-         * ServletContext.getResource, if so we will change the original request
-         * by adding it to the end of the request and then we let the default
-         * Servlet handle it.
-         */
+        // Obtain a reference to the target servlet invocation, which includes the Servlet itself as well as mapping data
+        ServletInvocation servletInvocation = getServletInvocationByRequest(webappRequest);
+        if (servletInvocation != null) {
+            webappRequest.setAsyncSupported(servletInvocation.getServletEnvironment().isAsyncSupported());
+            webappRequest.setServletPath(servletInvocation.getServletPath());
+            webappRequest.setPathInfo(servletInvocation.getPathInfo());
+        }
+
+
         boolean matchedResource = false;
-        if (servletEnvironment == null) {
+        if (servletInvocation == null) {
+
+            /*
+             * We did not find a Servlet, so we are now going to see if we can map any
+             * of the welcome-file entries to a file available using
+             * ServletContext.getResource, if so we will change the original request
+             * by adding it to the end of the request and then we let the default
+             * Servlet handle it.
+             */
+
             String originalPathInfo = webappRequest.getPathInfo() != null ? webappRequest.getPathInfo() : "";
             for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
                 webappRequest.setPathInfo(originalPathInfo + welcomeFile);
@@ -1579,31 +1543,33 @@ public class DefaultWebApplication implements WebApplication {
             }
         }
 
-        /*
-         * We did not find a Servlet, so we are now going to see if we can map any of the welcome-file entries to a Servlet. If
-         * we can we will use the first match we find.
-         */
-        if (servletEnvironment == null && !matchedResource) {
+
+        if (servletInvocation == null && !matchedResource) {
+
+            /*
+             * We still did not find a Servlet, so we are now going to see if we can map any of the welcome-file entries to a Servlet. If
+             * we can we will use the first match we find.
+             */
+
             String originalPathInfo = webappRequest.getPathInfo() != null ? webappRequest.getPathInfo() : "";
             for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
                 webappRequest.setPathInfo(originalPathInfo + welcomeFile);
-                servletEnvironment = getTargetServlet(webappRequest);
-                if (servletEnvironment != null) {
+                servletInvocation = getServletInvocationByRequest(webappRequest);
+                if (servletInvocation != null) {
                     break;
                 }
             }
-            if (servletEnvironment == null) {
+            if (servletInvocation == null) {
                 webappRequest.setPathInfo(originalPathInfo);
             }
         }
 
         Servlet servlet = null;
         String servletName = null;
-        if (servletEnvironment != null &&
-                servletEnvironment.getStatus() != DefaultServletEnvironment.UNAVAILABLE) {
-            servlet = servletEnvironment.getServlet();
-            servletName = servletEnvironment.getName();
-        } else if (servletEnvironment != null && servletEnvironment.getStatus() == DefaultServletEnvironment.UNAVAILABLE) {
+        if (servletInvocation != null && servletInvocation.getServletEnvironment().getStatus() != ServletEnvironment.UNAVAILABLE) {
+            servlet = servletInvocation.getServletEnvironment().getServlet();
+            servletName = servletInvocation.getServletName();
+        } else if (servletInvocation != null && servletInvocation.getServletEnvironment().getStatus() == ServletEnvironment.UNAVAILABLE) {
             throw new UnavailableException("Servlet is unavailable");
         }
 
@@ -1981,41 +1947,107 @@ public class DefaultWebApplication implements WebApplication {
         responses.remove(response);
     }
 
-    // ### Private methods
-    private void verifyRequestResponseTypes(ServletRequest request, ServletResponse response) throws ServletException {
-        if (!(request instanceof DefaultWebApplicationRequest) || !(response instanceof DefaultWebApplicationResponse)) {
-            throw new ServletException("Invalid request or response");
-        }
+    /**
+     * Get the request dispatcher.
+     *
+     * @param path the path.
+     * @return the request dispatcher.
+     */
+    @Override
+    public RequestDispatcher getRequestDispatcher(String path) {
+        return getNamedDispatcher(getServletInvocationByPath(path, null));
     }
 
-    private DefaultServletEnvironment getTargetServlet(DefaultWebApplicationRequest httpRequest) {
-        String path = httpRequest.getServletPath() + (httpRequest.getPathInfo() == null ? "" : httpRequest.getPathInfo());
+    /**
+     * Get the name request dispatcher.
+     *
+     * @param name the name.
+     * @return the request dispatcher.
+     */
+    @Override
+    public RequestDispatcher getNamedDispatcher(String name) {
+        return getNamedDispatcher(getServletInvocationByName(name));
+    }
+
+
+
+    // ### Private methods
+
+
+
+    /**
+     * Get the name request dispatcher.
+     *
+     * @param name the name.
+     * @param path the path.
+     * @return the request dispatcher.
+     */
+    private RequestDispatcher getNamedDispatcher(ServletInvocation servletInvocation) {
+        if (servletInvocation == null) {
+            return null;
+        }
+
+        return new DefaultServletRequestDispatcher(servletInvocation);
+    }
+
+    private ServletInvocation getServletInvocationByRequest(DefaultWebApplicationRequest httpRequest) {
+        return getServletInvocationByPath(httpRequest.getServletPath(), httpRequest.getPathInfo());
+    }
+
+    private ServletInvocation getServletInvocationByPath(String servletPath, String pathInfo) {
+        String path = servletPath + (pathInfo == null ? "" : pathInfo);
+
         WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
         if (mapping == null) {
             return null;
         }
 
         String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
-        if (servletName == null || !servletEnvironments.containsKey(servletName)) {
+        if (servletName == null) {
             return null;
         }
 
-        DefaultServletEnvironment targetServlet = servletEnvironments.get(servletName);
-        httpRequest.asyncSupported = targetServlet.asyncSupported;
-
-        if (mapping.isExact()) {
-            httpRequest.setServletPath(path);
-            httpRequest.setPathInfo(null);
-        } else if (!mapping.isExtension()) {
-            httpRequest.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
-            httpRequest.setPathInfo(path.substring(mapping.getPath().length() - 2));
+        ServletEnvironment servletEnvironment = servletEnvironments.get(servletName);
+        if (servletEnvironment == null) {
+            return null;
         }
 
-        return targetServlet;
+        DefaultServletInvocation servletInvocation = new DefaultServletInvocation();
+
+        servletInvocation.setInvocationPath(path);
+        servletInvocation.setApplicationRequestMapping(mapping);
+        servletInvocation.setServletName(servletName);
+        servletInvocation.setServletEnvironment(servletEnvironment);
+
+        if (mapping.isExact()) {
+            servletInvocation.setServletPath(path);
+            servletInvocation.setPathInfo(null);
+        } else if (!mapping.isExtension()) {
+            servletInvocation.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
+            servletInvocation.setPathInfo(path.substring(mapping.getPath().length() - 2));
+        } else {
+            servletInvocation.setServletPath(servletPath);
+            servletInvocation.setPathInfo(pathInfo);
+        }
+
+        return servletInvocation;
+    }
+
+    private ServletInvocation getServletInvocationByName(String servletName) {
+        ServletEnvironment servletEnvironment = servletEnvironments.get(servletName);
+        if (servletEnvironment == null) {
+            return null;
+        }
+
+        DefaultServletInvocation servletInvocation = new DefaultServletInvocation();
+
+        servletInvocation.setServletName(servletName);
+        servletInvocation.setServletEnvironment(servletEnvironment);
+
+        return servletInvocation;
     }
 
     private FilterChain getFilterChain(List<DefaultFilterEnvironment> filterEnvironments, Servlet servlet) {
-
         List<DefaultFilterEnvironment> prioritisedFilters = filterEnvironments.stream()
                 .filter(e -> e.getFilter() instanceof FilterPriority)
                 .sorted((x, y) -> sortOnPriority(x, y))
@@ -2039,6 +2071,12 @@ public class DefaultWebApplication implements WebApplication {
         }
 
         return downFilterChain;
+    }
+
+    private void verifyRequestResponseTypes(ServletRequest request, ServletResponse response) throws ServletException {
+        if (!(request instanceof DefaultWebApplicationRequest) || !(response instanceof DefaultWebApplicationResponse)) {
+            throw new ServletException("Invalid request or response");
+        }
     }
 
     private int sortOnPriority(DefaultFilterEnvironment x, DefaultFilterEnvironment y) {

@@ -27,6 +27,8 @@
  */
 package cloud.piranha.webapp.api;
 
+import static javax.servlet.DispatcherType.REQUEST;
+
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
@@ -69,6 +71,7 @@ public interface WebApplicationRequestMapper {
      * <p>
      * This adds the filter mappings at the end of list of existing mappings (if any).
      *
+     * @param dispatcherTypes the dispatcher types.
      * @param filterName the filter name.
      * @param urlPatterns the URL patterns to map (aka mappings).
      * @return the URL patterns that were added.
@@ -97,6 +100,7 @@ public interface WebApplicationRequestMapper {
      * This adds the filter mappings at the start of list of existing mappings (if any).
      * If there are existing mappings these are shifted to the right.
      *
+     * @param dispatcherTypes the dispatcher types.
      * @param filterName the filter name.
      * @param urlPatterns the URL patterns to map (aka mappings).
      * @return the URL patterns that were added.
@@ -110,7 +114,18 @@ public interface WebApplicationRequestMapper {
      * @param path the path.
      * @return the mappings.
      */
-    Collection<String> findFilterMappings(String path);
+    default Collection<String> findFilterMappings(String path) {
+        return findFilterMappings(REQUEST, path);
+    }
+
+    /**
+     * Find the filter mappings for the given path.
+     *
+     * @param dispatcherType the dispatcher type.
+     * @param path the path.
+     * @return the mappings.
+     */
+    Collection<String> findFilterMappings(DispatcherType dispatcherType, String path);
 
     /**
      * Find the servlet mapping for the given path.
