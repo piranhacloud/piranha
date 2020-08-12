@@ -98,7 +98,7 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
      * @return the filter mappings.
      */
     @Override
-    public Collection<String> findFilterMappings(String path) {
+    public Collection<String> findFilterMappings(DispatcherType dispatcherType, String path) {
         List<String> result = new ArrayList<>();
 
         if (path.contains("?")) {
@@ -106,25 +106,27 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
         }
 
         for (FilterMapping filterMapping : filterMappings) {
-            String filterName = filterMapping.getFilterName();
-            String urlPattern = filterMapping.getUrlPattern();
+            if (dispatcherType.equals(filterMapping.getDispatcherType())) {
+                String filterName = filterMapping.getFilterName();
+                String urlPattern = filterMapping.getUrlPattern();
 
-            if (path.equals(urlPattern)) {
-                result.add(filterName);
-            } else if (!path.startsWith("servlet:// ")) {
+                if (path.equals(urlPattern)) {
+                    result.add(filterName);
+                } else if (!path.startsWith("servlet:// ")) {
 
-                // For Servlet "patterns", only do exact matches.
-                // URL patterns are also matched prefix and extension.
+                    // For Servlet "patterns", only do exact matches.
+                    // URL patterns are also matched prefix and extension.
 
-                if (urlPattern.startsWith("*.")) {
-                    urlPattern = urlPattern.substring(1);
-                    if (path.endsWith(urlPattern)) {
-                        result.add(filterName);
-                    }
-                } else if (!urlPattern.startsWith("*.") && urlPattern.endsWith("/*")) {
-                    urlPattern = urlPattern.substring(0, urlPattern.length() - 2);
-                    if (path.startsWith(urlPattern)) {
-                        result.add(filterName);
+                    if (urlPattern.startsWith("*.")) {
+                        urlPattern = urlPattern.substring(1);
+                        if (path.endsWith(urlPattern)) {
+                            result.add(filterName);
+                        }
+                    } else if (!urlPattern.startsWith("*.") && urlPattern.endsWith("/*")) {
+                        urlPattern = urlPattern.substring(0, urlPattern.length() - 2);
+                        if (path.startsWith(urlPattern)) {
+                            result.add(filterName);
+                        }
                     }
                 }
             }
