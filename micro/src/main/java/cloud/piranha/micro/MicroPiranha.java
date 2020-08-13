@@ -71,7 +71,7 @@ public class MicroPiranha implements Runnable {
         MicroPiranha runner = new MicroPiranha();
         runner.configure(arguments);
         runner.run();
-        while (true) { //tmp
+        while (true) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ie) {

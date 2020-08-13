@@ -56,7 +56,6 @@ public class AuthorizationInitializer implements ServletContainerInitializer {
 
         servletContext.addFilter(AuthorizationFilter.class.getSimpleName(), AuthorizationFilter.class);
 
-        // TMP - should use Dynamic
         context.addFilterMapping(AuthorizationFilter.class.getSimpleName(), "/*");
     }
 

@@ -94,7 +94,6 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
         
         servletContext.addFilter(AuthenticationFilter.class.getSimpleName(), AuthenticationFilter.class);
         
-        // TMP - should use Dynamic
         ((WebApplication) servletContext).addFilterMapping(AuthenticationFilter.class.getSimpleName(), "/*");
     }
 

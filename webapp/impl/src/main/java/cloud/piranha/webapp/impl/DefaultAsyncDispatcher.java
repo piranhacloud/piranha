@@ -76,16 +76,12 @@ public class DefaultAsyncDispatcher implements AsyncDispatcher {
             try {
                 requestDispatcher.forward(dispatchedRequest, asyncStartResponse);
             } catch (Throwable t) {
-                // TODO: Notify listeners
-
-                // TMP
                 t.printStackTrace();
             }
 
-            // TODO: or check getAsyncContext != null or ... ?
             if (!dispatchedRequest.isAsyncStarted()) {
                 asyncContext.complete();
-            } // TODO: cancel timeout
+            }
 
         }).start();
     }

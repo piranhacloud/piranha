@@ -123,7 +123,6 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         servletContext.setAttribute(AUTHZ_SERVICE, authorizationService);
         servletContext.addFilter(AuthorizationPreFilter.class.getSimpleName(), AuthorizationPreFilter.class);
 
-        // TMP - should use Dynamic
         context.addFilterMapping(AuthorizationPreFilter.class.getSimpleName(), "/*");
     }
 
@@ -173,7 +172,6 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
                 }
             }
 
-            // TODO: Move commit moment to after all ServletContainerInitializer, Filters and Servlets have initialized
             policyConfiguration.commit();
         } catch (PolicyContextException e) {
             throw new IllegalStateException(e);
