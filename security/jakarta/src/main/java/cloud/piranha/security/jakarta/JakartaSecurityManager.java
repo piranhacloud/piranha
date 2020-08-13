@@ -86,7 +86,6 @@ public class JakartaSecurityManager implements SecurityManager {
 
     @Override
     public boolean isRequestSecurityAsRequired(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        // TODO: handle redirect?
         return getAuthorizationService(request).checkWebUserDataPermission(request);
     }
 
@@ -154,7 +153,6 @@ public class JakartaSecurityManager implements SecurityManager {
             return false;
         }
 
-        // TODO: handle the "in progress" (send_continue) case
         return true;
     }
 
@@ -224,7 +222,6 @@ public class JakartaSecurityManager implements SecurityManager {
     }
 
     private void setIdentityForCurrentRequest(HttpServletRequest request, Principal callerPrincipal, Set<String> groups) {
-        // TODO: consider not setting principal in request separately
         Principal currentPrincipal = callerPrincipal == null ? null : callerPrincipal.getName() == null ? null : callerPrincipal;
 
         DefaultWebApplicationRequest defaultWebApplicationRequest = (DefaultWebApplicationRequest) request;

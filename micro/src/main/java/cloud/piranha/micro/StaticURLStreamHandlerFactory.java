@@ -43,7 +43,6 @@ import java.util.function.Function;
  * can be used to register individual URL stream handlers for various protocols.
  * 
  * <p>
- * TODO: use URLStreamHandlerProvider
  * 
  * @author Arjan Tijms
  *

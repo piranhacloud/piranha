@@ -339,18 +339,14 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             asyncHttpDispatchWrapper.setServletPath(getServletPath(path));
 
-            // TODO: this is likely not entirely correct, maybe needs to be done earlier
             String queryString = getQueryString(path);
             if (queryString != null && !queryString.trim().equals("")) {
                 asyncHttpDispatchWrapper.setQueryString(queryString);
-                // TODO: This somewhat combines the query string from the path with existing query string
-                //       but what are the exact requirements here? We now combine in a rather ad-hoc way.
                 setRequestParameters(queryString, asyncHttpDispatchWrapper);
             } else {
                 asyncHttpDispatchWrapper.setQueryString(previousPathRequest.getQueryString());
             }
 
-            // TODO setPathInfo
             asyncHttpDispatchWrapper.setRequestURI(previousPathRequest.getServletContext().getContextPath() + getServletPath(path));
             asyncHttpDispatchWrapper.setAsWrapperAttribute("PREVIOUS_REQUEST", invokeServletRequest);
 

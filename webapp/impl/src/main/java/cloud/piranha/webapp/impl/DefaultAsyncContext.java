@@ -122,7 +122,7 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     private boolean dispatched;
 
-    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1); // TMP TMP TMP
+    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
 
 
 
@@ -139,9 +139,6 @@ public class DefaultAsyncContext implements AsyncContext {
         originalRequest = unwrapFully(asyncStartRequest);
         originalResponse = unwrapFully(asyncStartResponse);
 
-        // TMP TMP TMP
-        // Initial naive approach - there's likely more complex scenarios to take into account.
-        // Is this the right place to start? What about the timeout being changed after this?
         scheduledThreadPoolExecutor.schedule(() -> onTimeOut() , timeout, MILLISECONDS);
     }
 
@@ -234,7 +231,6 @@ public class DefaultAsyncContext implements AsyncContext {
     @Override
     public void complete() {
 
-        // TMP TMP TMP
         scheduledThreadPoolExecutor.shutdownNow();
 
         LOGGER.log(FINE, () -> "Completing async processing");
@@ -245,7 +241,6 @@ public class DefaultAsyncContext implements AsyncContext {
                     listener.onComplete(new AsyncEvent(this));
                 } catch (IOException ioe) {
                     LOGGER.log(WARNING,ioe, () -> "IOException when calling onComplete on AsyncListener");
-                    // Nothing, absolutely nothing can be done at this point.
                 }
             });
         }
@@ -256,12 +251,8 @@ public class DefaultAsyncContext implements AsyncContext {
             asyncStartResponse.flushBuffer();
         } catch (IOException ioe) {
             LOGGER.log(WARNING, ioe, () -> "IOException when flushing async asyncStartResponse buffer");
-            // It's over, nothing can be done at this point, nothing...
         }
 
-        /*
-         * TODO - review this as it exposes implementation details and we should not have to do so.
-         */
         originalResponse.closeAsyncResponse();
     }
 
@@ -274,12 +265,9 @@ public class DefaultAsyncContext implements AsyncContext {
                     listener.onTimeout(new AsyncEvent(this));
                 } catch (IOException ioe) {
                     LOGGER.log(WARNING,ioe, () -> "IOException when calling onTimeout on AsyncListener");
-                    // nothing can be done at this point.
                 }
             });
         }
-
-        // If not extended
 
         LOGGER.log(FINE, () -> "Flushing async asyncStartResponse buffer");
 
@@ -288,13 +276,9 @@ public class DefaultAsyncContext implements AsyncContext {
                 asyncStartResponse.flushBuffer();
             } catch (IOException ioe) {
                     LOGGER.log(WARNING, ioe, () -> "IOException when flushing async asyncStartResponse buffer");
-                // nothing can be done at this point.
             }
         }
 
-        /*
-         * TODO - review this as it exposes implementation detail and we should not have to do so.
-         */
         originalResponse.closeAsyncResponse();
     }
 

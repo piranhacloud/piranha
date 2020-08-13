@@ -198,7 +198,6 @@ public class MicroInnerDeployer {
 
             DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
 
-            // TODO: use properties map
             String contextPath = System.getProperty("micro.root");
 
             if (contextPath != null) {
@@ -219,7 +218,7 @@ public class MicroInnerDeployer {
             ServiceLoader<HttpServer> httpServers = ServiceLoader.load(HttpServer.class);
             httpServer = httpServers.findFirst().orElseThrow();
             httpServer.setServerPort(port);
-            httpServer.setSSL(Boolean.getBoolean("piranha.http.ssl")); // TODO: use properties map
+            httpServer.setSSL(Boolean.getBoolean("piranha.http.ssl"));
             httpServer.setHttpServerProcessor(webApplicationServer);
             httpServer.start();
 

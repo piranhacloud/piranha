@@ -64,7 +64,6 @@ public class DynamicInitialContextFactory implements InitialContextFactory {
             closedField.setBoolean(INITIAL_CONTEXT, false);
             
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
