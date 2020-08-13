@@ -33,4 +33,6 @@ module piranha.embedded {
     requires piranha.servlet.api;
     requires piranha.webapp.impl;
     requires piranha.webapp.api;
+
+    exports cloud.piranha.embedded;
 }

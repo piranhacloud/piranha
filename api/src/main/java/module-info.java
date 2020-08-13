@@ -27,4 +27,11 @@
  */
 module piranha.api {
     exports cloud.piranha.api;
+
+    // TODO Remove this requires.
+    //  This is need as we include the dependency
+    //  in the pom.xml as provided.
+    //  However looks like we don't need it
+    //  as provided too
+    requires static piranha.http.api;
 }

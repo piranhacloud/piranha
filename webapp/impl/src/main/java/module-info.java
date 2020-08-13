@@ -29,6 +29,7 @@ module piranha.webapp.impl {
     requires java.logging;
 
     requires piranha.appserver.api;
+    requires piranha.http.api;
     requires piranha.http.impl;
     requires piranha.resource.api;
     requires piranha.resource;
@@ -36,4 +37,7 @@ module piranha.webapp.impl {
     requires piranha.webapp.api;
 
     exports cloud.piranha.webapp.impl;
+
+    // Tests
+    requires static jdk.security.auth;
 }

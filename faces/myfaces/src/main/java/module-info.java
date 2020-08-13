@@ -28,4 +28,6 @@
 
 module piranha.faces.myfaces {
     requires piranha.servlet.api;
+
+    requires static piranha.pages.jasper;
 }

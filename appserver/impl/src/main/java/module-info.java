@@ -36,4 +36,8 @@ module piranha.appserver.impl {
     requires piranha.webapp.impl;
 
     exports cloud.piranha.appserver.impl;
+
+    // Tests
+    requires static java.net.http;
+    requires static piranha.http.impl;
 }

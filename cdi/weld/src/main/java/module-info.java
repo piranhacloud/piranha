@@ -32,6 +32,7 @@ module piranha.cdi.weld {
 
     requires java.naming;
 
+    requires piranha.naming.impl;
     requires piranha.servlet.api;
     requires piranha.webapp.api;
     requires piranha.webapp.impl;

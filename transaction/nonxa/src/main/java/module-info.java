@@ -31,4 +31,8 @@ module piranha.transaction.nonxa {
     requires piranha.transaction.api;
 
     exports cloud.piranha.transaction.nonxa;
+
+    // Tests
+    requires static java.naming;
+    requires static java.sql;
 }

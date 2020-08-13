@@ -33,13 +33,12 @@ import javax.enterprise.inject.spi.Extension;
 
 module piranha.extension.micro.core {
     requires jakarta.enterprise.cdi.api;
+    requires jakarta.security.enterprise.api;
 
     requires java.annotation;
     requires java.naming;
     requires java.logging;
     requires java.xml;
-
-    requires javax.security.enterprise.api;
 
     requires org.jboss.jandex;
 

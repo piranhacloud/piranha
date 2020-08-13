@@ -26,8 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+import cloud.piranha.database.environment.EnvironmentDriver;
+
+import java.sql.Driver;
+
 module piranha.database.environment {
     requires java.sql;
 
     exports cloud.piranha.database.environment;
+
+    provides Driver with EnvironmentDriver;
 }

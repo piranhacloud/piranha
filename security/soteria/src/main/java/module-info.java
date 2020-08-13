@@ -34,11 +34,11 @@ import javax.servlet.ServletContainerInitializer;
 
 module piranha.security.soteria {
     requires jakarta.enterprise.cdi.api;
+    requires jakarta.security.enterprise.api;
 
     requires java.logging;
     requires java.naming;
 
-    requires javax.security.enterprise.api;
     requires javax.security.enterprise;
 
     requires piranha.naming.impl;

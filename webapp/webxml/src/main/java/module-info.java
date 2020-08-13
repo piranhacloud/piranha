@@ -26,12 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.webxml.WebXmlExtension;
-import cloud.piranha.webapp.webxml.WebXmlInitializer;
-
-import javax.servlet.ServletContainerInitializer;
-
 module piranha.webapp.webxml {
     requires java.logging;
     requires java.xml;
@@ -41,4 +35,7 @@ module piranha.webapp.webxml {
     requires piranha.webapp.impl;
 
     exports cloud.piranha.webapp.webxml;
+
+    // Tests
+    requires static piranha.resource;
 }
