@@ -29,11 +29,11 @@ var typeSearchIndex;
 var memberSearchIndex;
 var tagSearchIndex;
 function loadScripts(doc, tag) {
-    createElem(doc, tag, 'jquery/jszip/dist/jszip.js');
-    createElem(doc, tag, 'jquery/jszip-utils/dist/jszip-utils.js');
+    createElem(doc, tag, 'script-dir/jszip/dist/jszip.js');
+    createElem(doc, tag, 'script-dir/jszip-utils/dist/jszip-utils.js');
     if (window.navigator.userAgent.indexOf('MSIE ') > 0 || window.navigator.userAgent.indexOf('Trident/') > 0 ||
             window.navigator.userAgent.indexOf('Edge/') > 0) {
-        createElem(doc, tag, 'jquery/jszip-utils/dist/jszip-utils-ie.js');
+        createElem(doc, tag, 'script-dir/jszip-utils/dist/jszip-utils-ie.js');
     }
     createElem(doc, tag, 'search.js');
 
@@ -102,9 +102,6 @@ function loadScripts(doc, tag) {
     if (!tagSearchIndex) {
         createElem(doc, tag, 'tag-search-index.js');
     }
-    $(window).resize(function() {
-        $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
-    });
 }
 
 function createElem(doc, tag, path) {
@@ -150,10 +147,6 @@ function updateTabs(type) {
     }
 }
 
-function updateModuleFrame(pFrame, cFrame) {
-    top.packageFrame.location = pFrame;
-    top.classFrame.location = cFrame;
-}
 function switchTab(e) {
     if (e.keyCode == 37 || e.keyCode == 38) {
         $("[aria-selected=true]").prev().click().focus();
