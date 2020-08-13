@@ -29,7 +29,7 @@ package cloud.piranha.http.impl;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.api.HttpServerTest;
+import cloud.piranha.http.test.api.HttpServerTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

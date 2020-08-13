@@ -36,4 +36,7 @@ module piranha.http.impl {
     exports cloud.piranha.http.impl;
 
     provides HttpServer with DefaultHttpServer;
+
+    // Tests
+    requires static java.net.http;
 }
