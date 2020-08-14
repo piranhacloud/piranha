@@ -45,14 +45,16 @@ jobs:
         docker manifest annotate piranhacloud/server:snapshot \
           piranhacloud/server:arm32v7-snapshot --os linux --arch arm --variant armv7l
         docker manifest push piranhacloud/server:snapshot
+    - name: Build with Maven
+      run: mvn --no-transfer-progress -B -DskipTests=true deploy
+      env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
     - name: Analyze with SonarCloud
       run: |
         mvn --no-transfer-progress -B -Ptest -Pcoverage install verify site \
         sonar:sonar -Dsonar.projectKey=piranhacloud_piranha \
         -Dsonar.organization=piranhacloud -Dsonar.host.url=https://sonarcloud.io \
         -Dsonar.login=${{ secrets.SONAR_LOGIN }}
-    - name: Build with Maven
-      run: mvn --no-transfer-progress -B -DskipTests=true deploy
       env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
