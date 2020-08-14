@@ -1,35 +1,7 @@
 #
-# Use Debian
+# Use AdoptOpenJDK 14 image.
 #
-FROM balenalib/raspberry-pi2
-
-#
-# Setup for cross-platform building.
-#
-RUN ["cross-build-start"]
-
-#
-# Update Debian and install curl, gnupg2, gzip, software-properties-common and 
-# tar.
-#
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y curl dnsutils gnupg2 gzip software-properties-common tar && \
-    rm -rf /var/lib/apt/lists/*
-
-#
-# Install Zulu 11.
-#
-RUN cd /usr/local && \
-    curl --insecure -L -O https://download.bell-sw.com/java/13.0.2+9/bellsoft-jdk13.0.2+9-linux-arm32-vfp-hflt.tar.gz && \
-    tar xfvz bellsoft-jdk13.0.2+9-linux-arm32-vfp-hflt.tar.gz && \
-    mv jdk-13.0.2 jdk && \
-    rm bellsoft-jdk13.0.2+9-linux-arm32-vfp-hflt.tar.gz
-
-#
-# Setup PATH
-#
-ENV PATH=$PATH:/usr/local/jdk/bin
+FROM adoptopenjdk:14-jdk-hotspot@sha256:65691d81727cd6bb4939c4ca2a3bf34bcd4057185fa289fa8e4d40522807d60d
 
 #
 # Install Piranha Server
@@ -40,11 +12,6 @@ ADD target/piranha-server.tar.gz /usr/local/
 # Setup WORKDIR.
 #
 WORKDIR /usr/local/piranha/bin
-
-#
-# End cross platform building.
-#
-RUN ["cross-build-end"]
 
 #
 # Setup CMD.
