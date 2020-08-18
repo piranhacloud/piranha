@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static cloud.piranha.webapp.impl.DefaultFilterEnvironment.UNAVAILABLE;
+import static cloud.piranha.webapp.api.FilterEnvironment.UNAVAILABLE;
 import static java.util.Collections.enumeration;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.function.Predicate.isEqual;
@@ -85,7 +85,6 @@ import javax.servlet.SessionTrackingMode;
 import javax.servlet.UnavailableException;
 import javax.servlet.annotation.HandlesTypes;
 import javax.servlet.descriptor.JspConfigDescriptor;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
@@ -95,6 +94,7 @@ import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.api.ResourceManager;
 import cloud.piranha.webapp.api.AnnotationManager;
 import cloud.piranha.webapp.api.AsyncManager;
+import cloud.piranha.webapp.api.FilterEnvironment;
 import cloud.piranha.webapp.api.FilterPriority;
 import cloud.piranha.webapp.api.HttpRequestManager;
 import cloud.piranha.webapp.api.HttpSessionManager;
@@ -716,15 +716,16 @@ public class DefaultWebApplication implements WebApplication {
     /**
      * Find the filter environments.
      *
-     * @param request the HTTP servlet request.
-     * @param servletName name of the servlet if any. Can be null.
+     * @param servletPath the servlet path to which filters should apply.
+     * @param pathInfo the path info to which filters should apply.
+     * @param servletName name of the servlet to be filtered, if any. Can be null.
      *
      * @return the filter environments.
      */
-    protected List<DefaultFilterEnvironment> findFilterEnvironments(HttpServletRequest request, String servletName) {
-        List<DefaultFilterEnvironment> result = null;
+    protected List<FilterEnvironment> findFilterEnvironments(String servletPath, String pathInfo, String servletName) {
+        List<FilterEnvironment> filterEnvironments = null;
 
-        String path = request.getServletPath() + (request.getPathInfo() == null ? "" : request.getPathInfo());
+        String path = servletPath + (pathInfo == null ? "" : pathInfo);
         Collection<String> filterNames = webApplicationRequestMapper.findFilterMappings(path);
 
         if (servletName != null) {
@@ -733,15 +734,15 @@ public class DefaultWebApplication implements WebApplication {
         }
 
         if (!filterNames.isEmpty()) {
-            result = new ArrayList<>();
+            filterEnvironments = new ArrayList<>();
             for (String filterName : filterNames) {
                 if (filters.get(filterName) != null) {
-                    result.add(filters.get(filterName));
+                    filterEnvironments.add(filters.get(filterName));
                 }
             }
         }
 
-        return result;
+        return filterEnvironments;
     }
 
     /**
@@ -1509,91 +1510,29 @@ public class DefaultWebApplication implements WebApplication {
         DefaultWebApplicationRequest webappRequest = (DefaultWebApplicationRequest) request;
         DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
 
-
         // Obtain a reference to the target servlet invocation, which includes the Servlet itself as well as mapping data
-        ServletInvocation servletInvocation = getServletInvocationByRequest(webappRequest);
+        ServletInvocation servletInvocation = getServletInvocationByPath(webappRequest.getServletPath(), webappRequest.getPathInfo());
+
         if (servletInvocation != null) {
             webappRequest.setAsyncSupported(servletInvocation.getServletEnvironment().isAsyncSupported());
             webappRequest.setServletPath(servletInvocation.getServletPath());
             webappRequest.setPathInfo(servletInvocation.getPathInfo());
         }
 
-
-        boolean matchedResource = false;
-        if (servletInvocation == null) {
-
-            /*
-             * We did not find a Servlet, so we are now going to see if we can map any
-             * of the welcome-file entries to a file available using
-             * ServletContext.getResource, if so we will change the original request
-             * by adding it to the end of the request and then we let the default
-             * Servlet handle it.
-             */
-
-            String originalPathInfo = webappRequest.getPathInfo() != null ? webappRequest.getPathInfo() : "";
-            for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
-                webappRequest.setPathInfo(originalPathInfo + welcomeFile);
-                if (getResource(webappRequest.getRequestURI()) != null) {
-                    matchedResource = true;
-                    break;
-                }
-            }
-            if (!matchedResource) {
-                webappRequest.setPathInfo(originalPathInfo);
-            }
-        }
-
-
-        if (servletInvocation == null && !matchedResource) {
-
-            /*
-             * We still did not find a Servlet, so we are now going to see if we can map any of the welcome-file entries to a Servlet. If
-             * we can we will use the first match we find.
-             */
-
-            String originalPathInfo = webappRequest.getPathInfo() != null ? webappRequest.getPathInfo() : "";
-            for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
-                webappRequest.setPathInfo(originalPathInfo + welcomeFile);
-                servletInvocation = getServletInvocationByRequest(webappRequest);
-                if (servletInvocation != null) {
-                    break;
-                }
-            }
-            if (servletInvocation == null) {
-                webappRequest.setPathInfo(originalPathInfo);
-            }
-        }
-
-        Servlet servlet = null;
-        String servletName = null;
-        if (servletInvocation != null && servletInvocation.getServletEnvironment().getStatus() != ServletEnvironment.UNAVAILABLE) {
-            servlet = servletInvocation.getServletEnvironment().getServlet();
-            servletName = servletInvocation.getServletName();
-        } else if (servletInvocation != null && servletInvocation.getServletEnvironment().getStatus() == ServletEnvironment.UNAVAILABLE) {
-            throw new UnavailableException("Servlet is unavailable");
-        }
-
-
-        /**
-         * We did not find a Servlet, so we are now going to check if a default
-         * Servlet is set and if set we are going to use it.
-         */
-        if (servlet == null && defaultServlet != null) {
-            servlet = defaultServlet;
-            servletName = "default";
-        }
-
-        // Invoke the Servlet, or first the Filter chain and then the Servlet
-        List<DefaultFilterEnvironment> filterEnvironments = findFilterEnvironments(webappRequest, servletName);
-
         Exception exception = null;
-        if (servlet == null && filterEnvironments == null) {
+        if (servletInvocation == null || !servletInvocation.canInvoke()) {
             httpResponse.sendError(404);
         } else {
             try {
-                if (filterEnvironments != null) {
-                    getFilterChain(filterEnvironments, servlet).doFilter(request, response);
+                // TODO: code below needs to be reworked still
+                ServletEnvironment servletEnvironment = servletInvocation.getServletEnvironment();
+
+                if (servletInvocation.getFilterEnvironments() != null) {
+
+                    getFilterChain(servletInvocation.getFilterEnvironments(), servletEnvironment == null? null : servletEnvironment.getServlet())
+                        .doFilter(request, response);
                 } else {
+                    Servlet servlet = servletEnvironment.getServlet();
                     request.setAttribute(DefaultServletEnvironment.class.getName(), servlet.getServletConfig());
                     try {
                         servlet.service(request, response);
@@ -1955,7 +1894,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
-        return getNamedDispatcher(getServletInvocationByPath(path, null));
+        return getNamedDispatcher(getDirectServletInvocationByPath(path, null));
     }
 
     /**
@@ -1990,11 +1929,34 @@ public class DefaultWebApplication implements WebApplication {
         return new DefaultServletRequestDispatcher(servletInvocation);
     }
 
-    private ServletInvocation getServletInvocationByRequest(DefaultWebApplicationRequest httpRequest) {
-        return getServletInvocationByPath(httpRequest.getServletPath(), httpRequest.getPathInfo());
+    private ServletInvocation getServletInvocationByPath(String servletPath, String pathInfo) throws IOException, ServletException {
+        DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo);
+
+        if (servletInvocation == null) {
+            servletInvocation = getWelcomeFileServletInvocation(servletPath, pathInfo != null ? pathInfo : "");
+        }
+
+        if (servletInvocation == null) {
+            servletInvocation = getDefaultServletInvocation();
+        }
+
+        if (servletInvocation != null && servletInvocation.getServletEnvironment().getStatus() == ServletEnvironment.UNAVAILABLE) {
+            throw new UnavailableException("Servlet is unavailable");
+        }
+
+        List<FilterEnvironment> filterEnvironments = findFilterEnvironments(servletPath, pathInfo, servletInvocation == null? null : servletInvocation.getServletName());
+        if (filterEnvironments != null) {
+            if (servletInvocation == null) {
+                servletInvocation = new DefaultServletInvocation();
+            }
+
+            servletInvocation.setFilterEnvironments(filterEnvironments);
+        }
+
+        return servletInvocation;
     }
 
-    private ServletInvocation getServletInvocationByPath(String servletPath, String pathInfo) {
+    private DefaultServletInvocation getDirectServletInvocationByPath(String servletPath, String pathInfo) {
         String path = servletPath + (pathInfo == null ? "" : pathInfo);
 
         WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
@@ -2033,6 +1995,53 @@ public class DefaultWebApplication implements WebApplication {
         return servletInvocation;
     }
 
+    private DefaultServletInvocation getWelcomeFileServletInvocation(String servletPath, String pathInfo) throws IOException {
+
+        // Try if we have a welcome file that we can load via the default servlet
+
+        if (defaultServlet != null) {
+            for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
+
+                if (getResource(contextPath + servletPath + pathInfo + welcomeFile) != null) {
+
+                    DefaultServletInvocation servletInvocation = getDefaultServletInvocation();
+                    if (servletInvocation != null) {
+                        servletInvocation.setServletPath(servletPath);
+                        servletInvocation.setPathInfo(pathInfo + welcomeFile);
+                        return servletInvocation;
+                    }
+                }
+            }
+        }
+
+        // Next try if we have a welcome servlet
+
+        for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
+            DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo + welcomeFile);
+            if (servletInvocation != null) {
+                return servletInvocation;
+            }
+        }
+
+
+        // No welcome file or servlet
+        return null;
+    }
+
+    private DefaultServletInvocation getDefaultServletInvocation() {
+        if (defaultServlet == null) {
+            return null;
+        }
+
+        DefaultServletInvocation servletInvocation = new DefaultServletInvocation();
+
+        servletInvocation.setServletName("default");
+        servletInvocation.setServletEnvironment(new DefaultServletEnvironment(this, "default", defaultServlet));
+
+        return servletInvocation;
+    }
+
+
     private ServletInvocation getServletInvocationByName(String servletName) {
         ServletEnvironment servletEnvironment = servletEnvironments.get(servletName);
         if (servletEnvironment == null) {
@@ -2047,17 +2056,17 @@ public class DefaultWebApplication implements WebApplication {
         return servletInvocation;
     }
 
-    private FilterChain getFilterChain(List<DefaultFilterEnvironment> filterEnvironments, Servlet servlet) {
-        List<DefaultFilterEnvironment> prioritisedFilters = filterEnvironments.stream()
+    private FilterChain getFilterChain(List<FilterEnvironment> filterEnvironments, Servlet servlet) {
+        List<FilterEnvironment> prioritisedFilters = filterEnvironments.stream()
                 .filter(e -> e.getFilter() instanceof FilterPriority)
                 .sorted((x, y) -> sortOnPriority(x, y))
                 .collect(toList());
 
-        List<DefaultFilterEnvironment> notPrioritisedFilters = filterEnvironments.stream()
+        List<FilterEnvironment> notPrioritisedFilters = filterEnvironments.stream()
                 .filter(e -> e.getFilter() instanceof FilterPriority == false)
                 .collect(toList());
 
-        List<DefaultFilterEnvironment> currentEnvironments = new ArrayList<>();
+        List<FilterEnvironment> currentEnvironments = new ArrayList<>();
         currentEnvironments.addAll(prioritisedFilters);
         currentEnvironments.addAll(notPrioritisedFilters);
 
@@ -2065,7 +2074,7 @@ public class DefaultWebApplication implements WebApplication {
 
         DefaultFilterChain downFilterChain = new DefaultFilterChain(servlet);
         DefaultFilterChain upFilterChain;
-        for (DefaultFilterEnvironment filterEnvironment : currentEnvironments) {
+        for (FilterEnvironment filterEnvironment : currentEnvironments) {
             upFilterChain = new DefaultFilterChain(filterEnvironment.getFilter(), downFilterChain);
             downFilterChain = upFilterChain;
         }
@@ -2079,7 +2088,7 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    private int sortOnPriority(DefaultFilterEnvironment x, DefaultFilterEnvironment y) {
+    private int sortOnPriority(FilterEnvironment x, FilterEnvironment y) {
         FilterPriority filterX = (FilterPriority) x.getFilter();
         FilterPriority filterY = (FilterPriority) y.getFilter();
 

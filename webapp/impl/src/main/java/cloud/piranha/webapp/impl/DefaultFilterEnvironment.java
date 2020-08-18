@@ -39,11 +39,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
-import javax.servlet.FilterConfig;
-import javax.servlet.FilterRegistration.Dynamic;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import cloud.piranha.webapp.api.FilterEnvironment;
 import cloud.piranha.webapp.api.WebApplication;
 
 /**
@@ -51,12 +50,7 @@ import cloud.piranha.webapp.api.WebApplication;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
-
-    /**
-     * Defines the UNAVAILABLE constant.
-     */
-    public static final int UNAVAILABLE = -1;
+public class DefaultFilterEnvironment implements FilterEnvironment {
 
     /**
      * Stores the async supported flag.
@@ -162,6 +156,7 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      *
      * @return the filter.
      */
+    @Override
     public Filter getFilter() {
         return filter;
     }
@@ -252,6 +247,7 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      *
      * @return the web application.
      */
+    @Override
     public WebApplication getWebApplication() {
         return webApplication;
     }
@@ -261,6 +257,7 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      *
      * @throws ServletException when a servlet error occurs.
      */
+    @Override
     public void initialize() throws ServletException {
         if (filter == null) {
             try {
@@ -287,6 +284,7 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      *
      * @param className the class name.
      */
+    @Override
     public void setClassName(String className) {
         this.className = className;
     }
@@ -296,6 +294,7 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      *
      * @param filterName the filter name.
      */
+    @Override
     public void setFilterName(String filterName) {
         this.filterName = filterName;
     }
@@ -349,16 +348,13 @@ public class DefaultFilterEnvironment implements Dynamic, FilterConfig {
      *
      * @param status the status.
      */
+    @Override
     public void setStatus(int status) {
         this.status = status;
     }
 
-    /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
-     */
-    public void setWebApplication(DefaultWebApplication webApplication) {
+    @Override
+    public void setWebApplication(WebApplication webApplication) {
         this.webApplication = webApplication;
     }
 }

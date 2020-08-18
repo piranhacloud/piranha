@@ -27,41 +27,70 @@
  */
 package cloud.piranha.webapp.api;
 
-import java.util.List;
+import javax.servlet.Filter;
+import javax.servlet.FilterConfig;
+import javax.servlet.FilterRegistration.Dynamic;
+import javax.servlet.ServletException;
 
 /**
- * The ServletInvocation API.
- *
- * <p>
- * This type holds data necessary to invoke a Servlet.
- *
  *
  * @author Arjan Tijms
  *
  */
-public interface ServletInvocation {
+public interface FilterEnvironment extends Dynamic, FilterConfig {
 
     /**
-     * The original path used to base the Servlet invocation on.
-     *
-     * @return the full invocation path
+     * Defines the UNAVAILABLE constant.
      */
-    String getInvocationPath();
+    int UNAVAILABLE = -1;
 
-    String getServletName();
+    /**
+     * Get the filter.
+     *
+     * @return the filter.
+     */
+    Filter getFilter();
 
-    String getServletPath();
+    /**
+     * Initialize the filter.
+     *
+     * @throws ServletException when a servlet error occurs.
+     */
+    void initialize() throws ServletException;
 
-    String getPathInfo();
+    /**
+     * Set the class name.
+     *
+     * @param className the class name.
+     */
+    void setClassName(String className);
 
-    WebApplicationRequestMapping getApplicationRequestMapping();
+    /**
+     * Set the filter name.
+     *
+     * @param filterName the filter name.
+     */
+    void setFilterName(String filterName);
 
-    ServletEnvironment getServletEnvironment();
+    /**
+     * Set status.
+     *
+     * @param status the status.
+     */
+    void setStatus(int status);
 
-    List<FilterEnvironment> getFilterEnvironments();
+    /**
+     * Get the web application.
+     *
+     * @return the web application.
+     */
+    WebApplication getWebApplication();
 
-    default boolean canInvoke() {
-        return (getServletEnvironment() != null && getServletEnvironment().getServlet() != null) ||
-               getFilterEnvironments() != null;
-    }
+    /**
+     * Set the web application.
+     *
+     * @param webApplication the web application.
+     */
+    void setWebApplication(WebApplication webApplication);
+
 }
