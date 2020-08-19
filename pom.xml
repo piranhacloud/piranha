@@ -328,9 +328,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-<!--                <configuration>-->
-<!--                    <detectJavaApiLink>false</detectJavaApiLink>-->
-<!--                </configuration>-->
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>

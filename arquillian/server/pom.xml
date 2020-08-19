@@ -55,52 +55,52 @@
         </dependency>
         
     
-        <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource-shrinkwrap</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cloud.piranha.resource</groupId>-->
+<!--            <artifactId>piranha-resource-shrinkwrap</artifactId>-->
+<!--            <version>${project.version}</version>-->
+<!--        </dependency>-->
         
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-depchain</artifactId>
-            <type>pom</type>
-        </dependency>
-    
+<!--        <dependency>-->
+<!--            <groupId>org.jboss.shrinkwrap.resolver</groupId>-->
+<!--            <artifactId>shrinkwrap-resolver-depchain</artifactId>-->
+<!--            <type>pom</type>-->
+<!--        </dependency>-->
+<!--    -->
         <dependency>
             <groupId>org.jboss.arquillian.container</groupId>
             <artifactId>arquillian-container-spi</artifactId>
         </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-container-test-spi</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.arquillian.testenricher</groupId>
-            <artifactId>arquillian-testenricher-cdi</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.arquillian.testenricher</groupId>
-            <artifactId>arquillian-testenricher-ejb</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.arquillian.testenricher</groupId>
-            <artifactId>arquillian-testenricher-resource</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.arquillian.testenricher</groupId>
-            <artifactId>arquillian-testenricher-initialcontext</artifactId>
-        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.jboss.arquillian.container</groupId>-->
+<!--            <artifactId>arquillian-container-test-spi</artifactId>-->
+<!--        </dependency>-->
+<!--        -->
+<!--        <dependency>-->
+<!--            <groupId>org.jboss.arquillian.protocol</groupId>-->
+<!--            <artifactId>arquillian-protocol-servlet</artifactId>-->
+<!--        </dependency>-->
+<!--        -->
+<!--        <dependency>-->
+<!--            <groupId>org.jboss.arquillian.testenricher</groupId>-->
+<!--            <artifactId>arquillian-testenricher-cdi</artifactId>-->
+<!--        </dependency>-->
+<!--        -->
+<!--        <dependency>-->
+<!--            <groupId>org.jboss.arquillian.testenricher</groupId>-->
+<!--            <artifactId>arquillian-testenricher-ejb</artifactId>-->
+<!--        </dependency>-->
+<!--        -->
+<!--        <dependency>-->
+<!--            <groupId>org.jboss.arquillian.testenricher</groupId>-->
+<!--            <artifactId>arquillian-testenricher-resource</artifactId>-->
+<!--        </dependency>-->
+<!--        -->
+<!--        <dependency>-->
+<!--            <groupId>org.jboss.arquillian.testenricher</groupId>-->
+<!--            <artifactId>arquillian-testenricher-initialcontext</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
@@ -117,17 +117,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Automatic-Module-Name>piranha.resource.shrinkwrap</Automatic-Module-Name>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>

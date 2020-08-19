@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro;
+package cloud.piranha.micro.core;
 
 import static java.util.Collections.emptySet;
 import static javax.security.enterprise.identitystore.CredentialValidationResult.INVALID_RESULT;

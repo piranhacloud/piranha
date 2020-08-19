@@ -96,10 +96,11 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <detectLinks>false</detectLinks>
-                    <detectOfflineLinks>false</detectOfflineLinks>
+                    <compilerArgs>
+                        <arg>--patch-module=shrinkwrap.resolver.api.maven=${settings.localRepository}/org/jboss/shrinkwrap/resolver/shrinkwrap-resolver-api/3.1.4/shrinkwrap-resolver-api-3.1.4.jar</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
