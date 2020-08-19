@@ -29,6 +29,8 @@ package cloud.piranha.webapp.impl;
 
 import java.util.List;
 
+import javax.servlet.FilterChain;
+
 import cloud.piranha.webapp.api.FilterEnvironment;
 import cloud.piranha.webapp.api.ServletEnvironment;
 import cloud.piranha.webapp.api.ServletInvocation;
@@ -49,6 +51,7 @@ public class DefaultServletInvocation implements ServletInvocation {
     private WebApplicationRequestMapping applicationRequestMapping;
     private ServletEnvironment servletEnvironment;
     private List<FilterEnvironment> filterEnvironments;
+    private FilterChain filterChain;
 
     @Override
     public String getInvocationPath() {
@@ -112,6 +115,15 @@ public class DefaultServletInvocation implements ServletInvocation {
 
     public void setFilterEnvironments(List<FilterEnvironment> filterEnvironments) {
         this.filterEnvironments = filterEnvironments;
+    }
+
+    @Override
+    public FilterChain getFilterChain() {
+        return filterChain;
+    }
+
+    public void setFilterChain(FilterChain filterChain) {
+        this.filterChain = filterChain;
     }
 
 }
