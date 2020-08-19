@@ -36,6 +36,7 @@ module piranha.upload.apache {
 
     requires piranha.servlet.api;
     requires piranha.webapp.api;
+    requires piranha.webapp.impl;
 
     provides ServletContainerInitializer with ApacheMultiPartInitializer;
 }

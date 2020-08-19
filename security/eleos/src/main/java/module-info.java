@@ -26,10 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.security.eleos.AuthenticationInitializer;
-
-import javax.servlet.ServletContainerInitializer;
-
 module piranha.security.eleos {
     requires eleos;
 
@@ -39,4 +35,6 @@ module piranha.security.eleos {
     requires piranha.webapp.api;
 
     exports cloud.piranha.security.eleos;
+
+    requires static piranha.webapp.impl;
 }

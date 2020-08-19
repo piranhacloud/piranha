@@ -34,6 +34,7 @@ module piranha.http.singlethread {
 
     requires piranha.http.api;
     requires piranha.http.impl;
+    requires piranha.webapp.impl;
 
     provides HttpServer with SingleThreadHttpServer;
 }

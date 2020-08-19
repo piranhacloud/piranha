@@ -34,6 +34,7 @@ module piranha.http.undertow {
 
     requires piranha.http.api;
     requires piranha.http.impl;
+    requires piranha.webapp.impl;
 
     requires undertow.core;
 

@@ -30,6 +30,7 @@ import cloud.piranha.extension.microprofile.MicroProfileExtension;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 
 module piranha.extension.microprofile {
+    requires piranha.microprofile.omnifaces.jwt;
     requires piranha.security.jakarta;
     requires piranha.webapp.api;
     requires piranha.webapp.scinitializer;

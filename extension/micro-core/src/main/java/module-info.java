@@ -25,8 +25,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.micro.CdiExtension;
 import cloud.piranha.micro.PiranhaBeanArchiveHandler;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 import org.jboss.weld.environment.deployment.discovery.BeanArchiveHandler;
 
 import javax.enterprise.inject.spi.Extension;
@@ -44,9 +46,11 @@ module piranha.extension.micro.core {
 
     requires piranha.api;
     requires piranha.appserver.impl;
+    requires piranha.cdi.weld;
     requires piranha.http.api;
     requires piranha.naming.impl;
     requires piranha.resource.shrinkwrap;
+    requires piranha.security.jakarta;
     requires piranha.servlet.api;
     requires piranha.webapp.api;
     requires piranha.webapp.impl;
@@ -59,4 +63,7 @@ module piranha.extension.micro.core {
 
     provides BeanArchiveHandler with PiranhaBeanArchiveHandler;
     provides Extension with CdiExtension;
+
+    uses HttpServer;
+    uses WebApplicationExtension;
 }

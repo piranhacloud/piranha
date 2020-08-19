@@ -33,5 +33,7 @@ module piranha.nano {
     requires piranha.servlet.api;
     requires piranha.webapp.api;
     requires piranha.webapp.impl;
+
+    exports cloud.piranha.nano;
 }
 

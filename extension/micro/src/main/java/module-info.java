@@ -31,6 +31,7 @@ import cloud.piranha.webapp.api.WebApplicationExtension;
 module piranha.extension.micro {
     requires piranha.security.jakarta;
     requires piranha.webapp.api;
+    requires piranha.webapp.scinitializer;
     requires piranha.webapp.webxml;
     requires piranha.webapp.webannotation;
 

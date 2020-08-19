@@ -26,10 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.security.exousia.AuthorizationInitializer;
-
-import javax.servlet.ServletContainerInitializer;
-
 module piranha.security.exousia {
     requires exousia;
 

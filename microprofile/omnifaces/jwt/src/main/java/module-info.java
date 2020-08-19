@@ -26,14 +26,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.resource.shrinkwrap {
-    requires piranha.resource.api;
-    requires piranha.resource;
-    requires static piranha.webapp.api;
+module piranha.microprofile.omnifaces.jwt {
+    requires java.annotation;
+    requires java.ws.rs;
 
-    requires shrinkwrap.api;
+    requires jersey.common;
 
-    exports cloud.piranha.resource.shrinkwrap;
+    requires microprofile.jwt.auth;
 
-    requires static piranha.webapp.impl;
+    requires piranha.webapp.api;
+
+    exports cloud.piranha.omnifaces.jwt;
 }

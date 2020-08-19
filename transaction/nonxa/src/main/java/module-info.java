@@ -35,4 +35,5 @@ module piranha.transaction.nonxa {
     // Tests
     requires static java.naming;
     requires static java.sql;
+    opens cloud.piranha.transaction.nonxa;
 }

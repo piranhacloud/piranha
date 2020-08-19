@@ -36,6 +36,7 @@ module piranha.http.netty {
 
     requires piranha.http.api;
     requires piranha.http.impl;
+    requires piranha.webapp.impl;
 
     provides HttpServer with NettyHttpServer;
 }

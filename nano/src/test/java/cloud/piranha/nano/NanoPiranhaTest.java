@@ -28,17 +28,19 @@
 package cloud.piranha.nano;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import org.apache.jasper.servlet.JspServlet;
+import org.apache.wicket.protocol.http.WicketFilter;
+import org.junit.jupiter.api.Test;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.jasper.servlet.JspServlet;
-import org.apache.wicket.protocol.http.WicketFilter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the NanoPiranha class.
@@ -82,7 +84,9 @@ public class NanoPiranhaTest {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .directoryResource("src/test/jsp")
                 .servlet("JSP Servlet", new JspServlet())
-                .servletInitParam("JSP Servlet", "classpath", System.getProperty("java.class.path"))
+                .servletInitParam("JSP Servlet", "classpath", System.getProperty("jdk.module.path") +
+                        System.getProperty("path.separator") +
+                        System.getProperty("java.class.path"))
                 .servletInitParam("JSP Servlet", "compilerSourceVM", "1.8")
                 .servletInitParam("JSP Servlet", "compilerTargetVM", "1.8")
                 .build();
@@ -111,7 +115,9 @@ public class NanoPiranhaTest {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .directoryResource("src/test/jsp")
                 .servlet("JSP Servlet", new JspServlet())
-                .servletInitParam("JSP Servlet", "classpath", System.getProperty("java.class.path"))
+                .servletInitParam("JSP Servlet", "classpath", System.getProperty("jdk.module.path") +
+                        System.getProperty("path.separator") +
+                        System.getProperty("java.class.path"))
                 .servletInitParam("JSP Servlet", "compilerSourceVM", "1.8")
                 .servletInitParam("JSP Servlet", "compilerTargetVM", "1.8")
                 .build();

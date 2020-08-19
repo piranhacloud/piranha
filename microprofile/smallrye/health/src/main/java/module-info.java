@@ -30,6 +30,7 @@ module piranha.microprofile.smallrye.health {
     requires jakarta.inject.api;
 
     requires piranha.servlet.api;
+    requires static piranha.webapp.api;
 
     requires smallrye.health;
 }

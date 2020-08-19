@@ -26,14 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
-import cloud.piranha.security.jakarta.JakartaSecurityExtension;
-import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-
-import javax.servlet.ServletContainerInitializer;
-
 module piranha.security.jakarta {
     requires eleos;
 

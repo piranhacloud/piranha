@@ -26,12 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-import cloud.piranha.security.soteria.SoteriaInitializer;
-import cloud.piranha.security.soteria.SoteriaPreCDIInitializer;
-
-import javax.servlet.ServletContainerInitializer;
-
 module piranha.security.soteria {
     requires jakarta.enterprise.cdi.api;
     requires jakarta.security.enterprise.api;

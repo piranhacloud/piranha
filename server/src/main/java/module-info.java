@@ -26,6 +26,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+import cloud.piranha.webapp.api.WebApplicationExtension;
+
 module piranha.server {
     requires java.logging;
 
@@ -37,4 +39,6 @@ module piranha.server {
     requires piranha.resource;
     requires piranha.webapp.api;
     requires piranha.webapp.impl;
+
+    uses WebApplicationExtension;
 }
