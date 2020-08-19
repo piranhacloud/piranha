@@ -339,13 +339,13 @@
                         </goals>
                         <inherited>true</inherited>
                     </execution>
-<!--                    <execution>-->
-<!--                        <id>attach-aggregate-javadocs</id>-->
-<!--                        <goals>-->
-<!--                            <goal>aggregate-jar</goal>-->
-<!--                        </goals>-->
-<!--                        <inherited>false</inherited>-->
-<!--                    </execution>-->
+                    <execution>
+                        <id>attach-aggregate-javadocs</id>
+                        <goals>
+                            <goal>aggregate-jar</goal>
+                        </goals>
+                        <inherited>false</inherited>
+                    </execution>
                 </executions>
                 <configuration>
                     <additionalOptions>-html5</additionalOptions>
