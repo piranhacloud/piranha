@@ -27,7 +27,9 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static cloud.piranha.webapp.api.ServletEnvironment.UNAVAILABLE;
 import static java.util.stream.Collectors.toList;
+import static javax.servlet.DispatcherType.REQUEST;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.UnavailableException;
@@ -66,20 +69,30 @@ public class DefaultInvocationFinder {
     }
 
     public ServletInvocation findServletInvocationByPath(String servletPath, String pathInfo) throws IOException, ServletException {
+        return findServletInvocationByPath(REQUEST, servletPath, pathInfo);
+    }
+
+    public ServletInvocation findServletInvocationByPath(DispatcherType dispatcherType, String servletPath, String pathInfo) throws IOException, ServletException {
         DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo);
 
-        if (servletInvocation == null) {
-            servletInvocation = getWelcomeFileServletInvocation(servletPath, pathInfo != null ? pathInfo : "");
+        if (dispatcherType == REQUEST) {
+            if (servletInvocation == null) {
+                servletInvocation = getWelcomeFileServletInvocation(servletPath, pathInfo != null ? pathInfo : "");
+            }
+
+            if (servletInvocation == null) {
+                servletInvocation = getDefaultServletInvocation();
+            }
         }
 
-        if (servletInvocation == null) {
-            servletInvocation = getDefaultServletInvocation();
-        }
-
-        if (servletInvocation != null && servletInvocation.getServletEnvironment().getStatus() == ServletEnvironment.UNAVAILABLE) {
+        if (servletInvocation != null && servletInvocation.getServletEnvironment().getStatus() == UNAVAILABLE) {
             throw new UnavailableException("Servlet is unavailable");
         }
 
+       return addFilters(dispatcherType, servletInvocation, servletPath, pathInfo);
+    }
+
+    public ServletInvocation addFilters(DispatcherType dispatcherType, DefaultServletInvocation servletInvocation, String servletPath, String pathInfo) {
         List<FilterEnvironment> filterEnvironments = findFilterEnvironments(servletPath, pathInfo, servletInvocation == null? null : servletInvocation.getServletName());
         if (filterEnvironments != null) {
             if (servletInvocation == null) {
@@ -107,7 +120,7 @@ public class DefaultInvocationFinder {
         return servletInvocation;
     }
 
-    private DefaultServletInvocation getDirectServletInvocationByPath(String servletPath, String pathInfo) {
+    public DefaultServletInvocation getDirectServletInvocationByPath(String servletPath, String pathInfo) {
         String path = servletPath + (pathInfo == null ? "" : pathInfo);
 
         WebApplicationRequestMapping mapping = webApplication.webApplicationRequestMapper.findServletMapping(path);

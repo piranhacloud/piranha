@@ -1843,12 +1843,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
-        try {
-            return getNamedDispatcher(invocationFinder.findServletInvocationByPath(path, null));
-        } catch (IOException | ServletException e) {
-            e.printStackTrace(); // TODO via logger
-            return null;
-        }
+        return getNamedDispatcher(invocationFinder.getDirectServletInvocationByPath(path, null));
     }
 
     /**
