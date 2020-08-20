@@ -29,6 +29,8 @@ package cloud.piranha.webapp.api;
 
 import java.util.List;
 
+import javax.servlet.FilterChain;
+
 /**
  * The ServletInvocation API.
  *
@@ -59,6 +61,8 @@ public interface ServletInvocation {
     ServletEnvironment getServletEnvironment();
 
     List<FilterEnvironment> getFilterEnvironments();
+
+    FilterChain getFilterChain();
 
     default boolean canInvoke() {
         return (getServletEnvironment() != null && getServletEnvironment().getServlet() != null) ||
