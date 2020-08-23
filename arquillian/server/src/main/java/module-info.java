@@ -33,4 +33,6 @@ module piranha.arquillian.server {
     requires java.logging;
 
     requires piranha.micro;
+    requires shrinkwrap.descriptors.api.base;
+    requires shrinkwrap.api;
 }
