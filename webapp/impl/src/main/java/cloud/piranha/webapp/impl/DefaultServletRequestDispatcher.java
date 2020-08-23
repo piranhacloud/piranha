@@ -54,7 +54,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import cloud.piranha.webapp.api.CurrentRequestHolder;
 import cloud.piranha.webapp.api.ServletEnvironment;
-import cloud.piranha.webapp.api.ServletInvocation;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 
 /**
@@ -65,6 +64,8 @@ import cloud.piranha.webapp.api.WebApplicationRequest;
 public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
     private static final List<String> ASYNC_ATTRIBUTES = asList(ASYNC_CONTEXT_PATH, ASYNC_PATH_INFO, ASYNC_QUERY_STRING, ASYNC_REQUEST_URI, ASYNC_SERVLET_PATH);
+
+    private final DefaultServletInvocation servletInvocation;
 
     /**
      * The servletEnvironment corresponding to the target resource to which this
@@ -81,18 +82,63 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
      */
     private final String path;
 
+    private final DefaultErrorPageManager errorPageManager;
+
+    private final DefaultInvocationFinder invocationFinder;
+
     /**
      * Constructor.
      *
      * @param servletInvocation The servlet invocation containing all info this dispatcher uses to dispatch to the contained Servlet.
      */
-    public DefaultServletRequestDispatcher(ServletInvocation servletInvocation) {
-        this.servletEnvironment = servletInvocation.getServletEnvironment();
-        this.path = servletInvocation.getInvocationPath();
+    public DefaultServletRequestDispatcher(DefaultServletInvocation servletInvocation, DefaultErrorPageManager errorPageManager, DefaultInvocationFinder invocationFinder) {
+        this.servletInvocation = servletInvocation;
+        this.errorPageManager = errorPageManager;
+        this.invocationFinder = invocationFinder;
+
+        this.servletEnvironment = servletInvocation == null? null : servletInvocation.getServletEnvironment();
+        this.path = servletInvocation == null? null : servletInvocation.getInvocationPath();
     }
 
     /**
-     * Forward the request and response.
+     * Dispatches using using the REQUEST dispatch type
+     *
+     * @param webappRequest the request.
+     * @param httpResponse the response.
+     * @throws ServletException when a servlet error occurs.
+     * @throws IOException when an I/O error occurs.
+     */
+    public void request(DefaultWebApplicationRequest webappRequest, DefaultWebApplicationResponse httpResponse) throws ServletException, IOException {
+        Exception exception = null;
+        if (servletInvocation == null || !servletInvocation.canInvoke()) {
+            httpResponse.sendError(404);
+        } else {
+            try {
+                webappRequest.setAsyncSupported(servletInvocation.getServletEnvironment().isAsyncSupported());
+                webappRequest.setServletPath(servletInvocation.getServletPath());
+                webappRequest.setPathInfo(servletInvocation.getPathInfo());
+
+                servletInvocation.getFilterChain().doFilter(webappRequest, httpResponse);
+            } catch (Exception e) {
+                exception = e;
+            }
+        }
+
+        String errorPagePath = errorPageManager.getErrorPage(exception, httpResponse);
+
+        if (errorPagePath != null) {
+            webappRequest.getRequestDispatcher(errorPagePath).forward(webappRequest, httpResponse);
+        } else if (exception != null) {
+            rethrow(exception);
+        }
+
+        if (!httpResponse.isCommitted() && !webappRequest.isAsyncStarted()) {
+            httpResponse.flushBuffer();
+        }
+    }
+
+    /**
+     * Dispatches using using the FORWARD or ASYNC dispatch type - Forward the request and response.
      *
      * @param servletRequest the request.
      * @param servletResponse the response.
@@ -113,7 +159,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     }
 
     /**
-     * Include the request and response.
+     * Dispatches using using the INCLUDE dispatch type - Include the request and response.
      *
      * @param servletRequest the request.
      * @param servletResponse the response.
@@ -170,9 +216,13 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, forwardedRequest);
 
+            invocationFinder.addFilters(FORWARD, servletInvocation, forwardedRequest.getServletPath(), "");
+
             try {
                 servletEnvironment.getWebApplication().linkRequestAndResponse(forwardedRequest, servletResponse);
-                servletEnvironment.getServlet().service(forwardedRequest, servletResponse);
+
+                servletInvocation.getFilterChain().doFilter(forwardedRequest, servletResponse);
+
                 servletEnvironment.getWebApplication().unlinkRequestAndResponse(forwardedRequest, servletResponse);
             } finally {
                 restoreCurrentRequest(currentRequestHolder, request);
@@ -443,5 +493,21 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             }
         }
         return null;
+    }
+
+    private void rethrow(Exception exception) throws ServletException, IOException {
+        if (exception instanceof ServletException) {
+            throw (ServletException) exception;
+        }
+
+        if (exception instanceof IOException) {
+            throw (IOException) exception;
+        }
+
+        if (exception instanceof RuntimeException) {
+            throw (RuntimeException) exception;
+        }
+
+        throw new IllegalStateException(exception);
     }
 }

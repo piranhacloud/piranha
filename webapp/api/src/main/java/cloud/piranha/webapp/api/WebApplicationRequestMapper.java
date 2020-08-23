@@ -30,7 +30,6 @@ package cloud.piranha.webapp.api;
 import static javax.servlet.DispatcherType.REQUEST;
 
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.Set;
 
 import javax.servlet.DispatcherType;
@@ -76,7 +75,7 @@ public interface WebApplicationRequestMapper {
      * @param urlPatterns the URL patterns to map (aka mappings).
      * @return the URL patterns that were added.
      */
-    Set<String> addFilterMapping(EnumSet<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns);
+    Set<String> addFilterMapping(Set<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns);
 
     /**
      * Add a filter mapping.
@@ -105,7 +104,7 @@ public interface WebApplicationRequestMapper {
      * @param urlPatterns the URL patterns to map (aka mappings).
      * @return the URL patterns that were added.
      */
-    Set<String> addFilterMappingBeforeExisting(EnumSet<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns);
+    Set<String> addFilterMappingBeforeExisting(Set<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns);
 
 
     /**

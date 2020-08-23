@@ -25,69 +25,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.api;
+package cloud.piranha.webapp.impl;
 
-import static cloud.piranha.webapp.api.ServletEnvironment.UNAVAILABLE;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.List;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletConfig;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- * The ServletInvocation API.
- *
- * <p>
- * This type holds data necessary to invoke a Servlet.
- *
  *
  * @author Arjan Tijms
- *
  */
-public interface ServletInvocation {
+public class DefaultErrorPageManager {
 
-    /**
-     * The original path used to base the Servlet invocation on.
-     *
-     * @return the full invocation path
-     */
-    String getInvocationPath();
+    private final Map<Integer, String> errorPagesByCode = new HashMap<>();
+    private final Map<String, String> errorPagesByException = new HashMap<>();
 
-    String getServletName();
-
-    String getServletPath();
-
-    String getPathInfo();
-
-    WebApplicationRequestMapping getApplicationRequestMapping();
-
-    ServletEnvironment getServletEnvironment();
-
-    List<FilterEnvironment> getFilterEnvironments();
-
-    FilterChain getFilterChain();
-
-    default boolean hasServlet() {
-        return getServletEnvironment() != null && getServletEnvironment().getServlet() != null;
+    public Map<Integer, String> getErrorPagesByCode() {
+        return errorPagesByCode;
     }
 
-    default boolean hasFilter() {
-        return getFilterEnvironments() != null;
+    public Map<String, String> getErrorPagesByException() {
+        return errorPagesByException;
     }
 
-    default boolean isServletUnavailable() {
-        return getServletEnvironment() != null && getServletEnvironment().getStatus() == UNAVAILABLE;
-    }
-
-    default boolean canInvoke() {
-        return hasServlet() || hasFilter();
-    }
-
-    default ServletConfig getServletConfig() {
-        if (!hasServlet()) {
-            return null;
+    public String getErrorPage(Exception exception, HttpServletResponse httpResponse) {
+        if (exception != null) {
+            return errorPagesByException.get(exception.getClass().getName());
         }
 
-        return getServletEnvironment().getServlet().getServletConfig();
+
+        if (httpResponse.getStatus() >= 400 && httpResponse.getStatus() <= 500) {
+            return errorPagesByCode.get(httpResponse.getStatus());
+        }
+
+        // No error
+        return null;
     }
+
 }

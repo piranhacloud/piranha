@@ -29,6 +29,7 @@ package cloud.piranha.webapp.impl;
 
 import static cloud.piranha.webapp.api.FilterEnvironment.UNAVAILABLE;
 import static java.util.Collections.enumeration;
+import static java.util.Collections.reverse;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.function.Predicate.isEqual;
 import static java.util.function.Predicate.not;
@@ -45,7 +46,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.HashMap;
@@ -100,7 +100,6 @@ import cloud.piranha.webapp.api.MultiPartManager;
 import cloud.piranha.webapp.api.ObjectInstanceManager;
 import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.ServletEnvironment;
-import cloud.piranha.webapp.api.ServletInvocation;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
 import cloud.piranha.webapp.api.WelcomeFileManager;
@@ -196,11 +195,6 @@ public class DefaultWebApplication implements WebApplication {
     protected int status;
 
     /**
-     * Stores the active requests and the associated response.
-     */
-    //protected final Map<ServletRequest, ServletResponse> requests;
-
-    /**
      * Stores the active responses and the associated requests.
      */
     protected final Map<ServletResponse, ServletRequest> responses;
@@ -229,10 +223,6 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the filters.
      */
     protected final Map<String, DefaultFilterEnvironment> filters;
-
-    protected final Map<Integer, String> errorPagesByCode = new HashMap<>();
-
-    protected final Map<String, String> errorPagesByException = new HashMap<>();
 
     // ### Listeners
     /**
@@ -270,6 +260,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the session manager.
      */
     protected HttpSessionManager httpSessionManager;
+
+    /**
+     * Stores the error page manager
+     */
+    protected DefaultErrorPageManager errorPageManager;
 
     /**
      * Stores the security manager.
@@ -346,6 +341,7 @@ public class DefaultWebApplication implements WebApplication {
         requestListeners = new ArrayList<>(1);
         resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
+        errorPageManager = new DefaultErrorPageManager();
         securityManager = new DefaultSecurityManager();
         servletContextName = UUID.randomUUID().toString();
         servletEnvironments = new LinkedHashMap<>();
@@ -438,7 +434,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public Set<String> addFilterMapping(EnumSet<DispatcherType> dispatcherTypes, String filterName, boolean isMatchAfter, String... urlPatterns) {
+    public Set<String> addFilterMapping(Set<DispatcherType> dispatcherTypes, String filterName, boolean isMatchAfter, String... urlPatterns) {
         if (isMatchAfter) {
             return webApplicationRequestMapper.addFilterMapping(dispatcherTypes, filterName, urlPatterns);
         }
@@ -624,12 +620,12 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public void addErrorPage(int code, String location) {
-        errorPagesByCode.put(code, location);
+        errorPageManager.getErrorPagesByCode().put(code, location);
     }
 
     @Override
     public void addErrorPage(String exception, String location) {
-        errorPagesByException.put(exception, location);
+        errorPageManager.getErrorPagesByException().put(exception, location);
     }
 
     /**
@@ -706,7 +702,7 @@ public class DefaultWebApplication implements WebApplication {
         });
         servletEnvironments.clear();
 
-        Collections.reverse(contextListeners);
+        reverse(contextListeners);
         contextListeners.stream().forEach((listener) -> {
             listener.contextDestroyed(new ServletContextEvent(this));
         });
@@ -1479,54 +1475,11 @@ public class DefaultWebApplication implements WebApplication {
         DefaultWebApplicationRequest webappRequest = (DefaultWebApplicationRequest) request;
         DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
 
-        // Obtain a reference to the target servlet invocation, which includes the Servlet itself as well as mapping data
-        ServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(webappRequest.getServletPath(), webappRequest.getPathInfo());
+        // Obtain a reference to the target servlet invocation, which includes the Servlet itself and/or Filters, as well as mapping data
+        DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(webappRequest.getServletPath(), webappRequest.getPathInfo());
 
-        if (servletInvocation != null) {
-            webappRequest.setAsyncSupported(servletInvocation.getServletEnvironment().isAsyncSupported());
-            webappRequest.setServletPath(servletInvocation.getServletPath());
-            webappRequest.setPathInfo(servletInvocation.getPathInfo());
-        }
-
-        Exception exception = null;
-        if (servletInvocation == null || !servletInvocation.canInvoke()) {
-            httpResponse.sendError(404);
-        } else {
-            try {
-                // TODO: code below needs to be reworked still
-                if (servletInvocation.getFilterChain() != null) {
-                    servletInvocation.getFilterChain().doFilter(request, response);
-                } else {
-                    Servlet servlet = servletInvocation.getServletEnvironment().getServlet();
-                    request.setAttribute(DefaultServletEnvironment.class.getName(), servlet.getServletConfig());
-                    try {
-                        servlet.service(request, response);
-                    } finally {
-                        request.removeAttribute(DefaultServletEnvironment.class.getName());
-                    }
-                }
-            } catch (Exception e) {
-                exception = e;
-            }
-        }
-
-        String location = null;
-        if (exception != null) {
-            location = errorPagesByException.get(exception.getClass().getName());
-        } else if (httpResponse.getStatus() >= 400 && httpResponse.getStatus() <= 500) {
-            location = errorPagesByCode.get(httpResponse.getStatus());
-        }
-
-        if (location != null) {
-            request.getRequestDispatcher(location)
-                    .forward(webappRequest, httpResponse);
-        } else if (exception != null) {
-            rethrow(exception);
-        }
-
-        if (!httpResponse.isCommitted() && !webappRequest.isAsyncStarted()) {
-            httpResponse.flushBuffer();
-        }
+        // Dispatch using the REQUEST dispatch type. This will invoke the Servlet and/or Filters if present and available.
+        getInvocationDispatcher(servletInvocation).request(webappRequest, httpResponse);
 
         requestDestroyed(request);
         unlinkRequestAndResponse(request, response);
@@ -1843,7 +1796,17 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
-        return getNamedDispatcher(invocationFinder.getDirectServletInvocationByPath(path, null));
+        try {
+            DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(null, path, null);
+            if (servletInvocation == null) {
+                return null;
+            }
+
+            return getInvocationDispatcher(servletInvocation);
+        } catch (IOException | ServletException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -1854,7 +1817,12 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public RequestDispatcher getNamedDispatcher(String name) {
-        return getNamedDispatcher(invocationFinder.findServletInvocationByName(name));
+        DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByName(name);
+        if (servletInvocation == null) {
+            return null;
+        }
+
+        return getInvocationDispatcher(servletInvocation);
     }
 
     /**
@@ -1880,12 +1848,8 @@ public class DefaultWebApplication implements WebApplication {
      * @param path the path.
      * @return the request dispatcher.
      */
-    private RequestDispatcher getNamedDispatcher(ServletInvocation servletInvocation) {
-        if (servletInvocation == null) {
-            return null;
-        }
-
-        return new DefaultServletRequestDispatcher(servletInvocation);
+    private DefaultServletRequestDispatcher getInvocationDispatcher(DefaultServletInvocation servletInvocation) {
+        return new DefaultServletRequestDispatcher(servletInvocation, errorPageManager, invocationFinder);
     }
 
     private void verifyRequestResponseTypes(ServletRequest request, ServletResponse response) throws ServletException {
@@ -1965,22 +1929,6 @@ public class DefaultWebApplication implements WebApplication {
         contextAttributeListeners.stream().forEach((listener) -> {
             listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value));
         });
-    }
-
-    private void rethrow(Exception exception) throws ServletException, IOException {
-        if (exception instanceof ServletException) {
-            throw (ServletException) exception;
-        }
-
-        if (exception instanceof IOException) {
-            throw (IOException) exception;
-        }
-
-        if (exception instanceof RuntimeException) {
-            throw (RuntimeException) exception;
-        }
-
-        throw new IllegalStateException(exception);
     }
 
 }
