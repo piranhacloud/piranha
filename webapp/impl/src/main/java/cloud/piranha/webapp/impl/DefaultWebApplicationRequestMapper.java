@@ -62,12 +62,12 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
     protected final ConcurrentHashMap<String, String> servletMappings = new ConcurrentHashMap<>();
 
     @Override
-    public Set<String> addFilterMapping(EnumSet<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
+    public Set<String> addFilterMapping(Set<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
         return doAddFilterMapping(dispatcherTypes != null? dispatcherTypes : EnumSet.of(REQUEST), filterName, urlPatterns);
     }
 
     @Override
-    public Set<String> addFilterMappingBeforeExisting(EnumSet<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
+    public Set<String> addFilterMappingBeforeExisting(Set<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
        return doAddFilterMappingBeforeExisting(dispatcherTypes != null? dispatcherTypes : EnumSet.of(REQUEST), filterName, urlPatterns);
     }
 
@@ -135,7 +135,7 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
         return result;
     }
 
-    private Set<String> doAddFilterMapping(EnumSet<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
+    private Set<String> doAddFilterMapping(Set<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
         requireNonNull(dispatcherTypes);
 
         Set<String> result = new HashSet<>();
@@ -152,7 +152,7 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
         return result;
     }
 
-    private Set<String> doAddFilterMappingBeforeExisting(EnumSet<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
+    private Set<String> doAddFilterMappingBeforeExisting(Set<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
         requireNonNull(dispatcherTypes);
 
         Set<String> result = new HashSet<>();

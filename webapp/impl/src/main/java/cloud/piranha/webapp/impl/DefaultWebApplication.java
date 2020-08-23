@@ -29,12 +29,12 @@ package cloud.piranha.webapp.impl;
 
 import static cloud.piranha.webapp.api.FilterEnvironment.UNAVAILABLE;
 import static java.util.Collections.enumeration;
+import static java.util.Collections.reverse;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.function.Predicate.isEqual;
 import static java.util.function.Predicate.not;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import java.io.File;
@@ -46,7 +46,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.HashMap;
@@ -62,7 +61,6 @@ import java.util.stream.Stream;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
-import javax.servlet.FilterChain;
 import javax.servlet.FilterRegistration;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
@@ -82,7 +80,6 @@ import javax.servlet.ServletRequestListener;
 import javax.servlet.ServletResponse;
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
-import javax.servlet.UnavailableException;
 import javax.servlet.annotation.HandlesTypes;
 import javax.servlet.descriptor.JspConfigDescriptor;
 import javax.servlet.http.HttpSessionAttributeListener;
@@ -94,8 +91,6 @@ import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.api.ResourceManager;
 import cloud.piranha.webapp.api.AnnotationManager;
 import cloud.piranha.webapp.api.AsyncManager;
-import cloud.piranha.webapp.api.FilterEnvironment;
-import cloud.piranha.webapp.api.FilterPriority;
 import cloud.piranha.webapp.api.HttpRequestManager;
 import cloud.piranha.webapp.api.HttpSessionManager;
 import cloud.piranha.webapp.api.JspManager;
@@ -105,10 +100,8 @@ import cloud.piranha.webapp.api.MultiPartManager;
 import cloud.piranha.webapp.api.ObjectInstanceManager;
 import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.ServletEnvironment;
-import cloud.piranha.webapp.api.ServletInvocation;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
-import cloud.piranha.webapp.api.WebApplicationRequestMapping;
 import cloud.piranha.webapp.api.WelcomeFileManager;
 
 /**
@@ -202,11 +195,6 @@ public class DefaultWebApplication implements WebApplication {
     protected int status;
 
     /**
-     * Stores the active requests and the associated response.
-     */
-    //protected final Map<ServletRequest, ServletResponse> requests;
-
-    /**
      * Stores the active responses and the associated requests.
      */
     protected final Map<ServletResponse, ServletRequest> responses;
@@ -235,10 +223,6 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the filters.
      */
     protected final Map<String, DefaultFilterEnvironment> filters;
-
-    protected final Map<Integer, String> errorPagesByCode = new HashMap<>();
-
-    protected final Map<String, String> errorPagesByException = new HashMap<>();
 
     // ### Listeners
     /**
@@ -276,6 +260,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the session manager.
      */
     protected HttpSessionManager httpSessionManager;
+
+    /**
+     * Stores the error page manager
+     */
+    protected DefaultErrorPageManager errorPageManager;
 
     /**
      * Stores the security manager.
@@ -323,6 +312,12 @@ public class DefaultWebApplication implements WebApplication {
     protected WelcomeFileManager welcomeFileManager;
 
     /**
+     * Stores the invocation finder, which finds a Servlet, Filter(chain) and variants thereof to invoke
+     * for a given request path.
+     */
+    protected DefaultInvocationFinder invocationFinder;
+
+    /**
      * Constructor.
      */
     public DefaultWebApplication() {
@@ -346,11 +341,13 @@ public class DefaultWebApplication implements WebApplication {
         requestListeners = new ArrayList<>(1);
         resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
+        errorPageManager = new DefaultErrorPageManager();
         securityManager = new DefaultSecurityManager();
         servletContextName = UUID.randomUUID().toString();
         servletEnvironments = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
         welcomeFileManager = new DefaultWelcomeFileManager();
+        invocationFinder = new DefaultInvocationFinder(this);
     }
 
     /**
@@ -437,7 +434,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public Set<String> addFilterMapping(EnumSet<DispatcherType> dispatcherTypes, String filterName, boolean isMatchAfter, String... urlPatterns) {
+    public Set<String> addFilterMapping(Set<DispatcherType> dispatcherTypes, String filterName, boolean isMatchAfter, String... urlPatterns) {
         if (isMatchAfter) {
             return webApplicationRequestMapper.addFilterMapping(dispatcherTypes, filterName, urlPatterns);
         }
@@ -455,7 +452,7 @@ public class DefaultWebApplication implements WebApplication {
         try {
             @SuppressWarnings("unchecked")
             Class<ServletContainerInitializer> clazz = (Class<ServletContainerInitializer>) getClassLoader().loadClass(className);
-            initializers.add(clazz.newInstance());
+            initializers.add(clazz.getDeclaredConstructor().newInstance());
         } catch (Throwable throwable) {
             if (LOGGER.isLoggable(WARNING)) {
                 LOGGER.log(WARNING, "Unable to add initializer: " + className, throwable);
@@ -623,12 +620,12 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public void addErrorPage(int code, String location) {
-        errorPagesByCode.put(code, location);
+        errorPageManager.getErrorPagesByCode().put(code, location);
     }
 
     @Override
     public void addErrorPage(String exception, String location) {
-        errorPagesByException.put(exception, location);
+        errorPageManager.getErrorPagesByException().put(exception, location);
     }
 
     /**
@@ -705,44 +702,12 @@ public class DefaultWebApplication implements WebApplication {
         });
         servletEnvironments.clear();
 
-        Collections.reverse(contextListeners);
+        reverse(contextListeners);
         contextListeners.stream().forEach((listener) -> {
             listener.contextDestroyed(new ServletContextEvent(this));
         });
         contextListeners.clear();
         status = SETUP;
-    }
-
-    /**
-     * Find the filter environments.
-     *
-     * @param servletPath the servlet path to which filters should apply.
-     * @param pathInfo the path info to which filters should apply.
-     * @param servletName name of the servlet to be filtered, if any. Can be null.
-     *
-     * @return the filter environments.
-     */
-    protected List<FilterEnvironment> findFilterEnvironments(String servletPath, String pathInfo, String servletName) {
-        List<FilterEnvironment> filterEnvironments = null;
-
-        String path = servletPath + (pathInfo == null ? "" : pathInfo);
-        Collection<String> filterNames = webApplicationRequestMapper.findFilterMappings(path);
-
-        if (servletName != null) {
-            String servletNamePath = "servlet:// " + servletName;
-            filterNames.addAll(webApplicationRequestMapper.findFilterMappings(servletNamePath));
-        }
-
-        if (!filterNames.isEmpty()) {
-            filterEnvironments = new ArrayList<>();
-            for (String filterName : filterNames) {
-                if (filters.get(filterName) != null) {
-                    filterEnvironments.add(filters.get(filterName));
-                }
-            }
-        }
-
-        return filterEnvironments;
     }
 
     /**
@@ -1510,77 +1475,14 @@ public class DefaultWebApplication implements WebApplication {
         DefaultWebApplicationRequest webappRequest = (DefaultWebApplicationRequest) request;
         DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
 
-        // Obtain a reference to the target servlet invocation, which includes the Servlet itself as well as mapping data
-        ServletInvocation servletInvocation = getServletInvocationByPath(webappRequest.getServletPath(), webappRequest.getPathInfo());
+        // Obtain a reference to the target servlet invocation, which includes the Servlet itself and/or Filters, as well as mapping data
+        DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(webappRequest.getServletPath(), webappRequest.getPathInfo());
 
-        if (servletInvocation != null) {
-            webappRequest.setAsyncSupported(servletInvocation.getServletEnvironment().isAsyncSupported());
-            webappRequest.setServletPath(servletInvocation.getServletPath());
-            webappRequest.setPathInfo(servletInvocation.getPathInfo());
-        }
-
-        Exception exception = null;
-        if (servletInvocation == null || !servletInvocation.canInvoke()) {
-            httpResponse.sendError(404);
-        } else {
-            try {
-                // TODO: code below needs to be reworked still
-                ServletEnvironment servletEnvironment = servletInvocation.getServletEnvironment();
-
-                if (servletInvocation.getFilterEnvironments() != null) {
-
-                    getFilterChain(servletInvocation.getFilterEnvironments(), servletEnvironment == null? null : servletEnvironment.getServlet())
-                        .doFilter(request, response);
-                } else {
-                    Servlet servlet = servletEnvironment.getServlet();
-                    request.setAttribute(DefaultServletEnvironment.class.getName(), servlet.getServletConfig());
-                    try {
-                        servlet.service(request, response);
-                    } finally {
-                        request.removeAttribute(DefaultServletEnvironment.class.getName());
-                    }
-                }
-            } catch (Exception e) {
-                exception = e;
-            }
-        }
-
-        String location = null;
-        if (exception != null) {
-            location = errorPagesByException.get(exception.getClass().getName());
-        } else if (httpResponse.getStatus() >= 400 && httpResponse.getStatus() <= 500) {
-            location = errorPagesByCode.get(httpResponse.getStatus());
-        }
-
-        if (location != null) {
-            request.getRequestDispatcher(location)
-                    .forward(webappRequest, httpResponse);
-        } else if (exception != null) {
-            rethrow(exception);
-        }
-
-        if (!httpResponse.isCommitted() && !webappRequest.isAsyncStarted()) {
-            httpResponse.flushBuffer();
-        }
+        // Dispatch using the REQUEST dispatch type. This will invoke the Servlet and/or Filters if present and available.
+        getInvocationDispatcher(servletInvocation).request(webappRequest, httpResponse);
 
         requestDestroyed(request);
         unlinkRequestAndResponse(request, response);
-    }
-
-    private void rethrow(Exception exception) throws ServletException, IOException {
-        if (exception instanceof ServletException) {
-            throw (ServletException) exception;
-        }
-
-        if (exception instanceof IOException) {
-            throw (IOException) exception;
-        }
-
-        if (exception instanceof RuntimeException) {
-            throw (RuntimeException) exception;
-        }
-
-        throw new IllegalStateException(exception);
     }
 
     /**
@@ -1894,7 +1796,17 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
-        return getNamedDispatcher(getDirectServletInvocationByPath(path, null));
+        try {
+            DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(null, path, null);
+            if (servletInvocation == null) {
+                return null;
+            }
+
+            return getInvocationDispatcher(servletInvocation);
+        } catch (IOException | ServletException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -1905,7 +1817,22 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public RequestDispatcher getNamedDispatcher(String name) {
-        return getNamedDispatcher(getServletInvocationByName(name));
+        DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByName(name);
+        if (servletInvocation == null) {
+            return null;
+        }
+
+        return getInvocationDispatcher(servletInvocation);
+    }
+
+    /**
+     * Get the async manager.
+     *
+     * @return the async manager.
+     */
+    @Override
+    public AsyncManager getAsyncManager() {
+        return asyncManager;
     }
 
 
@@ -1921,178 +1848,14 @@ public class DefaultWebApplication implements WebApplication {
      * @param path the path.
      * @return the request dispatcher.
      */
-    private RequestDispatcher getNamedDispatcher(ServletInvocation servletInvocation) {
-        if (servletInvocation == null) {
-            return null;
-        }
-
-        return new DefaultServletRequestDispatcher(servletInvocation);
-    }
-
-    private ServletInvocation getServletInvocationByPath(String servletPath, String pathInfo) throws IOException, ServletException {
-        DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo);
-
-        if (servletInvocation == null) {
-            servletInvocation = getWelcomeFileServletInvocation(servletPath, pathInfo != null ? pathInfo : "");
-        }
-
-        if (servletInvocation == null) {
-            servletInvocation = getDefaultServletInvocation();
-        }
-
-        if (servletInvocation != null && servletInvocation.getServletEnvironment().getStatus() == ServletEnvironment.UNAVAILABLE) {
-            throw new UnavailableException("Servlet is unavailable");
-        }
-
-        List<FilterEnvironment> filterEnvironments = findFilterEnvironments(servletPath, pathInfo, servletInvocation == null? null : servletInvocation.getServletName());
-        if (filterEnvironments != null) {
-            if (servletInvocation == null) {
-                servletInvocation = new DefaultServletInvocation();
-            }
-
-            servletInvocation.setFilterEnvironments(filterEnvironments);
-        }
-
-        return servletInvocation;
-    }
-
-    private DefaultServletInvocation getDirectServletInvocationByPath(String servletPath, String pathInfo) {
-        String path = servletPath + (pathInfo == null ? "" : pathInfo);
-
-        WebApplicationRequestMapping mapping = webApplicationRequestMapper.findServletMapping(path);
-        if (mapping == null) {
-            return null;
-        }
-
-        String servletName = webApplicationRequestMapper.getServletName(mapping.getPath());
-        if (servletName == null) {
-            return null;
-        }
-
-        ServletEnvironment servletEnvironment = servletEnvironments.get(servletName);
-        if (servletEnvironment == null) {
-            return null;
-        }
-
-        DefaultServletInvocation servletInvocation = new DefaultServletInvocation();
-
-        servletInvocation.setInvocationPath(path);
-        servletInvocation.setApplicationRequestMapping(mapping);
-        servletInvocation.setServletName(servletName);
-        servletInvocation.setServletEnvironment(servletEnvironment);
-
-        if (mapping.isExact()) {
-            servletInvocation.setServletPath(path);
-            servletInvocation.setPathInfo(null);
-        } else if (!mapping.isExtension()) {
-            servletInvocation.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
-            servletInvocation.setPathInfo(path.substring(mapping.getPath().length() - 2));
-        } else {
-            servletInvocation.setServletPath(servletPath);
-            servletInvocation.setPathInfo(pathInfo);
-        }
-
-        return servletInvocation;
-    }
-
-    private DefaultServletInvocation getWelcomeFileServletInvocation(String servletPath, String pathInfo) throws IOException {
-
-        // Try if we have a welcome file that we can load via the default servlet
-
-        if (defaultServlet != null) {
-            for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
-
-                if (getResource(contextPath + servletPath + pathInfo + welcomeFile) != null) {
-
-                    DefaultServletInvocation servletInvocation = getDefaultServletInvocation();
-                    if (servletInvocation != null) {
-                        servletInvocation.setServletPath(servletPath);
-                        servletInvocation.setPathInfo(pathInfo + welcomeFile);
-                        return servletInvocation;
-                    }
-                }
-            }
-        }
-
-        // Next try if we have a welcome servlet
-
-        for (String welcomeFile : getWelcomeFileManager().getWelcomeFileList()) {
-            DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo + welcomeFile);
-            if (servletInvocation != null) {
-                return servletInvocation;
-            }
-        }
-
-
-        // No welcome file or servlet
-        return null;
-    }
-
-    private DefaultServletInvocation getDefaultServletInvocation() {
-        if (defaultServlet == null) {
-            return null;
-        }
-
-        DefaultServletInvocation servletInvocation = new DefaultServletInvocation();
-
-        servletInvocation.setServletName("default");
-        servletInvocation.setServletEnvironment(new DefaultServletEnvironment(this, "default", defaultServlet));
-
-        return servletInvocation;
-    }
-
-
-    private ServletInvocation getServletInvocationByName(String servletName) {
-        ServletEnvironment servletEnvironment = servletEnvironments.get(servletName);
-        if (servletEnvironment == null) {
-            return null;
-        }
-
-        DefaultServletInvocation servletInvocation = new DefaultServletInvocation();
-
-        servletInvocation.setServletName(servletName);
-        servletInvocation.setServletEnvironment(servletEnvironment);
-
-        return servletInvocation;
-    }
-
-    private FilterChain getFilterChain(List<FilterEnvironment> filterEnvironments, Servlet servlet) {
-        List<FilterEnvironment> prioritisedFilters = filterEnvironments.stream()
-                .filter(e -> e.getFilter() instanceof FilterPriority)
-                .sorted((x, y) -> sortOnPriority(x, y))
-                .collect(toList());
-
-        List<FilterEnvironment> notPrioritisedFilters = filterEnvironments.stream()
-                .filter(e -> e.getFilter() instanceof FilterPriority == false)
-                .collect(toList());
-
-        List<FilterEnvironment> currentEnvironments = new ArrayList<>();
-        currentEnvironments.addAll(prioritisedFilters);
-        currentEnvironments.addAll(notPrioritisedFilters);
-
-        Collections.reverse(currentEnvironments);
-
-        DefaultFilterChain downFilterChain = new DefaultFilterChain(servlet);
-        DefaultFilterChain upFilterChain;
-        for (FilterEnvironment filterEnvironment : currentEnvironments) {
-            upFilterChain = new DefaultFilterChain(filterEnvironment.getFilter(), downFilterChain);
-            downFilterChain = upFilterChain;
-        }
-
-        return downFilterChain;
+    private DefaultServletRequestDispatcher getInvocationDispatcher(DefaultServletInvocation servletInvocation) {
+        return new DefaultServletRequestDispatcher(servletInvocation, errorPageManager, invocationFinder);
     }
 
     private void verifyRequestResponseTypes(ServletRequest request, ServletResponse response) throws ServletException {
         if (!(request instanceof DefaultWebApplicationRequest) || !(response instanceof DefaultWebApplicationResponse)) {
             throw new ServletException("Invalid request or response");
         }
-    }
-
-    private int sortOnPriority(FilterEnvironment x, FilterEnvironment y) {
-        FilterPriority filterX = (FilterPriority) x.getFilter();
-        FilterPriority filterY = (FilterPriority) y.getFilter();
-
-        return Integer.compare(filterX.getPriority(), filterY.getPriority());
     }
 
     /**
@@ -2168,13 +1931,4 @@ public class DefaultWebApplication implements WebApplication {
         });
     }
 
-    /**
-     * Get the async manager.
-     *
-     * @return the async manager.
-     */
-    @Override
-    public AsyncManager getAsyncManager() {
-        return asyncManager;
-    }
 }

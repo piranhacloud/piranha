@@ -29,10 +29,14 @@ package cloud.piranha.webapp.webxml;
 
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.FINER;
+import static java.util.stream.Collectors.toSet;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletRegistration;
 
@@ -176,13 +180,29 @@ public class WebXmlProcessor {
         webXml.getFilterMappings().forEach(filterMapping -> {
             // Filter is mapped to a URL pattern, e.g. /path/customer
             webApplication.addFilterMapping(
-                filterMapping.getFilterName(), filterMapping.getUrlPatterns().toArray(STRING_ARRAY));
+                toDispatcherTypes(filterMapping.getDispatchers()),
+                filterMapping.getFilterName(),
+                true,
+                filterMapping.getUrlPatterns().toArray(STRING_ARRAY));
 
             // Filter is mapped to a named Servlet, e.g. FacesServlet
             webApplication.addFilterMapping(
-                    filterMapping.getFilterName(),
-                    filterMapping.getServletNames().stream().map(e -> "servlet:// " + e).toArray(String[]::new));
+                toDispatcherTypes(filterMapping.getDispatchers()),
+                filterMapping.getFilterName(),
+                true,
+                filterMapping.getServletNames().stream().map(e -> "servlet:// " + e).toArray(String[]::new));
         });
+    }
+
+    private Set<DispatcherType> toDispatcherTypes(List<String> dispatchers) {
+        if (dispatchers == null) {
+            return null;
+        }
+
+        return
+            dispatchers.stream()
+                       .map(e -> DispatcherType.valueOf(e))
+                       .collect(toSet());
     }
 
     /**
