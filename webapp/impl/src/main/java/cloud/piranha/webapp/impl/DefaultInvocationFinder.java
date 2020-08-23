@@ -27,14 +27,13 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static cloud.piranha.webapp.api.ServletEnvironment.UNAVAILABLE;
+import static java.util.Collections.reverse;
 import static java.util.stream.Collectors.toList;
 import static javax.servlet.DispatcherType.REQUEST;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.DispatcherType;
@@ -45,7 +44,6 @@ import javax.servlet.UnavailableException;
 import cloud.piranha.webapp.api.FilterEnvironment;
 import cloud.piranha.webapp.api.FilterPriority;
 import cloud.piranha.webapp.api.ServletEnvironment;
-import cloud.piranha.webapp.api.ServletInvocation;
 import cloud.piranha.webapp.api.WebApplicationRequestMapping;
 
 /**
@@ -68,11 +66,11 @@ public class DefaultInvocationFinder {
         this.webApplication = webApplication;
     }
 
-    public ServletInvocation findServletInvocationByPath(String servletPath, String pathInfo) throws IOException, ServletException {
+    public DefaultServletInvocation findServletInvocationByPath(String servletPath, String pathInfo) throws IOException, ServletException {
         return findServletInvocationByPath(REQUEST, servletPath, pathInfo);
     }
 
-    public ServletInvocation findServletInvocationByPath(DispatcherType dispatcherType, String servletPath, String pathInfo) throws IOException, ServletException {
+    public DefaultServletInvocation findServletInvocationByPath(DispatcherType dispatcherType, String servletPath, String pathInfo) throws IOException, ServletException {
         DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo);
 
         if (dispatcherType == REQUEST) {
@@ -85,28 +83,41 @@ public class DefaultInvocationFinder {
             }
         }
 
-        if (servletInvocation != null && servletInvocation.getServletEnvironment().getStatus() == UNAVAILABLE) {
-            throw new UnavailableException("Servlet is unavailable");
+        if (servletInvocation != null) {
+
+            // We have a servletInvocation, check first if the servlet (if any) is actually available
+            if (servletInvocation.isServletUnavailable()) {
+                throw new UnavailableException("Servlet is unavailable");
+            }
+
+            // Seed the chain with the servlet, if any. REQUEST dispatches can be done to only a filter so a servlet is not hard requirement
+            servletInvocation.seedFilterChain();
         }
 
-       return addFilters(dispatcherType, servletInvocation, servletPath, pathInfo);
+        return addFilters(dispatcherType, servletInvocation, servletPath, pathInfo);
     }
 
-    public ServletInvocation addFilters(DispatcherType dispatcherType, DefaultServletInvocation servletInvocation, String servletPath, String pathInfo) {
-        List<FilterEnvironment> filterEnvironments = findFilterEnvironments(servletPath, pathInfo, servletInvocation == null? null : servletInvocation.getServletName());
+    public DefaultServletInvocation addFilters(DispatcherType dispatcherType, DefaultServletInvocation servletInvocation, String servletPath, String pathInfo) {
+        if (dispatcherType == null) {
+            // If there's no dispatcher type, don't add filters. This can happen when the dispatch is not yet known
+            // so as with the request dispatcher, which first gets the resource, and only after that gets to be used for a forward or include.
+            return servletInvocation;
+        }
+
+        List<FilterEnvironment> filterEnvironments = findFilterEnvironments(dispatcherType, servletPath, pathInfo, servletInvocation == null? null : servletInvocation.getServletName());
         if (filterEnvironments != null) {
             if (servletInvocation == null) {
                 servletInvocation = new DefaultServletInvocation();
             }
 
             servletInvocation.setFilterEnvironments(filterEnvironments);
-            servletInvocation.setFilterChain(findFilterChain(filterEnvironments, servletInvocation.getServletEnvironment()));
+            servletInvocation.setFilterChain(findFilterChain(filterEnvironments, servletInvocation.getFilterChain()));
         }
 
         return servletInvocation;
     }
 
-    public ServletInvocation findServletInvocationByName(String servletName) {
+    public DefaultServletInvocation findServletInvocationByName(String servletName) {
         ServletEnvironment servletEnvironment = webApplication.servletEnvironments.get(servletName);
         if (servletEnvironment == null) {
             return null;
@@ -116,11 +127,12 @@ public class DefaultInvocationFinder {
 
         servletInvocation.setServletName(servletName);
         servletInvocation.setServletEnvironment(servletEnvironment);
+        servletInvocation.seedFilterChain();
 
         return servletInvocation;
     }
 
-    public DefaultServletInvocation getDirectServletInvocationByPath(String servletPath, String pathInfo) {
+    private DefaultServletInvocation getDirectServletInvocationByPath(String servletPath, String pathInfo) {
         String path = servletPath + (pathInfo == null ? "" : pathInfo);
 
         WebApplicationRequestMapping mapping = webApplication.webApplicationRequestMapper.findServletMapping(path);
@@ -214,15 +226,15 @@ public class DefaultInvocationFinder {
      *
      * @return the filter environments.
      */
-    protected List<FilterEnvironment> findFilterEnvironments(String servletPath, String pathInfo, String servletName) {
+    protected List<FilterEnvironment> findFilterEnvironments(DispatcherType dispatcherType, String servletPath, String pathInfo, String servletName) {
         List<FilterEnvironment> filterEnvironments = null;
 
         String path = servletPath + (pathInfo == null ? "" : pathInfo);
-        Collection<String> filterNames = webApplication.webApplicationRequestMapper.findFilterMappings(path);
+        Collection<String> filterNames = webApplication.webApplicationRequestMapper.findFilterMappings(dispatcherType, path);
 
         if (servletName != null) {
             String servletNamePath = "servlet:// " + servletName;
-            filterNames.addAll(webApplication.webApplicationRequestMapper.findFilterMappings(servletNamePath));
+            filterNames.addAll(webApplication.webApplicationRequestMapper.findFilterMappings(dispatcherType, servletNamePath));
         }
 
         if (!filterNames.isEmpty()) {
@@ -237,7 +249,7 @@ public class DefaultInvocationFinder {
         return filterEnvironments;
     }
 
-    private FilterChain findFilterChain(List<FilterEnvironment> filterEnvironments, ServletEnvironment servletEnvironment) {
+    private FilterChain findFilterChain(List<FilterEnvironment> filterEnvironments, FilterChain initialFilterChain) {
         List<FilterEnvironment> prioritisedFilters = filterEnvironments.stream()
                 .filter(e -> e.getFilter() instanceof FilterPriority)
                 .sorted((x, y) -> sortOnPriority(x, y))
@@ -251,10 +263,10 @@ public class DefaultInvocationFinder {
         currentEnvironments.addAll(prioritisedFilters);
         currentEnvironments.addAll(notPrioritisedFilters);
 
-        Collections.reverse(currentEnvironments);
+        reverse(currentEnvironments);
 
-        DefaultFilterChain downFilterChain = new DefaultFilterChain(servletEnvironment == null? null : servletEnvironment.getServlet());
-        DefaultFilterChain upFilterChain;
+        FilterChain downFilterChain = initialFilterChain;
+        FilterChain upFilterChain;
         for (FilterEnvironment filterEnvironment : currentEnvironments) {
             upFilterChain = new DefaultFilterChain(filterEnvironment.getFilter(), downFilterChain);
             downFilterChain = upFilterChain;

@@ -106,7 +106,7 @@ public interface WebApplication extends ServletContext {
      * @see FilterRegistration#addMappingForUrlPatterns(EnumSet, boolean,
      * String...)
      */
-    Set<String> addFilterMapping(EnumSet<DispatcherType> dispatcherTypes, String filterName, boolean isMatchAfter, String... urlPatterns);
+    Set<String> addFilterMapping(Set<DispatcherType> dispatcherTypes, String filterName, boolean isMatchAfter, String... urlPatterns);
 
     /**
      * Add a servlet container initializer.
