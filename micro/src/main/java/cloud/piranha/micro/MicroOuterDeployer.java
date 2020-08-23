@@ -152,7 +152,7 @@ public class MicroOuterDeployer {
 
             microInnerDeployer =
                 Class.forName(
-                        "cloud.piranha.micro.MicroInnerDeployer",
+                        "cloud.piranha.micro.core.MicroInnerDeployer",
                         true,
                         webInfClassLoader)
                      .getDeclaredConstructor()

@@ -27,6 +27,10 @@
  */
 package cloud.piranha.http.impl;
 
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.test.api.HttpServerTest;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
@@ -36,12 +40,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-
-import org.junit.jupiter.api.Test;
-
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.api.HttpServerTest;
 
 /**
  * The JUnit tests for the DefaultHttpServer class.

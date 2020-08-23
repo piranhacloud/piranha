@@ -72,6 +72,20 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
             }
             webApplication.addInitializer(initializer);
         }
+
+        if (this.getClass().getModule().isNamed()) {
+            // We are running in a modular environment,
+            // the providers from modules aren't available in the webApplication classloader
+            serviceLoader = ServiceLoader.load(ServletContainerInitializer.class);
+            for (ServletContainerInitializer initializer : serviceLoader) {
+                if (LOGGER.isLoggable(FINE)) {
+                    LOGGER.log(INFO, "Adding initializer: {0}", initializer.getClass().getName());
+                }
+                webApplication.addInitializer(initializer);
+            }
+        }
+
+
         if (LOGGER.isLoggable(FINER)) {
             LOGGER.log(FINER, "Finished ServletContainerInitializer processing");
         }

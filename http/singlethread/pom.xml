@@ -28,10 +28,8 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-api</artifactId>
+            <artifactId>piranha-http-test-api</artifactId>
             <version>${project.version}</version>
-            <type>test-jar</type>
-            <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
     </dependencies>
