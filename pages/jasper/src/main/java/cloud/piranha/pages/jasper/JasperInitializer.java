@@ -111,7 +111,7 @@ public class JasperInitializer implements ServletContainerInitializer {
         ServletRegistration.Dynamic registration = servletContext.addServlet(
                 "JSP Servlet", "org.apache.jasper.servlet.JspServlet");
         registration.addMapping("*.jsp");
-        String classpath = System.getProperty("java.class.path")
+        String classpath = System.getProperty("jdk.module.path", System.getProperty("java.class.path"))
                 + getClassesDirectory(servletContext)
                 + getJarFiles(servletContext);
         
