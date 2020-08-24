@@ -33,8 +33,8 @@ module piranha.webapp.impl {
     requires piranha.http.impl;
     requires piranha.resource.api;
     requires piranha.resource;
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
+    requires transitive piranha.servlet.api;
+    requires transitive piranha.webapp.api;
 
     exports cloud.piranha.webapp.impl;
 

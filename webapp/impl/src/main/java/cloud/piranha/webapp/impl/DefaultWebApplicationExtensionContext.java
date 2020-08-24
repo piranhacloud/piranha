@@ -27,6 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import cloud.piranha.webapp.api.WebApplication;
@@ -66,11 +67,11 @@ public class DefaultWebApplicationExtensionContext implements WebApplicationExte
     @Override
     public void add(Class<? extends WebApplicationExtension> extension) {
         try {
-            WebApplicationExtension instance = extension.newInstance();
+            WebApplicationExtension instance = extension.getDeclaredConstructor().newInstance();
             instance.extend(this);
             extensions.add(instance);
             extensionClasses.add(extension);
-        } catch (InstantiationException | IllegalAccessException ex) {
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex) {
             ex.printStackTrace();
         }
     }

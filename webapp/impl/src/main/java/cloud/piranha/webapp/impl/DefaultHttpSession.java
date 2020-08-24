@@ -43,6 +43,7 @@ import cloud.piranha.webapp.api.HttpSessionManager;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@SuppressWarnings("deprecation")
 public class DefaultHttpSession implements HttpSession {
 
     /**
@@ -208,7 +209,6 @@ public class DefaultHttpSession implements HttpSession {
      * @see HttpSession#getSessionContext()
      */
     @Override
-    @SuppressWarnings("deprecation")
     public HttpSessionContext getSessionContext() {
         return null;
     }
@@ -221,7 +221,6 @@ public class DefaultHttpSession implements HttpSession {
      * @see HttpSession#getValue(java.lang.String)
      */
     @Override
-    @SuppressWarnings("deprecation")
     public Object getValue(String name) {
         return getAttribute(name);
     }
@@ -233,7 +232,6 @@ public class DefaultHttpSession implements HttpSession {
      * @see HttpSession#getValueNames()
      */
     @Override
-    @SuppressWarnings("deprecation")
     public String[] getValueNames() {
         verifyValid("getValueNames");
         return this.attributes.keySet().toArray(new String[0]);
@@ -271,7 +269,6 @@ public class DefaultHttpSession implements HttpSession {
      * @see HttpSession#putValue(java.lang.String, java.lang.Object)
      */
     @Override
-    @SuppressWarnings("deprecation")
     public void putValue(String name, Object value) {
         setAttribute(name, value);
     }
@@ -296,7 +293,6 @@ public class DefaultHttpSession implements HttpSession {
      * @see HttpSession#removeValue(java.lang.String)
      */
     @Override
-    @SuppressWarnings("deprecation")
     public void removeValue(String name) {
         removeAttribute(name);
     }

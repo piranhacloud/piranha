@@ -80,6 +80,10 @@ public class DefaultServlet extends HttpServlet {
     }
 
     private InputStream getResource(HttpServletRequest request) {
+        if (request.getServletContext() == null) {
+            return null;
+        }
+
         return request.getServletContext().getResourceAsStream(getPath(request));
     }
 
