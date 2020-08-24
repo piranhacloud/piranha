@@ -336,7 +336,7 @@ public class MicroInnerDeployer {
     }
 
     void getCallerCredentials(String callersAsXml) {
-        if (callersAsXml == null || callersAsXml.isEmpty()) {
+        if (isEmpty(callersAsXml)) {
             return;
         }
 
@@ -382,6 +382,10 @@ public class MicroInnerDeployer {
         }
 
         getCallerCredentials(callers);
+    }
+
+    private boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
     }
 
 }
