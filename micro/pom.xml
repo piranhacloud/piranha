@@ -169,6 +169,7 @@
                             <goal>add-module-info</goal>
                         </goals>
                         <configuration>
+                            <overwriteExistingFiles>true</overwriteExistingFiles>
                             <module>
                                 <moduleInfoFile>${project.build.sourceDirectory}/module-info.java</moduleInfoFile>
                             </module>
