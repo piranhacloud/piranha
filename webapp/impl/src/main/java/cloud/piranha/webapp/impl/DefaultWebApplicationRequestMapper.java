@@ -63,12 +63,12 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
 
     @Override
     public Set<String> addFilterMapping(Set<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
-        return doAddFilterMapping(dispatcherTypes != null? dispatcherTypes : EnumSet.of(REQUEST), filterName, urlPatterns);
+        return doAddFilterMapping(isEmpty(dispatcherTypes)? EnumSet.of(REQUEST) : dispatcherTypes, filterName, urlPatterns);
     }
 
     @Override
     public Set<String> addFilterMappingBeforeExisting(Set<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
-       return doAddFilterMappingBeforeExisting(dispatcherTypes != null? dispatcherTypes : EnumSet.of(REQUEST), filterName, urlPatterns);
+       return doAddFilterMappingBeforeExisting(isEmpty(dispatcherTypes)? EnumSet.of(REQUEST) : dispatcherTypes, filterName, urlPatterns);
     }
 
     /**
@@ -315,5 +315,9 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
     @Override
     public String getServletName(String mapping) {
         return servletMappings.get(mapping);
+    }
+
+    private boolean isEmpty(Collection<?> collection) {
+        return collection == null || collection.isEmpty();
     }
 }

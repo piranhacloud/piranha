@@ -32,12 +32,14 @@ import static java.util.stream.Collectors.toList;
 import static javax.servlet.DispatcherType.REQUEST;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterChain;
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.UnavailableException;
 
@@ -73,13 +75,18 @@ public class DefaultInvocationFinder {
     public DefaultServletInvocation findServletInvocationByPath(DispatcherType dispatcherType, String servletPath, String pathInfo) throws IOException, ServletException {
         DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo);
 
-        if (dispatcherType == REQUEST) {
-            if (servletInvocation == null) {
+        if (servletInvocation == null) {
+            if (dispatcherType == REQUEST) {
                 servletInvocation = getWelcomeFileServletInvocation(servletPath, pathInfo != null ? pathInfo : "");
-            }
 
-            if (servletInvocation == null) {
-                servletInvocation = getDefaultServletInvocation();
+                if (servletInvocation == null) { // TODO: access rules for WEB-INF
+                    servletInvocation = getDefaultServletInvocation(servletPath, pathInfo);
+                }
+            } else if (isStaticResource(servletPath, pathInfo)) {
+                // Dispatcher type is not REQUEST, so e.g. FORWARD or INCLUDE.
+                // For these we must do an early check to see if the resource exists
+
+                servletInvocation = getDefaultServletInvocation(servletPath, pathInfo);
             }
         }
 
@@ -108,6 +115,8 @@ public class DefaultInvocationFinder {
         if (filterEnvironments != null) {
             if (servletInvocation == null) {
                 servletInvocation = new DefaultServletInvocation();
+                servletInvocation.setServletPath(servletPath);
+                servletInvocation.setPathInfo(pathInfo);
             }
 
             servletInvocation.setFilterEnvironments(filterEnvironments);
@@ -178,12 +187,9 @@ public class DefaultInvocationFinder {
         if (webApplication.defaultServlet != null) {
             for (String welcomeFile : webApplication.getWelcomeFileManager().getWelcomeFileList()) {
 
-                if (webApplication.getResource(webApplication.contextPath + servletPath + pathInfo + welcomeFile) != null) {
-
-                    DefaultServletInvocation servletInvocation = getDefaultServletInvocation();
+                if (isStaticResource(servletPath, pathInfo + welcomeFile)) {
+                    DefaultServletInvocation servletInvocation = getDefaultServletInvocation(servletPath, pathInfo + welcomeFile);
                     if (servletInvocation != null) {
-                        servletInvocation.setServletPath(servletPath);
-                        servletInvocation.setPathInfo(pathInfo + welcomeFile);
                         return servletInvocation;
                     }
                 }
@@ -199,20 +205,27 @@ public class DefaultInvocationFinder {
             }
         }
 
-
         // No welcome file or servlet
         return null;
     }
 
-    private DefaultServletInvocation getDefaultServletInvocation() {
-        if (webApplication.defaultServlet == null) {
-            return null;
+    private boolean isStaticResource(String servletPath, String pathInfo) throws MalformedURLException {
+        return webApplication.getResource(webApplication.contextPath + servletPath + (pathInfo == null? "" : pathInfo)) != null;
+
+    }
+
+    private DefaultServletInvocation getDefaultServletInvocation(String servletPath, String pathInfo) {
+        Servlet defaultServlet = webApplication.defaultServlet;
+        if (defaultServlet == null) {
+            defaultServlet = new DefaultServlet();
         }
 
         DefaultServletInvocation servletInvocation = new DefaultServletInvocation();
 
         servletInvocation.setServletName("default");
-        servletInvocation.setServletEnvironment(new DefaultServletEnvironment(webApplication, "default", webApplication.defaultServlet));
+        servletInvocation.setServletEnvironment(new DefaultServletEnvironment(webApplication, "default", defaultServlet));
+        servletInvocation.setServletPath(servletPath);
+        servletInvocation.setPathInfo(pathInfo);
 
         return servletInvocation;
     }

@@ -60,7 +60,7 @@ public class DefaultObjectInstanceManager implements ObjectInstanceManager {
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
         T result = null;
         try {
-            result = filterClass.newInstance();
+            result = filterClass.getDeclaredConstructor().newInstance();
         } catch (Throwable throwable) {
             throw new ServletException(throwable);
         }
@@ -79,7 +79,7 @@ public class DefaultObjectInstanceManager implements ObjectInstanceManager {
     public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
         T result;
         try {
-            result = clazz.newInstance();
+            result = clazz.getDeclaredConstructor().newInstance();
         } catch (Throwable throwable) {
             throw new ServletException(throwable);
         }
@@ -98,7 +98,7 @@ public class DefaultObjectInstanceManager implements ObjectInstanceManager {
     public <T extends Servlet> T createServlet(Class<T> servletClass) throws ServletException {
         T result;
         try {
-            result = servletClass.newInstance();
+            result = servletClass.getDeclaredConstructor().newInstance();
         } catch (Throwable throwable) {
             throw new ServletException(throwable);
         }

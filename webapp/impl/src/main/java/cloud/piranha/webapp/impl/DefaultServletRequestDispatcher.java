@@ -114,7 +114,9 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             httpResponse.sendError(404);
         } else {
             try {
-                webappRequest.setAsyncSupported(servletInvocation.getServletEnvironment().isAsyncSupported());
+                if (servletInvocation.getServletEnvironment() != null) {
+                    webappRequest.setAsyncSupported(servletInvocation.getServletEnvironment().isAsyncSupported());
+                }
                 webappRequest.setServletPath(servletInvocation.getServletPath());
                 webappRequest.setPathInfo(servletInvocation.getPathInfo());
 
