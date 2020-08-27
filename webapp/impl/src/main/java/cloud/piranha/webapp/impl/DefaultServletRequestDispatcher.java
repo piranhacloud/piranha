@@ -35,6 +35,7 @@ import static javax.servlet.AsyncContext.ASYNC_QUERY_STRING;
 import static javax.servlet.AsyncContext.ASYNC_REQUEST_URI;
 import static javax.servlet.AsyncContext.ASYNC_SERVLET_PATH;
 import static javax.servlet.DispatcherType.ASYNC;
+import static javax.servlet.DispatcherType.ERROR;
 import static javax.servlet.DispatcherType.FORWARD;
 
 import java.io.IOException;
@@ -48,6 +49,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
+import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
@@ -86,15 +88,19 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
     private final DefaultInvocationFinder invocationFinder;
 
+    private final DefaultWebApplication webApplication;
+
     /**
      * Constructor.
      *
      * @param servletInvocation The servlet invocation containing all info this dispatcher uses to dispatch to the contained Servlet.
      */
-    public DefaultServletRequestDispatcher(DefaultServletInvocation servletInvocation, DefaultErrorPageManager errorPageManager, DefaultInvocationFinder invocationFinder) {
+    public DefaultServletRequestDispatcher(DefaultServletInvocation servletInvocation, DefaultWebApplication webApplication) {
         this.servletInvocation = servletInvocation;
-        this.errorPageManager = errorPageManager;
-        this.invocationFinder = invocationFinder;
+
+        this.webApplication = webApplication;
+        this.errorPageManager = webApplication.errorPageManager;
+        this.invocationFinder = webApplication.invocationFinder;
 
         this.servletEnvironment = servletInvocation == null? null : servletInvocation.getServletEnvironment();
         this.path = servletInvocation == null? null : servletInvocation.getInvocationPath();
@@ -110,9 +116,25 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
      */
     public void request(DefaultWebApplicationRequest webappRequest, DefaultWebApplicationResponse httpResponse) throws ServletException, IOException {
         Exception exception = null;
-        if (servletInvocation == null || !servletInvocation.canInvoke()) {
+
+        if (servletInvocation != null && servletInvocation.isServletUnavailable()) {
+            // There's a servlet found to invoke, but the servlet is not available (for instance because
+            // the init method failed)
+            Throwable throwable = servletInvocation.getServletEnvironment().getUnavailableException();
+            if (throwable instanceof Exception) {
+                exception = (Exception) throwable;
+            } else {
+                exception = new UnavailableException("");
+                exception.initCause(throwable);
+            }
+            httpResponse.setStatus(500);
+        } else if (servletInvocation == null || !servletInvocation.canInvoke()) {
+            // If there's nothing to invoke at all, there was nothing found, so return a 404
             httpResponse.sendError(404);
         } else {
+
+            // There's either a Servlet, Filter or both found matching the request.
+
             try {
                 if (servletInvocation.getServletEnvironment() != null) {
                     webappRequest.setAsyncSupported(servletInvocation.getServletEnvironment().isAsyncSupported());
@@ -129,8 +151,11 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         String errorPagePath = errorPageManager.getErrorPage(exception, httpResponse);
 
         if (errorPagePath != null) {
-            webappRequest.getRequestDispatcher(errorPagePath).forward(webappRequest, httpResponse);
+            webApplication.getRequestDispatcher(errorPagePath).error(servletInvocation.getServletName(), webappRequest, httpResponse, exception);
         } else if (exception != null) {
+            httpResponse.setStatus(500);
+            exception.printStackTrace(httpResponse.getWriter());
+            httpResponse.flushBuffer();
             rethrow(exception);
         }
 
@@ -187,6 +212,62 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
     }
 
+    public void error(String servletName, ServletRequest servletRequest, ServletResponse servletResponse, Throwable throwable) throws ServletException, IOException {
+        try (DefaultWebApplicationRequest errorRequest = new DefaultWebApplicationRequest()) {
+
+            HttpServletRequest request = (HttpServletRequest) servletRequest;
+            HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+            response.resetBuffer();
+
+            errorRequest.setWebApplication(servletEnvironment.getWebApplication());
+            errorRequest.setContextPath(request.getContextPath());
+            errorRequest.setDispatcherType(ERROR);
+            errorRequest.setAsyncSupported(request.isAsyncSupported());
+
+            if (path != null) {
+                setForwardAttributes(request, errorRequest,
+                        FORWARD_CONTEXT_PATH,
+                        FORWARD_PATH_INFO,
+                        FORWARD_QUERY_STRING,
+                        FORWARD_REQUEST_URI,
+                        FORWARD_SERVLET_PATH);
+
+                errorRequest.setServletPath(getServletPath(path));
+                errorRequest.setQueryString(getQueryString(path));
+
+            } else {
+                errorRequest.setServletPath("/" + servletEnvironment.getServletName());
+            }
+
+            errorRequest.setAttribute(ERROR_EXCEPTION, throwable);
+            errorRequest.setAttribute(ERROR_EXCEPTION_TYPE, throwable.getClass());
+            errorRequest.setAttribute(ERROR_MESSAGE, throwable.getMessage());
+            errorRequest.setAttribute(ERROR_STATUS_CODE, response.getStatus());
+            errorRequest.setAttribute(ERROR_REQUEST_URI, request.getRequestURI());
+            errorRequest.setAttribute(ERROR_SERVLET_NAME, servletName);
+
+
+            CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, errorRequest);
+
+            invocationFinder.addFilters(FORWARD, servletInvocation, errorRequest.getServletPath(), "");
+
+            try {
+                servletEnvironment.getWebApplication().linkRequestAndResponse(errorRequest, servletResponse);
+
+                servletInvocation.getFilterChain().doFilter(errorRequest, servletResponse);
+
+                servletEnvironment.getWebApplication().unlinkRequestAndResponse(errorRequest, servletResponse);
+            } finally {
+                restoreCurrentRequest(currentRequestHolder, request);
+            }
+
+            response.flushBuffer();
+        }
+
+
+    }
+
     // #### SYNC forward private methods
     private void syncForward(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
         try (DefaultWebApplicationRequest forwardedRequest = new DefaultWebApplicationRequest()) {
@@ -233,6 +314,8 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             response.flushBuffer();
         }
     }
+
+
 
     private void setForwardAttributes(HttpServletRequest originalRequest, HttpServletRequest forwardedRequest, String... dispatcherKeys) {
         for (String dispatcherKey : dispatcherKeys) {

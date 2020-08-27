@@ -41,7 +41,6 @@ import javax.servlet.DispatcherType;
 import javax.servlet.FilterChain;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
-import javax.servlet.UnavailableException;
 
 import cloud.piranha.webapp.api.FilterEnvironment;
 import cloud.piranha.webapp.api.FilterPriority;
@@ -93,8 +92,8 @@ public class DefaultInvocationFinder {
         if (servletInvocation != null) {
 
             // We have a servletInvocation, check first if the servlet (if any) is actually available
-            if (servletInvocation.isServletUnavailable()) {
-                throw new UnavailableException("Servlet is unavailable");
+            if (servletInvocation.isServletUnavailable() && dispatcherType != REQUEST) {
+                return null;
             }
 
             // Seed the chain with the servlet, if any. REQUEST dispatches can be done to only a filter so a servlet is not hard requirement
