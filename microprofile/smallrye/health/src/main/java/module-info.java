@@ -26,7 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.smallrye.health {
+module cloud.piranha.microprofile.smallrye.health {
     requires cloud.piranha.servlet.api;
     requires static cloud.piranha.webapp.api;
 

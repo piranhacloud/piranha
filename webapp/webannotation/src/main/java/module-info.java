@@ -26,7 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.webapp.webservlet {
+module cloud.piranha.webapp.webannotation {
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
 

@@ -26,7 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.omnifaces.jwt {
+module cloud.piranha.microprofile.omnifaces.jwt {
     requires cloud.piranha.webapp.api;
 
     requires java.annotation;

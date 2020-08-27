@@ -31,6 +31,6 @@ module cloud.piranha.extension.jakartaee {
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.scinitializer;
     requires cloud.piranha.webapp.tempdir;
-    requires cloud.piranha.webapp.webservlet;
+    requires cloud.piranha.webapp.webannotation;
     requires cloud.piranha.webapp.webxml;
 }
