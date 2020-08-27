@@ -112,4 +112,17 @@ public interface ServletEnvironment extends Dynamic, ServletConfig {
      */
     void setStatus(int status);
 
+    /**
+     * The exception that caused this servlet to become unavailable
+     *
+     * @return the exception.
+     */
+    Throwable getUnavailableException();
+
+    /**
+     * Sets the exception that caused this servlet to become unavailable
+     *
+     */
+    void setUnavailableException(Throwable unavailableException);
+
 }

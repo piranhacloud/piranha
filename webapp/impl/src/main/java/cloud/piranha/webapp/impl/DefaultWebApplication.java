@@ -1390,12 +1390,11 @@ public class DefaultWebApplication implements WebApplication {
             environment.getServlet().init(environment);
             LOGGER.log(FINE, "Initialized servlet: {0}", environment.servletName);
         } catch (Throwable t) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to initialize servlet: " + environment.className, t);
-            }
+            LOGGER.log(WARNING, t, () -> "Unable to initialize servlet: " + environment.className);
 
             environment.setServlet(null);
             environment.setStatus(ServletEnvironment.UNAVAILABLE);
+            environment.setUnavailableException(t);
         }
     }
 
@@ -1795,7 +1794,7 @@ public class DefaultWebApplication implements WebApplication {
      * @return the request dispatcher.
      */
     @Override
-    public RequestDispatcher getRequestDispatcher(String path) {
+    public DefaultServletRequestDispatcher getRequestDispatcher(String path) {
         try {
             DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(null, path, null);
             if (servletInvocation == null) {
@@ -1849,7 +1848,7 @@ public class DefaultWebApplication implements WebApplication {
      * @return the request dispatcher.
      */
     private DefaultServletRequestDispatcher getInvocationDispatcher(DefaultServletInvocation servletInvocation) {
-        return new DefaultServletRequestDispatcher(servletInvocation, errorPageManager, invocationFinder);
+        return new DefaultServletRequestDispatcher(servletInvocation, this);
     }
 
     private void verifyRequestResponseTypes(ServletRequest request, ServletResponse response) throws ServletException {

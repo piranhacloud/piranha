@@ -27,9 +27,9 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 
@@ -37,6 +37,7 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
+import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,8 +46,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import cloud.piranha.webapp.api.WebApplication;
-import javax.servlet.UnavailableException;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * The JUnit tests for the Servlet API.
@@ -91,7 +90,6 @@ public class ServletTest {
         } catch(UnavailableException ue) {
         }
         assertNotNull(webApplication.getAttribute("Broken Servlet"));
-        assertFalse(new String(response.getResponseBytes()).contains("500"));
         webApplication.stop();
     }
 
@@ -172,6 +170,8 @@ public class ServletTest {
      */
     public class TestBrokenServlet extends HttpServlet {
 
+        private static final long serialVersionUID = 1L;
+
         /**
          * Initialize the servlet.
          *
@@ -181,7 +181,7 @@ public class ServletTest {
         @Override
         public void init(ServletConfig servletConfig) throws ServletException {
             servletConfig.getServletContext().setAttribute("Broken Servlet", true);
-            throw new ServletException("Broken Servlet");
+            throw new UnavailableException("Broken Servlet");
         }
     }
 
@@ -190,21 +190,7 @@ public class ServletTest {
      */
     public static class TestServlet extends HttpServlet {
 
-        /**
-         * Constructor.
-         */
-        public TestServlet() {
-        }
-
-        /**
-         * Initialize the servlet.
-         *
-         * @param servletConfig the servlet config.
-         * @throws ServletException when a servlet error occurs.
-         */
-        @Override
-        public void init(ServletConfig servletConfig) throws ServletException {
-        }
+        private static final long serialVersionUID = 1L;
 
         /**
          * Handle GET request.

@@ -102,6 +102,11 @@ public class DefaultServletEnvironment implements ServletEnvironment {
     protected int status;
 
     /**
+     * Stores the unavailableException.
+     */
+    protected Throwable unavailableException;
+
+    /**
      * Stores the web application.
      */
     protected final WebApplication webApp;
@@ -133,73 +138,36 @@ public class DefaultServletEnvironment implements ServletEnvironment {
         this.servlet = servlet;
     }
 
-    /**
-     * Add a mapping for the given servlet.
-     *
-     * @param urlPatterns the url patterns.
-     * @return a set of which mappings where set.
-     */
     @Override
     public Set<String> addMapping(String... urlPatterns) {
         return webApp.addServletMapping(servletName, urlPatterns);
     }
 
-    /**
-     * Get the class name.
-     *
-     * @return the class name.
-     */
     @Override
     public String getClassName() {
         return className;
     }
 
-    /**
-     * Get the init parameter.
-     *
-     * @param name the parameter name.
-     * @return the value.
-     */
     @Override
     public String getInitParameter(String name) {
         return initParameters.get(name);
     }
 
-    /**
-     * Get the init parameter names.
-     *
-     * @return the init parameter names.
-     */
     @Override
     public Enumeration<String> getInitParameterNames() {
         return Collections.enumeration(initParameters.keySet());
     }
 
-    /**
-     * Get the init parameters.
-     *
-     * @return the init parameters.
-     */
     @Override
     public Map<String, String> getInitParameters() {
         return initParameters;
     }
 
-    /**
-     * Get the load on startup.
-     *
-     * @return the load on startup.
-     */
     @Override
     public int getLoadOnStartup() {
         return loadOnStartup;
     }
 
-    /**
-     * Get the mappings.
-     *
-     * @return the mappings.
-     */
     @Override
     public Collection<String> getMappings() {
         Collection<String> result = new ArrayList<>();
@@ -210,133 +178,66 @@ public class DefaultServletEnvironment implements ServletEnvironment {
         return result;
     }
 
-    /**
-     * Get the multi-part config.
-     *
-     * @return the multi-part config.
-     */
     @Override
     public MultipartConfigElement getMultipartConfig() {
         return multipartConfig;
     }
 
-    /**
-     * Get the servlet name.
-     *
-     * @return the servlet name.
-     */
     @Override
     public String getName() {
         return servletName;
     }
 
-    /**
-     * Get the "Run as Role".
-     *
-     * @return the role.
-     */
     @Override
     public String getRunAsRole() {
         return runAsRole;
     }
 
-    /**
-     * Get the servlet.
-     *
-     * @return the servlet.
-     */
     @Override
     public Servlet getServlet() {
         return servlet;
     }
 
-    /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
-     */
     @Override
     public ServletContext getServletContext() {
         return webApp;
     }
 
-    /**
-     * Get the servlet class.
-     *
-     * @return the servlet class.
-     */
     @Override
     public Class<? extends Servlet> getServletClass() {
         return servletClass;
     }
 
-    /**
-     * Get the servlet name.
-     *
-     * @return the servlet name.
-     */
     @Override
     public String getServletName() {
         return servletName;
     }
 
-    /**
-     * Get the status.
-     *
-     * @return the status.
-     */
     @Override
     public int getStatus() {
         return status;
     }
 
-    /**
-     * Get the web application.
-     *
-     * @return the web application.
-     */
     @Override
     public WebApplication getWebApplication() {
         return this.webApp;
     }
 
-    /**
-     * Is async supported.
-     *
-     * @return true if it is, false otherwise.
-     */
     @Override
     public boolean isAsyncSupported() {
         return asyncSupported;
     }
 
-    /**
-     * Set the async supported flag.
-     *
-     * @param asyncSupported the async supported flag.
-     */
     @Override
     public void setAsyncSupported(boolean asyncSupported) {
         this.asyncSupported = asyncSupported;
     }
 
-    /**
-     * Set the class name.
-     *
-     * @param className the class name.
-     */
     @Override
     public void setClassName(String className) {
         this.className = className;
     }
 
-    /**
-     * Set the init parameter.
-     *
-     * @param name the parameter name.
-     * @param value the parameter value.
-     * @return if the init parameter was set.
-     */
     @Override
     public boolean setInitParameter(String name, String value) {
         boolean result = false;
@@ -347,12 +248,6 @@ public class DefaultServletEnvironment implements ServletEnvironment {
         return result;
     }
 
-    /**
-     * Set the init parameters.
-     *
-     * @param initParameters the init parameters.
-     * @return the set of set init parameters that could not be set.
-     */
     @Override
     public Set<String> setInitParameters(Map<String, String> initParameters) {
         HashSet<String> conflicting = new HashSet<>();
@@ -374,64 +269,44 @@ public class DefaultServletEnvironment implements ServletEnvironment {
         return conflicting;
     }
 
-    /**
-     * Set the load on startup.
-     *
-     * @param loadOnStartup the load on startup.
-     */
     @Override
     public void setLoadOnStartup(int loadOnStartup) {
         this.loadOnStartup = loadOnStartup;
     }
 
-    /**
-     * Set the multipart config.
-     *
-     * @param multipartConfig the multipart config.
-     */
     @Override
     public void setMultipartConfig(MultipartConfigElement multipartConfig) {
         this.multipartConfig = multipartConfig;
     }
 
-    /**
-     * Set the run as role.
-     *
-     * @param runAsRole the run as role.
-     */
     @Override
     public void setRunAsRole(String runAsRole) {
         this.runAsRole = runAsRole;
     }
 
-    /**
-     * Set the servlet.
-     *
-     * @param servlet the servlet.
-     */
     @Override
     public void setServlet(Servlet servlet) {
         this.servlet = servlet;
     }
 
-    /**
-     * Set the servlet security element.
-     *
-     * @param servletSecurityElement the servlet security element.
-     * @return the servlet security element.
-     */
     @Override
     public Set<String> setServletSecurity(ServletSecurityElement servletSecurityElement) {
         return new HashSet<>();
     }
 
-    /**
-     * Set the status.
-     *
-     * @param status the status.
-     */
     @Override
     public void setStatus(int status) {
         this.status = status;
     }
+
+    @Override
+    public Throwable getUnavailableException() {
+        return unavailableException;
+    }
+
+    @Override
+    public void setUnavailableException(Throwable unavailableException) {
+        this.unavailableException = unavailableException;
+    }
+
 }
