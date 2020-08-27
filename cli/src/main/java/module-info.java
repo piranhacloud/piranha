@@ -27,5 +27,4 @@
  */
 
 module cloud.piranha.cli {
-
 }
