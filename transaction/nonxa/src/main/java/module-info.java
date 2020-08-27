@@ -25,15 +25,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.transaction.nonxa {
-    requires java.transaction.xa;
+module cloud.piranha.transaction.nonxa {
+    requires cloud.piranha.transaction.api;
 
-    requires piranha.transaction.api;
+    requires java.transaction.xa;
 
     exports cloud.piranha.transaction.nonxa;
 
     // Tests
     requires static java.naming;
     requires static java.sql;
+
     opens cloud.piranha.transaction.nonxa;
 }

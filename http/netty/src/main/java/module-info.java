@@ -29,14 +29,14 @@
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.netty.NettyHttpServer;
 
-module piranha.http.netty {
+module cloud.piranha.http.netty {
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.impl;
+    requires cloud.piranha.webapp.impl;
+
     requires io.netty.all;
 
     requires java.logging;
-
-    requires piranha.http.api;
-    requires piranha.http.impl;
-    requires piranha.webapp.impl;
 
     provides HttpServer with NettyHttpServer;
 }

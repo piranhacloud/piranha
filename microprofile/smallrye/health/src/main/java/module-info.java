@@ -26,11 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.microprofile.smallrye.health {
-    requires jakarta.inject.api;
+module cloud.piranha.smallrye.health {
+    requires cloud.piranha.servlet.api;
+    requires static cloud.piranha.webapp.api;
 
-    requires piranha.servlet.api;
-    requires static piranha.webapp.api;
+    requires jakarta.inject.api;
 
     requires smallrye.health;
 }

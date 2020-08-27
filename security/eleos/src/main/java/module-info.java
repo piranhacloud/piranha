@@ -26,15 +26,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.security.eleos {
+module cloud.piranha.security.eleos {
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+
     requires eleos;
 
     requires java.security.auth.message;
 
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
-
     exports cloud.piranha.security.eleos;
 
-    requires static piranha.webapp.impl;
+    requires static cloud.piranha.webapp.impl;
 }

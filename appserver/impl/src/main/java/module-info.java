@@ -26,18 +26,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.appserver.impl {
-    requires java.logging;
+module cloud.piranha.appserver.impl {
+    requires cloud.piranha.appserver.api;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
 
-    requires piranha.appserver.api;
-    requires piranha.http.api;
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
-    requires piranha.webapp.impl;
+    requires java.logging;
 
     exports cloud.piranha.appserver.impl;
 
     // Tests
+    requires static cloud.piranha.http.impl;
     requires static java.net.http;
-    requires static piranha.http.impl;
 }

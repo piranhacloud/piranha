@@ -26,13 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.arquillian.server {
+module cloud.piranha.arquillian.server {
+    requires cloud.piranha.micro;
+
     requires arquillian.container.spi;
     requires arquillian.core.spi;
 
     requires java.logging;
 
-    requires piranha.micro;
-    requires shrinkwrap.descriptors.api.base;
     requires shrinkwrap.api;
+    requires shrinkwrap.descriptors.api.base;
 }

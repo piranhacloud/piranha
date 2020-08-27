@@ -25,9 +25,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.transaction.api {
-    requires jakarta.interceptor.api;
+module cloud.piranha.transaction.api {
     requires jakarta.enterprise.cdi.api;
+    requires jakarta.interceptor.api;
 
     requires java.rmi;
     requires java.transaction.xa;

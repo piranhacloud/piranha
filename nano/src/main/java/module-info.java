@@ -26,13 +26,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.nano {
-    requires piranha.api;
-    requires piranha.resource.api;
-    requires piranha.resource;
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
-    requires piranha.webapp.impl;
+module cloud.piranha.nano {
+    requires cloud.piranha.api;
+    requires cloud.piranha.resource.api;
+    requires cloud.piranha.resource;
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
 
     exports cloud.piranha.nano;
 }

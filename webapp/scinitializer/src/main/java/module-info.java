@@ -28,11 +28,11 @@
 
 import javax.servlet.ServletContainerInitializer;
 
-module piranha.webapp.scinitializer {
-    requires java.logging;
+module cloud.piranha.webapp.scinitializer {
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
 
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
+    requires java.logging;
 
     uses ServletContainerInitializer;
 

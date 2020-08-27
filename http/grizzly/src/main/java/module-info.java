@@ -29,16 +29,16 @@
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.grizzly.GrizzlyHttpServer;
 
-module piranha.http.grizzly {
+module cloud.piranha.http.grizzly {
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.impl;
+    requires cloud.piranha.webapp.impl;
+
     requires java.logging;
 
     requires grizzly.framework;
     requires grizzly.http;
     requires grizzly.http.server;
-
-    requires piranha.http.api;
-    requires piranha.http.impl;
-    requires piranha.webapp.impl;
 
     provides HttpServer with GrizzlyHttpServer;
 }

@@ -25,16 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-module piranha.webapp.impl {
-    requires java.logging;
+module cloud.piranha.webapp.impl {
+    requires cloud.piranha.appserver.api;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.impl;
+    requires cloud.piranha.resource.api;
+    requires cloud.piranha.resource;
+    requires transitive cloud.piranha.servlet.api;
+    requires transitive cloud.piranha.webapp.api;
 
-    requires piranha.appserver.api;
-    requires piranha.http.api;
-    requires piranha.http.impl;
-    requires piranha.resource.api;
-    requires piranha.resource;
-    requires transitive piranha.servlet.api;
-    requires transitive piranha.webapp.api;
+    requires java.logging;
 
     exports cloud.piranha.webapp.impl;
 

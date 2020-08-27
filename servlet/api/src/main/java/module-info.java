@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-module piranha.servlet.api {
+module cloud.piranha.servlet.api {
     exports javax.servlet;
     exports javax.servlet.annotation;
     exports javax.servlet.descriptor;

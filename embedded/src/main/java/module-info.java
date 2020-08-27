@@ -26,13 +26,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.embedded {
-    requires piranha.api;
-    requires piranha.resource.api;
-    requires piranha.resource;
-    requires piranha.servlet.api;
-    requires piranha.webapp.impl;
-    requires piranha.webapp.api;
+module cloud.piranha.embedded {
+    requires cloud.piranha.api;
+    requires cloud.piranha.resource.api;
+    requires cloud.piranha.resource;
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.webapp.api;
 
     exports cloud.piranha.embedded;
 }

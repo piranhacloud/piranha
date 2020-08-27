@@ -26,14 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.security.exousia {
+module cloud.piranha.security.exousia {
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
+
     requires exousia;
 
     requires java.security.jacc;
-
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
-    requires piranha.webapp.impl;
 
     exports cloud.piranha.security.exousia;
 }

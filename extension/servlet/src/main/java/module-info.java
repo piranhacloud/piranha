@@ -26,14 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.extension.servlet {
-    requires piranha.pages.jasper;
-    requires piranha.webapp.annotationscan;
-    requires piranha.webapp.api;
-    requires piranha.webapp.scinitializer;
-    requires piranha.webapp.tempdir;
-    requires piranha.webapp.webannotation;
-    requires piranha.webapp.webxml;
+module cloud.piranha.extension.servlet {
+    requires cloud.piranha.pages.jasper;
+    requires cloud.piranha.webapp.annotationscan;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.scinitializer;
+    requires cloud.piranha.webapp.tempdir;
+    requires cloud.piranha.webapp.webservlet;
+    requires cloud.piranha.webapp.webxml;
 
     exports cloud.piranha.extension.servlet;
 }
