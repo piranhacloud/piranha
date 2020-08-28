@@ -39,6 +39,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -822,15 +823,30 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public BufferedReader getReader() throws IOException {
         if (!gotInputStream) {
-            gotReader = true;
             if (reader == null) {
-                reader = new BufferedReader(new InputStreamReader(this, characterEncoding == null ? StandardCharsets.ISO_8859_1.toString() : characterEncoding));
+
+                String charsetName = characterEncoding == null ? StandardCharsets.ISO_8859_1.toString() : characterEncoding;
+                if (!isSupported(charsetName)) {
+                    throw new UnsupportedEncodingException(charsetName);
+                }
+
+                reader = new BufferedReader(new InputStreamReader(this, charsetName));
             }
+            gotReader = true;
         } else {
             throw new IllegalStateException("Cannot getReader because getInputStream has been previously called");
         }
         return reader;
     }
+
+    private boolean isSupported(String csn) {
+        try {
+            return Charset.isSupported(csn);
+        } catch (IllegalCharsetNameException x) {
+            return false;
+        }
+    }
+
 
     /**
      * Get the real path.
