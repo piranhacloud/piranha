@@ -26,8 +26,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.faces.myfaces {
-    requires piranha.servlet.api;
+module cloud.piranha.faces.myfaces {
+    requires cloud.piranha.servlet.api;
 
-    requires static piranha.pages.jasper;
+    requires static cloud.piranha.pages.jasper;
 }

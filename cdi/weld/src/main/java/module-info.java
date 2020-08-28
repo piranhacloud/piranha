@@ -26,16 +26,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.cdi.weld {
-    requires jakarta.security.enterprise.api;
+module cloud.piranha.cdi.weld {
+    requires cloud.piranha.naming.impl;
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
+
     requires jakarta.enterprise.cdi.api;
+    requires jakarta.security.enterprise.api;
 
     requires java.naming;
-
-    requires piranha.naming.impl;
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
-    requires piranha.webapp.impl;
 
     requires weld.core.impl;
     requires weld.spi;

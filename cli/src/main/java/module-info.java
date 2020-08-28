@@ -26,6 +26,5 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.cli {
-
+module cloud.piranha.cli {
 }

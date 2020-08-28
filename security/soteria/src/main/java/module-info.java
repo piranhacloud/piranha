@@ -26,7 +26,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.security.soteria {
+module cloud.piranha.security.soteria {
+    requires cloud.piranha.naming.impl;
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
+
     requires jakarta.enterprise.cdi.api;
     requires jakarta.security.enterprise.api;
 
@@ -34,11 +39,6 @@ module piranha.security.soteria {
     requires java.naming;
 
     requires javax.security.enterprise;
-
-    requires piranha.naming.impl;
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
-    requires piranha.webapp.impl;
 
     exports cloud.piranha.security.soteria;
 }

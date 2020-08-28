@@ -26,11 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.extension.webprofile {
-    requires piranha.webapp.annotationscan;
-    requires piranha.webapp.api;
-    requires piranha.webapp.scinitializer;
-    requires piranha.webapp.tempdir;
-    requires piranha.webapp.webxml;
-    requires piranha.webapp.webannotation;
+module cloud.piranha.extension.webprofile {
+    requires cloud.piranha.webapp.annotationscan;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.scinitializer;
+    requires cloud.piranha.webapp.tempdir;
+    requires cloud.piranha.webapp.webannotation;
+    requires cloud.piranha.webapp.webxml;
 }

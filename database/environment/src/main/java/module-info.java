@@ -30,7 +30,7 @@ import cloud.piranha.database.environment.EnvironmentDriver;
 
 import java.sql.Driver;
 
-module piranha.database.environment {
+module cloud.piranha.database.environment {
     requires java.sql;
 
     exports cloud.piranha.database.environment;

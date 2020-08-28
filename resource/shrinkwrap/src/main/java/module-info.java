@@ -26,14 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.resource.shrinkwrap {
-    requires piranha.resource.api;
-    requires piranha.resource;
-    requires static piranha.webapp.api;
+module cloud.piranha.resource.shrinkwrap {
+    requires cloud.piranha.resource.api;
+    requires cloud.piranha.resource;
+    requires static cloud.piranha.webapp.api;
 
     requires shrinkwrap.api;
 
     exports cloud.piranha.resource.shrinkwrap;
 
-    requires static piranha.webapp.impl;
+    requires static cloud.piranha.webapp.impl;
 }

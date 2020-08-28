@@ -28,12 +28,12 @@
 import cloud.piranha.extension.micro.MicroExtension;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 
-module piranha.extension.micro {
-    requires piranha.security.jakarta;
-    requires piranha.webapp.api;
-    requires piranha.webapp.scinitializer;
-    requires piranha.webapp.webxml;
-    requires piranha.webapp.webannotation;
+module cloud.piranha.extension.micro {
+    requires cloud.piranha.security.jakarta;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.scinitializer;
+    requires cloud.piranha.webapp.webannotation;
+    requires cloud.piranha.webapp.webxml;
 
     provides WebApplicationExtension with MicroExtension;
 }
