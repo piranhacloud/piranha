@@ -151,7 +151,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         String errorPagePath = errorPageManager.getErrorPage(exception, httpResponse);
 
         if (errorPagePath != null) {
-            webApplication.getRequestDispatcher(errorPagePath).error(servletInvocation.getServletName(), webappRequest, httpResponse, exception);
+            webApplication.getRequestDispatcher(errorPagePath).error(servletInvocation == null? null : servletInvocation.getServletName(), webappRequest, httpResponse, exception);
         } else if (exception != null) {
             httpResponse.setStatus(500);
             exception.printStackTrace(httpResponse.getWriter());
