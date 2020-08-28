@@ -26,16 +26,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.webapp.webxml {
+module cloud.piranha.webapp.webxml {
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
+
     requires java.logging;
     requires java.xml;
-
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
-    requires piranha.webapp.impl;
 
     exports cloud.piranha.webapp.webxml;
 
     // Tests
-    requires static piranha.resource;
+    requires static cloud.piranha.resource;
 }

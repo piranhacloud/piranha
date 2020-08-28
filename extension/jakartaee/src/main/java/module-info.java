@@ -25,12 +25,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.extension.jakartaee {
-    requires piranha.pages.jasper;
-    requires piranha.webapp.annotationscan;
-    requires piranha.webapp.api;
-    requires piranha.webapp.scinitializer;
-    requires piranha.webapp.tempdir;
-    requires piranha.webapp.webannotation;
-    requires piranha.webapp.webxml;
+module cloud.piranha.extension.jakartaee {
+    requires cloud.piranha.pages.jasper;
+    requires cloud.piranha.webapp.annotationscan;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.scinitializer;
+    requires cloud.piranha.webapp.tempdir;
+    requires cloud.piranha.webapp.webannotation;
+    requires cloud.piranha.webapp.webxml;
 }

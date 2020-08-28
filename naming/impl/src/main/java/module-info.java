@@ -26,7 +26,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.naming.impl {
+module cloud.piranha.naming.impl {
     requires java.naming;
+
     exports cloud.piranha.naming.impl;
 }

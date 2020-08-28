@@ -30,7 +30,7 @@ import cloud.piranha.database.property.PropertyDriver;
 
 import java.sql.Driver;
 
-module piranha.database.property {
+module cloud.piranha.database.property {
     requires java.sql;
 
     provides Driver with PropertyDriver;

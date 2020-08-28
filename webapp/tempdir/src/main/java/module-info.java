@@ -26,11 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.webapp.tempdir {
-    requires java.logging;
+module cloud.piranha.webapp.tempdir {
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
 
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
+    requires java.logging;
 
     exports cloud.piranha.webapp.tempdir;
 }

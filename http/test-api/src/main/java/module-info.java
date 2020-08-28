@@ -26,9 +26,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.http.test.api {
+module cloud.piranha.http.test.api {
+    requires cloud.piranha.http.api;
+
     requires java.net.http;
-    requires piranha.http.api;
+
     requires org.junit.jupiter.api;
+
     exports cloud.piranha.http.test.api;
 }

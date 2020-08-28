@@ -27,12 +27,12 @@
  */
 
 // It is not recommend to use digits in the module name
-module piranha.extension.tomcat9 {
-    requires piranha.pages.jasper;
-    requires piranha.webapp.annotationscan;
-    requires piranha.webapp.api;
-    requires piranha.webapp.scinitializer;
-    requires piranha.webapp.tempdir;
-    requires piranha.webapp.webxml;
-    requires piranha.webapp.webannotation;
+module cloud.piranha.extension.tomcat9 {
+    requires cloud.piranha.pages.jasper;
+    requires cloud.piranha.webapp.annotationscan;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.scinitializer;
+    requires cloud.piranha.webapp.tempdir;
+    requires cloud.piranha.webapp.webannotation;
+    requires cloud.piranha.webapp.webxml;
 }

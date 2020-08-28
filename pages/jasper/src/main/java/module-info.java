@@ -26,14 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.pages.jasper {
+module cloud.piranha.pages.jasper {
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+
     requires jakarta.servlet.jsp.api;
     requires jakarta.servlet.jsp;
 
     requires java.logging;
-
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
 
     exports cloud.piranha.pages.jasper;
 }

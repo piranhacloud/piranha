@@ -28,17 +28,17 @@
 
 import cloud.piranha.webapp.api.WebApplicationExtension;
 
-module piranha.server {
-    requires java.logging;
+module cloud.piranha.server {
+    requires cloud.piranha.api;
+    requires cloud.piranha.appserver.impl;
+    requires cloud.piranha.extension.servlet;
+    requires cloud.piranha.http.impl;
+    requires cloud.piranha.naming.impl;
+    requires cloud.piranha.resource;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
 
-    requires piranha.api;
-    requires piranha.appserver.impl;
-    requires piranha.extension.servlet;
-    requires piranha.http.impl;
-    requires piranha.naming.impl;
-    requires piranha.resource;
-    requires piranha.webapp.api;
-    requires piranha.webapp.impl;
+    requires java.logging;
 
     uses WebApplicationExtension;
 }

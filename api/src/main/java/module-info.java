@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-module piranha.api {
+module cloud.piranha.api {
     exports cloud.piranha.api;
 
     // TODO Remove this requires.
@@ -33,5 +33,5 @@ module piranha.api {
     //  in the pom.xml as provided.
     //  However looks like we don't need it
     //  as provided too
-    requires static piranha.http.api;
+    requires static cloud.piranha.http.api;
 }

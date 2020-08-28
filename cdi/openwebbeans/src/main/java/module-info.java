@@ -26,9 +26,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.cdi.openwebbeans {
-    requires jakarta.enterprise.cdi.api;
+module cloud.piranha.cdi.openwebbeans {
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
 
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
+    requires jakarta.enterprise.cdi.api;
 }

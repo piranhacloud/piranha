@@ -25,10 +25,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-module piranha.webapp.api {
-    requires static piranha.http.api;
-    requires static piranha.resource.api;
-    requires static piranha.servlet.api;
+module cloud.piranha.webapp.api {
+    requires static cloud.piranha.http.api;
+    requires static cloud.piranha.resource.api;
+    requires static cloud.piranha.servlet.api;
 
     exports cloud.piranha.webapp.api;
 }

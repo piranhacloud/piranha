@@ -25,14 +25,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.micro {
+module cloud.piranha.micro {
+    requires cloud.piranha.api;
+    requires cloud.piranha.resource;
+    requires cloud.piranha.resource.shrinkwrap;
+
     requires java.logging;
 
     requires org.jboss.jandex;
-
-    requires piranha.api;
-    requires piranha.resource;
-    requires piranha.resource.shrinkwrap;
 
     requires shrinkwrap.api;
     requires shrinkwrap.resolver.api.maven;
