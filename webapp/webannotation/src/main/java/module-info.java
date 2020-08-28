@@ -26,12 +26,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.webapp.webannotation {
+module cloud.piranha.webapp.webannotation {
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+
     requires java.annotation;
     requires java.logging;
-
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
 
     exports cloud.piranha.webapp.webservlet;
 }

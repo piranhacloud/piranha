@@ -33,7 +33,18 @@ import org.jboss.weld.environment.deployment.discovery.BeanArchiveHandler;
 
 import javax.enterprise.inject.spi.Extension;
 
-module piranha.extension.micro.core {
+module cloud.piranha.micro.core {
+    requires cloud.piranha.api;
+    requires cloud.piranha.appserver.impl;
+    requires cloud.piranha.cdi.weld;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.naming.impl;
+    requires cloud.piranha.resource.shrinkwrap;
+    requires cloud.piranha.security.jakarta;
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
+
     requires jakarta.enterprise.cdi.api;
     requires jakarta.security.enterprise.api;
 
@@ -43,17 +54,6 @@ module piranha.extension.micro.core {
     requires java.xml;
 
     requires org.jboss.jandex;
-
-    requires piranha.api;
-    requires piranha.appserver.impl;
-    requires piranha.cdi.weld;
-    requires piranha.http.api;
-    requires piranha.naming.impl;
-    requires piranha.resource.shrinkwrap;
-    requires piranha.security.jakarta;
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
-    requires piranha.webapp.impl;
 
     requires shrinkwrap.api;
 

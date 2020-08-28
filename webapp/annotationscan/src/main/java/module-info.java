@@ -1,7 +1,3 @@
-import cloud.piranha.webapp.api.WebApplicationExtension;
-
-import javax.servlet.ServletContainerInitializer;
-
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
@@ -29,13 +25,13 @@ import javax.servlet.ServletContainerInitializer;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-module piranha.webapp.annotationscan {
-    requires java.logging;
+module cloud.piranha.webapp.annotationscan {
+    requires cloud.piranha.resource.api;
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
 
-    requires piranha.resource.api;
-    requires piranha.servlet.api;
-    requires piranha.webapp.api;
-    requires piranha.webapp.impl;
+    requires java.logging;
 
     exports cloud.piranha.webapp.annotationscan;
 }

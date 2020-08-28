@@ -26,21 +26,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.security.jakarta {
+module cloud.piranha.security.jakarta {
+    requires cloud.piranha.cdi.weld;
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.security.eleos;
+    requires cloud.piranha.security.exousia;
+    requires cloud.piranha.security.soteria;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
+
     requires eleos;
 
     requires exousia;
 
     requires java.logging;
     requires java.naming;
-
-    requires piranha.cdi.weld;
-    requires piranha.servlet.api;
-    requires piranha.security.eleos;
-    requires piranha.security.exousia;
-    requires piranha.security.soteria;
-    requires piranha.webapp.api;
-    requires piranha.webapp.impl;
 
     exports cloud.piranha.security.jakarta;
 }

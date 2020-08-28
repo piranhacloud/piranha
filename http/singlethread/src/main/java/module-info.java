@@ -29,12 +29,12 @@
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.singlethread.SingleThreadHttpServer;
 
-module piranha.http.singlethread {
-    requires java.logging;
+module cloud.piranha.http.singlethread {
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.impl;
+    requires cloud.piranha.webapp.impl;
 
-    requires piranha.http.api;
-    requires piranha.http.impl;
-    requires piranha.webapp.impl;
+    requires java.logging;
 
     provides HttpServer with SingleThreadHttpServer;
 }

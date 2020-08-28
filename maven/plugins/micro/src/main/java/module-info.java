@@ -26,7 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.micro.maven.plugin {
+module cloud.piranha.maven.plugins.micro {
     requires maven.plugin.annotations;
     requires maven.plugin.api;
 }

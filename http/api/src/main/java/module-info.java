@@ -26,6 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module piranha.http.api {
+module cloud.piranha.http.api {
     exports cloud.piranha.http.api;
 }
