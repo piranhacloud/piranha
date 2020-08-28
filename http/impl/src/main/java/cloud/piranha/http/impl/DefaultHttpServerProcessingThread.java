@@ -78,14 +78,32 @@ class DefaultHttpServerProcessingThread implements Runnable {
     @Override
     public void run() {
         boolean async = false;
+        DefaultHttpServerResponse response = null;
         try {
             DefaultHttpServerRequest request = new DefaultHttpServerRequest(socket);
-            DefaultHttpServerResponse response = new DefaultHttpServerResponse(socket);
+            response = new DefaultHttpServerResponse(socket);
             async = server.processor.process(request, response);
         } finally {
             if (!async) {
                 try {
-                    socket.close();
+                    socket.shutdownInput();
+
+                    // Give the client a chance to start reading the stream.
+                    // If we disconnect right away the client may get an
+                    // Unexpected Exception: java.net.SocketException: Connection reset
+                    //
+                    // If we don't disconnect the client may hang.
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+
+                    if (response != null) {
+                        response.closeResponse();
+                    } else {
+                        socket.close();
+                    }
                 } catch (IOException exception) {
                     if (LOGGER.isLoggable(WARNING)) {
                         LOGGER.log(WARNING, "An I/O error occurred during processing of the request", exception);

@@ -159,7 +159,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             rethrow(exception);
         }
 
-        if (!httpResponse.isCommitted() && !webappRequest.isAsyncStarted()) {
+        if (!webappRequest.isAsyncStarted()) {
             httpResponse.flushBuffer();
         }
     }
