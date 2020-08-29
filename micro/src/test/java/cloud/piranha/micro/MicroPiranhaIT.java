@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class MicroPiranhaIT {
+class MicroPiranhaIT {
     
     /**
      * Test the Piranha Micro command line.
@@ -50,7 +50,7 @@ public class MicroPiranhaIT {
      */
     @Test
     @Disabled
-    public void testCommandLine() throws Exception {
+    void testCommandLine() throws Exception {
         String version = System.getProperty("VERSION");
         ProcessBuilder builder = new ProcessBuilder();
         builder.command("java", "-jar", "target/piranha-micro-" + version + "-all.jar");

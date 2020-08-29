@@ -51,7 +51,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultInitialContextTest {
+class DefaultInitialContextTest {
 
     /**
      * Test addToEnvironment method.
@@ -59,7 +59,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testAddToEnvironment() throws Exception {
+    void testAddToEnvironment() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.addToEnvironment("test", "test");
         assertEquals("test", context.removeFromEnvironment("test"));
@@ -72,7 +72,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testBind() throws Exception {
+    void testBind() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         Name name = new CompositeName("name");
         context.bind(name, "value");
@@ -85,7 +85,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testBind2() throws Exception {
+    void testBind2() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.createSubcontext("context");
         context.bind("context/name1", "value1");
@@ -102,7 +102,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testBind3() throws Exception {
+    void testBind3() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         Name name = new CompositeName("name");
         context.bind(name, "value");
@@ -116,7 +116,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testClose() throws Exception {
+    void testClose() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.close();
     }
@@ -127,7 +127,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testClose2() throws Exception {
+    void testClose2() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("name", "value");
         context.close();
@@ -140,7 +140,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testCreateSubcontext() throws Exception {
+    void testCreateSubcontext() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.createSubcontext(new CompositeName("context"));
         context.bind("context/name1", "value1");
@@ -153,7 +153,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testComposeName() throws Exception {
+    void testComposeName() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         assertNotNull(context.composeName("name", ""));
     }
@@ -164,7 +164,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testComposeName2() throws Exception {
+    void testComposeName2() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         assertThrows(NamingException.class, () -> context.composeName("name", "kaboom"));
     }
@@ -175,7 +175,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testComposeName3() throws Exception {
+    void testComposeName3() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         assertThrows(NamingException.class, () -> context.composeName("name", null));
     }
@@ -186,7 +186,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testComposeName4() throws Exception {
+    void testComposeName4() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         assertNotNull(context.composeName(new CompositeName("name"), new CompositeName("")));
     }
@@ -197,7 +197,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testDestroySubcontext() throws Exception {
+    void testDestroySubcontext() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.createSubcontext(new CompositeName("context"));
         context.destroySubcontext("context");
@@ -209,7 +209,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testDestroySubcontext2() throws Exception {
+    void testDestroySubcontext2() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.createSubcontext(new CompositeName("context"));
         context.bind("context/name", 12);
@@ -222,7 +222,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testDestroySubcontext3() throws Exception {
+    void testDestroySubcontext3() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("name", 12);
         assertThrows(NotContextException.class, () -> context.destroySubcontext("name"));
@@ -234,7 +234,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testDestroySubcontext4() throws Exception {
+    void testDestroySubcontext4() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         assertThrows(NameNotFoundException.class, () -> context.destroySubcontext("name"));
     }
@@ -245,7 +245,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testDestroySubcontext5() throws Exception {
+    void testDestroySubcontext5() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("context1/context2/name", 12);
         context.unbind("context1/context2/name");
@@ -258,7 +258,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testDestroySubcontext6() throws Exception {
+    void testDestroySubcontext6() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("context1/name", 12);
         context.unbind("context1/name");
@@ -271,7 +271,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetEnvironment() throws Exception {
+    void testGetEnvironment() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         assertNotNull(context.getEnvironment());
     }
@@ -282,7 +282,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testGetNameInNamespace() throws Exception {
+    void testGetNameInNamespace() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         assertThrows(OperationNotSupportedException.class, () -> context.getNameInNamespace());
     }
@@ -293,7 +293,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetNameParser() throws Exception {
+    void testGetNameParser() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         assertNotNull(context.getNameParser(new CompositeName()));
     }
@@ -304,7 +304,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetNameParser2() throws Exception {
+    void testGetNameParser2() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         assertNotNull(context.getNameParser(""));
     }
@@ -315,7 +315,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testLookup() throws Exception {
+    void testLookup() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         Name name = new CompositeName("name");
         assertThrows(NameNotFoundException.class, () -> context.lookup(name));
@@ -327,7 +327,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testList() throws Exception {
+    void testList() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         Name name = new CompositeName("name");
         NamingEnumeration<NameClassPair> enumeration = context.list(name);
@@ -340,7 +340,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testListBindings() throws Exception {
+    void testListBindings() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.createSubcontext("name");
         NamingEnumeration<Binding> enumeration = context.listBindings("name");
@@ -353,7 +353,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testListBindings2() throws Exception {
+    void testListBindings2() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         Context subContext = context.createSubcontext("subcontext");
         subContext.bind("name", "value");
@@ -371,7 +371,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testListBindings3() throws Exception {
+    void testListBindings3() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         NamingEnumeration<Binding> enumeration = context.listBindings("name");
         assertNotNull(enumeration);
@@ -385,7 +385,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testListBindings4() throws Exception {
+    void testListBindings4() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         Context subContext = context.createSubcontext("subcontext");
         subContext.bind("name", "value");
@@ -402,7 +402,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testListBindings5() throws Exception {
+    void testListBindings5() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         Context subContext = context.createSubcontext("context1");
         subContext.createSubcontext("context2");
@@ -416,7 +416,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testListBindings6() throws Exception {
+    void testListBindings6() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         Context subContext = context.createSubcontext("context1");
         subContext.bind("context2", "value");
@@ -429,7 +429,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testListBindings7() throws Exception {
+    void testListBindings7() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.createSubcontext("name");
         NamingEnumeration<Binding> enumeration = context.listBindings(new CompositeName("name"));
@@ -442,7 +442,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testListBindings8() throws Exception {
+    void testListBindings8() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("name", new InitialContext());
         NamingEnumeration<Binding> enumeration = context.listBindings(new CompositeName("name"));
@@ -455,7 +455,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testLookup2() throws Exception {
+    void testLookup2() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         assertThrows(NameNotFoundException.class, () -> context.lookup("name"));
     }
@@ -466,7 +466,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testLookup3() throws Exception {
+    void testLookup3() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("subContext/name", true);
         assertNotNull(context.lookup("subContext/name"));
@@ -478,7 +478,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testLookup4() throws Exception {
+    void testLookup4() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("subContext/name", true);
         assertThrows(NameNotFoundException.class, () -> context.lookup("subContext/subContext2/name"));
@@ -490,7 +490,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testLookupLink() throws Exception {
+    void testLookupLink() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("name", "value");
         assertNotNull(context.lookupLink("name"));
@@ -501,7 +501,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testLookupLink2() throws Exception {
+    void testLookupLink2() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("name", "value");
         assertNotNull(context.lookupLink(new CompositeName("name")));
@@ -513,7 +513,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testRebind() throws Exception {
+    void testRebind() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         Name name = new CompositeName("name");
         context.rebind(name, "value");
@@ -526,7 +526,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testRebind2() throws Exception {
+    void testRebind2() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         Name name = new CompositeName("context/name");
         context.rebind(name, "value");
@@ -541,7 +541,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testRename() throws Exception {
+    void testRename() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("name", "value");
         assertThrows(NameAlreadyBoundException.class, () -> context.rename("rename", "name"));
@@ -553,7 +553,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testRename2() throws Exception {
+    void testRename2() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("name", "value");
         context.rename(new CompositeName("name"), new CompositeName("newname"));
@@ -565,7 +565,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testUnbind() throws Exception {
+    void testUnbind() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("name", "value");
         assertNotNull(context.lookup("name"));
@@ -579,7 +579,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testUnbind2() throws Exception {
+    void testUnbind2() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         Name name = new CompositeName("name");
         context.bind(name, "value");
@@ -594,7 +594,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testUnbind3() throws Exception {
+    void testUnbind3() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         assertThrows(NameNotFoundException.class, () -> context.unbind("composite/name"));
     }
@@ -605,7 +605,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testUnbind4() throws Exception {
+    void testUnbind4() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("composite/name", "test");
         context.unbind("composite/name");
@@ -618,7 +618,7 @@ public class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testUnbind5() throws Exception {
+    void testUnbind5() throws Exception {
         DefaultInitialContext context = new DefaultInitialContext();
         context.bind("composite/name", "test");
         assertThrows(NameNotFoundException.class, () -> context.unbind("composite2/name"));

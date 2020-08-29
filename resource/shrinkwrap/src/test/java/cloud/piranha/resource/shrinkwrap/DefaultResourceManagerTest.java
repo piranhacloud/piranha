@@ -45,7 +45,7 @@ import cloud.piranha.resource.api.Resource;
  *
  * @author Arjan Tijms
  */
-public class DefaultResourceManagerTest {
+class DefaultResourceManagerTest {
 
     /**
      * Test getResource method.
@@ -53,7 +53,7 @@ public class DefaultResourceManagerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetResource() throws Exception {
+    void testGetResource() throws Exception {
         
         Resource resource = new ShrinkWrapResource(create(WebArchive.class)
                                .addClass(DefaultResourceManagerTest.class));
@@ -72,7 +72,7 @@ public class DefaultResourceManagerTest {
     }
     
     @Test
-    public void testGetResourceAsStream() throws Exception {
+    void testGetResourceAsStream() throws Exception {
         
         Resource resource = new ShrinkWrapResource(create(WebArchive.class)
                                .addClass(DefaultResourceManagerTest.class));
@@ -91,7 +91,7 @@ public class DefaultResourceManagerTest {
     }
     
     @Test
-    public void testGetResourceFlattenPath() throws Exception {
+    void testGetResourceFlattenPath() throws Exception {
         
         Resource resource = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)
                                .addClass(DefaultResourceManagerTest.class));
@@ -110,7 +110,7 @@ public class DefaultResourceManagerTest {
     }
     
     @Test
-    public void testGetResourceAsStreamFlattenPath() throws Exception {
+    void testGetResourceAsStreamFlattenPath() throws Exception {
         
         Resource resource = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)
                                .addClass(DefaultResourceManagerTest.class));

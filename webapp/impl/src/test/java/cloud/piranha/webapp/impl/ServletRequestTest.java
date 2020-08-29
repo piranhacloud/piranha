@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletRequestTest {
+class ServletRequestTest {
 
     /**
      * Stores the servlet request.
@@ -52,7 +52,7 @@ public class ServletRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         request = new TestWebApplicationRequest();
     }
 
@@ -62,7 +62,7 @@ public class ServletRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetInputStream() throws Exception {
+    void testGetInputStream() throws Exception {
         assertNotNull(request.getInputStream());
     }
 
@@ -72,7 +72,7 @@ public class ServletRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetInputStream2() throws Exception {
+    void testGetInputStream2() throws Exception {
         assertNotNull(request.getInputStream());
         assertThrows(IllegalStateException.class, () -> request.getReader());
     }
@@ -83,7 +83,7 @@ public class ServletRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetReader() throws Exception {
+    void testGetReader() throws Exception {
         assertNotNull(request.getReader());
     }
 
@@ -93,7 +93,7 @@ public class ServletRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetReader2() throws Exception {
+    void testGetReader2() throws Exception {
         assertNotNull(request.getReader());
         assertThrows(IllegalStateException.class, () -> request.getInputStream());
     }

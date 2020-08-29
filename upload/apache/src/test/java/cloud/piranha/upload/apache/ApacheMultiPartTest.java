@@ -41,7 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ApacheMultiPartTest {
+class ApacheMultiPartTest {
 
     /**
      * Test delete method.
@@ -49,7 +49,7 @@ public class ApacheMultiPartTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testDelete() throws Exception {
+    void testDelete() throws Exception {
         File file = new File("delete.me");
         file.createNewFile();
         assertTrue(file.exists());
@@ -66,7 +66,7 @@ public class ApacheMultiPartTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetContentType() throws Exception {
+    void testGetContentType() throws Exception {
         File file = new File("delete.me");
         file.createNewFile();
         assertTrue(file.exists());

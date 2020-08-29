@@ -40,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WelcomeFileTest {
+class WelcomeFileTest {
     
     /**
      * Test an index.html file.
@@ -48,7 +48,7 @@ public class WelcomeFileTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testIndexHtml() throws Exception {
+    void testIndexHtml() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DirectoryResource(new File("src/test/webapp/default")));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
@@ -73,7 +73,7 @@ public class WelcomeFileTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testCustomWelcomeFilel() throws Exception {
+    void testCustomWelcomeFilel() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.getWelcomeFileManager().addWelcomeFile("custom.html");
         webApp.addResource(new DirectoryResource(new File("src/test/webapp/custom")));

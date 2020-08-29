@@ -36,13 +36,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultSecurityPrincipalTest {
+class DefaultSecurityPrincipalTest {
 
     /**
      * Test getName method.
      */
     @Test
-    public void testGetName() {
+    void testGetName() {
         DefaultSecurityPrincipal principal = new DefaultSecurityPrincipal("user");
         assertEquals("user", principal.getName());
     }

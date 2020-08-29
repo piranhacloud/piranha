@@ -39,7 +39,7 @@ import java.util.HashSet;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JasperInitializerTest {
+class JasperInitializerTest {
 
     /**
      * Test onStartup method.
@@ -47,7 +47,7 @@ public class JasperInitializerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testOnStartup() throws Exception {
+    void testOnStartup() throws Exception {
         DefaultWebApplication servletContext = new DefaultWebApplication();
         servletContext.addResource(new DirectoryResource(new File("src/test/webapp/webapp1")));
         JasperInitializer initializer = new JasperInitializer();

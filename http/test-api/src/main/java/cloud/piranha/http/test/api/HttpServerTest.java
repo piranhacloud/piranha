@@ -74,7 +74,7 @@ public abstract class HttpServerTest {
      * Test addHeader method.
      */
     @Test
-    public void testAddHeader() {
+    void testAddHeader() {
         HttpServer server = createServer(8765,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
@@ -120,7 +120,7 @@ public abstract class HttpServerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testFile() throws Exception {
+    void testFile() throws Exception {
         HttpServer server = createServer(8765);
         server.start();
         try {
@@ -143,7 +143,7 @@ public abstract class HttpServerTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testFileNotFound() throws Exception {
+    void testFileNotFound() throws Exception {
         HttpServer server = createServer(8765);
         server.start();
         try {
@@ -162,7 +162,7 @@ public abstract class HttpServerTest {
      * Test getLocalAddress method.
      */
     @Test
-    public void testGetLocalAddress() {
+    void testGetLocalAddress() {
         HttpServer server = createServer(8765,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
@@ -199,7 +199,7 @@ public abstract class HttpServerTest {
      * Test getQueryParameter method.
      */
     @Test
-    public void testGetQueryParameter() {
+    void testGetQueryParameter() {
         HttpServer server = createServer(8765,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
@@ -236,7 +236,7 @@ public abstract class HttpServerTest {
      * Test getQueryParameter method.
      */
     @Test
-    public void testGetQueryParameter2() {
+    void testGetQueryParameter2() {
         HttpServer server = createServer(8765,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
@@ -274,7 +274,7 @@ public abstract class HttpServerTest {
      * Test getQueryString method.
      */
     @Test
-    public void testGetQueryString() {
+    void testGetQueryString() {
         HttpServer server = createServer(8765,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
@@ -313,7 +313,7 @@ public abstract class HttpServerTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testProcessing() throws Exception {
+    void testProcessing() throws Exception {
         HttpServer server = createServer(8765);
         server.start();
         try {
@@ -334,7 +334,7 @@ public abstract class HttpServerTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testProcessing2() throws Exception {
+    void testProcessing2() throws Exception {
         HttpServer server = createServer(8765);
         server.start();
         try {
@@ -355,7 +355,7 @@ public abstract class HttpServerTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testStartAndStop() throws Exception {
+    void testStartAndStop() throws Exception {
         HttpServer server = createServer(8765);
         server.start();
         assertTrue(server.isRunning());

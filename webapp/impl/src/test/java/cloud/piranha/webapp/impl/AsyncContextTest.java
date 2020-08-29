@@ -36,13 +36,13 @@ import java.io.ByteArrayOutputStream;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AsyncContextTest {
+class AsyncContextTest {
     
     /**
      * Test dispatch method.
      */
     @Test
-    public void testDispatch() {
+    void testDispatch() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
@@ -58,7 +58,7 @@ public class AsyncContextTest {
      * Test dispatch method.
      */
     @Test
-    public void testDispatch2() {
+    void testDispatch2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
@@ -74,7 +74,7 @@ public class AsyncContextTest {
      * Test dispatch method.
      */
     @Test
-    public void testDispatch3() {
+    void testDispatch3() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);

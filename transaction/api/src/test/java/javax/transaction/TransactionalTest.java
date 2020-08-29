@@ -36,13 +36,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TransactionalTest {
+class TransactionalTest {
     
     /**
      * Test dontRollbackOn method.
      */
     @Test
-    public void testDontRollbackOn() {
+    void testDontRollbackOn() {
         Transactional transactional = new TestTransactional();
         assertNull(transactional.dontRollbackOn());
     }
@@ -51,7 +51,7 @@ public class TransactionalTest {
      * Test rollbackOn method.
      */
     @Test
-    public void testRollbackOn() {
+    void testRollbackOn() {
         Transactional transactional = new TestTransactional();
         assertNull(transactional.rollbackOn());
     }
@@ -60,7 +60,7 @@ public class TransactionalTest {
      * Test value method.
      */
     @Test
-    public void testValue() {
+    void testValue() {
         Transactional transactional = new TestTransactional();
         assertEquals(TxType.MANDATORY, transactional.value());
     }
@@ -69,7 +69,7 @@ public class TransactionalTest {
      * Test annotationType method.
      */
     @Test
-    public void testAnnotationType() {
+    void testAnnotationType() {
         Transactional transactional = new TestTransactional();
         assertNull(transactional.annotationType());
     }

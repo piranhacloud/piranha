@@ -46,7 +46,7 @@ import java.security.SecureRandom;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultHttpServerTest extends HttpServerTest {
+class DefaultHttpServerTest extends HttpServerTest {
 
     /**
      * Create the server.
@@ -75,7 +75,7 @@ public class DefaultHttpServerTest extends HttpServerTest {
      * Test SO_TIMEOUT.
      */
     @Test
-    public void testSoTimeout() {
+    void testSoTimeout() {
         int portOffset = 0;
         try {
             portOffset = SecureRandom.getInstanceStrong().nextInt(1000);

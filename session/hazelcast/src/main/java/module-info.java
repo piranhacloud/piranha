@@ -38,4 +38,6 @@ module cloud.piranha.session.hazelcast {
     requires com.hazelcast.core;
 
     provides ServletContainerInitializer with HazelcastInitializer;
+    
+    opens cloud.piranha.session.hazelcast;
 }

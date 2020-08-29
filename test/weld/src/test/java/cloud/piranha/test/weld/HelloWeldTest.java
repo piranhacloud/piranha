@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HelloWeldTest {
+class HelloWeldTest {
 
     /**
      * Test /index.html.
@@ -52,7 +52,7 @@ public class HelloWeldTest {
      * @throws Exception
      */
     @Test
-    public void testIndexHtml() throws Exception {
+    void testIndexHtml() throws Exception {
         System.getProperties().put("java.naming.factory.initial", 
                 "cloud.piranha.naming.impl.DefaultInitialContextFactory");
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()

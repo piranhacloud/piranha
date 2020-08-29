@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultMultiPartManagerTest {
+class DefaultMultiPartManagerTest {
 
     /**
      * Test getParts method.
@@ -46,7 +46,7 @@ public class DefaultMultiPartManagerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetParts() throws Exception {
+    void testGetParts() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultMultiPartManager manager = new DefaultMultiPartManager();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest() {
@@ -62,7 +62,7 @@ public class DefaultMultiPartManagerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetPart() throws Exception {
+    void testGetPart() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultMultiPartManager manager = new DefaultMultiPartManager();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest() {

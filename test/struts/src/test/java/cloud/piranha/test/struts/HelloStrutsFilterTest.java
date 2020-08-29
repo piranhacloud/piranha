@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HelloStrutsFilterTest {
+class HelloStrutsFilterTest {
 
     /**
      * Test GET method.
@@ -51,7 +51,7 @@ public class HelloStrutsFilterTest {
      * @throws Exception when a major error occurs.
      */
     @Test
-    public void testGetMethod() throws Exception {
+    void testGetMethod() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .initializer("cloud.piranha.pages.jasper.JasperInitializer")

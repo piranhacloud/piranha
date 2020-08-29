@@ -34,6 +34,7 @@ module cloud.piranha.database.environment {
     requires java.sql;
 
     exports cloud.piranha.database.environment;
+    opens cloud.piranha.database.environment;
 
     provides Driver with EnvironmentDriver;
 }

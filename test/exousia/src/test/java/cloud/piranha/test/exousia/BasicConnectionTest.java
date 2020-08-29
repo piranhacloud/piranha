@@ -52,7 +52,7 @@ import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
  *
  * @author Arjan Tijms (arjan.tijms@gmail.com)
  */
-public class BasicConnectionTest {
+class BasicConnectionTest {
 
     /**
      * Test basic connection permission using a non-secure (http) connection.
@@ -60,7 +60,7 @@ public class BasicConnectionTest {
      * @throws Exception
      */
     @Test
-    public void testNonSecureConnection() throws Exception {
+    void testNonSecureConnection() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .initializer(WebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
@@ -90,7 +90,7 @@ public class BasicConnectionTest {
      * @throws Exception
      */
     @Test
-    public void testSecureConnection() throws Exception {
+    void testSecureConnection() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .initializer(WebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
@@ -116,7 +116,7 @@ public class BasicConnectionTest {
     }
     
     @Test
-    public void testSecureConnectionExactMapping() throws Exception {
+    void testSecureConnectionExactMapping() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .initializer(WebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)

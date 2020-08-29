@@ -36,6 +36,7 @@ module cloud.piranha.appserver.impl {
     requires java.logging;
 
     exports cloud.piranha.appserver.impl;
+    opens cloud.piranha.appserver.impl;
 
     // Tests
     requires static cloud.piranha.http.impl;

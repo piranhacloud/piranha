@@ -41,7 +41,7 @@ import cloud.piranha.resource.api.Resource;
  *
  * @author Arjan Tijms
  */
-public class DefaultWebApplicationClassLoaderTest {
+class DefaultWebApplicationClassLoaderTest {
 
 
     /**
@@ -50,7 +50,7 @@ public class DefaultWebApplicationClassLoaderTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testLoadClass() throws Exception {
+    void testLoadClass() throws Exception {
         IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader("test");
         
         Resource resource = new ShrinkWrapResource("/WEB-INF/classes", create(WebArchive.class)

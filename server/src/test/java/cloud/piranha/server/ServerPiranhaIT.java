@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServerPiranhaIT {
+class ServerPiranhaIT {
 
     /**
      * Extract the zip input stream.
@@ -90,7 +90,7 @@ public class ServerPiranhaIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testRun() throws Exception {
+    void testRun() throws Exception {
         extractServer(new File("target/piranha-server.zip"));
         ProcessBuilder builder = new ProcessBuilder();
         Process process;

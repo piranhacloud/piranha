@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultInitialContextFactoryTest {
+class DefaultInitialContextFactoryTest {
 
     /**
      * Test getInitialContext method.
@@ -43,7 +43,7 @@ public class DefaultInitialContextFactoryTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetInitialContext() throws Exception {
+    void testGetInitialContext() throws Exception {
         DefaultInitialContextFactory factory = new DefaultInitialContextFactory();
         assertNotNull(factory.getInitialContext(null));
     }

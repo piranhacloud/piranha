@@ -36,13 +36,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class InvalidTransactionExceptionTest {
+class InvalidTransactionExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage() {
+    void testGetMessage() {
         InvalidTransactionException exception = new InvalidTransactionException("message");
         assertEquals("message", exception.getMessage());
     }    
@@ -50,7 +50,7 @@ public class InvalidTransactionExceptionTest {
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage2() {
+    void testGetMessage2() {
         InvalidTransactionException exception = new InvalidTransactionException();
         assertNull(exception.getMessage());
     }

@@ -37,13 +37,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PrefixJarResourceTest {
+class PrefixJarResourceTest {
 
     /**
      * Test getResource method.
      */
     @Test
-    public void testGetResource() {
+    void testGetResource() {
         PrefixJarResource resource = new PrefixJarResource();
         assertThrows(NullPointerException.class, () -> assertNull(resource.getResource(null)));
     }
@@ -52,7 +52,7 @@ public class PrefixJarResourceTest {
      * Test getResource method.
      */
     @Test
-    public void testGetResource2() {
+    void testGetResource2() {
         PrefixJarResource resource = new PrefixJarResource();
         assertThrows(NullPointerException.class, () -> resource.getResource("we_wont_find_this"));
     }

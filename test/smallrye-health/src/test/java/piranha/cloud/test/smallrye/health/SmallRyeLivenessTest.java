@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SmallRyeLivenessTest {
+class SmallRyeLivenessTest {
 
     /**
      * Test /health.
@@ -51,7 +51,7 @@ public class SmallRyeLivenessTest {
      * @throws Exception
      */
     @Test
-    public void testHealth() throws Exception {
+    void testHealth() throws Exception {
         System.getProperties().put("java.naming.factory.initial", 
                 "cloud.piranha.naming.impl.DefaultInitialContextFactory");
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()

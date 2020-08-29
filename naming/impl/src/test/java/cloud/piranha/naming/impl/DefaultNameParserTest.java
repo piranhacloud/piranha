@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultNameParserTest {
+class DefaultNameParserTest {
 
     /**
      * Test parse method.
@@ -44,7 +44,7 @@ public class DefaultNameParserTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testParse() throws Exception {
+    void testParse() throws Exception {
         DefaultNameParser parser = new DefaultNameParser();
         Name result = parser.parse("MyName");
         assertNotNull(result);

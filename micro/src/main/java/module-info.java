@@ -38,6 +38,7 @@ module cloud.piranha.micro {
     requires shrinkwrap.resolver.api.maven;
 
     exports cloud.piranha.micro;
+    opens cloud.piranha.micro;
 
     // Tests
     requires static java.net.http;

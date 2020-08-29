@@ -33,4 +33,5 @@ module cloud.piranha.transaction.api {
     requires java.transaction.xa;
 
     exports javax.transaction;
+    opens javax.transaction;
 }

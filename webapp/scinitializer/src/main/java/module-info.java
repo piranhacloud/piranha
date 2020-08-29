@@ -37,4 +37,5 @@ module cloud.piranha.webapp.scinitializer {
     uses ServletContainerInitializer;
 
     exports cloud.piranha.webapp.scinitializer;
+    opens cloud.piranha.webapp.scinitializer;
 }

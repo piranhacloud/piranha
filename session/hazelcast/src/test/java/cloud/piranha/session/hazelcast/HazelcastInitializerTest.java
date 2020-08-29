@@ -5,9 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class HazelcastInitializerTest {
+class HazelcastInitializerTest {
+    
     @Test
-    public void testInitializer() {
+    void testInitializer() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addInitializer(new HazelcastInitializer());
         webApp.initialize();

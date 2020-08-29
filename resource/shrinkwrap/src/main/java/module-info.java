@@ -34,6 +34,7 @@ module cloud.piranha.resource.shrinkwrap {
     requires shrinkwrap.api;
 
     exports cloud.piranha.resource.shrinkwrap;
+    opens cloud.piranha.resource.shrinkwrap;
 
     requires static cloud.piranha.webapp.impl;
 }

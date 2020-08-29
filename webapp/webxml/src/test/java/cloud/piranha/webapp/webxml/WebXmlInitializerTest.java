@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlInitializerTest {
+class WebXmlInitializerTest {
 
     /**
      * Test onStartup method.
@@ -50,7 +50,7 @@ public class WebXmlInitializerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testOnStartup() throws Exception {
+    void testOnStartup() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/init")));
         webApplication.addInitializer(new WebXmlInitializer());
@@ -70,7 +70,7 @@ public class WebXmlInitializerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testOnStartup2() throws Exception {
+    void testOnStartup2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/init2")));
         webApplication.addInitializer(new WebXmlInitializer());
@@ -83,7 +83,7 @@ public class WebXmlInitializerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testOnStartup3() throws Exception {
+    void testOnStartup3() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.setClassLoader(new DefaultWebApplicationClassLoader(new File("src/test/webxml/init3")));
         webApplication.addInitializer(new WebXmlInitializer());

@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpMethodConstraintElementTest {
+class HttpMethodConstraintElementTest {
 
     /**
      * Test getMethodName method.
      */
     @Test
-    public void testGetMethodName() {
+    void testGetMethodName() {
         HttpMethodConstraintElement element = new HttpMethodConstraintElement("methodName");
         assertEquals("methodName", element.getMethodName());
     }
@@ -50,7 +50,7 @@ public class HttpMethodConstraintElementTest {
      * Test getMethodName method.
      */
     @Test
-    public void testGetMethodName2() {
+    void testGetMethodName2() {
         HttpMethodConstraintElement element = new HttpMethodConstraintElement("methodName", new HttpConstraintElement());
         assertEquals("methodName", element.getMethodName());
     }

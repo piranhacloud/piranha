@@ -37,13 +37,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EmbeddedTest {
+class EmbeddedTest {
   
     /**
      * Test of execute method, of class Embedded.
      */
     @Test
-    public void testExecute() {
+    void testExecute() {
         Embedded embedded = new Embedded();
         String result = embedded.execute();
         assertNotNull(result);

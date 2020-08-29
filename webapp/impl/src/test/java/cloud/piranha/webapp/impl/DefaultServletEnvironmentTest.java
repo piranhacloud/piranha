@@ -40,13 +40,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com).
  */
-public class DefaultServletEnvironmentTest {
+class DefaultServletEnvironmentTest {
 
     /**
      * Test getLoadOnStartup method.
      */
     @Test
-    public void testGetLoadOnStartup() {
+    void testGetLoadOnStartup() {
         TestSnoopServlet servlet = new TestSnoopServlet();
         DefaultServletEnvironment environment = new DefaultServletEnvironment(null, null, servlet);
         environment.setLoadOnStartup(1);
@@ -57,7 +57,7 @@ public class DefaultServletEnvironmentTest {
      * Test setAsyncSupported method.
      */
     @Test
-    public void testSetAsyncSupported() {
+    void testSetAsyncSupported() {
         TestSnoopServlet servlet = new TestSnoopServlet();
         DefaultServletEnvironment environment = new DefaultServletEnvironment(null, null, servlet);
         assertFalse(environment.isAsyncSupported());
@@ -69,7 +69,7 @@ public class DefaultServletEnvironmentTest {
      * Test setMultipartConfig method.
      */
     @Test
-    public void testMultipartConfig() {
+    void testMultipartConfig() {
         TestSnoopServlet servlet = new TestSnoopServlet();
         DefaultServletEnvironment environment = new DefaultServletEnvironment(null, null, servlet);
         assertNull(environment.getMultipartConfig());

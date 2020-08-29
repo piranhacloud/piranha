@@ -1,35 +1,41 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.WebApplication;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
 import java.util.HashMap;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -41,14 +47,14 @@ import javax.servlet.ServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The JUnit tests for testing everything related to the FilterRegistration API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class FilterRegistrationTest {
+class FilterRegistrationTest {
 
     /**
      * Stores the web application.
@@ -61,7 +67,7 @@ public class FilterRegistrationTest {
      * @throws Exception when a serious error occurs.
      */
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         webApp = new DefaultWebApplication();
     }
 
@@ -69,7 +75,7 @@ public class FilterRegistrationTest {
      * Test getFilterRegistration method.
      */
     @Test
-    public void testGetFilterRegistration() {
+    void testGetFilterRegistration() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         assertNotNull(webApp.getFilterRegistration("filter"));
     }
@@ -78,7 +84,7 @@ public class FilterRegistrationTest {
      * Test getFilterRegistration method.
      */
     @Test
-    public void testGetFilterRegistration2() {
+    void testGetFilterRegistration2() {
         webApp.addFilter("filter", "doesnotexist");
         assertNotNull(webApp.getFilterRegistration("filter"));
     }
@@ -87,7 +93,7 @@ public class FilterRegistrationTest {
      * Test getFilterRegistrations method.
      */
     @Test
-    public void testGetFilterRegistrations() {
+    void testGetFilterRegistrations() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         assertFalse(webApp.getFilterRegistrations().isEmpty());
     }
@@ -96,7 +102,7 @@ public class FilterRegistrationTest {
      * Test getName method.
      */
     @Test
-    public void testGetName() {
+    void testGetName() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
         assertEquals("filter", registration.getName());
@@ -106,7 +112,7 @@ public class FilterRegistrationTest {
      * Test getClassName method.
      */
     @Test
-    public void testGetClassName() {
+    void testGetClassName() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
         assertEquals(TestFilterRegistrationFilter.class.getCanonicalName(),
@@ -117,7 +123,7 @@ public class FilterRegistrationTest {
      * Test getInitParameters method.
      */
     @Test
-    public void testGetInitParameters() {
+    void testGetInitParameters() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
         assertNotNull(registration.getInitParameters());
@@ -127,7 +133,7 @@ public class FilterRegistrationTest {
      * Test getUrlPatternMappings method.
      */
     @Test
-    public void testGetUrlPatternMappings() {
+    void testGetUrlPatternMappings() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
         assertTrue(registration.getUrlPatternMappings().isEmpty());
@@ -137,7 +143,7 @@ public class FilterRegistrationTest {
      * Test setInitParameters method.
      */
     @Test
-    public void testSetInitParameters() {
+    void testSetInitParameters() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
         registration.setInitParameter("name", "value");
@@ -148,7 +154,7 @@ public class FilterRegistrationTest {
      * Test setInitParameters method.
      */
     @Test
-    public void testSetInitParameters2() {
+    void testSetInitParameters2() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
         HashMap<String, String> parameters = new HashMap<>();
@@ -160,7 +166,7 @@ public class FilterRegistrationTest {
      * Test setInitParameters method.
      */
     @Test
-    public void testSetInitParameters3() {
+    void testSetInitParameters3() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
         HashMap<String, String> parameters = new HashMap<>();
@@ -172,7 +178,7 @@ public class FilterRegistrationTest {
      * Test setInitParameters method.
      */
     @Test
-    public void testSetInitParameters4() {
+    void testSetInitParameters4() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
         HashMap<String, String> parameters = new HashMap<>();
@@ -184,7 +190,7 @@ public class FilterRegistrationTest {
      * Test setInitParameters method.
      */
     @Test
-    public void testSetInitParameters5() {
+    void testSetInitParameters5() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
         HashMap<String, String> parameters = new HashMap<>();
@@ -196,7 +202,7 @@ public class FilterRegistrationTest {
     /**
      * Test filter used in a test which tests adding a filter registration.
      */
-    public class TestFilterRegistrationFilter implements Filter {
+    class TestFilterRegistrationFilter implements Filter {
 
         /**
          * Destroy the filter.
@@ -215,8 +221,7 @@ public class FilterRegistrationTest {
          * @throws ServletException when a servlet error occurs.
          */
         @Override
-        public void doFilter(ServletRequest request, ServletResponse response,
-                FilterChain chain) throws IOException, ServletException {
+        public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         }
 
         /**

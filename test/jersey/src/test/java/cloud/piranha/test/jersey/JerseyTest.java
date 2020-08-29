@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JerseyTest {
+class JerseyTest {
 
     /**
      * Test /rest/hello.
@@ -50,7 +50,7 @@ public class JerseyTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testHello() throws Exception {
+    void testHello() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .extension(WebXmlExtension.class)

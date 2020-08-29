@@ -40,4 +40,5 @@ module cloud.piranha.http.impl {
 
     // Tests
     requires static java.net.http;
+    opens cloud.piranha.http.impl;
 }

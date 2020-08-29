@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HelloOpenWebBeansTest {
+class HelloOpenWebBeansTest {
 
     /**
      * Test /index.html.
@@ -51,7 +51,7 @@ public class HelloOpenWebBeansTest {
      * @throws Exception
      */
     @Test
-    public void testIndexHtml() throws Exception {
+    void testIndexHtml() throws Exception {
         System.getProperties().put("java.naming.factory.initial",
                 "cloud.piranha.naming.impl.DefaultInitialContextFactory");
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()

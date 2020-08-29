@@ -35,6 +35,7 @@ module cloud.piranha.webapp.webxml {
     requires java.xml;
 
     exports cloud.piranha.webapp.webxml;
+    opens cloud.piranha.webapp.webxml;
 
     // Tests
     requires static cloud.piranha.resource;

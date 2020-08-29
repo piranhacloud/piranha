@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class MicroProfileExtensionTest {
+class MicroProfileExtensionTest {
     
     /**
      * Test configure method.
@@ -49,7 +49,7 @@ public class MicroProfileExtensionTest {
     @Test
     @Disabled("Weld can't find the beans.xml from omnifaces-jwt in a modular test environment," +
      " causing the Weld to not create a bean archive and thus failing.")
-    public void testConfigure() {
+    void testConfigure() {
         WebApplication webApplication = new DefaultWebApplication();
         DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
         MicroProfileExtension extension = new MicroProfileExtension();
