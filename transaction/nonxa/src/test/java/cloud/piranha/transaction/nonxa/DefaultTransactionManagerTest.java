@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright notice,
  *      this list of conditions and the following disclaimer in the documentation
  *      and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from this
  *      software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
@@ -26,7 +26,7 @@
  */
 package cloud.piranha.transaction.nonxa;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -37,14 +37,14 @@ import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.xa.XAResource;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the DefaultTransactionManager class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultTransactionManagerTest {
+class DefaultTransactionManagerTest {
 
     /**
      * Test suspend method.
@@ -52,7 +52,7 @@ public class DefaultTransactionManagerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testSuspend() throws Exception {
+    void testSuspend() throws Exception {
         DefaultTransactionManager txManager = new DefaultTransactionManager();
         txManager.begin();
         Transaction tx = txManager.suspend();
@@ -65,20 +65,20 @@ public class DefaultTransactionManagerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testSuspend2() throws Exception {
+    void testSuspend2() throws Exception {
         DefaultTransactionManager txManager = new DefaultTransactionManager();
         txManager.begin();
         Transaction tx = txManager.getTransaction();
         assertThrows(IllegalStateException.class, () -> txManager.resume(tx));
     }
-    
+
     /**
      * Test suspend method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testSuspend3() throws Exception {
+    void testSuspend3() throws Exception {
         DefaultTransactionManager txManager = new DefaultTransactionManager();
         assertThrows(InvalidTransactionException.class, () -> txManager.resume(new Transaction() {
             @Override

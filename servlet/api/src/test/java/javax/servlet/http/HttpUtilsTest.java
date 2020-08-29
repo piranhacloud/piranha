@@ -37,13 +37,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpUtilsTest {
+class HttpUtilsTest {
 
     /**
      * Test constructor.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         HttpUtils utils = new HttpUtils();
         assertNotNull(utils);
     }
@@ -52,7 +52,7 @@ public class HttpUtilsTest {
      * Test getRequestURL method.
      */
     @Test
-    public void testGetRequestURL() {
+    void testGetRequestURL() {
         assertThrows(UnsupportedOperationException.class, () -> HttpUtils.getRequestURL(null));
     }
 
@@ -60,7 +60,7 @@ public class HttpUtilsTest {
      * Test parsePostData method.
      */
     @Test
-    public void testParsePostData() {
+    void testParsePostData() {
         assertThrows(UnsupportedOperationException.class, () -> HttpUtils.parsePostData(0, null));
     }
 
@@ -68,7 +68,7 @@ public class HttpUtilsTest {
      * Test parseQueryString method.
      */
     @Test
-    public void testParseQueryString() {
+    void testParseQueryString() {
         assertThrows(UnsupportedOperationException.class, () -> HttpUtils.parseQueryString(null));
     }
 }

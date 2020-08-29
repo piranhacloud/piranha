@@ -58,10 +58,10 @@ import cloud.piranha.security.soteria.SoteriaInitializer;
 import cloud.piranha.webapp.webxml.WebXmlInitializer;
 
 @BasicAuthenticationMechanismDefinition(realmName = "test")
-public class BasicTest {
+class BasicTest {
 
     @Test
-    public void testAuthenticated() throws Exception {
+    void testAuthenticated() throws Exception {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
 
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()

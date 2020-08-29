@@ -37,13 +37,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletExceptionTest {
+class ServletExceptionTest {
 
     /**
      * Test getRootCause method.
      */
     @Test
-    public void testGetRootCause() {
+    void testGetRootCause() {
         ServletException exception = new ServletException();
         assertNull(exception.getRootCause());
     }
@@ -52,7 +52,7 @@ public class ServletExceptionTest {
      * Test getRootCause method.
      */
     @Test
-    public void testGetRootCause2() {
+    void testGetRootCause2() {
         ServletException exception = new ServletException(new RuntimeException());
         assertNotNull(exception.getRootCause());
         assertTrue(exception.getRootCause() instanceof RuntimeException);

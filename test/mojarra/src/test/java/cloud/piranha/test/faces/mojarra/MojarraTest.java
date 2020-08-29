@@ -45,7 +45,7 @@ import cloud.piranha.faces.mojarra.MojarraInitializer;
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms (arjan.tijms@gmail.com)
  */
-public class MojarraTest {
+class MojarraTest {
 
     /**
      * Test /faces/notfound.html.
@@ -53,7 +53,7 @@ public class MojarraTest {
      * @throws Exception
      */
     @Test
-    public void testNotFound() throws Exception {
+    void testNotFound() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .initializer(MojarraInitializer.class.getName())
@@ -77,7 +77,7 @@ public class MojarraTest {
      * @throws Exception
      */
     @Test
-    public void testIndexHtml() throws Exception {
+    void testIndexHtml() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .initializer(MojarraInitializer.class.getName())

@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationClassLoaderTest {
+class DefaultWebApplicationClassLoaderTest {
 
     /**
      * Test loadClass method.
@@ -45,7 +45,7 @@ public class DefaultWebApplicationClassLoaderTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testLoadClass() throws Exception {
+    void testLoadClass() throws Exception {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
         assertNotNull(classLoader.loadClass("java.lang.String", true));
     }
@@ -56,7 +56,7 @@ public class DefaultWebApplicationClassLoaderTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testLoadClass2() throws Exception {
+    void testLoadClass2() throws Exception {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
         assertThrows(ClassNotFoundException.class, () -> classLoader.loadClass("this.is.a.bogus.className", true));
     }

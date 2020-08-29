@@ -36,13 +36,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultHttpSessionManagerTest {
+class DefaultHttpSessionManagerTest {
 
     /**
      * Test createSession method.
      */
     @Test
-    public void testCreateSession() {
+    void testCreateSession() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertThrows(NullPointerException.class, () -> sessionManager.createSession(webApp, null));
@@ -52,7 +52,7 @@ public class DefaultHttpSessionManagerTest {
      * Test getComment method.
      */
     @Test
-    public void testGetComment() {
+    void testGetComment() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         sessionManager.setComment("COMMENT");
         assertEquals("COMMENT", sessionManager.getComment());
@@ -62,7 +62,7 @@ public class DefaultHttpSessionManagerTest {
      * Test getDomain method.
      */
     @Test
-    public void testGetDomain() {
+    void testGetDomain() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         sessionManager.setDomain("domain");
         assertEquals("domain", sessionManager.getDomain());
@@ -72,7 +72,7 @@ public class DefaultHttpSessionManagerTest {
      * Test getMaxAge method.
      */
     @Test
-    public void testGetMaxAge() {
+    void testGetMaxAge() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         assertEquals(0, sessionManager.getMaxAge());
         sessionManager.setMaxAge(60);
@@ -83,7 +83,7 @@ public class DefaultHttpSessionManagerTest {
      * Test getName method.
      */
     @Test
-    public void testGetName() {
+    void testGetName() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         sessionManager.setName("JSESSIONID");
         assertEquals("JSESSIONID", sessionManager.getName());
@@ -93,7 +93,7 @@ public class DefaultHttpSessionManagerTest {
      * Test getPath method.
      */
     @Test
-    public void testGetPath() {
+    void testGetPath() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         sessionManager.setPath("/");
         assertEquals("/", sessionManager.getPath());
@@ -103,7 +103,7 @@ public class DefaultHttpSessionManagerTest {
      * Test getSession method.
      */
     @Test
-    public void testGetSession() {
+    void testGetSession() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertThrows(NullPointerException.class, () -> sessionManager.getSession(webApp, null, null));
@@ -113,7 +113,7 @@ public class DefaultHttpSessionManagerTest {
      * Test getSession method.
      */
     @Test
-    public void testGetSession2() {
+    void testGetSession2() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         TestWebApplicationRequest request = new TestWebApplicationRequest();
@@ -128,7 +128,7 @@ public class DefaultHttpSessionManagerTest {
      * Test getSessionCookieConfig method.
      */
     @Test
-    public void testGetSessionCookieConfig() {
+    void testGetSessionCookieConfig() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         assertNotNull(sessionManager.getSessionCookieConfig());
     }
@@ -137,7 +137,7 @@ public class DefaultHttpSessionManagerTest {
      * Test getSessionTimeout method.
      */
     @Test
-    public void testGetSessionTimeout() {
+    void testGetSessionTimeout() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         assertEquals(10, sessionManager.getSessionTimeout());
         sessionManager.setSessionTimeout(5);
@@ -148,7 +148,7 @@ public class DefaultHttpSessionManagerTest {
      * Test isHttpOnly method.
      */
     @Test
-    public void testIsHttpOnly() {
+    void testIsHttpOnly() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         assertFalse(sessionManager.isHttpOnly());
         sessionManager.setHttpOnly(true);
@@ -159,7 +159,7 @@ public class DefaultHttpSessionManagerTest {
      * Test isSecure method.
      */
     @Test
-    public void testIsSecure() {
+    void testIsSecure() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         assertFalse(sessionManager.isSecure());
         sessionManager.setSecure(true);
@@ -170,7 +170,7 @@ public class DefaultHttpSessionManagerTest {
      * Test encodeRedirectUrl method.
      */
     @Test
-    public void testEncodeRedirectURL() {
+    void testEncodeRedirectURL() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         assertEquals("test", sessionManager.encodeRedirectURL(null, "test"));
     }
@@ -179,7 +179,7 @@ public class DefaultHttpSessionManagerTest {
      * Test encodeURL method.
      */
     @Test
-    public void testEncodeURL() {
+    void testEncodeURL() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         assertEquals("test", sessionManager.encodeURL(null, "test"));
     }

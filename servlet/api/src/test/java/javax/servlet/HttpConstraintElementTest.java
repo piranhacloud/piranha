@@ -36,13 +36,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpConstraintElementTest {
+class HttpConstraintElementTest {
     
     /**
      * Test constructor.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         HttpConstraintElement element = new HttpConstraintElement(
                 ServletSecurity.TransportGuarantee.NONE, "developer");
         assertEquals(ServletSecurity.EmptyRoleSemantic.PERMIT, element.getEmptyRoleSemantic());

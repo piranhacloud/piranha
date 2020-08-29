@@ -33,4 +33,5 @@ module cloud.piranha.webapp.tempdir {
     requires java.logging;
 
     exports cloud.piranha.webapp.tempdir;
+    opens cloud.piranha.webapp.tempdir;
 }

@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TransactionRollbackExceptionTest {
+class TransactionRollbackExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage() {
+    void testGetMessage() {
         TransactionRolledbackException exception = new TransactionRolledbackException("message");
         assertEquals("message", exception.getMessage());
     }    
@@ -49,7 +49,7 @@ public class TransactionRollbackExceptionTest {
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage2() {
+    void testGetMessage2() {
         TransactionRolledbackException exception = new TransactionRolledbackException();
         assertNull(exception.getMessage());
     }

@@ -30,4 +30,5 @@ module cloud.piranha.naming.impl {
     requires java.naming;
 
     exports cloud.piranha.naming.impl;
+    opens cloud.piranha.naming.impl;
 }

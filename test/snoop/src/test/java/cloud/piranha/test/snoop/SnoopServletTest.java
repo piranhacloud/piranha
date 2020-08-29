@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SnoopServletTest {
+class SnoopServletTest {
 
     /**
      * Test GET method.
@@ -52,7 +52,7 @@ public class SnoopServletTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetMethod() throws Exception {
+    void testGetMethod() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .servletMapping("Snoop", "/Snoop")
                 .servlet("Snoop", SnoopServlet.class.getName())
@@ -76,7 +76,7 @@ public class SnoopServletTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetMethod2() throws Exception {
+    void testGetMethod2() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .servletMapping("Snoop", "/Snoop")
                 .servlet("Snoop", SnoopServlet.class.getName())
@@ -102,7 +102,7 @@ public class SnoopServletTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testPostMethod() throws Exception {
+    void testPostMethod() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .servletMapping("Snoop", "/Snoop")
                 .servlet("Snoop", SnoopServlet.class.getName())

@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class MimeTypeManagerTest {
+class MimeTypeManagerTest {
     
     /**
      * Stores the mime type manager.
@@ -49,7 +49,7 @@ public class MimeTypeManagerTest {
      * Before testing.
      */
     @BeforeEach
-    public void before() {
+    void before() {
         manager = new DefaultMimeTypeManager();
     }
     
@@ -57,7 +57,7 @@ public class MimeTypeManagerTest {
      * Test addMimeType method.
      */
     @Test
-    public void testAddMimeType() {
+    void testAddMimeType() {
         assertNull(manager.getMimeType("my.class"));
         manager.addMimeType("class", "application/x-java-class");
         assertEquals("application/x-java-class", manager.getMimeType("my.class"));
@@ -67,7 +67,7 @@ public class MimeTypeManagerTest {
      * Test getMimeType method.
      */
     @Test
-    public void testGetMimeType() {
+    void testGetMimeType() {
         assertEquals("text/css", manager.getMimeType("TEST.CSS"));
         assertEquals("text/javascript", manager.getMimeType("TEST.JS"));
     }

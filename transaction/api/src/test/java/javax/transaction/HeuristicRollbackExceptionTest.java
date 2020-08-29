@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HeuristicRollbackExceptionTest {
+class HeuristicRollbackExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage() {
+    void testGetMessage() {
         HeuristicRollbackException exception = new HeuristicRollbackException("message");
         assertEquals("message", exception.getMessage());
     }    
@@ -49,7 +49,7 @@ public class HeuristicRollbackExceptionTest {
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage2() {
+    void testGetMessage2() {
         HeuristicRollbackException exception = new HeuristicRollbackException();
         assertNull(exception.getMessage());
     }

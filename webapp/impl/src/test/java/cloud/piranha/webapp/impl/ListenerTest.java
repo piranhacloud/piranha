@@ -42,13 +42,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ListenerTest {
+class ListenerTest {
 
     /**
      * Test addListener method.
      */
     @Test
-    public void testAddListener() {
+    void testAddListener() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener("ClassNotFoundListener");
     }
@@ -57,7 +57,7 @@ public class ListenerTest {
      * Test addListener method.
      */
     @Test
-    public void testAddListener2() {
+    void testAddListener2() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.initialize();
         assertThrows(IllegalStateException.class, () -> webApplication.addListener("ClassNotFoundListener"));
@@ -67,7 +67,7 @@ public class ListenerTest {
      * Test addListener method.
      */
     @Test
-    public void testAddListener3() {
+    void testAddListener3() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(TestHttpSessionListener.class.getName());
     }
@@ -76,7 +76,7 @@ public class ListenerTest {
      * Test addListener method.
      */
     @Test
-    public void testAddListener4() {
+    void testAddListener4() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(TestHttpSessionListener.class);
     }
@@ -85,7 +85,7 @@ public class ListenerTest {
      * Test addListener method.
      */
     @Test
-    public void testAddListener5() {
+    void testAddListener5() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         assertThrows(IllegalArgumentException.class, () -> webApplication.addListener(TestInvalidTypeOfListener.class));
     }
@@ -94,7 +94,7 @@ public class ListenerTest {
      * Test addListener method.
      */
     @Test
-    public void testAddListener6() {
+    void testAddListener6() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(TestBrokenHttpSessionListener.class);
     }
@@ -105,7 +105,7 @@ public class ListenerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testCreateListener() throws Exception {
+    void testCreateListener() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         assertThrows(IllegalArgumentException.class, () -> webApplication.createListener(TestInvalidTypeOfListener.class));
     }
@@ -116,7 +116,7 @@ public class ListenerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testCreateListener2() throws Exception {
+    void testCreateListener2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         assertNotNull(webApplication.createListener(
                 TestHttpSessionListener.class));
@@ -128,7 +128,7 @@ public class ListenerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testCreateListener3() throws Exception {
+    void testCreateListener3() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         assertNotNull(webApplication.createListener(
                 TestServletContextListener.class));
@@ -140,7 +140,7 @@ public class ListenerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testCreateListener4() throws Exception {
+    void testCreateListener4() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         assertNotNull(webApplication.createListener(
                 TestServletRequestListener.class));
@@ -149,60 +149,60 @@ public class ListenerTest {
     /**
      * Test HTTP session listener.
      */
-    public static class TestHttpSessionListener implements HttpSessionListener {
+    static class TestHttpSessionListener implements HttpSessionListener {
 
         /**
          * Constructor.
          */
-        public TestHttpSessionListener() {
+        TestHttpSessionListener() {
         }
     }
 
     /**
      * Test event listener.
      */
-    public static class TestInvalidTypeOfListener implements EventListener {
+    static class TestInvalidTypeOfListener implements EventListener {
 
         /**
          * Constructor.
          */
-        public TestInvalidTypeOfListener() {
+        TestInvalidTypeOfListener() {
         }
     }
 
     /**
      * Test Servlet context listener.
      */
-    public static class TestServletContextListener implements ServletContextListener {
+    static class TestServletContextListener implements ServletContextListener {
 
         /**
          * Constructor.
          */
-        public TestServletContextListener() {
+        TestServletContextListener() {
         }
     }
 
     /**
      * Test Servlet request listener.
      */
-    public static class TestServletRequestListener implements ServletRequestListener {
+    static class TestServletRequestListener implements ServletRequestListener {
 
         /**
          * Constructor.
          */
-        public TestServletRequestListener() {
+        TestServletRequestListener() {
         }
     }
 
     /**
      * Test HTTP session listener.
      */
-    public static class TestBrokenHttpSessionListener implements HttpSessionListener {
+    static class TestBrokenHttpSessionListener implements HttpSessionListener {
 
         /**
          * Constructor.
          */
-        public TestBrokenHttpSessionListener() {
+        TestBrokenHttpSessionListener() {
             throw new UnsupportedOperationException();
         }
     }

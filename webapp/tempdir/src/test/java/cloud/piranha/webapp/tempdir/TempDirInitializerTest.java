@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TempDirInitializerTest {
+class TempDirInitializerTest {
 
     /**
      * Test of onStartup method, of class TempDirInitializer.
@@ -45,7 +45,7 @@ public class TempDirInitializerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testOnStartup() throws Exception {
+    void testOnStartup() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.setContextPath("my_servlet_context_name");
         TempDirInitializer initializer = new TempDirInitializer();

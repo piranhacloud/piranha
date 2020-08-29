@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletRequestAttributeEventTest {
+class ServletRequestAttributeEventTest {
 
     /**
      * Test getName method.
      */
     @Test
-    public void testGetName() {
+    void testGetName() {
         ServletContext servletContext = new TestServletContext();
         ServletRequestAttributeEvent event = new ServletRequestAttributeEvent(servletContext, null, "name", null);
         assertEquals("name", event.getName());
@@ -51,7 +51,7 @@ public class ServletRequestAttributeEventTest {
      * Test getValue method.
      */
     @Test
-    public void testGetValue() {
+    void testGetValue() {
         ServletContext servletContext = new TestServletContext();
         ServletRequestAttributeEvent event = new ServletRequestAttributeEvent(servletContext, null, "name", "value");
         assertEquals("value", event.getValue());

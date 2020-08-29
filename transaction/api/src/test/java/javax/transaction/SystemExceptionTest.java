@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SystemExceptionTest {
+class SystemExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage() {
+    void testGetMessage() {
         SystemException exception = new SystemException("message");
         assertEquals("message", exception.getMessage());
     }  
@@ -50,7 +50,7 @@ public class SystemExceptionTest {
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage2() {
+    void testGetMessage2() {
         SystemException exception = new SystemException();
         assertNull(exception.getMessage());
     }  
@@ -59,7 +59,7 @@ public class SystemExceptionTest {
      * Test getting error code.
      */
     @Test
-    public void testGettingErrorCode() {
+    void testGettingErrorCode() {
         SystemException exception = new SystemException(1);
         assertEquals(1, exception.errorCode);
     }

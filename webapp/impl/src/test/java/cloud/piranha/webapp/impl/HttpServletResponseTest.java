@@ -46,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpServletResponseTest {
+class HttpServletResponseTest {
 
     /**
      * Stores the HTTP servlet request.
@@ -69,7 +69,7 @@ public class HttpServletResponseTest {
      * @throws Exception when a serious error occurs.
      */
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         request = new TestWebApplicationRequest();
         response = new TestWebApplicationResponse();
         webApplication = new DefaultWebApplication();
@@ -83,7 +83,7 @@ public class HttpServletResponseTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testRedirect() throws Exception {
+    void testRedirect() throws Exception {
         webApplication.addServlet("Servlet", TestRedirectAfterFlushServlet.class);
         webApplication.addServletMapping("Servlet", "/servlet");
         request.setServletPath("/servlet");
@@ -98,7 +98,7 @@ public class HttpServletResponseTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testRedirect2() throws Exception {
+    void testRedirect2() throws Exception {
         webApplication.addServlet("Servlet2a", TestRedirect2aServlet.class);
         webApplication.addServlet("Servlet2b", TestRedirect2bServlet.class);
         webApplication.addServletMapping("Servlet2a", "/servlet2a");
@@ -118,7 +118,7 @@ public class HttpServletResponseTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testRedirect3() throws Exception {
+    void testRedirect3() throws Exception {
         webApplication.addServlet("Servlet3", TestRedirect3Servlet.class);
         webApplication.addServletMapping("Servlet3", "/servlet3");
         request.setServletPath("/servlet3");
@@ -136,7 +136,7 @@ public class HttpServletResponseTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testRedirect4() throws Exception {
+    void testRedirect4() throws Exception {
         webApplication.addServlet("Servlet4", TestRedirect4Servlet.class);
         webApplication.addServletMapping("Servlet4", "/servlet4");
         request.setServletPath("/servlet4");
@@ -152,7 +152,7 @@ public class HttpServletResponseTest {
      * Test setDateHeader method.
      */
     @Test
-    public void testSetDateHeader() {
+    void testSetDateHeader() {
         response.setDateHeader("header", 1);
         response.setDateHeader("header", 2);
         assertEquals("2", response.getHeader("header"));
@@ -162,7 +162,7 @@ public class HttpServletResponseTest {
      * Test setDateHeader method.
      */
     @Test
-    public void testSetDateHeader2() {
+    void testSetDateHeader2() {
         response.setDateHeader("header", 1);
         assertEquals("1", response.getHeader("header"));
     }
@@ -171,7 +171,7 @@ public class HttpServletResponseTest {
      * Test setHeader method.
      */
     @Test
-    public void testSetHeader() {
+    void testSetHeader() {
         response.setHeader("header", "value1");
         response.addHeader("header", "value2");
         response.setHeader("header", "value3");
@@ -182,7 +182,7 @@ public class HttpServletResponseTest {
      * Test setHeader method.
      */
     @Test
-    public void testSetHeader2() {
+    void testSetHeader2() {
         response.setHeader("header", "value1");
         response.setHeader("header", "value2");
         assertEquals("value2", response.getHeader("header"));
@@ -192,7 +192,7 @@ public class HttpServletResponseTest {
      * Test setHeader method.
      */
     @Test
-    public void testSetHeader3() {
+    void testSetHeader3() {
         response.setHeader("header", "value1");
         assertEquals("value1", response.getHeader("header"));
     }
@@ -201,7 +201,7 @@ public class HttpServletResponseTest {
      * Test setIntHeader method.
      */
     @Test
-    public void testSetIntHeader() {
+    void testSetIntHeader() {
         response.setIntHeader("header", 1);
         assertEquals("1", response.getHeader("header"));
     }
@@ -210,7 +210,7 @@ public class HttpServletResponseTest {
      * Test setStatus method.
      */
     @Test
-    public void testSetStatus() {
+    void testSetStatus() {
         response.setStatus(500);
         assertEquals(500, response.getStatus());
     }
@@ -219,7 +219,7 @@ public class HttpServletResponseTest {
      * Test setStatus method.
      */
     @Test
-    public void testSetStatus2() {
+    void testSetStatus2() {
         response.setStatus(HttpServletResponse.SC_NOT_FOUND, "Not found");
         assertEquals(404, response.getStatus());
     }
@@ -227,7 +227,7 @@ public class HttpServletResponseTest {
     /**
      * Test servlet that sends a redirect.
      */
-    public static class TestRedirect2aServlet extends HttpServlet {
+    static class TestRedirect2aServlet extends HttpServlet {
 
         /**
          * Handle GET request.
@@ -247,7 +247,7 @@ public class HttpServletResponseTest {
     /**
      * Test servlet that receives the redirect.
      */
-    public static class TestRedirect2bServlet extends HttpServlet {
+    static class TestRedirect2bServlet extends HttpServlet {
 
         /**
          * Handle GET request.
@@ -270,7 +270,7 @@ public class HttpServletResponseTest {
     /**
      * Test servlet that sends a redirect.
      */
-    public static class TestRedirect3Servlet extends HttpServlet {
+    static class TestRedirect3Servlet extends HttpServlet {
 
         /**
          * Handle GET request.
@@ -290,7 +290,7 @@ public class HttpServletResponseTest {
     /**
      * Test servlet that sends a redirect.
      */
-    public static class TestRedirect4Servlet extends HttpServlet {
+    static class TestRedirect4Servlet extends HttpServlet {
 
         /**
          * Handle GET request.
@@ -310,7 +310,7 @@ public class HttpServletResponseTest {
     /**
      * Test servlet that tries to send a redirect after flushing the buffer.
      */
-    public static class TestRedirectAfterFlushServlet extends HttpServlet {
+    static class TestRedirectAfterFlushServlet extends HttpServlet {
 
         /**
          * Handle GET request.

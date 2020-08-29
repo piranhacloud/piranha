@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JPADatabaseTest {
+class JPADatabaseTest {
 
     /**
      * Test database.
@@ -51,7 +51,7 @@ public class JPADatabaseTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testJpaDatabase() throws Exception {
+    void testJpaDatabase() throws Exception {
         System.getProperties().put("java.naming.factory.initial", "cloud.piranha.naming.impl.DefaultInitialContextFactory");
         InitialContext initialContext = new InitialContext();
         JdbcDataSource dataSource;

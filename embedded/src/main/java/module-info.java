@@ -35,4 +35,5 @@ module cloud.piranha.embedded {
     requires cloud.piranha.webapp.api;
 
     exports cloud.piranha.embedded;
+    opens cloud.piranha.embedded;
 }

@@ -36,13 +36,13 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultHttpHeaderManagerTest {
+class DefaultHttpHeaderManagerTest {
 
     /**
      * Test addHeader method.
      */
     @Test
-    public void testAddHeader() {
+    void testAddHeader() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         manager.addHeader("NAME", "VALUE");
         assertEquals("VALUE", manager.getHeader("NAME"));
@@ -52,7 +52,7 @@ public class DefaultHttpHeaderManagerTest {
      * Test addHeader method.
      */
     @Test
-    public void testAddHeader2() {
+    void testAddHeader2() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         manager.addHeader("NAME", "VALUE");
         manager.addHeader("NAME", "VALUE2");
@@ -69,7 +69,7 @@ public class DefaultHttpHeaderManagerTest {
      * Test containsHeader method.
      */
     @Test
-    public void testContainsHeader() {
+    void testContainsHeader() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         manager.addHeader("NAME", "VALUE");
         assertEquals("VALUE", manager.getHeader("NAME"));
@@ -80,7 +80,7 @@ public class DefaultHttpHeaderManagerTest {
      * Test getDateHeader method.
      */
     @Test
-    public void testGetDateHeader() {
+    void testGetDateHeader() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
         manager.addHeader("NAME", format.format(new Date()));
@@ -91,7 +91,7 @@ public class DefaultHttpHeaderManagerTest {
      * Test getDateHeader method.
      */
     @Test
-    public void testGetDateHeader2() {
+    void testGetDateHeader2() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         assertEquals(-1, manager.getDateHeader("NAME"));
     }
@@ -100,7 +100,7 @@ public class DefaultHttpHeaderManagerTest {
      * Test getDateHeader method.
      */
     @Test
-    public void testGetDateHeader3() {
+    void testGetDateHeader3() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         manager.addHeader("NAME", "KABOOM");
         assertThrows(IllegalArgumentException.class, () -> manager.getDateHeader("NAME"));
@@ -110,7 +110,7 @@ public class DefaultHttpHeaderManagerTest {
      * Test getHeader method.
      */
     @Test
-    public void testGetHeader() {
+    void testGetHeader() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         assertNull(manager.getHeader("NAME"));
     }
@@ -119,7 +119,7 @@ public class DefaultHttpHeaderManagerTest {
      * Test getDateHeader method.
      */
     @Test
-    public void testGetHeaderNames() {
+    void testGetHeaderNames() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         manager.addHeader("NAME", "VALUE");
         Enumeration<String> names = manager.getHeaderNames();
@@ -131,7 +131,7 @@ public class DefaultHttpHeaderManagerTest {
      * Test getHeaders method.
      */
     @Test
-    public void testGetHeaders() {
+    void testGetHeaders() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         assertNotNull(manager.getHeaders("NAME"));
         assertFalse(manager.getHeaders("NAME").hasMoreElements());
@@ -141,7 +141,7 @@ public class DefaultHttpHeaderManagerTest {
      * Test getIntHeader method.
      */
     @Test
-    public void testGetIntHeader() {
+    void testGetIntHeader() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         manager.addHeader("NAME", "1");
         assertEquals(1, manager.getIntHeader("NAME"));
@@ -151,7 +151,7 @@ public class DefaultHttpHeaderManagerTest {
      * Test getIntHeader method.
      */
     @Test
-    public void testGetIntHeader2() {
+    void testGetIntHeader2() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         manager.setHeader("NAME", "abcd");
         assertThrows(IllegalArgumentException.class, () -> assertEquals(1, manager.getIntHeader("NAME")));
@@ -161,7 +161,7 @@ public class DefaultHttpHeaderManagerTest {
      * Test getIntHeader method.
      */
     @Test
-    public void testGetIntHeader3() {
+    void testGetIntHeader3() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         assertEquals(-1, manager.getIntHeader("NAME"));
     }

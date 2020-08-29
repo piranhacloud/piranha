@@ -38,13 +38,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JarResourceTest {
+class JarResourceTest {
 
     /**
      * Test getResource method.
      */
     @Test
-    public void testGetResource() {
+    void testGetResource() {
         JarResource resource = new JarResource();
         assertNull(resource.getResource(null));
     }
@@ -53,7 +53,7 @@ public class JarResourceTest {
      * Test getResource method.
      */
     @Test
-    public void testGetResource2() {
+    void testGetResource2() {
         JarResource resource = new JarResource();
         assertThrows(NullPointerException.class, () -> resource.getResource("we_wont_find_this"));
     }
@@ -62,7 +62,7 @@ public class JarResourceTest {
      * Test getResource method.
      */
     @Test
-    public void testGetResource3() {
+    void testGetResource3() {
         JarResource resource = new JarResource();
         resource.setJarFile(new File("this_jar_file_does_not_exist.jar"));
         assertNull(resource.getResource("we_wont_find_this"));

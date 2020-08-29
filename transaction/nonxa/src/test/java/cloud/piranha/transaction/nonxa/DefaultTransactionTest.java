@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright notice,
  *      this list of conditions and the following disclaimer in the documentation
  *      and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from this
  *      software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
@@ -26,6 +26,10 @@
  */
 package cloud.piranha.transaction.nonxa;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import javax.transaction.RollbackException;
 import javax.transaction.Synchronization;
 import javax.transaction.xa.XAException;
@@ -34,14 +38,12 @@ import javax.transaction.xa.Xid;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * The JUnit tests for the DefaultTransaction class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultTransactionTest {
+class DefaultTransactionTest {
 
     /**
      * Test commit method.
@@ -49,7 +51,7 @@ public class DefaultTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testCommit() throws Exception {
+    void testCommit() throws Exception {
         DefaultTransaction transaction = new DefaultTransaction();
         transaction.commit();
         transaction.commit();
@@ -61,7 +63,7 @@ public class DefaultTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testCommit2() throws Exception {
+    void testCommit2() throws Exception {
         DefaultTransaction transaction = new DefaultTransaction();
         transaction.rollback();
         assertThrows(RollbackException.class, transaction::commit);
@@ -74,7 +76,7 @@ public class DefaultTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testDelistResource() throws Exception {
+    void testDelistResource() throws Exception {
         DefaultTransaction transaction = new DefaultTransaction();
         XAResource xaResource = new XAResource() {
             @Override
@@ -130,14 +132,14 @@ public class DefaultTransactionTest {
         transaction.enlistResource(xaResource);
         assertTrue(transaction.delistResource(xaResource, 0));
     }
-    
+
     /**
      * Test enlistResource method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testEnlistResource() throws Exception {
+    void testEnlistResource() throws Exception {
         DefaultTransaction transaction = new DefaultTransaction();
         transaction.setRollbackOnly();
         assertThrows(RollbackException.class, () -> transaction.enlistResource(null));
@@ -149,7 +151,7 @@ public class DefaultTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testEnlistResource2() throws Exception {
+    void testEnlistResource2() throws Exception {
         DefaultTransaction transaction = new DefaultTransaction();
         assertTrue(transaction.enlistResource(new XAResource() {
             @Override
@@ -210,7 +212,7 @@ public class DefaultTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testRegisterSynchronization() throws Exception {
+    void testRegisterSynchronization() throws Exception {
         Synchronization synchronization = new Synchronization() {
 
             @Override
@@ -235,7 +237,7 @@ public class DefaultTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testRegisterSynchronization2() throws Exception {
+    void testRegisterSynchronization2() throws Exception {
         Synchronization synchronization = new Synchronization() {
 
             @Override

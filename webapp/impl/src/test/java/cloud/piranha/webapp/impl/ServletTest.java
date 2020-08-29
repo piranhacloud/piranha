@@ -52,7 +52,7 @@ import cloud.piranha.webapp.api.WebApplication;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletTest {
+class ServletTest {
 
     /**
      * Stores the web application.
@@ -65,7 +65,7 @@ public class ServletTest {
      * @throws Exception when a serious error occurs.
      */
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         webApplication = new DefaultWebApplication();
         webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
     }
@@ -76,7 +76,7 @@ public class ServletTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAddServlet() throws Exception {
+    void testAddServlet() throws Exception {
         webApplication.addServlet("Broken Servlet", new TestBrokenServlet());
         webApplication.addServletMapping("Broken Servlet", "/echo");
         TestWebApplicationResponse response = new TestWebApplicationResponse();
@@ -99,7 +99,7 @@ public class ServletTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAddServlet2() throws Exception {
+    void testAddServlet2() throws Exception {
         try {
             assertNotNull(webApplication.addServlet("Echo", TestServlet.class));
             webApplication.addServletMapping("Echo", "/echo");
@@ -122,7 +122,7 @@ public class ServletTest {
      * Test addServlet method.
      */
     @Test
-    public void testAddServlet3() {
+    void testAddServlet3() {
         ServletRegistration.Dynamic dynamic = webApplication.addServlet("bogus", Servlet.class);
         assertNotNull(dynamic);
     }
@@ -131,7 +131,7 @@ public class ServletTest {
      * Test addServlet method.
      */
     @Test
-    public void testAddServlet4() {
+    void testAddServlet4() {
         ServletRegistration.Dynamic dynamic = webApplication.addServlet("echo", "servlet.EchoServlet");
         assertNotNull(dynamic);
     }
@@ -140,7 +140,7 @@ public class ServletTest {
      * Test addServlet method.
      */
     @Test
-    public void testAddServlet5() {
+    void testAddServlet5() {
         ServletRegistration.Dynamic dynamic = webApplication.addServlet("bogus", "servlet.BogusServlet");
         assertNotNull(dynamic);
     }
@@ -151,7 +151,7 @@ public class ServletTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testService() throws Exception {
+    void testService() throws Exception {
         assertNotNull(webApplication.addServlet("Echo", TestServlet.class));
         webApplication.addServletMapping("Echo", "/echo");
         TestWebApplicationResponse response = new TestWebApplicationResponse();
@@ -168,7 +168,7 @@ public class ServletTest {
     /**
      * Test to verify instantiating a broken servlet fails.
      */
-    public class TestBrokenServlet extends HttpServlet {
+    class TestBrokenServlet extends HttpServlet {
 
         private static final long serialVersionUID = 1L;
 
@@ -188,7 +188,7 @@ public class ServletTest {
     /**
      * Test to verify instantiating a servlet succeeds.
      */
-    public static class TestServlet extends HttpServlet {
+    static class TestServlet extends HttpServlet {
 
         private static final long serialVersionUID = 1L;
 

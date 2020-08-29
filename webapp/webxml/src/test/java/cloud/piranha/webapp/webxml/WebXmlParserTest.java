@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlParserTest {
+class WebXmlParserTest {
     
     /**
      * Test parse method.
@@ -51,7 +51,7 @@ public class WebXmlParserTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testParseWebXml() throws Exception {
+    void testParseWebXml() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/parse")));
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
@@ -76,7 +76,7 @@ public class WebXmlParserTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testParseWebXml2() throws Exception {
+    void testParseWebXml2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/parse2")));
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
@@ -95,7 +95,7 @@ public class WebXmlParserTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testParseWebXml3() throws Exception {
+    void testParseWebXml3() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/parse3")));
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");

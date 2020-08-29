@@ -37,13 +37,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletRequestEventTest {
+class ServletRequestEventTest {
 
     /**
      * Test getServletContext method.
      */
     @Test
-    public void testGetServletContext() {
+    void testGetServletContext() {
         ServletContext servletContext = new TestServletContext();
         ServletRequestEvent event = new ServletRequestEvent(servletContext, null);
         assertNotNull(event.getServletContext());
@@ -53,7 +53,7 @@ public class ServletRequestEventTest {
      * Test getServletRequest method.
      */
     @Test
-    public void testGetServletRequest() {
+    void testGetServletRequest() {
         ServletContext servletContext = new TestServletContext();
         HttpServletRequest servletRequest = new TestHttpServletRequest(null);
         ServletRequestEvent event = new ServletRequestEvent(servletContext, servletRequest);

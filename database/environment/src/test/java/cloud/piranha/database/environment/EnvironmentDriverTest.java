@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EnvironmentDriverTest {
+class EnvironmentDriverTest {
 
     /**
      * Test connect method.
@@ -50,7 +50,7 @@ public class EnvironmentDriverTest {
      */
     @Disabled
     @Test
-    public void testConnect() throws Exception {
+    void testConnect() throws Exception {
 //        System.getenv().put("PIRANHA_ENVIRONMENT.0.URL", "jdbc:h2:mem:test");
         Connection connection = DriverManager.getConnection("jdbc:environment:0");
         assertNotNull(connection);
@@ -62,7 +62,7 @@ public class EnvironmentDriverTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAcceptsURL() throws Exception {
+    void testAcceptsURL() throws Exception {
         assertNotNull(DriverManager.getDriver("jdbc:environment:0"));
     }
 
@@ -73,7 +73,7 @@ public class EnvironmentDriverTest {
      */
     @Disabled
     @Test
-    public void testGetPropertyInfo() throws Exception {
+    void testGetPropertyInfo() throws Exception {
         assertNotNull(DriverManager.getDriver("jdbc:environment:0").
                 getPropertyInfo("jdbc:environment:0", new Properties()));
     }
@@ -84,7 +84,7 @@ public class EnvironmentDriverTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetMajorVersion() throws Exception {
+    void testGetMajorVersion() throws Exception {
         assertEquals(1, DriverManager.getDriver("jdbc:environment:0").getMajorVersion());
     }
 
@@ -94,7 +94,7 @@ public class EnvironmentDriverTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetMinorVersion() throws Exception {
+    void testGetMinorVersion() throws Exception {
         assertEquals(0, DriverManager.getDriver("jdbc:environment:0").getMinorVersion());
     }
 
@@ -104,7 +104,7 @@ public class EnvironmentDriverTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testJdbcCompliant() throws Exception {
+    void testJdbcCompliant() throws Exception {
         assertTrue(DriverManager.getDriver("jdbc:environment:0").jdbcCompliant());
     }
 
@@ -114,7 +114,7 @@ public class EnvironmentDriverTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetParentLogger() throws Exception {
+    void testGetParentLogger() throws Exception {
         assertNotNull(DriverManager.getDriver("jdbc:environment:0").getParentLogger());
     }
 }

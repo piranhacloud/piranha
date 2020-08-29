@@ -38,13 +38,13 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpServletResponseWrapperTest {
+class HttpServletResponseWrapperTest {
 
     /**
      * Test addCookie method.
      */
     @Test
-    public void testAddCookie() {
+    void testAddCookie() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.addCookie(new Cookie("name", "value"));
@@ -56,7 +56,7 @@ public class HttpServletResponseWrapperTest {
      * Test addDateHeader method.
      */
     @Test
-    public void testAddDateHeader() {
+    void testAddDateHeader() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.addDateHeader("date", 0);
@@ -67,7 +67,7 @@ public class HttpServletResponseWrapperTest {
      * Test addHeader method.
      */
     @Test
-    public void testAddHeader() {
+    void testAddHeader() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.addHeader("header", "value");
@@ -78,7 +78,7 @@ public class HttpServletResponseWrapperTest {
      * Test addIntHeader method.
      */
     @Test
-    public void testAddIntHeader() {
+    void testAddIntHeader() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.addIntHeader("int", 1);
@@ -89,7 +89,7 @@ public class HttpServletResponseWrapperTest {
      * Test containsHeader method.
      */
     @Test
-    public void testContainsHeader() {
+    void testContainsHeader() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.addIntHeader("int", 1);
@@ -100,7 +100,7 @@ public class HttpServletResponseWrapperTest {
      * Test encodeRedirectURL method.
      */
     @Test
-    public void testEncodeRedirectURL() {
+    void testEncodeRedirectURL() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         assertEquals("url", wrapper.encodeRedirectURL("url"));
@@ -110,7 +110,7 @@ public class HttpServletResponseWrapperTest {
      * Test encodeRedirectUrl method.
      */
     @Test
-    public void testEncodeRedirectUrl() {
+    void testEncodeRedirectUrl() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         assertThrows(UnsupportedOperationException.class, () -> wrapper.encodeRedirectUrl("url"));
@@ -120,7 +120,7 @@ public class HttpServletResponseWrapperTest {
      * Test encodeURL method.
      */
     @Test
-    public void testEncodeURL() {
+    void testEncodeURL() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         assertEquals("url", wrapper.encodeURL("url"));
@@ -130,7 +130,7 @@ public class HttpServletResponseWrapperTest {
      * Test encodeRedirectUrl method.
      */
     @Test
-    public void testEncodeUrl() {
+    void testEncodeUrl() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         assertThrows(UnsupportedOperationException.class, () -> wrapper.encodeUrl("url"));
@@ -140,7 +140,7 @@ public class HttpServletResponseWrapperTest {
      * Test getHeaders method.
      */
     @Test
-    public void testGetHeaders() {
+    void testGetHeaders() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.addIntHeader("int", 1);
@@ -152,7 +152,7 @@ public class HttpServletResponseWrapperTest {
      * Test getHeaderNames method.
      */
     @Test
-    public void testGetHeaderNames() {
+    void testGetHeaderNames() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.addIntHeader("int", 1);
@@ -164,7 +164,7 @@ public class HttpServletResponseWrapperTest {
      * Test getStatus method.
      */
     @Test
-    public void testGetStatus() {
+    void testGetStatus() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         assertEquals(200, wrapper.getStatus());
@@ -176,7 +176,7 @@ public class HttpServletResponseWrapperTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testSendError() throws Exception {
+    void testSendError() throws Exception {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         TestServletOutputStream outputStream = new TestServletOutputStream();
         wrapped.setOutputStream(outputStream);
@@ -192,7 +192,7 @@ public class HttpServletResponseWrapperTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testSendError2() throws Exception {
+    void testSendError2() throws Exception {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         TestServletOutputStream outputStream = new TestServletOutputStream();
         wrapped.setOutputStream(outputStream);
@@ -208,7 +208,7 @@ public class HttpServletResponseWrapperTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testSendRedirect() throws Exception {
+    void testSendRedirect() throws Exception {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         TestServletOutputStream outputStream = new TestServletOutputStream();
         wrapped.setOutputStream(outputStream);
@@ -222,7 +222,7 @@ public class HttpServletResponseWrapperTest {
      * Test setDateHeader method.
      */
     @Test
-    public void testSetDateHeader() {
+    void testSetDateHeader() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.setDateHeader("date", 0);
@@ -233,7 +233,7 @@ public class HttpServletResponseWrapperTest {
      * Test setHeader method.
      */
     @Test
-    public void testSetHeader() {
+    void testSetHeader() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.setHeader("header", "value");
@@ -244,7 +244,7 @@ public class HttpServletResponseWrapperTest {
      * Test setIntHeader method.
      */
     @Test
-    public void testSetIntHeader() {
+    void testSetIntHeader() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.setIntHeader("date", 0);
@@ -255,7 +255,7 @@ public class HttpServletResponseWrapperTest {
      * Test setStatus method.
      */
     @Test
-    public void testSetStatus() {
+    void testSetStatus() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         wrapper.setStatus(301);
@@ -266,7 +266,7 @@ public class HttpServletResponseWrapperTest {
      * Test setStatus method.
      */
     @Test
-    public void testSetStatus2() {
+    void testSetStatus2() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         assertThrows(UnsupportedOperationException.class, () -> wrapper.setStatus(301, "Moved"));

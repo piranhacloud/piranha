@@ -35,5 +35,6 @@ module cloud.piranha.nano {
     requires cloud.piranha.webapp.impl;
 
     exports cloud.piranha.nano;
+    opens cloud.piranha.nano;
 }
 

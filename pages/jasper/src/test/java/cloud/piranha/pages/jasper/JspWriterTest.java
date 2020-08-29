@@ -46,7 +46,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JspWriterTest {
+class JspWriterTest {
 
     /**
      * Test clearBuffer method.
@@ -54,7 +54,7 @@ public class JspWriterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testClearBuffer() throws Exception {
+    void testClearBuffer() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/test/webapp/jspwriter")
                 .initializer(JasperInitializer.class.getName())
@@ -76,7 +76,7 @@ public class JspWriterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testClose() throws Exception {
+    void testClose() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/test/webapp/jspwriter")
                 .initializer(JasperInitializer.class.getName())
@@ -99,7 +99,7 @@ public class JspWriterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testClose2() throws Exception {
+    void testClose2() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/test/webapp/jspwriter")
                 .initializer(JasperInitializer.class.getName())
@@ -122,7 +122,7 @@ public class JspWriterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testClose3() throws Exception {
+    void testClose3() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/test/webapp/jspwriter")
                 .initializer(JasperInitializer.class.getName())
@@ -141,7 +141,7 @@ public class JspWriterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testClose4() throws Exception {
+    void testClose4() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/test/webapp/jspwriter")
                 .initializer(JasperInitializer.class.getName())

@@ -38,13 +38,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class CookieTest {
+class CookieTest {
 
     /**
      * Test clone method.
      */
     @Test
-    public void testClone() {
+    void testClone() {
         Cookie cookie = new Cookie("name", "value");
         Cookie clone = (Cookie) cookie.clone();
         assertEquals(cookie.getName(), clone.getName());
@@ -55,7 +55,7 @@ public class CookieTest {
      * Test getComment method.
      */
     @Test
-    public void testGetComment() {
+    void testGetComment() {
         Cookie cookie = new Cookie("name", "value");
         assertNull(cookie.getComment());
         cookie.setComment("comment");
@@ -66,7 +66,7 @@ public class CookieTest {
      * Test getDomain method.
      */
     @Test
-    public void testGetDomain() {
+    void testGetDomain() {
         Cookie cookie = new Cookie("name", "value");
         assertNull(cookie.getDomain());
         cookie.setDomain("domain");
@@ -77,7 +77,7 @@ public class CookieTest {
      * Test getMaxAge method.
      */
     @Test
-    public void testGetMaxAge() {
+    void testGetMaxAge() {
         Cookie cookie = new Cookie("name", "value");
         assertEquals(0, cookie.getMaxAge());
         cookie.setMaxAge(10);
@@ -88,7 +88,7 @@ public class CookieTest {
      * Test getPath method.
      */
     @Test
-    public void testGetPath() {
+    void testGetPath() {
         Cookie cookie = new Cookie("name", "value");
         assertNull(cookie.getPath());
         cookie.setPath("path");
@@ -99,7 +99,7 @@ public class CookieTest {
      * Test getSecure method.
      */
     @Test
-    public void testGetSecure() {
+    void testGetSecure() {
         Cookie cookie = new Cookie("name", "value");
         assertFalse(cookie.getSecure());
         cookie.setSecure(true);
@@ -110,7 +110,7 @@ public class CookieTest {
      * Test getVersion method.
      */
     @Test
-    public void testGetVersion() {
+    void testGetVersion() {
         Cookie cookie = new Cookie("name", "value");
         assertEquals(0, cookie.getVersion());
         cookie.setVersion(10);
@@ -121,7 +121,7 @@ public class CookieTest {
      * Test isHttpOnly method.
      */
     @Test
-    public void testIsHttpOnly() {
+    void testIsHttpOnly() {
         Cookie cookie = new Cookie("name", "value");
         assertFalse(cookie.isHttpOnly());
         cookie.setHttpOnly(true);
@@ -132,7 +132,7 @@ public class CookieTest {
      * Test setValue method.
      */
     @Test
-    public void testSetValue() {
+    void testSetValue() {
         Cookie cookie = new Cookie("name", "value");
         assertEquals("value", cookie.getValue());
         cookie.setValue("newvalue");

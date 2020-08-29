@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationRequestMapperTest {
+class DefaultWebApplicationRequestMapperTest {
 
     /**
      * Test findExactServletMatch method.
@@ -50,7 +50,7 @@ public class DefaultWebApplicationRequestMapperTest {
      * @throws Exception
      */
     @Test
-    public void testFindExactServletMatch() throws Exception {
+    void testFindExactServletMatch() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -72,7 +72,7 @@ public class DefaultWebApplicationRequestMapperTest {
      * @throws Exception
      */
     @Test
-    public void testFindExtensionServletMatch() throws Exception {
+    void testFindExtensionServletMatch() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -94,7 +94,7 @@ public class DefaultWebApplicationRequestMapperTest {
      * @throws Exception
      */
     @Test
-    public void testFindExtensionServletMatch2() throws Exception {
+    void testFindExtensionServletMatch2() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -119,7 +119,7 @@ public class DefaultWebApplicationRequestMapperTest {
      * @throws Exception
      */
     @Test
-    public void testFindPrefixServletMatch() throws Exception {
+    void testFindPrefixServletMatch() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -141,7 +141,7 @@ public class DefaultWebApplicationRequestMapperTest {
      * @throws Exception
      */
     @Test
-    public void testFindPrefixServletMatch2() throws Exception {
+    void testFindPrefixServletMatch2() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -161,7 +161,7 @@ public class DefaultWebApplicationRequestMapperTest {
      * Test addFilterMapping method.
      */
     @Test
-    public void testAddFilterMapping() {
+    void testAddFilterMapping() {
         DefaultWebApplicationRequestMapper requestMapper = new DefaultWebApplicationRequestMapper();
         Set<String> result = requestMapper.addFilterMapping("filter", "/*");
         assertTrue(result.isEmpty());
@@ -173,7 +173,7 @@ public class DefaultWebApplicationRequestMapperTest {
      * Test addFilterMapping method.
      */
     @Test
-    public void testAddFilterMapping2() {
+    void testAddFilterMapping2() {
         DefaultWebApplicationRequestMapper requestMapper = new DefaultWebApplicationRequestMapper();
         Set<String> result = requestMapper.addFilterMapping("filter", "/exactly_this");
         assertTrue(result.isEmpty());
@@ -185,7 +185,7 @@ public class DefaultWebApplicationRequestMapperTest {
      * Test addFilterMapping method.
      */
     @Test
-    public void testAddFilterMapping3() {
+    void testAddFilterMapping3() {
         DefaultWebApplicationRequestMapper requestMapper = new DefaultWebApplicationRequestMapper();
         Set<String> result = requestMapper.addFilterMapping("filter", "*.html");
         assertTrue(result.isEmpty());
@@ -197,7 +197,7 @@ public class DefaultWebApplicationRequestMapperTest {
      * Test addFilterMapping method.
      */
     @Test
-    public void testAddFilterMapping4() {
+    void testAddFilterMapping4() {
         DefaultWebApplicationRequestMapper requestMapper = new DefaultWebApplicationRequestMapper();
         Set<String> result = requestMapper.addFilterMapping("filter", "*.html");
         assertTrue(result.isEmpty());
@@ -211,7 +211,7 @@ public class DefaultWebApplicationRequestMapperTest {
      * Test addFilterMapping method.
      */
     @Test
-    public void testAddFilterMapping5() {
+    void testAddFilterMapping5() {
         DefaultWebApplicationRequestMapper requestMapper = new DefaultWebApplicationRequestMapper();
         Set<String> result = requestMapper.addFilterMapping("filter", "*.html");
         assertTrue(result.isEmpty());
@@ -225,7 +225,7 @@ public class DefaultWebApplicationRequestMapperTest {
      * Test addServletMapping method.
      */
     @Test
-    public void testAddServletMapping() {
+    void testAddServletMapping() {
         DefaultWebApplicationRequestMapper requestMapper = new DefaultWebApplicationRequestMapper();
         Set<String> result = requestMapper.addServletMapping("servlet", "*.html");
         assertTrue(result.isEmpty());
