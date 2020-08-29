@@ -24,25 +24,28 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.transaction;
+package javax.transaction.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+
+import javax.transaction.RollbackException;
+
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the TransactionRequiredException class.
+ * The JUnit tests for the RollbackException class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class TransactionRequiredExceptionTest {
+class RollbackExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
     void testGetMessage() {
-        TransactionRequiredException exception = new TransactionRequiredException("message");
+        RollbackException exception = new RollbackException("message");
         assertEquals("message", exception.getMessage());
     }    
     /**
@@ -50,7 +53,7 @@ class TransactionRequiredExceptionTest {
      */
     @Test
     void testGetMessage2() {
-        TransactionRequiredException exception = new TransactionRequiredException();
+        RollbackException exception = new RollbackException();
         assertNull(exception.getMessage());
     }
 }
