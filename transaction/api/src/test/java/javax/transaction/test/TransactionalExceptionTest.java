@@ -24,42 +24,36 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.transaction.nonxa;
+package javax.transaction.test;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import javax.transaction.TransactionalException;
+
+import org.junit.jupiter.api.Test;
 
 /**
- * A simple JPA test table.
+ * The JUnit tests for the TransactionalException class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Entity
-@Table(name = "jpa_test")
-public class JPATest {
-
-    /**
-     * Stores the id.
-     */
-    @Id
-    private int id;
+class TransactionalExceptionTest {
     
     /**
-     * Get the id.
-     * 
-     * @return the id.
+     * Test getMessage method.
      */
-    public int getId() {
-        return id;
-    }
-    
+    @Test
+    void testGetMessage() {
+        TransactionalException exception = new TransactionalException("message", new Throwable());
+        assertEquals("message", exception.getMessage());
+    }    
     /**
-     * Set the id.
-     * 
-     * @param id the id.
+     * Test getMessage method.
      */
-    public void setId(int id) {
-        this.id = id;
+    @Test
+    void testGetMessage2() {
+        TransactionalException exception = new TransactionalException("message", new Throwable());
+        assertNotNull(exception.getCause());
     }
 }
