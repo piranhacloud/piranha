@@ -24,33 +24,31 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.transaction;
+package cloud.piranha.transaction.nonxa.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import org.junit.jupiter.api.Test;
+import javax.naming.InitialContext;
+import javax.transaction.TransactionManager;
+import org.eclipse.persistence.config.SessionCustomizer;
+import org.eclipse.persistence.sessions.Session;
+import org.eclipse.persistence.transaction.JTATransactionController;
 
 /**
- * The JUnit tests for the NotSupportedException class.
+ * A session customizer that sets the external transaction controller to use JTA.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class NotSupportedExceptionTest {
-    
+public class EclipseLinkSessionCustomizer implements SessionCustomizer {
+
     /**
-     * Test getMessage method.
+     * Customize the session.
+     * 
+     * @param session the session.
+     * @throws Exception when a serious error occurs.
      */
-    @Test
-    void testGetMessage() {
-        NotSupportedException exception = new NotSupportedException("message");
-        assertEquals("message", exception.getMessage());
-    }    
-    /**
-     * Test getMessage method.
-     */
-    @Test
-    void testGetMessage2() {
-        NotSupportedException exception = new NotSupportedException();
-        assertNull(exception.getMessage());
+    @Override
+    public void customize(Session session) throws Exception {
+        InitialContext initialContext = new InitialContext();
+        TransactionManager transactionManager = (TransactionManager) initialContext.lookup("java:/TransactionManager");
+        session.setExternalTransactionController(new JTATransactionController(transactionManager));
     }
 }

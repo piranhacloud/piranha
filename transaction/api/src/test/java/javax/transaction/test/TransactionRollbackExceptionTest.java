@@ -24,25 +24,28 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.transaction;
+package javax.transaction.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import javax.transaction.TransactionRolledbackException;
+
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the TransactionalException class.
+ * The JUnit tests for the TransactionRolledbackException class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class TransactionalExceptionTest {
+class TransactionRollbackExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
     void testGetMessage() {
-        TransactionalException exception = new TransactionalException("message", new Throwable());
+        TransactionRolledbackException exception = new TransactionRolledbackException("message");
         assertEquals("message", exception.getMessage());
     }    
     /**
@@ -50,7 +53,7 @@ class TransactionalExceptionTest {
      */
     @Test
     void testGetMessage2() {
-        TransactionalException exception = new TransactionalException("message", new Throwable());
-        assertNotNull(exception.getCause());
+        TransactionRolledbackException exception = new TransactionRolledbackException();
+        assertNull(exception.getMessage());
     }
 }

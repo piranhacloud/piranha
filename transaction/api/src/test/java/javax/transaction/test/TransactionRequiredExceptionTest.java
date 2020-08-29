@@ -24,53 +24,36 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.transaction;
+package javax.transaction.test;
 
-import javax.transaction.Transactional.TxType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+
+import javax.transaction.TransactionRequiredException;
+
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the Transaction class.
+ * The JUnit tests for the TransactionRequiredException class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class TransactionalTest {
+class TransactionRequiredExceptionTest {
     
     /**
-     * Test dontRollbackOn method.
+     * Test getMessage method.
      */
     @Test
-    void testDontRollbackOn() {
-        Transactional transactional = new TestTransactional();
-        assertNull(transactional.dontRollbackOn());
-    }
-
+    void testGetMessage() {
+        TransactionRequiredException exception = new TransactionRequiredException("message");
+        assertEquals("message", exception.getMessage());
+    }    
     /**
-     * Test rollbackOn method.
+     * Test getMessage method.
      */
     @Test
-    void testRollbackOn() {
-        Transactional transactional = new TestTransactional();
-        assertNull(transactional.rollbackOn());
-    }
-
-    /**
-     * Test value method.
-     */
-    @Test
-    void testValue() {
-        Transactional transactional = new TestTransactional();
-        assertEquals(TxType.MANDATORY, transactional.value());
-    }
-    
-    /**
-     * Test annotationType method.
-     */
-    @Test
-    void testAnnotationType() {
-        Transactional transactional = new TestTransactional();
-        assertNull(transactional.annotationType());
+    void testGetMessage2() {
+        TransactionRequiredException exception = new TransactionRequiredException();
+        assertNull(exception.getMessage());
     }
 }

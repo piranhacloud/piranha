@@ -24,7 +24,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.transaction.nonxa;
+package cloud.piranha.transaction.nonxa.test;
 
 import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
@@ -35,6 +35,8 @@ import org.h2.jdbcx.JdbcDataSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
+
+import cloud.piranha.transaction.nonxa.DefaultTransactionManager;
 
 /**
  * s

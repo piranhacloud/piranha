@@ -24,54 +24,36 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.transaction;
+package javax.transaction.test;
 
-import java.lang.annotation.Annotation;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import javax.transaction.InvalidTransactionException;
 
 /**
- * A test Transactional.
+ * The JUnit tests for the InvalidTransactionException class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestTransactional implements Transactional {
-
+class InvalidTransactionExceptionTest {
+    
     /**
-     * Don't rollback on.
-     * 
-     * @return null.
+     * Test getMessage method.
      */
-    @Override
-    public Class[] dontRollbackOn() {
-        return null;
-    }
-
+    @Test
+    void testGetMessage() {
+        InvalidTransactionException exception = new InvalidTransactionException("message");
+        assertEquals("message", exception.getMessage());
+    }    
     /**
-     * Roll back on.
-     * 
-     * @return null.
+     * Test getMessage method.
      */
-    @Override
-    public Class[] rollbackOn() {
-        return null;
-    }
-
-    /**
-     * Value.
-     * 
-     * @return TxType.MANDATORY.
-     */
-    @Override
-    public TxType value() {
-        return TxType.MANDATORY;
-    }
-
-    /**
-     * Annotation type.
-     * 
-     * @return the annotation type.
-     */
-    @Override
-    public Class<? extends Annotation> annotationType() {
-        return null;
+    @Test
+    void testGetMessage2() {
+        InvalidTransactionException exception = new InvalidTransactionException();
+        assertNull(exception.getMessage());
     }
 }

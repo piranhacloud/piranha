@@ -24,24 +24,28 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.transaction;
+package javax.transaction.test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import javax.transaction.HeuristicRollbackException;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * The JUnit tests for the HeuristicMixedException class.
+ * The JUnit tests for the HeuristicRollbackException class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HeuristicMixedExceptionTest {
+class HeuristicRollbackExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
     void testGetMessage() {
-        HeuristicMixedException exception = new HeuristicMixedException("message");
+        HeuristicRollbackException exception = new HeuristicRollbackException("message");
         assertEquals("message", exception.getMessage());
     }    
     /**
@@ -49,7 +53,7 @@ class HeuristicMixedExceptionTest {
      */
     @Test
     void testGetMessage2() {
-        HeuristicMixedException exception = new HeuristicMixedException();
+        HeuristicRollbackException exception = new HeuristicRollbackException();
         assertNull(exception.getMessage());
     }
 }

@@ -24,7 +24,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.transaction.nonxa;
+package cloud.piranha.transaction.nonxa.test;
 
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -33,6 +33,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
+
+import cloud.piranha.transaction.nonxa.DefaultTransactionManager;
+import cloud.piranha.transaction.nonxa.DefaultUserTransaction;
 
 /**
  * The JUnit tests for the DefaultUserTransaction class.

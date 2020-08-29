@@ -24,43 +24,34 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.transaction;
+package javax.transaction.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import javax.transaction.HeuristicMixedException;
 
 /**
- * The JUnit tests for the SystemException class.
+ * The JUnit tests for the HeuristicMixedException class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class SystemExceptionTest {
+class HeuristicMixedExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
     void testGetMessage() {
-        SystemException exception = new SystemException("message");
+        HeuristicMixedException exception = new HeuristicMixedException("message");
         assertEquals("message", exception.getMessage());
-    }  
-    
+    }    
     /**
      * Test getMessage method.
      */
     @Test
     void testGetMessage2() {
-        SystemException exception = new SystemException();
+        HeuristicMixedException exception = new HeuristicMixedException();
         assertNull(exception.getMessage());
-    }  
-    
-    /**
-     * Test getting error code.
-     */
-    @Test
-    void testGettingErrorCode() {
-        SystemException exception = new SystemException(1);
-        assertEquals(1, exception.errorCode);
     }
 }

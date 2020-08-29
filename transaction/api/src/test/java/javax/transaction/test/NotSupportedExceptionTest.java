@@ -24,25 +24,28 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package javax.transaction;
+package javax.transaction.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+
+import javax.transaction.NotSupportedException;
+
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the HeuristicRollbackException class.
+ * The JUnit tests for the NotSupportedException class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HeuristicRollbackExceptionTest {
+class NotSupportedExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
     void testGetMessage() {
-        HeuristicRollbackException exception = new HeuristicRollbackException("message");
+        NotSupportedException exception = new NotSupportedException("message");
         assertEquals("message", exception.getMessage());
     }    
     /**
@@ -50,7 +53,7 @@ class HeuristicRollbackExceptionTest {
      */
     @Test
     void testGetMessage2() {
-        HeuristicRollbackException exception = new HeuristicRollbackException();
+        NotSupportedException exception = new NotSupportedException();
         assertNull(exception.getMessage());
     }
 }
