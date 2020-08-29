@@ -34,4 +34,5 @@ module cloud.piranha.database.property {
     requires java.sql;
 
     provides Driver with PropertyDriver;
+    opens cloud.piranha.database.property;
 }

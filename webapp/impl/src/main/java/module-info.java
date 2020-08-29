@@ -37,6 +37,7 @@ module cloud.piranha.webapp.impl {
     requires java.logging;
 
     exports cloud.piranha.webapp.impl;
+    opens cloud.piranha.webapp.impl;
 
     // Tests
     requires static jdk.security.auth;

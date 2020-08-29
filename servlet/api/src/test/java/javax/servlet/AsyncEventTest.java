@@ -37,13 +37,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AsyncEventTest {
+class AsyncEventTest {
 
     /**
      * Test getAsyncContext method.
      */
     @Test
-    public void testGetAsyncContext() {
+    void testGetAsyncContext() {
         AsyncEvent event = new AsyncEvent(new TestAsyncContext(null, null));
         assertNotNull(event.getAsyncContext());
     }
@@ -52,7 +52,7 @@ public class AsyncEventTest {
      * Test getSuppliedRequest method.
      */
     @Test
-    public void testGetSuppliedRequest() {
+    void testGetSuppliedRequest() {
         AsyncEvent event = new AsyncEvent(new TestAsyncContext(null, null), new HttpServletRequestWrapper(null), null);
         assertNotNull(event.getSuppliedRequest());
     }
@@ -61,7 +61,7 @@ public class AsyncEventTest {
      * Test getSuppliedRequest method.
      */
     @Test
-    public void testGetSuppliedResponse() {
+    void testGetSuppliedResponse() {
         AsyncEvent event = new AsyncEvent(new TestAsyncContext(null, null), null, new HttpServletResponseWrapper(null));
         assertNotNull(event.getSuppliedResponse());
     }
@@ -70,7 +70,7 @@ public class AsyncEventTest {
      * Test getThrowable method.
      */
     @Test
-    public void testGetThrowable() {
+    void testGetThrowable() {
         AsyncEvent event = new AsyncEvent(new TestAsyncContext(null, null), new RuntimeException());
         assertNotNull(event.getThrowable());
     }

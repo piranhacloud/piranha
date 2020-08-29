@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationClassLoaderIT {
+class DefaultWebApplicationClassLoaderIT {
 
 
     /**
@@ -48,7 +48,7 @@ public class DefaultWebApplicationClassLoaderIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testLoadClass() throws Exception {
+    void testLoadClass() throws Exception {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         resourceManager.addResource(new DirectoryResource(new File("target/classloader/WEB-INF/classes")));
@@ -62,7 +62,7 @@ public class DefaultWebApplicationClassLoaderIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testLoadClass2() throws Exception {
+    void testLoadClass2() throws Exception {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         resourceManager.addResource(new DirectoryResource(new File("target/classloader/WEB-INF/classes")));

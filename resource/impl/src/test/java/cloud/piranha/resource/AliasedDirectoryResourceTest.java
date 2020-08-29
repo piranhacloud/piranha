@@ -36,13 +36,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AliasedDirectoryResourceTest {
+class AliasedDirectoryResourceTest {
 
     /**
      * Test getResource.
      */
     @Test
-    public void testGetResource() {
+    void testGetResource() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource(null, "/alias");
         assertNull(resource.getResource("resource"));
     }
@@ -51,7 +51,7 @@ public class AliasedDirectoryResourceTest {
      * Test getResource.
      */
     @Test
-    public void testGetResource2() {
+    void testGetResource2() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource();
         resource.setRootDirectory(new File("src/main/java"));
         resource.setAlias("/alias");
@@ -62,7 +62,7 @@ public class AliasedDirectoryResourceTest {
      * Test getResource method.
      */
     @Test
-    public void testGetResource3() {
+    void testGetResource3() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource(new File("src/test/java/org"), "/org");
         assertNull(resource.getResource("/cloud/piranha/resource/AliasedDirectoryResourceTest2.java"));
     }
@@ -71,7 +71,7 @@ public class AliasedDirectoryResourceTest {
      * Test getResourceAsStream method.
      */
     @Test
-    public void testGetResourceAsStream() {
+    void testGetResourceAsStream() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource(null, "/alias");
         assertNull(resource.getResourceAsStream("/resource"));
     }
@@ -80,7 +80,7 @@ public class AliasedDirectoryResourceTest {
      * Test getResourceAsStream method.
      */
     @Test
-    public void testGetResourceAsStream2() {
+    void testGetResourceAsStream2() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource(new File("src/main/java"), "/alias");
         assertNotNull(resource.getResourceAsStream("/alias/cloud/piranha/resource/DirectoryResource.java"));
     }
@@ -89,7 +89,7 @@ public class AliasedDirectoryResourceTest {
      * Test getResourceAsStream method.
      */
     @Test
-    public void testGetResourceAsStream3() {
+    void testGetResourceAsStream3() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource(new File("src/main/java"), "/alias");
         assertNull(resource.getResourceAsStream("/alias/cloud/piranha/DirectoryResource.class"));
     }
@@ -98,7 +98,7 @@ public class AliasedDirectoryResourceTest {
      * Test getAlias method.
      */
     @Test
-    public void testGetAlias() {
+    void testGetAlias() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource(null, "/alias");
         assertEquals("/alias", resource.getAlias());
     }
@@ -107,7 +107,7 @@ public class AliasedDirectoryResourceTest {
      * Test getRootDirectory method.
      */
     @Test
-    public void testGetRootDirectory() {
+    void testGetRootDirectory() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource();
         resource.setRootDirectory(new File("src/main/java"));
         resource.setAlias("/alias");

@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class MicroPiranhaTest {
+class MicroPiranhaTest {
 
     /**
      * Test start method.
@@ -50,7 +50,7 @@ public class MicroPiranhaTest {
      */
     @Test
     @Disabled
-    public void testStart() throws Exception {
+    void testStart() throws Exception {
         System.setProperty("java.naming.factory.initial", "cloud.piranha.naming.impl.DefaultInitialContextFactory");
         final MicroPiranha piranha = new MicroPiranha();
         piranha.configure(new String[]{});
@@ -76,7 +76,7 @@ public class MicroPiranhaTest {
      */
     @Test
     @Disabled
-    public void testChangingPort() throws Exception {
+    void testChangingPort() throws Exception {
         System.setProperty("java.naming.factory.initial", "cloud.piranha.naming.impl.DefaultInitialContextFactory");
         final MicroPiranha piranha = new MicroPiranha();
         piranha.configure(new String[]{"--port", "8088"});

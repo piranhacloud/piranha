@@ -1,34 +1,38 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.resource.DefaultResourceManager;
-import cloud.piranha.resource.DirectoryResource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.Date;
@@ -49,14 +53,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import cloud.piranha.resource.DefaultResourceManager;
+import cloud.piranha.resource.DirectoryResource;
 
 /**
  * The JUnit tests for the DefaultWebApplication class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationTest {
+class DefaultWebApplicationTest {
 
     /**
      * Test addJspFile method.
@@ -64,7 +69,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAddJspFile() throws Exception {
+    void testAddJspFile() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.addJspFile("MyJspFile", "myjspfile.jsp"));
     }
@@ -73,7 +78,7 @@ public class DefaultWebApplicationTest {
      * Test addMapping method (verify the # of mappings > 0).
      */
     @Test
-    public void testAddMapping() {
+    void testAddMapping() {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -89,7 +94,7 @@ public class DefaultWebApplicationTest {
      * non-empty set).
      */
     @Test
-    public void testAddMapping2() {
+    void testAddMapping2() {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -107,7 +112,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAddResource() throws Exception {
+    void testAddResource() throws Exception {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setResourceManager(resourceManager);
@@ -119,7 +124,7 @@ public class DefaultWebApplicationTest {
      * Test declareRoles method.
      */
     @Test
-    public void testDeclareRoles() {
+    void testDeclareRoles() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setSecurityManager(new DefaultSecurityManager());
         webApp.declareRoles(new String[]{"ADMIN", "USER"});
@@ -131,7 +136,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testDestroy() throws Exception {
+    void testDestroy() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addListener(new TestWebApplicationDestroyListener());
         webApp.initialize();
@@ -142,7 +147,7 @@ public class DefaultWebApplicationTest {
     /**
      * Test listener to validate the destroy method was called.
      */
-    public class TestWebApplicationDestroyListener implements ServletContextListener {
+    class TestWebApplicationDestroyListener implements ServletContextListener {
 
         /**
          * Context initialized event.
@@ -163,14 +168,14 @@ public class DefaultWebApplicationTest {
             event.getServletContext().setAttribute("contextDestroyed", true);
         }
     }
-    
+
     /**
      * Test getAsync.
      *
      * @throws Exception
      */
     @Test
-    public void testGetAsync() throws Exception {
+    void testGetAsync() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -213,7 +218,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception
      */
     @Test
-    public void testGetAsync2() throws Exception {
+    void testGetAsync2() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -253,7 +258,7 @@ public class DefaultWebApplicationTest {
      * Test getAttributeNames method.
      */
     @Test
-    public void testGetAttributeNames() {
+    void testGetAttributeNames() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNotNull(webApp.getAttributeNames());
     }
@@ -262,7 +267,7 @@ public class DefaultWebApplicationTest {
      * Test getContext method.
      */
     @Test
-    public void testGetContext() {
+    void testGetContext() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getContext("/does_not_matter"));
     }
@@ -271,7 +276,7 @@ public class DefaultWebApplicationTest {
      * Test getDefaultSessionTrackingModes method.
      */
     @Test
-    public void testGetDefaultSessionTrackingModes() {
+    void testGetDefaultSessionTrackingModes() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertTrue(webApp.getDefaultSessionTrackingModes().contains(SessionTrackingMode.COOKIE));
     }
@@ -280,7 +285,7 @@ public class DefaultWebApplicationTest {
      * Test getDependencyInjectionManager method.
      */
     @Test
-    public void testGetDependencyInjectionManager() {
+    void testGetDependencyInjectionManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNotNull(webApp.getObjectInstanceManager());
         webApp.setObjectInstanceManager(null);
@@ -293,7 +298,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception
      */
     @Test
-    public void testGetDispatcherType() throws Exception {
+    void testGetDispatcherType() throws Exception {
         HttpServletRequest request = new TestWebApplicationRequest();
         assertEquals(DispatcherType.REQUEST, request.getDispatcherType());
     }
@@ -302,7 +307,7 @@ public class DefaultWebApplicationTest {
      * Test getEffectiveMajorVersion method.
      */
     @Test
-    public void testGetEffectiveMajorVersion() {
+    void testGetEffectiveMajorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertEquals(4, webApp.getEffectiveMajorVersion());
     }
@@ -311,7 +316,7 @@ public class DefaultWebApplicationTest {
      * Test getEffectiveMinorVersion method.
      */
     @Test
-    public void testGetEffectiveMinorVersion() {
+    void testGetEffectiveMinorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertEquals(0, webApp.getEffectiveMinorVersion());
     }
@@ -320,7 +325,7 @@ public class DefaultWebApplicationTest {
      * Test getEffectiveSessionTrackingModes method.
      */
     @Test
-    public void testGetEffectiveSessionTrackingModes() {
+    void testGetEffectiveSessionTrackingModes() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         Set<SessionTrackingMode> trackingModes = EnumSet.of(SessionTrackingMode.URL);
         webApp.setSessionTrackingModes(trackingModes);
@@ -331,7 +336,7 @@ public class DefaultWebApplicationTest {
      * Test getInitParameter method.
      */
     @Test
-    public void testGetInitParameter() {
+    void testGetInitParameter() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setInitParameter("initParameter", Boolean.TRUE.toString());
         assertEquals("true", webApp.getInitParameter("initParameter"));
@@ -341,7 +346,7 @@ public class DefaultWebApplicationTest {
      * Test getInitParameterNames method.
      */
     @Test
-    public void testGetInitParameterNames() {
+    void testGetInitParameterNames() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setInitParameter("initParameter", Boolean.TRUE.toString());
         Enumeration<String> enumeration = webApp.getInitParameterNames();
@@ -353,7 +358,7 @@ public class DefaultWebApplicationTest {
      * Test getJspConfigDescriptor method.
      */
     @Test
-    public void testGetJspConfigDescriptor() {
+    void testGetJspConfigDescriptor() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getJspConfigDescriptor());
     }
@@ -362,7 +367,7 @@ public class DefaultWebApplicationTest {
      * Test getMajorVersion method.
      */
     @Test
-    public void testGetMajorVersion() {
+    void testGetMajorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertEquals(4, webApp.getMajorVersion());
     }
@@ -371,7 +376,7 @@ public class DefaultWebApplicationTest {
      * Test getMimeType method.
      */
     @Test
-    public void testGetMimeType() {
+    void testGetMimeType() {
         DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setMimeTypeManager(mimeTypeManager);
@@ -382,7 +387,7 @@ public class DefaultWebApplicationTest {
      * Test getMimeType method.
      */
     @Test
-    public void testGetMimeType2() {
+    void testGetMimeType2() {
         DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
         mimeTypeManager.addMimeType("class", "application/x-java-class");
         DefaultWebApplication webApp = new DefaultWebApplication();
@@ -394,7 +399,7 @@ public class DefaultWebApplicationTest {
      * Test getMinorVersion method.
      */
     @Test
-    public void testGetMinorVersion() {
+    void testGetMinorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertEquals(0, webApp.getMinorVersion());
     }
@@ -403,7 +408,7 @@ public class DefaultWebApplicationTest {
      * Test getNamedDispatcher method.
      */
     @Test
-    public void testGetNamedDispatcher() {
+    void testGetNamedDispatcher() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addServlet("Snoop", TestSnoopServlet.class);
         assertNotNull(webApp.getNamedDispatcher("Snoop"));
@@ -415,7 +420,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception
      */
     @Test
-    public void testGetParameterMap() throws Exception {
+    void testGetParameterMap() throws Exception {
         HttpServletRequest request = new TestWebApplicationRequest();
         assertNotNull(request.getParameterMap());
         assertNotNull(request.getParameterNames());
@@ -425,7 +430,7 @@ public class DefaultWebApplicationTest {
      * Test getRealPath method.
      */
     @Test
-    public void testGetRealPath() {
+    void testGetRealPath() {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setResourceManager(resourceManager);
@@ -436,7 +441,7 @@ public class DefaultWebApplicationTest {
      * Test getRealPath method.
      */
     @Test
-    public void testGetRealPath2() {
+    void testGetRealPath2() {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setResourceManager(resourceManager);
@@ -448,7 +453,7 @@ public class DefaultWebApplicationTest {
      * Test getRequest method.
      */
     @Test
-    public void testGetRequest() {
+    void testGetRequest() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
@@ -460,7 +465,7 @@ public class DefaultWebApplicationTest {
      * Test getRequestCharacterEncoding method.
      */
     @Test
-    public void testGetRequestCharacterEncoding() {
+    void testGetRequestCharacterEncoding() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getRequestCharacterEncoding());
         webApp.setRequestCharacterEncoding("UTF-8");
@@ -473,7 +478,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception
      */
     @Test
-    public void testGetRequestDispatcher() throws Exception {
+    void testGetRequestDispatcher() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -486,7 +491,7 @@ public class DefaultWebApplicationTest {
      * Test getResourceAsStream method.
      */
     @Test
-    public void testGetResourceAsStream() {
+    void testGetResourceAsStream() {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setResourceManager(resourceManager);
@@ -498,14 +503,14 @@ public class DefaultWebApplicationTest {
      * Test getResourcePaths method.
      */
     @Test
-    public void testGetResourcePaths() {
+    void testGetResourcePaths() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getResourcePaths("/this_will_be_null/"));
         assertNull(webApp.getResourcePaths(null));
     }
 
     @Test
-    public void testGetResourcePaths2() {
+    void testGetResourcePaths2() {
         // Simulating the Javadoc example of the getResourcePaths method
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
@@ -531,13 +536,13 @@ public class DefaultWebApplicationTest {
     }
 
     @Test
-    public void testGetResourcePaths3() {
+    void testGetResourcePaths3() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertThrows(IllegalArgumentException.class, () -> webApp.getResourcePaths(""));
     }
 
     @Test
-    public void testGetResourcePaths4() {
+    void testGetResourcePaths4() {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setResourceManager(resourceManager);
@@ -552,7 +557,7 @@ public class DefaultWebApplicationTest {
      * Test getResponseCharacterEncoding.
      */
     @Test
-    public void testGetResponseCharacterEncoding() {
+    void testGetResponseCharacterEncoding() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getResponseCharacterEncoding());
         webApp.setResponseCharacterEncoding("UTF-8");
@@ -563,7 +568,7 @@ public class DefaultWebApplicationTest {
      * Test getSecurityManager.
      */
     @Test
-    public void testGetSecurityManager() {
+    void testGetSecurityManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         try {
             webApp.getSecurityManager();
@@ -575,7 +580,7 @@ public class DefaultWebApplicationTest {
      * Test getSecurityManager.
      */
     @Test
-    public void testGetSecurityManager2() {
+    void testGetSecurityManager2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setSecurityManager(new DefaultSecurityManager());
         assertNotNull(webApp.getSecurityManager());
@@ -585,7 +590,7 @@ public class DefaultWebApplicationTest {
      * Test getServerInfo method.
      */
     @Test
-    public void testGetServerInfo() {
+    void testGetServerInfo() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertEquals("", webApp.getServerInfo());
     }
@@ -597,7 +602,7 @@ public class DefaultWebApplicationTest {
      */
     @Test
     @SuppressWarnings("deprecation")
-    public void testGetServlet() throws Exception {
+    void testGetServlet() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertThrows(UnsupportedOperationException.class, () -> webApp.getServlet("always_null"));
     }
@@ -606,7 +611,7 @@ public class DefaultWebApplicationTest {
      * Test getServletContextName method.
      */
     @Test
-    public void testGetServletContextName() {
+    void testGetServletContextName() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setServletContextName("MYNAME");
         assertNotNull(webApp.getServletContextName());
@@ -617,7 +622,7 @@ public class DefaultWebApplicationTest {
      * Test getServletRegistrations method.
      */
     @Test
-    public void testGetServletRegistrations() {
+    void testGetServletRegistrations() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNotNull(webApp.getServletRegistrations());
         assertTrue(webApp.getServletRegistrations().isEmpty());
@@ -628,7 +633,7 @@ public class DefaultWebApplicationTest {
      */
     @Test
     @SuppressWarnings("deprecation")
-    public void testGetServletNames() {
+    void testGetServletNames() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertThrows(UnsupportedOperationException.class, () -> webApp.getServletNames());
     }
@@ -638,7 +643,7 @@ public class DefaultWebApplicationTest {
      */
     @Test
     @SuppressWarnings("deprecation")
-    public void testGetServlets() {
+    void testGetServlets() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertThrows(UnsupportedOperationException.class, () -> webApp.getServlets());
     }
@@ -649,7 +654,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception
      */
     @Test
-    public void testGetSession() throws Exception {
+    void testGetSession() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -673,7 +678,7 @@ public class DefaultWebApplicationTest {
      * Test getSessionCookieConfig method.
      */
     @Test
-    public void testGetSessionCookieConfig() {
+    void testGetSessionCookieConfig() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNotNull(webApp.getSessionCookieConfig());
     }
@@ -682,7 +687,7 @@ public class DefaultWebApplicationTest {
      * Test getSessionManager method.
      */
     @Test
-    public void testGetSessionManager() {
+    void testGetSessionManager() {
         try {
             DefaultWebApplication webApp = new DefaultWebApplication();
             webApp.setHttpSessionManager(null);
@@ -695,7 +700,7 @@ public class DefaultWebApplicationTest {
      * Test getSessionManager method.
      */
     @Test
-    public void testGetSessionManager2() {
+    void testGetSessionManager2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNotNull(webApp.getHttpSessionManager());
     }
@@ -704,7 +709,7 @@ public class DefaultWebApplicationTest {
      * Test getVirtualServerName method.
      */
     @Test
-    public void testGetVirtualServerName() {
+    void testGetVirtualServerName() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setVirtualServerName("myname");
         assertEquals("myname", webApp.getVirtualServerName());
@@ -716,7 +721,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception when a serious error occurred.
      */
     @Test
-    public void testInclude() throws Exception {
+    void testInclude() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addServlet("Include", TestIncludeServlet.class);
         webApp.addServletMapping("Include", "/include");
@@ -739,7 +744,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception when a serious error occurred.
      */
     @Test
-    public void testInclude2() throws Exception {
+    void testInclude2() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addServlet("Include", TestIncludeServlet.class);
         webApp.addServletMapping("Include", "/include");
@@ -766,7 +771,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception when a serious error occurred.
      */
     @Test
-    public void testInclude3() throws Exception {
+    void testInclude3() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addServlet("Include", TestIncludeServlet.class);
         webApp.addServletMapping("Include", "/include");
@@ -795,7 +800,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testInitializeStartAndStop() throws Exception {
+    void testInitializeStartAndStop() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.initialize();
         webApp.start();
@@ -812,7 +817,7 @@ public class DefaultWebApplicationTest {
      * Test log method.
      */
     @Test
-    public void testLog() {
+    void testLog() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.log("TEST");
     }
@@ -822,7 +827,7 @@ public class DefaultWebApplicationTest {
      */
     @Test
     @SuppressWarnings("deprecation")
-    public void testLog2() {
+    void testLog2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertThrows(UnsupportedOperationException.class, () -> webApp.log(new IllegalStateException(), "TEST"));
     }
@@ -831,7 +836,7 @@ public class DefaultWebApplicationTest {
      * Test log method.
      */
     @Test
-    public void testLog3() {
+    void testLog3() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.log("TEST", new RuntimeException());
     }
@@ -842,7 +847,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception
      */
     @Test
-    public void testLogin() throws Exception {
+    void testLogin() throws Exception {
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setSecurityManager(securityManager);
@@ -860,7 +865,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception
      */
     @Test
-    public void testLogout() throws Exception {
+    void testLogout() throws Exception {
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setSecurityManager(securityManager);
@@ -876,7 +881,7 @@ public class DefaultWebApplicationTest {
      * Test removeAttribute method.
      */
     @Test
-    public void testRemoveAttribute() {
+    void testRemoveAttribute() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setAttribute("name", "value");
         assertNotNull(webApp.getAttribute("name"));
@@ -890,7 +895,7 @@ public class DefaultWebApplicationTest {
      * @throws Exception
      */
     @Test
-    public void testService2() throws Exception {
+    void testService2() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -902,16 +907,16 @@ public class DefaultWebApplicationTest {
         webApp.addServletMapping("Snoop", "/Snoop");
         webApp.addServlet("DefaultServlet", DefaultServlet.class.getName());
         webApp.addServletMapping("DefaultServlet", "/*");
-        
+
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
         assertEquals(404, response.getStatus());
     }
 
-    public class TrackServletRequestListener implements ServletRequestListener {
+    class TrackServletRequestListener implements ServletRequestListener {
 
-        public StringBuilder trackCalls = new StringBuilder();
+        StringBuilder trackCalls = new StringBuilder();
 
         @Override
         public void requestDestroyed(ServletRequestEvent sre) {
@@ -930,20 +935,20 @@ public class DefaultWebApplicationTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testService3() throws Exception {
+    void testService3() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(new DefaultWebApplicationRequestMapper());
         webApp.addServletMapping("Snoop", "/Snoop");
         webApp.addServlet("DefaultServlet", DefaultServlet.class.getName());
         webApp.addServletMapping("DefaultServlet", "/*");
-        
+
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setWebApplication(webApp);
         request.setServletPath("/Snoop");
-        
+
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
-        
+
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
@@ -954,7 +959,7 @@ public class DefaultWebApplicationTest {
      * Test setAttribute method.
      */
     @Test
-    public void testSetAttribute() {
+    void testSetAttribute() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setAttribute("myattribute", null);
         assertNull(webApp.getAttribute("myattribute"));
@@ -964,7 +969,7 @@ public class DefaultWebApplicationTest {
      * Test setClassLoader method.
      */
     @Test
-    public void testSetClassLoader() {
+    void testSetClassLoader() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNotNull(webApp.getClassLoader());
         webApp.setClassLoader(null);
@@ -975,7 +980,7 @@ public class DefaultWebApplicationTest {
      * Test setInitParameter method.
      */
     @Test
-    public void testSetInitParameter() {
+    void testSetInitParameter() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertTrue(webApp.setInitParameter("name", "value"));
         assertFalse(webApp.setInitParameter("name", "value"));
@@ -985,7 +990,7 @@ public class DefaultWebApplicationTest {
      * Test setInitParameter method.
      */
     @Test
-    public void testSetInitParameter2() {
+    void testSetInitParameter2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.initialize();
         webApp.start();
@@ -996,7 +1001,7 @@ public class DefaultWebApplicationTest {
      * Test setLoggingManager method.
      */
     @Test
-    public void testSetLoggingManager() {
+    void testSetLoggingManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setLoggingManager(null);
         assertThrows(NullPointerException.class, () -> webApp.log("KABOOM"));

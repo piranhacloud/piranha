@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ApacheMultiPartManagerTest {
+class ApacheMultiPartManagerTest {
 
     /**
      * Test getPart method.
@@ -45,7 +45,7 @@ public class ApacheMultiPartManagerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetPart() throws Exception {
+    void testGetPart() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setContentType("multipart/form-data");

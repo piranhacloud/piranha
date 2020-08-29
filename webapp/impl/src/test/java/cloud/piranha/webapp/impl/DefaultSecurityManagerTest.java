@@ -42,13 +42,13 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultSecurityManagerTest {
+class DefaultSecurityManagerTest {
 
     /**
      * Test addUser method.
      */
     @Test
-    public void testAddUser() {
+    void testAddUser() {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setUserPrincipal(new UserPrincipal("username"));
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
@@ -63,7 +63,7 @@ public class DefaultSecurityManagerTest {
      * @throws IOException when an I/O error occurs.
      */
     @Test
-    public void testAuthenticate() throws ServletException, IOException {
+    void testAuthenticate() throws ServletException, IOException {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.BASIC_AUTH);
@@ -79,7 +79,7 @@ public class DefaultSecurityManagerTest {
      * @throws IOException when an I/O error occurs.
      */
     @Test
-    public void testAuthenticate2() throws ServletException, IOException {
+    void testAuthenticate2() throws ServletException, IOException {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.CLIENT_CERT_AUTH);
@@ -95,7 +95,7 @@ public class DefaultSecurityManagerTest {
      * @throws IOException when an I/O error occurs.
      */
     @Test
-    public void testAuthenticate3() throws ServletException, IOException {
+    void testAuthenticate3() throws ServletException, IOException {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.DIGEST_AUTH);
@@ -111,7 +111,7 @@ public class DefaultSecurityManagerTest {
      * @throws IOException when an I/O error occurs.
      */
     @Test
-    public void testAuthenticate4() throws ServletException, IOException {
+    void testAuthenticate4() throws ServletException, IOException {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         request.setAuthType(HttpServletRequest.FORM_AUTH);
@@ -126,7 +126,7 @@ public class DefaultSecurityManagerTest {
      * @throws IOException when an I/O error occurs.
      */
     @Test
-    public void testAuthenticate5() throws ServletException, IOException {
+    void testAuthenticate5() throws ServletException, IOException {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setParameter("j_username", new String[]{"username"});
         request.setParameter("j_password", new String[]{"password"});
@@ -144,7 +144,7 @@ public class DefaultSecurityManagerTest {
      * @throws IOException when an I/O error occurs.
      */
     @Test
-    public void testAuthenticate6() throws ServletException, IOException {
+    void testAuthenticate6() throws ServletException, IOException {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setParameter("j_username", new String[]{"username"});
         request.setParameter("j_password", new String[]{"password"});
@@ -162,7 +162,7 @@ public class DefaultSecurityManagerTest {
      * @throws ServletException when a servlet error occurs.
      */
     @Test
-    public void testLogin() throws ServletException {
+    void testLogin() throws ServletException {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
@@ -177,7 +177,7 @@ public class DefaultSecurityManagerTest {
      * Test removeUser method.
      */
     @Test
-    public void testRemoveUser() {
+    void testRemoveUser() {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setUserPrincipal(new UserPrincipal("username"));
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
@@ -191,7 +191,7 @@ public class DefaultSecurityManagerTest {
      * Test getWebApplication method.
      */
     @Test
-    public void testGetWebApplication() {
+    void testGetWebApplication() {
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         assertNull(securityManager.getWebApplication());
     }
@@ -200,7 +200,7 @@ public class DefaultSecurityManagerTest {
      * Test getWebApplication method.
      */
     @Test
-    public void testGetWebApplication2() {
+    void testGetWebApplication2() {
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         securityManager.setWebApplication(new DefaultWebApplication());
         assertNotNull(securityManager.getWebApplication());

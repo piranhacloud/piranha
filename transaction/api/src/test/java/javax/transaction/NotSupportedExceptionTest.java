@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NotSupportedExceptionTest {
+class NotSupportedExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage() {
+    void testGetMessage() {
         NotSupportedException exception = new NotSupportedException("message");
         assertEquals("message", exception.getMessage());
     }    
@@ -49,7 +49,7 @@ public class NotSupportedExceptionTest {
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage2() {
+    void testGetMessage2() {
         NotSupportedException exception = new NotSupportedException();
         assertNull(exception.getMessage());
     }

@@ -37,4 +37,6 @@ module cloud.piranha.extension.microprofile {
     requires cloud.piranha.webapp.webxml;
 
     provides WebApplicationExtension with MicroProfileExtension;
+    
+    opens cloud.piranha.extension.microprofile;
 }

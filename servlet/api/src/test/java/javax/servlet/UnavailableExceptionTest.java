@@ -36,13 +36,13 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class UnavailableExceptionTest {
+class UnavailableExceptionTest {
 
     /**
      * Test constructor.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         UnavailableException exception = new UnavailableException("Unavailable", 100);
         assertEquals(100, exception.getUnavailableSeconds());
     }
@@ -51,7 +51,7 @@ public class UnavailableExceptionTest {
      * Test constructor.
      */
     @Test
-    public void testConstructor2() {
+    void testConstructor2() {
         assertThrows(UnsupportedOperationException.class, () -> new UnavailableException(null, "Message"));
     }
 
@@ -59,7 +59,7 @@ public class UnavailableExceptionTest {
      * Test constructor.
      */
     @Test
-    public void testConstructor3() {
+    void testConstructor3() {
         assertThrows(UnsupportedOperationException.class, () -> new UnavailableException(100, null, "Message"));
     }
 
@@ -67,7 +67,7 @@ public class UnavailableExceptionTest {
      * Test getServlet method.
      */
     @Test
-    public void testGetServlet() {
+    void testGetServlet() {
         UnavailableException exception = new UnavailableException("Unavailable");
         assertThrows(UnsupportedOperationException.class, exception::getServlet);
     }
@@ -76,7 +76,7 @@ public class UnavailableExceptionTest {
      * Test getUnavailableSeconds method.
      */
     @Test
-    public void testGetUnavailableSeconds() {
+    void testGetUnavailableSeconds() {
         UnavailableException exception = new UnavailableException("Unavailable");
         assertEquals(-1, exception.getUnavailableSeconds());
     }
@@ -85,7 +85,7 @@ public class UnavailableExceptionTest {
      * Test isPermanent method.
      */
     @Test
-    public void testIsPermanent() {
+    void testIsPermanent() {
         UnavailableException exception = new UnavailableException("Unavailable");
         assertTrue(exception.isPermanent());
     }

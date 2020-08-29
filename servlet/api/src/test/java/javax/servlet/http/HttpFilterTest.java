@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpFilterTest {
+class HttpFilterTest {
 
     /**
      * Test doFilter method.
@@ -43,7 +43,7 @@ public class HttpFilterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testDoFilter() throws Exception {
+    void testDoFilter() throws Exception {
         HttpServletRequest request = null;
         HttpServletResponse response = null;
         FilterChain chain = new TestFilterChain();

@@ -40,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpServletRequestTest {
+class HttpServletRequestTest {
 
     /**
      * Stores the HTTP servlet request.
@@ -53,7 +53,7 @@ public class HttpServletRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         httpServletRequest = new TestWebApplicationRequest();
     }
 
@@ -63,7 +63,7 @@ public class HttpServletRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testSetCharacterEncoding() throws Exception {
+    void testSetCharacterEncoding() throws Exception {
         httpServletRequest.setCharacterEncoding("UTF-8");
         assertEquals("UTF-8", httpServletRequest.getCharacterEncoding());
     }
@@ -74,7 +74,7 @@ public class HttpServletRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testSetCharacterEncoding2() throws Exception {
+    void testSetCharacterEncoding2() throws Exception {
         assertNull(httpServletRequest.getCharacterEncoding());
         httpServletRequest.getReader();
         httpServletRequest.setCharacterEncoding("UTF-8");
@@ -87,7 +87,7 @@ public class HttpServletRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testSetCharacterEncoding3() throws Exception {
+    void testSetCharacterEncoding3() throws Exception {
         assertThrows(UnsupportedEncodingException.class, () -> httpServletRequest.setCharacterEncoding("doesnotexist"));
     }
 
@@ -97,7 +97,7 @@ public class HttpServletRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testSetCharacterEncoding4() throws Exception {
+    void testSetCharacterEncoding4() throws Exception {
         assertThrows(UnsupportedEncodingException.class, () -> httpServletRequest.setCharacterEncoding(null));
     }
 }

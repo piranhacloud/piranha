@@ -45,13 +45,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerTest {
+class DefaultWebApplicationServerTest {
 
     /**
      * Test addMapping method.
      */
     @Test
-    public void testAddMapping() {
+    void testAddMapping() {
         DefaultWebApplicationServer server = new DefaultWebApplicationServer();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setServletContextName("mycontext");
@@ -63,7 +63,7 @@ public class DefaultWebApplicationServerTest {
      * Test addMapping method.
      */
     @Test
-    public void testAddMapping2() {
+    void testAddMapping2() {
         DefaultWebApplicationServer server = new DefaultWebApplicationServer();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setServletContextName("mycontext");
@@ -75,7 +75,7 @@ public class DefaultWebApplicationServerTest {
      * Test addMapping method.
      */
     @Test
-    public void testAddMapping3() {
+    void testAddMapping3() {
         DefaultWebApplicationServer server = new DefaultWebApplicationServer();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setServletContextName("mycontext");
@@ -88,7 +88,7 @@ public class DefaultWebApplicationServerTest {
      * Test getRequestMapper method.
      */
     @Test
-    public void testGetRequestMapper() {
+    void testGetRequestMapper() {
         DefaultWebApplicationServer server = new DefaultWebApplicationServer();
         server.setRequestMapper(new DefaultWebApplicationServerRequestMapper());
         assertNotNull(server.getRequestMapper());
@@ -100,7 +100,7 @@ public class DefaultWebApplicationServerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testProcess() throws Exception {
+    void testProcess() throws Exception {
         DefaultWebApplicationServer server = new DefaultWebApplicationServer();
         HttpServer httpServer = new DefaultHttpServer(8180, server, false);
         DefaultWebApplication application = new DefaultWebApplication();

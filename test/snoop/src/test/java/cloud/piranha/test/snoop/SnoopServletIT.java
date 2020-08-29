@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SnoopServletIT {
+class SnoopServletIT {
 
     /**
      * Test configure method.
@@ -45,7 +45,7 @@ public class SnoopServletIT {
      */
     @Test
     @Disabled
-    public void testConfigure() throws Exception {
+    void testConfigure() throws Exception {
         /*
         final MicroPiranha piranha = new MicroPiranha();
         WebApplication webApplication = piranha.configure(new String[]{

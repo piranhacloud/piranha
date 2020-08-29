@@ -1,34 +1,38 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.WebApplication;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -43,7 +47,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The JUnit tests for testing everything related to the addFilter method and
@@ -51,7 +55,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class FilterTest {
+class FilterTest {
 
     /**
      * Stores the web application.
@@ -64,7 +68,7 @@ public class FilterTest {
      * @throws Exception when a serious error occurs.
      */
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         webApp = new DefaultWebApplication();
     }
 
@@ -72,7 +76,7 @@ public class FilterTest {
      * Test addFilter method.
      */
     @Test
-    public void testAddFilter() {
+    void testAddFilter() {
         webApp.addFilter("Broken Filter", new TestBrokenFilter());
         webApp.initialize();
         assertNotNull(webApp.getAttribute("Broken Filter"));
@@ -84,7 +88,7 @@ public class FilterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAddFilter2() throws Exception {
+    void testAddFilter2() throws Exception {
         webApp.addFilter("Filter 1", new TestMultiple1Filter());
         webApp.addFilterMapping("Filter 1", "/*");
         webApp.addFilter("Filter 2", new TestMultiple2Filter());
@@ -108,7 +112,7 @@ public class FilterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAddFilter4() throws Exception {
+    void testAddFilter4() throws Exception {
         webApp.initialize();
         webApp.start();
         assertThrows(IllegalStateException.class, () -> webApp.addFilter("filter", new TestMultiple1Filter()));
@@ -118,7 +122,7 @@ public class FilterTest {
      * Test addFilter method.
      */
     @Test
-    public void testAddFilter5() {
+    void testAddFilter5() {
         assertNotNull(webApp.addFilter("filter", TestMultiple1Filter.class));
         assertNotNull(webApp.getFilterRegistration("filter"));
         assertEquals(TestMultiple1Filter.class.getCanonicalName(), webApp.getFilterRegistration("filter").getClassName());
@@ -128,7 +132,7 @@ public class FilterTest {
      * Test addFilter method.
      */
     @Test
-    public void testAddFilter6() {
+    void testAddFilter6() {
         assertNotNull(webApp.addFilter("filter", "doesnotexit"));
     }
 
@@ -138,7 +142,7 @@ public class FilterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAddFilter7() throws Exception {
+    void testAddFilter7() throws Exception {
         webApp.initialize();
         webApp.start();
         assertThrows(IllegalStateException.class, () -> webApp.addFilter("filter", "should throw IllegalStateException"));
@@ -150,7 +154,7 @@ public class FilterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAddFilter8() throws Exception {
+    void testAddFilter8() throws Exception {
         webApp.initialize();
         assertThrows(IllegalArgumentException.class, () -> webApp.addFilter(null, "filter name is null so throw IllegalArgumentException"));
     }
@@ -161,7 +165,7 @@ public class FilterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAddFilter9() throws Exception {
+    void testAddFilter9() throws Exception {
         webApp.initialize();
         assertThrows(IllegalArgumentException.class, () -> webApp.addFilter(null, Filter.class));
     }
@@ -172,7 +176,7 @@ public class FilterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAddFilter10() throws Exception {
+    void testAddFilter10() throws Exception {
         webApp.initialize();
         assertNotNull(webApp.addFilter("filter", Filter.class));
         assertNotNull(webApp.addFilter("filter", Filter.class));
@@ -184,7 +188,7 @@ public class FilterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAddFilter11() throws Exception {
+    void testAddFilter11() throws Exception {
         webApp.initialize();
         webApp.addFilter("filter", "InCompleteRegistrationFilter");
         webApp.addFilter("filter", "InCompleteRegistrationFilter");
@@ -194,7 +198,7 @@ public class FilterTest {
      * Test addFilter method.
      */
     @Test
-    public void testAddFilter12() {
+    void testAddFilter12() {
         assertNotNull(webApp.addFilter("filter", "InCompleteRegistrationFilter"));
         assertNotNull(webApp.getFilterRegistration("filter"));
     }
@@ -205,7 +209,7 @@ public class FilterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testDoFilter() throws Exception {
+    void testDoFilter() throws Exception {
         webApp.addFilter("Filter 1", new TestMultiple1Filter());
         webApp.addFilterMapping("Filter 1", "/*");
         webApp.addServlet("End Servlet", new TestEndServlet());
@@ -224,7 +228,7 @@ public class FilterTest {
     /**
      * Test broken filter.
      */
-    public class TestBrokenFilter implements Filter {
+    class TestBrokenFilter implements Filter {
 
         /**
          * Initialize the filter.
@@ -263,7 +267,7 @@ public class FilterTest {
     /**
      * Test filter used in a test with multiple filters.
      */
-    public class TestMultiple1Filter implements Filter {
+    class TestMultiple1Filter implements Filter {
 
         /**
          * Destroy the filter.
@@ -301,7 +305,7 @@ public class FilterTest {
     /**
      * Test filter used in a test with multiple filters.
      */
-    public class TestMultiple2Filter implements Filter {
+    class TestMultiple2Filter implements Filter {
 
         /**
          * Destroy the filter.
@@ -339,7 +343,9 @@ public class FilterTest {
     /**
      * Test servlet to end a filter chain with a 200 response code.
      */
-    public class TestEndServlet extends HttpServlet {
+    class TestEndServlet extends HttpServlet {
+
+        private static final long serialVersionUID = 1L;
 
         /**
          * Handles the GET request.
@@ -350,8 +356,7 @@ public class FilterTest {
          * @throws ServletException when a servlet error occurs
          */
         @Override
-        protected void doGet(HttpServletRequest request, HttpServletResponse response)
-                throws IOException, ServletException {
+        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
             response.setStatus(200);
         }
     }

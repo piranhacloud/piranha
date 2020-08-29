@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TransactionalExceptionTest {
+class TransactionalExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage() {
+    void testGetMessage() {
         TransactionalException exception = new TransactionalException("message", new Throwable());
         assertEquals("message", exception.getMessage());
     }    
@@ -49,7 +49,7 @@ public class TransactionalExceptionTest {
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage2() {
+    void testGetMessage2() {
         TransactionalException exception = new TransactionalException("message", new Throwable());
         assertNotNull(exception.getCause());
     }

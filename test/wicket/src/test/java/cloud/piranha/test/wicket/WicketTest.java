@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WicketTest {
+class WicketTest {
 
     /**
      * Test /index.html
@@ -50,7 +50,7 @@ public class WicketTest {
      * @throws Exception
      */
     @Test
-    public void testGetMethod() throws Exception {
+    void testGetMethod() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .directoryResource("src/main/java")

@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultUserTransactionTest {
+class DefaultUserTransactionTest {
 
     /**
      * Test begin method.
@@ -47,7 +47,7 @@ public class DefaultUserTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testBegin() throws Exception {
+    void testBegin() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
@@ -60,7 +60,7 @@ public class DefaultUserTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testCommit() throws Exception {
+    void testCommit() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
@@ -74,7 +74,7 @@ public class DefaultUserTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testCommit2() throws Exception {
+    void testCommit2() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
@@ -88,7 +88,7 @@ public class DefaultUserTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetStatus() throws Exception {
+    void testGetStatus() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         assertEquals(Status.STATUS_NO_TRANSACTION, transaction.getStatus());
@@ -100,7 +100,7 @@ public class DefaultUserTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetStatus2() throws Exception {
+    void testGetStatus2() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
@@ -113,7 +113,7 @@ public class DefaultUserTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testRollback() throws Exception {
+    void testRollback() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
@@ -126,7 +126,7 @@ public class DefaultUserTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testSetRollbackOnly() throws Exception {
+    void testSetRollbackOnly() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();
@@ -140,7 +140,7 @@ public class DefaultUserTransactionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testSetTransactionTimeout() throws Exception {
+    void testSetTransactionTimeout() throws Exception {
         DefaultUserTransaction transaction = new DefaultUserTransaction(
                 new DefaultTransactionManager());
         transaction.begin();

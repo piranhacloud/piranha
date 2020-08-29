@@ -36,13 +36,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultAnnotationManagerTest {
+class DefaultAnnotationManagerTest {
     
     /**
      * Test getClasses method.
      */
     @Test
-    public void testGetClasses() {
+    void testGetClasses() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         assertNotNull(manager.getAnnotatedClasses());
         assertTrue(manager.getAnnotatedClasses().isEmpty());

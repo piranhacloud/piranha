@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoFilterConfigTest {
+class NanoFilterConfigTest {
 
     /**
      * Test getInitParameterNames method.
      */
     @Test
-    public void testGetInitParameterNames() {
+    void testGetInitParameterNames() {
         NanoFilterConfig config = new NanoFilterConfig(null);
         assertNotNull(config.getInitParameterNames());
     }

@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultBindingNamingEnumerationTest {
+class DefaultBindingNamingEnumerationTest {
    
     /**
      * Test checkClosed method.
@@ -47,7 +47,7 @@ public class DefaultBindingNamingEnumerationTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testCheckClosed() throws Exception {
+    void testCheckClosed() throws Exception {
         DefaultBindingNamingEnumeration enumeration = new DefaultBindingNamingEnumeration(new ArrayList<>());
         enumeration.close();
         assertThrows(NamingException.class, enumeration::close);

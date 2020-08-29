@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultServletRequestDispatcherTest {
+class DefaultServletRequestDispatcherTest {
 
     /**
      * Test forward method.
@@ -47,7 +47,7 @@ public class DefaultServletRequestDispatcherTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testForward() throws Exception {
+    void testForward() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
@@ -67,7 +67,7 @@ public class DefaultServletRequestDispatcherTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testForward2() throws Exception {
+    void testForward2() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
@@ -89,7 +89,7 @@ public class DefaultServletRequestDispatcherTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testForward3() throws Exception {
+    void testForward3() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
@@ -108,7 +108,7 @@ public class DefaultServletRequestDispatcherTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testForward4() throws Exception {
+    void testForward4() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
@@ -127,7 +127,7 @@ public class DefaultServletRequestDispatcherTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testInclude() throws Exception {
+    void testInclude() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
@@ -150,7 +150,7 @@ public class DefaultServletRequestDispatcherTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testInclude2() throws Exception {
+    void testInclude2() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();

@@ -29,4 +29,5 @@ module cloud.piranha.resource {
     requires cloud.piranha.resource.api;
 
     exports cloud.piranha.resource;
+    opens cloud.piranha.resource;
 }

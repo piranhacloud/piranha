@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HelloMyFacesTest {
+class HelloMyFacesTest {
 
     /**
      * Test /faces/notfound.html.
@@ -50,7 +50,7 @@ public class HelloMyFacesTest {
      * @throws Exception when a serious error occurs.
      */
     //@Test
-    public void testNotFound() throws Exception {
+    void testNotFound() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .initializer(MyFacesInitializer.class.getName())
@@ -74,7 +74,7 @@ public class HelloMyFacesTest {
      * @throws Exception
      */
     @Test
-    public void testIndexHtml() throws Exception {
+    void testIndexHtml() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .initializer(MyFacesInitializer.class.getName())

@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpServletResponseTest {
+class HttpServletResponseTest {
 
     /**
      * Test getTrailerFields method.
      */
     @Test
-    public void testGetTrailerFields() {
+    void testGetTrailerFields() {
         HttpServletResponse response = new HttpServletResponseWrapper(null);
         assertNull(((HttpServletResponse) response).getTrailerFields());
     }
@@ -50,7 +50,7 @@ public class HttpServletResponseTest {
      * Test setTrailerFields method.
      */
     @Test
-    public void testSetTrailerFields() {
+    void testSetTrailerFields() {
         HttpServletResponse response = new HttpServletResponseWrapper(null);
         ((HttpServletResponse) response).setTrailerFields(null);
     }

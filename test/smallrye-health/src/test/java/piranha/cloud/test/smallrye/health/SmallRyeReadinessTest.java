@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SmallRyeReadinessTest {
+class SmallRyeReadinessTest {
 
     /**
      * Test /health.
@@ -52,7 +52,7 @@ public class SmallRyeReadinessTest {
      * @throws Exception
      */
     @Test
-    public void testHealth() throws Exception {
+    void testHealth() throws Exception {
         System.getProperties().put("java.naming.factory.initial",
                 "cloud.piranha.naming.impl.DefaultInitialContextFactory");
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()

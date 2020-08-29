@@ -47,7 +47,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoPiranhaTest {
+class NanoPiranhaTest {
 
     /**
      * Test service method.
@@ -55,7 +55,7 @@ public class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testService() throws Exception {
+    void testService() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .servlet("TestHelloWorldServlet", new TestHelloWorldServlet())
                 .build();
@@ -80,7 +80,7 @@ public class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testService2() throws Exception {
+    void testService2() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .directoryResource("src/test/jsp")
                 .servlet("JSP Servlet", new JspServlet())
@@ -111,7 +111,7 @@ public class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testService3() throws Exception {
+    void testService3() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .directoryResource("src/test/jsp")
                 .servlet("JSP Servlet", new JspServlet())
@@ -142,7 +142,7 @@ public class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testService4() throws Exception {
+    void testService4() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .servlet("TestQueryStringServlet", new TestQueryStringServlet())
                 .build();
@@ -168,7 +168,7 @@ public class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testService5() throws Exception {
+    void testService5() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .servlet("TestHeaderServlet", new TestHeaderServlet())
                 .build();
@@ -195,7 +195,7 @@ public class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testService6() throws Exception {
+    void testService6() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .directoryResource("src/test/wicket")
                 .filter("WicketFilter", new WicketFilter())
@@ -223,7 +223,7 @@ public class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testService7() throws Exception {
+    void testService7() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .webApplication(new DefaultWebApplication())
                 .directoryResource("src/test/wicket")
@@ -249,7 +249,7 @@ public class NanoPiranhaTest {
     /**
      * A test Hello World servlet.
      */
-    public class TestHelloWorldServlet extends HttpServlet {
+    class TestHelloWorldServlet extends HttpServlet {
 
         /**
          * Perform a GET request.
@@ -269,7 +269,7 @@ public class NanoPiranhaTest {
     /**
      * A test servlet to verify query string parsing.
      */
-    public class TestQueryStringServlet extends HttpServlet {
+    class TestQueryStringServlet extends HttpServlet {
 
         /**
          * Perform a GET request.
@@ -289,7 +289,7 @@ public class NanoPiranhaTest {
     /**
      * A test servlet to verify header parsing.
      */
-    public class TestHeaderServlet extends HttpServlet {
+    class TestHeaderServlet extends HttpServlet {
 
         /**
          * Perform a GET request.

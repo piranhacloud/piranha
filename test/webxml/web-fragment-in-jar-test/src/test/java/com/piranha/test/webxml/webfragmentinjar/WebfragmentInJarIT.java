@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebfragmentInJarIT {
+class WebfragmentInJarIT {
 
 
     /**
@@ -48,7 +48,7 @@ public class WebfragmentInJarIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testLoadClass() throws Exception {
+    void testLoadClass() throws Exception {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File("target/webapp"));
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.setClassLoader(classLoader);

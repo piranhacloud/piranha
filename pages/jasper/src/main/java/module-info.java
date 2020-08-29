@@ -36,4 +36,5 @@ module cloud.piranha.pages.jasper {
     requires java.logging;
 
     exports cloud.piranha.pages.jasper;
+    opens cloud.piranha.pages.jasper;
 }

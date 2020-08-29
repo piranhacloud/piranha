@@ -46,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JPATest {
+class JPATest {
 
     /**
      * Test /index.html.
@@ -54,7 +54,7 @@ public class JPATest {
      * @throws Exception
      */
     @Test
-    public void testIndexHtml() throws Exception {
+    void testIndexHtml() throws Exception {
         System.getProperties().put("java.naming.factory.initial", 
                 "cloud.piranha.naming.impl.DefaultInitialContextFactory");
         InitialContext initialContext = new InitialContext();

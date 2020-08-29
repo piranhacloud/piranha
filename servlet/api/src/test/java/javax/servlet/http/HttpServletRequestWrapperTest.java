@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpServletRequestWrapperTest {
+class HttpServletRequestWrapperTest {
 
     /**
      * Test authenticate method.
@@ -48,7 +48,7 @@ public class HttpServletRequestWrapperTest {
      * @throws Exception when an serious error occurs.
      */
     @Test
-    public void testAuthenticate() throws Exception {
+    void testAuthenticate() throws Exception {
         HttpServletRequestWrapper wrapper = new TestHttpServletRequest(null);
         HttpServletResponseWrapper response = new HttpServletResponseWrapper(null);
         assertFalse(wrapper.authenticate(response));
@@ -58,7 +58,7 @@ public class HttpServletRequestWrapperTest {
      * Test getHttpServletMapping method.
      */
     @Test
-    public void testGetHttpServletMapping() { 
+    void testGetHttpServletMapping() { 
         HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(null);
         assertNotNull(wrapper.getHttpServletMapping());
         HttpServletMapping mapping = wrapper.getHttpServletMapping();
@@ -72,7 +72,7 @@ public class HttpServletRequestWrapperTest {
      * Test getTrailerFields method.
      */
     @Test
-    public void testGetTrailerFields() { 
+    void testGetTrailerFields() { 
         HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(null);
         assertNotNull(wrapper.getTrailerFields());
         Map<String, String> trailerFields = wrapper.getTrailerFields();
@@ -83,7 +83,7 @@ public class HttpServletRequestWrapperTest {
      * Test isTrailerFieldsReady method.
      */
     @Test
-    public void testIsTrailerFieldsReady() { 
+    void testIsTrailerFieldsReady() { 
         HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(null);
         assertTrue(wrapper.isTrailerFieldsReady());
     }
@@ -92,7 +92,7 @@ public class HttpServletRequestWrapperTest {
      * Test newPushBuilder method.
      */
     @Test
-    public void testNewPushBuilder() { 
+    void testNewPushBuilder() { 
         HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(null);
         assertNull(wrapper.newPushBuilder());
     }

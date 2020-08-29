@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultHttpSessionTest {
+class DefaultHttpSessionTest {
 
     /**
      * Test getAttribute method.
      */
     @Test
-    public void testGetAttribute() {
+    void testGetAttribute() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(new DefaultHttpSessionManager());
@@ -55,7 +55,7 @@ public class DefaultHttpSessionTest {
      * Test getAttributeNames method.
      */
     @Test
-    public void testGetAttributeNames() {
+    void testGetAttributeNames() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         assertFalse(session.getAttributeNames().hasMoreElements());
@@ -65,7 +65,7 @@ public class DefaultHttpSessionTest {
      * Test getCreationTime method.
      */
     @Test
-    public void testGetCreationTime() {
+    void testGetCreationTime() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         assertTrue(session.getCreationTime() > 0);
@@ -75,7 +75,7 @@ public class DefaultHttpSessionTest {
      * Test getId method.
      */
     @Test
-    public void testGetId() {
+    void testGetId() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setId("ID");
@@ -86,7 +86,7 @@ public class DefaultHttpSessionTest {
      * Test getLastAccessedTime method.
      */
     @Test
-    public void testGetLastAccessedTime() {
+    void testGetLastAccessedTime() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         assertTrue(session.getCreationTime() > 0);
@@ -97,7 +97,7 @@ public class DefaultHttpSessionTest {
      * Test getMaxInactiveInterval method.
      */
     @Test
-    public void testGetMaxInactiveInterval() {
+    void testGetMaxInactiveInterval() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setMaxInactiveInterval(1000);
@@ -108,7 +108,7 @@ public class DefaultHttpSessionTest {
      * Test getServletContext method.
      */
     @Test
-    public void testGetServletContext() {
+    void testGetServletContext() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(webApp.getHttpSessionManager());
@@ -119,7 +119,7 @@ public class DefaultHttpSessionTest {
      * Test getSessionContext method.
      */
     @Test
-    public void testGetSessionContext() {
+    void testGetSessionContext() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         assertNull(session.getSessionContext());
@@ -129,7 +129,7 @@ public class DefaultHttpSessionTest {
      * Test getSessionManager method.
      */
     @Test
-    public void testGetSessionManager() {
+    void testGetSessionManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(new DefaultHttpSessionManager());
@@ -139,7 +139,7 @@ public class DefaultHttpSessionTest {
      * Test getValue method.
      */
     @Test
-    public void testGetValue() {
+    void testGetValue() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(new DefaultHttpSessionManager());
@@ -153,7 +153,7 @@ public class DefaultHttpSessionTest {
      * Test getValueNames method.
      */
     @Test
-    public void testGetValueNames() {
+    void testGetValueNames() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         assertTrue(session.getValueNames().length == 0);
@@ -163,7 +163,7 @@ public class DefaultHttpSessionTest {
      * Test invalidate method.
      */
     @Test
-    public void testInvalidate() {
+    void testInvalidate() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(new DefaultHttpSessionManager());
@@ -176,7 +176,7 @@ public class DefaultHttpSessionTest {
      * @throws IllegalStateException when the session is invalid.
      */
     @Test
-    public void testInvalidate2() {
+    void testInvalidate2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(new DefaultHttpSessionManager());
@@ -188,7 +188,7 @@ public class DefaultHttpSessionTest {
      * Test isNew method.
      */
     @Test
-    public void testIsNew() {
+    void testIsNew() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setNew(true);
@@ -201,7 +201,7 @@ public class DefaultHttpSessionTest {
      * Test setAttribute method.
      */
     @Test
-    public void testSetAttribute() {
+    void testSetAttribute() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
         session.setSessionManager(new DefaultHttpSessionManager());

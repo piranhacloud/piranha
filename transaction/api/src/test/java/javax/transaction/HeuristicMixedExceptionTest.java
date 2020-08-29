@@ -34,13 +34,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HeuristicMixedExceptionTest {
+class HeuristicMixedExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage() {
+    void testGetMessage() {
         HeuristicMixedException exception = new HeuristicMixedException("message");
         assertEquals("message", exception.getMessage());
     }    
@@ -48,7 +48,7 @@ public class HeuristicMixedExceptionTest {
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage2() {
+    void testGetMessage2() {
         HeuristicMixedException exception = new HeuristicMixedException();
         assertNull(exception.getMessage());
     }

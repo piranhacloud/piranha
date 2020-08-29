@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TyrusIT {
+class TyrusIT {
 
     /**
      * Test configure method.
@@ -45,7 +45,7 @@ public class TyrusIT {
      */
     @Test
     @Disabled
-    public void testConfigure() throws Exception {
+    void testConfigure() throws Exception {
         /*
         final MicroPiranha piranha = new MicroPiranha();
         WebApplication webApplication = piranha.configure(new String[]{
@@ -60,7 +60,7 @@ public class TyrusIT {
 //        WebSocket webSocket = client.newWebSocketBuilder()
 //                .buildAsync(URI.create("ws://localhost:8080/endpoint"), new Listener() {
 //                    @Override
-//                    public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
+//                    CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
 //                        return webSocket.sendText(data, true);
 //                    }
 //                }).join();

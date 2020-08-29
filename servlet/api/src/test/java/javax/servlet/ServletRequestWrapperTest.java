@@ -38,13 +38,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletRequestWrapperTest {
+class ServletRequestWrapperTest {
 
     /**
      * Test getAsyncContext method.
      */
     @Test
-    public void testGetAsyncContext() {
+    void testGetAsyncContext() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertNull(wrapper.getAsyncContext());
     }
@@ -53,7 +53,7 @@ public class ServletRequestWrapperTest {
      * Test geAttribute method.
      */
     @Test
-    public void testGetAttribute() {
+    void testGetAttribute() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertNull(wrapper.getAttribute("null"));
     }
@@ -62,7 +62,7 @@ public class ServletRequestWrapperTest {
      * Test getAttributeNames method.
      */
     @Test
-    public void testGetAttributeNames() {
+    void testGetAttributeNames() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertNotNull(wrapper.getAttributeNames());
     }
@@ -71,7 +71,7 @@ public class ServletRequestWrapperTest {
      * Test getCharacterEncoding method.
      */
     @Test
-    public void testCharacterEncoding() {
+    void testCharacterEncoding() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertEquals("UTF-8", wrapper.getCharacterEncoding());
     }
@@ -80,7 +80,7 @@ public class ServletRequestWrapperTest {
      * Test getContentLength method.
      */
     @Test
-    public void testGetContentLength() {
+    void testGetContentLength() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertEquals(-1, wrapper.getContentLength());
     }
@@ -89,7 +89,7 @@ public class ServletRequestWrapperTest {
      * Test getContentLengthLong method.
      */
     @Test
-    public void testGetContentLengthLong() {
+    void testGetContentLengthLong() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertEquals(-1L, wrapper.getContentLengthLong());
     }
@@ -98,7 +98,7 @@ public class ServletRequestWrapperTest {
      * Test getContentType method.
      */
     @Test
-    public void testGetContentType() {
+    void testGetContentType() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertEquals("text/html", wrapper.getContentType());
     }
@@ -107,7 +107,7 @@ public class ServletRequestWrapperTest {
      * Test getDispatcherType method.
      */
     @Test
-    public void testGetDispatcherType() {
+    void testGetDispatcherType() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertEquals(DispatcherType.ERROR, wrapper.getDispatcherType());
     }
@@ -118,7 +118,7 @@ public class ServletRequestWrapperTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetInputStream() throws Exception {
+    void testGetInputStream() throws Exception {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertNotNull(wrapper.getInputStream());
     }
@@ -127,7 +127,7 @@ public class ServletRequestWrapperTest {
      * Test getLocalAddr method.
      */
     @Test
-    public void testGetLocalAddr() {
+    void testGetLocalAddr() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertEquals("127.0.0.1", wrapper.getLocalAddr());
     }
@@ -136,7 +136,7 @@ public class ServletRequestWrapperTest {
      * Test getLocalName method.
      */
     @Test
-    public void testGetLocalName() {
+    void testGetLocalName() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertEquals("localhost", wrapper.getLocalName());
     }
@@ -145,7 +145,7 @@ public class ServletRequestWrapperTest {
      * Test getLocalPort method.
      */
     @Test
-    public void testGetLocalPort() {
+    void testGetLocalPort() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertEquals(8180, wrapper.getLocalPort());
     }
@@ -154,7 +154,7 @@ public class ServletRequestWrapperTest {
      * Test getLocale method.
      */
     @Test
-    public void testGetLocale() {
+    void testGetLocale() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertEquals(Locale.getDefault(), wrapper.getLocale());
     }
@@ -163,7 +163,7 @@ public class ServletRequestWrapperTest {
      * Test getLocales method.
      */
     @Test
-    public void testGetLocales() {
+    void testGetLocales() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertNotNull(wrapper.getLocales());
     }
@@ -172,7 +172,7 @@ public class ServletRequestWrapperTest {
      * Test getParameter method.
      */
     @Test
-    public void testGetParameter() {
+    void testGetParameter() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertNull(wrapper.getParameter("null"));
     }

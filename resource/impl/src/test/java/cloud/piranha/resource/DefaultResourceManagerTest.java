@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultResourceManagerTest {
+class DefaultResourceManagerTest {
 
     /**
      * Test getResource method to not find a missing resource.
@@ -45,7 +45,7 @@ public class DefaultResourceManagerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetResource() throws Exception {
+    void testGetResource() throws Exception {
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(new DirectoryResource(new File("")));
         assertNull(manager.getResource("/doesnotexist"));
@@ -57,7 +57,7 @@ public class DefaultResourceManagerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetResource2() throws Exception {
+    void testGetResource2() throws Exception {
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(new DirectoryResource(new File(".")));
         assertNotNull(manager.getResource("src"));
@@ -69,7 +69,7 @@ public class DefaultResourceManagerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetResource3() throws Exception {
+    void testGetResource3() throws Exception {
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(new DirectoryResource(new File(".")));
         manager.addResource(new DirectoryResource(new File("")));
@@ -80,7 +80,7 @@ public class DefaultResourceManagerTest {
      * Test getResourceAsStream method to not find a missing resource.
      */
     @Test
-    public void testGetResourceAsStream() {
+    void testGetResourceAsStream() {
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(new DirectoryResource(new File("")));
         assertNull(manager.getResourceAsStream("/doesnotexist"));
@@ -90,7 +90,7 @@ public class DefaultResourceManagerTest {
      * Test getResourceAsStream method to not find a missing resource.
      */
     @Test
-    public void testGetResourceAsStream2() {
+    void testGetResourceAsStream2() {
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(new DirectoryResource(new File(".")));
         manager.addResource(new DirectoryResource(new File("")));

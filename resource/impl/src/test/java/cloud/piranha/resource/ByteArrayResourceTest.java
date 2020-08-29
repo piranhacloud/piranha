@@ -40,13 +40,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ByteArrayResourceTest {
+class ByteArrayResourceTest {
     
     /**
      * Test getAllLocations method.
      */
     @Test
-    public void testGetAllLocations() {
+    void testGetAllLocations() {
         ByteArrayResource resource = new ByteArrayResource("mylocation", null);
         assertEquals(1, resource.getAllLocations().count());
     }
@@ -55,7 +55,7 @@ public class ByteArrayResourceTest {
      * Test getBytes method.
      */
     @Test
-    public void testGetBytes() {
+    void testGetBytes() {
         ByteArrayResource resource = new ByteArrayResource("", null);
         assertNull(resource.getBytes());
     }
@@ -66,7 +66,7 @@ public class ByteArrayResourceTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetResource() throws Exception {
+    void testGetResource() throws Exception {
         ByteArrayResource resource = new ByteArrayResource("mylocation", new byte[0]);
         assertNotNull(resource.getResource("mylocation"));
         assertNull(resource.getResource("notmylocation"));
@@ -77,7 +77,7 @@ public class ByteArrayResourceTest {
      * Test getResourceAsStream method.
      */
     @Test
-    public void testGetResourceAsStream() {
+    void testGetResourceAsStream() {
         ByteArrayResource resource = new ByteArrayResource("mylocation", new byte[0]);
         assertTrue(resource.getResourceAsStream("mylocation") instanceof ByteArrayInputStream);
         assertNull(resource.getResourceAsStream("notmylocation"));

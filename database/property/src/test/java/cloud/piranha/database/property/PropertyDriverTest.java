@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PropertyDriverTest {
+class PropertyDriverTest {
 
     /**
      * Test connect method.
@@ -49,7 +49,7 @@ public class PropertyDriverTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testConnect() throws Exception {
+    void testConnect() throws Exception {
         System.getProperties().put("property.0.url", "jdbc:h2:mem:test");
         Connection connection = DriverManager.getConnection("jdbc:property:0");
         System.getProperties().remove("property.0.url");
@@ -62,7 +62,7 @@ public class PropertyDriverTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testAcceptsURL() throws Exception {
+    void testAcceptsURL() throws Exception {
         assertNotNull(DriverManager.getDriver("jdbc:property:0"));
     }
 
@@ -73,7 +73,7 @@ public class PropertyDriverTest {
      */
     @Disabled
     @Test
-    public void testGetPropertyInfo() throws Exception {
+    void testGetPropertyInfo() throws Exception {
         assertNotNull(DriverManager.getDriver("jdbc:property:0").getPropertyInfo("jdbc:property:0", new Properties()));
     }
 
@@ -83,7 +83,7 @@ public class PropertyDriverTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetMajorVersion() throws Exception {
+    void testGetMajorVersion() throws Exception {
         assertEquals(1, DriverManager.getDriver("jdbc:property:0").getMajorVersion());
     }
 
@@ -93,7 +93,7 @@ public class PropertyDriverTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetMinorVersion() throws Exception {
+    void testGetMinorVersion() throws Exception {
         assertEquals(0, DriverManager.getDriver("jdbc:property:0").getMinorVersion());
     }
 
@@ -103,7 +103,7 @@ public class PropertyDriverTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testJdbcCompliant() throws Exception {
+    void testJdbcCompliant() throws Exception {
         assertTrue(DriverManager.getDriver("jdbc:property:0").jdbcCompliant());
     }
 
@@ -113,7 +113,7 @@ public class PropertyDriverTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetParentLogger() throws Exception {
+    void testGetParentLogger() throws Exception {
         assertNotNull(DriverManager.getDriver("jdbc:property:0").getParentLogger());
     }
 }

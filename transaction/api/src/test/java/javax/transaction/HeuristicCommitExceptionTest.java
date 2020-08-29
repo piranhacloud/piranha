@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HeuristicCommitExceptionTest {
+class HeuristicCommitExceptionTest {
     
     /**
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage() {
+    void testGetMessage() {
         HeuristicCommitException exception = new HeuristicCommitException("message");
         assertEquals("message", exception.getMessage());
     }    
@@ -49,7 +49,7 @@ public class HeuristicCommitExceptionTest {
      * Test getMessage method.
      */
     @Test
-    public void testGetMessage2() {
+    void testGetMessage2() {
         HeuristicCommitException exception = new HeuristicCommitException();
         assertNull(exception.getMessage());
     }

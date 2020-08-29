@@ -35,13 +35,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpSessionBindingEventTest {
+class HttpSessionBindingEventTest {
     
     /**
      * Test getName method.
      */
     @Test
-    public void testGetName() {
+    void testGetName() {
         HttpSession session = new TestHttpSession();
         HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, "name");
         assertEquals("name", event.getName());
@@ -51,7 +51,7 @@ public class HttpSessionBindingEventTest {
      * Test getSession method.
      */
     @Test
-    public void testGetSession() {
+    void testGetSession() {
         HttpSession session = new TestHttpSession();
         HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, null);
         assertNotNull(event.getSession());
@@ -61,7 +61,7 @@ public class HttpSessionBindingEventTest {
      * Test getValue method.
      */
     @Test
-    public void testGetValue() {
+    void testGetValue() {
         HttpSession session = new TestHttpSession();
         HttpSessionBindingEvent event = new HttpSessionBindingEvent(session, "name", "value");
         assertEquals("value", event.getValue());

@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletRegistrationTest {
+class ServletRegistrationTest {
 
     /**
      * Stores the web application.
@@ -56,7 +56,7 @@ public class ServletRegistrationTest {
      * @throws Exception when a serious error occurs.
      */
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         webApp = new DefaultWebApplication();
     }
 
@@ -64,7 +64,7 @@ public class ServletRegistrationTest {
      * Test getClassName method.
      */
     @Test
-    public void testGetClassName() {
+    void testGetClassName() {
         webApp.addServlet("servlet", TestServlet.class);
         ServletRegistration registration = webApp.getServletRegistration("servlet");
         assertNotNull(TestServlet.class.getCanonicalName(), registration.getClassName());
@@ -74,7 +74,7 @@ public class ServletRegistrationTest {
      * Test getInitParameter method.
      */
     @Test
-    public void testGetInitParameter() {
+    void testGetInitParameter() {
         webApp.addServlet("servlet", TestServlet.class);
         ServletRegistration registration = webApp.getServletRegistration("servlet");
         registration.setInitParameter("name", "value");
@@ -84,7 +84,7 @@ public class ServletRegistrationTest {
      * Test getInitParameters method.
      */
     @Test
-    public void testGetInitParameters() {
+    void testGetInitParameters() {
         webApp.addServlet("servlet", TestServlet.class);
         ServletRegistration registration = webApp.getServletRegistration("servlet");
         assertNotNull(registration.getInitParameters());
@@ -94,7 +94,7 @@ public class ServletRegistrationTest {
      * Test getName method.
      */
     @Test
-    public void testGetName() {
+    void testGetName() {
         webApp.addServlet("servlet", TestServlet.class);
         assertNotNull("servlet", webApp.getServletRegistration("servlet").getName());
     }
@@ -103,7 +103,7 @@ public class ServletRegistrationTest {
      * Test getRunAsRole method.
      */
     @Test
-    public void testGetRunAsRole() {
+    void testGetRunAsRole() {
         webApp.addServlet("servlet", TestServlet.class);
         ServletRegistration.Dynamic registration = (ServletRegistration.Dynamic) webApp.getServletRegistration("servlet");
         registration.setRunAsRole("role");
@@ -115,7 +115,7 @@ public class ServletRegistrationTest {
      * Test getServletRegistrations method.
      */
     @Test
-    public void testGetServletRegistration() {
+    void testGetServletRegistration() {
         webApp.addServlet("servlet", TestServlet.class);
         assertNotNull(webApp.getServletRegistration("servlet"));
     }
@@ -124,7 +124,7 @@ public class ServletRegistrationTest {
      * Test getFilterRegistration method.
      */
     @Test
-    public void testGetServletRegistration2() {
+    void testGetServletRegistration2() {
         webApp.addServlet("servlet", "doesnotexist");
         assertNotNull(webApp.getServletRegistration("servlet"));
     }
@@ -133,7 +133,7 @@ public class ServletRegistrationTest {
      * Test getFilterRegistrations method.
      */
     @Test
-    public void testGetServletRegistration3() {
+    void testGetServletRegistration3() {
         webApp.addServlet("servlet", TestServlet.class);
         assertFalse(webApp.getServletRegistrations().isEmpty());
     }
@@ -142,7 +142,7 @@ public class ServletRegistrationTest {
      * Test setInitParameters method.
      */
     @Test
-    public void testSetInitParameters() {
+    void testSetInitParameters() {
         webApp.addServlet("servlet", TestServlet.class);
         ServletRegistration registration = webApp.getServletRegistration("servlet");
         registration.setInitParameter("name", "value");
@@ -153,7 +153,7 @@ public class ServletRegistrationTest {
      * Test setInitParameters method.
      */
     @Test
-    public void testSetInitParameters2() {
+    void testSetInitParameters2() {
         webApp.addServlet("servlet", TestServlet.class);
         ServletRegistration registration = webApp.getServletRegistration("servlet");
         HashMap<String, String> parameters = new HashMap<>();
@@ -165,7 +165,7 @@ public class ServletRegistrationTest {
      * Test setInitParameters method.
      */
     @Test
-    public void testSetInitParameters3() {
+    void testSetInitParameters3() {
         webApp.addServlet("servlet", TestServlet.class);
         ServletRegistration registration = webApp.getServletRegistration("servlet");
         HashMap<String, String> parameters = new HashMap<>();
@@ -177,7 +177,7 @@ public class ServletRegistrationTest {
      * Test setInitParameters method.
      */
     @Test
-    public void testSetInitParameters4() {
+    void testSetInitParameters4() {
         webApp.addServlet("servlet", TestServlet.class);
         ServletRegistration registration = webApp.getServletRegistration("servlet");
         HashMap<String, String> parameters = new HashMap<>();
@@ -189,7 +189,7 @@ public class ServletRegistrationTest {
      * Test setInitParameters method.
      */
     @Test
-    public void testSetInitParameters5() {
+    void testSetInitParameters5() {
         webApp.addServlet("servlet", TestServlet.class);
         ServletRegistration registration = webApp.getServletRegistration("servlet");
         HashMap<String, String> parameters = new HashMap<>();
@@ -201,6 +201,6 @@ public class ServletRegistrationTest {
     /**
      * Test servlet used in a test which tests adding a servlet registration.
      */
-    public static class TestServlet extends HttpServlet {
+    static class TestServlet extends HttpServlet {
     }
 }

@@ -46,7 +46,7 @@ import cloud.piranha.webapp.webxml.WebXmlExtension;
  *
  * @author Arjan Tijms
  */
-public class JwtTest {
+class JwtTest {
 
     /**
      * Test GET /HelloServlet.
@@ -54,7 +54,7 @@ public class JwtTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testHello() throws Exception {
+    void testHello() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .extensions(WebXmlExtension.class, WebAnnotationExtension.class)

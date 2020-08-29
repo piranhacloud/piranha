@@ -36,13 +36,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletContextAttributeEventTest {
+class ServletContextAttributeEventTest {
 
     /**
      * Test getName method.
      */
     @Test
-    public void testGetName() {
+    void testGetName() {
         ServletContext servletContext = new TestServletContext();
         ServletContextAttributeEvent event = new ServletContextAttributeEvent(servletContext, "name", "value");
         assertEquals("name", event.getName());
@@ -52,7 +52,7 @@ public class ServletContextAttributeEventTest {
      * Test getValue method.
      */
     @Test
-    public void testGetValue() {
+    void testGetValue() {
         ServletContext servletContext = new TestServletContext();
         ServletContextAttributeEvent event = new ServletContextAttributeEvent(servletContext, "name", "value");
         assertEquals("value", event.getValue());

@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HelloHazelcastTest {
+class HelloHazelcastTest {
 
     /**
      * Test /faces/notfound.html.
@@ -51,7 +51,7 @@ public class HelloHazelcastTest {
      * @throws Exception
      */
     @Test
-    public void testNotFound() throws Exception {
+    void testNotFound() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .httpSessionManager(new HazelcastHttpSessionManager())
@@ -76,7 +76,7 @@ public class HelloHazelcastTest {
      * @throws Exception
      */
     @Test
-    public void testIndexHtml() throws Exception {
+    void testIndexHtml() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .httpSessionManager(new HazelcastHttpSessionManager())

@@ -37,13 +37,13 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DirectoryResourceTest {
+class DirectoryResourceTest {
 
     /**
      * Test getResource method.
      */
     @Test
-    public void testGetResource() {
+    void testGetResource() {
         DirectoryResource resource = new DirectoryResource();
         assertNull(resource.getResource("/resource"));
     }
@@ -52,7 +52,7 @@ public class DirectoryResourceTest {
      * Test getResourceAsStream method.
      */
     @Test
-    public void testGetResourceAsStream() {
+    void testGetResourceAsStream() {
         DirectoryResource resource = new DirectoryResource();
         assertNull(resource.getResourceAsStream("/resource"));
     }
@@ -61,7 +61,7 @@ public class DirectoryResourceTest {
      * Test getResourceAsStream method.
      */
     @Test
-    public void testGetResourceAsStream2() {
+    void testGetResourceAsStream2() {
         DirectoryResource resource = new DirectoryResource(new File("."));
         assertNotNull(resource.getResourceAsStream("pom.xml"));
     }
@@ -70,7 +70,7 @@ public class DirectoryResourceTest {
      * Test getRootDirectory method, of class DirectoryResource.
      */
     @Test
-    public void testGetRootDirectory() {
+    void testGetRootDirectory() {
         DirectoryResource resource = new DirectoryResource();
         resource.setRootDirectory(new File("src/main/java"));
         assertNotNull(resource.getRootDirectory());

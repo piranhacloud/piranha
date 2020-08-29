@@ -30,4 +30,9 @@ module cloud.piranha.servlet.api {
     exports javax.servlet.annotation;
     exports javax.servlet.descriptor;
     exports javax.servlet.http;
+
+    opens javax.servlet;
+    opens javax.servlet.annotation;
+    opens javax.servlet.descriptor;
+    opens javax.servlet.http;
 }

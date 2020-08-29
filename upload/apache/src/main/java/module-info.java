@@ -39,4 +39,6 @@ module cloud.piranha.upload.apache {
     requires java.logging;
 
     provides ServletContainerInitializer with ApacheMultiPartInitializer;
+    
+    opens cloud.piranha.upload.apache;
 }
