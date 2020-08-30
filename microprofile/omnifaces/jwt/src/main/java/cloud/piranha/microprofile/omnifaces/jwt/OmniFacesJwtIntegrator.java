@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.omnifaces.jwt;
+package cloud.piranha.microprofile.omnifaces.jwt;
 
 import static javax.ws.rs.RuntimeType.SERVER;
 import static org.glassfish.jersey.internal.spi.AutoDiscoverable.DEFAULT_PRIORITY;

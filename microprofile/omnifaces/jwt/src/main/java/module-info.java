@@ -36,5 +36,5 @@ module cloud.piranha.microprofile.omnifaces.jwt {
 
     requires microprofile.jwt.auth;
 
-    exports cloud.piranha.omnifaces.jwt;
+    exports cloud.piranha.microprofile.omnifaces.jwt;
 }
