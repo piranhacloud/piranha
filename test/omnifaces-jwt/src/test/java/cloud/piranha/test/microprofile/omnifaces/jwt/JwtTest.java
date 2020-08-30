@@ -38,7 +38,7 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
-import cloud.piranha.webapp.webservlet.WebAnnotationExtension;
+import cloud.piranha.webapp.webannotation.WebAnnotationExtension;
 import cloud.piranha.webapp.webxml.WebXmlExtension;
 
 /**

@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webservlet;
+package cloud.piranha.webapp.webannotation;
 
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
