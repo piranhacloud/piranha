@@ -30,7 +30,7 @@ package cloud.piranha.extension.micro;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.webservlet.WebAnnotationInitializer;
+import cloud.piranha.webapp.webannotation.WebAnnotationInitializer;
 import cloud.piranha.webapp.webxml.WebXmlInitializer;
 
 /**

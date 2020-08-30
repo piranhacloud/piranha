@@ -33,5 +33,5 @@ module cloud.piranha.webapp.webannotation {
     requires java.annotation;
     requires java.logging;
 
-    exports cloud.piranha.webapp.webservlet;
+    exports cloud.piranha.webapp.webannotation;
 }

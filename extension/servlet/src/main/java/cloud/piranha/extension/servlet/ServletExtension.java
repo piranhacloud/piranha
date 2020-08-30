@@ -33,7 +33,7 @@ import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 import cloud.piranha.webapp.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.webapp.tempdir.TempDirExtension;
-import cloud.piranha.webapp.webservlet.WebAnnotationExtension;
+import cloud.piranha.webapp.webannotation.WebAnnotationExtension;
 import cloud.piranha.webapp.webxml.WebXmlExtension;
 
 /**
