@@ -27,7 +27,7 @@
  */
 package piranha.cloud.test.smallrye.health;
 
-import cloud.piranha.smallrye.health.SmallRyeHealthServlet;
+import cloud.piranha.microprofile.smallrye.health.SmallRyeHealthServlet;
 import cloud.piranha.cdi.weld.WeldInitializer;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
