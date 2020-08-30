@@ -25,12 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.smallrye.health;
+package cloud.piranha.microprofile.smallrye.health;
 
 import io.smallrye.health.SmallRyeHealth;
 import io.smallrye.health.SmallRyeHealthReporter;
 import java.io.IOException;
-
 import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,12 +37,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * The Smallrye Readiness Servlet.
+ * The Smallrye Liveness Servlet.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@WebServlet(name = "SmallRyeReadinessServlet", urlPatterns = "/health/ready")
-public class SmallRyeReadinessServlet extends HttpServlet {
+@WebServlet(name = "SmallRyeLivenessServlet", urlPatterns = "/health/live")
+public class SmallRyeLivenessServlet extends HttpServlet {
 
     /**
      * Stores the reporter.
@@ -61,7 +60,7 @@ public class SmallRyeReadinessServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        SmallRyeHealth health = reporter.getReadiness();
+        SmallRyeHealth health = reporter.getLiveness();
         if (health.isDown()) {
             response.setStatus(503);
         }
