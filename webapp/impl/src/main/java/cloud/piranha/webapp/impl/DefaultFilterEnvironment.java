@@ -27,6 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -36,6 +37,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -127,6 +129,9 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
      */
     @Override
     public void addMappingForServletNames(EnumSet<DispatcherType> dispatcherTypes, boolean isMatchAfter, String... servletNames) {
+        String[] names = Stream.of(servletNames).map(s -> "servlet:// " + s).toArray(String[]::new);
+        webApplication.addFilterMapping(dispatcherTypes, filterName, isMatchAfter, names);
+        Arrays.stream(servletNames).forEach(x -> servletNameMappings.put(x, filterName));
     }
 
     /**
@@ -138,7 +143,8 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
      */
     @Override
     public void addMappingForUrlPatterns(EnumSet<DispatcherType> dispatcherTypes, boolean isMatchAfter, String... urlPatterns) {
-        webApplication.addFilterMapping(filterName, isMatchAfter, urlPatterns);
+        webApplication.addFilterMapping(dispatcherTypes, filterName, isMatchAfter, urlPatterns);
+        Arrays.stream(urlPatterns).forEach(x -> urlPatternMappings.put(x, filterName));
     }
 
     /**
