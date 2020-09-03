@@ -81,24 +81,14 @@ public class DefaultInvocationFinder {
                 if (servletInvocation == null) { // TODO: access rules for WEB-INF
                     servletInvocation = getDefaultServletInvocation(servletPath, pathInfo);
                 }
-            } else if (isStaticResource(servletPath, pathInfo)) {
-                // Dispatcher type is not REQUEST, so e.g. FORWARD or INCLUDE.
-                // For these we must do an early check to see if the resource exists
-
+            } else {
+                // Note: no WEB-INF checks needed here
                 servletInvocation = getDefaultServletInvocation(servletPath, pathInfo);
             }
         }
 
-        if (servletInvocation != null) {
-
-            // We have a servletInvocation, check first if the servlet (if any) is actually available
-            if (servletInvocation.isServletUnavailable() && dispatcherType != REQUEST) {
-                return null;
-            }
-
-            // Seed the chain with the servlet, if any. REQUEST dispatches can be done to only a filter so a servlet is not hard requirement
-            servletInvocation.seedFilterChain();
-        }
+        // Seed the chain with the servlet, if any. REQUEST dispatches can be done to only a filter so a servlet is not hard requirement
+        servletInvocation.seedFilterChain();
 
         return addFilters(dispatcherType, servletInvocation, servletPath, pathInfo);
     }
@@ -225,6 +215,7 @@ public class DefaultInvocationFinder {
         servletInvocation.setServletEnvironment(new DefaultServletEnvironment(webApplication, "default", defaultServlet));
         servletInvocation.setServletPath(servletPath);
         servletInvocation.setPathInfo(pathInfo);
+        servletInvocation.setInvocationPath(servletPath); // look at whether its really needed to have path and invocation path
 
         return servletInvocation;
     }

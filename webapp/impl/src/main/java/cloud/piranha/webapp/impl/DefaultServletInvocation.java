@@ -129,6 +129,7 @@ public class DefaultServletInvocation implements ServletInvocation {
     public void seedFilterChain() {
         setFilterChain(
             new DefaultFilterChain(
+                this,
                 getServletEnvironment() == null ? null : getServletEnvironment().getServlet()));
     }
 

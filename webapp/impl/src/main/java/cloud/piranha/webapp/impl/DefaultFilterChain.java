@@ -37,7 +37,10 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServletResponse;
+
+import cloud.piranha.webapp.api.ServletInvocation;
 
 /**
  * The default FilterChain.
@@ -57,6 +60,11 @@ public class DefaultFilterChain implements FilterChain {
     private FilterChain nextFilterChain;
 
     /**
+     *
+     */
+    private ServletInvocation servletInvocation;
+
+    /**
      * Stores the servlet.
      */
     private Servlet servlet;
@@ -72,7 +80,8 @@ public class DefaultFilterChain implements FilterChain {
      *
      * @param servlet the servlet.
      */
-    public DefaultFilterChain(Servlet servlet) {
+    public DefaultFilterChain(ServletInvocation servletInvocation, Servlet servlet) {
+        this.servletInvocation = servletInvocation;
         this.servlet = servlet;
     }
 
@@ -106,6 +115,25 @@ public class DefaultFilterChain implements FilterChain {
             } finally {
                 request.removeAttribute(DefaultServletEnvironment.class.getName());
             }
+        } else if (servletInvocation != null && servletInvocation.isServletUnavailable()) {
+            // We've reached the servlet, but the servlet is not available (for instance because
+            // the init method failed)
+            Exception exception;
+            Throwable throwable = servletInvocation.getServletEnvironment().getUnavailableException();
+            if (throwable instanceof Exception) {
+                exception = (Exception) throwable;
+            } else {
+                exception = new UnavailableException("");
+                exception.initCause(throwable);
+            }
+
+            if (response instanceof HttpServletResponse) {
+                ((HttpServletResponse) response).setStatus(500);
+            }
+
+            request.setAttribute("piranha.request.exception", exception);
+            throw new ServletException(exception);
+
         } else if (response instanceof HttpServletResponse) {
             ((HttpServletResponse) response).sendError(SC_NOT_FOUND);
         }
