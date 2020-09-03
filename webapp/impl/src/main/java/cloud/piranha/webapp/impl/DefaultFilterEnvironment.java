@@ -363,4 +363,13 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     public void setWebApplication(WebApplication webApplication) {
         this.webApplication = webApplication;
     }
+
+    @Override
+    public String toString() {
+        return
+            (className != null? className : "") + " " +
+            (!urlPatternMappings.isEmpty()? urlPatternMappings : "") +
+            (!servletNameMappings.isEmpty()? servletNameMappings : "") + " " +
+            super.toString();
+    }
 }
