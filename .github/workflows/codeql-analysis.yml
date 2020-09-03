@@ -59,7 +59,7 @@ jobs:
         java-version: 14
         
     - run: |
-       mvn clean install
+       mvn clean install -B -V -e -Dfindbugs.skip -Dcheckstyle.skip -Dpmd.skip=true -Denforcer.skip -Dmaven.javadoc.skip -DskipTests -Dmaven.test.skip.exec -Dlicense.skip=true -Drat.skip=true 
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
