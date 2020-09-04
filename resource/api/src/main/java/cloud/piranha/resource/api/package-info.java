@@ -25,39 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource.api;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.util.stream.Stream;
-
 /**
- * The Resource API.
+ * <p>
+ * The cloud.piranha.resource.api package delivers the Resource API classes.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface Resource {
-
-    /**
-     * Get the resource.
-     *
-     * @param location the location.
-     * @return the URL.
-     */
-    URL getResource(String location);
-
-    /**
-     * Get the resource as a stream.
-     *
-     * @param location the location.
-     * @return the resource as a stream, or null if not found.
-     */
-    InputStream getResourceAsStream(String location);
-
-    /**
-     * Get all the locations for this resource.
-     *
-     * @return all the locations for this resource.
-     */
-    Stream<String> getAllLocations();
-}
+package cloud.piranha.resource.api;
