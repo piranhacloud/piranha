@@ -75,6 +75,17 @@ class DefaultWebApplicationTest {
     }
 
     /**
+     * Test addJspFile method
+     */
+    @Test
+    void testAddJspFile2() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.initialize();
+        webApp.start();
+        assertThrows(IllegalStateException.class, () -> webApp.addJspFile("MyJspFile", "myjspfile.jsp"));
+    }
+
+    /**
      * Test addMapping method (verify the # of mappings > 0).
      */
     @Test
@@ -966,6 +977,25 @@ class DefaultWebApplicationTest {
     }
 
     /**
+     * Test setAttribute method.
+     */
+    @Test
+    void testSetAttribute2() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        assertThrows(NullPointerException.class, () -> webApp.setAttribute(null, "KABOOM"));
+    }
+
+    /**
+     * Test getAttribute method.
+     */
+    @Test
+    void testGetAttribute() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        assertThrows(NullPointerException.class, () -> webApp.getAttribute(null));
+    }
+
+
+    /**
      * Test setClassLoader method.
      */
     @Test
@@ -998,6 +1028,15 @@ class DefaultWebApplicationTest {
     }
 
     /**
+     * Test setInitParameter method.
+     */
+    @Test
+    void testSetInitParameter3() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        assertThrows(NullPointerException.class, () -> webApp.setInitParameter(null, "KABOOM"));
+    }
+
+    /**
      * Test setLoggingManager method.
      */
     @Test
@@ -1005,5 +1044,26 @@ class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setLoggingManager(null);
         assertThrows(NullPointerException.class, () -> webApp.log("KABOOM"));
+    }
+
+    /**
+     * Test setSessionTimeout method
+     */
+    @Test
+    void testSessionTimeout() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setSessionTimeout(50);
+        assertEquals(50, webApp.getSessionTimeout());
+    }
+
+    /**
+     * Test setSessionTimeout method
+     */
+    @Test
+    void testSessionTimeout2() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.initialize();
+        webApp.start();
+        assertThrows(IllegalStateException.class, () -> webApp.setSessionTimeout(50));
     }
 }
