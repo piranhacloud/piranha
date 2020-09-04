@@ -818,6 +818,10 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void flush() throws IOException {
+        if (!isCommitted()) {
+            writeOut();
+        }
+
         outputStream.flush();
     }
 
