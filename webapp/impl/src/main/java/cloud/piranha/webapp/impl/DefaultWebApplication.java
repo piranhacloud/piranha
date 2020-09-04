@@ -52,6 +52,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -474,6 +475,9 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public ServletRegistration.Dynamic addJspFile(String servletName, String jspFile) {
+        if (status != SETUP) {
+            throw new IllegalStateException("Illegal to add JSP file because state is not SETUP");
+        }
         return jspManager.addJspFile(this, servletName, jspFile);
     }
 
@@ -718,6 +722,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Object getAttribute(String name) {
+        Objects.requireNonNull(name);
         return attributes.get(name);
     }
 
@@ -1492,6 +1497,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setAttribute(String name, Object value) {
+        Objects.requireNonNull(name);
         if (value != null) {
             boolean added = true;
             if (attributes.containsKey(name)) {
@@ -1588,6 +1594,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public boolean setInitParameter(String name, String value) {
+        Objects.requireNonNull(name);
         boolean result = true;
         if (status != SETUP) {
             throw new IllegalStateException("Cannot set init parameter once web application is initialized");
@@ -1717,6 +1724,9 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setSessionTimeout(int sessionTimeout) {
+        if (status != SETUP) {
+            throw new IllegalStateException("Illegal to set session timeout because state is not SETUP");
+        }
         httpSessionManager.setSessionTimeout(sessionTimeout);
     }
 
