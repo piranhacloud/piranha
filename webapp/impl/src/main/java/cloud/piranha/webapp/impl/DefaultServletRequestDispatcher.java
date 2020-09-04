@@ -282,6 +282,10 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
     // #### SYNC forward private methods
     private void syncForward(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
+        if (servletResponse.isCommitted()) {
+            throw new IllegalStateException("Response already committed");
+        }
+
         try (DefaultWebApplicationRequest forwardedRequest = new DefaultWebApplicationRequest()) {
 
             HttpServletRequest request = (HttpServletRequest) servletRequest;
