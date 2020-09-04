@@ -36,11 +36,16 @@ package cloud.piranha.resource.api;
 public interface ResourceManagerClassLoader {
 
     /**
+     * Get the resource manager.
+     * 
+     * @return the resource manager.
+     */
+    ResourceManager getResourceManager();
+    
+    /**
      * Set the resource manager.
      *
      * @param resourceManager the resource manager.
      */
     void setResourceManager(ResourceManager resourceManager);
-    
-    ResourceManager getResourceManager();
 }
