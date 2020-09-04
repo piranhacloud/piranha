@@ -25,19 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.api;
-
 /**
- * Defines the minimal API each Piranha implements.
+ * <p>
+ * The Piranha API package contains the core set of APIs each Piranha needs to
+ * deliver.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface Piranha {
-
-    /**
-     * Get the version.
-     *
-     * @return the version.
-     */
-    String getVersion();
-}
+package cloud.piranha.api;
