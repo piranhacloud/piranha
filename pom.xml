@@ -81,6 +81,9 @@
 
         <!-- MicroProfile -->
         <module>microprofile</module>
+        
+        <!-- Applications -->
+        <module>war</module>
     </modules>
 
     <scm>
