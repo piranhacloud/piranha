@@ -32,10 +32,14 @@ import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.WebXml;
 import java.io.File;
 import java.io.InputStream;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import cloud.piranha.webapp.impl.WebXmlServletMapping;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -103,4 +107,29 @@ class WebXmlParserTest {
         WebXml webXml = parser.parse(inputStream);
         assertEquals("index.html", webXml.getWelcomeFiles().get(0));
     }
+
+
+    /**
+     * Test parse method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testParseWebXml4() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/parse4")));
+        InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
+        WebXmlParser parser = new WebXmlParser();
+        WebXml webXml = parser.parse(inputStream);
+        assertEquals(1, webXml.getServlets().size());
+        String servletName = webXml.getServlets().get(0).getServletName();
+        assertEquals("Test Servlet", servletName);
+        List<WebXmlServletMapping> servletMappings = webXml.getServletMappings();
+        assertEquals(2, servletMappings.size());
+        assertEquals(servletName, servletMappings.get(0).getServletName());
+        assertEquals("/foo", servletMappings.get(0).getUrlPattern());
+        assertEquals(servletName, servletMappings.get(1).getServletName());
+        assertEquals("/bar", servletMappings.get(1).getUrlPattern());
+    }
+
 }
