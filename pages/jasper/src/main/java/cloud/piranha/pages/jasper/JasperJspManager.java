@@ -29,6 +29,7 @@ package cloud.piranha.pages.jasper;
 
 import cloud.piranha.webapp.api.JspManager;
 import cloud.piranha.webapp.api.WebApplication;
+
 import javax.servlet.ServletRegistration;
 import javax.servlet.descriptor.JspConfigDescriptor;
 
@@ -55,7 +56,7 @@ public class JasperJspManager implements JspManager {
     @Override
     public ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile) {
         ServletRegistration.Dynamic registration = webApplication.addServlet(
-                servletName, "org.apache.jasper.servlet.JspServlet");
+                servletName, new JasperServlet(jspFile));
         registration.addMapping(jspFile);
         String classpath = System.getProperty("java.class.path");
         registration.setInitParameter("classpath", classpath);

@@ -60,6 +60,11 @@ public class WebXmlServlet {
     private String servletName;
 
     /**
+     * Stores the JSP file
+     */
+    private String jspFile;
+
+    /**
      * Add init param.
      *
      * @param initParam the init param.
@@ -141,6 +146,22 @@ public class WebXmlServlet {
     }
 
     /**
+     * Get the jsp file
+     * @return the jsp file
+     */
+    public String getJspFile() {
+        return jspFile;
+    }
+
+    /**
+     * Set the JSP file
+     * @param jspFile - the JSP file
+     */
+    public void setJspFile(String jspFile) {
+        this.jspFile = jspFile;
+    }
+
+    /**
      * Return string representation.
      *
      * @return the string representation.
@@ -151,6 +172,7 @@ public class WebXmlServlet {
         builder.append("Servlet[");
         builder.append("servletName=").append(servletName).append(",");
         builder.append("className=").append(className).append(",");
+        builder.append("jspFile=").append(jspFile).append(",");
         builder.append("asyncSupported=").append(asyncSupported).append("]");
         return builder.toString();
     }

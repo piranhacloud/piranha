@@ -318,6 +318,11 @@ public class WebXmlProcessor {
             }
 
             ServletRegistration.Dynamic dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
+
+            String jspFile = servlet.getJspFile();
+            if (jspFile != null && !jspFile.isEmpty())
+                webApplication.addJspFile(servlet.getServletName(), jspFile);
+
             if (servlet.isAsyncSupported()) {
                 dynamic.setAsyncSupported(true);
             }
