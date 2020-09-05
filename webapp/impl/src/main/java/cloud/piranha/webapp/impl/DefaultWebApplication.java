@@ -478,6 +478,11 @@ public class DefaultWebApplication implements WebApplication {
         if (status != SETUP) {
             throw new IllegalStateException("Illegal to add JSP file because state is not SETUP");
         }
+
+        if (servletName == null || "".equals(servletName.trim())) {
+            throw new IllegalArgumentException("Servlet name cannot be null or empty");
+        }
+
         return jspManager.addJspFile(this, servletName, jspFile);
     }
 
