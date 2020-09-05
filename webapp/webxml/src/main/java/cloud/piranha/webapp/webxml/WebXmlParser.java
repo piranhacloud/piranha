@@ -525,8 +525,9 @@ public class WebXmlParser {
                 List<WebXmlServletMapping> servletMappings = webXml.getServletMappings();
                 for (int i = 0; i < nodeList.getLength(); i++) {
                     String servletName = parseString(xPath, "servlet-name/text()", nodeList.item(i));
-                    String urlPattern = parseString(xPath, "url-pattern/text()", nodeList.item(i));
-                    servletMappings.add(new WebXmlServletMapping(servletName, urlPattern));
+                    for (String urlPattern : parseStrings(xPath, "url-pattern/text()", nodeList.item(i))) {
+                        servletMappings.add(new WebXmlServletMapping(servletName, urlPattern));
+                    }
                 }
             }
         } catch (XPathExpressionException xee) {
