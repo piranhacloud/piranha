@@ -11,7 +11,7 @@
     </parent>
     <artifactId>piranha-war-jmx</artifactId>
     <packaging>war</packaging>
-    <name>Piranha WAR - JMX monitor application</name>
+    <name>Piranha WAR - JMX admin application</name>
     <build>
         <plugins>
             <plugin>
