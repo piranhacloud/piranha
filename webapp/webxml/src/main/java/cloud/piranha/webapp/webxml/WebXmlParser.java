@@ -551,6 +551,7 @@ public class WebXmlParser {
                 WebXmlServlet servlet = new WebXmlServlet();
                 servlet.setServletName(parseString(xPath, "servlet-name/text()", servletNode));
                 servlet.setClassName(parseString(xPath, "servlet-class/text()", servletNode));
+                servlet.setJspFile(parseString(xPath, "jsp-file/text()", servletNode));
 
                 Boolean asyncSupported = parseBoolean(xPath, "async-supported/text()", servletNode);
                 if (asyncSupported != null) {

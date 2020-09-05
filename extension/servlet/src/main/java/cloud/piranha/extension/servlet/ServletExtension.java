@@ -53,10 +53,10 @@ public class ServletExtension implements WebApplicationExtension {
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(AnnotationScanExtension.class);
+        context.add(JasperExtension.class);
         context.add(WebXmlExtension.class);
         context.add(WebAnnotationExtension.class);
         context.add(TempDirExtension.class);
-        context.add(JasperExtension.class);
         context.add(ServletContainerInitializerExtension.class);
     }
 }
