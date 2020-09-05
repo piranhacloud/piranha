@@ -145,5 +145,13 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Piranha WAR - JMX admin application -->
+        <dependency>
+            <groupId>cloud.piranha.war</groupId>
+            <artifactId>piranha-war-jmx</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
