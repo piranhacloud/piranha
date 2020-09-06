@@ -13,6 +13,7 @@
     <name>Piranha WAR - Project</name>
     <modules>
         <module>jmx</module>
+        <module>rest</module>
     </modules>
     <dependencyManagement>
         <dependencies>
