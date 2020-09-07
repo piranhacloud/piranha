@@ -890,6 +890,11 @@ public class DefaultWebApplication implements WebApplication {
         return enumeration(initParameters.keySet());
     }
 
+    @Override
+    public List<ServletContainerInitializer> getInitializers() {
+        return initializers;
+    }
+
     /**
      * Get the JSP config descriptor.
      *

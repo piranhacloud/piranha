@@ -27,10 +27,13 @@
  */
 package cloud.piranha.webapp.scinitializer;
 
+import static java.util.Collections.emptyList;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.FINER;
 import static java.util.logging.Level.INFO;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ServiceLoader;
 import java.util.logging.Logger;
 
@@ -53,6 +56,18 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
     private static final Logger LOGGER = Logger.getLogger(
             ServletContainerInitializerExtension.class.getPackage().getName());
 
+    private final boolean excludeExistingInitializers;
+    private final List<String> ignoreInitializers;
+
+    public ServletContainerInitializerExtension() {
+        this(false, emptyList());
+    }
+
+    public ServletContainerInitializerExtension(boolean excludeExistingInitializers, List<String> ignoreInitializers) {
+        this.excludeExistingInitializers = excludeExistingInitializers;
+        this.ignoreInitializers = new ArrayList<>(ignoreInitializers);
+    }
+
     /**
      * Configure the web application.
      *
@@ -70,7 +85,10 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
             if (LOGGER.isLoggable(FINE)) {
                 LOGGER.log(INFO, "Adding initializer: {0}", initializer.getClass().getName());
             }
-            webApplication.addInitializer(initializer);
+
+            if (shouldAdd(webApplication, initializer)) {
+                webApplication.addInitializer(initializer);
+            }
         }
 
         if (this.getClass().getModule().isNamed()) {
@@ -81,7 +99,10 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
                 if (LOGGER.isLoggable(FINE)) {
                     LOGGER.log(INFO, "Adding initializer: {0}", initializer.getClass().getName());
                 }
-                webApplication.addInitializer(initializer);
+
+                if (shouldAdd(webApplication, initializer)) {
+                    webApplication.addInitializer(initializer);
+                }
             }
         }
 
@@ -90,4 +111,30 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
             LOGGER.log(FINER, "Finished ServletContainerInitializer processing");
         }
     }
+
+    private boolean shouldAdd(WebApplication webApplication, ServletContainerInitializer initializer) {
+        if (isIgnored(initializer)) {
+            return false;
+        }
+
+        if (!excludeExistingInitializers) {
+            return true;
+        }
+
+        return !containsInstance(webApplication, initializer);
+    }
+
+    private boolean containsInstance(WebApplication webApplication, ServletContainerInitializer initializer) {
+        return webApplication.getInitializers()
+                             .stream()
+                             .anyMatch(e -> e.getClass().equals(initializer.getClass()));
+    }
+
+    private boolean isIgnored(ServletContainerInitializer initializer) {
+        return ignoreInitializers
+                             .stream()
+                             .anyMatch(e -> e.equals(initializer.getClass().getName()));
+    }
+
+
 }
