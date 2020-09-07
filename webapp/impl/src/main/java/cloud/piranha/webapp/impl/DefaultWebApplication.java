@@ -1461,8 +1461,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void removeAttribute(String name) {
-        attributes.remove(name);
-        attributeRemoved(name);
+        attributeRemoved(name, attributes.remove(name));
     }
 
     /**
@@ -1508,11 +1507,11 @@ public class DefaultWebApplication implements WebApplication {
             if (attributes.containsKey(name)) {
                 added = false;
             }
-            attributes.put(name, value);
+            Object previousValue = attributes.put(name, value);
             if (added) {
                 attributeAdded(name, value);
             } else {
-                attributeReplaced(name, value);
+                attributeReplaced(name, previousValue);
             }
         } else {
             removeAttribute(name);
@@ -1927,9 +1926,9 @@ public class DefaultWebApplication implements WebApplication {
      *
      * @param name the name.
      */
-    private void attributeRemoved(String name) {
+    private void attributeRemoved(String name, Object previousValue) {
         contextAttributeListeners.stream().forEach(listener -> {
-            listener.attributeRemoved(new ServletContextAttributeEvent(this, name, null));
+            listener.attributeRemoved(new ServletContextAttributeEvent(this, name, previousValue));
         });
     }
 
