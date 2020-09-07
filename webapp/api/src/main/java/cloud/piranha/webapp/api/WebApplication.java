@@ -30,6 +30,7 @@ package cloud.piranha.webapp.api;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.DispatcherType;
@@ -210,6 +211,14 @@ public interface WebApplication extends ServletContext {
      * @return the HttpRequestManager.
      */
     HttpRequestManager getHttpRequestManager();
+
+    /**
+     * Gets the ServletContainerInitializers
+     *
+     * @return list of ServletContainerInitializers
+     */
+    List<ServletContainerInitializer> getInitializers();
+
 
     /**
      * Get the mappings for a particular servlet.
