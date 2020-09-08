@@ -272,6 +272,11 @@ public interface WebApplication extends ServletContext {
     void initialize();
 
     /**
+     * Marks the end of initializing declared (web.xml, annotations) artifacts
+     */
+    void initializeDeclaredFinish();
+
+    /**
      * Finish the initialization.
      */
     void initializeFinish();

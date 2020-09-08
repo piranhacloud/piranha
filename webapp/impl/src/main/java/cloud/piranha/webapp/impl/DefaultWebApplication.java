@@ -31,6 +31,7 @@ import static cloud.piranha.webapp.api.FilterEnvironment.UNAVAILABLE;
 import static java.util.Collections.enumeration;
 import static java.util.Collections.reverse;
 import static java.util.Collections.unmodifiableMap;
+import static java.util.Objects.requireNonNull;
 import static java.util.function.Predicate.isEqual;
 import static java.util.function.Predicate.not;
 import static java.util.logging.Level.FINE;
@@ -125,24 +126,31 @@ import cloud.piranha.webapp.api.WelcomeFileManager;
 public class DefaultWebApplication implements WebApplication {
 
     /**
+     * Stores the SETUP constant.
+     */
+    protected static final int SETUP = 0;
+
+    /**
+     * Stores the INITIALIZED_DECLARED constant. This signals that web.xml, web-fragment.xml
+     * and annotations have been processed.
+     */
+    protected static final int INITIALIZED_DECLARED = 4;
+
+    /**
      * Stores the INITIALIZED constant.
      */
     protected static final int INITIALIZED = 1;
+
+    /**
+     * Stores the SERVICING constant.
+     */
+    protected static final int SERVICING = 2;
 
     /**
      * Stores the ERROR constant.
      */
     protected static final int ERROR = 3;
 
-    /**
-     * Stores the SETUP constant.
-     */
-    protected static final int SETUP = 0;
-
-    /**
-     * Stores the SERVICING constant.
-     */
-    protected static final int SERVICING = 2;
 
     /**
      * Stores the logger.
@@ -232,9 +240,14 @@ public class DefaultWebApplication implements WebApplication {
     protected final List<ServletContextAttributeListener> contextAttributeListeners;
 
     /**
-     * Stores the servlet context listeners.
+     * Stores the servlet context listeners that were declared in web.xml, web-fragment.xml, or via annotations
      */
-    protected final ArrayList<ServletContextListener> contextListeners;
+    protected final List<ServletContextListener> declaredContextListeners;
+
+    /**
+     * Stores the servlet context listeners that were not declared in web.xml, web-fragment.xml, or via annotations
+     */
+    protected final List<ServletContextListener> contextListeners;
 
     /**
      * Stores the servlet request listeners.
@@ -319,6 +332,14 @@ public class DefaultWebApplication implements WebApplication {
     protected DefaultInvocationFinder invocationFinder;
 
     /**
+     * When we're in tainted mode, we have to throw exceptions for a large number of methods.
+     *
+     * Tainted mode is required for ServletContextListeners which have not been declared. At the
+     * moment of writing it's not clear why this tainted mode is needed.
+     */
+    protected boolean tainted;
+
+    /**
      * Constructor.
      */
     public DefaultWebApplication() {
@@ -327,6 +348,7 @@ public class DefaultWebApplication implements WebApplication {
         attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
         contextAttributeListeners = new ArrayList<>(1);
+        declaredContextListeners = new ArrayList<>(1);
         contextListeners = new ArrayList<>(1);
         contextPath = "";
         filters = new LinkedHashMap<>(1);
@@ -360,6 +382,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, String className) {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has started");
         }
@@ -392,6 +418,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has started");
         }
@@ -423,6 +453,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has started");
         }
@@ -475,7 +509,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public ServletRegistration.Dynamic addJspFile(String servletName, String jspFile) {
-        if (status != SETUP) {
+        if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Illegal to add JSP file because state is not SETUP");
         }
 
@@ -493,7 +527,11 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void addListener(String className) {
-        if (status != SETUP) {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
+        if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
         try {
@@ -514,7 +552,11 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void addListener(Class<? extends EventListener> type) {
-        if (status != SETUP) {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
+        if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
         try {
@@ -535,9 +577,18 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public <T extends EventListener> void addListener(T listener) {
-        if (listener instanceof ServletContextListener) {
-            contextListeners.add((ServletContextListener) listener);
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
         }
+
+        if (listener instanceof ServletContextListener) {
+            if (status == INITIALIZED_DECLARED) {
+                contextListeners.add((ServletContextListener) listener);
+            } else {
+                declaredContextListeners.add((ServletContextListener) listener);
+            }
+        }
+
         if (listener instanceof ServletContextAttributeListener) {
             contextAttributeListeners.add((ServletContextAttributeListener) listener);
         }
@@ -589,6 +640,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Dynamic addServlet(String servletName, String className) {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         DefaultServletEnvironment result = servletEnvironments.get(servletName);
         if (result == null) {
             result = new DefaultServletEnvironment(this, servletName);
@@ -610,6 +665,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Dynamic addServlet(String servletName, Servlet servlet) {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         DefaultServletEnvironment result = new DefaultServletEnvironment(this, servletName, servlet);
         servletEnvironments.put(servletName, result);
         return result;
@@ -647,6 +706,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         return objectInstanceManager.createFilter(filterClass);
     }
 
@@ -660,6 +723,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         T result = objectInstanceManager.createListener(clazz);
         boolean ok = false;
         if (result instanceof ServletContextListener || result instanceof ServletContextAttributeListener || result instanceof ServletRequestListener
@@ -686,6 +753,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public <T extends Servlet> T createServlet(Class<T> servletClass) throws ServletException {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         return objectInstanceManager.createServlet(servletClass);
     }
 
@@ -711,11 +782,18 @@ public class DefaultWebApplication implements WebApplication {
         });
         servletEnvironments.clear();
 
+
         reverse(contextListeners);
         contextListeners.stream().forEach((listener) -> {
             listener.contextDestroyed(new ServletContextEvent(this));
         });
         contextListeners.clear();
+
+        reverse(declaredContextListeners);
+        declaredContextListeners.stream().forEach((listener) -> {
+            listener.contextDestroyed(new ServletContextEvent(this));
+        });
+        declaredContextListeners.clear();
         status = SETUP;
     }
 
@@ -787,6 +865,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         return httpSessionManager.getDefaultSessionTrackingModes();
     }
 
@@ -815,6 +897,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public int getEffectiveMajorVersion() {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         return getMajorVersion();
     }
 
@@ -825,6 +911,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public int getEffectiveMinorVersion() {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         return getMinorVersion();
     }
 
@@ -845,6 +935,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         return httpSessionManager.getEffectiveSessionTrackingModes();
     }
 
@@ -856,6 +950,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public FilterRegistration getFilterRegistration(String filterName) {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         return filters.get(filterName);
     }
 
@@ -866,6 +964,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Map<String, ? extends FilterRegistration> getFilterRegistrations() {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         return unmodifiableMap(filters);
     }
 
@@ -902,6 +1004,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         return jspManager.getJspConfigDescriptor();
     }
 
@@ -1196,6 +1302,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public ServletRegistration getServletRegistration(String servletName) {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         return servletEnvironments.get(servletName);
     }
 
@@ -1206,6 +1316,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public Map<String, ? extends ServletRegistration> getServletRegistrations() {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         return unmodifiableMap(servletEnvironments);
     }
 
@@ -1228,6 +1342,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public SessionCookieConfig getSessionCookieConfig() {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         return httpSessionManager.getSessionCookieConfig();
     }
 
@@ -1288,8 +1406,22 @@ public class DefaultWebApplication implements WebApplication {
      * Finish the initialization.
      */
     @Override
-    public void initializeFinish() {
+    public void initializeDeclaredFinish() {
         if (status == SETUP) {
+            status = INITIALIZED_DECLARED;
+            LOGGER.log(FINE, "Initialized declared items for web application at {0}", contextPath);
+        }
+        if (status == ERROR && LOGGER.isLoggable(WARNING)) {
+            LOGGER.log(WARNING, "An error occurred initializing webapplication at {0}", contextPath);
+        }
+    }
+
+    /**
+     * Finish the initialization.
+     */
+    @Override
+    public void initializeFinish() {
+        if (status == SETUP || status == INITIALIZED_DECLARED) {
             status = INITIALIZED;
             LOGGER.log(FINE, "Initialized web application at {0}", contextPath);
         }
@@ -1303,7 +1435,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void initializeFilters() {
-        if (status == SETUP) {
+        if (status == SETUP || status == INITIALIZED_DECLARED) {
             List<String> filterNames = new ArrayList<>(filters.keySet());
             filterNames.stream().map((filterName) -> filters.get(filterName)).forEach((environment) -> {
                 try {
@@ -1346,11 +1478,20 @@ public class DefaultWebApplication implements WebApplication {
             }
         }
         if (!error) {
-            @SuppressWarnings("unchecked")
-            List<ServletContextListener> listeners = (List<ServletContextListener>) contextListeners.clone();
+            List<ServletContextListener> listeners = new ArrayList<>(declaredContextListeners);
             listeners.stream().forEach((listener) -> {
                 listener.contextInitialized(new ServletContextEvent(this));
             });
+
+            try {
+                tainted = true;
+                listeners = new ArrayList<>(contextListeners);
+                listeners.stream().forEach((listener) -> {
+                    listener.contextInitialized(new ServletContextEvent(this));
+                });
+            } finally {
+                tainted = false;
+            }
         } else {
             status = ERROR;
         }
@@ -1361,7 +1502,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void initializeServlets() {
-        if (status == SETUP) {
+        if (status == SETUP || status == INITIALIZED_DECLARED) {
             List<String> servletNames = new ArrayList<>(servletEnvironments.keySet());
             servletNames.stream().map((servletName) -> servletEnvironments.get(servletName)).forEach((environment) -> {
                 initializeServlet(environment);
@@ -1603,11 +1744,17 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public boolean setInitParameter(String name, String value) {
-        Objects.requireNonNull(name);
-        boolean result = true;
-        if (status != SETUP) {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
+        if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Cannot set init parameter once web application is initialized");
         }
+
+        requireNonNull(name);
+
+        boolean result = true;
         if (initParameters.containsKey(name)) {
             result = false;
         } else {
@@ -1723,6 +1870,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
         httpSessionManager.setSessionTrackingModes(sessionTrackingModes);
     }
 
@@ -1733,7 +1884,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setSessionTimeout(int sessionTimeout) {
-        if (status != SETUP) {
+        if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Illegal to set session timeout because state is not SETUP");
         }
         httpSessionManager.setSessionTimeout(sessionTimeout);

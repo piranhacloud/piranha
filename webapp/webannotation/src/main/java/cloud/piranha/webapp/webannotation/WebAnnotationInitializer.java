@@ -202,6 +202,8 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
         for (AnnotationInfo<WebListener> annotationInfo : annotationManager.getAnnotations(WebListener.class)) {
             webApp.addListener(getTargetListener(annotationInfo));
         }
+
+        webApp.initializeDeclaredFinish();
     }
 
     @SuppressWarnings("unchecked")
