@@ -107,7 +107,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     }
 
     /**
-     * Dispatches using using the REQUEST dispatch type
+     * Dispatches using the REQUEST dispatch type
      *
      * @param webappRequest the request.
      * @param httpResponse the response.
@@ -162,7 +162,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     }
 
     /**
-     * Dispatches using using the FORWARD or ASYNC dispatch type - Forward the request and response.
+     * Dispatches using the FORWARD or ASYNC dispatch type - Forward the request and response.
      *
      * @param servletRequest the request.
      * @param servletResponse the response.
@@ -183,7 +183,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     }
 
     /**
-     * Dispatches using using the INCLUDE dispatch type - Include the request and response.
+     * Dispatches using the INCLUDE dispatch type - Include the request and response.
      *
      * @param servletRequest the request.
      * @param servletResponse the response.
@@ -203,6 +203,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             includedRequest.setAttribute(INCLUDE_PATH_INFO, originalRequest.getPathInfo());
             includedRequest.setAttribute(INCLUDE_QUERY_STRING, originalRequest.getQueryString());
             includedRequest.setServletPath(path);
+            includedRequest.setDispatcherType(INCLUDE);
             includedRequest.setPathInfo(null);
             includedRequest.setQueryString(null);
 
