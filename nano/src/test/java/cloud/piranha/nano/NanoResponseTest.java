@@ -59,7 +59,7 @@ class NanoResponseTest {
     void testAddDateHeader() {
         NanoResponse response = new NanoResponse();
         response.addDateHeader("name", 0);
-        assertEquals("0", response.getHeader("name"));
+        assertEquals("Thu, 1 Jan 1970 00:00:00 GMT", response.getHeader("name"));
     }
 
     /**
