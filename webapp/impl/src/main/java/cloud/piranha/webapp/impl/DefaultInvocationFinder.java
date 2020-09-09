@@ -199,8 +199,15 @@ public class DefaultInvocationFinder {
     }
 
     private boolean isStaticResource(String servletPath, String pathInfo) throws MalformedURLException {
-        return webApplication.getResource(webApplication.contextPath + servletPath + (pathInfo == null? "" : pathInfo)) != null;
+        return webApplication.getResource(addSlashIfNeeded(webApplication.contextPath + servletPath + (pathInfo == null? "" : pathInfo))) != null;
+    }
 
+    private String addSlashIfNeeded(String string) {
+        if (string.startsWith("/")) {
+            return string;
+        }
+
+        return "/" + string;
     }
 
     private DefaultServletInvocation getDefaultServletInvocation(String servletPath, String pathInfo) {
