@@ -48,6 +48,7 @@
                         <configuration>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <shadedClassifierName>shaded</shadedClassifierName>
+                            <createSourcesJar>true</createSourcesJar>
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
