@@ -1128,6 +1128,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public URL getResource(String location) throws MalformedURLException {
+        if (!location.startsWith("/")) {
+            throw new MalformedURLException("Location " + location + " must start with a /");
+        }
+
         return resourceManager.getResource(location);
     }
 
