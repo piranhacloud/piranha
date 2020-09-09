@@ -153,9 +153,9 @@ class HttpServletResponseTest {
      */
     @Test
     void testSetDateHeader() {
-        response.setDateHeader("header", 1);
-        response.setDateHeader("header", 2);
-        assertEquals("2", response.getHeader("header"));
+        response.setDateHeader("header", 1000);
+        response.setDateHeader("header", 2000);
+        assertEquals("Thu, 1 Jan 1970 00:00:02 GMT", response.getHeader("header"));
     }
 
     /**
@@ -163,8 +163,8 @@ class HttpServletResponseTest {
      */
     @Test
     void testSetDateHeader2() {
-        response.setDateHeader("header", 1);
-        assertEquals("1", response.getHeader("header"));
+        response.setDateHeader("header", 1000);
+        assertEquals("Thu, 1 Jan 1970 00:00:01 GMT", response.getHeader("header"));
     }
 
     /**

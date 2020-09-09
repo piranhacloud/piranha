@@ -35,6 +35,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -190,7 +193,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void addDateHeader(String name, long date) {
-        addHeader(name, Long.toString(date));
+        addHeader(name, formatDateToGMT(date));
     }
 
     /**
@@ -667,7 +670,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setDateHeader(String name, long date) {
-        setHeader(name, Long.toString(date));
+        setHeader(name, formatDateToGMT(date));
     }
 
     /**
@@ -989,4 +992,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         outputStream.write("\n".getBytes());
     }
 
+    private String formatDateToGMT(long timestamp) {
+        return Instant.ofEpochMilli(timestamp).atZone(ZoneId.of("GMT"))
+                .format(DateTimeFormatter.RFC_1123_DATE_TIME);
+    }
 }

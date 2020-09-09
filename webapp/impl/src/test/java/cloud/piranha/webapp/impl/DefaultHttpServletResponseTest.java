@@ -48,7 +48,7 @@ class DefaultHttpServletResponseTest {
     void testAddDateHeader() {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.addDateHeader("name", 1234);
-        assertEquals("1234", response.getHeader("name"));
+        assertEquals("Thu, 1 Jan 1970 00:00:01 GMT", response.getHeader("name"));
     }
 
     /**
