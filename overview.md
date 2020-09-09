@@ -7,4 +7,8 @@
 1. [Piranha Micro](micro/)
 1. [Piranha Server](server/)
 
+## Addons
+
+1. [Piranha Database Environment driver](shared/database-environment.md)
+
 [Frontpage](../index.html)
