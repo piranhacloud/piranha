@@ -183,6 +183,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected boolean distributable;
 
+    protected int effectiveMajorVersion = -1;
+
+    protected int effectiveMinorVersion = -1;
+
     /**
      * Stores the servlet context name.
      */
@@ -373,13 +377,11 @@ public class DefaultWebApplication implements WebApplication {
         invocationFinder = new DefaultInvocationFinder(this);
     }
 
-    /**
-     * Add the filter.
-     *
-     * @param filterName the filter name.
-     * @param className the class name.
-     * @return the filter dynamic.
-     */
+    @Override
+    public FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) {
+        return addFilter(filterName, filterClass.getCanonicalName());
+    }
+
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, String className) {
         if (tainted) {
@@ -397,6 +399,10 @@ public class DefaultWebApplication implements WebApplication {
         DefaultFilterEnvironment defaultFilterEnvironment;
         if (filters.containsKey(filterName)) {
             defaultFilterEnvironment = filters.get(filterName);
+            if (defaultFilterEnvironment.getClassName() != null) {
+                // Filter already set, can't override
+                return null;
+            }
         } else {
             defaultFilterEnvironment = new DefaultFilterEnvironment();
             defaultFilterEnvironment.setFilterName(filterName);
@@ -408,49 +414,6 @@ public class DefaultWebApplication implements WebApplication {
         return defaultFilterEnvironment;
     }
 
-    /**
-     * Add the filter.
-     *
-     * @param filterName the filter name.
-     * @param filterClass the filter class.
-     * @return the filter dynamic.
-     * @see ServletContext#addFilter(java.lang.String, java.lang.Class)
-     */
-    @Override
-    public FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) {
-        if (tainted) {
-            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
-        }
-
-        if (status == SERVICING) {
-            throw new IllegalStateException("Cannot call this after web application has started");
-        }
-
-        if (filterName == null || filterName.trim().equals("")) {
-            throw new IllegalArgumentException("Filter name cannot be null or empty");
-        }
-
-        DefaultFilterEnvironment filterEnvironment;
-        if (filters.containsKey(filterName)) {
-            filterEnvironment = filters.get(filterName);
-        } else {
-            filterEnvironment = new DefaultFilterEnvironment();
-            filterEnvironment.setFilterName(filterName);
-            filterEnvironment.setWebApplication(this);
-            filters.put(filterName, filterEnvironment);
-        }
-        filterEnvironment.setClassName(filterClass.getCanonicalName());
-
-        return filterEnvironment;
-    }
-
-    /**
-     * Add the filter.
-     *
-     * @param filterName the filter name.
-     * @param filter the filter.
-     * @return the filter dynamic registration.
-     */
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
         if (tainted) {
@@ -459,6 +422,14 @@ public class DefaultWebApplication implements WebApplication {
 
         if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has started");
+        }
+
+        if (filters.containsKey(filterName)) {
+            DefaultFilterEnvironment filterEnvironment = filters.get(filterName);
+            if (filterEnvironment.getClassName() != null) {
+                // Filter already set, can't override
+                return null;
+            }
         }
 
         DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment(this, filterName, filter);
@@ -477,11 +448,6 @@ public class DefaultWebApplication implements WebApplication {
         return webApplicationRequestMapper.addFilterMappingBeforeExisting(dispatcherTypes, filterName, urlPatterns);
     }
 
-    /**
-     * Add a servlet container initializer.
-     *
-     * @param className the class name.
-     */
     @Override
     public void addInitializer(String className) {
         try {
@@ -500,13 +466,6 @@ public class DefaultWebApplication implements WebApplication {
         initializers.add(servletContainerInitializer);
     }
 
-    /**
-     * Add a JSP file.
-     *
-     * @param servletName the name of the servlet.
-     * @param jspFile the JSP file.
-     * @return the dynamic servlet registration.
-     */
     @Override
     public ServletRegistration.Dynamic addJspFile(String servletName, String jspFile) {
         if (status != SETUP && status != INITIALIZED_DECLARED) {
@@ -520,11 +479,6 @@ public class DefaultWebApplication implements WebApplication {
         return jspManager.addJspFile(this, servletName, jspFile);
     }
 
-    /**
-     * Add listener.
-     *
-     * @param className the class name.
-     */
     @Override
     public void addListener(String className) {
         if (tainted) {
@@ -545,11 +499,6 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    /**
-     * Add the listener.
-     *
-     * @param type the type.
-     */
     @Override
     public void addListener(Class<? extends EventListener> type) {
         if (tainted) {
@@ -569,12 +518,6 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    /**
-     * Add the listener.
-     *
-     * @param <T> the type.
-     * @param listener the listener
-     */
     @Override
     public <T extends EventListener> void addListener(T listener) {
         if (tainted) {
@@ -609,78 +552,56 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    /**
-     * Add the resource.
-     *
-     * @param resource the resource.
-     */
     @Override
     public void addResource(Resource resource) {
         resourceManager.addResource(resource);
     }
 
-    /**
-     * Add the servlet.
-     *
-     * @param servletName the servlet name.
-     * @param servletClass the class type.
-     * @return the servlet dynamic.
-     */
     @Override
     public Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass) {
         return addServlet(servletName, servletClass.getName());
     }
 
-    /**
-     * Add the servlet.
-     *
-     * @param servletName the servlet name.
-     * @param className the class name.
-     * @return the servlet dynamic.
-     */
     @Override
     public Dynamic addServlet(String servletName, String className) {
         if (tainted) {
             throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
         }
 
-        DefaultServletEnvironment result = servletEnvironments.get(servletName);
-        if (result == null) {
-            result = new DefaultServletEnvironment(this, servletName);
-            result.setClassName(className);
-            servletEnvironments.put(servletName, result);
+        DefaultServletEnvironment servletEnvironment = servletEnvironments.get(servletName);
+        if (servletEnvironment == null) {
+            servletEnvironment = new DefaultServletEnvironment(this, servletName);
+            servletEnvironment.setClassName(className);
+            servletEnvironments.put(servletName, servletEnvironment);
         } else {
-            result.setClassName(className);
+            if (servletEnvironment.getClassName() != null) {
+                return null;
+            }
+            servletEnvironment.setClassName(className);
         }
 
-        return result;
+        return servletEnvironment;
     }
 
-    /**
-     * Add the servlet.
-     *
-     * @param servletName the servlet name.
-     * @param servlet the servlet.
-     * @return the servlet dynamic.
-     */
     @Override
     public Dynamic addServlet(String servletName, Servlet servlet) {
         if (tainted) {
             throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
         }
 
-        DefaultServletEnvironment result = new DefaultServletEnvironment(this, servletName, servlet);
-        servletEnvironments.put(servletName, result);
-        return result;
+        if (servletEnvironments.containsKey(servletName)) {
+            DefaultServletEnvironment servletEnvironment = servletEnvironments.get(servletName);
+            if (servletEnvironment.getClassName() != null) {
+                // Servlet already set, can't override
+                return null;
+            }
+        }
+
+        DefaultServletEnvironment servletEnvironment = new DefaultServletEnvironment(this, servletName, servlet);
+        servletEnvironments.put(servletName, servletEnvironment);
+        return servletEnvironment;
     }
 
-    /**
-     * Add the servlet mapping.
-     *
-     * @param servletName the servlet name.
-     * @param urlPatterns the URL patterns.
-     * @return the set of added mappings.
-     */
     @Override
     public Set<String> addServletMapping(String servletName, String... urlPatterns) {
         return webApplicationRequestMapper.addServletMapping(servletName, urlPatterns);
@@ -696,14 +617,6 @@ public class DefaultWebApplication implements WebApplication {
         errorPageManager.getErrorPagesByException().put(exception, location);
     }
 
-    /**
-     * Create the filter.
-     *
-     * @param <T> the return type.
-     * @param filterClass the filter class.
-     * @return the filter.
-     * @throws ServletException when a Filter error occurs.
-     */
     @Override
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
         if (tainted) {
@@ -901,7 +814,11 @@ public class DefaultWebApplication implements WebApplication {
             throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
         }
 
-        return getMajorVersion();
+        if (effectiveMajorVersion == -1) {
+            return getMajorVersion();
+        }
+
+        return effectiveMajorVersion;
     }
 
     /**
@@ -915,7 +832,23 @@ public class DefaultWebApplication implements WebApplication {
             throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
         }
 
-        return getMinorVersion();
+        if (effectiveMinorVersion == -1) {
+            return getMinorVersion();
+        }
+
+        return effectiveMinorVersion;
+    }
+
+    @Override
+    public void setEffectiveMajorVersion(int effectiveMajorVersion) {
+        this.effectiveMajorVersion = effectiveMajorVersion;
+
+    }
+
+    @Override
+    public void setEffectiveMinorVersion(int effectiveMinorVersion) {
+        this.effectiveMinorVersion = effectiveMinorVersion;
+
     }
 
     /**
@@ -2103,5 +2036,7 @@ public class DefaultWebApplication implements WebApplication {
             listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value));
         });
     }
+
+
 
 }

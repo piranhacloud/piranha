@@ -29,6 +29,7 @@ package cloud.piranha.webapp.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
@@ -179,7 +180,7 @@ class FilterTest {
     void testAddFilter10() throws Exception {
         webApp.initialize();
         assertNotNull(webApp.addFilter("filter", Filter.class));
-        assertNotNull(webApp.addFilter("filter", Filter.class));
+        assertNull(webApp.addFilter("filter", Filter.class));
     }
 
     /**

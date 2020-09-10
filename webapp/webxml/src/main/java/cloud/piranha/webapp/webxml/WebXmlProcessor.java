@@ -90,6 +90,7 @@ public class WebXmlProcessor {
         processRoleNames(webApplication, webXml);
         processServlets(webApplication, webXml);
         processServletMappings(webApplication, webXml);
+        processWebApp(webApplication, webXml);
         processWelcomeFiles(webApplication, webXml);
         if (LOGGER.isLoggable(FINER)) {
             LOGGER.log(FINER, "Finished WebXmlProcessor.process");
@@ -299,6 +300,17 @@ public class WebXmlProcessor {
             webApplication.addServletMapping(
                     mapping.getServletName(), mapping.getUrlPattern());
         }
+    }
+
+    /**
+     * Process the web app. This is basically only the version contained within it.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processWebApp(WebApplication webApplication, WebXml webXml) {
+        webApplication.setEffectiveMajorVersion(webXml.getMajorVersion());
+        webApplication.setEffectiveMinorVersion(webXml.getMinorVersion());
     }
 
     /**
