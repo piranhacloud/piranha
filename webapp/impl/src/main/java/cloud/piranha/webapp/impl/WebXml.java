@@ -45,6 +45,10 @@ public class WebXml implements Serializable {
      */
     private static final long serialVersionUID = 6143204024206508136L;
 
+
+    public int majorVersion;
+    public int minorVersion;
+
     /**
      * Stores the security constraints
      */
@@ -485,5 +489,39 @@ public class WebXml implements Serializable {
      */
     public void setSessionConfig(WebXmlSessionConfig sessionConfig) {
         this.sessionConfig = sessionConfig;
+    }
+
+    /**
+     * Gets the major version as set by the version attribute in the web app element
+     *
+     * @return the major version.
+     */
+    public int getMajorVersion() {
+        return majorVersion;
+    }
+
+    /**
+     * Sets the major version as set by the version attribute in the web app element
+     *
+     */
+    public void setMajorVersion(int majorVersion) {
+        this.majorVersion = majorVersion;
+    }
+
+    /**
+     * Gets the minor version as set by the version attribute in the web app element
+     *
+     * @return the major version.
+     */
+    public int getMinorVersion() {
+        return minorVersion;
+    }
+
+    /**
+     * Sets the minor version as set by the version attribute in the web app element
+     *
+     */
+    public void setMinorVersion(int minorVersion) {
+        this.minorVersion = minorVersion;
     }
 }

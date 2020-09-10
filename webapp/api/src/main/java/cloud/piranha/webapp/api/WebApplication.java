@@ -358,6 +358,18 @@ public interface WebApplication extends ServletContext {
     void setDistributable(boolean distributable);
 
     /**
+     * Set the effective major version.
+     *
+     */
+    void setEffectiveMajorVersion(int version);
+
+    /**
+     * Set the effective minor version.
+     *
+     */
+    void setEffectiveMinorVersion(int version);
+
+    /**
      * Set the HTTP session manager.
      *
      * @param httpSessionManager the HTTP session manager.
