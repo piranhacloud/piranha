@@ -29,6 +29,7 @@ package cloud.piranha.webapp.webxml;
 
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
+import static java.util.regex.Pattern.quote;
 import static javax.xml.xpath.XPathConstants.NODE;
 import static javax.xml.xpath.XPathConstants.NODESET;
 
@@ -48,6 +49,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -109,6 +111,7 @@ public class WebXmlParser {
             parseServletMappings(webXml, xPath, document);
             parseServlets(webXml, xPath, document);
             parseSessionConfig(webXml, xPath, document);
+            parseWebApp(webXml, xPath, document);
             parseWelcomeFiles(webXml, xPath, document);
         } catch (Throwable t) {
             LOGGER.log(WARNING, "Unable to parse web.xml", t);
@@ -598,8 +601,7 @@ public class WebXmlParser {
             Node scNode = (Node) xPath.evaluate("session-config", node, NODE);
             if (scNode != null) {
                 WebXmlSessionConfig sessionConfig = new WebXmlSessionConfig();
-                int sessionTimeout = parseInteger(
-                        xPath, "session-timeout/text()", scNode);
+                int sessionTimeout = parseInteger(xPath, "session-timeout/text()", scNode);
                 sessionConfig.setSessionTimeout(sessionTimeout);
                 webXml.setSessionConfig(sessionConfig);
                 Node cNode = (Node) xPath.evaluate("cookie-config", scNode, NODE);
@@ -615,6 +617,42 @@ public class WebXmlParser {
             LOGGER.log(WARNING, "Unable to parse <session-config> section", xpe);
         }
     }
+
+
+    /**
+     * Parse the default-context-path section.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param node the DOM node.
+     */
+    private void parseWebApp(WebXml webXml, XPath xPath, Node node) {
+        try {
+            Node webAppNode = (Node) xPath.evaluate("//web-app", node, NODE);
+            if (webAppNode != null) {
+                NamedNodeMap attributes = webAppNode.getAttributes();
+                if (attributes != null) {
+                    Node versionNode = attributes.getNamedItem("version");
+                    if (versionNode != null) {
+                        String version = versionNode.getTextContent();
+                        if (version != null) {
+                            String[] versionComponents = version.split(quote("."));
+                            if (versionComponents.length > 0) {
+                                webXml.setMajorVersion(Integer.valueOf(versionComponents[0]));
+                            }
+                            if (versionComponents.length > 1) {
+                                webXml.setMinorVersion(Integer.valueOf(versionComponents[1]));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse <web-app> section", xpe);
+        }
+    }
+
+
 
     /**
      * Parse a string.
