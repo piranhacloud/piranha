@@ -10,5 +10,6 @@
 ## Addons
 
 1. [Piranha Database Environment driver](shared/database-environment.md)
+1. [Piranha Database Property driver](shared/database-property.md)
 
 [Frontpage](../index.html)
