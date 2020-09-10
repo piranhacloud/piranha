@@ -105,7 +105,9 @@ class WebXmlParserTest {
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
         WebXmlParser parser = new WebXmlParser();
         WebXml webXml = parser.parse(inputStream);
+        assertEquals(2, webXml.getWelcomeFiles().size());
         assertEquals("index.html", webXml.getWelcomeFiles().get(0));
+        assertEquals("default.jsp", webXml.getWelcomeFiles().get(1));
     }
 
 
