@@ -710,11 +710,11 @@ public class WebXmlParser {
      */
     private void parseWelcomeFiles(WebXml webXml, XPath xPath, Node node) {
         try {
-            NodeList nodeList = (NodeList) xPath.evaluate("//welcome-file-list", node, NODESET);
+            NodeList nodeList = (NodeList) xPath.evaluate("//welcome-file-list/welcome-file", node, NODESET);
             if (nodeList != null) {
                 List<String> welcomeFiles = webXml.getWelcomeFiles();
                 for (int i = 0; i < nodeList.getLength(); i++) {
-                    String welcomeFile = parseString(xPath, "welcome-file/text()", nodeList.item(i));
+                    String welcomeFile = parseString(xPath, "text()", nodeList.item(i));
                     welcomeFiles.add(welcomeFile);
                     if (LOGGER.isLoggable(FINE)) {
                         LOGGER.log(FINE, "Parsed welcome-file: {0}", welcomeFile);
