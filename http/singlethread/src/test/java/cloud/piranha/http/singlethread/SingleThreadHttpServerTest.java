@@ -37,14 +37,13 @@ import org.junit.jupiter.api.Disabled;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Disabled
 public class SingleThreadHttpServerTest extends HttpServerTest {
 
     /**
-     * Create the Netty HTTP server.
+     * Create the Single-thread HTTP server.
      *
      * @param portNumber the port number.
-     * @return the Netty HTTP server.
+     * @return the Single-thread HTTP server.
      */
     @Override
     protected HttpServer createServer(int portNumber) {
@@ -52,11 +51,11 @@ public class SingleThreadHttpServerTest extends HttpServerTest {
     }
 
     /**
-     * Create the Netty HTTP server.
+     * Create the Single-thread HTTP server.
      *
      * @param portNumber the port number.
      * @param processor the HTTP server processor.
-     * @return the Netty HTTP server.
+     * @return the Single-thread HTTP server.
      */
     @Override
     protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
