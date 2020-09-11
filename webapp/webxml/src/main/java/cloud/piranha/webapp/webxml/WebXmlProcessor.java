@@ -215,13 +215,13 @@ public class WebXmlProcessor {
     private void processFilters(WebApplication webApplication, WebXml webXml) {
         webXml.getFilters().forEach((filter) -> {
             FilterRegistration.Dynamic dynamic = null;
+
             if (filter.getClassName() != null) {
-                dynamic = webApplication.addFilter(
-                        filter.getFilterName(), filter.getClassName());
+                dynamic = webApplication.addFilter(filter.getFilterName(), filter.getClassName());
             } else if (filter.getServletName() != null) {
-                dynamic = webApplication.addFilter(
-                        filter.getFilterName(), filter.getServletName());
+                dynamic = webApplication.addFilter(filter.getFilterName(), filter.getServletName());
             }
+
             if (dynamic != null) {
                 for (WebXmlFilterInitParam initParam : filter.getInitParams()) {
                     dynamic.setInitParameter(initParam.getName(), initParam.getValue());
@@ -332,7 +332,7 @@ public class WebXmlProcessor {
             ServletRegistration.Dynamic dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
 
             String jspFile = servlet.getJspFile();
-            if (jspFile != null && !jspFile.isEmpty())
+            if (!isEmpty(jspFile))
                 webApplication.addJspFile(servlet.getServletName(), jspFile);
 
             if (servlet.isAsyncSupported()) {
@@ -367,5 +367,9 @@ public class WebXmlProcessor {
             }
             welcomeFileManager.addWelcomeFile(welcomeFile);
         }
+    }
+
+    private boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
     }
 }

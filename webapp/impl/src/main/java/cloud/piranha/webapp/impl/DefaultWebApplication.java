@@ -478,7 +478,7 @@ public class DefaultWebApplication implements WebApplication {
             throw new IllegalStateException("Illegal to add JSP file because state is not SETUP");
         }
 
-        if (servletName == null || "".equals(servletName.trim())) {
+        if (isEmpty(servletName)) {
             throw new IllegalArgumentException("Servlet name cannot be null or empty");
         }
 
@@ -592,7 +592,8 @@ public class DefaultWebApplication implements WebApplication {
             servletEnvironment.setClassName(className);
             servletEnvironments.put(servletName, servletEnvironment);
         } else {
-            if (servletEnvironment.getClassName() != null) {
+            if (!isEmpty(servletEnvironment.getClassName())) {
+                // Servlet already set, can't override
                 return null;
             }
             servletEnvironment.setClassName(className);
@@ -609,7 +610,7 @@ public class DefaultWebApplication implements WebApplication {
 
         if (servletEnvironments.containsKey(servletName)) {
             DefaultServletEnvironment servletEnvironment = servletEnvironments.get(servletName);
-            if (servletEnvironment.getClassName() != null) {
+            if (!isEmpty(servletEnvironment.getClassName())) {
                 // Servlet already set, can't override
                 return null;
             }
@@ -2067,6 +2068,9 @@ public class DefaultWebApplication implements WebApplication {
         });
     }
 
+    private boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
+    }
 
 
 }
