@@ -121,11 +121,11 @@ public abstract class HttpServerTest {
      */
     @Test
     void testFile() throws Exception {
-        HttpServer server = createServer(8765);
+        HttpServer server = createServer(8764);
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/pom.xml")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8764/pom.xml")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String responseText = response.body();
@@ -144,11 +144,11 @@ public abstract class HttpServerTest {
      */
     @Test
     void testFileNotFound() throws Exception {
-        HttpServer server = createServer(8765);
+        HttpServer server = createServer(8763);
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/this_is_certainly_not_there")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8763/this_is_certainly_not_there")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
             assertEquals(404, response.statusCode());
         } catch (IOException ioe) {
@@ -163,7 +163,7 @@ public abstract class HttpServerTest {
      */
     @Test
     void testGetLocalAddress() {
-        HttpServer server = createServer(8765,
+        HttpServer server = createServer(8762,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
@@ -183,7 +183,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8762")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -200,7 +200,7 @@ public abstract class HttpServerTest {
      */
     @Test
     void testGetQueryParameter() {
-        HttpServer server = createServer(8765,
+        HttpServer server = createServer(8761,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
@@ -220,7 +220,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/?name=value")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8761/?name=value")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -237,7 +237,7 @@ public abstract class HttpServerTest {
      */
     @Test
     void testGetQueryParameter2() {
-        HttpServer server = createServer(8765,
+        HttpServer server = createServer(8760,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
@@ -257,7 +257,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/?name=value&name=value2")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8760/?name=value&name=value2")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -275,7 +275,7 @@ public abstract class HttpServerTest {
      */
     @Test
     void testGetQueryString() {
-        HttpServer server = createServer(8765,
+        HttpServer server = createServer(8759,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
@@ -295,7 +295,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765/?name=value")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8759/?name=value")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -314,11 +314,11 @@ public abstract class HttpServerTest {
      */
     @Test
     void testProcessing() throws Exception {
-        HttpServer server = createServer(8765);
+        HttpServer server = createServer(8758);
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8758")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
             assertEquals(200, response.statusCode());
         } catch (IOException ioe) {
@@ -335,11 +335,11 @@ public abstract class HttpServerTest {
      */
     @Test
     void testProcessing2() throws Exception {
-        HttpServer server = createServer(8765);
+        HttpServer server = createServer(8757);
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8757")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
             assertEquals(200, response.statusCode());
         } catch (IOException ioe) {
@@ -356,7 +356,7 @@ public abstract class HttpServerTest {
      */
     @Test
     void testStartAndStop() throws Exception {
-        HttpServer server = createServer(8765);
+        HttpServer server = createServer(8756);
         server.start();
         assertTrue(server.isRunning());
         server.stop();
