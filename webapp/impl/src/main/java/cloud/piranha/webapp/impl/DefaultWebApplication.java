@@ -344,6 +344,12 @@ public class DefaultWebApplication implements WebApplication {
     protected boolean tainted;
 
     /**
+     * The source object where this web application instance originates from, i.e. the artifact this
+     * was last passed into by the container. Compare to the source object of an event.
+     */
+    protected Object source;
+
+    /**
      * Constructor.
      */
     public DefaultWebApplication() {
@@ -479,6 +485,7 @@ public class DefaultWebApplication implements WebApplication {
         return jspManager.addJspFile(this, servletName, jspFile);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void addListener(String className) {
         if (tainted) {
@@ -488,14 +495,15 @@ public class DefaultWebApplication implements WebApplication {
         if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
+
+        if (source != null && source instanceof ServletContainerInitializer == false) {
+            throw new IllegalStateException("Illegal to add listener because this context was not passed to a ServletContainerInitializer");
+        }
+
         try {
-            @SuppressWarnings("unchecked")
-            Class<EventListener> clazz = (Class<EventListener>) getClassLoader().loadClass(className);
-            addListener(clazz);
+            addListener((Class<EventListener>) getClassLoader().loadClass(className));
         } catch (ClassNotFoundException exception) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to add listener: " + className, exception);
-            }
+            LOGGER.log(WARNING, exception, () -> "Unable to add listener: " + className);
         }
     }
 
@@ -508,13 +516,15 @@ public class DefaultWebApplication implements WebApplication {
         if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
+
+        if (source != null && source instanceof ServletContainerInitializer == false) {
+            throw new IllegalStateException("Illegal to add listener because this context was not passed to a ServletContainerInitializer");
+        }
+
         try {
-            EventListener listener = createListener(type);
-            addListener(listener);
+            addListener(createListener(type));
         } catch (ServletException exception) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to add listener: " + type, exception);
-            }
+            LOGGER.log(WARNING, exception, () -> "Unable to add listener: " + type);
         }
     }
 
@@ -522,6 +532,14 @@ public class DefaultWebApplication implements WebApplication {
     public <T extends EventListener> void addListener(T listener) {
         if (tainted) {
             throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+
+        if (status != SETUP && status != INITIALIZED_DECLARED) {
+            throw new IllegalStateException("Illegal to add listener because state is not SETUP");
+        }
+
+        if (source != null && source instanceof ServletContainerInitializer == false) {
+            throw new IllegalStateException("Illegal to add listener because this context was not passed to a ServletContainerInitializer");
         }
 
         if (listener instanceof ServletContextListener) {
@@ -1407,27 +1425,39 @@ public class DefaultWebApplication implements WebApplication {
 
                     classes = Stream.concat(instances, classStream).collect(Collectors.toUnmodifiableSet());
                 }
-
-                initializer.onStartup(classes, this);
+                try {
+                    source = initializer;
+                    initializer.onStartup(classes, this);
+                }  finally {
+                    source = null;
+                }
             } catch (Throwable t) {
                 LOGGER.log(WARNING, t,  () -> "Initializer " + initializer.getClass().getName() + " failing onStartup");
                 error = true;
             }
         }
+
         if (!error) {
             List<ServletContextListener> listeners = new ArrayList<>(declaredContextListeners);
             listeners.stream().forEach((listener) -> {
-                listener.contextInitialized(new ServletContextEvent(this));
+                try {
+                    source = listener;
+                    listener.contextInitialized(new ServletContextEvent(this));
+                } finally {
+                    source = null;
+                }
             });
 
             try {
                 tainted = true;
                 listeners = new ArrayList<>(contextListeners);
                 listeners.stream().forEach((listener) -> {
+                    source = listener;
                     listener.contextInitialized(new ServletContextEvent(this));
                 });
             } finally {
                 tainted = false;
+                source = null;
             }
         } else {
             status = ERROR;
