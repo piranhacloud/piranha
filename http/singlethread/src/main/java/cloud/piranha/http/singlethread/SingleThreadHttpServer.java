@@ -161,13 +161,9 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
                 }
             } catch (SocketException se) {
             } catch (IOException ioe) {
-                if (LOGGER.isLoggable(WARNING)) {
-                    LOGGER.log(WARNING, "An I/O error occurred during processing", ioe);
-                }
+                LOGGER.log(WARNING, "An I/O error occurred during processing", ioe);
             } catch (Throwable throwable) {
-                if (LOGGER.isLoggable(SEVERE)) {
-                    LOGGER.log(SEVERE, "A severe error occurred during processing", throwable);
-                }
+                LOGGER.log(SEVERE, "A severe error occurred during processing", throwable);
             }
         }
     }
@@ -177,9 +173,7 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
      */
     @Override
     public void start() {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Start HTTP server");
-        }
+        LOGGER.log(FINE, "Start HTTP server");
         try {
             serverStopRequest = false;
             if (ssl) {
@@ -203,13 +197,9 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
             serverProcessingThread.start();
             running = true;
         } catch (IOException exception) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "An I/O error occurred while starting the HTTP server", exception);
-            }
+            LOGGER.log(WARNING, "An I/O error occurred while starting the HTTP server", exception);
         } catch (NoSuchAlgorithmException ex) {
-            if (LOGGER.isLoggable(SEVERE)) {
-                LOGGER.log(WARNING, "Unable to match SSL algorithm", ex);
-            }
+            LOGGER.log(WARNING, "Unable to match SSL algorithm", ex);
         }
     }
 
@@ -218,17 +208,13 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
      */
     @Override
     public void stop() {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Stopping HTTP server");
-        }
+        LOGGER.log(FINE, "Stopping HTTP server");
         serverStopRequest = true;
         if (serverSocket != null) {
             try {
                 serverSocket.close();
             } catch (IOException exception) {
-                if (LOGGER.isLoggable(WARNING)) {
-                    LOGGER.log(WARNING, "An I/O error occurred while stopping the HTTP server", exception);
-                }
+                LOGGER.log(WARNING, "An I/O error occurred while stopping the HTTP server", exception);
             }
         }
         running = false;

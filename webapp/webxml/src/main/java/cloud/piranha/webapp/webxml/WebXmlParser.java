@@ -132,9 +132,7 @@ public class WebXmlParser {
         try {
             result = (Boolean) xPath.evaluate(expression, node, XPathConstants.BOOLEAN);
         } catch (XPathException xpe) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to parse boolean", xpe);
-            }
+            LOGGER.log(WARNING, "Unable to parse boolean", xpe);
         }
         return result;
     }
@@ -534,9 +532,7 @@ public class WebXmlParser {
                 }
             }
         } catch (XPathExpressionException xee) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to parse <servlet-mapping> section", xee);
-            }
+            LOGGER.log(WARNING, "Unable to parse <servlet-mapping> section", xee);
         }
     }
 
@@ -579,9 +575,7 @@ public class WebXmlParser {
 
                 servlets.add(servlet);
 
-                if (LOGGER.isLoggable(FINE)) {
-                    LOGGER.log(FINE, "Configured servlet: {0}", servlet.toString());
-                }
+                LOGGER.log(FINE, "Configured servlet: {0}", servlet);
             }
 
         } catch (XPathException xpe) {
@@ -716,9 +710,7 @@ public class WebXmlParser {
                 for (int i = 0; i < nodeList.getLength(); i++) {
                     String welcomeFile = parseString(xPath, "text()", nodeList.item(i));
                     welcomeFiles.add(welcomeFile);
-                    if (LOGGER.isLoggable(FINE)) {
-                        LOGGER.log(FINE, "Parsed welcome-file: {0}", welcomeFile);
-                    }
+                    LOGGER.log(FINE, "Parsed welcome-file: {0}", welcomeFile);
                 }
             }
         } catch (XPathException xpe) {

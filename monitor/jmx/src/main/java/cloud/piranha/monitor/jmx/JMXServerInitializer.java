@@ -80,9 +80,7 @@ public class JMXServerInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> annotatedClasses,
             ServletContext servletContext) throws ServletException {
-        if (LOGGER.isLoggable(FINER)) {
-            LOGGER.log(FINER, "Initializing JMX server");
-        }
+        LOGGER.log(FINER, "Initializing JMX server");
 
         Piranha piranha = null;
 
@@ -102,19 +100,13 @@ public class JMXServerInitializer implements ServletContainerInitializer {
                 server.registerMBean(bean, name);
             } catch (InstanceAlreadyExistsException | MBeanRegistrationException
                     | MalformedObjectNameException | NotCompliantMBeanException ex) {
-                if (LOGGER.isLoggable(WARNING)) {
-                    LOGGER.log(WARNING, "A problem registering PiranhaInfo MBean", ex);
-                }
+                LOGGER.log(WARNING, "A problem registering PiranhaInfo MBean", ex);
             }
         } else {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to determine Piranha version, "
-                        + "not registering PiranhaInfo MBean");
-            }
+            LOGGER.log(WARNING, "Unable to determine Piranha version, "
+                    + "not registering PiranhaInfo MBean");
         }
 
-        if (LOGGER.isLoggable(FINER)) {
-            LOGGER.log(FINER, "Initialized JMX server");
-        }
+        LOGGER.log(FINER, "Initialized JMX server");
     }
 }

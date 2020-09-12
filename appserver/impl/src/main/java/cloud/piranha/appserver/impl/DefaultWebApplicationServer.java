@@ -103,9 +103,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
      */
     @Override
     public void addWebApplication(WebApplication webApplication) {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Adding web application with context path: {0}", webApplication.getContextPath());
-        }
+        LOGGER.log(FINE, () -> "Adding web application with context path: " + webApplication.getContextPath());
 
         webApplications.put(webApplication.getContextPath(), webApplication);
         requestMapper.addMapping(webApplication, webApplication.getContextPath());
@@ -216,9 +214,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
      */
     @Override
     public void initialize() {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Starting initialization of {0} web application(s)", webApplications.size());
-        }
+        LOGGER.log(FINE, "Starting initialization of {0} web application(s)", webApplications.size());
 
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
@@ -230,9 +226,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
             }
         });
 
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Finished initialization of {0} web application(s)", webApplications.size());
-        }
+        LOGGER.log(FINE, "Finished initialization of {0} web application(s)", webApplications.size());
     }
 
     /**
@@ -312,9 +306,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
      */
     @Override
     public void start() {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.info("Starting WebApplication server engine");
-        }
+        LOGGER.fine("Starting WebApplication server engine");
 
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
@@ -326,9 +318,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
             }
         });
 
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.info("Started WebApplication server engine");
-        }
+        LOGGER.fine("Started WebApplication server engine");
     }
 
     /**
@@ -336,9 +326,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
      */
     @Override
     public void stop() {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.info("Stopping WebApplication server engine");
-        }
+        LOGGER.fine("Stopping WebApplication server engine");
 
         webApplications.values().forEach((webApp) -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
@@ -350,8 +338,6 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
             }
         });
 
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.info("Stopped WebApplication server engine");
-        }
+        LOGGER.fine("Stopped WebApplication server engine");
     }
 }

@@ -145,9 +145,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
                 inputStream = socket.getInputStream();
                 result = inputStream;
             } catch (IOException exception) {
-                if (LOGGER.isLoggable(WARNING)) {
-                    LOGGER.log(WARNING, "An I/O error occurred while acquiring input stream", exception);
-                }
+                LOGGER.log(WARNING, "An I/O error occurred while acquiring input stream", exception);
             }
         }
 
@@ -314,9 +312,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
                 }
             }
         } catch (IOException exception) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "An I/O error occurred while parsing the request", exception);
-            }
+            LOGGER.log(WARNING, "An I/O error occurred while parsing the request", exception);
         }
     }
 

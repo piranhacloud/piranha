@@ -461,9 +461,7 @@ public class DefaultWebApplication implements WebApplication {
             Class<ServletContainerInitializer> clazz = (Class<ServletContainerInitializer>) getClassLoader().loadClass(className);
             initializers.add(clazz.getDeclaredConstructor().newInstance());
         } catch (Throwable throwable) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to add initializer: " + className, throwable);
-            }
+            LOGGER.log(WARNING, throwable, () -> "Unable to add initializer: " + className);
         }
     }
 
@@ -1359,7 +1357,7 @@ public class DefaultWebApplication implements WebApplication {
             status = INITIALIZED_DECLARED;
             LOGGER.log(FINE, "Initialized declared items for web application at {0}", contextPath);
         }
-        if (status == ERROR && LOGGER.isLoggable(WARNING)) {
+        if (status == ERROR) {
             LOGGER.log(WARNING, "An error occurred initializing webapplication at {0}", contextPath);
         }
     }
@@ -1373,8 +1371,8 @@ public class DefaultWebApplication implements WebApplication {
             status = INITIALIZED;
             LOGGER.log(FINE, "Initialized web application at {0}", contextPath);
         }
-        if (status == ERROR && LOGGER.isLoggable(WARNING)) {
-            LOGGER.log(WARNING, "An error occurred initializing webapplication at {0}", contextPath);
+        if (status == ERROR) {
+            LOGGER.log(WARNING, () -> "An error occurred initializing webapplication at " + contextPath);
         }
     }
 
@@ -1641,9 +1639,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setContextPath(String contextPath) {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Setting context path to: {0}", contextPath);
-        }
+        LOGGER.log(FINE, "Setting context path to: {0}", contextPath);
         this.contextPath = contextPath;
     }
 
@@ -1884,14 +1880,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void start() {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Starting web application at {0}", contextPath);
-        }
+        LOGGER.log(FINE, "Starting web application at {0}", contextPath);
         verifyState(INITIALIZED, "Unable to start servicing");
         status = SERVICING;
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Started web application at {0}", contextPath);
-        }
+        LOGGER.log(FINE, "Started web application at {0}", contextPath);
     }
 
     /**
@@ -1973,8 +1965,7 @@ public class DefaultWebApplication implements WebApplication {
     /**
      * Get the name request dispatcher.
      *
-     * @param name the name.
-     * @param path the path.
+     * @param servletInvocation the servlet invocation.
      * @return the request dispatcher.
      */
     private DefaultServletRequestDispatcher getInvocationDispatcher(DefaultServletInvocation servletInvocation) {

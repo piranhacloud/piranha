@@ -72,9 +72,7 @@ public class WebXmlProcessor {
      * @param webApplication the web application.
      */
     public void process(WebXml webXml, WebApplication webApplication) {
-        if (LOGGER.isLoggable(FINER)) {
-            LOGGER.log(FINER, "Started WebXmlProcessor.process");
-        }
+        LOGGER.log(FINER, "Started WebXmlProcessor.process");
         processContextParameters(webApplication, webXml);
         processDefaultContextPath(webApplication, webXml);
         processDenyUncoveredHttpMethods(webApplication, webXml);
@@ -92,9 +90,7 @@ public class WebXmlProcessor {
         processServletMappings(webApplication, webXml);
         processWebApp(webApplication, webXml);
         processWelcomeFiles(webApplication, webXml);
-        if (LOGGER.isLoggable(FINER)) {
-            LOGGER.log(FINER, "Finished WebXmlProcessor.process");
-        }
+        LOGGER.log(FINER, "Finished WebXmlProcessor.process");
     }
 
     /**
@@ -325,9 +321,7 @@ public class WebXmlProcessor {
         Iterator<WebXmlServlet> iterator = webXml.getServlets().iterator();
         while (iterator.hasNext()) {
             WebXmlServlet servlet = iterator.next();
-            if (LOGGER.isLoggable(FINE)) {
-                LOGGER.log(FINE, "Configuring Servlet: {0}", servlet.getServletName());
-            }
+            LOGGER.log(FINE, () -> "Configuring Servlet: " + servlet.getServletName());
 
             ServletRegistration.Dynamic dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
 
@@ -343,9 +337,7 @@ public class WebXmlProcessor {
                 dynamic.setInitParameter(initParam.getName(), initParam.getValue());
             });
 
-            if (LOGGER.isLoggable(FINE)) {
-                LOGGER.log(FINE, "Configured Servlet: {0}", servlet.getServletName());
-            }
+            LOGGER.log(FINE, () -> "Configured Servlet: " + servlet.getServletName());
         }
     }
 
@@ -362,9 +354,7 @@ public class WebXmlProcessor {
         WelcomeFileManager welcomeFileManager = webApplication.getWelcomeFileManager();
         while (iterator.hasNext()) {
             String welcomeFile = iterator.next();
-            if (LOGGER.isLoggable(FINE)) {
-                LOGGER.log(FINE, "Adding welcome file: {0}", welcomeFile);
-            }
+            LOGGER.log(FINE, () -> "Adding welcome file: " + welcomeFile);
             welcomeFileManager.addWelcomeFile(welcomeFile);
         }
     }

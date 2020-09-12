@@ -102,9 +102,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 WebXmlProcessor processor = new WebXmlProcessor();
                 processor.process(webXml, webApp);
             } else {
-                if (LOGGER.isLoggable(FINE)) {
-                    LOGGER.info("No web.xml found!");
-                }
+                LOGGER.fine("No web.xml found!");
             }
         } catch (IOException e) {
             LOGGER.log(WARNING, "Unable to parse web.xml", e);

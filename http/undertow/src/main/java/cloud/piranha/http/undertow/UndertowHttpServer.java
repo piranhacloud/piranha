@@ -32,10 +32,10 @@ import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.impl.DefaultHttpServerProcessor;
 import io.undertow.Undertow;
 import java.security.NoSuchAlgorithmException;
-import static java.util.logging.Level.SEVERE;
-import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 import javax.net.ssl.SSLContext;
+
+import static java.util.logging.Level.SEVERE;
 
 /**
  * The Undertow implementation of HTTP Server.
@@ -180,9 +180,7 @@ public class UndertowHttpServer implements HttpServer {
             try {
                 builder.addHttpsListener(serverPort, "0.0.0.0", SSLContext.getDefault());
             } catch (NoSuchAlgorithmException e) {
-                if (LOGGER.isLoggable(SEVERE)) {
-                    LOGGER.log(WARNING, "Unable to match SSL algorithm", e);
-                }
+                LOGGER.log(SEVERE, "Unable to match SSL algorithm", e);
             }
         } else {
             builder.addHttpListener(serverPort, "0.0.0.0");
