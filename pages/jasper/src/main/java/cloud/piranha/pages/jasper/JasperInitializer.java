@@ -114,10 +114,8 @@ public class JasperInitializer implements ServletContainerInitializer {
         String classpath = System.getProperty("jdk.module.path", System.getProperty("java.class.path"))
                 + getClassesDirectory(servletContext)
                 + getJarFiles(servletContext);
-        
-        if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.log(Level.FINER, "Jasper classpath is: {0}", classpath);
-        }
+
+        LOGGER.log(Level.FINER, () -> "Jasper classpath is: " + classpath);
         
         registration.setInitParameter("classpath", classpath);
         registration.setInitParameter("compilerSourceVM", "1.8");

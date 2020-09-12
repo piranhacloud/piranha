@@ -28,7 +28,6 @@
 package cloud.piranha.http.impl;
 
 import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
 
 import java.io.IOException;
@@ -186,9 +185,7 @@ public class DefaultHttpServer implements HttpServer {
      */
     @Override
     public void start() {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Starting HTTP server on port {0}", serverPort);
-        }
+        LOGGER.log(FINE, () -> "Starting HTTP server on port " + serverPort);
         try {
             executorService = Executors.newCachedThreadPool(threadFactory);
             serverStopRequest = false;
@@ -212,17 +209,11 @@ public class DefaultHttpServer implements HttpServer {
             serverAcceptorThread = new Thread(new DefaultHttpServerAcceptorThread(this),
                     "DefaultHttpServer-AcceptorThread");
             serverAcceptorThread.start();
-            if (LOGGER.isLoggable(FINE)) {
-                LOGGER.log(FINE, "Started HTTP server on port {0}", serverPort);
-            }
+            LOGGER.log(FINE, () -> "Started HTTP server on port " + serverPort);
         } catch (IOException exception) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "An I/O error occurred while starting the HTTP server", exception);
-            }
+            LOGGER.log(WARNING, "An I/O error occurred while starting the HTTP server", exception);
         } catch (NoSuchAlgorithmException ex) {
-            if (LOGGER.isLoggable(SEVERE)) {
-                LOGGER.log(WARNING, "Unable to match SSL algorithm", ex);
-            }
+            LOGGER.log(WARNING, "Unable to match SSL algorithm", ex);
         }
     }
 
@@ -231,17 +222,13 @@ public class DefaultHttpServer implements HttpServer {
      */
     @Override
     public void stop() {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Stopping HTTP server on port {0}", serverPort);
-        }
+        LOGGER.log(FINE, () -> "Stopping HTTP server on port " + serverPort);
         serverStopRequest = true;
         if (serverSocket != null) {
             try {
                 serverSocket.close();
             } catch (IOException exception) {
-                if (LOGGER.isLoggable(WARNING)) {
-                    LOGGER.log(WARNING, "An I/O error occurred while stopping the HTTP server", exception);
-                }
+                LOGGER.log(WARNING, "An I/O error occurred while stopping the HTTP server", exception);
             }
         }
         if (executorService != null) {
@@ -249,15 +236,11 @@ public class DefaultHttpServer implements HttpServer {
             try {
                 executorService.awaitTermination(120, TimeUnit.SECONDS);
             } catch (InterruptedException exception) {
-                if (LOGGER.isLoggable(WARNING)) {
-                    LOGGER.log(WARNING, "Termination of the executor service was interrupted", exception);
-                }
+                LOGGER.log(WARNING, "Termination of the executor service was interrupted", exception);
                 Thread.currentThread().interrupt();
             }
         }
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Stopped HTTP server on port {0}", serverPort);
-        }
+        LOGGER.log(FINE, () -> "Stopped HTTP server on port " + serverPort);
     }
 
     @Override

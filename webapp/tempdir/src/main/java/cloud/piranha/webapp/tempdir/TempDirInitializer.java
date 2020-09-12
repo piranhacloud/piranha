@@ -69,10 +69,8 @@ public class TempDirInitializer implements ServletContainerInitializer {
         if (!tempDir.exists()) {
             tempDir.mkdirs();
         }
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Setting TEMPDIR for context ''{0}'' to ''{1}''",
-                    new Object[]{servletContext.getContextPath(), tempDir});
-        }
+        LOGGER.log(FINE, "Setting TEMPDIR for context ''{0}'' to ''{1}''",
+                new Object[]{servletContext.getContextPath(), tempDir});
         servletContext.setAttribute(TEMPDIR, tempDir);
     }
 }

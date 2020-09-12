@@ -234,10 +234,8 @@ public class ServerPiranha implements Piranha, Runnable {
             }
         }
         long finishTime = System.currentTimeMillis();
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.info("Started Piranha");
-            LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
-        }
+        LOGGER.info("Started Piranha");
+        LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
         File pidFile = new File("tmp/piranha.pid");
         while (httpServer.isRunning()) {
@@ -255,9 +253,7 @@ public class ServerPiranha implements Piranha, Runnable {
         }
 
         finishTime = System.currentTimeMillis();
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.info("Stopped Piranha");
-            LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
-        }
+        LOGGER.info("Stopped Piranha");
+        LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
     }
 }

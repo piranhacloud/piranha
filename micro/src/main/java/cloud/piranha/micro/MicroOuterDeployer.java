@@ -185,9 +185,7 @@ public class MicroOuterDeployer {
                     .getMethod("stop")
                     .invoke(microInnerDeployer);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                if (LOGGER.isLoggable(WARNING)) {
-                    LOGGER.log(WARNING, "Error occurred during stop of Piranha Micro", e);
-                }
+                LOGGER.log(WARNING, "Error occurred during stop of Piranha Micro", e);
             }
         }
     }
@@ -302,9 +300,7 @@ public class MicroOuterDeployer {
         try {
             writer.write(index);
         } catch (IOException ioe) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to write out index", ioe);
-            }
+            LOGGER.log(WARNING, "Unable to write out index", ioe);
         }
 
         return indexBytes.toByteArray();
@@ -314,9 +310,7 @@ public class MicroOuterDeployer {
         try (InputStream classAsStream = resource.getResourceAsStream(className)) {
             indexer.index(classAsStream);
         } catch (IOException ioe) {
-            if (LOGGER.isLoggable(WARNING)) {
-                LOGGER.log(WARNING, "Unable to add to index", ioe);
-            }
+            LOGGER.log(WARNING, "Unable to add to index", ioe);
         }
     }
 

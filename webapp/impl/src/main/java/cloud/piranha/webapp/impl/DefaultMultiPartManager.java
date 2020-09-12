@@ -63,9 +63,7 @@ public class DefaultMultiPartManager implements MultiPartManager {
     @Override
     public Collection<Part> getParts(WebApplication webApplication,
             WebApplicationRequest request) throws ServletException {
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Getting parts for request: {0}", request);
-        }
+        LOGGER.log(Level.FINE, "Getting parts for request: {0}", request);
         return Collections.emptyList();
     }
 
@@ -82,9 +80,7 @@ public class DefaultMultiPartManager implements MultiPartManager {
     @Override
     public Part getPart(WebApplication webApplication,
             WebApplicationRequest request, String name) throws ServletException {
-        if (LOGGER.isLoggable(Level.FINE)) {
-            LOGGER.log(Level.FINE, "Getting part: {0} for request: {0}", new Object[]{name, request});
-        }
+        LOGGER.log(Level.FINE, "Getting part: {0} for request: {1}", new Object[]{name, request});
         return null;
     }
 }

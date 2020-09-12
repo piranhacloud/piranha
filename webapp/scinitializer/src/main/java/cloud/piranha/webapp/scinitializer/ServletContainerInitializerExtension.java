@@ -30,7 +30,6 @@ package cloud.piranha.webapp.scinitializer;
 import static java.util.Collections.emptyList;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.FINER;
-import static java.util.logging.Level.INFO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,16 +74,12 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
      */
     @Override
     public void configure(WebApplication webApplication) {
-        if (LOGGER.isLoggable(FINER)) {
-            LOGGER.log(FINER, "Starting ServletContainerInitializer processing");
-        }
+        LOGGER.log(FINER, "Starting ServletContainerInitializer processing");
         ServiceLoader<ServletContainerInitializer> serviceLoader = ServiceLoader.load(
                 ServletContainerInitializer.class, webApplication.getClassLoader());
 
         for (ServletContainerInitializer initializer : serviceLoader) {
-            if (LOGGER.isLoggable(FINE)) {
-                LOGGER.log(INFO, "Adding initializer: {0}", initializer.getClass().getName());
-            }
+            LOGGER.log(FINE, () -> "Adding initializer: " + initializer.getClass().getName());
 
             if (shouldAdd(webApplication, initializer)) {
                 webApplication.addInitializer(initializer);
@@ -96,9 +91,7 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
             // the providers from modules aren't available in the webApplication classloader
             serviceLoader = ServiceLoader.load(ServletContainerInitializer.class);
             for (ServletContainerInitializer initializer : serviceLoader) {
-                if (LOGGER.isLoggable(FINE)) {
-                    LOGGER.log(INFO, "Adding initializer: {0}", initializer.getClass().getName());
-                }
+                LOGGER.log(FINE, () -> "Adding initializer: " + initializer.getClass().getName());
 
                 if (shouldAdd(webApplication, initializer)) {
                     webApplication.addInitializer(initializer);
@@ -106,10 +99,7 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
             }
         }
 
-
-        if (LOGGER.isLoggable(FINER)) {
-            LOGGER.log(FINER, "Finished ServletContainerInitializer processing");
-        }
+        LOGGER.log(FINER, "Finished ServletContainerInitializer processing");
     }
 
     private boolean shouldAdd(WebApplication webApplication, ServletContainerInitializer initializer) {
