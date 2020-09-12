@@ -82,6 +82,7 @@ import javax.servlet.ServletRequestListener;
 import javax.servlet.ServletResponse;
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
+import javax.servlet.UnavailableException;
 import javax.servlet.annotation.HandlesTypes;
 import javax.servlet.descriptor.JspConfigDescriptor;
 import javax.servlet.http.HttpSessionAttributeListener;
@@ -1461,10 +1462,22 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void initializeServlets() {
         if (status == SETUP || status == INITIALIZED_DECLARED) {
+            List<String> servletsToBeRemoved = new ArrayList<>();
             List<String> servletNames = new ArrayList<>(servletEnvironments.keySet());
+
             servletNames.stream().map((servletName) -> servletEnvironments.get(servletName)).forEach((environment) -> {
                 initializeServlet(environment);
+                if (isPermanentlyUnavailable(environment)) {
+                    servletsToBeRemoved.add(environment.getServletName());
+                }
             });
+
+            for (String servletName : servletsToBeRemoved) {
+                // Servlet:SPEC:11 - If a permanent unavailability is indicated by the UnavailableException, the servlet container must
+                // remove the servlet from service ... and release the servlet instance.
+                servletEnvironments.remove(servletName);
+            }
+
         }
     }
 
@@ -1506,9 +1519,19 @@ public class DefaultWebApplication implements WebApplication {
         } catch (Throwable t) {
             LOGGER.log(WARNING, t, () -> "Unable to initialize servlet: " + environment.className);
 
-            environment.setServlet(null);
             environment.setStatus(ServletEnvironment.UNAVAILABLE);
             environment.setUnavailableException(t);
+
+            // Servlet:SPEC:11 - If a permanent unavailability is indicated by the UnavailableException, the servlet container must ... call its destroy method
+            if (isPermanentlyUnavailable(environment) && environment.getServlet() != null) {
+                try {
+                    environment.getServlet().destroy();
+                } catch (Throwable t2) {
+                    t.addSuppressed(t2);
+                }
+            }
+
+            environment.setServlet(null);
         }
     }
 
@@ -2049,6 +2072,12 @@ public class DefaultWebApplication implements WebApplication {
         contextAttributeListeners.stream().forEach((listener) -> {
             listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value));
         });
+    }
+
+    private boolean isPermanentlyUnavailable(DefaultServletEnvironment environment) {
+        return
+            environment.getUnavailableException() instanceof UnavailableException && ((UnavailableException)
+            environment.getUnavailableException()).isPermanent();
     }
 
     private boolean isEmpty(String string) {
