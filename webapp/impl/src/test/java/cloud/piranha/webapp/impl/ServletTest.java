@@ -37,7 +37,6 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
-import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -87,7 +86,7 @@ class ServletTest {
         try {
             webApplication.service(request, response);
             fail();
-        } catch(UnavailableException ue) {
+        } catch(RuntimeException ue) {
         }
         assertNotNull(webApplication.getAttribute("Broken Servlet"));
         webApplication.stop();
@@ -181,7 +180,7 @@ class ServletTest {
         @Override
         public void init(ServletConfig servletConfig) throws ServletException {
             servletConfig.getServletContext().setAttribute("Broken Servlet", true);
-            throw new UnavailableException("Broken Servlet");
+            throw new RuntimeException("Broken Servlet");
         }
     }
 
