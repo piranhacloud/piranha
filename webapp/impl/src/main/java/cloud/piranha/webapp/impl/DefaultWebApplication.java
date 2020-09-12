@@ -496,10 +496,6 @@ public class DefaultWebApplication implements WebApplication {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
 
-        if (source != null && source instanceof ServletContainerInitializer == false) {
-            throw new IllegalStateException("Illegal to add listener because this context was not passed to a ServletContainerInitializer");
-        }
-
         try {
             addListener((Class<EventListener>) getClassLoader().loadClass(className));
         } catch (ClassNotFoundException exception) {
@@ -515,10 +511,6 @@ public class DefaultWebApplication implements WebApplication {
 
         if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
-        }
-
-        if (source != null && source instanceof ServletContainerInitializer == false) {
-            throw new IllegalStateException("Illegal to add listener because this context was not passed to a ServletContainerInitializer");
         }
 
         try {
@@ -538,11 +530,11 @@ public class DefaultWebApplication implements WebApplication {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
 
-        if (source != null && source instanceof ServletContainerInitializer == false) {
-            throw new IllegalStateException("Illegal to add listener because this context was not passed to a ServletContainerInitializer");
-        }
-
         if (listener instanceof ServletContextListener) {
+            if (source != null && source instanceof ServletContainerInitializer == false) {
+                throw new IllegalArgumentException("Illegal to add ServletContextListener because this context was not passed to a ServletContainerInitializer");
+            }
+
             if (status == INITIALIZED_DECLARED) {
                 contextListeners.add((ServletContextListener) listener);
             } else {
