@@ -101,20 +101,18 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test addMapping method (verify when we add twice addMapping will return a
-     * non-empty set).
+     * Test addMapping method (verify when we add twice addMapping will return a empty set).
      */
     @Test
     void testAddMapping2() {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        ServletRegistration.Dynamic dynamic
-                = webApp.addServlet("echo", "servlet.EchoServlet");
+        ServletRegistration.Dynamic dynamic = webApp.addServlet("echo", "servlet.EchoServlet");
         assertNotNull(dynamic);
         dynamic.addMapping("/echo");
         assertTrue(dynamic.getMappings().size() > 0);
-        assertTrue(dynamic.addMapping("/echo").size() > 0);
+        assertTrue(dynamic.addMapping("/echo").size() == 0);
     }
 
     /**

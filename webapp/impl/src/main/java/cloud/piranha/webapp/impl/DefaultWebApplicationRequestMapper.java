@@ -27,7 +27,10 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static java.util.Arrays.stream;
+import static java.util.Collections.emptySet;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toSet;
 import static javax.servlet.DispatcherType.REQUEST;
 
 import java.util.ArrayList;
@@ -80,15 +83,26 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
      */
     @Override
     public Set<String> addServletMapping(String servletName, String... urlPatterns) {
-        Set<String> result = new HashSet<>();
-        for (String urlPattern : urlPatterns) {
-            if (servletMappings.containsKey(urlPattern)) {
-                result.add(urlPattern);
-            } else {
-                servletMappings.put(urlPattern, servletName);
-            }
+        // Servlet:JAVADOC:696.3 - if urlPatterns is null or empty throw IllegalArgumentException
+        if (isEmpty(urlPatterns)) {
+            throw new IllegalArgumentException("Mappings for " + servletName + " cannot be empty");
         }
-        return result;
+
+        // Servlet:JAVADOC:696.1 - If any of the specified URL patterns are already mapped to a different Servlet, no updates will be performed.
+        Set<String> mappedToOtherServlet = stream(urlPatterns)
+            .filter(urlPattern -> servletMappings.containsKey(urlPattern))
+            .filter(urlPattern -> !servletMappings.get(urlPattern).equals(servletName))
+            .collect(toSet());
+
+        if (!mappedToOtherServlet.isEmpty()) {
+            return mappedToOtherServlet;
+        }
+
+        for (String urlPattern : urlPatterns) {
+            servletMappings.put(urlPattern, servletName);
+        }
+
+        return emptySet();
     }
 
     /**
@@ -319,5 +333,9 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
 
     private boolean isEmpty(Collection<?> collection) {
         return collection == null || collection.isEmpty();
+    }
+
+    private boolean isEmpty(String[] strings) {
+        return strings == null || strings.length == 0;
     }
 }
