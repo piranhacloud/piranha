@@ -60,10 +60,10 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
      */
     private static final Logger LOGGER = Logger.getLogger(
             DefaultHttpServerProcessor.class.getPackageName());
+    private final String IO_ERROR_WRITING_RESPONSE = "An I/O error occurred while writing the response";
 
     /**
-     * @see
-     * HttpServerProcessor#process(cloud.piranha.http.api.HttpServerRequest,
+     * @see HttpServerProcessor#process(cloud.piranha.http.api.HttpServerRequest,
      * cloud.piranha.http.api.HttpServerResponse)
      */
     @Override
@@ -97,9 +97,7 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
                 writer.println("</body></html>");
                 writer.flush();
             } catch (IOException exception) {
-                if (LOGGER.isLoggable(SEVERE)) {
-                    LOGGER.log(SEVERE, "An I/O error occurred while writing the response", exception);
-                }
+                LOGGER.log(SEVERE, IO_ERROR_WRITING_RESPONSE, exception);
             }
         } else if (file.exists() && !file.isDirectory()) {
             response.setHeader("Content-Type", "application/octet-stream");
@@ -117,9 +115,7 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
                     outputStream.flush();
                 }
             } catch (IOException exception) {
-                if (LOGGER.isLoggable(SEVERE)) {
-                    LOGGER.log(SEVERE, "An I/O error occurred while writing the response", exception);
-                }
+                LOGGER.log(SEVERE, IO_ERROR_WRITING_RESPONSE, exception);
             }
         } else {
             try {
@@ -127,9 +123,7 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
                 response.writeStatusLine();
                 response.writeHeaders();
             } catch (IOException exception) {
-                if (LOGGER.isLoggable(SEVERE)) {
-                    LOGGER.log(SEVERE, "An I/O error occurred while writing the response", exception);
-                }
+                LOGGER.log(SEVERE, IO_ERROR_WRITING_RESPONSE, exception);
             }
         }
 

@@ -105,9 +105,7 @@ class DefaultHttpServerProcessingThread implements Runnable {
                         socket.close();
                     }
                 } catch (IOException exception) {
-                    if (LOGGER.isLoggable(WARNING)) {
-                        LOGGER.log(WARNING, "An I/O error occurred during processing of the request", exception);
-                    }
+                    LOGGER.log(WARNING, "An I/O error occurred during processing of the request", exception);
                 }
             }
         }

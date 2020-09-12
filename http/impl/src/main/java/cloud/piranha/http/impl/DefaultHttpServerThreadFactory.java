@@ -60,9 +60,7 @@ class DefaultHttpServerThreadFactory implements ThreadFactory {
      */
     @Override
     public Thread newThread(Runnable runnable) {
-        if (LOGGER.isLoggable(FINE)) {
-            LOGGER.log(FINE, "Creating new processing thread");
-        }
+        LOGGER.log(FINE, "Creating new processing thread");
         return new Thread(runnable, "DefaultHttpServer-ProcessingThread-"
                 + id.getAndIncrement());
     }

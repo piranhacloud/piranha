@@ -29,7 +29,6 @@ package cloud.piranha.upload.apache;
 
 import cloud.piranha.webapp.api.WebApplication;
 import java.util.Set;
-import static java.util.logging.Level.INFO;
 import java.util.logging.Logger;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
@@ -65,10 +64,7 @@ public class ApacheMultiPartInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext)
             throws ServletException {
-
-        if (LOGGER.isLoggable(INFO)) {
-            LOGGER.info("Initializing ApacheMultiPartManager");
-        }
+        LOGGER.info("Initializing ApacheMultiPartManager");
 
         WebApplication webApplication = (WebApplication) servletContext;
         webApplication.setMultiPartManager(new ApacheMultiPartManager());

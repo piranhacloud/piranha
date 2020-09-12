@@ -102,9 +102,7 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext context, Throwable throwable) {
-        if (LOGGER.isLoggable(Level.WARNING)) {
-            LOGGER.log(Level.WARNING, "Exception caught in NettyHttpServerHandler", throwable);
-        }
+        LOGGER.log(Level.WARNING, "Exception caught in NettyHttpServerHandler", throwable);
         context.close();
     }
 }
