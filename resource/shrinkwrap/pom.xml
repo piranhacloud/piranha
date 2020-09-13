@@ -15,8 +15,7 @@
     <name>Piranha Resource - Shrinkwrap Integration</name>
 
     <dependencies>
-        <dependency>
-            <!-- Only used for DefaultResourceManagerClassLoader -->
+        <dependency><!-- Only used for DefaultResourceManagerClassLoader -->
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
@@ -42,6 +41,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
