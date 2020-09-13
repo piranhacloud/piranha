@@ -113,7 +113,7 @@
             <dependency>
                 <groupId>net.sourceforge.htmlunit</groupId>
                 <artifactId>htmlunit</artifactId>
-                <version>2.42.0</version>
+                <version>2.43.0</version>
             </dependency>
             
             <!-- Jakarta Annotation -->
@@ -216,7 +216,7 @@
             <dependency>
                 <groupId>org.eclipse</groupId>
                 <artifactId>yasson</artifactId>
-                <version>1.0.7</version>
+                <version>1.0.8</version>
             </dependency>
 
             <!-- Jakarta JSON Processing -->
@@ -406,7 +406,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.51.Final</version>
+                <version>4.1.52.Final</version>
             </dependency>
             
             <!-- OmniFaces JWT -->
@@ -457,7 +457,7 @@
             <dependency>
                 <groupId>io.smallrye.config</groupId>
                 <artifactId>smallrye-config</artifactId>
-                <version>1.8.4</version>
+                <version>1.8.6</version>
             </dependency>
             <dependency>
                 <groupId>io.smallrye</groupId>
@@ -497,17 +497,17 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-client-compiled</artifactId>
-                <version>8.11.1</version>
+                <version>8.11.2</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-server</artifactId>
-                <version>8.11.1</version>
+                <version>8.11.2</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-themes</artifactId>
-                <version>8.11.1</version>
+                <version>8.11.2</version>
             </dependency>
             
             <!-- Wicket -->
