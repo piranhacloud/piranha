@@ -403,6 +403,9 @@
                                 <goals>
                                     <goal>aggregate-jar</goal>
                                 </goals>
+                                <configuration>
+                                    <docfilessubdirs>true</docfilessubdirs>
+                                </configuration>
                                 <inherited>false</inherited>
                             </execution>
                         </executions>
