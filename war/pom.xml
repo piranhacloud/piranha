@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>20.9.0-SNAPSHOT</version>
+        <version>20.10.0-SNAPSHOT</version>
     </parent>
     <groupId>cloud.piranha.war</groupId>
     <artifactId>project</artifactId>
