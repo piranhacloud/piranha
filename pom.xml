@@ -295,7 +295,7 @@
                                     <version>3.5.0</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>15</version>
+                                    <version>14</version>
                                 </requireJavaVersion>
                             </rules>    
                         </configuration>
