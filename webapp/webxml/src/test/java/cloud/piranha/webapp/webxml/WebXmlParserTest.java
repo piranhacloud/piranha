@@ -65,6 +65,7 @@ class WebXmlParserTest {
         assertEquals(2, webXml.getServlets().size());
         assertNotEquals(webXml.getServlets().get(0).getServletName(), webXml.getServlets().get(1).getServletName());
         assertTrue(webXml.getServlets().get(0).isAsyncSupported());
+        assertFalse(webXml.getServlets().get(1).isAsyncSupported());
         assertFalse(webXml.getFilters().isEmpty());
         assertEquals(1, webXml.getFilters().size());
         assertEquals("/defaultContextPath", webXml.getDefaultContextPath());

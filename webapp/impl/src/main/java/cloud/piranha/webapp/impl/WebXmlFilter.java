@@ -58,6 +58,11 @@ public class WebXmlFilter {
     private String servletName;
 
     /**
+     * Stores if async is supported.
+     */
+    private boolean asyncSupported;
+
+    /**
      * Add init param.
      *
      * @param initParam the init param.
@@ -102,6 +107,16 @@ public class WebXmlFilter {
         return servletName;
     }
 
+
+    /**
+     * Is async supported.
+     *
+     * @return true if it is, false otherwise.
+     */
+    public boolean isAsyncSupported() {
+        return asyncSupported;
+    }
+
     /**
      * Set the class name.
      *
@@ -127,5 +142,14 @@ public class WebXmlFilter {
      */
     public void setServletName(String servletName) {
         this.servletName = servletName;
+    }
+
+    /**
+     * Set if async is supported.
+     *
+     * @param asyncSupported the boolean value.
+     */
+    public void setAsyncSupported(boolean asyncSupported) {
+        this.asyncSupported = asyncSupported;
     }
 }
