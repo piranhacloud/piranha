@@ -93,4 +93,10 @@ public interface FilterEnvironment extends Dynamic, FilterConfig {
      */
     void setWebApplication(WebApplication webApplication);
 
+    /**
+     * Is async supported.
+     *
+     * @return true if it is, false otherwise.
+     */
+    boolean isAsyncSupported();
 }

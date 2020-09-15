@@ -23,6 +23,7 @@
     <servlet>
         <servlet-name>Test Servlet 2</servlet-name>
         <servlet-class>cloud.piranha.servlet.webxml.TestServlet</servlet-class>
+        <async-supported>false</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>Test Servlet</servlet-name>

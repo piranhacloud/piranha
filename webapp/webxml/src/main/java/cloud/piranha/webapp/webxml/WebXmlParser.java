@@ -130,7 +130,7 @@ public class WebXmlParser {
     private static Boolean parseBoolean(XPath xPath, String expression, Node node) {
         Boolean result = null;
         try {
-            result = (Boolean) xPath.evaluate(expression, node, XPathConstants.BOOLEAN);
+            result = Boolean.parseBoolean((String) xPath.evaluate(expression, node, XPathConstants.STRING));
         } catch (XPathException xpe) {
             LOGGER.log(WARNING, "Unable to parse boolean", xpe);
         }
@@ -311,6 +311,12 @@ public class WebXmlParser {
                     filter.setClassName(className);
                     String servletName = parseString(xPath, "servlet-name/text()", nodeList.item(i));
                     filter.setServletName(servletName);
+
+                    Boolean asyncSupported = parseBoolean(xPath, "async-supported/text()", nodeList.item(i));
+                    if (asyncSupported != null) {
+                        filter.setAsyncSupported(asyncSupported);
+                    }
+
                     filters.add(filter);
 
                     NodeList paramNodeList = (NodeList) xPath.evaluate("init-param", nodeList.item(i), NODESET);

@@ -218,6 +218,10 @@ public class WebXmlProcessor {
                 dynamic = webApplication.addFilter(filter.getFilterName(), filter.getServletName());
             }
 
+            if (dynamic != null && filter.isAsyncSupported()) {
+                dynamic.setAsyncSupported(true);
+            }
+
             if (dynamic != null) {
                 for (WebXmlFilterInitParam initParam : filter.getInitParams()) {
                     dynamic.setInitParameter(initParam.getName(), initParam.getValue());
