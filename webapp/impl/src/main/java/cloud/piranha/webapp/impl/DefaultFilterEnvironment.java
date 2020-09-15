@@ -365,6 +365,11 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     }
 
     @Override
+    public boolean isAsyncSupported() {
+        return asyncSupported;
+    }
+
+    @Override
     public String toString() {
         return
             (className != null? className : "") + " " +

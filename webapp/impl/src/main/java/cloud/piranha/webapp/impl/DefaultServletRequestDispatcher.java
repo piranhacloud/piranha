@@ -55,6 +55,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 import cloud.piranha.webapp.api.CurrentRequestHolder;
+import cloud.piranha.webapp.api.FilterEnvironment;
 import cloud.piranha.webapp.api.ServletEnvironment;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 
@@ -126,7 +127,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             try {
                 if (servletInvocation.getServletEnvironment() != null) {
-                    webappRequest.setAsyncSupported(servletInvocation.getServletEnvironment().isAsyncSupported());
+                    webappRequest.setAsyncSupported(isAsyncSupportedInChain());
                 }
                 webappRequest.setServletPath(servletInvocation.getServletPath());
                 webappRequest.setPathInfo(servletInvocation.getPathInfo());
@@ -236,7 +237,6 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             errorRequest.setWebApplication(servletEnvironment.getWebApplication());
             errorRequest.setContextPath(request.getContextPath());
             errorRequest.setDispatcherType(ERROR);
-            errorRequest.setAsyncSupported(request.isAsyncSupported());
 
             if (path != null) {
                 setForwardAttributes(request, errorRequest,
@@ -264,6 +264,10 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, errorRequest);
 
             invocationFinder.addFilters(FORWARD, servletInvocation, errorRequest.getServletPath(), "");
+
+            if (servletInvocation.getServletEnvironment() != null) {
+                errorRequest.setAsyncSupported(request.isAsyncSupported() && isAsyncSupportedInChain());
+            }
 
             try {
                 servletEnvironment.getWebApplication().linkRequestAndResponse(errorRequest, servletResponse);
@@ -297,7 +301,6 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             forwardedRequest.setWebApplication(servletEnvironment.getWebApplication());
             forwardedRequest.setContextPath(request.getContextPath());
             forwardedRequest.setDispatcherType(FORWARD);
-            forwardedRequest.setAsyncSupported(request.isAsyncSupported());
 
             if (path != null) {
                 setForwardAttributes(request, forwardedRequest,
@@ -318,6 +321,10 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             invocationFinder.addFilters(FORWARD, servletInvocation, forwardedRequest.getServletPath(), "");
 
+            if (servletInvocation.getServletEnvironment() != null) {
+                forwardedRequest.setAsyncSupported(request.isAsyncSupported() && isAsyncSupportedInChain());
+            }
+
             try {
                 servletEnvironment.getWebApplication().linkRequestAndResponse(forwardedRequest, servletResponse);
 
@@ -334,6 +341,15 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
     }
 
+    /**
+     * Checks if all filters (if any) and the servlet support async
+     * @return true if all supports, false otherwise
+     */
+    private boolean isAsyncSupportedInChain() {
+        List<FilterEnvironment> filterEnvironments = servletInvocation.getFilterEnvironments();
+        boolean hasFilterAsync = filterEnvironments == null || filterEnvironments.stream().allMatch(FilterEnvironment::isAsyncSupported);
+        return servletInvocation.getServletEnvironment().isAsyncSupported() && hasFilterAsync;
+    }
 
 
     private void setForwardAttributes(HttpServletRequest originalRequest, HttpServletRequest forwardedRequest, String... dispatcherKeys) {
