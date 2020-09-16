@@ -44,7 +44,6 @@ import java.net.URLConnection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ServiceLoader;
-import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.logging.Logger;
@@ -147,7 +146,7 @@ public class MicroInnerDeployer {
 
     private HttpServer httpServer;
 
-    public Set<String> start(Archive<?> applicationArchive, ClassLoader classLoader, Map<String, Function<URL, URLConnection>> handlers, Integer port) {
+    public Map<String, Object> start(Archive<?> applicationArchive, ClassLoader classLoader, Map<String, Function<URL, URLConnection>> handlers, Map<String, Object> config) {
         try {
             System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
 
@@ -198,8 +197,7 @@ public class MicroInnerDeployer {
 
             DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
 
-            String contextPath = System.getProperty("micro.root");
-
+            String contextPath = (String) config.get("micro.root");
             if (contextPath != null) {
                 webApplication.setContextPath(contextPath);
             }
@@ -217,12 +215,12 @@ public class MicroInnerDeployer {
 
             ServiceLoader<HttpServer> httpServers = ServiceLoader.load(HttpServer.class);
             httpServer = httpServers.findFirst().orElseThrow();
-            httpServer.setServerPort(port);
+            httpServer.setServerPort((Integer) config.get("micro.port"));
             httpServer.setSSL(Boolean.getBoolean("piranha.http.ssl"));
             httpServer.setHttpServerProcessor(webApplicationServer);
             httpServer.start();
 
-            return webApplication.getServletRegistrations().keySet();
+            return Map.of("deployedServlets", webApplication.getServletRegistrations().keySet());
         } catch (IOException e) {
             e.printStackTrace();
             throw new IllegalStateException(e);
