@@ -30,7 +30,9 @@ package cloud.piranha.micro;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -153,6 +155,16 @@ public class MicroConfiguration {
         ).flatMap(Function.identity()).collect(toList());
 
         return this;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> config = new HashMap<>();
+        config.put("micro.port", getPort());
+        if (getRoot() != null) {
+            config.put("micro.root", getRoot());
+        }
+
+        return config;
     }
 
     public String getVersion() {
