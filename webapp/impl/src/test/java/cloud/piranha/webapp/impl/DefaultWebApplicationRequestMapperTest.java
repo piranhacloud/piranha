@@ -89,6 +89,28 @@ class DefaultWebApplicationRequestMapperTest {
     }
 
     /**
+     * Test findServletPrefixMatch method.
+     *
+     * @throws Exception
+     */
+    @Test
+    void testFindPrefixServletMatch3() throws Exception {
+        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
+        webApp.addServlet("echo", new TestEcho1Servlet());
+        webApp.addServletMapping("echo", "/echo/*");
+        webApp.initialize();
+        webApp.start();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/echo2/test.echo");
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setBodyOnly(true);
+        webApp.service(request, response);
+        assertEquals(404, response.getStatus());
+    }
+
+    /**
      * Test findExtensionServletMatch method.
      *
      * @throws Exception
