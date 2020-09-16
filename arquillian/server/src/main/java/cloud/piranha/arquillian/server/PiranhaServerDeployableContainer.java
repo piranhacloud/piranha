@@ -27,7 +27,6 @@
  */
 package cloud.piranha.arquillian.server;
 
-import java.util.Set;
 import java.util.logging.Logger;
 
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
@@ -37,6 +36,7 @@ import org.jboss.arquillian.container.spi.client.protocol.metadata.Servlet;
 import org.jboss.shrinkwrap.api.Archive;
 
 import cloud.piranha.arquillian.server.PiranhaServerLoadableExtension.PiranhaServerContainerConfiguration;
+import cloud.piranha.micro.MicroDeployOutcome;
 import cloud.piranha.micro.MicroOuterDeployer;
 
 /**
@@ -69,7 +69,7 @@ public class PiranhaServerDeployableContainer extends PiranhaServerLoadableExten
 
         microOuterDeployer = new MicroOuterDeployer(configuration);
 
-        Set<String> servletNames = microOuterDeployer.deploy(archive);
+        MicroDeployOutcome deployOutcome = microOuterDeployer.deploy(archive);
 
         HTTPContext httpContext = new HTTPContext("localhost", configuration.getPort());
 
@@ -78,7 +78,7 @@ public class PiranhaServerDeployableContainer extends PiranhaServerLoadableExten
             contextRoot = "/";
         }
 
-        for (String servletName : servletNames) {
+        for (String servletName : deployOutcome.getDeployedServlets()) {
             httpContext.add(new Servlet(servletName, contextRoot));
         }
 
