@@ -27,6 +27,7 @@
  */
 package cloud.piranha.micro;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.logging.Level.WARNING;
 import static java.util.stream.Collectors.toList;
 import static org.jboss.shrinkwrap.resolver.api.maven.repository.MavenUpdatePolicy.UPDATE_POLICY_NEVER;
@@ -89,11 +90,12 @@ public class MicroOuterDeployer {
     }
 
     public MicroOuterDeployer(MicroConfiguration configuration) {
+        requireNonNull(configuration);
         this.configuration = configuration;
     }
 
     @SuppressWarnings("unchecked")
-    public Set<String> deploy(Archive<?> archive) {
+    public MicroDeployOutcome deploy(Archive<?> archive) {
         Set<String> servletNames = new HashSet<>();
 
         if (!archive.contains("WEB-INF/beans.xml")) {
@@ -146,9 +148,6 @@ public class MicroOuterDeployer {
             }
 
             System.setProperty("micro.version", getClass().getPackage().getImplementationVersion());
-            if (configuration.getRoot() != null) {
-                System.setProperty("micro.root", configuration.getRoot());
-            }
 
             microInnerDeployer =
                 Class.forName(
@@ -158,17 +157,15 @@ public class MicroOuterDeployer {
                      .getDeclaredConstructor()
                      .newInstance();
 
-            servletNames.addAll((Set<String>)
-                microInnerDeployer
-                    .getClass()
-                    .getMethod("start", Archive.class, ClassLoader.class, Map.class, Integer.class)
-                    .invoke(microInnerDeployer,
-                        archive,
-                               webInfClassLoader,
-                               StaticURLStreamHandlerFactory.getHandlers(),
-                               configuration.getPort()));
-
-            return servletNames;
+            return MicroDeployOutcome.ofMap((Map<String, Object>)
+                    microInnerDeployer
+                        .getClass()
+                        .getMethod("start", Archive.class, ClassLoader.class, Map.class, Map.class)
+                        .invoke(microInnerDeployer,
+                            archive,
+                                   webInfClassLoader,
+                                   StaticURLStreamHandlerFactory.getHandlers(),
+                                   configuration.toMap()));
 
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             throw new IllegalStateException("", e);
