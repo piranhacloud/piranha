@@ -97,7 +97,7 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
 
             String servletName = webServlet.name();
             if ("".equals(servletName)) {
-                servletName = annotationInfo.getTargetType().getSimpleName(); // WebServlet only has target Type
+                servletName = annotationInfo.getTargetType().getName(); // WebServlet only has target Type
             }
 
             // Add the Servlet
@@ -130,7 +130,7 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
 
             String filterName = webFilter.filterName();
             if ("".equals(filterName)) {
-                filterName = annotationInfo.getTargetType().getSimpleName(); // WebServlet only has target Type
+                filterName = annotationInfo.getTargetType().getName(); // WebServlet only has target Type
             }
 
             // Add the Filter
