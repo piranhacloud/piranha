@@ -110,6 +110,9 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
                 });
             }
 
+            if (registration != null)
+                registration.setAsyncSupported(webServlet.asyncSupported());
+
             String[] urlPatterns = webServlet.value();
             if (urlPatterns.length == 0) {
                 urlPatterns = webServlet.urlPatterns();
@@ -139,6 +142,9 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
                     registration.setInitParameter(initParam.name(), initParam.value())
                 );
             }
+
+            if (registration != null)
+                registration.setAsyncSupported(webFilter.asyncSupported());
 
             String[] urlPatterns = webFilter.value();
             if (urlPatterns.length == 0) {
