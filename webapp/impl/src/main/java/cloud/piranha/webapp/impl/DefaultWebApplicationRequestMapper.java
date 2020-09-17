@@ -289,10 +289,8 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
             String prefix = prefixes.nextElement();
             if (!prefix.startsWith("*.") && prefix.endsWith("/*")) {
                 prefix = prefix.substring(0, prefix.length() - 1);
-                if (path.startsWith(prefix)) {
-                    if (result == null) {
-                        result = new DefaultWebApplicationRequestMapping(prefix);
-                    }
+                if ((path + "/").startsWith(prefix)) {
+                    result = new DefaultWebApplicationRequestMapping(prefix);
                     break;
                 }
             }
