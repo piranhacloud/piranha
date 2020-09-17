@@ -111,6 +111,45 @@ class DefaultWebApplicationRequestMapperTest {
     }
 
     /**
+     * Test findServletPrefixMatch method.
+     *
+     * @throws Exception
+     */
+    @Test
+    void testFindPrefixServletMatch4() throws Exception {
+        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
+        webApp.addServlet("echo", new TestEcho1Servlet());
+        webApp.addServletMapping("echo", "/echo/*");
+        webApp.initialize();
+        webApp.start();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/echo");
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setBodyOnly(true);
+        webApp.service(request, response);
+        assertEquals("ECHO", new String(response.getResponseBytes()));
+    }
+
+    @Test
+    void testFindPrefixServletMatch5() throws Exception {
+        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
+        webApp.addServlet("echo", new TestEcho1Servlet());
+        webApp.addServletMapping("echo", "/echo/*");
+        webApp.initialize();
+        webApp.start();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/echo2");
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setBodyOnly(true);
+        webApp.service(request, response);
+        assertEquals(404, response.getStatus());
+    }
+
+    /**
      * Test findExtensionServletMatch method.
      *
      * @throws Exception
