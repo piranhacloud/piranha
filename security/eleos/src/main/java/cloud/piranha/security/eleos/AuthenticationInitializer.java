@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -91,9 +92,11 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
         DefaultAuthenticationService authenticationService = new DefaultAuthenticationService(appContextId, options, configParser, null);
         
         servletContext.setAttribute(AUTH_SERVICE, authenticationService);
-        
-        servletContext.addFilter(AuthenticationFilter.class.getSimpleName(), AuthenticationFilter.class);
-        
+
+        FilterRegistration.Dynamic dynamic = servletContext.addFilter(AuthenticationFilter.class.getSimpleName(), AuthenticationFilter.class);
+
+        dynamic.setAsyncSupported(true);
+
         ((WebApplication) servletContext).addFilterMapping(AuthenticationFilter.class.getSimpleName(), "/*");
     }
 
