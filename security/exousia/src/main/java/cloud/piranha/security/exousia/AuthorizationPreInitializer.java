@@ -40,6 +40,7 @@ import java.util.Set;
 
 import javax.security.jacc.PolicyConfiguration;
 import javax.security.jacc.PolicyContextException;
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -121,8 +122,8 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         }
 
         servletContext.setAttribute(AUTHZ_SERVICE, authorizationService);
-        servletContext.addFilter(AuthorizationPreFilter.class.getSimpleName(), AuthorizationPreFilter.class);
-
+        FilterRegistration.Dynamic dynamic = servletContext.addFilter(AuthorizationPreFilter.class.getSimpleName(), AuthorizationPreFilter.class);
+        dynamic.setAsyncSupported(true);
         context.addFilterMapping(AuthorizationPreFilter.class.getSimpleName(), "/*");
     }
 

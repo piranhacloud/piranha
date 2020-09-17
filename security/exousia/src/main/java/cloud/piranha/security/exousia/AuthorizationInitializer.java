@@ -29,6 +29,7 @@ package cloud.piranha.security.exousia;
 
 import java.util.Set;
 
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -54,7 +55,9 @@ public class AuthorizationInitializer implements ServletContainerInitializer {
 
         WebApplication context = (WebApplication) servletContext;
 
-        servletContext.addFilter(AuthorizationFilter.class.getSimpleName(), AuthorizationFilter.class);
+        FilterRegistration.Dynamic dynamic = servletContext.addFilter(AuthorizationFilter.class.getSimpleName(), AuthorizationFilter.class);
+
+        dynamic.setAsyncSupported(true);
 
         context.addFilterMapping(AuthorizationFilter.class.getSimpleName(), "/*");
     }
