@@ -1,0 +1,3 @@
+[submodule "external/jakartaee8-samples/src/it/jakartaee8-tck"]
+	path = external/jakartaee8-samples/src/it/jakartaee8-tck
+	url = https://github.com/javaee-samples/jakartaee8-tck
