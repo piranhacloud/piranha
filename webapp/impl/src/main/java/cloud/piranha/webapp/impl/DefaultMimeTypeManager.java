@@ -28,6 +28,7 @@
 package cloud.piranha.webapp.impl;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import cloud.piranha.webapp.api.MimeTypeManager;
 
@@ -41,7 +42,7 @@ public class DefaultMimeTypeManager implements MimeTypeManager {
     /**
      * Stores the mime types.
      */
-    private final HashMap<String, String> mimeTypes = new HashMap<>();
+    private final Map<String, String> mimeTypes = new HashMap<>();
 
     /**
      * Constructor.
@@ -53,6 +54,10 @@ public class DefaultMimeTypeManager implements MimeTypeManager {
         mimeTypes.put("svg", "image/svg+xml");
         mimeTypes.put("png", "image/png");
         mimeTypes.put("ttf", "font/ttf");
+        mimeTypes.put("html", "text/html");
+        mimeTypes.put("htm", "text/html");
+        mimeTypes.put("text", "text/plain");
+        mimeTypes.put("txt", "text/plain");
     }
 
     /**
@@ -74,11 +79,9 @@ public class DefaultMimeTypeManager implements MimeTypeManager {
      */
     @Override
     public String getMimeType(String filename) {
-        String result = null;
-        if (filename.contains(".")) {
-            String extension = filename.substring(filename.lastIndexOf(".") + 1);
-            result = mimeTypes.get(extension.toLowerCase());
+        if (!filename.contains(".")) {
+            return null;
         }
-        return result;
+        return mimeTypes.get(filename.substring(filename.lastIndexOf(".") + 1).toLowerCase());
     }
 }
