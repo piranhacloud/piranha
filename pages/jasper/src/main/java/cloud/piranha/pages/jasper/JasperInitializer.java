@@ -1,43 +1,48 @@
 /*
  * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *   1. Redistributions of source code must retain the above copyright notice, 
+ *   1. Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *   3. Neither the name of the copyright holder nor the names of its 
+ *   3. Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package cloud.piranha.pages.jasper;
 
-import cloud.piranha.webapp.api.WebApplication;
+import static java.io.File.pathSeparator;
+import static java.util.logging.Level.FINER;
+
 import java.io.File;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import javax.servlet.jsp.JspFactory;
+
 import org.apache.jasper.runtime.JspFactoryImpl;
+
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The Jasper initializer.
@@ -45,7 +50,7 @@ import org.apache.jasper.runtime.JspFactoryImpl;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class JasperInitializer implements ServletContainerInitializer {
-    
+
     /**
      * Stores the logger.
      */
@@ -58,13 +63,12 @@ public class JasperInitializer implements ServletContainerInitializer {
      * @return the classes directory.
      */
     private String getClassesDirectory(ServletContext servletContext) {
-        String result = servletContext.getRealPath("/WEB-INF/classes");
-        if (result == null) {
-            result = "";
-        } else {
-            result = File.pathSeparator + result;
+        String classesDirectory = servletContext.getRealPath("/WEB-INF/classes");
+        if (classesDirectory == null) {
+            return "";
         }
-        return result;
+
+        return pathSeparator + classesDirectory;
     }
 
     /**
@@ -74,7 +78,8 @@ public class JasperInitializer implements ServletContainerInitializer {
      * @return the location of the JAR files.
      */
     private String getJarFiles(ServletContext servletContext) {
-        StringBuilder result = new StringBuilder();
+        StringBuilder jarFiles = new StringBuilder();
+
         String realPath = servletContext.getRealPath("/WEB-INF/lib");
         if (realPath != null) {
             File directory = new File(realPath);
@@ -83,14 +88,15 @@ public class JasperInitializer implements ServletContainerInitializer {
                 if (files != null) {
                     for (String file : files) {
                         if (file.toLowerCase().endsWith(".jar")) {
-                            result.append(File.pathSeparator);
-                            result.append(file);
+                            jarFiles.append(pathSeparator);
+                            jarFiles.append(file);
                         }
                     }
                 }
             }
         }
-        return result.toString();
+
+        return jarFiles.toString();
     }
 
     /**
@@ -101,27 +107,29 @@ public class JasperInitializer implements ServletContainerInitializer {
      * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext)
-            throws ServletException {
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         LOGGER.fine("Initializing Jasper integration");
-        
+
         if (JspFactory.getDefaultFactory() == null) {
             JspFactory.setDefaultFactory(new JspFactoryImpl());
         }
-        ServletRegistration.Dynamic registration = servletContext.addServlet(
-                "JSP Servlet", "org.apache.jasper.servlet.JspServlet");
-        registration.addMapping("*.jsp");
-        String classpath = System.getProperty("jdk.module.path", System.getProperty("java.class.path"))
-                + getClassesDirectory(servletContext)
-                + getJarFiles(servletContext);
 
-        LOGGER.log(Level.FINER, () -> "Jasper classpath is: " + classpath);
-        
+        ServletRegistration.Dynamic registration = servletContext.addServlet("jsp", "org.apache.jasper.servlet.JspServlet");
+        registration.addMapping("*.jsp");
+        String classpath = System.getProperty("jdk.module.path",
+                System.getProperty("java.class.path")) +
+                getClassesDirectory(servletContext) +
+                getJarFiles(servletContext);
+
+        LOGGER.log(FINER, () -> "Jasper classpath is: " + classpath);
+
         registration.setInitParameter("classpath", classpath);
         registration.setInitParameter("compilerSourceVM", "1.8");
         registration.setInitParameter("compilerTargetVM", "1.8");
+
         WebApplication webApplication = (WebApplication) servletContext;
         webApplication.setJspManager(new JasperJspManager());
+
         LOGGER.fine("Initialized Jasper integration");
     }
 }

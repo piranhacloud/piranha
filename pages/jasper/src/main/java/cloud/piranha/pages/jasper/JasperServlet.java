@@ -27,13 +27,15 @@
  */
 package cloud.piranha.pages.jasper;
 
-import org.apache.jasper.Constants;
-import org.apache.jasper.servlet.JspServlet;
+import static org.apache.jasper.Constants.JSP_FILE;
+
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import org.apache.jasper.servlet.JspServlet;
 
 /**
  * Servlet to set the JSP file attribute
@@ -48,7 +50,7 @@ class JasperServlet extends JspServlet {
 
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute(Constants.JSP_FILE, jspFile);
+        request.setAttribute(JSP_FILE, jspFile);
         super.service(request, response);
     }
 }
