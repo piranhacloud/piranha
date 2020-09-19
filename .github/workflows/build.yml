@@ -23,5 +23,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
-    - name: Build with Maven
-      run: mvn --no-transfer-progress -P javadoc,sources,test install
+    - name: Analyze with SonarCloud
+      run: |
+        mvn --no-transfer-progress -B -Ptest -Pcoverage install verify site \
+        sonar:sonar -Dsonar.projectKey=piranhacloud_piranha \
+        -Dsonar.organization=piranhacloud -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${{ secrets.SONAR_LOGIN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

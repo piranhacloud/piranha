@@ -362,4 +362,21 @@ public abstract class HttpServerTest {
         server.stop();
         assertFalse(server.isRunning());
     }
+
+
+    /**
+     * Test start and stop method.
+     *
+     * @throws Exception when an error occurs.
+     */
+    @Test
+    void testStartAndStopSSL() throws Exception {
+        HttpServer server = createServer(8759);
+        server.setSSL(true);
+        assertTrue(server.getSSL());
+        server.start();
+        assertTrue(server.isRunning());
+        server.stop();
+        assertFalse(server.isRunning());
+    }
 }
