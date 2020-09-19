@@ -25,45 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro;
+package cloud.piranha.micro.core;
 
+import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Consumer;
 
-/**
- *
- * @author Arjan Tijms
- *
- */
-public class MicroDeployOutcome {
+import javax.servlet.ServletException;
 
-    private Set<String> deployedServlets;
-    private Consumer<Map<String, Object>> deployedApplication;
+import cloud.piranha.appserver.impl.DefaultWebApplicationServerRequest;
+import cloud.piranha.appserver.impl.DefaultWebApplicationServerResponse;
+import cloud.piranha.webapp.api.WebApplication;
+
+public class MicroInnerApplication implements Consumer<Map<String, Object>> {
+
+    private final WebApplication webApplication;
+
+    public MicroInnerApplication(WebApplication webApplication) {
+        this.webApplication = webApplication;
+    }
+
+    @Override
+    public void accept(Map<String, Object> requestMap) {
+        ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+        try {
+            Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
+
+            webApplication.service(copyMapToApplicationRequest(requestMap), copyMapToApplicationResponse(requestMap));
+
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        } finally {
+            Thread.currentThread().setContextClassLoader(oldClassLoader);
+        }
+    }
 
     @SuppressWarnings("unchecked")
-    public static MicroDeployOutcome ofMap(Map<String, Object> deployMap) {
-        MicroDeployOutcome deployOutcome = new MicroDeployOutcome();
-        deployOutcome.setDeployedServlets((Set<String>) deployMap.get("deployedServlets"));
-        deployOutcome.setDeployedApplication((Consumer<Map<String, Object>>) deployMap.get("deployedApplication"));
+    private DefaultWebApplicationServerRequest copyMapToApplicationRequest(Map<String, Object> requestMap) {
+        DefaultWebApplicationServerRequest applicationRequest = DefaultWebApplicationServerRequest.fromMap(requestMap);
+        applicationRequest.setWebApplication(webApplication);
 
-        return deployOutcome;
+        return applicationRequest;
     }
 
-    public Set<String> getDeployedServlets() {
-        return deployedServlets;
-    }
-
-    public void setDeployedServlets(Set<String> deployedServlets) {
-        this.deployedServlets = deployedServlets;
-    }
-
-    public Consumer<Map<String, Object>> getDeployedApplication() {
-        return deployedApplication;
-    }
-
-    public void setDeployedApplication(Consumer<Map<String, Object>> deployedApplication) {
-        this.deployedApplication = deployedApplication;
+    private DefaultWebApplicationServerResponse copyMapToApplicationResponse(Map<String, Object> requestMap) {
+        return DefaultWebApplicationServerResponse.fromMap(requestMap);
     }
 
 }
