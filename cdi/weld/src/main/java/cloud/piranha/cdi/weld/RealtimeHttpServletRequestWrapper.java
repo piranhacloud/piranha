@@ -269,6 +269,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
      * @return the real path.
      * @deprecated
      */
+    @Deprecated
     @Override
     public String getRealPath(String path) {
         throw new UnsupportedOperationException();
@@ -769,6 +770,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
      * @return true if it is, false otherwise.
      * @deprecated
      */
+    @Deprecated
     @Override
     public boolean isRequestedSessionIdFromUrl() {
         throw new UnsupportedOperationException();

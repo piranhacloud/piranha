@@ -91,6 +91,7 @@ public interface HttpSession {
      * Get the HTTP session context.
      *
      * @return the HTTP session context.
+     * @deprecated
      */
     @Deprecated
     public HttpSessionContext getSessionContext();

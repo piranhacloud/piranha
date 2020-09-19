@@ -18,6 +18,7 @@
     <modules>
         <module>jmx</module>
         <module>rest</module>
+	<module>route</module>
         <module>webapp</module>
     </modules>
 

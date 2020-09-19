@@ -264,7 +264,10 @@
                                 <module name="ConstantName"/>
                                 <module name="CovariantEquals"/>
                                 <module name="DeclarationOrder"/>
+                                <module name="MissingDeprecated"/>
+                                <module name="MissingOverride"/>
                                 <module name="ModifierOrder"/>
+                                <module name="PackageAnnotation"/> 
                                 <module name="UnusedImports"/>
                             </module>
                         </module>
