@@ -27,6 +27,8 @@
  */
 package cloud.piranha.appserver.api;
 
+import java.util.Map;
+
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationResponse;
 
@@ -43,4 +45,14 @@ public interface WebApplicationServerResponse extends WebApplicationResponse {
      * @param webApplication the web application.
      */
     void setWebApplication(WebApplication webApplication);
+
+    Runnable getResponseCloser();
+
+    default Map<String, Object> toMap() {
+        return Map.of(
+            "UnderlyingOutputStream", getUnderlyingOutputStream(),
+            "ResponseCloser", getResponseCloser());
+    }
+
+
 }
