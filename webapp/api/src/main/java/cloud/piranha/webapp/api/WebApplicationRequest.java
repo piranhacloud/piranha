@@ -43,4 +43,5 @@ public interface WebApplicationRequest extends HttpServletRequest {
      * @param dispatcherType the dispatcher type.
      */
     void setDispatcherType(DispatcherType dispatcherType);
+
 }

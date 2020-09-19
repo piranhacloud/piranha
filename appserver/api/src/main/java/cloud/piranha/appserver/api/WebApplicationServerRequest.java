@@ -27,6 +27,17 @@
  */
 package cloud.piranha.appserver.api;
 
+import static java.util.Map.entry;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 
@@ -57,4 +68,44 @@ public interface WebApplicationServerRequest extends WebApplicationRequest {
      * @param webApplication the web application.
      */
     void setWebApplication(WebApplication webApplication);
+
+    default Map<String, Object> toMap() {
+        return Map.ofEntries(
+            entry("LocalAddr", getLocalAddr()),
+            entry("LocalName", getLocalName()),
+            entry("LocalPort", getLocalPort()),
+            entry("RemoteAddr", getRemoteAddr()),
+            entry("RemoteHost", getRemoteHost()),
+            entry("RemotePort", getRemotePort()),
+            entry("ServerName", getServerName()),
+            entry("ServerPort", getServerPort()),
+            entry("Method", getMethod()),
+            entry("ContextPath", getContextPath()),
+            entry("ServletPath", getServletPath()),
+            entry("QueryString", getQueryString()),
+            entry("InputStream", getInputStreamUnchecked()),
+            entry("Headers", getHeadersAsMap()));
+    }
+
+    private InputStream getInputStreamUnchecked() {
+        try {
+            return getInputStream();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private Map<String, List<String>> getHeadersAsMap() {
+        Map<String, List<String>> headers = new HashMap<>();
+        Enumeration<String> headerNames = getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String name = headerNames.nextElement();
+            String value = getHeader(name);
+            headers.computeIfAbsent(name, e -> new ArrayList<>()).add(value);
+        }
+
+        return headers;
+    }
+
+
 }
