@@ -138,6 +138,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     public DefaultHttpSessionManager() {
         attributeListeners = new ArrayList<>(1);
         defaultSessionTrackingModes = EnumSet.of(SessionTrackingMode.COOKIE);
+        sessionTrackingModes = defaultSessionTrackingModes;
         idListeners = new ArrayList<>(1);
         name = "JSESSIONID";
         sessionListeners = new ArrayList<>(1);

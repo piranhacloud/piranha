@@ -183,4 +183,10 @@ class DefaultHttpSessionManagerTest {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         assertEquals("test", sessionManager.encodeURL(null, "test"));
     }
+
+    @Test
+    void testEffectiveSessionTracking() {
+        DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        assertEquals(sessionManager.getDefaultSessionTrackingModes(), sessionManager.getEffectiveSessionTrackingModes());
+    }
 }
