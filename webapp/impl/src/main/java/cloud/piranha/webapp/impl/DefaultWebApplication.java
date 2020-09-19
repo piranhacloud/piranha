@@ -612,9 +612,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
-        if (tainted) {
-            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
-        }
+        checkTainted();
 
         return objectInstanceManager.createFilter(filterClass);
     }
@@ -1679,15 +1677,13 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public boolean setInitParameter(String name, String value) {
-        if (tainted) {
-            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
-        }
+        requireNonNull(name);
+
+        checkTainted();
 
         if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Cannot set init parameter once web application is initialized");
         }
-
-        requireNonNull(name);
 
         boolean result = true;
         if (initParameters.containsKey(name)) {
@@ -1805,9 +1801,9 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) {
-        if (tainted) {
-            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
-        }
+        checkTainted();
+
+        checkServicing();
 
         httpSessionManager.setSessionTrackingModes(sessionTrackingModes);
     }

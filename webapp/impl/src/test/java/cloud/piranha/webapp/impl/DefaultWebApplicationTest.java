@@ -342,6 +342,18 @@ class DefaultWebApplicationTest {
     }
 
     /**
+     * Test getEffectiveSessionTrackingModes method.
+     */
+    @Test
+    void testGetEffectiveSessionTrackingModes2() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.initialize();
+        webApp.start();
+        Set<SessionTrackingMode> trackingModes = EnumSet.of(SessionTrackingMode.URL);
+        assertThrows(IllegalStateException.class, () -> webApp.setSessionTrackingModes(trackingModes));
+    }
+
+    /**
      * Test getInitParameter method.
      */
     @Test
@@ -1031,6 +1043,18 @@ class DefaultWebApplicationTest {
     @Test
     void testSetInitParameter3() {
         DefaultWebApplication webApp = new DefaultWebApplication();
+        assertThrows(NullPointerException.class, () -> webApp.setInitParameter(null, "KABOOM"));
+    }
+
+
+    /**
+     * Test setInitParameter method.
+     */
+    @Test
+    void testSetInitParameter4() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.initialize();
+        webApp.start();
         assertThrows(NullPointerException.class, () -> webApp.setInitParameter(null, "KABOOM"));
     }
 
