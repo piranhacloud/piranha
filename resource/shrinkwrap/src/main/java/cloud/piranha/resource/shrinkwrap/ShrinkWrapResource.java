@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.stream.Stream;
 
 import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.Node;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -136,7 +137,7 @@ public class ShrinkWrapResource implements Resource {
             archiveToGetFrom.getContent()
                    .keySet()
                    .stream()
-                   .map(e -> e.get())
+                   .map(ArchivePath::get)
                    .filter(e -> getAsset(archiveToGetFrom, e) != null)                
                    ;
     }

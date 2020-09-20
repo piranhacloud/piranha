@@ -105,17 +105,15 @@ public class NanoPiranhaBuilder {
             webApplication = new DefaultWebApplication();
         }
         piranha.setWebApplication(webApplication);
-        resources.forEach((resource) -> {
-            webApplication.addResource(resource);
-        });
-        filters.entrySet().forEach((entry) -> {
+        resources.forEach(resource -> webApplication.addResource(resource));
+        filters.entrySet().forEach(entry -> {
             String filterName = entry.getKey();
             Filter filter = entry.getValue();
             NanoFilterConfig filterConfig = new NanoFilterConfig(piranha.getWebApplication());
             filterConfig.setFilterName(filterName);
             Map<String, String> initParameters = filterInitParameters.get(filterName);
             if (initParameters != null) {
-                initParameters.entrySet().forEach((initParameter) -> {
+                initParameters.entrySet().forEach(initParameter -> {
                     String name = initParameter.getKey();
                     String value = initParameter.getValue();
                     filterConfig.setInitParameter(name, value);
@@ -131,7 +129,7 @@ public class NanoPiranhaBuilder {
         if (servlet != null) {
             NanoServletConfig servletConfig = new NanoServletConfig(piranha.getWebApplication());
             servletConfig.setServletName(servletName);
-            servletInitParameters.entrySet().forEach((entry) -> {
+            servletInitParameters.entrySet().forEach(entry -> {
                 String name = entry.getKey();
                 String value = entry.getValue();
                 servletConfig.setInitParameter(name, value);

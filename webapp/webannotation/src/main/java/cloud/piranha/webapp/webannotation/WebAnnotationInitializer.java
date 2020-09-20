@@ -105,9 +105,7 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
 
             // Add params
             if (webServlet.initParams().length != 0) {
-                stream(webServlet.initParams()).forEach(initParam -> {
-                    registration.setInitParameter(initParam.name(), initParam.value());
-                });
+                stream(webServlet.initParams()).forEach(initParam -> registration.setInitParameter(initParam.name(), initParam.value()));
             }
 
             if (registration != null)

@@ -94,9 +94,7 @@ public class DefaultWebApplicationExtensionContext implements WebApplicationExte
      * @param webApplication the web application.
      */
     public void configure(WebApplication webApplication) {
-        extensions.forEach((extension) -> {
-            extension.configure(webApplication);
-        });
+        extensions.forEach(extension -> extension.configure(webApplication));
     }
 
     /**

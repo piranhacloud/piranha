@@ -90,7 +90,7 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
 
         // Servlet:JAVADOC:696.1 - If any of the specified URL patterns are already mapped to a different Servlet, no updates will be performed.
         Set<String> mappedToOtherServlet = stream(urlPatterns)
-            .filter(urlPattern -> servletMappings.containsKey(urlPattern))
+            .filter(servletMappings::containsKey)
             .filter(urlPattern -> !servletMappings.get(urlPattern).equals(servletName))
             .collect(toSet());
 
@@ -311,10 +311,8 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
     @Override
     public Collection<String> getServletMappings(String servletName) {
         Collection<String> result = new ArrayList<>();
-        servletMappings.keySet().stream().filter((urlPattern)
-                -> servletMappings.get(urlPattern).equals(servletName)).forEach((urlPattern) -> {
-            result.add(urlPattern);
-        });
+        servletMappings.keySet().stream().filter(urlPattern
+                -> servletMappings.get(urlPattern).equals(servletName)).forEach(result::add);
         return result;
     }
 

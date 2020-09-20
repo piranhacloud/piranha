@@ -135,6 +135,6 @@ public class DefaultResourceManager implements ResourceManager {
     
     @Override
     public Stream<String> getAllLocations() {
-        return resources.stream().flatMap(e -> e.getAllLocations());
+        return resources.stream().flatMap(Resource::getAllLocations);
     }
 }

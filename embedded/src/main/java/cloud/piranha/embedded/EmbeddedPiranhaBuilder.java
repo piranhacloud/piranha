@@ -183,27 +183,23 @@ public class EmbeddedPiranhaBuilder {
             webApplication.setHttpSessionManager(httpSessionManager);
         }
 
-        attributes.entrySet().forEach((attribute) -> {
+        attributes.entrySet().forEach(attribute -> {
             String attributeName = attribute.getKey();
             Object attributeValue = attribute.getValue();
             webApplication.setAttribute(attributeName, attributeValue);
         });
 
-        resources.forEach((resource) -> {
-            webApplication.addResource(resource);
-        });
+        resources.forEach(webApplication::addResource);
 
-        initializers.forEach((initializer) -> {
-            webApplication.addInitializer(initializer);
-        });
+        initializers.forEach(webApplication::addInitializer);
 
-        servlets.entrySet().forEach((entry) -> {
+        servlets.entrySet().forEach(entry -> {
             String servletName = entry.getKey();
             String className = entry.getValue();
             ServletRegistration.Dynamic servlet = webApplication.addServlet(servletName, className);
             HashMap<String, String> initParameters = servletInitParameters.get(servletName);
             if (initParameters != null) {
-                initParameters.entrySet().forEach((initParameter) -> {
+                initParameters.entrySet().forEach(initParameter -> {
                     String name = initParameter.getKey();
                     String value = initParameter.getValue();
                     servlet.setInitParameter(name, value);
@@ -211,26 +207,26 @@ public class EmbeddedPiranhaBuilder {
             }
             servlet.setAsyncSupported(asyncSupportedServlets.get(servletName));
         });
-        servletMappings.entrySet().forEach((servletMapping) -> {
+        servletMappings.entrySet().forEach(servletMapping -> {
             String servletName = servletMapping.getKey();
             List<String> urlPatterns = servletMapping.getValue();
             webApplication.addServletMapping(servletName, urlPatterns.toArray(new String[0]));
         });
 
-        filters.entrySet().forEach((entry) -> {
+        filters.entrySet().forEach(entry -> {
             String filterName = entry.getKey();
             String className = entry.getValue();
             FilterRegistration.Dynamic filter = webApplication.addFilter(filterName, className);
             HashMap<String, String> initParameters = filterInitParameters.get(filterName);
             if (initParameters != null) {
-                initParameters.entrySet().forEach((initParameter) -> {
+                initParameters.entrySet().forEach(initParameter -> {
                     String name = initParameter.getKey();
                     String value = initParameter.getValue();
                     filter.setInitParameter(name, value);
                 });
             }
         });
-        filterMappings.entrySet().forEach((filterMapping) -> {
+        filterMappings.entrySet().forEach(filterMapping -> {
             String filterName = filterMapping.getKey();
             List<String> urlPatterns = filterMapping.getValue();
             webApplication.addFilterMapping(filterName, urlPatterns.toArray(new String[0]));

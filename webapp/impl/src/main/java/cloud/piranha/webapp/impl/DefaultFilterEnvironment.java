@@ -332,7 +332,7 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     public Set<String> setInitParameters(Map<String, String> initParameters) {
         HashSet<String> conflicting = new HashSet<>();
         if (initParameters != null) {
-            initParameters.entrySet().forEach((entry) -> {
+            initParameters.entrySet().forEach(entry -> {
                 String name = entry.getKey();
                 String value = entry.getValue();
                 if (name == null) {

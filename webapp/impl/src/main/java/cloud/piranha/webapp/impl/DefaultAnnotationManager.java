@@ -79,7 +79,7 @@ public class DefaultAnnotationManager implements AnnotationManager {
     public List<AnnotationInfo<?>> getAnnotations(Class<?>... annotationClasses) {
         return
             Arrays.stream(annotationClasses)
-                  .flatMap(e -> getAnnotationStream(e))
+                  .flatMap(this::getAnnotationStream)
                   .collect(toList());
     }
 
@@ -94,7 +94,7 @@ public class DefaultAnnotationManager implements AnnotationManager {
     public List<Class<?>> getInstances(Class<?>... instanceClasses) {
         return
             Arrays.stream(instanceClasses)
-                  .flatMap(e -> getInstanceStream(e))
+                  .flatMap(this::getInstanceStream)
                   .collect(toList());
     }
 
