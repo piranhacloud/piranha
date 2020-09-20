@@ -105,9 +105,7 @@ public class NanoPiranhaBuilder {
             webApplication = new DefaultWebApplication();
         }
         piranha.setWebApplication(webApplication);
-        resources.forEach(resource -> {
-            webApplication.addResource(resource);
-        });
+        resources.forEach(resource -> webApplication.addResource(resource));
         filters.entrySet().forEach(entry -> {
             String filterName = entry.getKey();
             Filter filter = entry.getValue();

@@ -677,22 +677,16 @@ public class DefaultWebApplication implements WebApplication {
     public void destroy() {
         verifyState(INITIALIZED, "Unable to destroy web application");
 
-        servletEnvironments.values().stream().forEach(servletEnv -> {
-            servletEnv.getServlet().destroy();
-        });
+        servletEnvironments.values().stream().forEach(servletEnv -> servletEnv.getServlet().destroy());
         servletEnvironments.clear();
 
 
         reverse(contextListeners);
-        contextListeners.stream().forEach(listener -> {
-            listener.contextDestroyed(new ServletContextEvent(this));
-        });
+        contextListeners.stream().forEach(listener -> listener.contextDestroyed(new ServletContextEvent(this)));
         contextListeners.clear();
 
         reverse(declaredContextListeners);
-        declaredContextListeners.stream().forEach(listener -> {
-            listener.contextDestroyed(new ServletContextEvent(this));
-        });
+        declaredContextListeners.stream().forEach(listener -> listener.contextDestroyed(new ServletContextEvent(this)));
         declaredContextListeners.clear();
         status = SETUP;
     }
@@ -1972,9 +1966,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     private void requestInitialized(ServletRequest request) {
         if (!requestListeners.isEmpty()) {
-            requestListeners.stream().forEach(servletRequestListener -> {
-                servletRequestListener.requestInitialized(new ServletRequestEvent(this, request));
-            });
+            requestListeners.stream().forEach(servletRequestListener -> servletRequestListener.requestInitialized(new ServletRequestEvent(this, request)));
         }
     }
 
@@ -1985,9 +1977,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     private void requestDestroyed(ServletRequest request) {
         if (!requestListeners.isEmpty()) {
-            requestListeners.stream().forEach(servletRequestListener -> {
-                servletRequestListener.requestDestroyed(new ServletRequestEvent(this, request));
-            });
+            requestListeners.stream().forEach(servletRequestListener -> servletRequestListener.requestDestroyed(new ServletRequestEvent(this, request)));
         }
     }
 
@@ -1998,9 +1988,7 @@ public class DefaultWebApplication implements WebApplication {
      * @param value the value.
      */
     private void attributeAdded(String name, Object value) {
-        contextAttributeListeners.stream().forEach(listener -> {
-            listener.attributeAdded(new ServletContextAttributeEvent(this, name, value));
-        });
+        contextAttributeListeners.stream().forEach(listener -> listener.attributeAdded(new ServletContextAttributeEvent(this, name, value)));
     }
 
     /**
@@ -2009,9 +1997,7 @@ public class DefaultWebApplication implements WebApplication {
      * @param name the name.
      */
     private void attributeRemoved(String name, Object previousValue) {
-        contextAttributeListeners.stream().forEach(listener -> {
-            listener.attributeRemoved(new ServletContextAttributeEvent(this, name, previousValue));
-        });
+        contextAttributeListeners.stream().forEach(listener -> listener.attributeRemoved(new ServletContextAttributeEvent(this, name, previousValue)));
     }
 
     /**
@@ -2021,9 +2007,7 @@ public class DefaultWebApplication implements WebApplication {
      * @param value the value.
      */
     private void attributeReplaced(String name, Object value) {
-        contextAttributeListeners.stream().forEach(listener -> {
-            listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value));
-        });
+        contextAttributeListeners.stream().forEach(listener -> listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value)));
     }
 
     private boolean isPermanentlyUnavailable(DefaultServletEnvironment environment) {

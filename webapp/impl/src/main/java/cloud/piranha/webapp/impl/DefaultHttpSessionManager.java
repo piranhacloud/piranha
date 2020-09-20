@@ -171,9 +171,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
 
         response.addCookie(cookie);
 
-        sessionListeners.stream().forEach(sessionListener -> {
-            sessionListener.sessionCreated(new HttpSessionEvent(session));
-        });
+        sessionListeners.stream().forEach(sessionListener -> sessionListener.sessionCreated(new HttpSessionEvent(session)));
 
         return session;
     }
@@ -211,9 +209,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         newSession.setId(sessionId);
         sessions.put(sessionId, session);
 
-        idListeners.stream().forEach(idListener -> {
-            idListener.sessionIdChanged(new HttpSessionEvent(session), oldSessionId);
-        });
+        idListeners.stream().forEach(idListener -> idListener.sessionIdChanged(new HttpSessionEvent(session), oldSessionId));
 
         return sessionId;
     }
@@ -248,9 +244,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public void attributeAdded(HttpSession session, String name, Object value) {
-        attributeListeners.stream().forEach(listener -> {
-            listener.attributeAdded(new HttpSessionBindingEvent(session, name, value));
-        });
+        attributeListeners.stream().forEach(listener -> listener.attributeAdded(new HttpSessionBindingEvent(session, name, value)));
     }
 
     /**
@@ -262,9 +256,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public void attributeReplaced(HttpSession session, String name, Object value) {
-        attributeListeners.stream().forEach(listener -> {
-            listener.attributeReplaced(new HttpSessionBindingEvent(session, name, value));
-        });
+        attributeListeners.stream().forEach(listener -> listener.attributeReplaced(new HttpSessionBindingEvent(session, name, value)));
     }
 
     /**
@@ -275,9 +267,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public void attributeRemoved(HttpSession session, String name) {
-        attributeListeners.stream().forEach(listener -> {
-            listener.attributeRemoved(new HttpSessionBindingEvent(session, name));
-        });
+        attributeListeners.stream().forEach(listener -> listener.attributeRemoved(new HttpSessionBindingEvent(session, name)));
     }
 
     /**
@@ -287,9 +277,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public synchronized void destroySession(HttpSession session) {
-        sessionListeners.stream().forEach(sessionListener -> {
-            sessionListener.sessionDestroyed(new HttpSessionEvent(session));
-        });
+        sessionListeners.stream().forEach(sessionListener -> sessionListener.sessionDestroyed(new HttpSessionEvent(session)));
         sessions.remove(session.getId());
     }
 

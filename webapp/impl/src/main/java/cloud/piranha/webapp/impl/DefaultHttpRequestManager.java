@@ -58,23 +58,17 @@ public class DefaultHttpRequestManager implements HttpRequestManager {
 
     @Override
     public void attributeAdded(HttpServletRequest request, String name, Object value) {
-        attributeListeners.stream().forEach(listener -> {
-            listener.attributeAdded(new ServletRequestAttributeEvent(request.getServletContext(), request, name, value));
-        });
+        attributeListeners.stream().forEach(listener -> listener.attributeAdded(new ServletRequestAttributeEvent(request.getServletContext(), request, name, value)));
     }
 
     @Override
     public void attributeRemoved(HttpServletRequest request, String name) {
-        attributeListeners.stream().forEach(listener -> {
-            listener.attributeRemoved(new ServletRequestAttributeEvent(request.getServletContext(), request, name, null));
-        });
+        attributeListeners.stream().forEach(listener -> listener.attributeRemoved(new ServletRequestAttributeEvent(request.getServletContext(), request, name, null)));
     }
 
     @Override
     public void attributeReplaced(HttpServletRequest request, String name, Object value) {
-        attributeListeners.stream().forEach(listener -> {
-            listener.attributeReplaced(new ServletRequestAttributeEvent(request.getServletContext(), request, name, value));
-        });
+        attributeListeners.stream().forEach(listener -> listener.attributeReplaced(new ServletRequestAttributeEvent(request.getServletContext(), request, name, value)));
     }
 
 }

@@ -88,9 +88,7 @@ public class HazelcastHttpSessionManager extends DefaultHttpSessionManager {
             HazelcastHttpSession newSession = (HazelcastHttpSession) session;
             newSession.setId(key);
             sessions.put(key, (HazelcastHttpSession) session);
-            idListeners.stream().forEach(idListener -> {
-                idListener.sessionIdChanged(new HttpSessionEvent(session), oldSessionId);
-            });
+            idListeners.stream().forEach(idListener -> idListener.sessionIdChanged(new HttpSessionEvent(session), oldSessionId));
         } else {
             throw new IllegalStateException("No session active");
         }
@@ -116,9 +114,7 @@ public class HazelcastHttpSessionManager extends DefaultHttpSessionManager {
         HttpServletResponse response = (HttpServletResponse) webApplication.getResponse(request);
         Cookie cookie = new Cookie(name, key);
         response.addCookie(cookie);
-        sessionListeners.stream().forEach(sessionListener -> {
-            sessionListener.sessionCreated(new HttpSessionEvent(result));
-        });
+        sessionListeners.stream().forEach(sessionListener -> sessionListener.sessionCreated(new HttpSessionEvent(result)));
         return result;
     }
 

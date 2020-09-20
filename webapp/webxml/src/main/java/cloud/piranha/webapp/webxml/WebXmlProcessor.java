@@ -337,9 +337,7 @@ public class WebXmlProcessor {
                 dynamic.setAsyncSupported(true);
             }
 
-            servlet.getInitParams().forEach(initParam -> {
-                dynamic.setInitParameter(initParam.getName(), initParam.getValue());
-            });
+            servlet.getInitParams().forEach(initParam -> dynamic.setInitParameter(initParam.getName(), initParam.getValue()));
 
             LOGGER.log(FINE, () -> "Configured Servlet: " + servlet.getServletName());
         }
