@@ -29,6 +29,7 @@ package cloud.piranha.micro;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  *
@@ -38,13 +39,13 @@ import java.util.Set;
 public class MicroDeployOutcome {
 
     private Set<String> deployedServlets;
-    private Object deployedApplication;
+    private Consumer<Map<String, Object>> deployedApplication;
 
     @SuppressWarnings("unchecked")
     public static MicroDeployOutcome ofMap(Map<String, Object> deployMap) {
         MicroDeployOutcome deployOutcome = new MicroDeployOutcome();
         deployOutcome.setDeployedServlets((Set<String>) deployMap.get("deployedServlets"));
-        deployOutcome.setDeployedApplication(deployMap.get("deployedApplication"));
+        deployOutcome.setDeployedApplication((Consumer<Map<String, Object>>) deployMap.get("deployedApplication"));
 
         return deployOutcome;
     }
@@ -57,11 +58,11 @@ public class MicroDeployOutcome {
         this.deployedServlets = deployedServlets;
     }
 
-    public Object getDeployedApplication() {
+    public Consumer<Map<String, Object>> getDeployedApplication() {
         return deployedApplication;
     }
 
-    public void setDeployedApplication(Object deployedApplication) {
+    public void setDeployedApplication(Consumer<Map<String, Object>> deployedApplication) {
         this.deployedApplication = deployedApplication;
     }
 

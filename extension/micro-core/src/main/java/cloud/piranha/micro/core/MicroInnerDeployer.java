@@ -195,14 +195,15 @@ public class MicroInnerDeployer {
 
             initIdentityStore(webApplication);
 
-            DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
+
 
             String contextPath = (String) config.get("micro.root");
             if (contextPath != null) {
                 webApplication.setContextPath(contextPath);
             }
 
-            webApplicationServer.addWebApplication(webApplication);
+
+
 
             DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
             for (WebApplicationExtension extension : ServiceLoader.load(WebApplicationExtension.class)) {
@@ -210,17 +211,24 @@ public class MicroInnerDeployer {
             }
             extensionContext.configure(webApplication);
 
-            webApplicationServer.initialize();
-            webApplicationServer.start();
+            webApplication.initialize();
+            webApplication.start();
 
-            ServiceLoader<HttpServer> httpServers = ServiceLoader.load(HttpServer.class);
-            httpServer = httpServers.findFirst().orElseThrow();
-            httpServer.setServerPort((Integer) config.get("micro.port"));
-            httpServer.setSSL(Boolean.getBoolean("piranha.http.ssl"));
-            httpServer.setHttpServerProcessor(webApplicationServer);
-            httpServer.start();
+            if ((boolean) config.get("micro.http.start")) {
+                DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
+                webApplicationServer.addWebApplication(webApplication);
 
-            return Map.of("deployedServlets", webApplication.getServletRegistrations().keySet());
+                ServiceLoader<HttpServer> httpServers = ServiceLoader.load(HttpServer.class);
+                httpServer = httpServers.findFirst().orElseThrow();
+                httpServer.setServerPort((Integer) config.get("micro.port"));
+                httpServer.setSSL(Boolean.getBoolean("piranha.http.ssl"));
+                httpServer.setHttpServerProcessor(webApplicationServer);
+                httpServer.start();
+            }
+
+            return Map.of(
+                "deployedServlets", webApplication.getServletRegistrations().keySet(),
+                "deployedApplication", new MicroInnerApplication(webApplication));
         } catch (IOException e) {
             e.printStackTrace();
             throw new IllegalStateException(e);

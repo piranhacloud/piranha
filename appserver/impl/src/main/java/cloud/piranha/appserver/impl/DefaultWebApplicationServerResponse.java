@@ -27,6 +27,9 @@
  */
 package cloud.piranha.appserver.impl;
 
+import java.io.OutputStream;
+import java.util.Map;
+
 import cloud.piranha.appserver.api.WebApplicationServerResponse;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 
@@ -39,6 +42,11 @@ public class DefaultWebApplicationServerResponse extends DefaultWebApplicationRe
 
     private Runnable responseCloser;
 
+    @Override
+    public Runnable getResponseCloser() {
+        return responseCloser;
+    }
+
     public void setResponseCloser(Runnable responseCloser) {
         this.responseCloser = responseCloser;
     }
@@ -46,6 +54,14 @@ public class DefaultWebApplicationServerResponse extends DefaultWebApplicationRe
     @Override
     public void closeAsyncResponse() {
         responseCloser.run();
+    }
+
+    public static DefaultWebApplicationServerResponse fromMap(Map<String, Object> requestMap) {
+        DefaultWebApplicationServerResponse applicationResponse = new DefaultWebApplicationServerResponse();
+        applicationResponse.setUnderlyingOutputStream((OutputStream) requestMap.get("UnderlyingOutputStream"));
+        applicationResponse.setResponseCloser((Runnable) requestMap.get("ResponseCloser"));
+
+        return applicationResponse;
     }
 
 
