@@ -77,7 +77,7 @@ public class ApacheMultiPartManager implements MultiPartManager {
             try {
                 ServletFileUpload upload = setupFileUpload(webApplication);
                 List<FileItem> items = upload.parseRequest(request);
-                items.forEach((item) -> {
+                items.forEach(item -> {
                     parts.add(new ApacheMultiPart(item));
                 });
             } catch (FileUploadException fue) {

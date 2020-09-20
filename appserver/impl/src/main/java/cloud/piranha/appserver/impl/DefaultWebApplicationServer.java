@@ -216,7 +216,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
     public void initialize() {
         LOGGER.log(FINE, "Starting initialization of {0} web application(s)", webApplications.size());
 
-        webApplications.values().forEach((webApp) -> {
+        webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
                 Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
@@ -308,7 +308,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
     public void start() {
         LOGGER.fine("Starting WebApplication server engine");
 
-        webApplications.values().forEach((webApp) -> {
+        webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
                 Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
@@ -328,7 +328,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
     public void stop() {
         LOGGER.fine("Stopping WebApplication server engine");
 
-        webApplications.values().forEach((webApp) -> {
+        webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
                 Thread.currentThread().setContextClassLoader(webApp.getClassLoader());

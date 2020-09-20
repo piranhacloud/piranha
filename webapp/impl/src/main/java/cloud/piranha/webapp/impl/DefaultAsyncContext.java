@@ -236,7 +236,7 @@ public class DefaultAsyncContext implements AsyncContext {
         LOGGER.log(FINE, () -> "Completing async processing");
 
         if (!listeners.isEmpty()) {
-            listeners.forEach((listener) -> {
+            listeners.forEach(listener -> {
                 try {
                     listener.onComplete(new AsyncEvent(this));
                 } catch (IOException ioe) {
@@ -260,7 +260,7 @@ public class DefaultAsyncContext implements AsyncContext {
         scheduledThreadPoolExecutor.shutdownNow();
 
         if (!listeners.isEmpty()) {
-            listeners.forEach((listener) -> {
+            listeners.forEach(listener -> {
                 try {
                     listener.onTimeout(new AsyncEvent(this));
                 } catch (IOException ioe) {

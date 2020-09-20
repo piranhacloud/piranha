@@ -209,7 +209,7 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processFilters(WebApplication webApplication, WebXml webXml) {
-        webXml.getFilters().forEach((filter) -> {
+        webXml.getFilters().forEach(filter -> {
             FilterRegistration.Dynamic dynamic = null;
 
             if (filter.getClassName() != null) {

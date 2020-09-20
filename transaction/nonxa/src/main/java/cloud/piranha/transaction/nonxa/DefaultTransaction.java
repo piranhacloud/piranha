@@ -166,7 +166,7 @@ public class DefaultTransaction implements Transaction {
      */
     private void handleAfterCompletion() {
         if (synchronizations.size() > 0) {
-            synchronizations.forEach((synchronization) -> {
+            synchronizations.forEach(synchronization -> {
                 try {
                     synchronization.afterCompletion(status);
                 } catch (RuntimeException re) {
@@ -182,7 +182,7 @@ public class DefaultTransaction implements Transaction {
      */
     private void handleBeforeCompletion() {
         if (synchronizations.size() > 0) {
-            synchronizations.forEach((synchronization) -> {
+            synchronizations.forEach(synchronization -> {
                 try {
                     synchronization.beforeCompletion();
                 } catch (RuntimeException re) {

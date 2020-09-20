@@ -311,8 +311,8 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
     @Override
     public Collection<String> getServletMappings(String servletName) {
         Collection<String> result = new ArrayList<>();
-        servletMappings.keySet().stream().filter((urlPattern)
-                -> servletMappings.get(urlPattern).equals(servletName)).forEach((urlPattern) -> {
+        servletMappings.keySet().stream().filter(urlPattern
+                -> servletMappings.get(urlPattern).equals(servletName)).forEach(urlPattern -> {
             result.add(urlPattern);
         });
         return result;
