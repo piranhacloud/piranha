@@ -1718,6 +1718,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public String getRequestURIWithQueryString() {
         String requestURI = getRequestURI();
         String queryString = getQueryString();
-        return (queryString == null) ? requestURI : (requestURI + "?" + queryString);
+        return queryString == null ? requestURI : requestURI + "?" + queryString;
     }
 }

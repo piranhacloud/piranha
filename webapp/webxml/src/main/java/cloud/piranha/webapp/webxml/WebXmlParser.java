@@ -676,7 +676,7 @@ public class WebXmlParser {
     private Iterable<String> parseStrings(XPath xPath, String expression, Node node) throws XPathExpressionException {
         return StreamSupport
                 .stream(toIterable((NodeList) xPath.evaluate(expression, node, NODESET)).spliterator(), false)
-                .map(e -> e.getNodeValue())
+                .map(Node::getNodeValue)
                 ::iterator;
     }
 

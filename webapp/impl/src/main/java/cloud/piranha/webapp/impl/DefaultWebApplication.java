@@ -677,22 +677,16 @@ public class DefaultWebApplication implements WebApplication {
     public void destroy() {
         verifyState(INITIALIZED, "Unable to destroy web application");
 
-        servletEnvironments.values().stream().forEach((servletEnv) -> {
-            servletEnv.getServlet().destroy();
-        });
+        servletEnvironments.values().stream().forEach(servletEnv -> servletEnv.getServlet().destroy());
         servletEnvironments.clear();
 
 
         reverse(contextListeners);
-        contextListeners.stream().forEach((listener) -> {
-            listener.contextDestroyed(new ServletContextEvent(this));
-        });
+        contextListeners.stream().forEach(listener -> listener.contextDestroyed(new ServletContextEvent(this)));
         contextListeners.clear();
 
         reverse(declaredContextListeners);
-        declaredContextListeners.stream().forEach((listener) -> {
-            listener.contextDestroyed(new ServletContextEvent(this));
-        });
+        declaredContextListeners.stream().forEach(listener -> listener.contextDestroyed(new ServletContextEvent(this)));
         declaredContextListeners.clear();
         status = SETUP;
     }
@@ -1338,7 +1332,7 @@ public class DefaultWebApplication implements WebApplication {
     public void initializeFilters() {
         if (status == SETUP || status == INITIALIZED_DECLARED) {
             List<String> filterNames = new ArrayList<>(filters.keySet());
-            filterNames.stream().map((filterName) -> filters.get(filterName)).forEach((environment) -> {
+            filterNames.stream().map(filters::get).forEach(environment -> {
                 try {
                     environment.initialize();
                     environment.getFilter().init(environment);
@@ -1385,7 +1379,7 @@ public class DefaultWebApplication implements WebApplication {
 
         if (!error) {
             List<ServletContextListener> listeners = new ArrayList<>(declaredContextListeners);
-            listeners.stream().forEach((listener) -> {
+            listeners.stream().forEach(listener -> {
                 try {
                     source = listener;
                     listener.contextInitialized(new ServletContextEvent(this));
@@ -1397,7 +1391,7 @@ public class DefaultWebApplication implements WebApplication {
             try {
                 tainted = true;
                 listeners = new ArrayList<>(contextListeners);
-                listeners.stream().forEach((listener) -> {
+                listeners.stream().forEach(listener -> {
                     source = listener;
                     listener.contextInitialized(new ServletContextEvent(this));
                 });
@@ -1419,7 +1413,7 @@ public class DefaultWebApplication implements WebApplication {
             List<String> servletsToBeRemoved = new ArrayList<>();
             List<String> servletNames = new ArrayList<>(servletEnvironments.keySet());
 
-            servletNames.stream().map((servletName) -> servletEnvironments.get(servletName)).forEach((environment) -> {
+            servletNames.stream().map(servletEnvironments::get).forEach(environment -> {
                 initializeServlet(environment);
                 if (isPermanentlyUnavailable(environment)) {
                     servletsToBeRemoved.add(environment.getServletName());
@@ -1972,9 +1966,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     private void requestInitialized(ServletRequest request) {
         if (!requestListeners.isEmpty()) {
-            requestListeners.stream().forEach((servletRequestListener) -> {
-                servletRequestListener.requestInitialized(new ServletRequestEvent(this, request));
-            });
+            requestListeners.stream().forEach(servletRequestListener -> servletRequestListener.requestInitialized(new ServletRequestEvent(this, request)));
         }
     }
 
@@ -1985,9 +1977,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     private void requestDestroyed(ServletRequest request) {
         if (!requestListeners.isEmpty()) {
-            requestListeners.stream().forEach(servletRequestListener -> {
-                servletRequestListener.requestDestroyed(new ServletRequestEvent(this, request));
-            });
+            requestListeners.stream().forEach(servletRequestListener -> servletRequestListener.requestDestroyed(new ServletRequestEvent(this, request)));
         }
     }
 
@@ -1998,9 +1988,7 @@ public class DefaultWebApplication implements WebApplication {
      * @param value the value.
      */
     private void attributeAdded(String name, Object value) {
-        contextAttributeListeners.stream().forEach((listener) -> {
-            listener.attributeAdded(new ServletContextAttributeEvent(this, name, value));
-        });
+        contextAttributeListeners.stream().forEach(listener -> listener.attributeAdded(new ServletContextAttributeEvent(this, name, value)));
     }
 
     /**
@@ -2009,9 +1997,7 @@ public class DefaultWebApplication implements WebApplication {
      * @param name the name.
      */
     private void attributeRemoved(String name, Object previousValue) {
-        contextAttributeListeners.stream().forEach(listener -> {
-            listener.attributeRemoved(new ServletContextAttributeEvent(this, name, previousValue));
-        });
+        contextAttributeListeners.stream().forEach(listener -> listener.attributeRemoved(new ServletContextAttributeEvent(this, name, previousValue)));
     }
 
     /**
@@ -2021,9 +2007,7 @@ public class DefaultWebApplication implements WebApplication {
      * @param value the value.
      */
     private void attributeReplaced(String name, Object value) {
-        contextAttributeListeners.stream().forEach((listener) -> {
-            listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value));
-        });
+        contextAttributeListeners.stream().forEach(listener -> listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value)));
     }
 
     private boolean isPermanentlyUnavailable(DefaultServletEnvironment environment) {

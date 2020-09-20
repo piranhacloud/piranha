@@ -94,7 +94,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
                 factoryClass,
                 policyClass, context.getServletContextId(),
                 () -> localServletRequest.get(),
-                () -> DefaultAuthenticatedIdentity.getCurrentSubject(),
+                DefaultAuthenticatedIdentity::getCurrentSubject,
                 new PiranhaPrincipalMapper());
 
         // Join together in one list the constraints set by the servlet security elements, and the

@@ -73,7 +73,7 @@ public class PiranhaBeanArchiveHandler implements BeanArchiveHandler {
         index.getKnownClasses()
              .stream()
              .map(e -> e.asClass().name().toString())
-             .forEach(className -> beanArchiveBuilder.addClass(className));
+             .forEach(beanArchiveBuilder::addClass);
         
         return beanArchiveBuilder;
     }

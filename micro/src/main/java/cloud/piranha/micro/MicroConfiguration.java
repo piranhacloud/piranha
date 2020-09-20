@@ -136,18 +136,18 @@ public class MicroConfiguration {
         }
 
         extensionsList = stream(extensions.split(","))
-                .map(extension -> extension.trim())
+                .map(String::trim)
                 .collect(toList());
 
         Stream<String> dependenciesFromExtensionsStream = extensionsList.stream()
                 .map(extension -> "cloud.piranha.extension:piranha-extension-" + extension + ":" + version);
 
         Stream<String> directDependenciesStream = stream(dependencies.split(","))
-                .map(dep -> dep.trim())
+                .map(String::trim)
                 .filter(dep -> !dep.isEmpty());
 
         repositoriesList = stream(repositories.split(","))
-                .map(repo -> repo.trim())
+                .map(String::trim)
                 .filter(repo -> !repo.isEmpty())
                 .collect(toList());
 

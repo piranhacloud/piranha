@@ -198,7 +198,7 @@ public class WebXmlProcessor {
 
         return
             dispatchers.stream()
-                       .map(e -> DispatcherType.valueOf(e))
+                       .map(DispatcherType::valueOf)
                        .collect(toSet());
     }
 
@@ -209,7 +209,7 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processFilters(WebApplication webApplication, WebXml webXml) {
-        webXml.getFilters().forEach((filter) -> {
+        webXml.getFilters().forEach(filter -> {
             FilterRegistration.Dynamic dynamic = null;
 
             if (filter.getClassName() != null) {
@@ -337,9 +337,7 @@ public class WebXmlProcessor {
                 dynamic.setAsyncSupported(true);
             }
 
-            servlet.getInitParams().forEach(initParam -> {
-                dynamic.setInitParameter(initParam.getName(), initParam.getValue());
-            });
+            servlet.getInitParams().forEach(initParam -> dynamic.setInitParameter(initParam.getName(), initParam.getValue()));
 
             LOGGER.log(FINE, () -> "Configured Servlet: " + servlet.getServletName());
         }
