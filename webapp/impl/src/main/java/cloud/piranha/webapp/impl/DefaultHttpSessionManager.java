@@ -28,6 +28,7 @@
 package cloud.piranha.webapp.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.EventListener;
 import java.util.Map;
@@ -322,7 +323,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
-        return defaultSessionTrackingModes;
+        return Collections.unmodifiableSet(defaultSessionTrackingModes);
     }
 
     /**
@@ -342,7 +343,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
-        return sessionTrackingModes;
+        return Collections.unmodifiableSet(sessionTrackingModes);
     }
 
     /**
@@ -513,6 +514,9 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) {
-        this.sessionTrackingModes = sessionTrackingModes;
+        if (sessionTrackingModes.size() > 1 && sessionTrackingModes.contains(SessionTrackingMode.SSL)) {
+            throw new IllegalArgumentException("SSL cannot be combined with any other method");
+        }
+        this.sessionTrackingModes = Collections.unmodifiableSet(sessionTrackingModes);
     }
 }

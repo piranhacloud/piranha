@@ -27,9 +27,12 @@
  */
 package cloud.piranha.webapp.impl;
 
+import javax.servlet.SessionTrackingMode;
 import javax.servlet.http.HttpSession;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+
+import java.util.EnumSet;
 
 /**
  * The JUnit tests for the DefaultHttpSessionManager class.
@@ -188,5 +191,14 @@ class DefaultHttpSessionManagerTest {
     void testEffectiveSessionTracking() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         assertEquals(sessionManager.getDefaultSessionTrackingModes(), sessionManager.getEffectiveSessionTrackingModes());
+    }
+
+    @Test
+    void testSetSSLTrackingModeWithOtherMethod() {
+        DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        EnumSet<SessionTrackingMode> sslAndUrl = EnumSet.of(SessionTrackingMode.SSL, SessionTrackingMode.URL);
+        assertThrows(IllegalArgumentException.class, () -> sessionManager.setSessionTrackingModes(sslAndUrl));
+        EnumSet<SessionTrackingMode> sslAndCookie = EnumSet.of(SessionTrackingMode.COOKIE, SessionTrackingMode.SSL);
+        assertThrows(IllegalArgumentException.class, () -> sessionManager.setSessionTrackingModes(sslAndCookie));
     }
 }
