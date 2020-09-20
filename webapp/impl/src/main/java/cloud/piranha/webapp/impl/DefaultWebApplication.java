@@ -1338,7 +1338,7 @@ public class DefaultWebApplication implements WebApplication {
     public void initializeFilters() {
         if (status == SETUP || status == INITIALIZED_DECLARED) {
             List<String> filterNames = new ArrayList<>(filters.keySet());
-            filterNames.stream().map(filterName -> filters.get(filterName)).forEach(environment -> {
+            filterNames.stream().map(filters::get).forEach(environment -> {
                 try {
                     environment.initialize();
                     environment.getFilter().init(environment);
@@ -1419,7 +1419,7 @@ public class DefaultWebApplication implements WebApplication {
             List<String> servletsToBeRemoved = new ArrayList<>();
             List<String> servletNames = new ArrayList<>(servletEnvironments.keySet());
 
-            servletNames.stream().map(servletName -> servletEnvironments.get(servletName)).forEach(environment -> {
+            servletNames.stream().map(servletEnvironments::get).forEach(environment -> {
                 initializeServlet(environment);
                 if (isPermanentlyUnavailable(environment)) {
                     servletsToBeRemoved.add(environment.getServletName());

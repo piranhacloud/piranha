@@ -189,13 +189,9 @@ public class EmbeddedPiranhaBuilder {
             webApplication.setAttribute(attributeName, attributeValue);
         });
 
-        resources.forEach(resource -> {
-            webApplication.addResource(resource);
-        });
+        resources.forEach(webApplication::addResource);
 
-        initializers.forEach(initializer -> {
-            webApplication.addInitializer(initializer);
-        });
+        initializers.forEach(webApplication::addInitializer);
 
         servlets.entrySet().forEach(entry -> {
             String servletName = entry.getKey();

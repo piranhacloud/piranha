@@ -139,7 +139,7 @@ public class DefaultAsyncContext implements AsyncContext {
         originalRequest = unwrapFully(asyncStartRequest);
         originalResponse = unwrapFully(asyncStartResponse);
 
-        scheduledThreadPoolExecutor.schedule(() -> onTimeOut() , timeout, MILLISECONDS);
+        scheduledThreadPoolExecutor.schedule(this::onTimeOut, timeout, MILLISECONDS);
     }
 
     /**

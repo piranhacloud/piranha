@@ -96,7 +96,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
                 .getAllLocations()
                 .filter(e -> e.endsWith(".class"))
                 .map(e -> loadClass(classLoader, e))
-                .filter(e -> hasWebAnnotation(e))
+                .filter(this::hasWebAnnotation)
                 .forEach(targetClazz -> getWebAnnotations(targetClazz)
                 .forEach(annotationInstance
                         -> defaultAnnotationManager.addAnnotation(
@@ -128,7 +128,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
      */
     private Stream<Annotation> getWebAnnotations(Class<?> clazz) {
         return stream(clazz.getAnnotations())
-                .filter(e -> isWebAnnotation(e));
+                .filter(this::isWebAnnotation);
     }
 
     /**

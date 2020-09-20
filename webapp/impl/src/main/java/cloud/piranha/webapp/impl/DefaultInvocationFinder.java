@@ -262,7 +262,7 @@ public class DefaultInvocationFinder {
     private FilterChain findFilterChain(List<FilterEnvironment> filterEnvironments, FilterChain initialFilterChain) {
         List<FilterEnvironment> prioritisedFilters = filterEnvironments.stream()
                 .filter(e -> e.getFilter() instanceof FilterPriority)
-                .sorted((x, y) -> sortOnPriority(x, y))
+                .sorted(this::sortOnPriority)
                 .collect(toList());
 
         List<FilterEnvironment> notPrioritisedFilters = filterEnvironments.stream()

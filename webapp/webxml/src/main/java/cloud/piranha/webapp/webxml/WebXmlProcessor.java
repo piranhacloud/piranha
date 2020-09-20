@@ -198,7 +198,7 @@ public class WebXmlProcessor {
 
         return
             dispatchers.stream()
-                       .map(e -> DispatcherType.valueOf(e))
+                       .map(DispatcherType::valueOf)
                        .collect(toSet());
     }
 

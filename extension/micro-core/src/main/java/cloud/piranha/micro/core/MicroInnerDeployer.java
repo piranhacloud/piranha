@@ -162,7 +162,7 @@ public class MicroInnerDeployer {
             GlobalArchiveStreamHandler streamHandler = new GlobalArchiveStreamHandler(webApplication);
 
             // Life map to the StaticURLStreamHandlerFactory used by the root class loader
-            handlers.put("shrinkwrap", e -> streamHandler.connect(e));
+            handlers.put("shrinkwrap", streamHandler::connect);
 
             // Source of annotations
             Index index = getIndex();
@@ -176,7 +176,7 @@ public class MicroInnerDeployer {
                 getAnnotations(index, webAnnotation)
                     // Get the annotation target and annotation instance corresponding to the
                     // (raw/abstract) indexed annotation
-                    .map(indexedAnnotation -> getTarget(indexedAnnotation))
+                    .map(this::getTarget)
                     .forEach(annotationTarget ->
                         getAnnotationInstances(annotationTarget, webAnnotation)
                             .forEach(annotationInstance ->
@@ -188,7 +188,7 @@ public class MicroInnerDeployer {
             // Collect sub-classes of our "instances" collection
             forEachInstance(instanceClass ->
                 getInstances(index, instanceClass)
-                    .map(indexedInstance -> getTarget(indexedInstance))
+                    .map(this::getTarget)
                     .forEach(implementingClass ->
                         annotationManager.addInstance(instanceClass, implementingClass)));
 
