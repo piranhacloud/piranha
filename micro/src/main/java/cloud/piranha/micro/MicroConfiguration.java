@@ -46,6 +46,7 @@ import java.util.stream.Stream;
 public class MicroConfiguration {
 
     private String httpServer;
+    private boolean httpStart;
     private String version;
     private String extensions;
     private String dependencies;
@@ -72,6 +73,7 @@ public class MicroConfiguration {
             Integer.valueOf(System.getProperty("piranha.port", "8080")),
             System.getProperty("piranha.root"),
             System.getProperty("piranha.http.server", "impl"),
+            Boolean.valueOf(System.getProperty("piranha.http.start", "true")),
 
 
             null,
@@ -103,6 +105,7 @@ public class MicroConfiguration {
         int port,
         String root,
         String httpServer,
+        boolean httpStart,
 
         List<String> extensionsList,
         List<String> repositoriesList,
@@ -116,6 +119,7 @@ public class MicroConfiguration {
         this.port = port;
         this.root = root;
         this.httpServer = httpServer;
+        this.httpStart = httpStart;
 
         this.extensionsList = extensionsList;
         this.repositoriesList = repositoriesList;
@@ -163,6 +167,7 @@ public class MicroConfiguration {
         if (getRoot() != null) {
             config.put("micro.root", getRoot());
         }
+        config.put("micro.http.start", httpStart);
 
         return config;
     }
@@ -243,5 +248,22 @@ public class MicroConfiguration {
      */
     public void setHttpServer(String httpServer) {
         this.httpServer = httpServer;
+    }
+
+    /**
+     * Checks whether the config asks to start the http server
+     *
+     * @return true if an http server will be started, false otherwise
+     */
+    public boolean isHttpStart() {
+        return httpStart;
+    }
+
+    /**
+     * Sets whether the config asks to start the http server
+     *
+     */
+    public void setHttpStart(boolean httpStart) {
+        this.httpStart = httpStart;
     }
 }

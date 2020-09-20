@@ -25,34 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.appserver.api;
+package cloud.piranha.micro.core;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.function.Consumer;
 
+import javax.servlet.ServletException;
+
+import cloud.piranha.appserver.impl.DefaultWebApplicationServerRequest;
+import cloud.piranha.appserver.impl.DefaultWebApplicationServerResponse;
 import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationResponse;
 
-/**
- * The WebApplicationServerResponse API.
- *
- * @author Manfred Riem (mriem@manorrock.com)
- */
-public interface WebApplicationServerResponse extends WebApplicationResponse {
+public class MicroInnerApplication implements Consumer<Map<String, Object>> {
 
-    /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
-     */
-    void setWebApplication(WebApplication webApplication);
+    private final WebApplication webApplication;
 
-    Runnable getResponseCloser();
-
-    default Map<String, Object> toMap() {
-        return Map.of(
-            "UnderlyingOutputStream", getUnderlyingOutputStream(),
-            "ResponseCloser", getResponseCloser());
+    public MicroInnerApplication(WebApplication webApplication) {
+        this.webApplication = webApplication;
     }
 
+    @Override
+    public void accept(Map<String, Object> requestMap) {
+        ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+        try {
+            Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
+
+            webApplication.service(copyMapToApplicationRequest(requestMap), copyMapToApplicationResponse(requestMap));
+
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        } finally {
+            Thread.currentThread().setContextClassLoader(oldClassLoader);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private DefaultWebApplicationServerRequest copyMapToApplicationRequest(Map<String, Object> requestMap) {
+        DefaultWebApplicationServerRequest applicationRequest = DefaultWebApplicationServerRequest.fromMap(requestMap);
+        applicationRequest.setWebApplication(webApplication);
+
+        return applicationRequest;
+    }
+
+    private DefaultWebApplicationServerResponse copyMapToApplicationResponse(Map<String, Object> requestMap) {
+        return DefaultWebApplicationServerResponse.fromMap(requestMap);
+    }
 
 }
