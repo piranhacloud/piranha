@@ -36,6 +36,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterChain;
@@ -76,7 +77,7 @@ public class DefaultInvocationFinder {
 
         if (servletInvocation == null) {
             if (dispatcherType == REQUEST) {
-                servletInvocation = getWelcomeFileServletInvocation(servletPath, pathInfo != null ? pathInfo : "");
+                servletInvocation = getWelcomeFileServletInvocation(servletPath, pathInfo != null ? pathInfo : "/");
 
                 if (servletInvocation == null) { // TODO: access rules for WEB-INF
                     servletInvocation = getDefaultServletInvocation(servletPath, pathInfo);
@@ -175,23 +176,20 @@ public class DefaultInvocationFinder {
 
         if (webApplication.defaultServlet != null) {
             for (String welcomeFile : webApplication.getWelcomeFileManager().getWelcomeFileList()) {
-
-                if (isStaticResource(servletPath, pathInfo + welcomeFile)) {
-                    DefaultServletInvocation servletInvocation = getDefaultServletInvocation(servletPath, pathInfo + welcomeFile);
-                    if (servletInvocation != null) {
-                        return servletInvocation;
-                    }
-                }
+                if (!isStaticResource(servletPath, pathInfo + welcomeFile))
+                    continue;
+                DefaultServletInvocation servletInvocation = getDefaultServletInvocation(servletPath, pathInfo + welcomeFile);
+                return Objects.requireNonNullElseGet(servletInvocation, () -> getDefaultServletInvocation(servletPath, pathInfo + welcomeFile));
             }
         }
 
         // Next try if we have a welcome servlet
 
         for (String welcomeFile : webApplication.getWelcomeFileManager().getWelcomeFileList()) {
+            if (!isStaticResource(servletPath, pathInfo + welcomeFile))
+                continue;
             DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo + welcomeFile);
-            if (servletInvocation != null) {
-                return servletInvocation;
-            }
+            return Objects.requireNonNullElseGet(servletInvocation, () -> getDefaultServletInvocation(servletPath, pathInfo + welcomeFile));
         }
 
         // No welcome file or servlet
@@ -199,7 +197,7 @@ public class DefaultInvocationFinder {
     }
 
     private boolean isStaticResource(String servletPath, String pathInfo) throws MalformedURLException {
-        return webApplication.getResource(addSlashIfNeeded(webApplication.contextPath + servletPath + (pathInfo == null? "" : pathInfo))) != null;
+        return webApplication.getResource(addSlashIfNeeded(servletPath + (pathInfo == null? "" : pathInfo))) != null;
     }
 
     private String addSlashIfNeeded(String string) {

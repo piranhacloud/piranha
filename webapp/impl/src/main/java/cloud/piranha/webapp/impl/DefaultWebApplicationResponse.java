@@ -45,7 +45,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRequest;
 import javax.servlet.WriteListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -510,6 +512,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         this.status = 200;
         this.statusMessage = null;
         resetBuffer();
+        setErrorMessageAttribute();
     }
 
     /**
@@ -544,6 +547,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         verifyNotCommitted("sendError");
         setStatus(status);
         this.statusMessage = statusMessage;
+        setErrorMessageAttribute();
     }
 
     /**
@@ -758,6 +762,15 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     protected void verifyNotCommitted(String methodName) {
         if (isCommitted()) {
             throw new IllegalStateException("Response already committed in " + methodName);
+        }
+    }
+
+    private void setErrorMessageAttribute() {
+        if (webApplication != null) {
+            ServletRequest request = webApplication.getRequest(this);
+            if (request != null) {
+                request.setAttribute(RequestDispatcher.ERROR_MESSAGE, statusMessage);
+            }
         }
     }
 

@@ -38,6 +38,8 @@ import static javax.servlet.DispatcherType.ASYNC;
 import static javax.servlet.DispatcherType.ERROR;
 import static javax.servlet.DispatcherType.FORWARD;
 import static javax.servlet.DispatcherType.INCLUDE;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -50,6 +52,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
+import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
@@ -116,7 +119,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
      * @throws IOException when an I/O error occurs.
      */
     public void request(DefaultWebApplicationRequest webappRequest, DefaultWebApplicationResponse httpResponse) throws ServletException, IOException {
-        Exception exception = null;
+        Throwable exception = null;
 
         if (servletInvocation == null || !servletInvocation.canInvoke() && !servletInvocation.isServletUnavailable()) {
             // If there's nothing to invoke at all, there was nothing found, so return a 404
@@ -133,13 +136,17 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 webappRequest.setPathInfo(servletInvocation.getPathInfo());
 
                 servletInvocation.getFilterChain().doFilter(webappRequest, httpResponse);
-            } catch (ServletException | IOException e) {
+            } catch (Throwable e) {
                 if (webappRequest.getAttribute("piranha.request.exception") != null) {
                     exception = (Exception) webappRequest.getAttribute("piranha.request.exception");
                 } else {
                     exception = e;
                 }
             }
+        }
+
+        if (exception != null) {
+            httpResponse.setStatus(exception instanceof UnavailableException ? SC_NOT_FOUND : SC_INTERNAL_SERVER_ERROR);
         }
 
         String errorPagePath = errorPageManager.getErrorPage(exception, httpResponse);
@@ -151,7 +158,6 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 rethrow(e);
             }
         } else if (exception != null) {
-            httpResponse.setStatus(500);
             exception.printStackTrace(httpResponse.getWriter());
             httpResponse.flushBuffer();
             rethrow(exception);
@@ -263,7 +269,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, errorRequest);
 
-            invocationFinder.addFilters(FORWARD, servletInvocation, errorRequest.getServletPath(), "");
+            invocationFinder.addFilters(ERROR, servletInvocation, errorRequest.getServletPath(), "");
 
             if (servletInvocation.getServletEnvironment() != null) {
                 errorRequest.setAsyncSupported(request.isAsyncSupported() && isAsyncSupportedInChain());
@@ -399,6 +405,9 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
 
         forwardedRequest.setAttribute("PREVIOUS_REQUEST", originalRequest);
+        originalRequest.getAttributeNames()
+            .asIterator()
+            .forEachRemaining(attributeName -> forwardedRequest.setAttribute(attributeName, originalRequest.getAttribute(attributeName)));
 
         return currentRequestHolder;
     }
@@ -615,7 +624,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         return null;
     }
 
-    private void rethrow(Exception exception) throws ServletException, IOException {
+    private void rethrow(Throwable exception) throws ServletException, IOException {
         if (exception instanceof ServletException) {
             throw (ServletException) exception;
         }
