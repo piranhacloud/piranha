@@ -27,10 +27,10 @@
  */
 package cloud.piranha.webapp.impl;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -49,13 +49,24 @@ public class DefaultErrorPageManager {
         return errorPagesByException;
     }
 
-    public String getErrorPage(Exception exception, HttpServletResponse httpResponse) {
+    public String getErrorPage(Throwable exception, HttpServletResponse httpResponse) {
         if (exception != null) {
-            return errorPagesByException.get(exception.getClass().getName());
+            Class<?> rootException = exception.getClass();
+            String page = null;
+            while (rootException != null && page == null) {
+                page = errorPagesByException.get(rootException.getName());
+                rootException = rootException.getSuperclass();
+            }
+
+            if (page == null && exception instanceof ServletException) {
+                page = getErrorPage(((ServletException) exception).getRootCause(), httpResponse);
+            }
+
+            return page;
         }
 
 
-        if (httpResponse.getStatus() >= 400 && httpResponse.getStatus() <= 500) {
+        if (httpResponse.getStatus() >= 400) {
             return errorPagesByCode.get(httpResponse.getStatus());
         }
 

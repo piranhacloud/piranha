@@ -29,6 +29,11 @@ package cloud.piranha.webapp.impl;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.UnavailableException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.junit.jupiter.api.Test;
 
@@ -165,5 +170,81 @@ class DefaultServletRequestDispatcherTest {
         webApp.unlinkRequestAndResponse(request, response);
         webApp.stop();
         assertTrue(responseText.contains("ECHO"));
+    }
+
+    @Test
+    void testErrorDispatcher() throws Exception {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.addServlet("error-servlet", new TestSendError());
+        webApp.addServletMapping("error-servlet", "/sendError");
+        webApp.addServlet("snoop", TestSnoopServlet.class);
+        webApp.addServletMapping("snoop", "/snoop");
+        webApp.addErrorPage(500, "/snoop");
+        webApp.initialize();
+        webApp.start();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setServletPath("/sendError");
+        request.setParameter("send-error", new String[]{"true"});
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApp);
+        webApp.service(request, response);
+        String responseText = new String(response.getResponseBytes());
+        webApp.stop();
+        assertTrue(responseText.contains(RequestDispatcher.ERROR_MESSAGE));
+        assertTrue(responseText.contains("some-internal-error"));
+    }
+
+    @Test
+    void testErrorDispatcher2() throws Exception {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.addServlet("error-servlet", new TestSendError());
+        webApp.addServletMapping("error-servlet", "/sendError");
+        webApp.addServlet("snoop", TestSnoopServlet.class);
+        webApp.addServletMapping("snoop", "/snoop");
+        webApp.addErrorPage(404, "/snoop");
+        webApp.initialize();
+        webApp.start();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setServletPath("/sendError");
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApp);
+        webApp.service(request, response);
+        String responseText = new String(response.getResponseBytes());
+        webApp.stop();
+        assertEquals(404, response.getStatus());
+        assertTrue(responseText.contains(RequestDispatcher.ERROR_MESSAGE));
+        assertTrue(responseText.contains("unavailable"));
+    }
+    @Test
+    void testErrorDispatcher3() throws Exception {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.addServlet("error-servlet", TestIOExceptionServlet.class);
+        webApp.addServletMapping("error-servlet", "/sendError");
+        webApp.addServlet("snoop", TestSnoopServlet.class);
+        webApp.addServletMapping("snoop", "/snoop");
+        webApp.addErrorPage(IOException.class.getName(), "/snoop");
+        webApp.initialize();
+        webApp.start();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setServletPath("/sendError");
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApp);
+        webApp.service(request, response);
+        String responseText = new String(response.getResponseBytes());
+        webApp.stop();
+        assertEquals(500, response.getStatus());
+        assertTrue(responseText.contains(RequestDispatcher.ERROR_EXCEPTION_TYPE));
+        assertTrue(responseText.contains(IOException.class.getName()));
+    }
+
+    static class TestSendError extends HttpServlet {
+        @Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+            if (request.getParameter("send-error") != null) {
+                response.sendError(500, "some-internal-error");
+                return;
+            }
+            throw new UnavailableException("unavailable");
+        }
     }
 }
