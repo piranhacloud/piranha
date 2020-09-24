@@ -84,6 +84,7 @@ import org.xml.sax.SAXException;
 import cloud.piranha.api.Piranha;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
 import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.naming.impl.DynamicInitialContextFactory;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import cloud.piranha.webapp.api.WebApplication;
@@ -148,7 +149,7 @@ public class MicroInnerDeployer {
 
     public Map<String, Object> start(Archive<?> applicationArchive, ClassLoader classLoader, Map<String, Function<URL, URLConnection>> handlers, Map<String, Object> config) {
         try {
-            System.getProperties().put(INITIAL_CONTEXT_FACTORY, MicroInitialContextFactory.class.getName());
+            System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
 
             WebApplication webApplication = getWebApplication(applicationArchive, classLoader);
 

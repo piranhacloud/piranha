@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro.core;
+package cloud.piranha.naming.impl;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -35,15 +35,13 @@ import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.spi.InitialContextFactory;
 
-import cloud.piranha.naming.impl.DefaultInitialContext;
-
 /**
  * The default InitialContextFactory.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
  */
-public class MicroInitialContextFactory implements InitialContextFactory {
+public class DynamicInitialContextFactory implements InitialContextFactory {
 
     /**
      * Stores the initial contexts
