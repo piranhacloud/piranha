@@ -69,6 +69,7 @@
         <module>embedded</module>
         <module>micro</module>
         <module>server</module>
+        <module>server2</module>
         
         <!-- Arquillian -->
         <module>arquillian</module>
