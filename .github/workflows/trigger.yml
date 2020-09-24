@@ -1,8 +1,14 @@
 name: trigger
-on:
-  push:
-    tags:        
-      - release-*
+on: 
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to release from'
+        required: true
+        default: 'master'
+      version:
+        description: 'Release version'
+        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,11 +20,9 @@ jobs:
     - name: Release from given branch with given version
       run: |
         git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+        BRANCH=${{ github.event.inputs.branch }}
         TAG=${GITHUB_REF}
-        RELEASE=${TAG%%-*}
-        CANDIDATE=${TAG:${#RELEASE}+1}
-        VERSION=${CANDIDATE#*-}
-        BRANCH=${CANDIDATE%-*}
+        VERSION=${{ github.event.inputs.version }}
         echo "Releasing $VERSION from $BRANCH branch"
         git checkout $BRANCH
         git checkout -b release
