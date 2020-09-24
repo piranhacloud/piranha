@@ -32,9 +32,9 @@ import static java.util.logging.Level.WARNING;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -76,7 +76,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
      */
     public DefaultWebApplicationServer() {
         this.requestMapper = new DefaultWebApplicationServerRequestMapper();
-        this.webApplications = new HashMap<>();
+        this.webApplications = new ConcurrentHashMap<>();
     }
 
     /**
