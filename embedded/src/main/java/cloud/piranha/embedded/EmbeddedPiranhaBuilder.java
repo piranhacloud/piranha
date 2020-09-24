@@ -27,6 +27,8 @@
  */
 package cloud.piranha.embedded;
 
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +40,7 @@ import java.util.Map;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletRegistration;
 
+import cloud.piranha.naming.impl.DynamicInitialContextFactory;
 import cloud.piranha.resource.AliasedDirectoryResource;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.resource.api.Resource;
@@ -168,6 +171,8 @@ public class EmbeddedPiranhaBuilder {
      * @return the instance.
      */
     public EmbeddedPiranha build() {
+        System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
+
         EmbeddedPiranha piranha = new EmbeddedPiranha();
 
         WebApplication webApplication = piranha.getWebApplication();
