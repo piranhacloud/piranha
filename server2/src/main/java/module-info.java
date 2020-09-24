@@ -28,7 +28,7 @@
 
 import cloud.piranha.webapp.api.WebApplicationExtension;
 
-module cloud.piranha.server {
+module cloud.piranha.server2 {
     exports cloud.piranha.server2;
 
     requires cloud.piranha.micro;
