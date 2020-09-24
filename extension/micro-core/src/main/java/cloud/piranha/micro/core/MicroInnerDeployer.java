@@ -84,6 +84,7 @@ import org.xml.sax.SAXException;
 import cloud.piranha.api.Piranha;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
 import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.naming.impl.DynamicInitialContextFactory;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import cloud.piranha.webapp.api.WebApplication;

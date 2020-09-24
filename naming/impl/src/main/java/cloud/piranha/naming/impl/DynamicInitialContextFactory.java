@@ -25,17 +25,57 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.naming.impl;
 
-module cloud.piranha.embedded {
-    requires cloud.piranha.api;
-    requires cloud.piranha.resource.api;
-    requires cloud.piranha.resource;
-    requires cloud.piranha.servlet.api;
-    requires cloud.piranha.webapp.impl;
-    requires cloud.piranha.webapp.api;
-    requires java.naming;
-    requires cloud.piranha.naming.impl;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-    exports cloud.piranha.embedded;
-    opens cloud.piranha.embedded;
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.spi.InitialContextFactory;
+
+/**
+ * The default InitialContextFactory.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
+ */
+public class DynamicInitialContextFactory implements InitialContextFactory {
+
+    /**
+     * Stores the initial contexts
+     */
+    private static final Map<String, DefaultInitialContext> INITIAL_CONTEXTS = new ConcurrentHashMap<>();
+
+    public static class DynamicInitialContext extends DefaultInitialContext {
+
+        private final String contextId;
+
+        public DynamicInitialContext(String contextId) {
+            this.contextId = contextId;
+        }
+
+        @Override
+        public void close() throws NamingException {};
+
+        @Override
+        public String toString() {
+            // TODO Auto-generated method stub
+            return contextId + " " + super.toString();
+        }
+    }
+
+    /**
+     * Get the initial context.
+     *
+     * @param environment the environment.
+     * @return the initial context.
+     * @throws NamingException when a naming error occurs.
+     */
+    @Override
+    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
+        return INITIAL_CONTEXTS.computeIfAbsent("MICRO", DynamicInitialContext::new);
+    }
+
 }
