@@ -27,6 +27,7 @@
  */
 package cloud.piranha.webapp.webxml;
 
+import static cloud.piranha.webapp.impl.WebXml.OTHERS_TAG;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
 import static java.util.regex.Pattern.quote;
@@ -34,6 +35,7 @@ import static javax.xml.xpath.XPathConstants.NODE;
 import static javax.xml.xpath.XPathConstants.NODESET;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -93,10 +95,13 @@ public class WebXmlParser {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = documentBuilder.parse(inputStream);
             XPath xPath = XPathFactory.newInstance().newXPath();
+            parseAbsoluteOrdering(webXml, xPath, document);
+            parseOrdering(webXml, xPath, document);
             parseContextParameters(webXml, xPath, document);
             parseDefaultContextPath(webXml, xPath, document);
             parseDenyUncoveredHttpMethods(webXml, xPath, document);
             parseDisplayName(webXml, xPath, document);
+            parseFragmentName(webXml, xPath, document);
             parseDistributable(webXml, xPath, document);
             parseErrorPages(webXml, xPath, document);
             parseFilterMappings(webXml, xPath, document);
@@ -118,6 +123,91 @@ public class WebXmlParser {
         }
         return webXml;
     }
+
+    /**
+     * Parse the name section of a fragment.
+     *
+     * @param webXml the web.xml to add to.
+     * @param xPath the XPath to use.
+     * @param node the DOM node.
+     */
+    private void parseFragmentName(WebXml webXml, XPath xPath, Node node) {
+        try {
+            String fragmentName = parseString(xPath, "//name/text()", node);
+            if (fragmentName != null) {
+                webXml.setFragmentName(fragmentName);
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse <name> section", xpe);
+        }
+    }
+    private void parseAbsoluteOrdering(WebXml webXml, XPath xPath, Node rootNode) {
+        try {
+            Node absoluteOrderingNode = (Node) xPath.evaluate("//absolute-ordering", rootNode, NODE);
+            if (absoluteOrderingNode == null)
+                return;
+            // It is possible to have only the <absolute-ordering/> to disable fragments
+            List<String> fragmentNames = new ArrayList<>();
+            NodeList childNodes = absoluteOrderingNode.getChildNodes();
+            for (int i = 0; i < childNodes.getLength(); i++) {
+                Node item = childNodes.item(i);
+                if ("others".equalsIgnoreCase(item.getNodeName())) {
+                    fragmentNames.add(OTHERS_TAG);
+                    continue;
+                }
+                String s = parseString(xPath, "text()", item);
+                if (s != null && !s.trim().isEmpty())
+                    fragmentNames.add(s);
+            }
+            webXml.setAbsoluteOrdering(fragmentNames);
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse <absolute-ordering> section", xpe);
+        }
+    }
+
+    private void parseOrdering(WebXml webXml, XPath xPath, Node node) {
+        try {
+            NodeList before = (NodeList) xPath.evaluate("//ordering/before", node, NODESET);
+            if (before.getLength() > 1) {
+                throw new IllegalStateException("Cannot have multiple <before> tags in <ordering>");
+            }
+
+            NodeList after = (NodeList) xPath.evaluate("//ordering/after", node, NODESET);
+            if (after.getLength() > 1) {
+                throw new IllegalStateException("Cannot have multiple <after> tags in <ordering>");
+            }
+
+            List<String> beforeValues = parseOrderingChildren(xPath, before);
+
+            List<String> afterValues = parseOrderingChildren(xPath, after);
+
+            if (!beforeValues.isEmpty() || !afterValues.isEmpty())
+                webXml.setRelativeOrdering(new WebXml.RelativeOrder(beforeValues, afterValues));
+        } catch (Exception xpe) {
+            LOGGER.log(WARNING, "Unable to parse <ordering> section", xpe);
+        }
+
+    }
+
+    private List<String> parseOrderingChildren(XPath xPath, NodeList orderingChild) throws XPathExpressionException {
+        List<String> values = new ArrayList<>();
+        if (orderingChild.getLength() == 1) {
+            Node beforeTag = orderingChild.item(0);
+            for (Node orderingNode : parseNodes(xPath, "*", beforeTag)) {
+                String fragmentName = parseString(xPath, "text()", orderingNode);
+                if (fragmentName != null && !fragmentName.trim().isEmpty()) {
+                    values.add(fragmentName);
+                    continue;
+                }
+                if ("others".equalsIgnoreCase(orderingNode.getNodeName())) {
+                    values.add(OTHERS_TAG);
+                }
+            }
+        }
+        return values;
+    }
+
+    /**
 
     /**
      * Parse a boolean.
@@ -264,7 +354,7 @@ public class WebXmlParser {
      *
      * @param webXml the web.xml to use.
      * @param xPath the XPath to use.
-     * @param node the node to use.
+     * @param rootNode the node to use.
      */
     private void parseFilterMappings(WebXml webXml, XPath xPath, Node rootNode) {
         try {
@@ -547,7 +637,7 @@ public class WebXmlParser {
      *
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
-     * @param node the DOM node.
+     * @param rootNode the DOM node.
      */
     private void parseServlets(WebXml webXml, XPath xPath, Node rootNode) {
         try {
@@ -644,6 +734,10 @@ public class WebXmlParser {
                                 webXml.setMinorVersion(Integer.valueOf(versionComponents[1]));
                             }
                         }
+                    }
+                    Node metadataCompleteNode = attributes.getNamedItem("metadata-complete");
+                    if (metadataCompleteNode != null) {
+                        webXml.setMetadataComplete(Boolean.parseBoolean(metadataCompleteNode.getTextContent()));
                     }
                 }
             }
