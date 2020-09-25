@@ -25,45 +25,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.api;
+package cloud.piranha.webapp.impl;
 
+import cloud.piranha.webapp.api.WebApplication;
 import java.io.IOException;
-import java.util.List;
+import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * The WelcomeFileManager API.
+ * The default WelcomeFile filter.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WelcomeFileManager {
+public class DefaultWelcomeFileFilter implements Filter {
 
-    /**
-     * Add a welcome file.
-     *
-     * @param welcomeFile the welcome file.
-     */
-    void addWelcomeFile(String welcomeFile);
-
-    /**
-     * Process the request.
-     * 
-     * @param request the request.
-     * @param response the response.
-     * @param chain the filter chain.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a filter or servlet error occurs.
-     */
-    void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain) throws IOException, ServletException;
-    
-    /**
-     * Get the welcome file list.
-     *
-     * @return the welcome file list.
-     */
-    List<String> getWelcomeFileList();
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, 
+            FilterChain chain) throws IOException, ServletException {
+        WebApplication webApplication = (WebApplication) request.getServletContext();
+        webApplication.getWelcomeFileManager().doFilter(request, response, chain);
+    }
 }

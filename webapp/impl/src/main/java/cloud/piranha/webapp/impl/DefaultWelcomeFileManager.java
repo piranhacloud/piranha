@@ -27,10 +27,14 @@
  */
 package cloud.piranha.webapp.impl;
 
+import cloud.piranha.webapp.api.WelcomeFileManager;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import cloud.piranha.webapp.api.WelcomeFileManager;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 /**
  * The default WelcomeFileManager.
@@ -60,11 +64,6 @@ public class DefaultWelcomeFileManager implements WelcomeFileManager {
         welcomeFileList.add("index.htm");
     }
 
-    /**
-     * Add the welcome file.
-     *
-     * @param welcomeFile the welcome file.
-     */
     @Override
     public void addWelcomeFile(String welcomeFile) {
         /*
@@ -77,11 +76,12 @@ public class DefaultWelcomeFileManager implements WelcomeFileManager {
         welcomeFileList.add(welcomeFile);
     }
 
-    /**
-     * Get the welcome file list.
-     *
-     * @return the welcome file list.
-     */
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, 
+            FilterChain chain) throws IOException, ServletException {
+        chain.doFilter(request, response);
+    }
+    
     @Override
     public List<String> getWelcomeFileList() {
         return welcomeFileList;
