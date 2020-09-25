@@ -34,7 +34,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -79,28 +80,37 @@ public class WebXmlInitializer implements ServletContainerInitializer {
             if (inputStream != null) {
                 WebXml webXml = parser.parse(servletContext.getResourceAsStream("WEB-INF/web.xml"));
                 manager.setWebXml(webXml);
+                manager.setInitialWebXml(webXml);
             }
 
-            Enumeration<URL> webFragmentUrls = servletContext.getClassLoader().getResources("META-INF/web-fragment.xml");
             ArrayList<WebXml> webFragments = new ArrayList<>();
-            while (webFragmentUrls.hasMoreElements()) {
-                URL url = webFragmentUrls.nextElement();
-                WebXml webFragment = parser.parse(url.openStream());
-                webFragment.setFragment(true);
-                webFragments.add(webFragment);
+            List<URL> webFragmentUrls = Collections.list(servletContext.getClassLoader().getResources("META-INF/web-fragment.xml"));
+            for (URL url : webFragmentUrls) {
+                try (InputStream stream = url.openStream()) {
+                    WebXml webFragment = parser.parse(stream);
+                    webFragment.setFragment(true);
+                    webFragments.add(webFragment);
+                }
             }
             if (!webFragments.isEmpty()) {
                 manager.setWebFragments(webFragments);
             }
 
-            if (manager.getWebXml() == null && !webFragments.isEmpty()) {
-                manager.setWebXml(webFragments.get(0));
+            if (manager.getWebXml() == null) {
+                manager.setWebXml(new WebXml());
             }
 
             if (manager.getWebXml() != null) {
                 WebXml webXml = manager.getWebXml();
                 WebXmlProcessor processor = new WebXmlProcessor();
+
                 processor.process(webXml, webApp);
+
+                if (webXml.getMetadataComplete()) {
+                    return;
+                }
+
+                manager.getOrderedFragments().forEach(fragment -> processor.process(fragment, webApp));
             } else {
                 LOGGER.fine("No web.xml found!");
             }

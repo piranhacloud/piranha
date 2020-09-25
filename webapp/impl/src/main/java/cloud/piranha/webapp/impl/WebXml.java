@@ -29,8 +29,10 @@ package cloud.piranha.webapp.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -39,20 +41,56 @@ import java.util.Set;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class WebXml implements Serializable {
+    public static final String OTHERS_TAG = WebXml.class.getName() + ".ordering.others";
 
     /**
      * Stores the serial version UID.
      */
     private static final long serialVersionUID = 6143204024206508136L;
 
-
     public int majorVersion;
     public int minorVersion;
-
     /**
      * Stores the security constraints
      */
     public List<SecurityConstraint> securityConstraints = new ArrayList<>();
+
+    private boolean metadataComplete;
+
+    private List<String> absoluteOrdering;
+
+    public static class RelativeOrder {
+        private List<String> before;
+        private List<String> after;
+
+        public RelativeOrder() {
+            before = Collections.emptyList();
+            after = Collections.emptyList();
+        }
+
+        public RelativeOrder(List<String> before, List<String> after) {
+            this.before = Objects.requireNonNullElseGet(before, Collections::emptyList);
+            this.after = Objects.requireNonNullElseGet(after, Collections::emptyList);
+        }
+
+        public List<String> getBefore() {
+            return before;
+        }
+
+        public void setBefore(List<String> before) {
+            this.before = before;
+        }
+
+        public List<String> getAfter() {
+            return after;
+        }
+
+        public void setAfter(List<String> after) {
+            this.after = after;
+        }
+    }
+
+    private RelativeOrder relativeOrdering;
 
     /**
      * The &lt;security-constraint&gt; snippet inside a web.xml /
@@ -523,5 +561,37 @@ public class WebXml implements Serializable {
      */
     public void setMinorVersion(int minorVersion) {
         this.minorVersion = minorVersion;
+    }
+
+    /**
+     * Set the metadata-complete
+     * @param metadataComplete - the metadata complete
+     */
+    public void setMetadataComplete(boolean metadataComplete) {
+        this.metadataComplete = metadataComplete;
+    }
+
+    /**
+     * Set the metadata-complete
+     * @return the metadata complete
+     */
+    public boolean getMetadataComplete() {
+        return metadataComplete;
+    }
+
+    public List<String> getAbsoluteOrdering() {
+        return absoluteOrdering;
+    }
+
+    public RelativeOrder getRelativeOrdering() {
+        return relativeOrdering;
+    }
+
+    public void setAbsoluteOrdering(List<String> absoluteOrdering) {
+        this.absoluteOrdering = absoluteOrdering;
+    }
+
+    public void setRelativeOrdering(RelativeOrder relativeOrdering) {
+        this.relativeOrdering = relativeOrdering;
     }
 }
