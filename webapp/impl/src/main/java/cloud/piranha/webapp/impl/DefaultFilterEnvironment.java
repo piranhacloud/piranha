@@ -118,6 +118,7 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
         this.webApplication = webApp;
         this.filterName = filterName;
         this.filter = filter;
+        this.className = filter.getClass().getName();
     }
 
     /**
