@@ -1,7 +1,7 @@
-name: tck-expression-language
+name: tck-el
 on:
   schedule:
-  - cron: "0 12 * * *"
+  - cron: "0 8 * * *"
 jobs:
   build:
     runs-on: ${{ matrix.os }}
