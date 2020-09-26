@@ -1,4 +1,4 @@
-name: tck-el
+name: ext-tck-expression-language
 on:
   schedule:
   - cron: "0 8 * * *"
