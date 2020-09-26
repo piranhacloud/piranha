@@ -1021,12 +1021,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return getSession(true);
     }
 
-    /**
-     * Get the session.
-     *
-     * @param create to create it or not.
-     * @return the session.
-     */
     @Override
     public HttpSession getSession(boolean create) {
         HttpSession session = null;
@@ -1036,9 +1030,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
 
         if (manager.hasSession(currentSessionId)) {
-            session = manager.getSession(webApplication, this, currentSessionId);
+            session = manager.getSession(this, currentSessionId);
         } else if (create) {
-            session = manager.createSession(webApplication, this);
+            session = manager.createSession(this);
             currentSessionId = session.getId();
         }
 

@@ -48,7 +48,7 @@ class DefaultHttpSessionManagerTest {
     void testCreateSession() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertThrows(NullPointerException.class, () -> sessionManager.createSession(webApp, null));
+        assertThrows(NullPointerException.class, () -> sessionManager.createSession(null));
     }
 
     /**
@@ -56,7 +56,9 @@ class DefaultHttpSessionManagerTest {
      */
     @Test
     void testGetComment() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        sessionManager.setWebApplication(webApplication);
         sessionManager.setComment("COMMENT");
         assertEquals("COMMENT", sessionManager.getComment());
     }
@@ -66,7 +68,9 @@ class DefaultHttpSessionManagerTest {
      */
     @Test
     void testGetDomain() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        sessionManager.setWebApplication(webApplication);
         sessionManager.setDomain("domain");
         assertEquals("domain", sessionManager.getDomain());
     }
@@ -76,7 +80,9 @@ class DefaultHttpSessionManagerTest {
      */
     @Test
     void testGetMaxAge() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        sessionManager.setWebApplication(webApplication);
         assertEquals(0, sessionManager.getMaxAge());
         sessionManager.setMaxAge(60);
         assertEquals(60, sessionManager.getMaxAge());
@@ -97,7 +103,9 @@ class DefaultHttpSessionManagerTest {
      */
     @Test
     void testGetPath() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        sessionManager.setWebApplication(webApplication);
         sessionManager.setPath("/");
         assertEquals("/", sessionManager.getPath());
     }
@@ -109,7 +117,7 @@ class DefaultHttpSessionManagerTest {
     void testGetSession() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertThrows(NullPointerException.class, () -> sessionManager.getSession(webApp, null, null));
+        assertThrows(NullPointerException.class, () -> sessionManager.getSession(null, null));
     }
 
     /**
@@ -117,14 +125,15 @@ class DefaultHttpSessionManagerTest {
      */
     @Test
     void testGetSession2() {
-        DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        sessionManager.setWebApplication(webApp);
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         webApp.linkRequestAndResponse(request, response);
-        HttpSession session = sessionManager.createSession(webApp, request);
+        HttpSession session = sessionManager.createSession(request);
         request.setRequestedSessionId(session.getId());
-        assertNotNull(sessionManager.getSession(webApp, request, session.getId()));
+        assertNotNull(sessionManager.getSession(request, session.getId()));
     }
 
     /**
@@ -141,7 +150,9 @@ class DefaultHttpSessionManagerTest {
      */
     @Test
     void testGetSessionTimeout() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        sessionManager.setWebApplication(webApplication);
         assertEquals(10, sessionManager.getSessionTimeout());
         sessionManager.setSessionTimeout(5);
         assertEquals(5, sessionManager.getSessionTimeout());
@@ -152,7 +163,9 @@ class DefaultHttpSessionManagerTest {
      */
     @Test
     void testIsHttpOnly() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        sessionManager.setWebApplication(webApplication);
         assertFalse(sessionManager.isHttpOnly());
         sessionManager.setHttpOnly(true);
         assertTrue(sessionManager.isHttpOnly());
@@ -163,7 +176,9 @@ class DefaultHttpSessionManagerTest {
      */
     @Test
     void testIsSecure() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        sessionManager.setWebApplication(webApplication);
         assertFalse(sessionManager.isSecure());
         sessionManager.setSecure(true);
         assertTrue(sessionManager.isSecure());

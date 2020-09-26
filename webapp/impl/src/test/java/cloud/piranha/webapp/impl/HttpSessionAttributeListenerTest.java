@@ -64,7 +64,9 @@ class HttpSessionAttributeListenerTest {
     @BeforeEach
     void setUp() throws Exception {
         webApplication = new DefaultWebApplication();
-        webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
+        DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        sessionManager.setWebApplication(webApplication);
+        webApplication.setHttpSessionManager(sessionManager);
     }
 
     /**

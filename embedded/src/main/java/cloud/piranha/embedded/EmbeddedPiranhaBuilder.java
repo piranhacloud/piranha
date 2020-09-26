@@ -186,6 +186,7 @@ public class EmbeddedPiranhaBuilder {
 
         if (httpSessionManager != null) {
             webApplication.setHttpSessionManager(httpSessionManager);
+            httpSessionManager.setWebApplication(webApplication);
         }
 
         attributes.entrySet().forEach(attribute -> {

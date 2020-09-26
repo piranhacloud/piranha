@@ -67,7 +67,9 @@ class HttpSessionIdListenerTest {
     @BeforeEach
     void setUp() throws Exception {
         webApplication = new DefaultWebApplication();
-        webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
+        DefaultHttpSessionManager httpSessionManager = new DefaultHttpSessionManager();
+        httpSessionManager.setWebApplication(webApplication);
+        webApplication.setHttpSessionManager(httpSessionManager);
     }
 
     /**
