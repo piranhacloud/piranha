@@ -364,6 +364,7 @@ public class DefaultWebApplication implements WebApplication {
         contextPath = "";
         filters = new LinkedHashMap<>(1);
         httpSessionManager = new DefaultHttpSessionManager();
+        httpSessionManager.setWebApplication(this);
         httpRequestManager = new DefaultHttpRequestManager();
         initParameters = new ConcurrentHashMap<>(1);
         initializers = new ArrayList<>(1);
@@ -1440,6 +1441,16 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
+     * Is the web application initialized.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    @Override
+    public boolean isInitialized() {
+        return status >= INITIALIZED && status < ERROR;
+    }
+    
+    /**
      * Initialize the servlet.
      *
      * @param environment the default servlet environment.
@@ -2031,5 +2042,4 @@ public class DefaultWebApplication implements WebApplication {
     private boolean isEmpty(String string) {
         return string == null || string.isEmpty();
     }
-
 }

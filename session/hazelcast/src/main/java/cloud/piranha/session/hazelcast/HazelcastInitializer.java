@@ -38,19 +38,15 @@ import java.util.Set;
  * The Hazelcast initializer.
  * 
  * @author Thiago Henrique Hupner
+ * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HazelcastInitializer implements ServletContainerInitializer {
-    /**
-     * Initialize Hazelcast
-     * 
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
-     */
+
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setHttpSessionManager(new HazelcastHttpSessionManager());
+        HazelcastHttpSessionManager sessionManager = new HazelcastHttpSessionManager();
+        sessionManager.setWebApplication(webApplication);
+        webApplication.setHttpSessionManager(sessionManager);
     }
-
 }

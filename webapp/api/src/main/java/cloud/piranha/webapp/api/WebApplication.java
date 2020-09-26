@@ -302,6 +302,13 @@ public interface WebApplication extends ServletContext {
      * @return true if it is, false otherwise.
      */
     boolean isDistributable();
+    
+    /**
+     * Is the web application initialized.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    boolean isInitialized();
 
     /**
      * Link the request and response.

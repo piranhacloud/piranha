@@ -146,16 +146,9 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         sessionTimeout = 10;
         sessions = new ConcurrentHashMap<>();
     }
-
-    /**
-     * Create the session.
-     *
-     * @param webApplication the web application.
-     * @param request the request.
-     * @return the session.
-     */
+    
     @Override
-    public synchronized HttpSession createSession(WebApplication webApplication, HttpServletRequest request) {
+    public synchronized HttpSession createSession(HttpServletRequest request) {
         String sessionId = UUID.randomUUID().toString();
         DefaultHttpSession session = new DefaultHttpSession(webApplication, sessionId, true);
         session.setSessionManager(this);
@@ -177,16 +170,8 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         return session;
     }
 
-    /**
-     * Get the session.
-     *
-     * @param webApplication the web application.
-     * @param request the request.
-     * @param currentSessionId the current session id.
-     * @return the session.
-     */
     @Override
-    public HttpSession getSession(WebApplication webApplication, HttpServletRequest request, String currentSessionId) {
+    public HttpSession getSession(HttpServletRequest request, String currentSessionId) {
         return sessions.get(currentSessionId);
     }
 
@@ -434,6 +419,9 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public void setComment(String comment) {
+        if (webApplication.isInitialized()) {
+            throw new IllegalStateException("You cannot call setComment once ServletContext is initialized");
+        }
         this.comment = comment;
     }
 
@@ -444,6 +432,9 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public void setDomain(String domain) {
+        if (webApplication.isInitialized()) {
+            throw new IllegalStateException("You cannot call setDomain once ServletContext is initialized");
+        }
         this.domain = domain;
     }
 
@@ -454,9 +445,12 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public void setHttpOnly(boolean httpOnly) {
+        if (webApplication.isInitialized()) {
+            throw new IllegalStateException("You cannot call setHttpOnly once ServletContext is initialized");
+        }
         this.httpOnly = httpOnly;
     }
-
+    
     /**
      * Set the max age.
      *
@@ -464,6 +458,9 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public void setMaxAge(int maxAge) {
+        if (webApplication.isInitialized()) {
+            throw new IllegalStateException("You cannot call setMaxAge once ServletContext is initialized");
+        }
         this.maxAge = maxAge;
     }
 
@@ -484,6 +481,9 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public void setPath(String path) {
+        if (webApplication.isInitialized()) {
+            throw new IllegalStateException("You cannot call setPath once ServletContext is initialized");
+        }
         this.path = path;
     }
 
@@ -494,6 +494,9 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public void setSecure(boolean secure) {
+        if (webApplication.isInitialized()) {
+            throw new IllegalStateException("You cannot call setSecure once ServletContext is initialized");
+        }
         this.secure = secure;
     }
 
@@ -518,5 +521,15 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
             throw new IllegalArgumentException("SSL cannot be combined with any other method");
         }
         this.sessionTrackingModes = Collections.unmodifiableSet(sessionTrackingModes);
+    }
+
+    /**
+     * Set the web application.
+     * 
+     * @param webApplication the web application.
+     */
+    @Override
+    public void setWebApplication(WebApplication webApplication) {
+        this.webApplication = webApplication;
     }
 }

@@ -31,7 +31,6 @@ import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import cloud.piranha.webapp.impl.DefaultHttpSessionManager;
-import cloud.piranha.webapp.api.WebApplication;
 import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -95,15 +94,8 @@ public class HazelcastHttpSessionManager extends DefaultHttpSessionManager {
         return key;
     }
 
-    /**
-     * Create the HTTP session.
-     *
-     * @param webApplication the web application.
-     * @param request the request.
-     * @return the HTTP session.
-     */
     @Override
-    public synchronized HttpSession createSession(WebApplication webApplication, HttpServletRequest request) {
+    public synchronized HttpSession createSession(HttpServletRequest request) {
         String key = UUID.randomUUID().toString();
         while(sessions.containsKey(key)) {
             key = UUID.randomUUID().toString();
@@ -118,16 +110,8 @@ public class HazelcastHttpSessionManager extends DefaultHttpSessionManager {
         return result;
     }
 
-    /**
-     * Get the session.
-     *
-     * @param webApplication the web application.
-     * @param request the request.
-     * @param currentSessionId the current session id.
-     * @return the HTTP session.
-     */
     @Override
-    public HttpSession getSession(WebApplication webApplication, HttpServletRequest request, String currentSessionId) {
+    public HttpSession getSession(HttpServletRequest request, String currentSessionId) {
         HazelcastHttpSession result;
         HttpServletResponse response = (HttpServletResponse) webApplication.getResponse(request);
         result = (HazelcastHttpSession) sessions.get(currentSessionId);

@@ -29,7 +29,6 @@ package cloud.piranha.webapp.api;
 
 import java.util.EventListener;
 import java.util.Set;
-
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.http.HttpServletRequest;
@@ -88,11 +87,10 @@ public interface HttpSessionManager {
     /**
      * Create a session.
      *
-     * @param webApplication the web application.
      * @param request the request.
      * @return the session.
      */
-    HttpSession createSession(WebApplication webApplication, HttpServletRequest request);
+    HttpSession createSession(HttpServletRequest request);
 
     /**
      * Destroys a session.
@@ -136,13 +134,11 @@ public interface HttpSessionManager {
     /**
      * Get the session.
      *
-     * @param webApplication the web application.
      * @param request the request.
      * @param currentSessionId the current session id.
      * @return the session.
      */
-    HttpSession getSession(WebApplication webApplication,
-            HttpServletRequest request, String currentSessionId);
+    HttpSession getSession(HttpServletRequest request, String currentSessionId);
 
     /**
      * Get the session cookie config.
@@ -179,4 +175,11 @@ public interface HttpSessionManager {
      * @param sessionTrackingModes the session tracking modes.
      */
     void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes);
+
+    /**
+     * Set the web application.
+     * 
+     * @param webApplication the web application.
+     */
+    void setWebApplication(WebApplication webApplication);
 }
