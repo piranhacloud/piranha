@@ -93,7 +93,9 @@ class DefaultHttpSessionManagerTest {
      */
     @Test
     void testGetName() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        sessionManager.setWebApplication(webApplication);
         sessionManager.setName("JSESSIONID");
         assertEquals("JSESSIONID", sessionManager.getName());
     }

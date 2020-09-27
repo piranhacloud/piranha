@@ -29,6 +29,8 @@ package cloud.piranha.webapp.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +44,93 @@ import org.junit.jupiter.api.Test;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class SessionCookieConfigTest {
+    
+    /**
+     * Test changing using a ServletContextListener.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testServletContextListener() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.getHttpSessionManager().setWebApplication(webApplication);
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
+        webApplication.addServlet("TestServletContextListenerServlet", new TestServletContextListenerServlet());
+        webApplication.addServletMapping("TestServletContextListenerServlet", "/*");
+        webApplication.addListener(new TestServletContextListener());
+        webApplication.initialize();
+        webApplication.start();
+        try {
+            webApplication.service(request, response);
+        } catch (ServletException se) {
+            fail();
+        }
+        webApplication.stop();
+    }
+    
+    public class TestServletContextListener implements ServletContextListener {
+
+        @Override
+        public void contextInitialized(ServletContextEvent event) {
+            event.getServletContext().getSessionCookieConfig().setComment("MY COMMENT");
+        }
+    }
+
+    public class TestServletContextListenerServlet extends HttpServlet {
+
+        @Override
+        protected void service(HttpServletRequest request,
+                HttpServletResponse response) throws ServletException, IOException {
+
+            request.getSession(true);
+            
+            if (!request.getServletContext().getSessionCookieConfig().getComment().equals("MY COMMENT")) {
+                throw new ServletException("ServletContextListener did not work");
+            }
+        }
+    }
+    /**
+     * Test setName method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testSetName() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.getHttpSessionManager().setWebApplication(webApplication);
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
+        webApplication.addServlet("TestSetNameServlet", new TestSetNameServlet());
+        webApplication.addServletMapping("TestSetNameServlet", "/*");
+        webApplication.initialize();
+        webApplication.start();
+        try {
+            webApplication.service(request, response);
+            fail();
+        } catch (IllegalStateException ise) {
+        }
+        webApplication.stop();
+    }
+
+    public class TestSetNameServlet extends HttpServlet {
+
+        @Override
+        protected void service(HttpServletRequest request,
+                HttpServletResponse response) throws ServletException, IOException {
+
+            request.getSession(true);
+            request.getServletContext().getSessionCookieConfig().setName("MYNAME");
+        }
+    }
 
     /**
      * Test setSecure method.
@@ -58,8 +147,8 @@ public class SessionCookieConfigTest {
         response.setWebApplication(webApplication);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.setUnderlyingOutputStream(byteOutput);
-        webApplication.addServlet("TestSetServlet", new TestSetServlet());
-        webApplication.addServletMapping("TestSetServlet", "/*");
+        webApplication.addServlet("TestSetSecureServlet", new TestSetSecureServlet());
+        webApplication.addServletMapping("TestSetSecureServlet", "/*");
         webApplication.initialize();
         webApplication.start();
         try {
@@ -70,7 +159,7 @@ public class SessionCookieConfigTest {
         webApplication.stop();
     }
 
-    public class TestSetServlet extends HttpServlet {
+    public class TestSetSecureServlet extends HttpServlet {
 
         @Override
         protected void service(HttpServletRequest request,

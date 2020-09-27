@@ -27,6 +27,8 @@
  */
 package cloud.piranha.webapp.impl;
 
+import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.WebApplication;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -35,7 +37,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.http.Cookie;
@@ -47,9 +48,6 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
-
-import cloud.piranha.webapp.api.HttpSessionManager;
-import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The default HttpSessionManager.
@@ -146,7 +144,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         sessionTimeout = 10;
         sessions = new ConcurrentHashMap<>();
     }
-    
+
     @Override
     public synchronized HttpSession createSession(HttpServletRequest request) {
         String sessionId = UUID.randomUUID().toString();
@@ -160,7 +158,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         if (path != null) {
             cookie.setPath(path);
         } else {
-            cookie.setPath("".equals(webApplication.getContextPath())? "/" : webApplication.getContextPath());
+            cookie.setPath("".equals(webApplication.getContextPath()) ? "/" : webApplication.getContextPath());
         }
 
         response.addCookie(cookie);
@@ -245,12 +243,6 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         attributeListeners.stream().forEach(listener -> listener.attributeReplaced(new HttpSessionBindingEvent(session, name, value)));
     }
 
-    /**
-     * Attributed removed.
-     *
-     * @param session the HTTP session.
-     * @param name the name.
-     */
     @Override
     public void attributeRemoved(HttpSession session, String name, Object value) {
         attributeListeners.stream().forEach(listener -> listener.attributeRemoved(new HttpSessionBindingEvent(session, name, value)));
@@ -412,11 +404,6 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         return secure;
     }
 
-    /**
-     * Set the comment.
-     *
-     * @param comment the comment.
-     */
     @Override
     public void setComment(String comment) {
         if (webApplication.isInitialized()) {
@@ -425,11 +412,6 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         this.comment = comment;
     }
 
-    /**
-     * Set the domain.
-     *
-     * @param domain the domain
-     */
     @Override
     public void setDomain(String domain) {
         if (webApplication.isInitialized()) {
@@ -438,11 +420,6 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         this.domain = domain;
     }
 
-    /**
-     * Set the HTTP only flag.
-     *
-     * @param httpOnly the HTTP only flag.
-     */
     @Override
     public void setHttpOnly(boolean httpOnly) {
         if (webApplication.isInitialized()) {
@@ -450,12 +427,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         }
         this.httpOnly = httpOnly;
     }
-    
-    /**
-     * Set the max age.
-     *
-     * @param maxAge the max age.
-     */
+
     @Override
     public void setMaxAge(int maxAge) {
         if (webApplication.isInitialized()) {
@@ -464,21 +436,14 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         this.maxAge = maxAge;
     }
 
-    /**
-     * Set the name.
-     *
-     * @param name the name.
-     */
     @Override
     public void setName(String name) {
+        if (webApplication.isInitialized()) {
+            throw new IllegalStateException("You cannot call setName once ServletContext is initialized");
+        }
         this.name = name;
     }
 
-    /**
-     * Set the path.
-     *
-     * @param path the path.
-     */
     @Override
     public void setPath(String path) {
         if (webApplication.isInitialized()) {
@@ -487,11 +452,6 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         this.path = path;
     }
 
-    /**
-     * Set the secure flag.
-     *
-     * @param secure the secure flag.
-     */
     @Override
     public void setSecure(boolean secure) {
         if (webApplication.isInitialized()) {
@@ -525,7 +485,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
 
     /**
      * Set the web application.
-     * 
+     *
      * @param webApplication the web application.
      */
     @Override
