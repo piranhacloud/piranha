@@ -252,8 +252,8 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      * @param name the name.
      */
     @Override
-    public void attributeRemoved(HttpSession session, String name) {
-        attributeListeners.stream().forEach(listener -> listener.attributeRemoved(new HttpSessionBindingEvent(session, name)));
+    public void attributeRemoved(HttpSession session, String name, Object value) {
+        attributeListeners.stream().forEach(listener -> listener.attributeRemoved(new HttpSessionBindingEvent(session, name, value)));
     }
 
     /**

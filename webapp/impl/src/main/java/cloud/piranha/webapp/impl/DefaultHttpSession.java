@@ -282,8 +282,7 @@ public class DefaultHttpSession implements HttpSession {
     @Override
     public void removeAttribute(String name) {
         verifyValid("removeAttribute");
-        attributes.remove(name);
-        sessionManager.attributeRemoved(this, name);
+        sessionManager.attributeRemoved(this, name, attributes.remove(name));
     }
 
     /**
@@ -312,11 +311,11 @@ public class DefaultHttpSession implements HttpSession {
             if (attributes.containsKey(name)) {
                 added = false;
             }
-            attributes.put(name, value);
+            Object oldValue = attributes.put(name, value);
             if (added) {
                 sessionManager.attributeAdded(this, name, value);
             } else {
-                sessionManager.attributeReplaced(this, name, value);
+                sessionManager.attributeReplaced(this, name, oldValue);
             }
         } else {
             removeAttribute(name);
