@@ -1188,9 +1188,10 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public void removeAttribute(String name) {
+        Object oldValue = attributeManager.getAttribute(name);
         attributeManager.removeAttribute(name);
         if (webApplication != null && webApplication.getHttpRequestManager() != null) {
-            webApplication.getHttpRequestManager().attributeRemoved(this, name);
+            webApplication.getHttpRequestManager().attributeRemoved(this, name, oldValue);
         }
     }
 
@@ -1213,7 +1214,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void setAttribute(String name, Object value) {
         if (value != null) {
             boolean added = true;
-            if (attributeManager.getAttribute(name) == null) {
+            Object oldValue = attributeManager.getAttribute(name);
+            if (oldValue == null) {
                 added = false;
             }
 
@@ -1222,13 +1224,14 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                 if (!added) {
                     webApplication.getHttpRequestManager().attributeAdded(this, name, value);
                 } else {
-                    webApplication.getHttpRequestManager().attributeReplaced(this, name, value);
+                    webApplication.getHttpRequestManager().attributeReplaced(this, name, oldValue);
                 }
             }
         } else {
+            Object oldValue = attributeManager.getAttribute(name);
             attributeManager.removeAttribute(name);
             if (webApplication != null && webApplication.getHttpRequestManager() != null) {
-                webApplication.getHttpRequestManager().attributeRemoved(this, name);
+                webApplication.getHttpRequestManager().attributeRemoved(this, name, oldValue);
             }
         }
     }
