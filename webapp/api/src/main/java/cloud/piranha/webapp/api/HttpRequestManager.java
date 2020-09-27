@@ -59,8 +59,9 @@ public interface HttpRequestManager {
      *
      * @param request the HTTP request.
      * @param name the name.
+     * @param value the value
      */
-    void attributeRemoved(HttpServletRequest request, String name);
+    void attributeRemoved(HttpServletRequest request, String name, Object value);
 
     /**
      * Attribute replaced.
