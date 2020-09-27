@@ -287,7 +287,7 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     @Override
     public void removeAttribute(String name) {
         verifyValid("removeAttribute");
-        this.attributes.remove(name);
+        sessionManager.attributeRemoved(this, name, this.attributes.remove(name));
     }
 
     /**
@@ -317,11 +317,11 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
             if (attributes.containsKey(name)) {
                 added = false;
             }
-            attributes.put(name, value);
+            Object oldValue = attributes.put(name, value);
             if (added) {
                 sessionManager.attributeAdded(this, name, value);
             } else {
-                sessionManager.attributeReplaced(this, name, value);
+                sessionManager.attributeReplaced(this, name, oldValue, value);
             }
         } else {
             removeAttribute(name);
