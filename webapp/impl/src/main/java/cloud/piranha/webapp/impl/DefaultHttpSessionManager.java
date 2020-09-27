@@ -45,6 +45,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
@@ -229,23 +230,34 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     @Override
     public void attributeAdded(HttpSession session, String name, Object value) {
         attributeListeners.stream().forEach(listener -> listener.attributeAdded(new HttpSessionBindingEvent(session, name, value)));
+        if (value instanceof HttpSessionBindingListener){
+            ((HttpSessionBindingListener) value).valueBound(new HttpSessionBindingEvent(session, name));
+        }
     }
 
     /**
-     * Attribute removed.
+     * Attribute replaced.
      *
      * @param session the HTTP session.
      * @param name the name.
-     * @param value the value.
+     * @param oldValue the old value.
+     * @param newValue the new value.
      */
     @Override
-    public void attributeReplaced(HttpSession session, String name, Object value) {
-        attributeListeners.stream().forEach(listener -> listener.attributeReplaced(new HttpSessionBindingEvent(session, name, value)));
+    public void attributeReplaced(HttpSession session, String name, Object oldValue, Object newValue) {
+        attributeListeners.stream().forEach(listener -> listener.attributeReplaced(new HttpSessionBindingEvent(session, name, oldValue)));
+        if (oldValue instanceof HttpSessionBindingListener)
+            ((HttpSessionBindingListener) oldValue).valueUnbound(new HttpSessionBindingEvent(session, name));
+        if (newValue instanceof HttpSessionBindingListener)
+            ((HttpSessionBindingListener) newValue).valueBound(new HttpSessionBindingEvent(session, name));
     }
 
     @Override
     public void attributeRemoved(HttpSession session, String name, Object value) {
         attributeListeners.stream().forEach(listener -> listener.attributeRemoved(new HttpSessionBindingEvent(session, name, value)));
+        if (value instanceof HttpSessionBindingListener){
+            ((HttpSessionBindingListener) value).valueUnbound(new HttpSessionBindingEvent(session, name));
+        }
     }
 
     /**

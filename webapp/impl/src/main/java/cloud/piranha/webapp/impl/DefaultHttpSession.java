@@ -315,7 +315,7 @@ public class DefaultHttpSession implements HttpSession {
             if (added) {
                 sessionManager.attributeAdded(this, name, value);
             } else {
-                sessionManager.attributeReplaced(this, name, oldValue);
+                sessionManager.attributeReplaced(this, name, oldValue, value);
             }
         } else {
             removeAttribute(name);
