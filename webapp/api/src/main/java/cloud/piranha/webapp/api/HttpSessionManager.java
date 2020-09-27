@@ -72,9 +72,10 @@ public interface HttpSessionManager {
      *
      * @param session the HTTP session.
      * @param name the name.
-     * @param value the value.
+     * @param oldValue the old value.
+     * @param newValue the new value.
      */
-    void attributeReplaced(HttpSession session, String name, Object value);
+    void attributeReplaced(HttpSession session, String name, Object oldValue, Object newValue);
 
     /**
      * Change the session id and return it.
