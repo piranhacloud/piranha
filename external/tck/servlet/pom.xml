@@ -112,6 +112,11 @@
                                                        match="webServerPort=(.*)"
                                                        replace="webServerPort=8080"
                                                        byline="true"/>
+                                        
+                                        <!-- copy Piranha users / roles into the TCK -->
+                                        <copy todir="${piranha.home}/etc">
+                                            <fileset dir="${project.basedir}/src/test/etc"/>
+                                        </copy>
                                     </target>
                                 </configuration>
                                 <goals>
