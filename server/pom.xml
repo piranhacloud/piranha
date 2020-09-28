@@ -70,6 +70,13 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Piranha Security - File-based -->
+        <dependency>
+            <groupId>cloud.piranha.security</groupId>
+            <artifactId>piranha-security-file</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- Piranha Webapplication implementation -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>

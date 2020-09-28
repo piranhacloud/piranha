@@ -46,11 +46,11 @@ import cloud.piranha.webapp.api.WebApplication;
  * The default SecurityManager.
  *
  * <p>
- This security manager implies the use of DefaultWebApplicationRequest, if your
- server / web application does not want to use DefaultWebApplicationRequest or
- subclass DefaultWebApplicationRequest you have to implement your own security
- manager.
- </p>
+ * This security manager implies the use of DefaultWebApplicationRequest, if
+ * your server / web application does not want to use
+ * DefaultWebApplicationRequest or subclass DefaultWebApplicationRequest you
+ * have to implement your own security manager.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -90,7 +90,21 @@ public class DefaultSecurityManager implements SecurityManager {
      */
     public void addUser(String username, String password, String... roles) {
         logins.put(username, password);
-        userRoles.put(username, roles);
+        if (roles != null) {
+            userRoles.put(username, roles);
+        }
+    }
+
+    /**
+     * Add the user roles.
+     * 
+     * @param username the username.
+     * @param roles the roles.
+     */
+    public void addUserRole(String username, String... roles) {
+        if (roles != null) {
+            userRoles.put(username, roles);
+        }
     }
 
     /**
