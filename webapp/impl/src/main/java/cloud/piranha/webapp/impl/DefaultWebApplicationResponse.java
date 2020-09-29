@@ -52,6 +52,7 @@ import javax.servlet.WriteListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import cloud.piranha.webapp.api.LocaleEncodingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationResponse;
 
@@ -158,11 +159,16 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     protected WebApplication webApplication;
 
     /**
+     * Stores the content language
+     */
+    private String contentLanguage;
+
+    /**
      * Constructor.
      */
     public DefaultWebApplicationResponse() {
         buffer = new byte[8192];
-        characterEncoding = null;
+        characterEncoding = "ISO-8859-1";
         characterEncodingSet = false;
         committed = false;
         contentType = null;
@@ -171,7 +177,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         gotOutput = false;
         gotWriter = false;
         headerManager = new DefaultHttpHeaderManager();
-        locale = null;
+        locale = Locale.getDefault();
         status = 200;
         statusMessage = null;
         writer = null;
@@ -347,7 +353,10 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public String getContentType() {
-        return contentType;
+        if (contentType == null)
+            return null;
+        String encoding = characterEncodingSet ? ";charset=" + characterEncoding : "";
+        return contentType + encoding;
     }
 
     /**
@@ -647,7 +656,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setContentType(String type) {
-        if (!gotWriter && !committed) {
+        if (!isCommitted()) {
             if (type != null) {
                 if (type.contains(";")) {
                     contentType = type.substring(0, type.indexOf(";")).trim();
@@ -706,8 +715,20 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setLocale(Locale locale) {
-        if (!gotWriter && !committed) {
-            this.locale = locale;
+        if (isCommitted()) {
+            return;
+        }
+        this.locale = locale;
+        this.contentLanguage = locale.toLanguageTag();
+
+        if (webApplication == null)
+            return;
+        LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
+        if (localeEncodingManager != null) {
+            String encoding = localeEncodingManager.getCharacterEncoding(locale.toString());
+            if (encoding != null) {
+                setCharacterEncoding(encoding);
+            }
         }
     }
 
@@ -899,9 +920,9 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (contentType != null) {
             outputStream.write("Content-Type: ".getBytes());
             outputStream.write(contentType.getBytes());
-            if (characterEncodingSet) {
+            if (characterEncoding != null) {
                 outputStream.write(";charset=".getBytes());
-                outputStream.write(characterEncoding.toLowerCase().getBytes());
+                outputStream.write(characterEncoding.getBytes());
             }
             outputStream.write("\n".getBytes());
         }
@@ -979,6 +1000,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (!isBodyOnly()) {
             writeStatusLine();
             writeContentType();
+            writeContentLanguage();
             writeCookies();
             writeHeaders();
         }
@@ -987,6 +1009,15 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
             index = buffer.length;
         }
         setCommitted(true);
+    }
+
+    private void writeContentLanguage() throws IOException {
+        if (contentLanguage == null) {
+            return;
+        }
+        outputStream.write("Content-Language: ".getBytes());
+        outputStream.write(contentLanguage.getBytes());
+        outputStream.write("\n".getBytes());
     }
 
     /**

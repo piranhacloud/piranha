@@ -38,6 +38,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
@@ -111,6 +112,7 @@ public class WebXmlParser {
             parseMimeMappings(webXml, xPath, document);
             parseRequestCharacterEncoding(webXml, xPath, document);
             parseResponseCharacterEncoding(webXml, xPath, document);
+            parseLocaleEncodingMapping(webXml, xPath, document);
             processSecurityConstraints(webXml, xPath, document);
             processSecurityRoles(webXml, xPath, document);
             parseServletMappings(webXml, xPath, document);
@@ -817,4 +819,22 @@ public class WebXmlParser {
             LOGGER.log(WARNING, "Unable to parse <welcome-file-list> sections", xpe);
         }
     }
+
+
+    private void parseLocaleEncodingMapping(WebXml webXml, XPath xPath, Node node) {
+        try {
+            NodeList nodeList = (NodeList) xPath.evaluate("//locale-encoding-mapping-list/locale-encoding-mapping", node, NODESET);
+            if (nodeList != null) {
+                Map<String, String> localeEncodingMapping = webXml.getLocaleEncodingMapping();
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    String locale = parseString(xPath, ".//locale/text()", nodeList.item(i));
+                    String encoding = parseString(xPath, ".//encoding/text()", nodeList.item(i));
+                    localeEncodingMapping.put(locale, encoding);
+                }
+            }
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse <locale-encoding-mapping-list> sections", xpe);
+        }
+    }
+
 }

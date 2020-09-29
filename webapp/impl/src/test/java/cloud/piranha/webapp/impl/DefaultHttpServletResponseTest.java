@@ -27,8 +27,8 @@
  */
 package cloud.piranha.webapp.impl;
 
-import java.util.Locale;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
@@ -157,7 +157,7 @@ class DefaultHttpServletResponseTest {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertNull(response.getContentType());
         response.setContentType("text/html;charset=UTF-8");
-        assertEquals("text/html", response.getContentType());
+        assertEquals("text/html;charset=UTF-8", response.getContentType());
         assertEquals("UTF-8", response.getCharacterEncoding());
     }
 
@@ -191,7 +191,7 @@ class DefaultHttpServletResponseTest {
     @Test
     void testGetLocale() {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        assertNull(response.getLocale());
+        assertEquals(Locale.getDefault(), response.getLocale());
         response.setLocale(Locale.ITALIAN);
         assertEquals(Locale.ITALIAN, response.getLocale());
     }
@@ -307,20 +307,19 @@ class DefaultHttpServletResponseTest {
         response.setBodyOnly(false);
         response.flushBuffer();
 
-        assertTrue(new String(response.getResponseBytes()).contains("Content-Type: text/html\n"));
-        assertFalse(new String(response.getResponseBytes()).contains("charset=iso-8859-1"));
+        assertTrue(new String(response.getResponseBytes()).contains("Content-Type: text/html;charset=ISO-8859-1"));
     }
 
     @Test
     void testContentTypeHeader2() throws Exception {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setContentType("text/html;charset=UTF-8");
-        assertEquals("text/html", response.getContentType());
+        assertEquals("text/html;charset=UTF-8", response.getContentType());
         assertEquals("UTF-8", response.getCharacterEncoding());
 
         response.setBodyOnly(false);
         response.flushBuffer();
 
-        assertTrue(new String(response.getResponseBytes()).contains("Content-Type: text/html;charset=utf-8\n"));
+        assertTrue(new String(response.getResponseBytes()).contains("Content-Type: text/html;charset=UTF-8\n"));
     }
 }

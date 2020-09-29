@@ -30,8 +30,10 @@ package cloud.piranha.webapp.impl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -58,6 +60,8 @@ public class WebXml implements Serializable {
     private boolean metadataComplete;
 
     private List<String> absoluteOrdering;
+
+    private Map<String, String> localeEncodingMapping = new HashMap<>();
 
     public static class RelativeOrder {
         private List<String> before;
@@ -593,5 +597,12 @@ public class WebXml implements Serializable {
 
     public void setRelativeOrdering(RelativeOrder relativeOrdering) {
         this.relativeOrdering = relativeOrdering;
+    }
+
+    public Map<String, String> getLocaleEncodingMapping() {
+        return this.localeEncodingMapping;
+    }
+    public void setLocaleEncodingMapping(Map<String, String> localeEncodingMapping) {
+        this.localeEncodingMapping = localeEncodingMapping;
     }
 }
