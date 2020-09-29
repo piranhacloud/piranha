@@ -54,8 +54,8 @@ Please use the following dependency.
 <dependency>
     <groupId>cloud.piranha</groupId>
     <artifactId>piranha-nano</artifactId>
-    </version>y.m.p</version>
-<dependency>
+    <version>y.m.p</version>
+</dependency>
 ````
 
 where `y` is the year, `m` is the month and `p` is the patch version of the
