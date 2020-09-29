@@ -61,10 +61,9 @@ public class FileSecurityInitializer implements ServletContainerInitializer {
         }
         if (userFile.exists()) {
             Properties userProperties = new Properties();
-            try {
-                userProperties.load(new FileInputStream(userFile));
+            try (FileInputStream fileInput = new FileInputStream(userFile)) {
+                userProperties.load(fileInput);
             } catch (IOException ioe) {
-
             }
             userProperties.entrySet().forEach(entry -> {
                 String username = (String) entry.getKey();
@@ -79,10 +78,9 @@ public class FileSecurityInitializer implements ServletContainerInitializer {
         }
         if (userRoleFile.exists()) {
             Properties userRoleProperties = new Properties();
-            try {
-                userRoleProperties.load(new FileInputStream(userRoleFile));
+            try (FileInputStream fileInput = new FileInputStream(userRoleFile)) {
+                userRoleProperties.load(fileInput);
             } catch (IOException ioe) {
-
             }
             userRoleProperties.entrySet().forEach(entry -> {
                 String username = (String) entry.getKey();
