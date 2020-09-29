@@ -54,7 +54,7 @@ Please use the following dependency.
 <dependency>
     <groupId>cloud.piranha</groupId>
     <artifactId>piranha-nano</artifactId>
-    <version>y.m.p</version>
+    </version>y.m.p</version>
 <dependency>
 ````
 
