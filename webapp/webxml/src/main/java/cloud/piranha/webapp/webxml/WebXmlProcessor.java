@@ -33,6 +33,7 @@ import static java.util.stream.Collectors.toSet;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -40,6 +41,7 @@ import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletRegistration;
 
+import cloud.piranha.webapp.api.LocaleEncodingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WelcomeFileManager;
 import cloud.piranha.webapp.impl.WebXml;
@@ -90,6 +92,7 @@ public class WebXmlProcessor {
         processServletMappings(webApplication, webXml);
         processWebApp(webApplication, webXml);
         processWelcomeFiles(webApplication, webXml);
+        processLocaleEncodingMapping(webApplication, webXml);
         LOGGER.log(FINER, "Finished WebXmlProcessor.process");
     }
 
@@ -363,6 +366,18 @@ public class WebXmlProcessor {
             LOGGER.log(FINE, () -> "Adding welcome file: " + welcomeFile);
             welcomeFileManager.addWelcomeFile(welcomeFile);
         }
+    }
+
+    private void processLocaleEncodingMapping(WebApplication webApplication, WebXml webXml) {
+        Map<String, String> localeMapping = webXml.getLocaleEncodingMapping();
+        if (localeMapping == null)
+            return;
+
+        LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
+        if (localeEncodingManager == null)
+            return;
+
+        localeMapping.forEach(localeEncodingManager::addCharacterEncoding);
     }
 
     private boolean isEmpty(String string) {
