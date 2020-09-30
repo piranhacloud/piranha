@@ -97,6 +97,7 @@ import cloud.piranha.webapp.api.AsyncManager;
 import cloud.piranha.webapp.api.HttpRequestManager;
 import cloud.piranha.webapp.api.HttpSessionManager;
 import cloud.piranha.webapp.api.JspManager;
+import cloud.piranha.webapp.api.LocaleEncodingManager;
 import cloud.piranha.webapp.api.LoggingManager;
 import cloud.piranha.webapp.api.MimeTypeManager;
 import cloud.piranha.webapp.api.MultiPartManager;
@@ -227,6 +228,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the attributes.
      */
     protected final Map<String, Object> attributes;
+
+    /**
+     * Stores the locale encoding manager
+     */
+    protected LocaleEncodingManager localeEncodingManager;
 
     /**
      * Stores the servlet environments
@@ -383,6 +389,7 @@ public class DefaultWebApplication implements WebApplication {
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
         welcomeFileManager = new DefaultWelcomeFileManager();
         invocationFinder = new DefaultInvocationFinder(this);
+        localeEncodingManager = new DefaultLocaleEncodingManager();
     }
 
     @Override
@@ -1887,6 +1894,16 @@ public class DefaultWebApplication implements WebApplication {
     public void unlinkRequestAndResponse(ServletRequest request, ServletResponse response) {
         request.removeAttribute("piranha.response");
         responses.remove(response);
+    }
+
+    @Override
+    public LocaleEncodingManager getLocaleEncodingManager() {
+        return localeEncodingManager;
+    }
+
+    @Override
+    public void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager) {
+        this.localeEncodingManager = localeEncodingManager;
     }
 
     /**

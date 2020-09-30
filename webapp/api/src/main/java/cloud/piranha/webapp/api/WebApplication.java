@@ -267,6 +267,12 @@ public interface WebApplication extends ServletContext {
     WelcomeFileManager getWelcomeFileManager();
 
     /**
+     * Get the locale encoding manager
+     * @return the locale encoding manager
+     */
+    LocaleEncodingManager getLocaleEncodingManager();
+
+    /**
      * Initialize the web application.
      */
     void initialize();
@@ -466,6 +472,12 @@ public interface WebApplication extends ServletContext {
      * @param welcomeFileManager the welcome file manager.
      */
     void setWelcomeFileManager(WelcomeFileManager welcomeFileManager);
+
+    /**
+     * Set the locale encoding manager
+     * @param localeEncodingManager the locale encoding manager
+     */
+    void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager);
 
     /**
      * Start servicing.

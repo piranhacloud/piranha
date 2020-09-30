@@ -38,6 +38,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Enumeration;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.DispatcherType;
@@ -1087,5 +1088,15 @@ class DefaultWebApplicationTest {
         webApp.initialize();
         webApp.start();
         assertThrows(IllegalStateException.class, () -> webApp.setSessionTimeout(50));
+    }
+
+    @Test
+    void testSetLocale() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.getLocaleEncodingManager().addCharacterEncoding(Locale.ITALY.toString(), "windows-1252");
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApp);
+        response.setLocale(Locale.ITALY);
+        assertEquals("windows-1252", response.getCharacterEncoding());
     }
 }
