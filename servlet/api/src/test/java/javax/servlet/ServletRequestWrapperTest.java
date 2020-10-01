@@ -31,6 +31,7 @@ import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -175,5 +176,14 @@ class ServletRequestWrapperTest {
     void testGetParameter() {
         ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
         assertNull(wrapper.getParameter("null"));
+    }
+
+    /**
+     * Test set request method
+     */
+    @Test
+    void testSetRequest() {
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        assertThrows(IllegalArgumentException.class, () -> wrapper.setRequest(null));
     }
 }
