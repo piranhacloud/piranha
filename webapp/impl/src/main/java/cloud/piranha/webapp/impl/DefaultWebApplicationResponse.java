@@ -468,10 +468,10 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         PrintWriter result = null;
         if (!gotOutput) {
             if (gotWriter == false) {
-                gotWriter = true;
-                if (characterEncoding == null) {
-                    characterEncoding = "ISO-8859-1";
+                if (characterEncoding == null || !characterEncodingSet) {
+                    setCharacterEncoding("ISO-8859-1");
                 }
+                gotWriter = true;
                 if (System.getProperty("piranha.response.debug") != null) {
                     writer = new PrintWriter(new OutputStreamWriter(this, characterEncoding) {
                         @Override
