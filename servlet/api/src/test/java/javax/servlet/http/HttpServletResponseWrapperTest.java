@@ -271,4 +271,13 @@ class HttpServletResponseWrapperTest {
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
         assertThrows(UnsupportedOperationException.class, () -> wrapper.setStatus(301, "Moved"));
     }
+
+    /**
+     * Test set response method
+     */
+    @Test
+    void testSetResponse() {
+        HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(null);
+        assertThrows(IllegalArgumentException.class, () -> wrapper.setResponse(null));
+    }
 }
