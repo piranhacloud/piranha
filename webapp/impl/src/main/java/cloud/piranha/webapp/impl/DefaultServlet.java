@@ -34,6 +34,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -69,13 +70,15 @@ public class DefaultServlet extends HttpServlet {
         setContentType(request, response);
 
         try (InputStream inputStream = new BufferedInputStream(resource)) {
-            OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-            int read = inputStream.read();
-            while (read != -1) {
-                outputStream.write(read);
-                read = inputStream.read();
+            try (OutputStream outputStream = new BufferedOutputStream(response.getOutputStream())) {
+                inputStream.transferTo(outputStream);
+                outputStream.flush();
+            } catch (IllegalStateException ise) {
+                try (PrintWriter writer = response.getWriter()) {
+                    writer.print(new String(inputStream.readAllBytes()));
+                    writer.flush();
+                }
             }
-            outputStream.flush();
         }
     }
 
