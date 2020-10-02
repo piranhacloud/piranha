@@ -45,6 +45,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
@@ -190,6 +191,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void addCookie(Cookie cookie) {
+        if (isInclude())
+            return;
         this.cookies.add(cookie);
     }
 
@@ -212,6 +215,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void addHeader(String name, String value) {
+        if (isInclude())
+            return;
         headerManager.addHeader(name, value);
     }
 
@@ -614,6 +619,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setCharacterEncoding(String characterEncoding) {
+        if (isInclude())
+            return;
         if (!gotWriter && !committed) {
             this.characterEncoding = characterEncoding;
             characterEncodingSet = true;
@@ -636,6 +643,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setContentLength(int contentLength) {
+        if (isInclude())
+            return;
         this.contentLength = contentLength;
     }
 
@@ -656,6 +665,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setContentType(String type) {
+        if (isInclude())
+            return;
         if (!isCommitted()) {
             if (type != null) {
                 if (type.contains(";")) {
@@ -694,6 +705,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setHeader(String name, String value) {
+        if (isInclude())
+            return;
         headerManager.setHeader(name, value);
     }
 
@@ -715,7 +728,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setLocale(Locale locale) {
-        if (isCommitted()) {
+        if (isCommitted() || isInclude()) {
             return;
         }
         this.locale = locale;
@@ -748,6 +761,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setStatus(int status) {
+        if (isInclude())
+            return;
         if (!isCommitted()) {
             this.status = status;
         }
@@ -1039,5 +1054,12 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     private String formatDateToGMT(long timestamp) {
         return Instant.ofEpochMilli(timestamp).atZone(ZoneId.of("GMT"))
                 .format(DateTimeFormatter.RFC_1123_DATE_TIME);
+    }
+
+    private boolean isInclude() {
+        if (webApplication == null)
+            return false;
+        ServletRequest request = webApplication.getRequest(this);
+        return request != null && request.getDispatcherType() == DispatcherType.INCLUDE;
     }
 }
