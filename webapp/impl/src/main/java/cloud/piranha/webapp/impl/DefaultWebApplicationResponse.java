@@ -609,6 +609,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setBufferSize(int bufferSize) {
+        verifyNotCommitted("setBufferSize");
         this.buffer = new byte[bufferSize];
     }
 

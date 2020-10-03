@@ -34,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -1108,5 +1109,15 @@ class DefaultWebApplicationTest {
         PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
         assertEquals("text/html;charset=ISO-8859-1", response.getContentType());
+    }
+
+    @Test
+    void testSetBufferSize() throws Exception {
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            response.setUnderlyingOutputStream(baos);
+            response.flush();
+            assertThrows(IllegalStateException.class, () -> response.setBufferSize(20));
+        }
     }
 }
