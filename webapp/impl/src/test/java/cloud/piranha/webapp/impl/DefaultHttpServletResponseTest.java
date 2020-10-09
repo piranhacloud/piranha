@@ -287,6 +287,20 @@ class DefaultHttpServletResponseTest {
         assertEquals(12, response.getContentLength());
     }
 
+    @Test
+    void testSetContentLength3() {
+        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setContentLength(12);
+        assertEquals("12", response.getHeader("Content-Length"));
+    }
+
+    @Test
+    void testSetContentLength4() {
+        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setContentLengthLong(12L);
+        assertEquals("12", response.getHeader("Content-Length"));
+    }
+
     /**
      * Test setContentType.
      */
