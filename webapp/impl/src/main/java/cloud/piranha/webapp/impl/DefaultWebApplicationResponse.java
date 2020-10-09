@@ -644,9 +644,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setContentLength(int contentLength) {
-        if (isInclude())
-            return;
-        this.contentLength = contentLength;
+        setContentLengthLong(contentLength);
     }
 
     /**
@@ -656,7 +654,10 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     @Override
     public void setContentLengthLong(long contentLength) {
+        if (isInclude())
+            return;
         this.contentLength = contentLength;
+        headerManager.addHeader("Content-Length", String.valueOf(contentLength));
     }
 
     /**
