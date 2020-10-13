@@ -132,4 +132,12 @@ public class JasperInitializer implements ServletContainerInitializer {
 
         LOGGER.fine("Initialized Jasper integration");
     }
+
+    static {
+        // This is a hack until Jasper handles JPMS
+        if (JasperInitializer.class.getModule().isNamed()) {
+            String oldExtDirs = System.getProperty("java.ext.dirs", "");
+            System.setProperty("java.ext.dirs", System.getProperty("jdk.module.path") + pathSeparator + oldExtDirs);
+        }
+    }
 }
