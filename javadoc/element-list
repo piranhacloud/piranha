@@ -40,10 +40,16 @@ module:cloud.piranha.security.eleos
 cloud.piranha.security.eleos
 module:cloud.piranha.security.exousia
 cloud.piranha.security.exousia
+module:cloud.piranha.security.file
+cloud.piranha.security.file
 module:cloud.piranha.security.jakarta
 cloud.piranha.security.jakarta
 module:cloud.piranha.security.soteria
 cloud.piranha.security.soteria
+module:cloud.piranha.server
+cloud.piranha.server
+module:cloud.piranha.server2
+cloud.piranha.server2
 module:cloud.piranha.servlet.api
 javax.servlet
 javax.servlet.annotation
