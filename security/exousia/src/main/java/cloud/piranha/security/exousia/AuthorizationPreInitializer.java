@@ -60,17 +60,49 @@ import cloud.piranha.webapp.impl.WebXmlManager;
  */
 public class AuthorizationPreInitializer implements ServletContainerInitializer {
 
+    /**
+     * Defines the constant for the auth service attribute.
+     */
     public static final String AUTHZ_SERVICE = AuthorizationPreInitializer.class.getName() + ".authz.service";
 
+    /**
+     * Defines the constant for the auth factory class attribute.
+     */
     public static final String AUTHZ_FACTORY_CLASS = AuthorizationPreInitializer.class.getName() + ".authz.factory.class";
+    
+    /**
+     * Defines the constant fore the auth policy class attribute.
+     */
     public static final String AUTHZ_POLICY_CLASS = AuthorizationPreInitializer.class.getName() + ".authz.module.class";
 
+    /**
+     * Defines the constant for the unchecked permissions attribute.
+     */
     public static final String UNCHECKED_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".unchecked.permissions";
+    
+    /**
+     * Defines the constants for the per-role permissions attribute.
+     */
     public static final String PERROLE_PERMISSIONS = AuthorizationPreInitializer.class.getName() + ".perrole.permissions";
+    
+    /**
+     * Defines the constant for the security constraints attribute.
+     */
     public static final String CONSTRAINTS = AuthorizationPreInitializer.class.getName() + ".constraints";
+    
+    /**
+     * Defines the constant for the security elements attribute.
+     */
     public static final String SECURITY_ELEMENTS = AuthorizationPreInitializer.class.getName() + ".security.elements";
+    
+    /**
+     * Defines the constant for the security annotations attribute.
+     */
     public static final String SECURITY_ANNOTATIONS = "cloud.piranha.authorization.exousia.AuthorizationPreInitializer.security.annotations";
 
+    /**
+     * Stores the Piranha to Exousia converter.
+     */
     PiranhaToExousiaConverter piranhaToExousiaConverter = new PiranhaToExousiaConverter();
 
     /**
@@ -127,22 +159,50 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         context.addFilterMapping(AuthorizationPreFilter.class.getSimpleName(), "/*");
     }
 
+    /**
+     * Get the security constraints from security elements.
+     * 
+     * @param servletContext the Servlet context.
+     * @return the list of security constraints.
+     * @throws ServletException when a Servlet error occurs.
+     */
     private List<SecurityConstraint> getConstraintsFromSecurityElements(ServletContext servletContext) throws ServletException {
         return piranhaToExousiaConverter.getConstraintsFromSecurityElements(getOptionalAttribute(servletContext, SECURITY_ELEMENTS));
     }
 
+    /**
+     * Get the security constraints from annotations.
+     * 
+     * @param servletContext the Servlet context.
+     * @return the list of security constraints.
+     * @throws ServletException when a Servlet error occurs.
+     */
     private List<SecurityConstraint> getConstraintsFromSecurityAnnotations(ServletContext servletContext) throws ServletException {
         return piranhaToExousiaConverter.getConstraintsFromSecurityAnnotations(getOptionalAttribute(servletContext, SECURITY_ANNOTATIONS));
     }
 
-    private List<SecurityConstraint> getConstraintsFromWebXMl(WebApplication context) throws ServletException {
-        WebXmlManager manager =  getAttribute(context, WebXmlManager.KEY);
+    /**
+     * Get security constraints from web.xml.
+     * 
+     * @param webApplication the web application.
+     * @return the list of security constraints.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    private List<SecurityConstraint> getConstraintsFromWebXMl(WebApplication webApplication) throws ServletException {
+        WebXmlManager manager =  getAttribute(webApplication, WebXmlManager.KEY);
         return piranhaToExousiaConverter.getConstraintsFromWebXml(manager.getWebXml());
     }
 
-    public Map<String, List<SecurityRoleRef>> getSecurityRoleRefsFromWebXml(WebApplication context) throws ServletException {
-        WebXmlManager manager =  getAttribute(context, WebXmlManager.KEY);
-        return piranhaToExousiaConverter.getSecurityRoleRefsFromWebXml(context.getServletRegistrations().keySet(), manager.getWebXml());
+    /**
+     * Get the security role refs from web.xml.
+     * 
+     * @param webApplication the web application.
+     * @return the map of security role refs.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    public Map<String, List<SecurityRoleRef>> getSecurityRoleRefsFromWebXml(WebApplication webApplication) throws ServletException {
+        WebXmlManager manager =  getAttribute(webApplication, WebXmlManager.KEY);
+        return piranhaToExousiaConverter.getSecurityRoleRefsFromWebXml(webApplication.getServletRegistrations().keySet(), manager.getWebXml());
     }
 
 

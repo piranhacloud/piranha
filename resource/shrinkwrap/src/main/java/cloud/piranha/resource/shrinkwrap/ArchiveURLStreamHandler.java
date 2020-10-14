@@ -38,14 +38,22 @@ import org.jboss.shrinkwrap.api.Node;
 import org.jboss.shrinkwrap.api.asset.Asset;
 
 /**
- * 
+ *
  * @author Arjan Tijms
  *
  */
 public class ArchiveURLStreamHandler extends URLStreamHandler {
-    
+
+    /**
+     * Stores the archive.
+     */
     private Archive<?> archive;
-    
+
+    /**
+     * Constructor.
+     * 
+     * @param archive the archive.
+     */
     public ArchiveURLStreamHandler(Archive<?> archive) {
         this.archive = archive;
     }
@@ -65,22 +73,24 @@ public class ArchiveURLStreamHandler extends URLStreamHandler {
                 if (asset == null) {
                     return null;
                 }
-                
+
                 return asset.openStream();
             }
-            
+
+            /**
+             * Get the node.
+             * 
+             * @return the node.
+             */
             private Node getNode() {
                 return archive.get(
-                    ArchivePaths.create(
-                        requestedUrl
-                            .getPath()
-                            .replace(archive.getName(), "")));
+                        ArchivePaths.create(
+                                requestedUrl
+                                        .getPath()
+                                        .replace(archive.getName(), "")));
             }
         };
-        
-        
-    }
-    
 
-    
+    }
+
 }

@@ -36,24 +36,39 @@ import java.net.URLStreamHandler;
 import cloud.piranha.webapp.api.WebApplication;
 
 /**
- * Stream handler for the <code>shrinkwrap</code> protocol (urls starting with <code>shrinkwrap://</code>).
- * 
+ * Stream handler for the <code>shrinkwrap</code> protocol (urls starting with
+ * <code>shrinkwrap://</code>).
+ *
  * <p>
- * This is for URLs that don't have the embedded stream handler, which is for instance the case when
- * resource URLs obtained from Piranha Micro are converted to external string form and used to create
- * a new URL. 
- * 
+ * This is for URLs that don't have the embedded stream handler, which is for
+ * instance the case when resource URLs obtained from Piranha Micro are
+ * converted to external string form and used to create a new URL.
+ *
  * @author Arjan Tijms
  *
  */
 public class GlobalArchiveStreamHandler extends URLStreamHandler {
-    
+
+    /**
+     * Stores the web application.
+     */
     private WebApplication webApplication;
-    
+
+    /**
+     * Constructror.
+     *
+     * @param webApplication the web application.
+     */
     public GlobalArchiveStreamHandler(WebApplication webApplication) {
         this.webApplication = webApplication;
     }
-    
+
+    /**
+     * Connect to the URL.
+     *
+     * @param requestedUrl the requested URL.
+     * @return the URL connection.
+     */
     public URLConnection connect(URL requestedUrl) {
         try {
             return openConnection(requestedUrl);
@@ -61,7 +76,7 @@ public class GlobalArchiveStreamHandler extends URLStreamHandler {
             throw new IllegalStateException(e);
         }
     }
-    
+
     @Override
     public URLConnection openConnection(URL requestedUrl) throws IOException {
         return new StreamConnection(requestedUrl) {
@@ -70,8 +85,5 @@ public class GlobalArchiveStreamHandler extends URLStreamHandler {
                 return webApplication.getResourceAsStream(requestedUrl.toString());
             }
         };
-                
-
     }
-
 }

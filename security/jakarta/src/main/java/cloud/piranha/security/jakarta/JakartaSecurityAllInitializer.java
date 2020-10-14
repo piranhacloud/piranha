@@ -53,7 +53,9 @@ import cloud.piranha.security.soteria.SoteriaPreCDIInitializer;
  */
 public class JakartaSecurityAllInitializer implements ServletContainerInitializer {
 
-    // The default security pipeline
+    /**
+     * Stores the initializers.
+     */
     ServletContainerInitializer[] initializers = {
 
         // Makes web.xml login-config available to Soteria

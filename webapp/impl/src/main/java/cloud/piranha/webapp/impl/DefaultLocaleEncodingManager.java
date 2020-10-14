@@ -34,8 +34,14 @@ import java.util.Map;
 
 public class DefaultLocaleEncodingManager implements LocaleEncodingManager {
 
+    /**
+     * Stores the locale mappings.
+     */
     private final Map<String, String> localeMappings;
 
+    /**
+     * Constructor.
+     */
     public DefaultLocaleEncodingManager() {
         localeMappings = new HashMap<>();
     }

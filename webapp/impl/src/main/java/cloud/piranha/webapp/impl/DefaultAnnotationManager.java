@@ -52,9 +52,22 @@ public class DefaultAnnotationManager implements AnnotationManager {
 
     public static class DefaultAnnotationInfo<T> implements AnnotationInfo<T> {
 
+        /**
+         * Stores the instance.
+         */
         private final T instance;
+        
+        /**
+         * Stores the target.
+         */
         private final AnnotatedElement target;
 
+        /**
+         * Constructor.
+         * 
+         * @param instance the instance.
+         * @param target the target annotated element.
+         */
         public DefaultAnnotationInfo(T instance, AnnotatedElement target) {
             this.instance = instance;
             this.target = target;
@@ -71,7 +84,14 @@ public class DefaultAnnotationManager implements AnnotationManager {
         }
     }
 
+    /**
+     * Stores the annotations.
+     */
     private final Map<Class<?>, List<AnnotationInfo<?>>> annotations = new ConcurrentHashMap<>();
+    
+    /**
+     * Stores the instances.
+     */
     private final Map<Class<?>, List<Class<?>>> instances = new ConcurrentHashMap<>();
 
 
@@ -105,6 +125,12 @@ public class DefaultAnnotationManager implements AnnotationManager {
                 .collect(toList());
     }
 
+    /**
+     * Add the annotation.
+     * 
+     * @param annotationInfo the annotation info.
+     * @return the annotation manager.
+     */
     public DefaultAnnotationManager addAnnotation(AnnotationInfo<?> annotationInfo) {
         annotations.computeIfAbsent(
             ((Annotation) annotationInfo.getInstance()).annotationType(),
@@ -114,6 +140,13 @@ public class DefaultAnnotationManager implements AnnotationManager {
         return this;
     }
 
+    /**
+     * Add an instance.
+     * 
+     * @param instanceClass the instance class.
+     * @param implementingClass the implementing class.
+     * @return the annotation manager.
+     */
     public DefaultAnnotationManager addInstance(Class<?> instanceClass, Class<?> implementingClass) {
         instances.computeIfAbsent(
             instanceClass,

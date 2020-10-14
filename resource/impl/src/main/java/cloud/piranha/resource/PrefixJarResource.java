@@ -116,6 +116,7 @@ public class PrefixJarResource implements Resource {
         return result;
     }
     
+    @Override
     public Stream<String> getAllLocations() {
         return Stream.empty();
     }

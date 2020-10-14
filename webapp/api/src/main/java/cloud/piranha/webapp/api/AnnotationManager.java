@@ -39,10 +39,32 @@ import java.util.Set;
  */
 public interface AnnotationManager {
 
+    /**
+     * The annotation information.
+     * 
+     * @param <T> the type.
+     */
     interface AnnotationInfo<T> {
+        
+        /**
+         * Get the instance.
+         * 
+         * @return the instance.
+         */
         T getInstance();
+        
+        /**
+         * Get the target.
+         * 
+         * @return the target.
+         */
         AnnotatedElement getTarget();
 
+        /**
+         * Get the target.
+         * 
+         * @return the class.
+         */
         default Class<?> getTargetType() {
             AnnotatedElement element = getTarget();
             if (element instanceof Class<?>) {
@@ -53,11 +75,38 @@ public interface AnnotationManager {
         }
     }
 
-
+    /**
+     * Get the annotations.
+     * 
+     * @param <T> the type.
+     * @param annotationClass the annotation class.
+     * @return the typed list of annotations.
+     */
     <T> List<AnnotationInfo<T>> getAnnotations(Class<T> annotationClass);
+    
+    /**
+     * Get the annotations.
+     * 
+     * @param annotationClasses the annotation classes.
+     * @return the list of annotations.
+     */
     List<AnnotationInfo<?>> getAnnotations(Class<?>... annotationClasses);
 
+    /**
+     * Get the instances.
+     * 
+     * @param <T> the type.
+     * @param instanceClass the instance class.
+     * @return the typed list of instances.
+     */
     <T> List<Class<T>> getInstances(Class<T> instanceClass);
+    
+    /**
+     * Get the instances.
+     * 
+     * @param instanceClasses the instance classes.
+     * @return the list of instances.
+     */
     List<Class<?>> getInstances(Class<?>... instanceClasses);
 
 
@@ -67,6 +116,14 @@ public interface AnnotationManager {
      * @return the set of all annotated classes
      */
     Set<Class<?>> getAnnotatedClasses();
+    
+    /**
+     * Get the annotation for the annotation class and annotated element type.
+     * 
+     * @param <T> the type.
+     * @param annotationClass
+     * @param type the annotated element type.
+     * @return the list of annotations.
+     */
     <T> List<AnnotationInfo<T>> getAnnotationsByTarget(Class<T> annotationClass, AnnotatedElement type);
-
 }

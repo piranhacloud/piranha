@@ -59,6 +59,9 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      */
     private ResourceManager resourceManager;
 
+    /**
+     * Stores the delegate class loader.
+     */
     private ClassLoader delegateClassLoader;
 
     /**
@@ -286,11 +289,21 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
     public ResourceManager getResourceManager() {
         return resourceManager;
     }
-    
+
+    /**
+     * Set the delegate classloader.
+     * 
+     * @param delegateClassLoader the delegate class loader.
+     */
     public void setDelegateClassLoader(ClassLoader delegateClassLoader) {
         this.delegateClassLoader = delegateClassLoader;
     }
     
+    /**
+     * Get the delegate classloader.
+     * 
+     * @return the delegate classloader.
+     */
     public ClassLoader getDelegateClassLoader() {
         return delegateClassLoader;
     }

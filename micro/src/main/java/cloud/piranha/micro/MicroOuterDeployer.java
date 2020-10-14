@@ -63,37 +63,65 @@ import cloud.piranha.resource.shrinkwrap.IsolatingResourceManagerClassLoader;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 
 /**
- * The micro outer deployer runs in the outer (or initial) class loader, and initializes the inner (isolated)
- * class loader.
+ * The micro outer deployer runs in the outer (or initial) class loader, and
+ * initializes the inner (isolated) class loader.
  *
  * <p>
- * Initialization consists of loading the required classes that make up the requested configuration of Piranha Micro itself,
- * and putting these in the parent inner class loader, as well as indexing the application classes and putting both this index
- * and the application classes + resources in a child of the parent inner class loader.
+ * Initialization consists of loading the required classes that make up the
+ * requested configuration of Piranha Micro itself, and putting these in the
+ * parent inner class loader, as well as indexing the application classes and
+ * putting both this index and the application classes + resources in a child of
+ * the parent inner class loader.
  *
  * <p>
- * These inner class loaders are then used to bootstrap the inner deployer, and control is handed to it. The inner deployer
- * full runs in the inner class loader, and will startup an actual Piranha instance and deploy the given archive to it.
+ * These inner class loaders are then used to bootstrap the inner deployer, and
+ * control is handed to it. The inner deployer full runs in the inner class
+ * loader, and will startup an actual Piranha instance and deploy the given
+ * archive to it.
  *
  * @author Arjan Tijms
  *
  */
 public class MicroOuterDeployer {
 
+    /**
+     * Stores the logger.
+     */
     private static final Logger LOGGER = Logger.getLogger(MicroOuterDeployer.class.getName());
 
+    /**
+     * Stores the configuration.
+     */
     private final MicroConfiguration configuration;
+
+    /**
+     * Stores the inner deployer.
+     */
     private Object microInnerDeployer;
 
+    /**
+     * Constructor.
+     */
     public MicroOuterDeployer() {
         this(new MicroConfiguration().postConstruct());
     }
 
+    /**
+     * Constructor.
+     *
+     * @param configuration the configuration.
+     */
     public MicroOuterDeployer(MicroConfiguration configuration) {
         requireNonNull(configuration);
         this.configuration = configuration;
     }
 
+    /**
+     * Deploy the given archive.
+     *
+     * @param archive the archive.
+     * @return the outcome.
+     */
     @SuppressWarnings("unchecked")
     public MicroDeployOutcome deploy(Archive<?> archive) {
         Set<String> servletNames = new HashSet<>();
@@ -106,27 +134,24 @@ public class MicroOuterDeployer {
         try {
 
             // Resolve all the dependencies that make up a Piranha runtime configuration
-
             ConfigurableMavenResolverSystem mavenResolver = Maven.configureResolver();
 
-            configuration.getRepositoriesList().stream().forEach(repoUrl ->
-                mavenResolver.withRemoteRepo(createRepo(repoUrl)));
+            configuration.getRepositoriesList().stream().forEach(repoUrl
+                    -> mavenResolver.withRemoteRepo(createRepo(repoUrl)));
 
-            JavaArchive[] piranhaArchives =
-                mavenResolver
-                     .workOffline(configuration.isOffline())
-                     .resolve(configuration.getMergedDependencies())
-                     .withTransitivity()
-                     .as(JavaArchive.class);
+            JavaArchive[] piranhaArchives
+                    = mavenResolver
+                            .workOffline(configuration.isOffline())
+                            .resolve(configuration.getMergedDependencies())
+                            .withTransitivity()
+                            .as(JavaArchive.class);
 
             // Make all those dependencies available to the Piranha class loader
             ClassLoader piranhaClassLoader = getPiranhaClassLoader(piranhaArchives);
 
             // Make the web application archive (the .war) available to a separate classloader
             // The webInfClassLoader delegates to the Piranha class loader.
-
             // The class loading hierarchy looks as follows:
-
             // Web-inf class loader (application classes)
             //        |
             //        |--- System class loader (Pass-through for Shrinkwrap classes only)
@@ -136,7 +161,6 @@ public class MicroOuterDeployer {
             //        |
             //        |
             // Platform class loader (JDK classes)
-
             ClassLoader webInfClassLoader = getWebInfClassLoader(archive, piranhaClassLoader);
 
             Thread.currentThread().setContextClassLoader(webInfClassLoader);
@@ -149,23 +173,22 @@ public class MicroOuterDeployer {
 
             System.setProperty("micro.version", getClass().getPackage().getImplementationVersion());
 
-            microInnerDeployer =
-                Class.forName(
-                        "cloud.piranha.micro.core.MicroInnerDeployer",
-                        true,
-                        webInfClassLoader)
-                     .getDeclaredConstructor()
-                     .newInstance();
+            microInnerDeployer
+                    = Class.forName(
+                            "cloud.piranha.micro.core.MicroInnerDeployer",
+                            true,
+                            webInfClassLoader)
+                            .getDeclaredConstructor()
+                            .newInstance();
 
-            return MicroDeployOutcome.ofMap((Map<String, Object>)
-                    microInnerDeployer
-                        .getClass()
-                        .getMethod("start", Archive.class, ClassLoader.class, Map.class, Map.class)
-                        .invoke(microInnerDeployer,
+            return MicroDeployOutcome.ofMap((Map<String, Object>) microInnerDeployer
+                    .getClass()
+                    .getMethod("start", Archive.class, ClassLoader.class, Map.class, Map.class)
+                    .invoke(microInnerDeployer,
                             archive,
-                                   webInfClassLoader,
-                                   StaticURLStreamHandlerFactory.getHandlers(),
-                                   configuration.toMap()));
+                            webInfClassLoader,
+                            StaticURLStreamHandlerFactory.getHandlers(),
+                            configuration.toMap()));
 
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             throw new IllegalStateException("", e);
@@ -174,13 +197,16 @@ public class MicroOuterDeployer {
         }
     }
 
+    /**
+     * Stop the inner deployer.
+     */
     public void stop() {
         if (microInnerDeployer != null) {
             try {
                 microInnerDeployer
-                    .getClass()
-                    .getMethod("stop")
-                    .invoke(microInnerDeployer);
+                        .getClass()
+                        .getMethod("stop")
+                        .invoke(microInnerDeployer);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                 LOGGER.log(WARNING, "Error occurred during stop of Piranha Micro", e);
             }
@@ -207,10 +233,13 @@ public class MicroOuterDeployer {
     }
 
     /**
-     * Gets a class loader that provides access to the classes in WEB-INF of a web application archive.
+     * Gets a class loader that provides access to the classes in WEB-INF of a
+     * web application archive.
      *
-     * @param applicationArchive the web application archive to provide access to
-     * @param piranhaClassloader the parent class loader containing the Piranha runtime classes
+     * @param applicationArchive the web application archive to provide access
+     * to
+     * @param piranhaClassloader the parent class loader containing the Piranha
+     * runtime classes
      * @return A class loader giving access to the application code
      */
     ClassLoader getWebInfClassLoader(Archive<?> applicationArchive, ClassLoader piranhaClassloader) {
@@ -220,8 +249,8 @@ public class MicroOuterDeployer {
         // Create the resources that hold all classes from the WEB-INF/lib folder.
         // Each resource holds the classes from a single jar
         ShrinkWrapResource jarResources = new ShrinkWrapResource("/WEB-INF/lib", applicationArchive);
-        List<ShrinkWrapResource> webLibResources =
-            jarResources.getAllLocations()
+        List<ShrinkWrapResource> webLibResources
+                = jarResources.getAllLocations()
                         .filter(location -> location.endsWith(".jar"))
                         .map(location -> importAsShrinkWrapResource(jarResources, location))
                         .collect(toList());
@@ -229,9 +258,8 @@ public class MicroOuterDeployer {
         // Create a separate archive that contains an index of the application archive and the library archives.
         // This index can be obtained from the class loader by getting the "META-INF/piranha.idx" resource.
         ShrinkWrapResource indexResource = new ShrinkWrapResource(
-            ShrinkWrap.create(JavaArchive.class)
-                      .add(new ByteArrayAsset(createIndex(applicationResource, webLibResources)), "META-INF/piranha.idx"));
-
+                ShrinkWrap.create(JavaArchive.class)
+                        .add(new ByteArrayAsset(createIndex(applicationResource, webLibResources)), "META-INF/piranha.idx"));
 
         IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader(piranhaClassloader, "WebInf Loader");
 
@@ -251,8 +279,8 @@ public class MicroOuterDeployer {
     }
 
     /**
-     * Helper method that gets and imports a ZipFileEntry resource from a ShrinkWrapResource as
-     * another ShrinkWrapResource.
+     * Helper method that gets and imports a ZipFileEntry resource from a
+     * ShrinkWrapResource as another ShrinkWrapResource.
      *
      * @param resource the ShrinkWrapResource used as the source
      * @param location the location of the target resource within the resource
@@ -260,10 +288,10 @@ public class MicroOuterDeployer {
      */
     private ShrinkWrapResource importAsShrinkWrapResource(ShrinkWrapResource resource, String location) {
         return new ShrinkWrapResource(
-            ShrinkWrap.create(ZipImporter.class, location.substring(1))
-                      .importFrom(
-                          resource.getResourceAsStreamByLocation(location))
-                      .as(JavaArchive.class));
+                ShrinkWrap.create(ZipImporter.class, location.substring(1))
+                        .importFrom(
+                                resource.getResourceAsStreamByLocation(location))
+                        .as(JavaArchive.class));
     }
 
     private byte[] createIndex(ShrinkWrapResource applicationResource, List<ShrinkWrapResource> libResources) {
@@ -271,25 +299,22 @@ public class MicroOuterDeployer {
 
         // Add all classes from the library resources (the jar files in WEB-INF/lib)
         libResources
-            .stream()
-            .forEach(libResource ->
-                libResource.getAllLocations()
-                           .filter(e -> e.endsWith(".class"))
-                           .forEach(className -> addToIndex(className, libResource, indexer)));
-
+                .stream()
+                .forEach(libResource
+                        -> libResource.getAllLocations()
+                        .filter(e -> e.endsWith(".class"))
+                        .forEach(className -> addToIndex(className, libResource, indexer)));
 
         // Add all classes from the application resource (the class files in WEB-INF/classes to the indexer)
         // Note this must be done last as according to the Servlet spec, WEB-INF/classes overrides WEB-INF/lib)
         applicationResource
-            .getAllLocations()
-            .filter(e -> e.endsWith(".class"))
-            .forEach(className -> addToIndex(className, applicationResource, indexer));
-
+                .getAllLocations()
+                .filter(e -> e.endsWith(".class"))
+                .forEach(className -> addToIndex(className, applicationResource, indexer));
 
         Index index = indexer.complete();
 
         // Write the index out to a byte array
-
         ByteArrayOutputStream indexBytes = new ByteArrayOutputStream();
 
         IndexWriter writer = new IndexWriter(indexBytes);
@@ -313,7 +338,7 @@ public class MicroOuterDeployer {
 
     private MavenRemoteRepository createRepo(String repoUrl) {
         MavenRemoteRepository repo = MavenRemoteRepositories.createRemoteRepository(
-            UUID.randomUUID().toString(), repoUrl, "default");
+                UUID.randomUUID().toString(), repoUrl, "default");
 
         repo.setUpdatePolicy(UPDATE_POLICY_NEVER);
 

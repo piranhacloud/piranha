@@ -52,19 +52,56 @@ import cloud.piranha.webapp.api.WebApplicationRequest;
 
 public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implements WebApplicationRequest {
 
+    /**
+     * Stores the servlet path.
+     */
     private String servletPath;
+    
+    /**
+     * Stores the path info.
+     */
     private String pathInfo;
+    
+    /**
+     * Stores the request URI.
+     */
     private String requestURI;
+    
+    /**
+     * Stores the query string.
+     */
     private String queryString;
 
+    /**
+     * Stores the async context.
+     */
     private AsyncContext asyncContext;
+    
+    /**
+     * Stores the async started flag.
+     */
     private boolean asyncStarted; // Note that asyncStarted is per async cycle, and resets when the request is dispatched
 
+    /**
+     * Stores the attribute manager.
+     */
     private AttributeManager attributeManager = new DefaultAttributeManager();
 
+    /**
+     * Stores the wrapper attributes.
+     */
     private List<String> wrapperAttributes = new ArrayList<>();
+    
+    /**
+     * Stores the wrapper parameters.
+     */
     private Map<String, String[]> wrapperParameters = new HashMap<>();
 
+    /**
+     * Constructor.
+     * 
+     * @param request the HTTP servlet request.
+     */
     public AsyncHttpDispatchWrapper(HttpServletRequest request) {
         super(request);
         wrapperAttributes.add("piranha.response");
@@ -85,6 +122,11 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
         return servletPath;
     }
 
+    /**
+     * Set the servlet path.
+     * 
+     * @param servletPath the servlet path.
+     */
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
     }
@@ -94,6 +136,11 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
         return pathInfo;
     }
 
+    /**
+     * Set the path info.
+     * 
+     * @param pathInfo the path info.
+     */
     public void setPathInfo(String pathInfo) {
         this.pathInfo = pathInfo;
     }
@@ -103,6 +150,11 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
         return requestURI;
     }
 
+    /**
+     * Set the request URI.
+     * 
+     * @param requestURI the request URI.
+     */
     public void setRequestURI(String requestURI) {
         this.requestURI = requestURI;
     }
@@ -229,18 +281,39 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
         return super.getParameterValues(name);
     }
 
+    /**
+     * Set the query string.
+     * 
+     * @param queryString the query string.
+     */
     public void setQueryString(String queryString) {
         this.queryString = queryString;
     }
 
+    /**
+     * Set as a wrapper attribute.
+     * 
+     * @param name the name.
+     * @param value the value.
+     */
     public void setAsWrapperAttribute(String name, Object value) {
         attributeManager.setAttribute(name, value);
     }
 
+    /**
+     * Get the wrapper attributes.
+     * 
+     * @return the wrapper attributes.
+     */
     public List<String> getWrapperAttributes() {
         return wrapperAttributes;
     }
 
+    /**
+     * Get the wrapper parameters.
+     * 
+     * @return the wrapper parameters.
+     */
     public Map<String, String[]> getWrapperParameters() {
         return wrapperParameters;
     }
@@ -255,10 +328,14 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
         return getRequestURIWithQueryString() + " " + super.toString();
     }
 
+    /**
+     * Get the request URI with query string.
+     * 
+     * @return the request URI with query string.
+     */
     public String getRequestURIWithQueryString() {
         String requestURI = getRequestURI();
         String queryString = getQueryString();
         return queryString == null ? requestURI : requestURI + "?" + queryString;
     }
-
 }

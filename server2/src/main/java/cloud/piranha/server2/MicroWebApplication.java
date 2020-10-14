@@ -40,16 +40,35 @@ import cloud.piranha.webapp.impl.DefaultWebApplication;
 
 public class MicroWebApplication extends DefaultWebApplication {
 
+    /**
+     * Stores the deployed application.
+     */
     private Consumer<Map<String, Object>> deployedApplication;
 
+    /**
+     * Get the deployed application.
+     * 
+     * @return the deployed application.
+     */
     public Consumer<Map<String, Object>> getDeployedApplication() {
         return deployedApplication;
     }
 
+    /**
+     * Set the deployed application.
+     * 
+     * @param deployedApplication the deployed application.
+     */
     public void setDeployedApplication(Consumer<Map<String, Object>> deployedApplication) {
         this.deployedApplication = deployedApplication;
     }
 
+    /**
+     * Service the request.
+     * 
+     * @param request the request.
+     * @param response the resposne.
+     */
     @Override
     public void service(ServletRequest request, ServletResponse response) {
         try {
@@ -60,8 +79,13 @@ public class MicroWebApplication extends DefaultWebApplication {
         }
     }
 
-
-
+    /**
+     * Copy the request and response to a map.
+     * 
+     * @param applicationRequest the web application request.
+     * @param applicationResponse the web application response.
+     * @return the map.
+     */
     private Map<String, Object> copyApplicationRequestToMap(WebApplicationServerRequest applicationRequest, WebApplicationServerResponse applicationResponse) {
         Map<String, Object> requestValues = new HashMap<>();
 
@@ -70,6 +94,5 @@ public class MicroWebApplication extends DefaultWebApplication {
 
         return requestValues;
     }
-
 
 }

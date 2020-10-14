@@ -44,6 +44,12 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
  */
 public class DefaultWebApplicationServerRequest extends DefaultWebApplicationRequest implements WebApplicationServerRequest {
 
+    /**
+     * Constructor a request from the request map.
+     * 
+     * @param requestMap the request map.
+     * @return the request.
+     */
     @SuppressWarnings("unchecked")
     public static DefaultWebApplicationServerRequest fromMap(Map<String, Object> requestMap) {
         DefaultWebApplicationServerRequest applicationRequest = new DefaultWebApplicationServerRequest();

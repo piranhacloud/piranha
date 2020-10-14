@@ -46,13 +46,21 @@ public interface WebApplicationServerResponse extends WebApplicationResponse {
      */
     void setWebApplication(WebApplication webApplication);
 
+    /**
+     * Get the response closer.
+     * 
+     * @return the response closer.
+     */
     Runnable getResponseCloser();
 
+    /**
+     * Get a map of underlying output stream and response closer.
+     * 
+     * @return the map.
+     */
     default Map<String, Object> toMap() {
         return Map.of(
             "UnderlyingOutputStream", getUnderlyingOutputStream(),
             "ResponseCloser", getResponseCloser());
     }
-
-
 }

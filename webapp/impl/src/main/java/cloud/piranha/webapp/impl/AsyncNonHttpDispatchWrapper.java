@@ -42,6 +42,11 @@ public class AsyncNonHttpDispatchWrapper extends ServletRequestWrapper {
      */
     private Map<String, Object> attributes;
 
+    /**
+     * Constructor.
+     * 
+     * @param request the servlet request.
+     */
     public AsyncNonHttpDispatchWrapper(ServletRequest request) {
         super(request);
     }

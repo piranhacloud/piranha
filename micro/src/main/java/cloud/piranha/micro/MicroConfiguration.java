@@ -45,40 +45,84 @@ import java.util.stream.Stream;
  */
 public class MicroConfiguration {
 
+    /**
+     * Stores the HTTP server implementation.
+     */
     private String httpServer;
+    
+    /**
+     * Stores the HTTP start flag.
+     */
     private boolean httpStart;
+    
+    /**
+     * Stores the version.
+     */
     private String version;
+    
+    /**
+     * Stores the extensions.
+     */
     private String extensions;
+    
+    /**
+     * Stores the dependencies.
+     */
     private String dependencies;
+    
+    /**
+     * Stores the repositories.
+     */
     private String repositories;
+    
+    /**
+     * Stores the offline flag.
+     */
     private boolean offline;
+    
+    /**
+     * Stores the port.
+     */
     private int port;
+    
+    /**
+     * Stores the root.
+     */
     private String root;
 
+    /**
+     * Stores the list of extensions.
+     */
     private List<String> extensionsList;
+    
+    /**
+     * Stores the list of repositories.
+     */
     private List<String> repositoriesList;
+    
+    /**
+     * Stores the merged dependencies.
+     */
     private List<String> mergedDependencies;
 
-
     /**
-     * Default constructor. Initializes most of the stuff from System properties.
+     * Default constructor. Initializes most of the stuff from System
+     * properties.
      */
     public MicroConfiguration() {
         this(
-            System.getProperty("piranha.version", MicroConfiguration.class.getPackage().getImplementationVersion()),
-            System.getProperty("piranha.extensions", "micro-core,micro"),
-            System.getProperty("piranha.dependencies", ""),
-            System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"),
-            Boolean.valueOf(System.getProperty("piranha.offline", "false")),
-            Integer.valueOf(System.getProperty("piranha.port", "8080")),
-            System.getProperty("piranha.root"),
-            System.getProperty("piranha.http.server", "impl"),
-            Boolean.valueOf(System.getProperty("piranha.http.start", "true")),
-
-
-            null,
-            null,
-            null);
+                System.getProperty("piranha.version", MicroConfiguration.class.getPackage().getImplementationVersion()),
+                System.getProperty("piranha.extensions", "micro-core,micro"),
+                System.getProperty("piranha.dependencies", ""),
+                System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"),
+                Boolean.valueOf(System.getProperty("piranha.offline", "false")),
+                Integer.valueOf(System.getProperty("piranha.port", "8080")),
+                System.getProperty("piranha.root"),
+                System.getProperty("piranha.http.server", "impl"),
+                Boolean.valueOf(System.getProperty("piranha.http.start", "true")),
+                null,
+                null,
+                null);
     }
 
     /**
@@ -97,19 +141,18 @@ public class MicroConfiguration {
      * @param mergedDependencies List of merged dependencies.
      */
     public MicroConfiguration(
-        String version,
-        String extensions,
-        String dependencies,
-        String repositories,
-        boolean offline,
-        int port,
-        String root,
-        String httpServer,
-        boolean httpStart,
-
-        List<String> extensionsList,
-        List<String> repositoriesList,
-        List<String> mergedDependencies) {
+            String version,
+            String extensions,
+            String dependencies,
+            String repositories,
+            boolean offline,
+            int port,
+            String root,
+            String httpServer,
+            boolean httpStart,
+            List<String> extensionsList,
+            List<String> repositoriesList,
+            List<String> mergedDependencies) {
 
         this.version = version;
         this.extensions = extensions;
@@ -126,6 +169,11 @@ public class MicroConfiguration {
         this.mergedDependencies = mergedDependencies;
     }
 
+    /**
+     * Handle post construct.
+     * 
+     * @return the configuration.
+     */
     public MicroConfiguration postConstruct() {
         if (root != null) {
             if (root.equalsIgnoreCase("ROOT")) {
@@ -151,16 +199,20 @@ public class MicroConfiguration {
                 .filter(repo -> !repo.isEmpty())
                 .collect(toList());
 
-
         mergedDependencies = Stream.of(
-            Stream.of("cloud.piranha.http:piranha-http-" + httpServer + ":" + version),
-            dependenciesFromExtensionsStream,
-            directDependenciesStream
+                Stream.of("cloud.piranha.http:piranha-http-" + httpServer + ":" + version),
+                dependenciesFromExtensionsStream,
+                directDependenciesStream
         ).flatMap(Function.identity()).collect(toList());
 
         return this;
     }
 
+    /**
+     * Construct a map for the configuration.
+     * 
+     * @return the map.
+     */
     public Map<String, Object> toMap() {
         Map<String, Object> config = new HashMap<>();
         config.put("micro.port", getPort());
@@ -172,62 +224,137 @@ public class MicroConfiguration {
         return config;
     }
 
+    /**
+     * Get the version.
+     * 
+     * @return the version.
+     */
     public String getVersion() {
         return version;
     }
 
+    /**
+     * Set the version.
+     * 
+     * @param version the version.
+     */
     public void setVersion(String version) {
         this.version = version;
     }
 
+    /**
+     * Get the extensions.
+     * 
+     * @return the extensions.
+     */
     public String getExtensions() {
         return extensions;
     }
 
+    /**
+     * Set the extensions.
+     * 
+     * @param extensions the extensions.
+     */
     public void setExtensions(String extensions) {
         this.extensions = extensions;
     }
 
+    /**
+     * Get the repositories.
+     * 
+     * @return the repositories.
+     */
     public String getRepositories() {
         return repositories;
     }
 
+    /**
+     * Set the repositories.
+     * 
+     * @param repositories the repositories.
+     */
     public void setRepositories(String repositories) {
         this.repositories = repositories;
     }
 
+    /**
+     * Are we offline.
+     * 
+     * @return true if so, false otherwise.
+     */
     public boolean isOffline() {
         return offline;
     }
 
+    /**
+     * Set the offline flag.
+     * 
+     * @param offline the offline flag.
+     */
     public void setOffline(boolean offline) {
         this.offline = offline;
     }
 
+    /**
+     * Get the port.
+     * 
+     * @return the port.
+     */
     public int getPort() {
         return port;
     }
 
+    /**
+     * Set the port.
+     * 
+     * @param port the port.
+     */
     public void setPort(int port) {
         this.port = port;
     }
 
+    /**
+     * Get the root.
+     * 
+     * @return the root.
+     */
     public String getRoot() {
         return root;
     }
 
+    /**
+     * Set the root.
+     * 
+     * @param root the root.
+     */
     public void setRoot(String root) {
         this.root = root;
     }
 
+    /**
+     * Get the list of extensions.
+     * 
+     * @return the list of extensions.
+     */
     public List<String> getExtensionsList() {
         return extensionsList;
     }
 
+    /**
+     * Get the list of repositories.
+     * 
+     * @return the list of repositories.
+     */
     public List<String> getRepositoriesList() {
         return repositoriesList;
     }
 
+    /**
+     * Get the merged dependencies.
+     * 
+     * @return the merged dependencies.
+     */
     public List<String> getMergedDependencies() {
         return mergedDependencies;
     }
@@ -262,6 +389,7 @@ public class MicroConfiguration {
     /**
      * Sets whether the config asks to start the http server
      *
+     * @param httpStart the HTTP start flag.
      */
     public void setHttpStart(boolean httpStart) {
         this.httpStart = httpStart;

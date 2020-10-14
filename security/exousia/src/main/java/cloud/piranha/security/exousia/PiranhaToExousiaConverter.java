@@ -60,6 +60,12 @@ import cloud.piranha.webapp.impl.WebXmlServletSecurityRoleRef;
  */
 public class PiranhaToExousiaConverter {
 
+    /**
+     * Get the security constraints from security elements.
+     * 
+     * @param elements the security elements.
+     * @return the security constraints.
+     */
     public List<SecurityConstraint> getConstraintsFromSecurityElements(List<Entry<List<String>, ServletSecurityElement>> elements) {
         if (elements == null) {
             return null;
@@ -76,6 +82,12 @@ public class PiranhaToExousiaConverter {
         return constraints;
     }
 
+    /**
+     * Get the security constraints from annotations.
+     * 
+     * @param elements the elements.
+     * @return the security constraints.
+     */
     public List<SecurityConstraint> getConstraintsFromSecurityAnnotations(List<Entry<List<String>, ServletSecurity>> elements) {
         if (elements == null) {
             return null;
@@ -92,6 +104,12 @@ public class PiranhaToExousiaConverter {
         return constraints;
     }
 
+    /**
+     * Get the security constraints from web.xml.
+     * 
+     * @param webXml the web.xml
+     * @return the security constraints.
+     */
     public List<SecurityConstraint> getConstraintsFromWebXml(WebXml webXml) {
         if (webXml == null || webXml.securityConstraints == null) {
             return null;
@@ -120,11 +138,18 @@ public class PiranhaToExousiaConverter {
         return constraints;
     }
 
+    /**
+     * Get the security role refs from web.xml
+     * 
+     * @param servletNames the servlet names.
+     * @param webXml the web.xml.
+     * @return the security role refs.
+     */
     public Map<String, List<SecurityRoleRef>> getSecurityRoleRefsFromWebXml(Set<String> servletNames, WebXml webXml) {
         Map<String, List<SecurityRoleRef>> securityRoleRefs = new HashMap<>();
 
         for (String servletName : servletNames) {
-            securityRoleRefs.put(servletName,  webXml == null? emptyList() : getSecurityRoleRefsByServletName(webXml, servletName));
+            securityRoleRefs.put(servletName, webXml == null ? emptyList() : getSecurityRoleRefsByServletName(webXml, servletName));
         }
 
         return securityRoleRefs;
@@ -140,13 +165,12 @@ public class PiranhaToExousiaConverter {
 
         for (WebXmlServletSecurityRoleRef piranhaSecurityRoleRef : piranhaSecurityRoleRefs) {
             exousiaSecurityRoleRefs.add(new SecurityRoleRef(
-                piranhaSecurityRoleRef.getRoleName(),
-                piranhaSecurityRoleRef.getRoleLink()));
+                    piranhaSecurityRoleRef.getRoleName(),
+                    piranhaSecurityRoleRef.getRoleLink()));
         }
 
         return exousiaSecurityRoleRefs;
     }
-
 
     private List<WebXmlServletSecurityRoleRef> getWebXmlSecurityRoleRefsByServletName(WebXml webXml, String servletName) {
         WebXmlServlet servlet = getServletByName(webXml, servletName);
@@ -166,7 +190,4 @@ public class PiranhaToExousiaConverter {
 
         return null;
     }
-
-
-
 }

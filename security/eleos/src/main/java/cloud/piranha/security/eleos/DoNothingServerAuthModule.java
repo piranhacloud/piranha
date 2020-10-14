@@ -49,17 +49,24 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Default SAM that does nothing
- * 
+ *
  * @author Arjan Tijms
  */
 public class DoNothingServerAuthModule implements ServerAuthModule {
 
+    /**
+     * Stores the handler.
+     */
     private CallbackHandler handler;
-    private Class<?>[] supportedMessageTypes = new Class[] { HttpServletRequest.class, HttpServletResponse.class };
+    
+    /**
+     * Stores the supported message types.
+     */
+    private Class<?>[] supportedMessageTypes = new Class[]{HttpServletRequest.class, HttpServletResponse.class};
 
     @Override
     public void initialize(MessagePolicy requestPolicy, MessagePolicy responsePolicy, CallbackHandler handler,
-        @SuppressWarnings("rawtypes") Map options) throws AuthException {
+            @SuppressWarnings("rawtypes") Map options) throws AuthException {
         this.handler = handler;
     }
 
@@ -68,8 +75,8 @@ public class DoNothingServerAuthModule implements ServerAuthModule {
         try {
 
             // The JASPIC protocol for "do nothing"
-            handler.handle(new Callback[] { new CallerPrincipalCallback(clientSubject, (Principal) null) });
-            
+            handler.handle(new Callback[]{new CallerPrincipalCallback(clientSubject, (Principal) null)});
+
             return SUCCESS;
 
         } catch (IOException | UnsupportedCallbackException e) {

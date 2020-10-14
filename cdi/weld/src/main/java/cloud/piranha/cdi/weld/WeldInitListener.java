@@ -54,7 +54,10 @@ import cloud.piranha.webapp.api.CurrentRequestHolder;
  *
  */
 public class WeldInitListener extends ForwardingServletListener {
-    
+
+    /**
+     * Stores the weld target listener.
+     */
     private ServletListener weldTargetListener = new Listener();
     
     @Override

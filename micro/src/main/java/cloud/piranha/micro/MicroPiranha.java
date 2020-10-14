@@ -53,6 +53,9 @@ public class MicroPiranha implements Runnable {
      */
     private int port = 8080;
 
+    /**
+     * Stores the HTTP server implementation.
+     */
     private String httpServer = "impl";
 
     /**
@@ -60,6 +63,9 @@ public class MicroPiranha implements Runnable {
      */
     private Archive<?> archive;
 
+    /**
+     * Stores the outer deployer.
+     */
     private MicroOuterDeployer outerDeployer;
 
     /**

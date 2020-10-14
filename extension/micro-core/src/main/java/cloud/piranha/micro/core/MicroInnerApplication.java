@@ -39,8 +39,16 @@ import cloud.piranha.webapp.api.WebApplication;
 
 public class MicroInnerApplication implements Consumer<Map<String, Object>> {
 
+    /**
+     * Stores the web application.
+     */
     private final WebApplication webApplication;
 
+    /**
+     * Constructor.
+     * 
+     * @param webApplication the web application.
+     */
     public MicroInnerApplication(WebApplication webApplication) {
         this.webApplication = webApplication;
     }

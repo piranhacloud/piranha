@@ -33,20 +33,25 @@ import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 
 /**
- * This extension registers an identity store in case callers (users) / credentials have been added
- * to it.
- * 
+ * This extension registers an identity store in case callers (users) /
+ * credentials have been added to it.
+ *
  * @author Arjan Tijms
  *
  */
 public class CdiExtension implements Extension {
 
-    public void register(@Observes BeforeBeanDiscovery beforeBean, BeanManager beanManager) {
+    /**
+     * Register the in-memory identity store.
+     *
+     * @param beforeBeanDiscovery the before bean discovery.
+     * @param beanManager the bean manager.
+     */
+    public void register(@Observes BeforeBeanDiscovery beforeBeanDiscovery, BeanManager beanManager) {
         if (!InMemoryIdentityStore.getCALLER_TO_CREDENTIALS().isEmpty()) {
-            beforeBean.addAnnotatedType(
-                beanManager.createAnnotatedType(InMemoryIdentityStore.class), 
-                "Piranha " + InMemoryIdentityStore.class.getName());
+            beforeBeanDiscovery.addAnnotatedType(
+                    beanManager.createAnnotatedType(InMemoryIdentityStore.class),
+                    "Piranha " + InMemoryIdentityStore.class.getName());
         }
     }
-    
 }

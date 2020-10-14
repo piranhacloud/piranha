@@ -75,14 +75,16 @@ public class DefaultAsyncContext implements AsyncContext {
      * The request that comes from a call to <code>request.startAsync()</code>
      *
      * <p>
-     * This is either the request the caller passed in when using <code>request.startAsync(someRequest, someResponse)</code>
-     * or it's the request object on which <code>startAsync</code> was called when using the zero argument version
-     * <code>request.startAsync()</code>.
+     * This is either the request the caller passed in when using
+     * <code>request.startAsync(someRequest, someResponse)</code> or it's the
+     * request object on which <code>startAsync</code> was called when using the
+     * zero argument version <code>request.startAsync()</code>.
      *
      * <p>
-     * In the latter case, the request is guaranteed to be the "original request", which is the request passed to the servlet
-     * that started the async cycle. In the former case it can either be the "original request", or it can be that request
-     * but wrapped by user code.
+     * In the latter case, the request is guaranteed to be the "original
+     * request", which is the request passed to the servlet that started the
+     * async cycle. In the former case it can either be the "original request",
+     * or it can be that request but wrapped by user code.
      */
     private final ServletRequest asyncStartRequest;
 
@@ -91,24 +93,28 @@ public class DefaultAsyncContext implements AsyncContext {
      *
      * <p>
      * This is either the response the caller passed in when using
-     * <code>request.startAsync(someRequest, someResponse)</code> or it's the response object associated with the request
-     * object on which <code>startAsync</code> was called when using the zero argument version
+     * <code>request.startAsync(someRequest, someResponse)</code> or it's the
+     * response object associated with the request object on which
+     * <code>startAsync</code> was called when using the zero argument version
      * <code>request.startAsync()</code>.
      *
      * <p>
-     * In the latter case, the response is guaranteed to be the "original response", which is the response passed to the servlet
-     * that started the async cycle. In the former case it can either be the "original response", or it can be that response
-     * but wrapped by user code.
+     * In the latter case, the response is guaranteed to be the "original
+     * response", which is the response passed to the servlet that started the
+     * async cycle. In the former case it can either be the "original response",
+     * or it can be that response but wrapped by user code.
      */
     private final ServletResponse asyncStartResponse;
 
     /**
-     * "the request object passed to the first servlet object in the call chain that received the request from the client."
+     * "the request object passed to the first servlet object in the call chain
+     * that received the request from the client."
      */
     private final WebApplicationRequest originalRequest;
 
     /**
-     * The response object passed to the first servlet object in the call chain that received the request from the client."
+     * The response object passed to the first servlet object in the call chain
+     * that received the request from the client."
      */
     private final WebApplicationResponse originalResponse;
 
@@ -122,9 +128,10 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     private boolean dispatched;
 
+    /**
+     * Stores the scheduled thread pool executor.
+     */
     private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
-
-
 
     /**
      * Constructor.
@@ -222,7 +229,7 @@ public class DefaultAsyncContext implements AsyncContext {
         WebApplication webApplication = (WebApplication) servletContext;
         AsyncManager asyncManager = webApplication.getAsyncManager();
         asyncManager.getDispatcher(webApplication, path, asyncStartRequest, asyncStartResponse)
-                    .dispatch();
+                .dispatch();
     }
 
     /**
@@ -240,7 +247,7 @@ public class DefaultAsyncContext implements AsyncContext {
                 try {
                     listener.onComplete(new AsyncEvent(this));
                 } catch (IOException ioe) {
-                    LOGGER.log(WARNING,ioe, () -> "IOException when calling onComplete on AsyncListener");
+                    LOGGER.log(WARNING, ioe, () -> "IOException when calling onComplete on AsyncListener");
                 }
             });
         }
@@ -256,6 +263,9 @@ public class DefaultAsyncContext implements AsyncContext {
         originalResponse.closeAsyncResponse();
     }
 
+    /**
+     * Process on timeout
+     */
     public void onTimeOut() {
         scheduledThreadPoolExecutor.shutdownNow();
 
@@ -264,7 +274,7 @@ public class DefaultAsyncContext implements AsyncContext {
                 try {
                     listener.onTimeout(new AsyncEvent(this));
                 } catch (IOException ioe) {
-                    LOGGER.log(WARNING,ioe, () -> "IOException when calling onTimeout on AsyncListener");
+                    LOGGER.log(WARNING, ioe, () -> "IOException when calling onTimeout on AsyncListener");
                 }
             });
         }
@@ -275,7 +285,7 @@ public class DefaultAsyncContext implements AsyncContext {
             try {
                 asyncStartResponse.flushBuffer();
             } catch (IOException ioe) {
-                    LOGGER.log(WARNING, ioe, () -> "IOException when flushing async asyncStartResponse buffer");
+                LOGGER.log(WARNING, ioe, () -> "IOException when flushing async asyncStartResponse buffer");
             }
         }
 
@@ -342,7 +352,7 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void start(Runnable runnable) {
-        LOGGER.log(FINE,  "Starting async context with: {0}", runnable);
+        LOGGER.log(FINE, "Starting async context with: {0}", runnable);
         Thread thread = new Thread(runnable);
         thread.start();
     }

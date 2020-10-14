@@ -1553,6 +1553,12 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return startAsync(this, this.webApplication.getResponse(this));
     }
 
+    /**
+     * Unwrap the request.
+     * 
+     * @param request the request.
+     * @return the unwrapped request.
+     */
     public HttpServletRequest unwrap(HttpServletRequest request) {
         ServletRequest currentRequest = request;
         while (currentRequest instanceof ServletRequestWrapper) {
@@ -1562,7 +1568,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return (WebApplicationRequest) currentRequest;
     }
 
-
+    /**
+     * Set the async started flag.
+     * 
+     * @param asyncStarted the async started flag.
+     */
     public void setAsyncStarted(boolean asyncStarted) {
         this.asyncStarted = asyncStarted;
     }
@@ -1712,6 +1722,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return getRequestURIWithQueryString() + " " + super.toString();
     }
 
+    /**
+     * Get the request URI with query string.
+     * 
+     * @return the request URI with query string.
+     */
     public String getRequestURIWithQueryString() {
         String requestURI = getRequestURI();
         String queryString = getQueryString();

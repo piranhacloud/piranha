@@ -265,7 +265,9 @@
                                 <module name="ConstantName"/>
                                 <module name="CovariantEquals"/>
                                 <module name="DeclarationOrder"/>
+                                <module name="JavadocVariable"/>
                                 <module name="MissingDeprecated"/>
+                                <module name="MissingJavadocMethod"/>
                                 <module name="MissingOverride"/>
                                 <module name="ModifierOrder"/>
                                 <module name="PackageAnnotation"/> 

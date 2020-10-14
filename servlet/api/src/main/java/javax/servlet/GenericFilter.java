@@ -39,6 +39,9 @@ public abstract class GenericFilter implements Filter, FilterConfig, Serializabl
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Stores the filter configuration.
+     */
     private transient FilterConfig filterConfig;
 
     @Override
@@ -47,9 +50,19 @@ public abstract class GenericFilter implements Filter, FilterConfig, Serializabl
         init();
     }
 
+    /**
+     * Initialize the filter.
+     * 
+     * @throws ServletException when a Servlet error occurs.
+     */
     public void init() throws ServletException {
     }
 
+    /**
+     * Get the filter configuration.
+     * 
+     * @return the filter configuration.
+     */
     public FilterConfig getFilterConfig() {
         return filterConfig;
     }

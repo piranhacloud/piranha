@@ -50,8 +50,16 @@ public class DynamicInitialContextFactory implements InitialContextFactory {
 
     public static class DynamicInitialContext extends DefaultInitialContext {
 
+        /**
+         * Stores the context id.
+         */
         private final String contextId;
 
+        /**
+         * Constructor.
+         * 
+         * @param contextId the context id.
+         */
         public DynamicInitialContext(String contextId) {
             this.contextId = contextId;
         }

@@ -60,6 +60,10 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
      */
     private static final Logger LOGGER = Logger.getLogger(
             DefaultHttpServerProcessor.class.getPackageName());
+    
+    /**
+     * Stores the error writing response message.
+     */
     private final String IO_ERROR_WRITING_RESPONSE = "An I/O error occurred while writing the response";
 
     /**

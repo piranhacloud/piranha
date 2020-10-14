@@ -69,8 +69,14 @@ import cloud.piranha.webapp.api.WebApplicationRequest;
  */
 public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
+    /**
+     * Stores the async attributes.
+     */
     private static final List<String> ASYNC_ATTRIBUTES = asList(ASYNC_CONTEXT_PATH, ASYNC_PATH_INFO, ASYNC_QUERY_STRING, ASYNC_REQUEST_URI, ASYNC_SERVLET_PATH);
 
+    /**
+     * Stores the servlet invocation.
+     */
     private final DefaultServletInvocation servletInvocation;
 
     /**
@@ -88,10 +94,19 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
      */
     private final String path;
 
+    /**
+     * Stores the error page manager.
+     */
     private final DefaultErrorPageManager errorPageManager;
 
+    /**
+     * Stores the invocation finder.
+     */
     private final DefaultInvocationFinder invocationFinder;
 
+    /**
+     * Stores the web application.
+     */
     private final DefaultWebApplication webApplication;
 
     /**
@@ -232,6 +247,15 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
     }
 
+    /**
+     * Send an error response.
+     * 
+     * @param servletName the servlet name.
+     * @param servletRequest the servlet request.
+     * @param servletResponse the servlet response.
+     * @param throwable the throwable.
+     * @throws Exception when a serious error occurs.
+     */
     public void error(String servletName, ServletRequest servletRequest, ServletResponse servletResponse, Throwable throwable) throws Exception {
         try (DefaultWebApplicationRequest errorRequest = new DefaultWebApplicationRequest()) {
 

@@ -65,6 +65,9 @@ public class WebXmlProcessor {
      */
     private static final Logger LOGGER = Logger.getLogger(WebXmlProcessor.class.getName());
 
+    /**
+     * Stores the empty string array.
+     */
     private static final String[] STRING_ARRAY = new String[0];
 
     /**

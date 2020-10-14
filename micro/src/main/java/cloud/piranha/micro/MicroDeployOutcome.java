@@ -38,9 +38,22 @@ import java.util.function.Consumer;
  */
 public class MicroDeployOutcome {
 
+    /**
+     * Stores the deployed servlets.
+     */
     private Set<String> deployedServlets;
+
+    /**
+     * Stores the deployed applications.
+     */
     private Consumer<Map<String, Object>> deployedApplication;
 
+    /**
+     * Get the deploy outcome.
+     *
+     * @param deployMap the deployed application.
+     * @return the deploy outcome.
+     */
     @SuppressWarnings("unchecked")
     public static MicroDeployOutcome ofMap(Map<String, Object> deployMap) {
         MicroDeployOutcome deployOutcome = new MicroDeployOutcome();
@@ -50,20 +63,39 @@ public class MicroDeployOutcome {
         return deployOutcome;
     }
 
+    /**
+     * Get the deployed servlets.
+     *
+     * @return the deployed servlets.
+     */
     public Set<String> getDeployedServlets() {
         return deployedServlets;
     }
 
+    /**
+     * Set the deployed servlets.
+     *
+     * @param deployedServlets the deployed servlets.
+     */
     public void setDeployedServlets(Set<String> deployedServlets) {
         this.deployedServlets = deployedServlets;
     }
 
+    /**
+     * Get the deployed application.
+     *
+     * @return the deployed application map.
+     */
     public Consumer<Map<String, Object>> getDeployedApplication() {
         return deployedApplication;
     }
 
+    /**
+     * Set the deployed application.
+     *
+     * @param deployedApplication the deployed application.
+     */
     public void setDeployedApplication(Consumer<Map<String, Object>> deployedApplication) {
         this.deployedApplication = deployedApplication;
     }
-
 }

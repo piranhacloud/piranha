@@ -43,9 +43,24 @@ import cloud.piranha.webapp.api.WebApplication;
  */
 public class DefaultAsyncDispatcher implements AsyncDispatcher {
 
+    /**
+     * Stores the web application.
+     */
     private final WebApplication webApplication;
+    
+    /**
+     * Stores the path.
+     */
     private final String path;
+    
+    /**
+     * Stores the async start request.
+     */
     private final ServletRequest asyncStartRequest;
+    
+    /**
+     * Stores the async start response.
+     */
     private final ServletResponse asyncStartResponse;
 
 

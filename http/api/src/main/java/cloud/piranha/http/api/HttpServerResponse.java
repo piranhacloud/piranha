@@ -87,6 +87,11 @@ public interface HttpServerResponse {
      */
     void writeStatusLine() throws IOException;
 
+    /**
+     * Close the response.
+     * 
+     * @throws IOException when an I/O error occurs.
+     */
     default void closeResponse() throws IOException {
         getOutputStream().flush();
         getOutputStream().close();

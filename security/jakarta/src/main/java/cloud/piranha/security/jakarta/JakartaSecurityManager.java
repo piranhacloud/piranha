@@ -66,7 +66,14 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
  */
 public class JakartaSecurityManager implements SecurityManager {
 
+    /**
+     * Stores the username password login handler.
+     */
     private UsernamePasswordLoginHandler usernamePasswordLoginHandler;
+
+    /**
+     * Stores the roles.
+     */
     private final Set<String> roles = ConcurrentHashMap.newKeySet();
 
     @Override
@@ -128,8 +135,7 @@ public class JakartaSecurityManager implements SecurityManager {
                 request,
                 response,
                 source == MID_REQUEST_USER,
-                source == MID_REQUEST_USER? true : !isRequestedResourcePublic(request));
-
+                source == MID_REQUEST_USER ? true : !isRequestedResourcePublic(request));
 
         // Caller is null means authentication failed. If authentication did not happen (auth module decided to do nothing)
         // we have a caller instance with a null caller principal
@@ -241,8 +247,16 @@ public class JakartaSecurityManager implements SecurityManager {
 
     class MarkerPrincipal implements Principal {
 
+        /**
+         * Stores the name.
+         */
         private final String name;
 
+        /**
+         * Constructor.
+         *
+         * @param name the name.
+         */
         public MarkerPrincipal(String name) {
             this.name = name;
         }
@@ -252,5 +266,4 @@ public class JakartaSecurityManager implements SecurityManager {
             return name;
         }
     }
-
 }

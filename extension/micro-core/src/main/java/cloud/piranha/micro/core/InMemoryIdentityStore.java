@@ -57,10 +57,28 @@ public class InMemoryIdentityStore implements IdentityStore {
     
     public static class Credential {
         
+        /**
+         * Stores the caller name.
+         */
         private final String callerName;
+        
+        /**
+         * Stores the password.
+         */
         private final String password;
+        
+        /**
+         * Stores the groups.
+         */
         private final List<String> groups;
         
+        /**
+         * Constructor.
+         * 
+         * @param callerName the caller name.
+         * @param password the password.
+         * @param groups the groups.
+         */
         public Credential(String callerName, String password, List<String> groups) {
             super();
             this.callerName = callerName;
@@ -68,33 +86,74 @@ public class InMemoryIdentityStore implements IdentityStore {
             this.groups = groups;
         }
         
+        /**
+         * Get the caller name.
+         * 
+         * @return the caller name.
+         */
         public String getCallerName() {
             return callerName;
         }
 
+        /**
+         * Get the password.
+         * 
+         * @return the password.
+         */
         public String getPassword() {
             return password;
         }
 
+        /**
+         * Get the groups.
+         * 
+         * @return the groups.
+         */
         public List<String> getGroups() {
             return groups;
         }
     }
 
+    /**
+     * Stores the caller to credentials map.
+     */
     private static final Map<String, Credential> CALLER_TO_CREDENTIALS = new ConcurrentHashMap<>();
 
+    /**
+     * Get the caller to credentials map.
+     * 
+     * @return the caller to credentials map.
+     */
     public static Map<String, Credential> getCALLER_TO_CREDENTIALS() {
         return CALLER_TO_CREDENTIALS;
     }
 
+    /**
+     * Add the credential.
+     * 
+     * @param callerName the caller name.
+     * @param password the password.
+     * @param groups the groups.
+     */
     public static void addCredential(String callerName, String password, List<String> groups) {
         addCredential(new Credential(callerName, password, groups));
     }
     
-    public static void addCredential(Credential credentials) {
-        CALLER_TO_CREDENTIALS.put(credentials.getCallerName(), credentials);
+    /**
+     * Add the credential.
+     * 
+     * @param credential the credential. 
+     */
+    public static void addCredential(Credential credential) {
+        CALLER_TO_CREDENTIALS.put(credential.getCallerName(), credential);
     }
     
+    /**
+     * Validate the username password credential.
+     * 
+     * @param usernamePasswordCredential the username password credential.
+     * @return the credential validation result.
+     */
     public CredentialValidationResult validate(UsernamePasswordCredential usernamePasswordCredential) {
         Credential credential = CALLER_TO_CREDENTIALS.get(usernamePasswordCredential.getCaller());
 
