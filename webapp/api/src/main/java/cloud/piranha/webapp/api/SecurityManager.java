@@ -193,6 +193,11 @@ public interface SecurityManager {
      */
     void declareRoles(String[] roles);
 
+    /**
+     * Declare roles.
+     * 
+     * @param roles the roles.
+     */
     default void declareRoles(Collection<String> roles) {
         if (roles == null) {
             return;

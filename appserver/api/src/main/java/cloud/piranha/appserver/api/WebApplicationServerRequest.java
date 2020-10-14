@@ -69,6 +69,11 @@ public interface WebApplicationServerRequest extends WebApplicationRequest {
      */
     void setWebApplication(WebApplication webApplication);
 
+    /**
+     * Get a map of request.
+     * 
+     * @return the map. 
+     */
     default Map<String, Object> toMap() {
         return Map.ofEntries(
             entry("LocalAddr", getLocalAddr()),
@@ -87,6 +92,11 @@ public interface WebApplicationServerRequest extends WebApplicationRequest {
             entry("Headers", getHeadersAsMap()));
     }
 
+    /**
+     * Get the unchecked input stream.
+     * 
+     * @return the unchecked input stream.
+     */
     private InputStream getInputStreamUnchecked() {
         try {
             return getInputStream();
@@ -95,6 +105,11 @@ public interface WebApplicationServerRequest extends WebApplicationRequest {
         }
     }
 
+    /**
+     * Get the headers as a map.
+     * 
+     * @return the map.
+     */
     private Map<String, List<String>> getHeadersAsMap() {
         Map<String, List<String>> headers = new HashMap<>();
         Enumeration<String> headerNames = getHeaderNames();
@@ -103,9 +118,6 @@ public interface WebApplicationServerRequest extends WebApplicationRequest {
             String value = getHeader(name);
             headers.computeIfAbsent(name, e -> new ArrayList<>()).add(value);
         }
-
         return headers;
     }
-
-
 }

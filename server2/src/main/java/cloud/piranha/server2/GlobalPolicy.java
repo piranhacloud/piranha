@@ -38,33 +38,73 @@ import java.util.function.Consumer;
 
 public class GlobalPolicy extends Policy implements Consumer<Policy> {
 
+    /**
+     * Stores the thread local context id.
+     */
     private static ThreadLocal<String> threadLocalContextId = new ThreadLocal<String>();
 
+    /**
+     * Stores the application policies.
+     */
     private static final Map<String, Policy> APPLICATION_POLICIES = new ConcurrentHashMap<>();
 
+    /**
+     * Get the context id.
+     * 
+     * @return the context id.
+     */
     public static String getContextId() {
         return threadLocalContextId.get();
     }
 
+    /**
+     * Set the context id.
+     * 
+     * @param contextId the context id.
+     */
     public static void setContextId(String contextId) {
         threadLocalContextId.set(contextId);
     }
 
+    /**
+     * Accept the application policy.
+     * 
+     * @param applicationPolicy the application policy.
+     */
     @Override
     public void accept(Policy applicationPolicy) {
         APPLICATION_POLICIES.put(getContextId(), applicationPolicy);
     }
 
+    /**
+     * Does the permission imply the given protection domain.
+     * 
+     * @param domain the protection domain.
+     * @param permission the permission.
+     * @return true if it does, false otherwise.
+     */
     @Override
     public boolean implies(ProtectionDomain domain, Permission permission) {
         return APPLICATION_POLICIES.get(getContextId()).implies(domain, permission);
     }
 
+    /**
+     * Get the permissions for the give code source.
+     * 
+     * @param codesource the code source.
+     * @return the permissions.
+     */
     @Override
     public PermissionCollection getPermissions(CodeSource codesource) {
         return APPLICATION_POLICIES.get(getContextId()).getPermissions(codesource);
     }
 
+    /**
+     * Get the permissions for the given protection domain.
+     * 
+     * @param domain the protection domain.
+     * @return the permissions.
+     */
     @Override
     public PermissionCollection getPermissions(ProtectionDomain domain) {
         return APPLICATION_POLICIES.get(getContextId()).getPermissions(domain);

@@ -43,6 +43,10 @@ import java.util.Set;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class WebXml implements Serializable {
+
+    /**
+     * Stores the others tag.
+     */
     public static final String OTHERS_TAG = WebXml.class.getName() + ".ordering.others";
 
     /**
@@ -50,50 +54,107 @@ public class WebXml implements Serializable {
      */
     private static final long serialVersionUID = 6143204024206508136L;
 
+    /**
+     * Stores the major version.
+     */
     public int majorVersion;
+
+    /**
+     * Stores the minor version.
+     */
     public int minorVersion;
+
     /**
      * Stores the security constraints
      */
     public List<SecurityConstraint> securityConstraints = new ArrayList<>();
 
+    /**
+     * Stores the metadata complete flag.
+     */
     private boolean metadataComplete;
 
+    /**
+     * Stores the absolute ordering.
+     */
     private List<String> absoluteOrdering;
 
+    /**
+     * Stores the locale encoding mapping.
+     */
     private Map<String, String> localeEncodingMapping = new HashMap<>();
 
     public static class RelativeOrder {
+
+        /**
+         * Stores the before.
+         */
         private List<String> before;
+
+        /**
+         * Stores the after.
+         */
         private List<String> after;
 
+        /**
+         * Constructor.
+         */
         public RelativeOrder() {
             before = Collections.emptyList();
             after = Collections.emptyList();
         }
 
+        /**
+         * Constructor.
+         *
+         * @param before the before.
+         * @param after the after.
+         */
         public RelativeOrder(List<String> before, List<String> after) {
             this.before = Objects.requireNonNullElseGet(before, Collections::emptyList);
             this.after = Objects.requireNonNullElseGet(after, Collections::emptyList);
         }
 
+        /**
+         * Get the before.
+         *
+         * @return the before.
+         */
         public List<String> getBefore() {
             return before;
         }
 
+        /**
+         * Set the before.
+         *
+         * @param before the before.
+         */
         public void setBefore(List<String> before) {
             this.before = before;
         }
 
+        /**
+         * Get the after.
+         *
+         * @return the after.
+         */
         public List<String> getAfter() {
             return after;
         }
 
+        /**
+         * Set the after.
+         *
+         * @param after the after.
+         */
         public void setAfter(List<String> after) {
             this.after = after;
         }
     }
 
+    /**
+     * Stores the relative ordering.
+     */
     private RelativeOrder relativeOrdering;
 
     /**
@@ -117,6 +178,9 @@ public class WebXml implements Serializable {
         //          <transport-guarantee>NONE</transport-guarantee>
         //      </user-data-constraint>
         //  </security-constraint>
+        /**
+         * Stores the web resource collections.
+         */
         public List<WebResourceCollection> webResourceCollections = new ArrayList<>();
 
         /**
@@ -239,7 +303,8 @@ public class WebXml implements Serializable {
     private String responseCharacterEncoding;
 
     /**
-     * Set of all unique role names that have either been explicitly declared, or used in a constraint.
+     * Set of all unique role names that have either been explicitly declared,
+     * or used in a constraint.
      */
     private final Set<String> roleNames = new HashSet<>();
 
@@ -381,9 +446,11 @@ public class WebXml implements Serializable {
     }
 
     /**
-     * Get all the unique role names that have either been explicitly declared, or used in a constraint.
+     * Get all the unique role names that have either been explicitly declared,
+     * or used in a constraint.
      *
-     * @return the unique role names that have either been explicitly declared, or used in a constraint.
+     * @return the unique role names that have either been explicitly declared,
+     * or used in a constraint.
      */
     public Set<String> getRoleNames() {
         return roleNames;
@@ -534,7 +601,8 @@ public class WebXml implements Serializable {
     }
 
     /**
-     * Gets the major version as set by the version attribute in the web app element
+     * Gets the major version as set by the version attribute in the web app
+     * element
      *
      * @return the major version.
      */
@@ -543,15 +611,18 @@ public class WebXml implements Serializable {
     }
 
     /**
-     * Sets the major version as set by the version attribute in the web app element
+     * Sets the major version as set by the version attribute in the web app
+     * element
      *
+     * @param majorVersion the major version.
      */
     public void setMajorVersion(int majorVersion) {
         this.majorVersion = majorVersion;
     }
 
     /**
-     * Gets the minor version as set by the version attribute in the web app element
+     * Gets the minor version as set by the version attribute in the web app
+     * element
      *
      * @return the major version.
      */
@@ -560,48 +631,83 @@ public class WebXml implements Serializable {
     }
 
     /**
-     * Sets the minor version as set by the version attribute in the web app element
+     * Sets the minor version as set by the version attribute in the web app
+     * element
      *
+     * @param minorVersion the minor version.
      */
     public void setMinorVersion(int minorVersion) {
         this.minorVersion = minorVersion;
     }
 
     /**
-     * Set the metadata-complete
-     * @param metadataComplete - the metadata complete
+     * Set the metadata complete flag.
+     *
+     * @param metadataComplete the metadata complete
      */
     public void setMetadataComplete(boolean metadataComplete) {
         this.metadataComplete = metadataComplete;
     }
 
     /**
-     * Set the metadata-complete
+     * Get the metadata complete flag.
+     *
      * @return the metadata complete
      */
     public boolean getMetadataComplete() {
         return metadataComplete;
     }
 
+    /**
+     * Get the absolute ordering.
+     *
+     * @return the absolute ordering.
+     */
     public List<String> getAbsoluteOrdering() {
         return absoluteOrdering;
     }
 
+    /**
+     * Get the relative ordering.
+     *
+     * @return the relative ordering.
+     */
     public RelativeOrder getRelativeOrdering() {
         return relativeOrdering;
     }
 
+    /**
+     * Set the absolute ordering.
+     *
+     * @param absoluteOrdering the absolute ordering.
+     */
     public void setAbsoluteOrdering(List<String> absoluteOrdering) {
         this.absoluteOrdering = absoluteOrdering;
     }
 
+    /**
+     * Set the relative ordering.
+     *
+     * @param relativeOrdering the relative ordering.
+     */
     public void setRelativeOrdering(RelativeOrder relativeOrdering) {
         this.relativeOrdering = relativeOrdering;
     }
 
+    /**
+     * Get the locale encoding mapping.
+     *
+     * @return the locale encoding mapping.
+     */
     public Map<String, String> getLocaleEncodingMapping() {
         return this.localeEncodingMapping;
     }
+
+    /**
+     * Set the locale encoding mapping.
+     *
+     * @param localeEncodingMapping the locale encoding mapping.
+     */
     public void setLocaleEncodingMapping(Map<String, String> localeEncodingMapping) {
         this.localeEncodingMapping = localeEncodingMapping;
     }

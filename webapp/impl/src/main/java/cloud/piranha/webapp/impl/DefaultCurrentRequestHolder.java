@@ -39,8 +39,16 @@ import cloud.piranha.webapp.api.CurrentRequestHolder;
  */
 public class DefaultCurrentRequestHolder implements CurrentRequestHolder {
 
+    /**
+     * Stores the HTTP servlet request.
+     */
     private HttpServletRequest request;
 
+    /**
+     * Constructor.
+     * 
+     * @param request the HTTP servlet request.
+     */
     public DefaultCurrentRequestHolder(HttpServletRequest request) {
         this.request = request;
     }

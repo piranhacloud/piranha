@@ -33,9 +33,29 @@ package javax.servlet;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public enum DispatcherType {
+    
+    /**
+     * The type for forward dispatches.
+     */
     FORWARD,
+    
+    /**
+     * The type for include dispatches.
+     */
     INCLUDE,
+    
+    /**
+     * The type for request dispatches.
+     */
     REQUEST,
+    
+    /**
+     * The type for async dispatches.
+     */
     ASYNC,
+    
+    /**
+     * The type for error dispatches.
+     */
     ERROR
 }

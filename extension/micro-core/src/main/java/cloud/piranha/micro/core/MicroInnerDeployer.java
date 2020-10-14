@@ -95,10 +95,12 @@ import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 
 /**
- * Deploys a shrinkwrap application archive to a newly started embedded Piranha instance.
+ * Deploys a shrinkwrap application archive to a newly started embedded Piranha
+ * instance.
  *
  * <p>
- * This class is expected to be run within in its own inner (isolated) class loader
+ * This class is expected to be run within in its own inner (isolated) class
+ * loader
  *
  * @author arjan
  *
@@ -110,43 +112,60 @@ public class MicroInnerDeployer {
      */
     static final String MICRO_PIRANHA = "cloud.piranha.micro.MicroPiranha";
 
+    /**
+     * Stores the logger.
+     */
     private static final Logger LOGGER = Logger.getLogger(MicroInnerDeployer.class.getName());
 
-    String[] webAnnotations = new String[] {
-            // Servlet
-            WebServlet.class.getName(),
-            WebListener.class.getName(),
-            WebInitParam.class.getName(),
-            WebFilter.class.getName(),
-            ServletSecurity.class.getName(),
-            MultipartConfig.class.getName(),
+    /**
+     * Stores the web annotations.
+     */
+    String[] webAnnotations = new String[]{
+        // Servlet
+        WebServlet.class.getName(),
+        WebListener.class.getName(),
+        WebInitParam.class.getName(),
+        WebFilter.class.getName(),
+        ServletSecurity.class.getName(),
+        MultipartConfig.class.getName(),
+        // REST
+        "javax.ws.rs.Path", //Path.class,
+        "javax.ws.rs.ext.Provider", // Provider.class,
+        "javax.ws.rs.ApplicationPath", //  ApplicationPath.class,
 
-            // REST
-            "javax.ws.rs.Path", //Path.class,
-            "javax.ws.rs.ext.Provider", // Provider.class,
-            "javax.ws.rs.ApplicationPath", //  ApplicationPath.class,
+        // General
+        DeclareRoles.class.getName(), // Not Servlet, but often used on Servlets
+        DenyAll.class.getName(),
+        PermitAll.class.getName(),
+        RolesAllowed.class.getName(),
+        RunAs.class.getName(),
+        PostConstruct.class.getName(),
+        PreDestroy.class.getName(),
+        Priority.class.getName(),
+        Resource.class.getName(),
+        Resources.class.getName(),};
 
-            // General
-            DeclareRoles.class.getName(), // Not Servlet, but often used on Servlets
-            DenyAll.class.getName(),
-            PermitAll.class.getName(),
-            RolesAllowed.class.getName(),
-            RunAs.class.getName(),
+    /**
+     * Stores the instances.
+     */
+    String[] instances = new String[]{
+        // REST
+        "javax.ws.rs.core.Application",};
 
-            PostConstruct.class.getName(),
-            PreDestroy.class.getName(),
-            Priority.class.getName(),
-            Resource.class.getName(),
-            Resources.class.getName(),
-         };
-
-     String[] instances = new String[] {
-         // REST
-         "javax.ws.rs.core.Application",
-     };
-
+    /**
+     * Stores the HTTP server.
+     */
     private HttpServer httpServer;
 
+    /**
+     * Start the application.
+     *
+     * @param applicationArchive the application archive.
+     * @param classLoader the classloader.
+     * @param handlers the handlers.
+     * @param config the configuration.
+     * @return the map.
+     */
     public Map<String, Object> start(Archive<?> applicationArchive, ClassLoader classLoader, Map<String, Function<URL, URLConnection>> handlers, Map<String, Object> config) {
         try {
             System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
@@ -154,8 +173,7 @@ public class MicroInnerDeployer {
             WebApplication webApplication = getWebApplication(applicationArchive, classLoader);
 
             LOGGER.info(
-                "Starting web application " + applicationArchive.getName() + " on Piranha Micro " + webApplication.getAttribute(MICRO_PIRANHA));
-
+                    "Starting web application " + applicationArchive.getName() + " on Piranha Micro " + webApplication.getAttribute(MICRO_PIRANHA));
 
             // The global archive stream handler is set to resolve "shrinkwrap://" URLs (created from strings).
             // Such URLs come into being primarily when code takes resolves a class or resource from the class loader by URL
@@ -172,39 +190,33 @@ public class MicroInnerDeployer {
             DefaultAnnotationManager annotationManager = (DefaultAnnotationManager) webApplication.getAnnotationManager();
 
             // Copy from source index to target manager
-            forEachWebAnnotation(webAnnotation ->
-                // Read the web annotations (@WebServlet.class etc) from the source index
-                getAnnotations(index, webAnnotation)
-                    // Get the annotation target and annotation instance corresponding to the
-                    // (raw/abstract) indexed annotation
-                    .map(this::getTarget)
-                    .forEach(annotationTarget ->
-                        getAnnotationInstances(annotationTarget, webAnnotation)
-                            .forEach(annotationInstance ->
-                                // Store the matching annotation instance (@WebServlet(name=...)
-                                // and annotation target (@WebServlet public class Target) in the manager
-                                annotationManager.addAnnotation(
-                                    new DefaultAnnotationInfo<>(annotationInstance,  annotationTarget)))));
+            forEachWebAnnotation(webAnnotation
+                    -> // Read the web annotations (@WebServlet.class etc) from the source index
+                    getAnnotations(index, webAnnotation)
+                            // Get the annotation target and annotation instance corresponding to the
+                            // (raw/abstract) indexed annotation
+                            .map(this::getTarget)
+                            .forEach(annotationTarget
+                                    -> getAnnotationInstances(annotationTarget, webAnnotation)
+                                    .forEach(annotationInstance
+                                            -> // Store the matching annotation instance (@WebServlet(name=...)
+                                            // and annotation target (@WebServlet public class Target) in the manager
+                                            annotationManager.addAnnotation(
+                                            new DefaultAnnotationInfo<>(annotationInstance, annotationTarget)))));
 
             // Collect sub-classes of our "instances" collection
-            forEachInstance(instanceClass ->
-                getInstances(index, instanceClass)
-                    .map(this::getTarget)
-                    .forEach(implementingClass ->
-                        annotationManager.addInstance(instanceClass, implementingClass)));
-
+            forEachInstance(instanceClass
+                    -> getInstances(index, instanceClass)
+                            .map(this::getTarget)
+                            .forEach(implementingClass
+                                    -> annotationManager.addInstance(instanceClass, implementingClass)));
 
             initIdentityStore(webApplication);
-
-
 
             String contextPath = (String) config.get("micro.root");
             if (contextPath != null) {
                 webApplication.setContextPath(contextPath);
             }
-
-
-
 
             DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
             for (WebApplicationExtension extension : ServiceLoader.load(WebApplicationExtension.class)) {
@@ -228,8 +240,8 @@ public class MicroInnerDeployer {
             }
 
             return Map.of(
-                "deployedServlets", webApplication.getServletRegistrations().keySet(),
-                "deployedApplication", new MicroInnerApplication(webApplication));
+                    "deployedServlets", webApplication.getServletRegistrations().keySet(),
+                    "deployedApplication", new MicroInnerApplication(webApplication));
         } catch (IOException e) {
             e.printStackTrace();
             throw new IllegalStateException(e);
@@ -250,6 +262,7 @@ public class MicroInnerDeployer {
             public String getVersion() {
                 return System.getProperty("micro.version");
             }
+
             @Override
             public String toString() {
                 return getVersion();
@@ -259,6 +272,9 @@ public class MicroInnerDeployer {
         return webApplication;
     }
 
+    /**
+     * Stop the application.
+     */
     public void stop() {
         if (httpServer != null) {
             httpServer.stop();
@@ -266,7 +282,7 @@ public class MicroInnerDeployer {
     }
 
     Index getIndex() {
-        ClassLoader classLoader= Thread.currentThread().getContextClassLoader();
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
         try (InputStream indexStream = classLoader.getResourceAsStream("META-INF/piranha.idx")) {
             return new IndexReader(indexStream).read();
@@ -277,10 +293,10 @@ public class MicroInnerDeployer {
 
     void forEachWebAnnotation(Consumer<? super Class<?>> consumer) {
         stream(webAnnotations)
-            .map(this::toClass)
-            .flatMap(Optional::stream)
-            .map(e -> (Class<?>) e)
-            .forEach(consumer);
+                .map(this::toClass)
+                .flatMap(Optional::stream)
+                .map(e -> (Class<?>) e)
+                .forEach(consumer);
     }
 
     Optional<? super Class<?>> toClass(String className) {
@@ -292,38 +308,36 @@ public class MicroInnerDeployer {
     }
 
     Stream<AnnotationInstance> getAnnotations(Index index, Class<?> webAnnotation) {
-        return
-            index.getAnnotations(
-                    createSimple(webAnnotation.getName()))
-                 .stream();
+        return index.getAnnotations(
+                createSimple(webAnnotation.getName()))
+                .stream();
     }
 
     Stream<ClassInfo> getInstances(Index index, Class<?> instanceClass) {
-        return
-            Stream.concat(
+        return Stream.concat(
                 index.getAllKnownSubclasses(
                         createSimple(instanceClass.getName()))
-                     .stream(),
-                 index.getAllKnownImplementors(
-                         createSimple(instanceClass.getName()))
-                      .stream());
+                        .stream(),
+                index.getAllKnownImplementors(
+                        createSimple(instanceClass.getName()))
+                        .stream());
     }
 
-    Class<?> getTarget (AnnotationInstance annotationInstance) {
+    Class<?> getTarget(AnnotationInstance annotationInstance) {
         return getTarget(annotationInstance.target());
     }
 
-    Class<?> getTarget (AnnotationTarget target) {
+    Class<?> getTarget(AnnotationTarget target) {
         try {
             if (target.kind() == CLASS) {
                 return Class.forName(
-                    target.asClass().toString(), true,
-                    Thread.currentThread().getContextClassLoader());
+                        target.asClass().toString(), true,
+                        Thread.currentThread().getContextClassLoader());
             }
 
             return Class.forName(
-                target.asMethod().declaringClass().toString(), true,
-                Thread.currentThread().getContextClassLoader());
+                    target.asMethod().declaringClass().toString(), true,
+                    Thread.currentThread().getContextClassLoader());
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException(e);
         }
@@ -336,10 +350,10 @@ public class MicroInnerDeployer {
 
     void forEachInstance(Consumer<? super Class<?>> consumer) {
         stream(instances)
-            .map(this::toClass)
-            .flatMap(Optional::stream)
-            .map(e -> (Class<?>) e)
-            .forEach(consumer);
+                .map(this::toClass)
+                .flatMap(Optional::stream)
+                .map(e -> (Class<?>) e)
+                .forEach(consumer);
     }
 
     void getCallerCredentials(String callersAsXml) {
@@ -350,18 +364,17 @@ public class MicroInnerDeployer {
         try {
 
             XPath xPath = XPathFactory
-            .newInstance()
-            .newXPath();
+                    .newInstance()
+                    .newXPath();
 
-            NodeList nodes = (NodeList)
-                xPath
+            NodeList nodes = (NodeList) xPath
                     .evaluate(
-                        "//caller",
-                        DocumentBuilderFactory
-                            .newInstance()
-                            .newDocumentBuilder()
-                            .parse(new ByteArrayInputStream(callersAsXml.getBytes())),
-                        NODESET);
+                            "//caller",
+                            DocumentBuilderFactory
+                                    .newInstance()
+                                    .newDocumentBuilder()
+                                    .parse(new ByteArrayInputStream(callersAsXml.getBytes())),
+                            NODESET);
 
             for (int i = 0; i < nodes.getLength(); i++) {
                 NamedNodeMap callerAttributes = nodes.item(i).getAttributes();

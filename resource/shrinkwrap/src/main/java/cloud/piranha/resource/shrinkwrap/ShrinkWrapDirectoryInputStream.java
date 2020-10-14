@@ -38,25 +38,31 @@ import org.jboss.shrinkwrap.api.Node;
 
 /**
  * Input stream for reading from an archive entry that represents a directory.
- * 
+ *
  * @author Arjan Tijms
  */
 public class ShrinkWrapDirectoryInputStream extends ZipInputStream {
-    
+
+    /**
+     * Stores the child node iterator.
+     */
     private Iterator<Node> childrenIterator;
 
+    /**
+     * Constructor.
+     *
+     * @param nodes the nodes.
+     */
     public ShrinkWrapDirectoryInputStream(Collection<Node> nodes) {
-        super(new ByteArrayInputStream(new byte[] {}));
+        super(new ByteArrayInputStream(new byte[]{}));
         childrenIterator = nodes.iterator();
     }
-    
+
     @Override
     public ZipEntry getNextEntry() throws IOException {
         if (!childrenIterator.hasNext()) {
             return null;
         }
-        
         return new ZipEntry(childrenIterator.next().getPath().get());
     }
-
 }

@@ -55,13 +55,29 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
     private static final Logger LOGGER = Logger.getLogger(
             ServletContainerInitializerExtension.class.getPackage().getName());
 
+    /**
+     * Stores the exclude existing initializers flag.
+     */
     private final boolean excludeExistingInitializers;
+    
+    /**
+     * Stores the initializers to be ignored.
+     */
     private final List<String> ignoreInitializers;
 
+    /**
+     * Constructor.
+     */
     public ServletContainerInitializerExtension() {
         this(false, emptyList());
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param excludeExistingInitializers the exclude existing initializers flag.
+     * @param ignoreInitializers ignore the given initializers.
+     */
     public ServletContainerInitializerExtension(boolean excludeExistingInitializers, List<String> ignoreInitializers) {
         this.excludeExistingInitializers = excludeExistingInitializers;
         this.ignoreInitializers = new ArrayList<>(ignoreInitializers);

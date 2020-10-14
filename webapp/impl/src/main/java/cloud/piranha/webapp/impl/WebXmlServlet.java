@@ -52,6 +52,9 @@ public class WebXmlServlet {
      */
     private final List<WebXmlServletInitParam> initParams = new ArrayList<>();
 
+    /**
+     * Stores the security role refs.
+     */
     private final List<WebXmlServletSecurityRoleRef> securityRoleRefs = new ArrayList<>();
 
     /**
@@ -147,6 +150,7 @@ public class WebXmlServlet {
 
     /**
      * Get the jsp file
+     *
      * @return the jsp file
      */
     public String getJspFile() {
@@ -155,6 +159,7 @@ public class WebXmlServlet {
 
     /**
      * Set the JSP file
+     *
      * @param jspFile - the JSP file
      */
     public void setJspFile(String jspFile) {

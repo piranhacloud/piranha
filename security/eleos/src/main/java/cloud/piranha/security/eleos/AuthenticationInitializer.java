@@ -48,49 +48,55 @@ import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The Eleos initializer.
- * 
+ *
  * @author Arjan Tijms
  */
 public class AuthenticationInitializer implements ServletContainerInitializer {
-    
+
+    /**
+     * Stores the auth module class name.
+     */
     public static final String AUTH_MODULE_CLASS = AuthenticationInitializer.class.getName() + ".auth.module.class";
+
+    /**
+     * Stores the auth service name.
+     */
     public static final String AUTH_SERVICE = AuthenticationInitializer.class.getName() + ".auth.service";
 
-    
     /**
      * Initialize Eleos
-     * 
+     *
      * @param classes the classes.
      * @param servletContext the Servlet context.
      * @throws ServletException when a Servlet error occurs.
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        
+
         // Gets the authentication module class that was configured externally
         Class<?> authModuleClass = (Class<?>) servletContext.getAttribute(AUTH_MODULE_CLASS);
         if (authModuleClass == null) {
             authModuleClass = DoNothingServerAuthModule.class;
         }
-        
+
         String appContextId = servletContext.getVirtualServerName() + " " + servletContext.getContextPath();
-        
+
         // This sets the authentication factory to the default factory. This factory stores and retrieves
         // the authentication artifacts.
         Security.setProperty(DEFAULT_FACTORY_SECURITY_PROPERTY, DefaultConfigFactory.class.getName());
-        
+
         // Defines the modules that we have available. Here it's only a single fixed module.
         ConfigParser configParser = new DefaultConfigParser(authModuleClass);
-        
+
         // Indicates the module we want to use
         Map<String, Object> options = new HashMap<>();
         options.put("authModuleId", authModuleClass.getSimpleName());
-        
+
         // This authentication service installs an authentication config provider in the default factory, which
         // is the one we setup above. This authentication config provider uses the passed-in configParser to
         // retrieve configuration for authentication modules from.
         DefaultAuthenticationService authenticationService = new DefaultAuthenticationService(appContextId, options, configParser, null);
-        
+
         servletContext.setAttribute(AUTH_SERVICE, authenticationService);
 
         FilterRegistration.Dynamic dynamic = servletContext.addFilter(AuthenticationFilter.class.getSimpleName(), AuthenticationFilter.class);

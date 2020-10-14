@@ -43,8 +43,16 @@ import org.jboss.shrinkwrap.api.Node;
  */
 public class NodeURLStreamHandler extends URLStreamHandler {
     
+    /**
+     * Stores the nodes.
+     */
     private Collection<Node> nodes;
-    
+
+    /**
+     * Constructor.
+     * 
+     * @param nodes the collection of nodes.
+     */
     public NodeURLStreamHandler(Collection<Node> nodes) {
         this.nodes = nodes;
     }

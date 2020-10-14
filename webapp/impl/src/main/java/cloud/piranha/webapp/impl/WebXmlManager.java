@@ -123,6 +123,11 @@ public class WebXmlManager {
         this.webXml = webXml;
     }
 
+    /**
+     * Get the ordered fragments.
+     * 
+     * @return the ordered fragments.
+     */
     public List<WebXml> getOrderedFragments() {
         if (webXml == null)
             return Collections.emptyList();
@@ -259,6 +264,9 @@ public class WebXmlManager {
 
     private static class TopologicalSort<T> {
 
+        /**
+         * Stores the dependencies.
+         */
         private final Map<T, Set<T>> dependencies = new HashMap<>();
 
         public void addDependency(T dependant, T dependency) {

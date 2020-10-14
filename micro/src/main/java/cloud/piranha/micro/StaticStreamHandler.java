@@ -36,9 +36,22 @@ import java.util.function.Function;
 
 public class StaticStreamHandler extends URLStreamHandler {
     
+    /**
+     * Stores the protocol.
+     */
     private final String protocol;
+    
+    /**
+     * Stores the handlers.
+     */
     private final Map<String, Function<URL, URLConnection>> handlers;
     
+    /**
+     * Constructor.
+     * 
+     * @param protocol the protocol.
+     * @param handlers the handlers.
+     */
     public StaticStreamHandler(String protocol, Map<String, Function<URL, URLConnection>> handlers) {
         this.protocol = protocol;
         this.handlers = handlers;

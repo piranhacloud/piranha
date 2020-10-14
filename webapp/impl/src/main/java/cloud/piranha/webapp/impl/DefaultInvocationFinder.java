@@ -62,16 +62,43 @@ import cloud.piranha.webapp.api.WebApplicationRequestMapping;
  */
 public class DefaultInvocationFinder {
 
-    DefaultWebApplication webApplication;
+    /**
+     * Stores the web application.
+     */
+    private final DefaultWebApplication webApplication;
 
+    /**
+     * Constructor.
+     * 
+     * @param webApplication the web application.
+     */
     public DefaultInvocationFinder(DefaultWebApplication webApplication) {
         this.webApplication = webApplication;
     }
 
+    /**
+     * Find the servlet invocation by path.
+     * 
+     * @param servletPath the servlet path.
+     * @param pathInfo the path info.
+     * @return the servlet invocation.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
+     */
     public DefaultServletInvocation findServletInvocationByPath(String servletPath, String pathInfo) throws IOException, ServletException {
         return findServletInvocationByPath(REQUEST, servletPath, pathInfo);
     }
 
+    /**
+     * Find the servlet invocation by path.
+     * 
+     * @param dispatcherType the dispatcher type.
+     * @param servletPath the servlet path.
+     * @param pathInfo the path info.
+     * @return the servlet invocation.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
+     */
     public DefaultServletInvocation findServletInvocationByPath(DispatcherType dispatcherType, String servletPath, String pathInfo) throws IOException, ServletException {
         DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo);
 
@@ -94,6 +121,15 @@ public class DefaultInvocationFinder {
         return addFilters(dispatcherType, servletInvocation, servletPath, pathInfo);
     }
 
+    /**
+     * Add the filters.
+     * 
+     * @param dispatcherType the dispatcher type.
+     * @param servletInvocation the servlet invocation.
+     * @param servletPath the servlet path.
+     * @param pathInfo the path info.
+     * @return the servlet invocation.
+     */
     public DefaultServletInvocation addFilters(DispatcherType dispatcherType, DefaultServletInvocation servletInvocation, String servletPath, String pathInfo) {
         if (dispatcherType == null) {
             // If there's no dispatcher type, don't add filters. This can happen when the dispatch is not yet known
@@ -116,6 +152,12 @@ public class DefaultInvocationFinder {
         return servletInvocation;
     }
 
+    /**
+     * Find the servlet invocation by servlet name.
+     * 
+     * @param servletName the servlet name.
+     * @return the servlet invocation, or null if not found.
+     */
     public DefaultServletInvocation findServletInvocationByName(String servletName) {
         ServletEnvironment servletEnvironment = webApplication.servletEnvironments.get(servletName);
         if (servletEnvironment == null) {

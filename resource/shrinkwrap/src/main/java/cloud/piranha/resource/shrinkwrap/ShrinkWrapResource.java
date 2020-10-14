@@ -51,9 +51,22 @@ import cloud.piranha.resource.api.Resource;
  */
 public class ShrinkWrapResource implements Resource {
     
+    /**
+     * Stores the archive.
+     */
     private Archive<?> archive;
+    
+    /**
+     * Stores the archive stream handler.
+     */
     private ArchiveURLStreamHandler archiveStreamHandler;
     
+    /**
+     * Constructor.
+     * 
+     * @param resourcesPath the resources path.
+     * @param archive the archive.
+     */
     public ShrinkWrapResource(String resourcesPath, Archive<?> archive) {
         JavaArchive newArchive = ShrinkWrap.create(JavaArchive.class);
         
@@ -68,7 +81,12 @@ public class ShrinkWrapResource implements Resource {
         
         archiveStreamHandler = new ArchiveURLStreamHandler(this.archive);
     }
-    
+
+    /**
+     * Constructor.
+     * 
+     * @param archive the archive.
+     */
     public ShrinkWrapResource(Archive<?> archive) {
         this.archive = archive.shallowCopy();
         archiveStreamHandler = new ArchiveURLStreamHandler(this.archive);
@@ -107,6 +125,12 @@ public class ShrinkWrapResource implements Resource {
         return getResourceAsStreamByLocation(getLocationFromUrl(url));
     }
     
+    /**
+     * Get the resource as stream by location.
+     * 
+     * @param location the location.
+     * @return the input stream
+     */
     public InputStream getResourceAsStreamByLocation(String location) {
         if (location == null) {
             return null;
@@ -131,7 +155,13 @@ public class ShrinkWrapResource implements Resource {
     public Stream<String> getAllLocations() {
         return getAllLocations(archive);
     }
-    
+
+    /**
+     * Get all locations.
+     * 
+     * @param archiveToGetFrom the archive to use.
+     * @return the stream of locations.
+     */
     public Stream<String> getAllLocations(Archive<?> archiveToGetFrom) {
         return 
             archiveToGetFrom.getContent()

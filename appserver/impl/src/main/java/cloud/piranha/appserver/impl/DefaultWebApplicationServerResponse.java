@@ -40,6 +40,9 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
  */
 public class DefaultWebApplicationServerResponse extends DefaultWebApplicationResponse implements WebApplicationServerResponse {
 
+    /**
+     * Stores the response closer.
+     */
     private Runnable responseCloser;
 
     @Override
@@ -47,6 +50,11 @@ public class DefaultWebApplicationServerResponse extends DefaultWebApplicationRe
         return responseCloser;
     }
 
+    /**
+     * Set the response closer.
+     * 
+     * @param responseCloser the response closer.
+     */
     public void setResponseCloser(Runnable responseCloser) {
         this.responseCloser = responseCloser;
     }
@@ -56,6 +64,12 @@ public class DefaultWebApplicationServerResponse extends DefaultWebApplicationRe
         responseCloser.run();
     }
 
+    /**
+     * Create response from request map.
+     * 
+     * @param requestMap the request map.
+     * @return the response.
+     */
     public static DefaultWebApplicationServerResponse fromMap(Map<String, Object> requestMap) {
         DefaultWebApplicationServerResponse applicationResponse = new DefaultWebApplicationServerResponse();
         applicationResponse.setUnderlyingOutputStream((OutputStream) requestMap.get("UnderlyingOutputStream"));

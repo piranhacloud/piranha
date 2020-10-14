@@ -44,13 +44,44 @@ import cloud.piranha.webapp.api.WebApplicationRequestMapping;
  */
 public class DefaultServletInvocation implements ServletInvocation {
 
+    /**
+     * Stores the invocation path.
+     */
     private String invocationPath;
+    
+    /**
+     * Stores the servlet name.
+     */
     private String servletName;
+    
+    /**
+     * Stores the servlet path.
+     */
     private String servletPath;
+    
+    /**
+     * Stores the path info.
+     */
     private String pathInfo;
+    
+    /**
+     * Stores the web application request mapping.
+     */
     private WebApplicationRequestMapping applicationRequestMapping;
+    
+    /**
+     * Stores the servlet environment.
+     */
     private ServletEnvironment servletEnvironment;
+    
+    /**
+     * Stores the filter environment.
+     */
     private List<FilterEnvironment> filterEnvironments;
+    
+    /**
+     * Stores the filter chain.
+     */
     private FilterChain filterChain;
 
     @Override
@@ -58,16 +89,25 @@ public class DefaultServletInvocation implements ServletInvocation {
         return invocationPath;
     }
 
+    /**
+     * Set the invocation path.
+     * 
+     * @param invocationPath the invocation path.
+     */
     public void setInvocationPath(String invocationPath) {
         this.invocationPath = invocationPath;
     }
-
 
     @Override
     public String getServletName() {
         return servletName;
     }
 
+    /**
+     * Set the servlet name.
+     * 
+     * @param servletName the servlet name.
+     */
     public void setServletName(String servletName) {
         this.servletName = servletName;
     }
@@ -77,6 +117,11 @@ public class DefaultServletInvocation implements ServletInvocation {
         return servletPath;
     }
 
+    /**
+     * Set the servlet path.
+     * 
+     * @param servletPath the servlet path.
+     */
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
     }
@@ -86,6 +131,11 @@ public class DefaultServletInvocation implements ServletInvocation {
         return pathInfo;
     }
 
+    /**
+     * Set the path info.
+     * 
+     * @param pathInfo the path info.
+     */
     public void setPathInfo(String pathInfo) {
         this.pathInfo = pathInfo;
     }
@@ -95,6 +145,11 @@ public class DefaultServletInvocation implements ServletInvocation {
         return applicationRequestMapping;
     }
 
+    /**
+     * Set the web application request mapping.
+     * 
+     * @param applicationRequestMapping the web application request mapping.
+     */
     public void setApplicationRequestMapping(WebApplicationRequestMapping applicationRequestMapping) {
         this.applicationRequestMapping = applicationRequestMapping;
     }
@@ -104,6 +159,11 @@ public class DefaultServletInvocation implements ServletInvocation {
         return servletEnvironment;
     }
 
+    /**
+     * Set the servlet environment.
+     * 
+     * @param servletEnvironment the servlet environment.
+     */
     public void setServletEnvironment(ServletEnvironment servletEnvironment) {
         this.servletEnvironment = servletEnvironment;
     }
@@ -113,6 +173,11 @@ public class DefaultServletInvocation implements ServletInvocation {
         return filterEnvironments;
     }
 
+    /**
+     * Set the filter environments.
+     * 
+     * @param filterEnvironments the filter environments.
+     */
     public void setFilterEnvironments(List<FilterEnvironment> filterEnvironments) {
         this.filterEnvironments = filterEnvironments;
     }
@@ -122,10 +187,18 @@ public class DefaultServletInvocation implements ServletInvocation {
         return filterChain;
     }
 
+    /**
+     * Set the filter chain.
+     * 
+     * @param filterChain the filter chain.
+     */
     public void setFilterChain(FilterChain filterChain) {
         this.filterChain = filterChain;
     }
 
+    /**
+     * Seed the filter chain.
+     */
     public void seedFilterChain() {
         setFilterChain(
             new DefaultFilterChain(

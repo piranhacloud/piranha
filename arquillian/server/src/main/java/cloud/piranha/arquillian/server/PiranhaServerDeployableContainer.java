@@ -51,9 +51,19 @@ import cloud.piranha.micro.MicroOuterDeployer;
  */
 public class PiranhaServerDeployableContainer extends PiranhaServerLoadableExtension.PiranhaServerContainerBase {
 
+    /**
+     * Stores the logger.
+     */
     private static final Logger LOGGER = Logger.getLogger(PiranhaServerDeployableContainer.class.getName());
 
+    /**
+     * Stores the configuration.
+     */
     private PiranhaServerContainerConfiguration configuration;
+    
+    /**
+     * Stores the outer deployer.
+     */
     private MicroOuterDeployer microOuterDeployer;
 
 

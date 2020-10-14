@@ -53,41 +53,100 @@ public interface ServletInvocation {
      */
     String getInvocationPath();
 
+    /**
+     * Get the servlet name.
+     *
+     * @return the servlet name.
+     */
     String getServletName();
 
+    /**
+     * Get the servlet path.
+     *
+     * @return the servlet path.
+     */
     String getServletPath();
 
+    /**
+     * Get the path info.
+     *
+     * @return the path info.
+     */
     String getPathInfo();
 
+    /**
+     * Get the web application request mapping.
+     *
+     * @return the web application request mapping.
+     */
     WebApplicationRequestMapping getApplicationRequestMapping();
 
+    /**
+     * Get the servlet environment.
+     *
+     * @return the servlet environment.
+     */
     ServletEnvironment getServletEnvironment();
 
+    /**
+     * Get the filter environments.
+     *
+     * @return the filter environments.
+     */
     List<FilterEnvironment> getFilterEnvironments();
 
+    /**
+     * Get the filter chain.
+     *
+     * @return the filter chain.
+     */
     FilterChain getFilterChain();
 
+    /**
+     * Do we have a servlet.
+     *
+     * @return true if we do, false otherwise.
+     */
     default boolean hasServlet() {
         return getServletEnvironment() != null && getServletEnvironment().getServlet() != null;
     }
 
+    /**
+     * Do we have a filter.
+     *
+     * @return true if we do, false otherwise.
+     */
     default boolean hasFilter() {
         return getFilterEnvironments() != null;
     }
 
+    /**
+     * Is the servlet unavailable.
+     *
+     * @return true if it is, false otherwise.
+     */
     default boolean isServletUnavailable() {
         return getServletEnvironment() != null && getServletEnvironment().getStatus() == UNAVAILABLE;
     }
 
+    /**
+     * Can we invoke.
+     *
+     * @return true if we can, false otherwise.
+     */
     default boolean canInvoke() {
         return hasServlet() || hasFilter();
     }
 
+    /**
+     * Get the servlet configuration.
+     *
+     * @return the servlet configuration.
+     */
     default ServletConfig getServletConfig() {
         if (!hasServlet()) {
             return null;
         }
-
         return getServletEnvironment().getServlet().getServletConfig();
     }
 }

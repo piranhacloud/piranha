@@ -53,21 +53,52 @@ import cloud.piranha.webapp.api.AuthenticatedIdentity;
  */
 public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
 
+    /**
+     * Stores the current identity.
+     */
     private static InheritableThreadLocal<AuthenticatedIdentity> currentIdentity = new InheritableThreadLocal<>();
+    
+    /**
+     * Stores the current subject.
+     */
     private static InheritableThreadLocal<Subject> currentSubject = new InheritableThreadLocal<>();
 
+    /**
+     * Stores the caller principal.
+     */
     private Principal callerPrincipal;
+    
+    /**
+     * Stores the groups.
+     */
     private Set<String> groups = new HashSet<>();
 
+    /**
+     * Constructor.
+     * 
+     * @param callerPrincipal the caller principal.
+     * @param groups the groups.
+     */
     public DefaultAuthenticatedIdentity(Principal callerPrincipal, Set<String> groups) {
         this.callerPrincipal = callerPrincipal;
         this.groups = unmodifiableSet(groups);
     }
 
+    /**
+     * Set the current identity.
+     * 
+     * @param callerPrincipal the caller principal.
+     * @param groups the groups.
+     */
     public static void setCurrentIdentity(Principal callerPrincipal, Set<String> groups) {
         setCurrentIdentity(new DefaultAuthenticatedIdentity(callerPrincipal, groups));
     }
 
+    /**
+     * Set the current identity.
+     * 
+     * @param identity the identity.
+     */
     public static void setCurrentIdentity(AuthenticatedIdentity identity) {
         Subject subject = new Subject();
         subject.getPrincipals().add(identity);
@@ -76,14 +107,27 @@ public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
         currentSubject.set(subject);
     }
 
+    /**
+     * Get the current subject.
+     * 
+     * @return the current subject.
+     */
     public static Subject getCurrentSubject() {
         return currentSubject.get();
     }
 
+    /**
+     * Get the current identity.
+     * 
+     * @return the current identity.
+     */
     public static AuthenticatedIdentity getCurrentIdentity() {
         return currentIdentity.get();
     }
 
+    /**
+     * Clear identity and subject.
+     */
     public static void clear() {
         currentIdentity.remove();
         currentSubject.remove();

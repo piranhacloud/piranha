@@ -776,20 +776,26 @@ public class WebXmlParser {
                 ::iterator;
     }
 
-    public static Iterable<Node> toIterable(NodeList nodes) {
+    /**
+     * Convert nodes list to iterable nodes.
+     * 
+     * @param nodeList the node list.
+     * @return the iterable nodes.
+     */
+    public static Iterable<Node> toIterable(NodeList nodeList) {
         return () -> new Iterator<Node>() {
 
             private int position;
 
             @Override
             public boolean hasNext() {
-                return position < nodes.getLength();
+                return position < nodeList.getLength();
             }
 
             @Override
             public Node next() {
                 if (hasNext()) {
-                    return nodes.item(position++);
+                    return nodeList.item(position++);
                 }
 
                 throw new NoSuchElementException();

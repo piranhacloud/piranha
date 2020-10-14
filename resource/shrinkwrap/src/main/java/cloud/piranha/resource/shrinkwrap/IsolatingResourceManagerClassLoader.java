@@ -40,7 +40,14 @@ import cloud.piranha.resource.DefaultResourceManagerClassLoader;
  */
 public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerClassLoader {
 
+    /**
+     * Stores the system classloader.
+     */
     private final ClassLoader systemClassLoader;
+    
+    /**
+     * Stores the classloader id.
+     */
     private final String classLoaderId;
     
     /**
@@ -97,7 +104,12 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
         
         return super.getResources(name);
     }
-    
+
+    /**
+     * Get the classloader id.
+     * 
+     * @return the classloader id.
+     */
     public String getClassLoaderId() {
         return classLoaderId;
     }

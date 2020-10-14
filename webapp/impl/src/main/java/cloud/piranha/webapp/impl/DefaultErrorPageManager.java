@@ -38,17 +38,41 @@ import java.util.Map;
  */
 public class DefaultErrorPageManager {
 
+    /**
+     * Stores the error pages by code.
+     */
     private final Map<Integer, String> errorPagesByCode = new HashMap<>();
+    
+    /**
+     * Stores the error pages by exception.
+     */
     private final Map<String, String> errorPagesByException = new HashMap<>();
 
+    /**
+     * Get the error pages by code.
+     * 
+     * @return the error pages by code map.
+     */
     public Map<Integer, String> getErrorPagesByCode() {
         return errorPagesByCode;
     }
 
+    /**
+     * Get the error pages by exception.
+     * 
+     * @return the error pages by exception map.
+     */
     public Map<String, String> getErrorPagesByException() {
         return errorPagesByException;
     }
 
+    /**
+     * Get the error page.
+     * 
+     * @param exception the exception.
+     * @param httpResponse the HTTP servlet response.
+     * @return the error page.
+     */
     public String getErrorPage(Throwable exception, HttpServletResponse httpResponse) {
         if (exception != null) {
             Class<?> rootException = exception.getClass();

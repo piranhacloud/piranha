@@ -42,8 +42,17 @@ import org.apache.jasper.servlet.JspServlet;
  * to allow Jasper find the correct file
  */
 class JasperServlet extends JspServlet {
+    
+    /**
+     * Stores the JSP file.
+     */
     private final String jspFile;
 
+    /**
+     * Constructor.
+     * 
+     * @param jspFile the JSP file.
+     */
     JasperServlet(String jspFile) {
         this.jspFile = jspFile;
     }

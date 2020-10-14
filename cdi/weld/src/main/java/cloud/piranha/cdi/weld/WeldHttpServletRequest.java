@@ -51,8 +51,16 @@ import cloud.piranha.webapp.api.CurrentRequestHolder;
  */
 public class WeldHttpServletRequest extends RealtimeHttpServletRequestWrapper {
     
+    /**
+     * Stores the current request holder.
+     */
     private final CurrentRequestHolder currentRequestHolder;
 
+    /**
+     * Constructor.
+     * 
+     * @param request the HTTP servlet request.
+     */
     public WeldHttpServletRequest(HttpServletRequest request) {
         currentRequestHolder = new DefaultCurrentRequestHolder(request);
         request.setAttribute(CURRENT_REQUEST_ATTRIBUTE, currentRequestHolder);

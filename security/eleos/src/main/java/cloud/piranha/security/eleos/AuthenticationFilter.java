@@ -57,8 +57,15 @@ import cloud.piranha.webapp.api.WebApplication;
 public class AuthenticationFilter extends HttpFilter implements FilterPriority {
 
     private static final long serialVersionUID = 1L;
+    
+    /**
+     * Stores the priority.
+     */
     private static int PRIORITY = 5;
 
+    /**
+     * Stores the security manager.
+     */
     private SecurityManager securityManager;
     
     @Override

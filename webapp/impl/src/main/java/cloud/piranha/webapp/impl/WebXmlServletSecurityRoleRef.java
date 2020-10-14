@@ -44,21 +44,39 @@ public class WebXmlServletSecurityRoleRef {
      */
     private String roleLink;
 
-
+    /**
+     * Get the role name.
+     * 
+     * @return the role name.
+     */
     public String getRoleName() {
         return roleName;
     }
 
+    /**
+     * Set the role name.
+     * 
+     * @param roleName the role name.
+     */
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 
+    /**
+     * Get the role link.
+     * 
+     * @return the role link.
+     */
     public String getRoleLink() {
         return roleLink;
     }
 
+    /**
+     * Set the role link.
+     * 
+     * @param roleLink the role link.
+     */
     public void setRoleLink(String roleLink) {
         this.roleLink = roleLink;
     }
-
 }

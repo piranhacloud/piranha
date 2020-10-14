@@ -185,8 +185,14 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected boolean distributable;
 
+    /**
+     * Stores the effective major version.
+     */
     protected int effectiveMajorVersion = -1;
 
+    /**
+     * Stores the effective minor version.
+     */
     protected int effectiveMinorVersion = -1;
 
     /**

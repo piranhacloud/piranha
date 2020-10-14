@@ -33,7 +33,19 @@ package javax.servlet;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public enum SessionTrackingMode {
+    
+    /**
+     * The session tracking mode using a cookie.
+     */
     COOKIE,
+    
+    /**
+     * The session tracking mode using the URL.
+     */
     URL,
+    
+    /**
+     * The session tracking mode using SSL.
+     */
     SSL
 }
