@@ -122,7 +122,7 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
     @Deprecated
     @Override
     public String encodeRedirectUrl(String url) {
-        throw new UnsupportedOperationException();
+        return getWrapped().encodeRedirectUrl(url);
     }
 
     /**
@@ -146,7 +146,7 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
     @Deprecated
     @Override
     public String encodeUrl(String url) {
-        throw new UnsupportedOperationException();
+        return getWrapped().encodeUrl(url);
     }
 
     /**
@@ -287,6 +287,6 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
     @Deprecated
     @Override
     public void setStatus(int status, String message) {
-        throw new UnsupportedOperationException();
+        getWrapped().setStatus(status, message);
     }
 }

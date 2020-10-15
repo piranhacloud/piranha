@@ -339,7 +339,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     @Deprecated
     @Override
     public boolean isRequestedSessionIdFromUrl() {
-        throw new UnsupportedOperationException();
+        return getWrapped().isRequestedSessionIdFromUrl();
     }
 
     /**
