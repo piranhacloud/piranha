@@ -113,7 +113,7 @@ class HttpServletResponseWrapperTest {
     void testEncodeRedirectUrl() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
-        assertThrows(UnsupportedOperationException.class, () -> wrapper.encodeRedirectUrl("url"));
+        assertThrows(NullPointerException.class, () -> wrapper.encodeRedirectUrl("url"));
     }
 
     /**
@@ -133,7 +133,7 @@ class HttpServletResponseWrapperTest {
     void testEncodeUrl() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
-        assertThrows(UnsupportedOperationException.class, () -> wrapper.encodeUrl("url"));
+        assertThrows(NullPointerException.class, () -> wrapper.encodeUrl("url"));
     }
 
     /**
@@ -269,7 +269,7 @@ class HttpServletResponseWrapperTest {
     void testSetStatus2() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse(null);
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
-        assertThrows(UnsupportedOperationException.class, () -> wrapper.setStatus(301, "Moved"));
+        assertThrows(NullPointerException.class, () -> wrapper.setStatus(301, "Moved"));
     }
 
     /**
