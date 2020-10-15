@@ -970,6 +970,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (cookie.getPath() != null) {
             outputStream.write(("; Path=" + cookie.getPath()).getBytes());
         }
+        
+        outputStream.write(("; Version=" + cookie.getVersion()).getBytes());
 
         outputStream.write("\n".getBytes());
     }
