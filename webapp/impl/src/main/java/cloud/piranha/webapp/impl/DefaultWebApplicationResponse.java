@@ -56,6 +56,7 @@ import javax.servlet.http.HttpServletRequest;
 import cloud.piranha.webapp.api.LocaleEncodingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationResponse;
+import java.util.Date;
 
 /**
  * The default WebApplicationResponse.
@@ -957,6 +958,12 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         outputStream.write("=".getBytes());
         if (cookie.getValue() != null) {
             outputStream.write(cookie.getValue().getBytes());
+        }
+        
+        if (cookie.getMaxAge() > -1) {
+            Date expires = new Date();
+            expires.setTime(expires.getTime() + cookie.getMaxAge() * 1000);
+            outputStream.write(("; Expires=" + expires.toString()).getBytes());
         }
 
         if (cookie.getSecure()) {
