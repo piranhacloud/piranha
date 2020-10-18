@@ -71,7 +71,7 @@
                                                byline="true"/>
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="sigTestClasspath=="
-                                               replace="sigTestClasspath=${el.classes}${pathsep}${jspservlet.classes}${pathsep}${JAVA_HOME}/jre/lib/rt.jar"
+                                               replace="sigTestClasspath=${el.classes}${pathsep}${jspservlet.classes}${pathsep}${ant.java.home}/jre/lib/rt.jar"
                                                byline="true"/>
                                 
                                 <!-- copy Piranha script into the TCK -->
@@ -120,6 +120,7 @@
                                     <arg value="-Dwork.dir=${signature.home}/work"/>
                                     <arg value="-Dreport.dir=${signature.home}/report"/>
                                     <arg value="runclient"/>
+                                    <env key="JAVA_HOME" value="${ant.java.home}" />
                                 </exec>
                             </target>
                         </configuration>
@@ -168,6 +169,7 @@
                                     <arg value="-Dwork.dir=${piranha.home}/work"/>
                                     <arg value="-Dreport.dir=${piranha.home}/report"/>
                                     <arg value="runclient"/>
+                                    <env key="JAVA_HOME" value="${ant.java.home}" />
                                 </exec>
                             </target>
                         </configuration>
@@ -263,6 +265,7 @@
     
     <properties>
         <ant.home>${project.build.directory}/ant</ant.home>
+        <ant.java.home>${java.home}</ant.java.home>
         <piranha.home>${project.build.directory}/piranha</piranha.home>
         <signature.home>${project.build.directory}/signature</signature.home>
         <tck.home>${project.build.directory}/tck</tck.home>

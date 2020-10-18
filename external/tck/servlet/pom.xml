@@ -28,6 +28,7 @@
 
     <properties>
         <ant.home>${project.build.directory}/ant</ant.home>
+        <ant.java.home>${java.home}</ant.java.home>
         <piranha.home>${project.build.directory}/piranha</piranha.home>
         <signature.home>${project.build.directory}/signature</signature.home>
         <tck.home>${project.build.directory}/tck</tck.home>
@@ -84,10 +85,10 @@
                                                        replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar"
                                                        byline="true"/>
                                         
-                                        <!-- remove java.endorsed.dirs by \ -->
+                                        <!-- remove java.endorsed.dirs by Xbootclasspath -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="\s+-Djava\.endorsed\.dirs=(.*)"
-                                                       replace="\\\"
+                                                       replace="-Xbootclasspath/a:${tck.home}/endorsedlib/flow\.jar \\\"
                                                        byline="true"/>
                                 
                                         <!-- copy Piranha script into the TCK -->
@@ -137,6 +138,7 @@
                                             <arg value="-Dwork.dir=${signature.home}/work"/>
                                             <arg value="-Dreport.dir=${signature.home}/report"/>
                                             <arg value="runclient"/>
+                                            <env key="JAVA_HOME" value="${ant.java.home}" />
                                         </exec>
                                     </target>
                                 </configuration>
@@ -173,11 +175,12 @@
                                 <configuration>
                                     <target>
                                         <!-- run all the tests -->
-                                        <exec executable="${ant.home}/bin/ant" 
+                                        <exec executable="${ant.home}/bin/ant"
                                               dir="${test.home}">
                                             <arg value="-Dwork.dir=${piranha.home}/work"/>
                                             <arg value="-Dreport.dir=${piranha.home}/report"/>
                                             <arg value="runclient"/>
+                                            <env key="JAVA_HOME" value="${ant.java.home}" />
                                         </exec>
                                     </target>
                                 </configuration>
