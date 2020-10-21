@@ -85,6 +85,7 @@
                                     <arg value="-Dwork.dir=${signature.home}/work"/>
                                     <arg value="-Dreport.dir=${signature.home}/report"/>
                                     <arg value="runclient"/>
+                                    <env key="JAVA_HOME" value="${ant.java.home}" />
                                 </exec>
                             </target>
                         </configuration>
@@ -103,6 +104,7 @@
                                     <arg value="-Dwork.dir=${work.home}/work"/>
                                     <arg value="-Dreport.dir=${work.home}/report"/>
                                     <arg value="runclient"/>
+                                    <env key="JAVA_HOME" value="${ant.java.home}" />
                                 </exec>
                             </target>
                         </configuration>
@@ -138,6 +140,7 @@
     
     <properties>
         <ant.home>${project.build.directory}/ant</ant.home>
+        <ant.java.home>${java.home}</ant.java.home>
         <work.home>${project.build.directory}/work</work.home>
         <tck.home>${project.build.directory}/tck</tck.home>
         <test.home>${tck.home}/src/com/sun/ts/tests</test.home>
