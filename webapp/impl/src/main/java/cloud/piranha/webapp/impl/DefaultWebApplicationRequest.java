@@ -28,6 +28,8 @@
 package cloud.piranha.webapp.impl;
 
 import static java.util.Objects.requireNonNull;
+import static javax.servlet.DispatcherType.INCLUDE;
+import static javax.servlet.RequestDispatcher.INCLUDE_QUERY_STRING;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -684,8 +686,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (!parametersParsed) {
             parametersParsed = true;
             try {
-                if (queryString != null) {
-                    for (String param : queryString.split("&")) {
+                String mergedQueryString = mergeQueryFromAttributes();
+                if (mergedQueryString != null) {
+                    for (String param : mergedQueryString.split("&")) {
                         String pair[] = param.split("=");
                         String key = URLDecoder.decode(pair[0], "UTF-8");
                         String value = "";
@@ -745,6 +748,24 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                 throw new RuntimeException(ioe);
             }
         }
+    }
+
+    /**
+     * Merge query string from this request and from the attribute
+     * {@link RequestDispatcher.INCLUDE_QUERY_STRING} if the dispatcher type is {@link DispatcherType.INCLUDE}
+     * @return the query string merged
+     */
+    private String mergeQueryFromAttributes() {
+        String queryStringFromAttribute = dispatcherType == INCLUDE ? (String) getAttribute(INCLUDE_QUERY_STRING) : null;
+        if (queryStringFromAttribute == null) {
+            return queryString;
+        }
+
+        if (queryString == null) {
+            return queryStringFromAttribute;
+        }
+
+        return queryStringFromAttribute + "&" + queryString;
     }
 
     /**
