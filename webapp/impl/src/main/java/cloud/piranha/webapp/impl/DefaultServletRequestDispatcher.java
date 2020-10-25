@@ -228,18 +228,21 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             includedRequest.setWebApplication(servletEnvironment.getWebApplication());
             includedRequest.setContextPath(originalRequest.getContextPath());
-            includedRequest.setAttribute(INCLUDE_REQUEST_URI, originalRequest.getRequestURI());
-            includedRequest.setAttribute(INCLUDE_CONTEXT_PATH, originalRequest.getContextPath());
-            includedRequest.setAttribute(INCLUDE_SERVLET_PATH, originalRequest.getServletPath());
-            includedRequest.setAttribute(INCLUDE_PATH_INFO, originalRequest.getPathInfo());
-            includedRequest.setAttribute(INCLUDE_QUERY_STRING, originalRequest.getQueryString());
-            includedRequest.setServletPath(path);
+
+            includedRequest.setServletPath(path == null ? "/" + servletEnvironment.getServletName() : getServletPath(path));
             includedRequest.setDispatcherType(INCLUDE);
             includedRequest.setPathInfo(null);
-            includedRequest.setQueryString(null);
+            includedRequest.setQueryString(originalRequest.getQueryString());
 
             copyAttributesFromRequest(originalRequest, includedRequest, attributeName -> true);
 
+            if (path != null) {
+                includedRequest.setAttribute(INCLUDE_CONTEXT_PATH, includedRequest.getContextPath());
+                includedRequest.setAttribute(INCLUDE_SERVLET_PATH, includedRequest.getServletPath());
+                includedRequest.setAttribute(INCLUDE_PATH_INFO, includedRequest.getPathInfo());
+                includedRequest.setAttribute(INCLUDE_REQUEST_URI, includedRequest.getRequestURI());
+                includedRequest.setAttribute(INCLUDE_QUERY_STRING, getQueryString(path));
+            }
             CurrentRequestHolder currentRequestHolder = updateCurrentRequest(originalRequest, includedRequest);
 
             invocationFinder.addFilters(INCLUDE, servletInvocation, includedRequest.getServletPath(), "");
@@ -369,6 +372,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             } else {
                 forwardedRequest.setServletPath("/" + servletEnvironment.getServletName());
+                forwardedRequest.setQueryString(request.getQueryString());
             }
 
             CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, forwardedRequest);
