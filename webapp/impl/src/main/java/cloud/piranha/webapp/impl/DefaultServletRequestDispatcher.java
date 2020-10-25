@@ -45,8 +45,11 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -235,6 +238,8 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             includedRequest.setPathInfo(null);
             includedRequest.setQueryString(null);
 
+            copyAttributesFromRequest(originalRequest, includedRequest, attributeName -> true);
+
             CurrentRequestHolder currentRequestHolder = updateCurrentRequest(originalRequest, includedRequest);
 
             invocationFinder.addFilters(INCLUDE, servletInvocation, includedRequest.getServletPath(), "");
@@ -243,6 +248,17 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 servletEnvironment.getWebApplication().linkRequestAndResponse(includedRequest, servletResponse);
 
                 servletInvocation.getFilterChain().doFilter(includedRequest, servletResponse);
+
+                // After the include, we need to copy the attributes that were set in the new request to the old one
+                // but not include the "INCLUDE_" attributes that were set previously
+                copyAttributesFromRequest(includedRequest, originalRequest, attributeName ->
+                    originalRequest.getAttribute(attributeName) == null && Stream.of(
+                        INCLUDE_QUERY_STRING,
+                        INCLUDE_CONTEXT_PATH,
+                        INCLUDE_MAPPING,
+                        INCLUDE_PATH_INFO,
+                        INCLUDE_REQUEST_URI,
+                        INCLUDE_SERVLET_PATH).noneMatch(attributeName::equals));
 
                 servletEnvironment.getWebApplication().unlinkRequestAndResponse(includedRequest, servletResponse);
             } catch (Exception e) {
@@ -299,6 +315,8 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, errorRequest);
 
+            copyAttributesFromRequest(request, errorRequest, attribute -> true);
+
             invocationFinder.addFilters(ERROR, servletInvocation, errorRequest.getServletPath(), "");
 
             if (servletInvocation.getServletEnvironment() != null) {
@@ -354,6 +372,8 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             }
 
             CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, forwardedRequest);
+
+            copyAttributesFromRequest(request, forwardedRequest, attribute -> true);
 
             invocationFinder.addFilters(FORWARD, servletInvocation, forwardedRequest.getServletPath(), "");
 
@@ -435,11 +455,15 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
 
         forwardedRequest.setAttribute(PREVIOUS_REQUEST, originalRequest);
-        originalRequest.getAttributeNames()
-            .asIterator()
-            .forEachRemaining(attributeName -> forwardedRequest.setAttribute(attributeName, originalRequest.getAttribute(attributeName)));
 
         return currentRequestHolder;
+    }
+
+    private void copyAttributesFromRequest(ServletRequest fromRequest, ServletRequest toRequest, Predicate<String> attributesToExclude) {
+        Collections.list(fromRequest.getAttributeNames())
+                .stream()
+                .filter(attributesToExclude)
+                .forEach(attributeName -> toRequest.setAttribute(attributeName, fromRequest.getAttribute(attributeName)));
     }
 
     private void restoreCurrentRequest(CurrentRequestHolder currentRequestHolder, HttpServletRequest originalRequest) {
