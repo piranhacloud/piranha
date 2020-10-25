@@ -43,6 +43,8 @@ import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -934,7 +936,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
-        return webApplication.getRequestDispatcher(path);
+        Path rootContext = Paths.get(getContextPath());
+        Path resolved = rootContext.resolveSibling(Paths.get(path)).normalize();
+        if (!resolved.startsWith(rootContext))
+            resolved = rootContext.resolveSibling(resolved);
+        return webApplication.getRequestDispatcher(resolved.toString());
     }
 
     /**
