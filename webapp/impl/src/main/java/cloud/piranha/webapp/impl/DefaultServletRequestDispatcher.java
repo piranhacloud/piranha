@@ -28,6 +28,7 @@
 package cloud.piranha.webapp.impl;
 
 import static cloud.piranha.webapp.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
+import static cloud.piranha.webapp.impl.DefaultWebApplicationRequest.unwrap;
 import static java.util.Arrays.asList;
 import static javax.servlet.AsyncContext.ASYNC_CONTEXT_PATH;
 import static javax.servlet.AsyncContext.ASYNC_PATH_INFO;
@@ -215,7 +216,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     @Override
     public void include(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
         try (DefaultWebApplicationRequest includedRequest = new DefaultWebApplicationRequest()) {
-            HttpServletRequest originalRequest = (HttpServletRequest) servletRequest;
+            HttpServletRequest originalRequest = unwrap(servletRequest, HttpServletRequest.class);
 
             includedRequest.setWebApplication(servletEnvironment.getWebApplication());
             includedRequest.setContextPath(originalRequest.getContextPath());
@@ -323,7 +324,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
         try (DefaultWebApplicationRequest forwardedRequest = new DefaultWebApplicationRequest()) {
 
-            HttpServletRequest request = (HttpServletRequest) servletRequest;
+            HttpServletRequest request =  unwrap(servletRequest, HttpServletRequest.class);
             HttpServletResponse response = (HttpServletResponse) servletResponse;
 
             response.resetBuffer();

@@ -1582,17 +1582,18 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     /**
      * Unwrap the request.
-     * 
+     *
      * @param request the request.
+     * @param type the class type of the result
      * @return the unwrapped request.
      */
-    public HttpServletRequest unwrap(HttpServletRequest request) {
+    public static <T> T unwrap(ServletRequest request, Class<T> type) {
         ServletRequest currentRequest = request;
         while (currentRequest instanceof ServletRequestWrapper) {
             ServletRequestWrapper wrapper = (ServletRequestWrapper) currentRequest;
             currentRequest = wrapper.getRequest();
         }
-        return (WebApplicationRequest) currentRequest;
+        return type.cast(currentRequest);
     }
 
     /**
@@ -1633,7 +1634,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
         Object previousAttribute = request.getAttribute("PREVIOUS_REQUEST");
         while (previousAttribute instanceof HttpServletRequest) {
-            HttpServletRequest previousRequest = unwrap((HttpServletRequest) previousAttribute);
+            HttpServletRequest previousRequest = unwrap((HttpServletRequest) previousAttribute, HttpServletRequest.class);
 
             if (previousRequest instanceof DefaultWebApplicationRequest) {
                 @SuppressWarnings("resource")
