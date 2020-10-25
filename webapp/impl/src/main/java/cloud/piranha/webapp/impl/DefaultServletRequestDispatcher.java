@@ -226,6 +226,10 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         try (DefaultWebApplicationRequest includedRequest = new DefaultWebApplicationRequest()) {
             HttpServletRequest originalRequest = unwrap(servletRequest, HttpServletRequest.class);
 
+            // Change the underlying request if the request was wrapped
+            ServletRequestWrapper wrapper = servletRequest instanceof ServletRequestWrapper ? getLastWrapper((ServletRequestWrapper) servletRequest) : new HttpServletRequestWrapper(originalRequest);
+            wrapper.setRequest(includedRequest);
+
             includedRequest.setWebApplication(servletEnvironment.getWebApplication());
             includedRequest.setContextPath(originalRequest.getContextPath());
 
@@ -250,7 +254,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             try {
                 servletEnvironment.getWebApplication().linkRequestAndResponse(includedRequest, servletResponse);
 
-                servletInvocation.getFilterChain().doFilter(includedRequest, servletResponse);
+                servletInvocation.getFilterChain().doFilter(wrapper, servletResponse);
 
                 // After the include, we need to copy the attributes that were set in the new request to the old one
                 // but not include the "INCLUDE_" attributes that were set previously
@@ -268,8 +272,20 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 rethrow(e);
             } finally {
                 restoreCurrentRequest(currentRequestHolder, originalRequest);
+                wrapper.setRequest(originalRequest);
             }
         }
+    }
+
+    private ServletRequestWrapper getLastWrapper(ServletRequestWrapper wrapper) {
+        ServletRequestWrapper currentWrapper = wrapper;
+        ServletRequest currentRequest = wrapper;
+        while (currentRequest instanceof ServletRequestWrapper) {
+            currentWrapper = (ServletRequestWrapper) currentRequest;
+            currentRequest = currentWrapper.getRequest();
+        }
+
+        return currentWrapper;
     }
 
     /**
