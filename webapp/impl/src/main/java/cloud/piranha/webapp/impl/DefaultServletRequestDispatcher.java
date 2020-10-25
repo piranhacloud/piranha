@@ -71,6 +71,11 @@ import cloud.piranha.webapp.api.WebApplicationRequest;
 public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
     /**
+     * Stores the previous request attribute name
+     */
+    static final String PREVIOUS_REQUEST = "piranha.previous.request";
+
+    /**
      * Stores the async attributes.
      */
     private static final List<String> ASYNC_ATTRIBUTES = asList(ASYNC_CONTEXT_PATH, ASYNC_PATH_INFO, ASYNC_QUERY_STRING, ASYNC_REQUEST_URI, ASYNC_SERVLET_PATH);
@@ -429,7 +434,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             forwardedRequest.setAttribute(CURRENT_REQUEST_ATTRIBUTE, currentRequestHolder);
         }
 
-        forwardedRequest.setAttribute("PREVIOUS_REQUEST", originalRequest);
+        forwardedRequest.setAttribute(PREVIOUS_REQUEST, originalRequest);
         originalRequest.getAttributeNames()
             .asIterator()
             .forEachRemaining(attributeName -> forwardedRequest.setAttribute(attributeName, originalRequest.getAttribute(attributeName)));
@@ -552,7 +557,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             }
 
             asyncHttpDispatchWrapper.setRequestURI(previousPathRequest.getServletContext().getContextPath() + getServletPath(path));
-            asyncHttpDispatchWrapper.setAsWrapperAttribute("PREVIOUS_REQUEST", invokeServletRequest);
+            asyncHttpDispatchWrapper.setAsWrapperAttribute(PREVIOUS_REQUEST, invokeServletRequest);
 
         } else {
             asyncHttpDispatchWrapper.setServletPath("/" + servletEnvironment.getServletName());

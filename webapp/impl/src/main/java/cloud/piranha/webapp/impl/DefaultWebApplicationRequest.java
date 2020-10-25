@@ -27,6 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static cloud.piranha.webapp.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
 import static java.util.Objects.requireNonNull;
 import static javax.servlet.DispatcherType.INCLUDE;
 import static javax.servlet.RequestDispatcher.INCLUDE_QUERY_STRING;
@@ -1632,7 +1633,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         asyncContext = new DefaultAsyncContext(request, response);
         asyncStarted = true;
 
-        Object previousAttribute = request.getAttribute("PREVIOUS_REQUEST");
+        Object previousAttribute = request.getAttribute(PREVIOUS_REQUEST);
         while (previousAttribute instanceof HttpServletRequest) {
             HttpServletRequest previousRequest = unwrap((HttpServletRequest) previousAttribute, HttpServletRequest.class);
 
@@ -1643,7 +1644,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                 defaultRequest.setAsyncStarted(true);
             }
 
-            previousAttribute = previousRequest.getAttribute("PREVIOUS_REQUEST");
+            previousAttribute = previousRequest.getAttribute(PREVIOUS_REQUEST);
         }
 
 
