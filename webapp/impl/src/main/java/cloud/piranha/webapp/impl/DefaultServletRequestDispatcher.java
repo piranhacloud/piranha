@@ -251,6 +251,9 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             invocationFinder.addFilters(INCLUDE, servletInvocation, includedRequest.getServletPath(), "");
 
+            // After setting the include attributes and adding filters, reset the servlet path
+            includedRequest.setServletPath(originalRequest.getServletPath());
+
             try {
                 servletEnvironment.getWebApplication().linkRequestAndResponse(includedRequest, servletResponse);
 
