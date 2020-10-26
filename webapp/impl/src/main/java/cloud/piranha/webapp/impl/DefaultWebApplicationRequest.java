@@ -27,7 +27,10 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static cloud.piranha.webapp.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
 import static java.util.Objects.requireNonNull;
+import static javax.servlet.DispatcherType.INCLUDE;
+import static javax.servlet.RequestDispatcher.INCLUDE_QUERY_STRING;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -41,6 +44,8 @@ import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -684,8 +689,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (!parametersParsed) {
             parametersParsed = true;
             try {
-                if (queryString != null) {
-                    for (String param : queryString.split("&")) {
+                String mergedQueryString = mergeQueryFromAttributes();
+                if (mergedQueryString != null) {
+                    for (String param : mergedQueryString.split("&")) {
                         String pair[] = param.split("=");
                         String key = URLDecoder.decode(pair[0], "UTF-8");
                         String value = "";
@@ -745,6 +751,24 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                 throw new RuntimeException(ioe);
             }
         }
+    }
+
+    /**
+     * Merge query string from this request and from the attribute
+     * {@link RequestDispatcher.INCLUDE_QUERY_STRING} if the dispatcher type is {@link DispatcherType.INCLUDE}
+     * @return the query string merged
+     */
+    private String mergeQueryFromAttributes() {
+        String queryStringFromAttribute = dispatcherType == INCLUDE ? (String) getAttribute(INCLUDE_QUERY_STRING) : null;
+        if (queryStringFromAttribute == null) {
+            return queryString;
+        }
+
+        if (queryString == null) {
+            return queryStringFromAttribute;
+        }
+
+        return queryStringFromAttribute + "&" + queryString;
     }
 
     /**
@@ -913,7 +937,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
-        return webApplication.getRequestDispatcher(path);
+        Path rootContext = Paths.get(getContextPath());
+        Path resolved = rootContext.resolveSibling(Paths.get(path)).normalize();
+        if (!resolved.startsWith(rootContext))
+            resolved = rootContext.resolveSibling(resolved);
+        return webApplication.getRequestDispatcher(resolved.toString());
     }
 
     /**
@@ -1555,17 +1583,18 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     /**
      * Unwrap the request.
-     * 
+     *
      * @param request the request.
+     * @param type the class type of the result
      * @return the unwrapped request.
      */
-    public HttpServletRequest unwrap(HttpServletRequest request) {
+    public static <T> T unwrap(ServletRequest request, Class<T> type) {
         ServletRequest currentRequest = request;
         while (currentRequest instanceof ServletRequestWrapper) {
             ServletRequestWrapper wrapper = (ServletRequestWrapper) currentRequest;
             currentRequest = wrapper.getRequest();
         }
-        return (WebApplicationRequest) currentRequest;
+        return type.cast(currentRequest);
     }
 
     /**
@@ -1604,9 +1633,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         asyncContext = new DefaultAsyncContext(request, response);
         asyncStarted = true;
 
-        Object previousAttribute = request.getAttribute("PREVIOUS_REQUEST");
+        Object previousAttribute = request.getAttribute(PREVIOUS_REQUEST);
         while (previousAttribute instanceof HttpServletRequest) {
-            HttpServletRequest previousRequest = unwrap((HttpServletRequest) previousAttribute);
+            HttpServletRequest previousRequest = unwrap((HttpServletRequest) previousAttribute, HttpServletRequest.class);
 
             if (previousRequest instanceof DefaultWebApplicationRequest) {
                 @SuppressWarnings("resource")
@@ -1615,7 +1644,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                 defaultRequest.setAsyncStarted(true);
             }
 
-            previousAttribute = previousRequest.getAttribute("PREVIOUS_REQUEST");
+            previousAttribute = previousRequest.getAttribute(PREVIOUS_REQUEST);
         }
 
 
