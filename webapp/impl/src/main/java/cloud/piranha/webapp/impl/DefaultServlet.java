@@ -36,6 +36,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -91,7 +93,18 @@ public class DefaultServlet extends HttpServlet {
     }
 
     private String getPath(HttpServletRequest request) {
-        return request.getRequestURI().substring(request.getContextPath().length());
+        String requestURI;
+        String contextPath;
+
+        if (request.getDispatcherType() == DispatcherType.INCLUDE) {
+            requestURI = (String) request.getAttribute(RequestDispatcher.INCLUDE_REQUEST_URI);
+            contextPath = (String) request.getAttribute(RequestDispatcher.INCLUDE_CONTEXT_PATH);
+        } else {
+            requestURI = request.getRequestURI();
+            contextPath = request.getContextPath();
+        }
+
+        return requestURI.substring(contextPath.length());
     }
 
     private void setContentType(HttpServletRequest request, HttpServletResponse response) {
