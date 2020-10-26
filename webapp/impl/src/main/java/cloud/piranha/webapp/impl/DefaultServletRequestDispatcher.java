@@ -28,6 +28,7 @@
 package cloud.piranha.webapp.impl;
 
 import static cloud.piranha.webapp.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
+import static cloud.piranha.webapp.impl.DefaultWebApplicationRequest.unwrap;
 import static java.util.Arrays.asList;
 import static javax.servlet.AsyncContext.ASYNC_CONTEXT_PATH;
 import static javax.servlet.AsyncContext.ASYNC_PATH_INFO;
@@ -44,8 +45,11 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -68,6 +72,11 @@ import cloud.piranha.webapp.api.WebApplicationRequest;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultServletRequestDispatcher implements RequestDispatcher {
+
+    /**
+     * Stores the previous request attribute name
+     */
+    static final String PREVIOUS_REQUEST = "piranha.previous.request";
 
     /**
      * Stores the async attributes.
@@ -215,36 +224,71 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     @Override
     public void include(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
         try (DefaultWebApplicationRequest includedRequest = new DefaultWebApplicationRequest()) {
-            HttpServletRequest originalRequest = (HttpServletRequest) servletRequest;
+            HttpServletRequest originalRequest = unwrap(servletRequest, HttpServletRequest.class);
+
+            // Change the underlying request if the request was wrapped
+            ServletRequestWrapper wrapper = servletRequest instanceof ServletRequestWrapper ? getLastWrapper((ServletRequestWrapper) servletRequest) : new HttpServletRequestWrapper(originalRequest);
+            wrapper.setRequest(includedRequest);
 
             includedRequest.setWebApplication(servletEnvironment.getWebApplication());
             includedRequest.setContextPath(originalRequest.getContextPath());
-            includedRequest.setAttribute(INCLUDE_REQUEST_URI, originalRequest.getRequestURI());
-            includedRequest.setAttribute(INCLUDE_CONTEXT_PATH, originalRequest.getContextPath());
-            includedRequest.setAttribute(INCLUDE_SERVLET_PATH, originalRequest.getServletPath());
-            includedRequest.setAttribute(INCLUDE_PATH_INFO, originalRequest.getPathInfo());
-            includedRequest.setAttribute(INCLUDE_QUERY_STRING, originalRequest.getQueryString());
-            includedRequest.setServletPath(path);
+
+            includedRequest.setServletPath(path == null ? "/" + servletEnvironment.getServletName() : getServletPath(path));
             includedRequest.setDispatcherType(INCLUDE);
             includedRequest.setPathInfo(null);
-            includedRequest.setQueryString(null);
+            includedRequest.setQueryString(originalRequest.getQueryString());
 
+            copyAttributesFromRequest(originalRequest, includedRequest, attributeName -> true);
+
+            if (path != null) {
+                includedRequest.setAttribute(INCLUDE_CONTEXT_PATH, includedRequest.getContextPath());
+                includedRequest.setAttribute(INCLUDE_SERVLET_PATH, includedRequest.getServletPath());
+                includedRequest.setAttribute(INCLUDE_PATH_INFO, includedRequest.getPathInfo());
+                includedRequest.setAttribute(INCLUDE_REQUEST_URI, includedRequest.getRequestURI());
+                includedRequest.setAttribute(INCLUDE_QUERY_STRING, getQueryString(path));
+            }
             CurrentRequestHolder currentRequestHolder = updateCurrentRequest(originalRequest, includedRequest);
 
             invocationFinder.addFilters(INCLUDE, servletInvocation, includedRequest.getServletPath(), "");
 
+            // After setting the include attributes and adding filters, reset the servlet path
+            includedRequest.setServletPath(originalRequest.getServletPath());
+
             try {
                 servletEnvironment.getWebApplication().linkRequestAndResponse(includedRequest, servletResponse);
 
-                servletInvocation.getFilterChain().doFilter(includedRequest, servletResponse);
+                servletInvocation.getFilterChain().doFilter(wrapper, servletResponse);
+
+                // After the include, we need to copy the attributes that were set in the new request to the old one
+                // but not include the "INCLUDE_" attributes that were set previously
+                copyAttributesFromRequest(includedRequest, originalRequest, attributeName ->
+                    originalRequest.getAttribute(attributeName) == null && Stream.of(
+                        INCLUDE_QUERY_STRING,
+                        INCLUDE_CONTEXT_PATH,
+                        INCLUDE_MAPPING,
+                        INCLUDE_PATH_INFO,
+                        INCLUDE_REQUEST_URI,
+                        INCLUDE_SERVLET_PATH).noneMatch(attributeName::equals));
 
                 servletEnvironment.getWebApplication().unlinkRequestAndResponse(includedRequest, servletResponse);
             } catch (Exception e) {
                 rethrow(e);
             } finally {
                 restoreCurrentRequest(currentRequestHolder, originalRequest);
+                wrapper.setRequest(originalRequest);
             }
         }
+    }
+
+    private ServletRequestWrapper getLastWrapper(ServletRequestWrapper wrapper) {
+        ServletRequestWrapper currentWrapper = wrapper;
+        ServletRequest currentRequest = wrapper;
+        while (currentRequest instanceof ServletRequestWrapper) {
+            currentWrapper = (ServletRequestWrapper) currentRequest;
+            currentRequest = currentWrapper.getRequest();
+        }
+
+        return currentWrapper;
     }
 
     /**
@@ -293,6 +337,8 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, errorRequest);
 
+            copyAttributesFromRequest(request, errorRequest, attribute -> true);
+
             invocationFinder.addFilters(ERROR, servletInvocation, errorRequest.getServletPath(), "");
 
             if (servletInvocation.getServletEnvironment() != null) {
@@ -323,7 +369,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
         try (DefaultWebApplicationRequest forwardedRequest = new DefaultWebApplicationRequest()) {
 
-            HttpServletRequest request = (HttpServletRequest) servletRequest;
+            HttpServletRequest request =  unwrap(servletRequest, HttpServletRequest.class);
             HttpServletResponse response = (HttpServletResponse) servletResponse;
 
             response.resetBuffer();
@@ -345,9 +391,12 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             } else {
                 forwardedRequest.setServletPath("/" + servletEnvironment.getServletName());
+                forwardedRequest.setQueryString(request.getQueryString());
             }
 
             CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, forwardedRequest);
+
+            copyAttributesFromRequest(request, forwardedRequest, attribute -> true);
 
             invocationFinder.addFilters(FORWARD, servletInvocation, forwardedRequest.getServletPath(), "");
 
@@ -428,12 +477,16 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             forwardedRequest.setAttribute(CURRENT_REQUEST_ATTRIBUTE, currentRequestHolder);
         }
 
-        forwardedRequest.setAttribute("PREVIOUS_REQUEST", originalRequest);
-        originalRequest.getAttributeNames()
-            .asIterator()
-            .forEachRemaining(attributeName -> forwardedRequest.setAttribute(attributeName, originalRequest.getAttribute(attributeName)));
+        forwardedRequest.setAttribute(PREVIOUS_REQUEST, originalRequest);
 
         return currentRequestHolder;
+    }
+
+    private void copyAttributesFromRequest(ServletRequest fromRequest, ServletRequest toRequest, Predicate<String> attributesToExclude) {
+        Collections.list(fromRequest.getAttributeNames())
+                .stream()
+                .filter(attributesToExclude)
+                .forEach(attributeName -> toRequest.setAttribute(attributeName, fromRequest.getAttribute(attributeName)));
     }
 
     private void restoreCurrentRequest(CurrentRequestHolder currentRequestHolder, HttpServletRequest originalRequest) {
@@ -551,7 +604,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             }
 
             asyncHttpDispatchWrapper.setRequestURI(previousPathRequest.getServletContext().getContextPath() + getServletPath(path));
-            asyncHttpDispatchWrapper.setAsWrapperAttribute("PREVIOUS_REQUEST", invokeServletRequest);
+            asyncHttpDispatchWrapper.setAsWrapperAttribute(PREVIOUS_REQUEST, invokeServletRequest);
 
         } else {
             asyncHttpDispatchWrapper.setServletPath("/" + servletEnvironment.getServletName());
