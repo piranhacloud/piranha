@@ -587,7 +587,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
             } else {
                 url = new URL(request.getScheme(), request.getServerName(),
                         request.getServerPort(), request.getContextPath()
-                        + request.getServletPath() + "/" + location);
+                        + "/" + location);
             }
         }
         setHeader("Location", url.toExternalForm());
