@@ -109,7 +109,7 @@ class HttpServletResponseTest {
         webApplication.service(request, response);
         assertEquals(302, response.getStatus());
         assertNotNull(response.getHeader("Location"));
-        assertEquals("http://localhost:80/servlet2a/servlet2b", response.getHeader("Location"));
+        assertEquals("http://localhost:80/servlet2b", response.getHeader("Location"));
     }
 
     /**
@@ -146,6 +146,29 @@ class HttpServletResponseTest {
         assertEquals(302, response.getStatus());
         assertNotNull(response.getHeader("Location"));
         assertEquals("http://this.is.outside/and_absolute", response.getHeader("Location"));
+    }
+
+
+    /**
+     * Test sendRedirect method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testRedirect5() throws Exception {
+        webApplication.addServlet("Servlet2a", TestRedirect2aServlet.class);
+        webApplication.addServlet("Servlet2b", TestRedirect2bServlet.class);
+        webApplication.setContextPath("/app");
+        webApplication.addServletMapping("Servlet2a", "/servlet2a");
+        webApplication.addServletMapping("Servlet2b", "/servlet2a/servlet2b");
+        request.setContextPath("/app");
+        request.setServletPath("/servlet2a");
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
+        assertEquals(302, response.getStatus());
+        assertNotNull(response.getHeader("Location"));
+        assertEquals("http://localhost:80/app/servlet2b", response.getHeader("Location"));
     }
 
     /**
