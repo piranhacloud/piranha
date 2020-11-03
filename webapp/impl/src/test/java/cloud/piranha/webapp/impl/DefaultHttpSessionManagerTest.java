@@ -28,6 +28,7 @@
 package cloud.piranha.webapp.impl;
 
 import javax.servlet.SessionTrackingMode;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
@@ -83,7 +84,7 @@ class DefaultHttpSessionManagerTest {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         sessionManager.setWebApplication(webApplication);
-        assertEquals(0, sessionManager.getMaxAge());
+        assertEquals(-1, sessionManager.getMaxAge());
         sessionManager.setMaxAge(60);
         assertEquals(60, sessionManager.getMaxAge());
     }
@@ -217,5 +218,35 @@ class DefaultHttpSessionManagerTest {
         assertThrows(IllegalArgumentException.class, () -> sessionManager.setSessionTrackingModes(sslAndUrl));
         EnumSet<SessionTrackingMode> sslAndCookie = EnumSet.of(SessionTrackingMode.COOKIE, SessionTrackingMode.SSL);
         assertThrows(IllegalArgumentException.class, () -> sessionManager.setSessionTrackingModes(sslAndCookie));
+    }
+
+    @Test
+    void testSetCookieAttributes() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        sessionManager.setWebApplication(webApp);
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        webApp.linkRequestAndResponse(request, response);
+
+        sessionManager.setComment("Comment");
+        sessionManager.setDomain("SessionCookie");
+        sessionManager.setHttpOnly(true);
+        sessionManager.setName("SessionCookie");
+        sessionManager.setMaxAge(100);
+        sessionManager.setPath("/context");
+        sessionManager.setSecure(true);
+
+        sessionManager.createSession(request);
+
+        Cookie sessionCookie = response.getCookies().stream().filter(cookie -> "SessionCookie".equals(cookie.getName())).findFirst().orElse(null);
+        assertNotNull(sessionCookie);
+
+        assertEquals(sessionManager.getComment(), sessionCookie.getComment());
+        assertEquals(sessionManager.getDomain(), sessionCookie.getDomain());
+        assertTrue(sessionCookie.isHttpOnly());
+        assertEquals(sessionManager.getMaxAge(), sessionCookie.getMaxAge());
+        assertEquals(sessionManager.getPath(), sessionCookie.getPath());
+        assertTrue(sessionCookie.getSecure());
     }
 }

@@ -143,6 +143,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         name = "JSESSIONID";
         sessionListeners = new ArrayList<>(1);
         sessionTimeout = 10;
+        maxAge = -1;
         sessions = new ConcurrentHashMap<>();
     }
 
@@ -161,6 +162,12 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         } else {
             cookie.setPath("".equals(webApplication.getContextPath()) ? "/" : webApplication.getContextPath());
         }
+
+        cookie.setComment(comment);
+        cookie.setDomain(domain);
+        cookie.setHttpOnly(httpOnly);
+        cookie.setMaxAge(maxAge);
+        cookie.setSecure(secure);
 
         response.addCookie(cookie);
 
