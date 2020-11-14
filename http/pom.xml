@@ -17,6 +17,7 @@
 
     <modules>
         <module>grizzly</module>
+        <module>jdk</module>
         <module>netty</module>
         <module>singlethread</module>
         <module>undertow</module>
