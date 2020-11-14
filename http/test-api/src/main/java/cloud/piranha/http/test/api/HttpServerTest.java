@@ -87,7 +87,7 @@ public abstract class HttpServerTest {
                         Iterator<String> headerNames = request.getHeaderNames();
                         while (headerNames.hasNext()) {
                             String name = headerNames.next();
-                            outputStream.write(name.getBytes());
+                            outputStream.write(name.toLowerCase().getBytes());
                             outputStream.write("\n".getBytes());
                             outputStream.write(request.getHeader(name).getBytes());
                             outputStream.write("\n".getBytes());
