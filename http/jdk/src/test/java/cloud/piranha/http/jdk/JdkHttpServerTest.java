@@ -29,8 +29,8 @@ package cloud.piranha.http.jdk;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.impl.DefaultHttpServerProcessor;
 import cloud.piranha.http.test.api.HttpServerTest;
+import cloud.piranha.http.test.api.TestHttpServerProcessor;
 
 /**
  * The JUnit tests for the DefaultHttpServer class.
@@ -47,7 +47,7 @@ public class JdkHttpServerTest extends HttpServerTest {
      */
     @Override
     protected HttpServer createServer(int portNumber) {
-        return new JdkHttpServer(portNumber, new DefaultHttpServerProcessor(), false);
+        return new JdkHttpServer(portNumber, new TestHttpServerProcessor(), false);
     }
 
     /**

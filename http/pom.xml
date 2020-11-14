@@ -16,14 +16,14 @@
     <name>Piranha HTTP - Project</name>
 
     <modules>
+        <module>api</module>
         <module>grizzly</module>
+        <module>impl</module>
         <module>jdk</module>
         <module>netty</module>
         <module>singlethread</module>
-        <module>undertow</module>
-        <module>impl</module>
-        <module>api</module>
         <module>test-api</module>
+        <module>undertow</module>
     </modules>
 
     <dependencyManagement>

@@ -26,12 +26,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.http.singlethread {
+module cloud.piranha.http.grizzly {
+
+    opens cloud.piranha.http.grizzly;
     
-    exports cloud.piranha.http.singlethread;
-    opens cloud.piranha.http.singlethread;
     requires cloud.piranha.http.api;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.http.test.api;
+    requires grizzly.framework;
+    requires grizzly.http;
+    requires grizzly.http.server;
     requires java.logging;
+    requires java.net.http;
+    requires org.junit.jupiter.api;
 }

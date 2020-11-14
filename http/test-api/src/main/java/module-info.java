@@ -27,11 +27,10 @@
  */
 
 module cloud.piranha.http.test.api {
-    requires cloud.piranha.http.api;
-
-    requires java.net.http;
-
-    requires org.junit.jupiter.api;
-
     exports cloud.piranha.http.test.api;
+    opens cloud.piranha.http.test.api;
+    requires cloud.piranha.http.api;
+    requires java.net.http;
+    requires java.logging;
+    requires org.junit.jupiter.api;
 }

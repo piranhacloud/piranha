@@ -6,9 +6,9 @@
         <artifactId>project</artifactId>
         <version>20.12.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jdk</artifactId>
+    <artifactId>piranha-http-jdk</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha HTTP - JDK HttpServer</name>
+    <name>Piranha HTTP - JDK HTTP Server Integration</name>
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.http</groupId>

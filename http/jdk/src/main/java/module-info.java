@@ -26,18 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.jdk.JdkHttpServer;
-
 module cloud.piranha.http.jdk {
+    
+    exports cloud.piranha.http.jdk;
+    opens cloud.piranha.http.jdk;
     requires cloud.piranha.http.api;
-    requires cloud.piranha.http.impl;
     requires java.logging;
     requires jdk.httpserver;
-    exports cloud.piranha.http.jdk;
-    provides HttpServer with JdkHttpServer;
-
-    // Tests
-    requires static java.net.http;
-    opens cloud.piranha.http.jdk;
 }

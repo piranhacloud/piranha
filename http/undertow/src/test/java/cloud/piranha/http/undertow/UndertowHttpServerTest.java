@@ -30,6 +30,7 @@ package cloud.piranha.http.undertow;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.test.api.HttpServerTest;
+import cloud.piranha.http.test.api.TestHttpServerProcessor;
 
 /**
  * The JUnit tests for the UndertowHttpServer class.
@@ -46,7 +47,9 @@ public class UndertowHttpServerTest extends HttpServerTest {
      */
     @Override
     protected HttpServer createServer(int portNumber) {
-        return new UndertowHttpServer(portNumber);
+        UndertowHttpServer server = new UndertowHttpServer(portNumber);
+        server.setHttpServerProcessor(new TestHttpServerProcessor());
+        return server;
     }
 
     /**
