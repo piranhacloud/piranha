@@ -26,19 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.grizzly.GrizzlyHttpServer;
-
 module cloud.piranha.http.grizzly {
+
+    opens cloud.piranha.http.grizzly;
+    
     requires cloud.piranha.http.api;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.webapp.impl;
-
+    requires cloud.piranha.webapp.api;
     requires java.logging;
-
     requires grizzly.framework;
     requires grizzly.http;
     requires grizzly.http.server;
-
-    provides HttpServer with GrizzlyHttpServer;
 }

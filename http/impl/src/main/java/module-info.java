@@ -26,19 +26,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.impl.DefaultHttpServer;
-
 module cloud.piranha.http.impl {
-    requires cloud.piranha.http.api;
-
-    requires java.logging;
-
+    
     exports cloud.piranha.http.impl;
-
-    provides HttpServer with DefaultHttpServer;
-
-    // Tests
-    requires static java.net.http;
+    
     opens cloud.piranha.http.impl;
+    
+    requires cloud.piranha.http.api;
+    requires java.logging;
 }

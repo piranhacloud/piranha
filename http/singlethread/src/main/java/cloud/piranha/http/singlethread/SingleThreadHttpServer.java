@@ -46,7 +46,6 @@ import javax.net.ssl.SSLServerSocketFactory;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.impl.DefaultHttpServerProcessor;
 import cloud.piranha.http.impl.DefaultHttpServerRequest;
 import cloud.piranha.http.impl.DefaultHttpServerResponse;
 
@@ -108,7 +107,6 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
      * Constructor.
      */
     public SingleThreadHttpServer() {
-        processor = new DefaultHttpServerProcessor();
         serverPort = 8080;
         serverStopRequest = false;
         soTimeout = 2000;
@@ -121,7 +119,6 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
      */
     public SingleThreadHttpServer(int serverPort) {
         this.serverPort = serverPort;
-        processor = new DefaultHttpServerProcessor();
         serverStopRequest = false;
         soTimeout = 2000;
 

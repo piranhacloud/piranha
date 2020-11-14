@@ -41,7 +41,6 @@ import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
 
 import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.impl.DefaultHttpServerProcessor;
 
 /**
  * The Grizzly implementation of HTTP Server.
@@ -80,7 +79,6 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
      * Constructor.
      */
     public GrizzlyHttpServer() {
-        httpServerProcessor = new DefaultHttpServerProcessor();
     }
 
     /**
@@ -90,7 +88,6 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
      */
     public GrizzlyHttpServer(int serverPort) {
         port = serverPort;
-        httpServerProcessor = new DefaultHttpServerProcessor();
     }
 
     /**
@@ -111,7 +108,6 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
      */
     public GrizzlyHttpServer(HttpServer httpServer) {
         this.httpServer = httpServer;
-        this.httpServerProcessor = new DefaultHttpServerProcessor();
     }
 
     /**

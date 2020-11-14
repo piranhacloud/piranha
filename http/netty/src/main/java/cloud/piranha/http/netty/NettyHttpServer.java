@@ -31,7 +31,6 @@ import java.util.logging.Logger;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.impl.DefaultHttpServerProcessor;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -79,7 +78,6 @@ public class NettyHttpServer implements HttpServer {
      * Constructor.
      */
     public NettyHttpServer() {
-        httpServerProcessor = new DefaultHttpServerProcessor();
         serverPort = 8080;
     }
 
@@ -89,7 +87,6 @@ public class NettyHttpServer implements HttpServer {
      * @param serverPort the server port.
      */
     public NettyHttpServer(int serverPort) {
-        this.httpServerProcessor = new DefaultHttpServerProcessor();
         this.serverPort = serverPort;
     }
 

@@ -30,6 +30,7 @@ package cloud.piranha.http.grizzly;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.test.api.HttpServerTest;
+import cloud.piranha.http.test.api.TestHttpServerProcessor;
 
 /**
  * The JUnit tests for the DefaultHttpServer class.
@@ -46,7 +47,9 @@ public class GrizzlyHttpServerTest extends HttpServerTest {
      */
     @Override
     protected HttpServer createServer(int portNumber) {
-        return new GrizzlyHttpServer(portNumber);
+        GrizzlyHttpServer server = new GrizzlyHttpServer(portNumber);
+        server.setHttpServerProcessor(new TestHttpServerProcessor());
+        return server;
     }
 
     /**

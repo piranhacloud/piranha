@@ -26,12 +26,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.http.singlethread {
+module cloud.piranha.http.jdk {
     
-    exports cloud.piranha.http.singlethread;
-    opens cloud.piranha.http.singlethread;
+    exports cloud.piranha.http.jdk;
+    opens cloud.piranha.http.jdk;
     requires cloud.piranha.http.api;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.http.test.api;
     requires java.logging;
+    requires jdk.httpserver;
 }

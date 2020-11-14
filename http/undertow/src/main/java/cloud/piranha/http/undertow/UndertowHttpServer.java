@@ -29,7 +29,6 @@ package cloud.piranha.http.undertow;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.impl.DefaultHttpServerProcessor;
 import io.undertow.Undertow;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
@@ -74,7 +73,6 @@ public class UndertowHttpServer implements HttpServer {
      * Constructor.
      */
     public UndertowHttpServer() {
-        httpServerProcessor = new DefaultHttpServerProcessor();
         serverPort = 8080;
     }
 
@@ -84,7 +82,6 @@ public class UndertowHttpServer implements HttpServer {
      * @param serverPort the server port.
      */
     public UndertowHttpServer(int serverPort) {
-        this.httpServerProcessor = new DefaultHttpServerProcessor();
         this.serverPort = serverPort;
     }
 

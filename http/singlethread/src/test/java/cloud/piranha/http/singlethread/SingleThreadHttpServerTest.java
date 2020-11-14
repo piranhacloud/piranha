@@ -30,7 +30,7 @@ package cloud.piranha.http.singlethread;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.test.api.HttpServerTest;
-import org.junit.jupiter.api.Disabled;
+import cloud.piranha.http.test.api.TestHttpServerProcessor;
 
 /**
  * The JUnit tests for the SingleThreadHttpServer class.
@@ -47,7 +47,9 @@ public class SingleThreadHttpServerTest extends HttpServerTest {
      */
     @Override
     protected HttpServer createServer(int portNumber) {
-        return new SingleThreadHttpServer(portNumber);
+        SingleThreadHttpServer server = new SingleThreadHttpServer(portNumber);
+        server.setHttpServerProcessor(new TestHttpServerProcessor());
+        return server;
     }
 
     /**

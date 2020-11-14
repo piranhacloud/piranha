@@ -30,6 +30,7 @@ package cloud.piranha.http.netty;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.test.api.HttpServerTest;
+import cloud.piranha.http.test.api.TestHttpServerProcessor;
 
 /**
  * The JUnit tests for the NettyHttpServer class.
@@ -46,7 +47,9 @@ public class NettyHttpServerTest extends HttpServerTest {
      */
     @Override
     protected HttpServer createServer(int portNumber) {
-        return new NettyHttpServer(portNumber);
+        NettyHttpServer server = new NettyHttpServer(portNumber);
+        server.setHttpServerProcessor(new TestHttpServerProcessor());
+        return server;
     }
 
     /**

@@ -30,6 +30,7 @@ package cloud.piranha.http.impl;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.test.api.HttpServerTest;
+import cloud.piranha.http.test.api.TestHttpServerProcessor;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -56,7 +57,7 @@ class DefaultHttpServerTest extends HttpServerTest {
      */
     @Override
     protected HttpServer createServer(int portNumber) {
-        return new DefaultHttpServer(portNumber, new DefaultHttpServerProcessor(), false);
+        return new DefaultHttpServer(portNumber, new TestHttpServerProcessor(), false);
     }
 
     /**
@@ -87,7 +88,7 @@ class DefaultHttpServerTest extends HttpServerTest {
         int port = 8760 + portOffset;
 
         DefaultHttpServer server = new DefaultHttpServer(
-                port, new DefaultHttpServerProcessor(), 2000);
+                port, new TestHttpServerProcessor(), 2000);
         assertEquals(2000, server.getSoTimeout());
         server.start();
         try {

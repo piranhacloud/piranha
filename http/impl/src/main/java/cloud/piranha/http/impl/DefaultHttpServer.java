@@ -111,7 +111,6 @@ public class DefaultHttpServer implements HttpServer {
      */
     public DefaultHttpServer() {
         threadFactory = new DefaultHttpServerThreadFactory();
-        processor = new DefaultHttpServerProcessor();
         serverPort = 8765;
         serverStopRequest = false;
     }
@@ -124,8 +123,6 @@ public class DefaultHttpServer implements HttpServer {
     public DefaultHttpServer(int serverPort) {
         this.serverPort = serverPort;
         threadFactory = new DefaultHttpServerThreadFactory();
-        processor = new DefaultHttpServerProcessor();
-        serverStopRequest = false;
     }
 
     /**

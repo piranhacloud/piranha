@@ -26,17 +26,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.netty.NettyHttpServer;
-
 module cloud.piranha.http.netty {
+    
+    exports cloud.piranha.http.netty;
+    opens cloud.piranha.http.netty;
     requires cloud.piranha.http.api;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.webapp.impl;
-
+    requires cloud.piranha.webapp.api;
     requires io.netty.all;
-
     requires java.logging;
-
-    provides HttpServer with NettyHttpServer;
 }
