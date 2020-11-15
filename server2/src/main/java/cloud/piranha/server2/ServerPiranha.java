@@ -33,19 +33,20 @@ import java.io.File;
 import java.io.IOException;
 import java.security.Policy;
 import java.util.Arrays;
+import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import cloud.piranha.http.api.HttpServer;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import cloud.piranha.api.Piranha;
 import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
-import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.micro.MicroConfiguration;
 import cloud.piranha.micro.MicroOuterDeployer;
 
@@ -160,7 +161,10 @@ public class ServerPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, () -> "Starting Piranha");
 
         DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
-        DefaultHttpServer httpServer = new DefaultHttpServer(8080, webApplicationServer, ssl);
+        HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+        httpServer.setServerPort(8080);
+        httpServer.setHttpServerProcessor(webApplicationServer);
+        httpServer.setSSL(ssl);
         httpServer.start();
         webApplicationServer.start();
 
