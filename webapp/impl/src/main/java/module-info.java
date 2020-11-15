@@ -28,7 +28,6 @@
 module cloud.piranha.webapp.impl {
     requires cloud.piranha.appserver.api;
     requires cloud.piranha.http.api;
-    requires cloud.piranha.http.impl;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
     requires transitive cloud.piranha.servlet.api;
