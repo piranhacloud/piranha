@@ -31,7 +31,7 @@ module cloud.piranha.http.netty {
     exports cloud.piranha.http.netty;
     opens cloud.piranha.http.netty;
     requires cloud.piranha.http.api;
-    requires cloud.piranha.http.test.api;
+    requires cloud.piranha.http.tests;
     requires cloud.piranha.webapp.api;
     requires io.netty.all;
     requires java.logging;

@@ -31,7 +31,7 @@ module cloud.piranha.http.jdk {
     exports cloud.piranha.http.jdk;
     opens cloud.piranha.http.jdk;
     requires cloud.piranha.http.api;
-    requires cloud.piranha.http.test.api;
+    requires cloud.piranha.http.tests;
     requires java.logging;
     requires jdk.httpserver;
 }

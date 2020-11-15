@@ -31,7 +31,7 @@ module cloud.piranha.http.grizzly {
     opens cloud.piranha.http.grizzly;
     
     requires cloud.piranha.http.api;
-    requires cloud.piranha.http.test.api;
+    requires cloud.piranha.http.tests;
     requires grizzly.framework;
     requires grizzly.http;
     requires grizzly.http.server;
