@@ -30,6 +30,8 @@ package cloud.piranha.http.undertow;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import io.undertow.Undertow;
+import io.undertow.UndertowOptions;
+
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
 import javax.net.ssl.SSLContext;
@@ -182,6 +184,7 @@ public class UndertowHttpServer implements HttpServer {
         } else {
             builder.addHttpListener(serverPort, "0.0.0.0");
         }
+        builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true);
         undertow = builder.build();
         undertow.start();
     }
