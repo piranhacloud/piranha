@@ -27,22 +27,20 @@
  */
 package cloud.piranha.http.impl;
 
-import static java.util.logging.Level.WARNING;
-
+import cloud.piranha.http.api.HttpServerRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
-
-import cloud.piranha.http.api.HttpServerRequest;
 
 /**
  * The default implementation of HTTP Server Request.
@@ -60,7 +58,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     /**
      * Stores the headers.
      */
-    private final Map<String, String> headers;
+    private final Map<String, List<String>> headers;
 
     /**
      * Stores the input stream.
@@ -98,7 +96,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
      * @param socket the socket.
      */
     public DefaultHttpServerRequest(Socket socket) {
-        this.headers = new ConcurrentHashMap<>(1);
+        this.headers = new HashMap<>(1);
         this.socket = socket;
         parse();
     }
@@ -111,31 +109,35 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
      */
     public void addHeader(String name, String value) {
         if (!headers.containsKey(name)) {
-            headers.put(name, value);
+            ArrayList<String> values = new ArrayList<>();
+            values.add(value);
+            headers.put(name, values);
         } else {
-            headers.put(name, headers.get(name) + "," + value);
+            headers.get(name).add(value);
         }
     }
 
-    /**
-     * @see HttpServerRequest#getHeader(java.lang.String)
-     */
     @Override
     public String getHeader(String name) {
-        return headers.get(name);
+        String header = null;
+        if (headers.get(name) != null) {
+            header = headers.get(name).isEmpty() ? null : headers.get(name).get(0);
+        }
+        return header;
     }
 
-    /**
-     * @see HttpServerRequest#getHeaderNames()
-     */
     @Override
     public Iterator<String> getHeaderNames() {
         return headers.keySet().iterator();
     }
 
-    /**
-     * @see HttpServerRequest#getInputStream()
-     */
+    @Override
+    public Iterator<String> getHeaders(String name) {
+        return headers.get(name) == null
+                ? Collections.EMPTY_LIST.iterator()
+                : headers.get(name).iterator();
+    }
+
     @Override
     public InputStream getInputStream() {
         InputStream result = inputStream;
@@ -152,41 +154,26 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
         return result;
     }
 
-    /**
-     * @see HttpServerRequest#getLocalAddress()
-     */
     @Override
     public String getLocalAddress() {
         return socket.getLocalAddress().getHostAddress();
     }
 
-    /**
-     * @see HttpServerRequest#getLocalHostname()
-     */
     @Override
     public String getLocalHostname() {
         return socket.getLocalAddress().getHostName();
     }
 
-    /**
-     * @see HttpServerRequest#getLocalPort()
-     */
     @Override
     public int getLocalPort() {
         return socket.getLocalPort();
     }
 
-    /**
-     * @see HttpServerRequest#getMethod()
-     */
     @Override
     public String getMethod() {
         return method;
     }
 
-    /**
-     * @see HttpServerRequest#getQueryParameter(java.lang.String)
-     */
     @Override
     public String getQueryParameter(String name) {
         String result = null;
@@ -219,43 +206,26 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
         return result;
     }
 
-    /**
-     * @see HttpServerRequest#getQueryString()
-     */
     @Override
     public String getQueryString() {
         return queryString;
     }
 
-    /**
-     * Get the remote address.
-     *
-     * @return the remote address.
-     */
     @Override
     public String getRemoteAddress() {
         return socket.getInetAddress().getHostAddress();
     }
 
-    /**
-     * @see HttpServerRequest#getRemoteHostname()
-     */
     @Override
     public String getRemoteHostname() {
         return socket.getInetAddress().getHostName();
     }
 
-    /**
-     * @see HttpServerRequest#getRemotePort()
-     */
     @Override
     public int getRemotePort() {
         return socket.getPort();
     }
 
-    /**
-     * @see HttpServerRequest#getRequestTarget()
-     */
     @Override
     public String getRequestTarget() {
         return requestTarget;

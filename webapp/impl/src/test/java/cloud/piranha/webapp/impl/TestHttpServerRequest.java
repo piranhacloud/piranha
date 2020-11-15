@@ -30,6 +30,7 @@ package cloud.piranha.webapp.impl;
 import cloud.piranha.http.api.HttpServerRequest;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -42,6 +43,11 @@ public class TestHttpServerRequest implements HttpServerRequest {
 
     @Override
     public String getHeader(String string) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Iterator<String> getHeaders(String name) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

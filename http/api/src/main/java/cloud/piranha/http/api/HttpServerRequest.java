@@ -49,6 +49,14 @@ public interface HttpServerRequest {
      * @return the value, or null.
      */
     String getHeader(String name);
+    
+    /**
+     * Get the headers.
+     * 
+     * @param name the name of the header.
+     * @return the potentially empty collection.
+     */
+    Iterator<String> getHeaders(String name);
 
     /**
      * Get the header names.

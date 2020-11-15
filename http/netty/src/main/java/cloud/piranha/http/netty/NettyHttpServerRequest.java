@@ -27,17 +27,16 @@
  */
 package cloud.piranha.http.netty;
 
-import java.io.InputStream;
-import java.net.InetSocketAddress;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import cloud.piranha.http.api.HttpServerRequest;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.QueryStringDecoder;
+import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The Netty implementation of HTTP Server Request.
@@ -62,7 +61,7 @@ public class NettyHttpServerRequest implements HttpServerRequest {
     private Map<String, List<String>> queryParameters;
 
     /**
-     * Stores the HTTP request.
+     * Stores the underlying HTTP request.
      */
     private final FullHttpRequest request;
 
@@ -78,25 +77,21 @@ public class NettyHttpServerRequest implements HttpServerRequest {
         this.request = request;
     }
 
-    /**
-     * @see HttpServerRequest#getHeader(java.lang.String)
-     */
     @Override
     public String getHeader(String name) {
         return request.headers().get(name);
     }
 
-    /**
-     * @see HttpServerRequest#getHeaderNames()
-     */
     @Override
     public Iterator<String> getHeaderNames() {
         return request.headers().names().iterator();
     }
 
-    /**
-     * @see HttpServerRequest#getInputStream()
-     */
+    @Override
+    public Iterator<String> getHeaders(String name) {
+        return request.headers().getAll(name).iterator();
+    }
+    
     @Override
     public InputStream getInputStream() {
         synchronized (request) {
@@ -107,44 +102,29 @@ public class NettyHttpServerRequest implements HttpServerRequest {
         return inputStream;
     }
 
-    /**
-     * @see HttpServerRequest#getLocalAddress()
-     */
     @Override
     public String getLocalAddress() {
         InetSocketAddress localAddress = (InetSocketAddress) context.channel().localAddress();
         return localAddress.getAddress().getHostAddress();
     }
 
-    /**
-     * @see HttpServerRequest#getLocalHostname()
-     */
     @Override
     public String getLocalHostname() {
         InetSocketAddress localAddress = (InetSocketAddress) context.channel().localAddress();
         return localAddress.getAddress().getHostName();
     }
 
-    /**
-     * @see HttpServerRequest#getLocalPort()
-     */
     @Override
     public int getLocalPort() {
         InetSocketAddress localAddress = (InetSocketAddress) context.channel().localAddress();
         return localAddress.getPort();
     }
 
-    /**
-     * @see HttpServerRequest#getMethod()
-     */
     @Override
     public String getMethod() {
         return request.method().name();
     }
 
-    /**
-     * @see HttpServerRequest#getQueryParameter(java.lang.String)
-     */
     @Override
     public String getQueryParameter(String name) {
         synchronized (request) {
@@ -156,9 +136,6 @@ public class NettyHttpServerRequest implements HttpServerRequest {
         return queryParameters.get(name).get(0);
     }
 
-    /**
-     * @see HttpServerRequest#getQueryString()
-     */
     @Override
     public String getQueryString() {
         String result = null;
@@ -168,36 +145,24 @@ public class NettyHttpServerRequest implements HttpServerRequest {
         return result;
     }
 
-    /**
-     * @see HttpServerRequest#getRemoteAddress()
-     */
     @Override
     public String getRemoteAddress() {
         InetSocketAddress remoteAddress = (InetSocketAddress) context.channel().remoteAddress();
         return remoteAddress.getAddress().getHostAddress();
     }
 
-    /**
-     * @see HttpServerRequest#getRemoteHostname()
-     */
     @Override
     public String getRemoteHostname() {
         InetSocketAddress remoteAddress = (InetSocketAddress) context.channel().remoteAddress();
         return remoteAddress.getAddress().getHostName();
     }
 
-    /**
-     * @see HttpServerRequest#getRemotePort()
-     */
     @Override
     public int getRemotePort() {
         InetSocketAddress remoteAddress = (InetSocketAddress) context.channel().remoteAddress();
         return remoteAddress.getPort();
     }
 
-    /**
-     * @see HttpServerRequest#getRequestTarget()
-     */
     @Override
     public String getRequestTarget() {
         return request.uri();

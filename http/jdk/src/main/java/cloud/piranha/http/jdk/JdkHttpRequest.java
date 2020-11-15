@@ -86,6 +86,11 @@ public class JdkHttpRequest implements HttpServerRequest {
     }
 
     @Override
+    public Iterator<String> getHeaders(String name) {
+        return exchange.getRequestHeaders().get(name).iterator();
+    }
+
+    @Override
     public InputStream getInputStream() {
         return exchange.getRequestBody();
     }

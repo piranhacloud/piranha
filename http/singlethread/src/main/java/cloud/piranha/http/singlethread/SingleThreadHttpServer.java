@@ -52,7 +52,13 @@ import cloud.piranha.http.impl.DefaultHttpServerResponse;
 /**
  * The single threaded implementation of HTTP Server.
  *
+ * <p>
+ * This class has been deprecated in favor of the JDK HttpServer implementation
+ * and it will be removed the next cycle.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  * @see cloud.piranha.http.api.HttpServer
  */
 public class SingleThreadHttpServer implements HttpServer, Runnable {
@@ -97,11 +103,10 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
      */
     protected int soTimeout;
 
-    /***
+    /**
      * Stores the SSL flag
      */
     private boolean ssl;
-
 
     /**
      * Constructor.
@@ -136,17 +141,11 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
         this.serverStopRequest = false;
     }
 
-    /**
-     * @see HttpServer#isRunning()
-     */
     @Override
     public boolean isRunning() {
         return running;
     }
 
-    /**
-     * @see Runnable#run()
-     */
     @Override
     public void run() {
         while (!serverStopRequest) {
@@ -165,9 +164,6 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
         }
     }
 
-    /**
-     * @see HttpServer#start()
-     */
     @Override
     public void start() {
         LOGGER.log(FINE, "Start HTTP server");
@@ -200,9 +196,6 @@ public class SingleThreadHttpServer implements HttpServer, Runnable {
         }
     }
 
-    /**
-     * @see HttpServer#stop()
-     */
     @Override
     public void stop() {
         LOGGER.log(FINE, "Stopping HTTP server");

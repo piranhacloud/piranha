@@ -46,6 +46,11 @@ public class UndertowHttpRequest implements HttpServerRequest {
      * Stores the HTTP server exchange.
      */
     private final HttpServerExchange exchange;
+    
+    /**
+     * Stores the header names.
+     */
+    private ArrayList<String> headerNames;
 
     /**
      * Constructor.
@@ -56,37 +61,28 @@ public class UndertowHttpRequest implements HttpServerRequest {
         this.exchange = exchange;
     }
 
-    /**
-     * Get the header.
-     *
-     * @param name the name.
-     * @return the value.
-     */
     @Override
     public String getHeader(String name) {
         return exchange.getRequestHeaders().getFirst(name);
     }
 
-    /**
-     * Get the header names.
-     *
-     * @return the header names.
-     */
     @Override
     public Iterator<String> getHeaderNames() {
-        ArrayList<String> result = new ArrayList<>();
-        Iterator<HttpString> names = exchange.getRequestHeaders().getHeaderNames().iterator();
-        while(names.hasNext()) {
-            result.add(names.next().toString());
+        if (headerNames == null) {
+            headerNames = new ArrayList<>();
+            Iterator<HttpString> names = exchange.getRequestHeaders().getHeaderNames().iterator();
+            while(names.hasNext()) {
+                headerNames.add(names.next().toString());
+            }
         }
-        return result.iterator();
+        return headerNames.iterator();
     }
 
-    /**
-     * Get the input stream.
-     *
-     * @return the input stream.
-     */
+    @Override
+    public Iterator<String> getHeaders(String name) {
+        return exchange.getRequestHeaders().get(name).iterator();
+    }
+
     @Override
     public InputStream getInputStream() {
         if (!exchange.isBlocking()) {
@@ -95,102 +91,51 @@ public class UndertowHttpRequest implements HttpServerRequest {
         return exchange.getInputStream();
     }
 
-    /**
-     * Get the local address.
-     *
-     * @return the local address.
-     */
     @Override
     public String getLocalAddress() {
         return exchange.getDestinationAddress().getAddress().getHostAddress();
     }
 
-    /**
-     * Get the local hostname.
-     *
-     * @return the local hostname.
-     */
     @Override
     public String getLocalHostname() {
         return exchange.getHostName();
     }
 
-    /**
-     * Get the local port.
-     *
-     * @return the local port.
-     */
     @Override
     public int getLocalPort() {
         return exchange.getHostPort();
     }
 
-    /**
-     * Get the method.
-     *
-     * @return the method.
-     */
     @Override
     public String getMethod() {
         return exchange.getRequestMethod().toString();
     }
 
-    /**
-     * Get the query parameter.
-     *
-     * @param name the name.
-     * @return the value.
-     */
     @Override
     public String getQueryParameter(String name) {
         return exchange.getQueryParameters().get(name).getFirst();
     }
 
-    /**
-     * Get the query string.
-     *
-     * @return the query string.
-     */
     @Override
     public String getQueryString() {
         return exchange.getQueryString();
     }
 
-    /**
-     * Get the remote address.
-     *
-     * @return the remote address.
-     */
     @Override
     public String getRemoteAddress() {
         return exchange.getSourceAddress().getAddress().getHostAddress();
     }
 
-    /**
-     * Get the remote hostname.
-     *
-     * @return the remote hostname.
-     */
     @Override
     public String getRemoteHostname() {
         return exchange.getSourceAddress().getAddress().getHostName();
     }
 
-    /**
-     * Get the remote port.
-     *
-     * @return the remote port.
-     */
     @Override
     public int getRemotePort() {
         return exchange.getSourceAddress().getPort();
     }
 
-    /**
-     * Get the request target.
-     *
-     * @return the request target.
-     */
     @Override
     public String getRequestTarget() {
         return exchange.getRequestURI();
