@@ -39,6 +39,5 @@ module cloud.piranha.appserver.impl {
     opens cloud.piranha.appserver.impl;
 
     // Tests
-    requires static cloud.piranha.http.impl;
     requires static java.net.http;
 }
