@@ -31,8 +31,8 @@ module cloud.piranha.http.singlethread {
     exports cloud.piranha.http.singlethread;
     opens cloud.piranha.http.singlethread;
     requires cloud.piranha.http.api;
-    requires cloud.piranha.http.test.api;
     requires cloud.piranha.http.impl;
+    requires cloud.piranha.http.tests;
     requires cloud.piranha.webapp.impl;
     requires java.logging;
 }

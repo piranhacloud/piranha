@@ -29,11 +29,9 @@
 module cloud.piranha.http.undertow {
 
     exports cloud.piranha.http.undertow;
-    
     opens cloud.piranha.http.undertow;
-
     requires cloud.piranha.http.api;
-    requires cloud.piranha.http.test.api;
+    requires cloud.piranha.http.tests;
     requires cloud.piranha.webapp.api;
     requires java.logging;
     requires undertow.core;

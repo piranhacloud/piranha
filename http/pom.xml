@@ -22,9 +22,9 @@
         <module>jdk</module>
         <module>netty</module>
         <module>singlethread</module>
-        <module>test-api</module>
         <module>undertow</module>
         <module>webapp</module>
+        <module>tests</module>
     </modules>
 
     <dependencyManagement>

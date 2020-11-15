@@ -29,8 +29,8 @@ package cloud.piranha.http.undertow;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.test.api.HttpServerTest;
-import cloud.piranha.http.test.api.TestHttpServerProcessor;
+import cloud.piranha.http.tests.HttpServerTest;
+import cloud.piranha.http.tests.TestHttpServerProcessor;
 
 /**
  * The JUnit tests for the UndertowHttpServer class.
