@@ -26,6 +26,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.undertow.UndertowHttpServer;
+
 module cloud.piranha.http.undertow {
 
     exports cloud.piranha.http.undertow;
@@ -36,4 +39,6 @@ module cloud.piranha.http.undertow {
     requires cloud.piranha.webapp.api;
     requires java.logging;
     requires undertow.core;
+
+    provides HttpServer with UndertowHttpServer;
 }

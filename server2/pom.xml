@@ -103,7 +103,7 @@
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-impl</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Piranha Naming implementation -->
