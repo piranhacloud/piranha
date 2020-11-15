@@ -26,6 +26,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.grizzly.GrizzlyHttpServer;
+
 module cloud.piranha.http.grizzly {
 
     opens cloud.piranha.http.grizzly;
@@ -36,4 +39,6 @@ module cloud.piranha.http.grizzly {
     requires grizzly.framework;
     requires grizzly.http;
     requires grizzly.http.server;
+
+    provides HttpServer with GrizzlyHttpServer;
 }

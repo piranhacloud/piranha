@@ -26,6 +26,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.singlethread.SingleThreadHttpServer;
+
 module cloud.piranha.http.singlethread {
     
     exports cloud.piranha.http.singlethread;
@@ -34,4 +37,6 @@ module cloud.piranha.http.singlethread {
     requires cloud.piranha.http.impl;
     requires cloud.piranha.webapp.impl;
     requires java.logging;
+
+    provides HttpServer with SingleThreadHttpServer;
 }
