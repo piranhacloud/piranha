@@ -28,11 +28,11 @@
 package cloud.piranha.http.grizzly;
 
 import java.io.InputStream;
-import java.util.Iterator;
 
 import org.glassfish.grizzly.http.server.Request;
 
 import cloud.piranha.http.api.HttpServerRequest;
+import java.util.Iterator;
 
 /**
  * The Grizzly implementation of HTTP Server Request.
@@ -63,98 +63,67 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
     public String getHeader(String name) {
         return request.getHeader(name);
     }
-
-    /**
-     * @see HttpServerRequest#getHeaderNames()
-     */
+    
     @Override
     public Iterator<String> getHeaderNames() {
         return request.getHeaderNames().iterator();
     }
 
-    /**
-     * @see HttpServerRequest#getInputStream()
-     */
+    @Override
+    public Iterator<String> getHeaders(String name) {
+        return request.getHeaders(name).iterator();
+    }
+
     @Override
     public InputStream getInputStream() {
         return request.getInputStream();
     }
 
-    /**
-     * @see HttpServerRequest#getLocalAddress()
-     */
     @Override
     public String getLocalAddress() {
         return request.getLocalAddr();
     }
 
-    /**
-     * @see HttpServerRequest#getLocalHostname()
-     */
     @Override
     public String getLocalHostname() {
         return request.getLocalName();
     }
 
-    /**
-     * @see HttpServerRequest#getLocalPort()
-     */
     @Override
     public int getLocalPort() {
         return request.getLocalPort();
     }
 
-    /**
-     * @see HttpServerRequest#getMethod()
-     */
     @Override
     public String getMethod() {
         return request.getMethod().getMethodString();
     }
 
-    /**
-     * @see HttpServerRequest#getQueryParameter(java.lang.String)
-     */
     @Override
     public String getQueryParameter(String name) {
         return request.getParameter(name);
     }
 
-    /**
-     * @see HttpServerRequest#getQueryString()
-     */
     @Override
     public String getQueryString() {
         return request.getQueryString();
     }
 
-    /**
-     * @see HttpServerRequest#getRemoteAddress()
-     */
     @Override
     public String getRemoteAddress() {
         return request.getRemoteAddr();
     }
 
-    /**
-     * @see HttpServerRequest#getRemoteHostname()
-     */
     @Override
     public String getRemoteHostname() {
         return request.getRemoteHost();
     }
 
-    /**
-     * @see HttpServerRequest#getRemotePort()
-     */
     @Override
     public int getRemotePort() {
         return request.getRemotePort();
     }
 
-    /**
-     * @see HttpServerRequest#getRequestTarget()
-     */
     @Override
     public String getRequestTarget() {
         return request.getRequestURI();

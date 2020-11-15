@@ -24,6 +24,7 @@
         <module>singlethread</module>
         <module>test-api</module>
         <module>undertow</module>
+        <module>webapp</module>
     </modules>
 
     <dependencyManagement>
