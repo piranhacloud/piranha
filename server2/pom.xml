@@ -98,14 +98,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Piranha HTTP implementation -->
-        <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
         <!-- Piranha Naming implementation -->
         <dependency>
             <groupId>cloud.piranha.naming</groupId>
@@ -219,4 +211,70 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>grizzly</id>
+            <dependencies>
+                <!-- Piranha HTTP - Grizzly Integration -->
+                <dependency>
+                    <groupId>cloud.piranha.http</groupId>
+                    <artifactId>piranha-http-grizzly</artifactId>
+                    <version>${project.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>impl</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <!-- Piranha HTTP implementation -->
+                <dependency>
+                    <groupId>cloud.piranha.http</groupId>
+                    <artifactId>piranha-http-impl</artifactId>
+                    <version>${project.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>jdk</id>
+            <dependencies>
+                <!-- Piranha HTTP - JDK HTTP Server Integration  -->
+                <dependency>
+                    <groupId>cloud.piranha.http</groupId>
+                    <artifactId>piranha-http-jdk</artifactId>
+                    <version>${project.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>netty</id>
+            <dependencies>
+                <!-- Piranha HTTP - Netty Integration  -->
+                <dependency>
+                    <groupId>cloud.piranha.http</groupId>
+                    <artifactId>piranha-http-netty</artifactId>
+                    <version>${project.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>undertow</id>
+            <dependencies>
+                <!-- Piranha HTTP - Undertow Integration -->
+                <dependency>
+                    <groupId>cloud.piranha.http</groupId>
+                    <artifactId>piranha-http-undertow</artifactId>
+                    <version>${project.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>
