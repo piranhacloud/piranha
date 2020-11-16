@@ -10,6 +10,7 @@ jobs:
         java: [ '15' ]
         os: [ubuntu-latest]
         jdk-tck: ['8', '15']
+        http: ['grizzly', 'impl', 'jdk', 'undertow']
     steps:
     - name: Checkout sources
       uses: actions/checkout@v1
@@ -23,6 +24,6 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
-      run: mvn -B -DskipTests=true install
+      run: mvn -B -DskipTests=true -P${{ matrix.http }} install
     - name: Run TCK
       run: mvn -amd -B -P external -pl external/tck/servlet -Dant.java.home=${{ steps.set-java-tck.outputs.path }} verify
