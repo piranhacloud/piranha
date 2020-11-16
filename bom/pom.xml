@@ -86,7 +86,17 @@
                 <groupId>org.glassfish.grizzly</groupId>
                 <artifactId>grizzly-http-server</artifactId>
                 <version>2.4.4</version>
-            </dependency>        
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.grizzly</groupId>
+                <artifactId>grizzly-http2</artifactId>
+                <version>2.4.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.grizzly</groupId>
+                <artifactId>grizzly-npn-api</artifactId>
+                <version>1.9</version>
+            </dependency>
 
             <!-- H2 database -->
             <dependency>
