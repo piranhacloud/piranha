@@ -37,8 +37,10 @@ import java.util.logging.Logger;
 import org.glassfish.grizzly.CompletionHandler;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.NetworkListener;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
+import org.glassfish.grizzly.http2.Http2AddOn;
 
 import cloud.piranha.http.api.HttpServerProcessor;
 
@@ -139,7 +141,9 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
     public void start() {
         if (httpServer == null) {
             httpServer = HttpServer.createSimpleServer(null, port);
-            httpServer.getListener("grizzly").setSecure(ssl);
+            NetworkListener networkListener = httpServer.getListener("grizzly");
+            networkListener.setSecure(ssl);
+            networkListener.registerAddOn(new Http2AddOn());
         }
         addHttpHandler();
         try {

@@ -39,6 +39,7 @@ module cloud.piranha.http.grizzly {
     requires grizzly.framework;
     requires grizzly.http;
     requires grizzly.http.server;
+    requires grizzly.http2;
 
     provides HttpServer with GrizzlyHttpServer;
 }
