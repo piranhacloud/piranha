@@ -29,25 +29,51 @@ package cloud.piranha.http.webapp;
 
 import cloud.piranha.http.api.HttpServerResponse;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import java.io.IOException;
 
 /**
  * The HttpServerResponse variant of WebApplicationResponse.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HttpServerWebApplicationResponse extends DefaultWebApplicationResponse {
-    
+
     /**
      * Stores the wrapped HttpServerResponse.
      */
     private final HttpServerResponse wrapped;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param wrapped the wrapped HttpServerResponse.
      */
     public HttpServerWebApplicationResponse(HttpServerResponse wrapped) {
         this.wrapped = wrapped;
+        setUnderlyingOutputStream(wrapped.getOutputStream());
+    }
+
+    @Override
+    public void writeStatusLine() throws IOException {
+        wrapped.setStatus(status);
+        wrapped.writeStatusLine();
+    }
+
+    @Override
+    public void writeHeaders() throws IOException {
+        if (contentType != null) {
+            StringBuilder contentTypeBuilder = new StringBuilder();
+            contentTypeBuilder.append(contentType);
+            if (characterEncoding != null) {
+                contentTypeBuilder
+                        .append(";charset=")
+                        .append(characterEncoding);
+            }
+            setHeader("Content-Type", contentTypeBuilder.toString());
+        }
+        if (contentLanguage != null) {
+            setHeader("Content-Language", contentLanguage);
+        }
+        wrapped.writeHeaders();
     }
 }

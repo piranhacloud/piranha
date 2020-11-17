@@ -27,6 +27,7 @@
  */
 package cloud.piranha.webapp.api;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 
@@ -41,16 +42,16 @@ import javax.servlet.http.HttpServletResponse;
 public interface WebApplicationResponse extends HttpServletResponse {
 
     /**
+     * Close the async response.
+     */
+    void closeAsyncResponse();
+
+    /**
      * Get the cookies.
      *
      * @return the cookies.
      */
     Collection<Cookie> getCookies();
-
-    /**
-     * Close the async response.
-     */
-    void closeAsyncResponse();
 
     /**
      * Get the underlying output stream.
@@ -65,4 +66,18 @@ public interface WebApplicationResponse extends HttpServletResponse {
      * @param outputStream the underlying output stream.
      */
     void setUnderlyingOutputStream(OutputStream outputStream);
+        
+    /**
+     * Write the headers.
+     * 
+     * @throws IOException when an I/O error occurs.
+     */
+    void writeHeaders() throws IOException;
+    
+    /**
+     * Write the status line.
+     * 
+     * @throws IOException when an I/O error occurs.
+     */
+    void writeStatusLine() throws IOException;
 }

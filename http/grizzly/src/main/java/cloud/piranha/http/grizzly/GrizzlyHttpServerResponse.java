@@ -38,7 +38,6 @@ import cloud.piranha.http.api.HttpServerResponse;
  * The Grizzly implementation of HTTP Server Response.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @see HttpServerResponse
  */
 public class GrizzlyHttpServerResponse implements HttpServerResponse {
 
@@ -56,48 +55,35 @@ public class GrizzlyHttpServerResponse implements HttpServerResponse {
         this.response = response;
     }
 
-    /**
-     * @see HttpServerResponse#getHeader(java.lang.String)
-     */
+    @Override
+    public void addHeader(String name, String value) {
+        response.addHeader(name, value);
+    }
+
     @Override
     public String getHeader(String name) {
         return response.getHeader(name);
     }
 
-    /**
-     * @see HttpServerResponse#getOutputStream()
-     */
     @Override
     public OutputStream getOutputStream() {
         return response.getOutputStream();
     }
 
-    /**
-     * @see HttpServerResponse#setHeader(java.lang.String, java.lang.String)
-     */
     @Override
     public void setHeader(String name, String value) {
         response.setHeader(name, value);
     }
 
-    /**
-     * @see HttpServerResponse#setStatus(int)
-     */
     @Override
     public void setStatus(int status) {
-        this.response.setStatus(status);
+        response.setStatus(status);
     }
 
-    /**
-     * @see HttpServerResponse#writeHeaders()
-     */
     @Override
     public void writeHeaders() throws IOException {
     }
 
-    /**
-     * @see HttpServerResponse#writeStatusLine()
-     */
     @Override
     public void writeStatusLine() throws IOException {
     }

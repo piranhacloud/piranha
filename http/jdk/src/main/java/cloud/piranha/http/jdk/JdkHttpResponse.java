@@ -59,6 +59,11 @@ public class JdkHttpResponse implements HttpServerResponse {
     }
 
     @Override
+    public void addHeader(String name, String value) {
+        exchange.getResponseHeaders().add(name, value);
+    }
+
+    @Override
     public String getHeader(String name) {
         return exchange.getResponseHeaders().getFirst(name);
     }

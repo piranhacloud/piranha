@@ -44,6 +44,24 @@ import java.io.OutputStream;
 public interface HttpServerResponse {
 
     /**
+     * Add the header.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    void addHeader(String name, String value);
+
+    /**
+     * Close the response.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
+    default void closeResponse() throws IOException {
+        getOutputStream().flush();
+        getOutputStream().close();
+    }
+
+    /**
      * Get the header.
      *
      * @param name the name.
@@ -72,9 +90,9 @@ public interface HttpServerResponse {
      * @param status the status.
      */
     void setStatus(int status);
-
+    
     /**
-     * Write the response headers.
+     * Write the headers.
      *
      * @throws IOException when an I/O error occurs.
      */
@@ -86,14 +104,4 @@ public interface HttpServerResponse {
      * @throws IOException when an I/O error occurs.
      */
     void writeStatusLine() throws IOException;
-
-    /**
-     * Close the response.
-     * 
-     * @throws IOException when an I/O error occurs.
-     */
-    default void closeResponse() throws IOException {
-        getOutputStream().flush();
-        getOutputStream().close();
-    }
 }
