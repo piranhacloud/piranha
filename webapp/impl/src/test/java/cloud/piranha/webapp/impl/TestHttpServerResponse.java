@@ -60,60 +60,32 @@ public class TestHttpServerResponse implements HttpServerResponse {
         return outputStream;
     }
 
-    /**
-     * Get the header.
-     * 
-     * @param name the name.
-     * @return the value, or null if not found.
-     */
+    @Override
+    public void addHeader(String name, String value) {
+    }
+
     @Override
     public String getHeader(String name) {
         return null;
     }
 
-    /**
-     * Get the output stream.
-     *
-     * @return the output stream.
-     */
     @Override
     public OutputStream getOutputStream() {
         return outputStream;
     }
 
-    /**
-     * Set the header.
-     * 
-     * @param name the name.
-     * @param value the value.
-     */
     @Override
     public void setHeader(String name, String value) {
     }
 
-    /**
-     * Set the status.
-     *
-     * @param status the status.
-     */
     @Override
     public void setStatus(int status) {
     }
 
-    /**
-     * Write the headers.
-     * 
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     public void writeHeaders() throws IOException {
     }
 
-    /**
-     * Write the status line.
-     * 
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     public void writeStatusLine() throws IOException {
     }

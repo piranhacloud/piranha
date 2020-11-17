@@ -61,17 +61,16 @@ public class NettyHttpServerResponse implements HttpServerResponse {
         this.response = response;
     }
 
-    /**
-     * @see HttpServerResponse#getHeader(java.lang.String)
-     */
+    @Override
+    public void addHeader(String name, String value) {
+        response.headers().add(name, value);
+    }
+
     @Override
     public String getHeader(String name) {
         return response.headers().get(name);
     }
 
-    /**
-     * @see HttpServerResponse#getOutputStream()
-     */
     @Override
     public OutputStream getOutputStream() {
         synchronized (response) {
@@ -82,34 +81,20 @@ public class NettyHttpServerResponse implements HttpServerResponse {
         return outputStream;
     }
 
-    /**
-     * @see HttpServerResponse#setHeader(java.lang.String, java.lang.String)
-     */
     @Override
     public void setHeader(String name, String value) {
         response.headers().set(name, value);
     }
 
-    /**
-     * @see HttpServerResponse#setStatus(int)
-     */
     @Override
     public void setStatus(int status) {
         response.setStatus(HttpResponseStatus.valueOf(status));
     }
 
-    /**
-     * @see HttpServerResponse#writeHeaders()
-     */
     @Override
     public void writeHeaders() throws IOException {
     }
 
-    /**
-     * @see HttpServerResponse#writeStatusLine()
-     *
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     public void writeStatusLine() throws IOException {
     }

@@ -163,7 +163,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     /**
      * Stores the content language
      */
-    private String contentLanguage;
+    protected String contentLanguage;
 
     /**
      * Constructor.
@@ -185,70 +185,37 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         writer = null;
     }
 
-    /**
-     * Add the cookie.
-     *
-     * @param cookie the cookie.
-     */
     @Override
     public void addCookie(Cookie cookie) {
-        if (isInclude())
+        if (isInclude()) {
             return;
+        }
         this.cookies.add(cookie);
     }
 
-    /**
-     * Add the date header.
-     *
-     * @param name the header name.
-     * @param date the header date value.
-     */
     @Override
     public void addDateHeader(String name, long date) {
         addHeader(name, formatDateToGMT(date));
     }
 
-    /**
-     * Add the header.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
     @Override
     public void addHeader(String name, String value) {
-        if (isInclude())
+        if (isInclude()) {
             return;
+        }
         headerManager.addHeader(name, value);
     }
 
-    /**
-     * Add the integer header.
-     *
-     * @param name the name of the header.
-     * @param value the value of the header.
-     */
     @Override
     public void addIntHeader(String name, int value) {
         addHeader(name, Integer.toString(value));
     }
 
-    /**
-     * Contains the given header.
-     *
-     * @param name the header name.
-     * @return true if there, false otherwise.
-     */
     @Override
     public boolean containsHeader(String name) {
         return headerManager.containsHeader(name);
     }
 
-    /**
-     * Encode the redirect URL.
-     *
-     * @param url the url.
-     * @return the encoded redirect url.
-     */
     @Override
     public String encodeRedirectURL(String url) {
         String result = url;
@@ -260,70 +227,37 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         return result;
     }
 
-    /**
-     * Encode the redirect url.
-     *
-     * @param url the url.
-     * @return the encoded redirect url.
-     * @deprecated
-     */
     @Deprecated
     @Override
     public String encodeRedirectUrl(String url) {
         return encodeRedirectURL(url);
     }
 
-    /**
-     * Encode the URL.
-     *
-     * @param url the URL.
-     * @return the encoded url.
-     */
     @Override
     public String encodeURL(String url) {
         String result = url;
-
         if (webApplication.getHttpSessionManager() != null) {
             result = webApplication.getHttpSessionManager().encodeURL(this, url);
         }
-
         return result;
     }
 
-    /**
-     * Encode the url.
-     *
-     * @param url the url.
-     * @return the encoded url.
-     * @deprecated
-     */
     @Deprecated
     @Override
     public String encodeUrl(String url) {
         return encodeURL(url);
     }
 
-    /**
-     * Flush the buffer.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     public void flushBuffer() throws IOException {
         if (!isCommitted()) {
             writeOut();
         }
-
         if (gotWriter) {
             writer.flush();
         }
     }
 
-    /**
-     * Get the character encoding.
-     *
-     * @return the character encoding.
-     */
     @Override
     public String getCharacterEncoding() {
         String result = "ISO-8859-1";
@@ -333,11 +267,6 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         return result;
     }
 
-    /**
-     * Get the buffer size.
-     *
-     * @return the buffer size.
-     */
     @Override
     public int getBufferSize() {
         return buffer.length;
@@ -352,35 +281,20 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         return contentLength;
     }
 
-    /**
-     * Get the content type.
-     *
-     * @return the content type.
-     */
     @Override
     public String getContentType() {
-        if (contentType == null)
+        if (contentType == null) {
             return null;
+        }
         String encoding = characterEncodingSet ? ";charset=" + characterEncoding : "";
         return contentType + encoding;
     }
 
-    /**
-     * Get the header.
-     *
-     * @param name the header name.
-     * @return the value.
-     */
     @Override
     public String getHeader(String name) {
         return headerManager.getHeader(name);
     }
 
-    /**
-     * Get the header names.
-     *
-     * @return the collection.
-     */
     @Override
     public Collection<String> getHeaderNames() {
         List<String> headerNames = new ArrayList<>();
@@ -388,16 +302,9 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (enumeration != null) {
             headerNames = list(enumeration);
         }
-
         return headerNames;
     }
 
-    /**
-     * Get the headers.
-     *
-     * @param name the name of the header.
-     * @return the collection.
-     */
     @Override
     public Collection<String> getHeaders(String name) {
         ArrayList<String> result = new ArrayList<>();
@@ -405,41 +312,23 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (enumeration != null) {
             result = list(enumeration);
         }
-
         return result;
     }
 
-    /**
-     * Get the locale.
-     *
-     * @return the locale.
-     */
     @Override
     public Locale getLocale() {
         return locale;
     }
 
-    /**
-     * Get the output stream.
-     *
-     * @return the output stream.
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     public ServletOutputStream getOutputStream() throws IOException {
         if (!gotWriter) {
             gotOutput = true;
             return this;
         }
-
         throw new IllegalStateException("Cannot get output stream as the writer was already acquired");
     }
 
-    /**
-     * Get the status.
-     *
-     * @return the status.
-     */
     @Override
     public int getStatus() {
         return status;
@@ -463,12 +352,6 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         return webApplication;
     }
 
-    /**
-     * Get the writer.
-     *
-     * @return the writer.
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     public synchronized PrintWriter getWriter() throws IOException {
         PrintWriter result = null;
@@ -478,19 +361,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
                     setCharacterEncoding("ISO-8859-1");
                 }
                 gotWriter = true;
-                if (System.getProperty("piranha.response.debug") != null) {
-                    writer = new PrintWriter(new OutputStreamWriter(this, characterEncoding) {
-                        @Override
-                        public void write(String str, int off, int len) throws IOException {
-                            System.out.print(str);
-                            super.write(str, off, len);
-                        }
-                    }, false);
-                } else {
-                    writer = new PrintWriter(new OutputStreamWriter(this, characterEncoding), false);
-                }
-
-
+                writer = new PrintWriter(new OutputStreamWriter(this, characterEncoding), false);
             }
             result = writer;
         } else {
@@ -508,19 +379,11 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         return bodyOnly;
     }
 
-    /**
-     * Is committed.
-     *
-     * @return the committed flag.
-     */
     @Override
     public boolean isCommitted() {
         return committed;
     }
 
-    /**
-     * Reset the response.
-     */
     @Override
     public void reset() {
         verifyNotCommitted("reset");
@@ -530,33 +393,17 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         setErrorMessageAttribute();
     }
 
-    /**
-     * Reset the buffer.
-     */
     @Override
     public void resetBuffer() {
         this.buffer = new byte[buffer.length];
     }
 
-    /**
-     * Send an error.
-     *
-     * @param status the error code.
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     public void sendError(int status) throws IOException {
         verifyNotCommitted("sendError");
         setStatus(status);
     }
 
-    /**
-     * Send the error.
-     *
-     * @param status the status code.
-     * @param statusMessage the message.
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     public void sendError(int status, String statusMessage) throws IOException {
         verifyNotCommitted("sendError");
@@ -565,12 +412,6 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         setErrorMessageAttribute();
     }
 
-    /**
-     * Send the redirect.
-     *
-     * @param location the location.
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     public void sendRedirect(String location) throws IOException {
         verifyNotCommitted("sendRedirect");
@@ -603,26 +444,17 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         this.bodyOnly = bodyOnly;
     }
 
-    /**
-     * Set the buffer size.
-     *
-     * @param bufferSize the buffer size.
-     */
     @Override
     public void setBufferSize(int bufferSize) {
         verifyNotCommitted("setBufferSize");
         this.buffer = new byte[bufferSize];
     }
 
-    /**
-     * Set the character encoding.
-     *
-     * @param characterEncoding the character encoding.
-     */
     @Override
     public void setCharacterEncoding(String characterEncoding) {
-        if (isInclude())
+        if (isInclude()) {
             return;
+        }
         if (!gotWriter && !committed) {
             this.characterEncoding = characterEncoding;
             characterEncodingSet = true;
@@ -638,38 +470,25 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         this.committed = committed;
     }
 
-    /**
-     * Set the content length.
-     *
-     * @param contentLength the content length.
-     */
     @Override
     public void setContentLength(int contentLength) {
         setContentLengthLong(contentLength);
     }
 
-    /**
-     * Set the content length.
-     *
-     * @param contentLength the content length.
-     */
     @Override
     public void setContentLengthLong(long contentLength) {
-        if (isInclude())
+        if (isInclude()) {
             return;
+        }
         this.contentLength = contentLength;
         headerManager.addHeader("Content-Length", String.valueOf(contentLength));
     }
 
-    /**
-     * Set the content type.
-     *
-     * @param type the content type.
-     */
     @Override
     public void setContentType(String type) {
-        if (isInclude())
+        if (isInclude()) {
             return;
+        }
         if (!isCommitted()) {
             if (type != null) {
                 if (type.contains(";")) {
@@ -689,46 +508,24 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         }
     }
 
-    /**
-     * Set the date header.
-     *
-     * @param name the header name.
-     * @param date the date.
-     */
     @Override
     public void setDateHeader(String name, long date) {
         setHeader(name, formatDateToGMT(date));
     }
 
-    /**
-     * Set the header.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
     @Override
     public void setHeader(String name, String value) {
-        if (isInclude())
+        if (isInclude()) {
             return;
+        }
         headerManager.setHeader(name, value);
     }
 
-    /**
-     * Set the int header.
-     *
-     * @param name the header name.
-     * @param value the header value.
-     */
     @Override
     public void setIntHeader(String name, int value) {
         setHeader(name, Integer.toString(value));
     }
 
-    /**
-     * Set the locale.
-     *
-     * @param locale the locale.
-     */
     @Override
     public void setLocale(Locale locale) {
         if (isCommitted() || isInclude()) {
@@ -736,9 +533,9 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         }
         this.locale = locale;
         this.contentLanguage = locale.toLanguageTag();
-
-        if (webApplication == null)
+        if (webApplication == null) {
             return;
+        }
         LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
         if (localeEncodingManager != null) {
             String encoding = localeEncodingManager.getCharacterEncoding(locale.toString());
@@ -757,27 +554,16 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         this.outputStream = outputStream;
     }
 
-    /**
-     * Set the status.
-     *
-     * @param status the status code.
-     */
     @Override
     public void setStatus(int status) {
-        if (isInclude())
+        if (isInclude()) {
             return;
+        }
         if (!isCommitted()) {
             this.status = status;
         }
     }
 
-    /**
-     * Set the status.
-     *
-     * @param status the status.
-     * @param statusMessage the message
-     * @deprecated
-     */
     @Deprecated
     @Override
     public void setStatus(int status, String statusMessage) {
@@ -813,52 +599,6 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         }
     }
 
-    // -------------------------------------------------------------------------
-    //  WebApplicationResponse implementation
-    // -------------------------------------------------------------------------
-    /**
-     * Get the cookies.
-     *
-     * @return the cookies.
-     */
-    @Override
-    public Collection<Cookie> getCookies() {
-        return cookies;
-    }
-
-    /**
-     * Get the underlying output stream.
-     *
-     * @return the underlying output stream.
-     */
-    @Override
-    public OutputStream getUnderlyingOutputStream() {
-        return outputStream;
-    }
-
-    /**
-     * Set the underlying output stream.
-     *
-     * @param outputStream the underlying output stream.
-     */
-    @Override
-    public void setUnderlyingOutputStream(OutputStream outputStream) {
-        this.outputStream = outputStream;
-    }
-
-    @Override
-    public void closeAsyncResponse() {
-        // Do nothing
-    }
-
-    // -------------------------------------------------------------------------
-    //  ServletOutStream implementation
-    // -------------------------------------------------------------------------
-    /**
-     * Close the output stream.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     public void close() throws IOException {
         if (!isCommitted()) {
@@ -866,11 +606,10 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         }
     }
 
-    /**
-     * Flush the output stream.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
+    @Override
+    public void closeAsyncResponse() {
+    }
+
     @Override
     public void flush() throws IOException {
         if (!isCommitted()) {
@@ -881,30 +620,53 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     }
 
     /**
-     * Is the output stream ready?
+     * Format the timestamp to a GMT string.
+     *
+     * @param timestamp the timestamp.
+     * @return the GMT string.
+     */
+    private String formatDateToGMT(long timestamp) {
+        return Instant.ofEpochMilli(timestamp).atZone(ZoneId.of("GMT"))
+                .format(DateTimeFormatter.RFC_1123_DATE_TIME);
+    }
+
+    @Override
+    public Collection<Cookie> getCookies() {
+        return cookies;
+    }
+
+    @Override
+    public OutputStream getUnderlyingOutputStream() {
+        return outputStream;
+    }
+
+    /**
+     * Is this an include dispatch.
      *
      * @return true if it is, false otherwise.
      */
+    private boolean isInclude() {
+        if (webApplication == null) {
+            return false;
+        }
+        ServletRequest request = webApplication.getRequest(this);
+        return request != null && request.getDispatcherType() == DispatcherType.INCLUDE;
+    }
+
     @Override
     public boolean isReady() {
         return true;
     }
 
-    /**
-     * Set the write listener.
-     *
-     * @param listener the write listener.
-     */
+    @Override
+    public final void setUnderlyingOutputStream(OutputStream outputStream) {
+        this.outputStream = outputStream;
+    }
+
     @Override
     public void setWriteListener(WriteListener listener) {
     }
 
-    /**
-     * Write the integer.
-     *
-     * @param integer the integer.
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     public void write(int integer) throws IOException {
         if (index == buffer.length - 1) {
@@ -919,18 +681,21 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     }
 
     /**
-     * Write out the cookies.
+     * Write the content language.
      *
      * @throws IOException when an I/O error occurs.
      */
-    private void writeCookies() throws IOException {
-        for (Cookie cookie : cookies) {
-            writeCookie(cookie);
+    private void writeContentLanguage() throws IOException {
+        if (contentLanguage == null) {
+            return;
         }
+        outputStream.write("Content-Language: ".getBytes());
+        outputStream.write(contentLanguage.getBytes());
+        outputStream.write("\n".getBytes());
     }
 
     /**
-     * Write out the Content-Type header.
+     * Write the content type.
      *
      * @throws IOException when an I/O error occurs.
      */
@@ -959,28 +724,33 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (cookie.getValue() != null) {
             outputStream.write(cookie.getValue().getBytes());
         }
-        
         if (cookie.getMaxAge() > -1) {
             Date expires = new Date();
             expires.setTime(expires.getTime() + cookie.getMaxAge() * 1000);
             outputStream.write(("; Expires=" + expires.toString()).getBytes());
         }
-
         if (cookie.getSecure()) {
             outputStream.write("; Secure".getBytes());
         }
-
         if (cookie.isHttpOnly()) {
             outputStream.write("; HttpOnly".getBytes());
         }
-
         if (cookie.getPath() != null) {
             outputStream.write(("; Path=" + cookie.getPath()).getBytes());
         }
-        
         outputStream.write(("; Version=" + cookie.getVersion()).getBytes());
-
         outputStream.write("\n".getBytes());
+    }
+
+    /**
+     * Write the cookies.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
+    private void writeCookies() throws IOException {
+        for (Cookie cookie : cookies) {
+            writeCookie(cookie);
+        }
     }
 
     /**
@@ -1005,12 +775,11 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         outputStream.write("\n".getBytes());
     }
 
-    /**
-     * Write out the response headers.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
-    private void writeHeaders() throws IOException {
+    @Override
+    public void writeHeaders() throws IOException {
+        writeContentType();
+        writeContentLanguage();
+        writeCookies();
         Iterator<String> names = getHeaderNames().iterator();
         while (names.hasNext()) {
             String name = names.next();
@@ -1021,13 +790,12 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
 
     /**
      * Write out the status-line, headers and the buffer.
+     *
+     * @throws IOException when an I/O error occurs.
      */
     private void writeOut() throws IOException {
         if (!isBodyOnly()) {
             writeStatusLine();
-            writeContentType();
-            writeContentLanguage();
-            writeCookies();
             writeHeaders();
         }
         if (!isCommitted()) {
@@ -1037,21 +805,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         setCommitted(true);
     }
 
-    private void writeContentLanguage() throws IOException {
-        if (contentLanguage == null) {
-            return;
-        }
-        outputStream.write("Content-Language: ".getBytes());
-        outputStream.write(contentLanguage.getBytes());
-        outputStream.write("\n".getBytes());
-    }
-
-    /**
-     * Write the status line.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
-    private void writeStatusLine() throws IOException {
+    @Override
+    public void writeStatusLine() throws IOException {
         outputStream.write("HTTP/1.1".getBytes());
         outputStream.write(" ".getBytes());
         outputStream.write(Integer.toString(getStatus()).getBytes());
@@ -1060,17 +815,5 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
             outputStream.write(getStatusMessage().getBytes());
         }
         outputStream.write("\n".getBytes());
-    }
-
-    private String formatDateToGMT(long timestamp) {
-        return Instant.ofEpochMilli(timestamp).atZone(ZoneId.of("GMT"))
-                .format(DateTimeFormatter.RFC_1123_DATE_TIME);
-    }
-
-    private boolean isInclude() {
-        if (webApplication == null)
-            return false;
-        ServletRequest request = webApplication.getRequest(this);
-        return request != null && request.getDispatcherType() == DispatcherType.INCLUDE;
     }
 }

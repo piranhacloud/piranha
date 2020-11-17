@@ -34,10 +34,12 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import cloud.piranha.http.api.HttpServerResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * The default implementation of HTTP Server Response.
@@ -55,7 +57,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     /**
      * Stores the headers.
      */
-    private final Map<String, String> headers;
+    private final Map<String, List<String>> headers;
 
     /**
      * Stores the output stream.
@@ -78,21 +80,32 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
      * @param socket the socket.
      */
     public DefaultHttpServerResponse(Socket socket) {
-        this.headers = new ConcurrentHashMap<>(1);
+        this.headers = new HashMap<>(1);
         this.socket = socket;
     }
 
-    /**
-     * @see HttpServerResponse#getHeader(java.lang.String)
-     */
     @Override
-    public String getHeader(String name) {
-        return headers.get(name);
+    public void addHeader(String name, String value) {
+        List<String> values = headers.get(name);
+        if (values == null) {
+            synchronized (this) {
+                values = new ArrayList<>();
+            }
+        }
+        values.add(value);
     }
 
-    /**
-     * @see HttpServerResponse#getOutputStream()
-     */
+    @Override
+    public void closeResponse() throws IOException {
+        HttpServerResponse.super.closeResponse();
+        socket.close();
+    }
+
+    @Override
+    public String getHeader(String name) {
+        return headers.get(name) == null ? null : headers.get(name).get(0);
+    }
+
     @Override
     public OutputStream getOutputStream() {
         if (outputStream == null) {
@@ -106,26 +119,16 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
         return outputStream;
     }
 
-    /**
-     * @see HttpServerResponse#setHeader(java.lang.String, java.lang.String)
-     */
     @Override
     public void setHeader(String name, String value) {
-        headers.put(name, value);
+        ArrayList<String> values = new ArrayList<>();
+        values.add(value);
+        headers.put(name, values);
     }
 
-    /**
-     * @see HttpServerResponse#setStatus(int)
-     */
     @Override
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    @Override
-    public void closeResponse() throws IOException {
-        HttpServerResponse.super.closeResponse();
-        socket.close();
     }
 
     /**
@@ -134,34 +137,31 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
      * @param name the header name.
      * @throws IOException when an I/O error occurs.
      */
-    private void writeHeader(String name, boolean last) throws IOException {
+    private void writeHeader(String name) throws IOException {
         OutputStream output = getOutputStream();
         output.write(name.getBytes());
         output.write(": ".getBytes());
-        output.write(headers.get(name).getBytes());
-        if (!last) {
-            output.write(",".getBytes());
+        Iterator<String> values = headers.get(name).iterator();
+        while (values.hasNext()) {
+            output.write(values.next().getBytes());
+            if (values.hasNext()) {
+                output.write(",".getBytes());
+            }
         }
         output.write("\n".getBytes());
     }
 
-    /**
-     * @see HttpServerResponse#writeHeaders()
-     */
     @Override
     public void writeHeaders() throws IOException {
         Iterator<String> names = headers.keySet().iterator();
         while (names.hasNext()) {
             String name = names.next();
-            writeHeader(name, true);
+            writeHeader(name);
         }
         OutputStream output = getOutputStream();
         output.write("\n".getBytes());
     }
 
-    /**
-     * @see HttpServerResponse#writeStatusLine()
-     */
     @Override
     public void writeStatusLine() throws IOException {
         OutputStream output = getOutputStream();
