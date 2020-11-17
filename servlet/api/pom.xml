@@ -30,9 +30,18 @@
                 <executions>
                     <execution>
                         <id>default-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <includes>module-info.java</includes>
+                            </includes>
+                            <release>15</release>
+                        </configuration>
                     </execution>
                     <execution>
-                        <id>jdk-8</id>
+                        <id>jdk8</id>
                         <goals>
                             <goal>compile</goal>
                         </goals>
@@ -40,7 +49,8 @@
                             <excludes>
                                 <exclude>module-info.java</exclude>
                             </excludes>
-                            <release>8</release>
+                            <source>1.8</source>
+                            <target>1.8</target>
                         </configuration>
                     </execution>
                 </executions>

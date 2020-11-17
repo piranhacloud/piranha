@@ -25,42 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.grizzly;
+package cloud.piranha.http.impl.tests;
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.tests.HttpServerTest;
-import cloud.piranha.http.tests.TestHttpServerProcessor;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * The JUnit tests for the DefaultHttpServer class.
+ * The JUnit tests for the DefaultHttpServerRequest class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class GrizzlyHttpServerTest extends HttpServerTest {
+public class DefaultHttpServerRequestTest {
 
-    /**
-     * Create the Netty HTTP server.
-     * 
-     * @param portNumber the port number.
-     * @return the Netty HTTP server.
-     */
-    @Override
-    protected HttpServer createServer(int portNumber) {
-        GrizzlyHttpServer server = new GrizzlyHttpServer(portNumber);
-        server.setHttpServerProcessor(new TestHttpServerProcessor());
-        return server;
-    }
 
-    /**
-     * Create the Netty HTTP server.
-     * 
-     * @param portNumber the port number.
-     * @param processor the HTTP server processor.
-     * @return the Netty HTTP server.
-     */
-    @Override
-    protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
-        return new GrizzlyHttpServer(portNumber, processor);
-    }
 }

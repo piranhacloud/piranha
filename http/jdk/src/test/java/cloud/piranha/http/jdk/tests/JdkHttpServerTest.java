@@ -25,10 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.jdk;
+package cloud.piranha.http.jdk.tests;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.jdk.JdkHttpServer;
 import cloud.piranha.http.tests.HttpServerTest;
 import cloud.piranha.http.tests.TestHttpServerProcessor;
 

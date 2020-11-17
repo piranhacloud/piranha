@@ -26,12 +26,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.http.jdk {
+module cloud.piranha.http.jdk.tests {
     
-    exports cloud.piranha.http.jdk;
-    opens cloud.piranha.http.jdk;
+    opens cloud.piranha.http.jdk.tests;
     requires cloud.piranha.http.api;
+    requires cloud.piranha.http.jdk;
     requires cloud.piranha.http.tests;
-    requires java.logging;
-    requires jdk.httpserver;
 }

@@ -26,13 +26,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.http.undertow {
+module cloud.piranha.http.undertow.tests {
 
-    exports cloud.piranha.http.undertow;
-    opens cloud.piranha.http.undertow;
+    exports cloud.piranha.http.undertow.tests;
     requires cloud.piranha.http.api;
+    requires cloud.piranha.http.undertow;
     requires cloud.piranha.http.tests;
-    requires cloud.piranha.webapp.api;
-    requires java.logging;
-    requires undertow.core;
 }

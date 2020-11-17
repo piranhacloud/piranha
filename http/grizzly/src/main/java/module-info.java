@@ -29,17 +29,21 @@
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.grizzly.GrizzlyHttpServer;
 
+/**
+ * The Grizzly HTTP server module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.http.grizzly {
-
-    opens cloud.piranha.http.grizzly;
     
+    exports cloud.piranha.http.grizzly;
+    opens cloud.piranha.http.grizzly;
+    provides HttpServer with GrizzlyHttpServer;
     requires cloud.piranha.http.api;
     requires cloud.piranha.webapp.api;
-    requires java.logging;
     requires grizzly.framework;
     requires grizzly.http;
     requires grizzly.http.server;
     requires grizzly.http2;
-
-    provides HttpServer with GrizzlyHttpServer;
+    requires java.logging;
 }

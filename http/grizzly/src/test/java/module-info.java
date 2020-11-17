@@ -26,16 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.http.grizzly {
-
-    opens cloud.piranha.http.grizzly;
+/**
+ * The Grizzly HTTP server tests module.
+ */
+module cloud.piranha.http.grizzly.tests {
     
+    opens cloud.piranha.http.grizzly.tests;
     requires cloud.piranha.http.api;
+    requires cloud.piranha.http.grizzly;
     requires cloud.piranha.http.tests;
-    requires grizzly.framework;
-    requires grizzly.http;
-    requires grizzly.http.server;
-    requires java.logging;
-    requires java.net.http;
     requires org.junit.jupiter.api;
 }
