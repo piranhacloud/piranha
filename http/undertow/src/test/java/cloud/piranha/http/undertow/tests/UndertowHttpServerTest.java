@@ -25,17 +25,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.impl;
+package cloud.piranha.http.undertow.tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.tests.HttpServerTest;
+import cloud.piranha.http.tests.TestHttpServerProcessor;
+import cloud.piranha.http.undertow.UndertowHttpServer;
 
 /**
- * The JUnit tests for the DefaultHttpServerRequest class.
+ * The JUnit tests for the UndertowHttpServer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultHttpServerRequestTest {
+public class UndertowHttpServerTest extends HttpServerTest {
 
+    /**
+     * Create the Undertow HTTP server.
+     * 
+     * @param portNumber the port number.
+     * @return the Undertow HTTP server.
+     */
+    @Override
+    protected HttpServer createServer(int portNumber) {
+        UndertowHttpServer server = new UndertowHttpServer(portNumber);
+        server.setHttpServerProcessor(new TestHttpServerProcessor());
+        return server;
+    }
 
+    /**
+     * Create the Undertow HTTP server.
+     * 
+     * @param portNumber the port number.
+     * @param processor the HTTP server processor.
+     * @return the Undertow HTTP server.
+     */
+    @Override
+    protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
+        return new UndertowHttpServer(portNumber, processor);
+    }
 }

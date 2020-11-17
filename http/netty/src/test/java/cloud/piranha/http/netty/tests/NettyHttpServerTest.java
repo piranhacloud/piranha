@@ -25,42 +25,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.singlethread;
+package cloud.piranha.http.netty.tests;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.netty.NettyHttpServer;
 import cloud.piranha.http.tests.HttpServerTest;
 import cloud.piranha.http.tests.TestHttpServerProcessor;
 
 /**
- * The JUnit tests for the SingleThreadHttpServer class.
+ * The JUnit tests for the NettyHttpServer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SingleThreadHttpServerTest extends HttpServerTest {
+public class NettyHttpServerTest extends HttpServerTest {
 
     /**
-     * Create the Single-thread HTTP server.
-     *
+     * Create the Netty HTTP server.
+     * 
      * @param portNumber the port number.
-     * @return the Single-thread HTTP server.
+     * @return the Netty HTTP server.
      */
     @Override
     protected HttpServer createServer(int portNumber) {
-        SingleThreadHttpServer server = new SingleThreadHttpServer(portNumber);
+        NettyHttpServer server = new NettyHttpServer(portNumber);
         server.setHttpServerProcessor(new TestHttpServerProcessor());
         return server;
     }
 
     /**
-     * Create the Single-thread HTTP server.
-     *
+     * Create the Netty HTTP server.
+     * 
      * @param portNumber the port number.
      * @param processor the HTTP server processor.
-     * @return the Single-thread HTTP server.
+     * @return the Netty HTTP server.
      */
     @Override
     protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
-        return new SingleThreadHttpServer(portNumber, processor);
+        return new NettyHttpServer(portNumber, processor);
     }
 }

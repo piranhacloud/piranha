@@ -26,13 +26,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.http.impl {
+module cloud.piranha.http.impl.tests {
     
-    opens cloud.piranha.http.impl;
-    
+    opens cloud.piranha.http.impl.tests;
     requires cloud.piranha.http.api;
+    requires cloud.piranha.http.impl;
     requires cloud.piranha.http.tests;
-    requires java.logging;
     requires java.net.http;
     requires org.junit.jupiter.api;
 }

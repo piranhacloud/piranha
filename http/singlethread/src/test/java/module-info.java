@@ -26,13 +26,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.http.singlethread {
+module cloud.piranha.http.singlethread.tests {
     
-    exports cloud.piranha.http.singlethread;
-    opens cloud.piranha.http.singlethread;
+    exports cloud.piranha.http.singlethread.tests;
     requires cloud.piranha.http.api;
-    requires cloud.piranha.http.impl;
+    requires cloud.piranha.http.singlethread;
     requires cloud.piranha.http.tests;
-    requires cloud.piranha.webapp.impl;
-    requires java.logging;
 }

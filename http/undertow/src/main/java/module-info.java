@@ -29,20 +29,20 @@
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.undertow.UndertowHttpServer;
 
+/**
+ * The Undertow HTTP server module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.http.undertow {
 
     exports cloud.piranha.http.undertow;
-    
     opens cloud.piranha.http.undertow;
-
+    provides HttpServer with UndertowHttpServer;
     requires cloud.piranha.http.api;
     requires cloud.piranha.webapp.api;
     requires java.logging;
-
     // JBoss Threads needs sun.misc.Unsafe
     requires jdk.unsupported;
-
     requires undertow.core;
-
-    provides HttpServer with UndertowHttpServer;
 }

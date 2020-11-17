@@ -29,14 +29,16 @@
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.singlethread.SingleThreadHttpServer;
 
+/**
+ * The single thread HTTP server module.
+ */
 module cloud.piranha.http.singlethread {
     
     exports cloud.piranha.http.singlethread;
     opens cloud.piranha.http.singlethread;
+    provides HttpServer with SingleThreadHttpServer;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.webapp.impl;
     requires java.logging;
-
-    provides HttpServer with SingleThreadHttpServer;
 }

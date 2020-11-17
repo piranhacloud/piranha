@@ -26,6 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The HTTP tests module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.http.tests {
     exports cloud.piranha.http.tests;
     opens cloud.piranha.http.tests;

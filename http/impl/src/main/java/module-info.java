@@ -29,14 +29,16 @@
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 
+/**
+ * The default HTTP server module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.http.impl {
     
     exports cloud.piranha.http.impl;
-    
     opens cloud.piranha.http.impl;
-    
+    provides HttpServer with DefaultHttpServer;
     requires cloud.piranha.http.api;
     requires java.logging;
-
-    provides HttpServer with DefaultHttpServer;
 }

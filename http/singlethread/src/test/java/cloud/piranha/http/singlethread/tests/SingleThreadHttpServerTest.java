@@ -25,42 +25,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.undertow;
+package cloud.piranha.http.singlethread.tests;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.singlethread.SingleThreadHttpServer;
 import cloud.piranha.http.tests.HttpServerTest;
 import cloud.piranha.http.tests.TestHttpServerProcessor;
 
 /**
- * The JUnit tests for the UndertowHttpServer class.
+ * The JUnit tests for the SingleThreadHttpServer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class UndertowHttpServerTest extends HttpServerTest {
+public class SingleThreadHttpServerTest extends HttpServerTest {
 
     /**
-     * Create the Undertow HTTP server.
-     * 
+     * Create the Single-thread HTTP server.
+     *
      * @param portNumber the port number.
-     * @return the Undertow HTTP server.
+     * @return the Single-thread HTTP server.
      */
     @Override
     protected HttpServer createServer(int portNumber) {
-        UndertowHttpServer server = new UndertowHttpServer(portNumber);
+        SingleThreadHttpServer server = new SingleThreadHttpServer(portNumber);
         server.setHttpServerProcessor(new TestHttpServerProcessor());
         return server;
     }
 
     /**
-     * Create the Undertow HTTP server.
-     * 
+     * Create the Single-thread HTTP server.
+     *
      * @param portNumber the port number.
      * @param processor the HTTP server processor.
-     * @return the Undertow HTTP server.
+     * @return the Single-thread HTTP server.
      */
     @Override
     protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
-        return new UndertowHttpServer(portNumber, processor);
+        return new SingleThreadHttpServer(portNumber, processor);
     }
 }
