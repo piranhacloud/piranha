@@ -27,60 +27,78 @@
  */
 package cloud.piranha.cli;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Piranha Nano CLI.
+ * The Piranha Nano Generate CLI.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoCli {
+public class NanoGenerateCli {
 
     /**
      * Stores the pattern.
      */
-    private static final String PATTERN = "  %-10s: %s\n";
+    private static final String PATTERN = "  %-38s: %s\n";
+
+    /**
+     * Stores the name.
+     */
+    private String name = null;
+
+    /**
+     * Stores the output directory.
+     */
+    private String outputDirectory = "";
 
     /**
      * Execute the Nano CLI.
-     * 
+     *
      * @param arguments the arguments.
      */
     public void execute(List<String> arguments) {
-        if (!arguments.isEmpty()) {
-            ArrayList<String> list = new ArrayList<>();
-            list.addAll(arguments);
-            if (!list.isEmpty()) {
-                list.remove(0);
-            }
-            switch (arguments.get(0)) {
-                case "generate":
-                    generate(list);
-                    break;
-                default:
-                    usage();
-                    break;
-            }
-        } else {
+        parse(arguments);
+
+        if (name == null) {
             usage();
+            return;
+        }
+
+        generatePom();
+    }
+
+    /**
+     * Parse out the arguments.
+     *
+     * @param arguments the arguments.
+     */
+    private void parse(List<String> arguments) {
+        for (int i = 0; i < arguments.size(); i++) {
+            if (arguments.get(i).equals("--name")) {
+                name = arguments.get(i + 1);
+            }
+            if (arguments.get(i).equals("--outputDirectory")) {
+                outputDirectory = arguments.get(i + 1);
+            }
         }
     }
-    
-    private void generate(List<String> arguments) {
-        NanoGenerateCli cli = new NanoGenerateCli();
-        cli.execute(arguments);
+
+    /**
+     * Generate the POM file.
+     */
+    public void generatePom() {
     }
 
     /**
      * Shows the usage.
      */
     private void usage() {
-        System.out.println("usage: pi nano <command>");
+        System.out.println("usage: pi nano generate <arguments>");
         System.out.println();
-        System.out.printf(PATTERN, "debug", "Debug a Piranha Nano application");
-        System.out.printf(PATTERN, "deploy", "Deploy a Piranha Nano application");
-        System.out.printf(PATTERN, "generate", "Generate a Piranha Nano application");
-        System.out.printf(PATTERN, "run", "Run a Piranha Nano application");
+        System.out.println("Required arguments:");
+        System.out.printf(PATTERN, "--name <name>", "The name of the application");
+        System.out.println();
+        System.out.println("Optional arguments:");
+        System.out.printf(PATTERN, "--outputDirectory <outputDirectory>", "The output directory");
     }
 }
