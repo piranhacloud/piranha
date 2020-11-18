@@ -27,16 +27,14 @@
  */
 package cloud.piranha.cli;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * The Piranha CLI.
+ * The Piranha Nano CLI.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class Cli {
+public class NanoCli {
 
     /**
      * Stores the pattern.
@@ -44,67 +42,23 @@ public class Cli {
     private static final String PATTERN = "  %-10s: %s\n";
 
     /**
-     * Execute the arguments.
-     *
+     * Execute the Nano CLI.
+     * 
      * @param arguments the arguments.
      */
     public void execute(List<String> arguments) {
-        if (!arguments.isEmpty()) {
-            ArrayList<String> list = new ArrayList<>();
-            list.addAll(arguments);
-            if (!list.isEmpty()) {
-                list.remove(0);
-            }
-            switch (arguments.get(0)) {
-                case "nano":
-                    nano(list);
-                    break;
-                case "version":
-                    version();
-                    break;
-                default:
-                    usage();
-                    break;
-            }
-        } else {
-            usage();
-        }
-    }
-
-    /**
-     * Main method.
-     *
-     * @param arguments the arguments.
-     */
-    public static void main(String[] arguments) {
-        Cli cli = new Cli();
-        cli.execute(Arrays.asList(arguments));
-    }
-
-    /**
-     * Invoke the Piranha Nano CLI.
-     *
-     * @param arguments the arguments.
-     */
-    public void nano(List<String> arguments) {
-        NanoCli cli = new NanoCli();
-        cli.execute(arguments);
+        usage();
     }
 
     /**
      * Shows the usage.
      */
     private void usage() {
-        System.out.println("usage: pi <command>");
+        System.out.println("usage: pi nano <command>");
         System.out.println();
-        System.out.printf(PATTERN, "nano", "Use Piranha Nano");
-        System.out.printf(PATTERN, "version", "Show the version of the Piranha CLI");
-    }
-
-    /**
-     * Show the version.
-     */
-    private void version() {
-        System.out.println("Version " + getClass().getModule().getDescriptor().version().get().toString());
+        System.out.printf(PATTERN, "debug", "Deploy a Piranha Nano application");
+        System.out.printf(PATTERN, "deploy", "Deploy a Piranha Nano application");
+        System.out.printf(PATTERN, "generate", "Generate a Piranha Nano application");
+        System.out.printf(PATTERN, "run", "Run a Piranha Nano application");
     }
 }

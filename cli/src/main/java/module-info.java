@@ -26,5 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha CLI module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.cli {
+    exports cloud.piranha.cli;
 }
