@@ -4,7 +4,6 @@ on:
     branches:
       - '*'
     tags-ignore:
-      - 'release-*'
       - 'v*'
   pull_request:
     branches:
@@ -24,4 +23,4 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Build with Maven
-      run: mvn --no-transfer-progress -P javadoc,sources,test install
+      run: mvn --no-transfer-progress -P test install
