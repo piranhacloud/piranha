@@ -28,59 +28,23 @@
 package cloud.piranha.cli;
 
 import java.util.ArrayList;
-import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Piranha Nano CLI.
- *
+ * The JUnit tests for the NanoGenerateCli class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoCli {
+public class NanoGenerateCliTest {
 
-    /**
-     * Stores the pattern.
-     */
-    private static final String PATTERN = "  %-10s: %s\n";
-
-    /**
-     * Execute the Nano CLI.
-     * 
-     * @param arguments the arguments.
-     */
-    public void execute(List<String> arguments) {
-        if (!arguments.isEmpty()) {
-            ArrayList<String> list = new ArrayList<>();
-            list.addAll(arguments);
-            if (!list.isEmpty()) {
-                list.remove(0);
-            }
-            switch (arguments.get(0)) {
-                case "generate":
-                    generate(list);
-                    break;
-                default:
-                    usage();
-                    break;
-            }
-        } else {
-            usage();
-        }
-    }
-    
-    private void generate(List<String> arguments) {
+    @Test
+    public void testGeneratePom() {
         NanoGenerateCli cli = new NanoGenerateCli();
+        ArrayList<String> arguments = new ArrayList<>();
+        arguments.add("--outputDirectory");
+        arguments.add("target/testPom");
+        arguments.add("--name");
+        arguments.add("TestPom");
         cli.execute(arguments);
-    }
-
-    /**
-     * Shows the usage.
-     */
-    private void usage() {
-        System.out.println("usage: pi nano <command>");
-        System.out.println();
-        System.out.printf(PATTERN, "debug", "Debug a Piranha Nano application");
-        System.out.printf(PATTERN, "deploy", "Deploy a Piranha Nano application");
-        System.out.printf(PATTERN, "generate", "Generate a Piranha Nano application");
-        System.out.printf(PATTERN, "run", "Run a Piranha Nano application");
     }
 }
