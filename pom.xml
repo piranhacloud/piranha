@@ -236,6 +236,11 @@
                     <version>0.8.6</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.moditect</groupId>
+                    <artifactId>moditect-maven-plugin</artifactId>
+                    <version>1.0.0.RC1</version>
+                </plugin>
+                <plugin>
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
                     <version>1.6.8</version>

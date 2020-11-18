@@ -1,6 +1,0 @@
-#!/bin/sh
-SCRIPT_DIR=`dirname $0`
-WORK_DIR=$PWD
-cd $SCRIPT_DIR
-./piranha-cli $* --work-directory $WORK_DIR
-cd $PWD
