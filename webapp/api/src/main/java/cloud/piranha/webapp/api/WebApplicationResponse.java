@@ -80,4 +80,11 @@ public interface WebApplicationResponse extends HttpServletResponse {
      * @throws IOException when an I/O error occurs.
      */
     void writeStatusLine() throws IOException;
+
+    /**
+     * Set the web application.
+     *
+     * @param webApplication the web application.
+     */
+    void setWebApplication(WebApplication webApplication);
 }

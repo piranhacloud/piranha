@@ -1322,11 +1322,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         characterEncoding = pair[1].trim();
     }
 
-    /**
-     * Set the context path.
-     *
-     * @param contextPath the context path.
-     */
+    @Override
     public void setContextPath(String contextPath) {
         this.contextPath = contextPath;
     }
@@ -1530,11 +1526,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.serverPort = serverPort;
     }
 
-    /**
-     * Set the servlet path.
-     *
-     * @param servletPath the servlet path.
-     */
+    @Override
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
     }
@@ -1557,11 +1549,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.userPrincipal = userPrincipal;
     }
 
-    /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
-     */
+    @Override
     public void setWebApplication(WebApplication webApplication) {
         this.webApplication = webApplication;
     }

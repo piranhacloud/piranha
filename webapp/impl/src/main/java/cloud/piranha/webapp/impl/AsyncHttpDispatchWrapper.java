@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import cloud.piranha.webapp.api.AttributeManager;
+import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 
 public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implements WebApplicationRequest {
@@ -120,15 +121,6 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     @Override
     public String getServletPath() {
         return servletPath;
-    }
-
-    /**
-     * Set the servlet path.
-     * 
-     * @param servletPath the servlet path.
-     */
-    public void setServletPath(String servletPath) {
-        this.servletPath = servletPath;
     }
 
     @Override
@@ -337,5 +329,18 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
         String requestURI = getRequestURI();
         String queryString = getQueryString();
         return queryString == null ? requestURI : requestURI + "?" + queryString;
+    }
+
+    @Override
+    public void setContextPath(String contextPath) {
+    }
+    
+    @Override
+    public void setServletPath(String servletPath) {
+        this.servletPath = servletPath;
+    }
+
+    @Override
+    public void setWebApplication(WebApplication webApplication) {
     }
 }
