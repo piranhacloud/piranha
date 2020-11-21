@@ -33,10 +33,20 @@ import java.util.function.Consumer;
 
 import javax.servlet.ServletException;
 
-import cloud.piranha.appserver.impl.DefaultWebApplicationServerRequest;
-import cloud.piranha.appserver.impl.DefaultWebApplicationServerResponse;
 import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.Cookie;
 
+/**
+ * The inner Piranha Micro application.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 public class MicroInnerApplication implements Consumer<Map<String, Object>> {
 
     /**
@@ -69,15 +79,73 @@ public class MicroInnerApplication implements Consumer<Map<String, Object>> {
     }
 
     @SuppressWarnings("unchecked")
-    private DefaultWebApplicationServerRequest copyMapToApplicationRequest(Map<String, Object> requestMap) {
-        DefaultWebApplicationServerRequest applicationRequest = DefaultWebApplicationServerRequest.fromMap(requestMap);
-        applicationRequest.setWebApplication(webApplication);
+    private DefaultWebApplicationRequest copyMapToApplicationRequest(Map<String, Object> requestMap) {
+        DefaultWebApplicationRequest applicationRequest = new DefaultWebApplicationRequest();
 
+        applicationRequest.setLocalAddr((String) requestMap.get("Address"));
+        applicationRequest.setLocalName((String) requestMap.get("LocalName"));
+        applicationRequest.setLocalPort((Integer) requestMap.get("LocalPort"));
+        applicationRequest.setRemoteAddr((String) requestMap.get("RemoteAddr"));
+        applicationRequest.setRemoteHost((String) requestMap.get("RemoteHost"));
+        applicationRequest.setRemotePort((int) requestMap.get("RemotePort"));
+        applicationRequest.setServerName((String) requestMap.get("ServerName"));
+        applicationRequest.setServerPort((Integer) requestMap.get("ServerPort"));
+        applicationRequest.setMethod((String) requestMap.get("Method"));
+        applicationRequest.setContextPath((String) requestMap.get("ContextPath"));
+        applicationRequest.setServletPath((String) requestMap.get("ServletPath"));
+        applicationRequest.setQueryString((String) requestMap.get("QueryString"));
+        applicationRequest.setInputStream((InputStream) requestMap.get("InputStream"));
+
+        for (Map.Entry<String, List<String>> headerEntry : ((Map<String, List<String>>) requestMap.get("Headers")).entrySet()) {
+            String name = headerEntry.getKey();
+            List<String> values = headerEntry.getValue();
+            for (String value : values) {
+                applicationRequest.setHeader(name, value);
+
+                if (name.equalsIgnoreCase("Content-Type")) {
+                    applicationRequest.setContentType(value);
+                }
+                if (name.equalsIgnoreCase("Content-Length")) {
+                    applicationRequest.setContentLength(Integer.parseInt(value));
+                }
+                if (name.equalsIgnoreCase("COOKIE")) {
+                    applicationRequest.setCookies(processCookies(applicationRequest, value));
+                }
+            }
+        }
+
+        applicationRequest.setWebApplication(webApplication);
         return applicationRequest;
     }
+    
+    private static Cookie[] processCookies(DefaultWebApplicationRequest result, String cookiesValue) {
+        ArrayList<Cookie> cookieList = new ArrayList<>();
+        String[] cookieCandidates = cookiesValue.split(";");
+        for (String cookieCandidate : cookieCandidates) {
+            String[] cookieString = cookieCandidate.split("=");
+            String cookieName = cookieString[0].trim();
+            String cookieValue = null;
 
-    private DefaultWebApplicationServerResponse copyMapToApplicationResponse(Map<String, Object> requestMap) {
-        return DefaultWebApplicationServerResponse.fromMap(requestMap);
+            if (cookieString.length == 2) {
+                cookieValue = cookieString[1].trim();
+            }
+
+            Cookie cookie = new Cookie(cookieName, cookieValue);
+            if (cookie.getName().equals("JSESSIONID")) {
+                result.setRequestedSessionIdFromCookie(true);
+                result.setRequestedSessionId(cookie.getValue());
+            } else {
+                cookieList.add(cookie);
+            }
+        }
+
+        return cookieList.toArray(new Cookie[0]);
     }
 
+    private DefaultWebApplicationResponse copyMapToApplicationResponse(Map<String, Object> requestMap) {
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setUnderlyingOutputStream((OutputStream) requestMap.get("UnderlyingOutputStream"));
+        response.setResponseCloser((Runnable) requestMap.get("ResponseCloser"));
+        return response;
+    }
 }

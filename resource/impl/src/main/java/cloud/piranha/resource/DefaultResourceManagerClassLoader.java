@@ -132,7 +132,14 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         
         return result;
     }
-    
+
+    /**
+     * Inner load class.
+     * 
+     * @param name the name.
+     * @param resolve the resolve flog.
+     * @return the class.
+     */
     protected Class<?> _loadClass(String name, boolean resolve) {
         Class<?> result = null;
         try {
@@ -174,10 +181,23 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         return result;
     }
     
+    /**
+     * Normalize the name to a .class name.
+     * 
+     * @param name the name.
+     * @return the .class name.
+     */
     protected String normalizeName(String name) {
         return name.replaceAll("\\.", "/") + ".class";
     }
-    
+
+    /**
+     * Read the class bytes from the input stream.
+     * 
+     * @param resourceStream the input stream.
+     * @return the bytes.
+     * @throws IOException when an I/O error occurs.
+     */
     protected byte[] readClassBytes(InputStream resourceStream) throws IOException {
         BufferedInputStream inputStream = new BufferedInputStream(resourceStream);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -190,6 +210,14 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         return outputStream.toByteArray();
     }
     
+    /**
+     * Define the class.
+     * 
+     * @param name the name.
+     * @param bytes the bytes.
+     * @param resolve the resolve flag.
+     * @return the class.
+     */
     protected Class<?> _defineClass(String name, byte[] bytes, boolean resolve) {
 
         CodeSource codeSource = new CodeSource(getResource(normalizeName(name)), (CodeSigner[]) null);

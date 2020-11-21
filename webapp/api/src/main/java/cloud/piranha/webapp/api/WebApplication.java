@@ -373,12 +373,14 @@ public interface WebApplication extends ServletContext {
     /**
      * Set the effective major version.
      *
+     * @param version the effective major version.
      */
     void setEffectiveMajorVersion(int version);
 
     /**
      * Set the effective minor version.
      *
+     * @param version the effective minor version.
      */
     void setEffectiveMinorVersion(int version);
 

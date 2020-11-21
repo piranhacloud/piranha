@@ -35,6 +35,11 @@ import javax.servlet.DispatcherType;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestWrapper;
 
+/**
+ * The async non-HTTP dispatch wrapper.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 public class AsyncNonHttpDispatchWrapper extends ServletRequestWrapper {
 
     /**
@@ -44,7 +49,7 @@ public class AsyncNonHttpDispatchWrapper extends ServletRequestWrapper {
 
     /**
      * Constructor.
-     * 
+     *
      * @param request the servlet request.
      */
     public AsyncNonHttpDispatchWrapper(ServletRequest request) {
@@ -55,7 +60,4 @@ public class AsyncNonHttpDispatchWrapper extends ServletRequestWrapper {
     public DispatcherType getDispatcherType() {
         return ASYNC;
     }
-
-
-
 }

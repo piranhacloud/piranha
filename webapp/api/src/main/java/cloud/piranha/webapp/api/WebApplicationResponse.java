@@ -52,6 +52,13 @@ public interface WebApplicationResponse extends HttpServletResponse {
      * @return the cookies.
      */
     Collection<Cookie> getCookies();
+    
+    /**
+     * Get the response closer.
+     * 
+     * @return the response closer.
+     */
+    Runnable getResponseCloser();
 
     /**
      * Get the underlying output stream.
@@ -87,4 +94,11 @@ public interface WebApplicationResponse extends HttpServletResponse {
      * @param webApplication the web application.
      */
     void setWebApplication(WebApplication webApplication);
+
+    /**
+     * Set the response closer.
+     *
+     * @param responseCloser the response closer.
+     */
+    void setResponseCloser(Runnable responseCloser);
 }

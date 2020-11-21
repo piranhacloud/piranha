@@ -52,6 +52,11 @@ public class GlobalInitialContextFactory implements InitialContextFactory {
      */
     private static final Map<String, DefaultInitialContext> INITIAL_CONTEXTS = new ConcurrentHashMap<>();
 
+    /**
+     * A dynamic initial context.
+     * 
+     * @author Manfred Riem (mriem@manorrock.com)
+     */
     public static class DynamicInitialContext extends DefaultInitialContext {
 
         /**

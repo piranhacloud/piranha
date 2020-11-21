@@ -26,12 +26,6 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.appserver</groupId>
-            <artifactId>piranha-appserver-api</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-api</artifactId>
             <version>${project.version}</version>

@@ -37,11 +37,9 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
- * The configuration settings for Piranha Micro
- *
+ * The configuration for Piranha Micro.
  *
  * @author Arjan Tijms
- *
  */
 public class MicroConfiguration {
 
@@ -136,6 +134,7 @@ public class MicroConfiguration {
      * @param port http port on which Piranha listens to requests.
      * @param root the context root for web applications
      * @param httpServer the HTTP server implementation to use.
+     * @param httpStart whether or not to start the HTTP server.
      * @param extensionsList List of extensions.
      * @param repositoriesList List of repos.
      * @param mergedDependencies List of merged dependencies.

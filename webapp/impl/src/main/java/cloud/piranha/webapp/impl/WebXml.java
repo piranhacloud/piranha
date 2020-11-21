@@ -84,6 +84,9 @@ public class WebXml implements Serializable {
      */
     private Map<String, String> localeEncodingMapping = new HashMap<>();
 
+    /**
+     * A class used to deal with before/after ordering.
+     */
     public static class RelativeOrder {
 
         /**

@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 
 /**
- * The HttpServerRequest variant of the WebApplicationRequest.
+ * The HttpServerRequest variant of WebApplicationRequest.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

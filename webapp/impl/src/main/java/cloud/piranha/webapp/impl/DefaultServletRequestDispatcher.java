@@ -122,6 +122,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
      * Constructor.
      *
      * @param servletInvocation The servlet invocation containing all info this dispatcher uses to dispatch to the contained Servlet.
+     * @param webApplication the web application.
      */
     public DefaultServletRequestDispatcher(DefaultServletInvocation servletInvocation, DefaultWebApplication webApplication) {
         this.servletInvocation = servletInvocation;

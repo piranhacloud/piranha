@@ -25,9 +25,67 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-module cloud.piranha.appserver.api {
-    requires cloud.piranha.servlet.api;
-    requires cloud.piranha.webapp.api;
+package cloud.piranha.webapp.api;
 
-    exports cloud.piranha.appserver.api;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.webapp.api.WebApplicationResponse;
+
+/**
+ * The WebApplicationServer API.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+public interface WebApplicationServer {
+
+    /**
+     * Add a web application.
+     *
+     * @param webApplication the web application to add.
+     */
+    void addWebApplication(WebApplication webApplication);
+
+    /**
+     * Get the request mapper.
+     *
+     * @return the request mapper.
+     */
+    WebApplicationServerRequestMapper getRequestMapper();
+
+    /**
+     * Service the request and response.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    void service(WebApplicationRequest request, WebApplicationResponse response)
+            throws IOException, ServletException;
+
+    /**
+     * Initialize the server.
+     */
+    void initialize();
+
+    /**
+     * Set the request mapper.
+     *
+     * @param requestMapper the request mapper.
+     */
+    void setRequestMapper(WebApplicationServerRequestMapper requestMapper);
+
+    /**
+     * Start the server.
+     */
+    void start();
+
+    /**
+     * Stop the server.
+     */
+    void stop();
 }

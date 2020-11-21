@@ -32,6 +32,11 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletRegistration.Dynamic;
 
+/**
+ * The environment for a Servlet.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 public interface ServletEnvironment extends Dynamic, ServletConfig {
 
     /**
@@ -122,6 +127,7 @@ public interface ServletEnvironment extends Dynamic, ServletConfig {
     /**
      * Sets the exception that caused this servlet to become unavailable
      *
+     * @param unavailableException the unavailable exception.
      */
     void setUnavailableException(Throwable unavailableException);
 

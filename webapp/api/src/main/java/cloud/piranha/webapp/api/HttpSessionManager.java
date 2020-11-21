@@ -64,6 +64,7 @@ public interface HttpSessionManager {
      *
      * @param session the HTTP session.
      * @param name the name.
+     * @param value the value.
      */
     void attributeRemoved(HttpSession session, String name, Object value);
 

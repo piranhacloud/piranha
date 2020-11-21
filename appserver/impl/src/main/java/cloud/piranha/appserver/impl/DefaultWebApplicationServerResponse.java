@@ -27,10 +27,7 @@
  */
 package cloud.piranha.appserver.impl;
 
-import java.io.OutputStream;
-import java.util.Map;
 
-import cloud.piranha.appserver.api.WebApplicationServerResponse;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 
 /**
@@ -38,45 +35,5 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerResponse extends DefaultWebApplicationResponse implements WebApplicationServerResponse {
-
-    /**
-     * Stores the response closer.
-     */
-    private Runnable responseCloser;
-
-    @Override
-    public Runnable getResponseCloser() {
-        return responseCloser;
-    }
-
-    /**
-     * Set the response closer.
-     * 
-     * @param responseCloser the response closer.
-     */
-    public void setResponseCloser(Runnable responseCloser) {
-        this.responseCloser = responseCloser;
-    }
-
-    @Override
-    public void closeAsyncResponse() {
-        responseCloser.run();
-    }
-
-    /**
-     * Create response from request map.
-     * 
-     * @param requestMap the request map.
-     * @return the response.
-     */
-    public static DefaultWebApplicationServerResponse fromMap(Map<String, Object> requestMap) {
-        DefaultWebApplicationServerResponse applicationResponse = new DefaultWebApplicationServerResponse();
-        applicationResponse.setUnderlyingOutputStream((OutputStream) requestMap.get("UnderlyingOutputStream"));
-        applicationResponse.setResponseCloser((Runnable) requestMap.get("ResponseCloser"));
-
-        return applicationResponse;
-    }
-
-
+public class DefaultWebApplicationServerResponse extends DefaultWebApplicationResponse {
 }

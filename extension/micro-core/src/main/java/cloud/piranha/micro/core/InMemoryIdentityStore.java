@@ -55,6 +55,11 @@ import javax.security.enterprise.identitystore.IdentityStore;
 @ApplicationScoped
 public class InMemoryIdentityStore implements IdentityStore {
     
+    /**
+     * The credential.
+     * 
+     * @author Manfred Riem (mriem@manorrock.com)
+     */
     public static class Credential {
         
         /**
