@@ -35,9 +35,9 @@ import javax.enterprise.inject.spi.Extension;
 
 module cloud.piranha.micro.core {
     requires cloud.piranha.api;
-    requires cloud.piranha.appserver.impl;
     requires cloud.piranha.cdi.weld;
     requires cloud.piranha.http.api;
+    requires cloud.piranha.http.webapp;
     requires cloud.piranha.naming.impl;
     requires cloud.piranha.resource.shrinkwrap;
     requires cloud.piranha.security.jakarta;

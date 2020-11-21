@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.appserver.impl;
+package cloud.piranha.http.webapp;
 
 import java.io.IOException;
 import java.io.PrintWriter;

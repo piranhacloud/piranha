@@ -90,10 +90,10 @@
             <optional>true</optional>
         </dependency>
       
-        <!-- Piranha Application Server implementation -->
+        <!-- Piranha HTTP - WebApplication -->
         <dependency>
-            <groupId>cloud.piranha.appserver</groupId>
-            <artifactId>piranha-appserver-impl</artifactId>
+            <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-webapp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

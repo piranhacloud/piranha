@@ -2029,6 +2029,7 @@ public class DefaultWebApplication implements WebApplication {
      * Attributed removed.
      *
      * @param name the name.
+     * @param previousValue the previous value.
      */
     private void attributeRemoved(String name, Object previousValue) {
         contextAttributeListeners.stream().forEach(listener -> listener.attributeRemoved(new ServletContextAttributeEvent(this, name, previousValue)));

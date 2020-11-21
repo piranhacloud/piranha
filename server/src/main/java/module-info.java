@@ -29,20 +29,23 @@
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 
+/**
+ * The Piranha Server module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.server {
+
     exports cloud.piranha.server;
-    
     requires cloud.piranha.api;
-    requires cloud.piranha.appserver.impl;
     requires cloud.piranha.extension.servlet;
     requires cloud.piranha.http.api;
+    requires cloud.piranha.http.webapp;
     requires cloud.piranha.naming.impl;
     requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-
     requires java.logging;
-
     uses HttpServer;
     uses WebApplicationExtension;
 }

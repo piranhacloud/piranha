@@ -41,7 +41,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import cloud.piranha.api.Piranha;
-import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
+import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.naming.impl.DefaultInitialContextFactory;
@@ -186,7 +186,7 @@ public class ServerPiranha implements Piranha, Runnable {
         long startTime = System.currentTimeMillis();
         LOGGER.log(INFO, () -> "Starting Piranha");
 
-        DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
+        HttpWebApplicationServer webApplicationServer = new HttpWebApplicationServer();
         HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
         httpServer.setServerPort(8080);
         httpServer.setHttpServerProcessor(webApplicationServer);
