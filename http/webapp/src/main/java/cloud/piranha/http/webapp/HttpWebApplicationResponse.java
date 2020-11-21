@@ -25,18 +25,55 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.http.webapp;
 
-module cloud.piranha.appserver.impl {
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.servlet.api;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
+import cloud.piranha.http.api.HttpServerResponse;
+import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import java.io.IOException;
 
-    requires java.logging;
+/**
+ * The HttpServerResponse variant of WebApplicationResponse.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
 
-    exports cloud.piranha.appserver.impl;
-    opens cloud.piranha.appserver.impl;
+    /**
+     * Stores the wrapped HttpServerResponse.
+     */
+    private final HttpServerResponse wrapped;
 
-    // Tests
-    requires static java.net.http;
+    /**
+     * Constructor.
+     *
+     * @param wrapped the wrapped HttpServerResponse.
+     */
+    public HttpWebApplicationResponse(HttpServerResponse wrapped) {
+        this.wrapped = wrapped;
+        setUnderlyingOutputStream(wrapped.getOutputStream());
+    }
+
+    @Override
+    public void writeStatusLine() throws IOException {
+        wrapped.setStatus(status);
+        wrapped.writeStatusLine();
+    }
+
+    @Override
+    public void writeHeaders() throws IOException {
+        if (contentType != null) {
+            StringBuilder contentTypeBuilder = new StringBuilder();
+            contentTypeBuilder.append(contentType);
+            if (characterEncoding != null) {
+                contentTypeBuilder
+                        .append(";charset=")
+                        .append(characterEncoding);
+            }
+            setHeader("Content-Type", contentTypeBuilder.toString());
+        }
+        if (contentLanguage != null) {
+            setHeader("Content-Language", contentLanguage);
+        }
+        wrapped.writeHeaders();
+    }
 }

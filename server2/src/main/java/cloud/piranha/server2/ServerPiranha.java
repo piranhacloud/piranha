@@ -46,7 +46,7 @@ import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import cloud.piranha.api.Piranha;
-import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
+import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.MicroConfiguration;
 import cloud.piranha.micro.MicroOuterDeployer;
 
@@ -160,7 +160,7 @@ public class ServerPiranha implements Piranha, Runnable {
         long startTime = System.currentTimeMillis();
         LOGGER.log(INFO, () -> "Starting Piranha");
 
-        DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
+        HttpWebApplicationServer webApplicationServer = new HttpWebApplicationServer();
         HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
         httpServer.setServerPort(8080);
         httpServer.setHttpServerProcessor(webApplicationServer);
@@ -215,7 +215,7 @@ public class ServerPiranha implements Piranha, Runnable {
     }
 
 
-    private void deploy(File warFile, DefaultWebApplicationServer webApplicationServer) {
+    private void deploy(File warFile, HttpWebApplicationServer webApplicationServer) {
         String contextPath = getContextPath(warFile);
 
         MicroConfiguration configuration = new MicroConfiguration();

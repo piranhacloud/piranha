@@ -61,13 +61,10 @@ public class PropertyDriver implements Driver {
         try {
             DriverManager.registerDriver(this);
         } catch (SQLException se) {
-
         }
     }
 
-    /**
-     * @see Driver#connect(java.lang.String, java.util.Properties)
-     */
+    @Override
     public Connection connect(String url, Properties info) throws SQLException {
         String name = url.substring("jdbc:property:".length());
         String delegateUrl = null;
@@ -81,16 +78,12 @@ public class PropertyDriver implements Driver {
         return driver.connect(delegateUrl, delegateProperties);
     }
 
-    /**
-     * @see Driver#acceptsURL(java.lang.String)
-     */
+    @Override
     public boolean acceptsURL(String url) throws SQLException {
         return url != null && url.contains("jdbc:property:");
     }
 
-    /**
-     * @see Driver#getPropertyInfo(java.lang.String, java.util.Properties)
-     */
+    @Override
     public DriverPropertyInfo[] getPropertyInfo(String url, Properties info) throws SQLException {
         String delegateUrl = null;
         Properties delegateInfo = null;
@@ -98,36 +91,22 @@ public class PropertyDriver implements Driver {
         return driver.getPropertyInfo(delegateUrl, delegateInfo);
     }
 
-    /**
-     * Get the major version.
-     *
-     * @return 1.
-     */
+    @Override
     public int getMajorVersion() {
         return 1;
     }
 
-    /**
-     * Get the minor version.
-     *
-     * @return 0.
-     */
+    @Override
     public int getMinorVersion() {
         return 0;
     }
 
-    /**
-     * Are we JDBC compliant.
-     *
-     * @return true.
-     */
+    @Override
     public boolean jdbcCompliant() {
         return true;
     }
 
-    /**
-     * @see Driver#getParentLogger()
-     */
+    @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         return Logger.getLogger(PropertyDriver.class.getName());
     }

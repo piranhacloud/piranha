@@ -65,10 +65,17 @@
             <version>${project.version}</version>
         </dependency>
         
-        <!--  -->
+        <!-- Piranha HTTP - WebApplication  -->
         <dependency>
-            <groupId>cloud.piranha.appserver</groupId>
-            <artifactId>piranha-appserver-impl</artifactId>
+            <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-webapp</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <!-- Piranha WebApplication - Implementation -->
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
                 

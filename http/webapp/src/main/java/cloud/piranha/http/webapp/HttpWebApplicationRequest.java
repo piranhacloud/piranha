@@ -25,14 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.appserver.impl;
+package cloud.piranha.http.webapp;
 
+import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 
 /**
- * The default WebApplicationServerRequest.
+ * The HttpServerRequest variant of WebApplicationRequest.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerRequest extends DefaultWebApplicationRequest {
+public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
+
+    /**
+     * Stores the wrapped HttpServerRequest.
+     */
+    private final HttpServerRequest wrapped;
+
+    /**
+     * Constructor.
+     *
+     * @param wrapped the wrapped HttpServerRequest.
+     */
+    public HttpWebApplicationRequest(HttpServerRequest wrapped) {
+        this.wrapped = wrapped;
+    }
+
+    @Override
+    public String getHeader(String name) {
+        return wrapped.getHeader(name);
+    }
+
+    @Override
+    public Enumeration<String> getHeaderNames() {
+        ArrayList<String> headerNames = new ArrayList<>();
+        wrapped.getHeaderNames().forEachRemaining(headerNames::add);
+        return Collections.enumeration(headerNames);
+    }
+
+    @Override
+    public Enumeration<String> getHeaders(String name) {
+        ArrayList<String> headers = new ArrayList<>();
+        wrapped.getHeaders(name).forEachRemaining(headers::add);
+        return Collections.enumeration(headers);
+    }
 }

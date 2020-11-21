@@ -82,7 +82,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import cloud.piranha.api.Piranha;
-import cloud.piranha.appserver.impl.DefaultWebApplicationServer;
+import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.naming.impl.DynamicInitialContextFactory;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
@@ -228,7 +228,7 @@ public class MicroInnerDeployer {
             webApplication.start();
 
             if ((boolean) config.get("micro.http.start")) {
-                DefaultWebApplicationServer webApplicationServer = new DefaultWebApplicationServer();
+                HttpWebApplicationServer webApplicationServer = new HttpWebApplicationServer();
                 webApplicationServer.addWebApplication(webApplication);
 
                 ServiceLoader<HttpServer> httpServers = ServiceLoader.load(HttpServer.class);

@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.appserver.impl;
+package cloud.piranha.http.webapp;
 
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
@@ -56,12 +56,12 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServer implements HttpServerProcessor, WebApplicationServer {
+public class HttpWebApplicationServer implements HttpServerProcessor, WebApplicationServer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(DefaultWebApplicationServer.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(HttpWebApplicationServer.class.getName());
 
     /**
      * Stores the request mapper.
@@ -76,8 +76,8 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
     /**
      * Constructor.
      */
-    public DefaultWebApplicationServer() {
-        this.requestMapper = new DefaultWebApplicationServerRequestMapper();
+    public HttpWebApplicationServer() {
+        this.requestMapper = new HttpWebApplicationServerRequestMapper();
         this.webApplications = new ConcurrentHashMap<>();
     }
 

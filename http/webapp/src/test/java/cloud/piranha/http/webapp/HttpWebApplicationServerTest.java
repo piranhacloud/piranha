@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.appserver.impl;
+package cloud.piranha.http.webapp;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.http.impl.DefaultHttpServer;
@@ -41,18 +41,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the DefaultWebApplicationServer class.
+ * The JUnit tests for the HttpWebApplicationServer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultWebApplicationServerTest {
+class HttpWebApplicationServerTest {
 
     /**
      * Test addMapping method.
      */
     @Test
     void testAddMapping() {
-        DefaultWebApplicationServer server = new DefaultWebApplicationServer();
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setServletContextName("mycontext");
         server.addWebApplication(webApp);
@@ -64,7 +64,7 @@ class DefaultWebApplicationServerTest {
      */
     @Test
     void testAddMapping2() {
-        DefaultWebApplicationServer server = new DefaultWebApplicationServer();
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setServletContextName("mycontext");
         server.addWebApplication(webApp);
@@ -76,7 +76,7 @@ class DefaultWebApplicationServerTest {
      */
     @Test
     void testAddMapping3() {
-        DefaultWebApplicationServer server = new DefaultWebApplicationServer();
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setServletContextName("mycontext");
         server.addWebApplication(webApp);
@@ -89,8 +89,8 @@ class DefaultWebApplicationServerTest {
      */
     @Test
     void testGetRequestMapper() {
-        DefaultWebApplicationServer server = new DefaultWebApplicationServer();
-        server.setRequestMapper(new DefaultWebApplicationServerRequestMapper());
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        server.setRequestMapper(new HttpWebApplicationServerRequestMapper());
         assertNotNull(server.getRequestMapper());
     }
     
@@ -101,7 +101,7 @@ class DefaultWebApplicationServerTest {
      */
     @Test
     void testProcess() throws Exception {
-        DefaultWebApplicationServer server = new DefaultWebApplicationServer();
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
         HttpServer httpServer = new DefaultHttpServer(8180, server, false);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/context");

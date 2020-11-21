@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.appserver.impl;
+package cloud.piranha.http.webapp;
 
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -40,7 +40,7 @@ import cloud.piranha.webapp.api.WebApplication;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationServerRequestMapper implements WebApplicationServerRequestMapper {
+public class HttpWebApplicationServerRequestMapper implements WebApplicationServerRequestMapper {
 
     /**
      * Stores the mappings.
