@@ -34,10 +34,22 @@ import java.util.function.Consumer;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import cloud.piranha.appserver.api.WebApplicationServerRequest;
-import cloud.piranha.appserver.api.WebApplicationServerResponse;
+import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.webapp.api.WebApplicationResponse;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import static java.util.Map.entry;
 
+/**
+ * A Piranha Micro web application.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 public class MicroWebApplication extends DefaultWebApplication {
 
     /**
@@ -73,7 +85,7 @@ public class MicroWebApplication extends DefaultWebApplication {
     public void service(ServletRequest request, ServletResponse response) {
         try {
             GlobalPolicy.setContextId(getServletContextId());
-            deployedApplication.accept(copyApplicationRequestToMap((WebApplicationServerRequest) request, (WebApplicationServerResponse) response));
+            deployedApplication.accept(copyApplicationRequestToMap((WebApplicationRequest) request, (WebApplicationResponse) response));
         } finally {
             GlobalPolicy.setContextId(null);
         }
@@ -86,13 +98,76 @@ public class MicroWebApplication extends DefaultWebApplication {
      * @param applicationResponse the web application response.
      * @return the map.
      */
-    private Map<String, Object> copyApplicationRequestToMap(WebApplicationServerRequest applicationRequest, WebApplicationServerResponse applicationResponse) {
+    private Map<String, Object> copyApplicationRequestToMap(WebApplicationRequest applicationRequest, WebApplicationResponse applicationResponse) {
         Map<String, Object> requestValues = new HashMap<>();
 
-        requestValues.putAll(applicationRequest.toMap());
-        requestValues.putAll(applicationResponse.toMap());
+        requestValues.putAll(requestToMap(applicationRequest));
+        requestValues.putAll(responseToMap(applicationResponse));
 
         return requestValues;
     }
 
+    /**
+     * Get a map of request.
+     * 
+     * @return the map. 
+     */
+    private Map<String, Object> requestToMap(WebApplicationRequest request) {
+        return Map.ofEntries(
+            entry("LocalAddr", request.getLocalAddr()),
+            entry("LocalName", request.getLocalName()),
+            entry("LocalPort", request.getLocalPort()),
+            entry("RemoteAddr", request.getRemoteAddr()),
+            entry("RemoteHost", request.getRemoteHost()),
+            entry("RemotePort", request.getRemotePort()),
+            entry("ServerName", request.getServerName()),
+            entry("ServerPort", request.getServerPort()),
+            entry("Method", request.getMethod()),
+            entry("ContextPath", request.getContextPath()),
+            entry("ServletPath", request.getServletPath()),
+            entry("QueryString", request.getQueryString()),
+            entry("InputStream", getInputStreamUnchecked(request)),
+            entry("Headers", getHeadersAsMap(request)));
+    }
+
+    /**
+     * Get the unchecked input stream.
+     * 
+     * @return the unchecked input stream.
+     */
+    private InputStream getInputStreamUnchecked(WebApplicationRequest request) {
+        try {
+            return request.getInputStream();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    /**
+     * Get the headers as a map.
+     * 
+     * @return the map.
+     */
+    private Map<String, List<String>> getHeadersAsMap(WebApplicationRequest request) {
+        Map<String, List<String>> headers = new HashMap<>();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String name = headerNames.nextElement();
+            String value = request.getHeader(name);
+            headers.computeIfAbsent(name, e -> new ArrayList<>()).add(value);
+        }
+        return headers;
+    }
+    
+    
+    /**
+     * Get a map of underlying output stream and response closer.
+     * 
+     * @return the map.
+     */
+    private Map<String, Object> responseToMap(WebApplicationResponse response) {
+        return Map.of(
+            "UnderlyingOutputStream", response.getUnderlyingOutputStream(),
+            "ResponseCloser", response.getResponseCloser());
+    }
 }

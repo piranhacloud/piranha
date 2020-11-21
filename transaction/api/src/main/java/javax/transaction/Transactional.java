@@ -35,6 +35,11 @@ import java.lang.annotation.Target;
 import javax.interceptor.InterceptorBinding;
 import static javax.transaction.Transactional.TxType.REQUIRED;
 
+/**
+ * The Transactional annotation.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 @Inherited
 @InterceptorBinding
 @Target(value = {TYPE, METHOD})

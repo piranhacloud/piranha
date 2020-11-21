@@ -34,6 +34,11 @@ import java.net.URLStreamHandler;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * A static URL stream handler.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 public class StaticStreamHandler extends URLStreamHandler {
     
     /**

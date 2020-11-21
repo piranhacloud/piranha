@@ -32,7 +32,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import cloud.piranha.appserver.api.WebApplicationServerRequestMapper;
+import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.webapp.api.WebApplication;
 
 /**

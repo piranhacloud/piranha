@@ -32,6 +32,11 @@ import cloud.piranha.webapp.api.LocaleEncodingManager;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The default LocaleEncodingManager.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 public class DefaultLocaleEncodingManager implements LocaleEncodingManager {
 
     /**

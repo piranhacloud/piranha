@@ -270,6 +270,7 @@ public class DefaultInvocationFinder {
     /**
      * Find the filter environments.
      *
+     * @param dispatcherType the dispatcher type.
      * @param servletPath the servlet path to which filters should apply.
      * @param pathInfo the path info to which filters should apply.
      * @param servletName name of the servlet to be filtered, if any. Can be null.

@@ -36,6 +36,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
+/**
+ * A global policy.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 public class GlobalPolicy extends Policy implements Consumer<Policy> {
 
     /**

@@ -51,6 +51,11 @@ import cloud.piranha.webapp.api.AttributeManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 
+/**
+ * The async HTTP dispatch wrapper.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implements WebApplicationRequest {
 
     /**

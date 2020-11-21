@@ -27,7 +27,6 @@
  */
 
 module cloud.piranha.appserver.impl {
-    requires cloud.piranha.appserver.api;
     requires cloud.piranha.http.api;
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;

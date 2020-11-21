@@ -40,14 +40,16 @@ import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 
-import cloud.piranha.appserver.api.WebApplicationServer;
-import cloud.piranha.appserver.api.WebApplicationServerRequest;
-import cloud.piranha.appserver.api.WebApplicationServerRequestMapper;
-import cloud.piranha.appserver.api.WebApplicationServerResponse;
+import cloud.piranha.webapp.api.WebApplicationServer;
+import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
 import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.webapp.api.WebApplicationResponse;
+import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 
 /**
  * The default WebApplicationServer.
@@ -115,8 +117,8 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
      * @param request the HTTP server request.
      * @return the web application server request.
      */
-    private WebApplicationServerRequest createRequest(HttpServerRequest request) {
-        DefaultWebApplicationServerRequest applicationServerRequest = new DefaultWebApplicationServerRequest();
+    private WebApplicationRequest createRequest(HttpServerRequest request) {
+        DefaultWebApplicationRequest applicationServerRequest = new DefaultWebApplicationRequest();
         copyHttpRequestToApplicationRequest(request, applicationServerRequest);
         applicationServerRequest.setServletPath("");
 
@@ -139,7 +141,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
         return applicationServerRequest;
     }
 
-    private Cookie[] processCookies(DefaultWebApplicationServerRequest result, String cookiesValue) {
+    private Cookie[] processCookies(DefaultWebApplicationRequest result, String cookiesValue) {
         ArrayList<Cookie> cookieList = new ArrayList<>();
         String[] cookieCandidates = cookiesValue.split(";");
         for (String cookieCandidate : cookieCandidates) {
@@ -162,7 +164,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
         return cookieList.toArray(new Cookie[0]);
     }
 
-    private void copyHttpRequestToApplicationRequest(HttpServerRequest httpRequest, DefaultWebApplicationServerRequest applicationRequest) {
+    private void copyHttpRequestToApplicationRequest(HttpServerRequest httpRequest, DefaultWebApplicationRequest applicationRequest) {
         applicationRequest.setLocalAddr(httpRequest.getLocalAddress());
         applicationRequest.setLocalName(httpRequest.getLocalHostname());
         applicationRequest.setLocalPort(httpRequest.getLocalPort());
@@ -184,8 +186,8 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
      * @param httpResponse the HTTP server response.
      * @return the web application server response.
      */
-    public WebApplicationServerResponse createResponse(HttpServerResponse httpResponse) {
-        DefaultWebApplicationServerResponse applicationResponse = new DefaultWebApplicationServerResponse();
+    public DefaultWebApplicationResponse createResponse(HttpServerResponse httpResponse) {
+        DefaultWebApplicationResponse applicationResponse = new DefaultWebApplicationResponse();
         applicationResponse.setUnderlyingOutputStream(httpResponse.getOutputStream());
 
         applicationResponse.setResponseCloser(() -> {
@@ -238,8 +240,8 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
     @Override
     public boolean process(HttpServerRequest request, HttpServerResponse response) {
         try {
-            DefaultWebApplicationServerRequest serverRequest = (DefaultWebApplicationServerRequest) createRequest(request);
-            DefaultWebApplicationServerResponse serverResponse = (DefaultWebApplicationServerResponse) createResponse(response);
+            DefaultWebApplicationRequest serverRequest = (DefaultWebApplicationRequest) createRequest(request);
+            DefaultWebApplicationResponse serverResponse = (DefaultWebApplicationResponse) createResponse(response);
 
             service(serverRequest, serverResponse);
 
@@ -260,7 +262,7 @@ public class DefaultWebApplicationServer implements HttpServerProcessor, WebAppl
      * @throws ServletException when a servlet error occurs.
      */
     @Override
-    public void service(WebApplicationServerRequest request, WebApplicationServerResponse response) throws IOException, ServletException {
+    public void service(WebApplicationRequest request, WebApplicationResponse response) throws IOException, ServletException {
         String requestUri = request.getRequestURI();
         if (requestUri == null) {
             response.sendError(500);

@@ -43,12 +43,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface SecurityManager {
 
+    /**
+     * The enum that qualifies the source of the authentication.
+     */
     enum AuthenticateSource {
         /**
          * The container / runtime calls authenticate before a request
          */
         PRE_REQUEST_CONTAINER,
-
         /**
          * The user (code) has programmatically called authenticate
          */
@@ -56,10 +58,19 @@ public interface SecurityManager {
     }
 
     /**
-     * Method that bypasses the authentication mechanism installed by the authentication manager and directly invokes an
-     * identity store.
+     * Method that bypasses the authentication mechanism installed by the
+     * authentication manager and directly invokes an identity store.
      */
     interface UsernamePasswordLoginHandler {
+
+        /**
+         * Login.
+         * 
+         * @param request the request.
+         * @param username the username.
+         * @param password the password.
+         * @return the authenticated identity.
+         */
         AuthenticatedIdentity login(HttpServletRequest request, String username, String password);
     }
 
@@ -74,7 +85,8 @@ public interface SecurityManager {
      * Check if the current request adheres to the user data constraint, if any.
      *
      * <p>
-     * In practice this means checking if HTTPS is used when so required by the application.
+     * In practice this means checking if HTTPS is used when so required by the
+     * application.
      *
      * @param request the request.
      * @param response the response.
@@ -87,26 +99,31 @@ public interface SecurityManager {
     }
 
     /**
-     * Check if the requested resource, represented by the request, is public or not.
+     * Check if the requested resource, represented by the request, is public or
+     * not.
      *
      * @param request the request.
-     * @return true if the requested resource can be accessed by public (unauthenticated) callers, otherwise false
+     * @return true if the requested resource can be accessed by public
+     * (unauthenticated) callers, otherwise false
      */
     default boolean isRequestedResourcePublic(HttpServletRequest request) {
         return true;
     }
 
     /**
-     * Check if the current caller (which can be the anonymous caller) is authorized to access the requested resource.
+     * Check if the current caller (which can be the anonymous caller) is
+     * authorized to access the requested resource.
      *
      * <p>
-     * If the unauthenticated caller is authorized, then this means the resource is public (aka unconstrained, aka
-     * unchecked), and the outcome of this method MUST be consistent with
+     * If the unauthenticated caller is authorized, then this means the resource
+     * is public (aka unconstrained, aka unchecked), and the outcome of this
+     * method MUST be consistent with
      * {@link #isRequestedResourcePublic(HttpServletRequest)}.
      *
      *
      * @param request the request.
-     * @return true if the current caller is allowed to access the requested resource, false otherwise
+     * @return true if the current caller is allowed to access the requested
+     * resource, false otherwise
      */
     default boolean isCallerAuthorizedForResource(HttpServletRequest request) {
         return true;
@@ -127,8 +144,8 @@ public interface SecurityManager {
      * Gets the request object the security system wants to put in place.
      *
      * <p>
-     * This method allows the security system (or authentication module being delegated to) a custom or, more likely,
-     * wrapped request.
+     * This method allows the security system (or authentication module being
+     * delegated to) a custom or, more likely, wrapped request.
      *
      * @param request the request.
      * @param response the response.
@@ -142,8 +159,8 @@ public interface SecurityManager {
      * Gets the response object the security system wants to put in place.
      *
      * <p>
-     * This method allows the security system (or authentication module being delegated to) a custom or, more likely,
-     * wrapped response.
+     * This method allows the security system (or authentication module being
+     * delegated to) a custom or, more likely, wrapped response.
      *
      * @param request the request.
      * @param response the response.
@@ -158,7 +175,8 @@ public interface SecurityManager {
      *
      * @param request the request.
      * @param response the response.
-     * @param source the source or moment from where this authenticate method is called
+     * @param source the source or moment from where this authenticate method is
+     * called
      * @return true if authenticated.
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
@@ -171,12 +189,12 @@ public interface SecurityManager {
     }
 
     /**
-     * Gives the security system the opportunity to process the response after the request (after the target resource has
-     * been invoked).
+     * Gives the security system the opportunity to process the response after
+     * the request (after the target resource has been invoked).
      *
      * <p>
-     * Although this may be rare to used in practice, it allows for encryption of the response, inserting security tokens,
-     * signing the response, etc.
+     * Although this may be rare to used in practice, it allows for encryption
+     * of the response, inserting security tokens, signing the response, etc.
      *
      * @param request the request.
      * @param response the response.
@@ -195,7 +213,7 @@ public interface SecurityManager {
 
     /**
      * Declare roles.
-     * 
+     *
      * @param roles the roles.
      */
     default void declareRoles(Collection<String> roles) {
@@ -263,7 +281,8 @@ public interface SecurityManager {
     void setWebApplication(WebApplication webApplication);
 
     /**
-     * Set the handler that may be used by the login method to contact an identity store.
+     * Set the handler that may be used by the login method to contact an
+     * identity store.
      *
      * @param usernamePasswordLoginHandler the handler
      */

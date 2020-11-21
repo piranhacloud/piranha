@@ -27,6 +27,11 @@
  */
 package cloud.piranha.webapp.api;
 
+/**
+ * The LocaleEncodingManager API.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 public interface LocaleEncodingManager {
 
     /**

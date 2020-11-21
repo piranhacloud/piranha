@@ -46,10 +46,15 @@ import cloud.piranha.webapp.api.AnnotationManager;
 /**
  * The default AnnotationManager.
  *
- * @author manfred
+ * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultAnnotationManager implements AnnotationManager {
 
+    /**
+     * The default AnnotationInfo.
+     * 
+     * @param <T> the type.
+     */
     public static class DefaultAnnotationInfo<T> implements AnnotationInfo<T> {
 
         /**

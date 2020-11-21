@@ -121,7 +121,7 @@ public interface AnnotationManager {
      * Get the annotation for the annotation class and annotated element type.
      * 
      * @param <T> the type.
-     * @param annotationClass
+     * @param annotationClass the annotation class.
      * @param type the annotated element type.
      * @return the list of annotations.
      */

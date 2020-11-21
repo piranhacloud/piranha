@@ -164,6 +164,11 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      * Stores the content language
      */
     protected String contentLanguage;
+    
+    /**
+     * Stores the response closer.
+     */
+    protected Runnable responseCloser;
 
     /**
      * Constructor.
@@ -570,11 +575,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         setStatus(status);
     }
 
-    /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
-     */
+    @Override
     public void setWebApplication(WebApplication webApplication) {
         this.webApplication = webApplication;
     }
@@ -608,8 +609,9 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
 
     @Override
     public void closeAsyncResponse() {
+        responseCloser.run();
     }
-
+    
     @Override
     public void flush() throws IOException {
         if (!isCommitted()) {
@@ -815,5 +817,15 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
             outputStream.write(getStatusMessage().getBytes());
         }
         outputStream.write("\n".getBytes());
+    }
+
+    @Override
+    public Runnable getResponseCloser() {
+        return responseCloser;
+    }
+
+    @Override
+    public void setResponseCloser(Runnable responseCloser) {
+        this.responseCloser = responseCloser;
     }
 }

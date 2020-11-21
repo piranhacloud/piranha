@@ -97,11 +97,28 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerArgs>
-                        <arg>--patch-module=shrinkwrap.resolver.api.maven=${settings.localRepository}/org/jboss/shrinkwrap/resolver/shrinkwrap-resolver-api/3.1.4/shrinkwrap-resolver-api-3.1.4.jar</arg>
-                    </compilerArgs>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <configuration>
+                            <includes>
+                                <include>module-info.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>patch-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <compilerArgs>
+                                <arg>--patch-module=shrinkwrap.resolver.api.maven=${settings.localRepository}/org/jboss/shrinkwrap/resolver/shrinkwrap-resolver-api/3.1.4/shrinkwrap-resolver-api-3.1.4.jar</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

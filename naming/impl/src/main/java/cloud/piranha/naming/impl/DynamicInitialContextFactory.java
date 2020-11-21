@@ -48,6 +48,11 @@ public class DynamicInitialContextFactory implements InitialContextFactory {
      */
     private static final Map<String, DefaultInitialContext> INITIAL_CONTEXTS = new ConcurrentHashMap<>();
 
+    /**
+     * A dynamic InitialContext.
+     *
+     * @author Manfred Riem (mriem@manorrock.com)
+     */
     public static class DynamicInitialContext extends DefaultInitialContext {
 
         /**
@@ -57,7 +62,7 @@ public class DynamicInitialContextFactory implements InitialContextFactory {
 
         /**
          * Constructor.
-         * 
+         *
          * @param contextId the context id.
          */
         public DynamicInitialContext(String contextId) {
@@ -65,11 +70,11 @@ public class DynamicInitialContextFactory implements InitialContextFactory {
         }
 
         @Override
-        public void close() throws NamingException {};
+        public void close() throws NamingException {
+        }
 
         @Override
         public String toString() {
-            // TODO Auto-generated method stub
             return contextId + " " + super.toString();
         }
     }
@@ -85,5 +90,4 @@ public class DynamicInitialContextFactory implements InitialContextFactory {
     public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
         return INITIAL_CONTEXTS.computeIfAbsent("MICRO", DynamicInitialContext::new);
     }
-
 }

@@ -1572,6 +1572,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     /**
      * Unwrap the request.
      *
+     * @param <T> the type to unwrap to.
      * @param request the request.
      * @param type the class type of the result
      * @return the unwrapped request.

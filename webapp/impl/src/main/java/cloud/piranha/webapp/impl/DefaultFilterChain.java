@@ -78,6 +78,7 @@ public class DefaultFilterChain implements FilterChain {
     /**
      * Constructor.
      *
+     * @param servletInvocation the servlet invocation.
      * @param servlet the servlet.
      */
     public DefaultFilterChain(ServletInvocation servletInvocation, Servlet servlet) {

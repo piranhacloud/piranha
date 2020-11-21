@@ -26,7 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 module cloud.piranha.webapp.impl {
-    requires cloud.piranha.appserver.api;
     requires cloud.piranha.http.api;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;

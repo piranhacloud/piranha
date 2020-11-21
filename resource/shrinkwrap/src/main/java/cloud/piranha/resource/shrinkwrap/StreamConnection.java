@@ -38,6 +38,11 @@ import java.net.URLConnection;
  */
 public abstract class StreamConnection extends URLConnection {
 
+    /**
+     * Constructor.
+     * 
+     * @param url the URL.
+     */
     protected StreamConnection(URL url) {
         super(url);
     }

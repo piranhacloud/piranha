@@ -50,7 +50,6 @@ module cloud.piranha.server2 {
 
     requires shrinkwrap.api;
     requires shrinkwrap.resolver.api.maven;
-    requires cloud.piranha.appserver.api;
     requires java.naming;
 
     uses HttpServer;
