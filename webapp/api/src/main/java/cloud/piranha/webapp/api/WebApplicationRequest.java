@@ -38,10 +38,30 @@ import javax.servlet.http.HttpServletRequest;
 public interface WebApplicationRequest extends HttpServletRequest {
 
     /**
+     * Set the context path.
+     *
+     * @param contextPath the context path.
+     */
+    void setContextPath(String contextPath);
+
+    /**
      * Set the dispatcher type.
      *
      * @param dispatcherType the dispatcher type.
      */
     void setDispatcherType(DispatcherType dispatcherType);
 
+    /**
+     * Set the servlet path.
+     *
+     * @param servletPath the servlet path.
+     */
+    void setServletPath(String servletPath);
+
+    /**
+     * Set the web application.
+     *
+     * @param webApplication the web application.
+     */
+    void setWebApplication(WebApplication webApplication);
 }

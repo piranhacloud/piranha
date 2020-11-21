@@ -29,7 +29,6 @@ package cloud.piranha.appserver.api;
 
 import java.util.Map;
 
-import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationResponse;
 
 /**
@@ -38,13 +37,6 @@ import cloud.piranha.webapp.api.WebApplicationResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface WebApplicationServerResponse extends WebApplicationResponse {
-
-    /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
-     */
-    void setWebApplication(WebApplication webApplication);
 
     /**
      * Get the response closer.

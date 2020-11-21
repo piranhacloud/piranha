@@ -38,7 +38,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 
 /**
@@ -48,26 +47,7 @@ import cloud.piranha.webapp.api.WebApplicationRequest;
  */
 public interface WebApplicationServerRequest extends WebApplicationRequest {
 
-    /**
-     * Set the context path.
-     *
-     * @param contextPath the context path.
-     */
-    void setContextPath(String contextPath);
 
-    /**
-     * Set the servlet path.
-     *
-     * @param servletPath the servlet path.
-     */
-    void setServletPath(String servletPath);
-
-    /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
-     */
-    void setWebApplication(WebApplication webApplication);
 
     /**
      * Get a map of request.
