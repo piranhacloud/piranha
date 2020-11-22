@@ -34,4 +34,3 @@ jobs:
         git push origin v$VERSION -f
         git checkout $BRANCH
         git branch -D release
-        git push origin :${TAG}
