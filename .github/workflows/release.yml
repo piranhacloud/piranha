@@ -13,14 +13,17 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 15
+        server-id: ossrh
+        server-username: MAVEN_USERNAME
+        server-password: MAVEN_PASSWORD
     - name: Build with Maven
-      run: mvn -B -DskipTests=true -f pom.xml install
+      run: mvn --no-transfer-progress -B -DskipTests=true clean install
     - name: Login to Docker Hub
       uses: azure/docker-login@v1
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Build amd64 image
+    - name: Build amd64 Docker image
       run: |
         cd server
         TAG=${GITHUB_REF}
@@ -52,8 +55,8 @@ jobs:
           piranhacloud/server:arm32v7-$VERSION --os linux --arch arm --variant armv7l
         docker manifest push piranhacloud/server:$VERSION
     - name: Build with Maven
-      run: mvn --no-transfer-progress -B -DskipTests=true deploy
+      run: mvn --no-transfer-progress -B -DskipTests=true clean deploy
       env:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-        MAVEN_CENTRAL_TOKEN: ${{ secrets.OSSRH_TOKEN }}
+        MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
         MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_PASSPHRASE }}
