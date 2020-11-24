@@ -25,11 +25,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.transaction.api {
+/**
+ * The ServerServlet module.
+ */
+module  cloud.piranha.servlet.server {
 
-    exports javax.transaction;
-    requires java.rmi;
-    requires java.transaction.xa;
-    requires jakarta.enterprise.cdi.api;
-    requires jakarta.interceptor.api;
+    exports cloud.piranha.servlet.server;
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.impl;
 }

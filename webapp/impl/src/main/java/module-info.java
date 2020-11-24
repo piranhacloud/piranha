@@ -25,17 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 module cloud.piranha.webapp.impl {
-    requires cloud.piranha.http.api;
+    exports cloud.piranha.webapp.impl;
+    opens cloud.piranha.webapp.impl;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
     requires transitive cloud.piranha.servlet.api;
     requires transitive cloud.piranha.webapp.api;
-
     requires java.logging;
-
-    exports cloud.piranha.webapp.impl;
-    opens cloud.piranha.webapp.impl;
 
     // Tests
     requires static jdk.security.auth;
