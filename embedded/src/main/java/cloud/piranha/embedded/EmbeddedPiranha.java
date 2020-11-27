@@ -28,6 +28,7 @@
 package cloud.piranha.embedded;
 
 import cloud.piranha.api.Piranha;
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.api.WebApplication;
 import java.io.IOException;
@@ -103,18 +104,27 @@ public class EmbeddedPiranha implements Piranha {
      */
     public void service(ServletRequest servletRequest, ServletResponse servletResponse)
             throws IOException, ServletException {
-        if (servletRequest.getServletContext() == null
-                && servletRequest instanceof EmbeddedRequest) {
-            EmbeddedRequest embeddedRequest = (EmbeddedRequest) servletRequest;
-            embeddedRequest.setWebApplication(webApplication);
+
+        try {
+            ThreadInitialContextFactory.setInitialContext(
+                    webApplication.getNamingManager().getContext());
+            
+            if (servletRequest.getServletContext() == null
+                    && servletRequest instanceof EmbeddedRequest) {
+                EmbeddedRequest embeddedRequest = (EmbeddedRequest) servletRequest;
+                embeddedRequest.setWebApplication(webApplication);
+            }
+            if (servletResponse instanceof EmbeddedResponse) {
+                EmbeddedResponse embeddedResponse = (EmbeddedResponse) servletResponse;
+                embeddedResponse.setWebApplication(webApplication);
+            }
+            webApplication.linkRequestAndResponse(servletRequest, servletResponse);
+            webApplication.service(servletRequest, servletResponse);
+            webApplication.unlinkRequestAndResponse(servletRequest, servletResponse);
+
+        } finally {
+            ThreadInitialContextFactory.removeInitialContext();
         }
-        if (servletResponse instanceof EmbeddedResponse) {
-            EmbeddedResponse embeddedResponse = (EmbeddedResponse) servletResponse;
-            embeddedResponse.setWebApplication(webApplication);
-        }
-        webApplication.linkRequestAndResponse(servletRequest, servletResponse);
-        webApplication.service(servletRequest, servletResponse);
-        webApplication.unlinkRequestAndResponse(servletRequest, servletResponse);
     }
 
     /**

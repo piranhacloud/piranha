@@ -26,9 +26,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Naming - Implementation module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.naming.impl {
-    requires java.naming;
 
     exports cloud.piranha.naming.impl;
     opens cloud.piranha.naming.impl;
+    requires cloud.piranha.naming.api;
+    requires java.naming;
 }

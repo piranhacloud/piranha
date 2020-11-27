@@ -22,6 +22,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha.naming</groupId>
+            <artifactId>piranha-naming-api</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-api</artifactId>
             <version>${project.version}</version>

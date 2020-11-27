@@ -29,6 +29,8 @@
 module cloud.piranha.webapp.impl {
     exports cloud.piranha.webapp.impl;
     opens cloud.piranha.webapp.impl;
+    requires cloud.piranha.naming.api;
+    requires cloud.piranha.naming.impl;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
     requires transitive cloud.piranha.servlet.api;

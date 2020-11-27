@@ -25,69 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.naming.impl;
-
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.naming.Context;
-import javax.naming.NamingException;
-import javax.naming.spi.InitialContextFactory;
 
 /**
- * The default InitialContextFactory.
- *
+ * The Piranha Naming - Thread module.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
- * @author Arjan Tijms
  */
-public class DynamicInitialContextFactory implements InitialContextFactory {
+module cloud.piranha.naming.thread {
 
-    /**
-     * Stores the initial contexts
-     */
-    private static final Map<String, DefaultInitialContext> INITIAL_CONTEXTS = new ConcurrentHashMap<>();
-
-    /**
-     * A dynamic InitialContext.
-     *
-     * @author Manfred Riem (mriem@manorrock.com)
-     */
-    public static class DynamicInitialContext extends DefaultInitialContext {
-
-        /**
-         * Stores the context id.
-         */
-        private final String contextId;
-
-        /**
-         * Constructor.
-         *
-         * @param contextId the context id.
-         */
-        public DynamicInitialContext(String contextId) {
-            this.contextId = contextId;
-        }
-
-        @Override
-        public void close() throws NamingException {
-        }
-
-        @Override
-        public String toString() {
-            return contextId + " " + super.toString();
-        }
-    }
-
-    /**
-     * Get the initial context.
-     *
-     * @param environment the environment.
-     * @return the initial context.
-     * @throws NamingException when a naming error occurs.
-     */
-    @Override
-    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
-        return INITIAL_CONTEXTS.computeIfAbsent("MICRO", DynamicInitialContext::new);
-    }
+    exports cloud.piranha.naming.thread;
+    opens cloud.piranha.naming.thread;
+    requires java.naming;
 }

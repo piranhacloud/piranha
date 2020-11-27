@@ -43,7 +43,9 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.faces.mojarra.MojarraInitializer;
-import cloud.piranha.naming.impl.DynamicInitialContextFactory;
+import cloud.piranha.naming.impl.DefaultInitialContext;
+import cloud.piranha.naming.impl.DefaultNamingManager;
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 
 /**
  * The JUnit tests for the Hello Weld web application.
@@ -59,7 +61,9 @@ class JPATest {
      */
     @Test
     void testIndexHtml() throws Exception {
-        System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
+        System.getProperties().put(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
+        DefaultInitialContext defaultInitialContext = new DefaultInitialContext();
+        ThreadInitialContextFactory.setInitialContext(defaultInitialContext);
         InitialContext initialContext = new InitialContext();
         JDBCDataSource ds = new JDBCDataSource();
         ds.setUrl("jdbc:hsqldb:mem:demo");
@@ -77,6 +81,7 @@ class JPATest {
                 .servletPath("/index.html")
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
+        piranha.getWebApplication().setNamingManager(new DefaultNamingManager(defaultInitialContext));
         piranha.service(request, response);
         assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Count: 0"));

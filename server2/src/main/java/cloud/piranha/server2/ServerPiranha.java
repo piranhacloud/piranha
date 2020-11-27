@@ -37,9 +37,6 @@ import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
 import cloud.piranha.http.api.HttpServer;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
@@ -49,6 +46,7 @@ import cloud.piranha.api.Piranha;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.MicroConfiguration;
 import cloud.piranha.micro.MicroOuterDeployer;
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 
 /**
  * The Servlet container version of Piranha.
@@ -107,24 +105,8 @@ public class ServerPiranha implements Piranha, Runnable {
     }
 
     private static void setInitialContextFactory(Class<?> clazz) {
-        System.setProperty("java.naming.factory.initial", GlobalInitialContextFactory.class.getName());
+        System.setProperty("java.naming.factory.initial", ThreadInitialContextFactory.class.getName());
         GlobalPolicy.setContextId("ROOT server");
-        try {
-            new InitialContext().bind("name", "test");
-
-            String test = (String) new InitialContext().lookup("name");
-
-            if (!"test".equals(test)) {
-                throw new IllegalStateException("Can't install required initial context factory");
-            }
-
-        } catch (NamingException e) {
-
-
-
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 
     /**

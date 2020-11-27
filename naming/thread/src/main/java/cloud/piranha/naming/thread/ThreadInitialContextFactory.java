@@ -25,51 +25,54 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package piranha.cloud.test.smallrye.health;
+package cloud.piranha.naming.thread;
 
-import cloud.piranha.microprofile.smallrye.health.SmallRyeHealthServlet;
-import cloud.piranha.cdi.weld.WeldInitializer;
-import cloud.piranha.embedded.EmbeddedPiranha;
-import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
-import cloud.piranha.embedded.EmbeddedRequest;
-import cloud.piranha.embedded.EmbeddedRequestBuilder;
-import cloud.piranha.embedded.EmbeddedResponse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
+import java.util.HashMap;
+import java.util.Hashtable;
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.spi.InitialContextFactory;
 
 /**
- * The JUnit tests for the SmallRye Health test.
+ * The Thread InitialContextFactory.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class SmallRyeHealthTest {
+public class ThreadInitialContextFactory implements InitialContextFactory {
 
     /**
-     * Test /health.
-     *
-     * @throws Exception
+     * Stores the initial contexts by thread id.
      */
-    @Test
-    void testHealth() throws Exception {
-        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .directoryResource("src/main/webapp")
-                .initializer(WeldInitializer.class.getName())
-                .servlet("Health", SmallRyeHealthServlet.class.getName())
-                .servletMapping("Health", "/health")
-                .build()
-                .start();
-        EmbeddedRequest request = new EmbeddedRequestBuilder()
-                .contextPath("")
-                .servletPath("")
-                .pathInfo("/health")
-                .build();
-        EmbeddedResponse response = new EmbeddedResponse();
-        piranha.service(request, response);
-        assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseAsString().contains("status"));
-        assertTrue(response.getResponseAsString().contains("UP"));
-        piranha.stop()
-                .destroy();
+    private static final HashMap<Long, Context> INITIAL_CONTEXTS = new HashMap<>(1);
+
+    /**
+     * Get the initial context.
+     *
+     * @param environment the environment.
+     * @return the initial context.
+     * @throws NamingException when a naming error occurs.
+     */
+    @Override
+    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
+        if (INITIAL_CONTEXTS.containsKey(Thread.currentThread().getId())) {
+            return INITIAL_CONTEXTS.get(Thread.currentThread().getId());
+        }
+        throw new NamingException("Initial context not available for thread: " + Thread.currentThread());
+    }
+
+    /**
+     * Remove the initial context.
+     */
+    public static void removeInitialContext() {
+        INITIAL_CONTEXTS.remove(Thread.currentThread().getId());
+    }
+
+    /**
+     * Set the initial context.
+     *
+     * @param initialContext the initial context.
+     */
+    public static void setInitialContext(Context initialContext) {
+        INITIAL_CONTEXTS.put(Thread.currentThread().getId(), initialContext);
     }
 }

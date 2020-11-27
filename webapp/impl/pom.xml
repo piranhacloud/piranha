@@ -26,6 +26,12 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
+            <groupId>cloud.piranha.naming</groupId>
+            <artifactId>piranha-naming-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource</artifactId>
             <version>${project.version}</version>

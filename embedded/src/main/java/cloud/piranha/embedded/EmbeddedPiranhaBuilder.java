@@ -27,20 +27,7 @@
  */
 package cloud.piranha.embedded;
 
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletRegistration;
-
-import cloud.piranha.naming.impl.DynamicInitialContextFactory;
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.AliasedDirectoryResource;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.resource.api.Resource;
@@ -48,6 +35,17 @@ import cloud.piranha.webapp.api.HttpSessionManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletRegistration;
+
 
 /**
  * The builder so you can easily build instances of
@@ -171,11 +169,12 @@ public class EmbeddedPiranhaBuilder {
      * @return the instance.
      */
     public EmbeddedPiranha build() {
-        System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
-
+        System.getProperties().put(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranha();
 
         WebApplication webApplication = piranha.getWebApplication();
+        ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
+        
         if (extensionClasses != null && !extensionClasses.isEmpty()) {
             DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
             for (Class<? extends WebApplicationExtension> extensionClass : extensionClasses) {
@@ -243,6 +242,7 @@ public class EmbeddedPiranhaBuilder {
         webApplication.initializeServlets();
         webApplication.initializeFinish();
 
+        ThreadInitialContextFactory.removeInitialContext();
         return piranha;
     }
 

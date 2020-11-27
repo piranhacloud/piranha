@@ -29,6 +29,6 @@ module cloud.piranha.webapp.api {
     requires static cloud.piranha.http.api;
     requires static cloud.piranha.resource.api;
     requires static cloud.piranha.servlet.api;
-
+    requires cloud.piranha.naming.api;
     exports cloud.piranha.webapp.api;
 }

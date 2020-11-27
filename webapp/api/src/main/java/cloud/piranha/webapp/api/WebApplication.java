@@ -27,6 +27,7 @@
  */
 package cloud.piranha.webapp.api;
 
+import cloud.piranha.naming.api.NamingManager;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -187,6 +188,13 @@ public interface WebApplication extends ServletContext {
      * @return the multi part manager.
      */
     MultiPartManager getMultiPartManager();
+    
+    /**
+     * Get the naming manager.
+     * 
+     * @return the naming manager.
+     */
+    NamingManager getNamingManager();
 
     /**
      * Returns the unique Id of this web application corresponding to this
@@ -425,6 +433,13 @@ public interface WebApplication extends ServletContext {
      * @param multiPartManager the multi part manager.
      */
     void setMultiPartManager(MultiPartManager multiPartManager);
+    
+    /**
+     * Set the naming manager.
+     * 
+     * @param namingManager the naming manager.
+     */
+    void setNamingManager(NamingManager namingManager);
 
     /**
      * Set the object instance manager.

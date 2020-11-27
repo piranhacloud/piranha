@@ -63,6 +63,11 @@ public class DefaultInitialContext implements Context {
     private final Map<String, Object> bindings = new ConcurrentHashMap<>();
 
     /**
+     * Stores the closeable flag.
+     */
+    private boolean closeable = false;
+
+    /**
      * Stores the closed flag.
      */
     private boolean closed = false;
@@ -71,6 +76,21 @@ public class DefaultInitialContext implements Context {
      * Stores the environment.
      */
     private final Map<String, Object> environment = new ConcurrentHashMap<>();
+
+    /**
+     * Constructor.
+     */
+    public DefaultInitialContext() {
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param closeable the closeable flag.
+     */
+    public DefaultInitialContext(boolean closeable) {
+        this.closeable = closeable;
+    }
 
     /**
      * Add to the environment.
@@ -142,13 +162,18 @@ public class DefaultInitialContext implements Context {
 
     /**
      * Close the context.
+     * 
+     * If the closeable flag is set to true it will close the context for 
+     * further use, otherwise this call has no effect.
      *
      * @throws NamingException when a naming error occurs.
      */
     @Override
     public void close() throws NamingException {
-        checkClosed();
-        closed = true;
+        if (closeable) {
+            checkClosed();
+            closed = true;
+        }
     }
 
     /**
@@ -429,7 +454,7 @@ public class DefaultInitialContext implements Context {
 
     /**
      * Lookup the link.
-     * 
+     *
      * @param name the name.
      * @return the link.
      * @throws NamingException when a naming error occurs.

@@ -27,19 +27,18 @@
  */
 package cloud.piranha.micro.core;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.function.Consumer;
-
-import javax.servlet.ServletException;
-
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 
 /**
@@ -68,13 +67,14 @@ public class MicroInnerApplication implements Consumer<Map<String, Object>> {
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
-
+            ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
             webApplication.service(copyMapToApplicationRequest(requestMap), copyMapToApplicationResponse(requestMap));
 
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
+            ThreadInitialContextFactory.removeInitialContext();
         }
     }
 
