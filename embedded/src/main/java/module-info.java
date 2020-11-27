@@ -26,16 +26,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Embedded module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.embedded {
+    
+    exports cloud.piranha.embedded;
+    opens cloud.piranha.embedded;
     requires cloud.piranha.api;
+    requires cloud.piranha.naming.api;
+    requires cloud.piranha.naming.thread;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.impl;
     requires cloud.piranha.webapp.api;
     requires java.naming;
-    requires cloud.piranha.naming.impl;
-
-    exports cloud.piranha.embedded;
-    opens cloud.piranha.embedded;
 }

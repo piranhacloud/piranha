@@ -26,34 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.webapp.api.WebApplicationExtension;
+/**
+ * The Naming API module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+module cloud.piranha.naming.api {
 
-module cloud.piranha.server2 {
-    exports cloud.piranha.server2;
-
-    requires cloud.piranha.micro;
-    requires cloud.piranha.api;
-    requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.webapp;
-    requires cloud.piranha.naming.api;
-    requires cloud.piranha.naming.impl;
-    requires cloud.piranha.naming.thread;
-    requires cloud.piranha.resource;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
-
-    requires cloud.piranha.resource.shrinkwrap;
-
-    requires java.logging;
-
-    requires org.jboss.jandex;
-
-    requires shrinkwrap.api;
-    requires shrinkwrap.resolver.api.maven;
+    exports cloud.piranha.naming.api;
+    opens cloud.piranha.naming.api;
     requires java.naming;
-
-    uses HttpServer;
-    uses WebApplicationExtension;
 }

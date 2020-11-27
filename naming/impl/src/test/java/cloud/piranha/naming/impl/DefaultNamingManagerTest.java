@@ -25,51 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package piranha.cloud.test.smallrye.health;
+package cloud.piranha.naming.impl;
 
-import cloud.piranha.microprofile.smallrye.health.SmallRyeHealthServlet;
-import cloud.piranha.cdi.weld.WeldInitializer;
-import cloud.piranha.embedded.EmbeddedPiranha;
-import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
-import cloud.piranha.embedded.EmbeddedRequest;
-import cloud.piranha.embedded.EmbeddedRequestBuilder;
-import cloud.piranha.embedded.EmbeddedResponse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the SmallRye Health test.
- *
+ * The JUnit tests for the DefaultNamingManager class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class SmallRyeHealthTest {
-
+public class DefaultNamingManagerTest {
+    
     /**
-     * Test /health.
-     *
-     * @throws Exception
+     * Test getInitialContext method.
+     * 
+     * @throws NamingException when a naming error occurs.
      */
     @Test
-    void testHealth() throws Exception {
-        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .directoryResource("src/main/webapp")
-                .initializer(WeldInitializer.class.getName())
-                .servlet("Health", SmallRyeHealthServlet.class.getName())
-                .servletMapping("Health", "/health")
-                .build()
-                .start();
-        EmbeddedRequest request = new EmbeddedRequestBuilder()
-                .contextPath("")
-                .servletPath("")
-                .pathInfo("/health")
-                .build();
-        EmbeddedResponse response = new EmbeddedResponse();
-        piranha.service(request, response);
-        assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseAsString().contains("status"));
-        assertTrue(response.getResponseAsString().contains("UP"));
-        piranha.stop()
-                .destroy();
+    public void testGetInitialContext() throws NamingException {
+        DefaultNamingManager manager = new DefaultNamingManager(new InitialContext() {});
+        assertNotNull(manager.getContext());
     }
 }

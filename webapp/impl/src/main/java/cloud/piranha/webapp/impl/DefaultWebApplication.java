@@ -27,17 +27,28 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static cloud.piranha.webapp.api.FilterEnvironment.UNAVAILABLE;
-import static java.util.Collections.enumeration;
-import static java.util.Collections.reverse;
-import static java.util.Collections.unmodifiableMap;
-import static java.util.Objects.requireNonNull;
-import static java.util.function.Predicate.isEqual;
-import static java.util.function.Predicate.not;
-import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.WARNING;
-import static java.util.stream.Collectors.toSet;
-
+import cloud.piranha.naming.api.NamingManager;
+import cloud.piranha.naming.impl.DefaultInitialContext;
+import cloud.piranha.naming.impl.DefaultNamingManager;
+import cloud.piranha.resource.DefaultResourceManager;
+import cloud.piranha.resource.api.Resource;
+import cloud.piranha.resource.api.ResourceManager;
+import cloud.piranha.webapp.api.AnnotationManager;
+import cloud.piranha.webapp.api.AsyncManager;
+import cloud.piranha.webapp.api.HttpRequestManager;
+import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.JspManager;
+import cloud.piranha.webapp.api.LocaleEncodingManager;
+import cloud.piranha.webapp.api.LoggingManager;
+import cloud.piranha.webapp.api.MimeTypeManager;
+import cloud.piranha.webapp.api.MultiPartManager;
+import cloud.piranha.webapp.api.ObjectInstanceManager;
+import cloud.piranha.webapp.api.SecurityManager;
+import cloud.piranha.webapp.api.ServletEnvironment;
+import static cloud.piranha.webapp.api.ServletEnvironment.UNAVAILABLE;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequestMapper;
+import cloud.piranha.webapp.api.WelcomeFileManager;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +58,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import static java.util.Collections.enumeration;
+import static java.util.Collections.reverse;
+import static java.util.Collections.unmodifiableMap;
 import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.HashMap;
@@ -54,13 +68,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import static java.util.Objects.requireNonNull;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import static java.util.function.Predicate.isEqual;
+import static java.util.function.Predicate.not;
+import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toSet;
 import java.util.stream.Stream;
-
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
@@ -88,25 +107,6 @@ import javax.servlet.descriptor.JspConfigDescriptor;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
-
-import cloud.piranha.resource.DefaultResourceManager;
-import cloud.piranha.resource.api.Resource;
-import cloud.piranha.resource.api.ResourceManager;
-import cloud.piranha.webapp.api.AnnotationManager;
-import cloud.piranha.webapp.api.AsyncManager;
-import cloud.piranha.webapp.api.HttpRequestManager;
-import cloud.piranha.webapp.api.HttpSessionManager;
-import cloud.piranha.webapp.api.JspManager;
-import cloud.piranha.webapp.api.LocaleEncodingManager;
-import cloud.piranha.webapp.api.LoggingManager;
-import cloud.piranha.webapp.api.MimeTypeManager;
-import cloud.piranha.webapp.api.MultiPartManager;
-import cloud.piranha.webapp.api.ObjectInstanceManager;
-import cloud.piranha.webapp.api.SecurityManager;
-import cloud.piranha.webapp.api.ServletEnvironment;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequestMapper;
-import cloud.piranha.webapp.api.WelcomeFileManager;
 
 /**
  * The default WebApplication.
@@ -194,6 +194,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the effective minor version.
      */
     protected int effectiveMinorVersion = -1;
+    
+    /**
+     * Stores the naming manager.
+     */
+    protected NamingManager namingManager;
 
     /**
      * Stores the servlet context name.
@@ -384,6 +389,7 @@ public class DefaultWebApplication implements WebApplication {
         loggingManager = new DefaultLoggingManager();
         mimeTypeManager = new DefaultMimeTypeManager();
         multiPartManager = new DefaultMultiPartManager();
+        namingManager = new DefaultNamingManager(new DefaultInitialContext());
         objectInstanceManager = new DefaultObjectInstanceManager();
         requestListeners = new ArrayList<>(1);
         resourceManager = new DefaultResourceManager();
@@ -2065,5 +2071,15 @@ public class DefaultWebApplication implements WebApplication {
 
     private boolean isEmpty(String string) {
         return string == null || string.isEmpty();
+    }
+
+    @Override
+    public NamingManager getNamingManager() {
+        return namingManager;
+    }
+
+    @Override
+    public void setNamingManager(NamingManager namingManager) {
+        this.namingManager = namingManager;
     }
 }

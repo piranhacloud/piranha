@@ -41,7 +41,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-impl</artifactId>
+            <artifactId>piranha-naming-thread</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
