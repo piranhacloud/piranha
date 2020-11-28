@@ -78,9 +78,6 @@ public class NanoCli {
     private void usage() {
         System.out.println("usage: pi nano <command>");
         System.out.println();
-        System.out.printf(PATTERN, "debug", "Debug a Piranha Nano application");
-        System.out.printf(PATTERN, "deploy", "Deploy a Piranha Nano application");
         System.out.printf(PATTERN, "generate", "Generate a Piranha Nano application");
-        System.out.printf(PATTERN, "run", "Run a Piranha Nano application");
     }
 }

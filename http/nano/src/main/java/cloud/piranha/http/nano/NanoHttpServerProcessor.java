@@ -59,8 +59,7 @@ public class NanoHttpServerProcessor implements HttpServerProcessor {
 
     @Override
     public boolean process(HttpServerRequest request, HttpServerResponse response) {
-        try {
-            HttpWebApplicationRequest servletRequest = new HttpWebApplicationRequest(request);
+        try (HttpWebApplicationRequest servletRequest = new HttpWebApplicationRequest(request)) {
             HttpWebApplicationResponse servletResponse = new HttpWebApplicationResponse(response);
             piranha.service(servletRequest, servletResponse);
             servletResponse.flush();

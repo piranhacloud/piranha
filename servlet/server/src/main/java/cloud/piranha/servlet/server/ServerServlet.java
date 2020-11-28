@@ -47,7 +47,7 @@ public class ServerServlet extends HttpServlet implements WebApplicationServer, 
     /**
      * Stores the servlet configuration.
      */
-    private ServletConfig config;
+    private static ServletConfig config;
 
     /**
      * Initialize the servlet.
