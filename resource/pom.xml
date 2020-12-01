@@ -19,6 +19,7 @@
         <module>api</module>
         <module>impl</module>
         <module>shrinkwrap</module>
+        <module>transformer</module>
     </modules>
 
     <dependencyManagement>
