@@ -55,7 +55,16 @@ public class DefaultWebApplicationClassLoader extends DefaultResourceManagerClas
      * @param baseDirectory the base directory.
      */
     public DefaultWebApplicationClassLoader(File baseDirectory) {
-        ResourceManager resourceManager = new DefaultResourceManager();
+        this(new DefaultResourceManager(), baseDirectory);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param resourceManager the resource manager
+     * @param baseDirectory the base directory.
+     */
+    public DefaultWebApplicationClassLoader(ResourceManager resourceManager, File baseDirectory) {
         File classesDirectory = new File(baseDirectory, "WEB-INF/classes");
         if (classesDirectory.exists()) {
             resourceManager.addResource(new DirectoryResource(classesDirectory));
