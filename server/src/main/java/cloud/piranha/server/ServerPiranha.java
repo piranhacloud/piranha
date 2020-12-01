@@ -45,7 +45,10 @@ import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.resource.transformer.eclipse.EclipseTransformerResourceManagerWrapper;
+import cloud.piranha.resource.transformer.eclipse.EclipseTransformerResourceWrapper;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
@@ -209,8 +212,8 @@ public class ServerPiranha implements Piranha, Runnable {
                         ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
 
                         webApplication.setAttribute(SERVER_PIRANHA, this);
-                        webApplication.addResource(new DirectoryResource(webAppDirectory));
-                        DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDirectory);
+                        webApplication.addResource(new EclipseTransformerResourceWrapper(new DirectoryResource(webAppDirectory)));
+                        DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new EclipseTransformerResourceManagerWrapper(new DefaultResourceManager()), webAppDirectory);
                         webApplication.setClassLoader(classLoader);
 
                         if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
