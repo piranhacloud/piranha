@@ -67,9 +67,9 @@ public class NanoCloudBuildCli {
                 directory.mkdirs();
             }
             
-            System.out.println("Executing - docker cp pi:/usr/local/runtime/. target/azure/.");
+            System.out.println("Executing - docker cp -L pi:/usr/local/runtime/. target/azure/.");
             builder = new ProcessBuilder();
-            process = builder.inheritIO().command("docker cp pi:/usr/local/runtime/. target/azure/.".split(" ")).start();
+            process = builder.inheritIO().command("docker cp -L pi:/usr/local/runtime/. target/azure/.".split(" ")).start();
             process.waitFor(1, HOURS);
             
             System.out.println("Executing - mvn assembly:single -P azure");
