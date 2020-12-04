@@ -46,35 +46,30 @@ public class NanoCloudBuildCli {
      */
     public void execute(List<String> arguments) {
         try {
-            System.out.println("Executing - docker build -t pi -f Dockerfile .");
+            System.out.println("Executing - docker build --target zip -t zip -f Dockerfile .");
             ProcessBuilder builder = new ProcessBuilder();
-            Process process = builder.inheritIO().command("docker build -t pi -f Dockerfile .".split(" ")).start();
+            Process process = builder.inheritIO().command("docker build --target zip -t zip -f Dockerfile .".split(" ")).start();
             process.waitFor(1, HOURS);
 
-            System.out.println("Executing - docker rm pi");
+            System.out.println("Executing - docker rm zip");
             builder = new ProcessBuilder();
-            process = builder.inheritIO().command("docker rm pi".split(" ")).start();
+            process = builder.inheritIO().command("docker rm zip".split(" ")).start();
             process.waitFor(1, HOURS);
 
-            System.out.println("Executing - docker create --name pi pi");
+            System.out.println("Executing - docker create --name zip zip");
             builder = new ProcessBuilder();
-            process = builder.inheritIO().command("docker create --name pi pi".split(" ")).start();
+            process = builder.inheritIO().command("docker create --name zip zip".split(" ")).start();
             process.waitFor(1, HOURS);
             
-            File directory = new File("target/azure");
+            File directory = new File("target");
             if (!directory.exists()) {
-                System.out.println("Executing - creating target/azure directory");
+                System.out.println("Executing - creating target directory");
                 directory.mkdirs();
             }
             
-            System.out.println("Executing - docker cp -L pi:/usr/local/runtime/. target/azure/.");
+            System.out.println("Executing - docker cp zip:/usr/local/runtime.zip target/.");
             builder = new ProcessBuilder();
-            process = builder.inheritIO().command("docker cp -L pi:/usr/local/runtime/. target/azure/.".split(" ")).start();
-            process.waitFor(1, HOURS);
-            
-            System.out.println("Executing - mvn assembly:single -P azure");
-            builder = new ProcessBuilder();
-            process = builder.inheritIO().command("mvn assembly:single -P azure".split(" ")).start();
+            process = builder.inheritIO().command("docker cp zip:/usr/local/runtime.zip target/.".split(" ")).start();
             process.waitFor(1, HOURS);
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
