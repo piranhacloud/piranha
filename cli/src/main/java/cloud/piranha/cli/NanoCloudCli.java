@@ -31,25 +31,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Piranha Nano CLI.
+ * The Piranha Nano Cloud CLI.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoCli {
+public class NanoCloudCli {
 
     /**
      * Stores the pattern.
      */
     private static final String PATTERN = "  %-10s: %s\n";
-    
-    private void cloud(List<String> arguments) {
-        NanoCloudCli cli = new NanoCloudCli();
+
+    private void build(List<String> arguments) {
+        NanoCloudBuildCli cli = new NanoCloudBuildCli();
         cli.execute(arguments);
     }
 
     /**
-     * Execute the Nano CLI.
-     * 
+     * Execute 'pi nano cloud'.
+     *
      * @param arguments the arguments.
      */
     public void execute(List<String> arguments) {
@@ -60,11 +60,8 @@ public class NanoCli {
                 list.remove(0);
             }
             switch (arguments.get(0)) {
-                case "cloud":
-                    cloud(list);
-                    break;
-                case "generate":
-                    generate(list);
+                case "build":
+                    build(list);
                     break;
                 default:
                     usage();
@@ -74,19 +71,13 @@ public class NanoCli {
             usage();
         }
     }
-    
-    private void generate(List<String> arguments) {
-        NanoGenerateCli cli = new NanoGenerateCli();
-        cli.execute(arguments);
-    }
 
     /**
      * Shows the usage.
      */
     private void usage() {
-        System.out.println("usage: pi nano <command>");
+        System.out.println("usage: pi nano cloud <command>");
         System.out.println();
-        System.out.printf(PATTERN, "cloud", "Administer a Piranha Nano application on the cloud");
-        System.out.printf(PATTERN, "generate", "Generate a Piranha Nano application");
+        System.out.printf(PATTERN, "build", "Build Piranha Nano application for the Cloud");
     }
 }
