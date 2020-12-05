@@ -33,4 +33,5 @@
  */
 module cloud.piranha.cli {
     exports cloud.piranha.cli;
+    requires java.net.http;
 }

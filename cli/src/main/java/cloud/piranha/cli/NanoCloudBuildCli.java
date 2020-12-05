@@ -67,9 +67,9 @@ public class NanoCloudBuildCli {
                 directory.mkdirs();
             }
             
-            System.out.println("Executing - docker cp zip:/usr/local/runtime.zip target/.");
+            System.out.println("Executing - docker cp zip:/usr/local/azure.zip target/.");
             builder = new ProcessBuilder();
-            process = builder.inheritIO().command("docker cp zip:/usr/local/runtime.zip target/.".split(" ")).start();
+            process = builder.inheritIO().command("docker cp zip:/usr/local/azure.zip target/.".split(" ")).start();
             process.waitFor(1, HOURS);
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
