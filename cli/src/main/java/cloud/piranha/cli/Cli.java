@@ -56,6 +56,9 @@ public class Cli {
                 list.remove(0);
             }
             switch (arguments.get(0)) {
+                case "help":
+                    help();
+                    break;
                 case "nano":
                     nano(list);
                     break;
@@ -69,6 +72,13 @@ public class Cli {
         } else {
             usage();
         }
+    }
+
+    /**
+     * Shows the link where to find help.
+     */
+    private void help() {
+        System.out.println("Please go to https://piranha.cloud/cli for more help");
     }
 
     /**
@@ -97,6 +107,7 @@ public class Cli {
     private void usage() {
         System.out.println("usage: pi <command>");
         System.out.println();
+        System.out.printf(PATTERN, "help", "Where to go for help?");
         System.out.printf(PATTERN, "nano", "Use Piranha Nano");
         System.out.printf(PATTERN, "version", "Show the version of the Piranha CLI");
     }
