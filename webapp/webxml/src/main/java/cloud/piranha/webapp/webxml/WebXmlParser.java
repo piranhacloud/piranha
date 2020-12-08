@@ -690,7 +690,7 @@ public class WebXmlParser {
      */
     private void parseSessionConfig(WebXml webXml, XPath xPath, Node node) {
         try {
-            Node scNode = (Node) xPath.evaluate("session-config", node, NODE);
+            Node scNode = (Node) xPath.evaluate("//session-config", node, NODE);
             if (scNode != null) {
                 WebXmlSessionConfig sessionConfig = new WebXmlSessionConfig();
                 int sessionTimeout = parseInteger(xPath, "session-timeout/text()", scNode);
