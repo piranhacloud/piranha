@@ -52,6 +52,7 @@ import cloud.piranha.webapp.impl.WebXmlListener;
 import cloud.piranha.webapp.impl.WebXmlMimeMapping;
 import cloud.piranha.webapp.impl.WebXmlServlet;
 import cloud.piranha.webapp.impl.WebXmlServletMapping;
+import cloud.piranha.webapp.impl.WebXmlSessionConfig;
 
 /**
  * The web.xml / web-fragment.xml processor.
@@ -96,6 +97,7 @@ public class WebXmlProcessor {
         processWebApp(webApplication, webXml);
         processWelcomeFiles(webApplication, webXml);
         processLocaleEncodingMapping(webApplication, webXml);
+        processSessionConfig(webApplication, webXml);
         LOGGER.log(FINER, "Finished WebXmlProcessor.process");
     }
 
@@ -381,6 +383,19 @@ public class WebXmlProcessor {
             return;
 
         localeMapping.forEach(localeEncodingManager::addCharacterEncoding);
+    }
+
+    /**
+     * Process the session config.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processSessionConfig (WebApplication webApplication, WebXml webXml) {
+        WebXmlSessionConfig sessionConfig = webXml.getSessionConfig();
+        if (sessionConfig == null)
+            return;
+        webApplication.setSessionTimeout(sessionConfig.getSessionTimeout());
     }
 
     private boolean isEmpty(String string) {
