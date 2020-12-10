@@ -61,6 +61,7 @@ import cloud.piranha.http.impl.DefaultHttpServerResponse;
  * @deprecated
  * @see cloud.piranha.http.api.HttpServer
  */
+@Deprecated
 public class SingleThreadHttpServer implements HttpServer, Runnable {
 
     /**
