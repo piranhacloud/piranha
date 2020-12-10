@@ -26,19 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.webapp.impl {
-    exports cloud.piranha.webapp.impl;
-    opens cloud.piranha.webapp.impl;
-    requires cloud.piranha.naming.api;
-    requires cloud.piranha.naming.impl;
-    requires cloud.piranha.policy.api;
+/**
+ * The Piranha Policy - Implementation test module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+module cloud.piranha.policy.impl.tests {
+    opens cloud.piranha.policy.impl.tests;
     requires cloud.piranha.policy.impl;
-    requires cloud.piranha.resource.api;
-    requires cloud.piranha.resource;
-    requires transitive cloud.piranha.servlet.api;
-    requires transitive cloud.piranha.webapp.api;
-    requires java.logging;
-
-    // Tests
-    requires static jdk.security.auth;
+    requires org.junit.jupiter.api;
+    requires org.junit.jupiter.engine;
 }

@@ -84,6 +84,7 @@
         
         <!-- Applications -->
         <module>war</module>
+        <module>policy</module>
     </modules>
 
     <scm>
