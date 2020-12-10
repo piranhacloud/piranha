@@ -27,8 +27,10 @@
  */
 package cloud.piranha.cli;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.net.URI;
@@ -85,6 +87,12 @@ public class NanoCloudDeployCli {
             }
         }
         try {
+            if (password == null) {
+                System.out.println("Please enter your password: ");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                password = reader.readLine();
+            }
+            
             System.out.println("Executing - POST https://" + name + ".scm.azurewebsites.net/api/zipdeploy");
             HttpClient client = HttpClient.newBuilder()
                     .followRedirects(ALWAYS)
@@ -134,7 +142,9 @@ public class NanoCloudDeployCli {
         System.out.println();
         System.out.println("Required arguments");
         System.out.printf(PATTERN, "--name <name>", "The name of the application");
-        System.out.printf(PATTERN, "--password <password>", "The password to deploy with");
         System.out.printf(PATTERN, "--username <username>", "The username to deploy with");
+        System.out.println();
+        System.out.println("Optional arguments");
+        System.out.printf(PATTERN, "--password <password>", "The password to deploy with");
     }
 }

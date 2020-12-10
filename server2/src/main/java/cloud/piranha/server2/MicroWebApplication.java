@@ -27,6 +27,8 @@
  */
 package cloud.piranha.server2;
 
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import cloud.piranha.policy.thread.ThreadPolicy;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -84,10 +86,12 @@ public class MicroWebApplication extends DefaultWebApplication {
     @Override
     public void service(ServletRequest request, ServletResponse response) {
         try {
-            GlobalPolicy.setContextId(getServletContextId());
+            ThreadPolicy.setPolicy(getPolicyManager().getPolicy());
+            ThreadInitialContextFactory.setInitialContext(getNamingManager().getContext());
             deployedApplication.accept(copyApplicationRequestToMap((WebApplicationRequest) request, (WebApplicationResponse) response));
         } finally {
-            GlobalPolicy.setContextId(null);
+            ThreadPolicy.removePolicy();
+            ThreadInitialContextFactory.removeInitialContext();
         }
     }
 

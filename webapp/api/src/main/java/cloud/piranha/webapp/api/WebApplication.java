@@ -28,6 +28,7 @@
 package cloud.piranha.webapp.api;
 
 import cloud.piranha.naming.api.NamingManager;
+import cloud.piranha.policy.api.PolicyManager;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -195,6 +196,13 @@ public interface WebApplication extends ServletContext {
      * @return the naming manager.
      */
     NamingManager getNamingManager();
+    
+    /**
+     * Get the policy manager.
+     * 
+     * @return the policy manager.
+     */
+    PolicyManager getPolicyManager();
 
     /**
      * Returns the unique Id of this web application corresponding to this

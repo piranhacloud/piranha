@@ -30,6 +30,8 @@ package cloud.piranha.webapp.impl;
 import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.naming.impl.DefaultInitialContext;
 import cloud.piranha.naming.impl.DefaultNamingManager;
+import cloud.piranha.policy.api.PolicyManager;
+import cloud.piranha.policy.impl.DefaultPolicyManager;
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.api.ResourceManager;
@@ -331,6 +333,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the multi part manager.
      */
     protected MultiPartManager multiPartManager;
+    
+    /**
+     * Stores the Policy manager.
+     */
+    protected PolicyManager policyManager;
 
     /**
      * Stores the request character encoding.
@@ -391,6 +398,7 @@ public class DefaultWebApplication implements WebApplication {
         multiPartManager = new DefaultMultiPartManager();
         namingManager = new DefaultNamingManager(new DefaultInitialContext());
         objectInstanceManager = new DefaultObjectInstanceManager();
+        policyManager = new DefaultPolicyManager();
         requestListeners = new ArrayList<>(1);
         resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
@@ -2076,6 +2084,11 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public NamingManager getNamingManager() {
         return namingManager;
+    }
+
+    @Override
+    public PolicyManager getPolicyManager() {
+        return policyManager;
     }
 
     @Override

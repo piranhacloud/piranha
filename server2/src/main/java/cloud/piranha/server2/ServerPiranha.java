@@ -47,6 +47,7 @@ import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.MicroConfiguration;
 import cloud.piranha.micro.MicroOuterDeployer;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import cloud.piranha.policy.thread.ThreadPolicy;
 
 /**
  * The Servlet container version of Piranha.
@@ -96,17 +97,11 @@ public class ServerPiranha implements Piranha, Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        Policy.setPolicy(new GlobalPolicy());
-        setInitialContextFactory(GlobalInitialContextFactory.class);
-
+        Policy.setPolicy(new ThreadPolicy());
+        System.setProperty("java.naming.factory.initial", ThreadInitialContextFactory.class.getName());
         INSTANCE = new ServerPiranha();
         INSTANCE.processArguments(arguments);
         INSTANCE.run();
-    }
-
-    private static void setInitialContextFactory(Class<?> clazz) {
-        System.setProperty("java.naming.factory.initial", ThreadInitialContextFactory.class.getName());
-        GlobalPolicy.setContextId("ROOT server");
     }
 
     /**
@@ -208,7 +203,8 @@ public class ServerPiranha implements Piranha, Runnable {
             MicroWebApplication microWebApplication = new MicroWebApplication();
             microWebApplication.setContextPath(contextPath);
 
-            GlobalPolicy.setContextId(microWebApplication.getServletContextId());
+            ThreadPolicy.setPolicy(microWebApplication.getPolicyManager().getPolicy());
+            ThreadInitialContextFactory.setInitialContext(microWebApplication.getNamingManager().getContext());
 
             microWebApplication.setDeployedApplication(
                 new MicroOuterDeployer(configuration.postConstruct())
@@ -219,7 +215,8 @@ public class ServerPiranha implements Piranha, Runnable {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e, () -> "Failed to initialize app " + contextPath);
         } finally {
-            GlobalPolicy.setContextId(null);
+            ThreadPolicy.removePolicy();
+            ThreadInitialContextFactory.removeInitialContext();
         }
     }
 
