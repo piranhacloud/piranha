@@ -27,11 +27,16 @@
  */
 
 /**
- * The Piranha HTTP - Nano integration mopdule.
+ * The Piranha HTTP - Nano integration module.
+ * 
+ * <p>
+ *  This module delivers the integration of Piranha Nano with Piranha HTTP.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.http.nano {
+    
     exports cloud.piranha.http.nano;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;

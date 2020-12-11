@@ -27,8 +27,12 @@
  */
 
 /**
- * The HTTP tests module.
- * 
+ * The Piranha HTTP - Tests module.
+ *
+ * <p>
+ * This module delivers the test framework for the Piranha HTTP - API.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.http.tests {

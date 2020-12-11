@@ -30,12 +30,17 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.jdk.JdkHttpServer;
 
 /**
- * The JDK HTTP server module.
- * 
+ * The Piranha HTTP - JDK HTTP Server integration module.
+ *
+ * <p>
+ * This module delivers the JDK HTTP Server implementation of the HTTP engine
+ * API.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.http.jdk {
-    
+
     exports cloud.piranha.http.jdk;
     opens cloud.piranha.http.jdk;
     provides HttpServer with JdkHttpServer;
