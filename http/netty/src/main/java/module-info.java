@@ -29,14 +29,22 @@
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.netty.NettyHttpServer;
 
+/**
+ * The Piranha HTTP - Netty integration module.
+ *
+ * <p>
+ * This module delivers the Netty implementation of the HTTP engine API.
+ * </p>
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.http.netty {
     
     exports cloud.piranha.http.netty;
     opens cloud.piranha.http.netty;
+    provides HttpServer with NettyHttpServer;
     requires cloud.piranha.http.api;
     requires cloud.piranha.webapp.api;
     requires io.netty.all;
     requires java.logging;
-
-    provides HttpServer with NettyHttpServer;
 }

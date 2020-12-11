@@ -29,6 +29,10 @@
 /**
  * The Piranha Naming - Implementation module.
  * 
+ * <p>
+ *  This module delivers the implementation for JNDI integration.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.naming.impl {

@@ -29,6 +29,11 @@
 /**
  * The Piranha Naming - Thread module.
  * 
+ * <p>
+ *  This module delivers the thread implementation need for JNDI integration in
+ *  web applications.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.naming.thread {

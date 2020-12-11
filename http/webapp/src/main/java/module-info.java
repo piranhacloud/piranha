@@ -26,6 +26,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha HTTP - WebApplication Integration module.
+ * 
+ * <p>
+ *  This module delivers the integration of the WebApplication API with Piranha
+ *  HTTP.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.http.webapp {
     exports cloud.piranha.http.webapp;
     requires cloud.piranha.http.api;

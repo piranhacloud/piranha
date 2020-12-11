@@ -8,7 +8,7 @@
     </parent>
     <artifactId>piranha-http-webapp</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha HTTP - WebApplication</name>
+    <name>Piranha HTTP - WebApplication Integration</name>
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.http</groupId>

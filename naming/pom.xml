@@ -16,8 +16,8 @@
     <name>Piranha Naming - Project</name>
 
     <modules>
-        <module>impl</module>
         <module>api</module>
+        <module>impl</module>
         <module>thread</module>
     </modules>
 

@@ -30,10 +30,17 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.singlethread.SingleThreadHttpServer;
 
 /**
- * The single thread HTTP server module.
+ * The Piranha HTTP - Single-Thread Server Integration module.
+ *
+ * <p>
+ * This module delivers a Single-Thread Server implementation of the HTTP engine
+ * API.
+ * </p>
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.http.singlethread {
-    
+
     exports cloud.piranha.http.singlethread;
     opens cloud.piranha.http.singlethread;
     provides HttpServer with SingleThreadHttpServer;

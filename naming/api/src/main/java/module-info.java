@@ -27,7 +27,11 @@
  */
 
 /**
- * The Naming API module.
+ * The Piranha Naming - API module.
+ * 
+ * <p>
+ *  This module delivers the API that enables JNDI integration.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

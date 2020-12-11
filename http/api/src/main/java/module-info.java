@@ -27,7 +27,12 @@
  */
 
 /**
- * The HTTP server API module.
+ * The Piranha HTTP - API module.
+ * 
+ * <p>
+ *  This module delivers the API that each HTTP engine implementation needs to
+ *  implement to deliver HTTP server functionality to the Piranha project.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
