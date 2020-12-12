@@ -29,9 +29,15 @@
 /**
  * The Piranha Policy - Thread module.
  * 
+ * <p>
+ *  This module delivers the thread implementation needed for Policy integration
+ *  in web applications.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.policy.thread {
+    
     exports cloud.piranha.policy.thread;
     opens cloud.piranha.policy.thread;
 }

@@ -29,9 +29,13 @@
 /**
  * The Piranha Policy - Implementation module.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * <p>
+ *  This module delivers the implementation for Policy integration.
+ * </p>
+ * 
  */
 module cloud.piranha.policy.impl {
+    
     exports cloud.piranha.policy.impl;
     requires cloud.piranha.policy.api;
 }
