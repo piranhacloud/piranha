@@ -29,9 +29,14 @@
 /**
  * The Piranha CLI module.
  * 
+ * <p>
+ *  This module delivers our command-line utility for everything Piranha.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.cli {
+    
     exports cloud.piranha.cli;
     requires java.net.http;
 }

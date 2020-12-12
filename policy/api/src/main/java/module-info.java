@@ -29,8 +29,14 @@
 /**
  * The Piranha Policy - API module.
  * 
+ * <p>
+ *  This module delivers the API that enables Policy integration.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see java.security.Policy
  */
 module cloud.piranha.policy.api {
+
     exports cloud.piranha.policy.api;
 }
