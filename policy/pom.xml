@@ -9,7 +9,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>20.12.0-SNAPSHOT</version>
+        <version>21.1.0-SNAPSHOT</version>
     </parent>
     <groupId>cloud.piranha.policy</groupId>
     <artifactId>project</artifactId>
