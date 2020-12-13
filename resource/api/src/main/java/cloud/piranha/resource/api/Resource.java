@@ -60,4 +60,12 @@ public interface Resource {
      * @return all the locations for this resource.
      */
     Stream<String> getAllLocations();
+
+    /**
+     * Get the name of this resource
+     * @return the name
+     */
+    default String getName() {
+        return "";
+    }
 }

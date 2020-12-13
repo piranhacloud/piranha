@@ -52,4 +52,5 @@ module cloud.piranha.micro {
 
     // Tests
     requires static java.net.http;
+    requires cloud.piranha.resource.api;
 }

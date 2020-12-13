@@ -35,6 +35,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -132,9 +133,14 @@ public class DefaultResourceManager implements ResourceManager {
         }
         return result;
     }
-    
+
     @Override
     public Stream<String> getAllLocations() {
         return resources.stream().flatMap(Resource::getAllLocations);
+    }
+
+    @Override
+    public List<Resource> getResourceList() {
+        return resources;
     }
 }

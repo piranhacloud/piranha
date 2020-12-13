@@ -27,30 +27,36 @@
  */
 package cloud.piranha.server;
 
-import static java.util.logging.Level.INFO;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ServiceLoader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
 import cloud.piranha.api.Piranha;
-import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import cloud.piranha.resource.DefaultModuleFinder;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.module.Configuration;
+import java.lang.module.ModuleDescriptor;
+import java.lang.module.ModuleFinder;
+import java.lang.module.ModuleReference;
+import java.util.List;
+import java.util.ServiceLoader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import static java.util.logging.Level.INFO;
 
 /**
  * The Servlet container version of Piranha.
@@ -194,7 +200,6 @@ public class ServerPiranha implements Piranha, Runnable {
         httpServer.setSSL(ssl);
         httpServer.start();
         webApplicationServer.start();
-
         WebApplicationServerRequestMapper requestMapper = webApplicationServer.getRequestMapper();
 
         File webappsDirectory = new File("webapps");
@@ -213,8 +218,26 @@ public class ServerPiranha implements Piranha, Runnable {
 
                         webApplication.setAttribute(SERVER_PIRANHA, this);
                         webApplication.addResource(new DirectoryResource(webAppDirectory));
+
+
                         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDirectory);
-                        webApplication.setClassLoader(classLoader);
+                        DefaultModuleFinder defaultModuleFinder = new DefaultModuleFinder(classLoader.getResourceManager().getResourceList());
+
+                        defaultModuleFinder.findAll()
+                            .stream()
+                            .findFirst()
+                            .map(ModuleReference::descriptor)
+                            .map(ModuleDescriptor::name)
+                            .ifPresentOrElse(appName -> {
+                                Configuration configuration = ModuleLayer.boot().configuration().resolveAndBind(defaultModuleFinder, ModuleFinder.of(), List.of(appName));
+
+                                ModuleLayer moduleLayer = ModuleLayer.boot().defineModulesWithOneLoader(configuration, classLoader);
+
+                                webApplication.setClassLoader(moduleLayer.findLoader(appName));
+                            },
+                            // If there aren't any module, probably just serving
+                            // static files, use the default classloader in this case
+                            () -> webApplication.setClassLoader(classLoader));
 
                         if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                             DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();

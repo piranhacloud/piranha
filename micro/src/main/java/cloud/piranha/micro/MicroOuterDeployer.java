@@ -35,8 +35,13 @@ import static org.jboss.shrinkwrap.resolver.api.maven.repository.MavenUpdatePoli
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.module.Configuration;
+import java.lang.module.ModuleDescriptor;
+import java.lang.module.ModuleFinder;
+import java.lang.module.ModuleReference;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +49,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import cloud.piranha.resource.DefaultModuleFinder;
+import cloud.piranha.resource.DefaultResourceManagerClassLoader;
+import cloud.piranha.resource.api.ResourceManagerClassLoader;
 import org.jboss.jandex.Index;
 import org.jboss.jandex.IndexWriter;
 import org.jboss.jandex.Indexer;
@@ -181,12 +189,44 @@ public class MicroOuterDeployer {
                             .getDeclaredConstructor()
                             .newInstance();
 
+            ResourceManagerClassLoader piranhaResourceManagerClassLoader = (DefaultResourceManagerClassLoader) piranhaClassLoader;
+
+            ResourceManagerClassLoader webInfResourceManagerClassLoader = (DefaultResourceManagerClassLoader) webInfClassLoader;
+
+            DefaultModuleFinder piranhaLibsModuleFinder = new DefaultModuleFinder(piranhaResourceManagerClassLoader.getResourceManager().getResourceList());
+
+            DefaultModuleFinder applicationModuleFinder = new DefaultModuleFinder(webInfResourceManagerClassLoader.getResourceManager().getResourceList());
+
+
+            Configuration resolve1 = ModuleLayer.boot().configuration().resolve(ModuleFinder.of(), piranhaLibsModuleFinder, Collections.emptyList());
+            ModuleLayer moduleLayer3 = ModuleLayer.boot().defineModulesWithOneLoader(resolve1, piranhaClassLoader);
+
+            String appModuleName = applicationModuleFinder.findAll().stream()
+                    .findFirst()
+                    .map(ModuleReference::descriptor)
+                    .map(ModuleDescriptor::name)
+                    .orElse(null);
+
+            ClassLoader loader;
+            if (appModuleName != null) {
+                Configuration resolve = resolve1.resolveAndBind(
+                        ModuleFinder.compose(applicationModuleFinder),
+                        ModuleFinder.of(),
+                        Set.of(appModuleName));
+
+                ModuleLayer moduleLayer = ModuleLayer.defineModulesWithOneLoader(resolve, List.of(moduleLayer3), webInfClassLoader).layer();
+
+                loader = moduleLayer.findLoader(appModuleName);
+            } else {
+                loader = webInfClassLoader;
+            }
+
             return MicroDeployOutcome.ofMap((Map<String, Object>) microInnerDeployer
                     .getClass()
                     .getMethod("start", Archive.class, ClassLoader.class, Map.class, Map.class)
                     .invoke(microInnerDeployer,
                             archive,
-                            webInfClassLoader,
+                            loader,
                             StaticURLStreamHandlerFactory.getHandlers(),
                             configuration.toMap()));
 
@@ -244,11 +284,11 @@ public class MicroOuterDeployer {
      */
     ClassLoader getWebInfClassLoader(Archive<?> applicationArchive, ClassLoader piranhaClassloader) {
         // Create the resource that holds all classes from the WEB-INF/classes folder
-        ShrinkWrapResource applicationResource = new ShrinkWrapResource("/WEB-INF/classes", applicationArchive);
+        ShrinkWrapResource applicationResource = new ShrinkWrapResource("/WEB-INF/classes", applicationArchive, applicationArchive.getName() + ".classes");
 
         // Create the resources that hold all classes from the WEB-INF/lib folder.
         // Each resource holds the classes from a single jar
-        ShrinkWrapResource jarResources = new ShrinkWrapResource("/WEB-INF/lib", applicationArchive);
+        ShrinkWrapResource jarResources = new ShrinkWrapResource("/WEB-INF/lib", applicationArchive, applicationArchive.getName() + ".libs");
         List<ShrinkWrapResource> webLibResources
                 = jarResources.getAllLocations()
                         .filter(location -> location.endsWith(".jar"))
@@ -258,7 +298,7 @@ public class MicroOuterDeployer {
         // Create a separate archive that contains an index of the application archive and the library archives.
         // This index can be obtained from the class loader by getting the "META-INF/piranha.idx" resource.
         ShrinkWrapResource indexResource = new ShrinkWrapResource(
-                ShrinkWrap.create(JavaArchive.class)
+                ShrinkWrap.create(JavaArchive.class, "piranha-jandex-module.jar")
                         .add(new ByteArrayAsset(createIndex(applicationResource, webLibResources)), "META-INF/piranha.idx"));
 
         IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader(piranhaClassloader, "WebInf Loader");

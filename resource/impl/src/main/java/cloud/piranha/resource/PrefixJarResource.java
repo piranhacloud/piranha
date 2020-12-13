@@ -159,4 +159,10 @@ public class PrefixJarResource implements Resource {
             this.prefix = prefix + "/";
         }
     }
+
+    @Override
+    public String getName() {
+        return jarFile.getName();
+    }
+
 }

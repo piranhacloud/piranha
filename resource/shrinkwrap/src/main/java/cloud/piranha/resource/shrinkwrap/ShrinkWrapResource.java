@@ -68,8 +68,20 @@ public class ShrinkWrapResource implements Resource {
      * @param archive the archive.
      */
     public ShrinkWrapResource(String resourcesPath, Archive<?> archive) {
-        JavaArchive newArchive = ShrinkWrap.create(JavaArchive.class);
-        
+        this(resourcesPath, archive, null);
+    }
+
+
+    /**
+     * Constructor.
+     *
+     * @param resourcesPath the resources path.
+     * @param archive the archive.
+     * @param resourceName the resource name
+     */
+    public ShrinkWrapResource(String resourcesPath, Archive<?> archive, String resourceName) {
+        JavaArchive newArchive = resourceName != null ? ShrinkWrap.create(JavaArchive.class, resourceName) : ShrinkWrap.create(JavaArchive.class);
+
         getAllLocations(archive)
             .filter(path -> path.startsWith(resourcesPath))
             .forEach(path -> 
@@ -224,4 +236,8 @@ public class ShrinkWrapResource implements Resource {
                 location));
     }
 
+    @Override
+    public String getName() {
+        return archive.getName();
+    }
 }
