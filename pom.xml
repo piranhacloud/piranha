@@ -85,6 +85,7 @@
         <!-- Applications -->
         <module>war</module>
         <module>policy</module>
+        <module>servlet4</module>
     </modules>
 
     <scm>
