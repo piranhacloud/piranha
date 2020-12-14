@@ -41,5 +41,5 @@ module cloud.piranha.http.nano {
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.nano;
-    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.servlet4.api;
 }

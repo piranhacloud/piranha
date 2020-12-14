@@ -27,7 +27,7 @@
  */
 
 module cloud.piranha.faces.mojarra {
-    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.servlet4.api;
 
     requires static cloud.piranha.pages.jasper;
 }

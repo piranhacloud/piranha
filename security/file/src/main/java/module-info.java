@@ -28,6 +28,6 @@
 
 module cloud.piranha.security.file {
     exports cloud.piranha.security.file;
-    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.servlet4.api;
     requires cloud.piranha.webapp.impl;
 }

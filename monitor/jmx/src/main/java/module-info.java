@@ -32,7 +32,7 @@ import javax.servlet.ServletContainerInitializer;
 
 module cloud.piranha.monitor.jmx {
     requires cloud.piranha.api;
-    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.servlet4.api;
 
     requires java.logging;
     requires java.management;

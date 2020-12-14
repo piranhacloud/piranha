@@ -27,7 +27,7 @@
  */
 
 module cloud.piranha.microprofile.smallrye.health {
-    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.servlet4.api;
     requires static cloud.piranha.webapp.api;
 
     requires jakarta.inject.api;

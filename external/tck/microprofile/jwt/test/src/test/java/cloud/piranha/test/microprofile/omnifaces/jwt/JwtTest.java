@@ -33,7 +33,7 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
-import cloud.piranha.servlet.webxml.WebXmlFeature;
+import cloud.piranha.servlet4.webxml.WebXmlFeature;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -35,7 +35,7 @@ module cloud.piranha.webapp.impl {
     requires cloud.piranha.policy.impl;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
-    requires transitive cloud.piranha.servlet.api;
+    requires transitive cloud.piranha.servlet4.api;
     requires transitive cloud.piranha.webapp.api;
     requires java.logging;
 

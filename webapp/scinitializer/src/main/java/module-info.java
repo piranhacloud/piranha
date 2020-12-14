@@ -29,7 +29,7 @@
 import javax.servlet.ServletContainerInitializer;
 
 module cloud.piranha.webapp.scinitializer {
-    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.servlet4.api;
     requires cloud.piranha.webapp.api;
 
     requires java.logging;

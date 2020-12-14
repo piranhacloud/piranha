@@ -82,7 +82,7 @@
                                         <!-- setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="servlet\.classes=(.*)"
-                                                       replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar"
+                                                       replace="servlet\.classes=${signature.home}/piranha-servlet4-api.jar"
                                                        byline="true"/>
                                         
                                         <!-- remove java.endorsed.dirs by Xbootclasspath -->
@@ -214,11 +214,11 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>cloud.piranha.servlet</groupId>
-                                            <artifactId>piranha-servlet-api</artifactId>
+                                            <groupId>cloud.piranha.servlet4</groupId>
+                                            <artifactId>piranha-servlet4-api</artifactId>
                                             <version>${project.version}</version>
                                             <outputDirectory>${signature.home}</outputDirectory>
-                                            <destFileName>piranha-servlet-api.jar</destFileName>
+                                            <destFileName>piranha-servlet4-api.jar</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -292,7 +292,7 @@
                                         <!-- setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="servlet\.classes=(.*)"
-                                                       replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar"
+                                                       replace="servlet\.classes=${signature.home}/piranha-servlet4-api.jar"
                                                        byline="true"/>
                                         
                                         <!-- remove java.endorsed.dirs by \ -->
@@ -417,11 +417,11 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>cloud.piranha.servlet</groupId>
-                                            <artifactId>piranha-servlet-api</artifactId>
+                                            <groupId>cloud.piranha.servlet4</groupId>
+                                            <artifactId>piranha-servlet4-api</artifactId>
                                             <version>${project.version}</version>
                                             <outputDirectory>${signature.home}</outputDirectory>
-                                            <destFileName>piranha-servlet-api.jar</destFileName>
+                                            <destFileName>piranha-servlet4-api.jar</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -492,7 +492,7 @@
                                         <!-- setup ts.jte for signature tests -->
                                         <pathconvert property="servlet.classes" dirsep="/">
                                             <path>
-                                                <pathelement path="${signature.home}/piranha-servlet-api.jar"/>
+                                                <pathelement path="${signature.home}/piranha-servlet4-api.jar"/>
                                             </path>
                                         </pathconvert>
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
@@ -626,11 +626,11 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>cloud.piranha.servlet</groupId>
-                                            <artifactId>piranha-servlet-api</artifactId>
+                                            <groupId>cloud.piranha.servlet4</groupId>
+                                            <artifactId>piranha-servlet4-api</artifactId>
                                             <version>${project.version}</version>
                                             <outputDirectory>${signature.home}</outputDirectory>
-                                            <destFileName>piranha-servlet-api.jar</destFileName>
+                                            <destFileName>piranha-servlet4-api.jar</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -700,7 +700,7 @@
                                         <!-- setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="servlet\.classes=(.*)"
-                                                       replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar"
+                                                       replace="servlet\.classes=${signature.home}/piranha-servlet4-api.jar"
                                                        byline="true"/>
                                         
                                         <!-- remove java.endorsed.dirs by \ -->
@@ -831,11 +831,11 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>cloud.piranha.servlet</groupId>
-                                            <artifactId>piranha-servlet-api</artifactId>
+                                            <groupId>cloud.piranha.servlet4</groupId>
+                                            <artifactId>piranha-servlet4-api</artifactId>
                                             <version>${project.version}</version>
                                             <outputDirectory>${signature.home}</outputDirectory>
-                                            <destFileName>piranha-servlet-api.jar</destFileName>
+                                            <destFileName>piranha-servlet4-api.jar</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -906,7 +906,7 @@
                                         <!-- setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="servlet\.classes=(.*)"
-                                                       replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar"
+                                                       replace="servlet\.classes=${signature.home}/piranha-servlet4-api.jar"
                                                        byline="true"/>
                                         
                                         <!-- remove java.endorsed.dirs by \ -->
@@ -1042,11 +1042,11 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>cloud.piranha.servlet</groupId>
-                                            <artifactId>piranha-servlet-api</artifactId>
+                                            <groupId>cloud.piranha.servlet4</groupId>
+                                            <artifactId>piranha-servlet4-api</artifactId>
                                             <version>${project.version}</version>
                                             <outputDirectory>${signature.home}</outputDirectory>
-                                            <destFileName>piranha-servlet-api.jar</destFileName>
+                                            <destFileName>piranha-servlet4-api.jar</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>

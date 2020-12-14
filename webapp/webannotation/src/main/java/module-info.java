@@ -27,7 +27,7 @@
  */
 
 module cloud.piranha.webapp.webannotation {
-    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.servlet4.api;
     requires cloud.piranha.webapp.api;
 
     requires java.annotation;
