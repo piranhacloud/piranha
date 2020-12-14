@@ -25,13 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-module cloud.piranha.servlet.api {
-    exports javax.servlet;
-    exports javax.servlet.annotation;
-    exports javax.servlet.descriptor;
-    exports javax.servlet.http;
-    opens javax.servlet;
-    opens javax.servlet.annotation;
-    opens javax.servlet.descriptor;
-    opens javax.servlet.http;
+
+module jakarta.servlet {
+
+    exports jakarta.servlet;
+    exports jakarta.servlet.annotation;
+    exports jakarta.servlet.descriptor;
+    exports jakarta.servlet.http;
+    opens jakarta.servlet;
+    opens jakarta.servlet.annotation;
+    opens jakarta.servlet.descriptor;
+    opens jakarta.servlet.http;
 }

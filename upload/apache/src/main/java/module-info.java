@@ -30,7 +30,7 @@ import cloud.piranha.upload.apache.ApacheMultiPartInitializer;
 import javax.servlet.ServletContainerInitializer;
 
 module cloud.piranha.upload.apache {
-    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.servlet4.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
 

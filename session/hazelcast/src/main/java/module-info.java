@@ -31,7 +31,7 @@ import cloud.piranha.session.hazelcast.HazelcastInitializer;
 import javax.servlet.ServletContainerInitializer;
 
 module cloud.piranha.session.hazelcast {
-    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.servlet4.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
 

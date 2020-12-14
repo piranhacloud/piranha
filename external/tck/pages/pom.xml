@@ -63,7 +63,7 @@
                                 <!-- setup ts.jte for signature tests -->
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="servlet\.classes=(.*)"
-                                               replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar${pathsep}${signature.home}/jakarta.servlet.jsp.jar${pathsep}${signature.home}/jakarta.servlet.jsp-api.jar"
+                                               replace="servlet\.classes=${signature.home}/piranha-servlet4-api.jar${pathsep}${signature.home}/jakarta.servlet.jsp.jar${pathsep}${signature.home}/jakarta.servlet.jsp-api.jar"
                                                byline="true"/>
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="el\.classes=(.*)"
@@ -203,11 +203,11 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>cloud.piranha.servlet</groupId>
-                                    <artifactId>piranha-servlet-api</artifactId>
+                                    <groupId>cloud.piranha.servlet4</groupId>
+                                    <artifactId>piranha-servlet4-api</artifactId>
                                     <version>${project.version}</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
-                                    <destFileName>piranha-servlet-api.jar</destFileName>
+                                    <destFileName>piranha-servlet4-api.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.glassfish.web</groupId>
