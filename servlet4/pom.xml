@@ -16,6 +16,7 @@
     <name>Piranha Servlet 4 - Project</name>
 
     <modules>
+        <module>annotationscan</module>
         <module>api</module>
 	<module>scinitializer</module>
         <module>tempdir</module>
