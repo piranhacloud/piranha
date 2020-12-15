@@ -21,6 +21,7 @@
 	<module>scinitializer</module>
         <module>tempdir</module>
 	<module>webannotation</module>
+	<module>webapp-api</module>
         <module>webxml</module>
     </modules>
 
