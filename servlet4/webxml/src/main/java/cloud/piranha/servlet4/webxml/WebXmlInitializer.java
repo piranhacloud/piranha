@@ -43,9 +43,9 @@ import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.impl.WebXml;
-import cloud.piranha.webapp.impl.WebXmlManager;
+import cloud.piranha.servlet4.impl.WebXml;
+import cloud.piranha.servlet4.impl.WebXmlManager;
+import cloud.piranha.servlet4.webapp.WebApplication;
 
 /**
  * The web.xml initializer.

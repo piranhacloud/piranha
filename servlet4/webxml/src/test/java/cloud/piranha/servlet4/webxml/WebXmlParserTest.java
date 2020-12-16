@@ -28,8 +28,8 @@
 package cloud.piranha.servlet4.webxml;
 
 import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.WebXml;
+import cloud.piranha.servlet4.impl.DefaultWebApplication;
+import cloud.piranha.servlet4.impl.WebXml;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import cloud.piranha.webapp.impl.WebXmlServletMapping;
+import cloud.piranha.servlet4.impl.WebXmlServletMapping;
 import org.junit.jupiter.api.Test;
 
 /**

@@ -12,7 +12,7 @@
     <artifactId>piranha-servlet4-api</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Servlet 4 - API</name>
+    <name>Piranha Servlet 4 - Servlet API</name>
 
     <dependencies>
         <dependency>

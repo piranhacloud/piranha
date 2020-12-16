@@ -45,10 +45,10 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 
 import cloud.piranha.resource.api.ResourceManagerClassLoader;
-import cloud.piranha.webapp.api.AnnotationManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.impl.DefaultAnnotationManager;
-import cloud.piranha.webapp.impl.DefaultAnnotationManager.DefaultAnnotationInfo;
+import cloud.piranha.servlet4.webapp.AnnotationManager;
+import cloud.piranha.servlet4.webapp.WebApplication;
+import cloud.piranha.servlet4.impl.DefaultAnnotationManager;
+import cloud.piranha.servlet4.impl.DefaultAnnotationManager.DefaultAnnotationInfo;
 
 /**
  * This ServletContainerInitializer deep scans for annotations and adds them to
