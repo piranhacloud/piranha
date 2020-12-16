@@ -18,10 +18,11 @@
     <modules>
         <module>annotationscan</module>
         <module>api</module>
+        <module>impl</module>
 	<module>scinitializer</module>
         <module>tempdir</module>
 	<module>webannotation</module>
-	<module>webapp-api</module>
+        <module>webapp</module>
         <module>webxml</module>
     </modules>
 

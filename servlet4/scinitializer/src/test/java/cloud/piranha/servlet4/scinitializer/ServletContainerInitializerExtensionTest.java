@@ -27,8 +27,7 @@
  */
 package cloud.piranha.servlet4.scinitializer;
 
-import cloud.piranha.servlet4.scinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.servlet4.impl.DefaultWebApplication;
 import org.junit.jupiter.api.Test;
 
 /**

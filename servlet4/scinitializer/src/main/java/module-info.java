@@ -33,7 +33,7 @@ module cloud.piranha.servlet4.scinitializer {
     exports cloud.piranha.servlet4.scinitializer;
     opens cloud.piranha.servlet4.scinitializer;
     requires cloud.piranha.servlet4.api;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.servlet4.webapp;
     requires java.logging;
     uses ServletContainerInitializer;
 }

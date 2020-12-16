@@ -30,7 +30,7 @@ module cloud.piranha.servlet4.annotationscan {
     exports cloud.piranha.servlet4.annotationscan;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.servlet4.api;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.servlet4.impl;
+    requires cloud.piranha.servlet4.webapp;
     requires java.logging;
 }

@@ -41,18 +41,18 @@ import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletRegistration;
 
-import cloud.piranha.webapp.api.LocaleEncodingManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WelcomeFileManager;
-import cloud.piranha.webapp.impl.WebXml;
-import cloud.piranha.webapp.impl.WebXmlContextParam;
-import cloud.piranha.webapp.impl.WebXmlErrorPage;
-import cloud.piranha.webapp.impl.WebXmlFilterInitParam;
-import cloud.piranha.webapp.impl.WebXmlListener;
-import cloud.piranha.webapp.impl.WebXmlMimeMapping;
-import cloud.piranha.webapp.impl.WebXmlServlet;
-import cloud.piranha.webapp.impl.WebXmlServletMapping;
-import cloud.piranha.webapp.impl.WebXmlSessionConfig;
+import cloud.piranha.servlet4.webapp.LocaleEncodingManager;
+import cloud.piranha.servlet4.webapp.WebApplication;
+import cloud.piranha.servlet4.webapp.WelcomeFileManager;
+import cloud.piranha.servlet4.impl.WebXml;
+import cloud.piranha.servlet4.impl.WebXmlContextParam;
+import cloud.piranha.servlet4.impl.WebXmlErrorPage;
+import cloud.piranha.servlet4.impl.WebXmlFilterInitParam;
+import cloud.piranha.servlet4.impl.WebXmlListener;
+import cloud.piranha.servlet4.impl.WebXmlMimeMapping;
+import cloud.piranha.servlet4.impl.WebXmlServlet;
+import cloud.piranha.servlet4.impl.WebXmlServletMapping;
+import cloud.piranha.servlet4.impl.WebXmlSessionConfig;
 
 /**
  * The web.xml / web-fragment.xml processor.

@@ -54,9 +54,9 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
-import cloud.piranha.webapp.api.AnnotationManager;
-import cloud.piranha.webapp.api.AnnotationManager.AnnotationInfo;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.servlet4.webapp.AnnotationManager;
+import cloud.piranha.servlet4.webapp.AnnotationManager.AnnotationInfo;
+import cloud.piranha.servlet4.webapp.WebApplication;
 
 /**
  * The web annotations initializer.

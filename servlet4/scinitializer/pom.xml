@@ -11,7 +11,7 @@
     <artifactId>piranha-servlet4-scinitializer</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Servlet 4 - ServletContainerInitializer</name>
+    <name>Piranha Servlet 4 - ServletContainerInitializer Integration</name>
 
     <dependencies>
         <dependency>
@@ -22,13 +22,13 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.servlet4</groupId>
-            <artifactId>piranha-servlet4-webapp-api</artifactId>
+            <artifactId>piranha-servlet4-webapp</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-impl</artifactId>
+            <groupId>cloud.piranha.servlet4</groupId>
+            <artifactId>piranha-servlet4-impl</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

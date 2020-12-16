@@ -11,7 +11,7 @@
     <artifactId>piranha-servlet4-tempdir</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Servlet 4 - TEMPDIR</name>
+    <name>Piranha Servlet 4 - TEMPDIR Integration</name>
 
     <dependencies>
         <dependency>
@@ -22,15 +22,15 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.servlet4</groupId>
-            <artifactId>piranha-servlet4-webapp-api</artifactId>
+            <artifactId>piranha-servlet4-impl</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-impl</artifactId>
+            <groupId>cloud.piranha.servlet4</groupId>
+            <artifactId>piranha-servlet4-webapp</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

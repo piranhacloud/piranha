@@ -28,8 +28,8 @@
 package cloud.piranha.servlet4.webxml;
 
 import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
+import cloud.piranha.servlet4.impl.DefaultWebApplication;
+import cloud.piranha.servlet4.impl.DefaultWebApplicationClassLoader;
 import java.io.File;
 import javax.servlet.ServletRegistration;
 import static org.junit.jupiter.api.Assertions.assertEquals;

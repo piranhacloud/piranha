@@ -30,7 +30,7 @@ module cloud.piranha.servlet4.webannotation {
     
     exports cloud.piranha.servlet4.webannotation;
     requires cloud.piranha.servlet4.api;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.servlet4.webapp;
     requires java.annotation;
     requires java.logging;
 }

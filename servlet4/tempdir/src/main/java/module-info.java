@@ -31,6 +31,6 @@ module cloud.piranha.servlet4.tempdir {
     exports cloud.piranha.servlet4.tempdir;
     opens cloud.piranha.servlet4.tempdir;
     requires cloud.piranha.servlet4.api;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.servlet4.webapp;
     requires java.logging;
 }

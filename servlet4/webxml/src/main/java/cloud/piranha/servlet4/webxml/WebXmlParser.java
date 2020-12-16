@@ -27,7 +27,7 @@
  */
 package cloud.piranha.servlet4.webxml;
 
-import static cloud.piranha.webapp.impl.WebXml.OTHERS_TAG;
+import static cloud.piranha.servlet4.impl.WebXml.OTHERS_TAG;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
 import static java.util.regex.Pattern.quote;
@@ -56,21 +56,21 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import cloud.piranha.webapp.impl.WebXml;
-import cloud.piranha.webapp.impl.WebXmlContextParam;
-import cloud.piranha.webapp.impl.WebXmlCookieConfig;
-import cloud.piranha.webapp.impl.WebXmlErrorPage;
-import cloud.piranha.webapp.impl.WebXmlFilter;
-import cloud.piranha.webapp.impl.WebXmlFilterInitParam;
-import cloud.piranha.webapp.impl.WebXmlFilterMapping;
-import cloud.piranha.webapp.impl.WebXmlListener;
-import cloud.piranha.webapp.impl.WebXmlLoginConfig;
-import cloud.piranha.webapp.impl.WebXmlMimeMapping;
-import cloud.piranha.webapp.impl.WebXmlServlet;
-import cloud.piranha.webapp.impl.WebXmlServletInitParam;
-import cloud.piranha.webapp.impl.WebXmlServletMapping;
-import cloud.piranha.webapp.impl.WebXmlServletSecurityRoleRef;
-import cloud.piranha.webapp.impl.WebXmlSessionConfig;
+import cloud.piranha.servlet4.impl.WebXml;
+import cloud.piranha.servlet4.impl.WebXmlContextParam;
+import cloud.piranha.servlet4.impl.WebXmlCookieConfig;
+import cloud.piranha.servlet4.impl.WebXmlErrorPage;
+import cloud.piranha.servlet4.impl.WebXmlFilter;
+import cloud.piranha.servlet4.impl.WebXmlFilterInitParam;
+import cloud.piranha.servlet4.impl.WebXmlFilterMapping;
+import cloud.piranha.servlet4.impl.WebXmlListener;
+import cloud.piranha.servlet4.impl.WebXmlLoginConfig;
+import cloud.piranha.servlet4.impl.WebXmlMimeMapping;
+import cloud.piranha.servlet4.impl.WebXmlServlet;
+import cloud.piranha.servlet4.impl.WebXmlServletInitParam;
+import cloud.piranha.servlet4.impl.WebXmlServletMapping;
+import cloud.piranha.servlet4.impl.WebXmlServletSecurityRoleRef;
+import cloud.piranha.servlet4.impl.WebXmlSessionConfig;
 
 /**
  * The web.xml / web-fragment.xml parser.
