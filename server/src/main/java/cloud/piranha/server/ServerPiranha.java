@@ -47,6 +47,7 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
@@ -194,6 +195,8 @@ public class ServerPiranha implements Piranha, Runnable {
         httpServer.start();
         webApplicationServer.start();
 
+        WebApplicationServerRequestMapper requestMapper = webApplicationServer.getRequestMapper();
+
         File webappsDirectory = new File("webapps");
         File[] webapps = webappsDirectory.listFiles();
         if (webapps != null) {
@@ -204,7 +207,7 @@ public class ServerPiranha implements Piranha, Runnable {
                     extractWarFile(webapp, webAppDirectory);
 
                     try {
-                        DefaultWebApplication webApplication = new DefaultWebApplication();
+                        DefaultWebApplication webApplication = new CrossContextWebApplication(requestMapper);
 
                         ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
 
