@@ -28,7 +28,7 @@
 
 import cloud.piranha.session.hazelcast.HazelcastInitializer;
 
-import javax.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContainerInitializer;
 
 module cloud.piranha.session.hazelcast {
     requires cloud.piranha.servlet4.api;

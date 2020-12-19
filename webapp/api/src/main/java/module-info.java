@@ -25,11 +25,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+/**
+ * The Piranha Webapplication - API mopdule.
+ * 
+ * <p>
+ *  This module defines the runtime API for each web application. 
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.webapp.api {
+    
     exports cloud.piranha.webapp.api;
-    requires static cloud.piranha.http.api;
-    requires static cloud.piranha.resource.api;
-    requires static cloud.piranha.servlet4.api;
+    
+    opens cloud.piranha.webapp.api;
+
     requires cloud.piranha.naming.api;
     requires cloud.piranha.policy.api;
+    requires cloud.piranha.resource.api;
+    requires cloud.piranha.servlet.api;
 }

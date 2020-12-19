@@ -27,8 +27,8 @@
  */
 package cloud.piranha.webapp.api;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * The WebApplicationRequest API.

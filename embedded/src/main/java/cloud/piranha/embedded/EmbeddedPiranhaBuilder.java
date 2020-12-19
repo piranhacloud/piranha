@@ -43,8 +43,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletRegistration;
+import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.ServletRegistration;
 
 
 /**

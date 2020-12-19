@@ -29,9 +29,9 @@ package cloud.piranha.webapp.api;
 
 import java.util.EventListener;
 
-import javax.servlet.Filter;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
+import jakarta.servlet.Filter;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletException;
 
 /**
  * The object instance manager API.
