@@ -31,7 +31,7 @@ import static java.util.Arrays.stream;
 import static java.util.Collections.emptySet;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
-import static jakarta.servlet.DispatcherType.REQUEST;
+import static javax.servlet.DispatcherType.REQUEST;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import jakarta.servlet.DispatcherType;
+import javax.servlet.DispatcherType;
 
 import cloud.piranha.webapp.api.FilterMapping;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;

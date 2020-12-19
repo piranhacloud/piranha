@@ -31,10 +31,10 @@ import cloud.piranha.webapp.api.WelcomeFileManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 /**
  * The default WelcomeFileManager.

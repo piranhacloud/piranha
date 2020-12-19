@@ -31,8 +31,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * The WebApplicationResponse API.

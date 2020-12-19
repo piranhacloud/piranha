@@ -26,17 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.http.webapp.tests {
-    
-    exports cloud.piranha.http.webapp.tests;
-    
-    opens cloud.piranha.http.webapp.tests;
-    
+module cloud.piranha.http.webapp {
+    exports cloud.piranha.http.webapp;
+    opens cloud.piranha.http.webapp;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.webapp;
-    requires cloud.piranha.servlet.api;
-    requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires java.net.http;
     requires java.logging;

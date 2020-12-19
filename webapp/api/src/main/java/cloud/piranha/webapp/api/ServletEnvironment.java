@@ -27,10 +27,10 @@
  */
 package cloud.piranha.webapp.api;
 
-import jakarta.servlet.MultipartConfigElement;
-import jakarta.servlet.Servlet;
-import jakarta.servlet.ServletConfig;
-import jakarta.servlet.ServletRegistration.Dynamic;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.Servlet;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletRegistration.Dynamic;
 
 /**
  * The environment for a Servlet.

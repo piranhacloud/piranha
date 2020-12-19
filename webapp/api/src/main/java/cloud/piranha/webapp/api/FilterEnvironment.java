@@ -27,10 +27,10 @@
  */
 package cloud.piranha.webapp.api;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterConfig;
-import jakarta.servlet.FilterRegistration.Dynamic;
-import jakarta.servlet.ServletException;
+import javax.servlet.Filter;
+import javax.servlet.FilterConfig;
+import javax.servlet.FilterRegistration.Dynamic;
+import javax.servlet.ServletException;
 
 /**
  *

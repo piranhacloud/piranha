@@ -44,6 +44,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha.servlet4</groupId>
+            <artifactId>piranha-servlet4-api</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-api</artifactId>
             <version>${project.version}</version>

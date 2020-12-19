@@ -30,8 +30,8 @@ package cloud.piranha.nano;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import jakarta.servlet.ServletConfig;
-import jakarta.servlet.ServletContext;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 
 /**
  * The ServletConfig class used by {@link cloud.piranha.nano.NanoPiranhaBuilder}

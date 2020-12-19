@@ -26,13 +26,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.servlet.api {
+module jakarta.servlet {
 
     exports jakarta.servlet;
     exports jakarta.servlet.annotation;
     exports jakarta.servlet.descriptor;
     exports jakarta.servlet.http;
-    
     opens jakarta.servlet;
     opens jakarta.servlet.annotation;
     opens jakarta.servlet.descriptor;

@@ -27,13 +27,13 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static jakarta.servlet.DispatcherType.ASYNC;
+import static javax.servlet.DispatcherType.ASYNC;
 
 import java.util.Map;
 
-import jakarta.servlet.DispatcherType;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletRequestWrapper;
+import javax.servlet.DispatcherType;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletRequestWrapper;
 
 /**
  * The async non-HTTP dispatch wrapper.
