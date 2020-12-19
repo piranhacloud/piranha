@@ -27,8 +27,8 @@
  */
 package cloud.piranha.webapp.impl;
 
-import javax.servlet.ServletRegistration;
-import javax.servlet.descriptor.JspConfigDescriptor;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 
 import cloud.piranha.webapp.api.JspManager;
 import cloud.piranha.webapp.api.WebApplication;

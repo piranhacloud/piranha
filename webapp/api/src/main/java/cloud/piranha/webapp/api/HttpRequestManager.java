@@ -29,7 +29,7 @@ package cloud.piranha.webapp.api;
 
 import java.util.EventListener;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *

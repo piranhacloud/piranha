@@ -30,9 +30,9 @@ package cloud.piranha.upload.apache;
 import cloud.piranha.webapp.api.WebApplication;
 import java.util.Set;
 import java.util.logging.Logger;
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 /**
  * The ServletContainerInitializer for the ApacheMultiPartManager.
@@ -59,7 +59,7 @@ public class ApacheMultiPartInitializer implements ServletContainerInitializer {
 
     /**
      * @see ServletContainerInitializer#onStartup(java.util.Set,
-     * javax.servlet.ServletContext)
+     * jakarta.servlet.ServletContext)
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext)

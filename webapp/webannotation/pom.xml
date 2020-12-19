@@ -12,12 +12,12 @@
     <artifactId>piranha-webapp-webannotation</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Webapplication - @WebServlet</name>
+    <name>Piranha Webapplication - Web Annotation Integration</name>
 
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.servlet4</groupId>
-            <artifactId>piranha-servlet4-api</artifactId>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

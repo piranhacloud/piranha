@@ -29,8 +29,8 @@ package cloud.piranha.webapp.impl;
 
 import static cloud.piranha.webapp.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
 import static java.util.Objects.requireNonNull;
-import static javax.servlet.DispatcherType.INCLUDE;
-import static javax.servlet.RequestDispatcher.INCLUDE_QUERY_STRING;
+import static jakarta.servlet.DispatcherType.INCLUDE;
+import static jakarta.servlet.RequestDispatcher.INCLUDE_QUERY_STRING;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -55,21 +55,21 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.ReadListener;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletRequestWrapper;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpUpgradeHandler;
-import javax.servlet.http.Part;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletRequestWrapper;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
 
 import cloud.piranha.webapp.api.AttributeManager;
 import cloud.piranha.webapp.api.HttpHeaderManager;

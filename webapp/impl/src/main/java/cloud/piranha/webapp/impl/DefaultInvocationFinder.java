@@ -29,7 +29,7 @@ package cloud.piranha.webapp.impl;
 
 import static java.util.Collections.reverse;
 import static java.util.stream.Collectors.toList;
-import static javax.servlet.DispatcherType.REQUEST;
+import static jakarta.servlet.DispatcherType.REQUEST;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -38,10 +38,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterChain;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletException;
 
 import cloud.piranha.webapp.api.FilterEnvironment;
 import cloud.piranha.webapp.api.FilterPriority;

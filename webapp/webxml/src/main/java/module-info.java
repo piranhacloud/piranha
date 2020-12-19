@@ -27,16 +27,14 @@
  */
 
 module cloud.piranha.webapp.webxml {
-    requires cloud.piranha.servlet4.api;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
-
-    requires java.logging;
-    requires java.xml;
-
+    
     exports cloud.piranha.webapp.webxml;
+
     opens cloud.piranha.webapp.webxml;
 
-    // Tests
-    requires static cloud.piranha.resource;
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
+    requires java.logging;
+    requires java.xml;
 }
