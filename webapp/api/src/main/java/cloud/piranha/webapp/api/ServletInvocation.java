@@ -31,8 +31,8 @@ import static cloud.piranha.webapp.api.ServletEnvironment.UNAVAILABLE;
 
 import java.util.List;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletConfig;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletConfig;
 
 /**
  * The ServletInvocation API.

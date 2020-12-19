@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.api;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * A holder that references the current <code>HttpServletRequest </code>in the request processing

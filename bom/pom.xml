@@ -197,12 +197,12 @@
             <dependency>
                 <groupId>jakarta.el</groupId>
                 <artifactId>jakarta.el-api</artifactId>
-                <version>4.0.0</version>
+                <version>3.0.3</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.el</artifactId>
-                <version>4.0.0</version>
+                <version>3.0.3</version>
             </dependency>
             
             <!-- Jakarta Faces -->
@@ -316,12 +316,12 @@
             <dependency>
                 <groupId>jakarta.servlet.jsp</groupId>
                 <artifactId>jakarta.servlet.jsp-api</artifactId>
-                <version>3.0.0-M1</version>
+                <version>2.3.6</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.web</groupId>
                 <artifactId>jakarta.servlet.jsp</artifactId>
-                <version>3.0.0-RC1</version>
+                <version>2.3.6</version>
             </dependency>
 
             <!-- Jakarta Servlet -->

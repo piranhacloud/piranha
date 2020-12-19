@@ -29,8 +29,8 @@ package cloud.piranha.webapp.api;
 
 import java.util.Collection;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Part;
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
 
 /**
  * The multi-part manager API.

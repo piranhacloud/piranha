@@ -34,10 +34,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletRequestWrapper;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
 
 import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;

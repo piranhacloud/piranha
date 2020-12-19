@@ -27,18 +27,18 @@
  */
 
 module cloud.piranha.webapp.impl {
-    
     exports cloud.piranha.webapp.impl;
-    
     opens cloud.piranha.webapp.impl;
-    
     requires cloud.piranha.naming.api;
     requires cloud.piranha.naming.impl;
     requires cloud.piranha.policy.api;
     requires cloud.piranha.policy.impl;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
-    requires cloud.piranha.servlet.api;
-    requires cloud.piranha.webapp.api;
+    requires transitive cloud.piranha.servlet4.api;
+    requires transitive cloud.piranha.webapp.api;
     requires java.logging;
+
+    // Tests
+    requires static jdk.security.auth;
 }

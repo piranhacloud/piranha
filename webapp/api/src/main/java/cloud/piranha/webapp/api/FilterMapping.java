@@ -27,9 +27,9 @@
  */
 package cloud.piranha.webapp.api;
 
-import static jakarta.servlet.DispatcherType.REQUEST;
+import static javax.servlet.DispatcherType.REQUEST;
 
-import jakarta.servlet.DispatcherType;
+import javax.servlet.DispatcherType;
 
 /**
  * The FilterMapping API.

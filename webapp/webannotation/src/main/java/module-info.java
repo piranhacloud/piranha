@@ -27,13 +27,11 @@
  */
 
 module cloud.piranha.webapp.webannotation {
-    
-    exports cloud.piranha.webapp.webannotation;
-
-    opens cloud.piranha.webapp.webannotation;
-    
-    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.servlet4.api;
     requires cloud.piranha.webapp.api;
+
     requires java.annotation;
     requires java.logging;
+
+    exports cloud.piranha.webapp.webannotation;
 }

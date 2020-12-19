@@ -38,14 +38,11 @@
     </developers>
 
     <modules>
-        <module>api</module>
+        <!-- BOM -->
         <module>bom</module>
-        <module>embedded</module>
-        <module>naming</module>
-        <module>nano</module>
-        <module>pages</module>
-        <module>resource</module>
-        <module>server</module>
+        
+        <!-- Core -->
+        <module>api</module>
         <module>servlet</module>
         <module>webapp</module>
     
@@ -55,7 +52,10 @@
         <module>faces</module>
         <module>http</module>
         <module>monitor</module>
+        <module>naming</module>
         <module>session</module>
+        <module>resource</module>
+        <module>pages</module>
         <module>security</module>
         <module>transaction</module>
         <module>upload</module>
@@ -64,7 +64,10 @@
         <module>extension</module>
 
         <!-- Distributions -->
+        <module>nano</module>
+        <module>embedded</module>
         <module>micro</module>
+        <module>server</module>
         <module>server2</module>
         
         <!-- Arquillian -->
@@ -79,8 +82,10 @@
         <!-- MicroProfile -->
         <module>microprofile</module>
         
+        <!-- Applications -->
+        <module>war</module>
         <module>policy</module>
-	<module>war</module>
+        <module>servlet4</module>
     </modules>
 
     <scm>

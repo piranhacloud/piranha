@@ -27,7 +27,7 @@
  */
 package cloud.piranha.embedded;
 
-import jakarta.servlet.http.Cookie;
+import javax.servlet.http.Cookie;
 
 import cloud.piranha.webapp.api.WebApplication;
 

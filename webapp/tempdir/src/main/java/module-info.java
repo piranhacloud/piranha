@@ -27,12 +27,11 @@
  */
 
 module cloud.piranha.webapp.tempdir {
-    
-    exports cloud.piranha.webapp.tempdir;
-
-    opens cloud.piranha.webapp.tempdir;
-
-    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.servlet4.api;
     requires cloud.piranha.webapp.api;
+
     requires java.logging;
+
+    exports cloud.piranha.webapp.tempdir;
+    opens cloud.piranha.webapp.tempdir;
 }

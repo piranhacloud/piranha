@@ -31,10 +31,10 @@ import static java.lang.Boolean.TRUE;
 
 import java.util.Set;
 
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRegistration.Dynamic;
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration.Dynamic;
 
 /**
  * The Mojarra initializer.

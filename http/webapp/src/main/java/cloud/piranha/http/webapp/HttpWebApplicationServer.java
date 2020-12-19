@@ -37,8 +37,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 
 import cloud.piranha.webapp.api.WebApplicationServer;
 import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;

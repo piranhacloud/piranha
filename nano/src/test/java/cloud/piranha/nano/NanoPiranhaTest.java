@@ -32,16 +32,15 @@ import org.apache.jasper.servlet.JspServlet;
 import org.apache.wicket.protocol.http.WicketFilter;
 import org.junit.jupiter.api.Test;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Disabled;
 
 /**
  * The JUnit tests for the NanoPiranha class.
@@ -196,9 +195,7 @@ class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    @Disabled
     void testService6() throws Exception {
-        /*
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .directoryResource("src/test/wicket")
                 .filter("WicketFilter", new WicketFilter())
@@ -218,7 +215,6 @@ class NanoPiranhaTest {
 
         piranha.service(request, response);
         assertTrue(outputStream.toString().contains("Hello Wicket"));
-        */
     }
 
     /**
@@ -227,9 +223,7 @@ class NanoPiranhaTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    @Disabled
     void testService7() throws Exception {
-        /*
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .webApplication(new DefaultWebApplication())
                 .directoryResource("src/test/wicket")
@@ -250,7 +244,6 @@ class NanoPiranhaTest {
 
         piranha.service(request, response);
         assertTrue(outputStream.toString().contains("Hello Wicket"));
-        */
     }
 
     /**

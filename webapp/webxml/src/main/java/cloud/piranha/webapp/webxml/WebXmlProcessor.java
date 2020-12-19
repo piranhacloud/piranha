@@ -37,9 +37,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import jakarta.servlet.DispatcherType;
-import jakarta.servlet.FilterRegistration;
-import jakarta.servlet.ServletRegistration;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletRegistration;
 
 import cloud.piranha.webapp.api.LocaleEncodingManager;
 import cloud.piranha.webapp.api.WebApplication;

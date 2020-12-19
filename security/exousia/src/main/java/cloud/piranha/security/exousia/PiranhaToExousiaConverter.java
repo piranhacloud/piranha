@@ -28,8 +28,8 @@
 package cloud.piranha.security.exousia;
 
 import static java.util.Collections.emptyList;
-import static jakarta.servlet.annotation.ServletSecurity.TransportGuarantee.CONFIDENTIAL;
-import static jakarta.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
+import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.CONFIDENTIAL;
+import static javax.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,8 +40,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import jakarta.servlet.ServletSecurityElement;
-import jakarta.servlet.annotation.ServletSecurity;
+import javax.servlet.ServletSecurityElement;
+import javax.servlet.annotation.ServletSecurity;
 
 import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.constraints.WebResourceCollection;

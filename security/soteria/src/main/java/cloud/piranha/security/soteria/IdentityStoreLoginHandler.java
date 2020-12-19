@@ -34,7 +34,7 @@ import javax.security.enterprise.credential.Password;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
 import cloud.piranha.webapp.api.AuthenticatedIdentity;

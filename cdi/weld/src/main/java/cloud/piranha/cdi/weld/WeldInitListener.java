@@ -27,9 +27,9 @@
  */
 package cloud.piranha.cdi.weld;
 
-import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletRequestEvent;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletRequestEvent;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.weld.environment.servlet.Listener;
 import org.jboss.weld.servlet.api.ServletListener;

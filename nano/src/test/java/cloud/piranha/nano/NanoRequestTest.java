@@ -34,9 +34,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpUpgradeHandler;
-import jakarta.servlet.http.WebConnection;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.WebConnection;
 
 import org.junit.jupiter.api.Test;
 

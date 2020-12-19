@@ -28,15 +28,15 @@
 package cloud.piranha.webapp.tempdir;
 
 import static java.util.logging.Level.FINE;
-import static jakarta.servlet.ServletContext.TEMPDIR;
+import static javax.servlet.ServletContext.TEMPDIR;
 
 import java.io.File;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 /**
  * The ServletContext temporary directory initializer.

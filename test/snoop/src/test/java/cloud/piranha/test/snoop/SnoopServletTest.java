@@ -35,7 +35,7 @@ import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.embedded.EmbeddedResponseBuilder;
 import org.junit.jupiter.api.Test;
 
-import jakarta.servlet.http.Cookie;
+import javax.servlet.http.Cookie;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

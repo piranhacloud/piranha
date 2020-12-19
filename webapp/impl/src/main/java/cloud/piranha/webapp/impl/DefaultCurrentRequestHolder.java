@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import cloud.piranha.webapp.api.CurrentRequestHolder;
 

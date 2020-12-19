@@ -32,9 +32,9 @@ import java.util.EventListener;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.Unmanaged;
-import jakarta.servlet.Filter;
-import jakarta.servlet.Servlet;
-import jakarta.servlet.ServletException;
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
 
 /**
  * The Weld object instance manager.

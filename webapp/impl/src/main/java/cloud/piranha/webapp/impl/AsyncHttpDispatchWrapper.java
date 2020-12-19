@@ -31,7 +31,7 @@ import static java.util.Collections.enumeration;
 import static java.util.Collections.list;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.requireNonNull;
-import static jakarta.servlet.DispatcherType.ASYNC;
+import static javax.servlet.DispatcherType.ASYNC;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -40,12 +40,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.servlet.AsyncContext;
-import jakarta.servlet.DispatcherType;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 
 import cloud.piranha.webapp.api.AttributeManager;
 import cloud.piranha.webapp.api.WebApplication;

@@ -27,8 +27,8 @@
  */
 package cloud.piranha.test.classloader;
 
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 
 /**
  * The Test 1 Servlet.

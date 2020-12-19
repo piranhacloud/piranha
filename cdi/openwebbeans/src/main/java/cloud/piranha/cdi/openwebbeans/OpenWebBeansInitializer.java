@@ -29,9 +29,9 @@ package cloud.piranha.cdi.openwebbeans;
 
 import cloud.piranha.webapp.api.WebApplication;
 import java.util.Set;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 /**
  * The OpenWebBeans initializer.

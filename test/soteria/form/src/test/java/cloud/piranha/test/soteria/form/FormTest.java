@@ -48,7 +48,7 @@ import static java.util.Arrays.asList;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import javax.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
 import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
-import jakarta.servlet.http.Cookie;
+import javax.servlet.http.Cookie;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
