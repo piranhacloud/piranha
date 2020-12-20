@@ -14,28 +14,33 @@
 
     <name>Piranha Test - Project</name>
 
+    <!--
+        
+        See MIGRATION.md
+    
+      -->
     <modules>
-        <module>arquillian</module>
-        <module>classloader</module>
-        <module>classloader2</module>
-        <module>embedded</module>
-        <module>exousia</module>
-        <module>hazelcast</module>
-        <module>jersey</module>
-        <module>jpa</module>
-        <module>mojarra</module>
-        <module>myfaces</module>
-        <module>openwebbeans</module>
-        <module>smallrye-health</module>
-        <module>omnifaces-jwt</module>
-        <module>snoop</module>
-        <module>soteria</module>
-        <module>springmvc</module>
-        <module>struts</module>
-        <module>vaadin</module>
-        <module>webxml</module>
-        <module>weld</module>
-        <module>wicket</module>
+        <!--<module>arquillian</module>-->
+        <!--<module>classloader</module>-->
+        <!--<module>classloader2</module>-->
+        <!--<module>embedded</module>-->
+        <!--<module>exousia</module>-->
+        <!--<module>hazelcast</module>-->
+        <!--<module>jersey</module>-->
+        <!--<module>jpa</module>-->
+        <!--<module>mojarra</module>-->
+        <!--<module>myfaces</module>-->
+        <!--<module>openwebbeans</module>-->
+        <!--<module>smallrye-health</module>-->
+        <!--<module>omnifaces-jwt</module>-->
+        <!--<module>snoop</module>-->
+        <!--<module>soteria</module>-->
+        <!--<module>springmvc</module>-->
+        <!--<module>struts</module>-->
+        <!--<module>vaadin</module>-->
+        <!--<module>webxml</module>-->
+        <!--<module>weld</module>-->
+        <!--<module>wicket</module>-->
     </modules>
 
     <properties>

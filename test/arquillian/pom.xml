@@ -14,9 +14,15 @@
 
     <name>Piranha Test - Arquillian - Project</name>
 
+    <!--
+
+        See MIGRATION.md
+
     <modules>
         <module>servlet-basic</module>
     </modules>
+
+      -->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -17,28 +17,21 @@
     </description>
 
     <dependencies>
-        <!-- Jakarta Servlet - API -->
         <dependency>
-            <groupId>cloud.piranha.servlet4</groupId>
-            <artifactId>piranha-servlet4-api</artifactId>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-    
-        <!-- Jakarta Expression Language -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
-        <!-- Jakarta Pages -->
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>jakarta.servlet.jsp</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
-        <!-- Jakarta Security -->
         <dependency>
             <groupId>cloud.piranha.security</groupId>
             <artifactId>piranha-security-jakarta</artifactId>
@@ -50,37 +43,31 @@
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- Jakarta Annotations -->
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- Jakarta XML Binding -->
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
-        
-        <!-- Piranha CDI - Weld integration -->
         <dependency>
             <groupId>cloud.piranha.cdi</groupId>
             <artifactId>piranha-cdi-weld</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
-       
-        <!-- Piranha Upload - Apache Commons FileUpload integration -->
+        <!--
+        
+            See MIGRATION.md
+            
         <dependency>
             <groupId>cloud.piranha.upload</groupId>
             <artifactId>piranha-upload-apache</artifactId>
@@ -88,54 +75,42 @@
             <classifier>shaded</classifier>
             <scope>runtime</scope>
         </dependency>
-      
-        <!-- Piranha Webapplication - API -->
+          -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
-        
-        <!-- Piranha Webapplication - Impl -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
-        
-        <!-- Piranha Naming implementation -->
         <dependency>
             <groupId>cloud.piranha.naming</groupId>
             <artifactId>piranha-naming-impl</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
-        
-        <!-- Piranha Webapplication - web.xml support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-webxml</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Piranha Webapplication - Web annotations support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-webannotation</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Piranha Webapplication - ServletContainerInitializer support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-scinitializer</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
     </dependencies>
 </project>

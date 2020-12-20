@@ -18,29 +18,26 @@
     </description>
 
     <dependencies>
-        <!-- Jakarta Expression Language -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
-        <!-- Jakarta Annotations - @DeclareRoles etc -->
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
-        <!-- Piranha Pages - Jasper integration -->
         <dependency>
             <groupId>cloud.piranha.pages</groupId>
             <artifactId>piranha-pages-jasper</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Piranha Upload - Apache Commons FileUpload integration -->
+        <!--
+            
+            See MIGRATION.md
+                    
         <dependency>
             <groupId>cloud.piranha.upload</groupId>
             <artifactId>piranha-upload-apache</artifactId>
@@ -48,56 +45,43 @@
             <classifier>shaded</classifier>
             <scope>runtime</scope>
         </dependency>
-        
-        <!-- Piranha Webapplication - Annotation Scanning support -->
+          -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-annotationscan</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Piranha Webapplication - API -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
-        
-        <!-- Piranha Webapplication - ServletContainerInitializer support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-scinitializer</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Piranha Webapplication - TEMPDIR support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-tempdir</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Piranha Webapplication - web annotation support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-webannotation</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Piranha Webapplication - web.xml support -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-webxml</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Tyrus - WebSocket support -->
         <dependency>
             <groupId>org.glassfish.tyrus</groupId>
             <artifactId>tyrus-container-servlet</artifactId>

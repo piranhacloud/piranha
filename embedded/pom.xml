@@ -33,22 +33,24 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-impl</artifactId>
+         <dependency>
+            <groupId>cloud.piranha.naming</groupId>
+            <artifactId>piranha-naming-thread</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
-         <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-thread</artifactId>
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
-        
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

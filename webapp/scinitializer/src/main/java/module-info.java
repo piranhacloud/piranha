@@ -26,16 +26,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import javax.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContainerInitializer;
 
 module cloud.piranha.webapp.scinitializer {
-    requires cloud.piranha.servlet4.api;
-    requires cloud.piranha.webapp.api;
-
-    requires java.logging;
-
-    uses ServletContainerInitializer;
-
+    
     exports cloud.piranha.webapp.scinitializer;
+
     opens cloud.piranha.webapp.scinitializer;
+
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires java.logging;
+    
+    uses ServletContainerInitializer;
 }

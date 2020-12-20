@@ -29,7 +29,7 @@ package cloud.piranha.webapp.impl;
 
 import java.util.List;
 
-import javax.servlet.FilterChain;
+import jakarta.servlet.FilterChain;
 
 import cloud.piranha.webapp.api.FilterEnvironment;
 import cloud.piranha.webapp.api.ServletEnvironment;

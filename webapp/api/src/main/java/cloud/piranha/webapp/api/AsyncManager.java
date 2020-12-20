@@ -27,8 +27,8 @@
  */
 package cloud.piranha.webapp.api;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 /**
  * The AsyncManager API.

@@ -25,13 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-module cloud.piranha.webapp.annotationscan {
-    requires cloud.piranha.resource.api;
-    requires cloud.piranha.servlet4.api;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
 
-    requires java.logging;
+module cloud.piranha.webapp.annotationscan {
 
     exports cloud.piranha.webapp.annotationscan;
+
+    opens cloud.piranha.webapp.annotationscan;
+    
+    requires cloud.piranha.resource.api;
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
+    requires java.logging;
 }

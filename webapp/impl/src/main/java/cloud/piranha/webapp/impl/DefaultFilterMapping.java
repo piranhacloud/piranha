@@ -27,11 +27,11 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static javax.servlet.DispatcherType.REQUEST;
+import static jakarta.servlet.DispatcherType.REQUEST;
 
 import java.util.Objects;
 
-import javax.servlet.DispatcherType;
+import jakarta.servlet.DispatcherType;
 
 import cloud.piranha.webapp.api.FilterMapping;
 

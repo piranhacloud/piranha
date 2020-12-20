@@ -37,5 +37,8 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.http.api {
+    
     exports cloud.piranha.http.api;
+    
+    opens cloud.piranha.http.api;
 }

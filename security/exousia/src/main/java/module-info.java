@@ -27,13 +27,12 @@
  */
 
 module cloud.piranha.security.exousia {
-    requires cloud.piranha.servlet4.api;
+    
+    exports cloud.piranha.security.exousia;
+
+    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-
-    requires exousia;
-
-    requires java.security.jacc;
-
-    exports cloud.piranha.security.exousia;
+    requires jakarta.security.jacc;
+    requires org.omnifaces.exousia;
 }

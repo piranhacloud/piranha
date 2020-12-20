@@ -29,7 +29,7 @@ package cloud.piranha.test.vaadin;
 
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinServlet;
-import javax.servlet.annotation.WebServlet;
+import jakarta.servlet.annotation.WebServlet;
 
 /**
  * The HelloVaadin servlet.

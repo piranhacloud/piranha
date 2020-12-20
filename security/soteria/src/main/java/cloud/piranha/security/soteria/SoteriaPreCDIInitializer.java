@@ -30,12 +30,14 @@ package cloud.piranha.security.soteria;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.WebXml;
 import cloud.piranha.webapp.impl.WebXmlManager;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+
 import org.glassfish.soteria.SoteriaServiceProviders;
 import org.glassfish.soteria.cdi.spi.WebXmlLoginConfig;
 

@@ -33,22 +33,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>javax.security.enterprise</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.security.enterprise</groupId>
-                    <artifactId>javax.security.enterprise-api</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.glassfish.soteria</groupId>
+            <artifactId>jakarta.security.enterprise</artifactId>
         </dependency>
         <dependency>
-            <groupId>jakarta.security.enterprise</groupId>
-            <artifactId>jakarta.security.enterprise-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>soteria-bean-decorator-weld</artifactId>
+            <groupId>org.glassfish.soteria</groupId>
+            <artifactId>soteria.spi.bean.decorator.weld</artifactId>
         </dependency>
     </dependencies>
 </project>

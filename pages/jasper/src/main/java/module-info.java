@@ -27,14 +27,14 @@
  */
 
 module cloud.piranha.pages.jasper {
-    requires cloud.piranha.servlet4.api;
-    requires cloud.piranha.webapp.api;
+    
+    exports cloud.piranha.pages.jasper;
 
+    opens cloud.piranha.pages.jasper;
+
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
     requires jakarta.servlet.jsp.api;
     requires jakarta.servlet.jsp;
-
     requires java.logging;
-
-    exports cloud.piranha.pages.jasper;
-    opens cloud.piranha.pages.jasper;
 }

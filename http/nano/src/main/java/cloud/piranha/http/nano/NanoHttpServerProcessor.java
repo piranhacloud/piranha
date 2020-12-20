@@ -34,7 +34,7 @@ import cloud.piranha.http.webapp.HttpWebApplicationRequest;
 import cloud.piranha.http.webapp.HttpWebApplicationResponse;
 import cloud.piranha.nano.NanoPiranha;
 import java.io.IOException;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 /**
  * The Piranha Nano HttpServerProcessor.
