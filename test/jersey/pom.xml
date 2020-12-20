@@ -29,6 +29,12 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-embedded</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.cdi</groupId>
             <artifactId>piranha-cdi-weld</artifactId>
             <version>${project.version}</version>
@@ -37,12 +43,6 @@
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-webxml</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-embedded</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
