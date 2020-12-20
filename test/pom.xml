@@ -38,7 +38,7 @@
         <!--<module>springmvc</module>-->
         <!--<module>struts</module>-->
         <!--<module>vaadin</module>-->
-        <!--<module>webxml</module>-->
+        <module>webxml</module>
         <!--<module>weld</module>-->
         <!--<module>wicket</module>-->
     </modules>
