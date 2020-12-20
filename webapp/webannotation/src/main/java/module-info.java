@@ -34,6 +34,6 @@ module cloud.piranha.webapp.webannotation {
     
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
-    requires java.annotation;
+    requires jakarta.annotation;
     requires java.logging;
 }
