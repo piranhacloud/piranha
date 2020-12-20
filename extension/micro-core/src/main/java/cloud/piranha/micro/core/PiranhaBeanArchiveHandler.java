@@ -32,7 +32,7 @@ import static org.jboss.weld.environment.deployment.discovery.jandex.Jandex.INDE
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.annotation.Priority;
+import jakarta.annotation.Priority;
 
 import org.jboss.jandex.Index;
 import org.jboss.jandex.IndexReader;
