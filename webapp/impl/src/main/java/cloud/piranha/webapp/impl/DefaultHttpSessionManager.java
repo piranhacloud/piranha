@@ -164,7 +164,9 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         }
 
         cookie.setComment(comment);
-        cookie.setDomain(domain);
+        if (domain != null) {
+            cookie.setDomain(domain);
+        }
         cookie.setHttpOnly(httpOnly);
         cookie.setMaxAge(maxAge);
         cookie.setSecure(secure);
@@ -237,7 +239,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     @Override
     public void attributeAdded(HttpSession session, String name, Object value) {
         attributeListeners.stream().forEach(listener -> listener.attributeAdded(new HttpSessionBindingEvent(session, name, value)));
-        if (value instanceof HttpSessionBindingListener){
+        if (value instanceof HttpSessionBindingListener) {
             ((HttpSessionBindingListener) value).valueBound(new HttpSessionBindingEvent(session, name));
         }
     }
@@ -253,16 +255,18 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     @Override
     public void attributeReplaced(HttpSession session, String name, Object oldValue, Object newValue) {
         attributeListeners.stream().forEach(listener -> listener.attributeReplaced(new HttpSessionBindingEvent(session, name, oldValue)));
-        if (oldValue instanceof HttpSessionBindingListener)
+        if (oldValue instanceof HttpSessionBindingListener) {
             ((HttpSessionBindingListener) oldValue).valueUnbound(new HttpSessionBindingEvent(session, name));
-        if (newValue instanceof HttpSessionBindingListener)
+        }
+        if (newValue instanceof HttpSessionBindingListener) {
             ((HttpSessionBindingListener) newValue).valueBound(new HttpSessionBindingEvent(session, name));
+        }
     }
 
     @Override
     public void attributeRemoved(HttpSession session, String name, Object value) {
         attributeListeners.stream().forEach(listener -> listener.attributeRemoved(new HttpSessionBindingEvent(session, name, value)));
-        if (value instanceof HttpSessionBindingListener){
+        if (value instanceof HttpSessionBindingListener) {
             ((HttpSessionBindingListener) value).valueUnbound(new HttpSessionBindingEvent(session, name));
         }
     }

@@ -70,8 +70,7 @@ public class SnoopServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
+        try (PrintWriter out = response.getWriter()) {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Snoop</title>");
@@ -185,8 +184,6 @@ public class SnoopServlet extends HttpServlet {
             out.println("</table>");
             out.println("</body>");
             out.println("</html>");
-        } finally {
-            out.close();
         }
     }
 
