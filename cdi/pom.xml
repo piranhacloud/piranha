@@ -16,7 +16,13 @@
     <name>Piranha CDI - Project</name>
 
     <modules>
+        <!--
+            
+            See MIGRATION.md
+                    
         <module>openwebbeans</module>
+                
+          -->
         <module>weld</module>
     </modules>
 

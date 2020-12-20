@@ -7,8 +7,8 @@
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.logging.level" value="FINEST"/>
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
             <property name="eclipselink.session.customizer" value="cloud.piranha.transaction.nonxa.test.EclipseLinkSessionCustomizer"/>   
         </properties>
     </persistence-unit>
@@ -18,8 +18,8 @@
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.logging.level" value="FINEST"/>
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
             <property name="eclipselink.session.customizer" value="cloud.piranha.transaction.nonxa.test.EclipseLinkSessionCustomizer"/>   
         </properties>
     </persistence-unit>
@@ -29,8 +29,8 @@
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.logging.level" value="FINEST"/>
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
             <property name="eclipselink.session.customizer" value="cloud.piranha.transaction.nonxa.test.EclipseLinkSessionCustomizer"/>   
         </properties>
     </persistence-unit>

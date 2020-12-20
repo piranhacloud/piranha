@@ -59,12 +59,12 @@ import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.annotation.security.RunAs;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.ServletSecurity;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
-import javax.servlet.annotation.WebListener;
-import javax.servlet.annotation.WebServlet;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.ServletSecurity;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.annotation.WebInitParam;
+import jakarta.servlet.annotation.WebListener;
+import jakarta.servlet.annotation.WebServlet;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
@@ -129,9 +129,9 @@ public class MicroInnerDeployer {
         ServletSecurity.class.getName(),
         MultipartConfig.class.getName(),
         // REST
-        "javax.ws.rs.Path", //Path.class,
-        "javax.ws.rs.ext.Provider", // Provider.class,
-        "javax.ws.rs.ApplicationPath", //  ApplicationPath.class,
+        "jakarta.ws.rs.Path", //Path.class,
+        "jakarta.ws.rs.ext.Provider", // Provider.class,
+        "jakarta.ws.rs.ApplicationPath", //  ApplicationPath.class,
 
         // General
         DeclareRoles.class.getName(), // Not Servlet, but often used on Servlets
@@ -150,7 +150,7 @@ public class MicroInnerDeployer {
      */
     String[] instances = new String[]{
         // REST
-        "javax.ws.rs.core.Application",};
+        "jakarta.ws.rs.core.Application",};
 
     /**
      * Stores the HTTP server.

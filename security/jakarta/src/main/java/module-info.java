@@ -27,20 +27,20 @@
  */
 
 module cloud.piranha.security.jakarta {
+    
+    exports cloud.piranha.security.jakarta;
+
+    opens cloud.piranha.security.jakarta;
+
     requires cloud.piranha.cdi.weld;
-    requires cloud.piranha.servlet4.api;
+    requires cloud.piranha.servlet.api;
     requires cloud.piranha.security.eleos;
     requires cloud.piranha.security.exousia;
     requires cloud.piranha.security.soteria;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-
-    requires eleos;
-
-    requires exousia;
-
+    requires org.omnifaces.eleos;
+    requires org.omnifaces.exousia;
     requires java.logging;
     requires java.naming;
-
-    exports cloud.piranha.security.jakarta;
 }

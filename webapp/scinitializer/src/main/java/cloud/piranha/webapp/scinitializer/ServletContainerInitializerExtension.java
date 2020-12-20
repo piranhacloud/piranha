@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.ServiceLoader;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContainerInitializer;
 
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;

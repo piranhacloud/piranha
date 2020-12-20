@@ -27,15 +27,14 @@
  */
 package cloud.piranha.security.soteria;
 
-import static javax.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
+import static jakarta.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
 
-import javax.enterprise.inject.spi.CDI;
-import javax.security.enterprise.credential.Password;
-import javax.security.enterprise.credential.UsernamePasswordCredential;
-import javax.security.enterprise.identitystore.CredentialValidationResult;
-import javax.security.enterprise.identitystore.IdentityStoreHandler;
-import javax.servlet.http.HttpServletRequest;
-
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.security.enterprise.credential.Password;
+import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.security.enterprise.identitystore.CredentialValidationResult;
+import jakarta.security.enterprise.identitystore.IdentityStoreHandler;
+import jakarta.servlet.http.HttpServletRequest;
 import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
 import cloud.piranha.webapp.api.AuthenticatedIdentity;
 import cloud.piranha.webapp.api.SecurityManager.UsernamePasswordLoginHandler;

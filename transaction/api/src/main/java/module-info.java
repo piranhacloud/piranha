@@ -27,9 +27,12 @@
 
 module cloud.piranha.transaction.api {
 
-    exports javax.transaction;
+    exports jakarta.transaction;
+    
+    opens jakarta.transaction;
+    
     requires java.rmi;
     requires java.transaction.xa;
-    requires jakarta.enterprise.cdi.api;
+    requires jakarta.cdi;
     requires jakarta.interceptor.api;
 }

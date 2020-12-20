@@ -27,8 +27,8 @@
  */
 package cloud.piranha.webapp.api;
 
-import javax.servlet.ServletRegistration;
-import javax.servlet.descriptor.JspConfigDescriptor;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 
 /**
  * The JspManager API.

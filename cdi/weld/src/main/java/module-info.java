@@ -27,19 +27,19 @@
  */
 
 module cloud.piranha.cdi.weld {
+
+    exports cloud.piranha.cdi.weld;
+
+    opens cloud.piranha.cdi.weld;
+    
     requires cloud.piranha.naming.impl;
-    requires cloud.piranha.servlet4.api;
+    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-
-    requires jakarta.enterprise.cdi.api;
+    requires jakarta.cdi;
     requires jakarta.security.enterprise.api;
-
     requires java.naming;
-
     requires weld.core.impl;
     requires weld.spi;
     requires weld.servlet.core;
-
-    exports cloud.piranha.cdi.weld;
 }

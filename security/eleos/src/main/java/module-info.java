@@ -27,14 +27,11 @@
  */
 
 module cloud.piranha.security.eleos {
-    requires cloud.piranha.servlet4.api;
-    requires cloud.piranha.webapp.api;
-
-    requires eleos;
-
-    requires java.security.auth.message;
-
+    
     exports cloud.piranha.security.eleos;
 
-    requires static cloud.piranha.webapp.impl;
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires java.security.auth.message;
+    requires org.omnifaces.eleos;
 }

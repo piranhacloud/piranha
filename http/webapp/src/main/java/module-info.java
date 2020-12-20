@@ -37,8 +37,14 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.http.webapp {
+    
     exports cloud.piranha.http.webapp;
-    requires cloud.piranha.http.api;
+    
+    opens cloud.piranha.http.webapp;
+    
+    requires transitive cloud.piranha.http.api;
+    requires transitive cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires java.logging;
 }

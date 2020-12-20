@@ -11,7 +11,7 @@
     </context-param>
     <servlet>
         <servlet-name>Test Servlet</servlet-name>
-        <servlet-class>cloud.piranha.servlet4.webxml.TestServlet</servlet-class>
+        <servlet-class>cloud.piranha.webapp.webxml.TestServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>

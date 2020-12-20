@@ -27,6 +27,7 @@
  */
 
 module cloud.piranha.extension.webprofile {
+    
     requires cloud.piranha.webapp.annotationscan;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.scinitializer;

@@ -32,9 +32,9 @@ import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.api.WebApplication;
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 /**
  * The embeddable servlet container version of Piranha.

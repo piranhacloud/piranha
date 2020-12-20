@@ -26,8 +26,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.servlet4</groupId>
-            <artifactId>piranha-servlet4-api</artifactId>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

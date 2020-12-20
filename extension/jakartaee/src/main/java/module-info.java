@@ -26,6 +26,7 @@
  */
 
 module cloud.piranha.extension.jakartaee {
+    
     requires cloud.piranha.pages.jasper;
     requires cloud.piranha.webapp.annotationscan;
     requires cloud.piranha.webapp.api;

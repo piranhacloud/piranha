@@ -29,11 +29,16 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.micro.core.CdiExtension;
 import cloud.piranha.micro.core.PiranhaBeanArchiveHandler;
 import cloud.piranha.webapp.api.WebApplicationExtension;
+import jakarta.enterprise.inject.spi.Extension;
 import org.jboss.weld.environment.deployment.discovery.BeanArchiveHandler;
 
-import javax.enterprise.inject.spi.Extension;
-
 module cloud.piranha.micro.core {
+    
+    exports cloud.piranha.micro.core;
+
+    provides BeanArchiveHandler with PiranhaBeanArchiveHandler;
+    provides Extension with CdiExtension;
+
     requires cloud.piranha.api;
     requires cloud.piranha.cdi.weld;
     requires cloud.piranha.http.api;
@@ -42,28 +47,18 @@ module cloud.piranha.micro.core {
     requires cloud.piranha.naming.thread;
     requires cloud.piranha.resource.shrinkwrap;
     requires cloud.piranha.security.jakarta;
-    requires cloud.piranha.servlet4.api;
+    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-
-    requires jakarta.enterprise.cdi.api;
+    requires jakarta.cdi;
     requires jakarta.security.enterprise.api;
-
     requires java.annotation;
     requires java.naming;
     requires java.logging;
     requires java.xml;
-
     requires org.jboss.jandex;
-
     requires shrinkwrap.api;
-
     requires weld.environment.common;
-
-    exports cloud.piranha.micro.core;
-
-    provides BeanArchiveHandler with PiranhaBeanArchiveHandler;
-    provides Extension with CdiExtension;
 
     uses HttpServer;
     uses WebApplicationExtension;

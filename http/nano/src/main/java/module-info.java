@@ -38,8 +38,7 @@
 module cloud.piranha.http.nano {
     
     exports cloud.piranha.http.nano;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.webapp;
-    requires cloud.piranha.nano;
-    requires cloud.piranha.servlet4.api;
+    
+    requires transitive cloud.piranha.http.webapp;
+    requires transitive cloud.piranha.nano;
 }

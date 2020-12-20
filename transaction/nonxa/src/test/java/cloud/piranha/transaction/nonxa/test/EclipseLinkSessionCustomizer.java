@@ -27,7 +27,7 @@
 package cloud.piranha.transaction.nonxa.test;
 
 import javax.naming.InitialContext;
-import javax.transaction.TransactionManager;
+import jakarta.transaction.TransactionManager;
 import org.eclipse.persistence.config.SessionCustomizer;
 import org.eclipse.persistence.sessions.Session;
 import org.eclipse.persistence.transaction.JTATransactionController;

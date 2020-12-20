@@ -28,14 +28,14 @@
 
 import cloud.piranha.monitor.jmx.JMXServerInitializer;
 
-import javax.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContainerInitializer;
 
 module cloud.piranha.monitor.jmx {
-    requires cloud.piranha.api;
-    requires cloud.piranha.servlet4.api;
+    
+    provides ServletContainerInitializer with JMXServerInitializer;
 
+    requires cloud.piranha.api;
+    requires cloud.piranha.servlet.api;
     requires java.logging;
     requires java.management;
-
-    provides ServletContainerInitializer with JMXServerInitializer;
 }

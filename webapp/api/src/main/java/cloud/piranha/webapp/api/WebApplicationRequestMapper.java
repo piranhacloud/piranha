@@ -27,12 +27,12 @@
  */
 package cloud.piranha.webapp.api;
 
-import static javax.servlet.DispatcherType.REQUEST;
+import static jakarta.servlet.DispatcherType.REQUEST;
 
 import java.util.Collection;
 import java.util.Set;
 
-import javax.servlet.DispatcherType;
+import jakarta.servlet.DispatcherType;
 
 /**
  * The WebApplicationRequestMapper API.
