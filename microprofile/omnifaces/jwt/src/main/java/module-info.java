@@ -27,14 +27,12 @@
  */
 
 module cloud.piranha.microprofile.omnifaces.jwt {
-    requires cloud.piranha.webapp.api;
-
-    requires java.annotation;
-    requires java.ws.rs;
-
-    requires jersey.common;
-
-    requires microprofile.jwt.auth;
 
     exports cloud.piranha.microprofile.omnifaces.jwt;
+
+    requires cloud.piranha.webapp.api;
+    requires jakarta.annotation;
+    requires jakarta.ws.rs;
+    requires jersey.common;
+    requires microprofile.jwt.auth;
 }
