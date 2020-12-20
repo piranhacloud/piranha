@@ -50,9 +50,9 @@ module cloud.piranha.micro.core {
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
+    requires jakarta.annotation;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;
-    requires java.annotation;
     requires java.naming;
     requires java.logging;
     requires java.xml;
