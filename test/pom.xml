@@ -29,7 +29,7 @@
         <module>jersey</module>
         <module>jpa</module>
         <!--<module>mojarra</module>-->
-        <!--<module>myfaces</module>-->
+        <module>myfaces</module>
         <!--<module>openwebbeans</module>-->
         <!--<module>smallrye-health</module>-->
         <!--<module>omnifaces-jwt</module>-->
