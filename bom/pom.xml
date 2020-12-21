@@ -194,10 +194,11 @@
             </dependency>
             
             <!-- Jakarta Expression Language -->
+            <!-- Downgraded due https://github.com/eclipse-ee4j/el-ri/issues/147 -->
             <dependency>
                 <groupId>jakarta.el</groupId>
                 <artifactId>jakarta.el-api</artifactId>
-                <version>4.0.0</version>
+                <version>4.0.0.M1</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
