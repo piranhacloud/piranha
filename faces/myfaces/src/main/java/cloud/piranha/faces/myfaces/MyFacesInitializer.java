@@ -49,7 +49,7 @@ public class MyFacesInitializer implements ServletContainerInitializer {
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        Dynamic dynamic = servletContext.addServlet("Faces Servlet", "javax.faces.webapp.FacesServlet");
+        Dynamic dynamic = servletContext.addServlet("Faces Servlet", "jakarta.faces.webapp.FacesServlet");
         dynamic.addMapping("/faces/*","*.html");
         servletContext.addListener("org.apache.myfaces.webapp.StartupServletContextListener");
     }
