@@ -39,7 +39,7 @@ import static cloud.piranha.security.exousia.AuthorizationPreInitializer.UNCHECK
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 import cloud.piranha.webapp.webxml.WebXmlInitializer;
 import static java.util.Arrays.asList;
-import javax.security.jacc.WebUserDataPermission;
+import jakarta.security.jacc.WebUserDataPermission;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
