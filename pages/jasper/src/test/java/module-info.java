@@ -38,9 +38,5 @@ module cloud.piranha.pages.jasper.tests {
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-    requires jakarta.el;
-    requires jakarta.servlet.jsp.api;
-    requires jakarta.servlet.jsp;
-    requires java.logging;
     requires org.junit.jupiter.api;
 }
