@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Base64;
 
-import javax.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
+import jakarta.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
 
 import org.junit.jupiter.api.Test;
 import org.omnifaces.exousia.constraints.SecurityConstraint;

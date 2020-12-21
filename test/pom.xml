@@ -34,7 +34,7 @@
         <!--<module>smallrye-health</module>-->
         <!--<module>omnifaces-jwt</module>-->
         <module>snoop</module>
-        <!--<module>soteria</module>-->
+        <module>soteria</module>
         <!--<module>springmvc</module>-->
         <!--<module>struts</module>-->
         <!--<module>vaadin</module>-->
