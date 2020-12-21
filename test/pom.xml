@@ -39,7 +39,7 @@
         <!--<module>struts</module>-->
         <!--<module>vaadin</module>-->
         <module>webxml</module>
-        <!--<module>weld</module>-->
+        <module>weld</module>
         <!--<module>wicket</module>-->
     </modules>
 
