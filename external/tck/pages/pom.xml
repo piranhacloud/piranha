@@ -38,7 +38,7 @@
                         <configuration>
                             <target>
                                 <!-- download, unzip and rename TCK -->
-                                <get src="http://download.eclipse.org/jakartaee/pages/2.3/jakarta-pages-tck-2.3.0.zip"
+                                <get src="http://download.eclipse.org/jakartaee/pages/3.0/jakarta-pages-tck-3.0.0.zip"
                                      dest="${project.build.directory}/tck.zip" skipexisting="true"/>
                                 <unzip src="${project.build.directory}/tck.zip"
                                        dest="${project.build.directory}"/>
@@ -63,7 +63,7 @@
                                 <!-- setup ts.jte for signature tests -->
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="servlet\.classes=(.*)"
-                                               replace="servlet\.classes=${signature.home}/piranha-servlet4-api.jar${pathsep}${signature.home}/jakarta.servlet.jsp.jar${pathsep}${signature.home}/jakarta.servlet.jsp-api.jar"
+                                               replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar${pathsep}${signature.home}/jakarta.servlet.jsp.jar${pathsep}${signature.home}/jakarta.servlet.jsp-api.jar"
                                                byline="true"/>
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="el\.classes=(.*)"
@@ -203,11 +203,11 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>cloud.piranha.servlet4</groupId>
-                                    <artifactId>piranha-servlet4-api</artifactId>
+                                    <groupId>cloud.piranha.servlet</groupId>
+                                    <artifactId>piranha-servlet-api</artifactId>
                                     <version>${project.version}</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
-                                    <destFileName>piranha-servlet4-api.jar</destFileName>
+                                    <destFileName>piranha-servlet-api.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.glassfish.web</groupId>
