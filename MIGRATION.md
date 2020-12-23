@@ -7,7 +7,7 @@ codebase.
 
 ## Piranha Nano
 
-1. Tests usings Apache Wicket have been disabled.
+1. Tests using Apache Wicket have been disabled.
 
 ## Piranha Upload - Apache FileUpload
 
@@ -26,7 +26,7 @@ Apache source code can be changed on the fly and compiled into this module.
 
 ## Piranha CDI - OpenWebBeans Integration
 
-1. Commented out as the OpenWebBeans project is not yet up to speed.
+1. Commented out as the Apache OpenWebBeans project is not yet up to speed.
 
 ## Piranha Extension - Micro
 
@@ -40,5 +40,13 @@ Apache source code can be changed on the fly and compiled into this module.
 
 ## Piranha Test - Project
 
-All tests need to be checked and if needed migrated.
+## The following projects are currently not up to speed with respect to 
+Jakarta EE 9 and as such the tests for these have been turned off.
 
+1. Apache OpenWebBeans (test/openwebbeans)
+1. Apache Struts (test/struts)
+1. OmniFaces JWT (test/omnifaces-jwt)
+1. Smallrye Health (test/smallrye-health)
+1. Spring MVC (test/springmvc)
+1. Vaadin (test/vaadin)
+1. Wicket (test/wicket)
