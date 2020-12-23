@@ -256,8 +256,7 @@
                                     <property name="scope" value="public"/>
                                 </module>
                                 <module name="JavadocVariable"/>
-                                <!-- commented out because Servlet API is failing -->
-                                <!-- <module name="MissingDeprecated"> -->
+                                <module name="MissingDeprecated"/>
                                 <module name="MissingJavadocMethod"/>
                                 <module name="MissingOverride"/>
                                 <module name="ModifierOrder"/>

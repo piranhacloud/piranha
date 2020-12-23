@@ -193,6 +193,7 @@ public interface ServletRequest {
      * @return the real path.
      * @deprecated
      */
+    @Deprecated
     public String getRealPath(String path);
 
     /**
