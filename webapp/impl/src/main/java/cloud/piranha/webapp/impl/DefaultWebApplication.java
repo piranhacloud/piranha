@@ -946,7 +946,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public int getMajorVersion() {
-        return 4;
+        return 5;
     }
 
     /**
