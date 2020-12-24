@@ -53,6 +53,11 @@ public class Cookie implements Cloneable, Serializable {
      * Stores the HTTP only flag.
      */
     private boolean httpOnly;
+    
+    /**
+     * Stores the illegal characters for a name.
+     */
+    private char[] illegalCharactersForName = {',', ';', ' ', '$', '\t', '\n'};
 
     /**
      * Stores the max age.
@@ -91,15 +96,30 @@ public class Cookie implements Cloneable, Serializable {
      * @param value the value.
      */
     public Cookie(String name, String value) {
+        checkValidName(name);
         this.name = name;
         this.value = value;
     }
-
+    
     /**
-     * Clones the cookie.
-     *
-     * @return the clone.
+     * Check if the name is valid.
+     * 
+     * @param name the name.
      */
+    private void checkValidName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Name cannot be null");
+        }
+        if (name.length() == 0) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+        for(int i=0; i<illegalCharactersForName.length; i++) {
+            if (name.startsWith(Character.toString(illegalCharactersForName[i]))) {
+                throw new IllegalArgumentException("Name cannot contain '" + illegalCharactersForName[i] + "'");
+            }
+        }
+    }
+
     @Override
     public Object clone() {
         try {

@@ -27,10 +27,10 @@
  */
 package jakarta.servlet.http;
 
-import jakarta.servlet.http.Cookie;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
@@ -40,6 +40,66 @@ import org.junit.jupiter.api.Test;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class CookieTest {
+
+    /**
+     * Test constructor.
+     */
+    @Test
+    public void testConstructor() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Cookie("$illegal", "value");
+        });
+    }
+    
+    /**
+     * Test constructor.
+     */
+    @Test
+    public void testConstructor2() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Cookie(",illegal", "value");
+        });
+    }
+    
+    /**
+     * Test constructor.
+     */
+    @Test
+    public void testConstructor3() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Cookie(";illegal", "value");
+        });
+    }
+    
+    /**
+     * Test constructor.
+     */
+    @Test
+    public void testConstructor4() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Cookie(" illegal", "value");
+        });
+    }
+    
+    /**
+     * Test constructor.
+     */
+    @Test
+    public void testConstructor5() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Cookie("\tillegal", "value");
+        });
+    }
+    
+    /**
+     * Test constructor.
+     */
+    @Test
+    public void testConstructor6() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Cookie("\nillegal", "value");
+        });
+    }
 
     /**
      * Test clone method.
