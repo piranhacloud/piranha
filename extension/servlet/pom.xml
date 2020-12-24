@@ -37,14 +37,6 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!--
-            
-<<<<<<< HEAD
-            See MIGRATING.md
-=======
-            See MIGRATION.md
->>>>>>> step3
-                    
         <dependency>
             <groupId>cloud.piranha.upload</groupId>
             <artifactId>piranha-upload-apache</artifactId>
@@ -52,7 +44,6 @@
             <classifier>shaded</classifier>
             <scope>runtime</scope>
         </dependency>
-          -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-annotationscan</artifactId>

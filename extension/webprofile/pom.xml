@@ -53,17 +53,12 @@
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
-        <!--
-        
-            See MIGRATION.md
-            
         <dependency>
             <groupId>cloud.piranha.upload</groupId>
             <artifactId>piranha-upload-apache</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
-        -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-annotationscan</artifactId>
