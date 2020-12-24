@@ -30,15 +30,13 @@ import cloud.piranha.upload.apache.ApacheMultiPartInitializer;
 import jakarta.servlet.ServletContainerInitializer;
 
 module cloud.piranha.upload.apache {
-    requires cloud.piranha.servlet4.api;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
-
-    requires commons.fileupload;
-
-    requires java.logging;
-
-    provides ServletContainerInitializer with ApacheMultiPartInitializer;
     
     opens cloud.piranha.upload.apache;
+
+    provides ServletContainerInitializer with ApacheMultiPartInitializer;
+
+    requires cloud.piranha.servlet.api;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
+    requires java.logging;
 }
