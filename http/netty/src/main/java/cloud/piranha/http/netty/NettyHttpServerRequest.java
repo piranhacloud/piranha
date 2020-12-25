@@ -167,4 +167,9 @@ public class NettyHttpServerRequest implements HttpServerRequest {
     public String getRequestTarget() {
         return request.uri();
     }
+
+    @Override
+    public String getProtocol() {
+        return request.protocolVersion().text();
+    }
 }

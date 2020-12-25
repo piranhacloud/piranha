@@ -177,7 +177,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         applicationRequest.setContextPath(httpRequest.getRequestTarget());
         applicationRequest.setQueryString(httpRequest.getQueryString());
         applicationRequest.setInputStream(httpRequest.getInputStream());
-
+        applicationRequest.setProtocol(httpRequest.getProtocol());
     }
 
     /**

@@ -33,8 +33,11 @@ import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.Socket;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -362,4 +365,55 @@ public abstract class HttpServerTest {
         server.stop();
         assertFalse(server.isRunning());
     }
+
+    @Test
+    void testRequestHTTP10() throws Exception {
+        HttpServer server = createServer(8755, HttpServerTest::returnProtocol);
+        server.start();
+        try (Socket socket = new Socket("localhost", 8755);
+            OutputStream outputStream = socket.getOutputStream()) {
+            outputStream.write("GET / HTTP/1.0\r\nHost: localhost:8755\r\n\r\n".getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
+            InputStream inputStream = socket.getInputStream();
+            ByteArrayOutputStream response = new ByteArrayOutputStream();
+            inputStream.transferTo(response);
+            assertTrue(response.toString(StandardCharsets.UTF_8).contains("HTTP/1.0"));
+        }
+
+        server.stop();
+    }
+
+    @Test
+    void testRequestHTTP11() throws Exception {
+        HttpServer server = createServer(8754, HttpServerTest::returnProtocol);
+        server.start();
+
+        try (Socket socket = new Socket("localhost", 8754);
+             OutputStream outputStream = socket.getOutputStream()) {
+            outputStream.write("GET / HTTP/1.1\r\nHost: localhost:8754\r\n\r\n".getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
+            InputStream inputStream = socket.getInputStream();
+            ByteArrayOutputStream response = new ByteArrayOutputStream();
+            inputStream.transferTo(response);
+            assertTrue(response.toString(StandardCharsets.UTF_8).contains("HTTP/1.1"));
+        }
+
+        server.stop();
+    }
+
+    private static boolean returnProtocol(HttpServerRequest request, HttpServerResponse response) {
+        try {
+            response.setStatus(200);
+            response.setHeader("Content-Type", "text/plain");
+            response.setHeader("Keep-Alive", "close");
+            response.writeStatusLine();
+            response.writeHeaders();
+            OutputStream outputStream = response.getOutputStream();
+            outputStream.write(request.getProtocol().getBytes());
+            outputStream.flush();
+        } catch (IOException ioe) {
+        }
+        return false;
+    }
+
 }

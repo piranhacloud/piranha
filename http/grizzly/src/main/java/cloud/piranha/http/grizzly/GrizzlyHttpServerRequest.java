@@ -128,4 +128,9 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
     public String getRequestTarget() {
         return request.getRequestURI();
     }
+
+    @Override
+    public String getProtocol() {
+        return request.getProtocol().getProtocolString();
+    }
 }
