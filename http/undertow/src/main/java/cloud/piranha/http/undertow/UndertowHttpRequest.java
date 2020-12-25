@@ -140,4 +140,9 @@ public class UndertowHttpRequest implements HttpServerRequest {
     public String getRequestTarget() {
         return exchange.getRequestURI();
     }
+
+    @Override
+    public String getProtocol() {
+        return exchange.getProtocol().toString();
+    }
 }

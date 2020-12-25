@@ -91,6 +91,11 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     private final Socket socket;
 
     /**
+     * Stores the protocol
+     */
+    private String protocol;
+
+    /**
      * Constructor.
      *
      * @param socket the socket.
@@ -98,6 +103,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     public DefaultHttpServerRequest(Socket socket) {
         this.headers = new HashMap<>(1);
         this.socket = socket;
+        protocol = "HTTP/1.1";
         parse();
     }
 
@@ -312,5 +318,14 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
             queryString = requestTarget.substring(requestTarget.indexOf("?") + 1);
             requestTarget = requestTarget.substring(0, requestTarget.indexOf("?"));
         }
+        String protocolRequestLine = line.substring(index + 1);
+        if (!protocol.isEmpty()) {
+            protocol = protocolRequestLine;
+        }
+    }
+
+    @Override
+    public String getProtocol() {
+        return protocol;
     }
 }
