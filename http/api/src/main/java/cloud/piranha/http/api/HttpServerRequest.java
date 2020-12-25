@@ -142,4 +142,12 @@ public interface HttpServerRequest {
      * @return the request target.
      */
     String getRequestTarget();
+
+    /**
+     * Get the protocol
+     * @return the protocol
+     */
+    default String getProtocol() {
+        return "HTTP/1.1";
+    }
 }

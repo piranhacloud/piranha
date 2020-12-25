@@ -172,6 +172,11 @@ public class JdkHttpRequest implements HttpServerRequest {
         return requestTarget;
     }
 
+    @Override
+    public String getProtocol() {
+        return exchange.getProtocol();
+    }
+
     /**
      * Parse.
      */
