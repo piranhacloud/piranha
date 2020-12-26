@@ -140,7 +140,7 @@ class CookieTest {
     @Test
     void testGetMaxAge() {
         Cookie cookie = new Cookie("name", "value");
-        assertEquals(0, cookie.getMaxAge());
+        assertEquals(-1, cookie.getMaxAge());
         cookie.setMaxAge(10);
         assertEquals(10, cookie.getMaxAge());
     }
