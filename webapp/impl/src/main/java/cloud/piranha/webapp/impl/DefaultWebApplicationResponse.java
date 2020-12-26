@@ -56,7 +56,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import cloud.piranha.webapp.api.LocaleEncodingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationResponse;
-import java.util.Date;
 
 /**
  * The default WebApplicationResponse.
@@ -727,9 +726,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
             outputStream.write(cookie.getValue().getBytes());
         }
         if (cookie.getMaxAge() > -1) {
-            Date expires = new Date();
-            expires.setTime(expires.getTime() + cookie.getMaxAge() * 1000);
-            outputStream.write(("; Expires=" + expires.toString()).getBytes());
+            outputStream.write(("; Max-Age=" + cookie.getMaxAge()).getBytes());
         }
         if (cookie.getSecure()) {
             outputStream.write("; Secure".getBytes());
@@ -740,7 +737,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (cookie.getPath() != null) {
             outputStream.write(("; Path=" + cookie.getPath()).getBytes());
         }
-        outputStream.write(("; Version=" + cookie.getVersion()).getBytes());
+        if (cookie.getVersion() > 0)
+            outputStream.write(("; Version=" + cookie.getVersion()).getBytes());
         outputStream.write("\n".getBytes());
     }
 

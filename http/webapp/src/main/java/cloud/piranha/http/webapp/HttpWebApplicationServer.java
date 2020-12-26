@@ -31,12 +31,13 @@ import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.WARNING;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
+import cloud.piranha.webapp.impl.CookieParser;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 
@@ -142,26 +143,17 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     }
 
     private Cookie[] processCookies(DefaultWebApplicationRequest result, String cookiesValue) {
-        ArrayList<Cookie> cookieList = new ArrayList<>();
-        String[] cookieCandidates = cookiesValue.split(";");
-        for (String cookieCandidate : cookieCandidates) {
-            String[] cookieString = cookieCandidate.split("=");
-            String cookieName = cookieString[0].trim();
-            String cookieValue = null;
+        Cookie[] cookies = CookieParser.parse(cookiesValue);
 
-            if (cookieString.length == 2) {
-                cookieValue = cookieString[1].trim();
-            }
+        Stream.of(cookies)
+                .filter(x -> "JSESSIONID".equals(x.getName()))
+                .findAny()
+                .ifPresent(cookie -> {
+                    result.setRequestedSessionIdFromCookie(true);
+                    result.setRequestedSessionId(cookie.getValue());
+                });
 
-            Cookie cookie = new Cookie(cookieName, cookieValue);
-            if (cookie.getName().equals("JSESSIONID")) {
-                result.setRequestedSessionIdFromCookie(true);
-                result.setRequestedSessionId(cookie.getValue());
-            } else {
-                cookieList.add(cookie);
-            }
-        }
-        return cookieList.toArray(new Cookie[0]);
+        return cookies;
     }
 
     private void copyHttpRequestToApplicationRequest(HttpServerRequest httpRequest, DefaultWebApplicationRequest applicationRequest) {

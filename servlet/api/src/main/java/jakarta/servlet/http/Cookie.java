@@ -62,7 +62,7 @@ public class Cookie implements Cloneable, Serializable {
     /**
      * Stores the max age.
      */
-    private int maxAge;
+    private int maxAge = -1;
 
     /**
      * Stores the name.
