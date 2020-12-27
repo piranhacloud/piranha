@@ -26,6 +26,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Webapplication - Implementation module.
+ * 
+ * <p>
+ *  This module delivers the implementation for a web application.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.webapp.impl {
     
     exports cloud.piranha.webapp.impl;

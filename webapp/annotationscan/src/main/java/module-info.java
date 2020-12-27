@@ -26,6 +26,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Webapplication - Annotation Scan mopdule.
+ * 
+ * <p>
+ *  This module delivers the annotation scanning functionality required for web
+ *  applications.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.webapp.annotationscan {
 
     exports cloud.piranha.webapp.annotationscan;
