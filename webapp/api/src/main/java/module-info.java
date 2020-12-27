@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Webapplication - API mopdule.
+ * The Piranha Webapplication - API module.
  * 
  * <p>
  *  This module defines the runtime API for each web application. 

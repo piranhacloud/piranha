@@ -28,6 +28,15 @@
 
 import jakarta.servlet.ServletContainerInitializer;
 
+/**
+ * The Piranha Webapplication - ServletContainerInitializer module.
+ * 
+ * <p>
+ *  This module delivers ServletContainerInitializer processing.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.webapp.scinitializer {
     
     exports cloud.piranha.webapp.scinitializer;

@@ -26,8 +26,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Webapplication - TEMPDIR mopdule.
+ * 
+ * <p>
+ *  This module delivers the temporary directory functionality required for web
+ *  applications.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.webapp.tempdir {
-    
+
     exports cloud.piranha.webapp.tempdir;
 
     opens cloud.piranha.webapp.tempdir;

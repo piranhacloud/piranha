@@ -26,6 +26,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Webapplication - Web Annotation Integration module.
+ * 
+ * <p>
+ *  This module delivers everything related to Web Annotation (e.g. @WebServlet)
+ *  processing.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.webapp.webannotation {
     
     exports cloud.piranha.webapp.webannotation;

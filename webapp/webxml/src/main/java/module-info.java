@@ -26,6 +26,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Webapplication - web.xml mopdule.
+ * 
+ * <p>
+ *  This module delivers everything related to web.xml / web-fragment.xml 
+ *  processing.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.webapp.webxml {
     
     exports cloud.piranha.webapp.webxml;
