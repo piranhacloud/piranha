@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Webapplication - Annotation Scan mopdule.
+ * The Piranha Webapplication - Annotation Scan module.
  * 
  * <p>
  *  This module delivers the annotation scanning functionality required for web

@@ -25,6 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+/**
+ * The Piranha - API module.
+ * 
+ * <p>
+ *  This module defines the runtime API for each version of Piranha. 
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.api {
     exports cloud.piranha.api;
 }

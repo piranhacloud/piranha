@@ -27,14 +27,22 @@
  */
 
 import cloud.piranha.database.environment.EnvironmentDriver;
-
 import java.sql.Driver;
 
+/**
+ * The Piranha Database - Environment Driver module.
+ * 
+ * <p>
+ *  This module delivers an JDBC Environment driver which gets is configuration
+ *  from the environment.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.database.environment {
-    requires java.sql;
 
     exports cloud.piranha.database.environment;
     opens cloud.piranha.database.environment;
-
     provides Driver with EnvironmentDriver;
+    requires java.sql;
 }
