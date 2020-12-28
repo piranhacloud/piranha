@@ -26,6 +26,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha CDI - Weld Integration module.
+ * 
+ * <p>
+ *  This module delivers Weld integration for web applications.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.cdi.weld {
 
     exports cloud.piranha.cdi.weld;
