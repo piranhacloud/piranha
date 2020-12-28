@@ -26,6 +26,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Faces - Mojarra integration module.
+ * 
+ * <p>
+ *  This module delivers the integration code needed for Mojarra.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.faces.mojarra {
     
     exports cloud.piranha.faces.mojarra;

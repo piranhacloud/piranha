@@ -26,6 +26,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Servlet - API module.
+ * 
+ * <p>
+ *  This module delivers the Servlet API as per the Servlet specification.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.servlet.api {
 
     exports jakarta.servlet;

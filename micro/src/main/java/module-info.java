@@ -25,6 +25,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Micro module.
+ * 
+ * <p>
+ *  This module delivers the main entry point for the Piranha Micro 
+ *  distribution.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.micro {
     requires cloud.piranha.api;
     requires cloud.piranha.resource;

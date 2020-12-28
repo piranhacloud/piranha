@@ -30,6 +30,16 @@ import cloud.piranha.database.property.PropertyDriver;
 
 import java.sql.Driver;
 
+/**
+ * The Piranha Database - Property Driver module.
+ * 
+ * <p>
+ *  This module delivers an JDBC Property driver which gets is configuration
+ *  from system properties.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.database.property {
 
     exports cloud.piranha.database.property;
