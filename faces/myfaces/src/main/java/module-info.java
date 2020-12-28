@@ -26,6 +26,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Faces - MyFaces integration module.
+ * 
+ * <p>
+ *  This module delivers the integration code needed for MyFaces.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.faces.myfaces {
 
     exports cloud.piranha.faces.myfaces;
