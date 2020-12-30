@@ -26,10 +26,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Security - OmniFaces Eleos integration module.
+ * 
+ * <p>
+ *  This module delivers OmniFaces Eleos integration into Piranha.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.security.eleos {
     
     exports cloud.piranha.security.eleos;
-
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires java.security.auth.message;

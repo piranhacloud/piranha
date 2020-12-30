@@ -26,6 +26,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Security - OmniFaces Exousia integration module.
+ * 
+ * <p>
+ *  This module delivers OmniFaces Exousia integration into Piranha.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.security.exousia {
     
     exports cloud.piranha.security.exousia;
