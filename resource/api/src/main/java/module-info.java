@@ -25,6 +25,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+/**
+ * The Piranha Resource - API module.
+ * 
+ * <p>
+ *  This module delivers the API that deals with resource handling.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.resource.api {
+    
+    
     exports cloud.piranha.resource.api;
 }

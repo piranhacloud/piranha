@@ -26,15 +26,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Resource - Shrinkwrap module.
+ * 
+ * <p>
+ *  This module delivers the Shrinkwrap implementation of the Resource API.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.resource.shrinkwrap {
+    
+    exports cloud.piranha.resource.shrinkwrap;
+    opens cloud.piranha.resource.shrinkwrap;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
     requires static cloud.piranha.webapp.api;
-
     requires shrinkwrap.api;
-
-    exports cloud.piranha.resource.shrinkwrap;
-    opens cloud.piranha.resource.shrinkwrap;
-
     requires static cloud.piranha.webapp.impl;
 }
