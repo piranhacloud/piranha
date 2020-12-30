@@ -212,8 +212,11 @@ class DefaultServletRequestDispatcherTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         webApp.service(request, response);
+        String responseText = new String(response.getResponseBytes());
         webApp.stop();
         assertEquals(404, response.getStatus());
+        assertTrue(responseText.contains(RequestDispatcher.ERROR_MESSAGE));
+        assertTrue(responseText.contains("unavailable"));
     }
     @Test
     void testErrorDispatcher3() throws Exception {
