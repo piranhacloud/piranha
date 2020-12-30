@@ -26,10 +26,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha MicroProfile - OmniFaces - JWT integration module.
+ * 
+ * <p>
+ *  This module delivers the code needed to integrate OmniFaces JWT.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.microprofile.omnifaces.jwt {
 
     exports cloud.piranha.microprofile.omnifaces.jwt;
-
     requires cloud.piranha.webapp.api;
     requires jakarta.annotation;
     requires jakarta.ws.rs;
