@@ -25,9 +25,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+/**
+ * The Piranha Resource - implementation module.
+ * 
+ * <p>
+ *  This module delivers the default implementation of the Resource API.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.resource {
-    requires cloud.piranha.resource.api;
 
     exports cloud.piranha.resource;
     opens cloud.piranha.resource;
+    requires cloud.piranha.resource.api;
 }

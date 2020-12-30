@@ -26,6 +26,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha MicroProfile - Smallrye - Health integration module.
+ * 
+ * <p>
+ *  This module delivers the code needed to integrate Smallrye Health.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.microprofile.smallrye.health {
 
     exports cloud.piranha.microprofile.smallrye.health;

@@ -26,12 +26,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Pages - Jasper integration module.
+ * 
+ * <p>
+ *  This module delivers the code needed to integrate Jakarta Pages.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.pages.jasper {
     
     exports cloud.piranha.pages.jasper;
-
     opens cloud.piranha.pages.jasper;
-
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires jakarta.servlet.jsp.api;
