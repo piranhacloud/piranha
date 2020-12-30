@@ -328,10 +328,9 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 errorRequest.setServletPath("/" + servletEnvironment.getServletName());
             }
 
-            Throwable exception = unwrapException(throwable);
-            errorRequest.setAttribute(ERROR_EXCEPTION, exception);
-            errorRequest.setAttribute(ERROR_EXCEPTION_TYPE, exception == null ? null : exception.getClass());
-            errorRequest.setAttribute(ERROR_MESSAGE, exception == null ? null : exception.getMessage());
+            errorRequest.setAttribute(ERROR_EXCEPTION, throwable);
+            errorRequest.setAttribute(ERROR_EXCEPTION_TYPE, throwable == null ? null : throwable.getClass());
+            errorRequest.setAttribute(ERROR_MESSAGE, throwable == null ? null : throwable.getMessage());
             errorRequest.setAttribute(ERROR_STATUS_CODE, response.getStatus());
             errorRequest.setAttribute(ERROR_REQUEST_URI, request.getRequestURI());
             errorRequest.setAttribute(ERROR_SERVLET_NAME, servletName);
@@ -361,14 +360,6 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
 
 
-    }
-
-    private Throwable unwrapException(Throwable throwable) {
-        Throwable result = throwable;
-        while (result instanceof ServletException) {
-            result = ((ServletException) result).getRootCause();
-        }
-        return result;
     }
 
     // #### SYNC forward private methods
