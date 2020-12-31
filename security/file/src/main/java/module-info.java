@@ -26,10 +26,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Security - File integration module.
+ * 
+ * <p>
+ *  This module delivers file-based security integration into Piranha.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.security.file {
     
     exports cloud.piranha.security.file;
-    
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;

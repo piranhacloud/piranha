@@ -26,12 +26,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Security - Jakarta Security integration module.
+ * 
+ * <p>
+ *  This module delivers Jakarta Security integration into Piranha.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.security.jakarta {
     
     exports cloud.piranha.security.jakarta;
-
     opens cloud.piranha.security.jakarta;
-
     requires cloud.piranha.cdi.weld;
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.security.eleos;

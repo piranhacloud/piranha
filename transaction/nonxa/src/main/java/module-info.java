@@ -25,12 +25,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Transaction - non-XA module.
+ * 
+ * <p>
+ *  This module delivers a non-XA transaction manager.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.transaction.nonxa {
 
     exports cloud.piranha.transaction.nonxa;
-
     opens cloud.piranha.transaction.nonxa;
-
     requires cloud.piranha.transaction.api;
     requires java.transaction.xa;
 }

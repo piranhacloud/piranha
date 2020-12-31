@@ -26,10 +26,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Security - Glassfish Soteria integration module.
+ * 
+ * <p>
+ *  This module delivers Glassfish Soteria integration into Piranha.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.security.soteria {
     
     exports cloud.piranha.security.soteria;
-    
     requires cloud.piranha.naming.impl;
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
