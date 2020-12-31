@@ -25,12 +25,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The Piranha Transaction - API module.
+ * 
+ * <p>
+ *  This module delivers the Jakarta Transaction API.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.transaction.api {
 
     exports jakarta.transaction;
-    
     opens jakarta.transaction;
-    
     requires java.rmi;
     requires java.transaction.xa;
     requires jakarta.cdi;
