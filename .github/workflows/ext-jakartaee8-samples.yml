@@ -1,7 +1,7 @@
 name: ext-jakartaee8-samples
-on:
-  schedule:
-    - cron: "0 8 * * *"
+# on:
+#  schedule:
+#    - cron: "0 8 * * *"
 jobs:
   build:
     runs-on: ${{ matrix.os }}
