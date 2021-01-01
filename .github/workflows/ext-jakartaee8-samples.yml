@@ -1,5 +1,6 @@
 name: ext-jakartaee8-samples
-# on:
+on:
+  workflow_dispatch:
 #  schedule:
 #    - cron: "0 8 * * *"
 jobs:
