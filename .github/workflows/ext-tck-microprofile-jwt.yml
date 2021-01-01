@@ -1,7 +1,7 @@
 name: ext-tck-microprofile-jwt
-on:
-  schedule:
-    - cron: '0 8 * * 5'
+# on:
+#   schedule:
+#     - cron: '0 8 * * 5'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
