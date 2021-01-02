@@ -40,4 +40,5 @@ module cloud.piranha.resource {
     exports cloud.piranha.resource;
     opens cloud.piranha.resource;
     requires cloud.piranha.resource.api;
+    requires java.logging;
 }

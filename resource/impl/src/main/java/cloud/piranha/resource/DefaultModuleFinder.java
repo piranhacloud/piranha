@@ -41,13 +41,14 @@ import java.lang.module.ModuleReference;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -55,6 +56,11 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toSet;
 
 public class DefaultModuleFinder implements ModuleFinder {
+
+    /**
+     * Stores the logger
+     */
+    private static final Logger LOGGER = Logger.getLogger(DefaultModuleFinder.class.getPackageName());
 
     /**
      * Stores the attribute Automatic-Module-Name
@@ -68,9 +74,9 @@ public class DefaultModuleFinder implements ModuleFinder {
     private static final Pattern DASH_VERSION = Pattern.compile("-(\\d+(\\.|$))");
 
     /**
-     * Stores the dash version pattern
+     * Stores the non alphanumeric pattern
      */
-    private static final Pattern NON_ALPHANUM = Pattern.compile("[^A-Za-z0-9]");
+    private static final Pattern NON_ALPHANUMERIC = Pattern.compile("[^A-Za-z0-9]");
 
     /**
      * Stores the repeating dots pattern
@@ -123,12 +129,24 @@ public class DefaultModuleFinder implements ModuleFinder {
         return Optional.ofNullable(cachedModuleReferences.get(name));
     }
 
+    private String getModuleName(Resource resource, String resourceName) {
+        String automaticModuleName = deriveAutomaticModuleNameFromManifest(resource);
+
+        return normalizeModuleName(automaticModuleName != null ? automaticModuleName : cleanModuleName(resourceName));
+    }
+
     private ModuleDescriptor moduleDescriptorFromResource(Resource resource) {
         ModuleDescriptor moduleInfo = moduleInfo(resource);
-        if (moduleInfo != null)
+        if (moduleInfo != null){
+            if (LOGGER.isLoggable(Level.FINER)) {
+                LOGGER.finer(() -> "Module " + moduleInfo.toNameAndVersion() + " from resource: " + resource.getName() + " (module-info.class)");
+                LOGGER.finer(() -> "Package exported by module " + moduleInfo.name() + ": " + moduleInfo.exports());
+                moduleInfo.provides().stream().map(x -> "Module provides " + x.service() + "with " + x.providers()).forEach(LOGGER::finer);
+                moduleInfo.uses().stream().map(x -> "Module uses " + x).forEach(LOGGER::finer);
+            }
             return moduleInfo;
+        }
 
-        String moduleName = deriveAutomaticModuleNameFromManifest(resource);
         String name = resource.getName().replace(".jar", "");
 
         String versionString = null;
@@ -147,16 +165,18 @@ public class DefaultModuleFinder implements ModuleFinder {
             name = name.substring(0, start);
         }
 
-        moduleName = normalizeModuleName(moduleName != null ? moduleName : cleanModuleName(name));
+        String moduleName = getModuleName(resource, name);
+        String version = versionString;
 
-        System.out.println("Module " + moduleName + ((versionString != null)? "@" + versionString : "") + " from " + resource.getName());
+        LOGGER.fine(() -> "Module " + moduleName + ((version != null)? "@" + version : "") + " from " + resource.getName());
         ModuleDescriptor.Builder builder = ModuleDescriptor.newAutomaticModule(moduleName);
 
-        if (versionString != null)
-            builder.version(versionString);
+        if (version != null)
+            builder.version(version);
 
         Set<String> packages = packages(resource);
-        System.out.println(packages);
+
+        LOGGER.finer(() -> "Packages exported by module " + moduleName + ": " + packages);
 
         builder.packages(packages);
 
@@ -174,13 +194,15 @@ public class DefaultModuleFinder implements ModuleFinder {
             InputStream inputStream = resource.getResourceAsStream(providerFile);
             if (inputStream == null)
                 continue;
-            List<String> p = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+            List<String> providerList = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
                     .lines()
                     .filter(x -> !x.startsWith("#"))
                     .filter(x -> !x.isEmpty())
                     .collect(Collectors.toList());
-            if (!p.isEmpty()) {
-                builder.provides(providerFile.substring("/META-INF/services/".length()), p);
+            if (!providerList.isEmpty()) {
+                String serviceName = providerFile.substring("/META-INF/services/".length());
+                LOGGER.finer(() -> "Module provides " +  serviceName + " with " + providerList);
+                builder.provides(serviceName, providerList);
             }
         }
     }
@@ -251,50 +273,36 @@ public class DefaultModuleFinder implements ModuleFinder {
         if (searched)
             return;
         searched = true;
-        Map<String, Map<Resource, ModuleDescriptor>> packageToExporter = new HashMap<>();
+        Map<String, String> packageToExporter = new HashMap<>();
 
         for (Resource resource : resources) {
             try {
-                boolean shouldAdd = true;
                 ModuleDescriptor moduleDescriptor = moduleDescriptorFromResource(resource);
-                for (String aPackage : moduleDescriptor.packages()) {
-                    Map<Resource, ModuleDescriptor> resolvedModule = packageToExporter.put(aPackage, Map.of(resource, moduleDescriptor));
-                    if (resolvedModule != null) {
-                        shouldAdd = false;
-                        Resource previousResource = resolvedModule.keySet().iterator().next();
-                        ModuleDescriptor previousModuleDescriptor = resolvedModule.values().iterator().next();
-                        System.out.printf("------------------ Both module %s (%s) and %s (%s) exports package %s%nThey will belong to the unnamed module%n", moduleDescriptor.name(), resource.getName(), previousModuleDescriptor.name(), previousResource.getName(), aPackage);
-                        cachedModuleReferences.remove(previousModuleDescriptor.name());
-                    }
+                if (hasSplitPackages(packageToExporter, moduleDescriptor)) {
+                    continue;
                 }
-                if (shouldAdd)
-                    cachedModuleReferences.put(moduleDescriptor.name(), new DefaultModuleReference(moduleDescriptor, URI.create("resource://" + resource.getName()), resource));
+                cachedModuleReferences.put(moduleDescriptor.name(), new DefaultModuleReference(moduleDescriptor, URI.create("resource://" + resource.getName()), resource));
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.log(Level.WARNING, () -> "Resource " + resource.getName() + " will not be treated as a module: " + e.toString());
             }
         }
 
-
-//        List<ModuleDescriptor> x = createModuleFromSplitPackages(moduleDescriptor, previousModuleDescriptor);
-//
-//        cachedModuleReferences.put(moduleDescriptor.name(), new DefaultModuleReference(x.get(0), URI.create("resource://" + resource.getName()), resource));
-//
-//        cachedModuleReferences.replace(previousModuleDescriptor.name(), new DefaultModuleReference(x.get(1), URI.create("resource://" + previousResource.getName()), previousResource));
-//
-//        cachedModuleReferences.put(x.get(2).name(), new DefaultModuleReference(x.get(2), URI.create("resource://" + resource.getName()), Resource.compose(previousResource, resource)));
-
     }
 
-    private List<ModuleDescriptor> createModuleFromSplitPackages(ModuleDescriptor moduleDescriptor, ModuleDescriptor put) {
+    private boolean hasSplitPackages(Map<String, String> packageToExporter, ModuleDescriptor moduleDescriptor) {
+        for (String aPackage : moduleDescriptor.packages()) {
+            String previousModuleName = packageToExporter.put(aPackage, moduleDescriptor.name());
+            if (previousModuleName != null) {
+                LOGGER.warning(() ->
+                    "Modules %s and %s export package %s, they will be part of the unnamed module"
+                    .formatted(moduleDescriptor.name(), previousModuleName, aPackage));
 
-        HashSet<String> newPackages = new HashSet<>(moduleDescriptor.packages());
-        newPackages.addAll(put.packages());
-        ModuleDescriptor mergedModules = ModuleDescriptor.newAutomaticModule(moduleDescriptor.name() + ".merged." + put.name())
-                .packages(newPackages).build();
-
-        return List.of(ModuleDescriptor.newAutomaticModule(moduleDescriptor.name()).build(),
-                    ModuleDescriptor.newAutomaticModule(put.name()).build(),
-                    mergedModules);
+                cachedModuleReferences.remove(previousModuleName);
+                packageToExporter.remove(aPackage);
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -309,7 +317,7 @@ public class DefaultModuleFinder implements ModuleFinder {
      */
     private static String cleanModuleName(String mn) {
         // replace non-alphanumeric
-        mn = NON_ALPHANUM.matcher(mn).replaceAll(".");
+        mn = NON_ALPHANUMERIC.matcher(mn).replaceAll(".");
 
         // collapse repeating dots
         mn = REPEATING_DOTS.matcher(mn).replaceAll(".");
