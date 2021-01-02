@@ -30,6 +30,12 @@ package cloud.piranha.cli;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -50,6 +56,19 @@ public class NanoGenerateCli {
      * Stores the output directory.
      */
     private String outputDirectory = "";
+    
+    /**
+     * Construct the filename.
+     * 
+     * @param entryName the entry name.
+     * @return the filename.
+     */
+    public String constructFilename(String entryName) {
+        if (entryName.startsWith("piranha-nano-servlet-helloworld-main/")) {
+            entryName = entryName.substring("piranha-nano-servlet-helloworld-main/".length());
+        }
+        return entryName;
+    }
 
     /**
      * Execute the Nano CLI.
@@ -65,27 +84,42 @@ public class NanoGenerateCli {
      * Generate the project.
      */
     private void generate() {
-        try (ZipInputStream zipInput = new ZipInputStream(getClass()
-                .getResourceAsStream("/templates/nano-servlet-helloworld.zip"))) {
-            ZipEntry zipEntry;
-            while ((zipEntry = zipInput.getNextEntry()) != null) {
-                if (zipEntry.isDirectory()) {
-                    File directory = new File(zipEntry.getName());
-                    directory.mkdirs();
-                } else {
-                    try (FileOutputStream fileOutput = new FileOutputStream(new File(zipEntry.getName()))) {
-                        byte[] buffer = new byte[8192];
-                        int length;
-                        while ((length = zipInput.read(buffer)) != -1) {
-                            fileOutput.write(buffer, 0, length);
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .followRedirects(HttpClient.Redirect.ALWAYS)
+                    .build();
+            
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .uri(URI.create("https://github.com/piranhacloud/piranha-nano-servlet-helloworld/archive/main.zip"))
+                    .build();
+            
+            HttpResponse response = client.send(request, BodyHandlers.ofInputStream());
+            InputStream inputStream = (InputStream) response.body();
+            
+            try ( ZipInputStream zipInput = new ZipInputStream(inputStream)) {
+                ZipEntry zipEntry;
+                while ((zipEntry = zipInput.getNextEntry()) != null) {
+                    if (zipEntry.isDirectory()) {
+                        File directory = new File(constructFilename(zipEntry.getName()));
+                        directory.mkdirs();
+                    } else {
+                        try ( FileOutputStream fileOutput = new FileOutputStream(
+                                new File(constructFilename(zipEntry.getName())))) {
+                            byte[] buffer = new byte[8192];
+                            int length;
+                            while ((length = zipInput.read(buffer)) != -1) {
+                                fileOutput.write(buffer, 0, length);
+                            }
+                        } catch (IOException ioe) {
+                            System.out.println("An error occurred writing out: " + zipEntry.getName());
                         }
-                    } catch (IOException ioe) {
-                        System.out.println("An error occurred writing out: " + zipEntry.getName());
                     }
                 }
             }
-        } catch (IOException ioe) {
-            System.out.println("An I/O error occured: " + ioe.getMessage());
+        } catch (IOException | InterruptedException e) {
+            System.out.println("An error occured: " + e.getMessage());
         }
     }
 
