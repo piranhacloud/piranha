@@ -25,7 +25,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
     <dependencies>
         <dependency>
             <groupId>cloud.piranha</groupId>
