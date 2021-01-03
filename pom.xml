@@ -5,7 +5,7 @@
 
     <groupId>cloud.piranha</groupId>
     <artifactId>project</artifactId>
-    <version>20.12.0</version>
+    <version>20.12.1</version>
     <packaging>pom</packaging>
 
     <name>Piranha - Project</name>

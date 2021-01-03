@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.webapp</groupId>
         <artifactId>project</artifactId>
-        <version>20.12.0</version>
+        <version>20.12.1</version>
     </parent>
 
     <artifactId>piranha-webapp-webannotation</artifactId>

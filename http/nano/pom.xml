@@ -10,7 +10,7 @@
     <parent>
         <groupId>cloud.piranha.http</groupId>
         <artifactId>project</artifactId>
-        <version>20.12.0</version>
+        <version>20.12.1</version>
     </parent>
     <artifactId>piranha-http-nano</artifactId>
     <packaging>jar</packaging>
