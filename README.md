@@ -15,6 +15,7 @@ integration modules.
 
 The following distributions are available.
 
+1. [Piranha CLI](https://piranha.cloud/cli/)
 1. [Piranha Nano](https://piranha.cloud/nano/)
 1. [Piranha Embedded](https://piranha.cloud/embedded/)
 1. [Piranha Micro](https://piranha.cloud/micro/)
