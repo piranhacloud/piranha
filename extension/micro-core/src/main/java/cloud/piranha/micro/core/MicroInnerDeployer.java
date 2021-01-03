@@ -82,8 +82,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import cloud.piranha.api.Piranha;
-import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
@@ -172,6 +172,8 @@ public class MicroInnerDeployer {
 
             WebApplication webApplication = getWebApplication(applicationArchive, classLoader);
 
+            ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
+
             LOGGER.info(
                     "Starting web application " + applicationArchive.getName() + " on Piranha Micro " + webApplication.getAttribute(MICRO_PIRANHA));
 
@@ -248,6 +250,8 @@ public class MicroInnerDeployer {
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
+        } finally {
+            ThreadInitialContextFactory.removeInitialContext();
         }
     }
 

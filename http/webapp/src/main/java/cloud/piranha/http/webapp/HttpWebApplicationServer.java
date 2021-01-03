@@ -40,14 +40,15 @@ import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 
-import cloud.piranha.webapp.api.WebApplicationServer;
-import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
+import cloud.piranha.webapp.api.WebApplicationServer;
+import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 
@@ -241,7 +242,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     public boolean process(HttpServerRequest request, HttpServerResponse response) {
         try {
             DefaultWebApplicationRequest serverRequest = (DefaultWebApplicationRequest) createRequest(request);
-            DefaultWebApplicationResponse serverResponse = (DefaultWebApplicationResponse) createResponse(response);
+            DefaultWebApplicationResponse serverResponse = createResponse(response);
 
             service(serverRequest, serverResponse);
 
@@ -277,6 +278,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
 
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
+            ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
             Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
             String contextPath = webApplication.getContextPath();
             request.setContextPath(contextPath);
@@ -290,6 +292,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             request.getParameterMap();
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
+            ThreadInitialContextFactory.removeInitialContext();
         }
     }
 
