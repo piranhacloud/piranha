@@ -73,7 +73,6 @@
         <developerConnection>scm:git:git@github.com:piranhacloud/piranha.git</developerConnection>
         <url>https://github.com/piranhacloud/piranha</url>
     </scm>
-    
     <distributionManagement>      
         <snapshotRepository>
             <id>ossrh</id>
