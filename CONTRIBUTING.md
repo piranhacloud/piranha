@@ -21,13 +21,13 @@ can use those contributions in any manner Manorrock.com so desires.
 ### Building Piranha and running the tests
 
 ```
-mvn verify
+mvn clean install
 ```
 
 If you do not want the tests to run use:
 
 ```
-mvn -DskipTests -DskipITs verify 
+mvn -DskipTests clean install 
 ```
 
 ### Running a singular test
@@ -43,35 +43,24 @@ of a release because these modules only test functionality.
 You can run our more complex tests using:
 
 ```
-mvn -P test verify
+mvn -P test clean install
 ```
 
-### Run the TCKs
+### Run the external tests (including TCKs)
 
-To run all the TCKs use:
-
-```
-mvn verify -P tck
-```
-
-Or go into the directory of the TCK you want to run and use:
+To run all the external tests use:
 
 ```
-mvn verify
+mvn -P external clean install
+```
+
+Or go into the directory of the external test you want to run and use:
+
+```
+mvn clean install
 ```
 
 ## Code conventions
 
 We have compiled a list of code conventions we try to adhere to, 
 see [Code Conventions](CODE_CONVENTIONS.md).
-
-## Release process
-
-Any committer can start a release by pushing a tag with the following format:
-
-```
-  release-BRANCH-VERSION
-```
-
-where BRANCH is the branch that should be used to cut the release from and VERSION
-is the version number the release should be tagged with.
