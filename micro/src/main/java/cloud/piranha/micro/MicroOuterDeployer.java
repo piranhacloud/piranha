@@ -41,17 +41,18 @@ import java.lang.module.ModuleFinder;
 import java.lang.module.ModuleReference;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import cloud.piranha.resource.DefaultModuleFinder;
 import cloud.piranha.resource.DefaultResourceManagerClassLoader;
-import cloud.piranha.resource.api.ResourceManagerClassLoader;
+import cloud.piranha.resource.api.Resource;
 import org.jboss.jandex.Index;
 import org.jboss.jandex.IndexWriter;
 import org.jboss.jandex.Indexer;
@@ -181,6 +182,11 @@ public class MicroOuterDeployer {
 
             System.setProperty("micro.version", getClass().getPackage().getImplementationVersion());
 
+            if (!Boolean.getBoolean("cloud.piranha.jpms.layers.disable")) {
+                setupLayers((DefaultResourceManagerClassLoader) piranhaClassLoader,
+                        (DefaultResourceManagerClassLoader) webInfClassLoader);
+            }
+
             microInnerDeployer
                     = Class.forName(
                             "cloud.piranha.micro.core.MicroInnerDeployer",
@@ -189,44 +195,13 @@ public class MicroOuterDeployer {
                             .getDeclaredConstructor()
                             .newInstance();
 
-            ResourceManagerClassLoader piranhaResourceManagerClassLoader = (DefaultResourceManagerClassLoader) piranhaClassLoader;
-
-            ResourceManagerClassLoader webInfResourceManagerClassLoader = (DefaultResourceManagerClassLoader) webInfClassLoader;
-
-            DefaultModuleFinder piranhaLibsModuleFinder = new DefaultModuleFinder(piranhaResourceManagerClassLoader.getResourceManager().getResourceList());
-
-            DefaultModuleFinder applicationModuleFinder = new DefaultModuleFinder(webInfResourceManagerClassLoader.getResourceManager().getResourceList());
-
-
-            Configuration resolve1 = ModuleLayer.boot().configuration().resolve(ModuleFinder.of(), piranhaLibsModuleFinder, Collections.emptyList());
-            ModuleLayer moduleLayer3 = ModuleLayer.boot().defineModulesWithOneLoader(resolve1, piranhaClassLoader);
-
-            String appModuleName = applicationModuleFinder.findAll().stream()
-                    .findFirst()
-                    .map(ModuleReference::descriptor)
-                    .map(ModuleDescriptor::name)
-                    .orElse(null);
-
-            ClassLoader loader;
-            if (appModuleName != null) {
-                Configuration resolve = resolve1.resolveAndBind(
-                        ModuleFinder.compose(applicationModuleFinder),
-                        ModuleFinder.of(),
-                        Set.of(appModuleName));
-
-                ModuleLayer moduleLayer = ModuleLayer.defineModulesWithOneLoader(resolve, List.of(moduleLayer3), webInfClassLoader).layer();
-
-                loader = moduleLayer.findLoader(appModuleName);
-            } else {
-                loader = webInfClassLoader;
-            }
 
             return MicroDeployOutcome.ofMap((Map<String, Object>) microInnerDeployer
                     .getClass()
                     .getMethod("start", Archive.class, ClassLoader.class, Map.class, Map.class)
                     .invoke(microInnerDeployer,
                             archive,
-                            loader,
+                            webInfClassLoader,
                             StaticURLStreamHandlerFactory.getHandlers(),
                             configuration.toMap()));
 
@@ -235,6 +210,40 @@ public class MicroOuterDeployer {
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
         }
+    }
+
+    private void setupLayers(DefaultResourceManagerClassLoader piranhaClassLoader, DefaultResourceManagerClassLoader webInfClassLoader) {
+        // Need to improve this, it searching for the same modules in two module finders,
+        // however we need this because
+        List<Resource> piranhaResources = piranhaClassLoader.getResourceManager().getResourceList();
+        List<Resource> applicationResources = webInfClassLoader.getResourceManager().getResourceList();
+        DefaultModuleFinder piranhaLibsModuleFinder = new DefaultModuleFinder(piranhaResources);
+
+        DefaultModuleFinder moduleFinder = new DefaultModuleFinder(Stream.concat(piranhaResources.stream(), applicationResources.stream()).collect(toList()));
+
+        List<String> roots = moduleFinder.findAll().stream()
+                .map(ModuleReference::descriptor)
+                .map(ModuleDescriptor::name)
+                .collect(Collectors.toList());
+
+        Configuration resolve = ModuleLayer.boot().configuration().resolveAndBind(moduleFinder, ModuleFinder.of(), roots);
+
+        // Maps the loader of the
+        ModuleLayer.Controller controller = ModuleLayer.defineModules(resolve, List.of(ModuleLayer.boot()), m -> piranhaLibsModuleFinder.find(m).isPresent() ? piranhaClassLoader : webInfClassLoader);
+        ModuleLayer moduleLayer = controller.layer();
+
+        Module javaBaseModule = ModuleLayer.boot().findModule("java.base").orElseThrow();
+
+        // Allow the module layer to read the classes from the unnamed module
+        moduleLayer.findModule("cloud.piranha.resource.shrinkwrap").ifPresent(x -> controller.addReads(x, this.getClass().getModule()));
+        moduleLayer.findModule("cloud.piranha.micro.core").ifPresent(x -> controller.addReads(x, this.getClass().getModule()));
+
+        // Weld needs this - This requires the usage of --add-opens java.base/java.lang=ALL-UNNAMED
+        moduleLayer.findModule("weld.core.impl").ifPresent(x -> javaBaseModule.addOpens("java.lang", x));
+
+        // Exousia creates a new instance of the default security provider
+        // This requires the usage of --add-opens java.base/sun.security.provider=ALL-UNNAMED
+        moduleLayer.findModule("org.omnifaces.exousia").ifPresent(x -> javaBaseModule.addOpens("sun.security.provider", x));
     }
 
     /**
