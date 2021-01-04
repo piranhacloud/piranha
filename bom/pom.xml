@@ -19,13 +19,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Apache BVal -->
-            <dependency>
-                <groupId>org.apache.bval</groupId>
-                <artifactId>bval-jsr</artifactId>
-                <version>2.0.5</version>
-            </dependency>
-            
             <!-- Apache Commons File Upload -->    
             <dependency>
                 <groupId>commons-fileupload</groupId>
@@ -33,52 +26,16 @@
                 <version>1.4</version>
             </dependency>
 
-            <!-- Apache Johnzon -->
-            <dependency>
-                <groupId>org.apache.johnzon</groupId>
-                <artifactId>johnzon-core</artifactId>
-                <version>1.2.8</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.johnzon</groupId>
-                <artifactId>johnzon-jsonb</artifactId>
-                <version>1.2.8</version>
-            </dependency>
-                   
-            <!-- Apache MyFaces -->
-            <dependency>
-                <groupId>org.apache.myfaces.core</groupId>
-                <artifactId>myfaces-impl</artifactId>
-                <version>3.0.0-RC1</version>
-            </dependency>
-
-            <!-- Apache OpenWebBeans -->
-            <dependency>
-                <groupId>org.apache.openwebbeans</groupId>
-                <artifactId>openwebbeans-impl</artifactId>
-                <version>2.0.20</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.openwebbeans</groupId>
-                <artifactId>openwebbeans-jsf</artifactId>
-                <version>2.0.20</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.openwebbeans</groupId>
-                <artifactId>openwebbeans-spi</artifactId>
-                <version>2.0.20</version>
-            </dependency>
-
             <!-- Arquillian -->
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.6.0.Final</version>
+                <version>1.7.0.Alpha6</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-build</artifactId>
-                <version>1.6.0.Final</version>
+                <version>1.7.0.Alpha6</version>
             </dependency>
             
             <!-- Grizzly -->
@@ -109,7 +66,7 @@
             <dependency>
                 <groupId>com.hazelcast</groupId>
                 <artifactId>hazelcast</artifactId>
-                <version>4.1</version>
+                <version>4.1.1</version>
             </dependency>
             
             <!-- HSQLDB -->
@@ -123,7 +80,7 @@
             <dependency>
                 <groupId>net.sourceforge.htmlunit</groupId>
                 <artifactId>htmlunit</artifactId>
-                <version>2.45.0</version>
+                <version>2.46.0</version>
             </dependency>
             
             <!-- Jakarta Annotation -->
@@ -166,8 +123,14 @@
             <dependency>
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator-cdi</artifactId>
-                <version>7.0.0.CR1</version>
+                <version>7.0.0.Final</version>
             </dependency>
+            <dependency> <!-- Alternative impl -->
+                <groupId>org.apache.bval</groupId>
+                <artifactId>bval-jsr</artifactId>
+                <version>2.0.5</version>
+            </dependency>
+            
             
             <!-- Jakarta Contexts Dependency Injection -->
             <dependency>
@@ -178,12 +141,27 @@
             <dependency>
                 <groupId>org.jboss.weld.servlet</groupId>
                 <artifactId>weld-servlet-core</artifactId>
-                <version>4.0.0.CR1</version>
+                <version>4.0.0.Final</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.classfilewriter</groupId>
                 <artifactId>jboss-classfilewriter</artifactId>
                 <version>1.2.4.Final</version>
+            </dependency>
+            <dependency> <!-- Alternative impl -->
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-impl</artifactId>
+                <version>2.0.20</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-jsf</artifactId>
+                <version>2.0.20</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-spi</artifactId>
+                <version>2.0.20</version>
             </dependency>
 
             <!-- Jakarta EE web-profile -->
@@ -216,6 +194,11 @@
                 <artifactId>jakarta.faces</artifactId>
                 <version>3.0.0</version>
             </dependency>
+            <dependency> <!-- Alternative impl -->
+                <groupId>org.apache.myfaces.core</groupId>
+                <artifactId>myfaces-impl</artifactId>
+                <version>3.0.0-RC1</version>
+            </dependency>
 
             <!-- Jakarta JSON Binding -->
             <dependency>
@@ -223,10 +206,20 @@
                 <artifactId>jakarta.json.bind-api</artifactId>
                 <version>1.0.2</version>
             </dependency>
-            <dependency>
+            <dependency> <!-- Implementation 1: Yasson  -->
                 <groupId>org.eclipse</groupId>
                 <artifactId>yasson</artifactId>
                 <version>1.0.8</version>
+            </dependency>
+             <dependency> <!-- Implementation 2: Johnzon  -->
+                <groupId>org.apache.johnzon</groupId>
+                <artifactId>johnzon-core</artifactId>
+                <version>1.2.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.johnzon</groupId>
+                <artifactId>johnzon-jsonb</artifactId>
+                <version>1.2.9</version>
             </dependency>
 
             <!-- Jakarta JSON Processing -->
@@ -373,6 +366,11 @@
                 <artifactId>jakarta.websocket-api</artifactId>
                 <version>2.0.0</version>
             </dependency>
+            <dependency>
+                <groupId>org.glassfish.tyrus</groupId>
+                <artifactId>tyrus-container-servlet</artifactId>
+                <version>2.0.0</version>
+            </dependency>
 
             <!-- Jandex -->
             <dependency>
@@ -415,13 +413,6 @@
                 <version>3.6.0</version>
             </dependency>
 
-            <!-- MicroProfile JWT Auth -->
-            <dependency>
-                <groupId>org.eclipse.microprofile.jwt</groupId>
-                <artifactId>microprofile-jwt-auth-api</artifactId>
-                <version>1.1.1</version>
-            </dependency>
-
             <!-- Netty -->
             <dependency>
                 <groupId>io.netty</groupId>
@@ -429,7 +420,26 @@
                 <version>4.1.54.Final</version>
             </dependency>
             
-            <!-- OmniFaces JWT -->
+            <!-- MicroProfile Config -->
+            <dependency>
+                <groupId>io.smallrye.config</groupId>
+                <artifactId>smallrye-config</artifactId>
+                <version>1.9.3</version>
+            </dependency>
+            
+            <!-- MicroProfile Health -->
+            <dependency>
+                <groupId>io.smallrye</groupId>
+                <artifactId>smallrye-health</artifactId>
+                <version>2.2.5</version>
+            </dependency>
+            
+            <!-- MicroProfile JWT Auth -->
+            <dependency>
+                <groupId>org.eclipse.microprofile.jwt</groupId>
+                <artifactId>microprofile-jwt-auth-api</artifactId>
+                <version>1.1.1</version>
+            </dependency>
             <dependency>
                 <groupId>org.omnifaces</groupId>
                 <artifactId>microprofile-jwt-auth</artifactId>
@@ -473,17 +483,7 @@
                 <version>3.1.4</version>
             </dependency>
 
-            <!-- SmallRye -->
-            <dependency>
-                <groupId>io.smallrye.config</groupId>
-                <artifactId>smallrye-config</artifactId>
-                <version>1.9.3</version>
-            </dependency>
-            <dependency>
-                <groupId>io.smallrye</groupId>
-                <artifactId>smallrye-health</artifactId>
-                <version>2.2.5</version>
-            </dependency>
+           
             
             <!-- Spring MVC -->
             <dependency>
@@ -499,18 +499,11 @@
                 <version>2.5.25</version>
             </dependency>
             
-            <!-- Tyrus -->
-            <dependency>
-                <groupId>org.glassfish.tyrus</groupId>
-                <artifactId>tyrus-container-servlet</artifactId>
-                <version>2.0.0</version>
-            </dependency>
-            
             <!-- Undertow -->
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-core</artifactId>
-                <version>2.2.2.Final</version>
+                <version>2.2.3.Final</version>
             </dependency>
             
             <!-- Vaadin -->
