@@ -59,17 +59,20 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 /**
  * SecurityManager implementation that uses Jakarta Security semantics.
  *
+ * WIP!
+ *
  * @author Arjan Tijms
+ *
  */
 public class JakartaSecurityManager implements SecurityManager {
 
     /**
-     * Stores the username password login handler.
+     * Handler for the specific HttpServletRequest#login method call
      */
     private UsernamePasswordLoginHandler usernamePasswordLoginHandler;
-
+    
     /**
-     * Stores the roles.
+     * All declared roles in the application
      */
     private final Set<String> roles = ConcurrentHashMap.newKeySet();
 
@@ -90,6 +93,7 @@ public class JakartaSecurityManager implements SecurityManager {
 
     @Override
     public boolean isRequestSecurityAsRequired(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        // TODO: handle redirect?
         return getAuthorizationService(request).checkWebUserDataPermission(request);
     }
 
@@ -105,13 +109,8 @@ public class JakartaSecurityManager implements SecurityManager {
 
     @Override
     public boolean isUserInRole(HttpServletRequest request, String role) {
-
-        // TMP delegate to authorization manager later
-        
-        return DefaultAuthenticatedIdentity
-            .getCurrentIdentity()
-            .getGroups().stream()
-            .anyMatch(e -> e.equals(role));    }
+        return getAuthorizationService(request).checkWebRoleRefPermission(getServletName(request), role);
+    }
 
     @Override
     public boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -137,7 +136,8 @@ public class JakartaSecurityManager implements SecurityManager {
                 request,
                 response,
                 source == MID_REQUEST_USER,
-                source == MID_REQUEST_USER ? true : !isRequestedResourcePublic(request));
+                source == MID_REQUEST_USER? true : !isRequestedResourcePublic(request));
+
 
         // Caller is null means authentication failed. If authentication did not happen (auth module decided to do nothing)
         // we have a caller instance with a null caller principal
@@ -161,6 +161,7 @@ public class JakartaSecurityManager implements SecurityManager {
             return false;
         }
 
+        // TODO: handle the "in progress" (send_continue) case
         return true;
     }
 
@@ -211,22 +212,10 @@ public class JakartaSecurityManager implements SecurityManager {
         this.usernamePasswordLoginHandler = usernamePasswordLoginHandler;
     }
 
-    /**
-     * Get the authentication service.
-     * 
-     * @param request the request.
-     * @return the authentication service.
-     */
     protected DefaultAuthenticationService getAuthenticationService(HttpServletRequest request) {
         return (DefaultAuthenticationService) request.getServletContext().getAttribute(AUTH_SERVICE);
     }
 
-    /**
-     * Get the authorization service.
-     * 
-     * @param request the request.
-     * @return the authorization service.
-     */
     protected AuthorizationService getAuthorizationService(HttpServletRequest request) {
         return (AuthorizationService) request.getServletContext().getAttribute(AUTHZ_SERVICE);
     }
@@ -242,6 +231,7 @@ public class JakartaSecurityManager implements SecurityManager {
     }
 
     private void setIdentityForCurrentRequest(HttpServletRequest request, Principal callerPrincipal, Set<String> groups) {
+        // TODO: consider not setting principal in request separately
         Principal currentPrincipal = callerPrincipal == null ? null : callerPrincipal.getName() == null ? null : callerPrincipal;
 
         DefaultWebApplicationRequest defaultWebApplicationRequest = (DefaultWebApplicationRequest) request;
@@ -262,15 +252,10 @@ public class JakartaSecurityManager implements SecurityManager {
     class MarkerPrincipal implements Principal {
 
         /**
-         * Stores the name.
+         * The main principal's name
          */
         private final String name;
 
-        /**
-         * Constructor.
-         *
-         * @param name the name.
-         */
         public MarkerPrincipal(String name) {
             this.name = name;
         }
@@ -280,4 +265,5 @@ public class JakartaSecurityManager implements SecurityManager {
             return name;
         }
     }
+
 }

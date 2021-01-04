@@ -171,6 +171,8 @@ public class MicroInnerDeployer {
             System.getProperties().put(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
 
             WebApplication webApplication = getWebApplication(applicationArchive, classLoader);
+            
+            ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
 
             LOGGER.info(
                     "Starting web application " + applicationArchive.getName() + " on Piranha Micro " + webApplication.getAttribute(MICRO_PIRANHA));
@@ -248,6 +250,8 @@ public class MicroInnerDeployer {
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
+        } finally {
+            ThreadInitialContextFactory.removeInitialContext();
         }
     }
 
