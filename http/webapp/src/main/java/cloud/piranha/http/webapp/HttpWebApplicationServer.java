@@ -46,6 +46,7 @@ import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
@@ -269,6 +270,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
 
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
+            ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
             Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
             String contextPath = webApplication.getContextPath();
             request.setContextPath(contextPath);
@@ -282,6 +284,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             request.getParameterMap();
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
+            ThreadInitialContextFactory.removeInitialContext();
         }
     }
 
