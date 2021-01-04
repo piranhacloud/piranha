@@ -20,6 +20,16 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+             <groupId>cloud.piranha.naming</groupId>
+             <artifactId>piranha-naming-thread</artifactId>
+             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+             <groupId>cloud.piranha.naming</groupId>
+             <artifactId>piranha-naming-impl</artifactId>
+             <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
