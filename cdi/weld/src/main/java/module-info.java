@@ -26,6 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+import cloud.piranha.cdi.weld.WeldContainer;
+import cloud.piranha.cdi.weld.WeldSecurityService;
+import org.jboss.weld.bootstrap.api.Service;
+import org.jboss.weld.environment.servlet.Container;
+
 /**
  * The Piranha CDI - Weld Integration module.
  * 
@@ -40,7 +45,10 @@ module cloud.piranha.cdi.weld {
     exports cloud.piranha.cdi.weld;
 
     opens cloud.piranha.cdi.weld;
-    
+
+    provides Container with WeldContainer;
+    provides Service with WeldSecurityService;
+
     requires cloud.piranha.naming.impl;
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
