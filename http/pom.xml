@@ -26,6 +26,8 @@
         <module>tests</module>
         <module>undertow</module>
         <module>webapp</module>
+        
+        <module>webapp-test</module>
     </modules>
 
     <dependencyManagement>
