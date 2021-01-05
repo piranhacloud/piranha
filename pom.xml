@@ -48,6 +48,7 @@
         <module>extension</module>
         <module>faces</module>
         <module>http</module>
+        <module>jpms</module>
         <module>maven</module>
         <module>micro</module>
         <module>microprofile</module>

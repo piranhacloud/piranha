@@ -50,7 +50,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import cloud.piranha.resource.DefaultModuleFinder;
+import cloud.piranha.jpms.DefaultModuleFinder;
 import cloud.piranha.resource.DefaultResourceManagerClassLoader;
 import cloud.piranha.resource.api.Resource;
 import org.jboss.jandex.Index;
@@ -214,7 +214,9 @@ public class MicroOuterDeployer {
 
     private void setupLayers(DefaultResourceManagerClassLoader piranhaClassLoader, DefaultResourceManagerClassLoader webInfClassLoader) {
         // Need to improve this, it searching for the same modules in two module finders,
-        // however we need this because
+        // however we need this because as the classes are defined by two classloader
+        // it needs to use the correct classloader to "attach" the module information
+
         List<Resource> piranhaResources = piranhaClassLoader.getResourceManager().getResourceList();
         List<Resource> applicationResources = webInfClassLoader.getResourceManager().getResourceList();
         DefaultModuleFinder piranhaLibsModuleFinder = new DefaultModuleFinder(piranhaResources);
@@ -228,7 +230,7 @@ public class MicroOuterDeployer {
 
         Configuration resolve = ModuleLayer.boot().configuration().resolveAndBind(moduleFinder, ModuleFinder.of(), roots);
 
-        // Maps the loader of the
+        // Maps each module to the classloader
         ModuleLayer.Controller controller = ModuleLayer.defineModules(resolve, List.of(ModuleLayer.boot()), m -> piranhaLibsModuleFinder.find(m).isPresent() ? piranhaClassLoader : webInfClassLoader);
         ModuleLayer moduleLayer = controller.layer();
 

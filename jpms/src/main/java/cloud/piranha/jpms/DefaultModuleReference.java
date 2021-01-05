@@ -27,61 +27,45 @@
  *
  */
 
-package cloud.piranha.resource;
+package cloud.piranha.jpms;
 
 import cloud.piranha.resource.api.Resource;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleReader;
+import java.lang.module.ModuleReference;
 import java.net.URI;
-import java.net.URL;
-import java.util.Optional;
-import java.util.stream.Stream;
 
-public class DefaultModuleReader implements ModuleReader {
+/**
+ *  Provides an implementation of {@link ModuleDescriptor} to work
+ *  with {@link Resource}
+ * @author Thiago Henrique Hupner
+ */
+public class DefaultModuleReference extends ModuleReference {
 
     /**
-     * Stores the resources
+     * Stores the resource
      */
     private final Resource resource;
 
     /**
      * Constructor
+     * @param descriptor the descriptor
+     * @param location the location
      * @param resource the resource
      */
-    public DefaultModuleReader(Resource resource) {
+    public DefaultModuleReference(ModuleDescriptor descriptor, URI location, Resource resource) {
+        super(descriptor, location);
         this.resource = resource;
     }
 
     @Override
-    public Optional<URI> find(String name) throws IOException {
-        try {
-            return Optional.of(resource.getResource(name).toURI());
-        } catch (Exception e) {
-            return Optional.empty();
-        }
+    public ModuleReader open() throws IOException {
+        return new DefaultModuleReader(resource);
     }
 
-    @Override
-    public Optional<InputStream> open(String name) throws IOException {
-        // It was needed to override because the default implementation
-        // opens the URL from an URI, so it loses its StreamHandler
-        // and tries to load any resource from the GlobalArchiveStreamHandler
-
-        URL url = resource.getResource(name);
-        if (url != null)
-            return Optional.of(url.openStream());
-        return Optional.empty();
-    }
-
-    @Override
-    public Stream<String> list() throws IOException {
-        return resource.getAllLocations().map(x -> x.startsWith("/") ? x.substring(1) : x);
-    }
-
-    @Override
-    public void close() throws IOException {
-
+    Resource getResource() {
+        return resource;
     }
 }

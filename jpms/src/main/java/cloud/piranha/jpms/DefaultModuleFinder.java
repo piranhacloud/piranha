@@ -27,7 +27,7 @@
  *
  */
 
-package cloud.piranha.resource;
+package cloud.piranha.jpms;
 
 import cloud.piranha.resource.api.Resource;
 
@@ -55,6 +55,11 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toSet;
 
+/**
+*  Provides an implementation of {@link ModuleFinder} to work
+*  with {@link Resource}
+ * @author Thiago Henrique Hupner
+ */
 public class DefaultModuleFinder implements ModuleFinder {
 
     /**
