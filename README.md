@@ -11,6 +11,11 @@
 The Piranha Project delivers you with Cloud ready containers and useful add-on / 
 integration modules.
 
+## Getting Started
+
+To get started with Piranha please visit our 
+[Getting Started](https://piranha.cloud/gettingstarted.html) guide.
+
 ## Distributions
 
 The following distributions are available.
