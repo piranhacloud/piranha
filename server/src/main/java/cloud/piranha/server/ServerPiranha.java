@@ -226,8 +226,9 @@ public class ServerPiranha implements Piranha, Runnable {
                         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDirectory);
                         webApplication.setClassLoader(classLoader);
 
-                        if (!Boolean.getBoolean("cloud.piranha.modular.disable"))
+                        if (Boolean.getBoolean("cloud.piranha.modular.enable")) {
                             setupLayers(classLoader);
+                        }
 
                         if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                             DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();

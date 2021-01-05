@@ -182,7 +182,7 @@ public class MicroOuterDeployer {
 
             System.setProperty("micro.version", getClass().getPackage().getImplementationVersion());
 
-            if (!Boolean.getBoolean("cloud.piranha.modular.disable")) {
+            if (Boolean.getBoolean("cloud.piranha.modular.enable")) {
                 setupLayers((DefaultResourceManagerClassLoader) piranhaClassLoader,
                         (DefaultResourceManagerClassLoader) webInfClassLoader);
             }
