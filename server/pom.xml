@@ -49,10 +49,10 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha - JPMS integration -->
+        <!-- Piranha Modular - JPMS integration -->
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>jpms</artifactId>
+            <groupId>cloud.piranha.modular</groupId>
+            <artifactId>cloud.piranha.modular</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

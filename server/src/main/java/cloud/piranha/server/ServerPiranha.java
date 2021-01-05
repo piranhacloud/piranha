@@ -51,7 +51,7 @@ import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
-import cloud.piranha.jpms.DefaultModuleFinder;
+import cloud.piranha.modular.DefaultModuleFinder;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
@@ -226,7 +226,7 @@ public class ServerPiranha implements Piranha, Runnable {
                         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDirectory);
                         webApplication.setClassLoader(classLoader);
 
-                        if (!Boolean.getBoolean("cloud.piranha.jpms.layers.disable"))
+                        if (!Boolean.getBoolean("cloud.piranha.modular.disable"))
                             setupLayers(classLoader);
 
                         if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {

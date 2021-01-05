@@ -34,16 +34,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha</groupId>
+        <groupId>cloud.piranha.modular</groupId>
         <artifactId>project</artifactId>
         <version>21.1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cloud.piranha</groupId>
-    <artifactId>jpms</artifactId>
-    <version>21.1.0-SNAPSHOT</version>
+    <artifactId>cloud.piranha.modular</artifactId>
 
-    <name>Piranha - JPMS integration</name>
+    <name>Piranha Modular - JPMS integration</name>
 
     <dependencies>
         <dependency>
@@ -94,7 +92,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <argLine>
-                        --add-opens=cloud.piranha.jpms/cloud.piranha.jpms.tests=ALL-UNNAMED
+                        --add-opens=cloud.piranha.modular/cloud.piranha.modular.tests=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>

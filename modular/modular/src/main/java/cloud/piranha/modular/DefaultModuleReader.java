@@ -27,7 +27,7 @@
  *
  */
 
-package cloud.piranha.jpms;
+package cloud.piranha.modular;
 
 import cloud.piranha.resource.api.Resource;
 

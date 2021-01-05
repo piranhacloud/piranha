@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha - JPMS integration module.
+ * The Piranha Modular - JPMS integration module.
  *
  * <p>
  *  This module delivers the default implementation of the {@link java.lang.module} API.
@@ -35,9 +35,9 @@
  *
  * @author Thiago Henrique Hupner
  */
-module cloud.piranha.jpms {
+module cloud.piranha.modular {
 
-    exports cloud.piranha.jpms;
+    exports cloud.piranha.modular;
 
     requires cloud.piranha.resource.api;
     requires java.logging;

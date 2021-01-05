@@ -40,7 +40,7 @@ module cloud.piranha.micro {
     opens cloud.piranha.micro;
 
     requires cloud.piranha.api;
-    requires cloud.piranha.jpms;
+    requires cloud.piranha.modular;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
     requires cloud.piranha.resource.shrinkwrap;

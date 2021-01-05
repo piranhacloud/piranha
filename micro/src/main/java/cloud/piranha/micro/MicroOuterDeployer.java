@@ -50,7 +50,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import cloud.piranha.jpms.DefaultModuleFinder;
+import cloud.piranha.modular.DefaultModuleFinder;
 import cloud.piranha.resource.DefaultResourceManagerClassLoader;
 import cloud.piranha.resource.api.Resource;
 import org.jboss.jandex.Index;
@@ -182,7 +182,7 @@ public class MicroOuterDeployer {
 
             System.setProperty("micro.version", getClass().getPackage().getImplementationVersion());
 
-            if (!Boolean.getBoolean("cloud.piranha.jpms.layers.disable")) {
+            if (!Boolean.getBoolean("cloud.piranha.modular.disable")) {
                 setupLayers((DefaultResourceManagerClassLoader) piranhaClassLoader,
                         (DefaultResourceManagerClassLoader) webInfClassLoader);
             }
@@ -295,7 +295,7 @@ public class MicroOuterDeployer {
      */
     ClassLoader getWebInfClassLoader(Archive<?> applicationArchive, ClassLoader piranhaClassloader) {
         // Create the resource that holds all classes from the WEB-INF/classes folder
-        ShrinkWrapResource applicationResource = new ShrinkWrapResource("/WEB-INF/classes", applicationArchive, applicationArchive.getName() + ".classes");
+        ShrinkWrapResource applicationResource = new ShrinkWrapResource("/WEB-INF/classes", applicationArchive, "cloud.piranha.modular.classes");
 
         // Create the resources that hold all classes from the WEB-INF/lib folder.
         // Each resource holds the classes from a single jar

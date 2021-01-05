@@ -27,12 +27,12 @@
  *
  */
 
-package cloud.piranha.jpms.tests;
+package cloud.piranha.modular.tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cloud.piranha.jpms.DefaultModuleFinder;
+import cloud.piranha.modular.DefaultModuleFinder;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;

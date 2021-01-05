@@ -41,7 +41,7 @@ module cloud.piranha.server {
     requires cloud.piranha.extension.servlet;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
-    requires cloud.piranha.jpms;
+    requires cloud.piranha.modular;
     requires cloud.piranha.naming.api;
     requires cloud.piranha.naming.impl;
     requires cloud.piranha.naming.thread;

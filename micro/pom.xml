@@ -77,8 +77,8 @@
         <!-- -->
 
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>jpms</artifactId>
+            <groupId>cloud.piranha.modular</groupId>
+            <artifactId>cloud.piranha.modular</artifactId>
             <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
