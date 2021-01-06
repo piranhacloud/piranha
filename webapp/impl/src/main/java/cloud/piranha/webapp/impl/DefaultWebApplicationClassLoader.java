@@ -29,6 +29,7 @@ package cloud.piranha.webapp.impl;
 
 import java.io.File;
 
+import cloud.piranha.resource.AliasedNamedResource;
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DefaultResourceManagerClassLoader;
 import cloud.piranha.resource.DirectoryResource;
@@ -58,7 +59,7 @@ public class DefaultWebApplicationClassLoader extends DefaultResourceManagerClas
         ResourceManager resourceManager = new DefaultResourceManager();
         File classesDirectory = new File(baseDirectory, "WEB-INF/classes");
         if (classesDirectory.exists()) {
-            resourceManager.addResource(new DirectoryResource(classesDirectory));
+            resourceManager.addResource(new AliasedNamedResource(new DirectoryResource(classesDirectory), "cloud.piranha.modular.classes"));
         }
 
         File libDirectory = new File(baseDirectory, "WEB-INF/lib");

@@ -26,30 +26,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-
 /**
- * The Piranha Server module.
+ * The Piranha Modular - JPMS integration module.
  *
- * @author Manfred Riem (mriem@manorrock.com)
+ * <p>
+ *  This module delivers the default implementation of the {@link java.lang.module} API.
+ * </p>
+ *
+ * @author Thiago Henrique Hupner
  */
-module cloud.piranha.server {
+module cloud.piranha.modular {
 
-    exports cloud.piranha.server;
-    requires cloud.piranha.api;
-    requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.webapp;
-    requires cloud.piranha.modular;
-    requires cloud.piranha.naming.api;
-    requires cloud.piranha.naming.impl;
-    requires cloud.piranha.naming.thread;
-    requires cloud.piranha.resource;
+    exports cloud.piranha.modular;
+
     requires cloud.piranha.resource.api;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
     requires java.logging;
-    uses HttpServer;
-    uses WebApplicationExtension;
 }

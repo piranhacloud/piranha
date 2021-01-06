@@ -180,7 +180,19 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         
         return result;
     }
-    
+
+    @Override
+    protected Class<?> findClass(String moduleName, String name) {
+        try {
+            Class<?> loadedClass = loadClass(name);
+            String loadedModuleName = loadedClass.getModule().getName();
+            if (loadedModuleName != null && loadedModuleName.equals(moduleName))
+                return loadedClass;
+        } catch (ClassNotFoundException ignored) {
+        }
+        return null;
+    }
+
     /**
      * Normalize the name to a .class name.
      * 
@@ -288,6 +300,17 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         } catch (MalformedURLException mue) {
         }
         
+        return result;
+    }
+
+    @Override
+    protected URL findResource(String moduleName, String name) throws IOException {
+        URL result = null;
+        try {
+            result = resourceManager.getResource(name);
+        } catch (MalformedURLException mue) {
+        }
+
         return result;
     }
 

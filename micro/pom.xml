@@ -76,6 +76,12 @@
 
         <!-- -->
 
+        <dependency>
+            <groupId>cloud.piranha.modular</groupId>
+            <artifactId>cloud.piranha.modular</artifactId>
+            <version>${project.version}</version>
+            <optional>true</optional>
+        </dependency>
 
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
@@ -166,6 +172,9 @@
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>cloud.piranha.micro.MicroPiranha</mainClass>
+                                    <manifestEntries>
+                                        <Add-Opens>java.base/java.lang java.base/sun.security.provider</Add-Opens>
+                                    </manifestEntries>
                                 </transformer>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />

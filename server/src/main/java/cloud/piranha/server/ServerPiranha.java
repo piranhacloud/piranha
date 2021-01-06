@@ -34,23 +34,32 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.module.Configuration;
+import java.lang.module.ModuleDescriptor;
+import java.lang.module.ModuleFinder;
+import java.lang.module.ModuleReference;
+import java.util.List;
 import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import cloud.piranha.api.Piranha;
-import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.webapp.HttpWebApplicationServer;
+import cloud.piranha.modular.ModuleLayerProcessor;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import cloud.piranha.modular.DefaultModuleFinder;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
+
 
 /**
  * The Servlet container version of Piranha.
@@ -213,8 +222,14 @@ public class ServerPiranha implements Piranha, Runnable {
 
                         webApplication.setAttribute(SERVER_PIRANHA, this);
                         webApplication.addResource(new DirectoryResource(webAppDirectory));
+
+
                         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDirectory);
                         webApplication.setClassLoader(classLoader);
+
+                        if (Boolean.getBoolean("cloud.piranha.modular.enable")) {
+                            setupLayers(classLoader);
+                        }
 
                         if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                             DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
@@ -269,5 +284,23 @@ public class ServerPiranha implements Piranha, Runnable {
         finishTime = System.currentTimeMillis();
         LOGGER.info("Stopped Piranha");
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
+    }
+
+    private void setupLayers(DefaultWebApplicationClassLoader classLoader) {
+        ModuleFinder defaultModuleFinder = new DefaultModuleFinder(classLoader.getResourceManager().getResourceList());
+
+        List<String> roots = defaultModuleFinder.findAll()
+                .stream()
+                .map(ModuleReference::descriptor)
+                .map(ModuleDescriptor::name)
+                .collect(Collectors.toList());
+
+        if (!roots.isEmpty()) {
+            Configuration configuration = ModuleLayer.boot().configuration().resolveAndBind(defaultModuleFinder, ModuleFinder.of(), roots);
+            ModuleLayer.Controller controller = ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
+            ModuleLayer moduleLayer = controller.layer();
+
+            ModuleLayerProcessor.processModuleLayerOptions(moduleLayer, controller);
+        }
     }
 }

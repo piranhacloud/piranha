@@ -49,6 +49,13 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Piranha Modular - JPMS integration -->
+        <dependency>
+            <groupId>cloud.piranha.modular</groupId>
+            <artifactId>cloud.piranha.modular</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- Piranha Naming implementation -->
         <dependency>
             <groupId>cloud.piranha.naming</groupId>

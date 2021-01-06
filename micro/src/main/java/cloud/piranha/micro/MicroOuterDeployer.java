@@ -35,6 +35,10 @@ import static org.jboss.shrinkwrap.resolver.api.maven.repository.MavenUpdatePoli
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.module.Configuration;
+import java.lang.module.ModuleDescriptor;
+import java.lang.module.ModuleFinder;
+import java.lang.module.ModuleReference;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashSet;
@@ -43,7 +47,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import cloud.piranha.modular.DefaultModuleFinder;
+import cloud.piranha.modular.ModuleLayerProcessor;
+import cloud.piranha.resource.DefaultResourceManagerClassLoader;
+import cloud.piranha.resource.api.Resource;
 import org.jboss.jandex.Index;
 import org.jboss.jandex.IndexWriter;
 import org.jboss.jandex.Indexer;
@@ -173,6 +183,11 @@ public class MicroOuterDeployer {
 
             System.setProperty("micro.version", getClass().getPackage().getImplementationVersion());
 
+            if (Boolean.getBoolean("cloud.piranha.modular.enable")) {
+                setupLayers((DefaultResourceManagerClassLoader) piranhaClassLoader,
+                        (DefaultResourceManagerClassLoader) webInfClassLoader);
+            }
+
             microInnerDeployer
                     = Class.forName(
                             "cloud.piranha.micro.core.MicroInnerDeployer",
@@ -180,6 +195,7 @@ public class MicroOuterDeployer {
                             webInfClassLoader)
                             .getDeclaredConstructor()
                             .newInstance();
+
 
             return MicroDeployOutcome.ofMap((Map<String, Object>) microInnerDeployer
                     .getClass()
@@ -195,6 +211,44 @@ public class MicroOuterDeployer {
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
         }
+    }
+
+    private void setupLayers(DefaultResourceManagerClassLoader piranhaClassLoader, DefaultResourceManagerClassLoader webInfClassLoader) {
+        // Need to improve this, it searching for the same modules in two module finders,
+        // however we need this because as the classes are defined by two classloader
+        // it needs to use the correct classloader to "attach" the module information
+
+        List<Resource> piranhaResources = piranhaClassLoader.getResourceManager().getResourceList();
+        List<Resource> applicationResources = webInfClassLoader.getResourceManager().getResourceList();
+        DefaultModuleFinder piranhaLibsModuleFinder = new DefaultModuleFinder(piranhaResources);
+
+        DefaultModuleFinder moduleFinder = new DefaultModuleFinder(Stream.concat(piranhaResources.stream(), applicationResources.stream()).collect(toList()));
+
+        List<String> roots = moduleFinder.findAll().stream()
+                .map(ModuleReference::descriptor)
+                .map(ModuleDescriptor::name)
+                .collect(Collectors.toList());
+
+        Configuration resolve = ModuleLayer.boot().configuration().resolveAndBind(moduleFinder, ModuleFinder.of(), roots);
+
+        // Maps each module to the classloader
+        ModuleLayer.Controller controller = ModuleLayer.defineModules(resolve, List.of(ModuleLayer.boot()), m -> piranhaLibsModuleFinder.find(m).isPresent() ? piranhaClassLoader : webInfClassLoader);
+        ModuleLayer moduleLayer = controller.layer();
+
+        Module javaBaseModule = ModuleLayer.boot().findModule("java.base").orElseThrow();
+
+        // Allow the module layer to read the classes from the unnamed module
+        moduleLayer.findModule("cloud.piranha.resource.shrinkwrap").ifPresent(x -> controller.addReads(x, this.getClass().getModule()));
+        moduleLayer.findModule("cloud.piranha.micro.core").ifPresent(x -> controller.addReads(x, this.getClass().getModule()));
+
+        // Weld needs this - This requires the usage of --add-opens java.base/java.lang=ALL-UNNAMED
+        moduleLayer.findModule("weld.core.impl").ifPresent(x -> javaBaseModule.addOpens("java.lang", x));
+
+        // Exousia creates a new instance of the default security provider
+        // This requires the usage of --add-opens java.base/sun.security.provider=ALL-UNNAMED
+        moduleLayer.findModule("org.omnifaces.exousia").ifPresent(x -> javaBaseModule.addOpens("sun.security.provider", x));
+
+        ModuleLayerProcessor.processModuleLayerOptions(moduleLayer, controller);
     }
 
     /**
@@ -244,11 +298,11 @@ public class MicroOuterDeployer {
      */
     ClassLoader getWebInfClassLoader(Archive<?> applicationArchive, ClassLoader piranhaClassloader) {
         // Create the resource that holds all classes from the WEB-INF/classes folder
-        ShrinkWrapResource applicationResource = new ShrinkWrapResource("/WEB-INF/classes", applicationArchive);
+        ShrinkWrapResource applicationResource = new ShrinkWrapResource("/WEB-INF/classes", applicationArchive, "cloud.piranha.modular.classes");
 
         // Create the resources that hold all classes from the WEB-INF/lib folder.
         // Each resource holds the classes from a single jar
-        ShrinkWrapResource jarResources = new ShrinkWrapResource("/WEB-INF/lib", applicationArchive);
+        ShrinkWrapResource jarResources = new ShrinkWrapResource("/WEB-INF/lib", applicationArchive, applicationArchive.getName() + ".libs");
         List<ShrinkWrapResource> webLibResources
                 = jarResources.getAllLocations()
                         .filter(location -> location.endsWith(".jar"))
@@ -258,7 +312,7 @@ public class MicroOuterDeployer {
         // Create a separate archive that contains an index of the application archive and the library archives.
         // This index can be obtained from the class loader by getting the "META-INF/piranha.idx" resource.
         ShrinkWrapResource indexResource = new ShrinkWrapResource(
-                ShrinkWrap.create(JavaArchive.class)
+                ShrinkWrap.create(JavaArchive.class, "piranha-jandex-module.jar")
                         .add(new ByteArrayAsset(createIndex(applicationResource, webLibResources)), "META-INF/piranha.idx"));
 
         IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader(piranhaClassloader, "WebInf Loader");
