@@ -25,6 +25,45 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>clirr-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includes>
+                        <include>jakarta/**</include>
+                    </includes>
+                    <comparisonArtifacts>
+                        <comparisonArtifact>
+                            <groupId>jakarta.servlet</groupId>
+                            <artifactId>jakarta.servlet-api</artifactId>
+                            <version>5.0.0</version>
+                        </comparisonArtifact>
+                    </comparisonArtifacts>
+                    <failOnError>true</failOnError>
+                    <logResults>true</logResults>
+                    <textOutputFile>${project.build.directory}/clirr.txt</textOutputFile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>                
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <executions>
@@ -55,34 +94,42 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>clirr-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>install</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <includes>
-                        <include>jakarta/**</include>
-                    </includes>
-                    <comparisonArtifacts>
-                        <comparisonArtifact>
-                            <groupId>jakarta.servlet</groupId>
-                            <artifactId>jakarta.servlet-api</artifactId>
-                            <version>5.0.0</version>
-                        </comparisonArtifact>
-                    </comparisonArtifacts>
-                    <failOnError>true</failOnError>
-                    <logResults>true</logResults>
-                    <textOutputFile>${project.build.directory}/clirr.txt</textOutputFile>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+                </plugins>
+            </build>
+        </profile>
+    
+    
+        <profile>
+            <id>eclipse</id>
+            <activation>
+                <property>
+                    <name>m2e.version</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>default-compile</id>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                                <configuration>
+                                    <includes>
+                                        <includes>**/*</includes>
+                                    </includes>
+                                    <release>15</release>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+    
 </project>
