@@ -36,7 +36,12 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.micro {
+    exports cloud.piranha.micro;
+    opens cloud.piranha.micro;
+
     requires cloud.piranha.api;
+    requires cloud.piranha.modular;
+    requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
     requires cloud.piranha.resource.shrinkwrap;
 
@@ -47,8 +52,6 @@ module cloud.piranha.micro {
     requires shrinkwrap.api;
     requires shrinkwrap.resolver.api.maven;
 
-    exports cloud.piranha.micro;
-    opens cloud.piranha.micro;
 
     // Tests
     requires static java.net.http;

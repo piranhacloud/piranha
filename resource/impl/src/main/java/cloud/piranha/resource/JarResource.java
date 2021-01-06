@@ -38,6 +38,7 @@ import java.net.URL;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
 
 /**
  * The default JarResource.
@@ -106,17 +107,13 @@ public class JarResource implements Resource {
         JarFile jar = null;
         try {
             jar = new JarFile(jarFile);
-            JarEntry entry = jar.getJarEntry(location);
+            JarEntry entry = jar.getJarEntry(location.startsWith("/") ? location.substring(1) : location);
             if (entry != null) {
                 InputStream inputStream;
                 try (InputStream jarInputStream = jar.getInputStream(entry)) {
                     inputStream = new BufferedInputStream(jarInputStream);
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                    int read = inputStream.read();
-                    while (read != -1) {
-                        outputStream.write((byte) read);
-                        read = inputStream.read();
-                    }
+                    inputStream.transferTo(outputStream);
                     result = new ByteArrayInputStream(outputStream.toByteArray());
                 }
                 inputStream.close();
@@ -132,10 +129,17 @@ public class JarResource implements Resource {
         }
         return result;
     }
-    
+
     @Override
     public Stream<String> getAllLocations() {
-        return Stream.empty();
+        try {
+            return new JarFile(jarFile)
+                .stream()
+                .map(ZipEntry::getName)
+                .map(x -> "/" + x);
+        } catch (IOException e) {
+            return Stream.of();
+        }
     }
 
     /**
@@ -154,5 +158,10 @@ public class JarResource implements Resource {
      */
     public void setJarFile(File jarFile) {
         this.jarFile = jarFile;
+    }
+
+    @Override
+    public String getName() {
+        return jarFile.getName();
     }
 }

@@ -150,4 +150,10 @@ public class DirectoryResource implements Resource {
     public void setRootDirectory(File rootDirectory) {
         this.rootDirectory = rootDirectory;
     }
+
+    @Override
+    public String getName() {
+        return rootDirectory.getName();
+    }
+
 }
