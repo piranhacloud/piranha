@@ -51,6 +51,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import cloud.piranha.modular.DefaultModuleFinder;
+import cloud.piranha.modular.ModuleLayerProcessor;
 import cloud.piranha.resource.DefaultResourceManagerClassLoader;
 import cloud.piranha.resource.api.Resource;
 import org.jboss.jandex.Index;
@@ -246,6 +247,8 @@ public class MicroOuterDeployer {
         // Exousia creates a new instance of the default security provider
         // This requires the usage of --add-opens java.base/sun.security.provider=ALL-UNNAMED
         moduleLayer.findModule("org.omnifaces.exousia").ifPresent(x -> javaBaseModule.addOpens("sun.security.provider", x));
+
+        ModuleLayerProcessor.processModuleLayerOptions(moduleLayer, controller);
     }
 
     /**

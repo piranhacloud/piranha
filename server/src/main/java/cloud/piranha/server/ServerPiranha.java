@@ -50,6 +50,7 @@ import cloud.piranha.api.Piranha;
 import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
+import cloud.piranha.modular.ModuleLayerProcessor;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.modular.DefaultModuleFinder;
 import cloud.piranha.resource.DirectoryResource;
@@ -296,7 +297,10 @@ public class ServerPiranha implements Piranha, Runnable {
 
         if (!roots.isEmpty()) {
             Configuration configuration = ModuleLayer.boot().configuration().resolveAndBind(defaultModuleFinder, ModuleFinder.of(), roots);
-            ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
+            ModuleLayer.Controller controller = ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
+            ModuleLayer moduleLayer = controller.layer();
+
+            ModuleLayerProcessor.processModuleLayerOptions(moduleLayer, controller);
         }
     }
 }
