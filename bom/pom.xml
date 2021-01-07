@@ -92,14 +92,14 @@
 
             <!-- Jakarta Authentication -->
             <dependency>
-                <groupId>jakarta.security.auth.message</groupId>
-                <artifactId>jakarta.security.auth.message-api</artifactId>
-                <version>2.0.0-RC1</version>
+                <groupId>jakarta.authentication</groupId>
+                <artifactId>jakarta.authentication-api</artifactId>
+                <version>2.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.omnifaces</groupId>
                 <artifactId>eleos</artifactId>
-                <version>1.0-M1</version>
+                <version>1.0</version>
             </dependency>
             
             <!-- Jakarta Authorization -->

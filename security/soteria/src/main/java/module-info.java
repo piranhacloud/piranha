@@ -42,6 +42,8 @@ module cloud.piranha.security.soteria {
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
+    
+    requires jakarta.inject;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;
     requires java.logging;

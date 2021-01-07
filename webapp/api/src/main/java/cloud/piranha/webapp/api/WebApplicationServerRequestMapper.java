@@ -29,7 +29,6 @@ package cloud.piranha.webapp.api;
 
 import java.util.Set;
 
-import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The WebApplicationServerRequestMapper API.
