@@ -30,4 +30,17 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>test-modules</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <modules>
+                <module>jasper-test</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
