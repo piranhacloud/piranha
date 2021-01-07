@@ -40,5 +40,5 @@ module cloud.piranha.faces.myfaces {
     exports cloud.piranha.faces.myfaces;
     
     requires static cloud.piranha.pages.jasper;
-    requires cloud.piranha.servlet.api;
+    requires jakarta.servlet;
 }

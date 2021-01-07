@@ -42,7 +42,7 @@ module cloud.piranha.webapp.tempdir {
 
     opens cloud.piranha.webapp.tempdir;
 
-    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
+    requires jakarta.servlet;
     requires java.logging;
 }

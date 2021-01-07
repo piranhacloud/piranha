@@ -35,7 +35,7 @@ module cloud.piranha.monitor.jmx {
     provides ServletContainerInitializer with JMXServerInitializer;
 
     requires cloud.piranha.api;
-    requires cloud.piranha.servlet.api;
+    requires jakarta.servlet;
     requires java.logging;
     requires java.management;
 }

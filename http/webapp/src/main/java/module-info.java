@@ -43,7 +43,7 @@ module cloud.piranha.http.webapp {
     opens cloud.piranha.http.webapp;
     
     requires transitive cloud.piranha.http.api;
-    requires transitive cloud.piranha.servlet.api;
+    requires transitive jakarta.servlet;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.naming.api;
     requires cloud.piranha.naming.thread;

@@ -36,8 +36,8 @@ module cloud.piranha.session.hazelcast {
 
     provides ServletContainerInitializer with HazelcastInitializer;
 
-    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires com.hazelcast.core;
+    requires jakarta.servlet;
 }

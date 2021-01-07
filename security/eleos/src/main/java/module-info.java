@@ -38,8 +38,8 @@
 module cloud.piranha.security.eleos {
     
     exports cloud.piranha.security.eleos;
-    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires jakarta.security.auth.message;
+    requires jakarta.servlet;
     requires org.omnifaces.eleos;
 }

@@ -40,7 +40,6 @@ module cloud.piranha.security.jakarta {
     exports cloud.piranha.security.jakarta;
     opens cloud.piranha.security.jakarta;
     requires cloud.piranha.cdi.weld;
-    requires cloud.piranha.servlet.api;
     requires cloud.piranha.security.eleos;
     requires cloud.piranha.security.exousia;
     requires cloud.piranha.security.soteria;
@@ -48,6 +47,7 @@ module cloud.piranha.security.jakarta {
     requires cloud.piranha.webapp.impl;
     requires org.omnifaces.eleos;
     requires org.omnifaces.exousia;
+    requires jakarta.servlet;
     requires java.logging;
     requires java.naming;
 }

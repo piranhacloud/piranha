@@ -42,9 +42,9 @@ module cloud.piranha.webapp.webxml {
 
     opens cloud.piranha.webapp.webxml;
 
-    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
+    requires jakarta.servlet;
     requires java.logging;
     requires java.xml;
 }

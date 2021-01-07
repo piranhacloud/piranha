@@ -39,13 +39,13 @@ module cloud.piranha.security.soteria {
     
     exports cloud.piranha.security.soteria;
     requires cloud.piranha.naming.impl;
-    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-    
+
     requires jakarta.inject;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;
+    requires jakarta.servlet;
     requires java.logging;
     requires java.naming;
     requires org.glassfish.soteria;
