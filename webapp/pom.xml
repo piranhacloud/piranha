@@ -23,9 +23,6 @@
         <module>scinitializer</module>
         <module>webxml</module>
         <module>webannotation</module>
-        
-        <module>impl-test</module>
-        <module>webxml-test</module>
     </modules>
 
     <dependencyManagement>
@@ -39,4 +36,18 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    
+    <profiles>
+        <profile>
+            <id>test-modules</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <modules>
+                <module>impl-test</module>
+                <module>webxml-test</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>

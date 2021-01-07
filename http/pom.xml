@@ -26,10 +26,6 @@
         <module>tests</module>
         <module>undertow</module>
         <module>webapp</module>
-        
-        <module>impl-test</module>
-        <module>webapp-test</module>
-        <module>grizzly-test</module>
     </modules>
 
     <dependencyManagement>
@@ -43,4 +39,20 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>test-modules</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <modules>
+                <module>impl-test</module>
+                <module>webapp-test</module>
+                <module>grizzly-test</module>
+            </modules>
+        </profile>
+    </profiles>
+
 </project>
