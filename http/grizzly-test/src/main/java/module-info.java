@@ -27,19 +27,16 @@
  */
 
 /**
- * The Piranha Security - OmniFaces Eleos integration module.
- * 
- * <p>
- *  This module delivers OmniFaces Eleos integration into Piranha.
- * </p>
- * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * The Grizzly HTTP server tests module.
  */
-module cloud.piranha.security.eleos {
+module cloud.piranha.http.grizzly.tests {
     
-    exports cloud.piranha.security.eleos;
-    requires cloud.piranha.servlet.api;
-    requires cloud.piranha.webapp.api;
-    requires jakarta.security.auth.message;
-    requires org.omnifaces.eleos;
+    opens cloud.piranha.http.grizzly.tests;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.grizzly;
+    requires cloud.piranha.http.tests;
+    
+    requires org.junit.jupiter.api;
+    requires org.junit.jupiter.engine;
+    requires org.junit.platform.launcher;
 }

@@ -53,9 +53,12 @@ module cloud.piranha.cdi.weld {
     requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
+    
+    requires jakarta.inject;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;
     requires java.naming;
+    requires weld.api;
     requires weld.core.impl;
     requires weld.spi;
     requires weld.servlet.core;

@@ -27,7 +27,9 @@
         <module>undertow</module>
         <module>webapp</module>
         
+        <module>impl-test</module>
         <module>webapp-test</module>
+        <module>grizzly-test</module>
     </modules>
 
     <dependencyManagement>

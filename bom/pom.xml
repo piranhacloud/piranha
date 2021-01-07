@@ -94,7 +94,7 @@
             <dependency>
                 <groupId>jakarta.security.auth.message</groupId>
                 <artifactId>jakarta.security.auth.message-api</artifactId>
-                <version>2.0.0-RC1</version>
+                <version>2.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.omnifaces</groupId>
