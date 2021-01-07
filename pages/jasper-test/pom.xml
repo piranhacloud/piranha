@@ -12,7 +12,7 @@
     <artifactId>piranha-pages-jasper-test</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Pages - Jasper Integration - Test</name>
+    <name>Piranha Pages - Jasper Integration - TEST</name>
 
     <dependencies>
         <dependency>
