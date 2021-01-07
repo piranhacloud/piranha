@@ -9,38 +9,39 @@
         <version>21.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-http-grizzly</artifactId>
+    <artifactId>piranha-http-impl-test</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha HTTP - Grizzly Integration</name>
+    <name>Piranha HTTP - Implementation - TEST</name>
 
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-api</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-api</artifactId>
+            <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-tests</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+          <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.grizzly</groupId>
-            <artifactId>grizzly-http-server</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.grizzly</groupId>
-            <artifactId>grizzly-http2</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.grizzly</groupId>
-            <artifactId>grizzly-npn-api</artifactId>
-            <scope>compile</scope>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -26,20 +26,25 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 /**
- * The Piranha Security - OmniFaces Eleos integration module.
- * 
+ * The Piranha HTTP - Implementation module.
+ *
  * <p>
- *  This module delivers OmniFaces Eleos integration into Piranha.
+ * This module delivers the default implementation of the HTTP engine API.
  * </p>
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.security.eleos {
+module cloud.piranha.http.impl.tests {
+
+    opens cloud.piranha.http.impl.tests;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.impl;
+    requires cloud.piranha.http.tests;
+    requires java.net.http;
+    requires org.junit.jupiter.api;
     
-    exports cloud.piranha.security.eleos;
-    requires cloud.piranha.servlet.api;
-    requires cloud.piranha.webapp.api;
-    requires jakarta.security.auth.message;
-    requires org.omnifaces.eleos;
+    requires org.junit.jupiter.engine;
+    requires org.junit.platform.launcher;
 }

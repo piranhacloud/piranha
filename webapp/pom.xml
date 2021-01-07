@@ -23,6 +23,9 @@
         <module>scinitializer</module>
         <module>webxml</module>
         <module>webannotation</module>
+        
+        <module>impl-test</module>
+        <module>webxml-test</module>
     </modules>
 
     <dependencyManagement>

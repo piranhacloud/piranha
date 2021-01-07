@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -8,10 +9,10 @@
         <version>21.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-webapp-impl</artifactId>
+    <artifactId>piranha-webapp-impl-test</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Webapplication - Implementation</name>
+    <name>Piranha Webapplication - Implementation - Test</name>
 
     <dependencyManagement>
         <dependencies>
@@ -26,28 +27,48 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>cloud.piranha.naming</groupId>
             <artifactId>piranha-naming-impl</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.policy</groupId>
             <artifactId>piranha-policy-impl</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-api</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
         </dependency>
     </dependencies>
 </project>
