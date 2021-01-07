@@ -38,7 +38,7 @@
                         <configuration>
                             <target>
                                 <!-- download, unzip and rename TCK -->
-                                <get src="http://download.eclipse.org/jakartaee/expression-language/3.0/jakarta-expression-language-tck-3.0.0.zip"
+                                <get src="http://download.eclipse.org/jakartaee/expression-language/4.0/jakarta-expression-language-tck-4.0.0.zip"
                                      dest="${project.build.directory}/tck.zip" skipexisting="true"/>
                                 <unzip src="${project.build.directory}/tck.zip"
                                        dest="${project.build.directory}"/>
@@ -63,7 +63,7 @@
                                 <!-- setup ts.jte for signature tests -->
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="el\.classes=(.*)"
-                                               replace="el.classes=${work.home}/jars/jakarta.el.jar"
+                                               replace="el.classes=${work.home}/jars/jakarta.el.jar${pathsep}${work.home}/jars/jakarta.el-api.jar"
                                                byline="true"/>
                             </target>
                         </configuration>
@@ -126,9 +126,16 @@
                                 <artifactItem>
                                     <groupId>org.glassfish</groupId>
                                     <artifactId>jakarta.el</artifactId>
-                                    <version>3.0.3</version>
+                                    <version>4.0.1</version>
                                     <outputDirectory>${work.home}/jars</outputDirectory>
                                     <destFileName>jakarta.el.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>jakarta.el</groupId>
+                                    <artifactId>jakarta.el-api</artifactId>
+                                    <version>4.0.0</version>
+                                    <outputDirectory>${work.home}/jars</outputDirectory>
+                                    <destFileName>jakarta.el-api.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
