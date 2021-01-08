@@ -30,7 +30,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.pages</groupId>
-            <artifactId>piranha-pages-jasper</artifactId>
+            <artifactId>piranha-pages-wasp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

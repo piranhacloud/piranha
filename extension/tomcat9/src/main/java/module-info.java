@@ -28,7 +28,8 @@
 
 // It is not recommend to use digits in the module name
 module cloud.piranha.extension.tomcat9 {
-    requires cloud.piranha.pages.jasper;
+    
+    requires cloud.piranha.pages.wasp;
     requires cloud.piranha.webapp.annotationscan;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.scinitializer;

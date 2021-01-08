@@ -27,33 +27,21 @@
  */
 
 /**
- * The Piranha Extension - Servlet module.
+ * The Piranha Pages - WaSP integration module.
  * 
  * <p>
- *  This module delivers everything a Servlet container should have available as
- *  part of its runtime.
+ *  This module delivers the code needed to integrate Jakarta Pages aka WaSP.
  * </p>
- * <p>
- *  It delivers the following:
- * </p>
- * <ul>
- *  <li>Annotation scanning support</li>
- *  <li>Jakarta Pages support</li>
- *  <li>ServletContainerInitializer support</li>
- *  <li>TEMPDIR support</li>
- *  <li>Web annotations support</li>
- *  <li>Web.xml support</li>
- * </ul>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.servlet {
+module cloud.piranha.pages.wasp {
     
-    exports cloud.piranha.extension.servlet;
-
-    requires cloud.piranha.pages.wasp;
-    requires cloud.piranha.webapp.annotationscan;
+    exports cloud.piranha.pages.wasp;
+    opens cloud.piranha.pages.wasp;
     requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.scinitializer;
-    requires cloud.piranha.webapp.tempdir;
-    requires cloud.piranha.webapp.webannotation;
-    requires cloud.piranha.webapp.webxml;
+    requires jakarta.servlet.jsp.api;
+    requires jakarta.servlet.jsp;
+    requires jakarta.servlet;
+    requires java.logging;
 }

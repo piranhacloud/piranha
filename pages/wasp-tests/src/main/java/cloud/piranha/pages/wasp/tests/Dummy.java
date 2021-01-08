@@ -25,52 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.tomcat9;
-
-import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.api.WebApplicationExtensionContext;
-import cloud.piranha.pages.wasp.WaspExtension;
-import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
-import cloud.piranha.webapp.scinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.webapp.tempdir.TempDirExtension;
-import cloud.piranha.webapp.webannotation.WebAnnotationExtension;
-import cloud.piranha.webapp.webxml.WebXmlExtension;
+package cloud.piranha.pages.wasp.tests;
 
 /**
- * The Tomcat 9 compatibility extension.
- *
- * <p>
- * This web application extension enables all the extensions necessary to deliver
- * feature parity with Tomcat 9.
- * </p>
- *
- * <ul>
- * <li>Jakarta Pages - Jasper</li>
- * <li>Annotation Scan</li>
- * <li>ServletContainerInitializer</li>
- * <li>TEMPDIR</li>
- * <li>@WebServlet</li>
- * <li>web.xml</li>
- * <li>Jakarta Expression Language</li>
- * <li>Jakarta WebSocket API</li>
- * </ul>
- *
- * @author Manfred Riem (mriem@manorrock.com)
+ * Dummy to make the compiler happy 
+ * @author arjan
  */
-public class Tomcat9Extension implements WebApplicationExtension {
+public class Dummy {
 
-    /**
-     * Extend the web application.
-     *
-     * @param context the context.
-     */
-    @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(AnnotationScanExtension.class);
-        context.add(WebXmlExtension.class);
-        context.add(WebAnnotationExtension.class);
-        context.add(TempDirExtension.class);
-        context.add(WaspExtension.class);
-        context.add(ServletContainerInitializerExtension.class);
-    }
 }

@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.servlet;
 
-import cloud.piranha.pages.jasper.JasperExtension;
+import cloud.piranha.pages.wasp.WaspExtension;
 import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;
@@ -53,7 +53,7 @@ public class ServletExtension implements WebApplicationExtension {
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(AnnotationScanExtension.class);
-        context.add(JasperExtension.class);
+        context.add(WaspExtension.class);
         context.add(WebXmlExtension.class);
         context.add(WebAnnotationExtension.class);
         context.add(TempDirExtension.class);

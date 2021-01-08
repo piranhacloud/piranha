@@ -25,35 +25,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.pages.wasp;
+
+import static org.apache.jasper.Constants.JSP_FILE;
+
+import java.io.IOException;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.apache.jasper.servlet.JspServlet;
 
 /**
- * The Piranha Extension - Servlet module.
- * 
- * <p>
- *  This module delivers everything a Servlet container should have available as
- *  part of its runtime.
- * </p>
- * <p>
- *  It delivers the following:
- * </p>
- * <ul>
- *  <li>Annotation scanning support</li>
- *  <li>Jakarta Pages support</li>
- *  <li>ServletContainerInitializer support</li>
- *  <li>TEMPDIR support</li>
- *  <li>Web annotations support</li>
- *  <li>Web.xml support</li>
- * </ul>
+ * Servlet to set the JSP file attribute
+ * to allow Jasper find the correct file
  */
-module cloud.piranha.extension.servlet {
+class WaspServlet extends JspServlet {
     
-    exports cloud.piranha.extension.servlet;
+    /**
+     * Stores the JSP file.
+     */
+    private final String jspFile;
 
-    requires cloud.piranha.pages.wasp;
-    requires cloud.piranha.webapp.annotationscan;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.scinitializer;
-    requires cloud.piranha.webapp.tempdir;
-    requires cloud.piranha.webapp.webannotation;
-    requires cloud.piranha.webapp.webxml;
+    /**
+     * Constructor.
+     * 
+     * @param jspFile the JSP file.
+     */
+    WaspServlet(String jspFile) {
+        this.jspFile = jspFile;
+    }
+
+    @Override
+    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute(JSP_FILE, jspFile);
+        super.service(request, response);
+    }
 }
