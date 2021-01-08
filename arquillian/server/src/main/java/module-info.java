@@ -26,7 +26,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+import cloud.piranha.arquillian.server.PiranhaServerLoadableExtension;
+import org.jboss.arquillian.core.spi.LoadableExtension;
+
 module cloud.piranha.arquillian.server {
+
+    provides LoadableExtension with PiranhaServerLoadableExtension;
+
     requires cloud.piranha.micro;
 
     requires arquillian.container.spi;
