@@ -12,7 +12,7 @@
     <artifactId>piranha-webapp-impl-test</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Webapplication - Implementation - Test</name>
+    <name>Piranha Webapplication - Implementation - TEST</name>
 
     <dependencyManagement>
         <dependencies>
