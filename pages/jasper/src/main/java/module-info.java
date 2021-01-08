@@ -39,9 +39,9 @@ module cloud.piranha.pages.jasper {
     
     exports cloud.piranha.pages.jasper;
     opens cloud.piranha.pages.jasper;
-    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires jakarta.servlet.jsp.api;
     requires jakarta.servlet.jsp;
+    requires jakarta.servlet;
     requires java.logging;
 }

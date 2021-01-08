@@ -39,10 +39,11 @@ module cloud.piranha.webapp.impl.tests {
     requires cloud.piranha.policy.impl;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
-    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-    
+
+    requires jakarta.servlet;
+
     requires java.logging;
     requires jdk.security.auth;
     
