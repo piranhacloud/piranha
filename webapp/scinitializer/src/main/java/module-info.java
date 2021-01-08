@@ -43,8 +43,8 @@ module cloud.piranha.webapp.scinitializer {
 
     opens cloud.piranha.webapp.scinitializer;
 
-    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
+    requires jakarta.servlet;
     requires java.logging;
     
     uses ServletContainerInitializer;

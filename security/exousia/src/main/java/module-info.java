@@ -39,9 +39,9 @@ module cloud.piranha.security.exousia {
     
     exports cloud.piranha.security.exousia;
 
-    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires jakarta.security.jacc;
+    requires jakarta.servlet;
     requires org.omnifaces.exousia;
 }

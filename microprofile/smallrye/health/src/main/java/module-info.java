@@ -41,8 +41,8 @@ module cloud.piranha.microprofile.smallrye.health {
     
     opens cloud.piranha.microprofile.smallrye.health;
     
-    requires cloud.piranha.servlet.api;
     requires static cloud.piranha.webapp.api;
     requires jakarta.inject;
+    requires jakarta.servlet;
     requires smallrye.health;
 }

@@ -35,7 +35,7 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.servlet.api {
+module jakarta.servlet {
 
     exports jakarta.servlet;
     exports jakarta.servlet.annotation;

@@ -47,12 +47,12 @@ module cloud.piranha.micro.core {
     requires cloud.piranha.naming.thread;
     requires cloud.piranha.resource.shrinkwrap;
     requires cloud.piranha.security.jakarta;
-    requires cloud.piranha.servlet.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires jakarta.annotation;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;
+    requires jakarta.servlet;
     requires java.naming;
     requires java.logging;
     requires java.xml;
