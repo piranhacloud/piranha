@@ -25,35 +25,53 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.pages.wasp;
+
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
+
+import cloud.piranha.webapp.api.JspManager;
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
- * The Piranha Extension - Servlet module.
- * 
- * <p>
- *  This module delivers everything a Servlet container should have available as
- *  part of its runtime.
- * </p>
- * <p>
- *  It delivers the following:
- * </p>
- * <ul>
- *  <li>Annotation scanning support</li>
- *  <li>Jakarta Pages support</li>
- *  <li>ServletContainerInitializer support</li>
- *  <li>TEMPDIR support</li>
- *  <li>Web annotations support</li>
- *  <li>Web.xml support</li>
- * </ul>
+ * The JSP manager delivered by the Jasper integration.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.servlet {
-    
-    exports cloud.piranha.extension.servlet;
+public class WaspJspManager implements JspManager {
 
-    requires cloud.piranha.pages.wasp;
-    requires cloud.piranha.webapp.annotationscan;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.scinitializer;
-    requires cloud.piranha.webapp.tempdir;
-    requires cloud.piranha.webapp.webannotation;
-    requires cloud.piranha.webapp.webxml;
+    /**
+     * Stores the JSP config descriptor.
+     */
+    protected JspConfigDescriptor jspConfigDescriptor;
+
+    /**
+     * Add the JSP file.
+     *
+     * @param webApplication the web application.
+     * @param servletName the servlet name,
+     * @param jspFile the JSP file.
+     * @return null.
+     */
+    @Override
+    public ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile) {
+        ServletRegistration.Dynamic registration = webApplication.addServlet(servletName, new WaspServlet(jspFile));
+
+        registration.addMapping(jspFile);
+        registration.setInitParameter("classpath", System.getProperty("java.class.path"));
+        registration.setInitParameter("compilerSourceVM", "1.8");
+        registration.setInitParameter("compilerTargetVM", "1.8");
+
+        return registration;
+    }
+
+    /**
+     * Get the JSP config descriptor.
+     *
+     * @return the JSP config descriptor.
+     */
+    @Override
+    public JspConfigDescriptor getJspConfigDescriptor() {
+        return jspConfigDescriptor;
+    }
 }

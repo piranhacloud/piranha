@@ -26,34 +26,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * The Piranha Extension - Servlet module.
- * 
- * <p>
- *  This module delivers everything a Servlet container should have available as
- *  part of its runtime.
- * </p>
- * <p>
- *  It delivers the following:
- * </p>
- * <ul>
- *  <li>Annotation scanning support</li>
- *  <li>Jakarta Pages support</li>
- *  <li>ServletContainerInitializer support</li>
- *  <li>TEMPDIR support</li>
- *  <li>Web annotations support</li>
- *  <li>Web.xml support</li>
- * </ul>
- */
-module cloud.piranha.extension.servlet {
+module cloud.piranha.pages.wasp.tests {
     
-    exports cloud.piranha.extension.servlet;
-
+    exports cloud.piranha.pages.wasp.tests;
+    opens cloud.piranha.pages.wasp.tests;
+    requires cloud.piranha.embedded;
     requires cloud.piranha.pages.wasp;
-    requires cloud.piranha.webapp.annotationscan;
+    requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.scinitializer;
-    requires cloud.piranha.webapp.tempdir;
-    requires cloud.piranha.webapp.webannotation;
-    requires cloud.piranha.webapp.webxml;
+    requires cloud.piranha.webapp.impl; 
+    requires jakarta.servlet;
+    requires org.junit.jupiter.api;
+    requires org.junit.jupiter.engine;
+    requires org.junit.platform.launcher;
 }

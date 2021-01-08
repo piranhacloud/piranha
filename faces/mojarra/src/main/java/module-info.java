@@ -38,7 +38,6 @@
 module cloud.piranha.faces.mojarra {
     
     exports cloud.piranha.faces.mojarra;
-    
-    requires static cloud.piranha.pages.jasper;
+    requires static cloud.piranha.pages.wasp;
     requires jakarta.servlet;
 }

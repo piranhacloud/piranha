@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.jakartaee;
 
-import cloud.piranha.pages.jasper.JasperExtension;
+import cloud.piranha.pages.wasp.WaspExtension;
 import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;
@@ -56,7 +56,7 @@ public class JakartaEEExtension implements WebApplicationExtension {
         context.add(WebXmlExtension.class);
         context.add(WebAnnotationExtension.class);
         context.add(TempDirExtension.class);
-        context.add(JasperExtension.class);
+        context.add(WaspExtension.class);
         context.add(ServletContainerInitializerExtension.class);
     }
 }

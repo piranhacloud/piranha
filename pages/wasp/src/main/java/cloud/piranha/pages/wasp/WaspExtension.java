@@ -25,19 +25,49 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.pages.wasp;
+
+import static java.util.logging.Level.WARNING;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Logger;
+
+import jakarta.servlet.ServletContainerInitializer;
+
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
- * The Piranha Faces - MyFaces integration module.
- * 
- * <p>
- *  This module delivers the integration code needed for MyFaces.
- * </p>
- * 
+ * The extension that will enable Jasper integration (aka. JSP).
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.faces.myfaces {
+public class WaspExtension implements WebApplicationExtension {
 
-    exports cloud.piranha.faces.myfaces;
-    requires static cloud.piranha.pages.wasp;
-    requires jakarta.servlet;
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(WaspExtension.class.getName());
+
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        try {
+            ClassLoader classLoader = webApplication.getClassLoader();
+            Class<? extends ServletContainerInitializer> clazz
+                    = classLoader.
+                            loadClass(WaspInitializer.class.getName())
+                            .asSubclass(ServletContainerInitializer.class);
+            ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
+            webApplication.addInitializer(initializer);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
+                | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException ex) {
+            LOGGER.log(WARNING, "Unable to enable the Jasper extension", ex);
+        }
+    }
 }

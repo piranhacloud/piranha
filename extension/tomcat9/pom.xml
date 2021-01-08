@@ -2,75 +2,62 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
         <version>21.1.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>piranha-extension-tomcat9</artifactId>
     <packaging>jar</packaging>
-
     <name>Piranha Extension - Tomcat 9</name>
-
     <dependencies>
-        <!-- Jakarta Pages - Jasper -->
         <dependency>
             <groupId>cloud.piranha.pages</groupId>
-            <artifactId>piranha-pages-jasper</artifactId>
+            <artifactId>piranha-pages-wasp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha Webapplication - Annotation Scan -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-annotationscan</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha Webapplication - ServletContainerInitializer -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-scinitializer</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha Webapplication - TEMPDIR -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-tempdir</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha Webapplication - @WebServlet -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-webannotation</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha Webapplication - web.xml -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-webxml</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha Webapplication API -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Jakarta Expression Language -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- Jakarta WebSocket -->
         <dependency>
             <groupId>jakarta.websocket</groupId>
             <artifactId>jakarta.websocket-api</artifactId>

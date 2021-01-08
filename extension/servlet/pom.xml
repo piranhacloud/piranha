@@ -15,9 +15,7 @@
     <name>Piranha Extension - Servlet</name>
     <description>
         This module delivers the default implementation of a 
-        WebApplicationExtension. It is used by both Piranha Micro and Piranha
-        Server to deliver the basic functionality a Servlet container is 
-        supposed to support.
+        WebApplicationExtension.
     </description>
 
     <dependencies>
@@ -33,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.pages</groupId>
-            <artifactId>piranha-pages-jasper</artifactId>
+            <artifactId>piranha-pages-wasp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
