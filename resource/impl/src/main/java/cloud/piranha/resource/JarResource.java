@@ -35,8 +35,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 
@@ -132,14 +134,17 @@ public class JarResource implements Resource {
 
     @Override
     public Stream<String> getAllLocations() {
-        try {
-            return new JarFile(jarFile)
-                .stream()
-                .map(ZipEntry::getName)
-                .map(x -> "/" + x);
+        List<String> entryNames;
+        try (JarFile jar = new JarFile(jarFile)) {
+             entryNames = jar
+                    .stream()
+                    .map(ZipEntry::getName)
+                    .map(x -> "/" + x)
+                    .collect(Collectors.toList());
         } catch (IOException e) {
             return Stream.of();
         }
+        return entryNames.stream();
     }
 
     /**
