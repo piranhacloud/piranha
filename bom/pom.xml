@@ -314,12 +314,12 @@
             <dependency>
                 <groupId>jakarta.servlet.jsp</groupId>
                 <artifactId>jakarta.servlet.jsp-api</artifactId>
-                <version>3.0.0-M1</version>
+                <version>3.0.0</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.web</groupId>
-                <artifactId>jakarta.servlet.jsp</artifactId>
-                <version>3.0.0-RC1</version>
+                <groupId>org.glassfish.wasp</groupId>
+                <artifactId>wasp</artifactId>
+                <version>3.0.1</version>
             </dependency>
 
             <!-- Jakarta Servlet -->

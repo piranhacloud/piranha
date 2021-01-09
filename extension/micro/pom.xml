@@ -28,9 +28,10 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jakarta.servlet.jsp</artifactId>
-            <scope>runtime</scope>
+            <groupId>cloud.piranha.pages</groupId>
+            <artifactId>piranha-pages-wasp</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.security</groupId>

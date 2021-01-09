@@ -40,8 +40,8 @@ module cloud.piranha.pages.wasp {
     exports cloud.piranha.pages.wasp;
     opens cloud.piranha.pages.wasp;
     requires cloud.piranha.webapp.api;
-    requires jakarta.servlet.jsp.api;
     requires jakarta.servlet.jsp;
     requires jakarta.servlet;
     requires java.logging;
+    requires org.glassfish.wasp;
 }
