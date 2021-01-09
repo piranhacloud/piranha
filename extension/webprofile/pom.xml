@@ -25,8 +25,8 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jakarta.servlet.jsp</artifactId>
+            <groupId>org.glassfish.wasp</groupId>
+            <artifactId>wasp</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
