@@ -61,8 +61,10 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.ConfigurableMavenResolverSystem;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.repository.MavenRemoteRepositories;
@@ -138,6 +140,10 @@ public class MicroOuterDeployer {
 
         if (!archive.contains("WEB-INF/beans.xml")) {
             archive.add(EmptyAsset.INSTANCE, "WEB-INF/beans.xml");
+        }
+        
+        if (archive instanceof WebArchive) {
+            ((WebArchive) archive).addClass(MicroInfo.class);
         }
 
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
@@ -308,6 +314,15 @@ public class MicroOuterDeployer {
                         .filter(location -> location.endsWith(".jar"))
                         .map(location -> importAsShrinkWrapResource(jarResources, location))
                         .collect(toList());
+        
+        
+        webLibResources.stream()
+            .filter(resource -> 
+                resource.getAllLocations()
+                        .anyMatch(location -> location.startsWith("/META-INF/resources")))
+                        .forEach(resource -> 
+                            applicationArchive.add(resource.getArchive(), "/META-INF/piranha/resource-libs", ZipExporter.class));
+        
 
         // Create a separate archive that contains an index of the application archive and the library archives.
         // This index can be obtained from the class loader by getting the "META-INF/piranha.idx" resource.
@@ -324,6 +339,8 @@ public class MicroOuterDeployer {
             manager.addResource(webLibResource);
         }
         manager.addResource(indexResource);
+        
+       
 
         // Make the application and library classes, as well as the index available to the class loader by setting the resource manager
         // that contains these.
