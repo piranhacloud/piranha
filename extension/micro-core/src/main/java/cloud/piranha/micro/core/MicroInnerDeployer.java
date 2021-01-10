@@ -77,6 +77,8 @@ import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.Index;
 import org.jboss.jandex.IndexReader;
 import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.Node;
+import org.jboss.shrinkwrap.api.asset.ArchiveAsset;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -213,6 +215,8 @@ public class MicroInnerDeployer {
                             .forEach(implementingClass
                                     -> annotationManager.addInstance(instanceClass, implementingClass)));
 
+            // Setup the default identity store, which is used as the default "username and roles database" for
+            // (Servlet) security.
             initIdentityStore(webApplication);
 
             String contextPath = (String) config.get("micro.root");
@@ -258,7 +262,20 @@ public class MicroInnerDeployer {
     WebApplication getWebApplication(Archive<?> archive, ClassLoader newClassLoader) {
         WebApplication webApplication = new DefaultWebApplication();
         webApplication.setClassLoader(newClassLoader);
+        
+        // The main resource representing the (war) archive itself.
         webApplication.addResource(new ShrinkWrapResource(archive));
+        
+        // Get the list of embedded archives containing a "/META-INF/resources" folder.
+        Node resourceNodes = archive.get("/META-INF/piranha/resource-libs");
+        if (resourceNodes != null) {
+            for (Node resourceNode :  resourceNodes.getChildren()) {
+                ArchiveAsset resourceArchiveAsset = (ArchiveAsset) resourceNode.getAsset();
+                
+                // Add the archive as a resource with the "/META-INF/resources" folder shifted to its root
+                webApplication.addResource(new ShrinkWrapResource("/META-INF/resources", resourceArchiveAsset.getArchive()));
+            }
+        }
 
         // Set version
         webApplication.setAttribute(MICRO_PIRANHA, new Piranha() {

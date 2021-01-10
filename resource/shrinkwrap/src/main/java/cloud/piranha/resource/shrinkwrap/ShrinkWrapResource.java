@@ -169,6 +169,14 @@ public class ShrinkWrapResource implements Resource {
     }
 
     /**
+     * 
+     * @return the embedded archive that contains the actual data
+     */
+    public Archive<?> getArchive() {
+        return archive;
+    }
+
+    /**
      * Get all locations.
      * 
      * @param archiveToGetFrom the archive to use.
