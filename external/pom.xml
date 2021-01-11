@@ -16,6 +16,7 @@
     <name>Piranha - External - Project</name>
 
     <modules>
+        <module>jakartaee-samples</module>
         <module>jakartaee8-samples</module>
         <module>tck</module>
     </modules>
