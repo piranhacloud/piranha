@@ -1,4 +1,4 @@
-name: ext-jakartaee8-samples
+name: ext-jakartaee-samples
 on:
   workflow_dispatch:
    schedule:
