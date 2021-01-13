@@ -151,17 +151,17 @@
             <dependency> <!-- Alternative impl -->
                 <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-impl</artifactId>
-                <version>2.0.20</version>
+                <version>2.0.21</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-jsf</artifactId>
-                <version>2.0.20</version>
+                <version>2.0.21</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-spi</artifactId>
-                <version>2.0.20</version>
+                <version>2.0.21</version>
             </dependency>
 
             <!-- Jakarta EE web-profile -->
@@ -204,12 +204,12 @@
             <dependency>
                 <groupId>jakarta.json.bind</groupId>
                 <artifactId>jakarta.json.bind-api</artifactId>
-                <version>1.0.2</version>
+                <version>2.0.0</version>
             </dependency>
             <dependency> <!-- Implementation 1: Yasson  -->
                 <groupId>org.eclipse</groupId>
                 <artifactId>yasson</artifactId>
-                <version>1.0.8</version>
+                <version>2.0.1</version>
             </dependency>
              <dependency> <!-- Implementation 2: Johnzon  -->
                 <groupId>org.apache.johnzon</groupId>
@@ -226,12 +226,12 @@
             <dependency>
                 <groupId>jakarta.json</groupId>
                 <artifactId>jakarta.json-api</artifactId>
-                <version>1.1.6</version>
+                <version>2.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.json</artifactId>
-                <version>1.1.6</version>
+                <version>2.0.0</version>
             </dependency>
             
             <!-- Jakarta Persistence -->
@@ -429,14 +429,14 @@
             <dependency>
                 <groupId>io.smallrye.config</groupId>
                 <artifactId>smallrye-config</artifactId>
-                <version>1.9.3</version>
+                <version>2.0.2</version>
             </dependency>
             
             <!-- MicroProfile Health -->
             <dependency>
                 <groupId>io.smallrye</groupId>
                 <artifactId>smallrye-health</artifactId>
-                <version>2.2.5</version>
+                <version>3.0.0-RC2</version>
             </dependency>
             
             <!-- MicroProfile JWT Auth -->
@@ -494,14 +494,14 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>5.3.1</version>
+                <version>5.3.3</version>
             </dependency>
            
             <!-- Struts -->
             <dependency>
                 <groupId>org.apache.struts</groupId>
                 <artifactId>struts2-core</artifactId>
-                <version>2.5.25</version>
+                <version>2.5.26</version>
             </dependency>
             
             <!-- Undertow -->
@@ -515,17 +515,17 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-client-compiled</artifactId>
-                <version>8.12.0</version>
+                <version>8.12.1</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-server</artifactId>
-                <version>8.12.0</version>
+                <version>8.12.1</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-themes</artifactId>
-                <version>8.12.0</version>
+                <version>8.12.1</version>
             </dependency>
             
             <!-- Wicket -->
