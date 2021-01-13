@@ -161,7 +161,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
-                    <skip>true</skip>
+                    <excludes>**/org/apache/**,**/module-info*</excludes>
                 </configuration>
                 <executions>
                     <execution>
