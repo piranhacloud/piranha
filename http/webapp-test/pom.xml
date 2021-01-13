@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha.http</groupId>
         <artifactId>project</artifactId>
-        <version>21.1.0-SNAPSHOT</version>
+        <version>21.1.0</version>
     </parent>
 
     <artifactId>piranha-http-webapp-test</artifactId>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-webapp</artifactId>
-            <version>21.1.0-SNAPSHOT</version>
+            <version>21.1.0</version>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
