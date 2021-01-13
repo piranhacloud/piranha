@@ -115,7 +115,11 @@
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>3.1.2</version>
                 </plugin>
-                <!-- downgraded to 2.8.2 because 3.0.0-M1 has deploy problems -->
+                <!--
+
+                    Downgraded to 2.8.2 because 3.0.0-M1 has deploy problems.
+
+                  -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
@@ -126,7 +130,12 @@
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>3.0.0-M3</version>
                 </plugin>
-                <!-- downgraded to 3.0.0-M4 because 3.0.0-M5 don't find any test in JWT TCK -->
+                <!-- 
+                
+                    Downgraded to 3.0.0-M4 because 3.0.0-M5 does not find any
+                    tests in JWT TCK.
+                   
+                 -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
@@ -345,6 +354,13 @@
                         </goals>
                         <configuration>
                             <docfilessubdirs>true</docfilessubdirs>
+                            <!-- 
+                               
+                                Once a Jakarta namespaced Apache Commons 
+                                FileUpload can be used this should be removed.
+                               
+                              -->
+                            <excludePackageNames>org.apache.*</excludePackageNames>
                         </configuration>
                         <inherited>false</inherited>
                     </execution>
@@ -446,8 +462,13 @@
             </activation>
             <build>
                 <pluginManagement>
-                    <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the 
-                    Maven build itself. -->
+                    <!--
+
+                        This plugin's configuration is used to store Eclipse m2e
+                        settings only. It has no influence on the Maven build 
+                        itself. 
+                    
+                      -->
                     <plugins>
                         <plugin>
                             <groupId>org.eclipse.m2e</groupId>
