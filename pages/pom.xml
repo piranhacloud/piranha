@@ -12,7 +12,6 @@
     <packaging>pom</packaging>
     <name>Piranha Pages - Project</name>
     <modules>
-        <module>jasper</module>
         <module>wasp</module>
     </modules>
     <dependencyManagement>
