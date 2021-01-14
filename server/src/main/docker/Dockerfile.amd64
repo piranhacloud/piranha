@@ -1,19 +1,4 @@
-#
-# Use AdoptOpenJDK 14 image.
-#
-FROM adoptopenjdk:14-jdk-hotspot
-
-#
-# Install Piranha Server
-#
+FROM adoptopenjdk:15-jdk-hotspot
 ADD target/piranha-server.tar.gz /usr/local/
-
-#
-# Setup WORKDIR.
-#
 WORKDIR /usr/local/piranha/bin
-
-#
-# Setup CMD.
-#
 CMD ["sh", "run.sh"]
