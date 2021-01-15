@@ -32,7 +32,7 @@ jobs:
       run: |
         cd server
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx --platform linux/arm/v7 -f src/main/docker/Dockerfile.arm32v7 -t piranhacloud/server:arm32v7-snapshot .
+        docker buildx build --platform linux/arm/v7 -f src/main/docker/Dockerfile.arm32v7 -t piranhacloud/server:arm32v7-snapshot .
         docker push piranhacloud/server:arm32v7-snapshot
     - name: Push multi-arch Docker manifest
       run: |
