@@ -36,8 +36,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.upload</groupId>
-            <artifactId>piranha-upload-apache</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-apache-fileupload</artifactId>
             <version>${project.version}</version>
             <classifier>shaded</classifier>
             <scope>runtime</scope>

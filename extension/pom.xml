@@ -15,6 +15,7 @@
     <name>Piranha Extension - Project</name>
 
     <modules>
+        <module>apache-fileupload</module>
         <module>jakartaee</module>
         <module>micro</module> 
         <module>micro-core</module>
