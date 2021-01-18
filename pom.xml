@@ -63,9 +63,10 @@
         <module>server2</module>
         <module>servlet</module>
         <module>session</module>
+        <module>test</module>
         <module>transaction</module>
         <module>upload</module>
-	<module>war</module>
+        <module>war</module>
         <module>webapp</module>
     </modules>
 
@@ -117,9 +118,9 @@
                 </plugin>
                 <!--
 
-                    Downgraded to 2.8.2 because 3.0.0-M1 has deploy problems.
+                  Downgraded to 2.8.2 because 3.0.0-M1 has deploy problems.
 
-                  -->
+                -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
@@ -131,11 +132,11 @@
                     <version>3.0.0-M3</version>
                 </plugin>
                 <!-- 
-                
-                    Downgraded to 3.0.0-M4 because 3.0.0-M5 does not find any
-                    tests in JWT TCK.
-                   
-                 -->
+               
+                   Downgraded to 3.0.0-M4 because 3.0.0-M5 does not find any
+                   tests in JWT TCK.
+                  
+                -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
@@ -355,11 +356,11 @@
                         <configuration>
                             <docfilessubdirs>true</docfilessubdirs>
                             <!-- 
-                               
-                                Once a Jakarta namespaced Apache Commons 
-                                FileUpload can be used this should be removed.
-                               
-                              -->
+                             
+                              Once a Jakarta namespaced Apache Commons 
+                              FileUpload can be used this should be removed.
+                             
+                            -->
                             <excludePackageNames>org.apache.*</excludePackageNames>
                         </configuration>
                         <inherited>false</inherited>
@@ -464,11 +465,11 @@
                 <pluginManagement>
                     <!--
 
-                        This plugin's configuration is used to store Eclipse m2e
-                        settings only. It has no influence on the Maven build 
-                        itself. 
-                    
-                      -->
+                      This plugin's configuration is used to store Eclipse m2e
+                      settings only. It has no influence on the Maven build 
+                      itself. 
+                  
+                    -->
                     <plugins>
                         <plugin>
                             <groupId>org.eclipse.m2e</groupId>
@@ -502,12 +503,6 @@
             <id>external</id>
             <modules>
                 <module>external</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>test</id>
-            <modules>
-                <module>test</module>
             </modules>
         </profile>
     </profiles>
