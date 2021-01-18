@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.upload.apache;
+package cloud.piranha.extension.apache.fileupload;
 
 import cloud.piranha.webapp.api.MultiPartManager;
 import cloud.piranha.webapp.api.WebApplication;

@@ -25,55 +25,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.upload.apache;
-
-import java.io.File;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 /**
- * The JUnit tests for the ApacheMultiPart class.
+ * <p>
+ * This package delivers a MultiPartManager that is backed by Apache Commons
+ * File Upload.
+ * </p>
+ *
+ * <p>
+ * For more information about Apache Commons File Upload, see the
+ * <a href="http://commons.apache.org/proper/commons-fileupload/">Apache Commons
+ * File Upload website</a>.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ApacheMultiPartTest {
-
-    /**
-     * Test delete method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testDelete() throws Exception {
-        File file = new File("delete.me");
-        file.createNewFile();
-        assertTrue(file.exists());
-        FileItem item = new DiskFileItem("fieldName", "text/html", false,
-                "delete.me", 0, file);
-        ApacheMultiPart part = new ApacheMultiPart(item);
-        part.delete();
-        file.delete();
-    }
-
-    /**
-     * Test getContentType method.
-     * 
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testGetContentType() throws Exception {
-        File file = new File("delete.me");
-        file.createNewFile();
-        assertTrue(file.exists());
-        FileItem item = new DiskFileItem("fieldName", "text/html", false,
-                "delete.me", 0, file);
-        ApacheMultiPart part = new ApacheMultiPart(item);
-        assertEquals("text/html", part.getContentType());
-        file.delete();
-    }
-}
+package cloud.piranha.extension.apache.fileupload;

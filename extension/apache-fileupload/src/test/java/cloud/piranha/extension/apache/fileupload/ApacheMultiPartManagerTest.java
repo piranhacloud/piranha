@@ -25,49 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.upload.apache;
+package cloud.piranha.extension.apache.fileupload;
 
-import cloud.piranha.webapp.api.WebApplication;
-import java.util.Set;
-import java.util.logging.Logger;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * The ServletContainerInitializer for the ApacheMultiPartManager.
- *
- * <p>
- * The ServletContainerInitializer performs the following steps:
- * </p>
- *
- * <ol>
- * <li>Sets the MultiPartManager to an instance of ApacheMultiPartManager.</li>
- * <li>Adds the FileCleanerCleanup listener that cleans up the temporary
- * files.</li>
- * </ol>
+ * The JUnit tests for the ApacheMultiPartManager class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ApacheMultiPartInitializer implements ServletContainerInitializer {
+class ApacheMultiPartManagerTest {
 
     /**
-     * Stores the logger.
+     * Test getPart method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
-    private static final Logger LOGGER = Logger.getLogger(
-            ApacheMultiPartInitializer.class.getPackageName());
-
-    /**
-     * @see ServletContainerInitializer#onStartup(java.util.Set,
-     * jakarta.servlet.ServletContext)
-     */
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext)
-            throws ServletException {
-        LOGGER.info("Initializing ApacheMultiPartManager");
-
-        WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setMultiPartManager(new ApacheMultiPartManager());
-        webApplication.addListener("org.apache.commons.fileupload.servlet.FileCleanerCleanup");
+    @Test
+    void testGetPart() throws Exception {
+        DefaultWebApplication application = new DefaultWebApplication();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setContentType("multipart/form-data");
+        request.setMethod("POST");
+        ApacheMultiPartManager manager = new ApacheMultiPartManager();
+        assertNull(manager.getPart(application, request, "part_test"));
     }
 }
