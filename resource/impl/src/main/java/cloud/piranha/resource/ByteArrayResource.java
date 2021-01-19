@@ -108,7 +108,7 @@ public class ByteArrayResource implements Resource {
     /**
      * Get the resource as a stream.
      *
-     * @param location the location.
+     * @param url the location in URL form
      * @return the input stream.
      */
     @Override
