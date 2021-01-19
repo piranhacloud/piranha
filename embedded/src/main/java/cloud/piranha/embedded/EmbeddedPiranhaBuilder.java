@@ -31,6 +31,7 @@ import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.AliasedDirectoryResource;
 import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
 import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.resource.StringResource;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.webapp.api.HttpSessionManager;
 import cloud.piranha.webapp.api.WebApplication;
@@ -423,6 +424,18 @@ public class EmbeddedPiranhaBuilder {
      */
     public EmbeddedPiranhaBuilder servletMapping(String servletName, String... urlPatterns) {
         servletMappings.put(servletName, Arrays.asList(urlPatterns));
+        return this;
+    }
+    
+    /**
+     * Add a string resource.
+     *
+     * @param path the path.
+     * @param value the string value added under the given path.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder stringResource(String path, String value) {
+        resources.add(new StringResource(path, value));
         return this;
     }
 }
