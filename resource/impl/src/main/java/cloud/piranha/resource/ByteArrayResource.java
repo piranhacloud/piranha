@@ -84,20 +84,25 @@ public class ByteArrayResource implements Resource {
     /**
      * Get the resource.
      *
-     * @param location the location.
+     * @param url the url in string form.
      * @return the URL, or null if not found.
      */
     @Override
-    public URL getResource(String location) {
-        URL result = null;
-        if (location != null && location.equals(this.location)) {
-            try {
-                result = new URL(null, "bytes://" + location,
-                        new ByteArrayResourceURLStreamHandler(this));
-            } catch (MalformedURLException mue) {
-            }
+    public URL getResource(String url) {
+        String location = getLocationFromUrl(url);
+        if (location == null) {
+            return null;
         }
-        return result;
+
+        if (!location.equals(this.location)) {
+            return null;
+        }
+
+        try {
+            return new URL(null, "bytes://" + "root" + location, new ByteArrayResourceURLStreamHandler(this));
+        } catch (MalformedURLException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**
@@ -107,11 +112,52 @@ public class ByteArrayResource implements Resource {
      * @return the input stream.
      */
     @Override
-    public InputStream getResourceAsStream(String location) {
-        InputStream result = null;
-        if (location != null && location.equals(this.location)) {
-            result = new ByteArrayInputStream(bytes);
-        }
-        return result;
+    public InputStream getResourceAsStream(String url) {
+        return getResourceAsStreamByLocation(getLocationFromUrl(url));
     }
+    
+    /**
+     * Get the resource as stream by location.
+     * 
+     * @param location the location.
+     * @return the input stream
+     */
+    public InputStream getResourceAsStreamByLocation(String location) {
+        if (location == null) {
+            return null;
+        }
+        
+        if (!location.equals(this.location)) {
+            return null;
+        }
+        
+        return new ByteArrayInputStream(bytes);
+    }
+    
+    private String getLocationFromUrl(String url) {
+        if (url == null) {
+            return null;
+        }
+        
+        if (!url.contains("bytes://")) {
+            // Already a relative URL, so should be the location
+            return url;
+        }
+        
+        // Relative URL: [bytes://][root][location] eg bytes://root/WEB-INF/web.xml
+        try {
+            URL bytesURL = new URL(url.substring(url.indexOf("bytes://")));
+            
+            String hostName = bytesURL.getHost();
+            if (!"root".equals(hostName)) {
+                return null;
+            }
+            
+            return bytesURL.getPath().replace("//", "/");
+        } catch (MalformedURLException e) {
+            throw new IllegalStateException(e);
+        }
+        
+    }
+    
 }
