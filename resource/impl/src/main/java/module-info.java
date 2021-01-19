@@ -1,3 +1,7 @@
+import java.net.spi.URLStreamHandlerProvider;
+
+import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
+
 /*
  * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
  *
@@ -39,6 +43,8 @@ module cloud.piranha.resource {
 
     exports cloud.piranha.resource;
     opens cloud.piranha.resource;
+    provides URLStreamHandlerProvider with ByteArrayResourceStreamHandlerProvider;
+    
     requires cloud.piranha.resource.api;
     requires java.logging;
 }
