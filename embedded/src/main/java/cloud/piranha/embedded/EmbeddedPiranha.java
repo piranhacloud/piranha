@@ -29,6 +29,7 @@ package cloud.piranha.embedded;
 
 import cloud.piranha.api.Piranha;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.api.WebApplication;
 import java.io.IOException;
@@ -102,15 +103,12 @@ public class EmbeddedPiranha implements Piranha {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a Servlet error occurs.
      */
-    public void service(ServletRequest servletRequest, ServletResponse servletResponse)
-            throws IOException, ServletException {
-
+    public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
         try {
-            ThreadInitialContextFactory.setInitialContext(
-                    webApplication.getNamingManager().getContext());
-            
-            if (servletRequest.getServletContext() == null
-                    && servletRequest instanceof EmbeddedRequest) {
+            ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
+            ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(e -> webApplication.getResourceAsStream(e));
+
+            if (servletRequest.getServletContext() == null && servletRequest instanceof EmbeddedRequest) {
                 EmbeddedRequest embeddedRequest = (EmbeddedRequest) servletRequest;
                 embeddedRequest.setWebApplication(webApplication);
             }
@@ -118,12 +116,14 @@ public class EmbeddedPiranha implements Piranha {
                 EmbeddedResponse embeddedResponse = (EmbeddedResponse) servletResponse;
                 embeddedResponse.setWebApplication(webApplication);
             }
+            
             webApplication.linkRequestAndResponse(servletRequest, servletResponse);
             webApplication.service(servletRequest, servletResponse);
             webApplication.unlinkRequestAndResponse(servletRequest, servletResponse);
 
         } finally {
             ThreadInitialContextFactory.removeInitialContext();
+            ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(null);
         }
     }
 
