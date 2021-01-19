@@ -70,6 +70,9 @@ public class EmbeddedRequestBuilder {
      * @return the request.
      */
     public EmbeddedRequest build() {
+        if (request.getContextPath() == null) {
+            request.setContextPath("");
+        }
         return request;
     }
 
