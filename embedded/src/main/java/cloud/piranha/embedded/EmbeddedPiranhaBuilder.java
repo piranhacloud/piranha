@@ -296,6 +296,17 @@ public class EmbeddedPiranhaBuilder {
         }
         return this;
     }
+    
+    /**
+     * Add a feature.
+     *
+     * @param featureClass the feature class.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder feature(Class<?> featureClass) {
+        features.add(featureClass.getName());
+        return this;
+    }
 
     /**
      * Add a feature.
@@ -305,6 +316,18 @@ public class EmbeddedPiranhaBuilder {
      */
     public EmbeddedPiranhaBuilder feature(String className) {
         features.add(className);
+        return this;
+    }
+    
+    /**
+     * Add a filter.
+     *
+     * @param filterName the filter name.
+     * @param filterClass the filter class.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder filter(String filterName, Class<?> filterClass) {
+        filters.put(filterName, filterClass.getName());
         return this;
     }
 
@@ -360,6 +383,17 @@ public class EmbeddedPiranhaBuilder {
         this.httpSessionManager = httpSessionManager;
         return this;
     }
+    
+    /**
+     * Add an initializer.
+     *
+     * @param initializerClass the class name.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder initializer(Class<?> initializerClass) {
+        initializers.add(initializerClass.getName());
+        return this;
+    }
 
     /**
      * Add an initializer.
@@ -371,6 +405,17 @@ public class EmbeddedPiranhaBuilder {
         initializers.add(className);
         return this;
     }
+    
+    /**
+     * Add a servlet.
+     *
+     * @param servletName the servlet name.
+     * @param servletClass the servlet class.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder servlet(String servletName, Class<?> servletClass) {
+        return servlet(servletName, servletClass.getName(), false);
+    }
 
     /**
      * Add a servlet.
@@ -381,6 +426,18 @@ public class EmbeddedPiranhaBuilder {
      */
     public EmbeddedPiranhaBuilder servlet(String servletName, String className) {
         return servlet(servletName, className, false);
+    }
+    
+    /**
+     * Add a servlet.
+     *
+     * @param servletName the servlet name.
+     * @param servletClass the servlet class.
+     * @param asyncSupported the async supported flag.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder servlet(String servletName, Class<?> servletClass, boolean asyncSupported) {
+        return servlet(servletName, servletClass.getName(), asyncSupported);
     }
 
     /**
