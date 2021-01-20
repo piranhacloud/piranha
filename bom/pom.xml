@@ -125,7 +125,7 @@
                 <artifactId>hibernate-validator-cdi</artifactId>
                 <version>7.0.0.Final</version>
             </dependency>
-            <dependency> <!-- Alternative impl -->
+            <dependency><!-- Alternative impl -->
                 <groupId>org.apache.bval</groupId>
                 <artifactId>bval-jsr</artifactId>
                 <version>2.0.5</version>
@@ -148,7 +148,7 @@
                 <artifactId>jboss-classfilewriter</artifactId>
                 <version>1.2.4.Final</version>
             </dependency>
-            <dependency> <!-- Alternative impl -->
+            <dependency><!-- Alternative impl -->
                 <groupId>org.apache.openwebbeans</groupId>
                 <artifactId>openwebbeans-impl</artifactId>
                 <version>2.0.21</version>
@@ -194,7 +194,7 @@
                 <artifactId>jakarta.faces</artifactId>
                 <version>3.0.0</version>
             </dependency>
-            <dependency> <!-- Alternative impl -->
+            <dependency><!-- Alternative impl -->
                 <groupId>org.apache.myfaces.core</groupId>
                 <artifactId>myfaces-impl</artifactId>
                 <version>3.0.0-RC1</version>
@@ -206,12 +206,12 @@
                 <artifactId>jakarta.json.bind-api</artifactId>
                 <version>2.0.0</version>
             </dependency>
-            <dependency> <!-- Implementation 1: Yasson  -->
+            <dependency><!-- Implementation 1: Yasson  -->
                 <groupId>org.eclipse</groupId>
                 <artifactId>yasson</artifactId>
                 <version>2.0.1</version>
             </dependency>
-             <dependency> <!-- Implementation 2: Johnzon  -->
+             <dependency><!-- Implementation 2: Johnzon  -->
                 <groupId>org.apache.johnzon</groupId>
                 <artifactId>johnzon-core</artifactId>
                 <version>1.2.9</version>
