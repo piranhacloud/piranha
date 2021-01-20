@@ -9,7 +9,6 @@
         <version>21.2.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cloud.piranha</groupId>
     <artifactId>piranha-nano</artifactId>
     <packaging>jar</packaging>
 
@@ -27,6 +26,12 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+    	<dependency>
+  <groupId>cloud.piranha.servlet</groupId>
+  <artifactId>piranha-servlet-api</artifactId>
+  <version>${project.version}</version>
+  <scope>compile</scope>
+    	</dependency>
         <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-api</artifactId>
@@ -45,6 +50,7 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

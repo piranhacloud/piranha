@@ -36,7 +36,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
     <profiles>
         <profile>
             <id>test-modules</id>

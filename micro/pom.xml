@@ -186,7 +186,6 @@
             <plugin>
                 <groupId>org.moditect</groupId>
                 <artifactId>moditect-maven-plugin</artifactId>
-                <version>1.0.0.RC1</version>
                 <executions>
                     <execution>
                         <id>add-module-infos</id>
