@@ -63,7 +63,6 @@
         <module>server2</module>
         <module>servlet</module>
         <module>session</module>
-        <module>test</module>
         <module>transaction</module>
         <module>upload</module>
         <module>war</module>
@@ -503,6 +502,15 @@
             <id>external</id>
             <modules>
                 <module>external</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>test</module>
             </modules>
         </profile>
     </profiles>
