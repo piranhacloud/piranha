@@ -37,7 +37,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.jupiter.api.Test;
 
-import cloud.piranha.micro.embedded.MicroPiranhaBuilder;
+import cloud.piranha.micro.embedded.MicroEmbeddedPiranhaBuilder;
 
 /**
  * The JUnit tests for the Hello Jakarta Faces web application.
@@ -55,7 +55,7 @@ class Mojarra2Test {
     @Test
     void testIndexHtml1() throws Exception {
     	String result =
-    	new MicroPiranhaBuilder()
+    	new MicroEmbeddedPiranhaBuilder()
     		.archive(
 				ShrinkWrap
 					.create(WebArchive.class)

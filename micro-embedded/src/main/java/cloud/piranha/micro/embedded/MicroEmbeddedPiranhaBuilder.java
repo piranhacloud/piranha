@@ -39,7 +39,7 @@ import cloud.piranha.policy.thread.ThreadPolicy;
  * 
  * @author Arjan Tijms
  */
-public class MicroPiranhaBuilder {
+public class MicroEmbeddedPiranhaBuilder {
 
 	/**
 	 * Object containing all configuration settings for Piranha Micro
@@ -57,7 +57,7 @@ public class MicroPiranhaBuilder {
 	 * @param configuration the configuration
 	 * @return instance of this builder
 	 */
-	public MicroPiranhaBuilder configuration(MicroConfiguration configuration) {
+	public MicroEmbeddedPiranhaBuilder configuration(MicroConfiguration configuration) {
 		this.configuration = configuration;
 		return this;
 	}
@@ -68,7 +68,7 @@ public class MicroPiranhaBuilder {
 	 * @param archive the archive to be executed
 	 * @return instance of this builder
 	 */
-	public MicroPiranhaBuilder archive(Archive<?> archive) {
+	public MicroEmbeddedPiranhaBuilder archive(Archive<?> archive) {
 		this.archive = archive;
 		return this;
 	}
