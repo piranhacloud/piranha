@@ -25,34 +25,44 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server2;
+package cloud.piranha.micro.embedded;
 
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
-import cloud.piranha.policy.thread.ThreadPolicy;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
+import static java.util.Map.entry;
 
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-
-import cloud.piranha.webapp.api.WebApplicationRequest;
-import cloud.piranha.webapp.api.WebApplicationResponse;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
-import static java.util.Map.entry;
+import java.util.Map;
+import java.util.function.Consumer;
+
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import cloud.piranha.policy.thread.ThreadPolicy;
+import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.webapp.api.WebApplicationResponse;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 /**
  * A Piranha Micro web application.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
  */
 public class MicroWebApplication extends DefaultWebApplication {
+    
+    /**
+     * Runnable to do nothing
+     */
+    private final Runnable doNothing = new Runnable() {
+        @Override
+        public void run() {
+            
+        }
+    };
 
     /**
      * Stores the deployed application.
@@ -129,7 +139,7 @@ public class MicroWebApplication extends DefaultWebApplication {
             entry("Method", request.getMethod()),
             entry("ContextPath", request.getContextPath()),
             entry("ServletPath", request.getServletPath()),
-            entry("QueryString", request.getQueryString()),
+            entry("QueryString", request.getQueryString() == null? "" : request.getQueryString()),
             entry("InputStream", getInputStreamUnchecked(request)),
             entry("Headers", getHeadersAsMap(request)));
     }
@@ -172,6 +182,6 @@ public class MicroWebApplication extends DefaultWebApplication {
     private Map<String, Object> responseToMap(WebApplicationResponse response) {
         return Map.of(
             "UnderlyingOutputStream", response.getUnderlyingOutputStream(),
-            "ResponseCloser", response.getResponseCloser());
+            "ResponseCloser", response.getResponseCloser() == null? doNothing : response.getResponseCloser() );
     }
 }

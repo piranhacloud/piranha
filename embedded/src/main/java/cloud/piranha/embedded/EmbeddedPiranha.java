@@ -27,16 +27,16 @@
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.api.Piranha;
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
-import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.api.WebApplication;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import cloud.piranha.api.Piranha;
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -58,6 +58,16 @@ public class EmbeddedPiranha implements Piranha {
      */
     public EmbeddedPiranha() {
         webApplication = new DefaultWebApplication();
+    }
+    
+    /**
+     * Another constructor.
+     * 
+     * @param webApplication the web application to use internally
+     * 
+     */
+    public EmbeddedPiranha(DefaultWebApplication webApplication) {
+        this.webApplication = webApplication;
     }
 
     /**

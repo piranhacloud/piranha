@@ -42,7 +42,13 @@
             <version>${project.version}</version>
         </dependency>
         
-         <!-- Handling of archives and loading modules via Maven -->
+        <dependency>
+            <groupId>cloud.piranha</groupId>
+              <artifactId>piranha-embedded</artifactId>
+              <version>${project.version}</version>
+        </dependency>
+        
+        <!-- Handling of archives and loading modules via Maven -->
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-shrinkwrap</artifactId>
@@ -80,6 +86,14 @@
             <groupId>org.jboss</groupId>
             <artifactId>jandex</artifactId>
             <optional>true</optional>
+        </dependency>
+  
+        <!-- Piranha HTTP - WebApplication -->
+        <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-micro-embedded</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- Because MicroPiranha implements Piranha. -->

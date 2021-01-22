@@ -29,6 +29,7 @@
         <module>jersey</module>
         <module>jpa</module>
         <module>mojarra</module>
+        <module>mojarra2</module>
         <module>myfaces</module>
         <!--<module>openwebbeans</module>-->
         <!--<module>smallrye-health</module>-->

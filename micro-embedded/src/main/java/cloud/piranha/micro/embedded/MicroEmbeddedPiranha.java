@@ -25,39 +25,77 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.micro.embedded;
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.embedded.EmbeddedPiranha;
 
-module cloud.piranha.server2 {
-    exports cloud.piranha.server2;
+/**
+ * Embedded variant using Micro
+ * 
+ * @author Arjan Tijms
+ *
+ */
+public class MicroEmbeddedPiranha extends EmbeddedPiranha {
 
-    requires cloud.piranha.micro;
-    requires cloud.piranha.api;
-    requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.webapp;
-    requires cloud.piranha.naming.api;
-    requires cloud.piranha.naming.impl;
-    requires cloud.piranha.naming.thread;
-    requires cloud.piranha.policy.api;
-    requires cloud.piranha.policy.thread;
-    requires cloud.piranha.resource;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
+    /**
+     * Constructor.
+     */
+    public MicroEmbeddedPiranha() {
+        super(new MicroWebApplication());
+    }
 
-    requires cloud.piranha.resource.shrinkwrap;
+    /**
+     * Get the web application.
+     *
+     * @return the web application.
+     */
+    @Override
+    public MicroWebApplication getWebApplication() {
+        return (MicroWebApplication) super.getWebApplication();
+    }
 
-    requires java.logging;
+    /**
+     * Initialize the web application.
+     *
+     * @return the instance.
+     */
+    @Override
+    public MicroEmbeddedPiranha initialize() {
+        getWebApplication().initialize();
+        return this;
+    }
 
-    requires org.jboss.jandex;
+    /**
+     * Start the web application.
+     *
+     * @return the instance.
+     */
+    @Override
+    public MicroEmbeddedPiranha start() {
+        getWebApplication().start();
+        return this;
+    }
 
-    requires shrinkwrap.api;
-    requires shrinkwrap.resolver.api.maven;
-    requires java.naming;
-	requires cloud.piranha.embedded;
-    requires cloud.piranha.micro.embedded;
+    /**
+     * Stop the web application.
+     *
+     * @return the instance.
+     */
+    @Override
+    public MicroEmbeddedPiranha stop() {
+        getWebApplication().stop();
+        return this;
+    }
 
-    uses HttpServer;
-    uses WebApplicationExtension;
+    /**
+     * Destroy the web application.
+     *
+     * @return the instance.
+     */
+    @Override
+    public MicroEmbeddedPiranha destroy() {
+        getWebApplication().destroy();
+        return this;
+    }
+
 }
