@@ -50,6 +50,7 @@
         <module>http</module>
         <module>maven</module>
         <module>micro</module>
+        <module>micro-embedded</module>
         <module>microprofile</module>
         <module>modular</module>
         <module>monitor</module>

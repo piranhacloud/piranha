@@ -26,17 +26,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-
-module cloud.piranha.server2 {
-    exports cloud.piranha.server2;
-
+/**
+ * The Piranha Embedded module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+module cloud.piranha.micro.embedded {
+    
+    exports cloud.piranha.micro.embedded;
+    
+    opens cloud.piranha.micro.embedded;
+    
     requires cloud.piranha.micro;
     requires cloud.piranha.api;
-    requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.webapp;
     requires cloud.piranha.naming.api;
     requires cloud.piranha.naming.impl;
     requires cloud.piranha.naming.thread;
@@ -47,17 +49,10 @@ module cloud.piranha.server2 {
     requires cloud.piranha.webapp.impl;
 
     requires cloud.piranha.resource.shrinkwrap;
-
-    requires java.logging;
-
-    requires org.jboss.jandex;
-
-    requires shrinkwrap.api;
-    requires shrinkwrap.resolver.api.maven;
+    
+    requires cloud.piranha.resource.api;
+    requires jakarta.servlet;
     requires java.naming;
-	requires cloud.piranha.embedded;
-    requires cloud.piranha.micro.embedded;
-
-    uses HttpServer;
-    uses WebApplicationExtension;
+    requires cloud.piranha.embedded;
+    requires shrinkwrap.api;
 }
