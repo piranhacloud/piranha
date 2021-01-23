@@ -2,43 +2,25 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
-        <groupId>cloud.piranha</groupId>
+        <groupId>cloud.piranha.micro</groupId>
         <artifactId>project</artifactId>
         <version>21.2.0-SNAPSHOT</version>
     </parent>
-
-    <artifactId>piranha-micro-embedded</artifactId>
+    <artifactId>piranha-micro-builder</artifactId>
     <packaging>jar</packaging>
-
-    <name>Piranha - Micro Embedded</name>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>cloud.piranha</groupId>
-                <artifactId>bom</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <name>Piranha - Micro - Builder</name>
     <dependencies>
         <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-micro</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-embedded</artifactId>
             <version>${project.version}</version>
         </dependency>
-    
-    
         <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-api</artifactId>
@@ -57,16 +39,12 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Piranha Naming - Thread implementation -->
         <dependency>
             <groupId>cloud.piranha.naming</groupId>
             <artifactId>piranha-naming-thread</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Piranha Policy -->
         <dependency>
             <groupId>cloud.piranha.policy</groupId>
             <artifactId>piranha-policy-api</artifactId>
@@ -79,8 +57,6 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Handling of archives and loading modules via Maven -->
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-shrinkwrap</artifactId>
@@ -112,15 +88,12 @@
             <artifactId>shrinkwrap-resolver-impl-maven-archive</artifactId>
             <optional>true</optional>
         </dependency>
-        
-        <!-- TEST -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
