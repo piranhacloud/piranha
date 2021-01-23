@@ -26,16 +26,16 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-    	<dependency>
+        <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-micro</artifactId>
             <version>${project.version}</version>
         </dependency>
         
         <dependency>
-        	<groupId>cloud.piranha</groupId>
-  			<artifactId>piranha-embedded</artifactId>
-  			<version>${project.version}</version>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-embedded</artifactId>
+            <version>${project.version}</version>
         </dependency>
     
     
