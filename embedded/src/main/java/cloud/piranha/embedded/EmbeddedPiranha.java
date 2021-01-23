@@ -27,11 +27,6 @@
  */
 package cloud.piranha.embedded;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import cloud.piranha.api.Piranha;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
@@ -40,6 +35,10 @@ import cloud.piranha.webapp.impl.DefaultWebApplication;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The embeddable servlet container version of Piranha.
@@ -51,7 +50,7 @@ public class EmbeddedPiranha implements Piranha {
     /**
      * Stores the web application.
      */
-    private final DefaultWebApplication webApplication;
+    private final WebApplication webApplication;
 
     /**
      * Constructor.
@@ -63,10 +62,9 @@ public class EmbeddedPiranha implements Piranha {
     /**
      * Another constructor.
      * 
-     * @param webApplication the web application to use internally
-     * 
+     * @param webApplication the web application to use.
      */
-    public EmbeddedPiranha(DefaultWebApplication webApplication) {
+    public EmbeddedPiranha(WebApplication webApplication) {
         this.webApplication = webApplication;
     }
 
