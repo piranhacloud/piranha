@@ -35,9 +35,9 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.micro {
-    exports cloud.piranha.micro;
-    opens cloud.piranha.micro;
+module cloud.piranha.micro.loader {
+    exports cloud.piranha.micro.loader;
+    opens cloud.piranha.micro.loader;
 
     requires cloud.piranha.api;
     requires cloud.piranha.modular;

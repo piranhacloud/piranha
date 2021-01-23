@@ -24,6 +24,7 @@
     </dependencyManagement>
     <modules>
         <module>builder</module>
-        <module>runtime</module>
+        <module>distribution</module>
+        <module>loader</module>
     </modules>
 </project>

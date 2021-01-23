@@ -32,7 +32,8 @@ import cloud.piranha.webapp.api.WebApplicationExtension;
 module cloud.piranha.server2 {
     exports cloud.piranha.server2;
 
-    requires cloud.piranha.micro;
+    requires cloud.piranha.micro.embedded;
+    requires cloud.piranha.micro.loader;
     requires cloud.piranha.api;
     requires cloud.piranha.extension.servlet;
     requires cloud.piranha.http.api;
@@ -45,6 +46,7 @@ module cloud.piranha.server2 {
     requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
+    
 
     requires cloud.piranha.resource.shrinkwrap;
 
@@ -56,7 +58,7 @@ module cloud.piranha.server2 {
     requires shrinkwrap.resolver.api.maven;
     requires java.naming;
 	requires cloud.piranha.embedded;
-    requires cloud.piranha.micro.embedded;
+    
 
     uses HttpServer;
     uses WebApplicationExtension;

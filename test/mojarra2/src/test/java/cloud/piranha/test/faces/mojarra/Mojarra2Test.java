@@ -39,6 +39,7 @@ import org.junit.jupiter.api.Test;
 
 import cloud.piranha.micro.embedded.MicroEmbeddedPiranhaBuilder;
 
+
 /**
  * The JUnit tests for the Hello Jakarta Faces web application.
  *
@@ -54,14 +55,21 @@ class Mojarra2Test {
      */
     @Test
     void testIndexHtml1() throws Exception {
-    	String result =
-    	new MicroEmbeddedPiranhaBuilder()
-    		.archive(
-				ShrinkWrap
-					.create(WebArchive.class)
-	                  .addAsWebResource(new StringAsset( """
+        
+        System.out.println(Runtime.version().version());
+        
+        // See https://github.com/piranhacloud/piranha/issues/1467
+        if (Runtime.version().feature() > 15) {
+            return;
+        }
+        
+        String result = new MicroEmbeddedPiranhaBuilder()
+            .archive(
+                ShrinkWrap
+                    .create(WebArchive.class)
+                      .addAsWebResource(new StringAsset( """
                           <!DOCTYPE html>
-
+        
                           <html lang="en" xmlns:h="http://xmlns.jcp.org/jsf/html">
                               <h:head>
                                   <title>Hello Jakarta Faces</title>
@@ -71,18 +79,17 @@ class Mojarra2Test {
                               </h:body>
                           </html>
                           """), "index.xhtml")
-	                  .addAsWebInfResource(EmptyAsset.INSTANCE, "faces-config.xml")
-	                  .addAsLibraries(
-                		  Maven.resolver()
-                		       .resolve(
-            		    		   //"org.glassfish:jakarta.faces:3.0.0", // Needs fix for #1444
-            		    		   "jakarta.websocket:jakarta.websocket-api:2.0.0"
-                		    	)
-                		       .withTransitivity().as(JavaArchive.class)))
-        		.buildAndStart()
-        		.service("/index.xhtml")
-        		.getResponseAsString();
-    		
+                      .addAsWebInfResource(EmptyAsset.INSTANCE, "faces-config.xml")
+                      .addAsLibraries(
+                          Maven.resolver()
+                               .resolve(
+                                   // "org.glassfish:jakarta.faces:3.0.0", // Needs fix for #1444
+                                   "jakarta.websocket:jakarta.websocket-api:2.0.0")
+                               .withTransitivity().as(JavaArchive.class)))
+            .buildAndStart()
+            .service("/index.xhtml")
+            .getResponseAsString();
+            
         System.out.println(result);
         assertTrue(result.contains("Hello Jakarta Faces"));
     }
