@@ -27,18 +27,14 @@
  */
 package cloud.piranha.embedded;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.Set;
-
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
-
+import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
-
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
  * The JUnit tests for the EmbeddedPiranha class.
