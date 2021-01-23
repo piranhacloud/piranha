@@ -36,8 +36,8 @@ import org.jboss.arquillian.container.spi.client.protocol.metadata.Servlet;
 import org.jboss.shrinkwrap.api.Archive;
 
 import cloud.piranha.arquillian.server.PiranhaServerLoadableExtension.PiranhaServerContainerConfiguration;
-import cloud.piranha.micro.MicroDeployOutcome;
-import cloud.piranha.micro.MicroOuterDeployer;
+import cloud.piranha.micro.loader.MicroDeployOutcome;
+import cloud.piranha.micro.loader.MicroOuterDeployer;
 
 /**
  * The Piranha Micro Arquillian connector.

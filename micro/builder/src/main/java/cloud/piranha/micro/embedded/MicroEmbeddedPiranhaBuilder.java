@@ -29,8 +29,8 @@ package cloud.piranha.micro.embedded;
 
 import org.jboss.shrinkwrap.api.Archive;
 
-import cloud.piranha.micro.MicroConfiguration;
-import cloud.piranha.micro.MicroOuterDeployer;
+import cloud.piranha.micro.loader.MicroConfiguration;
+import cloud.piranha.micro.loader.MicroOuterDeployer;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.policy.thread.ThreadPolicy;
 

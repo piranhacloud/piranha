@@ -38,7 +38,7 @@
         
         <dependency>
             <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-micro</artifactId>
+            <artifactId>piranha-micro-loader</artifactId>
             <version>${project.version}</version>
         </dependency>
         

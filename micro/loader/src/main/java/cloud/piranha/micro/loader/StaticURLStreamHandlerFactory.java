@@ -25,46 +25,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro;
+package cloud.piranha.micro.loader;
 
-import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 /**
- * A static URL stream handler.
+ * A factory for URL stream handlers using a static map to contain handlers.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * <p>
+ * This factory should be registered with the JVM early. Later on the <code>HANDLERS</code> map
+ * can be used to register individual URL stream handlers for various protocols.
+ * 
+ * <p>
+ * 
+ * @author Arjan Tijms
+ *
  */
-public class StaticStreamHandler extends URLStreamHandler {
-    
-    /**
-     * Stores the protocol.
-     */
-    private final String protocol;
-    
+public class StaticURLStreamHandlerFactory implements URLStreamHandlerFactory {
+
     /**
      * Stores the handlers.
-     */
-    private final Map<String, Function<URL, URLConnection>> handlers;
-    
+     */    
+    private static final Map<String, Function<URL, URLConnection>> HANDLERS = new ConcurrentHashMap<>();
+
     /**
-     * Constructor.
+     * Get the handlers.
      * 
-     * @param protocol the protocol.
-     * @param handlers the handlers.
+     * @return the handlers.
      */
-    public StaticStreamHandler(String protocol, Map<String, Function<URL, URLConnection>> handlers) {
-        this.protocol = protocol;
-        this.handlers = handlers;
+    public static Map<String, Function<URL, URLConnection>> getHandlers() {
+        return HANDLERS;
     }
 
     @Override
-    protected URLConnection openConnection(URL u) throws IOException {
-        return handlers.get(protocol).apply(u);
+    public URLStreamHandler createURLStreamHandler(String protocol) {
+        if (!HANDLERS.containsKey(protocol)) {
+            return null;
+        }
+        
+        return new StaticStreamHandler(protocol, HANDLERS);
     }
-    
 }

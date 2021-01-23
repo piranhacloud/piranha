@@ -37,16 +37,16 @@ import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import cloud.piranha.http.api.HttpServer;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import cloud.piranha.api.Piranha;
+import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
-import cloud.piranha.micro.MicroConfiguration;
-import cloud.piranha.micro.MicroOuterDeployer;
 import cloud.piranha.micro.embedded.MicroWebApplication;
+import cloud.piranha.micro.loader.MicroConfiguration;
+import cloud.piranha.micro.loader.MicroOuterDeployer;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.policy.thread.ThreadPolicy;
 
