@@ -25,50 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro;
-
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-
 /**
- * A factory for URL stream handlers using a static map to contain handlers.
- * 
  * <p>
- * This factory should be registered with the JVM early. Later on the <code>HANDLERS</code> map
- * can be used to register individual URL stream handlers for various protocols.
- * 
- * <p>
- * 
- * @author Arjan Tijms
+ * This package delivers you with a Servlet container that hosts only a single
+ * application.
+ * </p>
  *
+ * <h2>Architecture diagram</h2>
+ *
+ * <p>
+ * The image below illustrates how the request and response handling is done by
+ * Piranha Micro. When a request comes in to the HTTP server it dispatches it to
+ * the WebApplicationServer which in turn
+ * dispatches it to the <code>WebApplication</code> which then in turn uses
+ * <code>WebApplicationRequestMapper</code> to determine
+ * which FilterChain needs to process the incoming request and it dispatches to
+ * it.
+ * </p>
+ *
+ * <p>
+ * <img alt="Request and response handling" src="doc-files/request-response.png">
+ * </p>
+ * 
+ * <h2>How do I use Piranha Micro?</h2>
+ *
+ * <p>
+ * See our <a href="https://piranha.cloud/micro/">documentation</a> for more
+ * information.
+ * </p>
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StaticURLStreamHandlerFactory implements URLStreamHandlerFactory {
-
-    /**
-     * Stores the handlers.
-     */    
-    private static final Map<String, Function<URL, URLConnection>> HANDLERS = new ConcurrentHashMap<>();
-
-    /**
-     * Get the handlers.
-     * 
-     * @return the handlers.
-     */
-    public static Map<String, Function<URL, URLConnection>> getHandlers() {
-        return HANDLERS;
-    }
-
-    @Override
-    public URLStreamHandler createURLStreamHandler(String protocol) {
-        if (!HANDLERS.containsKey(protocol)) {
-            return null;
-        }
-        
-        return new StaticStreamHandler(protocol, HANDLERS);
-    }
-}
+package cloud.piranha.micro.loader;

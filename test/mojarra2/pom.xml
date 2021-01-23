@@ -20,8 +20,8 @@
 
     <dependencies>
     	<dependency>
-    		<groupId>cloud.piranha</groupId>
-  			<artifactId>piranha-server2</artifactId>
+    		<groupId>cloud.piranha.micro</groupId>
+  			<artifactId>piranha-micro-builder</artifactId>
   			<version>${project.version}</version>
     	</dependency>
     	

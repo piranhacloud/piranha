@@ -35,6 +35,9 @@ import org.jboss.shrinkwrap.api.importer.ExplodedImporter;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
+import cloud.piranha.micro.loader.MicroConfiguration;
+import cloud.piranha.micro.loader.MicroOuterDeployer;
+
 /**
  * The micro version of Piranha.
  *
