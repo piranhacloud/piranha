@@ -2,18 +2,15 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
         <version>21.2.0-SNAPSHOT</version>
     </parent>
-
-    <artifactId>piranha-micro</artifactId>
-    <packaging>jar</packaging>
-
-    <name>Piranha - Micro</name>
-
+    <groupId>cloud.piranha.micro</groupId>
+    <artifactId>project</artifactId>
+    <packaging>pom</packaging>
+    <name>Piranha - Micro - Project</name>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -25,183 +22,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <dependencies>
-        <!-- Handling of archives and loading modules via Maven -->
-        <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource-shrinkwrap</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.descriptors</groupId>
-            <artifactId>shrinkwrap-descriptors-api-base</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-api-maven</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-spi</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-impl-maven-archive</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- Handling of annotation and class index -->
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jandex</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- Because MicroPiranha implements Piranha. -->
-        <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-api</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- -->
-
-        <dependency>
-            <groupId>cloud.piranha.modular</groupId>
-            <artifactId>cloud.piranha.modular</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-compile</id>
-                        <configuration>
-                            <includes>
-                                <include>module-info.java</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>patch-compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <phase>compile</phase>
-                        <configuration>
-                            <compilerArgs>
-                                <arg>--patch-module=shrinkwrap.resolver.api.maven=${settings.localRepository}/org/jboss/shrinkwrap/resolver/shrinkwrap-resolver-api/3.1.4/shrinkwrap-resolver-api-3.1.4.jar</arg>
-                            </compilerArgs>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                        <configuration>
-                            <systemPropertyVariables>
-                                <VERSION>${project.version}</VERSION>
-                            </systemPropertyVariables>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <minimizeJar>false</minimizeJar>
-                            <filters>
-                                <filter>
-                                    <artifact>org.jboss.shrinkwrap:shrinkwrap-impl-base</artifact>
-                                    <includes>
-                                        <include>**</include>
-                                    </includes>
-                                </filter>
-                                <filter>
-                                    <artifact>org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-spi</artifact>
-                                    <includes>
-                                        <include>**</include>
-                                    </includes>
-                                </filter>
-                            </filters>
-                            <transformers>
-                                <transformer
-                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>cloud.piranha.micro.MicroPiranha</mainClass>
-                                    <manifestEntries>
-                                        <Add-Opens>java.base/java.lang java.base/sun.security.provider</Add-Opens>
-                                    </manifestEntries>
-                                </transformer>
-                                <transformer
-                                    implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.moditect</groupId>
-                <artifactId>moditect-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-module-infos</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>add-module-info</goal>
-                        </goals>
-                        <configuration>
-                            <overwriteExistingFiles>true</overwriteExistingFiles>
-                            <module>
-                                <moduleInfoFile>${project.build.sourceDirectory}/module-info.java</moduleInfoFile>
-                            </module>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <modules>
+        <module>runtime</module>
+    </modules>
 </project>
