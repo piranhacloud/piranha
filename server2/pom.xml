@@ -88,10 +88,9 @@
             <optional>true</optional>
         </dependency>
   
-        <!-- Piranha HTTP - WebApplication -->
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-micro-embedded</artifactId>
+            <groupId>cloud.piranha.micro</groupId>
+            <artifactId>piranha-micro-builder</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

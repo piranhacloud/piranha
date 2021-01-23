@@ -23,6 +23,7 @@
         </dependencies>
     </dependencyManagement>
     <modules>
+        <module>builder</module>
         <module>runtime</module>
     </modules>
 </project>
