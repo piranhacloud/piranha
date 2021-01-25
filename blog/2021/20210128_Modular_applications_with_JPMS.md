@@ -1,6 +1,6 @@
-# Modular applications with JPMS
+# Modular web applications with JPMS
 
-Starting with 21.1.0, Piranha support for running applications in JPMS layers.
+Starting with 21.1.0, Piranha supports running applications in JPMS layers.
 
 For this example, we'll create a simple Servlet to show how to enable this function. You can download the Piranha Micro here: https://github.com/piranhacloud/piranha/releases.
 
@@ -25,10 +25,10 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/hello")
 public class SimpleServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {  
-        response.setContentType("text/plain");  
-        response.getWriter().println("Running from " + this.getClass().getModule());  
-        new Exception().printStackTrace(response.getWriter());  
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain");
+        response.getWriter().println("Running from " + this.getClass().getModule());
+        new Exception().printStackTrace(response.getWriter());
     }
 }
 ```
@@ -78,11 +78,11 @@ import jakarta.servlet.ServletException;
 
 import java.util.Set;
 
-public class SimpleInitializer implements ServletContainerInitializer {  
-    @Override  
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {  
+public class SimpleInitializer implements ServletContainerInitializer {
+    @Override
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         System.out.println("Initializer invoked: " + this.getClass().getModule());
-    }  
+    }
 }
 ```
 
@@ -102,4 +102,4 @@ Initializer invoked: module modular.application
 
 ## Notes
  - Your libraries will be promoted to automatic modules unless they have split packages, otherwise, they will be part of the unnamed module.
- - You can use the following properties to change the behavior of the layer: `cloud.piranha.modular.add-reads`, `cloud.piranha.modular.add-exports` and `cloud.piranha.modular.add-opens`;
+ - You can use the following properties to change the behavior of the layer: `cloud.piranha.modular.add-reads`, `cloud.piranha.modular.add-exports` and `cloud.piranha.modular.add-opens`.
