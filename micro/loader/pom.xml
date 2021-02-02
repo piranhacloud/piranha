@@ -7,13 +7,10 @@
         <artifactId>project</artifactId>
         <version>21.2.0-SNAPSHOT</version>
     </parent>
-   
-    <groupId>cloud.piranha</groupId>
     <artifactId>piranha-micro-loader</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Micro - Runtime</name>
+    <name>Piranha - Micro - Loader</name>
     <dependencies>
-        <!-- Handling of archives and loading modules via Maven -->
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-shrinkwrap</artifactId>
@@ -45,13 +42,11 @@
             <artifactId>shrinkwrap-resolver-impl-maven-archive</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- Handling of annotation and class index -->
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jandex</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- Because MicroPiranha implements Piranha. -->
         <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-api</artifactId>
