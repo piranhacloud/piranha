@@ -20,10 +20,10 @@
     <groupId>cloud.piranha</groupId>
     <artifactId>piranha-micro</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Micro - Runtime</name>
+    <name>Piranha - Micro - Distribution</name>
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha</groupId>
+            <groupId>cloud.piranha.micro</groupId>
             <artifactId>piranha-micro-loader</artifactId>
             <version>${project.version}</version>
         </dependency>
