@@ -1,0 +1,33 @@
+name: javadoc
+on: 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version'
+        required: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GIT_PASSWORD }}
+    - name: Setup Java
+      uses: actions/setup-java@v1
+      with:
+        java-version: 15
+    - name: Publish JavaDoc
+      run: |
+        VERSION=${{ github.event.inputs.version }}
+        echo "Publishing $VERSION JavaDoc"
+        git checkout v$VERSION
+        mvn --no-transfer-progress -DskipTests -P '!test' install
+        git checkout gh-pages
+        rm -rf javadoc/*
+        mv target/apidocs/* javadoc/
+        git add javadoc/
+        git config --global user.email "noreply@piranha.cloud"
+        git config --global user.name "Automated publish"
+        git commit -m "Publishing JavaDoc for version $VERSION"
+        git push
