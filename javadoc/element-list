@@ -2,6 +2,8 @@ module:cloud.piranha.api
 cloud.piranha.api
 module:cloud.piranha.cdi.weld
 cloud.piranha.cdi.weld
+module:cloud.piranha.cli
+cloud.piranha.cli
 module:cloud.piranha.database.environment
 cloud.piranha.database.environment
 module:cloud.piranha.database.property
@@ -56,8 +58,6 @@ module:cloud.piranha.nano
 cloud.piranha.nano
 module:cloud.piranha.pages.wasp
 cloud.piranha.pages.wasp
-module:cloud.piranha.pages.wasp.tests
-cloud.piranha.pages.wasp.tests
 module:cloud.piranha.policy.api
 cloud.piranha.policy.api
 module:cloud.piranha.policy.impl
