@@ -21,6 +21,7 @@ jobs:
       run: |
         VERSION=${{ github.event.inputs.version }}
         echo "Publishing JavaDoc for $VERSION"
+        git fetch
         git checkout v$VERSION
         mvn --no-transfer-progress -DskipTests -P '!test' install
         git checkout gh-pages
