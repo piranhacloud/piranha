@@ -57,7 +57,7 @@ jobs:
           piranhacloud/server:arm32v7-$VERSION --os linux --arch arm --variant armv7l
         docker manifest push piranhacloud/server:$VERSION
     - name: Build with Maven
-      run: mvn --no-transfer-progress -B -DskipTests=true -P '!test' clean deploy
+      run: mvn --no-transfer-progress -B -DskipTests=true -P 'release,!test' clean deploy
       env:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
