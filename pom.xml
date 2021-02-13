@@ -301,7 +301,7 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.6.0</version>
+                                    <version>3.6.1</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
                                     <version>15</version>
