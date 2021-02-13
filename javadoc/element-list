@@ -38,10 +38,12 @@ module:cloud.piranha.http.webapp
 cloud.piranha.http.webapp
 module:cloud.piranha.http.webapp.tests
 cloud.piranha.http.webapp.tests
-module:cloud.piranha.micro
-cloud.piranha.micro
 module:cloud.piranha.micro.core
 cloud.piranha.micro.core
+module:cloud.piranha.micro.embedded
+cloud.piranha.micro.embedded
+module:cloud.piranha.micro.loader
+cloud.piranha.micro.loader
 module:cloud.piranha.microprofile.omnifaces.jwt
 cloud.piranha.microprofile.omnifaces.jwt
 module:cloud.piranha.microprofile.smallrye.health
