@@ -46,7 +46,6 @@
 
             <modules>
                 <module>impl-test</module>
-                <module>webxml-test</module>
             </modules>
         </profile>
     </profiles>
