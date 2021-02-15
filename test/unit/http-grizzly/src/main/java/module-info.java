@@ -27,15 +27,21 @@
  */
 
 /**
- * The Grizzly HTTP server tests module.
+ * The Piranha Test - Unit Tests - HTTP - Grizzly module.
+ *
+ * <p>
+ * This module delivers the unit tests for the Grizzly implementation of the
+ * HTTP engine API.
+ * </p>
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.http.grizzly.tests {
+module cloud.piranha.test.unit.http.grizzly {
     
-    opens cloud.piranha.http.grizzly.tests;
+    opens cloud.piranha.test.unit.http.grizzly;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.grizzly;
     requires cloud.piranha.http.tests;
-    
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.engine;
     requires org.junit.platform.launcher;

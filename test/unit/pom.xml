@@ -13,5 +13,6 @@
     <name>Piranha Test - Unit Tests - Project</name>
     <modules>
         <module>http-impl</module>
+        <module>http-grizzly</module>
     </modules>
 </project>
