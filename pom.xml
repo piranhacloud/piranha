@@ -43,7 +43,6 @@
         <module>bom</module>
         <module>cdi</module>
         <module>cli</module>
-        <module>database</module>
         <module>embedded</module>
         <module>extension</module>
         <module>faces</module>
