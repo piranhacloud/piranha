@@ -26,25 +26,24 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 /**
- * The Piranha HTTP - Implementation module.
+ * The Piranha Test - Unit Tests - HTTP - Implementation module.
  *
  * <p>
- * This module delivers the default implementation of the HTTP engine API.
+ * This module delivers the unit tests for the default implementation of the
+ * HTTP engine API.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.http.impl.tests {
+module cloud.piranha.test.unit.http.impl {
 
-    opens cloud.piranha.http.impl.tests;
+    opens cloud.piranha.test.unit.http.impl;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.http.tests;
     requires java.net.http;
     requires org.junit.jupiter.api;
-    
     requires org.junit.jupiter.engine;
     requires org.junit.platform.launcher;
 }

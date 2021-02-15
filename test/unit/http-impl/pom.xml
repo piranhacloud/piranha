@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
-        <groupId>cloud.piranha.http</groupId>
+        <groupId>cloud.piranha.test.unit</groupId>
         <artifactId>project</artifactId>
         <version>21.3.0-SNAPSHOT</version>
     </parent>
-
-    <artifactId>piranha-http-impl-test</artifactId>
+    <artifactId>piranha-test-unit-http-impl</artifactId>
     <packaging>jar</packaging>
-
-    <name>Piranha HTTP - Implementation - TEST</name>
-
+    <name>Piranha Test - Unit Tests - HTTP - Implementation</name>
     <dependencies>
-        <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-impl</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-api</artifactId>
@@ -27,10 +20,14 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-tests</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
