@@ -49,7 +49,6 @@
 
             <modules>
                 <module>webapp-test</module>
-                <module>grizzly-test</module>
             </modules>
         </profile>
     </profiles>
