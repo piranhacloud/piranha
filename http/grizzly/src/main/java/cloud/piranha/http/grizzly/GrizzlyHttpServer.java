@@ -27,13 +27,12 @@
  */
 package cloud.piranha.http.grizzly;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
+import cloud.piranha.http.api.HttpServerProcessor;
 import java.io.IOException;
 import java.util.concurrent.Semaphore;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.glassfish.grizzly.CompletionHandler;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -41,8 +40,6 @@ import org.glassfish.grizzly.http.server.NetworkListener;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
 import org.glassfish.grizzly.http2.Http2AddOn;
-
-import cloud.piranha.http.api.HttpServerProcessor;
 
 /**
  * The Grizzly implementation of HTTP Server.
@@ -112,31 +109,41 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
         this.httpServer = httpServer;
     }
 
-    /**
-     * Add the HTTP handler.
-     */
-    private void addHttpHandler() {
-        httpServer.getServerConfiguration().addHttpHandler(new HttpHandler() {
-            @Override
-            public void service(Request request, Response response) throws Exception {
-                GrizzlyHttpServerRequest gRequest = new GrizzlyHttpServerRequest(request);
-                GrizzlyHttpServerResponse gResponse = new GrizzlyHttpServerResponse(response);
-                httpServerProcessor.process(gRequest, gResponse);
-            }
-        });
+    @Override
+    public HttpServerProcessor getHttpServerProcessor() {
+        return httpServerProcessor;
     }
 
-    /**
-     * @see cloud.piranha.http.api.HttpServer#isRunning()
-     */
+    @Override
+    public int getServerPort() {
+        return port;
+    }
+
+    @Override
+    public boolean getSSL() {
+        return ssl;
+    }
+    
     @Override
     public boolean isRunning() {
         return httpServer != null;
     }
 
-    /**
-     * @see cloud.piranha.http.api.HttpServer#start()
-     */
+    @Override
+    public void setHttpServerProcessor(HttpServerProcessor httpServerProcessor) {
+        this.httpServerProcessor = httpServerProcessor;
+    }
+
+    @Override
+    public void setServerPort(int serverPort) {
+        this.port = serverPort;
+    }
+
+    @Override
+    public void setSSL(boolean ssl) {
+        this.ssl = ssl;
+    }
+    
     @Override
     public void start() {
         if (httpServer == null) {
@@ -145,7 +152,14 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
             networkListener.setSecure(ssl);
             networkListener.registerAddOn(new Http2AddOn());
         }
-        addHttpHandler();
+        httpServer.getServerConfiguration().addHttpHandler(new HttpHandler() {
+            @Override
+            public void service(Request request, Response response) throws Exception {
+                GrizzlyHttpServerRequest gRequest = new GrizzlyHttpServerRequest(request);
+                GrizzlyHttpServerResponse gResponse = new GrizzlyHttpServerResponse(response);
+                httpServerProcessor.process(gRequest, gResponse);
+            }
+        });
         try {
             httpServer.start();
         } catch (IOException ioe) {
@@ -153,14 +167,11 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
         }
     }
 
-    /**
-     * @see cloud.piranha.http.api.HttpServer#stop()
-     */
     @Override
     public void stop() {
         Semaphore lock = new Semaphore(1);
         lock.acquireUninterruptibly();
-        httpServer.shutdown(45, SECONDS).addCompletionHandler(
+        httpServer.shutdown(5, SECONDS).addCompletionHandler(
                 new CompletionHandler<HttpServer>() {
             @Override
             public void cancelled() {
@@ -183,39 +194,9 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
             }
         });
         try {
-            lock.tryAcquire(60, SECONDS);
+            lock.tryAcquire(5, SECONDS);
         } catch (InterruptedException ie) {
         }
         httpServer = null;
-    }
-
-    @Override
-    public int getServerPort() {
-        return port;
-    }
-
-    @Override
-    public void setServerPort(int serverPort) {
-        this.port = serverPort;
-    }
-
-    @Override
-    public void setSSL(boolean ssl) {
-        this.ssl = ssl;
-    }
-
-    @Override
-    public boolean getSSL() {
-        return this.ssl;
-    }
-
-    @Override
-    public void setHttpServerProcessor(HttpServerProcessor httpServerProcessor) {
-        this.httpServerProcessor = httpServerProcessor;
-    }
-
-    @Override
-    public HttpServerProcessor getHttpServerProcessor() {
-        return httpServerProcessor;
     }
 }

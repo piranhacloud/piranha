@@ -2,19 +2,20 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
-        <groupId>cloud.piranha.http</groupId>
+        <groupId>cloud.piranha.test.unit</groupId>
         <artifactId>project</artifactId>
         <version>21.3.0-SNAPSHOT</version>
     </parent>
-
-    <artifactId>piranha-http-grizzly-test</artifactId>
+    <artifactId>piranha-test-unit-http-grizzly</artifactId>
     <packaging>jar</packaging>
-
-    <name>Piranha HTTP - Grizzly Integration - TEST</name>
-
+    <name>Piranha Test - Unit Tests - HTTP - Grizzly Integration</name>
     <dependencies>
+        <dependency>
+            <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-grizzly</artifactId>
@@ -22,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-api</artifactId>
+            <artifactId>piranha-http-tests</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -30,12 +31,6 @@
             <artifactId>piranha-webapp-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-tests</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-http-server</artifactId>
@@ -48,7 +43,6 @@
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-npn-api</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
