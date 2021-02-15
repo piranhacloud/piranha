@@ -13,6 +13,12 @@
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource-impl</artifactId>
+            <version>${project.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-shrinkwrap</artifactId>
             <version>${project.version}</version>
             <optional>true</optional>
@@ -56,12 +62,6 @@
         <dependency>
             <groupId>cloud.piranha.modular</groupId>
             <artifactId>cloud.piranha.modular</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource</artifactId>
             <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
