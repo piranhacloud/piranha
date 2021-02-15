@@ -38,7 +38,6 @@
 module cloud.piranha.modular {
 
     exports cloud.piranha.modular;
-
     requires cloud.piranha.resource.api;
     requires java.logging;
 }

@@ -2,21 +2,17 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
         <version>21.3.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>piranha-server</artifactId>
     <packaging>jar</packaging>
-
     <name>Piranha - Server</name>
     <description>
         The server version of Piranha.
     </description>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -29,69 +25,48 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <!-- JUnit -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- Piranha API -->
         <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha HTTP - WebApplication -->
-        <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-webapp</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- Piranha Modular - JPMS integration -->
-        <dependency>
-            <groupId>cloud.piranha.modular</groupId>
-            <artifactId>cloud.piranha.modular</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- Piranha Naming implementation -->
-        <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-thread</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- Piranha Resource -->
-        <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- Piranha Servlet extension -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-servlet</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha Security - File-based -->
+        <dependency>
+            <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-webapp</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.modular</groupId>
+            <artifactId>piranha-modular-jpms</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.naming</groupId>
+            <artifactId>piranha-naming-thread</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>cloud.piranha.security</groupId>
             <artifactId>piranha-security-file</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha Webapplication implementation -->
-        <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- Piranha WAR - JMX admin application -->
         <dependency>
             <groupId>cloud.piranha.war</groupId>
             <artifactId>piranha-war-jmx</artifactId>
@@ -99,8 +74,18 @@
             <type>war</type>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
     <build>
         <finalName>piranha-server</finalName>
         <plugins>
@@ -173,12 +158,10 @@
             </plugin>
         </plugins>
     </build>
-
     <profiles>
         <profile>
             <id>grizzly</id>
             <dependencies>
-                <!-- Piranha HTTP - Grizzly Integration -->
                 <dependency>
                     <groupId>cloud.piranha.http</groupId>
                     <artifactId>piranha-http-grizzly</artifactId>
@@ -193,7 +176,6 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <dependencies>
-                <!-- Piranha HTTP implementation -->
                 <dependency>
                     <groupId>cloud.piranha.http</groupId>
                     <artifactId>piranha-http-impl</artifactId>
@@ -205,7 +187,6 @@
         <profile>
             <id>jdk</id>
             <dependencies>
-                <!-- Piranha HTTP - JDK HTTP Server Integration  -->
                 <dependency>
                     <groupId>cloud.piranha.http</groupId>
                     <artifactId>piranha-http-jdk</artifactId>
@@ -217,7 +198,6 @@
         <profile>
             <id>netty</id>
             <dependencies>
-                <!-- Piranha HTTP - Netty Integration  -->
                 <dependency>
                     <groupId>cloud.piranha.http</groupId>
                     <artifactId>piranha-http-netty</artifactId>
@@ -229,7 +209,6 @@
         <profile>
             <id>undertow</id>
             <dependencies>
-                <!-- Piranha HTTP - Undertow Integration -->
                 <dependency>
                     <groupId>cloud.piranha.http</groupId>
                     <artifactId>piranha-http-undertow</artifactId>
