@@ -15,5 +15,6 @@
         <module>http-impl</module>
         <module>http-grizzly</module>
         <module>http-webapp</module>
+        <module>webapp-webxml</module>
     </modules>
 </project>
