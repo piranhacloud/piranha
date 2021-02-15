@@ -36,6 +36,7 @@
         <!--<module>omnifaces-jwt</module>-->
         <module>snoop</module>
         <module>soteria</module>
+        <module>unit</module>
         <!--<module>springmvc</module>-->
         <!--<module>struts</module>-->
         <!--<module>vaadin</module>-->
