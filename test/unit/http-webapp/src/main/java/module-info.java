@@ -26,28 +26,31 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.http.webapp.tests {
-    
-    exports cloud.piranha.http.webapp.tests;
-    
-    opens cloud.piranha.http.webapp.tests;
-    
+/**
+ * The Piranha Test - Unit Tests - HTTP - WebApplication integration module.
+ *
+ * <p>
+ * This module delivers the unit tests for the Web application integration of
+ * the HTTP engine API.
+ * </p>
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+module cloud.piranha.test.unit.http.webapp {
+
+    exports cloud.piranha.test.unit.http.webapp;
+    opens cloud.piranha.test.unit.http.webapp;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;
-
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
-
     requires cloud.piranha.naming.api;
     requires cloud.piranha.naming.thread;
-
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
     requires jakarta.servlet;
-
     requires java.net.http;
     requires java.logging;
     requires org.junit.jupiter.api;
-    
     requires org.junit.jupiter.engine;
     requires org.junit.platform.launcher;
 }
