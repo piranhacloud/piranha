@@ -81,7 +81,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource</artifactId>
+            <artifactId>piranha-resource-impl</artifactId>
             <version>${project.version}</version>
             <optional>true</optional>
         </dependency>

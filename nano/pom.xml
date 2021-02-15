@@ -26,12 +26,12 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-    	<dependency>
-  <groupId>cloud.piranha.servlet</groupId>
-  <artifactId>piranha-servlet-api</artifactId>
-  <version>${project.version}</version>
-  <scope>compile</scope>
-    	</dependency>
+        <dependency>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-api</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-api</artifactId>
@@ -40,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource</artifactId>
+            <artifactId>piranha-resource-impl</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
