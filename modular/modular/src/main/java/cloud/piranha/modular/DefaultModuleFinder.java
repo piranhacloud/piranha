@@ -251,7 +251,7 @@ public class DefaultModuleFinder implements ModuleFinder {
         try (InputStream moduleInfo = resource.getResourceAsStream("module-info.class")) {
             if (moduleInfo != null) {
                 // We have a module-info
-                return ModuleDescriptor.read(moduleInfo);
+                return ModuleDescriptor.read(moduleInfo, () -> packages(resource));
             }
         } catch (IOException e) {
         }
