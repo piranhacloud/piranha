@@ -31,7 +31,7 @@ import cloud.piranha.http.api.HttpServerProcessor;
 import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import java.util.logging.Level;
+import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 import org.glassfish.grizzly.CompletionHandler;
 import org.glassfish.grizzly.http.server.HttpHandler;
@@ -64,12 +64,14 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
      */
     private HttpServerProcessor httpServerProcessor;
 
-    /***
+    /**
+     * *
      * Stores the SSL flag
      */
     private boolean ssl;
 
-    /***
+    /**
+     * *
      * Stores the server port
      */
     private int port;
@@ -123,7 +125,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
     public boolean getSSL() {
         return ssl;
     }
-    
+
     @Override
     public boolean isRunning() {
         return httpServer != null;
@@ -143,7 +145,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
     public void setSSL(boolean ssl) {
         this.ssl = ssl;
     }
-    
+
     @Override
     public void start() {
         if (httpServer == null) {
@@ -163,7 +165,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
         try {
             httpServer.start();
         } catch (IOException ioe) {
-            LOGGER.log(Level.WARNING, "An I/O error occurred while starting the HTTP server", ioe);
+            LOGGER.log(WARNING, "An I/O error occurred while starting the HTTP server", ioe);
         }
     }
 
@@ -194,8 +196,9 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
             }
         });
         try {
-            lock.tryAcquire(5, SECONDS);
+            lock.acquire();
         } catch (InterruptedException ie) {
+            LOGGER.log(WARNING, "Interrupted while waiting for the HTTP server to shut down", ie);
         }
         httpServer = null;
     }
