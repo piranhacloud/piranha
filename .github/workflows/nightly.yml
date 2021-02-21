@@ -23,7 +23,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
     - name: Analyze with SonarCloud
       run: |
-        mvn --no-transfer-progress -B -Ptest -Pcoverage clean install site \
+        mvn --no-transfer-progress -B install verify site \
         sonar:sonar -Dsonar.projectKey=piranhacloud_piranha \
         -Dsonar.organization=piranhacloud -Dsonar.host.url=https://sonarcloud.io \
         -Dsonar.login=${{ secrets.SONAR_LOGIN }}

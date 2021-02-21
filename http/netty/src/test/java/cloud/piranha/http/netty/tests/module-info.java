@@ -31,5 +31,5 @@ module cloud.piranha.http.netty.tests {
     exports cloud.piranha.http.netty.tests;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.netty;
-    requires cloud.piranha.http.tests;
+    requires cloud.piranha.test.unit.http.tests;
 }

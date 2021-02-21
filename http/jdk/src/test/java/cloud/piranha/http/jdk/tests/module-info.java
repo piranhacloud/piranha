@@ -31,5 +31,5 @@ module cloud.piranha.http.jdk.tests {
     opens cloud.piranha.http.jdk.tests;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.jdk;
-    requires cloud.piranha.http.tests;
+    requires cloud.piranha.test.unit.http.tests;
 }

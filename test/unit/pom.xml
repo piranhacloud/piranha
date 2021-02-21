@@ -16,5 +16,6 @@
         <module>http-grizzly</module>
         <module>http-webapp</module>
         <module>webapp-webxml</module>
+        <module>tests</module>
     </modules>
 </project>
