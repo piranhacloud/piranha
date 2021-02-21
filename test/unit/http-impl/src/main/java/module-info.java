@@ -41,7 +41,7 @@ module cloud.piranha.test.unit.http.impl {
     opens cloud.piranha.test.unit.http.impl;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.tests;
+    requires cloud.piranha.test.unit.http.tests;
     requires java.net.http;
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.engine;

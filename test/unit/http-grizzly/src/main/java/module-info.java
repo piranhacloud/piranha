@@ -41,7 +41,7 @@ module cloud.piranha.test.unit.http.grizzly {
     opens cloud.piranha.test.unit.http.grizzly;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.grizzly;
-    requires cloud.piranha.http.tests;
+    requires cloud.piranha.test.unit.http.tests;
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.engine;
     requires org.junit.platform.launcher;

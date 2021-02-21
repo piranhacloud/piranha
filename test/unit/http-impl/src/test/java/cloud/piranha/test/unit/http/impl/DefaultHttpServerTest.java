@@ -30,8 +30,8 @@ package cloud.piranha.test.unit.http.impl;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.impl.DefaultHttpServer;
-import cloud.piranha.http.tests.HttpServerTest;
-import cloud.piranha.http.tests.TestHttpServerProcessor;
+import cloud.piranha.test.unit.http.tests.HttpServerTest;
+import cloud.piranha.test.unit.http.tests.TestHttpServerProcessor;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -31,5 +31,5 @@ module cloud.piranha.http.undertow.tests {
     exports cloud.piranha.http.undertow.tests;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.undertow;
-    requires cloud.piranha.http.tests;
+    requires cloud.piranha.test.unit.http.tests;
 }

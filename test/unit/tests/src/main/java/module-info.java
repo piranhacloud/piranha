@@ -35,12 +35,10 @@
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.http.tests {
+module cloud.piranha.test.unit.http.tests {
     
-    exports cloud.piranha.http.tests;
-    
-    opens cloud.piranha.http.tests;
-    
+    exports cloud.piranha.test.unit.http.tests;
+    opens cloud.piranha.test.unit.http.tests;
     requires cloud.piranha.http.api;
     requires java.net.http;
     requires java.logging;
