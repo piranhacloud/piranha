@@ -25,11 +25,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.test.unit.http.jdk;
 
-module cloud.piranha.http.jdk.tests {
-    
-    opens cloud.piranha.http.jdk.tests;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.jdk;
-    requires cloud.piranha.test.unit.http.tests;
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.jdk.JdkHttpServer;
+import cloud.piranha.test.unit.http.tests.HttpServerTest;
+import cloud.piranha.test.unit.http.tests.TestHttpServerProcessor;
+
+/**
+ * The JUnit tests for the DefaultHttpServer class.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+public class JdkHttpServerTest extends HttpServerTest {
+
+    /**
+     * Create the server.
+     *
+     * @param portNumber the port number.
+     * @return the HTTP server.
+     */
+    @Override
+    protected HttpServer createServer(int portNumber) {
+        return new JdkHttpServer(portNumber, new TestHttpServerProcessor(), false);
+    }
+
+    /**
+     * Create the server.
+     *
+     * @param portNumber the port number.
+     * @param processor the HTTP server processor.
+     * @return the HTTP server.
+     */
+    @Override
+    protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
+        return new JdkHttpServer(portNumber, processor, false);
+    }
 }
