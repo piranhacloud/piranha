@@ -26,10 +26,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.http.undertow.tests {
-
-    exports cloud.piranha.http.undertow.tests;
+/**
+ * The Piranha Test - Unit Tests - HTTP - Undertow module.
+ *
+ * <p>
+ * This module delivers the unit tests for the Undertow implementation of the
+ * HTTP engine API.
+ * </p>
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+module cloud.piranha.test.unit.http.undertow {
+    
+    opens cloud.piranha.test.unit.http.undertow;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.undertow;
     requires cloud.piranha.test.unit.http.tests;
+    requires org.junit.jupiter.api;
+    requires org.junit.jupiter.engine;
+    requires org.junit.platform.launcher;
 }

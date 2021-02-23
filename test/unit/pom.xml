@@ -15,6 +15,7 @@
         <module>http-impl</module>
         <module>http-jdk</module>
         <module>http-grizzly</module>
+        <module>http-undertow</module>
         <module>http-webapp</module>
         <module>webapp-webxml</module>
         <module>tests</module>
