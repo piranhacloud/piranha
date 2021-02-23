@@ -35,6 +35,10 @@
             <id>atijms</id>
             <name>Arjan Tijms</name>
         </developer>
+        <developer>
+            <id>Thihup</id>
+            <name>Thiago Henrique Hupner</name>
+        </developer>
     </developers>
 
     <modules>
