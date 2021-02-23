@@ -25,41 +25,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.jdk.tests;
-
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.jdk.JdkHttpServer;
-import cloud.piranha.test.unit.http.tests.HttpServerTest;
-import cloud.piranha.test.unit.http.tests.TestHttpServerProcessor;
 
 /**
- * The JUnit tests for the DefaultHttpServer class.
+ * The Piranha Test - Unit Tests - HTTP - JDK HTTP server module.
+ *
+ * <p>
+ * This module delivers the unit tests for the JDK HTTP server implementation of
+ * the HTTP engine API.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JdkHttpServerTest extends HttpServerTest {
-
-    /**
-     * Create the server.
-     *
-     * @param portNumber the port number.
-     * @return the HTTP server.
-     */
-    @Override
-    protected HttpServer createServer(int portNumber) {
-        return new JdkHttpServer(portNumber, new TestHttpServerProcessor(), false);
-    }
-
-    /**
-     * Create the server.
-     *
-     * @param portNumber the port number.
-     * @param processor the HTTP server processor.
-     * @return the HTTP server.
-     */
-    @Override
-    protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
-        return new JdkHttpServer(portNumber, processor, false);
-    }
+module cloud.piranha.test.unit.http.jdk {
+    
+    opens cloud.piranha.test.unit.http.jdk;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.jdk;
+    requires cloud.piranha.test.unit.http.tests;
+    requires org.junit.jupiter.api;
+    requires org.junit.jupiter.engine;
+    requires org.junit.platform.launcher;
 }

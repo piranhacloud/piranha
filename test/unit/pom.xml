@@ -13,6 +13,7 @@
     <name>Piranha Test - Unit Tests - Project</name>
     <modules>
         <module>http-impl</module>
+        <module>http-jdk</module>
         <module>http-grizzly</module>
         <module>http-webapp</module>
         <module>webapp-webxml</module>
