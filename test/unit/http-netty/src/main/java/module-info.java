@@ -26,10 +26,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.http.netty.tests {
+/**
+ * The Piranha Test - Unit Tests - HTTP - Netty module.
+ *
+ * <p>
+ * This module delivers the unit tests for the Netty implementation of the
+ * HTTP engine API.
+ * </p>
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+module cloud.piranha.test.unit.http.netty {
     
-    exports cloud.piranha.http.netty.tests;
+    opens cloud.piranha.test.unit.http.netty;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.netty;
     requires cloud.piranha.test.unit.http.tests;
+    requires org.junit.jupiter.api;
+    requires org.junit.jupiter.engine;
+    requires org.junit.platform.launcher;
 }

@@ -19,5 +19,6 @@
         <module>http-webapp</module>
         <module>webapp-webxml</module>
         <module>tests</module>
+        <module>http-netty</module>
     </modules>
 </project>
