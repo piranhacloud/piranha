@@ -44,7 +44,6 @@ module cloud.piranha.http.grizzly {
     opens cloud.piranha.http.grizzly;
     provides HttpServer with GrizzlyHttpServer;
     requires cloud.piranha.http.api;
-    requires cloud.piranha.webapp.api;
     requires grizzly.framework;
     requires grizzly.http;
     requires grizzly.http.server;

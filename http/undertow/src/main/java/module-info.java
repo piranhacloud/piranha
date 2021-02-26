@@ -44,9 +44,7 @@ module cloud.piranha.http.undertow {
     opens cloud.piranha.http.undertow;
     provides HttpServer with UndertowHttpServer;
     requires cloud.piranha.http.api;
-    requires cloud.piranha.webapp.api;
     requires java.logging;
-    // JBoss Threads needs sun.misc.Unsafe
     requires jdk.unsupported;
     requires undertow.core;
 }
