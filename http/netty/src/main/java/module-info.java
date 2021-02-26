@@ -44,7 +44,6 @@ module cloud.piranha.http.netty {
     opens cloud.piranha.http.netty;
     provides HttpServer with NettyHttpServer;
     requires cloud.piranha.http.api;
-    requires cloud.piranha.webapp.api;
     requires io.netty.all;
     requires java.logging;
 }

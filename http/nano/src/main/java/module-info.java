@@ -38,7 +38,6 @@
 module cloud.piranha.http.nano {
     
     exports cloud.piranha.http.nano;
-    
     requires transitive cloud.piranha.http.webapp;
     requires transitive cloud.piranha.nano;
 }
