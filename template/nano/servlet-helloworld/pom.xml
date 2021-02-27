@@ -5,9 +5,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cloud.piranha.template.nano</groupId>
+    <parent>
+        <groupId>cloud.piranha.template.nano</groupId>
+        <artifactId>project</artifactId>
+        <version>21.3.0-SNAPSHOT</version>
+    </parent>
     <artifactId>piranha-nano-helloworld-servlet</artifactId>
-    <version>21.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Piranha Template - Nano - HelloWorld Servlet</name>
     <build>
@@ -30,14 +33,6 @@
                     <formats>zip</formats>
                     <appendAssemblyId>false</appendAssemblyId>
                     <descriptors>src/main/assembly/project.xml</descriptors>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <release>15</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -97,7 +92,6 @@
             <plugin>
                 <groupId>org.moditect</groupId>
                 <artifactId>moditect-maven-plugin</artifactId>
-                <version>1.0.0.RC1</version>
                 <executions>
                     <execution>
                         <id>create-runtime-image</id>
@@ -130,36 +124,23 @@
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-impl</artifactId>
-            <version>${piranha.version}</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-nano</artifactId>
-            <version>${piranha.version}</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-nano</artifactId>
-            <version>${piranha.version}</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
     <properties>
-        <piranha.version>21.3.0-SNAPSHOT</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 </project>
