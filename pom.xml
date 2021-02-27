@@ -66,7 +66,6 @@
         <module>server2</module>
         <module>servlet</module>
         <module>session</module>
-        <module>template</module>
         <module>transaction</module>
         <module>war</module>
         <module>webapp</module>
