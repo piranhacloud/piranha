@@ -159,7 +159,9 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
             public void service(Request request, Response response) throws Exception {
                 GrizzlyHttpServerRequest gRequest = new GrizzlyHttpServerRequest(request);
                 GrizzlyHttpServerResponse gResponse = new GrizzlyHttpServerResponse(response);
-                httpServerProcessor.process(gRequest, gResponse);
+                if (httpServerProcessor.process(gRequest, gResponse)) {
+                    response.suspend();
+                }
             }
         });
         try {
