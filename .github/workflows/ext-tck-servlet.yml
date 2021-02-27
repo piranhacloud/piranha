@@ -2,6 +2,12 @@ name: ext-tck-servlet
 on:
   schedule:
   - cron: "0 8 * * *"
+  workflow_dispatch:
+    inputs:
+      httpImplementation:
+        description: 'HTTP Implementation'
+        default: 'impl'
+        required: true
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -23,6 +29,6 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
-      run: mvn -B -DskipTests=true install
+      run: mvn -B -DskipTests=true install -P${{ github.event.inputs.httpImplementation }}
     - name: Run TCK
       run: mvn -amd -B -P external -pl external/tck/servlet -Dant.java.home=${{ steps.set-java-tck.outputs.path }} verify
