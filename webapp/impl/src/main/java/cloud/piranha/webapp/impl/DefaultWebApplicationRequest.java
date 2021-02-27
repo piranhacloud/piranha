@@ -713,7 +713,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
                 boolean hasBody
                         = // FORM submission
-                        contentType != null && contentType.equals("application/x-www-form-urlencoded")
+                        contentType != null && contentType.startsWith("application/x-www-form-urlencoded")
                         || // PUT parameters
                         "put".equalsIgnoreCase(getMethod()) && getContentLength() > 0;
 
