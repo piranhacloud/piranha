@@ -346,7 +346,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public String changeSessionId() {
-        return webApplication.getHttpSessionManager().changeSessionId(this);
+        currentSessionId = webApplication.getHttpSessionManager().changeSessionId(this);
+        return currentSessionId;
     }
 
     /**
