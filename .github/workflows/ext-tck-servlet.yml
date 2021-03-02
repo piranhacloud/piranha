@@ -30,5 +30,9 @@ jobs:
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
       run: mvn -B -DskipTests=true install -P${{ github.event.inputs.httpImplementation }}
+      if: ${{ github.event.inputs.httpImplementation }}
+    - name: Setup for TCK
+      run: mvn -B -DskipTests=true install
+      if: ${{ !github.event.inputs.httpImplementation }}
     - name: Run TCK
       run: mvn -amd -B -P external -pl external/tck/servlet -Dant.java.home=${{ steps.set-java-tck.outputs.path }} verify
