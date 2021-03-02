@@ -34,6 +34,7 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -117,6 +118,20 @@ class DefaultHttpServletRequestTest {
         HttpSession session = request.getSession(true);
         request.setRequestedSessionId(session.getId());
         request.changeSessionId();
+    }
+
+    @Test
+    void testChangeSessionId3() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        webApp.linkRequestAndResponse(request, response);
+        request.setWebApplication(webApp);
+        HttpSession session = request.getSession(true);
+        String previousSessionId = session.getId();
+        String newSessionId = request.changeSessionId();
+        assertNotEquals(previousSessionId, newSessionId);
+        assertEquals(newSessionId, request.getSession(false).getId());
     }
 
     /**
