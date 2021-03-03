@@ -39,7 +39,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -124,4 +126,58 @@ class HttpWebApplicationServerTest {
         httpServer.stop();
         server.stop();
     }
+
+    @Test
+    void testSessionUrlRewriting() throws Exception {
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        HttpServer httpServer = new DefaultHttpServer(8181, server, false);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("/context");
+        application.addServlet("snoop", new TestSnoopServlet());
+        application.addServletMapping("snoop", "/snoop/*");
+        server.addWebApplication(application);
+        server.initialize();
+        server.start();
+        httpServer.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8181/context/snoop/index.html;jsessionid=customsessionid")).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertTrue(response.body().contains("customsessionid"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+        httpServer.stop();
+        server.stop();
+    }
+
+    @Test
+    void testSessionUrlRewriting2() throws Exception {
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        HttpServer httpServer = new DefaultHttpServer(8182, server, false);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("/context");
+        application.addServlet("snoop", new TestSnoopServlet());
+        application.addServletMapping("snoop", "/snoop/*");
+        server.addWebApplication(application);
+        server.initialize();
+        server.start();
+        httpServer.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8182/context/snoop/index.html;jsessionid=sessionIdURL"))
+                .headers("Cookie", "JSESSIONID=sessionIdCookie")
+                .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertTrue(response.body().contains("sessionIdCookie"));
+            assertFalse(response.body().contains("sessionIdURL"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+        httpServer.stop();
+        server.stop();
+    }
+
 }

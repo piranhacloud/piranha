@@ -140,6 +140,17 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             }
         }
 
+        String contextPath = applicationServerRequest.getContextPath();
+        String jsessionid = ";jsessionid=";
+        int indexJsessionid = contextPath.indexOf(jsessionid);
+        if (indexJsessionid > -1) {
+            applicationServerRequest.setContextPath(contextPath.substring(0, indexJsessionid));
+            if (!applicationServerRequest.isRequestedSessionIdFromCookie()) {
+                applicationServerRequest.setRequestedSessionIdFromURL(true);
+                applicationServerRequest.setRequestedSessionId(contextPath.substring(indexJsessionid + jsessionid.length()));
+            }
+        }
+
         return applicationServerRequest;
     }
 
