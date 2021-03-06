@@ -2,6 +2,7 @@ name: ext-tck-expression-language
 on:
   schedule:
   - cron: "0 8 * * *"
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
