@@ -63,12 +63,12 @@
                                         <move file="${project.build.directory}/servlet-tck"
                                               tofile="${project.build.directory}/tck"/>
                                 
-                                        <!-- download, unzip, rename and chmod Ant 1.8.4 -->
-                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.zip"
+                                        <!-- download, unzip, rename and chmod Ant 1.10.9 -->
+                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
                                              dest="${project.build.directory}/ant.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/ant.zip"
                                                dest="${project.build.directory}"/>
-                                        <move file="${project.build.directory}/apache-ant-1.8.4"
+                                        <move file="${project.build.directory}/apache-ant-1.10.9"
                                               tofile="${project.build.directory}/ant"/>
                                         <chmod dir="${ant.home}/bin"
                                                perm="ugo+rx"
@@ -272,12 +272,12 @@
                                         <move file="${project.build.directory}/servlet-tck"
                                               tofile="${project.build.directory}/tck"/>
                                 
-                                        <!-- download, unzip, rename and chmod Ant 1.8.4 -->
-                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.zip"
+                                        <!-- download, unzip, rename and chmod Ant 1.10.9 -->
+                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
                                              dest="${project.build.directory}/ant.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/ant.zip"
                                                dest="${project.build.directory}"/>
-                                        <move file="${project.build.directory}/apache-ant-1.8.4"
+                                        <move file="${project.build.directory}/apache-ant-1.10.9"
                                               tofile="${project.build.directory}/ant"/>
                                         <chmod dir="${ant.home}/bin"
                                                perm="ugo+rx"
@@ -474,12 +474,12 @@
                                         <move file="${project.build.directory}/servlet-tck"
                                               tofile="${project.build.directory}/tck"/>
                                 
-                                        <!-- download, unzip, rename and chmod Ant 1.8.4 -->
-                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.zip"
+                                        <!-- download, unzip, rename and chmod Ant 1.10.9 -->
+                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
                                              dest="${project.build.directory}/ant.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/ant.zip"
                                                dest="${project.build.directory}"/>
-                                        <move file="${project.build.directory}/apache-ant-1.8.4"
+                                        <move file="${project.build.directory}/apache-ant-1.10.9"
                                               tofile="${project.build.directory}/ant"/>
                                 
                                         <!-- keep copy of original ts.jte -->
@@ -678,12 +678,12 @@
                                         <move file="${project.build.directory}/servlet-tck"
                                               tofile="${project.build.directory}/tck"/>
                                 
-                                        <!-- download, unzip, rename and chmod Ant 1.8.4 -->
-                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.zip"
+                                        <!-- download, unzip, rename and chmod Ant 1.10.9 -->
+                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
                                              dest="${project.build.directory}/ant.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/ant.zip"
                                                dest="${project.build.directory}"/>
-                                        <move file="${project.build.directory}/apache-ant-1.8.4"
+                                        <move file="${project.build.directory}/apache-ant-1.10.9"
                                               tofile="${project.build.directory}/ant"/>
                                         <chmod dir="${ant.home}/bin"
                                                perm="ugo+rx"
@@ -883,12 +883,12 @@
                                         <move file="${project.build.directory}/servlet-tck"
                                               tofile="${project.build.directory}/tck"/>
                                 
-                                        <!-- download, unzip, rename and chmod Ant 1.8.4 -->
-                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.zip"
+                                        <!-- download, unzip, rename and chmod Ant 1.10.9 -->
+                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
                                              dest="${project.build.directory}/ant.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/ant.zip"
                                                dest="${project.build.directory}"/>
-                                        <move file="${project.build.directory}/apache-ant-1.8.4"
+                                        <move file="${project.build.directory}/apache-ant-1.10.9"
                                               tofile="${project.build.directory}/ant"/>
                                         <chmod dir="${ant.home}/bin"
                                                perm="ugo+rx"
