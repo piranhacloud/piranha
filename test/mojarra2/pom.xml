@@ -20,9 +20,9 @@
 
     <dependencies>
     	<dependency>
-    		<groupId>cloud.piranha.micro</groupId>
-  			<artifactId>piranha-micro-builder</artifactId>
-  			<version>${project.version}</version>
+  <groupId>cloud.piranha.micro</groupId>
+  <artifactId>piranha-micro-builder</artifactId>
+  <version>${project.version}</version>
     	</dependency>
     	
     	<dependency>
