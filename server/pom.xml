@@ -2,17 +2,21 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
         <version>21.3.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>piranha-server</artifactId>
     <packaging>jar</packaging>
+
     <name>Piranha - Server</name>
     <description>
         The server version of Piranha.
     </description>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -86,6 +90,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <finalName>piranha-server</finalName>
         <plugins>
@@ -158,6 +163,7 @@
             </plugin>
         </plugins>
     </build>
+
     <profiles>
         <profile>
             <id>grizzly</id>

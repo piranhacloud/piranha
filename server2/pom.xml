@@ -43,9 +43,9 @@
         </dependency>
         
         <dependency>
-            <groupId>cloud.piranha</groupId>
-              <artifactId>piranha-embedded</artifactId>
-              <version>${project.version}</version>
+             <groupId>cloud.piranha</groupId>
+             <artifactId>piranha-embedded</artifactId>
+             <version>${project.version}</version>
         </dependency>
         
         <!-- Handling of archives and loading modules via Maven -->
