@@ -14,15 +14,10 @@
 
     <name>Piranha Test - Arquillian - Project</name>
 
-    <!--
-
-        See MIGRATION.md
-
     <modules>
         <module>servlet-basic</module>
     </modules>
 
-      -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -32,14 +27,14 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.5.0.Final</version>
+                <version>1.7.0.Alpha8</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss.arquillian.container</groupId>
                 <artifactId>arquillian-container-test-api</artifactId>
-                <version>1.5.0.Final</version>
+                <version>1.7.0.Alpha8</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
