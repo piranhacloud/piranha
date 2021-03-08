@@ -111,7 +111,7 @@
             <dependency>
                 <groupId>org.omnifaces</groupId>
                 <artifactId>exousia</artifactId>
-                <version>1.0</version>
+                <version>1.1</version>
             </dependency>
 
             <!-- Jakarta Bean Validation -->
