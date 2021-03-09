@@ -251,10 +251,6 @@ public class MicroOuterDeployer {
         // Weld needs this - This requires the usage of --add-opens java.base/java.lang=ALL-UNNAMED
         moduleLayer.findModule("weld.core.impl").ifPresent(x -> javaBaseModule.addOpens("java.lang", x));
 
-        // Exousia creates a new instance of the default security provider
-        // This requires the usage of --add-opens java.base/sun.security.provider=ALL-UNNAMED
-        moduleLayer.findModule("org.omnifaces.exousia").ifPresent(x -> javaBaseModule.addOpens("sun.security.provider", x));
-
         ModuleLayerProcessor.processModuleLayerOptions(moduleLayer, controller);
     }
 
