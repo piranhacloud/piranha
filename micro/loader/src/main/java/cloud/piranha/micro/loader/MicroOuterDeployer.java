@@ -53,6 +53,7 @@ import java.util.stream.Stream;
 import cloud.piranha.modular.DefaultModuleFinder;
 import cloud.piranha.modular.ModuleLayerProcessor;
 import cloud.piranha.resource.DefaultResourceManagerClassLoader;
+import cloud.piranha.resource.MultiReleaseResource;
 import cloud.piranha.resource.api.Resource;
 import org.jboss.jandex.Index;
 import org.jboss.jandex.IndexWriter;
@@ -283,7 +284,7 @@ public class MicroOuterDeployer {
         DefaultResourceManager manager = new DefaultResourceManager();
 
         for (Archive<?> archive : piranhaArchives) {
-            manager.addResource(new ShrinkWrapResource(archive));
+            manager.addResource(new MultiReleaseResource(new ShrinkWrapResource(archive)));
         }
 
         IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader("Piranha Loader");
@@ -334,9 +335,9 @@ public class MicroOuterDeployer {
 
         // Add the resources representing the application archive and index archive to the resource manager
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(applicationResource);
+        manager.addResource(new MultiReleaseResource(applicationResource));
         for (ShrinkWrapResource webLibResource : webLibResources) {
-            manager.addResource(webLibResource);
+            manager.addResource(new MultiReleaseResource(webLibResource));
         }
         manager.addResource(indexResource);
         

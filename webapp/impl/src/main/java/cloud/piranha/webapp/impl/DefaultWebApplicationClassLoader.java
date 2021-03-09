@@ -34,6 +34,7 @@ import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DefaultResourceManagerClassLoader;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.resource.JarResource;
+import cloud.piranha.resource.MultiReleaseResource;
 import cloud.piranha.resource.api.ResourceManager;
 import cloud.piranha.webapp.api.WebApplicationClassLoader;
 
@@ -59,7 +60,7 @@ public class DefaultWebApplicationClassLoader extends DefaultResourceManagerClas
         ResourceManager resourceManager = new DefaultResourceManager();
         File classesDirectory = new File(baseDirectory, "WEB-INF/classes");
         if (classesDirectory.exists()) {
-            resourceManager.addResource(new AliasedNamedResource(new DirectoryResource(classesDirectory), "cloud.piranha.modular.classes"));
+            resourceManager.addResource(new MultiReleaseResource(new AliasedNamedResource(new DirectoryResource(classesDirectory), "cloud.piranha.modular.classes")));
         }
 
         File libDirectory = new File(baseDirectory, "WEB-INF/lib");
@@ -67,7 +68,7 @@ public class DefaultWebApplicationClassLoader extends DefaultResourceManagerClas
             File[] jarFiles = libDirectory.listFiles();
             if (jarFiles != null) {
                 for (File jarFile : jarFiles) {
-                    resourceManager.addResource(new JarResource(jarFile));
+                    resourceManager.addResource(new MultiReleaseResource(new JarResource(jarFile)));
                 }
             }
         }
