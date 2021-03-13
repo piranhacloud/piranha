@@ -4,10 +4,6 @@ module:cloud.piranha.cdi.weld
 cloud.piranha.cdi.weld
 module:cloud.piranha.cli
 cloud.piranha.cli
-module:cloud.piranha.database.environment
-cloud.piranha.database.environment
-module:cloud.piranha.database.property
-cloud.piranha.database.property
 module:cloud.piranha.embedded
 cloud.piranha.embedded
 module:cloud.piranha.extension.servlet
@@ -30,14 +26,10 @@ module:cloud.piranha.http.nano
 cloud.piranha.http.nano
 module:cloud.piranha.http.netty
 cloud.piranha.http.netty
-module:cloud.piranha.http.tests
-cloud.piranha.http.tests
 module:cloud.piranha.http.undertow
 cloud.piranha.http.undertow
 module:cloud.piranha.http.webapp
 cloud.piranha.http.webapp
-module:cloud.piranha.http.webapp.tests
-cloud.piranha.http.webapp.tests
 module:cloud.piranha.micro.core
 cloud.piranha.micro.core
 module:cloud.piranha.micro.embedded
@@ -106,8 +98,6 @@ module:cloud.piranha.webapp.webannotation
 cloud.piranha.webapp.webannotation
 module:cloud.piranha.webapp.webxml
 cloud.piranha.webapp.webxml
-module:cloud.piranha.webapp.webxml.tests
-cloud.piranha.webapp.webxml.tests
 module:jakarta.servlet
 jakarta.servlet
 jakarta.servlet.annotation
