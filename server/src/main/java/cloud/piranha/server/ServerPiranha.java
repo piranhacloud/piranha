@@ -200,8 +200,15 @@ public class ServerPiranha implements Piranha, Runnable {
         HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
         httpServer.setServerPort(8080);
         httpServer.setHttpServerProcessor(webApplicationServer);
-        httpServer.setSSL(ssl);
         httpServer.start();
+        HttpServer httpsServer = null;
+        if (ssl) {
+            httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+            httpsServer.setHttpServerProcessor(webApplicationServer);
+            httpsServer.setServerPort(8443);
+            httpsServer.setSSL(true);
+            httpsServer.start();
+        }
         webApplicationServer.start();
 
         WebApplicationServerRequestMapper requestMapper = webApplicationServer.getRequestMapper();
@@ -249,7 +256,7 @@ public class ServerPiranha implements Piranha, Runnable {
                         }
                         webApplication.setContextPath(contextPath);
                         webApplicationServer.addWebApplication(webApplication);
-                        
+
                         try {
                             webApplication.initialize();
                             webApplication.start();
@@ -277,6 +284,8 @@ public class ServerPiranha implements Piranha, Runnable {
             if (!pidFile.exists()) {
                 webApplicationServer.stop();
                 httpServer.stop();
+                if (ssl)
+                    httpsServer.stop();
                 System.exit(0);
             }
         }
