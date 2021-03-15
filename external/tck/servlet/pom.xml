@@ -112,7 +112,10 @@
                                                        match="webServerPort=(.*)"
                                                        replace="webServerPort=8080"
                                                        byline="true"/>
-                                        
+                                        <replaceregexp file="${tck.home}/bin/ts.jte"
+                                                       match="securedWebServicePort=(.*)"
+                                                       replace="securedWebServicePort=8443"
+                                                       byline="true"/>
                                         <!-- copy Piranha users / roles into the TCK -->
                                         <copy todir="${piranha.home}/etc">
                                             <fileset dir="${project.basedir}/src/test/etc"/>
@@ -159,7 +162,12 @@
                                         </exec>
                                         <!-- start the server -->
                                         <exec executable="${piranha.home}/bin/start.sh"
-                                              dir="${piranha.home}/bin"/>
+                                              dir="${piranha.home}/bin">
+                                            <env key="SSL_ON" value="--ssl"/>
+                                            <env key="SSL_KEY_STORE" value="-Djavax.net.ssl.keyStore=etc/keystore.jks"/>
+                                            <env key="SSL_KEY_STORE_PASSWORD"
+                                                 value="-Djavax.net.ssl.keyStorePassword=password"/>
+                                        </exec>
                                         <!-- give the server some time to settle down -->
                                         <sleep seconds="30"/>
                                     </target>
