@@ -26,6 +26,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+import cloud.piranha.security.file.FileSecurityInitializer;
+import jakarta.servlet.ServletContainerInitializer;
+
 /**
  * The Piranha Security - File integration module.
  * 
@@ -38,6 +41,7 @@
 module cloud.piranha.security.file {
     
     exports cloud.piranha.security.file;
+    provides ServletContainerInitializer with FileSecurityInitializer;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires jakarta.servlet;
