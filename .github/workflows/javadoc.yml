@@ -16,7 +16,7 @@ jobs:
     - name: Setup Java
       uses: actions/setup-java@v1
       with:
-        java-version: 15
+        java-version: 16
     - name: Publish JavaDoc
       run: |
         VERSION=${{ github.event.inputs.version }}

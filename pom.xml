@@ -182,6 +182,14 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
                     <version>3.2.4</version>
+                    <!-- Workaround for 3.2.4 version of the plugin and Java 16+ -->
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.ow2.asm</groupId>
+                            <artifactId>asm</artifactId>
+                            <version>9.1</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -298,7 +306,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <inherited>true</inherited>
                 <configuration>
-                    <release>15</release>
+                    <release>16</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -316,7 +324,7 @@
                                     <version>3.6.2</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>15</version>
+                                    <version>16</version>
                                 </requireJavaVersion>
                             </rules>    
                         </configuration>
