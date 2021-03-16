@@ -13,9 +13,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        java: [ '15' ]
+        java: [ '16' ]
         os: [ubuntu-latest]
-        jdk-tck: ['8', '15']
+        jdk-tck: ['8', '16']
     steps:
     - name: Checkout sources
       uses: actions/checkout@v1
