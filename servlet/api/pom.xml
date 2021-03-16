@@ -76,7 +76,7 @@
                             <includes>
                                 <includes>module-info.java</includes>
                             </includes>
-                            <release>15</release>
+                            <release>16</release>
                         </configuration>
                     </execution>
                     <execution>
@@ -121,7 +121,7 @@
                                     <includes>
                                         <includes>**/*</includes>
                                     </includes>
-                                    <release>15</release>
+                                    <release>16</release>
                                 </configuration>
                             </execution>
                         </executions>
