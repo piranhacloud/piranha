@@ -31,17 +31,21 @@ import static org.apache.jasper.Constants.JSP_FILE;
 
 import java.io.IOException;
 
+import org.apache.jasper.servlet.JspServlet;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.jasper.servlet.JspServlet;
-
 /**
- * Servlet to set the JSP file attribute
- * to allow Jasper find the correct file
+ * Servlet to set the JSP file attribute to allow WaSP find the correct file
  */
 class WaspServlet extends JspServlet {
+
+    /**
+     * Serial version
+     */
+    private static final long serialVersionUID = 1L;
     
     /**
      * Stores the JSP file.

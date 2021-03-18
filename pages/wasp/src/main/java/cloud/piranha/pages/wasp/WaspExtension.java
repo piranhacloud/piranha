@@ -38,7 +38,7 @@ import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
- * The extension that will enable Jasper integration (aka. JSP).
+ * The extension that will enable WaSP integration (aka. JSP).
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -57,15 +57,15 @@ public class WaspExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         try {
-            ClassLoader classLoader = webApplication.getClassLoader();
-            Class<? extends ServletContainerInitializer> clazz
-                    = classLoader.
-                            loadClass(WaspInitializer.class.getName())
-                            .asSubclass(ServletContainerInitializer.class);
-            ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
-            webApplication.addInitializer(initializer);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
-                | InstantiationException | IllegalAccessException
+            
+            webApplication.addInitializer(
+                webApplication.getClassLoader()
+                              .loadClass(WaspInitializer.class.getName())
+                              .asSubclass(ServletContainerInitializer.class)
+                              .getDeclaredConstructor()
+                              .newInstance());
+            
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
                 | IllegalArgumentException | InvocationTargetException ex) {
             LOGGER.log(WARNING, "Unable to enable the Jasper extension", ex);
         }

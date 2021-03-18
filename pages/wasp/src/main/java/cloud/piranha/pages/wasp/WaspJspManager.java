@@ -34,7 +34,7 @@ import cloud.piranha.webapp.api.JspManager;
 import cloud.piranha.webapp.api.WebApplication;
 
 /**
- * The JSP manager delivered by the Jasper integration.
+ * The WaSP manager delivered by the Jasper integration.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
