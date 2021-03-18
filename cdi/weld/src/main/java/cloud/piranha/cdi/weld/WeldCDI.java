@@ -45,8 +45,12 @@ public class WeldCDI extends AbstractCDI<Object> {
     
     /**
      * Constructor.
+     * 
+     * @param manager the WeldManager.
+     * 
      */
-    public WeldCDI() {
+    public WeldCDI(WeldManager manager) {
+        this.manager = manager;
     }
 
     /**

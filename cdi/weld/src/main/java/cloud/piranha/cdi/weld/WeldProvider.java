@@ -27,6 +27,7 @@
  */
 package cloud.piranha.cdi.weld;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.enterprise.inject.spi.CDIProvider;
@@ -41,7 +42,7 @@ public class WeldProvider implements CDIProvider {
     /**
      * Stores the instances.
      */
-    private static final ConcurrentHashMap<ClassLoader, CDI<Object>> INSTANCES = new ConcurrentHashMap<>();
+    private static final Map<ClassLoader, CDI<Object>> INSTANCES = new ConcurrentHashMap<>();
 
     /**
      * Get the CDI.
@@ -59,7 +60,6 @@ public class WeldProvider implements CDIProvider {
      * @param cdi the CDI.
      */
     public static void setCDI(CDI<Object> cdi) {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        INSTANCES.put(classLoader, cdi);
+        INSTANCES.put(Thread.currentThread().getContextClassLoader(), cdi);
     }
 }
