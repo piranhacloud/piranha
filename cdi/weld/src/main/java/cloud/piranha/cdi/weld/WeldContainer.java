@@ -65,11 +65,8 @@ public class WeldContainer implements Container {
         }
         try {
             WeldManager manager = context.getManager();
-            WeldCDI cdi = new WeldCDI();
-            cdi.setWeldManager(manager);
-            WeldProvider.setCDI(cdi);
-            InitialContext initialContext = new InitialContext();
-            initialContext.rebind("java:comp/BeanManager", manager);
+            WeldProvider.setCDI(new WeldCDI(manager));
+            new InitialContext().rebind("java:comp/BeanManager", manager);
         } catch (NamingException ne) {
             throw new RuntimeException(ne);
         }
