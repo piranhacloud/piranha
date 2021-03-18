@@ -17,22 +17,36 @@
     </description>
 
     <dependencies>
+        <!-- Jakarta Servlet -->
         <dependency>
             <groupId>cloud.piranha.servlet</groupId>
             <artifactId>piranha-servlet-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.el</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+        
+        <!-- Jakarta Pages -->
         <dependency>
             <groupId>cloud.piranha.pages</groupId>
             <artifactId>piranha-pages-wasp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- Jakarta Pages Tags -->
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- Jakarta Expression Language -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- Jakarta Security -->
         <dependency>
             <groupId>cloud.piranha.security</groupId>
             <artifactId>piranha-security-jakarta</artifactId>
@@ -44,11 +58,15 @@
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
+        
+        <!-- Jakarta Annotation -->
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
             <scope>runtime</scope>
         </dependency>
+        
+        <!-- Jakarta XML Binding -->
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
@@ -59,12 +77,26 @@
             <artifactId>jaxb-runtime</artifactId>
             <scope>runtime</scope>
         </dependency>
+        
+        <!-- Jakarta CDI -->
         <dependency>
             <groupId>cloud.piranha.cdi</groupId>
             <artifactId>piranha-cdi-weld</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
+        
+        <!-- Jakarta JNDI -->
+        <dependency>
+            <groupId>cloud.piranha.naming</groupId>
+            <artifactId>piranha-naming-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        
+        
+        <!-- Piranha implementation details -->
+        
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-apache-fileupload</artifactId>
@@ -81,12 +113,6 @@
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-impl</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
