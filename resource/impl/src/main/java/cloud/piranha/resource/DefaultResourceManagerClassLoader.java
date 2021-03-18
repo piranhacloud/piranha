@@ -42,6 +42,7 @@ import java.security.ProtectionDomain;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import cloud.piranha.resource.api.ResourceManager;
@@ -53,6 +54,11 @@ import cloud.piranha.resource.api.ResourceManagerClassLoader;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultResourceManagerClassLoader extends ClassLoader implements ResourceManagerClassLoader {
+    
+    /**
+     * Set that keeps a list of classes we know aren't there, so we don't have to search for them again.
+     */
+    private Set<String> notFoundClasses = ConcurrentHashMap.newKeySet();
 
     /**
      * Stores the resource manager.
@@ -123,6 +129,26 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                 result = _loadClass(name, resolve);
             } catch (Throwable throwable) {
                 throw new ClassNotFoundException("Unable to load class: " + name, throwable);
+            }
+        }
+        
+        if (result == null) {
+            if (notFoundClasses.contains(name)) {
+                throw new ClassNotFoundException("Unable to load previosly failed to find class: " + name);
+            }
+            
+            notFoundClasses.add(name);
+            
+            ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+            if (contextClassLoader != this) {
+                try {
+                    result = contextClassLoader.loadClass(name);
+                } catch (ClassNotFoundException e) {
+                    // Ignore, throw our own one if needed
+                }
+                if (result != null) {
+                    notFoundClasses.remove(name);
+                }
             }
         }
         
@@ -250,7 +276,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
 
             if (classPackage == null) {
                 try {
-                definePackage(packageName, null, null, null, null, null, null, null);
+                    definePackage(packageName, null, null, null, null, null, null, null);
                 } catch (IllegalArgumentException e) {
                     // Ignore, package already defined
                 }
