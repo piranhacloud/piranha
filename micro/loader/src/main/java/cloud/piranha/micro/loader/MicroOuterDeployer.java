@@ -40,19 +40,13 @@ import java.lang.module.ModuleFinder;
 import java.lang.module.ModuleReference;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import cloud.piranha.modular.DefaultModuleFinder;
-import cloud.piranha.modular.ModuleLayerProcessor;
-import cloud.piranha.resource.DefaultResourceManagerClassLoader;
-import cloud.piranha.resource.MultiReleaseResource;
-import cloud.piranha.resource.api.Resource;
 import org.jboss.jandex.Index;
 import org.jboss.jandex.IndexWriter;
 import org.jboss.jandex.Indexer;
@@ -69,7 +63,12 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.repository.MavenRemoteRepositories;
 import org.jboss.shrinkwrap.resolver.api.maven.repository.MavenRemoteRepository;
 
+import cloud.piranha.modular.DefaultModuleFinder;
+import cloud.piranha.modular.ModuleLayerProcessor;
 import cloud.piranha.resource.DefaultResourceManager;
+import cloud.piranha.resource.DefaultResourceManagerClassLoader;
+import cloud.piranha.resource.MultiReleaseResource;
+import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.shrinkwrap.IsolatingResourceManagerClassLoader;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 
@@ -135,8 +134,6 @@ public class MicroOuterDeployer {
      */
     @SuppressWarnings("unchecked")
     public MicroDeployOutcome deploy(Archive<?> archive) {
-        Set<String> servletNames = new HashSet<>();
-
         if (!archive.contains("WEB-INF/beans.xml")) {
             archive.add(EmptyAsset.INSTANCE, "WEB-INF/beans.xml");
         }
@@ -232,7 +229,7 @@ public class MicroOuterDeployer {
         List<String> roots = moduleFinder.findAll().stream()
                 .map(ModuleReference::descriptor)
                 .map(ModuleDescriptor::name)
-                .toList();
+                .collect(Collectors.toList());
 
         Configuration resolve = ModuleLayer.boot().configuration().resolveAndBind(moduleFinder, ModuleFinder.of(), roots);
 
@@ -299,19 +296,20 @@ public class MicroOuterDeployer {
      */
     ClassLoader getWebInfClassLoader(Archive<?> applicationArchive, ClassLoader piranhaClassloader) {
         // Create the resource that holds all classes from the WEB-INF/classes folder
-        ShrinkWrapResource applicationResource = new ShrinkWrapResource("/WEB-INF/classes", applicationArchive, "cloud.piranha.modular.classes");
+        ShrinkWrapResource webInfClasses = new ShrinkWrapResource("/WEB-INF/classes", applicationArchive, "cloud.piranha.modular.classes");
+        addIndexToResource(webInfClasses);
 
         // Create the resources that hold all classes from the WEB-INF/lib folder.
         // Each resource holds the classes from a single jar
         ShrinkWrapResource jarResources = new ShrinkWrapResource("/WEB-INF/lib", applicationArchive, applicationArchive.getName() + ".libs");
-        List<ShrinkWrapResource> webLibResources
+        List<ShrinkWrapResource> webInfLib
                 = jarResources.getAllLocations()
                         .filter(location -> location.endsWith(".jar"))
                         .map(location -> importAsShrinkWrapResource(jarResources, location))
                         .toList();
         
         
-        webLibResources.stream()
+        webInfLib.stream()
             .filter(resource -> 
                 resource.getAllLocations()
                         .anyMatch(location -> location.startsWith("/META-INF/resources")))
@@ -323,18 +321,17 @@ public class MicroOuterDeployer {
         // This index can be obtained from the class loader by getting the "META-INF/piranha.idx" resource.
         ShrinkWrapResource indexResource = new ShrinkWrapResource(
                 ShrinkWrap.create(JavaArchive.class, "piranha-jandex-module.jar")
-                        .add(new ByteArrayAsset(createIndex(applicationResource, webLibResources)), "META-INF/piranha.idx"));
+                        .add(new ByteArrayAsset(createIndex(webInfClasses, webInfLib)), "META-INF/piranha.idx"));
 
         IsolatingResourceManagerClassLoader classLoader = new IsolatingResourceManagerClassLoader(piranhaClassloader, "WebInf Loader");
 
         // Add the resources representing the application archive and index archive to the resource manager
         DefaultResourceManager manager = new DefaultResourceManager();
-        manager.addResource(new MultiReleaseResource(applicationResource));
-        for (ShrinkWrapResource webLibResource : webLibResources) {
+        manager.addResource(new MultiReleaseResource(webInfClasses));
+        for (ShrinkWrapResource webLibResource : webInfLib) {
             manager.addResource(new MultiReleaseResource(webLibResource));
         }
         manager.addResource(indexResource);
-        
        
 
         // Make the application and library classes, as well as the index available to the class loader by setting the resource manager
@@ -353,31 +350,26 @@ public class MicroOuterDeployer {
      * @return a ShrinkWrapResource version of the target resource
      */
     private ShrinkWrapResource importAsShrinkWrapResource(ShrinkWrapResource resource, String location) {
-        return new ShrinkWrapResource(
+        ShrinkWrapResource unzippedResource = new ShrinkWrapResource(
                 ShrinkWrap.create(ZipImporter.class, location.substring(1))
-                        .importFrom(
-                                resource.getResourceAsStreamByLocation(location))
-                        .as(JavaArchive.class));
+                          .importFrom(resource.getResourceAsStreamByLocation(location))
+                          .as(JavaArchive.class));
+        
+        addIndexToResource(unzippedResource);
+        
+        return unzippedResource;
     }
-
-    private byte[] createIndex(ShrinkWrapResource applicationResource, List<ShrinkWrapResource> libResources) {
+    
+    private void addIndexToResource(ShrinkWrapResource resource) {
+        resource.getArchive()
+                .add(new ByteArrayAsset(createIndexForResource(resource)), "META-INF/jandex.idx");
+    }
+    
+    private byte[] createIndexForResource(ShrinkWrapResource resource) {
         Indexer indexer = new Indexer();
-
-        // Add all classes from the library resources (the jar files in WEB-INF/lib)
-        libResources
-                .stream()
-                .forEach(libResource
-                        -> libResource.getAllLocations()
-                        .filter(e -> e.endsWith(".class"))
-                        .forEach(className -> addToIndex(className, libResource, indexer)));
-
-        // Add all classes from the application resource (the class files in WEB-INF/classes to the indexer)
-        // Note this must be done last as according to the Servlet spec, WEB-INF/classes overrides WEB-INF/lib)
-        applicationResource
-                .getAllLocations()
-                .filter(e -> e.endsWith(".class"))
-                .forEach(className -> addToIndex(className, applicationResource, indexer));
-
+        
+        addAllClassesToIndex(resource, indexer);
+        
         Index index = indexer.complete();
 
         // Write the index out to a byte array
@@ -394,7 +386,40 @@ public class MicroOuterDeployer {
         return indexBytes.toByteArray();
     }
 
-    private void addToIndex(String className, ShrinkWrapResource resource, Indexer indexer) {
+    private byte[] createIndex(ShrinkWrapResource applicationResource, List<ShrinkWrapResource> libResources) {
+        Indexer indexer = new Indexer();
+
+        // Add all classes from the library resources (the jar files in WEB-INF/lib)
+        libResources.stream()
+                    .forEach(libResource -> addAllClassesToIndex(libResource, indexer));
+
+        // Add all classes from the application resource (the class files in WEB-INF/classes to the indexer)
+        // Note this must be done last as according to the Servlet spec, WEB-INF/classes overrides WEB-INF/lib)
+        addAllClassesToIndex(applicationResource, indexer);
+
+        Index index = indexer.complete();
+
+        // Write the index out to a byte array
+        ByteArrayOutputStream indexBytes = new ByteArrayOutputStream();
+
+        IndexWriter writer = new IndexWriter(indexBytes);
+
+        try {
+            writer.write(index);
+        } catch (IOException ioe) {
+            LOGGER.log(WARNING, "Unable to write out index", ioe);
+        }
+
+        return indexBytes.toByteArray();
+    }
+    
+    private void addAllClassesToIndex(ShrinkWrapResource resource, Indexer indexer) {
+        resource.getAllLocations()
+                .filter(e -> e.endsWith(".class"))
+                .forEach(className -> addSingleClassToIndex(className, resource, indexer));
+    }
+
+    private void addSingleClassToIndex(String className, ShrinkWrapResource resource, Indexer indexer) {
         try (InputStream classAsStream = resource.getResourceAsStream(className)) {
             indexer.index(classAsStream);
         } catch (IOException ioe) {

@@ -31,6 +31,8 @@ import static org.jboss.weld.environment.deployment.discovery.jandex.Jandex.INDE
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import jakarta.annotation.Priority;
 
@@ -52,19 +54,34 @@ public class PiranhaBeanArchiveHandler implements BeanArchiveHandler {
     @Override
     public BeanArchiveBuilder handle(String beanArchiveReference) {
         
+        String indexURL = null;
+        
         // We're only handling the classes in the application archive, which is represented
         // by /WEB-INF/classes
-        if (!"/WEB-INF/classes".equals(beanArchiveReference)) {
-            return null;
+        if ("/WEB-INF/classes".equals(beanArchiveReference)) {
+            indexURL = "shrinkwrap://cloud.piranha.modular.classes/META-INF/jandex.idx";
+        } else {
+            try {
+                URL url = new URL(beanArchiveReference);
+                String protocol = url.getProtocol();
+                if (!protocol.equals("shrinkwrap")) {
+                    return null;
+                }
+                
+                indexURL = "shrinkwrap://" + url.getHost() + "/META-INF/jandex.idx";
+                
+            } catch (MalformedURLException e1) {
+                // TODO Auto-generated catch block
+                throw new IllegalStateException(e1);
+            }
         }
         
         // The beanArchiveBuilder is a builder the native archive type for Weld.
         // It roughly corresponds to a Shrinkwrap Archive builder.
         BeanArchiveBuilder beanArchiveBuilder = new BeanArchiveBuilder();
         
-        // Get the class and annotation index stored into the class loader under 
-        // "META-INF/piranha.idx"
-        Index index = getIndex();
+        // Get the class and annotation index 
+        Index index = getIndex(indexURL);
         
         beanArchiveBuilder.setAttribute(INDEX_ATTRIBUTE_NAME, index);
         
@@ -78,14 +95,13 @@ public class PiranhaBeanArchiveHandler implements BeanArchiveHandler {
         return beanArchiveBuilder;
     }
     
-    Index getIndex() {
-        ClassLoader classLoader= Thread.currentThread().getContextClassLoader();
-        
-        try (InputStream indexStream = classLoader.getResourceAsStream("META-INF/piranha.idx")) {
+    Index getIndex(String indexURL) {
+        try (InputStream indexStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(indexURL)) {
             return new IndexReader(indexStream).read();
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
+
     }
 
 }
