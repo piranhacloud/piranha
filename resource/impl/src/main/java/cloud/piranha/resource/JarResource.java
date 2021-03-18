@@ -38,7 +38,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 
@@ -140,7 +139,7 @@ public class JarResource implements Resource {
                     .stream()
                     .map(ZipEntry::getName)
                     .map(x -> "/" + x)
-                    .collect(Collectors.toList());
+                    .toList();
         } catch (IOException e) {
             return Stream.of();
         }

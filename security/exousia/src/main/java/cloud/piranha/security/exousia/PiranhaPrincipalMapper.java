@@ -27,7 +27,6 @@
  */
 package cloud.piranha.security.exousia;
 
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 
 import java.security.Principal;
@@ -50,7 +49,7 @@ public class PiranhaPrincipalMapper implements PrincipalMapper {
              .filter(AuthenticatedIdentity.class::isInstance)
              .map(AuthenticatedIdentity.class::cast)
              .flatMap(e -> e.getGroups().stream())
-             .collect(toList());
+             .toList();
     }
     
 }

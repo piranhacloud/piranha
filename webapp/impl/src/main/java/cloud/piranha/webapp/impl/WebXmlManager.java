@@ -38,7 +38,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import static cloud.piranha.webapp.impl.WebXml.OTHERS_TAG;
 
@@ -138,7 +137,7 @@ public class WebXmlManager {
     }
 
     private List<WebXml> processAbsoluteOrdering() {
-        List<String> absoluteOrdering = webXml.getAbsoluteOrdering().stream().distinct().collect(Collectors.toUnmodifiableList());
+        List<String> absoluteOrdering = webXml.getAbsoluteOrdering().stream().distinct().toList();
         if (absoluteOrdering.isEmpty())
             return Collections.emptyList();
 
@@ -147,24 +146,24 @@ public class WebXmlManager {
                     .stream()
                     .filter(x -> absoluteOrdering.contains(x.getFragmentName()))
                     .sorted(Comparator.comparingInt(x -> absoluteOrdering.indexOf(x.getFragmentName())))
-                    .collect(Collectors.toUnmodifiableList());
+                    .toList();
         }
 
         int indexOfOthersTag = absoluteOrdering.indexOf(OTHERS_TAG);
 
         List<String> fragmentsBeforeOthers = absoluteOrdering.stream()
             .filter(x -> absoluteOrdering.indexOf(x) < indexOfOthersTag)
-            .collect(Collectors.toList());
+            .toList();
 
         List<String> fragmentsAfterOthers = absoluteOrdering.stream()
             .filter(x -> absoluteOrdering.indexOf(x) > indexOfOthersTag)
-            .collect(Collectors.toList());
+            .toList();
 
         List<String> othersFragments = getWebFragments()
                 .stream()
                 .map(WebXml::getFragmentName)
                 .filter(x -> !fragmentsAfterOthers.contains(x) && !fragmentsBeforeOthers.contains(x))
-                .collect(Collectors.toList());
+                .toList();
 
         List<WebXml> orderedFragments = new ArrayList<>();
         for (String fragmentName : absoluteOrdering) {
@@ -178,7 +177,7 @@ public class WebXmlManager {
     }
 
     private List<WebXml> toWebXml(List<String> fragmentNames) {
-        return getWebFragments().stream().filter(x -> fragmentNames.contains(x.getFragmentName())).collect(Collectors.toList());
+        return getWebFragments().stream().filter(x -> fragmentNames.contains(x.getFragmentName())).toList();
     }
 
     private Optional<WebXml> findWebFragment(String fragmentName) {
