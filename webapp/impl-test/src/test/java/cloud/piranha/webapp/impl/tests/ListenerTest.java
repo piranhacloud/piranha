@@ -198,12 +198,12 @@ class ListenerTest {
     /**
      * Test HTTP session listener.
      */
-    static class TestBrokenHttpSessionListener implements HttpSessionListener {
+    public static class TestBrokenHttpSessionListener implements HttpSessionListener {
 
         /**
          * Constructor.
          */
-        TestBrokenHttpSessionListener() {
+        public TestBrokenHttpSessionListener() {
             throw new UnsupportedOperationException();
         }
     }

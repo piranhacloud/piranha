@@ -91,7 +91,7 @@ class DefaultWebApplicationExtensionContextTest {
     /**
      * A test extension.
      */
-    static class Test2Extension implements WebApplicationExtension {
+    public static class Test2Extension implements WebApplicationExtension {
 
         /**
          * Extend the web application.
@@ -107,7 +107,7 @@ class DefaultWebApplicationExtensionContextTest {
     /**
      * A test extension.
      */
-    static class Test3Extension implements WebApplicationExtension {
+    public static class Test3Extension implements WebApplicationExtension {
 
         /**
          * Extend the web application.
