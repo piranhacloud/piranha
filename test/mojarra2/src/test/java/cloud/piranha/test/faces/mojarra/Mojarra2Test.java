@@ -55,14 +55,6 @@ class Mojarra2Test {
      */
     @Test
     void testIndexHtml1() throws Exception {
-        
-        System.out.println(Runtime.version().version());
-        
-        // See https://github.com/piranhacloud/piranha/issues/1467
-        if (Runtime.version().feature() > 15) {
-            return;
-        }
-        
         String result = new MicroEmbeddedPiranhaBuilder()
             .archive(
                 ShrinkWrap
@@ -83,8 +75,9 @@ class Mojarra2Test {
                       .addAsLibraries(
                           Maven.resolver()
                                .resolve(
-                                   // "org.glassfish:jakarta.faces:3.0.0", // Needs fix for #1444
-                                   "jakarta.websocket:jakarta.websocket-api:2.0.0")
+                                   "org.glassfish:jakarta.faces:3.0.0",
+                                   "jakarta.websocket:jakarta.websocket-api:2.0.0",
+                                   "jakarta.validation:jakarta.validation-api:3.0.0")
                                .withTransitivity().as(JavaArchive.class)))
             .buildAndStart()
             .service("/index.xhtml")
