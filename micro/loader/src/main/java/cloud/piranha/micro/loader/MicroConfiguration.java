@@ -28,7 +28,6 @@
 package cloud.piranha.micro.loader;
 
 import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toList;
 
 import java.util.HashMap;
 import java.util.List;
@@ -184,7 +183,7 @@ public class MicroConfiguration {
 
         extensionsList = stream(extensions.split(","))
                 .map(String::trim)
-                .collect(toList());
+                .toList();
 
         Stream<String> dependenciesFromExtensionsStream = extensionsList.stream()
                 .map(extension -> "cloud.piranha.extension:piranha-extension-" + extension + ":" + version);
@@ -196,13 +195,13 @@ public class MicroConfiguration {
         repositoriesList = stream(repositories.split(","))
                 .map(String::trim)
                 .filter(repo -> !repo.isEmpty())
-                .collect(toList());
+                .toList();
 
         mergedDependencies = Stream.of(
                 Stream.of("cloud.piranha.http:piranha-http-" + httpServer + ":" + version),
                 dependenciesFromExtensionsStream,
                 directDependenciesStream
-        ).flatMap(Function.identity()).collect(toList());
+        ).flatMap(Function.identity()).toList();
 
         return this;
     }

@@ -29,7 +29,6 @@ package cloud.piranha.micro.loader;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.logging.Level.WARNING;
-import static java.util.stream.Collectors.toList;
 import static org.jboss.shrinkwrap.resolver.api.maven.repository.MavenUpdatePolicy.UPDATE_POLICY_NEVER;
 
 import java.io.ByteArrayOutputStream;
@@ -47,7 +46,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import cloud.piranha.modular.DefaultModuleFinder;
@@ -229,12 +227,12 @@ public class MicroOuterDeployer {
         List<Resource> applicationResources = webInfClassLoader.getResourceManager().getResourceList();
         DefaultModuleFinder piranhaLibsModuleFinder = new DefaultModuleFinder(piranhaResources);
 
-        DefaultModuleFinder moduleFinder = new DefaultModuleFinder(Stream.concat(piranhaResources.stream(), applicationResources.stream()).collect(toList()));
+        DefaultModuleFinder moduleFinder = new DefaultModuleFinder(Stream.concat(piranhaResources.stream(), applicationResources.stream()).toList());
 
         List<String> roots = moduleFinder.findAll().stream()
                 .map(ModuleReference::descriptor)
                 .map(ModuleDescriptor::name)
-                .collect(Collectors.toList());
+                .toList();
 
         Configuration resolve = ModuleLayer.boot().configuration().resolveAndBind(moduleFinder, ModuleFinder.of(), roots);
 
@@ -310,7 +308,7 @@ public class MicroOuterDeployer {
                 = jarResources.getAllLocations()
                         .filter(location -> location.endsWith(".jar"))
                         .map(location -> importAsShrinkWrapResource(jarResources, location))
-                        .collect(toList());
+                        .toList();
         
         
         webLibResources.stream()
