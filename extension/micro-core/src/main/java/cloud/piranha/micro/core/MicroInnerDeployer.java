@@ -49,22 +49,6 @@ import java.util.function.Function;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import jakarta.annotation.Priority;
-import jakarta.annotation.Resource;
-import jakarta.annotation.Resources;
-import jakarta.annotation.security.DeclareRoles;
-import jakarta.annotation.security.DenyAll;
-import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.annotation.security.RunAs;
-import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.ServletSecurity;
-import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.annotation.WebInitParam;
-import jakarta.servlet.annotation.WebListener;
-import jakarta.servlet.annotation.WebServlet;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
@@ -84,8 +68,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import cloud.piranha.api.Piranha;
-import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
@@ -95,6 +79,23 @@ import cloud.piranha.webapp.impl.DefaultAnnotationManager;
 import cloud.piranha.webapp.impl.DefaultAnnotationManager.DefaultAnnotationInfo;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.annotation.Priority;
+import jakarta.annotation.Resource;
+import jakarta.annotation.Resources;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.DenyAll;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.annotation.security.RunAs;
+import jakarta.servlet.annotation.HandlesTypes;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.ServletSecurity;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.annotation.WebInitParam;
+import jakarta.servlet.annotation.WebListener;
+import jakarta.servlet.annotation.WebServlet;
 
 /**
  * Deploys a shrinkwrap application archive to a newly started embedded Piranha
@@ -193,27 +194,28 @@ public class MicroInnerDeployer {
             // Target of annotations
             DefaultAnnotationManager annotationManager = (DefaultAnnotationManager) webApplication.getAnnotationManager();
 
-            // Copy from source index to target manager
-            forEachWebAnnotation(webAnnotation
-                    -> // Read the web annotations (@WebServlet.class etc) from the source index
-                    getAnnotations(index, webAnnotation)
-                            // Get the annotation target and annotation instance corresponding to the
-                            // (raw/abstract) indexed annotation
-                            .map(this::getTarget)
-                            .forEach(annotationTarget
-                                    -> getAnnotationInstances(annotationTarget, webAnnotation)
-                                    .forEach(annotationInstance
-                                            -> // Store the matching annotation instance (@WebServlet(name=...)
-                                            // and annotation target (@WebServlet public class Target) in the manager
-                                            annotationManager.addAnnotation(
-                                            new DefaultAnnotationInfo<>(annotationInstance, annotationTarget)))));
-
-            // Collect sub-classes of our "instances" collection
-            forEachInstance(instanceClass
-                    -> getInstances(index, instanceClass)
-                            .map(this::getTarget)
-                            .forEach(implementingClass
-                                    -> annotationManager.addInstance(instanceClass, implementingClass)));
+            // Copy annotations from our "annotations" collection from source index to target manager
+            forEachWebAnnotation(webAnnotation -> addAnnotationToIndex(index, webAnnotation, annotationManager));
+            
+            // Collect sub-classes/interfaces of our "instances" collection from source index to target manager
+            forEachInstance(instanceClass -> addInstanceToIndex(index, instanceClass, annotationManager));
+            
+            // Collect any sub-classes/interfaces from any HandlesTypes annotation
+            getAnnotations(index, HandlesTypes.class)
+                    .map(this::getTarget)
+                    .forEach(annotationTarget 
+                    -> getAnnotationInstances(annotationTarget, HandlesTypes.class)
+                        .map(HandlesTypes.class::cast)
+                        .forEach(handlesTypesInstance
+                            -> {
+                                stream(handlesTypesInstance.value()).forEach(e -> {
+                                    if (e.isAnnotation()) {
+                                        addAnnotationToIndex(index, e, annotationManager);
+                                    } else {
+                                        addInstanceToIndex(index, e, annotationManager);
+                                    }
+                                });
+                            }));
 
             // Setup the default identity store, which is used as the default "username and roles database" for
             // (Servlet) security.
@@ -318,6 +320,27 @@ public class MicroInnerDeployer {
                 .flatMap(Optional::stream)
                 .map(e -> (Class<?>) e)
                 .forEach(consumer);
+    }
+    
+    void addAnnotationToIndex(Index index, Class<?> webAnnotation, DefaultAnnotationManager annotationManager) {
+        getAnnotations(index, webAnnotation)
+            // Get the annotation target and annotation instance corresponding to the
+            // (raw/abstract) indexed annotation
+            .map(this::getTarget)
+            .forEach(annotationTarget
+                    -> getAnnotationInstances(annotationTarget, webAnnotation)
+                    .forEach(annotationInstance
+                            -> // Store the matching annotation instance (@WebServlet(name=...)
+                            // and annotation target (@WebServlet public class Target) in the manager
+                            annotationManager.addAnnotation(
+                            new DefaultAnnotationInfo<>(annotationInstance, annotationTarget))));
+    }
+    
+    void addInstanceToIndex(Index index, Class<?> instanceClass, DefaultAnnotationManager annotationManager) {
+        getInstances(index, instanceClass)
+            .map(this::getTarget)
+            .forEach(implementingClass
+                    -> annotationManager.addInstance(instanceClass, implementingClass));
     }
 
     Optional<? super Class<?>> toClass(String className) {
