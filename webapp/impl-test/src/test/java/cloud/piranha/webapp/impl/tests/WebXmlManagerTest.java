@@ -29,7 +29,7 @@ class WebXmlManagerTest {
         List<String> fragmentNames = Arrays.asList("a", "b", "c", "d", "e");
         Collections.shuffle(fragmentNames);
 
-        manager.setWebFragments(fragmentNames.stream().map(WebXmlManagerTest::toWebFragment).collect(Collectors.toUnmodifiableList()));
+        manager.setWebFragments(fragmentNames.stream().map(WebXmlManagerTest::toWebFragment).toList());
 
         List<WebXml> orderedFragments = manager.getOrderedFragments();
         assertEquals(5, orderedFragments.size());
@@ -51,7 +51,7 @@ class WebXmlManagerTest {
         List<String> fragmentNames = Arrays.asList("a", "b", "c", "d", "e");
         Collections.shuffle(fragmentNames);
 
-        manager.setWebFragments(fragmentNames.stream().map(WebXmlManagerTest::toWebFragment).collect(Collectors.toUnmodifiableList()));
+        manager.setWebFragments(fragmentNames.stream().map(WebXmlManagerTest::toWebFragment).toList());
 
         List<WebXml> orderedFragments = manager.getOrderedFragments();
         assertEquals(3, orderedFragments.size());
@@ -71,7 +71,7 @@ class WebXmlManagerTest {
         List<String> fragmentNames = Arrays.asList("a", "b", "c", "d", "e");
         Collections.shuffle(fragmentNames);
 
-        manager.setWebFragments(fragmentNames.stream().map(WebXmlManagerTest::toWebFragment).collect(Collectors.toUnmodifiableList()));
+        manager.setWebFragments(fragmentNames.stream().map(WebXmlManagerTest::toWebFragment).toList());
 
         List<WebXml> orderedFragments = manager.getOrderedFragments();
         assertEquals(3, orderedFragments.size());
@@ -91,7 +91,7 @@ class WebXmlManagerTest {
         List<String> fragmentNames = Arrays.asList("a", "b", "c", "d", "e");
         Collections.shuffle(fragmentNames);
 
-        manager.setWebFragments(fragmentNames.stream().map(WebXmlManagerTest::toWebFragment).collect(Collectors.toUnmodifiableList()));
+        manager.setWebFragments(fragmentNames.stream().map(WebXmlManagerTest::toWebFragment).toList());
 
         List<WebXml> orderedFragments = manager.getOrderedFragments();
         assertEquals(5, orderedFragments.size());
@@ -113,7 +113,7 @@ class WebXmlManagerTest {
         List<String> fragmentNames = Arrays.asList("a", "b", "c", "d", "e");
         Collections.shuffle(fragmentNames);
 
-        manager.setWebFragments(fragmentNames.stream().map(WebXmlManagerTest::toWebFragment).collect(Collectors.toUnmodifiableList()));
+        manager.setWebFragments(fragmentNames.stream().map(WebXmlManagerTest::toWebFragment).toList());
 
         List<WebXml> orderedFragments = manager.getOrderedFragments();
         assertEquals(5, orderedFragments.size());
@@ -135,7 +135,7 @@ class WebXmlManagerTest {
         List<String> fragmentNames = Arrays.asList("a", "b", "c", "d", "e");
         Collections.shuffle(fragmentNames);
 
-        manager.setWebFragments(fragmentNames.stream().map(WebXmlManagerTest::toWebFragment).collect(Collectors.toUnmodifiableList()));
+        manager.setWebFragments(fragmentNames.stream().map(WebXmlManagerTest::toWebFragment).toList());
 
         List<WebXml> orderedFragments = manager.getOrderedFragments();
         assertEquals(5, orderedFragments.size());

@@ -28,7 +28,6 @@
 package cloud.piranha.webapp.impl;
 
 import static java.util.Collections.reverse;
-import static java.util.stream.Collectors.toList;
 import static jakarta.servlet.DispatcherType.REQUEST;
 
 import java.io.IOException;
@@ -304,11 +303,11 @@ public class DefaultInvocationFinder {
         List<FilterEnvironment> prioritisedFilters = filterEnvironments.stream()
                 .filter(e -> e.getFilter() instanceof FilterPriority)
                 .sorted(this::sortOnPriority)
-                .collect(toList());
+                .toList();
 
         List<FilterEnvironment> notPrioritisedFilters = filterEnvironments.stream()
                 .filter(e -> e.getFilter() instanceof FilterPriority == false)
-                .collect(toList());
+                .toList();
 
         List<FilterEnvironment> currentEnvironments = new ArrayList<>();
         currentEnvironments.addAll(prioritisedFilters);

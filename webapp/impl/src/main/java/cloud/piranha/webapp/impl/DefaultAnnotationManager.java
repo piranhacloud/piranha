@@ -110,9 +110,7 @@ public class DefaultAnnotationManager implements AnnotationManager {
 
     @Override
     public <T> List<AnnotationInfo<T>> getAnnotations(Class<T> annotationClass) {
-        return
-            getAnnotationStream(annotationClass)
-                .collect(toList());
+        return getAnnotationStream(annotationClass).toList();
     }
 
     @Override
@@ -125,9 +123,7 @@ public class DefaultAnnotationManager implements AnnotationManager {
 
     @Override
     public <T> List<Class<T>> getInstances(Class<T> instanceClass) {
-        return
-            getInstanceStream(instanceClass)
-                .collect(toList());
+        return getInstanceStream(instanceClass).toList();
     }
 
     /**

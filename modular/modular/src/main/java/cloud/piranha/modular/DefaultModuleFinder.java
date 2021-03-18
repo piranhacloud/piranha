@@ -51,7 +51,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toSet;
 
@@ -203,7 +202,7 @@ public class DefaultModuleFinder implements ModuleFinder {
                     .lines()
                     .filter(x -> !x.startsWith("#"))
                     .filter(x -> !x.isEmpty())
-                    .collect(Collectors.toList());
+                    .toList();
             if (!providerList.isEmpty()) {
                 String serviceName = providerFile.substring("/META-INF/services/".length());
                 LOGGER.finer(() -> "Module provides " +  serviceName + " with " + providerList);

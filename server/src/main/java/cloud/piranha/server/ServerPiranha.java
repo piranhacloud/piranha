@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -302,7 +301,7 @@ public class ServerPiranha implements Piranha, Runnable {
                 .stream()
                 .map(ModuleReference::descriptor)
                 .map(ModuleDescriptor::name)
-                .collect(Collectors.toList());
+                .toList();
 
         if (!roots.isEmpty()) {
             Configuration configuration = ModuleLayer.boot().configuration().resolveAndBind(defaultModuleFinder, ModuleFinder.of(), roots);
