@@ -229,7 +229,7 @@ public class MicroOuterDeployer {
         List<String> roots = moduleFinder.findAll().stream()
                 .map(ModuleReference::descriptor)
                 .map(ModuleDescriptor::name)
-                .collect(Collectors.toList());
+                .toList();
 
         Configuration resolve = ModuleLayer.boot().configuration().resolveAndBind(moduleFinder, ModuleFinder.of(), roots);
 
