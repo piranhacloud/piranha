@@ -82,7 +82,12 @@ public class GlobalArchiveStreamHandler extends URLStreamHandler {
         return new StreamConnection(requestedUrl) {
             @Override
             public InputStream getInputStream() throws IOException {
-                return webApplication.getResourceAsStream(requestedUrl.toString());
+                InputStream inputStream = webApplication.getResourceAsStream(requestedUrl.toString());
+                if (inputStream == null) {
+                    inputStream= Thread.currentThread().getContextClassLoader().getResourceAsStream(requestedUrl.toString());
+                }
+                
+                return inputStream;
             }
         };
     }
