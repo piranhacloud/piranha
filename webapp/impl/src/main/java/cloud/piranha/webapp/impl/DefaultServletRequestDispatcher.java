@@ -527,13 +527,11 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             invokeTargetAsyncServlet(asyncHttpDispatchWrapper, servletResponse);
 
-        } else if (asyncStartRequest instanceof HttpServletRequestWrapper) {
+        } else if (asyncStartRequest instanceof HttpServletRequestWrapper applicationProvidedWrapper) {
             // Application wrapped request passed-in. We now need no make sure that the applications sees this request
 
             // We swap our asyncHttpDispatchWrapper from being the head of the chain, to be in between the request that was provided by the application
             // and the request it is wrapping.
-            HttpServletRequestWrapper applicationProvidedWrapper = (HttpServletRequestWrapper) asyncStartRequest;
-
             ServletRequest wrappedRequest = applicationProvidedWrapper.getRequest();
 
             applicationProvidedWrapper.setRequest(asyncHttpDispatchWrapper);
@@ -553,9 +551,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
         ServletRequest asyncStartRequest = asyncNonHttpDispatchWrapper.getRequest();
 
-        if (asyncStartRequest instanceof ServletRequestWrapper) {
-
-            ServletRequestWrapper applicationProvidedWrapper = (ServletRequestWrapper) asyncStartRequest;
+        if (asyncStartRequest instanceof ServletRequestWrapper applicationProvidedWrapper) {
 
             HttpServletRequest httpServletRequestInChain = findHttpServletRequestInChain(applicationProvidedWrapper);
 
@@ -691,8 +687,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
     private HttpServletRequest findHttpServletRequestInChain(ServletRequest request) {
         ServletRequest currentRequest = request;
-        while (currentRequest instanceof ServletRequestWrapper) {
-            ServletRequestWrapper wrapper = (ServletRequestWrapper) currentRequest;
+        while (currentRequest instanceof ServletRequestWrapper wrapper) {
             currentRequest = wrapper.getRequest();
 
             if (currentRequest instanceof HttpServletRequest) {

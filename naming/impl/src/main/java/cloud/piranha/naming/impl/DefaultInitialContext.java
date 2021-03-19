@@ -265,8 +265,7 @@ public class DefaultInitialContext implements Context {
                 throw nnfe;
             }
         } else if (bindings.containsKey(name)) {
-            if (bindings.get(name) instanceof DefaultInitialContext) {
-                DefaultInitialContext subContext = (DefaultInitialContext) bindings.get(name);
+            if (bindings.get(name) instanceof DefaultInitialContext subContext) {
                 if (subContext.bindings.isEmpty()) {
                     bindings.remove(name);
                 } else {

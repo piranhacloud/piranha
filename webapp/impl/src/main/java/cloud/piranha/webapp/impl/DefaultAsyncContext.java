@@ -196,8 +196,7 @@ public class DefaultAsyncContext implements AsyncContext {
     @Override
     public void dispatch() {
         String path;
-        if (asyncStartRequest instanceof HttpServletRequest) {
-            HttpServletRequest httpServletRequest = (HttpServletRequest) asyncStartRequest;
+        if (asyncStartRequest instanceof HttpServletRequest httpServletRequest) {
             path = httpServletRequest.getRequestURI().substring(httpServletRequest.getContextPath().length());
         } else {
             path = originalRequest.getRequestURI().substring(originalRequest.getContextPath().length());
@@ -367,8 +366,7 @@ public class DefaultAsyncContext implements AsyncContext {
     @SuppressWarnings("unchecked")
     private <T extends ServletRequest> T unwrapFully(ServletRequest request) {
         ServletRequest currentRequest = request;
-        while (currentRequest instanceof ServletRequestWrapper) {
-            ServletRequestWrapper wrapper = (ServletRequestWrapper) currentRequest;
+        while (currentRequest instanceof ServletRequestWrapper wrapper) {
             currentRequest = wrapper.getRequest();
         }
         return (T) currentRequest;
@@ -384,8 +382,7 @@ public class DefaultAsyncContext implements AsyncContext {
     @SuppressWarnings("unchecked")
     private <T extends ServletResponse> T unwrapFully(ServletResponse response) {
         ServletResponse currentResponse = response;
-        while (currentResponse instanceof ServletResponseWrapper) {
-            ServletResponseWrapper wrapper = (ServletResponseWrapper) currentResponse;
+        while (currentResponse instanceof ServletResponseWrapper wrapper) {
             currentResponse = wrapper.getResponse();
         }
         return (T) currentResponse;
