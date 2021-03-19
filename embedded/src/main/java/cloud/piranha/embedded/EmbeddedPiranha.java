@@ -178,12 +178,10 @@ public class EmbeddedPiranha implements Piranha {
             ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
             ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(e -> webApplication.getResourceAsStream(e));
 
-            if (servletRequest.getServletContext() == null && servletRequest instanceof EmbeddedRequest) {
-                EmbeddedRequest embeddedRequest = (EmbeddedRequest) servletRequest;
+            if (servletRequest.getServletContext() == null && servletRequest instanceof EmbeddedRequest embeddedRequest) {
                 embeddedRequest.setWebApplication(webApplication);
             }
-            if (servletResponse instanceof EmbeddedResponse) {
-                EmbeddedResponse embeddedResponse = (EmbeddedResponse) servletResponse;
+            if (servletResponse instanceof EmbeddedResponse embeddedResponse) {
                 embeddedResponse.setWebApplication(webApplication);
             }
             
