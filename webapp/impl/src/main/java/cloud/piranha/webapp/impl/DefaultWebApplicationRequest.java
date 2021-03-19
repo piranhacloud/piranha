@@ -1580,8 +1580,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public static <T> T unwrap(ServletRequest request, Class<T> type) {
         ServletRequest currentRequest = request;
-        while (currentRequest instanceof ServletRequestWrapper) {
-            ServletRequestWrapper wrapper = (ServletRequestWrapper) currentRequest;
+        while (currentRequest instanceof ServletRequestWrapper wrapper) {
             currentRequest = wrapper.getRequest();
         }
         return type.cast(currentRequest);
@@ -1627,10 +1626,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         while (previousAttribute instanceof HttpServletRequest) {
             HttpServletRequest previousRequest = unwrap((HttpServletRequest) previousAttribute, HttpServletRequest.class);
 
-            if (previousRequest instanceof DefaultWebApplicationRequest) {
-                @SuppressWarnings("resource")
-                DefaultWebApplicationRequest defaultRequest = (DefaultWebApplicationRequest) previousRequest;
-
+            if (previousRequest instanceof DefaultWebApplicationRequest defaultRequest) {
                 defaultRequest.setAsyncStarted(true);
             }
 

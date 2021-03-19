@@ -135,12 +135,10 @@ public class NanoPiranha implements Piranha {
             chain = new NanoFilterChain(filter, previousChain);
         }
         if (servletRequest.getServletContext() == null
-                && servletRequest instanceof NanoRequest) {
-            NanoRequest nanoRequest = (NanoRequest) servletRequest;
+                && servletRequest instanceof NanoRequest nanoRequest) {
             nanoRequest.setWebApplication(webApplication);
         }
-        if (servletResponse instanceof NanoResponse) {
-            NanoResponse nanoResponse = (NanoResponse) servletResponse;
+        if (servletResponse instanceof NanoResponse nanoResponse) {
             nanoResponse.setWebApplication(webApplication);
         }
         chain.doFilter(servletRequest, servletResponse);

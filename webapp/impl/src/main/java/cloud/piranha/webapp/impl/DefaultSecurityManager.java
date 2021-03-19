@@ -224,8 +224,7 @@ public class DefaultSecurityManager implements SecurityManager {
         if (logins.containsKey(username) && password != null && password.equals(logins.get(username))) {
             DefaultWebApplicationRequest abstractRequest;
 
-            while (request instanceof HttpServletRequestWrapper) {
-                HttpServletRequestWrapper wrapper = (HttpServletRequestWrapper) request;
+            while (request instanceof HttpServletRequestWrapper wrapper) {
                 request = (HttpServletRequest) wrapper.getRequest();
             }
             abstractRequest = (DefaultWebApplicationRequest) request;
