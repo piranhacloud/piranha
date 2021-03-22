@@ -492,7 +492,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>5.3.4</version>
+                <version>5.3.5</version>
             </dependency>
            
             <!-- Struts -->
@@ -513,17 +513,17 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-client-compiled</artifactId>
-                <version>8.12.3</version>
+                <version>8.12.4</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-server</artifactId>
-                <version>8.12.3</version>
+                <version>8.12.4</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-themes</artifactId>
-                <version>8.12.3</version>
+                <version>8.12.4</version>
             </dependency>
             
             <!-- Wicket -->
