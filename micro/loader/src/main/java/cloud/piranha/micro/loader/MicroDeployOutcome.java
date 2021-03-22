@@ -47,6 +47,14 @@ public class MicroDeployOutcome {
      * Stores the deployed applications.
      */
     private Consumer<Map<String, Object>> deployedApplication;
+    
+    /**
+     * The context root to which the application was deployed. This is the first 
+     * path after the the host.
+     */
+    private String deployedContextRoot;
+
+   
 
     /**
      * Get the deploy outcome.
@@ -59,7 +67,8 @@ public class MicroDeployOutcome {
         MicroDeployOutcome deployOutcome = new MicroDeployOutcome();
         deployOutcome.setDeployedServlets((Set<String>) deployMap.get("deployedServlets"));
         deployOutcome.setDeployedApplication((Consumer<Map<String, Object>>) deployMap.get("deployedApplication"));
-
+        deployOutcome.setDeployedContextRoot((String) deployMap.get("deployedContextRoot"));
+        
         return deployOutcome;
     }
 
@@ -97,5 +106,23 @@ public class MicroDeployOutcome {
      */
     public void setDeployedApplication(Consumer<Map<String, Object>> deployedApplication) {
         this.deployedApplication = deployedApplication;
+    }
+    
+    /**
+     * Get the deployed context root
+     * 
+     * @return the deployed context root
+     */
+    public String getDeployedContextRoot() {
+        return deployedContextRoot;
+    }
+
+    /**
+     * Set the deployed context root
+     * 
+     * @param deployedContextRoot the deployed context root
+     */
+    public void setDeployedContextRoot(String deployedContextRoot) {
+        this.deployedContextRoot = deployedContextRoot;
     }
 }

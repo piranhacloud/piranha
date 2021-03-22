@@ -27,6 +27,7 @@
  */
 package cloud.piranha.micro.core;
 
+import static java.lang.Boolean.TRUE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
@@ -220,11 +221,8 @@ public class MicroInnerDeployer {
             // Setup the default identity store, which is used as the default "username and roles database" for
             // (Servlet) security.
             initIdentityStore(webApplication);
-
-            String contextPath = (String) config.get("micro.root");
-            if (contextPath != null) {
-                webApplication.setContextPath(contextPath);
-            }
+            
+            setApplicationContextPath(webApplication, config, applicationArchive);
 
             DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
             for (WebApplicationExtension extension : ServiceLoader.load(WebApplicationExtension.class)) {
@@ -249,7 +247,8 @@ public class MicroInnerDeployer {
 
             return Map.of(
                     "deployedServlets", webApplication.getServletRegistrations().keySet(),
-                    "deployedApplication", new MicroInnerApplication(webApplication));
+                    "deployedApplication", new MicroInnerApplication(webApplication),
+                    "deployedContextRoot", webApplication.getContextPath());
         } catch (IOException e) {
             e.printStackTrace();
             throw new IllegalStateException(e);
@@ -258,6 +257,21 @@ public class MicroInnerDeployer {
             throw e;
         } finally {
             ThreadInitialContextFactory.removeInitialContext();
+        }
+    }
+    
+    void setApplicationContextPath(WebApplication webApplication, Map<String, Object> config, Archive<?> applicationArchive) {
+        if (TRUE.equals(config.get("micro.rootIsWarName"))) {
+            String contextPath = applicationArchive.getName();
+            if (contextPath != null && contextPath.endsWith(".war")) {
+                contextPath = "/" + contextPath.substring(0, contextPath.length()-4);
+            }
+            webApplication.setContextPath(contextPath);
+        } else {
+            String contextPath = (String) config.get("micro.root");
+            if (contextPath != null) {
+                webApplication.setContextPath(contextPath);
+            }
         }
     }
 
