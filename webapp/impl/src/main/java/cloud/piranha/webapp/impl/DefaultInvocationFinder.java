@@ -27,25 +27,24 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static java.util.Collections.reverse;
 import static jakarta.servlet.DispatcherType.REQUEST;
+import static java.util.Collections.reverse;
+import static java.util.Objects.requireNonNullElseGet;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
-
-import jakarta.servlet.DispatcherType;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.Servlet;
-import jakarta.servlet.ServletException;
 
 import cloud.piranha.webapp.api.FilterEnvironment;
 import cloud.piranha.webapp.api.FilterPriority;
 import cloud.piranha.webapp.api.ServletEnvironment;
 import cloud.piranha.webapp.api.WebApplicationRequestMapping;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletException;
 
 /**
  * The invocation finder tries to find a servlet invocation matching a request for a path based or name
@@ -173,7 +172,7 @@ public class DefaultInvocationFinder {
     }
 
     private DefaultServletInvocation getDirectServletInvocationByPath(String servletPath, String pathInfo) {
-        String path = servletPath + (pathInfo == null ? "" : pathInfo);
+        String path = addOrRemoveSlashIfNeeded(servletPath + (pathInfo == null ? "" : pathInfo));
 
         WebApplicationRequestMapping mapping = webApplication.webApplicationRequestMapper.findServletMapping(path);
         if (mapping == null) {
@@ -219,18 +218,26 @@ public class DefaultInvocationFinder {
             for (String welcomeFile : webApplication.getWelcomeFileManager().getWelcomeFileList()) {
                 if (!isStaticResource(servletPath, pathInfo + welcomeFile))
                     continue;
-                DefaultServletInvocation servletInvocation = getDefaultServletInvocation(servletPath, pathInfo + welcomeFile);
-                return Objects.requireNonNullElseGet(servletInvocation, () -> getDefaultServletInvocation(servletPath, pathInfo + welcomeFile));
+                
+                return requireNonNullElseGet(
+                    getDefaultServletInvocation(servletPath, pathInfo + welcomeFile), 
+                    () -> getDefaultServletInvocation(servletPath, pathInfo + welcomeFile));
             }
         }
 
         // Next try if we have a welcome servlet
 
         for (String welcomeFile : webApplication.getWelcomeFileManager().getWelcomeFileList()) {
-            if (!isStaticResource(servletPath, pathInfo + welcomeFile))
+            if (isStaticResource(servletPath, pathInfo + welcomeFile))
                 continue;
-            DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo + welcomeFile);
-            return Objects.requireNonNullElseGet(servletInvocation, () -> getDefaultServletInvocation(servletPath, pathInfo + welcomeFile));
+            
+            DefaultServletInvocation servletInvocation = requireNonNullElseGet(
+                getDirectServletInvocationByPath(servletPath, pathInfo + welcomeFile), 
+                () -> getDefaultServletInvocation(servletPath, pathInfo + welcomeFile));
+            
+            servletInvocation.setOriginalServletPath(servletPath);
+            
+            return servletInvocation;
         }
 
         // No welcome file or servlet
@@ -238,11 +245,15 @@ public class DefaultInvocationFinder {
     }
 
     private boolean isStaticResource(String servletPath, String pathInfo) throws MalformedURLException {
-        return webApplication.getResource(addSlashIfNeeded(servletPath + (pathInfo == null? "" : pathInfo))) != null;
+        return webApplication.getResource(addOrRemoveSlashIfNeeded(servletPath + (pathInfo == null? "" : pathInfo))) != null;
     }
 
-    private String addSlashIfNeeded(String string) {
+    private String addOrRemoveSlashIfNeeded(String string) {
         if (string.startsWith("/")) {
+            if (string.startsWith("//")) {
+                return string.substring(1);
+            }
+            
             return string;
         }
 

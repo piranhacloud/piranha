@@ -158,6 +158,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                     webappRequest.setAsyncSupported(isAsyncSupportedInChain());
                 }
                 webappRequest.setServletPath(servletInvocation.getServletPath());
+                webappRequest.setOriginalServletPath(servletInvocation.getOriginalServletPath());
                 webappRequest.setPathInfo(servletInvocation.getPathInfo());
 
                 servletInvocation.getFilterChain().doFilter(webappRequest, httpResponse);
