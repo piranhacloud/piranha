@@ -28,11 +28,11 @@
 package cloud.piranha.micro.loader;
 
 import static java.util.Arrays.stream;
+import static java.util.function.Function.identity;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
@@ -83,6 +83,11 @@ public class MicroConfiguration {
     private int port;
     
     /**
+     * If true, the context root for the web app is taken from the war name.
+     */
+    private boolean rootIsWarName;
+
+    /**
      * Stores the root.
      */
     private String root;
@@ -114,6 +119,7 @@ public class MicroConfiguration {
                 System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"),
                 Boolean.valueOf(System.getProperty("piranha.offline", "false")),
                 Integer.valueOf(System.getProperty("piranha.port", "8080")),
+                Boolean.valueOf(System.getProperty("piranha.rootIsWarName", "false")),
                 System.getProperty("piranha.root"),
                 System.getProperty("piranha.http.server", "impl"),
                 Boolean.valueOf(System.getProperty("piranha.http.start", "true")),
@@ -131,6 +137,7 @@ public class MicroConfiguration {
      * @param repositories Piranha repositories.
      * @param offline Offline flag.
      * @param port http port on which Piranha listens to requests.
+     * @param rootIsWarName sets that the war name should be used for the root context
      * @param root the context root for web applications
      * @param httpServer the HTTP server implementation to use.
      * @param httpStart whether or not to start the HTTP server.
@@ -145,6 +152,7 @@ public class MicroConfiguration {
             String repositories,
             boolean offline,
             int port,
+            boolean rootIsWarName,
             String root,
             String httpServer,
             boolean httpStart,
@@ -158,6 +166,7 @@ public class MicroConfiguration {
         this.repositories = repositories;
         this.offline = offline;
         this.port = port;
+        this.rootIsWarName = rootIsWarName;
         this.root = root;
         this.httpServer = httpServer;
         this.httpStart = httpStart;
@@ -201,7 +210,7 @@ public class MicroConfiguration {
                 Stream.of("cloud.piranha.http:piranha-http-" + httpServer + ":" + version),
                 dependenciesFromExtensionsStream,
                 directDependenciesStream
-        ).flatMap(Function.identity()).toList();
+        ).flatMap(identity()).toList();
 
         return this;
     }
@@ -214,6 +223,7 @@ public class MicroConfiguration {
     public Map<String, Object> toMap() {
         Map<String, Object> config = new HashMap<>();
         config.put("micro.port", getPort());
+        config.put("micro.rootIsWarName", rootIsWarName);
         if (getRoot() != null) {
             config.put("micro.root", getRoot());
         }
@@ -310,6 +320,27 @@ public class MicroConfiguration {
      */
     public void setPort(int port) {
         this.port = port;
+    }
+    
+    /**
+     * Whether the war name is used for the context root
+     * 
+     * @return whether the war name is used for the context root
+     */
+    public boolean isRootIsWarName() {
+        return rootIsWarName;
+    }
+
+    /**
+     * Sets that the war name should be used for the root context of a web app.
+     * 
+     * <p>
+     * Setting this to true overrides the explicit context root set via the <code>setRoot</code> method.
+     * 
+     * @param rootIsWarName
+     */
+    public void setRootIsWarName(boolean rootIsWarName) {
+        this.rootIsWarName = rootIsWarName;
     }
 
     /**
