@@ -66,6 +66,20 @@ public interface ServletInvocation {
      * @return the servlet path.
      */
     String getServletPath();
+    
+    /**
+     * Gets the original servlet path.
+     * 
+     * <p>
+     * The original servlet path differs from the servlet path if the
+     * invocation locator has found an alternative resource than the one
+     * requested. This is typically the case for welcome pages.
+     * 
+     * @return the original servlet path.
+     */
+    default String getOriginalServletPath() {
+        return getServletPath();
+    }
 
     /**
      * Get the path info.

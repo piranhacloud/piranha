@@ -263,6 +263,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the servlet path.
      */
     protected String servletPath;
+    
+    /**
+     * Stores the original servlet path.
+     */
+    protected String originalServletPath;
 
     /**
      * Stores the upgraded flag.
@@ -433,12 +438,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public String getContentType() {
         return contentType;
     }
-
-    /**
-     * Get the context path.
-     *
-     * @return the context path.
-     */
+   
     @Override
     public String getContextPath() {
         return contextPath;
@@ -952,11 +952,10 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public String getRequestURI() {
-        String result = contextPath + servletPath;
-        if (pathInfo != null) {
-            result = contextPath + servletPath + pathInfo;
-        }
-        return result;
+        return addOrRemoveSlashIfNeeded(
+            contextPath +
+            coalesce(originalServletPath, servletPath) + 
+            coalesce(pathInfo, ""));
     }
 
     /**
@@ -972,11 +971,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         result.append(getServerName());
         result.append(":");
         result.append(getServerPort());
-        result.append(getContextPath());
-        result.append(getServletPath());
-        if (getPathInfo() != null) {
-            result.append(getPathInfo());
-        }
+        result.append(getRequestURI());
+        
         return result;
     }
 
@@ -1531,6 +1527,25 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
     }
+    
+    /**
+     * Gets the original Servlet Path
+     *
+     * @return the original Servlet Path
+     *
+     */
+    public String getOriginalServletPath() {
+        return originalServletPath;
+    }
+
+    /**
+     * Set the original Servlet Path
+     *
+     * @param originalServletPath the original Servlet Path
+     */
+    public void setOriginalServletPath(String originalServletPath) {
+        this.originalServletPath = originalServletPath;
+    }
 
     /**
      * Set the upgraded flag.
@@ -1746,5 +1761,28 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         String requestURI = getRequestURI();
         String queryString = getQueryString();
         return queryString == null ? requestURI : requestURI + "?" + queryString;
+    }
+    
+    @SafeVarargs
+    private <T> T coalesce(T... objects) {
+        for (T object : objects) {
+            if (object != null) {
+                return object;
+            }
+        }
+
+        return null;
+    }
+    
+    private String addOrRemoveSlashIfNeeded(String string) {
+        if (string.startsWith("/")) {
+            if (string.startsWith("//")) {
+                return string.substring(1);
+            }
+            
+            return string;
+        }
+
+        return "/" + string;
     }
 }
