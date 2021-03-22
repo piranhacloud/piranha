@@ -141,7 +141,7 @@
             <dependency>
                 <groupId>org.jboss.weld.servlet</groupId>
                 <artifactId>weld-servlet-core</artifactId>
-                <version>4.0.0.Final</version>
+                <version>4.0.1.Final</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.classfilewriter</groupId>
