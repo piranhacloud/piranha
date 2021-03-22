@@ -83,7 +83,7 @@ public class PiranhaServerDeployableContainer extends PiranhaServerLoadableExten
 
         HTTPContext httpContext = new HTTPContext("localhost", configuration.getPort());
 
-        String contextRoot = configuration.getRoot();
+        String contextRoot = deployOutcome.getDeployedContextRoot();
         if (contextRoot == null) {
             contextRoot = "/";
         }
