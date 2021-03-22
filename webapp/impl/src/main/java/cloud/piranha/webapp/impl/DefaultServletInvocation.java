@@ -60,6 +60,14 @@ public class DefaultServletInvocation implements ServletInvocation {
     private String servletPath;
     
     /**
+     * The original servlet path that was requested.
+     * This is used if the invocation locator tried alternative 
+     * servlet paths, such as with welcome files.
+     * 
+     */
+    private String originalServletPath;
+
+    /**
      * Stores the path info.
      */
     private String pathInfo;
@@ -124,6 +132,20 @@ public class DefaultServletInvocation implements ServletInvocation {
      */
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
+    }
+    
+    @Override
+    public String getOriginalServletPath() {
+        return originalServletPath;
+    }
+
+    /**
+     * Set the originalServletPath
+     * 
+     * @param originalServletPath the originalServletPath
+     */
+    public void setOriginalServletPath(String originalServletPath) {
+        this.originalServletPath = originalServletPath;
     }
 
     @Override
