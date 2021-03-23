@@ -242,9 +242,6 @@ public class MicroOuterDeployer {
         moduleLayer.findModule("cloud.piranha.resource.shrinkwrap").ifPresent(x -> controller.addReads(x, this.getClass().getModule()));
         moduleLayer.findModule("cloud.piranha.micro.core").ifPresent(x -> controller.addReads(x, this.getClass().getModule()));
 
-        // Weld needs this - This requires the usage of --add-opens java.base/java.lang=ALL-UNNAMED
-        moduleLayer.findModule("weld.core.impl").ifPresent(x -> javaBaseModule.addOpens("java.lang", x));
-
         ModuleLayerProcessor.processModuleLayerOptions(moduleLayer, controller);
     }
 
