@@ -27,31 +27,34 @@
  */
 package cloud.piranha.extension.apache.fileupload;
 
-import cloud.piranha.webapp.api.MultiPartManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
+import static jakarta.servlet.ServletContext.TEMPDIR;
+import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.WARNING;
+import static org.apache.commons.fileupload.servlet.ServletFileUpload.isMultipartContent;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
-import static jakarta.servlet.ServletContext.TEMPDIR;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Part;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import cloud.piranha.webapp.api.MultiPartManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
+
 /**
  * The ApacheMultiPartManager.
  *
  * <p>
- * The ApacheMultiPartManager implements the MultiPartManager API that delivers
- * file upload functionality to a web application by delegating to Apache
- * Commons File Upload.
+ * The ApacheMultiPartManager implements the MultiPartManager API that delivers file upload functionality to a web
+ * application by delegating to Apache Commons File Upload.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -61,58 +64,57 @@ public class ApacheMultiPartManager implements MultiPartManager {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(
-            ApacheMultiPartManager.class.getPackageName());
+    private static final Logger LOGGER = Logger.getLogger(ApacheMultiPartManager.class.getPackageName());
 
     /**
-     * @see MultiPartManager#getParts(cloud.piranha.webapp.api.WebApplication, cloud.piranha.webapp.api.WebApplicationRequest) 
+     * @see MultiPartManager#getParts(cloud.piranha.webapp.api.WebApplication,
+     * cloud.piranha.webapp.api.WebApplicationRequest)
      */
     @Override
-    public Collection<Part> getParts(WebApplication webApplication,
-            WebApplicationRequest request) throws ServletException {
-
-        Collection<Part> parts = new ArrayList<>();
+    public Collection<Part> getParts(WebApplication webApplication, WebApplicationRequest request) throws ServletException {
         LOGGER.log(FINE, "Getting parts for request: {0}", request);
-        if (ServletFileUpload.isMultipartContent(request)) {
-            try {
-                ServletFileUpload upload = setupFileUpload(webApplication);
-                List<FileItem> items = upload.parseRequest(request);
-                items.forEach(item -> parts.add(new ApacheMultiPart(item)));
-            } catch (FileUploadException fue) {
-            }
-        } else {
+        
+        if (!isMultipartContent(request)) {
             throw new ServletException("Not a multipart/form-data request");
         }
+        
+        Collection<Part> parts = new ArrayList<>();
+        
+        try {
+            List<FileItem> items = setupFileUpload(webApplication).parseRequest(request);
+            items.forEach(item -> parts.add(new ApacheMultiPart(item)));
+        } catch (FileUploadException fue) {
+        }
+        
         return parts;
     }
 
     /**
-     * @see MultiPartManager#getPart(cloud.piranha.webapp.api.WebApplication, cloud.piranha.webapp.api.WebApplicationRequest, java.lang.String)
+     * @see MultiPartManager#getPart(cloud.piranha.webapp.api.WebApplication,
+     * cloud.piranha.webapp.api.WebApplicationRequest, java.lang.String)
      */
     @Override
-    public Part getPart(WebApplication webApplication,
-            WebApplicationRequest request, String name) throws ServletException {
-
-        ApacheMultiPart result = null;
-        LOGGER.log(FINE, "Getting part: {0} for request: {1}",
-                new Object[]{name, request});
-        if (ServletFileUpload.isMultipartContent(request)) {
-            try {
-                ServletFileUpload upload = setupFileUpload(webApplication);
-                List<FileItem> items = upload.parseRequest(request);
-                for (FileItem item : items) {
-                    if (item.getName().equals(name)) {
-                        result = new ApacheMultiPart(item);
-                        break;
-                    }
-                }
-            } catch (FileUploadException fue) {
-                LOGGER.log(WARNING, "Error getting part", fue);
-            }
-        } else {
+    public Part getPart(WebApplication webApplication, WebApplicationRequest request, String name) throws ServletException {
+        LOGGER.log(FINE, "Getting part: {0} for request: {1}", new Object[] { name, request });
+        
+        if (!isMultipartContent(request)) {
             throw new ServletException("Not a multipart/form-data request");
         }
-        return result;
+        
+        ApacheMultiPart part = null;
+        try {
+            List<FileItem> items = setupFileUpload(webApplication).parseRequest(request);
+            for (FileItem item : items) {
+                if (item.getName().equals(name)) {
+                    part = new ApacheMultiPart(item);
+                    break;
+                }
+            }
+        } catch (FileUploadException fue) {
+            LOGGER.log(WARNING, "Error getting part", fue);
+        }
+        
+        return part;
     }
 
     /**
@@ -121,17 +123,16 @@ public class ApacheMultiPartManager implements MultiPartManager {
      * @param webApplication the web application.
      */
     private synchronized ServletFileUpload setupFileUpload(WebApplication webApplication) {
-        ServletFileUpload upload = (ServletFileUpload) webApplication.getAttribute(
-                ApacheMultiPartManager.class.getName());
+        ServletFileUpload upload = (ServletFileUpload) webApplication.getAttribute(ApacheMultiPartManager.class.getName());
 
         if (upload == null) {
             DiskFileItemFactory factory = new DiskFileItemFactory();
             factory.setSizeThreshold(8192);
-            File repository = (File) webApplication.getAttribute(TEMPDIR);
-            factory.setRepository(repository);
+            factory.setRepository((File) webApplication.getAttribute(TEMPDIR));
             upload = new ServletFileUpload(factory);
             webApplication.setAttribute(ApacheMultiPartManager.class.getName(), upload);
         }
+        
         return upload;
     }
 }
