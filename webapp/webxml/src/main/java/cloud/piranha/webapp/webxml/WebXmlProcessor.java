@@ -39,6 +39,7 @@ import java.util.logging.Logger;
 
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletRegistration;
 
 import cloud.piranha.webapp.api.LocaleEncodingManager;
@@ -52,6 +53,7 @@ import cloud.piranha.webapp.impl.WebXmlListener;
 import cloud.piranha.webapp.impl.WebXmlMimeMapping;
 import cloud.piranha.webapp.impl.WebXmlServlet;
 import cloud.piranha.webapp.impl.WebXmlServletMapping;
+import cloud.piranha.webapp.impl.WebXmlServletMultipartConfig;
 import cloud.piranha.webapp.impl.WebXmlSessionConfig;
 
 /**
@@ -343,6 +345,16 @@ public class WebXmlProcessor {
 
             if (servlet.isAsyncSupported()) {
                 dynamic.setAsyncSupported(true);
+            }
+            
+            WebXmlServletMultipartConfig multipartConfig = servlet.getMultipartConfig();
+            if (multipartConfig != null) {
+                dynamic.setMultipartConfig(
+                    new MultipartConfigElement(
+                        multipartConfig.getLocation(), 
+                        multipartConfig.getMaxFileSize(),
+                        multipartConfig.getMaxRequestSize(),
+                        multipartConfig.getFileSizeThreshold()));
             }
 
             servlet.getInitParams().forEach(initParam -> {

@@ -66,6 +66,12 @@ public class WebXmlServlet {
      * Stores the JSP file
      */
     private String jspFile;
+    
+    
+    /**
+     * Stores the MultipartConfig
+     */
+    private WebXmlServletMultipartConfig multipartConfig;
 
     /**
      * Add init param.
@@ -164,6 +170,20 @@ public class WebXmlServlet {
      */
     public void setJspFile(String jspFile) {
         this.jspFile = jspFile;
+    }
+    
+    /**
+     * @return the multipartConfig
+     */
+    public WebXmlServletMultipartConfig getMultipartConfig() {
+        return multipartConfig;
+    }
+
+    /**
+     * @param multipartConfig the multipartConfig to set
+     */
+    public void setMultipartConfig(WebXmlServletMultipartConfig multipartConfig) {
+        this.multipartConfig = multipartConfig;
     }
 
     /**
