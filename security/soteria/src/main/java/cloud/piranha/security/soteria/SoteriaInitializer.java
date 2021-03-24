@@ -28,7 +28,7 @@
 package cloud.piranha.security.soteria;
 
 import java.util.Set;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 import org.glassfish.soteria.servlet.SamRegistrationInstaller;
 
@@ -36,6 +36,8 @@ import cloud.piranha.webapp.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+
+import static java.lang.System.Logger.Level.DEBUG;
 
 /**
  * The Soteria initializer.
@@ -48,7 +50,7 @@ public class SoteriaInitializer implements ServletContainerInitializer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(SoteriaInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(SoteriaInitializer.class.getName());
 
     /**
      * Initialize Soteria.
@@ -59,7 +61,7 @@ public class SoteriaInitializer implements ServletContainerInitializer {
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        LOGGER.fine("Initializing Soteria");
+        LOGGER.log(DEBUG, "Initializing Soteria");
         
         WebApplication webApplication = (WebApplication) servletContext;
         webApplication.getSecurityManager().setUsernamePasswordLoginHandler(new IdentityStoreLoginHandler());
@@ -67,6 +69,6 @@ public class SoteriaInitializer implements ServletContainerInitializer {
         SamRegistrationInstaller installer = new SamRegistrationInstaller();
         
         installer.onStartup(classes, servletContext);
-        LOGGER.fine("Initialized Soteria");
+        LOGGER.log(DEBUG, "Initialized Soteria");
     }
 }

@@ -46,5 +46,4 @@ module cloud.piranha.http.webapp {
     requires cloud.piranha.naming.api;
     requires cloud.piranha.naming.thread;
     requires cloud.piranha.webapp.impl;
-    requires java.logging;
 }

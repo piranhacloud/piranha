@@ -45,6 +45,5 @@ module cloud.piranha.webapp.webxml {
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires jakarta.servlet;
-    requires java.logging;
     requires java.xml;
 }

@@ -28,6 +28,7 @@
 package cloud.piranha.micro.core;
 
 import static java.lang.Boolean.TRUE;
+import static java.lang.System.Logger.Level.INFO;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
@@ -47,7 +48,7 @@ import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -119,7 +120,7 @@ public class MicroInnerDeployer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(MicroInnerDeployer.class.getName());
+    private static final Logger LOGGER = System.getLogger(MicroInnerDeployer.class.getName());
 
     /**
      * Stores the web annotations.
@@ -178,7 +179,7 @@ public class MicroInnerDeployer {
             
             ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
 
-            LOGGER.info(
+            LOGGER.log(INFO,
                     "Starting web application " + applicationArchive.getName() + " on Piranha Micro " + webApplication.getAttribute(MICRO_PIRANHA));
 
             // The global archive stream handler is set to resolve "shrinkwrap://" URLs (created from strings).

@@ -46,5 +46,4 @@ module cloud.piranha.resource {
     provides URLStreamHandlerProvider with ByteArrayResourceStreamHandlerProvider;
     
     requires cloud.piranha.resource.api;
-    requires java.logging;
 }

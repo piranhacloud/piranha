@@ -45,8 +45,6 @@ module cloud.piranha.micro.loader {
     requires cloud.piranha.resource;
     requires cloud.piranha.resource.shrinkwrap;
 
-    requires java.logging;
-
     requires org.jboss.jandex;
 
     requires shrinkwrap.api;

@@ -29,14 +29,14 @@ package cloud.piranha.webapp.impl;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.WARNING;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.AsyncEvent;
@@ -64,7 +64,7 @@ public class DefaultAsyncContext implements AsyncContext {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(DefaultAsyncContext.class.getName());
+    private static final Logger LOGGER = System.getLogger(DefaultAsyncContext.class.getName());
 
     /**
      * Stores the listeners.
@@ -185,7 +185,7 @@ public class DefaultAsyncContext implements AsyncContext {
         try {
             return type.getConstructor().newInstance();
         } catch (Throwable t) {
-            LOGGER.log(WARNING, t, () -> "Unable to create AsyncListener: " + type.getName());
+            LOGGER.log(WARNING, () -> "Unable to create AsyncListener: " + type.getName(), t);
             throw new ServletException("Unable to create listener", t);
         }
     }
@@ -239,24 +239,24 @@ public class DefaultAsyncContext implements AsyncContext {
 
         scheduledThreadPoolExecutor.shutdownNow();
 
-        LOGGER.log(FINE, () -> "Completing async processing");
+        LOGGER.log(DEBUG, () -> "Completing async processing");
 
         if (!listeners.isEmpty()) {
             listeners.forEach(listener -> {
                 try {
                     listener.onComplete(new AsyncEvent(this));
                 } catch (IOException ioe) {
-                    LOGGER.log(WARNING, ioe, () -> "IOException when calling onComplete on AsyncListener");
+                    LOGGER.log(WARNING, () -> "IOException when calling onComplete on AsyncListener", ioe);
                 }
             });
         }
 
-        LOGGER.log(FINE, () -> "Flushing async asyncStartResponse buffer");
+        LOGGER.log(DEBUG, () -> "Flushing async asyncStartResponse buffer");
 
         try {
             asyncStartResponse.flushBuffer();
         } catch (IOException ioe) {
-            LOGGER.log(WARNING, ioe, () -> "IOException when flushing async asyncStartResponse buffer");
+            LOGGER.log(WARNING, () -> "IOException when flushing async asyncStartResponse buffer", ioe);
         }
 
         originalResponse.closeAsyncResponse();
@@ -273,18 +273,18 @@ public class DefaultAsyncContext implements AsyncContext {
                 try {
                     listener.onTimeout(new AsyncEvent(this));
                 } catch (IOException ioe) {
-                    LOGGER.log(WARNING, ioe, () -> "IOException when calling onTimeout on AsyncListener");
+                    LOGGER.log(WARNING, () -> "IOException when calling onTimeout on AsyncListener", ioe);
                 }
             });
         }
 
-        LOGGER.log(FINE, () -> "Flushing async asyncStartResponse buffer");
+        LOGGER.log(DEBUG, () -> "Flushing async asyncStartResponse buffer");
 
         if (!asyncStartResponse.isCommitted()) {
             try {
                 asyncStartResponse.flushBuffer();
             } catch (IOException ioe) {
-                LOGGER.log(WARNING, ioe, () -> "IOException when flushing async asyncStartResponse buffer");
+                LOGGER.log(WARNING, () -> "IOException when flushing async asyncStartResponse buffer", ioe);
             }
         }
 
@@ -351,7 +351,7 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void start(Runnable runnable) {
-        LOGGER.log(FINE, "Starting async context with: {0}", runnable);
+        LOGGER.log(DEBUG, "Starting async context with: {0}", runnable);
         Thread thread = new Thread(runnable);
         thread.start();
     }

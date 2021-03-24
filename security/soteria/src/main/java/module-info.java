@@ -46,7 +46,6 @@ module cloud.piranha.security.soteria {
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;
     requires jakarta.servlet;
-    requires java.logging;
     requires java.naming;
     requires org.glassfish.soteria;
 }

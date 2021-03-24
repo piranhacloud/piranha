@@ -30,8 +30,8 @@ package cloud.piranha.http.netty;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 
 import cloud.piranha.http.api.HttpServerProcessor;
 import io.netty.channel.ChannelFuture;
@@ -52,7 +52,7 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(NettyHttpServerHandler.class.getName());
+    private static final Logger LOGGER = System.getLogger(NettyHttpServerHandler.class.getName());
 
     /**
      * Stores the HTTP server processor.

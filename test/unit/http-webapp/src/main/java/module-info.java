@@ -49,7 +49,6 @@ module cloud.piranha.test.unit.http.webapp {
     requires cloud.piranha.webapp.impl;
     requires jakarta.servlet;
     requires java.net.http;
-    requires java.logging;
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.engine;
     requires org.junit.platform.launcher;

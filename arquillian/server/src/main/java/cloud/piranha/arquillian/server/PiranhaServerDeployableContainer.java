@@ -27,7 +27,7 @@
  */
 package cloud.piranha.arquillian.server;
 
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.HTTPContext;
@@ -38,6 +38,8 @@ import org.jboss.shrinkwrap.api.Archive;
 import cloud.piranha.arquillian.server.PiranhaServerLoadableExtension.PiranhaServerContainerConfiguration;
 import cloud.piranha.micro.loader.MicroDeployOutcome;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
+
+import static java.lang.System.Logger.Level.INFO;
 
 /**
  * The Piranha Micro Arquillian connector.
@@ -54,7 +56,7 @@ public class PiranhaServerDeployableContainer extends PiranhaServerLoadableExten
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(PiranhaServerDeployableContainer.class.getName());
+    private static final Logger LOGGER = System.getLogger(PiranhaServerDeployableContainer.class.getName());
 
     /**
      * Stores the configuration.
@@ -75,7 +77,7 @@ public class PiranhaServerDeployableContainer extends PiranhaServerLoadableExten
 
     @Override
     public ProtocolMetaData deploy(Archive<?> archive) throws DeploymentException {
-        LOGGER.info("Starting Piranha Micro");
+        LOGGER.log(INFO, "Starting Piranha Micro");
 
         microOuterDeployer = new MicroOuterDeployer(configuration);
 
@@ -101,7 +103,7 @@ public class PiranhaServerDeployableContainer extends PiranhaServerLoadableExten
     @Override
     public void undeploy(Archive<?> archive) throws DeploymentException {
         if (microOuterDeployer != null) {
-            LOGGER.info("Stopping Piranha Micro");
+            LOGGER.log(INFO, "Stopping Piranha Micro");
             microOuterDeployer.stop();
         }
     }

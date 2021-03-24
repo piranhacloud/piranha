@@ -28,15 +28,15 @@
 package cloud.piranha.extension.apache.fileupload;
 
 import static jakarta.servlet.ServletContext.TEMPDIR;
-import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.WARNING;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
 import static org.apache.commons.fileupload.servlet.ServletFileUpload.isMultipartContent;
 
 import java.io.File;
+import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -64,7 +64,7 @@ public class ApacheMultiPartManager implements MultiPartManager {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(ApacheMultiPartManager.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(ApacheMultiPartManager.class.getPackageName());
 
     /**
      * @see MultiPartManager#getParts(cloud.piranha.webapp.api.WebApplication,
@@ -72,7 +72,7 @@ public class ApacheMultiPartManager implements MultiPartManager {
      */
     @Override
     public Collection<Part> getParts(WebApplication webApplication, WebApplicationRequest request) throws ServletException {
-        LOGGER.log(FINE, "Getting parts for request: {0}", request);
+        LOGGER.log(DEBUG, "Getting parts for request: {0}", request);
         
         if (!isMultipartContent(request)) {
             throw new ServletException("Not a multipart/form-data request");
@@ -95,7 +95,7 @@ public class ApacheMultiPartManager implements MultiPartManager {
      */
     @Override
     public Part getPart(WebApplication webApplication, WebApplicationRequest request, String name) throws ServletException {
-        LOGGER.log(FINE, "Getting part: {0} for request: {1}", new Object[] { name, request });
+        LOGGER.log(DEBUG, "Getting part: {0} for request: {1}", name, request);
         
         if (!isMultipartContent(request)) {
             throw new ServletException("Not a multipart/form-data request");

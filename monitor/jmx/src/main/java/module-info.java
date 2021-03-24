@@ -36,6 +36,5 @@ module cloud.piranha.monitor.jmx {
 
     requires cloud.piranha.api;
     requires jakarta.servlet;
-    requires java.logging;
     requires java.management;
 }

@@ -28,11 +28,12 @@
 package cloud.piranha.pages.wasp;
 
 import static java.io.File.pathSeparator;
-import static java.util.logging.Level.FINER;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
 
 import java.io.File;
 import java.util.Set;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 import org.apache.jasper.runtime.JspFactoryImpl;
 
@@ -53,7 +54,7 @@ public class WaspInitializer implements ServletContainerInitializer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(WaspInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(WaspInitializer.class.getName());
 
     /**
      * Initialize Jasper.
@@ -64,7 +65,7 @@ public class WaspInitializer implements ServletContainerInitializer {
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        LOGGER.fine("Initializing Jasper integration");
+        LOGGER.log(DEBUG, "Initializing Jasper integration");
 
         if (JspFactory.getDefaultFactory() == null) {
             JspFactory.setDefaultFactory(new JspFactoryImpl());
@@ -77,7 +78,7 @@ public class WaspInitializer implements ServletContainerInitializer {
                 getClassesDirectory(servletContext) +
                 getJarFiles(servletContext);
 
-        LOGGER.log(FINER, () -> "WaSP classpath is: " + classpath);
+        LOGGER.log(TRACE, () -> "WaSP classpath is: " + classpath);
 
         registration.setInitParameter("classpath", classpath);
         registration.setInitParameter("compilerSourceVM", "1.8");
@@ -89,7 +90,7 @@ public class WaspInitializer implements ServletContainerInitializer {
         // Use the multi scan algorithm from WaSP, so it finds jar files in our isolated class loader
         servletContext.setAttribute("org.glassfish.wasp.useMultiJarScanAlgo", true);
 
-        LOGGER.fine("Initialized WaSP integration");
+        LOGGER.log(DEBUG, "Initialized WaSP integration");
     }
     
     /**

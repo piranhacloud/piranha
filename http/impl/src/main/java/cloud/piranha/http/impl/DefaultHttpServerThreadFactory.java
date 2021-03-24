@@ -27,11 +27,11 @@
  */
 package cloud.piranha.http.impl;
 
-import static java.util.logging.Level.FINE;
+import static java.lang.System.Logger.Level.DEBUG;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 /**
  * The thread factory used by the default implementation of HTTP server.
@@ -47,7 +47,7 @@ class DefaultHttpServerThreadFactory implements ThreadFactory {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(
+    private static final Logger LOGGER = System.getLogger(
             DefaultHttpServerThreadFactory.class.getPackageName());
 
     /**
@@ -60,7 +60,7 @@ class DefaultHttpServerThreadFactory implements ThreadFactory {
      */
     @Override
     public Thread newThread(Runnable runnable) {
-        LOGGER.log(FINE, "Creating new processing thread");
+        LOGGER.log(DEBUG, "Creating new processing thread");
         return new Thread(runnable, "DefaultHttpServer-ProcessingThread-"
                 + id.getAndIncrement());
     }

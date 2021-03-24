@@ -28,7 +28,7 @@
 package cloud.piranha.micro.loader;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.logging.Level.WARNING;
+import static java.lang.System.Logger.Level.WARNING;
 import static org.jboss.shrinkwrap.resolver.api.maven.repository.MavenUpdatePolicy.UPDATE_POLICY_NEVER;
 
 import java.io.ByteArrayOutputStream;
@@ -43,7 +43,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 import java.util.stream.Stream;
 
 import org.jboss.jandex.Index;
@@ -96,7 +96,7 @@ public class MicroOuterDeployer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(MicroOuterDeployer.class.getName());
+    private static final Logger LOGGER = System.getLogger(MicroOuterDeployer.class.getName());
 
     /**
      * Stores the configuration.

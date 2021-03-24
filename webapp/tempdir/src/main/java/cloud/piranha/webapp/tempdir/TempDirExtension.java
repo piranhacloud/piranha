@@ -28,8 +28,8 @@
 package cloud.piranha.webapp.tempdir;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 
 import jakarta.servlet.ServletContainerInitializer;
 
@@ -46,7 +46,7 @@ public class TempDirExtension implements WebApplicationExtension {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(
+    private static final Logger LOGGER = System.getLogger(
             TempDirExtension.class.getPackage().getName());
 
     /**

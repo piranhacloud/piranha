@@ -39,8 +39,6 @@ module cloud.piranha.arquillian.server {
     requires arquillian.container.spi;
     requires arquillian.core.spi;
 
-    requires java.logging;
-
     requires shrinkwrap.api;
     requires shrinkwrap.descriptors.api.base;
 }

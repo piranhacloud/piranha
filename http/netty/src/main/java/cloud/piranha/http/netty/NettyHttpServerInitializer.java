@@ -27,10 +27,10 @@
  */
 package cloud.piranha.http.netty;
 
-import static java.util.logging.Level.SEVERE;
+import static java.lang.System.Logger.Level.ERROR;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -56,7 +56,7 @@ public class NettyHttpServerInitializer extends ChannelInitializer<SocketChannel
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(NettyHttpServerInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(NettyHttpServerInitializer.class.getName());
 
     /**
      * Stores the HTTP server processor.
@@ -94,7 +94,7 @@ public class NettyHttpServerInitializer extends ChannelInitializer<SocketChannel
                 sslEngine.setUseClientMode(false);
                 pipeline.addLast(new SslHandler(sslEngine));
             } catch (NoSuchAlgorithmException e) {
-                LOGGER.log(SEVERE, "Unable to match SSL algorithm", e);
+                LOGGER.log(ERROR, "Unable to match SSL algorithm", e);
             }
         }
         pipeline.addLast(new HttpRequestDecoder());

@@ -27,15 +27,13 @@
  */
 package cloud.piranha.server2;
 
-import static java.util.logging.Level.INFO;
-
 import java.io.File;
 import java.io.IOException;
 import java.security.Policy;
 import java.util.Arrays;
 import java.util.ServiceLoader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
@@ -49,6 +47,8 @@ import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.policy.thread.ThreadPolicy;
+
+import static java.lang.System.Logger.Level.INFO;
 
 /**
  * The Servlet container version of Piranha.
@@ -71,7 +71,7 @@ public class ServerPiranha implements Piranha, Runnable {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(ServerPiranha.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(ServerPiranha.class.getPackageName());
 
     /**
      * Stores the one and only instance of the server.
@@ -166,7 +166,7 @@ public class ServerPiranha implements Piranha, Runnable {
         }
 
         long finishTime = System.currentTimeMillis();
-        LOGGER.info("Started Piranha");
+        LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
         File startedFile = createStartedFile();
@@ -188,7 +188,7 @@ public class ServerPiranha implements Piranha, Runnable {
         }
 
         finishTime = System.currentTimeMillis();
-        LOGGER.info("Stopped Piranha");
+        LOGGER.log(INFO, "Stopped Piranha");
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
     }
 
@@ -214,7 +214,7 @@ public class ServerPiranha implements Piranha, Runnable {
 
             webApplicationServer.addWebApplication(microWebApplication);
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e, () -> "Failed to initialize app " + contextPath);
+            LOGGER.log(Level.ERROR, () -> "Failed to initialize app " + contextPath, e);
         } finally {
             ThreadPolicy.removePolicy();
             ThreadInitialContextFactory.removeInitialContext();

@@ -33,10 +33,10 @@ import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 import javax.net.ssl.SSLContext;
 
-import static java.util.logging.Level.SEVERE;
+import static java.lang.System.Logger.Level.ERROR;
 
 /**
  * The Undertow implementation of HTTP Server.
@@ -48,7 +48,7 @@ public class UndertowHttpServer implements HttpServer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(UndertowHttpServer.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(UndertowHttpServer.class.getPackageName());
 
     /**
      * Stores the HTTP server processor.
@@ -179,7 +179,7 @@ public class UndertowHttpServer implements HttpServer {
             try {
                 builder.addHttpsListener(serverPort, "0.0.0.0", SSLContext.getDefault());
             } catch (NoSuchAlgorithmException e) {
-                LOGGER.log(SEVERE, "Unable to match SSL algorithm", e);
+                LOGGER.log(ERROR, "Unable to match SSL algorithm", e);
             }
         } else {
             builder.addHttpListener(serverPort, "0.0.0.0");

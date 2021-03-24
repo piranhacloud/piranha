@@ -28,8 +28,8 @@
 package cloud.piranha.webapp.annotationscan;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 
 import jakarta.servlet.ServletContainerInitializer;
 
@@ -46,7 +46,7 @@ public class AnnotationScanExtension implements WebApplicationExtension {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(AnnotationScanExtension.class.getName());
+    private static final Logger LOGGER = System.getLogger(AnnotationScanExtension.class.getName());
 
     /**
      * Configure the web application.
