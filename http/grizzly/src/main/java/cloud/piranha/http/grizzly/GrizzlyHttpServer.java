@@ -31,8 +31,8 @@ import cloud.piranha.http.api.HttpServerProcessor;
 import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static java.util.logging.Level.WARNING;
-import java.util.logging.Logger;
+import static java.lang.System.Logger.Level.WARNING;
+import java.lang.System.Logger;
 import org.glassfish.grizzly.CompletionHandler;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -52,7 +52,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(GrizzlyHttpServer.class.getName());
+    private static final Logger LOGGER = System.getLogger(GrizzlyHttpServer.class.getName());
 
     /**
      * Stores the Grizzly HttpServer.

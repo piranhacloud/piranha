@@ -45,7 +45,6 @@ module cloud.piranha.webapp.scinitializer {
 
     requires cloud.piranha.webapp.api;
     requires jakarta.servlet;
-    requires java.logging;
-    
+
     uses ServletContainerInitializer;
 }

@@ -27,10 +27,10 @@
  */
 package cloud.piranha.pages.wasp;
 
-import static java.util.logging.Level.WARNING;
+import static java.lang.System.Logger.Level.WARNING;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 import jakarta.servlet.ServletContainerInitializer;
 
@@ -47,7 +47,7 @@ public class WaspExtension implements WebApplicationExtension {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(WaspExtension.class.getName());
+    private static final Logger LOGGER = System.getLogger(WaspExtension.class.getName());
 
     /**
      * Configure the web application.

@@ -60,6 +60,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
 import static java.util.Collections.enumeration;
 import static java.util.Collections.reverse;
 import static java.util.Collections.unmodifiableMap;
@@ -76,9 +79,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import static java.util.function.Predicate.isEqual;
 import static java.util.function.Predicate.not;
-import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.WARNING;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toSet;
 import java.util.stream.Stream;
@@ -159,7 +160,7 @@ public class DefaultWebApplication implements WebApplication {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(DefaultWebApplication.class.getName());
+    private static final Logger LOGGER = System.getLogger(DefaultWebApplication.class.getName());
 
     /**
      * Stores the async manager.
@@ -480,7 +481,7 @@ public class DefaultWebApplication implements WebApplication {
             Class<ServletContainerInitializer> clazz = (Class<ServletContainerInitializer>) getClassLoader().loadClass(className);
             initializers.add(clazz.getDeclaredConstructor().newInstance());
         } catch (Throwable throwable) {
-            LOGGER.log(WARNING, throwable, () -> "Unable to add initializer: " + className);
+            LOGGER.log(WARNING, () -> "Unable to add initializer: " + className, throwable);
         }
     }
 
@@ -514,7 +515,7 @@ public class DefaultWebApplication implements WebApplication {
         try {
             addListener((Class<EventListener>) getClassLoader().loadClass(className));
         } catch (ClassNotFoundException exception) {
-            LOGGER.log(WARNING, exception, () -> "Unable to add listener: " + className);
+            LOGGER.log(WARNING, () -> "Unable to add listener: " + className, exception);
         }
     }
 
@@ -529,7 +530,7 @@ public class DefaultWebApplication implements WebApplication {
         try {
             addListener(createListener(type));
         } catch (ServletException exception) {
-            LOGGER.log(WARNING, exception, () -> "Unable to add listener: " + type);
+            LOGGER.log(WARNING, () -> "Unable to add listener: " + type, exception);
         }
     }
 
@@ -1011,7 +1012,7 @@ public class DefaultWebApplication implements WebApplication {
                 }
             }
         } catch (MalformedURLException | URISyntaxException | IllegalArgumentException exception) {
-            LOGGER.log(WARNING, exception, () -> "Unable to get real path: " + path);
+            LOGGER.log(WARNING, () -> "Unable to get real path: " + path, exception);
         }
         return realPath;
     }
@@ -1317,7 +1318,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void initialize() {
-        LOGGER.log(FINE, "Initializing web application at {0}", contextPath);
+        LOGGER.log(DEBUG, "Initializing web application at {0}", contextPath);
         verifyState(SETUP, "Unable to initialize web application");
         initializeInitializers();
         initializeFilters();
@@ -1332,7 +1333,7 @@ public class DefaultWebApplication implements WebApplication {
     public void initializeDeclaredFinish() {
         if (status == SETUP) {
             status = INITIALIZED_DECLARED;
-            LOGGER.log(FINE, "Initialized declared items for web application at {0}", contextPath);
+            LOGGER.log(DEBUG, "Initialized declared items for web application at {0}", contextPath);
         }
         if (status == ERROR) {
             LOGGER.log(WARNING, "An error occurred initializing webapplication at {0}", contextPath);
@@ -1346,7 +1347,7 @@ public class DefaultWebApplication implements WebApplication {
     public void initializeFinish() {
         if (status == SETUP || status == INITIALIZED_DECLARED) {
             status = INITIALIZED;
-            LOGGER.log(FINE, "Initialized web application at {0}", contextPath);
+            LOGGER.log(DEBUG, "Initialized web application at {0}", contextPath);
         }
         if (status == ERROR) {
             LOGGER.log(WARNING, () -> "An error occurred initializing webapplication at " + contextPath);
@@ -1365,7 +1366,7 @@ public class DefaultWebApplication implements WebApplication {
                     environment.initialize();
                     environment.getFilter().init(environment);
                 } catch (Throwable t) {
-                    LOGGER.log(WARNING, t, () -> "Unable to initialize filter: " + environment.getFilterName());
+                    LOGGER.log(WARNING, () -> "Unable to initialize filter: " + environment.getFilterName(), t);
                     environment.setStatus(UNAVAILABLE);
                 }
             });
@@ -1400,7 +1401,7 @@ public class DefaultWebApplication implements WebApplication {
                     source = null;
                 }
             } catch (Throwable t) {
-                LOGGER.log(WARNING, t,  () -> "Initializer " + initializer.getClass().getName() + " failing onStartup");
+                LOGGER.log(WARNING, () -> "Initializer " + initializer.getClass().getName() + " failing onStartup", t);
                 error = true;
             }
         }
@@ -1485,7 +1486,7 @@ public class DefaultWebApplication implements WebApplication {
     @SuppressWarnings("unchecked")
     private void initializeServlet(DefaultServletEnvironment environment) {
         try {
-            LOGGER.log(FINE, "Initializing servlet: {0}", environment.servletName);
+            LOGGER.log(DEBUG, "Initializing servlet: {0}", environment.servletName);
             if (environment.getServlet() == null) {
                 Class<? extends Servlet> clazz = environment.getServletClass();
                 if (clazz == null) {
@@ -1501,9 +1502,9 @@ public class DefaultWebApplication implements WebApplication {
                 environment.setServlet(createServlet(clazz));
             }
             environment.getServlet().init(environment);
-            LOGGER.log(FINE, "Initialized servlet: {0}", environment.servletName);
+            LOGGER.log(DEBUG, "Initialized servlet: {0}", environment.servletName);
         } catch (Throwable t) {
-            LOGGER.log(WARNING, t, () -> "Unable to initialize servlet: " + environment.className);
+            LOGGER.log(WARNING, () -> "Unable to initialize servlet: " + environment.className, t);
 
             environment.setStatus(ServletEnvironment.UNAVAILABLE);
             environment.setUnavailableException(t);
@@ -1648,7 +1649,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setContextPath(String contextPath) {
-        LOGGER.log(FINE, "Setting context path to: {0}", contextPath);
+        LOGGER.log(DEBUG, "Setting context path to: {0}", contextPath);
         this.contextPath = contextPath;
     }
 
@@ -1887,10 +1888,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void start() {
-        LOGGER.log(FINE, "Starting web application at {0}", contextPath);
+        LOGGER.log(DEBUG, "Starting web application at {0}", contextPath);
         verifyState(INITIALIZED, "Unable to start servicing");
         status = SERVICING;
-        LOGGER.log(FINE, "Started web application at {0}", contextPath);
+        LOGGER.log(DEBUG, "Started web application at {0}", contextPath);
     }
 
     /**
@@ -1898,10 +1899,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void stop() {
-        LOGGER.log(FINE, "Stopping web application at {0}", contextPath);
+        LOGGER.log(DEBUG, "Stopping web application at {0}", contextPath);
         verifyState(SERVICING, "Unable to stop servicing");
         status = INITIALIZED;
-        LOGGER.log(FINE, "Stopped web application at {0}", contextPath);
+        LOGGER.log(DEBUG, "Stopped web application at {0}", contextPath);
     }
 
     /**

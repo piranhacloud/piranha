@@ -27,17 +27,14 @@
  */
 package cloud.piranha.http.impl;
 
-import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.WARNING;
-
 import java.io.IOException;
+import java.lang.System.Logger;
 import java.net.ServerSocket;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -47,6 +44,9 @@ import javax.net.ssl.SSLServerSocketFactory;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
+
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The default implementation of HTTP Server.
@@ -58,7 +58,7 @@ public class DefaultHttpServer implements HttpServer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(
+    private static final Logger LOGGER = System.getLogger(
             DefaultHttpServer.class.getPackageName());
 
     /**
@@ -182,7 +182,7 @@ public class DefaultHttpServer implements HttpServer {
      */
     @Override
     public void start() {
-        LOGGER.log(FINE, () -> "Starting HTTP server on port " + serverPort);
+        LOGGER.log(DEBUG, () -> "Starting HTTP server on port " + serverPort);
         try {
             executorService = Executors.newCachedThreadPool(threadFactory);
             serverStopRequest = false;
@@ -206,7 +206,7 @@ public class DefaultHttpServer implements HttpServer {
             serverAcceptorThread = new Thread(new DefaultHttpServerAcceptorThread(this),
                     "DefaultHttpServer-AcceptorThread");
             serverAcceptorThread.start();
-            LOGGER.log(FINE, () -> "Started HTTP server on port " + serverPort);
+            LOGGER.log(DEBUG, () -> "Started HTTP server on port " + serverPort);
         } catch (IOException exception) {
             LOGGER.log(WARNING, "An I/O error occurred while starting the HTTP server", exception);
         } catch (NoSuchAlgorithmException ex) {
@@ -219,7 +219,7 @@ public class DefaultHttpServer implements HttpServer {
      */
     @Override
     public void stop() {
-        LOGGER.log(FINE, () -> "Stopping HTTP server on port " + serverPort);
+        LOGGER.log(DEBUG, () -> "Stopping HTTP server on port " + serverPort);
         serverStopRequest = true;
         if (serverSocket != null) {
             try {
@@ -237,7 +237,7 @@ public class DefaultHttpServer implements HttpServer {
                 Thread.currentThread().interrupt();
             }
         }
-        LOGGER.log(FINE, () -> "Stopped HTTP server on port " + serverPort);
+        LOGGER.log(DEBUG, () -> "Stopped HTTP server on port " + serverPort);
     }
 
     @Override

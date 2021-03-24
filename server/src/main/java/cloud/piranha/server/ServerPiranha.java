@@ -27,8 +27,6 @@
  */
 package cloud.piranha.server;
 
-import static java.util.logging.Level.INFO;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,8 +38,8 @@ import java.lang.module.ModuleFinder;
 import java.lang.module.ModuleReference;
 import java.util.List;
 import java.util.ServiceLoader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -58,6 +56,8 @@ import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
+
+import static java.lang.System.Logger.Level.INFO;
 
 
 /**
@@ -80,7 +80,7 @@ public class ServerPiranha implements Piranha, Runnable {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(ServerPiranha.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(ServerPiranha.class.getPackageName());
 
     /**
      * Stores the one and only instance of the server.
@@ -260,7 +260,7 @@ public class ServerPiranha implements Piranha, Runnable {
                             webApplication.initialize();
                             webApplication.start();
                         } catch (Exception e) {
-                            LOGGER.log(Level.SEVERE, e, () -> "Failed to initialize app " + webapp.getName());
+                            LOGGER.log(Level.ERROR, () -> "Failed to initialize app " + webapp.getName(), e);
                         }
                     } finally {
                         ThreadInitialContextFactory.removeInitialContext();
@@ -269,7 +269,7 @@ public class ServerPiranha implements Piranha, Runnable {
             }
         }
         long finishTime = System.currentTimeMillis();
-        LOGGER.info("Started Piranha");
+        LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
         File pidFile = new File("tmp/piranha.pid");
@@ -290,7 +290,7 @@ public class ServerPiranha implements Piranha, Runnable {
         }
 
         finishTime = System.currentTimeMillis();
-        LOGGER.info("Stopped Piranha");
+        LOGGER.log(INFO, "Stopped Piranha");
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
     }
 

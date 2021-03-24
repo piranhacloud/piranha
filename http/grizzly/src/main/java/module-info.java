@@ -48,5 +48,4 @@ module cloud.piranha.http.grizzly {
     requires grizzly.http;
     requires grizzly.http.server;
     requires grizzly.http2;
-    requires java.logging;
 }

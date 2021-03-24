@@ -45,5 +45,4 @@ module cloud.piranha.http.netty {
     provides HttpServer with NettyHttpServer;
     requires cloud.piranha.http.api;
     requires io.netty.all;
-    requires java.logging;
 }

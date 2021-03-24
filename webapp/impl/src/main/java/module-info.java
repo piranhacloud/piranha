@@ -49,5 +49,4 @@ module cloud.piranha.webapp.impl {
     requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
     requires jakarta.servlet;
-    requires java.logging;
 }

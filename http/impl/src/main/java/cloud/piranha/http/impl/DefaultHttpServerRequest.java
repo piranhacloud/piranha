@@ -39,8 +39,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import static java.util.logging.Level.WARNING;
-import java.util.logging.Logger;
+import static java.lang.System.Logger.Level.WARNING;
+import java.lang.System.Logger;
 
 /**
  * The default implementation of HTTP Server Request.
@@ -52,7 +52,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(
+    private static final Logger LOGGER = System.getLogger(
             DefaultHttpServerRequest.class.getPackageName());
 
     /**

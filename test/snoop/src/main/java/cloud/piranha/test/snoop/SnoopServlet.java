@@ -32,8 +32,8 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -51,7 +51,7 @@ public class SnoopServlet extends HttpServlet {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(SnoopServlet.class.getName());
+    private static final Logger LOGGER = System.getLogger(SnoopServlet.class.getName());
 
     /**
      * Stores the serial version UID.
@@ -201,7 +201,7 @@ public class SnoopServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ServletException | IOException e) {
-            LOGGER.log(Level.SEVERE, "Unable to process request", e);
+            LOGGER.log(Level.ERROR, "Unable to process request", e);
         }
     }
 
@@ -219,7 +219,7 @@ public class SnoopServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ServletException | IOException e) {
-            LOGGER.log(Level.SEVERE, "Unable to process request", e);
+            LOGGER.log(Level.ERROR, "Unable to process request", e);
         }
     }
 }

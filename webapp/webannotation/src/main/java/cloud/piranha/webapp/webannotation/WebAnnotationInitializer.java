@@ -27,6 +27,7 @@
  */
 package cloud.piranha.webapp.webannotation;
 
+import static java.lang.System.Logger.Level.WARNING;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.EnumSet.noneOf;
@@ -38,7 +39,7 @@ import java.util.EventListener;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 import cloud.piranha.webapp.api.AnnotationManager;
 import cloud.piranha.webapp.api.AnnotationManager.AnnotationInfo;
@@ -76,7 +77,7 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(WebAnnotationInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(WebAnnotationInitializer.class.getName());
 
     /**
      * On startup.
@@ -199,7 +200,7 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
                     asList(urlPatterns),
                     annotationInfo.getInstance()));
             } else {
-                LOGGER.warning(
+                LOGGER.log(WARNING,
                     "@ServletSecurity encountered on Servlet " + servlet +
                     "but no @WebServlet encountered");
             }

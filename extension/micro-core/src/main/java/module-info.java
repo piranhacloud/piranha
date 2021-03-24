@@ -54,7 +54,6 @@ module cloud.piranha.micro.core {
     requires jakarta.security.enterprise.api;
     requires jakarta.servlet;
     requires java.naming;
-    requires java.logging;
     requires java.xml;
     requires org.jboss.jandex;
     requires shrinkwrap.api;
