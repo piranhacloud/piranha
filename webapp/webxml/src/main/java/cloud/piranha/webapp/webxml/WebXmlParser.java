@@ -69,6 +69,7 @@ import cloud.piranha.webapp.impl.WebXmlMimeMapping;
 import cloud.piranha.webapp.impl.WebXmlServlet;
 import cloud.piranha.webapp.impl.WebXmlServletInitParam;
 import cloud.piranha.webapp.impl.WebXmlServletMapping;
+import cloud.piranha.webapp.impl.WebXmlServletMultipartConfig;
 import cloud.piranha.webapp.impl.WebXmlServletSecurityRoleRef;
 import cloud.piranha.webapp.impl.WebXmlSessionConfig;
 
@@ -210,8 +211,6 @@ public class WebXmlParser {
     }
 
     /**
-
-    /**
      * Parse a boolean.
      *
      * @param xPath the XPath to use.
@@ -227,6 +226,24 @@ public class WebXmlParser {
             LOGGER.log(WARNING, "Unable to parse boolean", xpe);
         }
         return result;
+    }
+    
+    /**
+     * Parse a long.
+     *
+     * @param xPath the XPath to use.
+     * @param node the node to use.
+     * @param expression the expression to use.
+     * @return the long, or null if an error occurred.
+     */
+    private static Long parseLong(XPath xPath, String expression, Node node) {
+        try {
+            return Long.parseLong((String) xPath.evaluate(expression, node, XPathConstants.STRING));
+        } catch (XPathException xpe) {
+            LOGGER.log(WARNING, "Unable to parse boolean", xpe);
+        }
+        
+        return null;
     }
 
     /**
@@ -670,6 +687,21 @@ public class WebXmlParser {
 
                     servlet.getSecurityRoleRefs().add(securityRoleRef);
                 }
+                
+                for (Node multipartConfigNode : parseNodes(xPath, "multipart-config", servletNode)) {
+                    if (servlet.getMultipartConfig() != null) {
+                        LOGGER.log(WARNING, "Duplicate <multipart-config> sections in web.xml where only 1 allowed.");
+                        break;
+                    }
+                    
+                    WebXmlServletMultipartConfig multipartConfig = new WebXmlServletMultipartConfig();
+                    multipartConfig.setLocation(parseString(xPath, "location/text()", multipartConfigNode));
+                    multipartConfig.setMaxFileSize(parseLong(xPath, "location/text()", multipartConfigNode));
+                    multipartConfig.setMaxRequestSize(parseLong(xPath, "location/text()", multipartConfigNode));
+                    multipartConfig.setFileSizeThreshold(parseInteger(xPath, "location/text()", multipartConfigNode));
+
+                    servlet.setMultipartConfig(multipartConfig);
+                }
 
                 servlets.add(servlet);
 
@@ -677,7 +709,7 @@ public class WebXmlParser {
             }
 
         } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse <filter> sections", xpe);
+            LOGGER.log(WARNING, "Unable to parse <servlet> sections", xpe);
         }
     }
 

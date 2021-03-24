@@ -32,15 +32,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import jakarta.servlet.http.Part;
+
 import org.apache.commons.fileupload.FileItem;
+
+import jakarta.servlet.http.Part;
 
 /**
  * The Part for the ApacheMultiPartManager.
  *
  * <p>
- * This class implements the Servlet Part API and delegates to an Apache Commons
- * FileItem for its functionality.
+ * This class implements the Servlet Part API and delegates to an Apache Commons FileItem for its functionality.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -62,7 +63,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * @see Part#delete() 
+     * @see Part#delete()
      */
     @Override
     public void delete() throws IOException {
@@ -70,7 +71,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * @see Part#getContentType() 
+     * @see Part#getContentType()
      */
     @Override
     public String getContentType() {
@@ -78,7 +79,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * @see Part#getHeader(java.lang.String) 
+     * @see Part#getHeader(java.lang.String)
      */
     @Override
     public String getHeader(String name) {
@@ -86,7 +87,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * @see Part#getHeaderNames() 
+     * @see Part#getHeaderNames()
      */
     @Override
     public Collection<String> getHeaderNames() {
@@ -96,7 +97,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * @see Part#getHeaders(java.lang.String) 
+     * @see Part#getHeaders(java.lang.String)
      */
     @Override
     public Collection<String> getHeaders(String name) {
@@ -106,7 +107,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * @see Part#getInputStream() 
+     * @see Part#getInputStream()
      */
     @Override
     public InputStream getInputStream() throws IOException {
@@ -114,7 +115,7 @@ public class ApacheMultiPart implements Part {
     }
 
     /**
-     * @see Part#getName() 
+     * @see Part#getName()
      */
     @Override
     public String getName() {

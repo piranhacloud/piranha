@@ -40,23 +40,25 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import cloud.piranha.webapp.api.AnnotationManager;
+import cloud.piranha.webapp.api.AnnotationManager.AnnotationInfo;
+import cloud.piranha.webapp.api.WebApplication;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRegistration.Dynamic;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
-
-import cloud.piranha.webapp.api.AnnotationManager;
-import cloud.piranha.webapp.api.AnnotationManager.AnnotationInfo;
-import cloud.piranha.webapp.api.WebApplication;
 
 /**
  * The web annotations initializer.
@@ -103,13 +105,14 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
             // Add the Servlet
             Dynamic registration = webApp.addServlet(servletName, annotationInfo.getTargetType().getName());
 
-            // Add params
-            if (webServlet.initParams().length != 0) {
-                stream(webServlet.initParams()).forEach(initParam -> registration.setInitParameter(initParam.name(), initParam.value()));
-            }
-
-            if (registration != null)
+            if (registration != null) {
+                // Add params
+                if (webServlet.initParams().length != 0) {
+                    stream(webServlet.initParams()).forEach(initParam -> registration.setInitParameter(initParam.name(), initParam.value()));
+                }
+            
                 registration.setAsyncSupported(webServlet.asyncSupported());
+            }
 
             String[] urlPatterns = webServlet.value();
             if (urlPatterns.length == 0) {
@@ -161,6 +164,19 @@ public class WebAnnotationInitializer implements ServletContainerInitializer {
                         .collect(toCollection(() -> noneOf(DispatcherType.class))),
                     true,
                     webFilter.servletNames());
+            }
+        }
+        
+        // Process @MultipartConfig
+        // This assumes all applicable Servlets have been registered, either via web.xml, annotations or programmatically prior to this point.
+        for (AnnotationInfo<MultipartConfig> annotationInfo : annotationManager.getAnnotations(MultipartConfig.class)) {
+            for (ServletRegistration servletRegistration : servletContext.getServletRegistrations().values()) {
+                if (servletRegistration instanceof Dynamic dynamicRegistration) {
+                    Class<?> targetType = annotationInfo.getTargetType();
+                    if (targetType != null && targetType.getName().equals(servletRegistration.getClassName())) {
+                        dynamicRegistration.setMultipartConfig(new MultipartConfigElement(annotationInfo.getInstance()));
+                    }
+                }
             }
         }
 
