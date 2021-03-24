@@ -44,7 +44,6 @@ module cloud.piranha.http.undertow {
     opens cloud.piranha.http.undertow;
     provides HttpServer with UndertowHttpServer;
     requires cloud.piranha.http.api;
-    requires java.logging;
     requires jdk.unsupported;
     requires undertow.core;
 }

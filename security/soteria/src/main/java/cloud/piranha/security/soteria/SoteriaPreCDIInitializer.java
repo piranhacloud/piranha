@@ -35,8 +35,8 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 
 import org.glassfish.soteria.SoteriaServiceProviders;
 import org.glassfish.soteria.cdi.spi.WebXmlLoginConfig;
@@ -52,7 +52,7 @@ public class SoteriaPreCDIInitializer implements ServletContainerInitializer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(SoteriaPreCDIInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(SoteriaPreCDIInitializer.class.getName());
 
     /**
      * Initialize Soteria.

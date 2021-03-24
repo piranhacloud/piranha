@@ -47,11 +47,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
 import static java.util.stream.Collectors.toSet;
 
 /**
@@ -64,7 +66,7 @@ public class DefaultModuleFinder implements ModuleFinder {
     /**
      * Stores the logger
      */
-    private static final Logger LOGGER = Logger.getLogger(DefaultModuleFinder.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(DefaultModuleFinder.class.getPackageName());
 
     /**
      * Stores the attribute Automatic-Module-Name
@@ -142,11 +144,11 @@ public class DefaultModuleFinder implements ModuleFinder {
     private ModuleDescriptor moduleDescriptorFromResource(Resource resource) {
         ModuleDescriptor moduleInfo = moduleInfo(resource);
         if (moduleInfo != null){
-            if (LOGGER.isLoggable(Level.FINER)) {
-                LOGGER.finer(() -> "Module " + moduleInfo.toNameAndVersion() + " from resource: " + resource.getName() + " (module-info.class)");
-                LOGGER.finer(() -> "Package exported by module " + moduleInfo.name() + ": " + moduleInfo.exports());
-                moduleInfo.provides().stream().map(x -> "Module provides " + x.service() + "with " + x.providers()).forEach(LOGGER::finer);
-                moduleInfo.uses().stream().map(x -> "Module uses " + x).forEach(LOGGER::finer);
+            if (LOGGER.isLoggable(DEBUG)) {
+                LOGGER.log(DEBUG, () -> "Module " + moduleInfo.toNameAndVersion() + " from resource: " + resource.getName() + " (module-info.class)");
+                LOGGER.log(DEBUG,() -> "Package exported by module " + moduleInfo.name() + ": " + moduleInfo.exports());
+                moduleInfo.provides().stream().map(x -> "Module provides " + x.service() + "with " + x.providers()).forEach(x -> LOGGER.log(DEBUG, x));
+                moduleInfo.uses().stream().map(x -> "Module uses " + x).forEach(x -> LOGGER.log(DEBUG, x));
             }
             return moduleInfo;
         }
@@ -172,7 +174,7 @@ public class DefaultModuleFinder implements ModuleFinder {
         String moduleName = getModuleName(resource, name);
         String version = versionString;
 
-        LOGGER.fine(() -> "Module " + moduleName + ((version != null)? "@" + version : "") + " from " + resource.getName());
+        LOGGER.log(DEBUG, () -> "Module " + moduleName + ((version != null)? "@" + version : "") + " from " + resource.getName());
         ModuleDescriptor.Builder builder = ModuleDescriptor.newAutomaticModule(moduleName);
 
         if (version != null)
@@ -180,7 +182,7 @@ public class DefaultModuleFinder implements ModuleFinder {
 
         Set<String> packages = packages(resource);
 
-        LOGGER.finer(() -> "Packages exported by module " + moduleName + ": " + packages);
+        LOGGER.log(DEBUG, () -> "Packages exported by module " + moduleName + ": " + packages);
 
         builder.packages(packages);
 
@@ -205,7 +207,7 @@ public class DefaultModuleFinder implements ModuleFinder {
                     .toList();
             if (!providerList.isEmpty()) {
                 String serviceName = providerFile.substring("/META-INF/services/".length());
-                LOGGER.finer(() -> "Module provides " +  serviceName + " with " + providerList);
+                LOGGER.log(DEBUG, () -> "Module provides " +  serviceName + " with " + providerList);
                 builder.provides(serviceName, providerList);
             }
         }
@@ -287,7 +289,7 @@ public class DefaultModuleFinder implements ModuleFinder {
                 }
                 cachedModuleReferences.put(moduleDescriptor.name(), new DefaultModuleReference(moduleDescriptor, URI.create("resource://" + resource.getName()), resource));
             } catch (Exception e) {
-                LOGGER.log(Level.WARNING, () -> "Resource " + resource.getName() + " will not be treated as a module: " + e.toString());
+                LOGGER.log(Level.WARNING, () -> "Resource " + resource.getName() + " will not be treated as a module: " + e);
             }
         }
 
@@ -297,7 +299,7 @@ public class DefaultModuleFinder implements ModuleFinder {
         for (String aPackage : moduleDescriptor.packages()) {
             String previousModuleName = packageToExporter.put(aPackage, moduleDescriptor.name());
             if (previousModuleName != null) {
-                LOGGER.warning(() ->
+                LOGGER.log(WARNING, () ->
                     "Modules %s and %s export package %s, they will be part of the unnamed module"
                     .formatted(moduleDescriptor.name(), previousModuleName, aPackage));
 

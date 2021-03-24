@@ -27,15 +27,15 @@
  */
 package cloud.piranha.webapp.webxml;
 
-import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.FINER;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
 import static java.util.stream.Collectors.toSet;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
@@ -66,7 +66,7 @@ public class WebXmlProcessor {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(WebXmlProcessor.class.getName());
+    private static final Logger LOGGER = System.getLogger(WebXmlProcessor.class.getName());
 
     /**
      * Stores the empty string array.
@@ -80,7 +80,7 @@ public class WebXmlProcessor {
      * @param webApplication the web application.
      */
     public void process(WebXml webXml, WebApplication webApplication) {
-        LOGGER.log(FINER, "Started WebXmlProcessor.process");
+        LOGGER.log(TRACE, "Started WebXmlProcessor.process");
         processContextParameters(webApplication, webXml);
         processDefaultContextPath(webApplication, webXml);
         processDenyUncoveredHttpMethods(webApplication, webXml);
@@ -100,7 +100,7 @@ public class WebXmlProcessor {
         processWelcomeFiles(webApplication, webXml);
         processLocaleEncodingMapping(webApplication, webXml);
         processSessionConfig(webApplication, webXml);
-        LOGGER.log(FINER, "Finished WebXmlProcessor.process");
+        LOGGER.log(TRACE, "Finished WebXmlProcessor.process");
     }
 
     /**
@@ -330,12 +330,12 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processServlets(WebApplication webApplication, WebXml webXml) {
-        LOGGER.log(FINE, "Configuring Servlets");
+        LOGGER.log(DEBUG, "Configuring Servlets");
 
         Iterator<WebXmlServlet> iterator = webXml.getServlets().iterator();
         while (iterator.hasNext()) {
             WebXmlServlet servlet = iterator.next();
-            LOGGER.log(FINE, () -> "Configuring Servlet: " + servlet.getServletName());
+            LOGGER.log(DEBUG, () -> "Configuring Servlet: " + servlet.getServletName());
 
             ServletRegistration.Dynamic dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
 
@@ -363,7 +363,7 @@ public class WebXmlProcessor {
                     servletRegistration.setInitParameter(initParam.getName(), initParam.getValue());
             });
 
-            LOGGER.log(FINE, () -> "Configured Servlet: " + servlet.getServletName());
+            LOGGER.log(DEBUG, () -> "Configured Servlet: " + servlet.getServletName());
         }
     }
 
@@ -374,13 +374,13 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processWelcomeFiles(WebApplication webApplication, WebXml webXml) {
-        LOGGER.log(FINE, "Adding welcome files");
+        LOGGER.log(DEBUG, "Adding welcome files");
 
         Iterator<String> iterator = webXml.getWelcomeFiles().iterator();
         WelcomeFileManager welcomeFileManager = webApplication.getWelcomeFileManager();
         while (iterator.hasNext()) {
             String welcomeFile = iterator.next();
-            LOGGER.log(FINE, () -> "Adding welcome file: " + welcomeFile);
+            LOGGER.log(DEBUG, () -> "Adding welcome file: " + welcomeFile);
             welcomeFileManager.addWelcomeFile(welcomeFile);
         }
     }

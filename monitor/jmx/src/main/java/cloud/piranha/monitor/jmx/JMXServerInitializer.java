@@ -30,9 +30,10 @@ package cloud.piranha.monitor.jmx;
 import cloud.piranha.api.Piranha;
 import java.lang.management.ManagementFactory;
 import java.util.Set;
-import static java.util.logging.Level.FINER;
-import static java.util.logging.Level.WARNING;
-import java.util.logging.Logger;
+
+import static java.lang.System.Logger.Level.TRACE;
+import static java.lang.System.Logger.Level.WARNING;
+import java.lang.System.Logger;
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.MBeanRegistrationException;
 import javax.management.MBeanServer;
@@ -58,7 +59,7 @@ public class JMXServerInitializer implements ServletContainerInitializer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(JMXServerInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(JMXServerInitializer.class.getName());
 
     /**
      * Defines the attribute name for the MicroPiranha reference.
@@ -80,7 +81,7 @@ public class JMXServerInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> annotatedClasses,
             ServletContext servletContext) throws ServletException {
-        LOGGER.log(FINER, "Initializing JMX server");
+        LOGGER.log(TRACE, "Initializing JMX server");
 
         Piranha piranha = null;
 
@@ -107,6 +108,6 @@ public class JMXServerInitializer implements ServletContainerInitializer {
                     + "not registering PiranhaInfo MBean");
         }
 
-        LOGGER.log(FINER, "Initialized JMX server");
+        LOGGER.log(TRACE, "Initialized JMX server");
     }
 }

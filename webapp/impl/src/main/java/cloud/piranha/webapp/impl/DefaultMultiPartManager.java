@@ -27,10 +27,10 @@
  */
 package cloud.piranha.webapp.impl;
 
+import java.lang.System.Logger.Level;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Part;
@@ -49,7 +49,7 @@ public class DefaultMultiPartManager implements MultiPartManager {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(DefaultMultiPartManager.class.getName());
+    private static final Logger LOGGER = System.getLogger(DefaultMultiPartManager.class.getName());
 
     /**
      * Get the parts.
@@ -63,7 +63,7 @@ public class DefaultMultiPartManager implements MultiPartManager {
     @Override
     public Collection<Part> getParts(WebApplication webApplication,
             WebApplicationRequest request) throws ServletException {
-        LOGGER.log(Level.FINE, "Getting parts for request: {0}", request);
+        LOGGER.log(Level.DEBUG, "Getting parts for request: {0}", request);
         return Collections.emptyList();
     }
 
@@ -80,7 +80,7 @@ public class DefaultMultiPartManager implements MultiPartManager {
     @Override
     public Part getPart(WebApplication webApplication,
             WebApplicationRequest request, String name) throws ServletException {
-        LOGGER.log(Level.FINE, "Getting part: {0} for request: {1}", new Object[]{name, request});
+        LOGGER.log(Level.DEBUG, "Getting part: {0} for request: {1}", new Object[]{name, request});
         return null;
     }
 }

@@ -27,11 +27,12 @@
  */
 package cloud.piranha.webapp.annotationscan;
 
+import static java.lang.System.Logger.Level.WARNING;
 import static java.util.Arrays.stream;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 import java.util.stream.Stream;
 
 import jakarta.servlet.ServletContainerInitializer;
@@ -62,7 +63,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(AnnotationScanInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(AnnotationScanInitializer.class.getName());
 
     /**
      * On startup.
@@ -77,7 +78,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
 
         AnnotationManager annotationManager = webApp.getAnnotationManager();
         if (annotationManager instanceof DefaultAnnotationManager == false) {
-            LOGGER.warning("DefaultAnnotationManager not installed. This scanner does not work");
+            LOGGER.log(WARNING, "DefaultAnnotationManager not installed. This scanner does not work");
             return;
         }
 
@@ -85,7 +86,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
 
         ClassLoader classLoader = webApp.getClassLoader();
         if (classLoader instanceof ResourceManagerClassLoader == false) {
-            LOGGER.warning("ResourceManagerClassLoader not installed. This scanner does not work");
+            LOGGER.log(WARNING, "ResourceManagerClassLoader not installed. This scanner does not work");
             return;
         }
 

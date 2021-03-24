@@ -44,5 +44,4 @@ module cloud.piranha.webapp.tempdir {
 
     requires cloud.piranha.webapp.api;
     requires jakarta.servlet;
-    requires java.logging;
 }

@@ -45,6 +45,5 @@ module cloud.piranha.http.jdk {
     opens cloud.piranha.http.jdk;
     provides HttpServer with JdkHttpServer;
     requires cloud.piranha.http.api;
-    requires java.logging;
     requires jdk.httpserver;
 }

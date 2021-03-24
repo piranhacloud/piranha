@@ -29,7 +29,9 @@
 
 package cloud.piranha.modular;
 
-import java.util.logging.Logger;
+import java.lang.System.Logger;
+
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The module layer processor
@@ -64,7 +66,7 @@ public class ModuleLayerProcessor {
     /**
      * Stores the logger
      */
-    private static final Logger LOGGER = Logger.getLogger(ModuleLayerProcessor.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(ModuleLayerProcessor.class.getPackageName());
 
     private ModuleLayerProcessor() {
         super();
@@ -95,7 +97,7 @@ public class ModuleLayerProcessor {
     }
 
     private static void logModuleNotFound(String option, String module) {
-        LOGGER.warning(() -> "Ignoring option " + option + " because module " + module + " was not found");
+        LOGGER.log(WARNING, () -> "Ignoring option " + option + " because module " + module + " was not found");
     }
 
     private static void addReads(String property, ModuleLayer moduleLayer, ModuleLayer.Controller controller) {

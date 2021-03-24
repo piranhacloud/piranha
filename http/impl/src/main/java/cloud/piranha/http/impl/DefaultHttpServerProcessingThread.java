@@ -27,11 +27,11 @@
  */
 package cloud.piranha.http.impl;
 
-import static java.util.logging.Level.WARNING;
+import static java.lang.System.Logger.Level.WARNING;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 /**
  * A processing thread used by the default implementation of HTTP server.
@@ -48,7 +48,7 @@ class DefaultHttpServerProcessingThread implements Runnable {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(
+    private static final Logger LOGGER = System.getLogger(
             DefaultHttpServerProcessingThread.class.getPackageName());
 
     /**

@@ -27,14 +27,14 @@
  */
 package cloud.piranha.http.impl;
 
-import static java.util.logging.Level.WARNING;
+import static java.lang.System.Logger.Level.WARNING;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 import cloud.piranha.http.api.HttpServerResponse;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(
+    private static final Logger LOGGER = System.getLogger(
             DefaultHttpServerResponse.class.getPackageName());
 
     /**
@@ -112,7 +112,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
             try {
                 outputStream = socket.getOutputStream();
             } catch (IOException exception) {
-                LOGGER.log(WARNING, exception, () -> "An I/O error occurred while acquiring the output stream");
+                LOGGER.log(WARNING, () -> "An I/O error occurred while acquiring the output stream", exception);
             }
         }
 

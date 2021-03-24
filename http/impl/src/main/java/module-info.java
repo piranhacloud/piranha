@@ -44,5 +44,4 @@ module cloud.piranha.http.impl {
     opens cloud.piranha.http.impl;
     provides HttpServer with DefaultHttpServer;
     requires cloud.piranha.http.api;
-    requires java.logging;
 }

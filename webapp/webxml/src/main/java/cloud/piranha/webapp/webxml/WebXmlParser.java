@@ -28,8 +28,8 @@
 package cloud.piranha.webapp.webxml;
 
 import static cloud.piranha.webapp.impl.WebXml.OTHERS_TAG;
-import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.WARNING;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
 import static java.util.regex.Pattern.quote;
 import static javax.xml.xpath.XPathConstants.NODE;
 import static javax.xml.xpath.XPathConstants.NODESET;
@@ -40,7 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 import java.util.stream.StreamSupport;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -83,7 +83,7 @@ public class WebXmlParser {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(WebXmlParser.class.getName());
+    private static final Logger LOGGER = System.getLogger(WebXmlParser.class.getName());
 
     /**
      * Parse the input stream.
@@ -705,7 +705,7 @@ public class WebXmlParser {
 
                 servlets.add(servlet);
 
-                LOGGER.log(FINE, "Configured servlet: {0}", servlet);
+                LOGGER.log(DEBUG, "Configured servlet: {0}", servlet);
             }
 
         } catch (XPathException xpe) {
@@ -850,7 +850,7 @@ public class WebXmlParser {
                 for (int i = 0; i < nodeList.getLength(); i++) {
                     String welcomeFile = parseString(xPath, "text()", nodeList.item(i));
                     welcomeFiles.add(welcomeFile);
-                    LOGGER.log(FINE, "Parsed welcome-file: {0}", welcomeFile);
+                    LOGGER.log(DEBUG, "Parsed welcome-file: {0}", welcomeFile);
                 }
             }
         } catch (XPathException xpe) {

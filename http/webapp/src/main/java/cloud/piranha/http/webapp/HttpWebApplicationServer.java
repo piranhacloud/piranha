@@ -27,14 +27,14 @@
  */
 package cloud.piranha.http.webapp;
 
-import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.WARNING;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 import java.util.stream.Stream;
 
 import cloud.piranha.webapp.impl.CookieParser;
@@ -63,7 +63,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(HttpWebApplicationServer.class.getName());
+    private static final Logger LOGGER = System.getLogger(HttpWebApplicationServer.class.getName());
 
     /**
      * Stores the request mapper.
@@ -107,7 +107,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      */
     @Override
     public void addWebApplication(WebApplication webApplication) {
-        LOGGER.log(FINE, () -> "Adding web application with context path: " + webApplication.getContextPath());
+        LOGGER.log(DEBUG, () -> "Adding web application with context path: " + webApplication.getContextPath());
 
         webApplications.put(webApplication.getContextPath(), webApplication);
         requestMapper.addMapping(webApplication, webApplication.getContextPath());
@@ -200,7 +200,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             try {
                 httpResponse.closeResponse();
             } catch (IOException ioe) {
-                LOGGER.log(WARNING, ioe, () -> "IOException when flushing the underlying async output stream");
+                LOGGER.log(WARNING, () -> "IOException when flushing the underlying async output stream", ioe);
             }
         });
 
@@ -222,7 +222,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      */
     @Override
     public void initialize() {
-        LOGGER.log(FINE, "Starting initialization of {0} web application(s)", webApplications.size());
+        LOGGER.log(DEBUG, "Starting initialization of {0} web application(s)", webApplications.size());
 
         webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
@@ -234,7 +234,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             }
         });
 
-        LOGGER.log(FINE, "Finished initialization of {0} web application(s)", webApplications.size());
+        LOGGER.log(DEBUG, "Finished initialization of {0} web application(s)", webApplications.size());
     }
 
     /**
@@ -316,7 +316,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      */
     @Override
     public void start() {
-        LOGGER.fine("Starting WebApplication server engine");
+        LOGGER.log(DEBUG, "Starting WebApplication server engine");
 
         webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
@@ -328,7 +328,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             }
         });
 
-        LOGGER.fine("Started WebApplication server engine");
+        LOGGER.log(DEBUG, "Started WebApplication server engine");
     }
 
     /**
@@ -336,7 +336,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      */
     @Override
     public void stop() {
-        LOGGER.fine("Stopping WebApplication server engine");
+        LOGGER.log(DEBUG, "Stopping WebApplication server engine");
 
         webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
@@ -348,6 +348,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             }
         });
 
-        LOGGER.fine("Stopped WebApplication server engine");
+        LOGGER.log(DEBUG, "Stopped WebApplication server engine");
     }
 }

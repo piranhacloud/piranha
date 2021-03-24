@@ -50,13 +50,12 @@ module cloud.piranha.server2 {
 
     requires cloud.piranha.resource.shrinkwrap;
 
-    requires java.logging;
-
     requires org.jboss.jandex;
 
     requires shrinkwrap.api;
     requires shrinkwrap.resolver.api.maven;
     requires java.naming;
+    requires java.logging;
 	requires cloud.piranha.embedded;
     
 

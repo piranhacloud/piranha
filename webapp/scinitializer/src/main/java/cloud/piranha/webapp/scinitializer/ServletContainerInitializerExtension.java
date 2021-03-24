@@ -27,14 +27,14 @@
  */
 package cloud.piranha.webapp.scinitializer;
 
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
 import static java.util.Collections.emptyList;
-import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.FINER;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 import jakarta.servlet.ServletContainerInitializer;
 
@@ -52,7 +52,7 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(
+    private static final Logger LOGGER = System.getLogger(
             ServletContainerInitializerExtension.class.getPackage().getName());
 
     /**
@@ -90,12 +90,12 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
      */
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(FINER, "Starting ServletContainerInitializer processing");
+        LOGGER.log(DEBUG, "Starting ServletContainerInitializer processing");
         ServiceLoader<ServletContainerInitializer> serviceLoader = ServiceLoader.load(
                 ServletContainerInitializer.class, webApplication.getClassLoader());
 
         for (ServletContainerInitializer initializer : serviceLoader) {
-            LOGGER.log(FINE, () -> "Adding initializer: " + initializer.getClass().getName());
+            LOGGER.log(DEBUG, () -> "Adding initializer: " + initializer.getClass().getName());
 
             if (shouldAdd(webApplication, initializer)) {
                 webApplication.addInitializer(initializer);
@@ -107,7 +107,7 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
             // the providers from modules aren't available in the webApplication classloader
             serviceLoader = ServiceLoader.load(ServletContainerInitializer.class);
             for (ServletContainerInitializer initializer : serviceLoader) {
-                LOGGER.log(FINE, () -> "Adding initializer: " + initializer.getClass().getName());
+                LOGGER.log(DEBUG, () -> "Adding initializer: " + initializer.getClass().getName());
 
                 if (shouldAdd(webApplication, initializer)) {
                     webApplication.addInitializer(initializer);
@@ -115,7 +115,7 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
             }
         }
 
-        LOGGER.log(FINER, "Finished ServletContainerInitializer processing");
+        LOGGER.log(TRACE, "Finished ServletContainerInitializer processing");
     }
 
     private boolean shouldAdd(WebApplication webApplication, ServletContainerInitializer initializer) {

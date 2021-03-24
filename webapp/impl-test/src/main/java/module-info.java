@@ -44,7 +44,6 @@ module cloud.piranha.webapp.impl.tests {
 
     requires jakarta.servlet;
 
-    requires java.logging;
     requires jdk.security.auth;
     
     requires org.junit.jupiter.api;

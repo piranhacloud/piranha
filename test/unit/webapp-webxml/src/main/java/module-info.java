@@ -45,7 +45,6 @@ module cloud.piranha.test.unit.webapp.webxml {
     requires cloud.piranha.webapp.impl;
     requires cloud.piranha.webapp.webxml;
     requires jakarta.servlet;
-    requires java.logging;
     requires java.xml;
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.engine;

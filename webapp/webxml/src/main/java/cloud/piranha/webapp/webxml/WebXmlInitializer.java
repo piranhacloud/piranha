@@ -27,8 +27,8 @@
  */
 package cloud.piranha.webapp.webxml;
 
-import static java.util.logging.Level.FINE;
-import static java.util.logging.Level.WARNING;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
+import java.lang.System.Logger;
 
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
@@ -57,7 +57,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(WebXmlInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(WebXmlInitializer.class.getName());
 
     /**
      * On startup.
@@ -68,7 +68,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        LOGGER.log(FINE, () -> "Entering WebXmlInitializer.onStartup");
+        LOGGER.log(DEBUG, () -> "Entering WebXmlInitializer.onStartup");
 
         try {
             WebXmlParser parser = new WebXmlParser();
@@ -112,13 +112,13 @@ public class WebXmlInitializer implements ServletContainerInitializer {
 
                 manager.getOrderedFragments().forEach(fragment -> processor.process(fragment, webApp));
             } else {
-                LOGGER.fine("No web.xml found!");
+                LOGGER.log(DEBUG, "No web.xml found!");
             }
         } catch (IOException e) {
             LOGGER.log(WARNING, "Unable to parse web.xml", e);
         }
 
-        LOGGER.log(FINE, () -> "Exiting WebXmlInitializer.onStartup");
+        LOGGER.log(DEBUG, () -> "Exiting WebXmlInitializer.onStartup");
     }
 
 }
