@@ -34,17 +34,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import jakarta.servlet.FilterRegistration;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-
 import org.omnifaces.eleos.config.factory.ConfigParser;
 import org.omnifaces.eleos.config.factory.DefaultConfigFactory;
 import org.omnifaces.eleos.config.factory.DefaultConfigParser;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
 
 import cloud.piranha.webapp.api.WebApplication;
+import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 /**
  * The Eleos initializer.
@@ -72,6 +71,8 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        
+        System.out.println("*** AuthenticationInitializer ***");
 
         // Gets the authentication module class that was configured externally
         Class<?> authModuleClass = (Class<?>) servletContext.getAttribute(AUTH_MODULE_CLASS);
