@@ -57,6 +57,7 @@ import java.util.Map;
 
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
+import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -183,6 +184,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the method.
      */
     protected String method;
+    
+    /**
+     * Stores the multipartConfig.
+     */
+    protected MultipartConfigElement multipartConfig;
 
     /**
      * Stores the parameters.
@@ -623,22 +629,23 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return Collections.enumeration(locales);
     }
 
-    /**
-     * Get the request method.
-     *
-     * @return the request method.
-     */
     @Override
     public String getMethod() {
         return method;
     }
+    
+    @Override
+    public MultipartConfigElement getMultipartConfig() {
+        return multipartConfig;
+    }
 
     /**
-     * Get the parameter.
-     *
-     * @param name the name.
-     * @return the value.
+     * @param multipartConfig the multipartConfig to set
      */
+    public void setMultipartConfig(MultipartConfigElement multipartConfig) {
+        this.multipartConfig = multipartConfig;
+    }
+   
     @Override
     public String getParameter(String name) {
         String result = null;
@@ -648,23 +655,13 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
         return result;
     }
-
-    /**
-     * Get the parameter map.
-     *
-     * @return the parameter map.
-     */
+    
     @Override
     public Map<String, String[]> getParameterMap() {
         getParametersFromRequest();
         return Collections.unmodifiableMap(parameters);
     }
 
-    /**
-     * Get the parameter names.
-     *
-     * @return the parameter names.
-     */
     @Override
     public Enumeration<String> getParameterNames() {
         getParametersFromRequest();
@@ -711,6 +708,18 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                         }
                     }
                 }
+                
+                boolean hasMultiPart
+                        = // FORM/Multipart submission
+                        contentType != null && contentType.startsWith("multipart/form-data");
+                
+                if (hasMultiPart) {
+                    for (Part part : getParts()) {
+                        if (part.getSubmittedFileName() == null) {
+                            setParameter(part.getName(), new String[]{new String(part.getInputStream().readAllBytes())});
+                        }
+                    }
+                } else {
 
                 boolean hasBody
                         = // FORM submission
@@ -718,37 +727,38 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                         || // PUT parameters
                         "put".equalsIgnoreCase(getMethod()) && getContentLength() > 0;
 
-                if (hasBody) {
-                    ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-                    int read = read();
-                    while (read != -1) {
-                        byteOutput.write(read);
-                        read = read();
-                    }
-
-                    if (read != -1) {
-                        byteOutput.write(read);
-                    }
-
-                    String parameterString = new String(byteOutput.toByteArray());
-                    String[] pairs = parameterString.trim().split("&");
-                    if (pairs != null) {
-                        for (int i = 0; i < pairs.length; i++) {
-                            String[] pair = pairs[i].trim().split("=");
-                            if (pair.length == 2) {
-                                pair[0] = URLDecoder.decode(pair[0], "UTF-8");
-                                pair[1] = URLDecoder.decode(pair[1], "UTF-8");
-                                setParameter(pair[0], new String[]{pair[1]});
-                            } else {
-                                pair[0] = URLDecoder.decode(pair[0], "UTF-8");
-                                if (!"".equals(pair[0])) {
-                                    setParameter(pair[0], new String[]{""});
+                    if (hasBody) {
+                        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+                        int read = read();
+                        while (read != -1) {
+                            byteOutput.write(read);
+                            read = read();
+                        }
+    
+                        if (read != -1) {
+                            byteOutput.write(read);
+                        }
+    
+                        String parameterString = new String(byteOutput.toByteArray());
+                        String[] pairs = parameterString.trim().split("&");
+                        if (pairs != null) {
+                            for (int i = 0; i < pairs.length; i++) {
+                                String[] pair = pairs[i].trim().split("=");
+                                if (pair.length == 2) {
+                                    pair[0] = URLDecoder.decode(pair[0], "UTF-8");
+                                    pair[1] = URLDecoder.decode(pair[1], "UTF-8");
+                                    setParameter(pair[0], new String[]{pair[1]});
+                                } else {
+                                    pair[0] = URLDecoder.decode(pair[0], "UTF-8");
+                                    if (!"".equals(pair[0])) {
+                                        setParameter(pair[0], new String[]{""});
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            } catch (IOException ioe) {
+            } catch (IOException | ServletException ioe) {
                 throw new RuntimeException(ioe);
             }
         }
@@ -1157,11 +1167,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public boolean isSecure() {
-        boolean result = false;
-        if ("https".equals(scheme)) {
-            result = true;
-        }
-        return result;
+        return "https".equals(scheme);
     }
 
     /**
@@ -1307,10 +1313,17 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public void setContentType(String contentType) {
         this.contentType = contentType;
+        
+        if (contentType.startsWith("multipart/form-data")) {
+            // "multipart/form-data" contains a boundary and no charset
+            return;
+        }
+        
         String[] parts = contentType.split(";");
         if (parts.length == 1) {
             return;
         }
+        
         String charset = parts[1].trim();
         String[] pair = charset.split("=");
         if (pair.length == 1) {

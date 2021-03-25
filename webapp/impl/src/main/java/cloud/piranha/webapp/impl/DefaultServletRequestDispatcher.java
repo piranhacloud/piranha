@@ -157,6 +157,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 if (servletInvocation.getServletEnvironment() != null) {
                     webappRequest.setAsyncSupported(isAsyncSupportedInChain());
                 }
+                webappRequest.setMultipartConfig(servletEnvironment.getMultipartConfig());
                 webappRequest.setServletPath(servletInvocation.getServletPath());
                 webappRequest.setOriginalServletPath(servletInvocation.getOriginalServletPath());
                 webappRequest.setPathInfo(servletInvocation.getPathInfo());
@@ -233,6 +234,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             wrapper.setRequest(includedRequest);
 
             includedRequest.setWebApplication(servletEnvironment.getWebApplication());
+            includedRequest.setMultipartConfig(servletEnvironment.getMultipartConfig());
             includedRequest.setContextPath(originalRequest.getContextPath());
 
             includedRequest.setServletPath(path == null ? "/" + servletEnvironment.getServletName() : getServletPath(path));
@@ -311,6 +313,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             response.resetBuffer();
 
             errorRequest.setWebApplication(servletEnvironment.getWebApplication());
+            errorRequest.setMultipartConfig(servletEnvironment.getMultipartConfig());
             errorRequest.setContextPath(request.getContextPath());
             errorRequest.setDispatcherType(ERROR);
 
@@ -377,6 +380,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             response.resetBuffer();
 
             forwardedRequest.setWebApplication(servletEnvironment.getWebApplication());
+            forwardedRequest.setMultipartConfig(servletEnvironment.getMultipartConfig());
             forwardedRequest.setContextPath(request.getContextPath());
             forwardedRequest.setDispatcherType(FORWARD);
 

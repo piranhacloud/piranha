@@ -33,12 +33,10 @@ import static java.lang.System.Logger.Level.WARNING;
 import static org.apache.commons.fileupload.servlet.ServletFileUpload.isMultipartContent;
 
 import java.io.File;
-import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.lang.System.Logger;
 
-import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -46,6 +44,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import cloud.piranha.webapp.api.MultiPartManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
+import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Part;
 
@@ -70,6 +69,7 @@ public class ApacheMultiPartManager implements MultiPartManager {
      * @see MultiPartManager#getParts(cloud.piranha.webapp.api.WebApplication,
      * cloud.piranha.webapp.api.WebApplicationRequest)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Collection<Part> getParts(WebApplication webApplication, WebApplicationRequest request) throws ServletException {
         LOGGER.log(DEBUG, "Getting parts for request: {0}", request);
@@ -78,12 +78,18 @@ public class ApacheMultiPartManager implements MultiPartManager {
             throw new ServletException("Not a multipart/form-data request");
         }
         
-        Collection<Part> parts = new ArrayList<>();
-        
-        try {
-            List<FileItem> items = setupFileUpload(webApplication).parseRequest(request);
-            items.forEach(item -> parts.add(new ApacheMultiPart(item)));
-        } catch (FileUploadException fue) {
+        Collection<Part> parts = (Collection<Part>) request.getAttribute(Part.class.getName());
+        if (parts == null) {
+            Collection<Part> newParts = new ArrayList<>();
+            try {
+                setupFileUpload(webApplication, request.getMultipartConfig())
+                    .parseRequest(request)
+                    .forEach(item -> newParts.add(new ApacheMultiPart(item)));
+            } catch (FileUploadException fue) {
+                LOGGER.log(WARNING, "Error getting part", fue);
+            }
+            request.setAttribute(Part.class.getName(), newParts);
+            parts = newParts;
         }
         
         return parts;
@@ -95,26 +101,19 @@ public class ApacheMultiPartManager implements MultiPartManager {
      */
     @Override
     public Part getPart(WebApplication webApplication, WebApplicationRequest request, String name) throws ServletException {
-        LOGGER.log(DEBUG, "Getting part: {0} for request: {1}", name, request);
+        LOGGER.log(DEBUG, "Getting part: {0} for request: {1}", new Object[] { name, request });
         
         if (!isMultipartContent(request)) {
             throw new ServletException("Not a multipart/form-data request");
         }
         
-        ApacheMultiPart part = null;
-        try {
-            List<FileItem> items = setupFileUpload(webApplication).parseRequest(request);
-            for (FileItem item : items) {
-                if (item.getName().equals(name)) {
-                    part = new ApacheMultiPart(item);
-                    break;
-                }
+        for (Part part : getParts(webApplication, request)) {
+            if (part.getName().equals(name)) {
+                return part;
             }
-        } catch (FileUploadException fue) {
-            LOGGER.log(WARNING, "Error getting part", fue);
         }
         
-        return part;
+        return null;
     }
 
     /**
@@ -122,12 +121,24 @@ public class ApacheMultiPartManager implements MultiPartManager {
      *
      * @param webApplication the web application.
      */
-    private synchronized ServletFileUpload setupFileUpload(WebApplication webApplication) {
+    private synchronized ServletFileUpload setupFileUpload(WebApplication webApplication, MultipartConfigElement multipartConfig) {
         ServletFileUpload upload = (ServletFileUpload) webApplication.getAttribute(ApacheMultiPartManager.class.getName());
 
         if (upload == null) {
             DiskFileItemFactory factory = new DiskFileItemFactory();
-            factory.setSizeThreshold(8192);
+            if (multipartConfig.getLocation() == null || multipartConfig.getLocation().isEmpty()) {
+                factory.setRepository((File) webApplication.getAttribute(TEMPDIR));
+            } else {
+                File location = new File(multipartConfig.getLocation());
+                if (!location.isAbsolute()) {
+                    location = ((File) webApplication.getAttribute(TEMPDIR)).toPath().resolve(location.toPath()).toFile();
+                }
+                
+                factory.setRepository(location);
+            }
+            if (multipartConfig.getFileSizeThreshold() != 0) { // correct?
+                factory.setSizeThreshold(multipartConfig.getFileSizeThreshold());
+            }
             factory.setRepository((File) webApplication.getAttribute(TEMPDIR));
             upload = new ServletFileUpload(factory);
             webApplication.setAttribute(ApacheMultiPartManager.class.getName(), upload);
