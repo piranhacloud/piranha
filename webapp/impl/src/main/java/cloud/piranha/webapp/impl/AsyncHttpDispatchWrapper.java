@@ -27,11 +27,11 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static jakarta.servlet.DispatcherType.ASYNC;
 import static java.util.Collections.enumeration;
 import static java.util.Collections.list;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.requireNonNull;
-import static jakarta.servlet.DispatcherType.ASYNC;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -40,16 +40,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import cloud.piranha.webapp.api.AttributeManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
+import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
-
-import cloud.piranha.webapp.api.AttributeManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
 
 /**
  * The async HTTP dispatch wrapper.
@@ -347,5 +347,10 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
 
     @Override
     public void setWebApplication(WebApplication webApplication) {
+    }
+
+    @Override
+    public MultipartConfigElement getMultipartConfig() {
+        return null;
     }
 }

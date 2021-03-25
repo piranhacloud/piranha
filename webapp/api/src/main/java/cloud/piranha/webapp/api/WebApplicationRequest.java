@@ -28,6 +28,7 @@
 package cloud.piranha.webapp.api;
 
 import jakarta.servlet.DispatcherType;
+import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -64,4 +65,9 @@ public interface WebApplicationRequest extends HttpServletRequest {
      * @param webApplication the web application.
      */
     void setWebApplication(WebApplication webApplication);
+    
+    /**
+     * @return the multipartConfig
+     */
+    MultipartConfigElement getMultipartConfig();
 }
