@@ -18,6 +18,7 @@
     <modules>
         <module>jakartaee-samples</module>
         <module>jakartaee8-samples</module>
+        <module>omnifaces</module>
         <module>tck</module>
     </modules>
 </project>
