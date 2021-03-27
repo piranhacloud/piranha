@@ -27,22 +27,6 @@
  */
 package cloud.piranha.http.webapp;
 
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.WARNING;
-
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.lang.System.Logger;
-import java.util.stream.Stream;
-
-import cloud.piranha.webapp.impl.CookieParser;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
-
-import cloud.piranha.webapp.api.WebApplicationServer;
-import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
@@ -50,8 +34,21 @@ import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
+import cloud.piranha.webapp.api.WebApplicationServer;
+import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
+import cloud.piranha.webapp.impl.CookieParser;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import java.io.IOException;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 /**
  * The default WebApplicationServer.
@@ -120,7 +117,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      * @return the web application server request.
      */
     private WebApplicationRequest createRequest(HttpServerRequest request) {
-        DefaultWebApplicationRequest applicationServerRequest = new DefaultWebApplicationRequest();
+        HttpWebApplicationRequest applicationServerRequest = new HttpWebApplicationRequest(request);
         copyHttpRequestToApplicationRequest(request, applicationServerRequest);
         applicationServerRequest.setServletPath("");
 
@@ -171,15 +168,8 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     }
 
     private void copyHttpRequestToApplicationRequest(HttpServerRequest httpRequest, DefaultWebApplicationRequest applicationRequest) {
-        applicationRequest.setLocalAddr(httpRequest.getLocalAddress());
-        applicationRequest.setLocalName(httpRequest.getLocalHostname());
-        applicationRequest.setLocalPort(httpRequest.getLocalPort());
-        applicationRequest.setRemoteAddr(httpRequest.getRemoteAddress());
-        applicationRequest.setRemoteHost(httpRequest.getRemoteHostname());
-        applicationRequest.setRemotePort(httpRequest.getRemotePort());
         applicationRequest.setServerName(httpRequest.getLocalHostname());
         applicationRequest.setServerPort(httpRequest.getLocalPort());
-        applicationRequest.setMethod(httpRequest.getMethod());
         applicationRequest.setContextPath(httpRequest.getRequestTarget());
         applicationRequest.setQueryString(httpRequest.getQueryString());
         applicationRequest.setInputStream(httpRequest.getInputStream());
