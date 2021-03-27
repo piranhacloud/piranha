@@ -881,31 +881,16 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         throw new UnsupportedOperationException("HttpServletRequest.getRealPath is no longer supported");
     }
 
-    /**
-     * Get the remote address.
-     *
-     * @return the remote address.
-     */
     @Override
     public String getRemoteAddr() {
         return remoteAddr;
     }
 
-    /**
-     * Get the remote host.
-     *
-     * @return the remote host.
-     */
     @Override
     public String getRemoteHost() {
         return remoteHost;
     }
 
-    /**
-     * Get the remote port.
-     *
-     * @return the remote port.
-     */
     @Override
     public int getRemotePort() {
         return remotePort;
