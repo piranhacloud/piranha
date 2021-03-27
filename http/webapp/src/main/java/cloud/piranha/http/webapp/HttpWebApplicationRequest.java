@@ -51,6 +51,9 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
      * @param wrapped the wrapped HttpServerRequest.
      */
     public HttpWebApplicationRequest(HttpServerRequest wrapped) {
+        this.contextPath = wrapped.getRequestTarget();
+        this.inputStream = wrapped.getInputStream();
+        this.servletPath = "";
         this.wrapped = wrapped;
     }
 
@@ -72,7 +75,7 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
         wrapped.getHeaders(name).forEachRemaining(headers::add);
         return Collections.enumeration(headers);
     }
-
+    
     @Override
     public String getLocalAddr() {
         return wrapped.getLocalAddress();
@@ -94,6 +97,16 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
     }
 
     @Override
+    public String getProtocol() {
+        return wrapped.getProtocol();
+    }
+
+    @Override
+    public String getQueryString() {
+        return wrapped.getQueryString();
+    }
+
+    @Override
     public String getRemoteAddr() {
         return wrapped.getRemoteAddress();
     }
@@ -106,5 +119,15 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
     @Override
     public int getRemotePort() {
         return wrapped.getRemotePort();
+    }
+
+    @Override
+    public String getServerName() {
+        return wrapped.getLocalHostname();
+    }
+
+    @Override
+    public int getServerPort() {
+        return wrapped.getLocalPort();
     }
 }
