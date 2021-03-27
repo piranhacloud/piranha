@@ -33,8 +33,10 @@ import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
 import cloud.piranha.http.webapp.HttpWebApplicationRequest;
 import cloud.piranha.http.webapp.HttpWebApplicationResponse;
+import java.io.IOException;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.ERROR;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The Piranha Embedded HttpServerProcessor.
@@ -68,6 +70,8 @@ public class EmbeddedHttpServerProcessor implements HttpServerProcessor {
             HttpWebApplicationResponse servletResponse = new HttpWebApplicationResponse(response);
             piranha.service(servletRequest, servletResponse);
             servletResponse.flush();
+        } catch (IOException ioe) {
+            LOGGER.log(WARNING, "An I/O error occurred while processing the request", ioe);
         } catch (Throwable t) {
             LOGGER.log(ERROR, "An error occurred while processing the request", t);
         }

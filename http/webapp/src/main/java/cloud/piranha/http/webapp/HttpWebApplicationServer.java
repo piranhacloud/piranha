@@ -166,9 +166,8 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      * @param httpResponse the HTTP server response.
      * @return the web application server response.
      */
-    public DefaultWebApplicationResponse createResponse(HttpServerResponse httpResponse) {
-        DefaultWebApplicationResponse applicationResponse = new DefaultWebApplicationResponse();
-        applicationResponse.setUnderlyingOutputStream(httpResponse.getOutputStream());
+    private DefaultWebApplicationResponse createResponse(HttpServerResponse httpResponse) {
+        HttpWebApplicationResponse applicationResponse = new HttpWebApplicationResponse(httpResponse);
 
         applicationResponse.setResponseCloser(() -> {
             try {
@@ -181,11 +180,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         return applicationResponse;
     }
 
-    /**
-     * Get the request mapper.
-     *
-     * @return the request mapper.
-     */
     @Override
     public WebApplicationServerRequestMapper getRequestMapper() {
         return requestMapper;
@@ -213,6 +207,8 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             DefaultWebApplicationResponse serverResponse = (DefaultWebApplicationResponse) createResponse(response);
             service(serverRequest, serverResponse);
             return serverRequest.isAsyncStarted();
+        } catch (IOException ioe) {
+            LOGGER.log(WARNING, "An I/O error occurred while processing the request", ioe);
         } catch (Throwable t) {
             LOGGER.log(ERROR, "An error occurred while processing the request", t);
         }
@@ -261,11 +257,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         }
     }
 
-    /**
-     * Set the request mapper.
-     *
-     * @param requestMapper the request mapper.
-     */
     @Override
     public void setRequestMapper(WebApplicationServerRequestMapper requestMapper) {
         this.requestMapper = requestMapper;

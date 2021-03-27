@@ -650,12 +650,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return Collections.enumeration(parameters.keySet());
     }
 
-    /**
-     * Get the parameter values.
-     *
-     * @param name the parameter name.
-     * @return the parameter values.
-     */
     @Override
     public String[] getParameterValues(String name) {
         getParametersFromRequest();
@@ -754,14 +748,14 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     private String mergeQueryFromAttributes() {
         String queryStringFromAttribute = dispatcherType == INCLUDE ? (String) getAttribute(INCLUDE_QUERY_STRING) : null;
         if (queryStringFromAttribute == null) {
-            return queryString;
+            return getQueryString();
         }
 
-        if (queryString == null) {
+        if (getQueryString() == null) {
             return queryStringFromAttribute;
         }
 
-        return queryStringFromAttribute + "&" + queryString;
+        return queryStringFromAttribute + "&" + getQueryString();
     }
 
     /**
