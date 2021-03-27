@@ -118,8 +118,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      */
     private WebApplicationRequest createRequest(HttpServerRequest request) {
         HttpWebApplicationRequest applicationServerRequest = new HttpWebApplicationRequest(request);
-        copyHttpRequestToApplicationRequest(request, applicationServerRequest);
-        applicationServerRequest.setServletPath("");
 
         Iterator<String> headerNames = request.getHeaderNames();
         while (headerNames.hasNext()) {
@@ -165,15 +163,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
                 });
 
         return cookies;
-    }
-
-    private void copyHttpRequestToApplicationRequest(HttpServerRequest httpRequest, DefaultWebApplicationRequest applicationRequest) {
-        applicationRequest.setServerName(httpRequest.getLocalHostname());
-        applicationRequest.setServerPort(httpRequest.getLocalPort());
-        applicationRequest.setContextPath(httpRequest.getRequestTarget());
-        applicationRequest.setQueryString(httpRequest.getQueryString());
-        applicationRequest.setInputStream(httpRequest.getInputStream());
-        applicationRequest.setProtocol(httpRequest.getProtocol());
     }
 
     /**

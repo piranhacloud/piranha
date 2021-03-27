@@ -27,11 +27,30 @@
  */
 package cloud.piranha.webapp.impl;
 
+import cloud.piranha.webapp.api.AttributeManager;
+import cloud.piranha.webapp.api.HttpHeaderManager;
+import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 import static cloud.piranha.webapp.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
-import static java.util.Objects.requireNonNull;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
 import static jakarta.servlet.DispatcherType.INCLUDE;
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.RequestDispatcher;
 import static jakarta.servlet.RequestDispatcher.INCLUDE_QUERY_STRING;
-
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletRequestWrapper;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -54,29 +73,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import jakarta.servlet.AsyncContext;
-import jakarta.servlet.DispatcherType;
-import jakarta.servlet.MultipartConfigElement;
-import jakarta.servlet.ReadListener;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletInputStream;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletRequestWrapper;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpUpgradeHandler;
-import jakarta.servlet.http.Part;
-
-import cloud.piranha.webapp.api.AttributeManager;
-import cloud.piranha.webapp.api.HttpHeaderManager;
-import cloud.piranha.webapp.api.HttpSessionManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
+import static java.util.Objects.requireNonNull;
 
 /**
  * The default WebApplicationRequest.
@@ -814,21 +811,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return null;
     }
 
-    /**
-     * Get the protocol.
-     *
-     * @return the protocol.
-     */
     @Override
     public String getProtocol() {
         return protocol;
     }
 
-    /**
-     * Get the query string.
-     *
-     * @return the query string.
-     */
     @Override
     public String getQueryString() {
         return queryString;
