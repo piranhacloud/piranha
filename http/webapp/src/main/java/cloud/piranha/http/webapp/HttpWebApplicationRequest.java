@@ -87,4 +87,19 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
     public int getLocalPort() {
         return wrapped.getLocalPort();
     }
+
+    @Override
+    public String getRemoteAddr() {
+        return wrapped.getRemoteAddress();
+    }
+
+    @Override
+    public String getRemoteHost() {
+        return wrapped.getRemoteHostname();
+    }
+
+    @Override
+    public int getRemotePort() {
+        return wrapped.getRemotePort();
+    }
 }
