@@ -35,7 +35,7 @@ import java.util.Enumeration;
 
 /**
  * The HttpServerRequest variant of WebApplicationRequest.
- *
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
@@ -86,6 +86,11 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
     @Override
     public int getLocalPort() {
         return wrapped.getLocalPort();
+    }
+
+    @Override
+    public String getMethod() {
+        return wrapped.getMethod();
     }
 
     @Override
