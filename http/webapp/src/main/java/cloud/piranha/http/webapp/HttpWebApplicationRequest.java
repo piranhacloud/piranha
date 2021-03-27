@@ -72,4 +72,19 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
         wrapped.getHeaders(name).forEachRemaining(headers::add);
         return Collections.enumeration(headers);
     }
+
+    @Override
+    public String getLocalAddr() {
+        return wrapped.getLocalAddress();
+    }
+
+    @Override
+    public String getLocalName() {
+        return wrapped.getLocalHostname();
+    }
+
+    @Override
+    public int getLocalPort() {
+        return wrapped.getLocalPort();
+    }
 }

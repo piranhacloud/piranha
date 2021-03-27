@@ -56,9 +56,6 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
         this.request = request;
     }
 
-    /**
-     * @see HttpServerRequest#getHeader(java.lang.String)
-     */
     @Override
     public String getHeader(String name) {
         return request.getHeader(name);
