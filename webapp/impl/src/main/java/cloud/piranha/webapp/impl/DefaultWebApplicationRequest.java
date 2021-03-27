@@ -550,31 +550,16 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return headerManager.getIntHeader(name);
     }
 
-    /**
-     * Get the local address.
-     *
-     * @return the local address.
-     */
     @Override
     public String getLocalAddr() {
         return localAddress;
     }
 
-    /**
-     * Get the local name.
-     *
-     * @return the local name.
-     */
     @Override
     public String getLocalName() {
         return localName;
     }
 
-    /**
-     * Get the local port.
-     *
-     * @return the local port.
-     */
     @Override
     public int getLocalPort() {
         return localPort;
