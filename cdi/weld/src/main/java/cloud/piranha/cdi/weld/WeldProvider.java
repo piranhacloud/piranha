@@ -45,9 +45,7 @@ public class WeldProvider implements CDIProvider {
     private static final Map<ClassLoader, CDI<Object>> INSTANCES = new ConcurrentHashMap<>();
 
     /**
-     * Get the CDI.
-     *
-     * @return the CDI.
+     * {@return the CDI}
      */
     @Override
     public CDI<Object> getCDI() {

@@ -45,9 +45,7 @@ public interface AttributeManager {
     Object getAttribute(String name);
 
     /**
-     * Get the attribute names.
-     *
-     * @return the attribute names.
+     * {@return the attribute names}
      */
     Enumeration<String> getAttributeNames();
 

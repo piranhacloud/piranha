@@ -42,9 +42,7 @@ import java.util.Map;
 public interface ServletRequest {
 
     /**
-     * Get the async context.
-     *
-     * @return the async context.
+     * {@return the async context}
      */
     public AsyncContext getAsyncContext();
 
@@ -57,16 +55,12 @@ public interface ServletRequest {
     public Object getAttribute(String name);
 
     /**
-     * Get the attribute names.
-     *
-     * @return the attribute names.
+     * {@return the attribute names}
      */
     public Enumeration<String> getAttributeNames();
 
     /**
-     * Get the character encoding.
-     *
-     * @return the character encoding.
+     * {@return the character encoding}
      */
     public String getCharacterEncoding();
 
@@ -85,16 +79,12 @@ public interface ServletRequest {
     public long getContentLengthLong();
 
     /**
-     * Get the content type.
-     *
-     * @return the content type.
+     * {@return the content type}
      */
     public String getContentType();
 
     /**
-     * Get the dispatcher type.
-     *
-     * @return the dispatcher type.
+     * {@return the dispatcher type}
      */
     public DispatcherType getDispatcherType();
 
@@ -107,37 +97,27 @@ public interface ServletRequest {
     public ServletInputStream getInputStream() throws IOException;
 
     /**
-     * Get the local address.
-     *
-     * @return the local address.
+     * {@return the local address}
      */
     public String getLocalAddr();
 
     /**
-     * Get the local name.
-     *
-     * @return the local name.
+     * {@return the local name}
      */
     public String getLocalName();
 
     /**
-     * Get the local port.
-     *
-     * @return the local port.
+     * {@return the local port}
      */
     public int getLocalPort();
 
     /**
-     * Get the locale.
-     *
-     * @return the locale.
+     * {@return the locale}
      */
     public Locale getLocale();
 
     /**
-     * Get the locales.
-     *
-     * @return the locales.
+     * {@return the locales}
      */
     public Enumeration<Locale> getLocales();
 
@@ -150,16 +130,12 @@ public interface ServletRequest {
     public String getParameter(String name);
 
     /**
-     * Get the parameter map.
-     *
-     * @return the parameter map.
+     * {@return the parameter map}
      */
     public Map<String, String[]> getParameterMap();
 
     /**
-     * Get the parameter names.
-     *
-     * @return the parameter names.
+     * {@return the parameter names}
      */
     public Enumeration<String> getParameterNames();
 
@@ -172,9 +148,7 @@ public interface ServletRequest {
     public String[] getParameterValues(String name);
 
     /**
-     * Get the protocol.
-     *
-     * @return the protocol.
+     * {@return the protocol}
      */
     public String getProtocol();
 
@@ -187,69 +161,51 @@ public interface ServletRequest {
     public BufferedReader getReader() throws IOException;
 
     /**
-     * Get the real path.
-     *
      * @param path the path.
-     * @return the real path.
+     * {@return the real path}
      * @deprecated
      */
     @Deprecated
     public String getRealPath(String path);
 
     /**
-     * Get the remote address.
-     *
-     * @return the remote address.
+     * {@return the remote address}
      */
     public String getRemoteAddr();
 
     /**
-     * Get the remote host.
-     *
-     * @return the remote host.
+     * {@return the remote host}
      */
     public String getRemoteHost();
 
     /**
-     * Get the remote port.
-     *
-     * @return the remote port.
+     * {@return the remote port}
      */
     public int getRemotePort();
 
     /**
-     * Get the request dispatcher.
-     *
      * @param path the path.
-     * @return the request dispatcher.
+     * {@return the request dispatcher}
      */
     public RequestDispatcher getRequestDispatcher(String path);
 
     /**
-     * Get the scheme.
-     *
-     * @return the scheme.
+     * {@return the scheme}
      */
     public String getScheme();
 
     /**
-     * Get the server name.
-     *
-     * @return the server name.
+     * {@return the server name}
      */
     public String getServerName();
 
     /**
-     * Get the server port.
-     *
-     * @return the server port.
+     * {@return the server port}
      */
     public int getServerPort();
 
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * {@return the servlet context}
      */
     public ServletContext getServletContext();
 

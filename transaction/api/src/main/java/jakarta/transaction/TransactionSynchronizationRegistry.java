@@ -34,10 +34,8 @@ package jakarta.transaction;
 public interface TransactionSynchronizationRegistry {
 
     /**
-     * Get the resource.
-     *
      * @param key the key.
-     * @return the resource.
+     * {@return the resource}
      */
     Object getResource(Object key);
 
@@ -49,16 +47,12 @@ public interface TransactionSynchronizationRegistry {
     boolean getRollbackOnly();
 
     /**
-     * Get the transaction key.
-     * 
-     * @return the transaction key.
+     * {@return the transaction key}
      */
     Object getTransactionKey();
 
     /**
-     * Get the transaction status.
-     * 
-     * @return the transaction status.
+     * {@return the transaction status}
      */
     int getTransactionStatus();
 

@@ -59,9 +59,7 @@ public abstract class GenericFilter implements Filter, FilterConfig, Serializabl
     }
 
     /**
-     * Get the filter configuration.
-     * 
-     * @return the filter configuration.
+     * {@return the filter configuration}
      */
     public FilterConfig getFilterConfig() {
         return filterConfig;

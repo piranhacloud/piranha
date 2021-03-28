@@ -45,9 +45,7 @@ public interface FilterEnvironment extends Dynamic, FilterConfig {
     int UNAVAILABLE = -1;
 
     /**
-     * Get the filter.
-     *
-     * @return the filter.
+     * {@return the filter}
      */
     Filter getFilter();
 
@@ -80,9 +78,7 @@ public interface FilterEnvironment extends Dynamic, FilterConfig {
     void setStatus(int status);
 
     /**
-     * Get the web application.
-     *
-     * @return the web application.
+     * {@return the web application}
      */
     WebApplication getWebApplication();
 

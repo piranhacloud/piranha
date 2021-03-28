@@ -81,27 +81,21 @@ public class NanoPiranha implements Piranha {
     }
 
     /**
-     * Get the filters.
-     *
-     * @return the filters.
+     * {@return the filters}
      */
     public List<Filter> getFilters() {
         return filters;
     }
 
     /**
-     * Get the servlet.
-     *
-     * @return the servlet.
+     * {@return the servlet}
      */
     public Servlet getServlet() {
         return servlet;
     }
 
     /**
-     * Get the version.
-     *
-     * @return the version.
+     * {@return the version}
      */
     @Override
     public String getVersion() {
@@ -109,9 +103,7 @@ public class NanoPiranha implements Piranha {
     }
 
     /**
-     * Get the web application.
-     *
-     * @return the web application.
+     * {@return the web application}
      */
     public WebApplication getWebApplication() {
         return webApplication;

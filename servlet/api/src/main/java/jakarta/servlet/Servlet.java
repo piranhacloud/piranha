@@ -42,16 +42,12 @@ public interface Servlet {
     public void destroy();
 
     /**
-     * Get the servlet config.
-     *
-     * @return the servlet config.
+     * {@return the servlet config}
      */
     public ServletConfig getServletConfig();
 
     /**
-     * Get the servlet information.
-     *
-     * @return the servlet information.
+     * {@return the servlet information}
      */
     public String getServletInfo();
 

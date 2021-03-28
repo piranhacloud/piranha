@@ -120,32 +120,24 @@ public interface HttpSessionManager {
     String encodeURL(HttpServletResponse response, String url);
 
     /**
-     * Get the default session tracking modes.
-     *
-     * @return the default session tracking modes.
+     * {@return the default session tracking modes}
      */
     Set<SessionTrackingMode> getDefaultSessionTrackingModes();
 
     /**
-     * Get the effective session tracking modes.
-     *
-     * @return the effective session tracking modes.
+     * {@return the effective session tracking modes}
      */
     Set<SessionTrackingMode> getEffectiveSessionTrackingModes();
 
     /**
-     * Get the session.
-     *
      * @param request the request.
      * @param currentSessionId the current session id.
-     * @return the session.
+     * {@return the session}
      */
     HttpSession getSession(HttpServletRequest request, String currentSessionId);
 
     /**
-     * Get the session cookie config.
-     *
-     * @return the session cookie config.
+     * {@return the session cookie config}
      */
     SessionCookieConfig getSessionCookieConfig();
 

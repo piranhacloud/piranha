@@ -733,9 +733,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the attribute names.
-     *
-     * @return the attribute names.
+     * {@return the attribute names}
      */
     @Override
     public Enumeration<String> getAttributeNames() {
@@ -753,9 +751,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the class loader.
-     *
-     * @return the class loader.
+     * {@return the class loader}
      */
     @Override
     public ClassLoader getClassLoader() {
@@ -774,9 +770,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the context path.
-     *
-     * @return the context path.
+     * {@return the context path}
      */
     @Override
     public String getContextPath() {
@@ -802,9 +796,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the DependencyInjectionManager.
-     *
-     * @return the DependencyInjectionManager.
+     * {@return the DependencyInjectionManager}
      */
     @Override
     public ObjectInstanceManager getObjectInstanceManager() {
@@ -812,9 +804,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the effective major version.
-     *
-     * @return the effective major version.
+     * {@return the effective major version}
      */
     @Override
     public int getEffectiveMajorVersion() {
@@ -828,9 +818,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the effective minor version.
-     *
-     * @return the effective minor version.
+     * {@return the effective minor version}
      */
     @Override
     public int getEffectiveMinorVersion() {
@@ -856,9 +844,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the multi part manager.
-     *
-     * @return the multi part manager.
+     * {@return the multi part manager}
      */
     @Override
     public MultiPartManager getMultiPartManager() {
@@ -866,9 +852,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the effective tracking modes.
-     *
-     * @return the effective tracking modes.
+     * {@return the effective tracking modes}
      */
     @Override
     public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
@@ -891,9 +875,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the filter registrations.
-     *
-     * @return the filter registrations.
+     * {@return the filter registrations}
      */
     @Override
     public Map<String, ? extends FilterRegistration> getFilterRegistrations() {
@@ -929,9 +911,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the JSP config descriptor.
-     *
-     * @return the JSP config descriptor.
+     * {@return the JSP config descriptor}
      */
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
@@ -941,9 +921,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the major version.
-     *
-     * @return the major version.
+     * {@return the major version}
      */
     @Override
     public int getMajorVersion() {
@@ -962,10 +940,8 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the mime type.
-     *
      * @param filename the filename.
-     * @return the mime type.
+     * {@return the mime type}
      */
     @Override
     public String getMimeType(String filename) {
@@ -973,9 +949,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the mime type manager.
-     *
-     * @return the mime type manager.
+     * {@return the mime type manager}
      */
     @Override
     public MimeTypeManager getMimeTypeManager() {
@@ -983,9 +957,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the minor version.
-     *
-     * @return the minor version.
+     * {@return the minor version}
      */
     @Override
     public int getMinorVersion() {
@@ -993,10 +965,8 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the real path.
-     *
      * @param path the path
-     * @return the real path.
+     * {@return the real path}
      */
     @Override
     public String getRealPath(String path) {
@@ -1029,9 +999,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the default request character encoding.
-     *
-     * @return the default request character encoding.
+     * {@return the default request character encoding}
      */
     @Override
     public String getRequestCharacterEncoding() {
@@ -1039,9 +1007,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the default response character encoding.
-     *
-     * @return the default response character encoding.
+     * {@return the default response character encoding}
      */
     @Override
     public String getResponseCharacterEncoding() {
@@ -1132,10 +1098,8 @@ public class DefaultWebApplication implements WebApplication {
         return collect;
     }
     /**
-     * Get the resource paths.
-     *
      * @param path the path.
-     * @return the resource paths.
+     * {@return the resource paths}
      */
     @Override
     public Set<String> getResourcePaths(String path) {
@@ -1151,10 +1115,8 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the response.
-     *
      * @param request the request.
-     * @return the response.
+     * {@return the response}
      */
     @Override
     public ServletResponse getResponse(ServletRequest request) {
@@ -1162,9 +1124,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the security manager.
-     *
-     * @return the security manager.
+     * {@return the security manager}
      */
     @Override
     public SecurityManager getSecurityManager() {
@@ -1182,9 +1142,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the server info.
-     *
-     * @return the server info.
+     * {@return the server info}
      */
     @Override
     public String getServerInfo() {
@@ -1216,9 +1174,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the servlet names.
-     *
-     * @return the servlet names.
+     * {@return the servlet names}
      * @deprecated
      */
     @Deprecated
@@ -1240,9 +1196,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the servlet registrations.
-     *
-     * @return the servlet registrations.
+     * {@return the servlet registrations}
      */
     @Override
     public Map<String, ? extends ServletRegistration> getServletRegistrations() {
@@ -1263,9 +1217,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the session cookie config.
-     *
-     * @return the session cookie config.
+     * {@return the session cookie config}
      */
     @Override
     public SessionCookieConfig getSessionCookieConfig() {
@@ -1274,9 +1226,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the default session timeout.
-     *
-     * @return the default session timeout.
+     * {@return the default session timeout}
      */
     @Override
     public int getSessionTimeout() {
@@ -1284,9 +1234,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the session manager.
-     *
-     * @return the session manager.
+     * {@return the session manager}
      */
     @Override
     public HttpSessionManager getHttpSessionManager() {
@@ -1294,9 +1242,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the virtual server name.
-     *
-     * @return the virtual server name.
+     * {@return the virtual server name}
      */
     @Override
     public String getVirtualServerName() {
@@ -1304,9 +1250,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the welcome file manager.
-     *
-     * @return the welcome file manager.
+     * {@return the welcome file manager}
      */
     @Override
     public WelcomeFileManager getWelcomeFileManager() {
@@ -1928,10 +1872,8 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the request dispatcher.
-     *
      * @param path the path.
-     * @return the request dispatcher.
+     * {@return the request dispatcher}
      */
     @Override
     public DefaultServletRequestDispatcher getRequestDispatcher(String path) {
@@ -1965,9 +1907,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the async manager.
-     *
-     * @return the async manager.
+     * {@return the async manager}
      */
     @Override
     public AsyncManager getAsyncManager() {

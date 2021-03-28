@@ -53,10 +53,8 @@ public interface HttpHeaderManager {
     boolean containsHeader(String name);
 
     /**
-     * Get the date header.
-     *
      * @param name the header name.
-     * @return the date header.
+     * {@return the date header}
      * @throws IllegalArgumentException when the header could not be converted
      * to a date.
      */
@@ -71,9 +69,7 @@ public interface HttpHeaderManager {
     String getHeader(String name);
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     Enumeration<String> getHeaderNames();
 

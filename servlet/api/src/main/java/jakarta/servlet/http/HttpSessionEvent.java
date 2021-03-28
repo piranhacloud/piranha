@@ -49,9 +49,7 @@ public class HttpSessionEvent extends EventObject {
     }
 
     /**
-     * Get the HTTP session.
-     *
-     * @return the HTTP session.
+     * {@return the HTTP session}
      */
     public HttpSession getSession() {
         return (HttpSession) super.getSource();

@@ -44,23 +44,17 @@ import java.lang.annotation.Target;
 public @interface WebInitParam {
 
     /**
-     * Get the description.
-     *
-     * @return the description.
+     * {@return the description}
      */
     String description() default "";
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     String name();
 
     /**
-     * Get the value.
-     *
-     * @return the value.
+     * {@return the value}
      */
     String value();
 }

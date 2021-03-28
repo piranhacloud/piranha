@@ -35,9 +35,7 @@ package cloud.piranha.api;
 public interface Piranha {
 
     /**
-     * Get the version.
-     *
-     * @return the version.
+     * {@return the version}
      */
     String getVersion();
 }

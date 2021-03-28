@@ -60,9 +60,7 @@ import jakarta.servlet.http.Part;
 public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRequest {
 
     /**
-     * Get the async context.
-     *
-     * @return the async context.
+     * {@return the async context}
      */
     @Override
     public AsyncContext getAsyncContext() {
@@ -81,9 +79,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the attribute names.
-     *
-     * @return the attribute names.
+     * {@return the attribute names}
      */
     @Override
     public Enumeration<String> getAttributeNames() {
@@ -91,9 +87,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the character encoding.
-     *
-     * @return the character encoding.
+     * {@return the character encoding}
      */
     @Override
     public String getCharacterEncoding() {
@@ -101,9 +95,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the content length.
-     *
-     * @return the content length.
+     * {@return the content length}
      */
     @Override
     public int getContentLength() {
@@ -111,9 +103,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the content length.
-     *
-     * @return the content length.
+     * {@return the content length}
      */
     @Override
     public long getContentLengthLong() {
@@ -121,9 +111,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the content type.
-     *
-     * @return the content type.
+     * {@return the content type}
      */
     @Override
     public String getContentType() {
@@ -139,9 +127,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the input stream.
-     *
-     * @return the input stream.
+     * {@return the input stream}
      * @throws IOException when an I/O error occurs.
      */
     @Override
@@ -150,9 +136,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the local address.
-     *
-     * @return the local address.
+     * {@return the local address}
      */
     @Override
     public String getLocalAddr() {
@@ -160,9 +144,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the local name.
-     *
-     * @return the local name.
+     * {@return the local name}
      */
     @Override
     public String getLocalName() {
@@ -170,9 +152,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the local port.
-     *
-     * @return the local port.
+     * {@return the local port}
      */
     @Override
     public int getLocalPort() {
@@ -180,9 +160,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the locale.
-     *
-     * @return the locale.
+     * {@return the locale}
      */
     @Override
     public Locale getLocale() {
@@ -190,9 +168,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the locales.
-     *
-     * @return the locales.
+     * {@return the locales}
      */
     @Override
     public Enumeration<Locale> getLocales() {
@@ -211,9 +187,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the parameter map.
-     *
-     * @return the parameter map.
+     * {@return the parameter map}
      */
     @Override
     public Map<String, String[]> getParameterMap() {
@@ -221,9 +195,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the parameter names.
-     *
-     * @return the parameter names.
+     * {@return the parameter names}
      */
     @Override
     public Enumeration<String> getParameterNames() {
@@ -242,9 +214,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the protocol.
-     *
-     * @return the protocol.
+     * {@return the protocol}
      */
     @Override
     public String getProtocol() {
@@ -263,10 +233,8 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the real path.
-     *
      * @param path the path.
-     * @return the real path.
+     * {@return the real path}
      * @deprecated
      */
     @Deprecated
@@ -276,9 +244,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the remote address.
-     *
-     * @return the remote address.
+     * {@return the remote address}
      */
     @Override
     public String getRemoteAddr() {
@@ -286,9 +252,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the remote host.
-     *
-     * @return the remote host.
+     * {@return the remote host}
      */
     @Override
     public String getRemoteHost() {
@@ -296,9 +260,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the remote port.
-     *
-     * @return the remote port.
+     * {@return the remote port}
      */
     @Override
     public int getRemotePort() {
@@ -306,19 +268,15 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the wrapped request.
-     *
-     * @return the wrapped request.
+     * {@return the wrapped request}
      */
     public ServletRequest getRequest() {
         return getWrapped();
     }
 
     /**
-     * Get the request dispatcher.
-     *
      * @param path the path.
-     * @return the request dispatcher.
+     * {@return the request dispatcher}
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
@@ -326,9 +284,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the scheme.
-     *
-     * @return the scheme.
+     * {@return the scheme}
      */
     @Override
     public String getScheme() {
@@ -336,9 +292,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the server name.
-     *
-     * @return the server name.
+     * {@return the server name}
      */
     @Override
     public String getServerName() {
@@ -346,9 +300,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the server port.
-     *
-     * @return the server port.
+     * {@return the server port}
      */
     @Override
     public int getServerPort() {
@@ -356,9 +308,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * {@return the servlet context}
      */
     @Override
     public ServletContext getServletContext() {
@@ -509,9 +459,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the auth type.
-     *
-     * @return the auth type.
+     * {@return the auth type}
      */
     @Override
     public String getAuthType() {
@@ -519,9 +467,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the context path.
-     *
-     * @return the context path.
+     * {@return the context path}
      */
     @Override
     public String getContextPath() {
@@ -561,9 +507,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     @Override
     public Enumeration<String> getHeaderNames() {
@@ -593,9 +537,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the method.
-     *
-     * @return the method.
+     * {@return the method}
      */
     @Override
     public String getMethod() {
@@ -627,9 +569,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the path info.
-     *
-     * @return the path info.
+     * {@return the path info}
      */
     @Override
     public String getPathInfo() {
@@ -637,9 +577,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the path translated.
-     *
-     * @return the path translated.
+     * {@return the path translated}
      */
     @Override
     public String getPathTranslated() {
@@ -647,9 +585,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the query string.
-     *
-     * @return the query string.
+     * {@return the query string}
      */
     @Override
     public String getQueryString() {
@@ -657,9 +593,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the remote user.
-     *
-     * @return the remote user.
+     * {@return the remote user}
      */
     @Override
     public String getRemoteUser() {
@@ -667,9 +601,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the request URI.
-     *
-     * @return the request URI.
+     * {@return the request URI}
      */
     @Override
     public String getRequestURI() {
@@ -677,9 +609,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the request URL.
-     *
-     * @return the request URL.
+     * {@return the request URL}
      */
     @Override
     public StringBuffer getRequestURL() {
@@ -687,9 +617,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the requested session id.
-     *
-     * @return the requested session id.
+     * {@return the requested session id}
      */
     @Override
     public String getRequestedSessionId() {
@@ -697,9 +625,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the servlet path.
-     *
-     * @return the servlet path.
+     * {@return the servlet path}
      */
     @Override
     public String getServletPath() {
@@ -707,9 +633,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the HTTP session.
-     *
-     * @return the HTTP session.
+     * {@return the HTTP session}
      */
     @Override
     public HttpSession getSession() {
@@ -728,9 +652,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the user principal.
-     *
-     * @return the user principal.
+     * {@return the user principal}
      */
     @Override
     public Principal getUserPrincipal() {
@@ -738,9 +660,7 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * Get the wrapped request.
-     *
-     * @return the wrapped request.
+     * {@return the wrapped request}
      */
     protected abstract HttpServletRequest getWrapped();
 

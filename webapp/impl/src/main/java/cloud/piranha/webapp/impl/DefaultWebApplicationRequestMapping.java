@@ -61,9 +61,7 @@ public class DefaultWebApplicationRequestMapping implements WebApplicationReques
     }
 
     /**
-     * Get the mapping.
-     *
-     * @return the mapping.
+     * {@return the mapping}
      */
     @Override
     public String getPath() {

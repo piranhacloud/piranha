@@ -57,9 +57,7 @@ public class PiranhaInfo implements PiranhaInfoMBean {
     }
     
     /**
-     * Get the reference to Piranha.
-     * 
-     * @return the reference to Piranha.
+     * {@return the reference to Piranha}
      */
     @Override
     public Piranha getPiranha() {
@@ -67,9 +65,7 @@ public class PiranhaInfo implements PiranhaInfoMBean {
     }
 
     /**
-     * Get the version.
-     * 
-     * @return the version.
+     * {@return the version}
      */
     @Override
     public String getVersion() {

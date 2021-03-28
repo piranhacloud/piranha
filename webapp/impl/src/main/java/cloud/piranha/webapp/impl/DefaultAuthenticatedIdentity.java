@@ -108,18 +108,14 @@ public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
     }
 
     /**
-     * Get the current subject.
-     * 
-     * @return the current subject.
+     * {@return the current subject}
      */
     public static Subject getCurrentSubject() {
         return currentSubject.get();
     }
 
     /**
-     * Get the current identity.
-     * 
-     * @return the current identity.
+     * {@return the current identity}
      */
     public static AuthenticatedIdentity getCurrentIdentity() {
         return currentIdentity.get();

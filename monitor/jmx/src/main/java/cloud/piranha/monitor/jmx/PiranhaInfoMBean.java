@@ -37,9 +37,7 @@ import cloud.piranha.api.Piranha;
 public interface PiranhaInfoMBean {
     
     /**
-     * Get the reference to Piranha.
-     * 
-     * @return the reference to Piranha.
+     * {@return the reference to Piranha}
      */
     Piranha getPiranha();
     

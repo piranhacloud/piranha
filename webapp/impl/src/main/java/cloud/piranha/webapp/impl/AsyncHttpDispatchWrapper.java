@@ -236,9 +236,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     }
 
     /**
-     * Get the parameter map.
-     *
-     * @return the parameter map.
+     * {@return the parameter map}
      */
     @Override
     public Map<String, String[]> getParameterMap() {
@@ -250,9 +248,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     }
 
     /**
-     * Get the parameter names.
-     *
-     * @return the parameter names.
+     * {@return the parameter names}
      */
     @Override
     public Enumeration<String> getParameterNames() {
@@ -264,10 +260,8 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     }
 
     /**
-     * Get the parameter values.
-     *
      * @param name the parameter name.
-     * @return the parameter values.
+     * {@return the parameter values}
      */
     @Override
     public String[] getParameterValues(String name) {
@@ -298,18 +292,14 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     }
 
     /**
-     * Get the wrapper attributes.
-     * 
-     * @return the wrapper attributes.
+     * {@return the wrapper attributes}
      */
     public List<String> getWrapperAttributes() {
         return wrapperAttributes;
     }
 
     /**
-     * Get the wrapper parameters.
-     * 
-     * @return the wrapper parameters.
+     * {@return the wrapper parameters}
      */
     public Map<String, String[]> getWrapperParameters() {
         return wrapperParameters;
@@ -326,9 +316,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     }
 
     /**
-     * Get the request URI with query string.
-     * 
-     * @return the request URI with query string.
+     * {@return the request URI with query string}
      */
     public String getRequestURIWithQueryString() {
         String requestURI = getRequestURI();

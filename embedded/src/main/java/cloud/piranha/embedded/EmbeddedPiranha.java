@@ -79,9 +79,7 @@ public class EmbeddedPiranha implements Piranha {
     }
 
     /**
-     * Get the version.
-     *
-     * @return the version.
+     * {@return the version}
      */
     @Override
     public String getVersion() {
@@ -89,9 +87,7 @@ public class EmbeddedPiranha implements Piranha {
     }
 
     /**
-     * Get the web application.
-     *
-     * @return the web application.
+     * {@return the web application}
      */
     public WebApplication getWebApplication() {
         return webApplication;

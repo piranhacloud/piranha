@@ -121,10 +121,8 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * Get the attribute value.
-     *
      * @param name the attribute name.
-     * @return the attribute value.
+     * {@return the attribute value}
      * @see HttpSession#getAttribute(java.lang.String)
      */
     @Override
@@ -134,9 +132,7 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * Get the attribute names.
-     *
-     * @return the attribute names.
+     * {@return the attribute names}
      * @see HttpSession#getAttributeNames()
      */
     @Override
@@ -146,9 +142,7 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * Get the creation time.
-     *
-     * @return the creation time.
+     * {@return the creation time}
      * @see HttpSession#getCreationTime()
      */
     @Override
@@ -158,9 +152,7 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * Get the id.
-     *
-     * @return the id.
+     * {@return the id}
      * @see HttpSession#getId()
      */
     @Override
@@ -169,9 +161,7 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * Get the last accessed time.
-     *
-     * @return the last accessed time.
+     * {@return the last accessed time}
      * @see HttpSession#getLastAccessedTime()
      */
     @Override
@@ -181,9 +171,7 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * Get the maximum inactive interval.
-     *
-     * @return the maximum inactive interval.
+     * {@return the maximum inactive interval}
      * @see HttpSession#getMaxInactiveInterval()
      */
     @Override
@@ -192,9 +180,7 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * {@return the servlet context}
      * @see HttpSession#getServletContext()
      */
     @Override
@@ -214,10 +200,8 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * Get the value.
-     *
      * @param name the attribute name.
-     * @return the value.
+     * {@return the value}
      * @see HttpSession#getValue(java.lang.String)
      */
     @Override
@@ -226,9 +210,7 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     /**
-     * Get the attribute names.
-     *
-     * @return the attribute names.
+     * {@return the attribute names}
      * @see HttpSession#getValueNames()
      */
     @Override

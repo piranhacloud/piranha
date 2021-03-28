@@ -74,7 +74,7 @@ public interface WebApplicationRequest extends HttpServletRequest {
     void setWebApplication(WebApplication webApplication);
     
     /**
-     * @return the multipartConfig
+     * {@return the multipartConfig}
      */
     MultipartConfigElement getMultipartConfig();
 }

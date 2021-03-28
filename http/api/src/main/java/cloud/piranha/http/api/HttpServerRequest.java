@@ -49,9 +49,7 @@ public interface HttpServerRequest {
     String getHeader(String name);
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     Iterator<String> getHeaderNames();
 
@@ -64,32 +62,24 @@ public interface HttpServerRequest {
     Iterator<String> getHeaders(String name);
 
     /**
-     * Get the HTTP version.
-     *
-     * @return the HTTP version.
+     * {@return the HTTP version}
      */
     default String getHttpVersion() {
         return "HTTP/1.1";
     }
 
     /**
-     * Get the local address.
-     *
-     * @return the local address.
+     * {@return the local address}
      */
     String getLocalAddress();
 
     /**
-     * Get the local hostname.
-     *
-     * @return the local hostname.
+     * {@return the local hostname}
      */
     String getLocalHostname();
 
     /**
-     * Get the local port.
-     *
-     * @return the local port.
+     * {@return the local port}
      */
     int getLocalPort();
 
@@ -101,37 +91,27 @@ public interface HttpServerRequest {
     InputStream getMessageBody();
 
     /**
-     * Get the method.
-     *
-     * @return the method.
+     * {@return the method}
      */
     String getMethod();
 
     /**
-     * Get the remote address.
-     *
-     * @return the remote address.
+     * {@return the remote address}
      */
     String getRemoteAddress();
 
     /**
-     * Get the remote hostname.
-     *
-     * @return the remote hostname.
+     * {@return the remote hostname}
      */
     String getRemoteHostname();
 
     /**
-     * Get the remote port.
-     *
-     * @return the remote port.
+     * {@return the remote port}
      */
     int getRemotePort();
 
     /**
-     * Get the request target.
-     *
-     * @return the request target.
+     * {@return the request target}
      */
     String getRequestTarget();
 }

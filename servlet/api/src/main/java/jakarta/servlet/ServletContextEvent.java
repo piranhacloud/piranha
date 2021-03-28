@@ -49,9 +49,7 @@ public class ServletContextEvent extends EventObject {
     }
 
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * {@return the servlet context}
      */
     public ServletContext getServletContext() {
         return (ServletContext) super.getSource();

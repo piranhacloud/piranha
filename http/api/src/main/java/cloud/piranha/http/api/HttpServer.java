@@ -65,8 +65,7 @@ public interface HttpServer {
     void stop();
 
     /***
-     * Get the server port
-     * @return the server port
+     * {@return the server port}
      */
     int getServerPort();
 
@@ -90,8 +89,7 @@ public interface HttpServer {
     void setSSL(boolean ssl);
 
     /***
-     * Get the http server processor
-     * @return the http server processor
+     * {@return the http server processor}
      */
     HttpServerProcessor getHttpServerProcessor();
 

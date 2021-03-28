@@ -280,9 +280,7 @@ public class DefaultInitialContext implements Context {
     }
 
     /**
-     * Get the environment.
-     *
-     * @return the environment.
+     * {@return the environment}
      * @throws NamingException when a naming error occurs.
      */
     @Override
@@ -304,10 +302,8 @@ public class DefaultInitialContext implements Context {
     }
 
     /**
-     * Get the name parser.
-     *
      * @param name the name.
-     * @return the name parser.
+     * {@return the name parser}
      * @throws NamingException when a serious error occurs.
      */
     @Override
@@ -316,10 +312,8 @@ public class DefaultInitialContext implements Context {
     }
 
     /**
-     * Get the name parser.
-     *
      * @param name the name parser.
-     * @return the name parser.
+     * {@return the name parser}
      * @throws NamingException when a serious error occurs.
      */
     @Override

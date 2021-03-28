@@ -56,9 +56,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the async context.
-     *
-     * @return the async context.
+     * {@return the async context}
      */
     @Override
     public AsyncContext getAsyncContext() {
@@ -77,9 +75,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the attribute names.
-     *
-     * @return the attribute names.
+     * {@return the attribute names}
      */
     @Override
     public Enumeration<String> getAttributeNames() {
@@ -87,9 +83,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the character encoding.
-     *
-     * @return the character encoding.
+     * {@return the character encoding}
      */
     @Override
     public String getCharacterEncoding() {
@@ -97,9 +91,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the content length.
-     *
-     * @return the content length.
+     * {@return the content length}
      */
     @Override
     public int getContentLength() {
@@ -107,9 +99,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the content length.
-     *
-     * @return the content length.
+     * {@return the content length}
      */
     @Override
     public long getContentLengthLong() {
@@ -117,9 +107,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the content type.
-     *
-     * @return the content type.
+     * {@return the content type}
      */
     @Override
     public String getContentType() {
@@ -146,9 +134,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the local address.
-     *
-     * @return the local address.
+     * {@return the local address}
      */
     @Override
     public String getLocalAddr() {
@@ -156,9 +142,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the local name.
-     *
-     * @return the local name.
+     * {@return the local name}
      */
     @Override
     public String getLocalName() {
@@ -166,9 +150,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the local port.
-     *
-     * @return the local port.
+     * {@return the local port}
      */
     @Override
     public int getLocalPort() {
@@ -176,9 +158,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the locale.
-     *
-     * @return the locale.
+     * {@return the locale}
      */
     @Override
     public Locale getLocale() {
@@ -186,9 +166,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the locales.
-     *
-     * @return the locales.
+     * {@return the locales}
      */
     @Override
     public Enumeration<Locale> getLocales() {
@@ -207,9 +185,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the parameter map.
-     *
-     * @return the parameter map.
+     * {@return the parameter map}
      */
     @Override
     public Map<String, String[]> getParameterMap() {
@@ -217,9 +193,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the parameter names.
-     *
-     * @return the parameter names.
+     * {@return the parameter names}
      */
     @Override
     public Enumeration<String> getParameterNames() {
@@ -238,9 +212,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the protocol.
-     *
-     * @return the protocol.
+     * {@return the protocol}
      */
     @Override
     public String getProtocol() {
@@ -259,10 +231,8 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the real path.
-     *
      * @param path the path.
-     * @return the real path.
+     * {@return the real path}
      * @deprecated
      */
     @Deprecated
@@ -272,9 +242,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the remote address.
-     *
-     * @return the remote address.
+     * {@return the remote address}
      */
     @Override
     public String getRemoteAddr() {
@@ -282,9 +250,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the remote host.
-     *
-     * @return the remote host.
+     * {@return the remote host}
      */
     @Override
     public String getRemoteHost() {
@@ -292,9 +258,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the remote port.
-     *
-     * @return the remote port.
+     * {@return the remote port}
      */
     @Override
     public int getRemotePort() {
@@ -302,19 +266,15 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the wrapped request.
-     *
-     * @return the wrapped request.
+     * {@return the wrapped request}
      */
     public ServletRequest getRequest() {
         return wrapped;
     }
 
     /**
-     * Get the request dispatcher.
-     *
      * @param path the path.
-     * @return the request dispatcher.
+     * {@return the request dispatcher}
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
@@ -322,9 +282,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the scheme.
-     *
-     * @return the scheme.
+     * {@return the scheme}
      */
     @Override
     public String getScheme() {
@@ -332,9 +290,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the server name.
-     *
-     * @return the server name.
+     * {@return the server name}
      */
     @Override
     public String getServerName() {
@@ -342,9 +298,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the server port.
-     *
-     * @return the server port.
+     * {@return the server port}
      */
     @Override
     public int getServerPort() {
@@ -352,9 +306,7 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * {@return the servlet context}
      */
     @Override
     public ServletContext getServletContext() {

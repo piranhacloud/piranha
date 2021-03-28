@@ -98,9 +98,7 @@ public class ServerPiranha implements Piranha, Runnable {
     private boolean ssl = false;
 
     /**
-     * Get the instance.
-     *
-     * @return the instance.
+     * {@return the instance}
      */
     public static ServerPiranha get() {
         return INSTANCE;
@@ -163,9 +161,7 @@ public class ServerPiranha implements Piranha, Runnable {
     }
 
     /**
-     * Get the version.
-     *
-     * @return the version.
+     * {@return the version}
      */
     @Override
     public String getVersion() {

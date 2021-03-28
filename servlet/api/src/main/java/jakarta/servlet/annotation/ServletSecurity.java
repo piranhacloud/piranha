@@ -46,16 +46,12 @@ import java.lang.annotation.Target;
 public @interface ServletSecurity {
 
     /**
-     * Get the HTTP method constraints.
-     *
-     * @return the HTTP method constraints.
+     * {@return the HTTP method constraints}
      */
     HttpMethodConstraint[] httpMethodConstraints() default {};
 
     /**
-     * Get the HTTP constraint.
-     *
-     * @return the HTTP constraint.
+     * {@return the HTTP constraint}
      */
     HttpConstraint value() default @HttpConstraint;
 

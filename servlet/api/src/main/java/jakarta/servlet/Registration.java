@@ -38,9 +38,7 @@ import java.util.Set;
 public interface Registration {
 
     /**
-     * Get the class name.
-     *
-     * @return the class name.
+     * {@return the class name}
      */
     public String getClassName();
 
@@ -53,16 +51,12 @@ public interface Registration {
     public String getInitParameter(String name);
 
     /**
-     * Get the init parameters.
-     *
-     * @return the init parameters.
+     * {@return the init parameters}
      */
     public Map<String, String> getInitParameters();
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     public String getName();
 

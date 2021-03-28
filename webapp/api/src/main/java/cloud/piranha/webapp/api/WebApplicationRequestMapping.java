@@ -35,9 +35,7 @@ package cloud.piranha.webapp.api;
 public interface WebApplicationRequestMapping {
 
     /**
-     * Get the path.
-     *
-     * @return the path.
+     * {@return the path}
      */
     String getPath();
 

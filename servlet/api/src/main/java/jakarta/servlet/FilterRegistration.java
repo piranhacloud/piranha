@@ -56,16 +56,12 @@ public interface FilterRegistration extends Registration {
     public void addMappingForUrlPatterns(EnumSet<DispatcherType> dispatcherTypes, boolean isMatchAfter, String... urlPatterns);
 
     /**
-     * Get the servlet name mappings.
-     *
-     * @return the servlet name mappings.
+     * {@return the servlet name mappings}
      */
     public Collection<String> getServletNameMappings();
 
     /**
-     * Get the URL pattern mappings.
-     *
-     * @return the URL pattern mappings.
+     * {@return the URL pattern mappings}
      */
     public Collection<String> getUrlPatternMappings();
 

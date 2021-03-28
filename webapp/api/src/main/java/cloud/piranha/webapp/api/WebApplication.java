@@ -156,16 +156,12 @@ public interface WebApplication extends ServletContext {
     AnnotationManager getAnnotationManager();
 
     /**
-     * Get the async manager.
-     *
-     * @return the async manager.
+     * {@return the async manager}
      */
     AsyncManager getAsyncManager();
 
     /**
-     * Get the default Servlet.
-     *
-     * @return the default Servlet.
+     * {@return the default Servlet}
      */
     Servlet getDefaultServlet();
 
@@ -177,30 +173,22 @@ public interface WebApplication extends ServletContext {
     boolean getDenyUncoveredHttpMethods();
 
     /**
-     * Get the mime type manager.
-     *
-     * @return the mime type manager.
+     * {@return the mime type manager}
      */
     MimeTypeManager getMimeTypeManager();
 
     /**
-     * Get the multi part manager.
-     *
-     * @return the multi part manager.
+     * {@return the multi part manager}
      */
     MultiPartManager getMultiPartManager();
     
     /**
-     * Get the naming manager.
-     * 
-     * @return the naming manager.
+     * {@return the naming manager}
      */
     NamingManager getNamingManager();
     
     /**
-     * Get the policy manager.
-     * 
-     * @return the policy manager.
+     * {@return the policy manager}
      */
     PolicyManager getPolicyManager();
 
@@ -215,16 +203,12 @@ public interface WebApplication extends ServletContext {
     }
 
     /**
-     * Get the HttpSessionManager.
-     *
-     * @return the HttpSessionManager.
+     * {@return the HttpSessionManager}
      */
     HttpSessionManager getHttpSessionManager();
 
     /**
-     * Get the HttpRequestManager.
-     *
-     * @return the HttpRequestManager.
+     * {@return the HttpRequestManager}
      */
     HttpRequestManager getHttpRequestManager();
 
@@ -253,38 +237,29 @@ public interface WebApplication extends ServletContext {
     ObjectInstanceManager getObjectInstanceManager();
 
     /**
-     * Get the associated request.
-     *
      * @param response the response.
-     * @return the associated request.
+     * {@return the associated request}
      */
     ServletRequest getRequest(ServletResponse response);
 
     /**
-     * Get the associated response.
-     *
      * @param request the request.
-     * @return the associated response.
+     * {@return the associated response}
      */
     ServletResponse getResponse(ServletRequest request);
 
     /**
-     * Get the security manager.
-     *
-     * @return the security manager.
+     * {@return the security manager}
      */
     SecurityManager getSecurityManager();
 
     /**
-     * Get the welcome file manager.
-     *
-     * @return the welcome file manager.
+     * {@return the welcome file manager}
      */
     WelcomeFileManager getWelcomeFileManager();
 
     /**
-     * Get the locale encoding manager
-     * @return the locale encoding manager
+     * {@return the locale encoding manager}
      */
     LocaleEncodingManager getLocaleEncodingManager();
 
