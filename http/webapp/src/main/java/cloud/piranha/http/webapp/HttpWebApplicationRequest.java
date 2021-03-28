@@ -35,7 +35,7 @@ import java.util.Enumeration;
 
 /**
  * The HttpServerRequest variant of WebApplicationRequest.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
@@ -51,9 +51,14 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
      * @param wrapped the wrapped HttpServerRequest.
      */
     public HttpWebApplicationRequest(HttpServerRequest wrapped) {
-        // TODO query string is request URI after ? (if present).
-        // TODO context path is request URI minus query string.
-        this.contextPath = wrapped.getRequestTarget();
+        if (wrapped.getRequestTarget().contains("?")) {
+            this.contextPath = wrapped.getRequestTarget()
+                    .substring(0, wrapped.getRequestTarget().indexOf("?"));
+            this.queryString = wrapped.getRequestTarget()
+                    .substring(wrapped.getRequestTarget().indexOf("?") + 1);
+        } else {
+            this.contextPath = wrapped.getRequestTarget();
+        }
         this.inputStream = wrapped.getMessageBody();
         this.servletPath = "";
         this.wrapped = wrapped;
@@ -77,7 +82,7 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
         wrapped.getHeaders(name).forEachRemaining(headers::add);
         return Collections.enumeration(headers);
     }
-    
+
     @Override
     public String getLocalAddr() {
         return wrapped.getLocalAddress();
@@ -116,11 +121,6 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
     @Override
     public int getRemotePort() {
         return wrapped.getRemotePort();
-    }
-
-    @Override
-    public String getRequestURI() {
-        return wrapped.getRequestTarget();
     }
 
     @Override

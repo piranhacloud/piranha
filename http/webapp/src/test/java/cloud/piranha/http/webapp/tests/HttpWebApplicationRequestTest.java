@@ -45,6 +45,90 @@ import org.junit.jupiter.api.Test;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HttpWebApplicationRequestTest {
+    
+    /**
+     * Test getContextPath method.
+     */
+    @Test
+    public void testGetContextPath() {
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        HttpServer httpServer = new DefaultHttpServer(4000, server, false);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("/test");
+        application.addServlet("test", new TestGetContextPathServlet());
+        application.addServletMapping("test", "/TestServlet");
+        server.addWebApplication(application);
+        server.initialize();
+        server.start();
+        httpServer.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4000/test/TestServlet")).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertTrue(response.body().contains("Context Path: /test"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        httpServer.stop();
+        server.stop();
+    }
+    
+    /**
+     * Test getQueryString method.
+     */
+    @Test
+    public void testGetQueryString() {
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        HttpServer httpServer = new DefaultHttpServer(4001, server, false);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("/test");
+        application.addServlet("test", new TestGetQueryStringServlet());
+        application.addServletMapping("test", "/TestServlet");
+        server.addWebApplication(application);
+        server.initialize();
+        server.start();
+        httpServer.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4001/test/TestServlet?test=getQueryString")).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertTrue(response.body().contains("Query String: test=getQueryString"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        httpServer.stop();
+        server.stop();
+    }
+    
+    /**
+     * Test getQueryString method.
+     */
+    @Test
+    public void testGetQueryString2() {
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        HttpServer httpServer = new DefaultHttpServer(4002, server, false);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("/test");
+        application.addServlet("test", new TestGetQueryStringServlet());
+        application.addServletMapping("test", "/TestServlet");
+        server.addWebApplication(application);
+        server.initialize();
+        server.start();
+        httpServer.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4002/test/TestServlet")).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertTrue(response.body().contains("Query String: null"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        httpServer.stop();
+        server.stop();
+    }
 
     /**
      * Test getRequestURI method.
@@ -52,7 +136,7 @@ public class HttpWebApplicationRequestTest {
     @Test
     public void testGetRequestURI() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(4000, server, false);
+        HttpServer httpServer = new DefaultHttpServer(4003, server, false);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetRequestURIServlet());
@@ -63,7 +147,7 @@ public class HttpWebApplicationRequestTest {
         httpServer.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4000/test/TestServlet")).build();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4003/test/TestServlet")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             assertTrue(response.body().contains("Request URI: /test/TestServlet"));
