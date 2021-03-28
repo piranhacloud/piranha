@@ -38,7 +38,6 @@ import cloud.piranha.webapp.api.WebApplicationServer;
 import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.webapp.impl.CookieParser;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
-import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import java.io.IOException;
@@ -119,12 +118,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             String name = headerNames.next();
             String value = request.getHeader(name);
             applicationServerRequest.setHeader(name, value);
-            if (name.equalsIgnoreCase("Content-Type")) {
-                applicationServerRequest.setContentType(value);
-            }
-            if (name.equalsIgnoreCase("Content-Length")) {
-                applicationServerRequest.setContentLength(Integer.parseInt(value));
-            }
             if (name.equalsIgnoreCase("COOKIE")) {
                 applicationServerRequest.setCookies(processCookies(applicationServerRequest, value));
             }
@@ -160,26 +153,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         return cookies;
     }
 
-    /**
-     * Create the web application server response.
-     *
-     * @param httpResponse the HTTP server response.
-     * @return the web application server response.
-     */
-    private DefaultWebApplicationResponse createResponse(HttpServerResponse httpResponse) {
-        HttpWebApplicationResponse applicationResponse = new HttpWebApplicationResponse(httpResponse);
-
-        applicationResponse.setResponseCloser(() -> {
-            try {
-                httpResponse.closeResponse();
-            } catch (IOException ioe) {
-                LOGGER.log(WARNING, () -> "IOException when flushing the underlying async output stream", ioe);
-            }
-        });
-
-        return applicationResponse;
-    }
-
     @Override
     public WebApplicationServerRequestMapper getRequestMapper() {
         return requestMapper;
@@ -204,7 +177,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     public boolean process(HttpServerRequest request, HttpServerResponse response) {
         try {
             DefaultWebApplicationRequest serverRequest = (DefaultWebApplicationRequest) createRequest(request);
-            DefaultWebApplicationResponse serverResponse = (DefaultWebApplicationResponse) createResponse(response);
+            HttpWebApplicationResponse serverResponse = new HttpWebApplicationResponse(response);
             service(serverRequest, serverResponse);
             return serverRequest.isAsyncStarted();
         } catch (IOException ioe) {

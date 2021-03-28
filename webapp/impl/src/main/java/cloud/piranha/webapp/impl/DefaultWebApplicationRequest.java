@@ -419,6 +419,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public int getContentLength() {
+        if (contentLength == -1) {
+            return headerManager.getIntHeader("Content-Length");
+        }
         return (int) contentLength;
     }
 
@@ -439,6 +442,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public String getContentType() {
+        if (contentType == null) {
+            return headerManager.getHeader("Content-Type");
+        }
         return contentType;
     }
    

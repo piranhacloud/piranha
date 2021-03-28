@@ -30,6 +30,7 @@ package cloud.piranha.http.webapp;
 import cloud.piranha.http.api.HttpServerResponse;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 import java.io.IOException;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The HttpServerResponse variant of WebApplicationResponse.
@@ -37,6 +38,12 @@ import java.io.IOException;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(
+            HttpWebApplicationResponse.class.getPackageName());
 
     /**
      * Stores the wrapped HttpServerResponse.
@@ -50,6 +57,13 @@ public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
      */
     public HttpWebApplicationResponse(HttpServerResponse wrapped) {
         this.outputStream = wrapped.getOutputStream();
+        this.responseCloser = () -> {
+            try {
+                wrapped.closeResponse();
+            } catch (IOException ioe) {
+                LOGGER.log(WARNING, "I/O error occurred while closing async output stream", ioe);
+            }
+        };
         this.wrapped = wrapped;
     }
 
