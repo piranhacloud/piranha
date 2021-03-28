@@ -54,7 +54,7 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     /**
      * Stores the Locale.
      */
-    private Locale locale;
+    private final Locale locale;
 
     /**
      * Constructor.
@@ -88,7 +88,7 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
      */
     @Override
     public boolean containsHeader(String name) {
-        return headers.containsKey(name.toUpperCase(locale));
+        return getHeader(name) != null;
     }
 
     /**
@@ -100,10 +100,9 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     @Override
     public long getDateHeader(String name) throws IllegalArgumentException {
         long result = -1;
-        if (headers.containsKey(name.toUpperCase(locale))) {
-            DefaultHttpHeader header = headers.get(name.toUpperCase(locale));
+        if (containsHeader(name)) {
             try {
-                String value = header.getValue();
+                String value = getHeader(name);
                 SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
                 result = format.parse(value).getTime();
             } catch (ParseException exception) {
@@ -169,10 +168,9 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     @Override
     public int getIntHeader(String name) throws NumberFormatException {
         int result = -1;
-        if (headers.containsKey(name.toUpperCase(locale))) {
-            DefaultHttpHeader header = headers.get(name.toUpperCase(locale));
+        if (containsHeader(name)) {
             try {
-                result = Integer.parseInt(header.getValue());
+                result = Integer.parseInt(getHeader(name));
             } catch (NumberFormatException exception) {
                 throw new NumberFormatException(
                         "Cannot convert header to an int");

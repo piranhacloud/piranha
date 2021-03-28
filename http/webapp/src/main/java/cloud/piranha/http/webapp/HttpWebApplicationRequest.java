@@ -29,9 +29,6 @@ package cloud.piranha.http.webapp;
 
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
 
 /**
  * The HttpServerRequest variant of WebApplicationRequest.
@@ -59,28 +56,10 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
         } else {
             this.contextPath = wrapped.getRequestTarget();
         }
+        this.headerManager = new HttpWebApplicationRequestHeaderManager(wrapped);
         this.inputStream = wrapped.getMessageBody();
         this.servletPath = "";
         this.wrapped = wrapped;
-    }
-
-    @Override
-    public String getHeader(String name) {
-        return wrapped.getHeader(name);
-    }
-
-    @Override
-    public Enumeration<String> getHeaderNames() {
-        ArrayList<String> headerNames = new ArrayList<>();
-        wrapped.getHeaderNames().forEachRemaining(headerNames::add);
-        return Collections.enumeration(headerNames);
-    }
-
-    @Override
-    public Enumeration<String> getHeaders(String name) {
-        ArrayList<String> headers = new ArrayList<>();
-        wrapped.getHeaders(name).forEachRemaining(headers::add);
-        return Collections.enumeration(headers);
     }
 
     @Override
