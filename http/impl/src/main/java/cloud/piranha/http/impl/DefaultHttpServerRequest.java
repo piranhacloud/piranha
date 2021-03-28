@@ -30,9 +30,7 @@ package cloud.piranha.http.impl;
 import cloud.piranha.http.api.HttpServerRequest;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.Socket;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -43,7 +41,7 @@ import static java.lang.System.Logger.Level.WARNING;
 import java.lang.System.Logger;
 
 /**
- * The default implementation of HTTP Server Request.
+ * The default implementation of an HTTP Server Request.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -52,8 +50,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(
-            DefaultHttpServerRequest.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(DefaultHttpServerRequest.class.getPackageName());
 
     /**
      * Stores the headers.
@@ -61,24 +58,19 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     private final Map<String, List<String>> headers;
 
     /**
+     * Stores the HTTP version.
+     */
+    private String httpVersion;
+
+    /**
      * Stores the input stream.
      */
-    private InputStream inputStream;
+    private InputStream messageBody;
 
     /**
      * Stores the method.
      */
     private String method;
-
-    /**
-     * Stores the query parameters.
-     */
-    private Map<String, List<String>> queryParameters;
-
-    /**
-     * Stores the query string.
-     */
-    private String queryString;
 
     /**
      * Stores the request target.
@@ -91,19 +83,14 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     private final Socket socket;
 
     /**
-     * Stores the protocol
-     */
-    private String protocol;
-
-    /**
      * Constructor.
      *
      * @param socket the socket.
      */
     public DefaultHttpServerRequest(Socket socket) {
         this.headers = new HashMap<>(1);
+        this.httpVersion = "HTTP/1.1";
         this.socket = socket;
-        protocol = "HTTP/1.1";
         parse();
     }
 
@@ -145,24 +132,8 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     @Override
-    public InputStream getInputStream() {
-        InputStream result = inputStream;
-
-        if (inputStream == null) {
-            try {
-                inputStream = socket.getInputStream();
-                result = inputStream;
-            } catch (IOException exception) {
-                LOGGER.log(WARNING, "An I/O error occurred while acquiring input stream", exception);
-            }
-        }
-
-        return result;
-    }
-
-    @Override
-    public String getLocalAddress() {
-        return socket.getLocalAddress().getHostAddress();
+    public String getHttpVersion() {
+        return httpVersion;
     }
 
     @Override
@@ -171,50 +142,32 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     @Override
+    public String getLocalAddress() {
+        return socket.getLocalAddress().getHostAddress();
+    }
+
+    @Override
     public int getLocalPort() {
         return socket.getLocalPort();
     }
 
     @Override
-    public String getMethod() {
-        return method;
-    }
-
-    @Override
-    public String getQueryParameter(String name) {
-        String result = null;
-        synchronized (this) {
-            if (queryParameters == null && queryString != null) {
-                queryParameters = new HashMap<>();
-                String[] params = queryString.split("&");
-                for (String param : params) {
-                    try {
-                        String parameterName = URLDecoder.decode(param.split("=")[0], "UTF-8");
-                        String parameterValue = URLDecoder.decode(param.split("=")[1], "UTF-8");
-                        if (queryParameters.containsKey(parameterName)) {
-                            List<String> values = queryParameters.get(parameterName);
-                            values.add(parameterValue);
-                        } else {
-                            List<String> values = new ArrayList<>();
-                            values.add(parameterValue);
-                            queryParameters.put(parameterName, values);
-                        }
-                    } catch (UnsupportedEncodingException uee) {
-                        throw new RuntimeException(uee);
-                    }
-                }
+    public InputStream getMessageBody() {
+        InputStream result = messageBody;
+        if (messageBody == null) {
+            try {
+                messageBody = socket.getInputStream();
+                result = messageBody;
+            } catch (IOException exception) {
+                LOGGER.log(WARNING, "An I/O error occurred while acquiring input stream", exception);
             }
-        }
-        if (queryParameters != null) {
-            result = queryParameters.get(name) != null
-                    ? queryParameters.get(name).get(0) : null;
         }
         return result;
     }
 
     @Override
-    public String getQueryString() {
-        return queryString;
+    public String getMethod() {
+        return method;
     }
 
     @Override
@@ -238,26 +191,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Set the method.
-     *
-     * @param method the method.
-     */
-    public void setMethod(String method) {
-        this.method = method;
-    }
-
-    /**
-     * Set the request target.
-     *
-     * @param requestTarget the request target.
-     */
-    public void setRequestTarget(String requestTarget) {
-        this.requestTarget = requestTarget;
-    }
-
-    /**
      * Parse the request.
-     *
      */
     private void parse() {
         try {
@@ -314,18 +248,27 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
         line = line.substring(index + 1);
         index = line.indexOf(' ');
         requestTarget = line.substring(0, index);
-        if (requestTarget.contains("?")) {
-            queryString = requestTarget.substring(requestTarget.indexOf("?") + 1);
-            requestTarget = requestTarget.substring(0, requestTarget.indexOf("?"));
-        }
         String protocolRequestLine = line.substring(index + 1);
-        if (!protocol.isEmpty()) {
-            protocol = protocolRequestLine;
+        if (!httpVersion.isEmpty()) {
+            httpVersion = protocolRequestLine;
         }
     }
 
-    @Override
-    public String getProtocol() {
-        return protocol;
+    /**
+     * Set the method.
+     *
+     * @param method the method.
+     */
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    /**
+     * Set the request target.
+     *
+     * @param requestTarget the request target.
+     */
+    public void setRequestTarget(String requestTarget) {
+        this.requestTarget = requestTarget;
     }
 }
