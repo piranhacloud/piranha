@@ -35,11 +35,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * A Test Servlet for the getRequestURI method.
+ * A Test Servlet for the getQueryString method.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestGetRequestURIServlet extends HttpServlet {
+public class TestGetQueryStringServlet extends HttpServlet {
 
     /**
      * Stores the serial version UID.
@@ -62,7 +62,7 @@ public class TestGetRequestURIServlet extends HttpServlet {
         out.println("  <title>Test</title>");
         out.println(" </head>");
         out.println(" <body>");
-        out.println("  Request URI: " + request.getRequestURI());
+        out.println("  Query String: " + request.getQueryString());
         out.println(" </body>");
         out.println("</html>");
     }
