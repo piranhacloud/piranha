@@ -25,81 +25,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.unit.http.impl;
+package cloud.piranha.http.webapp.tests;
 
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.impl.DefaultHttpServer;
-import cloud.piranha.test.unit.http.tests.HttpServerTest;
-import cloud.piranha.test.unit.http.tests.TestHttpServerProcessor;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.io.IOException;
+import cloud.piranha.http.webapp.HttpWebApplicationServer;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the DefaultHttpServer class.
+ * The JUnit tests for the HttpWebApplicationRequest class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultHttpServerTest extends HttpServerTest {
+public class HttpWebApplicationRequestTest {
 
     /**
-     * Create the server.
-     *
-     * @param portNumber the port number.
-     * @return the HTTP server.
-     */
-    @Override
-    protected HttpServer createServer(int portNumber) {
-        return new DefaultHttpServer(portNumber, new TestHttpServerProcessor(), false);
-    }
-
-    /**
-     * Create the server.
-     *
-     * @param portNumber the port number.
-     * @param processor the HTTP server processor.
-     * @return the HTTP server.
-     */
-    @Override
-    protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
-        return new DefaultHttpServer(portNumber, processor, false);
-    }
-
-    /**
-     * Test SO_TIMEOUT.
+     * Test getRequestURI method.
      */
     @Test
-    void testSoTimeout() {
-        int portOffset = 0;
-        try {
-            portOffset = SecureRandom.getInstanceStrong().nextInt(1000);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        int port = 8760 + portOffset;
-
-        DefaultHttpServer server = new DefaultHttpServer(
-                port, new TestHttpServerProcessor(), 2000);
-        assertEquals(2000, server.getSoTimeout());
+    public void testGetRequestURI() {
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        HttpServer httpServer = new DefaultHttpServer(4000, server, false);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("/test");
+        application.addServlet("test", new TestGetRequestURIServlet());
+        application.addServletMapping("test", "/TestServlet");
+        server.addWebApplication(application);
+        server.initialize();
         server.start();
+        httpServer.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/")).build();
-            HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4000/test/TestServlet")).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
-        } catch (IOException | InterruptedException ioe) {
-            throw new RuntimeException(ioe);
-        } finally {
-            server.stop();
+            assertTrue(response.body().contains("Request URI: /test/TestServlet"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+        httpServer.stop();
+        server.stop();
     }
 }

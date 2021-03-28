@@ -51,8 +51,10 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
      * @param wrapped the wrapped HttpServerRequest.
      */
     public HttpWebApplicationRequest(HttpServerRequest wrapped) {
+        // TODO query string is request URI after ? (if present).
+        // TODO context path is request URI minus query string.
         this.contextPath = wrapped.getRequestTarget();
-        this.inputStream = wrapped.getInputStream();
+        this.inputStream = wrapped.getMessageBody();
         this.servletPath = "";
         this.wrapped = wrapped;
     }
@@ -98,12 +100,7 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
 
     @Override
     public String getProtocol() {
-        return wrapped.getProtocol();
-    }
-
-    @Override
-    public String getQueryString() {
-        return wrapped.getQueryString();
+        return wrapped.getHttpVersion();
     }
 
     @Override
@@ -119,6 +116,11 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
     @Override
     public int getRemotePort() {
         return wrapped.getRemotePort();
+    }
+
+    @Override
+    public String getRequestURI() {
+        return wrapped.getRequestTarget();
     }
 
     @Override

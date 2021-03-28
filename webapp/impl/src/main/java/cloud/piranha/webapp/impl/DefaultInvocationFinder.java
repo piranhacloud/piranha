@@ -104,7 +104,7 @@ public class DefaultInvocationFinder {
             if (dispatcherType == REQUEST) {
                 servletInvocation = getWelcomeFileServletInvocation(servletPath, pathInfo != null ? pathInfo : "/");
 
-                if (servletInvocation == null) { // TODO: access rules for WEB-INF
+                if (servletInvocation == null) {
                     servletInvocation = getDefaultServletInvocation(servletPath, pathInfo);
                 }
             } else {

@@ -60,7 +60,7 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
     public String getHeader(String name) {
         return request.getHeader(name);
     }
-    
+
     @Override
     public Iterator<String> getHeaderNames() {
         return request.getHeaderNames().iterator();
@@ -72,8 +72,8 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
     }
 
     @Override
-    public InputStream getInputStream() {
-        return request.getInputStream();
+    public String getHttpVersion() {
+        return request.getProtocol().getProtocolString();
     }
 
     @Override
@@ -92,18 +92,13 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
     }
 
     @Override
+    public InputStream getMessageBody() {
+        return request.getInputStream();
+    }
+
+    @Override
     public String getMethod() {
         return request.getMethod().getMethodString();
-    }
-
-    @Override
-    public String getQueryParameter(String name) {
-        return request.getParameter(name);
-    }
-
-    @Override
-    public String getQueryString() {
-        return request.getQueryString();
     }
 
     @Override
@@ -124,10 +119,5 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
     @Override
     public String getRequestTarget() {
         return request.getRequestURI();
-    }
-
-    @Override
-    public String getProtocol() {
-        return request.getProtocol().getProtocolString();
     }
 }
