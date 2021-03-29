@@ -28,8 +28,7 @@
 package cloud.piranha.http.webapp.tests;
 
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.grizzly.GrizzlyHttpServer;
-import cloud.piranha.http.impl.DefaultHttpServer;
+import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.net.URI;
@@ -45,7 +44,16 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpWebApplicationRequestTest {
+public abstract class HttpWebApplicationRequestTest {
+    
+    /**
+     * Create the server.
+     * 
+     * @param port the port.
+     * @param processor the processor.
+     * @return the HTTP server.
+     */
+    public abstract HttpServer createServer(int port, HttpServerProcessor processor);
     
     /**
      * Test getContentLength method.
@@ -53,7 +61,7 @@ public class HttpWebApplicationRequestTest {
     @Test
     public void testGetContentLength() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(4000, server, false);
+        HttpServer httpServer = createServer(4000, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetContentLengthServlet());
@@ -84,7 +92,7 @@ public class HttpWebApplicationRequestTest {
     @Test
     public void testGetContentType() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(4001, server, false);
+        HttpServer httpServer = createServer(4001, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetContentTypeServlet());
@@ -115,7 +123,7 @@ public class HttpWebApplicationRequestTest {
     @Test
     public void testGetContextPath() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(4002, server, false);
+        HttpServer httpServer = createServer(4002, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetContextPathServlet());
@@ -143,7 +151,7 @@ public class HttpWebApplicationRequestTest {
     @Test
     public void testGetParameter() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(4003, server, false);
+        HttpServer httpServer = createServer(4003, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetParameterServlet());
@@ -172,7 +180,7 @@ public class HttpWebApplicationRequestTest {
     @Test
     public void testGetQueryString() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(4004, server, false);
+        HttpServer httpServer = createServer(4004, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetQueryStringServlet());
@@ -200,7 +208,7 @@ public class HttpWebApplicationRequestTest {
     @Test
     public void testGetQueryString2() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(4005, server, false);
+        HttpServer httpServer = createServer(4005, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetQueryStringServlet());
@@ -228,7 +236,7 @@ public class HttpWebApplicationRequestTest {
     @Test
     public void testGetRequestURI() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(4006, server, false);
+        HttpServer httpServer = createServer(4006, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetRequestURIServlet());

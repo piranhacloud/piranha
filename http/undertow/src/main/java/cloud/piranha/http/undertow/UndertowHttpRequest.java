@@ -133,6 +133,6 @@ public class UndertowHttpRequest implements HttpServerRequest {
 
     @Override
     public String getRequestTarget() {
-        return exchange.getRequestURI() + (exchange.getQueryString() == null ? "" : "?" + exchange.getQueryString());
+        return exchange.getRequestURI() + (exchange.getQueryString().equals("") ? "" : "?" + exchange.getQueryString());
     }
 }

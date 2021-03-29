@@ -25,24 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.http.webapp.tests;
+
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.netty.NettyHttpServer;
 
 /**
- * The tests for the Piranha HTTP - WebApplication Integration module.
+ * The Netty tests for HttpWebApplicationRequest.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * @author Manfred Riem (mriem@manorrokc.com)
  */
-module cloud.piranha.http.webapp.tests {
-    
-    exports cloud.piranha.http.webapp.tests;
-    opens cloud.piranha.http.webapp.tests;
-    requires cloud.piranha.http.grizzly;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.jdk;
-    requires cloud.piranha.http.netty;
-    requires cloud.piranha.http.undertow;
-    requires cloud.piranha.http.webapp;
-    requires cloud.piranha.webapp.impl;
-    requires java.net.http;
-    requires org.junit.jupiter.api;
-    requires org.junit.jupiter.engine;
+public class NettyRequestTest extends HttpWebApplicationRequestTest {
+
+    @Override
+    public HttpServer createServer(int port, HttpServerProcessor processor) {
+        return new NettyHttpServer(port, processor);
+    }
 }
