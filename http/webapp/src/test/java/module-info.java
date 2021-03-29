@@ -37,6 +37,7 @@ module cloud.piranha.http.webapp.tests {
     opens cloud.piranha.http.webapp.tests;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;
+    requires transitive cloud.piranha.http.grizzly;
     requires cloud.piranha.webapp.impl;
     requires java.net.http;
     requires org.junit.jupiter.api;

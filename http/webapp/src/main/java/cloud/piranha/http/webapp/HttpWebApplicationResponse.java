@@ -69,7 +69,7 @@ public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
 
     @Override
     public void writeStatusLine() throws IOException {
-        wrapped.setStatus(status);
+        wrapped.setStatusCode(status);
         wrapped.writeStatusLine();
     }
 

@@ -1408,6 +1408,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      *
      * @param queryString the query string.
      */
+    @Override
     public void setQueryString(String queryString) {
         this.queryString = queryString;
     }

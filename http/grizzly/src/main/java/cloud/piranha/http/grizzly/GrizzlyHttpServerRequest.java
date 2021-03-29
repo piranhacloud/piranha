@@ -118,6 +118,6 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
 
     @Override
     public String getRequestTarget() {
-        return request.getRequestURI();
+        return request.getRequestURI() + (request.getQueryString() == null ? "" : "?" + request.getQueryString());
     }
 }

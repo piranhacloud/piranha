@@ -81,7 +81,7 @@ public abstract class HttpServerTest {
         HttpServer server = createServer(8765,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
-                        response.setStatus(200);
+                        response.setStatusCode(200);
                         response.setHeader("Content-Type", "text/plain");
                         response.setHeader("Keep-Alive", "close");
                         response.writeStatusLine();
@@ -169,7 +169,7 @@ public abstract class HttpServerTest {
         HttpServer server = createServer(8762,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
-                        response.setStatus(200);
+                        response.setStatusCode(200);
                         response.setHeader("Content-Type", "text/plain");
                         response.setHeader("Keep-Alive", "close");
                         response.writeStatusLine();
@@ -291,7 +291,7 @@ public abstract class HttpServerTest {
 
     private static boolean returnProtocol(HttpServerRequest request, HttpServerResponse response) {
         try {
-            response.setStatus(200);
+            response.setStatusCode(200);
             response.setHeader("Content-Type", "text/plain");
             response.setHeader("Keep-Alive", "close");
             response.writeStatusLine();

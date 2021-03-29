@@ -34,9 +34,10 @@ import cloud.piranha.http.api.HttpServerResponse;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
 
 /**
- * The Netty implementation of HTTP Server Response.
+ * The Netty implementation of HttpServerResponse.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -87,8 +88,18 @@ public class NettyHttpServerResponse implements HttpServerResponse {
     }
 
     @Override
-    public void setStatus(int status) {
-        response.setStatus(HttpResponseStatus.valueOf(status));
+    public void setHttpVersion(String httpVersion) {
+        response.setProtocolVersion(HttpVersion.valueOf(httpVersion));
+    }
+
+    @Override
+    public void setReasonPhrase(String reasonPhrase) {
+        response.setStatus(HttpResponseStatus.valueOf(response.status().code(), reasonPhrase));
+    }
+
+    @Override
+    public void setStatusCode(int statusCode) {
+        response.setStatus(HttpResponseStatus.valueOf(statusCode, response.status().reasonPhrase()));
     }
 
     @Override
