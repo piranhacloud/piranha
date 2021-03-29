@@ -72,7 +72,7 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
      */
     @Override
     public boolean process(HttpServerRequest request, HttpServerResponse response) {
-        response.setStatus(200);
+        response.setStatusCode(200);
         File baseDir = new File(System.getProperty("user.dir"));
         File file = new File(baseDir, request.getRequestTarget());
         if (file.exists() && file.isDirectory() && "GET".equals(request.getMethod())) {
@@ -123,7 +123,7 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
             }
         } else {
             try {
-                response.setStatus(404);
+                response.setStatusCode(404);
                 response.writeStatusLine();
                 response.writeHeaders();
             } catch (IOException exception) {

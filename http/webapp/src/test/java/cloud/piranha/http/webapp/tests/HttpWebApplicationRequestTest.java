@@ -28,6 +28,7 @@
 package cloud.piranha.http.webapp.tests;
 
 import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.grizzly.GrizzlyHttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
@@ -137,12 +138,41 @@ public class HttpWebApplicationRequestTest {
     }
     
     /**
+     * Test getParameter method.
+     */
+    @Test
+    public void testGetParameter() {
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        HttpServer httpServer = new DefaultHttpServer(4003, server, false);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("/test");
+        application.addServlet("test", new TestGetParameterServlet());
+        application.addServletMapping("test", "/TestServlet");
+        server.addWebApplication(application);
+        server.initialize();
+        server.start();
+        httpServer.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4003/test/TestServlet?test=mytest")).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertTrue(response.body().contains("Parameter name: test"));
+            assertTrue(response.body().contains("Parameter value: mytest"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        httpServer.stop();
+        server.stop();
+    }
+    
+    /**
      * Test getQueryString method.
      */
     @Test
     public void testGetQueryString() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(4003, server, false);
+        HttpServer httpServer = new DefaultHttpServer(4004, server, false);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetQueryStringServlet());
@@ -153,7 +183,7 @@ public class HttpWebApplicationRequestTest {
         httpServer.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4003/test/TestServlet?test=getQueryString")).build();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4004/test/TestServlet?test=getQueryString")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             assertTrue(response.body().contains("Query String: test=getQueryString"));
@@ -170,7 +200,7 @@ public class HttpWebApplicationRequestTest {
     @Test
     public void testGetQueryString2() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(4004, server, false);
+        HttpServer httpServer = new DefaultHttpServer(4005, server, false);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetQueryStringServlet());
@@ -181,7 +211,7 @@ public class HttpWebApplicationRequestTest {
         httpServer.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4004/test/TestServlet")).build();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4005/test/TestServlet")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             assertTrue(response.body().contains("Query String: null"));
@@ -198,7 +228,7 @@ public class HttpWebApplicationRequestTest {
     @Test
     public void testGetRequestURI() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(4005, server, false);
+        HttpServer httpServer = new DefaultHttpServer(4006, server, false);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetRequestURIServlet());
@@ -209,7 +239,7 @@ public class HttpWebApplicationRequestTest {
         httpServer.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4005/test/TestServlet")).build();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4006/test/TestServlet")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             assertTrue(response.body().contains("Request URI: /test/TestServlet"));

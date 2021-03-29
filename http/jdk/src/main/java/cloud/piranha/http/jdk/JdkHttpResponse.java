@@ -45,9 +45,9 @@ public class JdkHttpResponse implements HttpServerResponse {
     private HttpExchange exchange;
     
     /**
-     * Stores the status.
+     * Stores the status code.
      */
-    private int status;
+    private int statusCode;
 
     /**
      * Constructor.
@@ -79,13 +79,21 @@ public class JdkHttpResponse implements HttpServerResponse {
     }
 
     @Override
-    public void setStatus(int status) {
-        this.status = status;
+    public void setHttpVersion(String httpVersion) {
+    }
+
+    @Override
+    public void setReasonPhrase(String reasonPhrase) {
+    }
+
+    @Override
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
     }
 
     @Override
     public void writeHeaders() throws IOException {
-        exchange.sendResponseHeaders(status, 0);
+        exchange.sendResponseHeaders(statusCode, 0);
     }
 
     @Override
