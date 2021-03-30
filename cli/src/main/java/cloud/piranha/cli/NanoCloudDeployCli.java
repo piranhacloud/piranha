@@ -27,79 +27,66 @@
  */
 package cloud.piranha.cli;
 
-import java.io.BufferedReader;
+import picocli.CommandLine;
+
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.net.URI;
 import java.net.http.HttpClient;
-import static java.net.http.HttpClient.Redirect.ALWAYS;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.file.Path;
-import java.util.List;
+
+import static java.net.http.HttpClient.Redirect.ALWAYS;
 
 /**
  * The Piranha Nano Cloud Deploy CLI.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoCloudDeployCli {
-
-    /**
-     * Stores the pattern.
-     */
-    private static final String PATTERN = "  %-38s: %s\n";
+@CommandLine.Command(name = "deploy", description = "Deploy Piranha Nano application to the Cloud")
+public class NanoCloudDeployCli implements Runnable {
 
     /**
      * Stores the (application) name.
      */
+    @CommandLine.Option(names = "--name", required = true, description = "The name of the application")
     private String name;
 
     /**
      * Stores the password.
      */
-    private String password;
+    @CommandLine.Option(names = "--password", required = true, arity = "0..1", interactive = true, description = "The password to deploy with")
+    private char[] password;
 
     /**
      * Stores the username.
      */
+    @CommandLine.Option(names = "--username", required = true, description = "The username to deploy with")
     private String username;
 
     /**
      * Execute 'pi nano cloud deploy'.
-     *
-     * @param arguments the arguments.
      */
-    public void execute(List<String> arguments) {
-        parse(arguments);
-        if (name == null) {
-            usage();
-        } else {
-            File file = new File("target/azure.zip");
-            if (!file.exists()) {
-                System.out.println("The target/azure.zip file does not exist, please run 'pi nano cloud build' first.");
-                System.exit(1);
-            }
+    @Override
+    public void run() {
+        File file = new File("target/azure.zip");
+        if (!file.exists()) {
+            System.out.println("The target/azure.zip file does not exist, please run 'pi nano cloud build' first.");
+            System.exit(1);
         }
         try {
-            if (password == null) {
-                System.out.println("Please enter your password: ");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                password = reader.readLine();
-            }
-            
             System.out.println("Executing - POST https://" + name + ".scm.azurewebsites.net/api/zipdeploy");
             HttpClient client = HttpClient.newBuilder()
                     .followRedirects(ALWAYS)
                     .authenticator(new Authenticator() {
                         @Override
                         protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(username, password.toCharArray());
+                            return new PasswordAuthentication(username, password);
                         }
                     })
                     .build();
@@ -107,44 +94,11 @@ public class NanoCloudDeployCli {
                     .POST(BodyPublishers.ofFile(Path.of("target/azure.zip")))
                     .uri(URI.create("https://" + name + ".scm.azurewebsites.net/api/zipdeploy"))
                     .build();
-            HttpResponse response = client.send(request, BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
             System.out.println("Response status: " + response.statusCode());
-            System.out.println("Response body: " + response.body().toString());
+            System.out.println("Response body: " + response.body());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Parse out the arguments.
-     *
-     * @param arguments the arguments.
-     */
-    private void parse(List<String> arguments) {
-        for (int i = 0; i < arguments.size(); i++) {
-            if (arguments.get(i).equals("--name")) {
-                name = arguments.get(i + 1);
-            }
-            if (arguments.get(i).equals("--password")) {
-                password = arguments.get(i + 1);
-            }
-            if (arguments.get(i).equals("--username")) {
-                username = arguments.get(i + 1);
-            }
-        }
-    }
-
-    /**
-     * Shows the usage.
-     */
-    private void usage() {
-        System.out.println("usage: pi nano cloud deploy <arguments>");
-        System.out.println();
-        System.out.println("Required arguments");
-        System.out.printf(PATTERN, "--name <name>", "The name of the application");
-        System.out.printf(PATTERN, "--username <username>", "The username to deploy with");
-        System.out.println();
-        System.out.println("Optional arguments");
-        System.out.printf(PATTERN, "--password <password>", "The password to deploy with");
     }
 }
