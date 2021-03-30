@@ -32,7 +32,7 @@ import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.jdk.JdkHttpServer;
 
 /**
- * The Jdk HttpServer tests for HttpWebApplicationRequest.
+ * The JDK HttpServer tests for HttpWebApplicationRequest.
  * 
  * @author Manfred Riem (mriem@manorrokc.com)
  */

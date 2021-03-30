@@ -35,6 +35,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,20 @@ import org.junit.jupiter.api.Test;
 public abstract class HttpWebApplicationRequestTest {
     
     /**
+     * Stores our random.
+     */
+    private Random random = new Random();
+    
+    /**
+     * Get random port.
+     * 
+     * @return a random port.
+     */
+    public int getRandomPort() {
+        return 4000 + random.nextInt(1000);
+    }
+    
+    /**
      * Create the server.
      * 
      * @param port the port.
@@ -56,12 +71,77 @@ public abstract class HttpWebApplicationRequestTest {
     public abstract HttpServer createServer(int port, HttpServerProcessor processor);
     
     /**
+     * Test getCharacterEncoding method.
+     */
+    @Test
+    public void testGetCharacterEncoding() {
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        int port = getRandomPort();
+        HttpServer httpServer = createServer(port, server);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("/test");
+        application.addServlet("test", new TestGetCharacterEncodingServlet());
+        application.addServletMapping("test", "/TestServlet");
+        server.addWebApplication(application);
+        server.initialize();
+        server.start();
+        httpServer.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest
+                    .newBuilder(new URI("http://localhost:" + port + "/test/TestServlet"))
+                    .header("Content-Type", "text/html;charset=UTF-8")
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertTrue(response.body().contains("Character-Encoding: UTF-8"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        httpServer.stop();
+        server.stop();
+    }
+    
+    /**
+     * Test getCharacterEncoding method.
+     */
+    @Test
+    public void testGetCharacterEncoding2() {
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        int port = getRandomPort();
+        HttpServer httpServer = createServer(port, server);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("/test");
+        application.addServlet("test", new TestGetCharacterEncodingServlet());
+        application.addServletMapping("test", "/TestServlet");
+        server.addWebApplication(application);
+        server.initialize();
+        server.start();
+        httpServer.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest
+                    .newBuilder(new URI("http://localhost:" + port + "/test/TestServlet"))
+                    .header("Content-Type", "text/html;charset=ISO-8859-1")
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertTrue(response.body().contains("Character-Encoding: ISO-8859-1"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        httpServer.stop();
+        server.stop();
+    }
+    
+    /**
      * Test getContentLength method.
      */
     @Test
     public void testGetContentLength() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = createServer(4000, server);
+        int port = getRandomPort();
+        HttpServer httpServer = createServer(port, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetContentLengthServlet());
@@ -73,7 +153,7 @@ public abstract class HttpWebApplicationRequestTest {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest
-                    .newBuilder(new URI("http://localhost:4000/test/TestServlet"))
+                    .newBuilder(new URI("http://localhost:" + port + "/test/TestServlet"))
                     .header("Content-Type", "text/html")
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -92,7 +172,8 @@ public abstract class HttpWebApplicationRequestTest {
     @Test
     public void testGetContentType() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = createServer(4001, server);
+        int port = getRandomPort();
+        HttpServer httpServer = createServer(port, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetContentTypeServlet());
@@ -104,7 +185,7 @@ public abstract class HttpWebApplicationRequestTest {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest
-                    .newBuilder(new URI("http://localhost:4001/test/TestServlet"))
+                    .newBuilder(new URI("http://localhost:" + port + "/test/TestServlet"))
                     .header("Content-Type", "text/html")
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -123,7 +204,8 @@ public abstract class HttpWebApplicationRequestTest {
     @Test
     public void testGetContextPath() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = createServer(4002, server);
+        int port = getRandomPort();
+        HttpServer httpServer = createServer(port, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetContextPathServlet());
@@ -134,7 +216,7 @@ public abstract class HttpWebApplicationRequestTest {
         httpServer.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4002/test/TestServlet")).build();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:" + port + "/test/TestServlet")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             assertTrue(response.body().contains("Context Path: /test"));
@@ -151,7 +233,8 @@ public abstract class HttpWebApplicationRequestTest {
     @Test
     public void testGetParameter() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = createServer(4003, server);
+        int port = getRandomPort();
+        HttpServer httpServer = createServer(port, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetParameterServlet());
@@ -162,7 +245,7 @@ public abstract class HttpWebApplicationRequestTest {
         httpServer.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4003/test/TestServlet?test=mytest")).build();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:" + port + "/test/TestServlet?test=mytest")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             assertTrue(response.body().contains("Parameter name: test"));
@@ -180,7 +263,8 @@ public abstract class HttpWebApplicationRequestTest {
     @Test
     public void testGetQueryString() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = createServer(4004, server);
+        int port = getRandomPort();
+        HttpServer httpServer = createServer(port, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetQueryStringServlet());
@@ -191,7 +275,7 @@ public abstract class HttpWebApplicationRequestTest {
         httpServer.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4004/test/TestServlet?test=getQueryString")).build();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:" + port + "/test/TestServlet?test=getQueryString")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             assertTrue(response.body().contains("Query String: test=getQueryString"));
@@ -208,7 +292,8 @@ public abstract class HttpWebApplicationRequestTest {
     @Test
     public void testGetQueryString2() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = createServer(4005, server);
+        int port = getRandomPort();
+        HttpServer httpServer = createServer(port, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetQueryStringServlet());
@@ -219,7 +304,7 @@ public abstract class HttpWebApplicationRequestTest {
         httpServer.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4005/test/TestServlet")).build();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:" + port + "/test/TestServlet")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             assertTrue(response.body().contains("Query String: null"));
@@ -236,7 +321,8 @@ public abstract class HttpWebApplicationRequestTest {
     @Test
     public void testGetRequestURI() {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = createServer(4006, server);
+        int port = getRandomPort();
+        HttpServer httpServer = createServer(port, server);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("/test");
         application.addServlet("test", new TestGetRequestURIServlet());
@@ -247,7 +333,7 @@ public abstract class HttpWebApplicationRequestTest {
         httpServer.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:4006/test/TestServlet")).build();
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:" + port + "/test/TestServlet")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             assertTrue(response.body().contains("Request URI: /test/TestServlet"));

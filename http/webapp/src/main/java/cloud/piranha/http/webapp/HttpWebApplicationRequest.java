@@ -36,6 +36,11 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
+    
+    /**
+     * Stores the character-encoding processed flag.
+     */
+    private boolean characterEncodingProcessed;
 
     /**
      * Stores the wrapped HttpServerRequest.
@@ -56,10 +61,20 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
         } else {
             this.contextPath = wrapped.getRequestTarget();
         }
+        this.characterEncodingProcessed = false;
         this.headerManager = new HttpWebApplicationRequestHeaderManager(wrapped);
         this.inputStream = wrapped.getMessageBody();
         this.servletPath = "";
         this.wrapped = wrapped;
+    }
+
+    @Override
+    public String getCharacterEncoding() {
+        if (!characterEncodingProcessed && characterEncoding == null) {
+            setContentType(headerManager.getHeader("Content-Type"));
+            characterEncodingProcessed = true;
+        }
+        return characterEncoding;
     }
 
     @Override
