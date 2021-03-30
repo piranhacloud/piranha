@@ -27,9 +27,11 @@
  */
 package cloud.piranha.cli;
 
+import picocli.CommandLine;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+
 import static java.util.concurrent.TimeUnit.HOURS;
 
 /**
@@ -37,14 +39,14 @@ import static java.util.concurrent.TimeUnit.HOURS;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoCloudBuildCli {
+@CommandLine.Command(name = "build", description = "Build Piranha Nano application for the Cloud")
+public class NanoCloudBuildCli implements Runnable {
 
     /**
      * Execute 'pi nano cloud build'.
-     *
-     * @param arguments the arguments.
      */
-    public void execute(List<String> arguments) {
+    @Override
+    public void run() {
         try {
             System.out.println("Executing - docker build --target zip -t zip -f Dockerfile .");
             ProcessBuilder builder = new ProcessBuilder();

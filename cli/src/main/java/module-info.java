@@ -38,6 +38,8 @@
 module cloud.piranha.cli {
     
     exports cloud.piranha.cli;
+    opens cloud.piranha.cli to info.picocli;
+    requires info.picocli;
     requires java.net.http;
     requires jdk.crypto.ec;
 }
