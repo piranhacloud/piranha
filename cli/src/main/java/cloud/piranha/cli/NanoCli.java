@@ -27,66 +27,13 @@
  */
 package cloud.piranha.cli;
 
-import java.util.ArrayList;
-import java.util.List;
+import picocli.CommandLine;
 
 /**
  * The Piranha Nano CLI.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@CommandLine.Command(name = "nano", subcommands = {NanoCloudCli.class, NanoGenerateCli.class}, description = "Use Piranha Nano")
 public class NanoCli {
-
-    /**
-     * Stores the pattern.
-     */
-    private static final String PATTERN = "  %-10s: %s\n";
-    
-    private void cloud(List<String> arguments) {
-        NanoCloudCli cli = new NanoCloudCli();
-        cli.execute(arguments);
-    }
-
-    /**
-     * Execute the Nano CLI.
-     * 
-     * @param arguments the arguments.
-     */
-    public void execute(List<String> arguments) {
-        if (!arguments.isEmpty()) {
-            ArrayList<String> list = new ArrayList<>();
-            list.addAll(arguments);
-            if (!list.isEmpty()) {
-                list.remove(0);
-            }
-            switch (arguments.get(0)) {
-                case "cloud":
-                    cloud(list);
-                    break;
-                case "generate":
-                    generate(list);
-                    break;
-                default:
-                    usage();
-                    break;
-            }
-        } else {
-            usage();
-        }
-    }
-    
-    private void generate(List<String> arguments) {
-        NanoGenerateCli cli = new NanoGenerateCli();
-        cli.execute(arguments);
-    }
-
-    /**
-     * Shows the usage.
-     */
-    private void usage() {
-        System.out.println("usage: pi nano <command>");
-        System.out.println();
-        System.out.printf(PATTERN, "cloud", "Administer a Piranha Nano application on the cloud");
-        System.out.printf(PATTERN, "generate", "Generate a Piranha Nano application");
-    }
 }

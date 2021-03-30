@@ -27,6 +27,8 @@
  */
 package cloud.piranha.cli;
 
+import picocli.CommandLine;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,7 +38,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
-import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -45,21 +46,17 @@ import java.util.zip.ZipInputStream;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoGenerateCli {
-
-    /**
-     * Stores the pattern.
-     */
-    private static final String PATTERN = "  %-38s: %s\n";
-
+@CommandLine.Command(name = "generate", description = "Generate a Piranha Nano application")
+public class NanoGenerateCli implements Runnable {
     /**
      * Stores the output directory.
      */
-    private String outputDirectory = "";
-    
+    @CommandLine.Option(names = "--outputDirectory", description = "The output directory")
+    private String outputDirectory;
+
     /**
      * Construct the filename.
-     * 
+     *
      * @param entryName the entry name.
      * @return the filename.
      */
@@ -71,19 +68,10 @@ public class NanoGenerateCli {
     }
 
     /**
-     * Execute the Nano CLI.
-     *
-     * @param arguments the arguments.
-     */
-    public void execute(List<String> arguments) {
-        parse(arguments);
-        generate();
-    }
-
-    /**
      * Generate the project.
      */
-    private void generate() {
+    @Override
+    public void run() {
         try {
             HttpClient client = HttpClient
                     .newBuilder()
@@ -94,19 +82,19 @@ public class NanoGenerateCli {
                     .newBuilder()
                     .uri(URI.create("https://github.com/piranhacloud/piranha-nano-servlet-helloworld/archive/main.zip"))
                     .build();
-            
-            HttpResponse response = client.send(request, BodyHandlers.ofInputStream());
-            InputStream inputStream = (InputStream) response.body();
-            
-            try ( ZipInputStream zipInput = new ZipInputStream(inputStream)) {
+
+            HttpResponse<InputStream> response = client.send(request, BodyHandlers.ofInputStream());
+            InputStream inputStream = response.body();
+
+            try (ZipInputStream zipInput = new ZipInputStream(inputStream)) {
                 ZipEntry zipEntry;
                 while ((zipEntry = zipInput.getNextEntry()) != null) {
                     if (zipEntry.isDirectory()) {
                         File directory = new File(constructFilename(zipEntry.getName()));
                         directory.mkdirs();
                     } else {
-                        try ( FileOutputStream fileOutput = new FileOutputStream(
-                                new File(constructFilename(zipEntry.getName())))) {
+                        try (FileOutputStream fileOutput = new FileOutputStream(
+                                constructFilename(zipEntry.getName()))) {
                             byte[] buffer = new byte[8192];
                             int length;
                             while ((length = zipInput.read(buffer)) != -1) {
@@ -119,30 +107,7 @@ public class NanoGenerateCli {
                 }
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println("An error occured: " + e.getMessage());
+            System.out.println("An error occurred: " + e.getMessage());
         }
-    }
-
-    /**
-     * Parse out the arguments.
-     *
-     * @param arguments the arguments.
-     */
-    private void parse(List<String> arguments) {
-        for (int i = 0; i < arguments.size(); i++) {
-            if (arguments.get(i).equals("--outputDirectory")) {
-                outputDirectory = arguments.get(i + 1);
-            }
-        }
-    }
-
-    /**
-     * Shows the usage.
-     */
-    private void usage() {
-        System.out.println("usage: pi nano generate <arguments>");
-        System.out.println();
-        System.out.println("Optional arguments:");
-        System.out.printf(PATTERN, "--outputDirectory <outputDirectory>", "The output directory");
     }
 }
