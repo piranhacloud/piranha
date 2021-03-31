@@ -1271,6 +1271,10 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void setContentType(String contentType) {
         this.contentType = contentType;
         
+        if (contentType == null) {
+            return;
+        }
+        
         if (contentType.startsWith("multipart/form-data")) {
             // "multipart/form-data" contains a boundary and no charset
             return;
