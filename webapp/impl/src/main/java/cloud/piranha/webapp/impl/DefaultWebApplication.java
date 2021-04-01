@@ -138,8 +138,8 @@ public class DefaultWebApplication implements WebApplication {
     protected static final int SETUP = 0;
 
     /**
-     * Stores the INITIALIZED_DECLARED constant. This signals that web.xml, web-fragment.xml
-     * and annotations have been processed.
+     * Stores the INITIALIZED_DECLARED constant. This signals that web.xml,
+     * web-fragment.xml and annotations have been processed.
      */
     protected static final int INITIALIZED_DECLARED = 4;
 
@@ -157,7 +157,6 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the ERROR constant.
      */
     protected static final int ERROR = 3;
-
 
     /**
      * Stores the logger.
@@ -262,12 +261,14 @@ public class DefaultWebApplication implements WebApplication {
     protected final List<ServletContextAttributeListener> contextAttributeListeners;
 
     /**
-     * Stores the servlet context listeners that were declared in web.xml, web-fragment.xml, or via annotations
+     * Stores the servlet context listeners that were declared in web.xml,
+     * web-fragment.xml, or via annotations
      */
     protected final List<ServletContextListener> declaredContextListeners;
 
     /**
-     * Stores the servlet context listeners that were not declared in web.xml, web-fragment.xml, or via annotations
+     * Stores the servlet context listeners that were not declared in web.xml,
+     * web-fragment.xml, or via annotations
      */
     protected final List<ServletContextListener> contextListeners;
 
@@ -326,7 +327,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the multi part manager.
      */
     protected MultiPartManager multiPartManager;
-    
+
     /**
      * Stores the request character encoding.
      */
@@ -343,32 +344,32 @@ public class DefaultWebApplication implements WebApplication {
     protected WelcomeFileManager welcomeFileManager;
 
     /**
-     * Stores the invocation finder, which finds a Servlet, Filter(chain) and variants thereof to invoke
-     * for a given request path.
+     * Stores the invocation finder, which finds a Servlet, Filter(chain) and
+     * variants thereof to invoke for a given request path.
      */
     protected DefaultInvocationFinder invocationFinder;
 
     /**
-     * The source object where this web application instance originates from, i.e. the artifact this
-     * was last passed into by the container. Compare to the source object of an event.
+     * The source object where this web application instance originates from,
+     * i.e. the artifact this was last passed into by the container. Compare to
+     * the source object of an event.
      */
     protected Object source;
-    
-    /**
-     * When we're in tainted mode, we have to throw exceptions for a large number of methods.
-     *
-     * Tainted mode is required for ServletContextListeners which have not been declared. At the
-     * moment of writing it's not clear why this tainted mode is needed.
-     */
-    protected boolean tainted;
 
-    // ------------------------------------------------------------------------
-    //  Private fields.
-    // ------------------------------------------------------------------------
     /**
      * Stores the managers.
      */
-    private final HashMap<Class, Object> managers = new HashMap<>();
+    protected final HashMap<Class, Object> managers = new HashMap<>();
+
+    /**
+     * When we're in tainted mode, we have to throw exceptions for a large
+     * number of methods.
+     *
+     * Tainted mode is required for ServletContextListeners which have not been
+     * declared. At the moment of writing it's not clear why this tainted mode
+     * is needed.
+     */
+    protected boolean tainted;
 
     /**
      * Constructor.
@@ -703,7 +704,6 @@ public class DefaultWebApplication implements WebApplication {
 
         servletEnvironments.values().stream().forEach(servletEnv -> servletEnv.getServlet().destroy());
         servletEnvironments.clear();
-
 
         reverse(contextListeners);
         contextListeners.stream().forEach(listener -> listener.contextDestroyed(new ServletContextEvent(this)));
@@ -1064,7 +1064,8 @@ public class DefaultWebApplication implements WebApplication {
      * Returns the file path or the first nested folder
      *
      * @apiNote
-     *  <p><b>Examples.</b>
+     * <p>
+     * <b>Examples.</b>
      * <pre>{@code
      *  getFileOrFirstFolder("/rootFolder", "/rootFolder/file.html").equals("/rootFolder/file.html")
      * }</pre>
@@ -1082,7 +1083,7 @@ public class DefaultWebApplication implements WebApplication {
      * @param resource the resource that is a file directory or file
      * @return the file path or the first nested folder
      */
-    private String getFileOrFirstFolder(String path, String resource){
+    private String getFileOrFirstFolder(String path, String resource) {
         String normalizedPath = path.endsWith("/") ? path : path + "/";
         String[] split = resource.replace(normalizedPath, "/").split("/");
 
@@ -1096,19 +1097,22 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Returns a directory-like listing of all the paths to resources
-     * within the web application whose longest sub-path matches the supplied path argument.
+     * Returns a directory-like listing of all the paths to resources within the
+     * web application whose longest sub-path matches the supplied path
+     * argument.
+     *
      * @param path the partial path used to match the resources
-     * @return a Set containing the directory listing, or null if there are no resources in the web application
-     * whose path begins with the supplied path.
+     * @return a Set containing the directory listing, or null if there are no
+     * resources in the web application whose path begins with the supplied
+     * path.
      */
     private Set<String> getResourcePathsImpl(String path) {
-        Set<String> collect =
-            resourceManager.getAllLocations()
-                           .filter(resource -> resource.startsWith(path))
-                           .filter(not(isEqual(path)))
-                           .map(resource -> getFileOrFirstFolder(path, resource))
-                           .collect(toSet());
+        Set<String> collect
+                = resourceManager.getAllLocations()
+                        .filter(resource -> resource.startsWith(path))
+                        .filter(not(isEqual(path)))
+                        .map(resource -> getFileOrFirstFolder(path, resource))
+                        .collect(toSet());
 
         if (collect.isEmpty()) {
             return null;
@@ -1116,6 +1120,7 @@ public class DefaultWebApplication implements WebApplication {
 
         return collect;
     }
+
     /**
      * Get the resource paths.
      *
@@ -1382,7 +1387,7 @@ public class DefaultWebApplication implements WebApplication {
                 try {
                     source = initializer;
                     initializer.onStartup(classes, this);
-                }  finally {
+                } finally {
                     source = null;
                 }
             } catch (Throwable t) {
@@ -1455,14 +1460,14 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Is the web application initialized.
-     * 
+     *
      * @return true if it is, false otherwise.
      */
     @Override
     public boolean isInitialized() {
         return status >= INITIALIZED && status < ERROR;
     }
-    
+
     /**
      * Initialize the servlet.
      *
@@ -1948,12 +1953,7 @@ public class DefaultWebApplication implements WebApplication {
         return asyncManager;
     }
 
-
-
     // ### Private methods
-
-
-
     /**
      * Get the name request dispatcher.
      *
@@ -2029,9 +2029,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     private boolean isPermanentlyUnavailable(DefaultServletEnvironment environment) {
-        return
-            environment.getUnavailableException() instanceof UnavailableException && ((UnavailableException)
-            environment.getUnavailableException()).isPermanent();
+        return environment.getUnavailableException() instanceof UnavailableException && ((UnavailableException) environment.getUnavailableException()).isPermanent();
     }
 
     private void checkTainted() {
@@ -2057,7 +2055,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Is the string empty.
-     * 
+     *
      * @param string the string.
      * @return true if the string is null or empty, false otherwise.
      */
