@@ -27,6 +27,7 @@
  */
 package cloud.piranha.micro.embedded;
 
+import cloud.piranha.naming.api.NamingManager;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -79,7 +80,7 @@ public class MicroWebApplication extends DefaultWebApplication {
     public void service(ServletRequest request, ServletResponse response) {
         try {
             ThreadPolicy.setPolicy(getPolicyManager().getPolicy());
-            ThreadInitialContextFactory.setInitialContext(getNamingManager().getContext());
+            ThreadInitialContextFactory.setInitialContext(getManager(NamingManager.class).getContext());
             deployedApplication.accept(copyApplicationRequestToMap((WebApplicationRequest) request, (WebApplicationResponse) response));
         } finally {
             ThreadPolicy.removePolicy();

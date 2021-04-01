@@ -27,7 +27,6 @@
  */
 package cloud.piranha.webapp.api;
 
-import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.policy.api.PolicyManager;
 import java.io.IOException;
 import java.util.Collection;
@@ -189,13 +188,6 @@ public interface WebApplication extends ServletContext {
      * @return the multi part manager.
      */
     MultiPartManager getMultiPartManager();
-    
-    /**
-     * Get the naming manager.
-     * 
-     * @return the naming manager.
-     */
-    NamingManager getNamingManager();
     
     /**
      * Get the policy manager.
@@ -441,13 +433,6 @@ public interface WebApplication extends ServletContext {
      * @param multiPartManager the multi part manager.
      */
     void setMultiPartManager(MultiPartManager multiPartManager);
-    
-    /**
-     * Set the naming manager.
-     * 
-     * @param namingManager the naming manager.
-     */
-    void setNamingManager(NamingManager namingManager);
 
     /**
      * Set the object instance manager.
@@ -521,4 +506,21 @@ public interface WebApplication extends ServletContext {
      * @param response the response.
      */
     void unlinkRequestAndResponse(ServletRequest request, ServletResponse response);
+    
+    /**
+     * Get the manager for the specific type.
+     * 
+     * @param <T> the underlying type.
+     * @param type the type of manager.
+     * @return the manager, or null if not found.
+     */
+    <T extends Object> T getManager(Class<T> type);
+    
+    /**
+     * Set the manager for the specific type.
+     * 
+     * @param type the type.
+     * @param manager the manager.
+     */
+    void setManager(Class type, Object manager);
 }
