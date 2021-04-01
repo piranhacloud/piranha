@@ -36,84 +36,87 @@ import cloud.piranha.policy.thread.ThreadPolicy;
 
 /**
  * Builder for an embedded Piranha instance based on Piranha Micro
- * 
+ *
  * @author Arjan Tijms
  */
 public class MicroEmbeddedPiranhaBuilder {
 
-	/**
-	 * Object containing all configuration settings for Piranha Micro
-	 */
-	private MicroConfiguration configuration;
-	
-	/**
-	 * Application archive that will be executed by Piranha Micro
-	 */
-	private Archive<?> archive;
+    /**
+     * Object containing all configuration settings for Piranha Micro
+     */
+    private MicroConfiguration configuration;
 
-	/**
-	 * Sets the configuration for Piranha Micro
-	 * 
-	 * @param configuration the configuration
-	 * @return instance of this builder
-	 */
-	public MicroEmbeddedPiranhaBuilder configuration(MicroConfiguration configuration) {
-		this.configuration = configuration;
-		return this;
-	}
+    /**
+     * Application archive that will be executed by Piranha Micro
+     */
+    private Archive<?> archive;
 
-	/**
-	 * Set the application archive that will be loaded and executed by Piranha Micro
-	 * 
-	 * @param archive the archive to be executed
-	 * @return instance of this builder
-	 */
-	public MicroEmbeddedPiranhaBuilder archive(Archive<?> archive) {
-		this.archive = archive;
-		return this;
-	}
+    /**
+     * Sets the configuration for Piranha Micro
+     *
+     * @param configuration the configuration
+     * @return instance of this builder
+     */
+    public MicroEmbeddedPiranhaBuilder configuration(MicroConfiguration configuration) {
+        this.configuration = configuration;
+        return this;
+    }
 
-	/**
-	 * Builds an embedded Piranha Micro instance and deploys the archive set by this builder to it.
-	 * @return the newly created Piranha Micro instance
-	 */
-	public MicroEmbeddedPiranha buildAndStart() {
-		MicroEmbeddedPiranha microEmbeddedPiranha = new MicroEmbeddedPiranha();
-		MicroWebApplication microWebApplication = microEmbeddedPiranha.getWebApplication();
-		if (configuration == null) {
-			// Use default config is nothing set
-			configuration = new MicroConfiguration();
-			configuration.setHttpStart(false);
-		}
+    /**
+     * Set the application archive that will be loaded and executed by Piranha
+     * Micro
+     *
+     * @param archive the archive to be executed
+     * @return instance of this builder
+     */
+    public MicroEmbeddedPiranhaBuilder archive(Archive<?> archive) {
+        this.archive = archive;
+        return this;
+    }
 
-		if (configuration.getRoot() != null) {
-			// If an explicit root is set, use it. Otherwise use the default.
-			microWebApplication.setContextPath(configuration.getRoot());
-		}
+    /**
+     * Builds an embedded Piranha Micro instance and deploys the archive set by
+     * this builder to it.
+     *
+     * @return the newly created Piranha Micro instance
+     */
+    public MicroEmbeddedPiranha buildAndStart() {
+        MicroEmbeddedPiranha microEmbeddedPiranha = new MicroEmbeddedPiranha();
+        MicroWebApplication microWebApplication = microEmbeddedPiranha.getWebApplication();
+        if (configuration == null) {
+            // Use default config is nothing set
+            configuration = new MicroConfiguration();
+            configuration.setHttpStart(false);
+        }
 
-		try {
-			ThreadPolicy.setPolicy(microWebApplication.getPolicyManager().getPolicy());
-			ThreadInitialContextFactory.setInitialContext(microWebApplication.getNamingManager().getContext());
+        if (configuration.getRoot() != null) {
+            // If an explicit root is set, use it. Otherwise use the default.
+            microWebApplication.setContextPath(configuration.getRoot());
+        }
 
-			microWebApplication.setDeployedApplication(
-					new MicroOuterDeployer(configuration.postConstruct()).deploy(archive).getDeployedApplication());
-			
-			if (!configuration.isHttpStart()) {
-			    ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
-	            try {
-	                Thread.currentThread().setContextClassLoader(microWebApplication.getClassLoader());
-	                microWebApplication.initialize();
-	                microWebApplication.start();
-	            } finally {
-	                Thread.currentThread().setContextClassLoader(oldClassLoader);
-	            }
-			}
-			
-			return microEmbeddedPiranha;
-		} finally {
-			ThreadPolicy.removePolicy();
-			ThreadInitialContextFactory.removeInitialContext();
-		}
-	}
+        try {
+            ThreadPolicy.setPolicy(microWebApplication.getPolicyManager().getPolicy());
+            ThreadInitialContextFactory.setInitialContext(microWebApplication.getNamingManager().getContext());
+
+            microWebApplication.setDeployedApplication(
+                    new MicroOuterDeployer(configuration.postConstruct()).deploy(archive).getDeployedApplication());
+
+            if (!configuration.isHttpStart()) {
+                ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+                try {
+                    Thread.currentThread().setContextClassLoader(microWebApplication.getClassLoader());
+                    microWebApplication.initialize();
+                    microWebApplication.start();
+                } finally {
+                    Thread.currentThread().setContextClassLoader(oldClassLoader);
+                }
+            }
+
+            return microEmbeddedPiranha;
+        } finally {
+            ThreadPolicy.removePolicy();
+            ThreadInitialContextFactory.removeInitialContext();
+        }
+    }
 
 }

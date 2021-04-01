@@ -65,6 +65,7 @@ import cloud.piranha.webapp.api.CurrentRequestHolder;
 import cloud.piranha.webapp.api.FilterEnvironment;
 import cloud.piranha.webapp.api.ServletEnvironment;
 import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.webapp.api.WebApplicationResponse;
 
 /**
  * The default ServletRequestDispatcher.
@@ -139,16 +140,16 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
      * Dispatches using the REQUEST dispatch type
      *
      * @param webappRequest the request.
-     * @param httpResponse the response.
+     * @param webappResponse the response.
      * @throws ServletException when a servlet error occurs.
      * @throws IOException when an I/O error occurs.
      */
-    public void request(DefaultWebApplicationRequest webappRequest, DefaultWebApplicationResponse httpResponse) throws ServletException, IOException {
+    public void request(WebApplicationRequest webappRequest, WebApplicationResponse webappResponse) throws ServletException, IOException {
         Throwable exception = null;
 
         if (servletInvocation == null || !servletInvocation.canInvoke() && !servletInvocation.isServletUnavailable()) {
             // If there's nothing to invoke at all, there was nothing found, so return a 404
-            httpResponse.sendError(404);
+            webappResponse.sendError(404);
         } else {
 
             // There's either a Servlet, Filter or both found matching the request.
@@ -162,7 +163,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 webappRequest.setOriginalServletPath(servletInvocation.getOriginalServletPath());
                 webappRequest.setPathInfo(servletInvocation.getPathInfo());
 
-                servletInvocation.getFilterChain().doFilter(webappRequest, httpResponse);
+                servletInvocation.getFilterChain().doFilter(webappRequest, webappResponse);
             } catch (Throwable e) {
                 if (webappRequest.getAttribute("piranha.request.exception") != null) {
                     exception = (Exception) webappRequest.getAttribute("piranha.request.exception");
@@ -173,25 +174,25 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
 
         if (exception != null) {
-            httpResponse.setStatus(exception instanceof UnavailableException ? SC_NOT_FOUND : SC_INTERNAL_SERVER_ERROR);
+            webappResponse.setStatus(exception instanceof UnavailableException ? SC_NOT_FOUND : SC_INTERNAL_SERVER_ERROR);
         }
 
-        String errorPagePath = errorPageManager.getErrorPage(exception, httpResponse);
+        String errorPagePath = errorPageManager.getErrorPage(exception, webappResponse);
 
         if (errorPagePath != null) {
             try {
-                webApplication.getRequestDispatcher(errorPagePath).error(servletInvocation == null? null : servletInvocation.getServletName(), webappRequest, httpResponse, exception);
+                webApplication.getRequestDispatcher(errorPagePath).error(servletInvocation == null? null : servletInvocation.getServletName(), webappRequest, webappResponse, exception);
             } catch (Exception e) {
                 rethrow(e);
             }
         } else if (exception != null) {
-            exception.printStackTrace(httpResponse.getWriter());
-            httpResponse.flushBuffer();
+            exception.printStackTrace(webappResponse.getWriter());
+            webappResponse.flushBuffer();
             rethrow(exception);
         }
 
         if (!webappRequest.isAsyncStarted()) {
-            httpResponse.flushBuffer();
+            webappResponse.flushBuffer();
         }
     }
 
