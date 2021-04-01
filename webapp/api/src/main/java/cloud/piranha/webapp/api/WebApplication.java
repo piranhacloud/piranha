@@ -173,13 +173,6 @@ public interface WebApplication extends ServletContext {
     boolean getDenyUncoveredHttpMethods();
 
     /**
-     * Get the mime type manager.
-     *
-     * @return the mime type manager.
-     */
-    MimeTypeManager getMimeTypeManager();
-
-    /**
      * Get the multi part manager.
      *
      * @return the multi part manager.
@@ -409,13 +402,6 @@ public interface WebApplication extends ServletContext {
      * @param loggingManager the logging manager.
      */
     void setLoggingManager(LoggingManager loggingManager);
-
-    /**
-     * Set the mimeType manager.
-     *
-     * @param mimeTypeManager the mimeType manager.
-     */
-    void setMimeTypeManager(MimeTypeManager mimeTypeManager);
 
     /**
      * Set the multi part manager.

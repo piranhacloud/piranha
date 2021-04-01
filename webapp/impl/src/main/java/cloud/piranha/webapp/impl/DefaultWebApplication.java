@@ -323,11 +323,6 @@ public class DefaultWebApplication implements WebApplication {
     protected HttpRequestManager httpRequestManager;
 
     /**
-     * Stores the mime type manager.
-     */
-    protected MimeTypeManager mimeTypeManager;
-
-    /**
      * Stores the multi part manager.
      */
     protected MultiPartManager multiPartManager;
@@ -392,8 +387,8 @@ public class DefaultWebApplication implements WebApplication {
         initializers = new ArrayList<>(1);
         jspManager = new DefaultJspFileManager();
         loggingManager = new DefaultLoggingManager();
-        mimeTypeManager = new DefaultMimeTypeManager();
         multiPartManager = new DefaultMultiPartManager();
+        managers.put(MimeTypeManager.class, new DefaultMimeTypeManager());
         managers.put(NamingManager.class, new DefaultNamingManager(new DefaultInitialContext()));
         managers.put(PolicyManager.class, new DefaultPolicyManager());
         objectInstanceManager = new DefaultObjectInstanceManager();
@@ -966,17 +961,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public String getMimeType(String filename) {
-        return mimeTypeManager.getMimeType(filename);
-    }
-
-    /**
-     * Get the mime type manager.
-     *
-     * @return the mime type manager.
-     */
-    @Override
-    public MimeTypeManager getMimeTypeManager() {
-        return mimeTypeManager;
+        return getManager(MimeTypeManager.class).getMimeType(filename);
     }
 
     /**
@@ -1744,16 +1729,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Set the mimeType manager.
-     *
-     * @param mimeTypeManager the mimeType manager.
-     */
-    @Override
-    public void setMimeTypeManager(MimeTypeManager mimeTypeManager) {
-        this.mimeTypeManager = mimeTypeManager;
-    }
-
-    /**
      * Set the multi part manager.
      *
      * @param multiPartManager the multi part manager.
@@ -2062,13 +2037,16 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
+    /**
+     * Determine if we are already servicing in which case the method calling
+     * this needs to throw an IllegalStateException.
+     */
     private void checkServicing() {
         if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has initialized");
         }
     }
 
-    
     @Override
     public <T extends Object> T getManager(Class<T> type) {
         return type.cast(managers.get(type));
