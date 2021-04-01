@@ -43,6 +43,7 @@ import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletRegistration;
 
 import cloud.piranha.webapp.api.LocaleEncodingManager;
+import cloud.piranha.webapp.api.MimeTypeManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WelcomeFileManager;
 import cloud.piranha.webapp.impl.WebXml;
@@ -264,7 +265,7 @@ public class WebXmlProcessor {
         Iterator<WebXmlMimeMapping> mappingIterator = webXml.getMimeMappings().iterator();
         while (mappingIterator.hasNext()) {
             WebXmlMimeMapping mapping = mappingIterator.next();
-            webApplication.getMimeTypeManager()
+            webApplication.getManager(MimeTypeManager.class)
                     .addMimeType(mapping.getExtension(), mapping.getMimeType());
         }
     }

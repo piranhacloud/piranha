@@ -58,6 +58,7 @@ import org.junit.jupiter.api.Test;
 
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.webapp.api.MimeTypeManager;
 import cloud.piranha.webapp.impl.DefaultMimeTypeManager;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultServlet;
@@ -110,7 +111,8 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test addMapping method (verify when we add twice addMapping will return a empty set).
+     * Test addMapping method (verify when we add twice addMapping will return a
+     * empty set).
      */
     @Test
     void testAddMapping2() {
@@ -409,7 +411,7 @@ class DefaultWebApplicationTest {
     void testGetMimeType() {
         DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setMimeTypeManager(mimeTypeManager);
+        webApp.setManager(MimeTypeManager.class, mimeTypeManager);
         assertNull(webApp.getMimeType("this_maps_to.null"));
     }
 
@@ -421,7 +423,7 @@ class DefaultWebApplicationTest {
         DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
         mimeTypeManager.addMimeType("class", "application/x-java-class");
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setMimeTypeManager(mimeTypeManager);
+        webApp.setManager(MimeTypeManager.class, mimeTypeManager);
         assertEquals(webApp.getMimeType("my.class"), "application/x-java-class");
     }
 
@@ -1013,7 +1015,6 @@ class DefaultWebApplicationTest {
         assertThrows(NullPointerException.class, () -> webApp.getAttribute(null));
     }
 
-
     /**
      * Test setClassLoader method.
      */
@@ -1054,7 +1055,6 @@ class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertThrows(NullPointerException.class, () -> webApp.setInitParameter(null, "KABOOM"));
     }
-
 
     /**
      * Test setInitParameter method.
