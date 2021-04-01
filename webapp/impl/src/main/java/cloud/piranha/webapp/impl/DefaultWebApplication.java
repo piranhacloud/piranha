@@ -359,7 +359,7 @@ public class DefaultWebApplication implements WebApplication {
     /**
      * Stores the managers.
      */
-    protected final HashMap<Class, Object> managers = new HashMap<>();
+    protected HashMap<Class, Object> managers = new HashMap<>();
 
     /**
      * When we're in tainted mode, we have to throw exceptions for a large
