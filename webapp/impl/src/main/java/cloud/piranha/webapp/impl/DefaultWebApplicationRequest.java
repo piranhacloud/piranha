@@ -30,6 +30,7 @@ package cloud.piranha.webapp.impl;
 import cloud.piranha.webapp.api.AttributeManager;
 import cloud.piranha.webapp.api.HttpHeaderManager;
 import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.MultiPartManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import static cloud.piranha.webapp.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
@@ -181,7 +182,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the method.
      */
     protected String method;
-    
+
     /**
      * Stores the multipartConfig.
      */
@@ -266,7 +267,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the servlet path.
      */
     protected String servletPath;
-    
+
     /**
      * Stores the original servlet path.
      */
@@ -447,7 +448,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
         return contentType;
     }
-   
+
     @Override
     public String getContextPath() {
         return contextPath;
@@ -621,7 +622,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public String getMethod() {
         return method;
     }
-    
+
     @Override
     public MultipartConfigElement getMultipartConfig() {
         return multipartConfig;
@@ -633,7 +634,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void setMultipartConfig(MultipartConfigElement multipartConfig) {
         this.multipartConfig = multipartConfig;
     }
-   
+
     @Override
     public String getParameter(String name) {
         String result = null;
@@ -643,7 +644,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
         return result;
     }
-    
+
     @Override
     public Map<String, String[]> getParameterMap() {
         getParametersFromRequest();
@@ -690,11 +691,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                         }
                     }
                 }
-                
+
                 boolean hasMultiPart
                         = // FORM/Multipart submission
                         contentType != null && contentType.startsWith("multipart/form-data");
-                
+
                 if (hasMultiPart) {
                     for (Part part : getParts()) {
                         if (part.getSubmittedFileName() == null) {
@@ -703,11 +704,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                     }
                 } else {
 
-                boolean hasBody
-                        = // FORM submission
-                        contentType != null && contentType.startsWith("application/x-www-form-urlencoded")
-                        || // PUT parameters
-                        "put".equalsIgnoreCase(getMethod()) && getContentLength() > 0;
+                    boolean hasBody
+                            = // FORM submission
+                            contentType != null && contentType.startsWith("application/x-www-form-urlencoded")
+                            || // PUT parameters
+                            "put".equalsIgnoreCase(getMethod()) && getContentLength() > 0;
 
                     if (hasBody) {
                         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
@@ -716,11 +717,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                             byteOutput.write(read);
                             read = read();
                         }
-    
+
                         if (read != -1) {
                             byteOutput.write(read);
                         }
-    
+
                         String parameterString = new String(byteOutput.toByteArray());
                         String[] pairs = parameterString.trim().split("&");
                         if (pairs != null) {
@@ -748,7 +749,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     /**
      * Merge query string from this request and from the attribute
-     * {@link RequestDispatcher.INCLUDE_QUERY_STRING} if the dispatcher type is {@link DispatcherType.INCLUDE}
+     * {@link RequestDispatcher.INCLUDE_QUERY_STRING} if the dispatcher type is
+     * {@link DispatcherType.INCLUDE}
+     *
      * @return the query string merged
      */
     private String mergeQueryFromAttributes() {
@@ -775,7 +778,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Part getPart(String name) throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getMultiPartManager().getPart(webApplication, this, name);
+        return webApplication.getManager(MultiPartManager.class).getPart(webApplication, this, name);
     }
 
     /**
@@ -788,7 +791,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Collection<Part> getParts() throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getMultiPartManager().getParts(webApplication, this);
+        return webApplication.getManager(MultiPartManager.class).getParts(webApplication, this);
     }
 
     /**
@@ -854,7 +857,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
     }
 
-
     /**
      * Get the real path.
      *
@@ -907,8 +909,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public RequestDispatcher getRequestDispatcher(String path) {
         Path rootContext = Paths.get(getContextPath());
         Path resolved = rootContext.resolveSibling(Paths.get(path)).normalize();
-        if (!resolved.startsWith(rootContext))
+        if (!resolved.startsWith(rootContext)) {
             resolved = rootContext.resolveSibling(resolved);
+        }
         return webApplication.getRequestDispatcher(resolved.toString());
     }
 
@@ -920,9 +923,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public String getRequestURI() {
         return addOrRemoveSlashIfNeeded(
-            contextPath +
-            coalesce(originalServletPath, servletPath) + 
-            coalesce(pathInfo, ""));
+                contextPath
+                + coalesce(originalServletPath, servletPath)
+                + coalesce(pathInfo, ""));
     }
 
     /**
@@ -939,7 +942,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         result.append(":");
         result.append(getServerPort());
         result.append(getRequestURI());
-        
+
         return result;
     }
 
@@ -1270,21 +1273,21 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public void setContentType(String contentType) {
         this.contentType = contentType;
-        
+
         if (contentType == null) {
             return;
         }
-        
+
         if (contentType.startsWith("multipart/form-data")) {
             // "multipart/form-data" contains a boundary and no charset
             return;
         }
-        
+
         String[] parts = contentType.split(";");
         if (parts.length == 1) {
             return;
         }
-        
+
         String charset = parts[1].trim();
         String[] pair = charset.split("=");
         if (pair.length == 1) {
@@ -1502,7 +1505,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
     }
-    
+
     /**
      * Gets the original Servlet Path
      *
@@ -1578,7 +1581,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     /**
      * Set the async started flag.
-     * 
+     *
      * @param asyncStarted the async started flag.
      */
     public void setAsyncStarted(boolean asyncStarted) {
@@ -1595,7 +1598,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public AsyncContext startAsync(ServletRequest request, ServletResponse response) throws IllegalStateException {
-        requireNonNull(request); requireNonNull(response);
+        requireNonNull(request);
+        requireNonNull(response);
 
         if (!isAsyncSupported()) {
             throw new IllegalStateException("Async is not supported");
@@ -1622,7 +1626,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
             previousAttribute = previousRequest.getAttribute(PREVIOUS_REQUEST);
         }
-
 
         return asyncContext;
     }
@@ -1729,7 +1732,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     /**
      * Get the request URI with query string.
-     * 
+     *
      * @return the request URI with query string.
      */
     public String getRequestURIWithQueryString() {
@@ -1737,7 +1740,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         String queryString = getQueryString();
         return queryString == null ? requestURI : requestURI + "?" + queryString;
     }
-    
+
     @SafeVarargs
     private <T> T coalesce(T... objects) {
         for (T object : objects) {
@@ -1748,13 +1751,13 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
         return null;
     }
-    
+
     private String addOrRemoveSlashIfNeeded(String string) {
         if (string.startsWith("/")) {
             if (string.startsWith("//")) {
                 return string.substring(1);
             }
-            
+
             return string;
         }
 

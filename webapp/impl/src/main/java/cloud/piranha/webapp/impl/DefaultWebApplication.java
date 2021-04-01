@@ -324,11 +324,6 @@ public class DefaultWebApplication implements WebApplication {
     protected HttpRequestManager httpRequestManager;
 
     /**
-     * Stores the multi part manager.
-     */
-    protected MultiPartManager multiPartManager;
-
-    /**
      * Stores the request character encoding.
      */
     protected String requestCharacterEncoding;
@@ -391,8 +386,8 @@ public class DefaultWebApplication implements WebApplication {
         initializers = new ArrayList<>(1);
         jspManager = new DefaultJspFileManager();
         loggingManager = new DefaultLoggingManager();
-        multiPartManager = new DefaultMultiPartManager();
         managers.put(MimeTypeManager.class, new DefaultMimeTypeManager());
+        managers.put(MultiPartManager.class, new DefaultMultiPartManager());
         managers.put(NamingManager.class, new DefaultNamingManager(new DefaultInitialContext()));
         managers.put(PolicyManager.class, new DefaultPolicyManager());
         objectInstanceManager = new DefaultObjectInstanceManager();
@@ -848,16 +843,6 @@ public class DefaultWebApplication implements WebApplication {
     public void setEffectiveMinorVersion(int effectiveMinorVersion) {
         this.effectiveMinorVersion = effectiveMinorVersion;
 
-    }
-
-    /**
-     * Get the multi part manager.
-     *
-     * @return the multi part manager.
-     */
-    @Override
-    public MultiPartManager getMultiPartManager() {
-        return multiPartManager;
     }
 
     /**
@@ -1734,16 +1719,6 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void setLoggingManager(LoggingManager loggingManager) {
         this.loggingManager = loggingManager;
-    }
-
-    /**
-     * Set the multi part manager.
-     *
-     * @param multiPartManager the multi part manager.
-     */
-    @Override
-    public void setMultiPartManager(MultiPartManager multiPartManager) {
-        this.multiPartManager = multiPartManager;
     }
 
     /**
