@@ -171,13 +171,6 @@ public interface WebApplication extends ServletContext {
      * @return true if we are, false otherwise.
      */
     boolean getDenyUncoveredHttpMethods();
-
-    /**
-     * Get the multi part manager.
-     *
-     * @return the multi part manager.
-     */
-    MultiPartManager getMultiPartManager();
     
     /**
      * Returns the unique Id of this web application corresponding to this
@@ -402,13 +395,6 @@ public interface WebApplication extends ServletContext {
      * @param loggingManager the logging manager.
      */
     void setLoggingManager(LoggingManager loggingManager);
-
-    /**
-     * Set the multi part manager.
-     *
-     * @param multiPartManager the multi part manager.
-     */
-    void setMultiPartManager(MultiPartManager multiPartManager);
 
     /**
      * Set the object instance manager.
