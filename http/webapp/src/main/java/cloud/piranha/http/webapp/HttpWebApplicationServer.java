@@ -30,6 +30,7 @@ package cloud.piranha.http.webapp;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
+import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
@@ -212,7 +213,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
 
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
-            ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
+            ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
             Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
             String contextPath = webApplication.getContextPath();
             request.setContextPath(contextPath);

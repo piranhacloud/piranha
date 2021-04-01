@@ -27,6 +27,7 @@
  */
 package cloud.piranha.micro.core;
 
+import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.webapp.api.WebApplication;
 import jakarta.servlet.ServletException;
@@ -63,7 +64,7 @@ public class MicroInnerApplication implements Consumer<Map<String, Object>> {
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
-            ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
+            ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
             webApplication.service(
                     (ServletRequest) requestMap.get("request"), 
                     (ServletResponse) requestMap.get("response"));

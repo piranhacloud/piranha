@@ -45,6 +45,7 @@ import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.embedded.MicroWebApplication;
 import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
+import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.policy.thread.ThreadPolicy;
 
@@ -205,7 +206,7 @@ public class ServerPiranha implements Piranha, Runnable {
             microWebApplication.setContextPath(contextPath);
 
             ThreadPolicy.setPolicy(microWebApplication.getPolicyManager().getPolicy());
-            ThreadInitialContextFactory.setInitialContext(microWebApplication.getNamingManager().getContext());
+            ThreadInitialContextFactory.setInitialContext(microWebApplication.getManager(NamingManager.class).getContext());
 
             microWebApplication.setDeployedApplication(
                 new MicroOuterDeployer(configuration.postConstruct())

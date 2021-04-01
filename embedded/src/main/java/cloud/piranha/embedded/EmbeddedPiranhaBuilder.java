@@ -27,6 +27,7 @@
  */
 package cloud.piranha.embedded;
 
+import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.AliasedDirectoryResource;
 import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
@@ -175,7 +176,7 @@ public class EmbeddedPiranhaBuilder {
         EmbeddedPiranha piranha = new EmbeddedPiranha();
 
         WebApplication webApplication = piranha.getWebApplication();
-        ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
+        ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
         
         ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(e -> webApplication.getResourceAsStream(e));
         

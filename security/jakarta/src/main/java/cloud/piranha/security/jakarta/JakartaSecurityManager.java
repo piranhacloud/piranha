@@ -59,10 +59,7 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 /**
  * SecurityManager implementation that uses Jakarta Security semantics.
  *
- * WIP!
- *
  * @author Arjan Tijms
- *
  */
 public class JakartaSecurityManager implements SecurityManager {
 
@@ -70,7 +67,7 @@ public class JakartaSecurityManager implements SecurityManager {
      * Handler for the specific HttpServletRequest#login method call
      */
     private UsernamePasswordLoginHandler usernamePasswordLoginHandler;
-    
+
     /**
      * All declared roles in the application
      */
@@ -135,8 +132,7 @@ public class JakartaSecurityManager implements SecurityManager {
                 request,
                 response,
                 source == MID_REQUEST_USER,
-                source == MID_REQUEST_USER? true : !isRequestedResourcePublic(request));
-
+                source == MID_REQUEST_USER ? true : !isRequestedResourcePublic(request));
 
         // Caller is null means authentication failed. If authentication did not happen (auth module decided to do nothing)
         // we have a caller instance with a null caller principal

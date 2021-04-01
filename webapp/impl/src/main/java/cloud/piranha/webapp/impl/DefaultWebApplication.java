@@ -199,11 +199,6 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the effective minor version.
      */
     protected int effectiveMinorVersion = -1;
-    
-    /**
-     * Stores the naming manager.
-     */
-    protected NamingManager namingManager;
 
     /**
      * Stores the servlet context name.
@@ -376,6 +371,11 @@ public class DefaultWebApplication implements WebApplication {
      * was last passed into by the container. Compare to the source object of an event.
      */
     protected Object source;
+    
+    /**
+     * Stores the managers.
+     */
+    private final HashMap<Class, Object> managers = new HashMap<>();
 
     /**
      * Constructor.
@@ -399,7 +399,7 @@ public class DefaultWebApplication implements WebApplication {
         loggingManager = new DefaultLoggingManager();
         mimeTypeManager = new DefaultMimeTypeManager();
         multiPartManager = new DefaultMultiPartManager();
-        namingManager = new DefaultNamingManager(new DefaultInitialContext());
+        managers.put(NamingManager.class, new DefaultNamingManager(new DefaultInitialContext()));
         objectInstanceManager = new DefaultObjectInstanceManager();
         policyManager = new DefaultPolicyManager();
         requestListeners = new ArrayList<>(1);
@@ -2078,17 +2078,17 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public NamingManager getNamingManager() {
-        return namingManager;
-    }
-
-    @Override
     public PolicyManager getPolicyManager() {
         return policyManager;
     }
 
     @Override
-    public void setNamingManager(NamingManager namingManager) {
-        this.namingManager = namingManager;
+    public <T extends Object> T getManager(Class<T> type) {
+        return type.cast(managers.get(type));
+    }
+
+    @Override
+    public void setManager(Class type, Object manager) {
+        managers.put(type, manager);
     }
 }

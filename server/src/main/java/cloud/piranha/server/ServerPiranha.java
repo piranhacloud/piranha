@@ -50,6 +50,7 @@ import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.modular.ModuleLayerProcessor;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.modular.DefaultModuleFinder;
+import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
@@ -224,7 +225,7 @@ public class ServerPiranha implements Piranha, Runnable {
                     try {
                         DefaultWebApplication webApplication = new CrossContextWebApplication(requestMapper);
 
-                        ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
+                        ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
 
                         webApplication.setAttribute(SERVER_PIRANHA, this);
                         webApplication.addResource(new DirectoryResource(webAppDirectory));

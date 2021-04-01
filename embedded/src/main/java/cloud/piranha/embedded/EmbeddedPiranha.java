@@ -28,6 +28,7 @@
 package cloud.piranha.embedded;
 
 import cloud.piranha.api.Piranha;
+import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
 import cloud.piranha.webapp.api.WebApplication;
@@ -175,7 +176,7 @@ public class EmbeddedPiranha implements Piranha {
      */
     public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
         try {
-            ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
+            ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
             ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(e -> webApplication.getResourceAsStream(e));
 
             if (servletRequest.getServletContext() == null && servletRequest instanceof EmbeddedRequest embeddedRequest) {
