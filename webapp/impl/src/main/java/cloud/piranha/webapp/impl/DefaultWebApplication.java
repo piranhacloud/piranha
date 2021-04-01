@@ -49,7 +49,9 @@ import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.ServletEnvironment;
 import static cloud.piranha.webapp.api.ServletEnvironment.UNAVAILABLE;
 import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
+import cloud.piranha.webapp.api.WebApplicationResponse;
 import cloud.piranha.webapp.api.WelcomeFileManager;
 import java.io.File;
 import java.io.IOException;
@@ -1589,19 +1591,18 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
         verifyState(SERVICING, "Unable to service request");
-        verifyRequestResponseTypes(request, response);
 
         linkRequestAndResponse(request, response);
         requestInitialized(request);
 
-        DefaultWebApplicationRequest webappRequest = (DefaultWebApplicationRequest) request;
-        DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
+        WebApplicationRequest webappRequest = (WebApplicationRequest) request;
+        WebApplicationResponse webAppResponse = (WebApplicationResponse) response;
 
         // Obtain a reference to the target servlet invocation, which includes the Servlet itself and/or Filters, as well as mapping data
         DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(webappRequest.getServletPath(), webappRequest.getPathInfo());
 
         // Dispatch using the REQUEST dispatch type. This will invoke the Servlet and/or Filters if present and available.
-        getInvocationDispatcher(servletInvocation).request(webappRequest, httpResponse);
+        getInvocationDispatcher(servletInvocation).request(webappRequest, webAppResponse);
 
         requestDestroyed(request);
         unlinkRequestAndResponse(request, response);
@@ -1988,12 +1989,6 @@ public class DefaultWebApplication implements WebApplication {
      */
     private DefaultServletRequestDispatcher getInvocationDispatcher(DefaultServletInvocation servletInvocation) {
         return new DefaultServletRequestDispatcher(servletInvocation, this);
-    }
-
-    private void verifyRequestResponseTypes(ServletRequest request, ServletResponse response) throws ServletException {
-        if (!(request instanceof DefaultWebApplicationRequest) || !(response instanceof DefaultWebApplicationResponse)) {
-            throw new ServletException("Invalid request or response");
-        }
     }
 
     /**

@@ -37,6 +37,13 @@ import jakarta.servlet.http.HttpServletRequest;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface WebApplicationRequest extends HttpServletRequest {
+    
+    /**
+     * Set asyncSupport flag.
+     * 
+     * @param asyncSupported 
+     */
+    void setAsyncSupported(boolean asyncSupported);
 
     /**
      * Set the context path.
@@ -52,6 +59,13 @@ public interface WebApplicationRequest extends HttpServletRequest {
      */
     void setDispatcherType(DispatcherType dispatcherType);
 
+    /**
+     * Set the path info.
+     * 
+     * @param pathInfo the path info.
+     */
+    void setPathInfo(String pathInfo);
+    
     /**
      * Set the query string.
      * 
@@ -73,8 +87,28 @@ public interface WebApplicationRequest extends HttpServletRequest {
      */
     void setWebApplication(WebApplication webApplication);
     
+    // -----------------------------------------------------------------------
+    //  REFACTOR methods below
+    // -----------------------------------------------------------------------
+    
     /**
+     * Get the multi-part config.
+     * 
      * @return the multipartConfig
      */
     MultipartConfigElement getMultipartConfig();
+
+    /**
+     * Set the multi-part config.
+     * 
+     * @param multipartConfig the multi-part config.
+     */
+    void setMultipartConfig(MultipartConfigElement multipartConfig);
+    
+    /**
+     * Set the original servlet path.
+     * 
+     * @param originalServletPath the original servlet path.
+     */
+    void setOriginalServletPath(String originalServletPath);
 }
