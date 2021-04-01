@@ -333,11 +333,6 @@ public class DefaultWebApplication implements WebApplication {
     protected MultiPartManager multiPartManager;
     
     /**
-     * Stores the Policy manager.
-     */
-    protected PolicyManager policyManager;
-
-    /**
      * Stores the request character encoding.
      */
     protected String requestCharacterEncoding;
@@ -365,17 +360,17 @@ public class DefaultWebApplication implements WebApplication {
      * moment of writing it's not clear why this tainted mode is needed.
      */
     protected boolean tainted;
+    
+    /**
+     * Stores the managers.
+     */
+    private final HashMap<Class, Object> managers = new HashMap<>();
 
     /**
      * The source object where this web application instance originates from, i.e. the artifact this
      * was last passed into by the container. Compare to the source object of an event.
      */
     protected Object source;
-    
-    /**
-     * Stores the managers.
-     */
-    private final HashMap<Class, Object> managers = new HashMap<>();
 
     /**
      * Constructor.
@@ -400,8 +395,8 @@ public class DefaultWebApplication implements WebApplication {
         mimeTypeManager = new DefaultMimeTypeManager();
         multiPartManager = new DefaultMultiPartManager();
         managers.put(NamingManager.class, new DefaultNamingManager(new DefaultInitialContext()));
+        managers.put(PolicyManager.class, new DefaultPolicyManager());
         objectInstanceManager = new DefaultObjectInstanceManager();
-        policyManager = new DefaultPolicyManager();
         requestListeners = new ArrayList<>(1);
         resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
@@ -2073,18 +2068,20 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    private boolean isEmpty(String string) {
-        return string == null || string.isEmpty();
-    }
-
-    @Override
-    public PolicyManager getPolicyManager() {
-        return policyManager;
-    }
-
+    
     @Override
     public <T extends Object> T getManager(Class<T> type) {
         return type.cast(managers.get(type));
+    }
+
+    /**
+     * Is the string empty.
+     * 
+     * @param string the string.
+     * @return true if the string is null or empty, false otherwise.
+     */
+    private boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
     }
 
     @Override
