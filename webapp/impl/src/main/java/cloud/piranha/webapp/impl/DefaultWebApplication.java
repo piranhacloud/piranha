@@ -349,23 +349,26 @@ public class DefaultWebApplication implements WebApplication {
     protected DefaultInvocationFinder invocationFinder;
 
     /**
+     * The source object where this web application instance originates from, i.e. the artifact this
+     * was last passed into by the container. Compare to the source object of an event.
+     */
+    protected Object source;
+    
+    /**
      * When we're in tainted mode, we have to throw exceptions for a large number of methods.
      *
      * Tainted mode is required for ServletContextListeners which have not been declared. At the
      * moment of writing it's not clear why this tainted mode is needed.
      */
     protected boolean tainted;
-    
+
+    // ------------------------------------------------------------------------
+    //  Private fields.
+    // ------------------------------------------------------------------------
     /**
      * Stores the managers.
      */
     private final HashMap<Class, Object> managers = new HashMap<>();
-
-    /**
-     * The source object where this web application instance originates from, i.e. the artifact this
-     * was last passed into by the container. Compare to the source object of an event.
-     */
-    protected Object source;
 
     /**
      * Constructor.
