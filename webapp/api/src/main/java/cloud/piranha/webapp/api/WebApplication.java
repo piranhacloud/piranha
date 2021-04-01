@@ -27,13 +27,8 @@
  */
 package cloud.piranha.webapp.api;
 
-import cloud.piranha.policy.api.PolicyManager;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
-
+import cloud.piranha.resource.api.Resource;
+import cloud.piranha.resource.api.ResourceManager;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.Servlet;
@@ -43,9 +38,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-
-import cloud.piranha.resource.api.Resource;
-import cloud.piranha.resource.api.ResourceManager;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The WebApplication API.
@@ -189,13 +186,6 @@ public interface WebApplication extends ServletContext {
      */
     MultiPartManager getMultiPartManager();
     
-    /**
-     * Get the policy manager.
-     * 
-     * @return the policy manager.
-     */
-    PolicyManager getPolicyManager();
-
     /**
      * Returns the unique Id of this web application corresponding to this
      * ServletContext.
@@ -498,14 +488,6 @@ public interface WebApplication extends ServletContext {
      * Stop servicing.
      */
     void stop();
-
-    /**
-     * Unlink the request and response.
-     *
-     * @param request the request.
-     * @param response the response.
-     */
-    void unlinkRequestAndResponse(ServletRequest request, ServletResponse response);
     
     /**
      * Get the manager for the specific type.
@@ -523,4 +505,12 @@ public interface WebApplication extends ServletContext {
      * @param manager the manager.
      */
     void setManager(Class type, Object manager);
+
+    /**
+     * Unlink the request and response.
+     *
+     * @param request the request.
+     * @param response the response.
+     */
+    void unlinkRequestAndResponse(ServletRequest request, ServletResponse response);
 }
