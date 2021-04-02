@@ -28,7 +28,15 @@
 package cloud.piranha.micro.embedded;
 
 import cloud.piranha.naming.api.NamingManager;
+import static java.util.Map.entry;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -47,6 +55,16 @@ import jakarta.servlet.ServletResponse;
  * @author Arjan Tijms
  */
 public class MicroWebApplication extends DefaultWebApplication {
+    
+    /**
+     * Runnable to do nothing
+     */
+    private final Runnable doNothing = new Runnable() {
+        @Override
+        public void run() {
+            
+        }
+    };
 
     /**
      * Stores the deployed application.
@@ -98,8 +116,74 @@ public class MicroWebApplication extends DefaultWebApplication {
      */
     private Map<String, Object> copyApplicationRequestToMap(WebApplicationRequest applicationRequest, WebApplicationResponse applicationResponse) {
         Map<String, Object> requestValues = new HashMap<>();
-        requestValues.put("request", applicationRequest);
-        requestValues.put("response", applicationResponse);
+
+        requestValues.putAll(requestToMap(applicationRequest));
+        requestValues.putAll(responseToMap(applicationResponse));
+
         return requestValues;
+    }
+
+    /**
+     * Get a map of request.
+     * 
+     * @return the map. 
+     */
+    private Map<String, Object> requestToMap(WebApplicationRequest request) {
+        return Map.ofEntries(
+            entry("LocalAddr", request.getLocalAddr()),
+            entry("LocalName", request.getLocalName()),
+            entry("LocalPort", request.getLocalPort()),
+            entry("RemoteAddr", request.getRemoteAddr()),
+            entry("RemoteHost", request.getRemoteHost()),
+            entry("RemotePort", request.getRemotePort()),
+            entry("ServerName", request.getServerName()),
+            entry("ServerPort", request.getServerPort()),
+            entry("Method", request.getMethod()),
+            entry("ContextPath", request.getContextPath()),
+            entry("ServletPath", request.getServletPath()),
+            entry("QueryString", request.getQueryString() == null? "" : request.getQueryString()),
+            entry("InputStream", getInputStreamUnchecked(request)),
+            entry("Headers", getHeadersAsMap(request)));
+    }
+
+    /**
+     * Get the unchecked input stream.
+     * 
+     * @return the unchecked input stream.
+     */
+    private InputStream getInputStreamUnchecked(WebApplicationRequest request) {
+        try {
+            return request.getInputStream();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    /**
+     * Get the headers as a map.
+     * 
+     * @return the map.
+     */
+    private Map<String, List<String>> getHeadersAsMap(WebApplicationRequest request) {
+        Map<String, List<String>> headers = new HashMap<>();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String name = headerNames.nextElement();
+            String value = request.getHeader(name);
+            headers.computeIfAbsent(name, e -> new ArrayList<>()).add(value);
+        }
+        return headers;
+    }
+    
+    
+    /**
+     * Get a map of underlying output stream and response closer.
+     * 
+     * @return the map.
+     */
+    private Map<String, Object> responseToMap(WebApplicationResponse response) {
+        return Map.of(
+            "UnderlyingOutputStream", response.getUnderlyingOutputStream(),
+            "ResponseCloser", response.getResponseCloser() == null? doNothing : response.getResponseCloser() );
     }
 }
