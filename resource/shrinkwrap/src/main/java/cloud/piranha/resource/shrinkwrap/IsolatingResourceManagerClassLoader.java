@@ -44,12 +44,12 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
      * Stores the system classloader.
      */
     private final ClassLoader systemClassLoader;
-
+    
     /**
      * Stores the classloader id.
      */
     private final String classLoaderId;
-
+    
     /**
      * Constructor.
      */
@@ -59,16 +59,16 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
 
     /**
      * Constructor.
-     *
+     * 
      * @param classLoaderId the id for the class loader.
      */
     public IsolatingResourceManagerClassLoader(String classLoaderId) {
         this(getSystemClassLoader().getParent(), classLoaderId);
     }
-
+    
     /**
      * Constructor.
-     *
+     * 
      * @param classLoader the delegate class loader.
      * @param classLoaderId the id for the class loader.
      */
@@ -77,56 +77,41 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
         this.systemClassLoader = getSystemClassLoader();
         this.classLoaderId = classLoaderId;
     }
-
+    
     @Override
     public Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        if (name.startsWith("org.jboss.shrinkwrap")
-                || name.startsWith("jakarta.servlet")
-                || name.startsWith("cloud.piranha.naming.api")
-                || name.startsWith("cloud.piranha.policy.api")
-                || name.startsWith("cloud.piranha.resource.api")
-                || name.startsWith("cloud.piranha.webapp.api")) {
+        if (name.startsWith("org.jboss.shrinkwrap")) {
             return systemClassLoader.loadClass(name);
         }
-
+        
         return super.loadClass(name, resolve);
     }
-
+    
     @Override
     public URL getResource(String name) {
-        if (name.startsWith("org.jboss.shrinkwrap")
-                || name.startsWith("jakarta.servlet")
-                || name.startsWith("cloud.piranha.naming.api")
-                || name.startsWith("cloud.piranha.policy.api")
-                || name.startsWith("cloud.piranha.resource.api")
-                || name.startsWith("cloud.piranha.webapp.api")) {
+        if (name.startsWith("org.jboss.shrinkwrap")) {
             return systemClassLoader.getResource(name);
         }
-
+        
         return super.getResource(name);
     }
-
+    
     @Override
     public Enumeration<URL> getResources(String name) throws IOException {
-        if (name.startsWith("org.jboss.shrinkwrap")
-                || name.startsWith("jakarta.servlet")
-                || name.startsWith("cloud.piranha.naming.api")
-                || name.startsWith("cloud.piranha.policy.api")
-                || name.startsWith("cloud.piranha.resource.api")
-                || name.startsWith("cloud.piranha.webapp.api")) {
+        if (name.startsWith("org.jboss.shrinkwrap")) {
             return systemClassLoader.getResources(name);
         }
-
+        
         return super.getResources(name);
     }
 
     /**
      * Get the classloader id.
-     *
+     * 
      * @return the classloader id.
      */
     public String getClassLoaderId() {
         return classLoaderId;
     }
-
+    
 }
