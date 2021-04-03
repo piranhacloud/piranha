@@ -34,6 +34,7 @@ import cloud.piranha.embedded.EmbeddedResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import java.io.IOException;
+import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -60,9 +61,9 @@ public class SnoopTest {
                     .servlet("SnoopServlet", SnoopServlet.class)
                     .servletMapping("SnoopServlet", "/Snoop")
                     .buildAndStart();
-            request.setServletPath("/Snoop");
-            request.setQueryString("snooping=great");
             request.setCookies(new Cookie[] { new Cookie("MY", "COOKIE") });
+            request.setQueryString("snooping=great");
+            request.setServletPath("/Snoop");
             embedded.service(request, response);
             embedded.stop();
             

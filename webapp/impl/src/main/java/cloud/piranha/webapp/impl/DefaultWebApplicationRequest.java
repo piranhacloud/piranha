@@ -576,7 +576,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public Locale getLocale() {
-        Locale result = Locale.getDefault();
+        Locale result = Locale.US;
         Enumeration<String> languages = getHeaders("Accept-Language");
         if (languages.hasMoreElements()) {
             String localeString = languages.nextElement();
