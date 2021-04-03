@@ -45,6 +45,7 @@
         <module>weld</module>
         <!--<module>wicket</module>-->
         <module>webapp</module>
+        <module>server</module>
     </modules>
 
     <properties>
