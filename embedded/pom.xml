@@ -26,12 +26,6 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-api</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
          <dependency>
             <groupId>cloud.piranha.naming</groupId>
             <artifactId>piranha-naming-thread</artifactId>

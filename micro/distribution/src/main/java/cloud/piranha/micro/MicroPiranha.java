@@ -47,11 +47,6 @@ import cloud.piranha.micro.loader.MicroOuterDeployer;
 public class MicroPiranha implements Runnable {
 
     /**
-     * Defines the attribute name for the MicroPiranha reference.
-     */
-    static final String MICRO_PIRANHA = "cloud.piranha.micro.MicroPiranha";
-
-    /**
      * The HTTP port on which Piranha accepts requests
      */
     private int port = 8080;
