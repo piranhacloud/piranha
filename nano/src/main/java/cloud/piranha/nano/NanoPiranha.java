@@ -127,6 +127,7 @@ public class NanoPiranha implements Piranha {
      */
     public void service(ServletRequest servletRequest, ServletResponse servletResponse)
             throws IOException, ServletException {
+
         Iterator<Filter> iterator = filters.descendingIterator();
         NanoFilterChain chain = new NanoFilterChain(servlet);
         while (iterator.hasNext()) {
@@ -134,13 +135,15 @@ public class NanoPiranha implements Piranha {
             NanoFilterChain previousChain = chain;
             chain = new NanoFilterChain(filter, previousChain);
         }
-        if (servletRequest.getServletContext() == null
-                && servletRequest instanceof NanoRequest nanoRequest) {
+
+        if (servletRequest instanceof NanoRequest nanoRequest) {
             nanoRequest.setWebApplication(webApplication);
         }
+
         if (servletResponse instanceof NanoResponse nanoResponse) {
             nanoResponse.setWebApplication(webApplication);
         }
+
         chain.doFilter(servletRequest, servletResponse);
         servletResponse.flushBuffer();
     }

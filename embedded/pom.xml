@@ -32,12 +32,6 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-         <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-thread</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-impl</artifactId>
