@@ -43,7 +43,6 @@ import java.lang.System.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import cloud.piranha.api.Piranha;
 import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
@@ -76,7 +75,7 @@ import static java.lang.System.Logger.Level.INFO;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServerPiranha implements Piranha, Runnable {
+public class ServerPiranha implements Runnable {
 
     /**
      * Stores the logger.
@@ -161,16 +160,6 @@ public class ServerPiranha implements Piranha, Runnable {
             }
         } catch (IOException ioe) {
         }
-    }
-
-    /**
-     * Get the version.
-     *
-     * @return the version.
-     */
-    @Override
-    public String getVersion() {
-        return getClass().getPackage().getImplementationVersion();
     }
 
     /**

@@ -69,7 +69,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import cloud.piranha.api.Piranha;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.naming.api.NamingManager;
@@ -294,19 +293,6 @@ public class MicroInnerDeployer {
                 webApplication.addResource(new ShrinkWrapResource("/META-INF/resources", resourceArchiveAsset.getArchive()));
             }
         }
-
-        // Set version
-        webApplication.setAttribute(MICRO_PIRANHA, new Piranha() {
-            @Override
-            public String getVersion() {
-                return System.getProperty("micro.version");
-            }
-
-            @Override
-            public String toString() {
-                return getVersion();
-            }
-        });
 
         return webApplication;
     }

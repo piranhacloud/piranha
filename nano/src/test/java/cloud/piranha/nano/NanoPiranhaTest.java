@@ -27,9 +27,7 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import org.apache.jasper.servlet.JspServlet;
-import org.apache.wicket.protocol.http.WicketFilter;
 import org.junit.jupiter.api.Test;
 
 import jakarta.servlet.ServletException;
@@ -41,7 +39,6 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Disabled;
 
 /**
  * The JUnit tests for the NanoPiranha class.
