@@ -39,7 +39,6 @@ module cloud.piranha.micro.core {
     provides BeanArchiveHandler with PiranhaBeanArchiveHandler;
     provides Extension with CdiExtension;
 
-    requires cloud.piranha.api;
     requires cloud.piranha.cdi.weld;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;

@@ -39,7 +39,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
-import cloud.piranha.api.Piranha;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.embedded.MicroWebApplication;
@@ -66,7 +65,7 @@ import static java.lang.System.Logger.Level.INFO;
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
  */
-public class ServerPiranha implements Piranha, Runnable {
+public class ServerPiranha implements Runnable {
 
     /**
      * Stores the logger.
@@ -103,16 +102,6 @@ public class ServerPiranha implements Piranha, Runnable {
         INSTANCE = new ServerPiranha();
         INSTANCE.processArguments(arguments);
         INSTANCE.run();
-    }
-
-    /**
-     * Get the version.
-     *
-     * @return the version.
-     */
-    @Override
-    public String getVersion() {
-        return getClass().getPackage().getImplementationVersion();
     }
 
     /**

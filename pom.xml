@@ -42,7 +42,6 @@
     </developers>
 
     <modules>
-        <module>api</module>
         <module>arquillian</module>
         <module>bom</module>
         <module>cdi</module>
@@ -55,7 +54,6 @@
         <module>micro</module>
         <module>microprofile</module>
         <module>modular</module>
-        <module>monitor</module>
         <module>naming</module>
         <module>nano</module>
         <module>pages</module>

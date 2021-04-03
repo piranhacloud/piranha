@@ -16,7 +16,6 @@
     <name>Piranha WAR - Project</name>
 
     <modules>
-        <module>jmx</module>
         <module>rest</module>
 	<module>route</module>
         <module>webapp</module>
