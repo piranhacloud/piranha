@@ -25,54 +25,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.embedded;
-
-import java.io.IOException;
-
-import jakarta.servlet.ServletException;
+package test.embedded.bootstrap;
 
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
-import java.io.ByteArrayOutputStream;
+import jakarta.servlet.ServletException;
+import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * The tests to verify Piranha Embedded works properly.
- *
+ * The JUnit tests for testing the bootstrapping of Piranha Embedded.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class Embedded {
-
+public class BootstrapTest {
+  
     /**
-     * Execute.
-     *
-     * @return the result.
+     * Test bootstrap.
      */
-    public String execute() {
+    @Test
+    public void testBootstrap() {
         String result;
         try (EmbeddedRequest request = new EmbeddedRequest();
                 EmbeddedResponse response = new EmbeddedResponse()) {
             EmbeddedPiranha embedded = new EmbeddedPiranha();
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            response.setUnderlyingOutputStream(output);
             embedded.initialize();
             embedded.start();
             embedded.service(request, response);
             embedded.stop();
-            result = new String(output.toByteArray());
+            result = response.getResponseAsString();
         } catch(IOException | ServletException e) {
             result = e.getMessage();
         }
-        return result;
-    }
-
-    /**
-     * Main method.
-     *
-     * @param arguments the arguments.
-     */
-    public static void main(String[] arguments) {
-        Embedded embedded = new Embedded();
-        System.out.println(embedded.execute());
+        assertNotNull(result);
+        assertEquals(0, result.length());
     }
 }
