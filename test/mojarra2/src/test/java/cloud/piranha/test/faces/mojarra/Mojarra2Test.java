@@ -27,6 +27,10 @@
  */
 package cloud.piranha.test.faces.mojarra;
 
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedRequestBuilder;
+import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.micro.embedded.MicroEmbeddedPiranha;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -55,7 +59,7 @@ class Mojarra2Test {
      */
     @Test
     void testIndexHtml1() throws Exception {
-        String result = new MicroEmbeddedPiranhaBuilder()
+        MicroEmbeddedPiranha piranha = new MicroEmbeddedPiranhaBuilder()
             .archive(
                 ShrinkWrap
                     .create(WebArchive.class)
@@ -79,11 +83,13 @@ class Mojarra2Test {
                                    "jakarta.websocket:jakarta.websocket-api:2.0.0",
                                    "jakarta.validation:jakarta.validation-api:3.0.0")
                                .withTransitivity().as(JavaArchive.class)))
-            .buildAndStart()
-            .service("/index.xhtml")
-            .getResponseAsString();
-            
-        System.out.println(result);
+            .buildAndStart();
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
+                .servletPath("/index.xhtml")
+                .build();
+        EmbeddedResponse response = new EmbeddedResponse();
+        piranha.service(request, response);
+        String result = response.getResponseAsString();
         assertTrue(result.contains("Hello Jakarta Faces"));
     }
 }

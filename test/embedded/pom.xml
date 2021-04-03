@@ -13,5 +13,6 @@
     <name>Piranha Test - Embedded - Project</name>
     <modules>
         <module>bootstrap</module>
+        <module>snoop</module>
     </modules>
 </project>

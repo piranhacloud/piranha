@@ -27,12 +27,8 @@
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.naming.api.NamingManager;
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.AliasedDirectoryResource;
-import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
 import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.resource.StringResource;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.webapp.api.HttpSessionManager;
 import cloud.piranha.webapp.api.WebApplication;
@@ -45,7 +41,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.ServletRegistration;
 
@@ -70,7 +65,7 @@ public class EmbeddedPiranhaBuilder {
     private final Map<String, Object> attributes;
 
     /**
-     * Stores the extension.
+     * Stores the extensions.
      */
     private List<Class<? extends WebApplicationExtension>> extensionClasses;
 
@@ -172,13 +167,9 @@ public class EmbeddedPiranhaBuilder {
      * @return the instance.
      */
     public EmbeddedPiranha build() {
-        System.getProperties().put(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranha();
 
         WebApplication webApplication = piranha.getWebApplication();
-        ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
-        
-        ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(e -> webApplication.getResourceAsStream(e));
         
         if (extensionClasses != null && !extensionClasses.isEmpty()) {
             DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
@@ -247,8 +238,6 @@ public class EmbeddedPiranhaBuilder {
         webApplication.initializeServlets();
         webApplication.initializeFinish();
 
-        ThreadInitialContextFactory.removeInitialContext();
-        ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(null);
         return piranha;
     }
 
@@ -258,8 +247,7 @@ public class EmbeddedPiranhaBuilder {
      * @return the instance.
      */
     public EmbeddedPiranha buildAndStart() {
-        return build()
-                .start();
+        return build().start();
     }
 
     /**
@@ -295,28 +283,6 @@ public class EmbeddedPiranhaBuilder {
         for (Class<? extends WebApplicationExtension> extensionClass : extensionClasses) {
             extension(extensionClass);
         }
-        return this;
-    }
-    
-    /**
-     * Add a feature.
-     *
-     * @param featureClass the feature class.
-     * @return the builder.
-     */
-    public EmbeddedPiranhaBuilder feature(Class<?> featureClass) {
-        features.add(featureClass.getName());
-        return this;
-    }
-
-    /**
-     * Add a feature.
-     *
-     * @param className the class name.
-     * @return the builder.
-     */
-    public EmbeddedPiranhaBuilder feature(String className) {
-        features.add(className);
         return this;
     }
     
@@ -408,6 +374,17 @@ public class EmbeddedPiranhaBuilder {
     }
     
     /**
+     * Add a resource.
+     * 
+     * @param resource the resource to add.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder resource(Resource resource) {
+        resources.add(resource);
+        return this;
+    }
+    
+    /**
      * Add a servlet.
      *
      * @param servletName the servlet name.
@@ -482,18 +459,6 @@ public class EmbeddedPiranhaBuilder {
      */
     public EmbeddedPiranhaBuilder servletMapping(String servletName, String... urlPatterns) {
         servletMappings.put(servletName, Arrays.asList(urlPatterns));
-        return this;
-    }
-    
-    /**
-     * Add a string resource.
-     *
-     * @param path the path.
-     * @param value the string value added under the given path.
-     * @return the builder.
-     */
-    public EmbeddedPiranhaBuilder stringResource(String path, String value) {
-        resources.add(new StringResource(path, value));
         return this;
     }
 }

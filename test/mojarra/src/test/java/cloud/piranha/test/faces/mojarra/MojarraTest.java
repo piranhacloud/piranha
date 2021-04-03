@@ -38,6 +38,7 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.faces.mojarra.MojarraInitializer;
+import cloud.piranha.resource.StringResource;
 
 /**
  * The JUnit tests for the Hello Jakarta Faces web application.
@@ -47,29 +48,6 @@ import cloud.piranha.faces.mojarra.MojarraInitializer;
  */
 class MojarraTest {
     
-    String facesConfig = """
-            <?xml version='1.0' encoding='UTF-8'?>
-
-            <faces-config version="2.3"
-               xmlns="http://java.sun.com/xml/ns/javaee"
-               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_3.xsd">
-            </faces-config>
-            """;
-    
-    String indexXhtml = """
-            <!DOCTYPE html>
-
-            <html lang="en" xmlns:h="http://java.sun.com/jsf/html">
-                <h:head>
-                    <title>Hello Jakarta Faces</title>
-                </h:head>    
-                <h:body>
-                    Hello Jakarta Faces
-                </h:body>
-            </html>
-            """;
-
     /**
      * Test /faces/notfound.html.
      *
@@ -116,23 +94,5 @@ class MojarraTest {
         assertTrue(response.getResponseAsString().contains("Hello Jakarta Faces"));
         piranha.stop()
                 .destroy();
-    }
-    
-    /**
-     * Test /index.html.
-     *
-     * @throws Exception
-     */
-    @Test
-    void testIndexHtml1() throws Exception {
-        EmbeddedResponse response  = new EmbeddedPiranhaBuilder()
-                .stringResource("/index.xhtml", indexXhtml)
-                .stringResource("/WEB-INF/faces-config.xml", facesConfig)
-                .initializer(MojarraInitializer.class.getName())
-                .buildAndStart()
-                .service("/index.xhtml");
-        
-        assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseAsString().contains("Hello Jakarta Faces"));
     }
 }
