@@ -25,18 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package test.server.snoop;
+package test.micro.snoop;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -52,22 +45,21 @@ import org.junit.jupiter.api.Test;
 public class SnoopIT {
 
     /**
+     * Stores the process.
+     */
+    static private Process process;
+
+    /**
      * Stores the web client.
      */
     private WebClient webClient;
 
     /**
      * Cleanup after tests.
-     *
-     * @throws Exception when a serious error occurs.
      */
     @AfterAll
-    public static void afterAll() throws Exception {
-        File pidFile = new File("target/piranha/tmp/piranha.pid");
-        if (pidFile.exists()) {
-            pidFile.delete();
-        }
-        Thread.sleep(5000);
+    public static void afterAll() {
+        process.destroyForcibly();
     }
 
     /**
@@ -85,51 +77,17 @@ public class SnoopIT {
      */
     @BeforeAll
     public static void beforeAll() throws Exception {
-
-        /*
-         * Extract the piranha-server.zip file.
-         */
-        try (ZipInputStream zipInput = new ZipInputStream(new FileInputStream("target/piranha-server.zip"))) {
-            ZipEntry entry = zipInput.getNextEntry();
-            while (entry != null) {
-                String filePath = "target" + File.separatorChar + entry.getName();
-                if (!entry.isDirectory()) {
-                    File file = new File(filePath);
-                    if (!file.getParentFile().exists()) {
-                        file.getParentFile().mkdirs();
-                    }
-                    try (BufferedOutputStream bufferOutput = new BufferedOutputStream(new FileOutputStream(filePath))) {
-                        byte[] bytesIn = new byte[8192];
-                        int read;
-                        while ((read = zipInput.read(bytesIn)) != -1) {
-                            bufferOutput.write(bytesIn, 0, read);
-                        }
-                    }
-                }
-                zipInput.closeEntry();
-                entry = zipInput.getNextEntry();
-            }
-        } catch (IOException ioe) {
-        }
-
-        /*
-         * Build the process.
-         */
-        ProcessBuilder builder = new ProcessBuilder();
-        Process process;
-
-        if (System.getProperty("os.name").toLowerCase().equals("windows")) {
-            process = builder.
-                    directory(new File("target/piranha/bin")).
-                    command("start.cmd").
-                    start();
-        } else {
-            process = builder.
-                    directory(new File("target/piranha/bin")).
-                    command("sh", "./start.sh").
-                    start();
-        }
-        process.waitFor(5, SECONDS);
+        process = new ProcessBuilder()
+                .directory(new File("target"))
+                .command("java",
+                        // "-Xdebug",
+                        // "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5000",
+                        "-jar",
+                        "piranha-micro.jar",
+                        "--war",
+                        "snoop.war")
+                .start();
+        Thread.sleep(5000);
     }
 
     /**
@@ -141,13 +99,13 @@ public class SnoopIT {
     }
 
     /**
-     * Test accessing SnoopServlet.
+     * Test accessing Snoop servlet.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
     public void testSnoop() throws Exception {
-        HtmlPage page = webClient.getPage("http://localhost:8080/snoop/Snoop");
+        HtmlPage page = webClient.getPage("http://localhost:8080/Snoop");
         assertTrue(page.asXml().contains("Snoop"));
     }
 }
