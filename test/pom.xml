@@ -35,7 +35,6 @@
         <!--<module>openwebbeans</module>-->
         <!--<module>smallrye-health</module>-->
         <!--<module>omnifaces-jwt</module>-->
-        <module>snoop</module>
         <module>soteria</module>
         <module>unit</module>
         <!--<module>springmvc</module>-->

@@ -13,5 +13,6 @@
     <name>Piranha Test - Server - Project</name>
     <modules>
         <module>helloworld</module>
+        <module>snoop</module>
     </modules>
 </project>
