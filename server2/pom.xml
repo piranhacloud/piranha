@@ -94,6 +94,14 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- Because MicroPiranha implements Piranha. -->
+        <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-api</artifactId>
+            <version>${project.version}</version>
+            <optional>true</optional>
+        </dependency>
       
         <!-- Piranha HTTP - WebApplication -->
         <dependency>
@@ -148,6 +156,14 @@
             <scope>compile</scope>
         </dependency>
         
+        <!-- Piranha WAR - JMX admin application -->
+        <dependency>
+            <groupId>cloud.piranha.war</groupId>
+            <artifactId>piranha-war-jmx</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -170,6 +186,31 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>cloud.piranha.war</groupId>
+                            <artifactId>piranha-war-jmx</artifactId>
+                            <version>${project.version}</version>
+                            <type>war</type>
+                            <outputDirectory>${project.build.directory}/webapps</outputDirectory>
+                            <destFileName>admin-jmx.war</destFileName>
+                        </artifactItem>
+                    </artifactItems>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

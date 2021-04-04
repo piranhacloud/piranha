@@ -28,12 +28,13 @@
         <module>hazelcast</module>
         <module>jersey</module>
         <module>jpa</module>
-        <module>micro</module>
+        <module>mojarra</module>
         <module>mojarra2</module>
         <module>myfaces</module>
         <!--<module>openwebbeans</module>-->
         <!--<module>smallrye-health</module>-->
         <!--<module>omnifaces-jwt</module>-->
+        <module>snoop</module>
         <module>soteria</module>
         <module>unit</module>
         <!--<module>springmvc</module>-->
@@ -42,8 +43,6 @@
         <module>webxml</module>
         <module>weld</module>
         <!--<module>wicket</module>-->
-        <module>webapp</module>
-        <module>server</module>
     </modules>
 
     <properties>

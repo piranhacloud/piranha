@@ -28,7 +28,6 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WelcomeFileManager;
 import java.io.IOException;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -47,6 +46,6 @@ public class DefaultWelcomeFileFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, 
             FilterChain chain) throws IOException, ServletException {
         WebApplication webApplication = (WebApplication) request.getServletContext();
-        webApplication.getManager(WelcomeFileManager.class).doFilter(request, response, chain);
+        webApplication.getWelcomeFileManager().doFilter(request, response, chain);
     }
 }

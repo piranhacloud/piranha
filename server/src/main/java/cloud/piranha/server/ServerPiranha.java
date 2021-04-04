@@ -43,13 +43,13 @@ import java.lang.System.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import cloud.piranha.api.Piranha;
 import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.modular.ModuleLayerProcessor;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.modular.DefaultModuleFinder;
-import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
@@ -75,7 +75,7 @@ import static java.lang.System.Logger.Level.INFO;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServerPiranha implements Runnable {
+public class ServerPiranha implements Piranha, Runnable {
 
     /**
      * Stores the logger.
@@ -86,6 +86,11 @@ public class ServerPiranha implements Runnable {
      * Stores the one and only instance of the server.
      */
     private static ServerPiranha INSTANCE;
+
+    /**
+     * Defines the attribute name for the ServerPiranha reference.
+     */
+    private static final String SERVER_PIRANHA = "cloud.piranha.server.ServerPiranha";
 
     /**
      * Stores the SSL flag.
@@ -158,6 +163,16 @@ public class ServerPiranha implements Runnable {
     }
 
     /**
+     * Get the version.
+     *
+     * @return the version.
+     */
+    @Override
+    public String getVersion() {
+        return getClass().getPackage().getImplementationVersion();
+    }
+
+    /**
      * Process the arguments.
      *
      * @param arguments the arguments.
@@ -209,8 +224,9 @@ public class ServerPiranha implements Runnable {
                     try {
                         DefaultWebApplication webApplication = new CrossContextWebApplication(requestMapper);
 
-                        ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
+                        ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
 
+                        webApplication.setAttribute(SERVER_PIRANHA, this);
                         webApplication.addResource(new DirectoryResource(webAppDirectory));
 
 

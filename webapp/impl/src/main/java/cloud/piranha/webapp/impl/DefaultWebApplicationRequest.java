@@ -27,31 +27,11 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.AttributeManager;
-import cloud.piranha.webapp.api.HttpHeaderManager;
-import cloud.piranha.webapp.api.HttpSessionManager;
-import cloud.piranha.webapp.api.MultiPartManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
 import static cloud.piranha.webapp.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
-import jakarta.servlet.AsyncContext;
-import jakarta.servlet.DispatcherType;
+import static java.util.Objects.requireNonNull;
 import static jakarta.servlet.DispatcherType.INCLUDE;
-import jakarta.servlet.MultipartConfigElement;
-import jakarta.servlet.ReadListener;
-import jakarta.servlet.RequestDispatcher;
 import static jakarta.servlet.RequestDispatcher.INCLUDE_QUERY_STRING;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletInputStream;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletRequestWrapper;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpUpgradeHandler;
-import jakarta.servlet.http.Part;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -74,7 +54,29 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import static java.util.Objects.requireNonNull;
+
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletRequestWrapper;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
+
+import cloud.piranha.webapp.api.AttributeManager;
+import cloud.piranha.webapp.api.HttpHeaderManager;
+import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 
 /**
  * The default WebApplicationRequest.
@@ -182,7 +184,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the method.
      */
     protected String method;
-
+    
     /**
      * Stores the multipartConfig.
      */
@@ -267,7 +269,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the servlet path.
      */
     protected String servletPath;
-
+    
     /**
      * Stores the original servlet path.
      */
@@ -420,9 +422,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public int getContentLength() {
-        if (contentLength == -1) {
-            return headerManager.getIntHeader("Content-Length");
-        }
         return (int) contentLength;
     }
 
@@ -443,12 +442,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public String getContentType() {
-        if (contentType == null) {
-            return headerManager.getHeader("Content-Type");
-        }
         return contentType;
     }
-
+   
     @Override
     public String getContextPath() {
         return contextPath;
@@ -554,16 +550,31 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return headerManager.getIntHeader(name);
     }
 
+    /**
+     * Get the local address.
+     *
+     * @return the local address.
+     */
     @Override
     public String getLocalAddr() {
         return localAddress;
     }
 
+    /**
+     * Get the local name.
+     *
+     * @return the local name.
+     */
     @Override
     public String getLocalName() {
         return localName;
     }
 
+    /**
+     * Get the local port.
+     *
+     * @return the local port.
+     */
     @Override
     public int getLocalPort() {
         return localPort;
@@ -576,7 +587,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public Locale getLocale() {
-        Locale result = Locale.US;
+        Locale result = Locale.getDefault();
         Enumeration<String> languages = getHeaders("Accept-Language");
         if (languages.hasMoreElements()) {
             String localeString = languages.nextElement();
@@ -622,7 +633,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public String getMethod() {
         return method;
     }
-
+    
     @Override
     public MultipartConfigElement getMultipartConfig() {
         return multipartConfig;
@@ -634,7 +645,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void setMultipartConfig(MultipartConfigElement multipartConfig) {
         this.multipartConfig = multipartConfig;
     }
-
+   
     @Override
     public String getParameter(String name) {
         String result = null;
@@ -644,7 +655,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
         return result;
     }
-
+    
     @Override
     public Map<String, String[]> getParameterMap() {
         getParametersFromRequest();
@@ -657,6 +668,12 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return Collections.enumeration(parameters.keySet());
     }
 
+    /**
+     * Get the parameter values.
+     *
+     * @param name the parameter name.
+     * @return the parameter values.
+     */
     @Override
     public String[] getParameterValues(String name) {
         getParametersFromRequest();
@@ -691,11 +708,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                         }
                     }
                 }
-
+                
                 boolean hasMultiPart
                         = // FORM/Multipart submission
                         contentType != null && contentType.startsWith("multipart/form-data");
-
+                
                 if (hasMultiPart) {
                     for (Part part : getParts()) {
                         if (part.getSubmittedFileName() == null) {
@@ -704,11 +721,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                     }
                 } else {
 
-                    boolean hasBody
-                            = // FORM submission
-                            contentType != null && contentType.startsWith("application/x-www-form-urlencoded")
-                            || // PUT parameters
-                            "put".equalsIgnoreCase(getMethod()) && getContentLength() > 0;
+                boolean hasBody
+                        = // FORM submission
+                        contentType != null && contentType.startsWith("application/x-www-form-urlencoded")
+                        || // PUT parameters
+                        "put".equalsIgnoreCase(getMethod()) && getContentLength() > 0;
 
                     if (hasBody) {
                         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
@@ -717,11 +734,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                             byteOutput.write(read);
                             read = read();
                         }
-
+    
                         if (read != -1) {
                             byteOutput.write(read);
                         }
-
+    
                         String parameterString = new String(byteOutput.toByteArray());
                         String[] pairs = parameterString.trim().split("&");
                         if (pairs != null) {
@@ -749,22 +766,20 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     /**
      * Merge query string from this request and from the attribute
-     * {@link RequestDispatcher.INCLUDE_QUERY_STRING} if the dispatcher type is
-     * {@link DispatcherType.INCLUDE}
-     *
+     * {@link RequestDispatcher.INCLUDE_QUERY_STRING} if the dispatcher type is {@link DispatcherType.INCLUDE}
      * @return the query string merged
      */
     private String mergeQueryFromAttributes() {
         String queryStringFromAttribute = dispatcherType == INCLUDE ? (String) getAttribute(INCLUDE_QUERY_STRING) : null;
         if (queryStringFromAttribute == null) {
-            return getQueryString();
+            return queryString;
         }
 
-        if (getQueryString() == null) {
+        if (queryString == null) {
             return queryStringFromAttribute;
         }
 
-        return queryStringFromAttribute + "&" + getQueryString();
+        return queryStringFromAttribute + "&" + queryString;
     }
 
     /**
@@ -778,7 +793,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Part getPart(String name) throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getManager(MultiPartManager.class).getPart(webApplication, this, name);
+        return webApplication.getMultiPartManager().getPart(webApplication, this, name);
     }
 
     /**
@@ -791,7 +806,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Collection<Part> getParts() throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getManager(MultiPartManager.class).getParts(webApplication, this);
+        return webApplication.getMultiPartManager().getParts(webApplication, this);
     }
 
     /**
@@ -814,11 +829,21 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return null;
     }
 
+    /**
+     * Get the protocol.
+     *
+     * @return the protocol.
+     */
     @Override
     public String getProtocol() {
         return protocol;
     }
 
+    /**
+     * Get the query string.
+     *
+     * @return the query string.
+     */
     @Override
     public String getQueryString() {
         return queryString;
@@ -857,6 +882,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
     }
 
+
     /**
      * Get the real path.
      *
@@ -870,16 +896,31 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         throw new UnsupportedOperationException("HttpServletRequest.getRealPath is no longer supported");
     }
 
+    /**
+     * Get the remote address.
+     *
+     * @return the remote address.
+     */
     @Override
     public String getRemoteAddr() {
         return remoteAddr;
     }
 
+    /**
+     * Get the remote host.
+     *
+     * @return the remote host.
+     */
     @Override
     public String getRemoteHost() {
         return remoteHost;
     }
 
+    /**
+     * Get the remote port.
+     *
+     * @return the remote port.
+     */
     @Override
     public int getRemotePort() {
         return remotePort;
@@ -909,9 +950,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public RequestDispatcher getRequestDispatcher(String path) {
         Path rootContext = Paths.get(getContextPath());
         Path resolved = rootContext.resolveSibling(Paths.get(path)).normalize();
-        if (!resolved.startsWith(rootContext)) {
+        if (!resolved.startsWith(rootContext))
             resolved = rootContext.resolveSibling(resolved);
-        }
         return webApplication.getRequestDispatcher(resolved.toString());
     }
 
@@ -923,9 +963,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public String getRequestURI() {
         return addOrRemoveSlashIfNeeded(
-                contextPath
-                + coalesce(originalServletPath, servletPath)
-                + coalesce(pathInfo, ""));
+            contextPath +
+            coalesce(originalServletPath, servletPath) + 
+            coalesce(pathInfo, ""));
     }
 
     /**
@@ -942,7 +982,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         result.append(":");
         result.append(getServerPort());
         result.append(getRequestURI());
-
+        
         return result;
     }
 
@@ -1273,21 +1313,17 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public void setContentType(String contentType) {
         this.contentType = contentType;
-
-        if (contentType == null) {
-            return;
-        }
-
+        
         if (contentType.startsWith("multipart/form-data")) {
             // "multipart/form-data" contains a boundary and no charset
             return;
         }
-
+        
         String[] parts = contentType.split(";");
         if (parts.length == 1) {
             return;
         }
-
+        
         String charset = parts[1].trim();
         String[] pair = charset.split("=");
         if (pair.length == 1) {
@@ -1415,7 +1451,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      *
      * @param queryString the query string.
      */
-    @Override
     public void setQueryString(String queryString) {
         this.queryString = queryString;
     }
@@ -1505,7 +1540,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
     }
-
+    
     /**
      * Gets the original Servlet Path
      *
@@ -1581,7 +1616,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     /**
      * Set the async started flag.
-     *
+     * 
      * @param asyncStarted the async started flag.
      */
     public void setAsyncStarted(boolean asyncStarted) {
@@ -1598,8 +1633,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     @Override
     public AsyncContext startAsync(ServletRequest request, ServletResponse response) throws IllegalStateException {
-        requireNonNull(request);
-        requireNonNull(response);
+        requireNonNull(request); requireNonNull(response);
 
         if (!isAsyncSupported()) {
             throw new IllegalStateException("Async is not supported");
@@ -1626,6 +1660,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
             previousAttribute = previousRequest.getAttribute(PREVIOUS_REQUEST);
         }
+
 
         return asyncContext;
     }
@@ -1732,7 +1767,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     /**
      * Get the request URI with query string.
-     *
+     * 
      * @return the request URI with query string.
      */
     public String getRequestURIWithQueryString() {
@@ -1740,7 +1775,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         String queryString = getQueryString();
         return queryString == null ? requestURI : requestURI + "?" + queryString;
     }
-
+    
     @SafeVarargs
     private <T> T coalesce(T... objects) {
         for (T object : objects) {
@@ -1751,13 +1786,13 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
         return null;
     }
-
+    
     private String addOrRemoveSlashIfNeeded(String string) {
         if (string.startsWith("/")) {
             if (string.startsWith("//")) {
                 return string.substring(1);
             }
-
+            
             return string;
         }
 

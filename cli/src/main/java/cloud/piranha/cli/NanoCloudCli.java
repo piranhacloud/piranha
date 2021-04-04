@@ -27,13 +27,76 @@
  */
 package cloud.piranha.cli;
 
-import picocli.CommandLine;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Piranha Nano Cloud CLI.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@CommandLine.Command(name = "cloud", subcommands = {NanoCloudDeployCli.class, NanoCloudBuildCli.class}, description = "Administer a Piranha Nano application on the cloud")
 public class NanoCloudCli {
+
+    /**
+     * Stores the pattern.
+     */
+    private static final String PATTERN = "  %-10s: %s\n";
+
+    /**
+     * Perform 'pi nano cloud build'.
+     * 
+     * @param arguments the arguments.
+     */
+    private void build(List<String> arguments) {
+        NanoCloudBuildCli cli = new NanoCloudBuildCli();
+        cli.execute(arguments);
+    }
+
+    /**
+     * Perform 'pi nano cloud deploy'.
+     * 
+     * @param arguments the arguments.
+     */
+    private void deploy(List<String> arguments) {
+        NanoCloudDeployCli cli = new NanoCloudDeployCli();
+        cli.execute(arguments);
+    }
+
+    /**
+     * Execute 'pi nano cloud'.
+     *
+     * @param arguments the arguments.
+     */
+    public void execute(List<String> arguments) {
+        if (!arguments.isEmpty()) {
+            ArrayList<String> list = new ArrayList<>();
+            list.addAll(arguments);
+            if (!list.isEmpty()) {
+                list.remove(0);
+            }
+            switch (arguments.get(0)) {
+                case "build":
+                    build(list);
+                    break;
+                case "deploy":
+                    deploy(list);
+                    break;
+                default:
+                    usage();
+                    break;
+            }
+        } else {
+            usage();
+        }
+    }
+
+    /**
+     * Shows the usage.
+     */
+    private void usage() {
+        System.out.println("usage: pi nano cloud <command>");
+        System.out.println();
+        System.out.printf(PATTERN, "build", "Build Piranha Nano application for the Cloud");
+        System.out.printf(PATTERN, "deploy", "Deploy Piranha Nano application to the Cloud");
+    }
 }

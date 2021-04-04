@@ -36,7 +36,7 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.micro {
-    
+    requires cloud.piranha.api;
     requires cloud.piranha.modular;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;

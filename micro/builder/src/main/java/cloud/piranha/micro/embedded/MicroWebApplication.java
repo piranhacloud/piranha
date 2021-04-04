@@ -27,7 +27,6 @@
  */
 package cloud.piranha.micro.embedded;
 
-import cloud.piranha.naming.api.NamingManager;
 import static java.util.Map.entry;
 
 import java.io.IOException;
@@ -41,7 +40,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
-import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.thread.ThreadPolicy;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
@@ -98,8 +96,8 @@ public class MicroWebApplication extends DefaultWebApplication {
     @Override
     public void service(ServletRequest request, ServletResponse response) {
         try {
-            ThreadPolicy.setPolicy(getManager(PolicyManager.class).getPolicy());
-            ThreadInitialContextFactory.setInitialContext(getManager(NamingManager.class).getContext());
+            ThreadPolicy.setPolicy(getPolicyManager().getPolicy());
+            ThreadInitialContextFactory.setInitialContext(getNamingManager().getContext());
             deployedApplication.accept(copyApplicationRequestToMap((WebApplicationRequest) request, (WebApplicationResponse) response));
         } finally {
             ThreadPolicy.removePolicy();

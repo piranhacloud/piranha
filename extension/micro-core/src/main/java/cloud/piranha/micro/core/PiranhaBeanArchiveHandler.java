@@ -71,6 +71,7 @@ public class PiranhaBeanArchiveHandler implements BeanArchiveHandler {
                 indexURL = "shrinkwrap://" + url.getHost() + "/META-INF/jandex.idx";
                 
             } catch (MalformedURLException e1) {
+                // TODO Auto-generated catch block
                 throw new IllegalStateException(e1);
             }
         }

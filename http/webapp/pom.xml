@@ -30,25 +30,9 @@
              <version>${project.version}</version>
         </dependency>
         <dependency>
-             <groupId>cloud.piranha.policy</groupId>
-             <artifactId>piranha-policy-thread</artifactId>
-             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-             <groupId>cloud.piranha.policy</groupId>
-             <artifactId>piranha-policy-impl</artifactId>
-             <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-grizzly</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
@@ -57,36 +41,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-jdk</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-netty</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-undertow</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

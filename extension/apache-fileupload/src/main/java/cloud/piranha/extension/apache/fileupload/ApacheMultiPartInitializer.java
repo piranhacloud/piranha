@@ -27,15 +27,15 @@
  */
 package cloud.piranha.extension.apache.fileupload;
 
-import cloud.piranha.webapp.api.MultiPartManager;
+import java.util.Set;
+
 import cloud.piranha.webapp.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
-import java.lang.System.Logger;
+
+import static java.lang.System.Logger;
 import static java.lang.System.Logger.Level.INFO;
-import java.util.Set;
-import org.apache.commons.fileupload.servlet.FileCleanerCleanup;
 
 /**
  * The ServletContainerInitializer for the ApacheMultiPartManager.
@@ -45,10 +45,8 @@ import org.apache.commons.fileupload.servlet.FileCleanerCleanup;
  * </p>
  *
  * <ol>
- * <li>Call setManager set the MultiPartManager to an instance of
- * ApacheMultiPartManager.</li>
- * <li>Adds the FileCleanerCleanup listener that cleans up the temporary
- * files.</li>
+ * <li>Sets the MultiPartManager to an instance of ApacheMultiPartManager.</li>
+ * <li>Adds the FileCleanerCleanup listener that cleans up the temporary files.</li>
  * </ol>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -60,11 +58,15 @@ public class ApacheMultiPartInitializer implements ServletContainerInitializer {
      */
     private static final Logger LOGGER = System.getLogger(ApacheMultiPartInitializer.class.getPackageName());
 
+    /**
+     * @see ServletContainerInitializer#onStartup(java.util.Set, jakarta.servlet.ServletContext)
+     */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         LOGGER.log(INFO, "Initializing ApacheMultiPartManager");
+
         WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setManager(MultiPartManager.class, new ApacheMultiPartManager());
-        webApplication.addListener(FileCleanerCleanup.class.getName());
+        webApplication.setMultiPartManager(new ApacheMultiPartManager());
+        webApplication.addListener("org.apache.commons.fileupload.servlet.FileCleanerCleanup");
     }
 }

@@ -39,13 +39,6 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface WebApplicationRequest extends HttpServletRequest {
 
     /**
-     * Set asyncSupport flag.
-     *
-     * @param asyncSupported
-     */
-    void setAsyncSupported(boolean asyncSupported);
-
-    /**
      * Set the context path.
      *
      * @param contextPath the context path.
@@ -60,34 +53,6 @@ public interface WebApplicationRequest extends HttpServletRequest {
     void setDispatcherType(DispatcherType dispatcherType);
 
     /**
-     * Set the path info.
-     *
-     * @param pathInfo the path info.
-     */
-    void setPathInfo(String pathInfo);
-
-    /**
-     * Set the query string.
-     *
-     * @param queryString the query string.
-     */
-    void setQueryString(String queryString);
-
-    /**
-     * Set the requested session ID.
-     *
-     * @param requestedSessionId the requested session ID.
-     */
-    void setRequestedSessionId(String requestedSessionId);
-
-    /**
-     * Set if the session ID came from a cookie.
-     *
-     * @param sessionIdFromCookie true if from a cookie, false otherwise.
-     */
-    void setRequestedSessionIdFromCookie(boolean sessionIdFromCookie);
-
-    /**
      * Set the servlet path.
      *
      * @param servletPath the servlet path.
@@ -100,28 +65,9 @@ public interface WebApplicationRequest extends HttpServletRequest {
      * @param webApplication the web application.
      */
     void setWebApplication(WebApplication webApplication);
-
-    // -----------------------------------------------------------------------
-    //  REFACTOR methods below
-    // -----------------------------------------------------------------------
+    
     /**
-     * Get the multi-part config.
-     *
      * @return the multipartConfig
      */
     MultipartConfigElement getMultipartConfig();
-
-    /**
-     * Set the multi-part config.
-     *
-     * @param multipartConfig the multi-part config.
-     */
-    void setMultipartConfig(MultipartConfigElement multipartConfig);
-
-    /**
-     * Set the original servlet path.
-     *
-     * @param originalServletPath the original servlet path.
-     */
-    void setOriginalServletPath(String originalServletPath);
 }

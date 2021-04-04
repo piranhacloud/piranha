@@ -450,14 +450,7 @@
                 <artifactId>microprofile-jwt-auth</artifactId>
                 <version>1.0.1</version>
             </dependency>
-
-            <!-- Picocli -->
-            <dependency>
-                <groupId>info.picocli</groupId>
-                <artifactId>picocli</artifactId>
-                <version>4.6.1</version>
-            </dependency>
-
+            
             <!-- Shrinkwrap -->
             <dependency>
                 <groupId>org.jboss.shrinkwrap.resolver</groupId>

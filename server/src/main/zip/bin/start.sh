@@ -10,10 +10,10 @@ else
     JAVA_BIN=${JAVA_HOME}/bin/java
 fi
 
-if [[ "${PIRANHA_JPMS}" == "true" ]]; then
-    INIT_OPTIONS="--module-path lib -m cloud.piranha.server"
-else
+if [[ "${PIRANHA_JPMS}" == "false" ]]; then
     INIT_OPTIONS="-jar lib/piranha-server.jar"
+else
+    INIT_OPTIONS="--module-path lib -m cloud.piranha.server"
 fi
 
 #

@@ -39,14 +39,13 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
+import cloud.piranha.api.Piranha;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.embedded.MicroWebApplication;
 import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
-import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
-import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.thread.ThreadPolicy;
 
 import static java.lang.System.Logger.Level.INFO;
@@ -67,7 +66,7 @@ import static java.lang.System.Logger.Level.INFO;
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
  */
-public class ServerPiranha implements Runnable {
+public class ServerPiranha implements Piranha, Runnable {
 
     /**
      * Stores the logger.
@@ -104,6 +103,16 @@ public class ServerPiranha implements Runnable {
         INSTANCE = new ServerPiranha();
         INSTANCE.processArguments(arguments);
         INSTANCE.run();
+    }
+
+    /**
+     * Get the version.
+     *
+     * @return the version.
+     */
+    @Override
+    public String getVersion() {
+        return getClass().getPackage().getImplementationVersion();
     }
 
     /**
@@ -195,8 +204,8 @@ public class ServerPiranha implements Runnable {
             MicroWebApplication microWebApplication = new MicroWebApplication();
             microWebApplication.setContextPath(contextPath);
 
-            ThreadPolicy.setPolicy(microWebApplication.getManager(PolicyManager.class).getPolicy());
-            ThreadInitialContextFactory.setInitialContext(microWebApplication.getManager(NamingManager.class).getContext());
+            ThreadPolicy.setPolicy(microWebApplication.getPolicyManager().getPolicy());
+            ThreadInitialContextFactory.setInitialContext(microWebApplication.getNamingManager().getContext());
 
             microWebApplication.setDeployedApplication(
                 new MicroOuterDeployer(configuration.postConstruct())

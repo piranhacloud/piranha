@@ -29,6 +29,9 @@ package cloud.piranha.http.webapp;
 
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 
 /**
  * The HttpServerRequest variant of WebApplicationRequest.
@@ -36,11 +39,6 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
-    
-    /**
-     * Stores the character-encoding processed flag.
-     */
-    private boolean characterEncodingProcessed;
 
     /**
      * Stores the wrapped HttpServerRequest.
@@ -53,77 +51,25 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
      * @param wrapped the wrapped HttpServerRequest.
      */
     public HttpWebApplicationRequest(HttpServerRequest wrapped) {
-        if (wrapped.getRequestTarget().contains("?")) {
-            this.contextPath = wrapped.getRequestTarget()
-                    .substring(0, wrapped.getRequestTarget().indexOf("?"));
-            this.queryString = wrapped.getRequestTarget()
-                    .substring(wrapped.getRequestTarget().indexOf("?") + 1);
-        } else {
-            this.contextPath = wrapped.getRequestTarget();
-        }
-        this.characterEncodingProcessed = false;
-        this.headerManager = new HttpWebApplicationRequestHeaderManager(wrapped);
-        this.inputStream = wrapped.getMessageBody();
-        this.servletPath = "";
         this.wrapped = wrapped;
     }
 
     @Override
-    public String getCharacterEncoding() {
-        if (!characterEncodingProcessed && characterEncoding == null) {
-            setContentType(headerManager.getHeader("Content-Type"));
-            characterEncodingProcessed = true;
-        }
-        return characterEncoding;
+    public String getHeader(String name) {
+        return wrapped.getHeader(name);
     }
 
     @Override
-    public String getLocalAddr() {
-        return wrapped.getLocalAddress();
+    public Enumeration<String> getHeaderNames() {
+        ArrayList<String> headerNames = new ArrayList<>();
+        wrapped.getHeaderNames().forEachRemaining(headerNames::add);
+        return Collections.enumeration(headerNames);
     }
 
     @Override
-    public String getLocalName() {
-        return wrapped.getLocalHostname();
-    }
-
-    @Override
-    public int getLocalPort() {
-        return wrapped.getLocalPort();
-    }
-
-    @Override
-    public String getMethod() {
-        return wrapped.getMethod();
-    }
-
-    @Override
-    public String getProtocol() {
-        return wrapped.getHttpVersion();
-    }
-
-    @Override
-    public String getRemoteAddr() {
-        return wrapped.getRemoteAddress();
-    }
-
-    @Override
-    public String getRemoteHost() {
-        return wrapped.getRemoteHostname();
-    }
-
-    @Override
-    public int getRemotePort() {
-        return wrapped.getRemotePort();
-    }
-
-    @Override
-    public String getServerName() {
-        return wrapped.getLocalHostname();
-    }
-
-    @Override
-    public int getServerPort() {
-        return wrapped.getLocalPort();
+    public Enumeration<String> getHeaders(String name) {
+        ArrayList<String> headers = new ArrayList<>();
+        wrapped.getHeaders(name).forEachRemaining(headers::add);
+        return Collections.enumeration(headers);
     }
 }
