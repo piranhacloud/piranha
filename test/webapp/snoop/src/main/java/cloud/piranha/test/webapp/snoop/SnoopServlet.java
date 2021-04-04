@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.snoop;
+package cloud.piranha.test.webapp.snoop;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,7 +47,7 @@ import jakarta.servlet.http.HttpSession;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class SnoopServlet extends HttpServlet {
-    
+
     /**
      * Stores the logger.
      */
@@ -96,7 +96,9 @@ public class SnoopServlet extends HttpServlet {
             out.println("<tr><td>Method:</td><td>" + request.getMethod() + "</td></tr>");
             out.println("<tr><td>Parameter Map:</td><td>" + request.getParameterMap() + "</td></tr>");
             out.println("<tr><td>Parameter Names:</td><td>" + request.getParameterNames() + "</td></tr>");
-            out.println("<tr><td>Parts:</td><td>" + request.getParts() + "</td></tr>");
+            if (request.getContentType() != null && request.getContentType().contains("multipart/form-data")) {
+                out.println("<tr><td>Parts:</td><td>" + request.getParts() + "</td></tr>");
+            }
             out.println("<tr><td>Path Info:</td><td>" + request.getPathInfo() + "</td></tr>");
             out.println("<tr><td>Path Translated:</td><td>" + request.getPathTranslated() + "</td></tr>");
             out.println("<tr><td>Protocol:</td><td>" + request.getProtocol() + "</td></tr>");
