@@ -88,11 +88,6 @@ public class ServerPiranha implements Runnable {
     private static ServerPiranha INSTANCE;
 
     /**
-     * Defines the attribute name for the ServerPiranha reference.
-     */
-    private static final String SERVER_PIRANHA = "cloud.piranha.server.ServerPiranha";
-
-    /**
      * Stores the SSL flag.
      */
     private boolean ssl = false;
@@ -216,7 +211,6 @@ public class ServerPiranha implements Runnable {
 
                         ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
 
-                        webApplication.setAttribute(SERVER_PIRANHA, this);
                         webApplication.addResource(new DirectoryResource(webAppDirectory));
 
 
