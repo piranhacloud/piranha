@@ -65,7 +65,6 @@
         <module>servlet</module>
         <module>session</module>
         <module>transaction</module>
-        <module>war</module>
         <module>webapp</module>
     </modules>
 
