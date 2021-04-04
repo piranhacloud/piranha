@@ -68,6 +68,7 @@ public class HelloWorldIT {
         if (pidFile.exists()) {
             pidFile.delete();
         }
+        Thread.sleep(5000);
     }
 
     /**

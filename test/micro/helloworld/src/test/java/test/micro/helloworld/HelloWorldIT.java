@@ -81,7 +81,7 @@ public class HelloWorldIT {
         process = new ProcessBuilder()
                 .directory(new File("target"))
                 .command("java",
-                        "-Xdebug",
+                        // "-Xdebug",
                         // "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5000",
                         "-jar",
                         "piranha-micro.jar",
