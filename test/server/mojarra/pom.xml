@@ -106,13 +106,6 @@
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-server</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-            <type>zip</type>
-        </dependency>
-        <dependency>
             <groupId>net.sourceforge.htmlunit</groupId>
             <artifactId>htmlunit</artifactId>
             <scope>test</scope>
