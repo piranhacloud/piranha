@@ -43,7 +43,6 @@ import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletRegistration;
 
 import cloud.piranha.webapp.api.LocaleEncodingManager;
-import cloud.piranha.webapp.api.MimeTypeManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WelcomeFileManager;
 import cloud.piranha.webapp.impl.WebXml;
@@ -265,7 +264,7 @@ public class WebXmlProcessor {
         Iterator<WebXmlMimeMapping> mappingIterator = webXml.getMimeMappings().iterator();
         while (mappingIterator.hasNext()) {
             WebXmlMimeMapping mapping = mappingIterator.next();
-            webApplication.getManager(MimeTypeManager.class)
+            webApplication.getMimeTypeManager()
                     .addMimeType(mapping.getExtension(), mapping.getMimeType());
         }
     }
@@ -378,7 +377,7 @@ public class WebXmlProcessor {
         LOGGER.log(DEBUG, "Adding welcome files");
 
         Iterator<String> iterator = webXml.getWelcomeFiles().iterator();
-        WelcomeFileManager welcomeFileManager = webApplication.getManager(WelcomeFileManager.class);
+        WelcomeFileManager welcomeFileManager = webApplication.getWelcomeFileManager();
         while (iterator.hasNext()) {
             String welcomeFile = iterator.next();
             LOGGER.log(DEBUG, () -> "Adding welcome file: " + welcomeFile);

@@ -34,7 +34,10 @@ import java.io.OutputStream;
  * THe HttpServerResponse API.
  *
  * <p>
- * See https://tools.ietf.org/html/rfc7230 for more information.
+ * This API delivers an abstraction over the HTTP response status line, the HTTP
+ * response headers and the HTTP response body.
+ * </p>
+ *
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -80,27 +83,13 @@ public interface HttpServerResponse {
      * @param value the header value.
      */
     void setHeader(String name, String value);
-    
-    /**
-     * Set the HTTP version.
-     * 
-     * @param httpVersion the HTTP version.
-     */
-    void setHttpVersion(String httpVersion);
-    
-    /**
-     * Set the reason phrase.
-     * 
-     * @param reasonPhrase the reason phrase.
-     */
-    void setReasonPhrase(String reasonPhrase);
 
     /**
-     * Set the status code.
+     * Set the status.
      *
-     * @param statusCode the status code.
+     * @param status the status.
      */
-    void setStatusCode(int statusCode);
+    void setStatus(int status);
     
     /**
      * Write the headers.

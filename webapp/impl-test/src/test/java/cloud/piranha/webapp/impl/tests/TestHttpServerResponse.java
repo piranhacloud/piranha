@@ -79,15 +79,7 @@ public class TestHttpServerResponse implements HttpServerResponse {
     }
 
     @Override
-    public void setHttpVersion(String httpVersion) {
-    }
-
-    @Override
-    public void setReasonPhrase(String reasonPhrase) {
-    }
-
-    @Override
-    public void setStatusCode(int statusCode) {
+    public void setStatus(int status) {
     }
 
     @Override

@@ -76,16 +76,8 @@ public class GrizzlyHttpServerResponse implements HttpServerResponse {
     }
 
     @Override
-    public void setHttpVersion(String httpVersion) {
-    }
-
-    @Override
-    public void setReasonPhrase(String reasonPhrase) {
-    }
-
-    @Override
-    public void setStatusCode(int statusCode) {
-        response.setStatus(statusCode);
+    public void setStatus(int status) {
+        response.setStatus(status);
     }
 
     @Override

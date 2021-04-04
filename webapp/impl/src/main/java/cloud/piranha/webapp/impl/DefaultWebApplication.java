@@ -49,9 +49,7 @@ import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.ServletEnvironment;
 import static cloud.piranha.webapp.api.ServletEnvironment.UNAVAILABLE;
 import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
-import cloud.piranha.webapp.api.WebApplicationResponse;
 import cloud.piranha.webapp.api.WelcomeFileManager;
 import java.io.File;
 import java.io.IOException;
@@ -138,8 +136,8 @@ public class DefaultWebApplication implements WebApplication {
     protected static final int SETUP = 0;
 
     /**
-     * Stores the INITIALIZED_DECLARED constant. This signals that web.xml,
-     * web-fragment.xml and annotations have been processed.
+     * Stores the INITIALIZED_DECLARED constant. This signals that web.xml, web-fragment.xml
+     * and annotations have been processed.
      */
     protected static final int INITIALIZED_DECLARED = 4;
 
@@ -157,6 +155,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the ERROR constant.
      */
     protected static final int ERROR = 3;
+
 
     /**
      * Stores the logger.
@@ -198,6 +197,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the effective minor version.
      */
     protected int effectiveMinorVersion = -1;
+    
+    /**
+     * Stores the naming manager.
+     */
+    protected NamingManager namingManager;
 
     /**
      * Stores the servlet context name.
@@ -261,14 +265,12 @@ public class DefaultWebApplication implements WebApplication {
     protected final List<ServletContextAttributeListener> contextAttributeListeners;
 
     /**
-     * Stores the servlet context listeners that were declared in web.xml,
-     * web-fragment.xml, or via annotations
+     * Stores the servlet context listeners that were declared in web.xml, web-fragment.xml, or via annotations
      */
     protected final List<ServletContextListener> declaredContextListeners;
 
     /**
-     * Stores the servlet context listeners that were not declared in web.xml,
-     * web-fragment.xml, or via annotations
+     * Stores the servlet context listeners that were not declared in web.xml, web-fragment.xml, or via annotations
      */
     protected final List<ServletContextListener> contextListeners;
 
@@ -324,6 +326,21 @@ public class DefaultWebApplication implements WebApplication {
     protected HttpRequestManager httpRequestManager;
 
     /**
+     * Stores the mime type manager.
+     */
+    protected MimeTypeManager mimeTypeManager;
+
+    /**
+     * Stores the multi part manager.
+     */
+    protected MultiPartManager multiPartManager;
+    
+    /**
+     * Stores the Policy manager.
+     */
+    protected PolicyManager policyManager;
+
+    /**
      * Stores the request character encoding.
      */
     protected String requestCharacterEncoding;
@@ -334,32 +351,29 @@ public class DefaultWebApplication implements WebApplication {
     protected WebApplicationRequestMapper webApplicationRequestMapper;
 
     /**
-     * Stores the invocation finder, which finds a Servlet, Filter(chain) and
-     * variants thereof to invoke for a given request path.
+     * Stores the welcome file manager.
+     */
+    protected WelcomeFileManager welcomeFileManager;
+
+    /**
+     * Stores the invocation finder, which finds a Servlet, Filter(chain) and variants thereof to invoke
+     * for a given request path.
      */
     protected DefaultInvocationFinder invocationFinder;
 
     /**
-     * The source object where this web application instance originates from,
-     * i.e. the artifact this was last passed into by the container. Compare to
-     * the source object of an event.
-     */
-    protected Object source;
-
-    /**
-     * Stores the managers.
-     */
-    protected HashMap<Class, Object> managers = new HashMap<>();
-
-    /**
-     * When we're in tainted mode, we have to throw exceptions for a large
-     * number of methods.
+     * When we're in tainted mode, we have to throw exceptions for a large number of methods.
      *
-     * Tainted mode is required for ServletContextListeners which have not been
-     * declared. At the moment of writing it's not clear why this tainted mode
-     * is needed.
+     * Tainted mode is required for ServletContextListeners which have not been declared. At the
+     * moment of writing it's not clear why this tainted mode is needed.
      */
     protected boolean tainted;
+
+    /**
+     * The source object where this web application instance originates from, i.e. the artifact this
+     * was last passed into by the container. Compare to the source object of an event.
+     */
+    protected Object source;
 
     /**
      * Constructor.
@@ -381,12 +395,11 @@ public class DefaultWebApplication implements WebApplication {
         initializers = new ArrayList<>(1);
         jspManager = new DefaultJspFileManager();
         loggingManager = new DefaultLoggingManager();
-        managers.put(MimeTypeManager.class, new DefaultMimeTypeManager());
-        managers.put(MultiPartManager.class, new DefaultMultiPartManager());
-        managers.put(NamingManager.class, new DefaultNamingManager(new DefaultInitialContext()));
-        managers.put(PolicyManager.class, new DefaultPolicyManager());
-        managers.put(WelcomeFileManager.class, new DefaultWelcomeFileManager());
+        mimeTypeManager = new DefaultMimeTypeManager();
+        multiPartManager = new DefaultMultiPartManager();
+        namingManager = new DefaultNamingManager(new DefaultInitialContext());
         objectInstanceManager = new DefaultObjectInstanceManager();
+        policyManager = new DefaultPolicyManager();
         requestListeners = new ArrayList<>(1);
         resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
@@ -395,6 +408,7 @@ public class DefaultWebApplication implements WebApplication {
         servletContextName = UUID.randomUUID().toString();
         servletEnvironments = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
+        welcomeFileManager = new DefaultWelcomeFileManager();
         invocationFinder = new DefaultInvocationFinder(this);
         localeEncodingManager = new DefaultLocaleEncodingManager();
     }
@@ -695,6 +709,7 @@ public class DefaultWebApplication implements WebApplication {
         servletEnvironments.values().stream().forEach(servletEnv -> servletEnv.getServlet().destroy());
         servletEnvironments.clear();
 
+
         reverse(contextListeners);
         contextListeners.stream().forEach(listener -> listener.contextDestroyed(new ServletContextEvent(this)));
         contextListeners.clear();
@@ -841,6 +856,16 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
+     * Get the multi part manager.
+     *
+     * @return the multi part manager.
+     */
+    @Override
+    public MultiPartManager getMultiPartManager() {
+        return multiPartManager;
+    }
+
+    /**
      * Get the effective tracking modes.
      *
      * @return the effective tracking modes.
@@ -944,7 +969,17 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public String getMimeType(String filename) {
-        return getManager(MimeTypeManager.class).getMimeType(filename);
+        return mimeTypeManager.getMimeType(filename);
+    }
+
+    /**
+     * Get the mime type manager.
+     *
+     * @return the mime type manager.
+     */
+    @Override
+    public MimeTypeManager getMimeTypeManager() {
+        return mimeTypeManager;
     }
 
     /**
@@ -1044,8 +1079,7 @@ public class DefaultWebApplication implements WebApplication {
      * Returns the file path or the first nested folder
      *
      * @apiNote
-     * <p>
-     * <b>Examples.</b>
+     *  <p><b>Examples.</b>
      * <pre>{@code
      *  getFileOrFirstFolder("/rootFolder", "/rootFolder/file.html").equals("/rootFolder/file.html")
      * }</pre>
@@ -1063,7 +1097,7 @@ public class DefaultWebApplication implements WebApplication {
      * @param resource the resource that is a file directory or file
      * @return the file path or the first nested folder
      */
-    private String getFileOrFirstFolder(String path, String resource) {
+    private String getFileOrFirstFolder(String path, String resource){
         String normalizedPath = path.endsWith("/") ? path : path + "/";
         String[] split = resource.replace(normalizedPath, "/").split("/");
 
@@ -1077,22 +1111,19 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Returns a directory-like listing of all the paths to resources within the
-     * web application whose longest sub-path matches the supplied path
-     * argument.
-     *
+     * Returns a directory-like listing of all the paths to resources
+     * within the web application whose longest sub-path matches the supplied path argument.
      * @param path the partial path used to match the resources
-     * @return a Set containing the directory listing, or null if there are no
-     * resources in the web application whose path begins with the supplied
-     * path.
+     * @return a Set containing the directory listing, or null if there are no resources in the web application
+     * whose path begins with the supplied path.
      */
     private Set<String> getResourcePathsImpl(String path) {
-        Set<String> collect
-                = resourceManager.getAllLocations()
-                        .filter(resource -> resource.startsWith(path))
-                        .filter(not(isEqual(path)))
-                        .map(resource -> getFileOrFirstFolder(path, resource))
-                        .collect(toSet());
+        Set<String> collect =
+            resourceManager.getAllLocations()
+                           .filter(resource -> resource.startsWith(path))
+                           .filter(not(isEqual(path)))
+                           .map(resource -> getFileOrFirstFolder(path, resource))
+                           .collect(toSet());
 
         if (collect.isEmpty()) {
             return null;
@@ -1100,7 +1131,6 @@ public class DefaultWebApplication implements WebApplication {
 
         return collect;
     }
-
     /**
      * Get the resource paths.
      *
@@ -1274,6 +1304,16 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
+     * Get the welcome file manager.
+     *
+     * @return the welcome file manager.
+     */
+    @Override
+    public WelcomeFileManager getWelcomeFileManager() {
+        return welcomeFileManager;
+    }
+
+    /**
      * Initialize the web application.
      */
     @Override
@@ -1357,7 +1397,7 @@ public class DefaultWebApplication implements WebApplication {
                 try {
                     source = initializer;
                     initializer.onStartup(classes, this);
-                } finally {
+                }  finally {
                     source = null;
                 }
             } catch (Throwable t) {
@@ -1430,14 +1470,14 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Is the web application initialized.
-     *
+     * 
      * @return true if it is, false otherwise.
      */
     @Override
     public boolean isInitialized() {
         return status >= INITIALIZED && status < ERROR;
     }
-
+    
     /**
      * Initialize the servlet.
      *
@@ -1549,18 +1589,19 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
         verifyState(SERVICING, "Unable to service request");
+        verifyRequestResponseTypes(request, response);
 
         linkRequestAndResponse(request, response);
         requestInitialized(request);
 
-        WebApplicationRequest webappRequest = (WebApplicationRequest) request;
-        WebApplicationResponse webAppResponse = (WebApplicationResponse) response;
+        DefaultWebApplicationRequest webappRequest = (DefaultWebApplicationRequest) request;
+        DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
 
         // Obtain a reference to the target servlet invocation, which includes the Servlet itself and/or Filters, as well as mapping data
         DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(webappRequest.getServletPath(), webappRequest.getPathInfo());
 
         // Dispatch using the REQUEST dispatch type. This will invoke the Servlet and/or Filters if present and available.
-        getInvocationDispatcher(servletInvocation).request(webappRequest, webAppResponse);
+        getInvocationDispatcher(servletInvocation).request(webappRequest, httpResponse);
 
         requestDestroyed(request);
         unlinkRequestAndResponse(request, response);
@@ -1707,6 +1748,26 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
+     * Set the mimeType manager.
+     *
+     * @param mimeTypeManager the mimeType manager.
+     */
+    @Override
+    public void setMimeTypeManager(MimeTypeManager mimeTypeManager) {
+        this.mimeTypeManager = mimeTypeManager;
+    }
+
+    /**
+     * Set the multi part manager.
+     *
+     * @param multiPartManager the multi part manager.
+     */
+    @Override
+    public void setMultiPartManager(MultiPartManager multiPartManager) {
+        this.multiPartManager = multiPartManager;
+    }
+
+    /**
      * Set the object instance manager.
      *
      * @param objectInstanceManager the object instance manager.
@@ -1813,6 +1874,16 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
+     * Set the welcome file manager.
+     *
+     * @param welcomeFileManager the welcome file manager.
+     */
+    @Override
+    public void setWelcomeFileManager(WelcomeFileManager welcomeFileManager) {
+        this.welcomeFileManager = welcomeFileManager;
+    }
+
+    /**
      * Start servicing.
      */
     @Override
@@ -1903,7 +1974,12 @@ public class DefaultWebApplication implements WebApplication {
         return asyncManager;
     }
 
+
+
     // ### Private methods
+
+
+
     /**
      * Get the name request dispatcher.
      *
@@ -1912,6 +1988,12 @@ public class DefaultWebApplication implements WebApplication {
      */
     private DefaultServletRequestDispatcher getInvocationDispatcher(DefaultServletInvocation servletInvocation) {
         return new DefaultServletRequestDispatcher(servletInvocation, this);
+    }
+
+    private void verifyRequestResponseTypes(ServletRequest request, ServletResponse response) throws ServletException {
+        if (!(request instanceof DefaultWebApplicationRequest) || !(response instanceof DefaultWebApplicationResponse)) {
+            throw new ServletException("Invalid request or response");
+        }
     }
 
     /**
@@ -1979,51 +2061,39 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     private boolean isPermanentlyUnavailable(DefaultServletEnvironment environment) {
-        return environment.getUnavailableException() instanceof UnavailableException && ((UnavailableException) environment.getUnavailableException()).isPermanent();
+        return
+            environment.getUnavailableException() instanceof UnavailableException && ((UnavailableException)
+            environment.getUnavailableException()).isPermanent();
     }
 
+    private void checkTainted() {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
+        }
+    }
 
-    // ------------------------------------------------------------------------
-    //  Methods below have been refactored and documented.
-    // ------------------------------------------------------------------------
-    
-    /**
-     * Determine if we are already servicing in which case the method calling
-     * this needs to throw an IllegalStateException.
-     */
     private void checkServicing() {
         if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has initialized");
         }
     }
 
-    /**
-     * Determine if the ServletContext is in tainted mode in which case the
-     * method calling this needs to throw an UnsupportedOperationException.
-     */
-    private void checkTainted() {
-        if (tainted) {
-            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by Servlet specification).");
-        }
-    }
-
-    @Override
-    public <T extends Object> T getManager(Class<T> type) {
-        return type.cast(managers.get(type));
-    }
-
-    /**
-     * Is the string empty.
-     *
-     * @param string the string.
-     * @return true if the string is null or empty, false otherwise.
-     */
     private boolean isEmpty(String string) {
         return string == null || string.isEmpty();
     }
 
     @Override
-    public void setManager(Class type, Object manager) {
-        managers.put(type, manager);
+    public NamingManager getNamingManager() {
+        return namingManager;
+    }
+
+    @Override
+    public PolicyManager getPolicyManager() {
+        return policyManager;
+    }
+
+    @Override
+    public void setNamingManager(NamingManager namingManager) {
+        this.namingManager = namingManager;
     }
 }

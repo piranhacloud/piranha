@@ -58,6 +58,13 @@
             <artifactId>jandex</artifactId>
         </dependency>
         
+        <!-- Because MicroPiranha implements Piranha. -->
+        <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
         <!-- Piranha HTTP - WebApplication  -->
         <dependency>
             <groupId>cloud.piranha.http</groupId>

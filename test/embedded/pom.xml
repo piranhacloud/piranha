@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
         <version>21.4.0-SNAPSHOT</version>
     </parent>
-    <groupId>cloud.piranha.test.embedded</groupId>
-    <artifactId>project</artifactId>
-    <packaging>pom</packaging>
-    <name>Piranha Test - Embedded - Project</name>
-    <modules>
-        <module>bootstrap</module>
-        <module>snoop</module>
-    </modules>
+
+    <artifactId>embedded</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Piranha Test - Embedded</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-embedded</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.test</groupId>
+            <artifactId>snoop</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

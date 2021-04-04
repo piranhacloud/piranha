@@ -59,7 +59,10 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 /**
  * SecurityManager implementation that uses Jakarta Security semantics.
  *
+ * WIP!
+ *
  * @author Arjan Tijms
+ *
  */
 public class JakartaSecurityManager implements SecurityManager {
 
@@ -67,7 +70,7 @@ public class JakartaSecurityManager implements SecurityManager {
      * Handler for the specific HttpServletRequest#login method call
      */
     private UsernamePasswordLoginHandler usernamePasswordLoginHandler;
-
+    
     /**
      * All declared roles in the application
      */
@@ -90,6 +93,7 @@ public class JakartaSecurityManager implements SecurityManager {
 
     @Override
     public boolean isRequestSecurityAsRequired(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        // TODO: handle redirect?
         return getAuthorizationService(request).checkWebUserDataPermission(request);
     }
 
@@ -132,7 +136,8 @@ public class JakartaSecurityManager implements SecurityManager {
                 request,
                 response,
                 source == MID_REQUEST_USER,
-                source == MID_REQUEST_USER ? true : !isRequestedResourcePublic(request));
+                source == MID_REQUEST_USER? true : !isRequestedResourcePublic(request));
+
 
         // Caller is null means authentication failed. If authentication did not happen (auth module decided to do nothing)
         // we have a caller instance with a null caller principal
@@ -156,6 +161,7 @@ public class JakartaSecurityManager implements SecurityManager {
             return false;
         }
 
+        // TODO: handle the "in progress" (send_continue) case
         return true;
     }
 
@@ -225,6 +231,7 @@ public class JakartaSecurityManager implements SecurityManager {
     }
 
     private void setIdentityForCurrentRequest(HttpServletRequest request, Principal callerPrincipal, Set<String> groups) {
+        // TODO: consider not setting principal in request separately
         Principal currentPrincipal = callerPrincipal == null ? null : callerPrincipal.getName() == null ? null : callerPrincipal;
 
         DefaultWebApplicationRequest defaultWebApplicationRequest = (DefaultWebApplicationRequest) request;

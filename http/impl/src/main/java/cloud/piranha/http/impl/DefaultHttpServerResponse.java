@@ -55,11 +55,6 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
             DefaultHttpServerResponse.class.getPackageName());
 
     /**
-     * Stores the HTTP version.
-     */
-    private String httpVersion = "HTTP/1.0";
-
-    /**
      * Stores the headers.
      */
     private final Map<String, List<String>> headers;
@@ -68,11 +63,6 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
      * Stores the output stream.
      */
     private OutputStream outputStream;
-    
-    /**
-     * Stores the reason phrase.
-     */
-    private String reasonPhrase;
 
     /**
      * Stores the socket.
@@ -82,7 +72,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     /**
      * Stores the status.
      */
-    private int statusCode;
+    private int status;
 
     /**
      * Constructor.
@@ -137,18 +127,8 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     }
 
     @Override
-    public void setHttpVersion(String httpVersion) {
-        this.httpVersion = httpVersion;
-    }
-
-    @Override
-    public void setReasonPhrase(String reasonPhrase) {
-        this.reasonPhrase = reasonPhrase;
-    }
-
-    @Override
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     /**
@@ -185,13 +165,9 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     @Override
     public void writeStatusLine() throws IOException {
         OutputStream output = getOutputStream();
-        output.write(httpVersion.getBytes());
+        output.write("HTTP/1.0".getBytes());
         output.write(" ".getBytes());
-        output.write(Integer.toString(statusCode).getBytes());
-        if (reasonPhrase != null) {
-            output.write(" ".getBytes());
-            output.write(reasonPhrase.getBytes());
-        }
+        output.write(Integer.toString(status).getBytes());
         output.write("\n".getBytes());
     }
 }

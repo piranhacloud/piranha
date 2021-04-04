@@ -48,7 +48,6 @@ import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.TextPage;
 import com.gargoylesoftware.htmlunit.WebClient;
-import org.junit.Ignore;
 
 
 @RunWith(Arquillian.class)
@@ -82,7 +81,6 @@ public class ServletBasicIT {
     }
 
     @Test
-    @Ignore
     public void testGetWithCorrectCredentials() throws Exception {
         DefaultCredentialsProvider credentialsProvider = new DefaultCredentialsProvider();
         credentialsProvider.addCredentials("test", "pass");

@@ -30,6 +30,7 @@ package cloud.piranha.webapp.impl.tests;
 import cloud.piranha.http.api.HttpServerRequest;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -40,10 +41,30 @@ import java.util.Iterator;
  */
 public class TestHttpServerRequest implements HttpServerRequest {
 
+    @Override
+    public String getHeader(String string) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Iterator<String> getHeaders(String name) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getQueryParameter(String string) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
     /**
      * Stores the headers.
      */
     private HashMap<String, String[]> headers;
+
+    /**
+     * Stores the input stream.
+     */
+    private InputStream inputStream;
 
     /**
      * Stores the local address.
@@ -61,14 +82,14 @@ public class TestHttpServerRequest implements HttpServerRequest {
     private int localPort;
 
     /**
-     * Stores the message body.
-     */
-    private InputStream messageBody;
-
-    /**
      * Stores the method.
      */
     private String method;
+
+    /**
+     * Stores the query string.
+     */
+    private String queryString;
 
     /**
      * Stores the remote address.
@@ -95,7 +116,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
      */
     public TestHttpServerRequest() {
         this.headers = new HashMap<>();
-        this.messageBody = new ByteArrayInputStream(new byte[0]);
+        this.inputStream = new ByteArrayInputStream(new byte[0]);
         this.localAddress = "127.0.0.1";
         this.localHostname = "localhost";
         this.localPort = 8080;
@@ -105,66 +126,133 @@ public class TestHttpServerRequest implements HttpServerRequest {
         this.requestTarget = "";
         this.method = "GET";
     }
-    
-    @Override
-    public String getHeader(String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
+    /**
+     * Get the header names.
+     *
+     * @return the header names.
+     */
     @Override
     public Iterator<String> getHeaderNames() {
         return headers.keySet().iterator();
     }
 
+    /**
+     * Get the input stream.
+     *
+     * @return the input stream.
+     */
     @Override
-    public Iterator<String> getHeaders(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public InputStream getInputStream() {
+        return inputStream;
     }
 
-
+    /**
+     * Get the local address.
+     *
+     * @return the local address.
+     */
     @Override
     public String getLocalAddress() {
         return localAddress;
     }
 
+    /**
+     * Get the local hostname.
+     *
+     * @return the local hostname.
+     */
     @Override
     public String getLocalHostname() {
         return localHostname;
     }
 
+    /**
+     * Get the local port.
+     *
+     * @return the local port.
+     */
     @Override
     public int getLocalPort() {
         return localPort;
     }
 
-    @Override
-    public InputStream getMessageBody() {
-        return messageBody;
-    }
-
+    /**
+     * Get the method.
+     *
+     * @return the method.
+     */
     @Override
     public String getMethod() {
         return method;
     }
 
+    /**
+     * Get the query string.
+     *
+     * @return the query string.
+     */
+    @Override
+    public String getQueryString() {
+        return queryString;
+    }
+
+    /**
+     * Get the remote address.
+     *
+     * @return the remote address.
+     */
     @Override
     public String getRemoteAddress() {
         return remoteAddress;
     }
 
+    /**
+     * Get the remote hostname.
+     *
+     * @return the remote hostname.
+     */
     @Override
     public String getRemoteHostname() {
         return remoteHostname;
     }
 
+    /**
+     * Get the remote port.
+     *
+     * @return the remote port.
+     */
     @Override
     public int getRemotePort() {
         return remotePort;
     }
 
+    /**
+     * Get the request target.
+     *
+     * @return the request target.
+     */
     @Override
     public String getRequestTarget() {
         return requestTarget;
+    }
+
+    /**
+     * Set the method.
+     *
+     * @param method the method.
+     */
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    /**
+     * Set the input stream.
+     *
+     * @param inputStream the input stream.
+     */
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
     }
 
     /**
@@ -195,21 +283,12 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Set the message body.
+     * Set the query string.
      *
-     * @param messageBody the message body.
+     * @param queryString the query string.
      */
-    public void setMessageBody(InputStream messageBody) {
-        this.messageBody = messageBody;
-    }
-
-    /**
-     * Set the method.
-     *
-     * @param method the method.
-     */
-    public void setMethod(String method) {
-        this.method = method;
+    public void setQueryString(String queryString) {
+        this.queryString = queryString;
     }
 
     /**

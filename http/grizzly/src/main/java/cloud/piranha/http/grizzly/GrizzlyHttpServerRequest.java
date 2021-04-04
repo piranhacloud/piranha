@@ -56,11 +56,14 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
         this.request = request;
     }
 
+    /**
+     * @see HttpServerRequest#getHeader(java.lang.String)
+     */
     @Override
     public String getHeader(String name) {
         return request.getHeader(name);
     }
-
+    
     @Override
     public Iterator<String> getHeaderNames() {
         return request.getHeaderNames().iterator();
@@ -72,8 +75,8 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
     }
 
     @Override
-    public String getHttpVersion() {
-        return request.getProtocol().getProtocolString();
+    public InputStream getInputStream() {
+        return request.getInputStream();
     }
 
     @Override
@@ -92,13 +95,18 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
     }
 
     @Override
-    public InputStream getMessageBody() {
-        return request.getInputStream();
+    public String getMethod() {
+        return request.getMethod().getMethodString();
     }
 
     @Override
-    public String getMethod() {
-        return request.getMethod().getMethodString();
+    public String getQueryParameter(String name) {
+        return request.getParameter(name);
+    }
+
+    @Override
+    public String getQueryString() {
+        return request.getQueryString();
     }
 
     @Override
@@ -118,6 +126,11 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
 
     @Override
     public String getRequestTarget() {
-        return request.getRequestURI() + (request.getQueryString() == null ? "" : "?" + request.getQueryString());
+        return request.getRequestURI();
+    }
+
+    @Override
+    public String getProtocol() {
+        return request.getProtocol().getProtocolString();
     }
 }

@@ -31,9 +31,7 @@ import org.jboss.shrinkwrap.api.Archive;
 
 import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
-import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
-import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.thread.ThreadPolicy;
 
 /**
@@ -65,8 +63,7 @@ public class MicroEmbeddedPiranhaBuilder {
 	}
 
 	/**
-     * Set the application archive that will be loaded and executed by Piranha
-     * Micro
+	 * Set the application archive that will be loaded and executed by Piranha Micro
 	 * 
 	 * @param archive the archive to be executed
 	 * @return instance of this builder
@@ -77,9 +74,7 @@ public class MicroEmbeddedPiranhaBuilder {
 	}
 
 	/**
-     * Builds an embedded Piranha Micro instance and deploys the archive set by
-     * this builder to it.
-     *
+	 * Builds an embedded Piranha Micro instance and deploys the archive set by this builder to it.
 	 * @return the newly created Piranha Micro instance
 	 */
 	public MicroEmbeddedPiranha buildAndStart() {
@@ -97,8 +92,8 @@ public class MicroEmbeddedPiranhaBuilder {
 		}
 
 		try {
-			ThreadPolicy.setPolicy(microWebApplication.getManager(PolicyManager.class).getPolicy());
-			ThreadInitialContextFactory.setInitialContext(microWebApplication.getManager(NamingManager.class).getContext());
+			ThreadPolicy.setPolicy(microWebApplication.getPolicyManager().getPolicy());
+			ThreadInitialContextFactory.setInitialContext(microWebApplication.getNamingManager().getContext());
 
 			microWebApplication.setDeployedApplication(
 					new MicroOuterDeployer(configuration.postConstruct()).deploy(archive).getDeployedApplication());

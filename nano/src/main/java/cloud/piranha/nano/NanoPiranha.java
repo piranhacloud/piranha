@@ -27,6 +27,7 @@
  */
 package cloud.piranha.nano;
 
+import cloud.piranha.api.Piranha;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.IOException;
@@ -45,7 +46,7 @@ import jakarta.servlet.ServletResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  * @see cloud.piranha.webapp.api
  */
-public class NanoPiranha {
+public class NanoPiranha implements Piranha {
 
     /**
      * Stores the filters.
@@ -98,6 +99,16 @@ public class NanoPiranha {
     }
 
     /**
+     * Get the version.
+     *
+     * @return the version.
+     */
+    @Override
+    public String getVersion() {
+        return getClass().getPackage().getImplementationVersion();
+    }
+
+    /**
      * Get the web application.
      *
      * @return the web application.
@@ -116,7 +127,6 @@ public class NanoPiranha {
      */
     public void service(ServletRequest servletRequest, ServletResponse servletResponse)
             throws IOException, ServletException {
-
         Iterator<Filter> iterator = filters.descendingIterator();
         NanoFilterChain chain = new NanoFilterChain(servlet);
         while (iterator.hasNext()) {
@@ -124,15 +134,13 @@ public class NanoPiranha {
             NanoFilterChain previousChain = chain;
             chain = new NanoFilterChain(filter, previousChain);
         }
-
-        if (servletRequest instanceof NanoRequest nanoRequest) {
+        if (servletRequest.getServletContext() == null
+                && servletRequest instanceof NanoRequest nanoRequest) {
             nanoRequest.setWebApplication(webApplication);
         }
-
         if (servletResponse instanceof NanoResponse nanoResponse) {
             nanoResponse.setWebApplication(webApplication);
         }
-
         chain.doFilter(servletRequest, servletResponse);
         servletResponse.flushBuffer();
     }

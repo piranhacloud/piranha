@@ -27,9 +27,6 @@
  */
 package cloud.piranha.test.unit.http.tests;
 
-import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.api.HttpServerRequest;
-import cloud.piranha.http.api.HttpServerResponse;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,15 +35,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.System.Logger;
+
+import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServerRequest;
+import cloud.piranha.http.api.HttpServerResponse;
+
 import static java.lang.System.Logger.Level.ERROR;
 
 /**
- * A test implementation of an HTTP Server Processor.
+ * The default implementation of a HTTP Server Processor.
  *
  * <p>
  * This HTTP Server Processor will either show the user with a directory
  * listing, or stream back contents of the file clicked on in the browser, or it
  * will return a 404 error because neither could be found.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -55,18 +58,22 @@ public class TestHttpServerProcessor implements HttpServerProcessor {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER
-            = System.getLogger(TestHttpServerProcessor.class.getPackageName());
+    private static final Logger LOGGER = 
+            System.getLogger(TestHttpServerProcessor.class.getPackageName());
 
     /**
      * Stores the error writing response message.
      */
-    private static final String IO_ERROR_WRITING_RESPONSE
-            = "An I/O error occurred while writing the response";
+    private static final String IO_ERROR_WRITING_RESPONSE = "An I/O error occurred while writing the response";
 
+    /**
+     * @see
+     * HttpServerProcessor#process(cloud.piranha.http.api.HttpServerRequest,
+     * cloud.piranha.http.api.HttpServerResponse)
+     */
     @Override
     public boolean process(HttpServerRequest request, HttpServerResponse response) {
-        response.setStatusCode(200);
+        response.setStatus(200);
         File baseDir = new File(System.getProperty("user.dir"));
         File file = new File(baseDir, request.getRequestTarget());
         if (file.exists() && file.isDirectory() && "GET".equals(request.getMethod())) {
@@ -117,13 +124,14 @@ public class TestHttpServerProcessor implements HttpServerProcessor {
             }
         } else {
             try {
-                response.setStatusCode(404);
+                response.setStatus(404);
                 response.writeStatusLine();
                 response.writeHeaders();
             } catch (IOException exception) {
                 LOGGER.log(ERROR, IO_ERROR_WRITING_RESPONSE, exception);
             }
         }
+
         return false;
     }
 }

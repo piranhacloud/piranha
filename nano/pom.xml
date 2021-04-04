@@ -27,14 +27,20 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource-impl</artifactId>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-api</artifactId>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-api</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource-impl</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -44,9 +50,15 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-core</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

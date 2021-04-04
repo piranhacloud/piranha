@@ -27,8 +27,14 @@
  */
 package cloud.piranha.webapp.api;
 
-import cloud.piranha.resource.api.Resource;
-import cloud.piranha.resource.api.ResourceManager;
+import cloud.piranha.naming.api.NamingManager;
+import cloud.piranha.policy.api.PolicyManager;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
+
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.Servlet;
@@ -38,11 +44,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
+
+import cloud.piranha.resource.api.Resource;
+import cloud.piranha.resource.api.ResourceManager;
 
 /**
  * The WebApplication API.
@@ -171,7 +175,35 @@ public interface WebApplication extends ServletContext {
      * @return true if we are, false otherwise.
      */
     boolean getDenyUncoveredHttpMethods();
+
+    /**
+     * Get the mime type manager.
+     *
+     * @return the mime type manager.
+     */
+    MimeTypeManager getMimeTypeManager();
+
+    /**
+     * Get the multi part manager.
+     *
+     * @return the multi part manager.
+     */
+    MultiPartManager getMultiPartManager();
     
+    /**
+     * Get the naming manager.
+     * 
+     * @return the naming manager.
+     */
+    NamingManager getNamingManager();
+    
+    /**
+     * Get the policy manager.
+     * 
+     * @return the policy manager.
+     */
+    PolicyManager getPolicyManager();
+
     /**
      * Returns the unique Id of this web application corresponding to this
      * ServletContext.
@@ -242,6 +274,13 @@ public interface WebApplication extends ServletContext {
      * @return the security manager.
      */
     SecurityManager getSecurityManager();
+
+    /**
+     * Get the welcome file manager.
+     *
+     * @return the welcome file manager.
+     */
+    WelcomeFileManager getWelcomeFileManager();
 
     /**
      * Get the locale encoding manager
@@ -390,6 +429,27 @@ public interface WebApplication extends ServletContext {
     void setLoggingManager(LoggingManager loggingManager);
 
     /**
+     * Set the mimeType manager.
+     *
+     * @param mimeTypeManager the mimeType manager.
+     */
+    void setMimeTypeManager(MimeTypeManager mimeTypeManager);
+
+    /**
+     * Set the multi part manager.
+     *
+     * @param multiPartManager the multi part manager.
+     */
+    void setMultiPartManager(MultiPartManager multiPartManager);
+    
+    /**
+     * Set the naming manager.
+     * 
+     * @param namingManager the naming manager.
+     */
+    void setNamingManager(NamingManager namingManager);
+
+    /**
      * Set the object instance manager.
      *
      * @param objectInstanceManager the object instance manager.
@@ -432,6 +492,13 @@ public interface WebApplication extends ServletContext {
     void setWebApplicationRequestMapper(WebApplicationRequestMapper webApplicationRequestMapper);
 
     /**
+     * Set the welcome file manager.
+     *
+     * @param welcomeFileManager the welcome file manager.
+     */
+    void setWelcomeFileManager(WelcomeFileManager welcomeFileManager);
+
+    /**
      * Set the locale encoding manager
      * @param localeEncodingManager the locale encoding manager
      */
@@ -446,23 +513,6 @@ public interface WebApplication extends ServletContext {
      * Stop servicing.
      */
     void stop();
-    
-    /**
-     * Get the manager for the specific type.
-     * 
-     * @param <T> the underlying type.
-     * @param type the type of manager.
-     * @return the manager, or null if not found.
-     */
-    <T extends Object> T getManager(Class<T> type);
-    
-    /**
-     * Set the manager for the specific type.
-     * 
-     * @param type the type.
-     * @param manager the manager.
-     */
-    void setManager(Class type, Object manager);
 
     /**
      * Unlink the request and response.

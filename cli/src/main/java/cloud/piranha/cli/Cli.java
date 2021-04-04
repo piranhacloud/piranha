@@ -27,38 +27,95 @@
  */
 package cloud.piranha.cli;
 
-import picocli.CommandLine;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * The Piranha CLI.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@CommandLine.Command(name = "cli", subcommands = {NanoCli.class})
 public class Cli {
+
+    /**
+     * Stores the pattern.
+     */
+    private static final String PATTERN = "  %-10s: %s\n";
+
+    /**
+     * Execute the arguments.
+     *
+     * @param arguments the arguments.
+     */
+    public void execute(List<String> arguments) {
+        if (!arguments.isEmpty()) {
+            ArrayList<String> list = new ArrayList<>();
+            list.addAll(arguments);
+            if (!list.isEmpty()) {
+                list.remove(0);
+            }
+            switch (arguments.get(0)) {
+                case "help":
+                    help();
+                    break;
+                case "nano":
+                    nano(list);
+                    break;
+                case "version":
+                    version();
+                    break;
+                default:
+                    usage();
+                    break;
+            }
+        } else {
+            usage();
+        }
+    }
+
+    /**
+     * Shows the link where to find help.
+     */
+    private void help() {
+        System.out.println("Please go to https://piranha.cloud/cli for more help");
+    }
+
     /**
      * Main method.
      *
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        int statusCode = new CommandLine(new Cli()).execute(arguments);
-        System.exit(statusCode);
+        Cli cli = new Cli();
+        cli.execute(Arrays.asList(arguments));
     }
 
     /**
-     * Shows the link where to find help.
+     * Invoke the Piranha Nano CLI.
+     *
+     * @param arguments the arguments.
      */
-    @CommandLine.Command(name = "help", description = "Where to go for help?")
-    private void help() {
-        System.out.println("Please go to https://piranha.cloud/cli for more help");
+    public void nano(List<String> arguments) {
+        NanoCli cli = new NanoCli();
+        cli.execute(arguments);
+    }
+
+    /**
+     * Shows the usage.
+     */
+    private void usage() {
+        System.out.println("usage: pi <command>");
+        System.out.println();
+        System.out.printf(PATTERN, "help", "Where to go for help?");
+        System.out.printf(PATTERN, "nano", "Use Piranha Nano");
+        System.out.printf(PATTERN, "version", "Show the version of the Piranha CLI");
     }
 
     /**
      * Show the version.
      */
-    @CommandLine.Command(name = "version", description = "Show the version of the Piranha CLI")
     private void version() {
-        System.out.println("Version " + getClass().getModule().getDescriptor().version().get());
+        System.out.println("Version " + getClass().getModule().getDescriptor().version().get().toString());
     }
 }

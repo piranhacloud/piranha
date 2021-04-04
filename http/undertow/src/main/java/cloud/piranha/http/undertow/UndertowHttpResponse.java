@@ -35,7 +35,7 @@ import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HttpString;
 
 /**
- * The Undertow implementation of HttpServerResponse.
+ * The Undertow implementation of HTTP Server Response.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -79,18 +79,8 @@ public class UndertowHttpResponse implements HttpServerResponse {
     }
 
     @Override
-    public void setHttpVersion(String httpVersion) {
-        exchange.setProtocol(HttpString.tryFromString(httpVersion));
-    }
-
-    @Override
-    public void setReasonPhrase(String reasonPhrase) {
-        exchange.setReasonPhrase(reasonPhrase);
-    }
-
-    @Override
-    public void setStatusCode(int statusCode) {
-        exchange.setStatusCode(statusCode);
+    public void setStatus(int status) {
+        exchange.setStatusCode(status);
     }
     
     @Override
