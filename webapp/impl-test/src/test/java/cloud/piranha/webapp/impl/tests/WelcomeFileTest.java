@@ -28,6 +28,7 @@
 package cloud.piranha.webapp.impl.tests;
 
 import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.webapp.api.WelcomeFileManager;
 import cloud.piranha.webapp.impl.DefaultServlet;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
@@ -79,7 +80,7 @@ class WelcomeFileTest {
     @Test
     void testCustomWelcomeFilel() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getWelcomeFileManager().addWelcomeFile("custom.html");
+        webApp.getManager(WelcomeFileManager.class).addWelcomeFile("custom.html");
         webApp.addResource(new DirectoryResource(new File("src/test/webapp/custom")));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);

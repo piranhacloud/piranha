@@ -334,11 +334,6 @@ public class DefaultWebApplication implements WebApplication {
     protected WebApplicationRequestMapper webApplicationRequestMapper;
 
     /**
-     * Stores the welcome file manager.
-     */
-    protected WelcomeFileManager welcomeFileManager;
-
-    /**
      * Stores the invocation finder, which finds a Servlet, Filter(chain) and
      * variants thereof to invoke for a given request path.
      */
@@ -390,6 +385,7 @@ public class DefaultWebApplication implements WebApplication {
         managers.put(MultiPartManager.class, new DefaultMultiPartManager());
         managers.put(NamingManager.class, new DefaultNamingManager(new DefaultInitialContext()));
         managers.put(PolicyManager.class, new DefaultPolicyManager());
+        managers.put(WelcomeFileManager.class, new DefaultWelcomeFileManager());
         objectInstanceManager = new DefaultObjectInstanceManager();
         requestListeners = new ArrayList<>(1);
         resourceManager = new DefaultResourceManager();
@@ -399,7 +395,6 @@ public class DefaultWebApplication implements WebApplication {
         servletContextName = UUID.randomUUID().toString();
         servletEnvironments = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
-        welcomeFileManager = new DefaultWelcomeFileManager();
         invocationFinder = new DefaultInvocationFinder(this);
         localeEncodingManager = new DefaultLocaleEncodingManager();
     }
@@ -1279,16 +1274,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the welcome file manager.
-     *
-     * @return the welcome file manager.
-     */
-    @Override
-    public WelcomeFileManager getWelcomeFileManager() {
-        return welcomeFileManager;
-    }
-
-    /**
      * Initialize the web application.
      */
     @Override
@@ -1828,16 +1813,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Set the welcome file manager.
-     *
-     * @param welcomeFileManager the welcome file manager.
-     */
-    @Override
-    public void setWelcomeFileManager(WelcomeFileManager welcomeFileManager) {
-        this.welcomeFileManager = welcomeFileManager;
-    }
-
-    /**
      * Start servicing.
      */
     @Override
@@ -2007,12 +1982,11 @@ public class DefaultWebApplication implements WebApplication {
         return environment.getUnavailableException() instanceof UnavailableException && ((UnavailableException) environment.getUnavailableException()).isPermanent();
     }
 
-    private void checkTainted() {
-        if (tainted) {
-            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
-        }
-    }
 
+    // ------------------------------------------------------------------------
+    //  Methods below have been refactored and documented.
+    // ------------------------------------------------------------------------
+    
     /**
      * Determine if we are already servicing in which case the method calling
      * this needs to throw an IllegalStateException.
@@ -2020,6 +1994,16 @@ public class DefaultWebApplication implements WebApplication {
     private void checkServicing() {
         if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has initialized");
+        }
+    }
+
+    /**
+     * Determine if the ServletContext is in tainted mode in which case the
+     * method calling this needs to throw an UnsupportedOperationException.
+     */
+    private void checkTainted() {
+        if (tainted) {
+            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by Servlet specification).");
         }
     }
 

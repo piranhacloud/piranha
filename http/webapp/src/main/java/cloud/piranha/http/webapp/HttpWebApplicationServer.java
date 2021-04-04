@@ -38,7 +38,6 @@ import cloud.piranha.webapp.api.WebApplicationResponse;
 import cloud.piranha.webapp.api.WebApplicationServer;
 import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.webapp.impl.CookieParser;
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import java.io.IOException;
@@ -46,9 +45,9 @@ import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 /**
@@ -74,11 +73,17 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     protected final Map<String, WebApplication> webApplications;
 
     /**
+     * Stores the web application contexts.
+     */
+    protected final Map<WebApplication, HttpWebApplicationContext> webApplicationContexts;
+
+    /**
      * Constructor.
      */
     public HttpWebApplicationServer() {
         this.requestMapper = new HttpWebApplicationServerRequestMapper();
-        this.webApplications = new ConcurrentHashMap<>();
+        this.webApplications = new HashMap<>();
+        this.webApplicationContexts = new HashMap<>();
     }
 
     /**
@@ -103,6 +108,9 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         LOGGER.log(INFO, () -> "Adding web application with context path: " + webApplication.getContextPath());
         webApplications.put(webApplication.getContextPath(), webApplication);
         requestMapper.addMapping(webApplication, webApplication.getContextPath());
+        HttpWebApplicationContext context = new HttpWebApplicationContext();
+        context.setClassLoader(webApplication.getClassLoader());
+        webApplicationContexts.put(webApplication, context);
     }
 
     /**
@@ -140,7 +148,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         return applicationServerRequest;
     }
 
-    private Cookie[] processCookies(DefaultWebApplicationRequest result, String cookiesValue) {
+    private Cookie[] processCookies(WebApplicationRequest result, String cookiesValue) {
         Cookie[] cookies = CookieParser.parse(cookiesValue);
 
         Stream.of(cookies)
@@ -163,12 +171,16 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     public void initialize() {
         LOGGER.log(INFO, "Starting initialization of {0} web application(s)", webApplications.size());
         webApplications.values().forEach(webApp -> {
+            ThreadLocal<HttpWebApplicationContext> threadLocal
+                    = ThreadLocal.withInitial(() -> webApplicationContexts.get(webApp));
+
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
-                Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
+                Thread.currentThread().setContextClassLoader(threadLocal.get().getClassLoader());
                 webApp.initialize();
             } finally {
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
+                threadLocal.remove();
             }
         });
         LOGGER.log(INFO, "Finished initialization of {0} web application(s)", webApplications.size());
@@ -177,8 +189,8 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     @Override
     public boolean process(HttpServerRequest request, HttpServerResponse response) {
         try {
-            DefaultWebApplicationRequest serverRequest = (DefaultWebApplicationRequest) createRequest(request);
-            HttpWebApplicationResponse serverResponse = new HttpWebApplicationResponse(response);
+            WebApplicationRequest serverRequest = createRequest(request);
+            WebApplicationResponse serverResponse = new HttpWebApplicationResponse(response);
             service(serverRequest, serverResponse);
             return serverRequest.isAsyncStarted();
         } catch (IOException ioe) {
@@ -205,29 +217,33 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             return;
         }
 
-        WebApplication webApplication = requestMapper.findMapping(requestUri);
-        if (webApplication == null) {
+        WebApplication webApp = requestMapper.findMapping(requestUri);
+        if (webApp == null) {
             response.sendError(404);
             return;
         }
 
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+        ThreadLocal<HttpWebApplicationContext> threadLocal
+                = ThreadLocal.withInitial(() -> webApplicationContexts.get(webApp));
+
         try {
-            ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
-            Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
-            String contextPath = webApplication.getContextPath();
+            ThreadInitialContextFactory.setInitialContext(webApp.getManager(NamingManager.class).getContext());
+            Thread.currentThread().setContextClassLoader(threadLocal.get().getClassLoader());
+            String contextPath = webApp.getContextPath();
             request.setContextPath(contextPath);
             request.setServletPath(requestUri.substring(contextPath.length()));
-            request.setWebApplication(webApplication);
-            response.setWebApplication(webApplication);
+            request.setWebApplication(webApp);
+            response.setWebApplication(webApp);
 
-            webApplication.service(request, response);
+            webApp.service(request, response);
 
             // Make sure the request is fully read wrt parameters (if any still)
             request.getParameterMap();
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
             ThreadInitialContextFactory.removeInitialContext();
+            threadLocal.remove();
         }
     }
 
@@ -240,12 +256,16 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     public void start() {
         LOGGER.log(INFO, "Starting web application server");
         webApplications.values().forEach(webApp -> {
+            ThreadLocal<HttpWebApplicationContext> threadLocal
+                    = ThreadLocal.withInitial(() -> webApplicationContexts.get(webApp));
+
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
-                Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
+                Thread.currentThread().setContextClassLoader(threadLocal.get().getClassLoader());
                 webApp.start();
             } finally {
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
+                threadLocal.remove();
             }
         });
         LOGGER.log(INFO, "Started web application server");
@@ -255,12 +275,16 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     public void stop() {
         LOGGER.log(INFO, "Stopping web application server");
         webApplications.values().forEach(webApp -> {
+            ThreadLocal<HttpWebApplicationContext> threadLocal
+                    = ThreadLocal.withInitial(() -> webApplicationContexts.get(webApp));
+
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
-                Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
+                Thread.currentThread().setContextClassLoader(threadLocal.get().getClassLoader());
                 webApp.stop();
             } finally {
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
+                threadLocal.remove();
             }
         });
         LOGGER.log(INFO, "Stopped web application server");
