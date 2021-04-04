@@ -14,5 +14,6 @@
     <modules>
         <module>helloworld</module>
         <module>snoop</module>
+        <module>mojarra</module>
     </modules>
 </project>
