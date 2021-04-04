@@ -12,3 +12,4 @@ target/
 .idea
 *.iml
 
+/test/webapp/mojarra/src/main/webapp/META-INF/

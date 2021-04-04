@@ -95,7 +95,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
         resourceManagerClassLoader
                 .getResourceManager()
                 .getAllLocations()
-                .filter(e -> e.endsWith(".class"))
+                .filter(e -> e.endsWith(".class") && !e.endsWith("module-info.class"))
                 .map(e -> loadClass(classLoader, e))
                 .filter(this::hasWebAnnotation)
                 .forEach(targetClazz -> getWebAnnotations(targetClazz)
