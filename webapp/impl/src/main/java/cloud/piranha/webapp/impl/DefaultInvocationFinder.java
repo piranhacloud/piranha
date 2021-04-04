@@ -41,6 +41,7 @@ import cloud.piranha.webapp.api.FilterEnvironment;
 import cloud.piranha.webapp.api.FilterPriority;
 import cloud.piranha.webapp.api.ServletEnvironment;
 import cloud.piranha.webapp.api.WebApplicationRequestMapping;
+import cloud.piranha.webapp.api.WelcomeFileManager;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.Servlet;
@@ -215,7 +216,7 @@ public class DefaultInvocationFinder {
         // Try if we have a welcome file that we can load via the default servlet
 
         if (webApplication.defaultServlet != null) {
-            for (String welcomeFile : webApplication.getWelcomeFileManager().getWelcomeFileList()) {
+            for (String welcomeFile : webApplication.getManager(WelcomeFileManager.class).getWelcomeFileList()) {
                 if (!isStaticResource(servletPath, pathInfo + welcomeFile))
                     continue;
                 
@@ -227,7 +228,7 @@ public class DefaultInvocationFinder {
 
         // Next try if we have a welcome servlet
 
-        for (String welcomeFile : webApplication.getWelcomeFileManager().getWelcomeFileList()) {
+        for (String welcomeFile : webApplication.getManager(WelcomeFileManager.class).getWelcomeFileList()) {
             if (isStaticResource(servletPath, pathInfo + welcomeFile))
                 continue;
             

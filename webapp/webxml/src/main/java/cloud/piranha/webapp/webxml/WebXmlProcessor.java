@@ -378,7 +378,7 @@ public class WebXmlProcessor {
         LOGGER.log(DEBUG, "Adding welcome files");
 
         Iterator<String> iterator = webXml.getWelcomeFiles().iterator();
-        WelcomeFileManager welcomeFileManager = webApplication.getWelcomeFileManager();
+        WelcomeFileManager welcomeFileManager = webApplication.getManager(WelcomeFileManager.class);
         while (iterator.hasNext()) {
             String welcomeFile = iterator.next();
             LOGGER.log(DEBUG, () -> "Adding welcome file: " + welcomeFile);

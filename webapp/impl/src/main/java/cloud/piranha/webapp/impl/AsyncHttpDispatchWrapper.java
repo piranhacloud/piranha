@@ -354,10 +354,6 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
         return null;
     }
     
-    // ------------------------------------------------------------------------
-    //
-    // ------------------------------------------------------------------------
-
     @Override
     public void setAsyncSupported(boolean asyncSupported) {
     }
@@ -368,5 +364,13 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
 
     @Override
     public void setOriginalServletPath(String originalServletPath) {
+    }
+
+    @Override
+    public void setRequestedSessionId(String requestedSessionId) {
+    }
+
+    @Override
+    public void setRequestedSessionIdFromCookie(boolean sessionIdFromCookie) {
     }
 }

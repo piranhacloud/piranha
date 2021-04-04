@@ -244,13 +244,6 @@ public interface WebApplication extends ServletContext {
     SecurityManager getSecurityManager();
 
     /**
-     * Get the welcome file manager.
-     *
-     * @return the welcome file manager.
-     */
-    WelcomeFileManager getWelcomeFileManager();
-
-    /**
      * Get the locale encoding manager
      * @return the locale encoding manager
      */
@@ -437,13 +430,6 @@ public interface WebApplication extends ServletContext {
      * @param webApplicationRequestMapper the web application request mapper.
      */
     void setWebApplicationRequestMapper(WebApplicationRequestMapper webApplicationRequestMapper);
-
-    /**
-     * Set the welcome file manager.
-     *
-     * @param welcomeFileManager the welcome file manager.
-     */
-    void setWelcomeFileManager(WelcomeFileManager welcomeFileManager);
 
     /**
      * Set the locale encoding manager
