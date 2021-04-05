@@ -27,7 +27,6 @@
  */
 package cloud.piranha.http.webapp;
 
-import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.WARNING;
 
 import java.io.IOException;
@@ -52,6 +51,8 @@ import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import static java.lang.System.Logger.Level.ERROR;
+import static java.lang.System.Logger.Level.INFO;
 
 /**
  * The default WebApplicationServer.
@@ -63,8 +64,8 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(HttpWebApplicationServer.class.getName());
-
+    private static final Logger LOGGER = System.getLogger(HttpWebApplicationServer.class.getPackageName());
+    
     /**
      * Stores the request mapper.
      */
@@ -100,15 +101,9 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         }
     }
 
-    /**
-     * Add the web application.
-     *
-     * @param webApplication the web application.
-     */
     @Override
     public void addWebApplication(WebApplication webApplication) {
-        LOGGER.log(DEBUG, () -> "Adding web application with context path: " + webApplication.getContextPath());
-
+        LOGGER.log(INFO, () -> "Adding web application with context path: " + webApplication.getContextPath());
         webApplications.put(webApplication.getContextPath(), webApplication);
         requestMapper.addMapping(webApplication, webApplication.getContextPath());
     }
@@ -217,13 +212,9 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         return requestMapper;
     }
 
-    /**
-     * Initialize the server.
-     */
     @Override
     public void initialize() {
-        LOGGER.log(DEBUG, "Starting initialization of {0} web application(s)", webApplications.size());
-
+        LOGGER.log(INFO, "Starting initialization of {0} web application(s)", webApplications.size());
         webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -233,29 +224,19 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-
-        LOGGER.log(DEBUG, "Finished initialization of {0} web application(s)", webApplications.size());
+        LOGGER.log(INFO, "Finished initialization of {0} web application(s)", webApplications.size());
     }
 
-    /**
-     * Process the request.
-     *
-     * @param request the request.
-     * @param response the response.
-     */
     @Override
     public boolean process(HttpServerRequest request, HttpServerResponse response) {
         try {
             DefaultWebApplicationRequest serverRequest = (DefaultWebApplicationRequest) createRequest(request);
             DefaultWebApplicationResponse serverResponse = (DefaultWebApplicationResponse) createResponse(response);
-
             service(serverRequest, serverResponse);
-
             return serverRequest.isAsyncStarted();
-        } catch (Exception exception) {
-            exception.printStackTrace(System.err);
+        } catch (Throwable t) {
+            LOGGER.log(ERROR, "An error occurred while processing the request", t);
         }
-
         return false;
     }
 
@@ -316,8 +297,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      */
     @Override
     public void start() {
-        LOGGER.log(DEBUG, "Starting WebApplication server engine");
-
+        LOGGER.log(INFO, "Starting HTTP web application server");
         webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -327,8 +307,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-
-        LOGGER.log(DEBUG, "Started WebApplication server engine");
+        LOGGER.log(INFO, "Started HTTP web application server");
     }
 
     /**
@@ -336,8 +315,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      */
     @Override
     public void stop() {
-        LOGGER.log(DEBUG, "Stopping WebApplication server engine");
-
+        LOGGER.log(INFO, "Stopping HTTP web application server");
         webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -347,7 +325,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-
-        LOGGER.log(DEBUG, "Stopped WebApplication server engine");
+        LOGGER.log(INFO, "Stopped HTTP web application server");
     }
 }

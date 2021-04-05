@@ -33,8 +33,8 @@ import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
 import cloud.piranha.http.webapp.HttpWebApplicationRequest;
 import cloud.piranha.http.webapp.HttpWebApplicationResponse;
-import java.io.IOException;
-import jakarta.servlet.ServletException;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.ERROR;
 
 /**
  * The Piranha Embedded HttpServerProcessor.
@@ -42,6 +42,11 @@ import jakarta.servlet.ServletException;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class EmbeddedHttpServerProcessor implements HttpServerProcessor {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(EmbeddedHttpServerProcessor.class.getPackageName());
 
     /**
      * Stores the Piranha Embedded instance.
@@ -50,7 +55,7 @@ public class EmbeddedHttpServerProcessor implements HttpServerProcessor {
 
     /**
      * Constructor.
-     * 
+     *
      * @param piranha the Piranha Embedded instance.
      */
     public EmbeddedHttpServerProcessor(EmbeddedPiranha piranha) {
@@ -63,8 +68,8 @@ public class EmbeddedHttpServerProcessor implements HttpServerProcessor {
             HttpWebApplicationResponse servletResponse = new HttpWebApplicationResponse(response);
             piranha.service(servletRequest, servletResponse);
             servletResponse.flush();
-        } catch (IOException | ServletException e) {
-            e.printStackTrace(System.err);
+        } catch (Throwable t) {
+            LOGGER.log(ERROR, "An error occurred while processing the request", t);
         }
         return false;
     }
