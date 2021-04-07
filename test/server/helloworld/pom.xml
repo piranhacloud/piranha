@@ -21,7 +21,7 @@
                         <configuration>
                             <target>
                                 <delete file="${project.build.directory}/piranha-server.zip"/>
-                                <delete directory="${project.build.directory}/piranha"/>
+                                <delete dir="${project.build.directory}/piranha"/>
                             </target>
                         </configuration>
                         <goals>
