@@ -54,8 +54,8 @@
 
         <!-- Piranha Micro-core -->
         <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-micro-core</artifactId>
+            <groupId>cloud.piranha.micro</groupId>
+            <artifactId>piranha-micro-core</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
