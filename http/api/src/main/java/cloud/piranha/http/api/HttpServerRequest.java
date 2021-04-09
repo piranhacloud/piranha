@@ -59,7 +59,9 @@ public interface HttpServerRequest {
     Iterator<String> getHeaders(String name);
 
     /**
-     * {@return the header names}
+     * Get the header names.
+     *
+     * @return the header names.
      */
     Iterator<String> getHeaderNames();
 

@@ -92,21 +92,27 @@ public class InMemoryIdentityStore implements IdentityStore {
         }
         
         /**
-         * {@return the caller name}
+         * Get the caller name.
+         * 
+         * @return the caller name.
          */
         public String getCallerName() {
             return callerName;
         }
 
         /**
-         * {@return the password}
+         * Get the password.
+         * 
+         * @return the password.
          */
         public String getPassword() {
             return password;
         }
 
         /**
-         * {@return the groups}
+         * Get the groups.
+         * 
+         * @return the groups.
          */
         public List<String> getGroups() {
             return groups;
@@ -119,7 +125,9 @@ public class InMemoryIdentityStore implements IdentityStore {
     private static final Map<String, Credential> CALLER_TO_CREDENTIALS = new ConcurrentHashMap<>();
 
     /**
-     * {@return the caller to credentials map}
+     * Get the caller to credentials map.
+     * 
+     * @return the caller to credentials map.
      */
     public static Map<String, Credential> getCALLER_TO_CREDENTIALS() {
         return CALLER_TO_CREDENTIALS;
