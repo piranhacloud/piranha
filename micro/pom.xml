@@ -16,9 +16,27 @@
     <name>Piranha - Micro - Project</name>
 
     <modules>
-        <module>builder</module>
+        <!-- The command line frontend to Micro - a Java class with Main() method to start Micro
+             from specifically a command line.
+         -->
         <module>distribution</module>
+        
+        <!-- The builder frontend to Micro - a builder that lets one create a usable micro instance
+             programmatically.
+         -->
+        <module>builder</module>
+        
+        <!-- 
+            The Micro bootstrap code - A thin shell that loads Micro itself and its dependencies via
+            an embedded Maven into an in-memory class loader.             
+        -->
         <module>loader</module>
+        
+        <!-- The Micro core code - Sets up the "global" environment for a micro instance, such as 
+             JNDI, a URL handler, a default identity store, and the annotation index.  
+             Creates a web application that it either returns or deploys itself to an embedded HTTP server.     
+        -->
+        <module>core</module>
     </modules>
 
     <dependencyManagement>

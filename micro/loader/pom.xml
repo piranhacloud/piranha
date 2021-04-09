@@ -16,12 +16,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-api</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.modular</groupId>
             <artifactId>piranha-modular-jpms</artifactId>
             <version>${project.version}</version>

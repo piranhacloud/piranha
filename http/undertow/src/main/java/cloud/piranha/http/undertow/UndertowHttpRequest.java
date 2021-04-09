@@ -84,8 +84,11 @@ public class UndertowHttpRequest implements HttpServerRequest {
     }
 
     @Override
-    public String getHttpVersion() {
-        return exchange.getProtocol().toString();
+    public InputStream getInputStream() {
+        if (!exchange.isBlocking()) {
+            exchange.startBlocking();
+        }
+        return exchange.getInputStream();
     }
 
     @Override
@@ -104,16 +107,18 @@ public class UndertowHttpRequest implements HttpServerRequest {
     }
 
     @Override
-    public InputStream getMessageBody() {
-        if (!exchange.isBlocking()) {
-            exchange.startBlocking();
-        }
-        return exchange.getInputStream();
+    public String getMethod() {
+        return exchange.getRequestMethod().toString();
     }
 
     @Override
-    public String getMethod() {
-        return exchange.getRequestMethod().toString();
+    public String getQueryParameter(String name) {
+        return exchange.getQueryParameters().get(name).getFirst();
+    }
+
+    @Override
+    public String getQueryString() {
+        return exchange.getQueryString();
     }
 
     @Override
@@ -134,5 +139,10 @@ public class UndertowHttpRequest implements HttpServerRequest {
     @Override
     public String getRequestTarget() {
         return exchange.getRequestURI();
+    }
+
+    @Override
+    public String getProtocol() {
+        return exchange.getProtocol().toString();
     }
 }

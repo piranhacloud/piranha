@@ -27,30 +27,11 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.AttributeManager;
-import cloud.piranha.webapp.api.HttpHeaderManager;
-import cloud.piranha.webapp.api.HttpSessionManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
 import static cloud.piranha.webapp.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
-import jakarta.servlet.AsyncContext;
-import jakarta.servlet.DispatcherType;
+import static java.util.Objects.requireNonNull;
 import static jakarta.servlet.DispatcherType.INCLUDE;
-import jakarta.servlet.MultipartConfigElement;
-import jakarta.servlet.ReadListener;
-import jakarta.servlet.RequestDispatcher;
 import static jakarta.servlet.RequestDispatcher.INCLUDE_QUERY_STRING;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletInputStream;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletRequestWrapper;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpUpgradeHandler;
-import jakarta.servlet.http.Part;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -73,7 +54,29 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import static java.util.Objects.requireNonNull;
+
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletRequestWrapper;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
+
+import cloud.piranha.webapp.api.AttributeManager;
+import cloud.piranha.webapp.api.HttpHeaderManager;
+import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 
 /**
  * The default WebApplicationRequest.
@@ -525,16 +528,31 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return headerManager.getIntHeader(name);
     }
 
+    /**
+     * Get the local address.
+     *
+     * @return the local address.
+     */
     @Override
     public String getLocalAddr() {
         return localAddress;
     }
 
+    /**
+     * Get the local name.
+     *
+     * @return the local name.
+     */
     @Override
     public String getLocalName() {
         return localName;
     }
 
+    /**
+     * Get the local port.
+     *
+     * @return the local port.
+     */
     @Override
     public int getLocalPort() {
         return localPort;
@@ -626,6 +644,12 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return Collections.enumeration(parameters.keySet());
     }
 
+    /**
+     * Get the parameter values.
+     *
+     * @param name the parameter name.
+     * @return the parameter values.
+     */
     @Override
     public String[] getParameterValues(String name) {
         getParametersFromRequest();
@@ -724,14 +748,14 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     private String mergeQueryFromAttributes() {
         String queryStringFromAttribute = dispatcherType == INCLUDE ? (String) getAttribute(INCLUDE_QUERY_STRING) : null;
         if (queryStringFromAttribute == null) {
-            return getQueryString();
+            return queryString;
         }
 
-        if (getQueryString() == null) {
+        if (queryString == null) {
             return queryStringFromAttribute;
         }
 
-        return queryStringFromAttribute + "&" + getQueryString();
+        return queryStringFromAttribute + "&" + queryString;
     }
 
     /**
@@ -777,11 +801,21 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return null;
     }
 
+    /**
+     * Get the protocol.
+     *
+     * @return the protocol.
+     */
     @Override
     public String getProtocol() {
         return protocol;
     }
 
+    /**
+     * Get the query string.
+     *
+     * @return the query string.
+     */
     @Override
     public String getQueryString() {
         return queryString;
@@ -832,16 +866,31 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         throw new UnsupportedOperationException("HttpServletRequest.getRealPath is no longer supported");
     }
 
+    /**
+     * Get the remote address.
+     *
+     * @return the remote address.
+     */
     @Override
     public String getRemoteAddr() {
         return remoteAddr;
     }
 
+    /**
+     * Get the remote host.
+     *
+     * @return the remote host.
+     */
     @Override
     public String getRemoteHost() {
         return remoteHost;
     }
 
+    /**
+     * Get the remote port.
+     *
+     * @return the remote port.
+     */
     @Override
     public int getRemotePort() {
         return remotePort;

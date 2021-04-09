@@ -39,7 +39,6 @@ module cloud.piranha.micro.loader {
     exports cloud.piranha.micro.loader;
     opens cloud.piranha.micro.loader;
 
-    requires cloud.piranha.api;
     requires cloud.piranha.modular;
     requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;

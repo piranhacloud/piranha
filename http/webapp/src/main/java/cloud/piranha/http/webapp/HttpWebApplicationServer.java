@@ -27,6 +27,21 @@
  */
 package cloud.piranha.http.webapp;
 
+import static java.lang.System.Logger.Level.WARNING;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.lang.System.Logger;
+import java.util.stream.Stream;
+
+import cloud.piranha.webapp.impl.CookieParser;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+
+import cloud.piranha.webapp.api.WebApplicationServer;
+import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
@@ -34,22 +49,10 @@ import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
-import cloud.piranha.webapp.api.WebApplicationServer;
-import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
-import cloud.piranha.webapp.impl.CookieParser;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
-import java.io.IOException;
-import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
-import static java.lang.System.Logger.Level.WARNING;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 /**
  * The default WebApplicationServer.
@@ -62,7 +65,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(HttpWebApplicationServer.class.getPackageName());
-
+    
     /**
      * Stores the request mapper.
      */
@@ -112,7 +115,9 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      * @return the web application server request.
      */
     private WebApplicationRequest createRequest(HttpServerRequest request) {
-        HttpWebApplicationRequest applicationServerRequest = new HttpWebApplicationRequest(request);
+        DefaultWebApplicationRequest applicationServerRequest = new DefaultWebApplicationRequest();
+        copyHttpRequestToApplicationRequest(request, applicationServerRequest);
+        applicationServerRequest.setServletPath("");
 
         Iterator<String> headerNames = request.getHeaderNames();
         while (headerNames.hasNext()) {
@@ -160,14 +165,31 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         return cookies;
     }
 
+    private void copyHttpRequestToApplicationRequest(HttpServerRequest httpRequest, DefaultWebApplicationRequest applicationRequest) {
+        applicationRequest.setLocalAddr(httpRequest.getLocalAddress());
+        applicationRequest.setLocalName(httpRequest.getLocalHostname());
+        applicationRequest.setLocalPort(httpRequest.getLocalPort());
+        applicationRequest.setRemoteAddr(httpRequest.getRemoteAddress());
+        applicationRequest.setRemoteHost(httpRequest.getRemoteHostname());
+        applicationRequest.setRemotePort(httpRequest.getRemotePort());
+        applicationRequest.setServerName(httpRequest.getLocalHostname());
+        applicationRequest.setServerPort(httpRequest.getLocalPort());
+        applicationRequest.setMethod(httpRequest.getMethod());
+        applicationRequest.setContextPath(httpRequest.getRequestTarget());
+        applicationRequest.setQueryString(httpRequest.getQueryString());
+        applicationRequest.setInputStream(httpRequest.getInputStream());
+        applicationRequest.setProtocol(httpRequest.getProtocol());
+    }
+
     /**
      * Create the web application server response.
      *
      * @param httpResponse the HTTP server response.
      * @return the web application server response.
      */
-    private DefaultWebApplicationResponse createResponse(HttpServerResponse httpResponse) {
-        HttpWebApplicationResponse applicationResponse = new HttpWebApplicationResponse(httpResponse);
+    public DefaultWebApplicationResponse createResponse(HttpServerResponse httpResponse) {
+        DefaultWebApplicationResponse applicationResponse = new DefaultWebApplicationResponse();
+        applicationResponse.setUnderlyingOutputStream(httpResponse.getOutputStream());
 
         applicationResponse.setResponseCloser(() -> {
             try {
@@ -180,6 +202,11 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         return applicationResponse;
     }
 
+    /**
+     * Get the request mapper.
+     *
+     * @return the request mapper.
+     */
     @Override
     public WebApplicationServerRequestMapper getRequestMapper() {
         return requestMapper;
@@ -207,8 +234,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             DefaultWebApplicationResponse serverResponse = (DefaultWebApplicationResponse) createResponse(response);
             service(serverRequest, serverResponse);
             return serverRequest.isAsyncStarted();
-        } catch (IOException ioe) {
-            LOGGER.log(WARNING, "An I/O error occurred while processing the request", ioe);
         } catch (Throwable t) {
             LOGGER.log(ERROR, "An error occurred while processing the request", t);
         }
@@ -257,14 +282,22 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         }
     }
 
+    /**
+     * Set the request mapper.
+     *
+     * @param requestMapper the request mapper.
+     */
     @Override
     public void setRequestMapper(WebApplicationServerRequestMapper requestMapper) {
         this.requestMapper = requestMapper;
     }
 
+    /**
+     * Start the server.
+     */
     @Override
     public void start() {
-        LOGGER.log(INFO, "Starting web application server");
+        LOGGER.log(INFO, "Starting HTTP web application server");
         webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -274,12 +307,15 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        LOGGER.log(INFO, "Started web application server");
+        LOGGER.log(INFO, "Started HTTP web application server");
     }
 
+    /**
+     * Stop the server.
+     */
     @Override
     public void stop() {
-        LOGGER.log(INFO, "Stopping web application server");
+        LOGGER.log(INFO, "Stopping HTTP web application server");
         webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -289,6 +325,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        LOGGER.log(INFO, "Stopped web application server");
+        LOGGER.log(INFO, "Stopped HTTP web application server");
     }
 }

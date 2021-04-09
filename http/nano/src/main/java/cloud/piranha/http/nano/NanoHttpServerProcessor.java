@@ -33,10 +33,8 @@ import cloud.piranha.http.api.HttpServerResponse;
 import cloud.piranha.http.webapp.HttpWebApplicationRequest;
 import cloud.piranha.http.webapp.HttpWebApplicationResponse;
 import cloud.piranha.nano.NanoPiranha;
-import java.io.IOException;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.ERROR;
-import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The Piranha Nano HttpServerProcessor.
@@ -44,7 +42,7 @@ import static java.lang.System.Logger.Level.WARNING;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class NanoHttpServerProcessor implements HttpServerProcessor {
-
+    
     /**
      * Stores the logger.
      */
@@ -57,7 +55,7 @@ public class NanoHttpServerProcessor implements HttpServerProcessor {
 
     /**
      * Constructor.
-     *
+     * 
      * @param piranha the Piranha Nano instance.
      */
     public NanoHttpServerProcessor(NanoPiranha piranha) {
@@ -66,13 +64,10 @@ public class NanoHttpServerProcessor implements HttpServerProcessor {
 
     @Override
     public boolean process(HttpServerRequest request, HttpServerResponse response) {
-        try ( HttpWebApplicationRequest servletRequest = new HttpWebApplicationRequest(request)) {
+        try (HttpWebApplicationRequest servletRequest = new HttpWebApplicationRequest(request)) {
             HttpWebApplicationResponse servletResponse = new HttpWebApplicationResponse(response);
             piranha.service(servletRequest, servletResponse);
             servletResponse.flush();
-        } catch (IOException ioe) {
-            LOGGER.log(WARNING, "An I/O error occurred while processing the request", ioe);
-
         } catch (Throwable t) {
             LOGGER.log(ERROR, "An error occurred while processing the request", t);
         }

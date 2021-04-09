@@ -49,8 +49,8 @@ public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
      * @param wrapped the wrapped HttpServerResponse.
      */
     public HttpWebApplicationResponse(HttpServerResponse wrapped) {
-        this.outputStream = wrapped.getOutputStream();
         this.wrapped = wrapped;
+        setUnderlyingOutputStream(wrapped.getOutputStream());
     }
 
     @Override

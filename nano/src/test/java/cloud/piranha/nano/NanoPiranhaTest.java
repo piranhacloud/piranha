@@ -27,9 +27,7 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
 import org.apache.jasper.servlet.JspServlet;
-import org.apache.wicket.protocol.http.WicketFilter;
 import org.junit.jupiter.api.Test;
 
 import jakarta.servlet.ServletException;
@@ -41,7 +39,6 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Disabled;
 
 /**
  * The JUnit tests for the NanoPiranha class.
@@ -188,69 +185,6 @@ class NanoPiranhaTest {
 
         piranha.service(request, response);
         assertEquals("value", outputStream.toString());
-    }
-
-    /**
-     * Test service method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    @Disabled
-    void testService6() throws Exception {
-        /*
-        NanoPiranha piranha = new NanoPiranhaBuilder()
-                .directoryResource("src/test/wicket")
-                .filter("WicketFilter", new WicketFilter())
-                .filterInitParam("WicketFilter", "applicationClassName", "cloud.piranha.nano.WicketApplication")
-                .filterInitParam("WicketFilter", "filterMappingUrlPattern", "/*")
-                .filterInitParam("WicketFilter", "wicket.configuration", "deployment")
-                .build();
-
-        NanoRequest request = new NanoRequestBuilder()
-                .servletPath("/")
-                .build();
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NanoResponse response = new NanoResponseBuilder()
-                .outputStream(outputStream)
-                .build();
-
-        piranha.service(request, response);
-        assertTrue(outputStream.toString().contains("Hello Wicket"));
-        */
-    }
-
-    /**
-     * Test service method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    @Disabled
-    void testService7() throws Exception {
-        /*
-        NanoPiranha piranha = new NanoPiranhaBuilder()
-                .webApplication(new DefaultWebApplication())
-                .directoryResource("src/test/wicket")
-                .filter("WicketFilter2", new WicketFilter())
-                .filterInitParam("WicketFilter2", "applicationClassName", "cloud.piranha.nano.WicketApplication")
-                .filterInitParam("WicketFilter2", "filterMappingUrlPattern", "/*")
-                .filterInitParam("WicketFilter2", "wicket.configuration", "deployment")
-                .build();
-
-        NanoRequest request = new NanoRequestBuilder()
-                .servletPath("/")
-                .build();
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NanoResponse response = new NanoResponseBuilder()
-                .outputStream(outputStream)
-                .build();
-
-        piranha.service(request, response);
-        assertTrue(outputStream.toString().contains("Hello Wicket"));
-        */
     }
 
     /**

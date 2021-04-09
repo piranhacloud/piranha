@@ -27,7 +27,6 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.api.Piranha;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.IOException;
@@ -46,7 +45,7 @@ import jakarta.servlet.ServletResponse;
  * @author Manfred Riem (mriem@manorrock.com)
  * @see cloud.piranha.webapp.api
  */
-public class NanoPiranha implements Piranha {
+public class NanoPiranha {
 
     /**
      * Stores the filters.
@@ -95,15 +94,9 @@ public class NanoPiranha implements Piranha {
     }
 
     /**
-     * {@return the version}
-     */
-    @Override
-    public String getVersion() {
-        return getClass().getPackage().getImplementationVersion();
-    }
-
-    /**
-     * {@return the web application}
+     * Get the web application.
+     *
+     * @return the web application.
      */
     public WebApplication getWebApplication() {
         return webApplication;

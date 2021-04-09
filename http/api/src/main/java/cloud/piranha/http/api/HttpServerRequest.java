@@ -34,7 +34,9 @@ import java.util.Iterator;
  * The HttpServerRequest API.
  *
  * <p>
- * See https://tools.ietf.org/html/rfc7230 for more information.
+ * This API delivers an abstraction over the HTTP request line, the HTTP request
+ * headers and the HTTP request body.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -47,6 +49,14 @@ public interface HttpServerRequest {
      * @return the value, or null.
      */
     String getHeader(String name);
+    
+    /**
+     * Get the headers.
+     * 
+     * @param name the name of the header.
+     * @return the potentially empty collection.
+     */
+    Iterator<String> getHeaders(String name);
 
     /**
      * {@return the header names}
@@ -54,19 +64,11 @@ public interface HttpServerRequest {
     Iterator<String> getHeaderNames();
 
     /**
-     * Get the headers.
+     * Get the input stream.
      *
-     * @param name the name of the header.
-     * @return the potentially empty collection.
+     * @return the input stream.
      */
-    Iterator<String> getHeaders(String name);
-
-    /**
-     * {@return the HTTP version}
-     */
-    default String getHttpVersion() {
-        return "HTTP/1.1";
-    }
+    InputStream getInputStream();
 
     /**
      * {@return the local address}
@@ -84,16 +86,26 @@ public interface HttpServerRequest {
     int getLocalPort();
 
     /**
-     * Get the message body as an input stream.
+     * Get the method.
      *
-     * @return the input stream.
-     */
-    InputStream getMessageBody();
-
-    /**
-     * {@return the method}
+     * @return the method.
      */
     String getMethod();
+
+    /**
+     * Get the query parameter.
+     *
+     * @param name the name.
+     * @return the value, or null if not found.
+     */
+    String getQueryParameter(String name);
+
+    /**
+     * Get the query string.
+     *
+     * @return the query string.
+     */
+    String getQueryString();
 
     /**
      * {@return the remote address}
@@ -114,4 +126,12 @@ public interface HttpServerRequest {
      * {@return the request target}
      */
     String getRequestTarget();
+
+    /**
+     * Get the protocol
+     * @return the protocol
+     */
+    default String getProtocol() {
+        return "HTTP/1.1";
+    }
 }

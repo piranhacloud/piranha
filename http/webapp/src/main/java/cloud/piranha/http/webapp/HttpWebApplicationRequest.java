@@ -51,16 +51,6 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
      * @param wrapped the wrapped HttpServerRequest.
      */
     public HttpWebApplicationRequest(HttpServerRequest wrapped) {
-        if (wrapped.getRequestTarget().contains("?")) {
-            this.contextPath = wrapped.getRequestTarget()
-                    .substring(0, wrapped.getRequestTarget().indexOf("?"));
-            this.queryString = wrapped.getRequestTarget()
-                    .substring(wrapped.getRequestTarget().indexOf("?") + 1);
-        } else {
-            this.contextPath = wrapped.getRequestTarget();
-        }
-        this.inputStream = wrapped.getMessageBody();
-        this.servletPath = "";
         this.wrapped = wrapped;
     }
 
@@ -81,55 +71,5 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
         ArrayList<String> headers = new ArrayList<>();
         wrapped.getHeaders(name).forEachRemaining(headers::add);
         return Collections.enumeration(headers);
-    }
-
-    @Override
-    public String getLocalAddr() {
-        return wrapped.getLocalAddress();
-    }
-
-    @Override
-    public String getLocalName() {
-        return wrapped.getLocalHostname();
-    }
-
-    @Override
-    public int getLocalPort() {
-        return wrapped.getLocalPort();
-    }
-
-    @Override
-    public String getMethod() {
-        return wrapped.getMethod();
-    }
-
-    @Override
-    public String getProtocol() {
-        return wrapped.getHttpVersion();
-    }
-
-    @Override
-    public String getRemoteAddr() {
-        return wrapped.getRemoteAddress();
-    }
-
-    @Override
-    public String getRemoteHost() {
-        return wrapped.getRemoteHostname();
-    }
-
-    @Override
-    public int getRemotePort() {
-        return wrapped.getRemotePort();
-    }
-
-    @Override
-    public String getServerName() {
-        return wrapped.getLocalHostname();
-    }
-
-    @Override
-    public int getServerPort() {
-        return wrapped.getLocalPort();
     }
 }

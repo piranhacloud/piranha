@@ -53,13 +53,6 @@ public interface WebApplicationRequest extends HttpServletRequest {
     void setDispatcherType(DispatcherType dispatcherType);
 
     /**
-     * Set the query string.
-     * 
-     * @param queryString the query string. 
-     */
-    void setQueryString(String queryString);
-
-    /**
      * Set the servlet path.
      *
      * @param servletPath the servlet path.

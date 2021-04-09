@@ -199,6 +199,118 @@ public abstract class HttpServerTest {
     }
 
     /**
+     * Test getQueryParameter method.
+     */
+    @Test
+    void testGetQueryParameter() {
+        HttpServer server = createServer(8761,
+                (HttpServerRequest request, HttpServerResponse response) -> {
+                    try {
+                        response.setStatus(200);
+                        response.setHeader("Content-Type", "text/plain");
+                        response.setHeader("Keep-Alive", "close");
+                        response.writeStatusLine();
+                        response.writeHeaders();
+                        String value = request.getQueryParameter("name");
+                        OutputStream outputStream = response.getOutputStream();
+                        outputStream.write(value.getBytes());
+                        outputStream.flush();
+                    } catch (IOException ioe) {
+                    }
+
+                    return false;
+                });
+        server.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8761/?name=value")).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+            assertEquals(200, response.statusCode());
+            String body = response.body();
+            assertTrue(body.contains("value"));
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            server.stop();
+        }
+    }
+
+    /**
+     * Test getQueryParameter method.
+     */
+    @Test
+    void testGetQueryParameter2() {
+        HttpServer server = createServer(8760,
+                (HttpServerRequest request, HttpServerResponse response) -> {
+                    try {
+                        response.setStatus(200);
+                        response.setHeader("Content-Type", "text/plain");
+                        response.setHeader("Keep-Alive", "close");
+                        response.writeStatusLine();
+                        response.writeHeaders();
+                        String value = request.getQueryParameter("name");
+                        OutputStream outputStream = response.getOutputStream();
+                        outputStream.write(value.getBytes());
+                        outputStream.flush();
+                    } catch (IOException ioe) {
+                    }
+
+                    return false;
+                });
+        server.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8760/?name=value&name=value2")).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            String body = response.body();
+            assertTrue(body.contains("value"));
+            assertFalse(body.contains("value2"));
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            server.stop();
+        }
+    }
+
+    /**
+     * Test getQueryString method.
+     */
+    @Test
+    void testGetQueryString() {
+        HttpServer server = createServer(8759,
+                (HttpServerRequest request, HttpServerResponse response) -> {
+                    try {
+                        response.setStatus(200);
+                        response.setHeader("Content-Type", "text/plain");
+                        response.setHeader("Keep-Alive", "close");
+                        response.writeStatusLine();
+                        response.writeHeaders();
+                        String queryString = request.getQueryString();
+                        OutputStream outputStream = response.getOutputStream();
+                        outputStream.write(queryString.getBytes());
+                        outputStream.flush();
+                    } catch (IOException ioe) {
+                    }
+
+                    return false;
+                });
+        server.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8759/?name=value")).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+            assertEquals(200, response.statusCode());
+            String body = response.body();
+            assertTrue(body.contains("name=value"));
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            server.stop();
+        }
+    }
+
+    /**
      * Test processing.
      *
      * @throws Exception when an error occurs.
@@ -297,7 +409,7 @@ public abstract class HttpServerTest {
             response.writeStatusLine();
             response.writeHeaders();
             OutputStream outputStream = response.getOutputStream();
-            outputStream.write(request.getHttpVersion().getBytes());
+            outputStream.write(request.getProtocol().getBytes());
             outputStream.flush();
         } catch (IOException ioe) {
         }

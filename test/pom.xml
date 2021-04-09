@@ -28,6 +28,7 @@
         <module>hazelcast</module>
         <module>jersey</module>
         <module>jpa</module>
+        <module>micro</module>
         <module>mojarra</module>
         <module>mojarra2</module>
         <module>myfaces</module>
@@ -43,6 +44,8 @@
         <module>webxml</module>
         <module>weld</module>
         <!--<module>wicket</module>-->
+        <module>webapp</module>
+        <module>server</module>
     </modules>
 
     <properties>
