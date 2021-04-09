@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.extension</groupId>
+        <groupId>cloud.piranha.micro</groupId>
         <artifactId>project</artifactId>
         <version>21.4.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-extension-micro-core</artifactId>
+    <artifactId>piranha-micro-core</artifactId>
 
-    <name>Piranha Extension - Micro Core</name>
+    <name>Piranha - Micro Core</name>
 
     <dependencyManagement>
         <dependencies>
@@ -56,6 +56,13 @@
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jandex</artifactId>
+        </dependency>
+        
+        <!-- Because MicroPiranha implements Piranha. -->
+        <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
         
         <!-- Piranha HTTP - WebApplication  -->

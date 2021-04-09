@@ -69,6 +69,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import cloud.piranha.api.Piranha;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
@@ -106,9 +107,15 @@ import jakarta.servlet.annotation.WebServlet;
  * This class is expected to be run within in its own inner (isolated) class
  * loader
  *
- * @author Arjan Tijms
+ * @author arjan
+ *
  */
 public class MicroInnerDeployer {
+
+    /**
+     * Defines the attribute name for the MicroPiranha reference.
+     */
+    static final String MICRO_PIRANHA = "cloud.piranha.micro.MicroPiranha";
 
     /**
      * Stores the logger.
@@ -172,7 +179,8 @@ public class MicroInnerDeployer {
             
             ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
 
-            LOGGER.log(INFO, "Starting web application " + applicationArchive.getName() + " on Piranha Micro");
+            LOGGER.log(INFO,
+                    "Starting web application " + applicationArchive.getName() + " on Piranha Micro " + webApplication.getAttribute(MICRO_PIRANHA));
 
             // The global archive stream handler is set to resolve "shrinkwrap://" URLs (created from strings).
             // Such URLs come into being primarily when code takes resolves a class or resource from the class loader by URL
@@ -285,6 +293,19 @@ public class MicroInnerDeployer {
                 webApplication.addResource(new ShrinkWrapResource("/META-INF/resources", resourceArchiveAsset.getArchive()));
             }
         }
+
+        // Set version
+        webApplication.setAttribute(MICRO_PIRANHA, new Piranha() {
+            @Override
+            public String getVersion() {
+                return System.getProperty("micro.version");
+            }
+
+            @Override
+            public String toString() {
+                return getVersion();
+            }
+        });
 
         return webApplication;
     }
