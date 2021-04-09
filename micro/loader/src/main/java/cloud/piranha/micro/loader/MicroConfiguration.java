@@ -114,7 +114,7 @@ public class MicroConfiguration {
     public MicroConfiguration() {
         this(
                 System.getProperty("piranha.version", MicroConfiguration.class.getPackage().getImplementationVersion()),
-                System.getProperty("piranha.extensions", "micro-core,micro"),
+                System.getProperty("piranha.extensions", "micro"),
                 System.getProperty("piranha.dependencies", ""),
                 System.getProperty("piranha.repositories", "https://repo1.maven.org/maven2"),
                 Boolean.valueOf(System.getProperty("piranha.offline", "false")),
@@ -207,6 +207,7 @@ public class MicroConfiguration {
                 .toList();
 
         mergedDependencies = Stream.of(
+                Stream.of("cloud.piranha.micro:piranha-micro-core:" + version),
                 Stream.of("cloud.piranha.http:piranha-http-" + httpServer + ":" + version),
                 dependenciesFromExtensionsStream,
                 directDependenciesStream
