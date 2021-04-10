@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package test.server.helloworld;
+package test.server.snoop;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -34,7 +34,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.junit.jupiter.api.AfterAll;
@@ -42,15 +42,14 @@ import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * The integration tests for the HelloWorld web application.
+ * The integration tests for the Snoop web application.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HelloWorldIT {
+public class SnoopIT {
 
     /**
      * Stores the web client.
@@ -130,7 +129,7 @@ public class HelloWorldIT {
                     command("sh", "./start.sh").
                     start();
         }
-        process.waitFor(5, TimeUnit.SECONDS);
+        process.waitFor(5, SECONDS);
     }
 
     /**
@@ -142,14 +141,13 @@ public class HelloWorldIT {
     }
 
     /**
-     * Test getting index.html page.
+     * Test accessing SnoopServlet.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    @Disabled
-    public void testIndexHtml() throws Exception {
-        HtmlPage page = webClient.getPage("http://localhost:8080/helloworld/index.html");
-        assertTrue(page.asXml().contains("Hello World!"));
+    public void testSnoop() throws Exception {
+        HtmlPage page = webClient.getPage("http://localhost:8080/snoop/Snoop");
+        assertTrue(page.asXml().contains("Snoop"));
     }
 }
