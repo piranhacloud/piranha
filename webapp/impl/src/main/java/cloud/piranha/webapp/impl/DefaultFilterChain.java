@@ -37,6 +37,7 @@ import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.SingleThreadModel;
 import jakarta.servlet.UnavailableException;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -105,6 +106,7 @@ public class DefaultFilterChain implements FilterChain {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
      */
+    @SuppressWarnings("deprecation")
     @Override
     public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
         if (filter != null) {
@@ -112,7 +114,13 @@ public class DefaultFilterChain implements FilterChain {
         } else if (servlet != null) {
             request.setAttribute(DefaultServletEnvironment.class.getName(), servlet.getServletConfig());
             try {
-                servlet.service(request, response);
+                if (servlet instanceof SingleThreadModel) {
+                    synchronized (servlet) {
+                        servlet.service(request, response);
+                    }
+                } else {
+                    servlet.service(request, response);
+                }
             } finally {
                 request.removeAttribute(DefaultServletEnvironment.class.getName());
             }
