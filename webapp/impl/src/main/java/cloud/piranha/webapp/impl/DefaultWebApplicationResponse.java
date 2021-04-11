@@ -163,7 +163,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      * Stores the content language
      */
     protected String contentLanguage;
-    
+
     /**
      * Stores the response closer.
      */
@@ -500,7 +500,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
                     String encoding = type.substring(type.indexOf(";") + 1).trim();
                     if (encoding.contains("=")) {
                         encoding = encoding.substring(encoding.indexOf("=") + 1).trim();
-                        setCharacterEncoding(encoding);
+                        characterEncoding = encoding;
                     }
                 } else {
                     contentType = type;
@@ -532,19 +532,18 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
 
     @Override
     public void setLocale(Locale locale) {
-        if (isCommitted() || isInclude()) {
-            return;
-        }
-        this.locale = locale;
-        this.contentLanguage = locale.toLanguageTag();
-        if (webApplication == null) {
-            return;
-        }
-        LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
-        if (localeEncodingManager != null) {
-            String encoding = localeEncodingManager.getCharacterEncoding(locale.toString());
-            if (encoding != null) {
-                setCharacterEncoding(encoding);
+        if (!gotWriter && !committed) {
+            this.locale = locale;
+            this.contentLanguage = locale.toLanguageTag();
+            if (webApplication == null) {
+                return;
+            }
+            LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
+            if (localeEncodingManager != null) {
+                String encoding = localeEncodingManager.getCharacterEncoding(locale.toString());
+                if (encoding != null && !characterEncodingSet) {
+                    characterEncoding = encoding;
+                }
             }
         }
     }
@@ -610,7 +609,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     public void closeAsyncResponse() {
         responseCloser.run();
     }
-    
+
     @Override
     public void flush() throws IOException {
         if (!isCommitted()) {
@@ -737,8 +736,9 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (cookie.getPath() != null) {
             outputStream.write(("; Path=" + cookie.getPath()).getBytes());
         }
-        if (cookie.getVersion() > 0)
+        if (cookie.getVersion() > 0) {
             outputStream.write(("; Version=" + cookie.getVersion()).getBytes());
+        }
         outputStream.write("\n".getBytes());
     }
 
