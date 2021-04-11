@@ -28,7 +28,6 @@
 
     <properties>
         <ant.home>${project.build.directory}/ant</ant.home>
-        <ant.java.home>${java.home}</ant.java.home>
         <piranha.home>${project.build.directory}/piranha</piranha.home>
         <signature.home>${project.build.directory}/signature</signature.home>
         <tck.home>${project.build.directory}/tck</tck.home>
@@ -36,6 +35,29 @@
     </properties>
     
     <profiles>
+        <profile>
+            <id>setup-java-version-for-tck-client</id>
+            <activation>
+                <property>
+                    <name>!ant.java.home</name>
+                </property>
+            </activation>
+            <properties>
+                <ant.java.home>${java.home}</ant.java.home>
+            </properties>
+        </profile>
+        <profile>
+            <id>newer-jdk</id>
+            <activation>
+                <file>
+                    <!-- JDK 15 removed the JJS executable, so we only exclude the signature test in newer JDK versions -->
+                    <missing>${ant.java.home}/bin/jjs</missing>
+                </file>
+            </activation>
+            <properties>
+                <tck.ignoreTest>com/sun/ts/tests/signaturetest/servlet/ServletSigTest.java#signatureTest</tck.ignoreTest>
+            </properties>
+        </profile>
         <profile>
             <id>linux</id>
             <activation>
@@ -120,6 +142,10 @@
                                         <copy todir="${piranha.home}/etc">
                                             <fileset dir="${project.basedir}/src/test/etc"/>
                                         </copy>
+
+                                        <echo file="${tck.home}/bin/ts.jtx" append="true">
+                                            ${tck.ignoreTest}
+                                        </echo>
                                     </target>
                                 </configuration>
                                 <goals>
