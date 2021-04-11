@@ -53,8 +53,8 @@ public abstract class HttpFilter extends GenericFilter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        if (request instanceof HttpServletRequest httpServletRequest && response instanceof HttpServletResponse httpServletResponse) {
-            this.doFilter(httpServletRequest, httpServletResponse, chain);
+        if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
+            this.doFilter((HttpServletRequest) request, (HttpServletResponse) response, chain);
         } else {
             throw new ServletException("not a HTTP request or a HTTP response");
         }
