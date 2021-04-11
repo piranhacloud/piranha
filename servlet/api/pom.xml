@@ -73,9 +73,6 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
-                            <includes>
-                                <includes>module-info.java</includes>
-                            </includes>
                             <release>16</release>
                         </configuration>
                     </execution>
@@ -88,8 +85,7 @@
                             <excludes>
                                 <exclude>module-info.java</exclude>
                             </excludes>
-                            <source>1.8</source>
-                            <target>1.8</target>
+                            <release>8</release>
                         </configuration>
                     </execution>
                 </executions>
