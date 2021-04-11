@@ -127,25 +127,6 @@
                                 </goals>
                             </execution>
                             <execution>
-                                <id>test</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <!-- run the signature tests -->
-                                        <exec executable="${ant.home}/bin/ant"
-                                              dir="${tck.home}/src/com/sun/ts/tests/signaturetest">
-                                            <arg value="-Dwork.dir=${signature.home}/work"/>
-                                            <arg value="-Dreport.dir=${signature.home}/report"/>
-                                            <arg value="runclient"/>
-                                            <env key="JAVA_HOME" value="${ant.java.home}" />
-                                        </exec>
-                                    </target>
-                                </configuration>
-                            </execution>
-                            <execution>
                                 <id>pre-integration-test</id>
                                 <phase>pre-integration-test</phase>
                                 <goals>
@@ -334,24 +315,6 @@
                                 <goals>
                                     <goal>run</goal>
                                 </goals>
-                            </execution>
-                            <execution>
-                                <id>test</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <!-- run the signature tests -->
-                                        <exec executable="${ant.home}/bin/ant"
-                                              dir="${tck.home}/src/com/sun/ts/tests/signaturetest">
-                                            <arg value="-Dwork.dir=${signature.home}/work"/>
-                                            <arg value="-Dreport.dir=${signature.home}/report"/>
-                                            <arg value="runclient"/>
-                                        </exec>
-                                    </target>
-                                </configuration>
                             </execution>
                             <execution>
                                 <id>pre-integration-test</id>
@@ -546,24 +509,6 @@
                                 </goals>
                             </execution>
                             <execution>
-                                <id>test</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <!-- run the signature tests -->
-                                        <exec executable="${ant.home}/bin/ant.bat"
-                                              dir="${tck.home}/src/com/sun/ts/tests/signaturetest">
-                                            <arg value="-Dwork.dir=${signature.home}/work"/>
-                                            <arg value="-Dreport.dir=${signature.home}/report"/>
-                                            <arg value="runclient"/>
-                                        </exec>
-                                    </target>
-                                </configuration>
-                            </execution>
-                            <execution>
                                 <id>pre-integration-test</id>
                                 <phase>pre-integration-test</phase>
                                 <goals>
@@ -741,25 +686,6 @@
                                     <goal>run</goal>
                                 </goals>
                             </execution>
-                            <execution>
-                                <id>test</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <!-- run the signature tests -->
-                                        <exec executable="${ant.home}/bin/ant"
-                                              dir="${tck.home}/src/com/sun/ts/tests/signaturetest">
-                                            <arg value="-Dwork.dir=${signature.home}/work"/>
-                                            <arg value="-Dreport.dir=${signature.home}/report"/>
-                                            <arg value="runclient"/>
-                                        </exec>
-                                    </target>
-                                </configuration>
-                            </execution>
-                            
                             <execution>
                                 <id>pre-integration-test</id>
                                 <phase>pre-integration-test</phase>
@@ -946,26 +872,6 @@
                                     <goal>run</goal>
                                 </goals>
                             </execution>
-                            
-                            <execution>
-                                <id>test</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <!-- run the signature tests -->
-                                        <exec executable="${ant.home}/bin/ant"
-                                              dir="${tck.home}/src/com/sun/ts/tests/signaturetest">
-                                            <arg value="-Dwork.dir=${signature.home}/work"/>
-                                            <arg value="-Dreport.dir=${signature.home}/report"/>
-                                            <arg value="runclient"/>
-                                        </exec>
-                                    </target>
-                                </configuration>
-                            </execution>
-                            
                             <execution>
                                 <id>pre-integration-test</id>
                                 <phase>pre-integration-test</phase>
