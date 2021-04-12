@@ -20,4 +20,4 @@ jobs:
       - name: Setup for OmniFaces
         run: mvn clean -B -DskipTests=true install
       - name: Run OmniFaces
-        run: mvn -amd -B -P external -pl external/mojarra verify
+        run: mvn -amd -B -P external -pl external/omnifaces verify
