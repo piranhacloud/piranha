@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha.test.webapp</groupId>
         <artifactId>project</artifactId>
-        <version>21.4.0-SNAPSHOT</version>
+        <version>21.5.0-SNAPSHOT</version>
     </parent>
     <artifactId>test-webapp-snoop</artifactId>
     <packaging>war</packaging>
