@@ -100,7 +100,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.41</version>
+                            <version>8.41.1</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -216,7 +216,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>flatten-maven-plugin</artifactId>
-                    <version>1.2.5</version>
+                    <version>1.2.7</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -405,14 +405,14 @@
                     </execution>
                 </executions>
             </plugin>  
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <configuration>
-                        <trimStackTrace>false</trimStackTrace>
-                        <argLine>--illegal-access=permit</argLine>
-                    </configuration>
-                </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <trimStackTrace>false</trimStackTrace>
+                    <argLine>--illegal-access=permit</argLine>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -485,6 +485,11 @@
                 </plugins>
             </build>
         </profile>
+        <!-- 
+
+          This profile is for Eclipse m2e users.
+        
+        -->
         <profile>
             <id>eclipse</id>
             <activation>
@@ -494,8 +499,6 @@
             </activation>
             <build>
                 <pluginManagement>
-                    <!-- This plugin's configuration is used to store Eclipse m2e settings 
-                    only. It has no influence on the Maven build itself. -->
                     <plugins>
                         <plugin>
                             <groupId>org.eclipse.m2e</groupId>
