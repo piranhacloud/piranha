@@ -1,5 +1,3 @@
-module:cloud.piranha.api
-cloud.piranha.api
 module:cloud.piranha.cdi.weld
 cloud.piranha.cdi.weld
 module:cloud.piranha.cli
