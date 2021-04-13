@@ -30,12 +30,12 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.7.0.Alpha8</version>
+                <version>1.7.0.Alpha9</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-build</artifactId>
-                <version>1.7.0.Alpha8</version>
+                <version>1.7.0.Alpha9</version>
             </dependency>
             
             <!-- Grizzly -->
@@ -66,7 +66,7 @@
             <dependency>
                 <groupId>com.hazelcast</groupId>
                 <artifactId>hazelcast</artifactId>
-                <version>4.1.1</version>
+                <version>4.2</version>
             </dependency>
             
             <!-- HSQLDB -->
@@ -209,7 +209,7 @@
             <dependency><!-- Implementation 1: Yasson  -->
                 <groupId>org.eclipse</groupId>
                 <artifactId>yasson</artifactId>
-                <version>2.0.1</version>
+                <version>2.0.2</version>
             </dependency>
              <dependency><!-- Implementation 2: Johnzon  -->
                 <groupId>org.apache.johnzon</groupId>
@@ -410,7 +410,7 @@
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-plugin-api</artifactId>
-                <version>3.6.3</version>
+                <version>3.8.1</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.maven.plugin-tools</groupId>
@@ -422,7 +422,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.59.Final</version>
+                <version>4.1.63.Final</version>
             </dependency>
             
             <!-- MicroProfile Config -->
@@ -436,7 +436,7 @@
             <dependency>
                 <groupId>io.smallrye</groupId>
                 <artifactId>smallrye-health</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
             </dependency>
             
             <!-- MicroProfile JWT Auth -->
@@ -513,7 +513,7 @@
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-core</artifactId>
-                <version>2.2.5.Final</version>
+                <version>2.2.7.Final</version>
             </dependency>
             
             <!-- Vaadin -->
@@ -537,7 +537,7 @@
             <dependency>
                 <groupId>org.apache.wicket</groupId>
                 <artifactId>wicket-core</artifactId>
-                <version>9.2.0</version>
+                <version>9.3.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
