@@ -57,8 +57,8 @@ public class MicroDeployOutcome {
    
 
     /**
-     * @param deployMap the deployed application.
      * {@return the deploy outcome}
+     * @param deployMap the deployed application.
      */
     @SuppressWarnings("unchecked")
     public static MicroDeployOutcome ofMap(Map<String, Object> deployMap) {

@@ -330,7 +330,7 @@ public class MicroConfiguration {
      * <p>
      * Setting this to true overrides the explicit context root set via the <code>setRoot</code> method.
      * 
-     * @param rootIsWarName
+     * @param rootIsWarName whether the war name is used for the context root
      */
     public void setRootIsWarName(boolean rootIsWarName) {
         this.rootIsWarName = rootIsWarName;

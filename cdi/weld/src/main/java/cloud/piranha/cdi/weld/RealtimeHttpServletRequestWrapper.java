@@ -233,8 +233,8 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * @param path the path.
      * {@return the real path}
+     * @param path the path.
      * @deprecated
      */
     @Deprecated
@@ -275,8 +275,8 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * @param path the path.
      * {@return the request dispatcher}
+     * @param path the path.
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
