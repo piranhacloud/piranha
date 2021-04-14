@@ -45,9 +45,7 @@ public class MicroEmbeddedPiranha extends EmbeddedPiranha {
     }
 
     /**
-     * Get the web application.
-     *
-     * @return the web application.
+     * {@return the web application}
      */
     @Override
     public MicroWebApplication getWebApplication() {

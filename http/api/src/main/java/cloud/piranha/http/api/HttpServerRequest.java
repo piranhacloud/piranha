@@ -59,44 +59,32 @@ public interface HttpServerRequest {
     Iterator<String> getHeaders(String name);
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     Iterator<String> getHeaderNames();
 
     /**
-     * Get the input stream.
-     *
-     * @return the input stream.
+     * {@return the input stream}
      */
     InputStream getInputStream();
 
     /**
-     * Get the local address.
-     *
-     * @return the local address.
+     * {@return the local address}
      */
     String getLocalAddress();
 
     /**
-     * Get the local hostname.
-     *
-     * @return the local hostname.
+     * {@return the local hostname}
      */
     String getLocalHostname();
 
     /**
-     * Get the local port.
-     *
-     * @return the local port.
+     * {@return the local port}
      */
     int getLocalPort();
 
     /**
-     * Get the method.
-     *
-     * @return the method.
+     * {@return the method}
      */
     String getMethod();
 
@@ -109,43 +97,32 @@ public interface HttpServerRequest {
     String getQueryParameter(String name);
 
     /**
-     * Get the query string.
-     *
-     * @return the query string.
+     * {@return the query string}
      */
     String getQueryString();
 
     /**
-     * Get the remote address.
-     *
-     * @return the remote address.
+     * {@return the remote address}
      */
     String getRemoteAddress();
 
     /**
-     * Get the remote hostname.
-     *
-     * @return the remote hostname.
+     * {@return the remote hostname}
      */
     String getRemoteHostname();
 
     /**
-     * Get the remote port.
-     *
-     * @return the remote port.
+     * {@return the remote port}
      */
     int getRemotePort();
 
     /**
-     * Get the request target.
-     *
-     * @return the request target.
+     * {@return the request target}
      */
     String getRequestTarget();
 
     /**
-     * Get the protocol
-     * @return the protocol
+     * {@return the protocol}
      */
     default String getProtocol() {
         return "HTTP/1.1";

@@ -58,9 +58,7 @@ public class EmbeddedResponse extends DefaultWebApplicationResponse {
     }
 
     /**
-     * Get the response as a string.
-     *
-     * @return the response as a string.
+     * {@return the response as a string}
      */
     public String getResponseAsString() {
         return new String(getResponseAsByteArray());
