@@ -234,9 +234,7 @@ public class MicroConfiguration {
     }
 
     /**
-     * Get the version.
-     * 
-     * @return the version.
+     * {@return the version}
      */
     public String getVersion() {
         return version;
@@ -252,9 +250,7 @@ public class MicroConfiguration {
     }
 
     /**
-     * Get the extensions.
-     * 
-     * @return the extensions.
+     * {@return the extensions}
      */
     public String getExtensions() {
         return extensions;
@@ -270,9 +266,7 @@ public class MicroConfiguration {
     }
 
     /**
-     * Get the repositories.
-     * 
-     * @return the repositories.
+     * {@return the repositories}
      */
     public String getRepositories() {
         return repositories;
@@ -306,9 +300,7 @@ public class MicroConfiguration {
     }
 
     /**
-     * Get the port.
-     * 
-     * @return the port.
+     * {@return the port}
      */
     public int getPort() {
         return port;
@@ -338,16 +330,14 @@ public class MicroConfiguration {
      * <p>
      * Setting this to true overrides the explicit context root set via the <code>setRoot</code> method.
      * 
-     * @param rootIsWarName
+     * @param rootIsWarName whether the war name is used for the context root
      */
     public void setRootIsWarName(boolean rootIsWarName) {
         this.rootIsWarName = rootIsWarName;
     }
 
     /**
-     * Get the root.
-     * 
-     * @return the root.
+     * {@return the root}
      */
     public String getRoot() {
         return root;
@@ -363,36 +353,28 @@ public class MicroConfiguration {
     }
 
     /**
-     * Get the list of extensions.
-     * 
-     * @return the list of extensions.
+     * {@return the list of extensions}
      */
     public List<String> getExtensionsList() {
         return extensionsList;
     }
 
     /**
-     * Get the list of repositories.
-     * 
-     * @return the list of repositories.
+     * {@return the list of repositories}
      */
     public List<String> getRepositoriesList() {
         return repositoriesList;
     }
 
     /**
-     * Get the merged dependencies.
-     * 
-     * @return the merged dependencies.
+     * {@return the merged dependencies}
      */
     public List<String> getMergedDependencies() {
         return mergedDependencies;
     }
 
     /**
-     * Get the HTTP server engine.
-     *
-     * @return the HTTP server engine.
+     * {@return the HTTP server engine}
      */
     public String getHttpServer() {
         return httpServer;

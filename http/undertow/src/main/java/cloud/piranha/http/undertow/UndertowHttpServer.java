@@ -99,9 +99,7 @@ public class UndertowHttpServer implements HttpServer {
     }
 
     /**
-     * Get the HTTP server processor.
-     *
-     * @return the HTTP server processor.
+     * {@return the HTTP server processor}
      */
     @Override
     public HttpServerProcessor getHttpServerProcessor() {
@@ -109,9 +107,7 @@ public class UndertowHttpServer implements HttpServer {
     }
 
     /**
-     * Get the SSL boolean flag.
-     *
-     * @return the SSL boolean flag.
+     * {@return the SSL boolean flag}
      */
     @Override
     public boolean getSSL() {
@@ -119,9 +115,7 @@ public class UndertowHttpServer implements HttpServer {
     }
 
     /**
-     * Get the server port.
-     *
-     * @return the server port.
+     * {@return the server port}
      */
     @Override
     public int getServerPort() {

@@ -203,9 +203,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     }
 
     /**
-     * Get the request mapper.
-     *
-     * @return the request mapper.
+     * {@return the request mapper}
      */
     @Override
     public WebApplicationServerRequestMapper getRequestMapper() {

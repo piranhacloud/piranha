@@ -70,9 +70,7 @@ public class MicroWebApplication extends DefaultWebApplication {
     private Consumer<Map<String, Object>> deployedApplication;
 
     /**
-     * Get the deployed application.
-     * 
-     * @return the deployed application.
+     * {@return the deployed application}
      */
     public Consumer<Map<String, Object>> getDeployedApplication() {
         return deployedApplication;
@@ -145,9 +143,7 @@ public class MicroWebApplication extends DefaultWebApplication {
     }
 
     /**
-     * Get the unchecked input stream.
-     * 
-     * @return the unchecked input stream.
+     * {@return the unchecked input stream}
      */
     private InputStream getInputStreamUnchecked(WebApplicationRequest request) {
         try {

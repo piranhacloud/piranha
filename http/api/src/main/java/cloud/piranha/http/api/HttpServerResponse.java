@@ -70,9 +70,7 @@ public interface HttpServerResponse {
     String getHeader(String name);
 
     /**
-     * Get the output stream.
-     *
-     * @return the output stream.
+     * {@return the output stream}
      */
     OutputStream getOutputStream();
 

@@ -50,9 +50,7 @@ public class JPABean {
     private static EntityManagerFactory emf;
     
     /**
-     * Get the entity manager.
-     * 
-     * @return the entity manager.
+     * {@return the entity manager}
      */
     public EntityManager getEntityManager() {
         synchronized(this) {
@@ -64,9 +62,7 @@ public class JPABean {
     }
     
     /**
-     * Get the count message.
-     * 
-     * @return the count message.
+     * {@return the count message}
      */
     public String getMessage() {
         TypedQuery<JPATable> query = getEntityManager().createQuery("SELECT o FROM JPATable AS o", JPATable.class);
