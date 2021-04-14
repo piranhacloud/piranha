@@ -46,9 +46,7 @@ public class JPATest {
     private int id;
     
     /**
-     * Get the id.
-     * 
-     * @return the id.
+     * {@return the id}
      */
     public int getId() {
         return id;

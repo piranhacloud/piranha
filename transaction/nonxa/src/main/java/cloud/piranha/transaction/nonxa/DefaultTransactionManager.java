@@ -106,9 +106,7 @@ public class DefaultTransactionManager implements TransactionManager {
     }
 
     /**
-     * Get the status.
-     *
-     * @return the status.
+     * {@return the status}
      * @throws SystemException when a serious error occurs.
      */
     @Override

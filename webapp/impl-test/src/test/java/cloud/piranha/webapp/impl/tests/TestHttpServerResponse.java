@@ -52,9 +52,7 @@ public class TestHttpServerResponse implements HttpServerResponse {
     }
 
     /**
-     * Get the byte-array output stream.
-     * 
-     * @return the byte-array output stream.
+     * {@return the byte-array output stream}
      */
     public ByteArrayOutputStream getByteArrayOutputStream() {
         return outputStream;
