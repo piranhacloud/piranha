@@ -54,9 +54,7 @@ public class WeldCDI extends AbstractCDI<Object> {
     }
 
     /**
-     * Get the bean manager.
-     * 
-     * @return the bean manager.
+     * {@return the bean manager}
      */
     @Override
     public BeanManager getBeanManager() {

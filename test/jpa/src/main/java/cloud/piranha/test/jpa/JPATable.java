@@ -46,9 +46,7 @@ public class JPATable implements Serializable {
     private Long id;
 
     /**
-     * Get the id.
-     *
-     * @return the id.
+     * {@return the id}
      */
     public Long getId() {
         return id;

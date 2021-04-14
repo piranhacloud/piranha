@@ -57,10 +57,8 @@ public class MicroDeployOutcome {
    
 
     /**
-     * Get the deploy outcome.
-     *
+     * {@return the deploy outcome}
      * @param deployMap the deployed application.
-     * @return the deploy outcome.
      */
     @SuppressWarnings("unchecked")
     public static MicroDeployOutcome ofMap(Map<String, Object> deployMap) {
@@ -73,9 +71,7 @@ public class MicroDeployOutcome {
     }
 
     /**
-     * Get the deployed servlets.
-     *
-     * @return the deployed servlets.
+     * {@return the deployed servlets}
      */
     public Set<String> getDeployedServlets() {
         return deployedServlets;
@@ -109,9 +105,7 @@ public class MicroDeployOutcome {
     }
     
     /**
-     * Get the deployed context root
-     * 
-     * @return the deployed context root
+     * {@return the deployed context root}
      */
     public String getDeployedContextRoot() {
         return deployedContextRoot;

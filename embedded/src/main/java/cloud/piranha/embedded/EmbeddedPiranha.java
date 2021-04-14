@@ -78,9 +78,7 @@ public class EmbeddedPiranha {
     }
 
     /**
-     * Get the web application.
-     *
-     * @return the web application.
+     * {@return the web application}
      */
     public WebApplication getWebApplication() {
         return webApplication;
