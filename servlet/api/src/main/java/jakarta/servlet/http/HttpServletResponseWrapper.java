@@ -161,10 +161,8 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
     }
 
     /**
-     * Get the headers.
-     *
+     * {@return the headers}
      * @param name the name.
-     * @return the headers.
      */
     @Override
     public Collection<String> getHeaders(String name) {
@@ -172,9 +170,7 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
     }
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     @Override
     public Collection<String> getHeaderNames() {
@@ -182,9 +178,7 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
     }
 
     /**
-     * Get the status.
-     *
-     * @return the status.
+     * {@return the status}
      */
     @Override
     public int getStatus() {
@@ -192,9 +186,7 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
     }
 
     /**
-     * Get the wrapped response.
-     *
-     * @return the wrapped response.
+     * {@return the wrapped response}
      */
     private HttpServletResponse getWrapped() {
         return (HttpServletResponse) super.getResponse();
