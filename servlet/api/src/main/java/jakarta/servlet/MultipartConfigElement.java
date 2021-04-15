@@ -96,36 +96,28 @@ public class MultipartConfigElement {
     }
 
     /**
-     * Get the file size threshold.
-     *
-     * @return the file size threshold.
+     * {@return the file size threshold}
      */
     public int getFileSizeThreshold() {
         return this.fileSizeThreshold;
     }
 
     /**
-     * Get the storage location.
-     *
-     * @return the storage location.
+     * {@return the storage location}
      */
     public String getLocation() {
         return this.location;
     }
 
     /**
-     * Get the max file size.
-     *
-     * @return the max file size.
+     * {@return the max file size}
      */
     public long getMaxFileSize() {
         return this.maxFileSize;
     }
 
     /**
-     * Get the max request size.
-     *
-     * @return the max request size.
+     * {@return the max request size}
      */
     public long getMaxRequestSize() {
         return this.maxRequestSize;

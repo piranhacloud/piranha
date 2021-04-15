@@ -39,19 +39,15 @@ import java.util.Enumeration;
 public interface HttpSessionContext {
 
     /**
-     * Get the HTTP session.
-     *
+     * {@return the HTTP session}
      * @param sessionId the HTTP session id.
-     * @return the HTTP session.
      * @deprecated
      */
     @Deprecated
     public HttpSession getSession(String sessionId);
 
     /**
-     * Get the HTTP session ids.
-     *
-     * @return the HTTP session ids.
+     * {@return the HTTP session ids}
      * @deprecated
      */
     @Deprecated

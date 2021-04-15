@@ -42,9 +42,7 @@ import java.lang.annotation.Target;
 public @interface HandlesTypes {
 
     /**
-     * Get the classes.
-     *
-     * @return the classes.
+     * {@return the classes}
      */
     Class<?>[] value();
 }

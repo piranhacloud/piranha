@@ -46,10 +46,8 @@ public class HttpUtils {
     }
 
     /**
-     * Get the request URL.
-     *
+     * {@return the request URL}
      * @param request the request.
-     * @return the request URL.
      */
     public static StringBuffer getRequestURL(HttpServletRequest request) {
         throw new UnsupportedOperationException();

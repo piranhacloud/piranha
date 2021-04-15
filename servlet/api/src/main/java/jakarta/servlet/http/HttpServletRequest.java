@@ -81,16 +81,12 @@ public interface HttpServletRequest extends ServletRequest {
     public String changeSessionId();
 
     /**
-     * Get the auth type.
-     *
-     * @return the auth type.
+     * {@return the auth type}
      */
     public String getAuthType();
 
     /**
-     * Get the context path.
-     *
-     * @return the context path.
+     * {@return the context path}
      */
     public String getContextPath();
 
@@ -118,24 +114,18 @@ public interface HttpServletRequest extends ServletRequest {
     public String getHeader(String name);
 
     /**
-     * Get the headers.
-     *
+     * {@return the headers}
      * @param name the name.
-     * @return the headers.
      */
     public Enumeration<String> getHeaders(String name);
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     public Enumeration<String> getHeaderNames();
 
     /**
-     * Get the HTTP servlet mapping.
-     *
-     * @return the HTTP servlet mapping.
+     * {@return the HTTP servlet mapping}
      */
     default HttpServletMapping getHttpServletMapping() {
         return new HttpServletMapping() {
@@ -170,9 +160,7 @@ public interface HttpServletRequest extends ServletRequest {
     public int getIntHeader(String name);
 
     /**
-     * Get the HTTP method.
-     *
-     * @return the HTTP method.
+     * {@return the HTTP method}
      */
     public String getMethod();
 
@@ -196,16 +184,12 @@ public interface HttpServletRequest extends ServletRequest {
     public Collection<Part> getParts() throws IOException, ServletException;
 
     /**
-     * Get the path info.
-     *
-     * @return the path info.
+     * {@return the path info}
      */
     public String getPathInfo();
 
     /**
-     * Get the path translated.
-     *
-     * @return the path translated.
+     * {@return the path translated}
      */
     public String getPathTranslated();
 
@@ -224,30 +208,22 @@ public interface HttpServletRequest extends ServletRequest {
     public String getRemoteUser();
 
     /**
-     * Get the request URI.
-     *
-     * @return the request URI.
+     * {@return the request URI}
      */
     public String getRequestURI();
 
     /**
-     * Get the request URL.
-     *
-     * @return the request URL.
+     * {@return the request URL}
      */
     public StringBuffer getRequestURL();
 
     /**
-     * Get the requested session id.
-     *
-     * @return the requested session id.
+     * {@return the requested session id}
      */
     public String getRequestedSessionId();
 
     /**
-     * Get the servlet path.
-     *
-     * @return the servlet path.
+     * {@return the servlet path}
      */
     public String getServletPath();
 
@@ -260,25 +236,19 @@ public interface HttpServletRequest extends ServletRequest {
     public HttpSession getSession(boolean create);
 
     /**
-     * Get the HTTP session.
-     *
-     * @return the HTTP session.
+     * {@return the HTTP session}
      */
     public HttpSession getSession();
 
     /**
-     * Get the trailer fields.
-     *
-     * @return the trailer fields.
+     * {@return the trailer fields}
      */
     default Map<String, String> getTrailerFields() {
         return Collections.emptyMap();
     }
 
     /**
-     * Get the user principal.
-     *
-     * @return the user principal.
+     * {@return the user principal}
      */
     public Principal getUserPrincipal();
 

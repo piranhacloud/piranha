@@ -116,23 +116,17 @@ public interface AsyncContext {
     public void dispatch(String path);
 
     /**
-     * Get the request.
-     *
-     * @return the request.
+     * {@return the request}
      */
     public ServletRequest getRequest();
 
     /**
-     * Get the response.
-     *
-     * @return the response.
+     * {@return the response}
      */
     public ServletResponse getResponse();
 
     /**
-     * Get the timeout.
-     *
-     * @return the timeout.
+     * {@return the timeout}
      */
     public long getTimeout();
 

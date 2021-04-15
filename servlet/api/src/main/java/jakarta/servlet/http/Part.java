@@ -46,9 +46,7 @@ public interface Part {
     public void delete() throws IOException;
 
     /**
-     * Get the content type.
-     *
-     * @return the content type.
+     * {@return the content type}
      */
     public String getContentType();
 
@@ -61,17 +59,13 @@ public interface Part {
     public String getHeader(String name);
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     public Collection<String> getHeaderNames();
 
     /**
-     * Get the headers.
-     *
+     * {@return the headers}
      * @param name the name.
-     * @return the headers.
      */
     public Collection<String> getHeaders(String name);
 
@@ -84,23 +78,17 @@ public interface Part {
     public InputStream getInputStream() throws IOException;
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     public String getName();
 
     /**
-     * Get the size.
-     *
-     * @return the size.
+     * {@return the size}
      */
     public long getSize();
 
     /**
-     * Get the submitted filename.
-     *
-     * @return the submitted filename.
+     * {@return the submitted filename}
      */
     public String getSubmittedFileName();
 

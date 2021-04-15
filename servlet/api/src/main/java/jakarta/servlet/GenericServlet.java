@@ -69,9 +69,7 @@ public abstract class GenericServlet implements Servlet, ServletConfig, Serializ
     }
 
     /**
-     * Get the init parameter names.
-     *
-     * @return the init parameter names.
+     * {@return the init parameter names}
      */
     @Override
     public Enumeration<String> getInitParameterNames() {
@@ -79,9 +77,7 @@ public abstract class GenericServlet implements Servlet, ServletConfig, Serializ
     }
 
     /**
-     * Get the servlet config.
-     *
-     * @return the servlet config.
+     * {@return the servlet config}
      */
     @Override
     public ServletConfig getServletConfig() {
@@ -89,9 +85,7 @@ public abstract class GenericServlet implements Servlet, ServletConfig, Serializ
     }
 
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * {@return the servlet context}
      */
     @Override
     public ServletContext getServletContext() {
@@ -109,9 +103,7 @@ public abstract class GenericServlet implements Servlet, ServletConfig, Serializ
     }
 
     /**
-     * Get the servlet name.
-     *
-     * @return the servlet name.
+     * {@return the servlet name}
      */
     @Override
     public String getServletName() {
