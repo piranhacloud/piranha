@@ -273,8 +273,8 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     /**
-     * @param path the path.
      * {@return the request dispatcher}
+     * @param path the path.
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
