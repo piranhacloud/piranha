@@ -69,9 +69,7 @@ public class WebXmlManager {
     private WebXml webXml;
 
     /**
-     * Get the initial web.xml.
-     *
-     * @return the initial web.xml.
+     * {@return the initial web.xml}
      */
     public WebXml getInitialWebXml() {
         return initialWebXml;
@@ -87,9 +85,7 @@ public class WebXmlManager {
     }
 
     /**
-     * Get the web fragments.
-     *
-     * @return the web fragments.
+     * {@return the web fragments}
      */
     public List<WebXml> getWebFragments() {
         return webFragments;
@@ -105,9 +101,7 @@ public class WebXmlManager {
     }
 
     /**
-     * Get the web.xml.
-     *
-     * @return the web.xml.
+     * {@return the web.xml}
      */
     public WebXml getWebXml() {
         return webXml;
@@ -123,9 +117,7 @@ public class WebXmlManager {
     }
 
     /**
-     * Get the ordered fragments.
-     * 
-     * @return the ordered fragments.
+     * {@return the ordered fragments}
      */
     public List<WebXml> getOrderedFragments() {
         if (webXml == null)

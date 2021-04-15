@@ -63,27 +63,21 @@ public class WebXmlErrorPage  {
     }
 
     /**
-     * Get the error code.
-     *
-     * @return the error code.
+     * {@return the error code}
      */
     public String getErrorCode() {
         return errorCode;
     }
 
     /**
-     * Get the exception type.
-     *
-     * @return the exception type.
+     * {@return the exception type}
      */
     public String getExceptionType() {
         return exceptionType;
     }
 
     /**
-     * Get the location.
-     *
-     * @return the location.
+     * {@return the location}
      */
     public String getLocation() {
         return location;

@@ -56,18 +56,14 @@ public class WebXmlServletMapping {
     }
 
     /**
-     * Get the servlet name.
-     *
-     * @return the servlet name.
+     * {@return the servlet name}
      */
     public String getServletName() {
         return servletName;
     }
 
     /**
-     * Get the URL pattern.
-     *
-     * @return the URL pattern.
+     * {@return the URL pattern}
      */
     public String getUrlPattern() {
         return urlPattern;

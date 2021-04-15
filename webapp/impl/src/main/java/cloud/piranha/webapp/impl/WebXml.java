@@ -119,9 +119,7 @@ public class WebXml implements Serializable {
         }
 
         /**
-         * Get the before.
-         *
-         * @return the before.
+         * {@return the before}
          */
         public List<String> getBefore() {
             return before;
@@ -137,9 +135,7 @@ public class WebXml implements Serializable {
         }
 
         /**
-         * Get the after.
-         *
-         * @return the after.
+         * {@return the after}
          */
         public List<String> getAfter() {
             return after;
@@ -332,18 +328,14 @@ public class WebXml implements Serializable {
     private final List<String> welcomeFiles = new ArrayList<>();
 
     /**
-     * Get the context params.
-     *
-     * @return the context params.
+     * {@return the context params}
      */
     public List<WebXmlContextParam> getContextParams() {
         return contextParams;
     }
 
     /**
-     * Get the default context path.
-     *
-     * @return the default context path.
+     * {@return the default context path}
      */
     public String getDefaultContextPath() {
         return defaultContextPath;
@@ -359,90 +351,70 @@ public class WebXml implements Serializable {
     }
 
     /**
-     * Get the display name.
-     *
-     * @return the display name.
+     * {@return the display name}
      */
     public String getDisplayName() {
         return displayName;
     }
 
     /**
-     * Get the error pages.
-     *
-     * @return the error pages.
+     * {@return the error pages}
      */
     public List<WebXmlErrorPage> getErrorPages() {
         return errorPages;
     }
 
     /**
-     * Get the filters.
-     *
-     * @return the filters.
+     * {@return the filters}
      */
     public List<WebXmlFilter> getFilters() {
         return filters;
     }
 
     /**
-     * Get the filter mappings.
-     *
-     * @return the filter mappings.
+     * {@return the filter mappings}
      */
     public List<WebXmlFilterMapping> getFilterMappings() {
         return filterMappings;
     }
 
     /**
-     * Get the fragment name.
-     *
-     * @return the fragment name.
+     * {@return the fragment name}
      */
     public String getFragmentName() {
         return fragmentName;
     }
 
     /**
-     * Get the login config.
-     *
-     * @return the login config.
+     * {@return the login config}
      */
     public WebXmlLoginConfig getLoginConfig() {
         return loginConfig;
     }
 
     /**
-     * Get the listeners.
-     *
-     * @return the listeners.
+     * {@return the listeners}
      */
     public List<WebXmlListener> getListeners() {
         return listeners;
     }
 
     /**
-     * Get the mime mappings.
-     *
-     * @return the mime mappings.
+     * {@return the mime mappings}
      */
     public List<WebXmlMimeMapping> getMimeMappings() {
         return mimeMappings;
     }
 
     /**
-     * Get the request character encoding.
-     *
-     * @return the request character encoding.
+     * {@return the request character encoding}
      */
     public String getRequestCharacterEncoding() {
         return requestCharacterEncoding;
     }
 
     /**
-     * Get the response character encoding.
-     *
-     * @return the response character encoding.
+     * {@return the response character encoding}
      */
     public String getResponseCharacterEncoding() {
         return responseCharacterEncoding;
@@ -460,27 +432,21 @@ public class WebXml implements Serializable {
     }
 
     /**
-     * Get the servlets.
-     *
-     * @return the servlets.
+     * {@return the servlets}
      */
     public List<WebXmlServlet> getServlets() {
         return servlets;
     }
 
     /**
-     * Get the servlet mappings.
-     *
-     * @return the servlet mappings.
+     * {@return the servlet mappings}
      */
     public List<WebXmlServletMapping> getServletMappings() {
         return servletMappings;
     }
 
     /**
-     * Get the session config.
-     *
-     * @return the session config.
+     * {@return the session config}
      */
     public WebXmlSessionConfig getSessionConfig() {
         return sessionConfig;
@@ -662,18 +628,14 @@ public class WebXml implements Serializable {
     }
 
     /**
-     * Get the absolute ordering.
-     *
-     * @return the absolute ordering.
+     * {@return the absolute ordering}
      */
     public List<String> getAbsoluteOrdering() {
         return absoluteOrdering;
     }
 
     /**
-     * Get the relative ordering.
-     *
-     * @return the relative ordering.
+     * {@return the relative ordering}
      */
     public RelativeOrder getRelativeOrdering() {
         return relativeOrdering;
@@ -698,9 +660,7 @@ public class WebXml implements Serializable {
     }
 
     /**
-     * Get the locale encoding mapping.
-     *
-     * @return the locale encoding mapping.
+     * {@return the locale encoding mapping}
      */
     public Map<String, String> getLocaleEncodingMapping() {
         return this.localeEncodingMapping;

@@ -40,9 +40,7 @@ public class WebXmlCookieConfig {
     private String name;
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     public String getName() {
         return name;

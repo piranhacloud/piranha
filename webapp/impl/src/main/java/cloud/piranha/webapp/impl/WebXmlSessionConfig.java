@@ -40,9 +40,7 @@ public class WebXmlSessionConfig {
     private int sessionTimeout;
 
     /**
-     * Get the session timeout.
-     *
-     * @return the session timeout.
+     * {@return the session timeout}
      */
     public int getSessionTimeout() {
         return sessionTimeout;
