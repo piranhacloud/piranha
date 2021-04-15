@@ -35,30 +35,22 @@ package jakarta.servlet.http;
 public interface HttpServletMapping {
    
     /**
-     * Get the mapping match.
-     * 
-     * @return the mapping match.
+     * {@return the mapping match}
      */
     MappingMatch getMappingMatch();
     
     /**
-     * Get the match value.
-     * 
-     * @return the match value.
+     * {@return the match value}
      */
     String getMatchValue();
     
     /**
-     * Get the pattern.
-     * 
-     * @return the pattern.
+     * {@return the pattern}
      */
     String getPattern();
     
     /**
-     * Get the servlet name.
-     * 
-     * @return the servlet name.
+     * {@return the servlet name}
      */
     String getServletName();
 }

@@ -100,36 +100,28 @@ public class AsyncEvent {
     }
 
     /**
-     * Get the async context.
-     *
-     * @return the async context.
+     * {@return the async context}
      */
     public AsyncContext getAsyncContext() {
         return context;
     }
 
     /**
-     * Get the supplied request.
-     *
-     * @return the supplied request.
+     * {@return the supplied request}
      */
     public ServletRequest getSuppliedRequest() {
         return suppliedRequest;
     }
 
     /**
-     * Get the supplied response.
-     *
-     * @return the supplied response.
+     * {@return the supplied response}
      */
     public ServletResponse getSuppliedResponse() {
         return suppliedResponse;
     }
 
     /**
-     * Get the throwable.
-     *
-     * @return the throwable.
+     * {@return the throwable}
      */
     public Throwable getThrowable() {
         return throwable;

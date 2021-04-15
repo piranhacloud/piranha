@@ -73,9 +73,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the auth type.
-     *
-     * @return the auth type.
+     * {@return the auth type}
      */
     @Override
     public String getAuthType() {
@@ -83,9 +81,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the context path.
-     *
-     * @return the context path.
+     * {@return the context path}
      */
     @Override
     public String getContextPath() {
@@ -125,9 +121,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     @Override
     public Enumeration<String> getHeaderNames() {
@@ -157,9 +151,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the method.
-     *
-     * @return the method.
+     * {@return the method}
      */
     @Override
     public String getMethod() {
@@ -191,9 +183,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the path info.
-     *
-     * @return the path info.
+     * {@return the path info}
      */
     @Override
     public String getPathInfo() {
@@ -201,9 +191,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the path translated.
-     *
-     * @return the path translated.
+     * {@return the path translated}
      */
     @Override
     public String getPathTranslated() {
@@ -211,9 +199,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the query string.
-     *
-     * @return the query string.
+     * {@return the query string}
      */
     @Override
     public String getQueryString() {
@@ -221,9 +207,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the remote user.
-     *
-     * @return the remote user.
+     * {@return the remote user}
      */
     @Override
     public String getRemoteUser() {
@@ -231,9 +215,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the request URI.
-     *
-     * @return the request URI.
+     * {@return the request URI}
      */
     @Override
     public String getRequestURI() {
@@ -241,9 +223,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the request URL.
-     *
-     * @return the request URL.
+     * {@return the request URL}
      */
     @Override
     public StringBuffer getRequestURL() {
@@ -251,9 +231,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the requested session id.
-     *
-     * @return the requested session id.
+     * {@return the requested session id}
      */
     @Override
     public String getRequestedSessionId() {
@@ -261,9 +239,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the servlet path.
-     *
-     * @return the servlet path.
+     * {@return the servlet path}
      */
     @Override
     public String getServletPath() {
@@ -271,9 +247,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the HTTP session.
-     *
-     * @return the HTTP session.
+     * {@return the HTTP session}
      */
     @Override
     public HttpSession getSession() {
@@ -292,9 +266,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the user principal.
-     *
-     * @return the user principal.
+     * {@return the user principal}
      */
     @Override
     public Principal getUserPrincipal() {
@@ -302,9 +274,7 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     /**
-     * Get the wrapped request.
-     *
-     * @return the wrapped request.
+     * {@return the wrapped request}
      */
     private HttpServletRequest getWrapped() {
         return (HttpServletRequest) super.getRequest();

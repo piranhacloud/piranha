@@ -42,16 +42,12 @@ import java.lang.annotation.Target;
 public @interface MultipartConfig {
 
     /**
-     * Get the file size threshold.
-     *
-     * @return the file size threshold.
+     * {@return the file size threshold}
      */
     int fileSizeThreshold() default 0;
 
     /**
-     * Get the storage location.
-     *
-     * @return the storage location.
+     * {@return the storage location}
      */
     String location() default "";
 
@@ -63,9 +59,7 @@ public @interface MultipartConfig {
     long maxFileSize() default -1L;
 
     /**
-     * Get the maximum POST body request size.
-     *
-     * @return the maximum POST body request size.
+     * {@return the maximum POST body request size}
      */
     long maxRequestSize() default -1L;
 }

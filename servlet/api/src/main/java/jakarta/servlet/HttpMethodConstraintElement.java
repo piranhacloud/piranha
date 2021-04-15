@@ -60,9 +60,7 @@ public class HttpMethodConstraintElement extends HttpConstraintElement {
     }
 
     /**
-     * Get the HTTP method name.
-     *
-     * @return the HTTP method name
+     * {@return the HTTP method name}
      */
     public String getMethodName() {
         return methodName;

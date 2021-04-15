@@ -43,23 +43,17 @@ import jakarta.servlet.annotation.ServletSecurity.TransportGuarantee;
 public @interface HttpConstraint {
 
     /**
-     * Get the roles allowed.
-     *
-     * @return the roles allowed.
+     * {@return the roles allowed}
      */
     String[] rolesAllowed() default {};
 
     /**
-     * Get the TransportGuarantee.
-     *
-     * @return the TransportGuarantee.
+     * {@return the TransportGuarantee}
      */
     TransportGuarantee transportGuarantee() default TransportGuarantee.NONE;
 
     /**
-     * Get the EmptyRoleSemantic.
-     *
-     * @return the EmptyRoleSemantic.
+     * {@return the EmptyRoleSemantic}
      */
     EmptyRoleSemantic value() default EmptyRoleSemantic.PERMIT;
 }
