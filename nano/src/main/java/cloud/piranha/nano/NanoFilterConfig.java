@@ -81,9 +81,7 @@ class NanoFilterConfig implements FilterConfig {
     }
 
     /**
-     * Get the init parameter names.
-     *
-     * @return the init parameter names.
+     * {@return the init parameter names}
      */
     @Override
     public Enumeration<String> getInitParameterNames() {
@@ -91,9 +89,7 @@ class NanoFilterConfig implements FilterConfig {
     }
 
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * {@return the servlet context}
      */
     @Override
     public ServletContext getServletContext() {
@@ -101,9 +97,7 @@ class NanoFilterConfig implements FilterConfig {
     }
 
     /**
-     * Get the filter name.
-     *
-     * @return the filter name.
+     * {@return the filter name}
      */
     @Override
     public String getFilterName() {
