@@ -501,7 +501,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
                         String encoding = type.substring(type.indexOf(";") + 1).trim();
                         if (encoding.contains("=")) {
                             encoding = encoding.substring(encoding.indexOf("=") + 1).trim();
-                            characterEncoding = encoding;
+                            setCharacterEncoding(encoding);
                         }
                     }
                 } else {
@@ -534,20 +534,22 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
 
     @Override
     public void setLocale(Locale locale) {
-        if (!gotWriter && !committed) {
+        if (!committed) {
             this.locale = locale;
             this.contentLanguage = locale.toLanguageTag();
             if (webApplication == null) {
                 return;
             }
-            LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
-            if (localeEncodingManager != null) {
-                String encoding = localeEncodingManager.getCharacterEncoding(locale.toString());
-                if (encoding == null) { 
-                    encoding = localeEncodingManager.getCharacterEncoding(locale.getLanguage());
-                }
-                if (encoding != null && !characterEncodingSet) {
-                    characterEncoding = encoding;
+            if (!gotWriter && !characterEncodingSet) {
+                LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
+                if (localeEncodingManager != null) {
+                    String encoding = localeEncodingManager.getCharacterEncoding(locale.toString());
+                    if (encoding == null) { 
+                        encoding = localeEncodingManager.getCharacterEncoding(locale.getLanguage());
+                    }
+                    if (encoding != null && !characterEncodingSet) {
+                        characterEncoding = encoding;
+                    }
                 }
             }
         }
