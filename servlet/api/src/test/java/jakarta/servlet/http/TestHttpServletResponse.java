@@ -162,9 +162,7 @@ public class TestHttpServletResponse extends HttpServletResponseWrapper {
     }
 
     /**
-     * Get the cookies.
-     * 
-     * @return the cookies.
+     * {@return the cookies}
      */
     public List<Cookie> getCookies() {
         return cookies;
@@ -182,9 +180,7 @@ public class TestHttpServletResponse extends HttpServletResponseWrapper {
     }
 
     /**
-     * Get the header names.
-     * 
-     * @return the header names.
+     * {@return the header names}
      */
     @Override
     public Collection<String> getHeaderNames() {
@@ -203,9 +199,7 @@ public class TestHttpServletResponse extends HttpServletResponseWrapper {
     }
 
     /**
-     * Get the status.
-     * 
-     * @return the status.
+     * {@return the status}
      */
     @Override
     public int getStatus() {

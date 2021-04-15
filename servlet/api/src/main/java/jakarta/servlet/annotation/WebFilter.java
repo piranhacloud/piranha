@@ -45,16 +45,12 @@ import jakarta.servlet.DispatcherType;
 public @interface WebFilter {
 
     /**
-     * Get the async supported flag.
-     *
-     * @return the async supported flag.
+     * {@return the async supported flag}
      */
     boolean asyncSupported() default false;
 
     /**
-     * Get the description.
-     *
-     * @return the description.
+     * {@return the description}
      */
     String description() default "";
 
@@ -66,58 +62,42 @@ public @interface WebFilter {
     DispatcherType[] dispatcherTypes() default {DispatcherType.REQUEST};
 
     /**
-     * Get the display name.
-     *
-     * @return the display name.
+     * {@return the display name}
      */
     String displayName() default "";
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     String filterName() default "";
 
     /**
-     * Get the init parameters.
-     *
-     * @return the init parameters.
+     * {@return the init parameters}
      */
     WebInitParam[] initParams() default {};
 
     /**
-     * Get the large icon.
-     *
-     * @return the large icon.
+     * {@return the large icon}
      */
     String largeIcon() default "";
 
     /**
-     * Get the servlet names.
-     *
-     * @return the servlet names.
+     * {@return the servlet names}
      */
     String[] servletNames() default {};
 
     /**
-     * Get the small icon.
-     *
-     * @return the small icon.
+     * {@return the small icon}
      */
     String smallIcon() default "";
 
     /**
-     * Get the URL patterns.
-     *
-     * @return the URL patterns.
+     * {@return the URL patterns}
      */
     String[] urlPatterns() default {};
 
     /**
-     * Get the URL patterns.
-     *
-     * @return the URL patterns.
+     * {@return the URL patterns}
      */
     String[] value() default {};
 
