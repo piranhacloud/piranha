@@ -493,14 +493,16 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (isInclude()) {
             return;
         }
-        if (!isCommitted()) {
+        if (!committed) {
             if (type != null) {
                 if (type.contains(";")) {
                     contentType = type.substring(0, type.indexOf(";")).trim();
-                    String encoding = type.substring(type.indexOf(";") + 1).trim();
-                    if (encoding.contains("=")) {
-                        encoding = encoding.substring(encoding.indexOf("=") + 1).trim();
-                        characterEncoding = encoding;
+                    if (!gotWriter) {
+                        String encoding = type.substring(type.indexOf(";") + 1).trim();
+                        if (encoding.contains("=")) {
+                            encoding = encoding.substring(encoding.indexOf("=") + 1).trim();
+                            characterEncoding = encoding;
+                        }
                     }
                 } else {
                     contentType = type;
