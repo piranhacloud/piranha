@@ -46,10 +46,8 @@ public class ThreadInitialContextFactory implements InitialContextFactory {
     private static final HashMap<Long, Context> INITIAL_CONTEXTS = new HashMap<>(1);
 
     /**
-     * Get the initial context.
-     *
+     * {@return the initial context}
      * @param environment the environment.
-     * @return the initial context.
      * @throws NamingException when a naming error occurs.
      */
     @Override

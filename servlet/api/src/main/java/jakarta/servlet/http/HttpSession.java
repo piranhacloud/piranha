@@ -46,70 +46,52 @@ public interface HttpSession {
     public Object getAttribute(String name);
 
     /**
-     * Get the attribute names.
-     *
-     * @return the attribute names.
+     * {@return the attribute names}
      */
     public Enumeration<String> getAttributeNames();
 
     /**
-     * Get the creation time.
-     *
-     * @return the creation time.
+     * {@return the creation time}
      */
     public long getCreationTime();
 
     /**
-     * Get the id.
-     *
-     * @return the id.
+     * {@return the id}
      */
     public String getId();
 
     /**
-     * Get the last accessed time.
-     *
-     * @return the last accessed time.
+     * {@return the last accessed time}
      */
     public long getLastAccessedTime();
 
     /**
-     * Get the max inactive interval.
-     *
-     * @return the max inactive interval.
+     * {@return the max inactive interval}
      */
     public int getMaxInactiveInterval();
 
     /**
-     * Get the Servlet context.
-     *
-     * @return the Servlet context.
+     * {@return the Servlet context}
      */
     public ServletContext getServletContext();
 
     /**
-     * Get the HTTP session context.
-     *
-     * @return the HTTP session context.
+     * {@return the HTTP session context}
      * @deprecated
      */
     @Deprecated
     public HttpSessionContext getSessionContext();
 
     /**
-     * Get the value.
-     *
+     * {@return the value}
      * @param name the name.
-     * @return the value.
      * @deprecated
      */
     @Deprecated
     public Object getValue(String name);
 
     /**
-     * Get the value names.
-     *
-     * @return the value names.
+     * {@return the value names}
      * @deprecated
      */
     @Deprecated

@@ -57,9 +57,7 @@ public interface UserTransaction {
             IllegalStateException, SystemException;
 
     /**
-     * Get the status.
-     *
-     * @return the status.
+     * {@return the status}
      * @throws SystemException when a serious error occurs.
      */
     int getStatus() throws SystemException;

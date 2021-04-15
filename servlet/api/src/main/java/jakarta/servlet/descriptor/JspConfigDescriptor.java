@@ -37,16 +37,12 @@ import java.util.Collection;
 public interface JspConfigDescriptor {
 
     /**
-     * Get the JSP property groups.
-     *
-     * @return the JSP property groups.
+     * {@return the JSP property groups}
      */
     public Collection<JspPropertyGroupDescriptor> getJspPropertyGroups();
 
     /**
-     * Get the taglibs.
-     *
-     * @return the taglibs.
+     * {@return the taglibs}
      */
     public Collection<TaglibDescriptor> getTaglibs();
 

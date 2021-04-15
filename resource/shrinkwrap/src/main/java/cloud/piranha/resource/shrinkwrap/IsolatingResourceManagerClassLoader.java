@@ -106,9 +106,7 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
     }
 
     /**
-     * Get the classloader id.
-     * 
-     * @return the classloader id.
+     * {@return the classloader id}
      */
     public String getClassLoaderId() {
         return classLoaderId;

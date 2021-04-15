@@ -377,9 +377,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
     }
     
     /**
-     * Get the delegate classloader.
-     * 
-     * @return the delegate classloader.
+     * {@return the delegate classloader}
      */
     public ClassLoader getDelegateClassLoader() {
         return delegateClassLoader;

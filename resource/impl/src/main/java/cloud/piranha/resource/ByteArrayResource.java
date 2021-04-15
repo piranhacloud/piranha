@@ -73,9 +73,7 @@ public class ByteArrayResource implements Resource {
     }
 
     /**
-     * Get the byte-array.
-     *
-     * @return the byte-array.
+     * {@return the byte-array}
      */
     public byte[] getBytes() {
         return bytes;
