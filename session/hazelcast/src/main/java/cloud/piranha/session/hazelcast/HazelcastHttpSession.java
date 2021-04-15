@@ -123,10 +123,8 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     }
 
     /**
-     * Get the attribute value.
-     * 
+     * {@return the attribute value}
      * @param name the attribute name.
-     * @return the attribute value.
      * @see HttpSession#getAttribute(java.lang.String)
      */
     @Override
@@ -136,9 +134,7 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     }
 
     /**
-     * Get the attribute names.
-     * 
-     * @return the attribute names.
+     * {@return the attribute names}
      * @see HttpSession#getAttributeNames()
      */
     @Override
@@ -148,9 +144,7 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     }
 
     /**
-     * Get the creation time.
-     * 
-     * @return the creation time.
+     * {@return the creation time}
      * @see HttpSession#getCreationTime()
      */
     @Override
@@ -160,9 +154,7 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     }
 
     /**
-     * Get the id.
-     * 
-     * @return the id.
+     * {@return the id}
      * @see HttpSession#getId()
      */
     @Override
@@ -171,9 +163,7 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     }
 
     /**
-     * Get the last accessed time.
-     * 
-     * @return the last accessed time.
+     * {@return the last accessed time}
      * @see HttpSession#getLastAccessedTime()
      */
     @Override
@@ -183,9 +173,7 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     }
 
     /**
-     * Get the maximum inactive interval.
-     * 
-     * @return the maximum inactive interval.
+     * {@return the maximum inactive interval}
      * @see HttpSession#getMaxInactiveInterval()
      */
     @Override
@@ -194,9 +182,7 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     }
 
     /**
-     * Get the servlet context.
-     * 
-     * @return the servlet context.
+     * {@return the servlet context}
      * @see HttpSession#getServletContext()
      */
     @Override
@@ -217,10 +203,8 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     }
 
     /**
-     * Get the value.
-     * 
+     * {@return the value}
      * @param name the attribute name.
-     * @return the value.
      * @see HttpSession#getValue(java.lang.String)
      */
     @Override
@@ -230,9 +214,7 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     }
 
     /**
-     * Get the attribute names.
-     * 
-     * @return the attribute names.
+     * {@return the attribute names}
      * @see HttpSession#getValueNames()
      */
     @Override
