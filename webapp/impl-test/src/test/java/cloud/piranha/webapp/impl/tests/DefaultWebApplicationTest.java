@@ -1112,8 +1112,8 @@ class DefaultWebApplicationTest {
     void testGetContentType() throws Exception {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         assertNull(response.getContentType());
-        PrintWriter writer = response.getWriter();
         response.setContentType("text/html");
+        PrintWriter writer = response.getWriter();
         assertEquals("text/html;charset=ISO-8859-1", response.getContentType());
     }
 
