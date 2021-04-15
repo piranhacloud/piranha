@@ -177,9 +177,7 @@ public class DefaultAnnotationManager implements AnnotationManager {
     // ### Not implemented
 
     /**
-     * Get the annotated classes.
-     *
-     * @return the annotated classes.
+     * {@return the annotated classes}
      */
     @Override
     public Set<Class<?>> getAnnotatedClasses() {

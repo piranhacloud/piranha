@@ -51,9 +51,7 @@ public class DefaultSecurityPrincipal implements Principal {
     }
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     @Override
     public String getName() {

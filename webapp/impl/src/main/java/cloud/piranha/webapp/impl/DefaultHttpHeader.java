@@ -71,9 +71,7 @@ public class DefaultHttpHeader implements HttpHeader {
     }
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     @Override
     public String getName() {
@@ -81,9 +79,7 @@ public class DefaultHttpHeader implements HttpHeader {
     }
 
     /**
-     * Get the value.
-     *
-     * @return the value.
+     * {@return the value}
      */
     @Override
     public String getValue() {
@@ -91,9 +87,7 @@ public class DefaultHttpHeader implements HttpHeader {
     }
 
     /**
-     * Get the values.
-     *
-     * @return the values.
+     * {@return the values}
      */
     @Override
     public Enumeration<String> getValues() {

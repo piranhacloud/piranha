@@ -277,9 +277,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     }
 
     /**
-     * Get the content length.
-     *
-     * @return the content length.
+     * {@return the content length}
      */
     public long getContentLength() {
         return contentLength;
@@ -339,18 +337,14 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     }
 
     /**
-     * Get the status message.
-     *
-     * @return the status message.
+     * {@return the status message}
      */
     public String getStatusMessage() {
         return statusMessage;
     }
 
     /**
-     * Get the web application.
-     *
-     * @return the web application.
+     * {@return the web application}
      */
     public WebApplication getWebApplication() {
         return webApplication;
