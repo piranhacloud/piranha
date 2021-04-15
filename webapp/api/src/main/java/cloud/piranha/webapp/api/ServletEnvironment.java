@@ -46,45 +46,33 @@ public interface ServletEnvironment extends Dynamic, ServletConfig {
 
 
     /**
-     * Get the load on startup.
-     *
-     * @return the load on startup.
+     * {@return the load on startup}
      */
     int getLoadOnStartup();
 
     /**
-     * Get the multi-part config.
-     *
-     * @return the multi-part config.
+     * {@return the multi-part config}
      */
     MultipartConfigElement getMultipartConfig();
 
     /**
-     * Get the servlet.
-     *
-     * @return the servlet.
+     * {@return the servlet}
      */
     Servlet getServlet();
 
 
     /**
-     * Get the servlet class.
-     *
-     * @return the servlet class.
+     * {@return the servlet class}
      */
     Class<? extends Servlet> getServletClass();
 
     /**
-     * Get the status.
-     *
-     * @return the status.
+     * {@return the status}
      */
     int getStatus();
 
     /**
-     * Get the web application.
-     *
-     * @return the web application.
+     * {@return the web application}
      */
     WebApplication getWebApplication();
 
