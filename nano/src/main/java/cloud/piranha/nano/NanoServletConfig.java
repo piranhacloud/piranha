@@ -79,9 +79,7 @@ class NanoServletConfig implements ServletConfig {
     }
 
     /**
-     * Get the init parameter names.
-     *
-     * @return the init parameter names.
+     * {@return the init parameter names}
      */
     @Override
     public Enumeration<String> getInitParameterNames() {
@@ -89,9 +87,7 @@ class NanoServletConfig implements ServletConfig {
     }
 
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * {@return the servlet context}
      */
     @Override
     public ServletContext getServletContext() {
@@ -99,9 +95,7 @@ class NanoServletConfig implements ServletConfig {
     }
 
     /**
-     * Get the servlet name.
-     *
-     * @return the servlet name.
+     * {@return the servlet name}
      */
     @Override
     public String getServletName() {

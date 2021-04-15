@@ -80,27 +80,21 @@ public class NanoPiranha {
     }
 
     /**
-     * Get the filters.
-     *
-     * @return the filters.
+     * {@return the filters}
      */
     public List<Filter> getFilters() {
         return filters;
     }
 
     /**
-     * Get the servlet.
-     *
-     * @return the servlet.
+     * {@return the servlet}
      */
     public Servlet getServlet() {
         return servlet;
     }
 
     /**
-     * Get the web application.
-     *
-     * @return the web application.
+     * {@return the web application}
      */
     public WebApplication getWebApplication() {
         return webApplication;
