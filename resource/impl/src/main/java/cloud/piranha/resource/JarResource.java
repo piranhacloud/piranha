@@ -68,10 +68,8 @@ public class JarResource implements Resource {
         this.jarFile = jarFile;
     }
 
-    /*
-     * Get the resource.
-     *
-     * @return the resource.
+    /**
+     * {@return the resource}
      */
     @Override
     public URL getResource(String location) {
@@ -147,9 +145,7 @@ public class JarResource implements Resource {
     }
 
     /**
-     * Get the JAR file.
-     *
-     * @return the JAR file.
+     * {@return the JAR file}
      */
     public File getJarFile() {
         return this.jarFile;

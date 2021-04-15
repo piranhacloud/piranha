@@ -78,10 +78,8 @@ public class DirectoryResource implements Resource {
         this.rootDirectory = rootDirectory;
     }
 
-    /*
-     * Get the resource.
-     *
-     * @return the resource.
+    /**
+     * {@return the resource}
      */
     @Override
     public URL getResource(String location) {
@@ -134,9 +132,7 @@ public class DirectoryResource implements Resource {
     }
 
     /**
-     * Get the root directory.
-     *
-     * @return the root directory.
+     * {@return the root directory}
      */
     public File getRootDirectory() {
         return this.rootDirectory;

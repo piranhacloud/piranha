@@ -55,9 +55,7 @@ public interface Resource {
     InputStream getResourceAsStream(String location);
 
     /**
-     * Get all the locations for this resource.
-     *
-     * @return all the locations for this resource.
+     * {@return all the locations for this resource}
      */
     Stream<String> getAllLocations();
 
