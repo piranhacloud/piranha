@@ -244,7 +244,7 @@ class DefaultHttpServletResponseTest {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertNull(response.getContentType());
         response.setContentType("text/html;charset=UTF-8");
-        assertEquals("text/html", response.getContentType());
+        assertEquals("text/html;charset=UTF-8", response.getContentType());
         assertEquals("UTF-8", response.getCharacterEncoding());
     }
 
@@ -415,7 +415,7 @@ class DefaultHttpServletResponseTest {
     void testContentTypeHeader2() throws Exception {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setContentType("text/html;charset=UTF-8");
-        assertEquals("text/html", response.getContentType());
+        assertEquals("text/html;charset=UTF-8", response.getContentType());
         assertEquals("UTF-8", response.getCharacterEncoding());
 
         response.setBodyOnly(false);
