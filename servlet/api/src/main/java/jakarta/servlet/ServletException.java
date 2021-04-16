@@ -77,9 +77,7 @@ public class ServletException extends Exception {
     }
 
     /**
-     * Get the root cause.
-     *
-     * @return the root cause.
+     * {@return the root cause}
      */
     public Throwable getRootCause() {
         return rootCause;

@@ -35,37 +35,27 @@ package jakarta.servlet;
 public interface SessionCookieConfig {
 
     /**
-     * Get the comment.
-     *
-     * @return the comment.
+     * {@return the comment}
      */
     public String getComment();
 
     /**
-     * Get the domain.
-     *
-     * @return the domain.
+     * {@return the domain}
      */
     public String getDomain();
 
     /**
-     * Get the max age.
-     *
-     * @return the max age.
+     * {@return the max age}
      */
     public int getMaxAge();
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     public String getName();
 
     /**
-     * Get the path.
-     *
-     * @return the path.
+     * {@return the path}
      */
     public String getPath();
 

@@ -184,16 +184,12 @@ public interface ServletContext {
     Object getAttribute(String name);
 
     /**
-     * Get the attribute names.
-     *
-     * @return the attribute names.
+     * {@return the attribute names}
      */
     Enumeration<String> getAttributeNames();
 
     /**
-     * Get the class loader.
-     *
-     * @return the class loader.
+     * {@return the class loader}
      */
     ClassLoader getClassLoader();
 
@@ -206,37 +202,27 @@ public interface ServletContext {
     ServletContext getContext(String path);
 
     /**
-     * Get the context path.
-     *
-     * @return the context path.
+     * {@return the context path}
      */
     String getContextPath();
 
     /**
-     * Get the default session tracking modes.
-     *
-     * @return the default session tracking modes.
+     * {@return the default session tracking modes}
      */
     Set<SessionTrackingMode> getDefaultSessionTrackingModes();
 
     /**
-     * Get the effective major version.
-     *
-     * @return the effective major version.
+     * {@return the effective major version}
      */
     int getEffectiveMajorVersion();
 
     /**
-     * Get the effective minor version.
-     *
-     * @return the effective minor version.
+     * {@return the effective minor version}
      */
     int getEffectiveMinorVersion();
 
     /**
-     * Get the effective session tracking modes.
-     *
-     * @return the effective session tracking modes.
+     * {@return the effective session tracking modes}
      */
     Set<SessionTrackingMode> getEffectiveSessionTrackingModes();
 
@@ -249,10 +235,7 @@ public interface ServletContext {
     FilterRegistration getFilterRegistration(String filterName);
 
     /**
-     * Get the filter registrations.
-     *
-     * @return the filter registrations.
-     *
+     * {@return the filter registrations}
      */
     Map<String, ? extends FilterRegistration> getFilterRegistrations();
 
@@ -265,23 +248,17 @@ public interface ServletContext {
     String getInitParameter(String name);
 
     /**
-     * Get the init parameter names.
-     *
-     * @return the init parameter names.
+     * {@return the init parameter names}
      */
     Enumeration<String> getInitParameterNames();
 
     /**
-     * Get the JSP config descriptor.
-     *
-     * @return the JSP config descriptor.
+     * {@return the JSP config descriptor}
      */
     JspConfigDescriptor getJspConfigDescriptor();
 
     /**
-     * Get the major version.
-     *
-     * @return the major version.
+     * {@return the major version}
      */
     int getMajorVersion();
 
@@ -294,9 +271,7 @@ public interface ServletContext {
     String getMimeType(String filename);
 
     /**
-     * Get the minor version.
-     *
-     * @return the minor version.
+     * {@return the minor version}
      */
     int getMinorVersion();
 
@@ -309,17 +284,13 @@ public interface ServletContext {
     RequestDispatcher getNamedDispatcher(String name);
 
     /**
-     * Get the real path.
-     *
+     * {@return the real path}
      * @param path the path.
-     * @return the real path.
      */
     String getRealPath(String path);
     
     /**
-     * Get the default request character encoding.
-     * 
-     * @return the default request character encoding.
+     * {@return the default request character encoding}
      */
     String getRequestCharacterEncoding();
 
@@ -332,9 +303,7 @@ public interface ServletContext {
     RequestDispatcher getRequestDispatcher(String path);
     
     /**
-     * Get the default response character encoding.
-     * 
-     * @return the default response character encoding.
+     * {@return the default response character encoding}
      */
     String getResponseCharacterEncoding();
     
@@ -364,9 +333,7 @@ public interface ServletContext {
     Set<String> getResourcePaths(String path);
 
     /**
-     * Get the server info.
-     *
-     * @return the server info.
+     * {@return the server info}
      */
     String getServerInfo();
 
@@ -382,9 +349,7 @@ public interface ServletContext {
     Servlet getServlet(String name) throws ServletException;
 
     /**
-     * Get the servlet context name.
-     *
-     * @return the servlet context name.
+     * {@return the servlet context name}
      */
     String getServletContextName();
 
@@ -406,9 +371,7 @@ public interface ServletContext {
     ServletRegistration getServletRegistration(String servletName);
 
     /**
-     * Get the servlet registrations.
-     *
-     * @return the servlet registrations.
+     * {@return the servlet registrations}
      */
     Map<String, ? extends ServletRegistration> getServletRegistrations();
 
@@ -422,23 +385,17 @@ public interface ServletContext {
     Enumeration<Servlet> getServlets();
 
     /**
-     * Get the session cookie config.
-     *
-     * @return the session cookie config.
+     * {@return the session cookie config}
      */
     SessionCookieConfig getSessionCookieConfig();
     
     /**
-     * Get the default session timeout.
-     * 
-     * @return the default session timeout.
+     * {@return the default session timeout}
      */
     int getSessionTimeout();
 
     /**
-     * Get the virtual server name.
-     *
-     * @return the virtual server name.
+     * {@return the virtual server name}
      */
     String getVirtualServerName();
 
