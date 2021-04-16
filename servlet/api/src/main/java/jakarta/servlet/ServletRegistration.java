@@ -46,16 +46,12 @@ public interface ServletRegistration extends Registration {
     public Set<String> addMapping(String... urlPatterns);
 
     /**
-     * Get the mappings.
-     *
-     * @return the mappings.
+     * {@return the mappings}
      */
     public Collection<String> getMappings();
 
     /**
-     * Get the run as role.
-     *
-     * @return the run as role.
+     * {@return the run as role}
      */
     public String getRunAsRole();
 

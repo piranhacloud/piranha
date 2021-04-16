@@ -45,23 +45,17 @@ public interface ServletConfig {
     public String getInitParameter(String name);
 
     /**
-     * Get the init parameter names.
-     *
-     * @return the init parameter names.
+     * {@return the init parameter names}
      */
     public Enumeration<String> getInitParameterNames();
 
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * {@return the servlet context}
      */
     public ServletContext getServletContext();
 
     /**
-     * Get the servlet name.
-     *
-     * @return the servlet name.
+     * {@return the servlet name}
      */
     public String getServletName();
 }

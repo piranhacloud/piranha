@@ -93,9 +93,7 @@ public class UnavailableException extends ServletException {
     }
 
     /**
-     * Get the servlet.
-     *
-     * @return the servlet
+     * {@return the servlet}
      * @deprecated
      */
     @Deprecated

@@ -35,16 +35,12 @@ package jakarta.servlet.descriptor;
 public interface TaglibDescriptor {
 
     /**
-     * Get the taglib location.
-     *
-     * @return the taglib location.
+     * {@return the taglib location}
      */
     public String getTaglibLocation();
 
     /**
-     * Get the taglib URI.
-     *
-     * @return the taglib URI.
+     * {@return the taglib URI}
      */
     public String getTaglibURI();
 }

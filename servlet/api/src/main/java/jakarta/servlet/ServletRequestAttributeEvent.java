@@ -64,18 +64,14 @@ public class ServletRequestAttributeEvent extends ServletRequestEvent {
     }
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Get the value.
-     *
-     * @return the value.
+     * {@return the value}
      */
     public Object getValue() {
         return this.value;
