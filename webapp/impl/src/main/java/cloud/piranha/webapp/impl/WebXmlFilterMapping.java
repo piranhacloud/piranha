@@ -72,36 +72,28 @@ public class WebXmlFilterMapping {
     }
 
     /**
-     * Get the filter name.
-     *
-     * @return the filter name.
+     * {@return the filter name}
      */
     public String getFilterName() {
         return filterName;
     }
 
     /**
-     * Get the URL patterns.
-     *
-     * @return the URL patterns.
+     * {@return the URL patterns}
      */
     public List<String> getUrlPatterns() {
         return urlPatterns;
     }
 
     /**
-     * Get the Servlet names.
-     *
-     * @return the Servlet names.
+     * {@return the Servlet names}
      */
     public List<String> getServletNames() {
         return servletNames;
     }
 
     /**
-     * Get the dispatchers.
-     *
-     * @return the dispatchers.
+     * {@return the dispatchers}
      */
     public List<String> getDispatchers() {
         return dispatchers;

@@ -45,9 +45,7 @@ public class WebXmlServletSecurityRoleRef {
     private String roleLink;
 
     /**
-     * Get the role name.
-     * 
-     * @return the role name.
+     * {@return the role name}
      */
     public String getRoleName() {
         return roleName;
@@ -63,9 +61,7 @@ public class WebXmlServletSecurityRoleRef {
     }
 
     /**
-     * Get the role link.
-     * 
-     * @return the role link.
+     * {@return the role link}
      */
     public String getRoleLink() {
         return roleLink;

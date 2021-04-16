@@ -56,18 +56,14 @@ public class WebXmlMimeMapping {
     }
 
     /**
-     * Get the extension.
-     *
-     * @return the extension.
+     * {@return the extension}
      */
     public String getExtension() {
         return extension;
     }
 
     /**
-     * Get the mime type.
-     *
-     * @return the mime type.
+     * {@return the mime type}
      */
     public String getMimeType() {
         return mimeType;

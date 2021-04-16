@@ -72,36 +72,28 @@ public class WebXmlFilter {
     }
 
     /**
-     * Get the class name.
-     *
-     * @return the class name.
+     * {@return the class name}
      */
     public String getClassName() {
         return className;
     }
 
     /**
-     * Get the filter name.
-     *
-     * @return the filter name.
+     * {@return the filter name}
      */
     public String getFilterName() {
         return filterName;
     }
 
     /**
-     * Get the init params.
-     *
-     * @return the init params.
+     * {@return the init params}
      */
     public List<WebXmlFilterInitParam> getInitParams() {
         return initParams;
     }
 
     /**
-     * Get the servlet name.
-     *
-     * @return the servlet name.
+     * {@return the servlet name}
      */
     public String getServletName() {
         return servletName;
