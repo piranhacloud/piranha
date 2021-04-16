@@ -48,9 +48,7 @@ public interface JspManager {
     ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile);
 
     /**
-     * Get the JSP config descriptor.
-     *
-     * @return the JSP config descriptor.
+     * {@return the JSP config descriptor}
      */
     JspConfigDescriptor getJspConfigDescriptor();
 }

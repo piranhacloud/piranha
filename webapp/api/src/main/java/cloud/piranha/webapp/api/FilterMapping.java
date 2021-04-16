@@ -39,28 +39,22 @@ import jakarta.servlet.DispatcherType;
 public interface FilterMapping {
 
     /**
-     * Get the filter name.
-     *
-     * @return the filter name.
+     * {@return the filter name}
      */
     String getFilterName();
 
     /**
-     * Get the URL pattern.
-     *
-     * @return the URL pattern.
+     * {@return the URL pattern}
      */
     String getUrlPattern();
 
     /**
-     * Get the dispatcher type.
-     *
+     * {@return the dispatcher type}
      * <p>
      * The dispatcher type is the kind of dispatch that the filter
      * mapping applies to. Default is REQUEST, which represents
      * the request from the user to the system.
-     *
-     * @return the dispatcher type
+     * </p>
      */
     default DispatcherType getDispatcherType() {
         return REQUEST;

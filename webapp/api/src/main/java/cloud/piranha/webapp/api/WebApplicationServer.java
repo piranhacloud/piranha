@@ -45,9 +45,7 @@ public interface WebApplicationServer {
     void addWebApplication(WebApplication webApplication);
 
     /**
-     * Get the request mapper.
-     *
-     * @return the request mapper.
+     * {@return the request mapper}
      */
     WebApplicationServerRequestMapper getRequestMapper();
 
