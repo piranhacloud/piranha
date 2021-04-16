@@ -362,9 +362,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the async context.
-     *
-     * @return the async context.
+     * {@return the async context}
      */
     @Override
     public AsyncContext getAsyncContext() {
@@ -396,9 +394,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the auth type.
-     *
-     * @return the auth type.
+     * {@return the auth type}
      */
     @Override
     public String getAuthType() {
@@ -406,9 +402,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the character encoding.
-     *
-     * @return the character encoding.
+     * {@return the character encoding}
      */
     @Override
     public String getCharacterEncoding() {
@@ -416,9 +410,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the content length.
-     *
-     * @return the content length.
+     * {@return the content length}
      */
     @Override
     public int getContentLength() {
@@ -426,9 +418,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the content length.
-     *
-     * @return the content length.
+     * {@return the content length}
      */
     @Override
     public long getContentLengthLong() {
@@ -436,9 +426,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the content type.
-     *
-     * @return the content type.
+     * {@return the content type}
      */
     @Override
     public String getContentType() {
@@ -451,9 +439,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the cookies.
-     *
-     * @return the cookies.
+     * {@return the cookies}
      */
     @Override
     public Cookie[] getCookies() {
@@ -468,10 +454,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the date header.
-     *
+     * {@return the date header}
      * @param name the header name.
-     * @return the date header.
      */
     @Override
     public long getDateHeader(String name) {
@@ -479,9 +463,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the dispatcher type.
-     *
-     * @return the dispatcher type.
+     * {@return the dispatcher type}
      */
     @Override
     public DispatcherType getDispatcherType() {
@@ -500,9 +482,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     @Override
     public Enumeration<String> getHeaderNames() {
@@ -540,10 +520,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the int header.
-     *
+     * {@return the int header}
      * @param name the name.
-     * @return the int header.
      */
     @Override
     public int getIntHeader(String name) {
@@ -551,9 +529,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the local address.
-     *
-     * @return the local address.
+     * {@return the local address}
      */
     @Override
     public String getLocalAddr() {
@@ -561,9 +537,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the local name.
-     *
-     * @return the local name.
+     * {@return the local name}
      */
     @Override
     public String getLocalName() {
@@ -571,9 +545,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the local port.
-     *
-     * @return the local port.
+     * {@return the local port}
      */
     @Override
     public int getLocalPort() {
@@ -603,9 +575,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the locales.
-     *
-     * @return the locales.
+     * {@return the locales}
      */
     @Override
     public Enumeration<Locale> getLocales() {
@@ -669,10 +639,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the parameter values.
-     *
+     * {@return the parameter values}
      * @param name the parameter name.
-     * @return the parameter values.
      */
     @Override
     public String[] getParameterValues(String name) {
@@ -810,9 +778,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the path info.
-     *
-     * @return the path info.
+     * {@return the path info}
      */
     @Override
     public String getPathInfo() {
@@ -820,9 +786,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the translated path.
-     *
-     * @return the translated path.
+     * {@return the translated path}
      */
     @Override
     public String getPathTranslated() {
@@ -830,9 +794,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the protocol.
-     *
-     * @return the protocol.
+     * {@return the protocol}
      */
     @Override
     public String getProtocol() {
@@ -840,9 +802,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the query string.
-     *
-     * @return the query string.
+     * {@return the query string}
      */
     @Override
     public String getQueryString() {
@@ -884,10 +844,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
 
     /**
-     * Get the real path.
-     *
+     * {@return the real path}
      * @param path the path.
-     * @return the real path.
      * @deprecated
      */
     @Deprecated
@@ -897,9 +855,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the remote address.
-     *
-     * @return the remote address.
+     * {@return the remote address}
      */
     @Override
     public String getRemoteAddr() {
@@ -907,9 +863,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the remote host.
-     *
-     * @return the remote host.
+     * {@return the remote host}
      */
     @Override
     public String getRemoteHost() {
@@ -917,9 +871,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the remote port.
-     *
-     * @return the remote port.
+     * {@return the remote port}
      */
     @Override
     public int getRemotePort() {
@@ -927,9 +879,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the remote user.
-     *
-     * @return the remote user.
+     * {@return the remote user}
      */
     @Override
     public String getRemoteUser() {
@@ -941,10 +891,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the request dispatcher.
-     *
+     * {@return the request dispatcher}
      * @param path the path.
-     * @return the request dispatcher.
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
@@ -956,9 +904,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the request URI.
-     *
-     * @return the request URI.
+     * {@return the request URI}
      */
     @Override
     public String getRequestURI() {
@@ -969,9 +915,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the request URL.
-     *
-     * @return the request URL.
+     * {@return the request URL}
      */
     @Override
     public StringBuffer getRequestURL() {
@@ -987,9 +931,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the requested session id.
-     *
-     * @return the requested session id.
+     * {@return the requested session id}
      */
     @Override
     public String getRequestedSessionId() {
@@ -997,9 +939,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the scheme.
-     *
-     * @return the scheme.
+     * {@return the scheme}
      */
     @Override
     public String getScheme() {
@@ -1007,9 +947,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the server name.
-     *
-     * @return the server name.
+     * {@return the server name}
      */
     @Override
     public String getServerName() {
@@ -1017,9 +955,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the server port.
-     *
-     * @return the server port.
+     * {@return the server port}
      */
     @Override
     public int getServerPort() {
@@ -1027,9 +963,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * {@return the servlet context}
      */
     @Override
     public WebApplication getServletContext() {
@@ -1037,9 +971,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the servlet path.
-     *
-     * @return the servlet path.
+     * {@return the servlet path}
      */
     @Override
     public String getServletPath() {
@@ -1047,9 +979,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the session.
-     *
-     * @return the session.
+     * {@return the session}
      */
     @Override
     public HttpSession getSession() {
@@ -1075,18 +1005,14 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the upgrade handler.
-     *
-     * @return the upgrade handler.
+     * {@return the upgrade handler}
      */
     public HttpUpgradeHandler getUpgradeHandler() {
         return upgradeHandler;
     }
 
     /**
-     * Get the user principal.
-     *
-     * @return the user principal.
+     * {@return the user principal}
      */
     @Override
     public Principal getUserPrincipal() {
@@ -1766,9 +1692,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Get the request URI with query string.
-     * 
-     * @return the request URI with query string.
+     * {@return the request URI with query string}
      */
     public String getRequestURIWithQueryString() {
         String requestURI = getRequestURI();

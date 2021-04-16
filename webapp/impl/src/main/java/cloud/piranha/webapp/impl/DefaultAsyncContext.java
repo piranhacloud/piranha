@@ -292,9 +292,7 @@ public class DefaultAsyncContext implements AsyncContext {
     }
 
     /**
-     * Get the asyncStartRequest.
-     *
-     * @return the asyncStartRequest.
+     * {@return the asyncStartRequest}
      * @see AsyncContext#getRequest()
      */
     @Override
@@ -303,9 +301,7 @@ public class DefaultAsyncContext implements AsyncContext {
     }
 
     /**
-     * Get the asyncStartResponse.
-     *
-     * @return the asyncStartResponse.
+     * {@return the asyncStartResponse}
      * @see AsyncContext#getResponse()
      */
     @Override
@@ -314,9 +310,7 @@ public class DefaultAsyncContext implements AsyncContext {
     }
 
     /**
-     * Get the timeout.
-     *
-     * @return the timeout.
+     * {@return the timeout}
      * @see AsyncContext#getTimeout()
      */
     @Override

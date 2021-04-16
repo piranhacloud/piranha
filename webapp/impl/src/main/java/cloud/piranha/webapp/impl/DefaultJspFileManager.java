@@ -59,9 +59,7 @@ public class DefaultJspFileManager implements JspManager {
     }
 
     /**
-     * Get the JSP config descriptor.
-     *
-     * @return the JSP config descriptor.
+     * {@return the JSP config descriptor}
      */
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {

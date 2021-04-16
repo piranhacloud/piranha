@@ -175,9 +175,7 @@ public class DefaultSecurityManager implements SecurityManager {
     }
 
     /**
-     * Get the web application.
-     *
-     * @return the web application.
+     * {@return the web application}
      */
     @Override
     public WebApplication getWebApplication() {

@@ -92,10 +92,8 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     }
 
     /**
-     * Get the date header.
-     *
+     * {@return the date header}
      * @param name the header name.
-     * @return the date header.
      */
     @Override
     public long getDateHeader(String name) throws IllegalArgumentException {
@@ -130,9 +128,7 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     }
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     @Override
     public Enumeration<String> getHeaderNames() {
@@ -161,10 +157,8 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     }
 
     /**
-     * Get the int header.
-     *
+     * {@return the int header}
      * @param name the header name.
-     * @return the int header.
      */
     @Override
     public int getIntHeader(String name) throws NumberFormatException {

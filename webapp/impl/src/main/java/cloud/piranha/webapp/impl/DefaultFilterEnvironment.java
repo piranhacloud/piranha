@@ -149,9 +149,7 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     }
 
     /**
-     * Get the class name.
-     *
-     * @return the class name.
+     * {@return the class name}
      */
     @Override
     public String getClassName() {
@@ -159,9 +157,7 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     }
 
     /**
-     * Get the filter.
-     *
-     * @return the filter.
+     * {@return the filter}
      */
     @Override
     public Filter getFilter() {
@@ -169,9 +165,7 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     }
 
     /**
-     * Get the filter name.
-     *
-     * @return the filter name.
+     * {@return the filter name}
      */
     @Override
     public String getFilterName() {
@@ -200,9 +194,7 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     }
 
     /**
-     * Get the init parameters.
-     *
-     * @return the init parameters.
+     * {@return the init parameters}
      */
     @Override
     public Map<String, String> getInitParameters() {
@@ -210,9 +202,7 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     }
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     @Override
     public String getName() {
@@ -220,9 +210,7 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     }
 
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * {@return the servlet context}
      */
     @Override
     public ServletContext getServletContext() {
@@ -230,9 +218,7 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     }
 
     /**
-     * Get the servlet name mappings.
-     *
-     * @return the servlet name mappings.
+     * {@return the servlet name mappings}
      */
     @Override
     public Collection<String> getServletNameMappings() {
@@ -240,9 +226,7 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     }
 
     /**
-     * Get the URL pattern mappings.
-     *
-     * @return the URL pattern mappings.
+     * {@return the URL pattern mappings}
      */
     @Override
     public Collection<String> getUrlPatternMappings() {
@@ -250,9 +234,7 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     }
 
     /**
-     * Get the web application.
-     *
-     * @return the web application.
+     * {@return the web application}
      */
     @Override
     public WebApplication getWebApplication() {
