@@ -69,18 +69,14 @@ public class HttpSessionBindingEvent extends HttpSessionEvent {
     }
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Get the HTTP session.
-     *
-     * @return the HTTP session.
+     * {@return the HTTP session}
      */
     @Override
     public HttpSession getSession() {
@@ -88,9 +84,7 @@ public class HttpSessionBindingEvent extends HttpSessionEvent {
     }
 
     /**
-     * Get the value.
-     *
-     * @return the value.
+     * {@return the value}
      */
     public Object getValue() {
         return this.value;

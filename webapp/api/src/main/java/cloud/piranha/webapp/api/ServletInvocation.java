@@ -54,16 +54,12 @@ public interface ServletInvocation {
     String getInvocationPath();
 
     /**
-     * Get the servlet name.
-     *
-     * @return the servlet name.
+     * {@return the servlet name}
      */
     String getServletName();
 
     /**
-     * Get the servlet path.
-     *
-     * @return the servlet path.
+     * {@return the servlet path}
      */
     String getServletPath();
     
@@ -82,37 +78,27 @@ public interface ServletInvocation {
     }
 
     /**
-     * Get the path info.
-     *
-     * @return the path info.
+     * {@return the path info}
      */
     String getPathInfo();
 
     /**
-     * Get the web application request mapping.
-     *
-     * @return the web application request mapping.
+     * {@return the web application request mapping}
      */
     WebApplicationRequestMapping getApplicationRequestMapping();
 
     /**
-     * Get the servlet environment.
-     *
-     * @return the servlet environment.
+     * {@return the servlet environment}
      */
     ServletEnvironment getServletEnvironment();
 
     /**
-     * Get the filter environments.
-     *
-     * @return the filter environments.
+     * {@return the filter environments}
      */
     List<FilterEnvironment> getFilterEnvironments();
 
     /**
-     * Get the filter chain.
-     *
-     * @return the filter chain.
+     * {@return the filter chain}
      */
     FilterChain getFilterChain();
 
@@ -153,9 +139,7 @@ public interface ServletInvocation {
     }
 
     /**
-     * Get the servlet configuration.
-     *
-     * @return the servlet configuration.
+     * {@return the servlet configuration}
      */
     default ServletConfig getServletConfig() {
         if (!hasServlet()) {

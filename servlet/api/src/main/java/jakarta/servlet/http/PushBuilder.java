@@ -54,37 +54,27 @@ public interface PushBuilder {
     String getHeader(String name);
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     Set<String> getHeaderNames();
 
     /**
-     * Get the HTTP method.
-     *
-     * @return the HTTP method.
+     * {@return the HTTP method}
      */
     String getMethod();
 
     /**
-     * Get the path.
-     * 
-     * @return the path.
+     * {@return the path}
      */
     String getPath();
 
     /**
-     * Get the query string.
-     *
-     * @return the query string.
+     * {@return the query string}
      */
     String getQueryString();
 
     /**
-     * Get the session id.
-     *
-     * @return the session id.
+     * {@return the session id}
      */
     String getSessionId();
 

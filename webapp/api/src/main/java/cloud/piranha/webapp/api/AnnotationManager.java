@@ -47,16 +47,12 @@ public interface AnnotationManager {
     interface AnnotationInfo<T> {
         
         /**
-         * Get the instance.
-         * 
-         * @return the instance.
+         * {@return the instance}
          */
         T getInstance();
         
         /**
-         * Get the target.
-         * 
-         * @return the target.
+         * {@return the target}
          */
         AnnotatedElement getTarget();
 
@@ -111,9 +107,7 @@ public interface AnnotationManager {
 
 
     /**
-     * Get the set of all annotated classes.
-     *
-     * @return the set of all annotated classes
+     * {@return the set of all annotated classes}
      */
     Set<Class<?>> getAnnotatedClasses();
     

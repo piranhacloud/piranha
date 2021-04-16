@@ -63,9 +63,7 @@ public class ServletResponseWrapper implements ServletResponse {
     }
 
     /**
-     * Get the buffer size.
-     *
-     * @return the buffer size.
+     * {@return the buffer size}
      */
     @Override
     public int getBufferSize() {
@@ -73,9 +71,7 @@ public class ServletResponseWrapper implements ServletResponse {
     }
 
     /**
-     * Get the character encoding.
-     *
-     * @return the character encoding.
+     * {@return the character encoding}
      */
     @Override
     public String getCharacterEncoding() {
@@ -83,9 +79,7 @@ public class ServletResponseWrapper implements ServletResponse {
     }
 
     /**
-     * Get the content type.
-     *
-     * @return the content type.
+     * {@return the content type}
      */
     @Override
     public String getContentType() {
@@ -93,9 +87,7 @@ public class ServletResponseWrapper implements ServletResponse {
     }
 
     /**
-     * Get the locale.
-     *
-     * @return the locale.
+     * {@return the locale}
      */
     @Override
     public Locale getLocale() {
@@ -114,9 +106,7 @@ public class ServletResponseWrapper implements ServletResponse {
     }
 
     /**
-     * Get the wrapped response.
-     *
-     * @return the wrapped response.
+     * {@return the wrapped response}
      */
     public ServletResponse getResponse() {
         return wrapped;

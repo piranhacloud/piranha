@@ -75,16 +75,12 @@ public interface ResourceManager {
     InputStream getResourceAsStream(String location);
     
     /**
-     * Get all the locations for this resource manager.
-     * 
-     * @return all the locations for this resource manager.
+     * {@return all the locations for this resource manager}
      */
     Stream<String> getAllLocations();
 
     /**
-     * Get all the locations for this resource manager.
-     *
-     * @return all the locations for this resource manager.
+     * {@return all the locations for this resource manager}
      */
     List<Resource> getResourceList();
 

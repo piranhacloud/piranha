@@ -47,23 +47,17 @@ public interface WebApplicationResponse extends HttpServletResponse {
     void closeAsyncResponse();
 
     /**
-     * Get the cookies.
-     *
-     * @return the cookies.
+     * {@return the cookies}
      */
     Collection<Cookie> getCookies();
     
     /**
-     * Get the response closer.
-     * 
-     * @return the response closer.
+     * {@return the response closer}
      */
     Runnable getResponseCloser();
 
     /**
-     * Get the underlying output stream.
-     *
-     * @return the underlying output stream.
+     * {@return the underlying output stream}
      */
     OutputStream getUnderlyingOutputStream();
 

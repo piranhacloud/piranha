@@ -232,9 +232,7 @@ public interface SecurityManager {
     Set<String> getRoles();
 
     /**
-     * Get the web application.
-     *
-     * @return the web application.
+     * {@return the web application}
      */
     WebApplication getWebApplication();
 

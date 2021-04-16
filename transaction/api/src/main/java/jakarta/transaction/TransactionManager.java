@@ -56,17 +56,13 @@ public interface TransactionManager {
             IllegalStateException, SystemException;
 
     /**
-     * Get the status.
-     *
-     * @return the status.
+     * {@return the status}
      * @throws SystemException when a serious error occurs.
      */
     int getStatus() throws SystemException;
 
     /**
-     * Get the transaction.
-     *
-     * @return the transaction.
+     * {@return the transaction}
      * @throws SystemException when a serious error occurs.
      */
     Transaction getTransaction() throws SystemException;
