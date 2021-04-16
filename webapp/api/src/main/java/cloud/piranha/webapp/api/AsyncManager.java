@@ -38,13 +38,11 @@ import jakarta.servlet.ServletResponse;
 public interface AsyncManager {
 
     /**
-     * Get the async dispatcher.
-     *
+     * {@return the async dispatcher}
      * @param webApplication the web application.
      * @param path the path.
      * @param asyncStartRequest the servlet request coming from a call to request.asyncStart.
      * @param asyncStartResponse the servlet response coming from a call to request.asyncStart.
-     * @return the async dispatcher.
      */
     AsyncDispatcher getDispatcher(WebApplication webApplication, String path, ServletRequest asyncStartRequest, ServletResponse asyncStartResponse);
 }

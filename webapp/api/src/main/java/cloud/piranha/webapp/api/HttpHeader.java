@@ -44,23 +44,17 @@ public interface HttpHeader {
     void addValue(String value);
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     String getName();
 
     /**
-     * Get the value.
-     *
-     * @return the value.
+     * {@return the value}
      */
     String getValue();
 
     /**
-     * Get the values.
-     *
-     * @return the values.
+     * {@return the values}
      */
     Enumeration<String> getValues();
 }
