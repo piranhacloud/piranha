@@ -67,11 +67,9 @@ public class DefaultErrorPageManager {
     }
 
     /**
-     * Get the error page.
-     * 
+     * {@return the error page}
      * @param exception the exception.
      * @param httpResponse the HTTP servlet response.
-     * @return the error page.
      */
     public String getErrorPage(Throwable exception, HttpServletResponse httpResponse) {
         if (exception != null) {

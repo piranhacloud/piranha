@@ -307,9 +307,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     /**
-     * Get the comment.
-     *
-     * @return the comment.
+     * {@return the comment}
      */
     @Override
     public String getComment() {
@@ -317,9 +315,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     /**
-     * Get the default session tracking modes.
-     *
-     * @return the default session tracking modes.
+     * {@return the default session tracking modes}
      */
     @Override
     public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
@@ -327,9 +323,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     /**
-     * Get the domain.
-     *
-     * @return the domain.
+     * {@return the domain}
      */
     @Override
     public String getDomain() {
@@ -337,9 +331,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     /**
-     * Get the effective session tracking modes.
-     *
-     * @return the effective session tracking modes.
+     * {@return the effective session tracking modes}
      */
     @Override
     public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
@@ -347,9 +339,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     /**
-     * Get the max age.
-     *
-     * @return the max age.
+     * {@return the max age}
      */
     @Override
     public int getMaxAge() {
@@ -357,9 +347,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     @Override
     public String getName() {
@@ -367,9 +355,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     /**
-     * Get the path.
-     *
-     * @return the path.
+     * {@return the path}
      */
     @Override
     public String getPath() {
@@ -377,9 +363,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     /**
-     * Get the session cookie config.
-     *
-     * @return the session cookie config.
+     * {@return the session cookie config}
      */
     @Override
     public SessionCookieConfig getSessionCookieConfig() {

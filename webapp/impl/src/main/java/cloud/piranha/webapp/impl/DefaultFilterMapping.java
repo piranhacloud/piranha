@@ -106,9 +106,7 @@ public class DefaultFilterMapping implements FilterMapping {
     }
 
     /**
-     * Get the dispatcher type.
-     *
-     * @return the dispatcher type.
+     * {@return the dispatcher type}
      */
     @Override
     public DispatcherType getDispatcherType() {
@@ -116,9 +114,7 @@ public class DefaultFilterMapping implements FilterMapping {
     }
 
     /**
-     * Get the filter name.
-     *
-     * @return the filter name.
+     * {@return the filter name}
      */
     @Override
     public String getFilterName() {
@@ -126,9 +122,7 @@ public class DefaultFilterMapping implements FilterMapping {
     }
 
     /**
-     * Get the URL pattern.
-     *
-     * @return the URL pattern.
+     * {@return the URL pattern}
      */
     @Override
     public String getUrlPattern() {
