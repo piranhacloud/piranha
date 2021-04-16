@@ -493,14 +493,16 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (isInclude()) {
             return;
         }
-        if (!isCommitted()) {
+        if (!committed) {
             if (type != null) {
                 if (type.contains(";")) {
                     contentType = type.substring(0, type.indexOf(";")).trim();
-                    String encoding = type.substring(type.indexOf(";") + 1).trim();
-                    if (encoding.contains("=")) {
-                        encoding = encoding.substring(encoding.indexOf("=") + 1).trim();
-                        characterEncoding = encoding;
+                    if (!gotWriter) {
+                        String encoding = type.substring(type.indexOf(";") + 1).trim();
+                        if (encoding.contains("=")) {
+                            encoding = encoding.substring(encoding.indexOf("=") + 1).trim();
+                            setCharacterEncoding(encoding);
+                        }
                     }
                 } else {
                     contentType = type;
@@ -532,20 +534,22 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
 
     @Override
     public void setLocale(Locale locale) {
-        if (!gotWriter && !committed) {
+        if (!committed) {
             this.locale = locale;
             this.contentLanguage = locale.toLanguageTag();
             if (webApplication == null) {
                 return;
             }
-            LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
-            if (localeEncodingManager != null) {
-                String encoding = localeEncodingManager.getCharacterEncoding(locale.toString());
-                if (encoding == null) { 
-                    encoding = localeEncodingManager.getCharacterEncoding(locale.getLanguage());
-                }
-                if (encoding != null && !characterEncodingSet) {
-                    characterEncoding = encoding;
+            if (!gotWriter && !characterEncodingSet) {
+                LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
+                if (localeEncodingManager != null) {
+                    String encoding = localeEncodingManager.getCharacterEncoding(locale.toString());
+                    if (encoding == null) { 
+                        encoding = localeEncodingManager.getCharacterEncoding(locale.getLanguage());
+                    }
+                    if (encoding != null && !characterEncodingSet) {
+                        characterEncoding = encoding;
+                    }
                 }
             }
         }
