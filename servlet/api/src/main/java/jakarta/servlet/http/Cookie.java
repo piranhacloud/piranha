@@ -130,72 +130,56 @@ public class Cookie implements Cloneable, Serializable {
     }
 
     /**
-     * Get the comment.
-     *
-     * @return the comment.
+     * {@return the comment}
      */
     public String getComment() {
         return comment;
     }
 
     /**
-     * Get the domain.
-     *
-     * @return the domain.
+     * {@return the domain}
      */
     public String getDomain() {
         return domain;
     }
 
     /**
-     * Get the max age.
-     *
-     * @return the max age.
+     * {@return the max age}
      */
     public int getMaxAge() {
         return maxAge;
     }
 
     /**
-     * Get the name.
-     *
-     * @return the name.
+     * {@return the name}
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Get the path.
-     *
-     * @return the path.
+     * {@return the path}
      */
     public String getPath() {
         return path;
     }
 
     /**
-     * Get the secure flag.
-     *
-     * @return the secure flag.
+     * {@return the secure flag}
      */
     public boolean getSecure() {
         return secure;
     }
 
     /**
-     * Get the value.
-     *
-     * @return the value.
+     * {@return the value}
      */
     public String getValue() {
         return value;
     }
 
     /**
-     * Get the version.
-     *
-     * @return the version.
+     * {@return the version}
      */
     public int getVersion() {
         return version;

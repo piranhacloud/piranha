@@ -128,9 +128,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     @Override
     public Iterator<String> getHeaderNames() {
@@ -138,9 +136,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the input stream.
-     *
-     * @return the input stream.
+     * {@return the input stream}
      */
     @Override
     public InputStream getInputStream() {
@@ -148,9 +144,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the local address.
-     *
-     * @return the local address.
+     * {@return the local address}
      */
     @Override
     public String getLocalAddress() {
@@ -158,9 +152,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the local hostname.
-     *
-     * @return the local hostname.
+     * {@return the local hostname}
      */
     @Override
     public String getLocalHostname() {
@@ -168,9 +160,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the local port.
-     *
-     * @return the local port.
+     * {@return the local port}
      */
     @Override
     public int getLocalPort() {
@@ -178,9 +168,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the method.
-     *
-     * @return the method.
+     * {@return the method}
      */
     @Override
     public String getMethod() {
@@ -188,9 +176,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the query string.
-     *
-     * @return the query string.
+     * {@return the query string}
      */
     @Override
     public String getQueryString() {
@@ -198,9 +184,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the remote address.
-     *
-     * @return the remote address.
+     * {@return the remote address}
      */
     @Override
     public String getRemoteAddress() {
@@ -208,9 +192,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the remote hostname.
-     *
-     * @return the remote hostname.
+     * {@return the remote hostname}
      */
     @Override
     public String getRemoteHostname() {
@@ -218,9 +200,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the remote port.
-     *
-     * @return the remote port.
+     * {@return the remote port}
      */
     @Override
     public int getRemotePort() {
@@ -228,9 +208,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     /**
-     * Get the request target.
-     *
-     * @return the request target.
+     * {@return the request target}
      */
     @Override
     public String getRequestTarget() {

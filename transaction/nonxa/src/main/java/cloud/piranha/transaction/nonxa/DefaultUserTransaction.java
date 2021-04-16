@@ -94,9 +94,7 @@ public class DefaultUserTransaction implements Serializable, UserTransaction {
     }
 
     /**
-     * Get the status.
-     *
-     * @return the status.
+     * {@return the status}
      * @throws SystemException when a serious error occurs.
      */
     @Override

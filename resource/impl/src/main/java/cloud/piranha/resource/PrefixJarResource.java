@@ -76,10 +76,8 @@ public class PrefixJarResource implements Resource {
         }
     }
 
-    /*
-     * Get the resource.
-     *
-     * @return the resource.
+    /**
+     * {@return the resource}
      */
     @Override
     public URL getResource(String location) {
@@ -122,18 +120,14 @@ public class PrefixJarResource implements Resource {
     }
 
     /**
-     * Get the JAR file.
-     *
-     * @return the JAR file.
+     * {@return the JAR file}
      */
     public JarFile getJarFile() {
         return this.jarFile;
     }
 
     /**
-     * Get the prefix.
-     *
-     * @return the prefix.
+     * {@return the prefix}
      */
     public String getPrefix() {
         return this.prefix;

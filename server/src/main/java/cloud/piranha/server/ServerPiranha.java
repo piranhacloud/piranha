@@ -92,9 +92,7 @@ public class ServerPiranha implements Runnable {
     private boolean ssl = false;
 
     /**
-     * Get the instance.
-     *
-     * @return the instance.
+     * {@return the instance}
      */
     public static ServerPiranha get() {
         return INSTANCE;
