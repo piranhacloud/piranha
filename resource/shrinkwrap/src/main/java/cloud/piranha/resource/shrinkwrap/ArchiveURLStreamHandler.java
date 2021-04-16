@@ -78,9 +78,7 @@ public class ArchiveURLStreamHandler extends URLStreamHandler {
             }
 
             /**
-             * Get the node.
-             * 
-             * @return the node.
+             * {@return the node}
              */
             private Node getNode() {
                 return archive.get(

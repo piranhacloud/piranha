@@ -127,18 +127,14 @@ public class ServletSecurityElement extends HttpConstraintElement {
     }
 
     /**
-     * Get the HTTP method constraints.
-     *
-     * @return the HTTP method constraints.
+     * {@return the HTTP method constraints}
      */
     public Collection<HttpMethodConstraintElement> getHttpMethodConstraints() {
         return Collections.unmodifiableCollection(methodConstraints);
     }
 
     /**
-     * Get the method names.
-     *
-     * @return the method names.
+     * {@return the method names}
      */
     public Collection<String> getMethodNames() {
         return Collections.unmodifiableCollection(methodNames);

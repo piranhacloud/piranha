@@ -56,18 +56,14 @@ public class ServletRequestEvent extends java.util.EventObject {
     }
 
     /**
-     * Get the servlet context.
-     *
-     * @return the servlet context.
+     * {@return the servlet context}
      */
     public ServletContext getServletContext() {
         return (ServletContext) super.getSource();
     }
 
     /**
-     * Get the servlet request.
-     *
-     * @return the servlet request.
+     * {@return the servlet request}
      */
     public ServletRequest getServletRequest() {
         return this.servletRequest;

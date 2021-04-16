@@ -98,9 +98,7 @@ public class TestAsyncContext implements AsyncContext {
     }
 
     /**
-     * Get the request.
-     * 
-     * @return the request.
+     * {@return the request}
      */
     @Override
     public ServletRequest getRequest() {
@@ -108,9 +106,7 @@ public class TestAsyncContext implements AsyncContext {
     }
 
     /**
-     * Get the response.
-     * 
-     * @return the response.
+     * {@return the response}
      */
     @Override
     public ServletResponse getResponse() {

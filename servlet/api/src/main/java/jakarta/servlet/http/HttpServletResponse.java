@@ -329,31 +329,23 @@ public interface HttpServletResponse extends ServletResponse {
     public String getHeader(String name);
 
     /**
-     * Get the header names.
-     *
-     * @return the header names.
+     * {@return the header names}
      */
     public Collection<String> getHeaderNames();
 
     /**
-     * Get the headers.
-     *
+     * {@return the headers}
      * @param name the name.
-     * @return the headers.
      */
     public Collection<String> getHeaders(String name);
 
     /**
-     * Get the status.
-     *
-     * @return the status.
+     * {@return the status}
      */
     public int getStatus();
     
     /**
-     * Get the supplier of trailer fields.
-     * 
-     * @return the supplier of trailer fields.
+     * {@return the supplier of trailer fields}
      */
     default Supplier<Map<String, String>> getTrailerFields() {
         return null;

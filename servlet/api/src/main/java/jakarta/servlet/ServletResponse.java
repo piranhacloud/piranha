@@ -46,30 +46,22 @@ public interface ServletResponse {
     public void flushBuffer() throws IOException;
 
     /**
-     * Get the buffer size.
-     *
-     * @return the buffer size.
+     * {@return the buffer size}
      */
     public int getBufferSize();
 
     /**
-     * Get the character encoding.
-     *
-     * @return the character encoding.
+     * {@return the character encoding}
      */
     public String getCharacterEncoding();
 
     /**
-     * Get the content type.
-     *
-     * @return the content type.
+     * {@return the content type}
      */
     public String getContentType();
 
     /**
-     * Get the locale.
-     *
-     * @return the locale.
+     * {@return the locale}
      */
     public Locale getLocale();
 

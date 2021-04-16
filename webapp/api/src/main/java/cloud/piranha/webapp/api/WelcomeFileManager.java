@@ -61,9 +61,7 @@ public interface WelcomeFileManager {
             FilterChain chain) throws IOException, ServletException;
     
     /**
-     * Get the welcome file list.
-     *
-     * @return the welcome file list.
+     * {@return the welcome file list}
      */
     List<String> getWelcomeFileList();
 }

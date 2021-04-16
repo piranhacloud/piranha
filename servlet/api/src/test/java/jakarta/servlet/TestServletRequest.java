@@ -55,9 +55,7 @@ public class TestServletRequest extends ServletRequestWrapper {
     }
 
     /**
-     * Get the async context.
-     * 
-     * @return the async context.
+     * {@return the async context}
      */
     @Override
     public AsyncContext getAsyncContext() {
@@ -76,9 +74,7 @@ public class TestServletRequest extends ServletRequestWrapper {
     }
 
     /**
-     * Get the attribute names.
-     * 
-     * @return the attribute names.
+     * {@return the attribute names}
      */
     @Override
     public Enumeration<String> getAttributeNames() {
@@ -86,9 +82,7 @@ public class TestServletRequest extends ServletRequestWrapper {
     }
 
     /**
-     * Get the character encoding.
-     * 
-     * @return the character encoding.
+     * {@return the character encoding}
      */
     @Override
     public String getCharacterEncoding() {
@@ -96,9 +90,7 @@ public class TestServletRequest extends ServletRequestWrapper {
     }
 
     /**
-     * Get the content length.
-     * 
-     * @return the content length.
+     * {@return the content length}
      */
     @Override
     public int getContentLength() {
@@ -116,9 +108,7 @@ public class TestServletRequest extends ServletRequestWrapper {
     }
 
     /**
-     * Get the content type.
-     * 
-     * @return the content type.
+     * {@return the content type}
      */
     @Override
     public String getContentType() {
@@ -126,9 +116,7 @@ public class TestServletRequest extends ServletRequestWrapper {
     }
 
     /**
-     * Get the dispatcher type.
-     * 
-     * @return the dispatcher type.
+     * {@return the dispatcher type}
      */
     @Override
     public DispatcherType getDispatcherType() {
@@ -147,9 +135,7 @@ public class TestServletRequest extends ServletRequestWrapper {
     }
 
     /**
-     * Get the local address.
-     * 
-     * @return the local address.
+     * {@return the local address}
      */
     @Override
     public String getLocalAddr() {
@@ -157,9 +143,7 @@ public class TestServletRequest extends ServletRequestWrapper {
     }
 
     /**
-     * Get the local name.
-     * 
-     * @return the local name.
+     * {@return the local name}
      */
     @Override
     public String getLocalName() {
@@ -167,9 +151,7 @@ public class TestServletRequest extends ServletRequestWrapper {
     }
 
     /**
-     * Get the local port.
-     * 
-     * @return the local port.
+     * {@return the local port}
      */
     @Override
     public int getLocalPort() {
@@ -177,9 +159,7 @@ public class TestServletRequest extends ServletRequestWrapper {
     }
 
     /**
-     * Get the locale.
-     * 
-     * @return the locale.
+     * {@return the locale}
      */
     @Override
     public Locale getLocale() {
@@ -187,9 +167,7 @@ public class TestServletRequest extends ServletRequestWrapper {
     }
 
     /**
-     * Get the locales.
-     * 
-     * @return the locales.
+     * {@return the locales}
      */
     @Override
     public Enumeration<Locale> getLocales() {

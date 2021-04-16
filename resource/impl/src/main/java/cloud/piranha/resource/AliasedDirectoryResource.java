@@ -73,10 +73,8 @@ public class AliasedDirectoryResource implements Resource {
         this.alias = alias;
     }
 
-    /*
-     * Get the resource.
-     *
-     * @return the resource.
+    /**
+     * {@return the resource}
      */
     @Override
     public URL getResource(String location) {
@@ -119,18 +117,14 @@ public class AliasedDirectoryResource implements Resource {
     }
 
     /**
-     * Get the alias.
-     *
-     * @return the alias.
+     * {@return the alias}
      */
     public String getAlias() {
         return this.alias;
     }
 
     /**
-     * Get the root directory.
-     *
-     * @return the root directory.
+     * {@return the root directory}
      */
     public File getRootDirectory() {
         return this.rootDirectory;
