@@ -53,7 +53,7 @@ public class WebXmlServletMultipartConfig {
     private int fileSizeThreshold = 0;
     
     /**
-     * @return the location
+     * {@return the location}
      */
     public String getLocation() {
         return location;
@@ -67,7 +67,7 @@ public class WebXmlServletMultipartConfig {
     }
 
     /**
-     * @return the maxFileSize
+     * {@return the maxFileSize}
      */
     public long getMaxFileSize() {
         return maxFileSize;
@@ -81,7 +81,7 @@ public class WebXmlServletMultipartConfig {
     }
 
     /**
-     * @return the maxRequestSize
+     * {@return the maxRequestSize}
      */
     public long getMaxRequestSize() {
         return maxRequestSize;
@@ -95,7 +95,7 @@ public class WebXmlServletMultipartConfig {
     }
 
     /**
-     * @return the fileSizeThreshold
+     * {@return the fileSizeThreshold}
      */
     public int getFileSizeThreshold() {
         return fileSizeThreshold;

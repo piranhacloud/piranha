@@ -83,27 +83,21 @@ public class WebXmlServlet {
     }
 
     /**
-     * Get the class name.
-     *
-     * @return the class name.
+     * {@return the class name}
      */
     public String getClassName() {
         return className;
     }
 
     /**
-     * Get the init params.
-     *
-     * @return the init params.
+     * {@return the init params}
      */
     public List<WebXmlServletInitParam> getInitParams() {
         return initParams;
     }
 
     /**
-     * Get the security role refs.
-     *
-     * @return the security role refs.
+     * {@return the security role refs}
      */
     public List<WebXmlServletSecurityRoleRef> getSecurityRoleRefs() {
         return securityRoleRefs;
@@ -119,9 +113,7 @@ public class WebXmlServlet {
     }
 
     /**
-     * Get the servlet name.
-     *
-     * @return the servlet name.
+     * {@return the servlet name}
      */
     public String getServletName() {
         return servletName;
@@ -155,9 +147,7 @@ public class WebXmlServlet {
     }
 
     /**
-     * Get the jsp file
-     *
-     * @return the jsp file
+     * {@return the jsp file}
      */
     public String getJspFile() {
         return jspFile;
@@ -173,7 +163,7 @@ public class WebXmlServlet {
     }
     
     /**
-     * @return the multipartConfig
+     * {@return the multipartConfig}
      */
     public WebXmlServletMultipartConfig getMultipartConfig() {
         return multipartConfig;

@@ -47,9 +47,7 @@ public class TestWebApplicationResponse extends DefaultWebApplicationResponse {
     }
 
     /**
-     * Get the bytes in the buffer.
-     *
-     * @return the bytes in the buffer.
+     * {@return the bytes in the buffer}
      */
     public byte[] getResponseBytes() {
         ByteArrayOutputStream output = (ByteArrayOutputStream) this.outputStream;

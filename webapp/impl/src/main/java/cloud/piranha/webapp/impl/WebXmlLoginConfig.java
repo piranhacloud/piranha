@@ -70,36 +70,28 @@ public class WebXmlLoginConfig {
     }
 
     /**
-     * Get the auth method.
-     *
-     * @return the auth method.
+     * {@return the auth method}
      */
     public String getAuthMethod() {
         return authMethod;
     }
 
     /**
-     * Get the realm name.
-     *
-     * @return the realm name.
+     * {@return the realm name}
      */
     public String getRealmName() {
         return realmName;
     }
 
     /**
-     * Get the form login page.
-     *
-     * @return the form login page.
+     * {@return the form login page}
      */
     public String getFormLoginPage() {
         return formLoginPage;
     }
 
     /**
-     * Get the form error page.
-     *
-     * @return the form error page.
+     * {@return the form error page}
      */
     public String getFormErrorPage() {
         return formErrorPage;

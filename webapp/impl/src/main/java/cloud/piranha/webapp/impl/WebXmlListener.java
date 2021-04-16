@@ -49,9 +49,7 @@ public class WebXmlListener {
     }
 
     /**
-     * Get the class name.
-     *
-     * @return the class name.
+     * {@return the class name}
      */
     public String getClassName() {
         return className;
