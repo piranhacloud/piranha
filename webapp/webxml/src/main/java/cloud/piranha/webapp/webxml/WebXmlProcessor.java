@@ -187,17 +187,17 @@ public class WebXmlProcessor {
         webXml.getFilterMappings().forEach(filterMapping -> {
             // Filter is mapped to a URL pattern, e.g. /path/customer
             webApplication.addFilterMapping(
-                toDispatcherTypes(filterMapping.getDispatchers()),
-                filterMapping.getFilterName(),
-                true,
-                filterMapping.getUrlPatterns().toArray(STRING_ARRAY));
+                    toDispatcherTypes(filterMapping.getDispatchers()),
+                    filterMapping.getFilterName(),
+                    true,
+                    filterMapping.getUrlPatterns().toArray(STRING_ARRAY));
 
             // Filter is mapped to a named Servlet, e.g. FacesServlet
             webApplication.addFilterMapping(
-                toDispatcherTypes(filterMapping.getDispatchers()),
-                filterMapping.getFilterName(),
-                true,
-                filterMapping.getServletNames().stream().map(e -> "servlet:// " + e).toArray(String[]::new));
+                    toDispatcherTypes(filterMapping.getDispatchers()),
+                    filterMapping.getFilterName(),
+                    true,
+                    filterMapping.getServletNames().stream().map(e -> "servlet:// " + e).toArray(String[]::new));
         });
     }
 
@@ -206,10 +206,9 @@ public class WebXmlProcessor {
             return null;
         }
 
-        return
-            dispatchers.stream()
-                       .map(DispatcherType::valueOf)
-                       .collect(toSet());
+        return dispatchers.stream()
+                .map(DispatcherType::valueOf)
+                .collect(toSet());
     }
 
     /**
@@ -313,14 +312,19 @@ public class WebXmlProcessor {
     }
 
     /**
-     * Process the web app. This is basically only the version contained within it.
+     * Process the web app. This is basically only the version contained within
+     * it.
      *
      * @param webApplication the web application.
      * @param webXml the web.xml.
      */
     private void processWebApp(WebApplication webApplication, WebXml webXml) {
-        webApplication.setEffectiveMajorVersion(webXml.getMajorVersion());
-        webApplication.setEffectiveMinorVersion(webXml.getMinorVersion());
+        if (webXml.getMajorVersion() != -1) {
+            webApplication.setEffectiveMajorVersion(webXml.getMajorVersion());
+        }
+        if (webXml.getMinorVersion() != -1) {
+            webApplication.setEffectiveMinorVersion(webXml.getMinorVersion());
+        }
     }
 
     /**
@@ -340,27 +344,29 @@ public class WebXmlProcessor {
             ServletRegistration.Dynamic dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
 
             String jspFile = servlet.getJspFile();
-            if (!isEmpty(jspFile))
+            if (!isEmpty(jspFile)) {
                 webApplication.addJspFile(servlet.getServletName(), jspFile);
+            }
 
             if (servlet.isAsyncSupported()) {
                 dynamic.setAsyncSupported(true);
             }
-            
+
             WebXmlServletMultipartConfig multipartConfig = servlet.getMultipartConfig();
             if (multipartConfig != null) {
                 dynamic.setMultipartConfig(
-                    new MultipartConfigElement(
-                        multipartConfig.getLocation(), 
-                        multipartConfig.getMaxFileSize(),
-                        multipartConfig.getMaxRequestSize(),
-                        multipartConfig.getFileSizeThreshold()));
+                        new MultipartConfigElement(
+                                multipartConfig.getLocation(),
+                                multipartConfig.getMaxFileSize(),
+                                multipartConfig.getMaxRequestSize(),
+                                multipartConfig.getFileSizeThreshold()));
             }
 
             servlet.getInitParams().forEach(initParam -> {
                 ServletRegistration servletRegistration = webApplication.getServletRegistration(servlet.getServletName());
-                if (servletRegistration != null)
+                if (servletRegistration != null) {
                     servletRegistration.setInitParameter(initParam.getName(), initParam.getValue());
+                }
             });
 
             LOGGER.log(DEBUG, () -> "Configured Servlet: " + servlet.getServletName());
@@ -387,12 +393,14 @@ public class WebXmlProcessor {
 
     private void processLocaleEncodingMapping(WebApplication webApplication, WebXml webXml) {
         Map<String, String> localeMapping = webXml.getLocaleEncodingMapping();
-        if (localeMapping == null)
+        if (localeMapping == null) {
             return;
+        }
 
         LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
-        if (localeEncodingManager == null)
+        if (localeEncodingManager == null) {
             return;
+        }
 
         localeMapping.forEach(localeEncodingManager::addCharacterEncoding);
     }
@@ -403,10 +411,11 @@ public class WebXmlProcessor {
      * @param webApplication the web application.
      * @param webXml the web.xml.
      */
-    private void processSessionConfig (WebApplication webApplication, WebXml webXml) {
+    private void processSessionConfig(WebApplication webApplication, WebXml webXml) {
         WebXmlSessionConfig sessionConfig = webXml.getSessionConfig();
-        if (sessionConfig == null)
+        if (sessionConfig == null) {
             return;
+        }
         webApplication.setSessionTimeout(sessionConfig.getSessionTimeout());
     }
 
