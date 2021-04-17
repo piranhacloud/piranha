@@ -76,6 +76,15 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
 
     /**
      * Add a servlet mapping.
+     * 
+     * <p>
+     *  This method will throw an IllegalArgumentException if a URL pattern
+     *  is null or empty (Servlet:JAVADOC:696.3).
+     * 
+     * <p>
+     *  This method accommodates for a URL pattern that does not start with a
+     *  leading slash to support pre-Servlet 2.3 application to operate
+     *  properly.
      *
      * @param servletName the servlet name.
      * @param urlPatterns the URL patterns to map (aka mappings).
@@ -83,7 +92,7 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
      */
     @Override
     public Set<String> addServletMapping(String servletName, String... urlPatterns) {
-        // Servlet:JAVADOC:696.3 - if urlPatterns is null or empty throw IllegalArgumentException
+
         if (isEmpty(urlPatterns)) {
             throw new IllegalArgumentException("Mappings for " + servletName + " cannot be empty");
         }
@@ -99,6 +108,9 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
         }
 
         for (String urlPattern : urlPatterns) {
+            if (!urlPattern.startsWith("*") && !urlPattern.startsWith("/")) {
+                urlPattern = "/" + urlPattern;
+            }
             servletMappings.put(urlPattern, servletName);
         }
 
