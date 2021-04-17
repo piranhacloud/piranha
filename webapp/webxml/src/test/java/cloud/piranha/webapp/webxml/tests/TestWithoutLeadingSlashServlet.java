@@ -25,26 +25,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.webapp.webxml.tests;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
- * The Piranha Webapplication - Implementation module.
- * 
- * <p>
- *  This module delivers the implementation for a web application.
- * </p>
+ * A simple servlet asserting the servlet-mapping without a leading slash works.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.webapp.impl {
-    
-    exports cloud.piranha.webapp.impl;
-    opens cloud.piranha.webapp.impl;
-    requires cloud.piranha.naming.api;
-    requires cloud.piranha.naming.impl;
-    requires cloud.piranha.policy.api;
-    requires cloud.piranha.policy.impl;
-    requires cloud.piranha.resource.api;
-    requires cloud.piranha.resource;
-    requires cloud.piranha.webapp.api;
-    requires jakarta.servlet;
+public class TestWithoutLeadingSlashServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        PrintWriter writer = response.getWriter();
+        writer.println("Working without a leading slash");
+    }
 }
