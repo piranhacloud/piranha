@@ -28,8 +28,10 @@
 package cloud.piranha.webapp.impl.tests;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
+import jakarta.servlet.ServletContextEvent;
 import java.util.EventListener;
 import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.http.HttpSessionListener;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -38,8 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for testing everything related to the addListener and
- * createListener methods.
+ * The JUnit tests for the addListener and createListener methods.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -98,6 +99,20 @@ class ListenerTest {
     void testAddListener6() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addListener(TestBrokenHttpSessionListener.class);
+    }
+    
+    
+    /**
+     * Test addListener method.
+     */
+    @Test
+    void testAddListener7() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addListener(TestListenerAddingAnotherListener.class);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.stop();
+        webApplication.destroy();
     }
 
     /**
@@ -205,6 +220,29 @@ class ListenerTest {
          */
         public TestBrokenHttpSessionListener() {
             throw new UnsupportedOperationException();
+        }
+    }
+    
+    /**
+     * Test Servlet context listener.
+     */
+    public static class TestListenerAddingAnotherListener implements ServletContextListener {
+
+        /**
+         * Constructor.
+         */
+        public TestListenerAddingAnotherListener() {
+        }
+
+        @Override
+        public void contextInitialized(ServletContextEvent event) {
+            event.getServletContext().addListener(TestHttpSessionListener.class);
+            event.getServletContext().addListener(TestHttpSessionListener.class.getName());
+            try {
+                event.getServletContext().createListener(TestHttpSessionListener.class);
+            } catch(ServletException se) {
+                throw new RuntimeException(se);
+            }
         }
     }
 }
