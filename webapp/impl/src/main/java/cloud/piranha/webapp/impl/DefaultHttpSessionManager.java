@@ -278,7 +278,10 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public synchronized void destroySession(HttpSession session) {
-        sessionListeners.stream().forEach(sessionListener -> sessionListener.sessionDestroyed(new HttpSessionEvent(session)));
+        ArrayList<HttpSessionListener> destroyList = new ArrayList<>();
+        destroyList.addAll(sessionListeners);
+        Collections.reverse(destroyList);
+        destroyList.stream().forEach(sessionListener -> sessionListener.sessionDestroyed(new HttpSessionEvent(session)));
         sessions.remove(session.getId());
     }
 
