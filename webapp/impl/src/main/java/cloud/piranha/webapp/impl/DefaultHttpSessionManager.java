@@ -49,6 +49,8 @@ import jakarta.servlet.http.HttpSessionBindingListener;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionIdListener;
 import jakarta.servlet.http.HttpSessionListener;
+import java.util.Enumeration;
+import java.util.Iterator;
 
 /**
  * The default HttpSessionManager.
@@ -278,10 +280,15 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     @Override
     public synchronized void destroySession(HttpSession session) {
-        ArrayList<HttpSessionListener> destroyList = new ArrayList<>();
-        destroyList.addAll(sessionListeners);
-        Collections.reverse(destroyList);
-        destroyList.stream().forEach(sessionListener -> sessionListener.sessionDestroyed(new HttpSessionEvent(session)));
+        Enumeration<String> attributeNames = session.getAttributeNames();
+        while(attributeNames.hasMoreElements()) {
+            session.removeAttribute(name);
+        }
+        Iterator<HttpSessionListener> iterator = sessionListeners.iterator();
+        while(iterator.hasNext()) {
+            HttpSessionListener sessionListener = iterator.next();
+            sessionListener.sessionDestroyed(new HttpSessionEvent(session));
+        }
         sessions.remove(session.getId());
     }
 
