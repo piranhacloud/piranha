@@ -282,7 +282,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     public synchronized void destroySession(HttpSession session) {
         Enumeration<String> attributeNames = session.getAttributeNames();
         while(attributeNames.hasMoreElements()) {
-            session.removeAttribute(name);
+            session.removeAttribute(attributeNames.nextElement());
         }
         Iterator<HttpSessionListener> iterator = sessionListeners.iterator();
         while(iterator.hasNext()) {
