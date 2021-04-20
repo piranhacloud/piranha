@@ -421,20 +421,11 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     public void sendError(int status, String statusMessage) throws IOException {
         verifyNotCommitted("sendError");
         resetBuffer();
-        // Specified by spec/javadoc: "The server defaults to creating the response to look like an HTML-formatted server error page containing the specified message, 
-        // setting the content type to "text/html"."
-        contentType = "text/html";
+        gotWriter = false;
+        gotOutput = false;
         setStatus(status);
         this.statusMessage = statusMessage;
         setErrorMessageAttribute();
-        
-        String output = "<html><body>" + statusMessage + "</body></html>";
-        
-        if (gotWriter) {
-            getWriter().write(output);
-        } else {
-            new OutputStreamWriter(getOutputStream()).write(output);
-        }
     }
 
     @Override
