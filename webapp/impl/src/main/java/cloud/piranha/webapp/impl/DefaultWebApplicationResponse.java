@@ -73,6 +73,12 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      * Stores the buffer.
      */
     protected byte[] buffer;
+    
+    /**
+     * Boolean indicating the buffer is resetting. When true, 
+     * all output written will be ignored (thrown away).
+     */
+    protected boolean bufferResetting;
 
     /**
      * Stores the character encoding.
@@ -393,18 +399,30 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
 
     @Override
     public void resetBuffer() {
-        this.buffer = new byte[buffer.length];
+        bufferResetting = true;
+        try {
+            if (gotWriter) {
+                writer.flush(); // output will be written and ignored.
+            }
+            this.buffer = new byte[buffer.length];
+        } finally {
+            bufferResetting = false;
+        }
     }
 
     @Override
     public void sendError(int status) throws IOException {
         verifyNotCommitted("sendError");
+        resetBuffer();
         setStatus(status);
     }
 
     @Override
     public void sendError(int status, String statusMessage) throws IOException {
         verifyNotCommitted("sendError");
+        resetBuffer();
+        gotWriter = false;
+        gotOutput = false;
         setStatus(status);
         this.statusMessage = statusMessage;
         setErrorMessageAttribute();
@@ -613,6 +631,10 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
 
     @Override
     public void flush() throws IOException {
+        if (bufferResetting) {
+            return;
+        }
+        
         if (!isCommitted()) {
             writeOut();
         }
@@ -670,6 +692,10 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
 
     @Override
     public void write(int integer) throws IOException {
+        if (bufferResetting) {
+            return;
+        }
+        
         if (index == buffer.length - 1) {
             writeOut();
             outputStream.write(integer);

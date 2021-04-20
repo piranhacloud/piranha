@@ -29,7 +29,6 @@ package cloud.piranha.webapp.impl;
 
 import static cloud.piranha.webapp.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
 import static cloud.piranha.webapp.impl.DefaultWebApplicationRequest.unwrap;
-import static java.util.Arrays.asList;
 import static jakarta.servlet.AsyncContext.ASYNC_CONTEXT_PATH;
 import static jakarta.servlet.AsyncContext.ASYNC_PATH_INFO;
 import static jakarta.servlet.AsyncContext.ASYNC_QUERY_STRING;
@@ -41,6 +40,7 @@ import static jakarta.servlet.DispatcherType.FORWARD;
 import static jakarta.servlet.DispatcherType.INCLUDE;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static java.util.Arrays.asList;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -51,6 +51,10 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import cloud.piranha.webapp.api.CurrentRequestHolder;
+import cloud.piranha.webapp.api.FilterEnvironment;
+import cloud.piranha.webapp.api.ServletEnvironment;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -60,11 +64,6 @@ import jakarta.servlet.UnavailableException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
-
-import cloud.piranha.webapp.api.CurrentRequestHolder;
-import cloud.piranha.webapp.api.FilterEnvironment;
-import cloud.piranha.webapp.api.ServletEnvironment;
-import cloud.piranha.webapp.api.WebApplicationRequest;
 
 /**
  * The default ServletRequestDispatcher.
@@ -188,6 +187,13 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             exception.printStackTrace(httpResponse.getWriter());
             httpResponse.flushBuffer();
             rethrow(exception);
+        } else if (webappRequest.getAttribute(ERROR_MESSAGE) != null) {
+            // Specified by spec/javadoc: "The server defaults to creating the response to look like an HTML-formatted server error page containing the specified message, 
+            // setting the content type to "text/html"."
+            httpResponse.setContentType("text/html");
+            httpResponse.getWriter()
+                        .write("<html><body>" + webappRequest.getAttribute(ERROR_MESSAGE) + "</body></html>");
+
         }
 
         if (!webappRequest.isAsyncStarted()) {
