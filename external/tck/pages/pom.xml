@@ -38,7 +38,7 @@
                         <configuration>
                             <target>
                                 <!-- download, unzip and rename TCK -->
-                                <get src="http://download.eclipse.org/jakartaee/pages/3.0/jakarta-pages-tck-3.0.0.zip"
+                                <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9/promoted/pages-tck-3.0.1.zip"
                                      dest="${project.build.directory}/tck.zip" skipexisting="true"/>
                                 <unzip src="${project.build.directory}/tck.zip"
                                        dest="${project.build.directory}"/>
@@ -55,10 +55,15 @@
                                 <chmod dir="${ant.home}/bin"
                                        perm="ugo+rx"
                                        includes="*"/>
-                                
+
                                 <!-- keep copy of original ts.jte -->
-                                <copy file="${tck.home}/bin/ts.jte"
-                                      tofile="${tck.home}/bin/ts.jte.orig"/> 
+                                <copy file="${tck.home}/bin/ts.jte.jdk11"
+                                      tofile="${tck.home}/bin/ts.jte.orig"/>
+
+                                <delete file="${tck.home}/bin/ts.jte" />
+
+                                <copy file="${tck.home}/bin/ts.jte.jdk11"
+                                      tofile="${tck.home}/bin/ts.jte"/>
                                 
                                 <!-- setup ts.jte for signature tests -->
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
@@ -71,7 +76,7 @@
                                                byline="true"/>
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="sigTestClasspath=="
-                                               replace="sigTestClasspath=${el.classes}${pathsep}${jspservlet.classes}${pathsep}${ant.java.home}/jre/lib/rt.jar"
+                                               replace="sigTestClasspath=${el.classes}${pathsep}${jspservlet.classes}"
                                                byline="true"/>
                                 
                                 <!-- copy Piranha script into the TCK -->
@@ -105,25 +110,6 @@
                         <goals>
                             <goal>run</goal>
                         </goals>
-                    </execution>
-                    <execution>
-                        <id>test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <!-- run the signature tests -->
-                                <exec executable="${ant.home}/bin/ant"
-                                      dir="${tck.home}/src/com/sun/ts/tests/signaturetest">
-                                    <arg value="-Dwork.dir=${signature.home}/work"/>
-                                    <arg value="-Dreport.dir=${signature.home}/report"/>
-                                    <arg value="runclient"/>
-                                    <env key="JAVA_HOME" value="${ant.java.home}" />
-                                </exec>
-                            </target>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>pre-integration-test</id>
@@ -169,7 +155,6 @@
                                     <arg value="-Dwork.dir=${piranha.home}/work"/>
                                     <arg value="-Dreport.dir=${piranha.home}/report"/>
                                     <arg value="runclient"/>
-                                    <env key="JAVA_HOME" value="${ant.java.home}" />
                                 </exec>
                             </target>
                         </configuration>
@@ -265,7 +250,6 @@
     
     <properties>
         <ant.home>${project.build.directory}/ant</ant.home>
-        <ant.java.home>${java.home}</ant.java.home>
         <piranha.home>${project.build.directory}/piranha</piranha.home>
         <signature.home>${project.build.directory}/signature</signature.home>
         <tck.home>${project.build.directory}/tck</tck.home>
