@@ -15,15 +15,9 @@ jobs:
       matrix:
         java: [ '16' ]
         os: [ubuntu-latest]
-        jdk-tck: ['8', '16']
     steps:
     - name: Checkout sources
       uses: actions/checkout@v1
-    - name: Set up Java ${{ matrix.jdk-tck }} for running TCK
-      id: set-java-tck
-      uses: actions/setup-java@v1
-      with:
-        java-version: ${{ matrix.jdk-tck }}
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v1
       with:
@@ -35,4 +29,4 @@ jobs:
       run: mvn -B -DskipTests=true install
       if: ${{ !github.event.inputs.httpImplementation }}
     - name: Run TCK
-      run: mvn -amd -B -P external -pl external/tck/servlet -Dant.java.home=${{ steps.set-java-tck.outputs.path }} verify
+      run: mvn -amd -B -P external -pl external/tck/servlet verify

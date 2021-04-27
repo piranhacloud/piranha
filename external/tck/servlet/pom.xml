@@ -36,29 +36,6 @@
     
     <profiles>
         <profile>
-            <id>setup-java-version-for-tck-client</id>
-            <activation>
-                <property>
-                    <name>!ant.java.home</name>
-                </property>
-            </activation>
-            <properties>
-                <ant.java.home>${java.home}</ant.java.home>
-            </properties>
-        </profile>
-        <profile>
-            <id>newer-jdk</id>
-            <activation>
-                <file>
-                    <!-- JDK 15 removed the JJS executable, so we only exclude the signature test in newer JDK versions -->
-                    <missing>${ant.java.home}/bin/jjs</missing>
-                </file>
-            </activation>
-            <properties>
-                <tck.ignoreTest>com/sun/ts/tests/signaturetest/servlet/ServletSigTest.java#signatureTest</tck.ignoreTest>
-            </properties>
-        </profile>
-        <profile>
             <id>linux</id>
             <activation>
                 <os>
@@ -78,7 +55,7 @@
                                 <configuration>
                                     <target>
                                         <!-- download, unzip and rename TCK -->
-                                        <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9/promoted/servlet-tck-5.0.1.zip"
+                                        <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9/promoted/servlet-tck-5.0.2.zip"
                                              dest="${project.build.directory}/tck.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/tck.zip"
                                                dest="${project.build.directory}"/>
@@ -97,9 +74,14 @@
                                                includes="*"/>
                                 
                                         <!-- keep copy of original ts.jte -->
-                                        <copy file="${tck.home}/bin/ts.jte"
+                                        <copy file="${tck.home}/bin/ts.jte.jdk11"
                                               tofile="${tck.home}/bin/ts.jte.orig"/> 
-                                
+
+                                        <delete file="${tck.home}/bin/ts.jte" />
+
+                                        <copy file="${tck.home}/bin/ts.jte.jdk11"
+                                              tofile="${tck.home}/bin/ts.jte"/>
+
                                         <!-- setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="servlet\.classes=(.*)"
@@ -142,10 +124,6 @@
                                         <copy todir="${piranha.home}/etc">
                                             <fileset dir="${project.basedir}/src/test/etc"/>
                                         </copy>
-
-                                        <echo file="${tck.home}/bin/ts.jtx" append="true">
-                                            ${tck.ignoreTest}
-                                        </echo>
                                     </target>
                                 </configuration>
                                 <goals>
@@ -194,7 +172,6 @@
                                             <arg value="-Dwork.dir=${piranha.home}/work"/>
                                             <arg value="-Dreport.dir=${piranha.home}/report"/>
                                             <arg value="runclient"/>
-                                            <env key="JAVA_HOME" value="${ant.java.home}" />
                                         </exec>
                                     </target>
                                 </configuration>
