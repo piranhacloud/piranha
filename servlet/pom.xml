@@ -17,7 +17,6 @@
 
     <modules>
         <module>api</module>
-        <module>quicklook</module>
     </modules>
 
     <dependencyManagement>

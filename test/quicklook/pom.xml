@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.servlet</groupId>
+        <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
         <version>21.5.0-SNAPSHOT</version>
     </parent>
@@ -12,7 +12,7 @@
     <artifactId>piranha-servlet-quicklook</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Servlet - QuickLook</name>
+    <name>Piranha Test - QuickLook</name>
     <description>
         Collection of tests to relatively quickly test Servlet functionality. The tests put here should function
         as smoke tests, and are not intended to test exhaustively.
