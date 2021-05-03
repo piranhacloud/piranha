@@ -47,25 +47,25 @@ public class DefaultWebApplicationRequestMapping implements WebApplicationReques
     private boolean extension;
 
     /**
-     * Stores the mapping.
+     * Stores the pattern.
      */
-    private String mapping;
+    private String pattern;
 
     /**
      * Constructor.
      *
-     * @param mapping the mapping.
+     * @param pattern the pattern.
      */
-    public DefaultWebApplicationRequestMapping(String mapping) {
-        this.mapping = mapping;
+    public DefaultWebApplicationRequestMapping(String pattern) {
+        this.pattern = pattern;
     }
 
     /**
-     * {@return the mapping}
+     * {@return the pattern}
      */
     @Override
-    public String getPath() {
-        return mapping;
+    public String getPattern() {
+        return pattern;
     }
 
     /**
@@ -107,11 +107,11 @@ public class DefaultWebApplicationRequestMapping implements WebApplicationReques
     }
 
     /**
-     * Set the mapping.
+     * Set the pattern.
      *
-     * @param mapping the mapping.
+     * @param pattern the pattern.
      */
-    public void setMapping(String mapping) {
-        this.mapping = mapping;
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
 }

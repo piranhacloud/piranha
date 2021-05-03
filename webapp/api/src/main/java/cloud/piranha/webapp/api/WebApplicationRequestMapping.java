@@ -37,7 +37,7 @@ public interface WebApplicationRequestMapping {
     /**
      * {@return the path}
      */
-    String getPath();
+    String getPattern();
 
     /**
      * Is this an exact match.
