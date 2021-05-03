@@ -27,11 +27,11 @@
  */
 package cloud.piranha.webapp.impl;
 
+import static jakarta.servlet.DispatcherType.REQUEST;
 import static java.util.Arrays.stream;
 import static java.util.Collections.emptySet;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
-import static jakarta.servlet.DispatcherType.REQUEST;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,10 +42,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import jakarta.servlet.DispatcherType;
-
 import cloud.piranha.webapp.api.FilterMapping;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
+import jakarta.servlet.DispatcherType;
 
 /**
  * The default WebApplicationRequestMapper.
@@ -281,7 +280,7 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
             }
         }
         if (result != null) {
-            result.setMapping(result.getPath() + "*");
+            result.setPattern(result.getPattern() + "*");
         }
         return result;
     }
@@ -308,7 +307,7 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
             }
         }
         if (result != null && currentPrefix != null
-                && result.getPath().length() <= currentPrefix.getPath().length()) {
+                && result.getPattern().length() <= currentPrefix.getPattern().length()) {
             result = null;
         }
         return result;
