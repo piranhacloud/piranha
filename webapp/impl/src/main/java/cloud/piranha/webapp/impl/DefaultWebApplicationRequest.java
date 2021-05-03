@@ -28,9 +28,9 @@
 package cloud.piranha.webapp.impl;
 
 import static cloud.piranha.webapp.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
-import static java.util.Objects.requireNonNull;
 import static jakarta.servlet.DispatcherType.INCLUDE;
 import static jakarta.servlet.RequestDispatcher.INCLUDE_QUERY_STRING;
+import static java.util.Objects.requireNonNull;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -55,6 +55,11 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import cloud.piranha.webapp.api.AttributeManager;
+import cloud.piranha.webapp.api.HttpHeaderManager;
+import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.MultipartConfigElement;
@@ -66,17 +71,12 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletRequestWrapper;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpUpgradeHandler;
 import jakarta.servlet.http.Part;
-
-import cloud.piranha.webapp.api.AttributeManager;
-import cloud.piranha.webapp.api.HttpHeaderManager;
-import cloud.piranha.webapp.api.HttpSessionManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
 
 /**
  * The default WebApplicationRequest.
@@ -160,6 +160,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     protected HttpHeaderManager headerManager;
 
+    /**
+     * Stores the httpServletMapping.
+     */
+    protected HttpServletMapping httpServletMapping;
+    
     /**
      * Stores the input stream.
      */
@@ -498,6 +503,18 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Enumeration<String> getHeaders(String name) {
         return headerManager.getHeaders(name);
+    }
+    
+    @Override
+    public HttpServletMapping getHttpServletMapping() {
+        return httpServletMapping;
+    }
+
+    /**
+     * @param httpServletMapping the httpServletMapping to set
+     */
+    public void setHttpServletMapping(HttpServletMapping httpServletMapping) {
+        this.httpServletMapping = httpServletMapping;
     }
 
     /**

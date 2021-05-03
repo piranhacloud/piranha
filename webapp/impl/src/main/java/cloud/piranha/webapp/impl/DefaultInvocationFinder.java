@@ -179,7 +179,7 @@ public class DefaultInvocationFinder {
             return null;
         }
 
-        String servletName = webApplication.webApplicationRequestMapper.getServletName(mapping.getPath());
+        String servletName = webApplication.webApplicationRequestMapper.getServletName(mapping.getPattern());
         if (servletName == null) {
             return null;
         }
@@ -200,8 +200,8 @@ public class DefaultInvocationFinder {
             servletInvocation.setServletPath(path);
             servletInvocation.setPathInfo(null);
         } else if (!mapping.isExtension()) {
-            servletInvocation.setServletPath(mapping.getPath().substring(0, mapping.getPath().length() - 2));
-            servletInvocation.setPathInfo(path.substring(mapping.getPath().length() - 2));
+            servletInvocation.setServletPath(mapping.getPattern().substring(0, mapping.getPattern().length() - 2));
+            servletInvocation.setPathInfo(path.substring(mapping.getPattern().length() - 2));
         } else {
             servletInvocation.setServletPath(servletPath);
             servletInvocation.setPathInfo(pathInfo);
