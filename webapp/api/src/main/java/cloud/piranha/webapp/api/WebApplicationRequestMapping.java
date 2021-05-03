@@ -35,6 +35,11 @@ package cloud.piranha.webapp.api;
 public interface WebApplicationRequestMapping {
 
     /**
+     * {@return the match value}
+     */
+    String getMatchValue();
+    
+    /**
      * {@return the path}
      */
     String getPattern();

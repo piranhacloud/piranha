@@ -35,6 +35,12 @@ import cloud.piranha.webapp.api.WebApplicationRequestMapping;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultWebApplicationRequestMapping implements WebApplicationRequestMapping {
+    
+    
+    /**
+     * Stores the getMatchValue.
+     */
+    private String matchValue;
 
     /**
      * Stores the exact flag.
@@ -58,6 +64,15 @@ public class DefaultWebApplicationRequestMapping implements WebApplicationReques
      */
     public DefaultWebApplicationRequestMapping(String pattern) {
         this.pattern = pattern;
+    }
+    
+    
+    /**
+     * {@return the matchValue}
+     */
+    @Override
+    public String getMatchValue() {
+        return matchValue;
     }
 
     /**
@@ -105,6 +120,15 @@ public class DefaultWebApplicationRequestMapping implements WebApplicationReques
     public void setExtension(boolean extension) {
         this.extension = extension;
     }
+    
+    /**
+     * Set the matchValue.
+     * 
+     * @param matchValue the matchValue to set
+     */
+    public void setMatchValue(String matchValue) {
+        this.matchValue = matchValue;
+    }
 
     /**
      * Set the pattern.
@@ -114,4 +138,6 @@ public class DefaultWebApplicationRequestMapping implements WebApplicationReques
     public void setPattern(String pattern) {
         this.pattern = pattern;
     }
+
+  
 }
