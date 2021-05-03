@@ -160,7 +160,6 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 webappRequest.setServletPath(servletInvocation.getServletPath());
                 webappRequest.setOriginalServletPath(servletInvocation.getOriginalServletPath());
                 webappRequest.setPathInfo(servletInvocation.getPathInfo());
-                webappRequest.setHttpServletMapping(servletInvocation.getHttpServletMapping());
 
                 servletInvocation.getFilterChain().doFilter(webappRequest, httpResponse);
             } catch (Throwable e) {
