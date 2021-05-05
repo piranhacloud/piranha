@@ -29,12 +29,11 @@ package cloud.piranha.webapp.impl;
 
 import java.util.List;
 
-import jakarta.servlet.FilterChain;
-
 import cloud.piranha.webapp.api.FilterEnvironment;
 import cloud.piranha.webapp.api.ServletEnvironment;
 import cloud.piranha.webapp.api.ServletInvocation;
 import cloud.piranha.webapp.api.WebApplicationRequestMapping;
+import jakarta.servlet.FilterChain;
 
 /**
  * The default servlet invocation
@@ -77,6 +76,11 @@ public class DefaultServletInvocation implements ServletInvocation {
      */
     private WebApplicationRequestMapping applicationRequestMapping;
     
+    /**
+     * Stores the DefaultHttpServletMapping
+     */
+    private DefaultHttpServletMapping httpServletMapping = new DefaultHttpServletMapping();
+
     /**
      * Stores the servlet environment.
      */
@@ -174,6 +178,13 @@ public class DefaultServletInvocation implements ServletInvocation {
      */
     public void setApplicationRequestMapping(WebApplicationRequestMapping applicationRequestMapping) {
         this.applicationRequestMapping = applicationRequestMapping;
+    }
+    
+    /**
+     * @return the httpServletMapping
+     */
+    public DefaultHttpServletMapping getHttpServletMapping() {
+        return httpServletMapping;
     }
 
     @Override

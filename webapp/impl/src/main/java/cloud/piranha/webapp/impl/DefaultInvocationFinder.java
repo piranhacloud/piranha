@@ -28,6 +28,9 @@
 package cloud.piranha.webapp.impl;
 
 import static jakarta.servlet.DispatcherType.REQUEST;
+import static jakarta.servlet.http.MappingMatch.EXACT;
+import static jakarta.servlet.http.MappingMatch.EXTENSION;
+import static jakarta.servlet.http.MappingMatch.PATH;
 import static java.util.Collections.reverse;
 import static java.util.Objects.requireNonNullElseGet;
 
@@ -195,6 +198,15 @@ public class DefaultInvocationFinder {
         servletInvocation.setApplicationRequestMapping(mapping);
         servletInvocation.setServletName(servletName);
         servletInvocation.setServletEnvironment(servletEnvironment);
+        
+        servletInvocation.getHttpServletMapping().setMappingMatch(
+            mapping.isExact() ? EXACT : 
+            mapping.isExtension()? EXTENSION : 
+            PATH);
+        
+        servletInvocation.getHttpServletMapping().setPattern(mapping.getPattern());
+        servletInvocation.getHttpServletMapping().setServletName(servletName);
+        servletInvocation.getHttpServletMapping().setMatchValue(mapping.getMatchValue());
 
         if (mapping.isExact()) {
             servletInvocation.setServletPath(path);
