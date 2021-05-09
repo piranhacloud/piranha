@@ -4,7 +4,7 @@ on:
   - cron: "0 0 * * *"
   workflow_dispatch:
 jobs:
-  docker_latest:
+  docker:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
@@ -14,7 +14,7 @@ jobs:
       with:
         java-version: 16
     - name: Build with Maven
-      run: mvn --no-transfer-progress -B -DskipTests=true -DskipITs verify
+      run: mvn --no-transfer-progress -B -DskipTests=true -DskipITs -P '!test' verify
     - name: Login to Docker Hub
       uses: azure/docker-login@v1
       with:
