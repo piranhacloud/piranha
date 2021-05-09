@@ -42,7 +42,7 @@ jobs:
         docker manifest annotate piranhacloud/server:latest \
           piranhacloud/server:arm32v7-latest --os linux --arch arm --variant armv7l
         docker manifest push piranhacloud/server:latest
-  snapshots:
+  maven:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
