@@ -209,6 +209,7 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
             if (path.equals(exact)) {
                 result = new DefaultWebApplicationRequestMapping(exact);
                 result.setExact(true);
+                result.setMatchValue(exact.substring(1));
                 break;
             }
         }
@@ -234,6 +235,9 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
                 if (path.endsWith(extension)) {
                     result = new DefaultWebApplicationRequestMapping("*" + extension);
                     result.setExtension(true);
+                    // If path is /foo.bar and the initial extension is *.bar, then
+                    // the match value is foo.
+                    result.setMatchValue(path.substring(1, path.lastIndexOf(extension)));
                     break;
                 }
             }
@@ -302,6 +306,9 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
                 prefix = prefix.substring(0, prefix.length() - 1);
                 if ((path + "/").startsWith(prefix)) {
                     result = new DefaultWebApplicationRequestMapping(prefix);
+                    // If path is /foo/bar and the initial prefix is /foo/* then the
+                    // match value is bar
+                    result.setMatchValue(path.substring(1));
                     break;
                 }
             }
