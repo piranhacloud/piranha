@@ -28,11 +28,11 @@
 package cloud.piranha.webapp.impl;
 
 import static jakarta.servlet.DispatcherType.REQUEST;
+import static jakarta.servlet.http.MappingMatch.DEFAULT;
 import static jakarta.servlet.http.MappingMatch.EXACT;
 import static jakarta.servlet.http.MappingMatch.EXTENSION;
 import static jakarta.servlet.http.MappingMatch.PATH;
 import static java.util.Collections.reverse;
-import static java.util.Objects.requireNonNullElseGet;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -226,28 +226,31 @@ public class DefaultInvocationFinder {
 
         // Try if we have a welcome file that we can load via the default servlet
 
-        if (webApplication.defaultServlet != null) {
-            for (String welcomeFile : webApplication.getWelcomeFileManager().getWelcomeFileList()) {
-                if (!isStaticResource(servletPath, pathInfo + welcomeFile))
-                    continue;
-                
-                return requireNonNullElseGet(
-                    getDefaultServletInvocation(servletPath, pathInfo + welcomeFile), 
-                    () -> getDefaultServletInvocation(servletPath, pathInfo + welcomeFile));
-            }
+        for (String welcomeFile : webApplication.getWelcomeFileManager().getWelcomeFileList()) {
+            if (!isStaticResource(servletPath, pathInfo + welcomeFile))
+                continue;
+            
+            return getDefaultServletInvocation(servletPath, pathInfo + welcomeFile);
         }
 
         // Next try if we have a welcome servlet
 
         for (String welcomeFile : webApplication.getWelcomeFileManager().getWelcomeFileList()) {
-            if (isStaticResource(servletPath, pathInfo + welcomeFile))
+            if (
+                
+                // .jsp files are special in the system, as they are mapped to a servlet, but also
+                // have to be present at exactly that path as static resource. Additionally we have
+                // the required index.jsp welcome file, that may not actually be there.
+                (welcomeFile.endsWith(".jsp") && !isStaticResource(servletPath, pathInfo + welcomeFile))
+                
+                ) {
                 continue;
+            }
             
-            DefaultServletInvocation servletInvocation = requireNonNullElseGet(
-                getDirectServletInvocationByPath(servletPath, pathInfo + welcomeFile), 
-                () -> getDefaultServletInvocation(servletPath, pathInfo + welcomeFile));
-            
-            servletInvocation.setOriginalServletPath(servletPath);
+            DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo + welcomeFile);
+            if (servletInvocation != null) {
+                servletInvocation.setOriginalServletPath(servletPath);
+            }
             
             return servletInvocation;
         }
@@ -273,18 +276,38 @@ public class DefaultInvocationFinder {
     }
 
     private DefaultServletInvocation getDefaultServletInvocation(String servletPath, String pathInfo) {
-        Servlet defaultServlet = webApplication.defaultServlet;
-        if (defaultServlet == null) {
-            defaultServlet = new DefaultServlet();
+        ServletEnvironment servletEnvironment = null;
+        
+        String servletName = webApplication.webApplicationRequestMapper.getDefaultServlet();
+        if (servletName != null) {
+            servletEnvironment = webApplication.servletEnvironments.get(servletName);
         }
+        
+        if (servletEnvironment == null) {
+            Servlet defaultServlet = webApplication.defaultServlet;
+            if (defaultServlet == null) {
+                defaultServlet = new DefaultServlet();
+            }
+            servletName = "default";
+            servletEnvironment = new DefaultServletEnvironment(webApplication, servletName, defaultServlet);
+        }
+      
 
         DefaultServletInvocation servletInvocation = new DefaultServletInvocation();
 
-        servletInvocation.setServletName("default");
-        servletInvocation.setServletEnvironment(new DefaultServletEnvironment(webApplication, "default", defaultServlet));
-        servletInvocation.setServletPath(servletPath);
-        servletInvocation.setPathInfo(pathInfo);
+        servletInvocation.setServletName(servletName);
+        servletInvocation.setServletEnvironment(servletEnvironment);
+        
+        // 12.2 
+        // A string containing only the "/" character indicates the "default" servlet of the application. 
+        // In this case the servlet path is the request URI minus the context path and the path info is null.
+        servletInvocation.setServletPath(addOrRemoveSlashIfNeeded(servletPath + (pathInfo == null ? "" : pathInfo)));
         servletInvocation.setInvocationPath(servletPath); // look at whether its really needed to have path and invocation path
+        servletInvocation.setPathInfo(null);
+        servletInvocation.getHttpServletMapping().setMappingMatch(DEFAULT);
+        servletInvocation.getHttpServletMapping().setMatchValue("");
+        servletInvocation.getHttpServletMapping().setPattern("/");
+        servletInvocation.getHttpServletMapping().setServletName(servletName);
 
         return servletInvocation;
     }
@@ -353,6 +376,12 @@ public class DefaultInvocationFinder {
         FilterPriority filterY = (FilterPriority) y.getFilter();
 
         return Integer.compare(filterX.getPriority(), filterY.getPriority());
+    }
+    
+    private boolean hasDefaultServlet() {
+        return 
+            webApplication.defaultServlet != null || 
+            webApplication.webApplicationRequestMapper.getDefaultServlet() != null;
     }
 
 }

@@ -27,14 +27,20 @@
  */
 package test.embedded.bootstrap;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.io.IOException;
+
+import org.junit.jupiter.api.Test;
+
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
 import jakarta.servlet.ServletException;
-import java.io.IOException;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.jupiter.api.Test;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * The JUnit tests for testing the bootstrapping of Piranha Embedded.
@@ -52,6 +58,14 @@ public class BootstrapTest {
         try (EmbeddedRequest request = new EmbeddedRequest();
                 EmbeddedResponse response = new EmbeddedResponse()) {
             EmbeddedPiranha embedded = new EmbeddedPiranha();
+            embedded.getWebApplication().setDefaultServlet(new HttpServlet() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+                    response.getWriter().write("SNOOP!");
+                }
+            });
             embedded.initialize();
             embedded.start();
             embedded.service(request, response);
@@ -61,6 +75,8 @@ public class BootstrapTest {
             result = e.getMessage();
         }
         assertNotNull(result);
-        assertEquals(0, result.length());
+        System.out.print(result);
+        assertEquals("SNOOP!".length(), result.length());
+        
     }
 }
