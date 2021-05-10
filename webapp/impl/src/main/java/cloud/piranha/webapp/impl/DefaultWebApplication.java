@@ -1544,7 +1544,7 @@ public class DefaultWebApplication implements WebApplication {
 
         // Obtain a reference to the target servlet invocation, which includes the Servlet itself and/or Filters, as well as mapping data
         DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(webappRequest.getServletPath(), webappRequest.getPathInfo());
-
+        
         // Dispatch using the REQUEST dispatch type. This will invoke the Servlet and/or Filters if present and available.
         getInvocationDispatcher(servletInvocation).request(webappRequest, httpResponse);
 
