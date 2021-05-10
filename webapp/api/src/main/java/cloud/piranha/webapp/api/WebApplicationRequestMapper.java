@@ -141,6 +141,13 @@ public interface WebApplicationRequestMapper {
      * @return the servlet mappings, or an empty collection if none.
      */
     Collection<String> getServletMappings(String servletName);
+    
+    /**
+     *  Returns the defaultServlet
+     */
+    default String getDefaultServlet() {
+        return null;
+    }
 
     /**
      * Get the servlet name for the specified mapping.

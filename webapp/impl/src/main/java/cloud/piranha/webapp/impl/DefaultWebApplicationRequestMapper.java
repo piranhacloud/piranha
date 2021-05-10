@@ -62,6 +62,12 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
      * Stores the servlet mappings.
      */
     protected final ConcurrentHashMap<String, String> servletMappings = new ConcurrentHashMap<>();
+    
+    /**
+     * Stores the default servlet
+     */
+    protected String defaultServlet;
+    
 
     @Override
     public Set<String> addFilterMapping(Set<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {
@@ -91,7 +97,6 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
      */
     @Override
     public Set<String> addServletMapping(String servletName, String... urlPatterns) {
-
         if (isEmpty(urlPatterns)) {
             throw new IllegalArgumentException("Mappings for " + servletName + " cannot be empty");
         }
@@ -107,10 +112,17 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
         }
 
         for (String urlPattern : urlPatterns) {
-            if (!urlPattern.startsWith("*") && !urlPattern.startsWith("/")) {
-                urlPattern = "/" + urlPattern;
+            if ("/".equals(urlPattern)) {
+                // Spec 12.2. Specification of Mappings
+                // "A string containing only the "/" character indicates the "default" servlet of the application"
+                defaultServlet = servletName;
+            } else {
+                if (!urlPattern.startsWith("*") && !urlPattern.startsWith("/")) {
+                    urlPattern = "/" + urlPattern;
+                }
+                
+                servletMappings.put(urlPattern, servletName);
             }
-            servletMappings.put(urlPattern, servletName);
         }
 
         return emptySet();
@@ -343,6 +355,11 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
     @Override
     public String getServletName(String mapping) {
         return servletMappings.get(mapping);
+    }
+    
+    @Override
+    public String getDefaultServlet() {
+        return defaultServlet;
     }
 
     private boolean isEmpty(Collection<?> collection) {
