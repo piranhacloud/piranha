@@ -95,6 +95,12 @@ public class DefaultServletInvocation implements ServletInvocation {
      * Stores the filter chain.
      */
     private FilterChain filterChain;
+    
+    /**
+     * Boolean to indicate whether this invocation results
+     * from a getNamedDispatcher
+     */
+    private boolean fromNamed;
 
     @Override
     public String getInvocationPath() {
@@ -227,6 +233,16 @@ public class DefaultServletInvocation implements ServletInvocation {
      */
     public void setFilterChain(FilterChain filterChain) {
         this.filterChain = filterChain;
+    }
+    
+    @Override
+    public boolean isFromNamed() {
+        return fromNamed;
+    }
+
+    @Override
+    public void setFromNamed(boolean fromNamed) {
+        this.fromNamed = fromNamed;
     }
 
     /**

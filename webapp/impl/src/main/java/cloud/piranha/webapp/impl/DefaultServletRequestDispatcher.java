@@ -389,6 +389,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             forwardedRequest.setWebApplication(servletEnvironment.getWebApplication());
             forwardedRequest.setMultipartConfig(servletEnvironment.getMultipartConfig());
             forwardedRequest.setContextPath(request.getContextPath());
+            forwardedRequest.setHttpServletMapping(servletInvocation.getHttpServletMapping());
             forwardedRequest.setDispatcherType(FORWARD);
 
             if (path != null) {
@@ -415,6 +416,16 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             if (servletInvocation.getServletEnvironment() != null) {
                 forwardedRequest.setAsyncSupported(request.isAsyncSupported() && isAsyncSupportedInChain());
+            }
+            
+            if (servletInvocation.isFromNamed() && request instanceof DefaultWebApplicationRequest defaultRequest) {
+                // 12.3.1
+                // "the HttpServletMapping is not available for servlets that have been obtained with a call to
+                // ServletContext.getNamedDispatcher()."
+                //
+                // Although not spelled out, this means in practice the forwarded Servlet uses the
+                // mapping of the forwarding servlet.
+                forwardedRequest.setHttpServletMapping(defaultRequest.getHttpServletMapping());
             }
 
             try {

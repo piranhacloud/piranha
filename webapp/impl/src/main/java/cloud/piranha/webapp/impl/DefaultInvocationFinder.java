@@ -170,7 +170,8 @@ public class DefaultInvocationFinder {
         servletInvocation.setServletName(servletName);
         servletInvocation.setServletEnvironment(servletEnvironment);
         servletInvocation.seedFilterChain();
-
+        servletInvocation.setFromNamed(true);
+        
         return servletInvocation;
     }
 
