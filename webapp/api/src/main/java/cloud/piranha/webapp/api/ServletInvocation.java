@@ -101,6 +101,20 @@ public interface ServletInvocation {
      * {@return the filter chain}
      */
     FilterChain getFilterChain();
+    
+    /**
+     * {@return whether this invocation is obtained from a getNamedDispatcher}
+     */
+    default boolean isFromNamed() {
+        return false;
+    }
+
+    /**
+     * @param fromNamed whether this invocation is obtained from a getNamedDispatcher
+     */
+    default void setFromNamed(boolean fromNamed) {
+        // Ignore
+    }
 
     /**
      * Do we have a servlet.
