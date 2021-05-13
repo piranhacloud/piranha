@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.test.unit</groupId>
         <artifactId>project</artifactId>
-        <version>21.5.0-SNAPSHOT</version>
+        <version>21.5.0</version>
     </parent>
 
     <artifactId>piranha-test-unit-http-impl</artifactId>
