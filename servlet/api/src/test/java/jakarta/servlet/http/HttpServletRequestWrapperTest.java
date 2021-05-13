@@ -27,15 +27,13 @@
  */
 package jakarta.servlet.http;
 
-import jakarta.servlet.http.HttpServletResponseWrapper;
-import jakarta.servlet.http.HttpServletMapping;
-import jakarta.servlet.http.HttpServletRequestWrapper;
-import java.util.Map;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -55,20 +53,6 @@ class HttpServletRequestWrapperTest {
         HttpServletRequestWrapper wrapper = new TestHttpServletRequest(null);
         HttpServletResponseWrapper response = new HttpServletResponseWrapper(null);
         assertFalse(wrapper.authenticate(response));
-    }
-    
-    /**
-     * Test getHttpServletMapping method.
-     */
-    @Test
-    void testGetHttpServletMapping() { 
-        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(null);
-        assertNotNull(wrapper.getHttpServletMapping());
-        HttpServletMapping mapping = wrapper.getHttpServletMapping();
-        assertEquals("", mapping.getMatchValue());
-        assertEquals("", mapping.getPattern());
-        assertEquals("", mapping.getServletName());
-        assertNull(mapping.getMappingMatch());
     }
     
     /**
