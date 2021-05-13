@@ -73,14 +73,14 @@
             <dependency>
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
-                <version>2.5.1</version>
+                <version>2.6.0</version>
             </dependency>
 
             <!-- HtmlUnit -->
             <dependency>
                 <groupId>net.sourceforge.htmlunit</groupId>
                 <artifactId>htmlunit</artifactId>
-                <version>2.48.0</version>
+                <version>2.49.1</version>
             </dependency>
             
             <!-- Jakarta Annotation -->
@@ -141,7 +141,7 @@
             <dependency>
                 <groupId>org.jboss.weld.servlet</groupId>
                 <artifactId>weld-servlet-core</artifactId>
-                <version>4.0.1.Final</version>
+                <version>4.0.1.SP1</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.classfilewriter</groupId>
@@ -214,12 +214,12 @@
              <dependency><!-- Implementation 2: Johnzon  -->
                 <groupId>org.apache.johnzon</groupId>
                 <artifactId>johnzon-core</artifactId>
-                <version>1.2.10</version>
+                <version>1.2.11</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.johnzon</groupId>
                 <artifactId>johnzon-jsonb</artifactId>
-                <version>1.2.10</version>
+                <version>1.2.11</version>
             </dependency>
 
             <!-- Jakarta JSON Processing -->
@@ -231,7 +231,7 @@
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.json</artifactId>
-                <version>2.0.0</version>
+                <version>2.0.1</version>
             </dependency>
             
             <!-- Jakarta Persistence -->
@@ -243,17 +243,17 @@
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>eclipselink</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>org.eclipse.persistence.core</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>org.eclipse.persistence.jpa</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
             </dependency>
                     
             <!-- Jakarta REST -->
@@ -265,32 +265,32 @@
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet</artifactId>
-                <version>3.0.1</version>
+                <version>3.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet-core</artifactId>
-                <version>3.0.1</version>
+                <version>3.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>jersey-common</artifactId>
-                <version>3.0.1</version>
+                <version>3.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.inject</groupId>
                 <artifactId>jersey-hk2</artifactId>
-                <version>3.0.1</version>
+                <version>3.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.ext.cdi</groupId>
                 <artifactId>jersey-cdi1x</artifactId>
-                <version>3.0.1</version>
+                <version>3.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.media</groupId>
                 <artifactId>jersey-media-json-processing</artifactId>
-                <version>3.0.1</version>
+                <version>3.0.2</version>
             </dependency>
             
             <!-- Jakarta Security -->
@@ -352,12 +352,12 @@
             <dependency>
                 <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jaxb</groupId>
                 <artifactId>jaxb-runtime</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
             </dependency>
             
             <!-- Jakarta WebSocket -->
@@ -420,7 +420,7 @@
             <dependency>
                 <groupId>org.apache.maven.plugin-tools</groupId>
                 <artifactId>maven-plugin-annotations</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
             </dependency>
 
             <!-- Netty -->
@@ -441,14 +441,14 @@
             <dependency>
                 <groupId>io.smallrye</groupId>
                 <artifactId>smallrye-health</artifactId>
-                <version>3.0.1</version>
+                <version>3.0.2</version>
             </dependency>
             
             <!-- MicroProfile JWT Auth -->
             <dependency>
                 <groupId>org.eclipse.microprofile.jwt</groupId>
                 <artifactId>microprofile-jwt-auth-api</artifactId>
-                <version>1.2</version>
+                <version>1.2.1</version>
             </dependency>
             <dependency>
                 <groupId>org.omnifaces</groupId>
@@ -504,7 +504,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>5.3.5</version>
+                <version>5.3.6</version>
             </dependency>
            
             <!-- Struts -->
@@ -525,17 +525,17 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-client-compiled</artifactId>
-                <version>8.12.4</version>
+                <version>8.13.0</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-server</artifactId>
-                <version>8.12.4</version>
+                <version>8.13.0</version>
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-themes</artifactId>
-                <version>8.12.4</version>
+                <version>8.13.0</version>
             </dependency>
             
             <!-- Wicket -->
