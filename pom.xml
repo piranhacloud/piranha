@@ -100,7 +100,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.41.1</version>
+                            <version>8.42</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -168,18 +168,22 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-plugin-plugin</artifactId>
-                    <version>3.6.0</version>
+                    <version>3.6.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.2.0</version>
                 </plugin>
+                <!-- 
+                
+                    Workaround for 3.2.4 version of the plugin and Java 16+
+
+                -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
                     <version>3.2.4</version>
-                    <!-- Workaround for 3.2.4 version of the plugin and Java 16+ -->
                     <dependencies>
                         <dependency>
                             <groupId>org.ow2.asm</groupId>
@@ -226,7 +230,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.6</version>
+                    <version>0.8.7</version>
                 </plugin>
                 <plugin>
                     <groupId>org.moditect</groupId>
