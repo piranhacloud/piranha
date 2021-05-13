@@ -100,7 +100,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.41.1</version>
+                            <version>8.42</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -270,7 +270,7 @@
                                 <module name="JavadocMethod">
                                     <!-- allowed until Checkstyle catches up with Java 16 style inline syntax -->
                                     <property name="allowMissingReturnTag" value="true"/>
-                                    <property name="scope" value="public"/>
+                                    <property name="accessModifiers" value="public"/>
                                 </module>
                                 <module name="JavadocVariable"/>
                                 <module name="MissingDeprecated"/>
