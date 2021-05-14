@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Enumeration;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequestWrapper;
 
@@ -126,6 +127,11 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     @Override
     public Enumeration<String> getHeaderNames() {
         return getWrapped().getHeaderNames();
+    }
+    
+    @Override
+    public HttpServletMapping getHttpServletMapping() {
+        return getWrapped().getHttpServletMapping();
     }
 
     /**
