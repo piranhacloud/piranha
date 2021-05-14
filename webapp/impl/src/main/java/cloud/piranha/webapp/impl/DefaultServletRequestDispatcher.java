@@ -262,12 +262,12 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
             invocationFinder.addFilters(INCLUDE, servletInvocation, includedRequest.getServletPath(), "");
             
-            if (servletInvocation.isFromNamed() && originalRequest instanceof DefaultWebApplicationRequest defaultRequest) {
+            if (originalRequest instanceof DefaultWebApplicationRequest defaultRequest) {
                 // 12.3.1
                 // "the HttpServletMapping is not available for servlets that have been obtained with a call to
                 // ServletContext.getNamedDispatcher()."
                 //
-                // Although not spelled out, this means in practice the forwarded Servlet uses the
+                // Although not spelled out, this means in practice the included Servlet uses the
                 // mapping of the forwarding servlet.
                 includedRequest.setHttpServletMapping(defaultRequest.getHttpServletMapping());
             }
