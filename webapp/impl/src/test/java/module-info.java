@@ -30,8 +30,11 @@ module cloud.piranha.webapp.impl.tests {
     
     exports cloud.piranha.webapp.impl.tests;
     opens cloud.piranha.webapp.impl.tests;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires jakarta.servlet;
+    requires jdk.security.auth;
     requires org.junit.jupiter.api;
 }
