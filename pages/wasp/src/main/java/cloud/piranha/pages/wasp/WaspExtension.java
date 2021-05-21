@@ -67,7 +67,7 @@ public class WaspExtension implements WebApplicationExtension {
             
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
                 | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.log(WARNING, "Unable to enable the Jasper extension", ex);
+            LOGGER.log(WARNING, "Unable to enable the WaSP extension", ex);
         }
     }
 }

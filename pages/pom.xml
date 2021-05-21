@@ -31,15 +31,4 @@
         </dependencies>
     </dependencyManagement>
 
-    <profiles>
-        <profile>
-            <id>test</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>wasp-tests</module>
-            </modules>
-        </profile>
-    </profiles>
 </project>
