@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.jakartaee;
 
-import cloud.piranha.pages.wasp.WaspExtension;
+import cloud.piranha.extension.wasp.WaspExtension;
 import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;

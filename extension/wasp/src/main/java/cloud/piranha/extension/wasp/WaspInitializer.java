@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.pages.wasp;
+package cloud.piranha.extension.wasp;
 
 import static java.io.File.pathSeparator;
 import static java.lang.System.Logger.Level.DEBUG;

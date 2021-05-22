@@ -25,51 +25,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.pages.wasp;
+package cloud.piranha.extension.wasp;
 
-import jakarta.servlet.ServletRegistration;
-import jakarta.servlet.descriptor.JspConfigDescriptor;
+import static org.apache.jasper.Constants.JSP_FILE;
 
-import cloud.piranha.webapp.api.JspManager;
-import cloud.piranha.webapp.api.WebApplication;
+import java.io.IOException;
+
+import org.apache.jasper.servlet.JspServlet;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * The WaSP manager delivered by the Jasper integration.
- *
- * @author Manfred Riem (mriem@manorrock.com)
+ * Servlet to set the JSP file attribute to allow WaSP find the correct file
  */
-public class WaspJspManager implements JspManager {
+class WaspServlet extends JspServlet {
 
     /**
-     * Stores the JSP config descriptor.
+     * Serial version
      */
-    protected JspConfigDescriptor jspConfigDescriptor;
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * Stores the JSP file.
+     */
+    private final String jspFile;
 
     /**
-     * Add the JSP file.
-     *
-     * @param webApplication the web application.
-     * @param servletName the servlet name,
+     * Constructor.
+     * 
      * @param jspFile the JSP file.
-     * @return null.
      */
-    @Override
-    public ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile) {
-        ServletRegistration.Dynamic registration = webApplication.addServlet(servletName, new WaspServlet(jspFile));
-
-        registration.addMapping(jspFile);
-        registration.setInitParameter("classpath", System.getProperty("java.class.path"));
-        registration.setInitParameter("compilerSourceVM", "1.8");
-        registration.setInitParameter("compilerTargetVM", "1.8");
-
-        return registration;
+    WaspServlet(String jspFile) {
+        this.jspFile = jspFile;
     }
 
-    /**
-     * {@return the JSP config descriptor}
-     */
     @Override
-    public JspConfigDescriptor getJspConfigDescriptor() {
-        return jspConfigDescriptor;
+    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute(JSP_FILE, jspFile);
+        super.service(request, response);
     }
 }

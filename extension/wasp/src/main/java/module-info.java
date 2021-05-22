@@ -25,45 +25,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.pages.wasp;
-
-import static org.apache.jasper.Constants.JSP_FILE;
-
-import java.io.IOException;
-
-import org.apache.jasper.servlet.JspServlet;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet to set the JSP file attribute to allow WaSP find the correct file
+ * The Piranha Extension - WaSP integration module.
+ * 
+ * <p>
+ *  This module delivers the code needed to integrate Jakarta Pages aka WaSP.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-class WaspServlet extends JspServlet {
-
-    /**
-     * Serial version
-     */
-    private static final long serialVersionUID = 1L;
+module cloud.piranha.extension.wasp {
     
-    /**
-     * Stores the JSP file.
-     */
-    private final String jspFile;
-
-    /**
-     * Constructor.
-     * 
-     * @param jspFile the JSP file.
-     */
-    WaspServlet(String jspFile) {
-        this.jspFile = jspFile;
-    }
-
-    @Override
-    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute(JSP_FILE, jspFile);
-        super.service(request, response);
-    }
+    exports cloud.piranha.extension.wasp;
+    opens cloud.piranha.extension.wasp;
+    requires cloud.piranha.webapp.api;
+    requires jakarta.servlet.jsp;
+    requires jakarta.servlet;
+    requires org.glassfish.wasp;
 }

@@ -25,18 +25,49 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.wasp;
 
-module cloud.piranha.pages.wasp.tests {
-    
-    exports cloud.piranha.pages.wasp.tests;
-    opens cloud.piranha.pages.wasp.tests;
-    requires cloud.piranha.embedded;
-    requires cloud.piranha.pages.wasp;
-    requires cloud.piranha.resource;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl; 
-    requires jakarta.servlet;
-    requires org.junit.jupiter.api;
-    requires org.junit.jupiter.engine;
-    requires org.junit.platform.launcher;
+import static java.lang.System.Logger.Level.WARNING;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.System.Logger;
+
+import jakarta.servlet.ServletContainerInitializer;
+
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
+
+/**
+ * The extension that will enable WaSP integration (aka. JSP).
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+public class WaspExtension implements WebApplicationExtension {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(WaspExtension.class.getName());
+
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        try {
+            
+            webApplication.addInitializer(
+                webApplication.getClassLoader()
+                              .loadClass(WaspInitializer.class.getName())
+                              .asSubclass(ServletContainerInitializer.class)
+                              .getDeclaredConstructor()
+                              .newInstance());
+            
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException ex) {
+            LOGGER.log(WARNING, "Unable to enable the WaSP extension", ex);
+        }
+    }
 }

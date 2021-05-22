@@ -25,9 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.pages.wasp.tests;
+package cloud.piranha.extension.wasp.tests;
 
-import cloud.piranha.pages.wasp.WaspInitializer;
+import cloud.piranha.extension.wasp.WaspInitializer;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.resource.DirectoryResource;
 import org.junit.jupiter.api.Test;

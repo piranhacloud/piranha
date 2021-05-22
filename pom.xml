@@ -56,7 +56,6 @@
         <module>modular</module>
         <module>naming</module>
         <module>nano</module>
-        <module>pages</module>
         <module>policy</module>
         <module>resource</module>
         <module>security</module>
