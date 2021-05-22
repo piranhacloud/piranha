@@ -33,9 +33,9 @@ module cloud.piranha.extension.micro {
     provides WebApplicationExtension with MicroExtension;
 
     requires cloud.piranha.security.jakarta;
+    requires cloud.piranha.extension.wasp;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.scinitializer;
     requires cloud.piranha.webapp.webannotation;
     requires cloud.piranha.webapp.webxml;
-    requires cloud.piranha.pages.wasp;
 }

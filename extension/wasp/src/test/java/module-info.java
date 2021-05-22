@@ -26,21 +26,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * The Piranha Pages - WaSP integration module.
- * 
- * <p>
- *  This module delivers the code needed to integrate Jakarta Pages aka WaSP.
- * </p>
- * 
- * @author Manfred Riem (mriem@manorrock.com)
- */
-module cloud.piranha.pages.wasp {
+module cloud.piranha.extension.wasp.tests {
     
-    exports cloud.piranha.pages.wasp;
-    opens cloud.piranha.pages.wasp;
+    exports cloud.piranha.extension.wasp.tests;
+    opens cloud.piranha.extension.wasp.tests;
+    requires cloud.piranha.embedded;
+    requires cloud.piranha.extension.wasp;
+    requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
-    requires jakarta.servlet.jsp;
+    requires cloud.piranha.webapp.impl; 
     requires jakarta.servlet;
-    requires org.glassfish.wasp;
+    requires org.junit.jupiter.api;
+    requires org.junit.jupiter.engine;
+    requires org.junit.platform.launcher;
 }

@@ -27,7 +27,7 @@
 
 module cloud.piranha.extension.jakartaee {
     
-    requires cloud.piranha.pages.wasp;
+    requires cloud.piranha.extension.wasp;
     requires cloud.piranha.webapp.annotationscan;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.scinitializer;

@@ -38,6 +38,6 @@
 module cloud.piranha.faces.myfaces {
 
     exports cloud.piranha.faces.myfaces;
-    requires static cloud.piranha.pages.wasp;
+    requires static cloud.piranha.extension.wasp;
     requires jakarta.servlet;
 }

@@ -26,8 +26,8 @@
         
         <!-- Jakarta Pages -->
         <dependency>
-            <groupId>cloud.piranha.pages</groupId>
-            <artifactId>piranha-pages-wasp</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-wasp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

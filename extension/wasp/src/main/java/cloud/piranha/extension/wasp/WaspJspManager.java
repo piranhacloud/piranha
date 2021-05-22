@@ -25,49 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.pages.wasp;
+package cloud.piranha.extension.wasp;
 
-import static java.lang.System.Logger.Level.WARNING;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.System.Logger;
-
-import jakarta.servlet.ServletContainerInitializer;
-
+import cloud.piranha.webapp.api.JspManager;
 import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
- * The extension that will enable WaSP integration (aka. JSP).
+ * The WaSP manager delivered by the Jasper integration.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WaspExtension implements WebApplicationExtension {
+public class WaspJspManager implements JspManager {
 
     /**
-     * Stores the logger.
+     * Stores the JSP config descriptor.
      */
-    private static final Logger LOGGER = System.getLogger(WaspExtension.class.getName());
+    protected JspConfigDescriptor jspConfigDescriptor;
 
     /**
-     * Configure the web application.
+     * Add the JSP file.
      *
      * @param webApplication the web application.
+     * @param servletName the servlet name,
+     * @param jspFile the JSP file.
+     * @return null.
      */
     @Override
-    public void configure(WebApplication webApplication) {
-        try {
-            
-            webApplication.addInitializer(
-                webApplication.getClassLoader()
-                              .loadClass(WaspInitializer.class.getName())
-                              .asSubclass(ServletContainerInitializer.class)
-                              .getDeclaredConstructor()
-                              .newInstance());
-            
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.log(WARNING, "Unable to enable the WaSP extension", ex);
-        }
+    public ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile) {
+        ServletRegistration.Dynamic registration = webApplication.addServlet(servletName, new WaspServlet(jspFile));
+
+        registration.addMapping(jspFile);
+        registration.setInitParameter("classpath", System.getProperty("java.class.path"));
+        registration.setInitParameter("compilerSourceVM", "1.8");
+        registration.setInitParameter("compilerTargetVM", "1.8");
+
+        return registration;
+    }
+
+    /**
+     * {@return the JSP config descriptor}
+     */
+    @Override
+    public JspConfigDescriptor getJspConfigDescriptor() {
+        return jspConfigDescriptor;
     }
 }

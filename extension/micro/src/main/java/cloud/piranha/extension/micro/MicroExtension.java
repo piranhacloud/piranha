@@ -29,7 +29,7 @@ package cloud.piranha.extension.micro;
 
 import static java.util.Arrays.asList;
 
-import cloud.piranha.pages.wasp.WaspInitializer;
+import cloud.piranha.extension.wasp.WaspInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
