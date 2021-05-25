@@ -19,13 +19,13 @@
     </properties>
 
     <dependencies>
-    	<dependency>
-  <groupId>cloud.piranha.micro</groupId>
-  <artifactId>piranha-micro-builder</artifactId>
-  <version>${project.version}</version>
-    	</dependency>
+        <dependency>
+            <groupId>cloud.piranha.micro</groupId>
+            <artifactId>piranha-micro-builder</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     	
-    	<dependency>
+        <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-shrinkwrap</artifactId>
             <version>${project.version}</version>
@@ -58,8 +58,8 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.faces</groupId>
-            <artifactId>piranha-faces-mojarra</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-mojarra</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>

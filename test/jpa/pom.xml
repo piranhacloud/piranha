@@ -58,8 +58,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.faces</groupId>
-            <artifactId>piranha-faces-mojarra</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-mojarra</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

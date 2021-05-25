@@ -19,7 +19,8 @@
         <module>apache-fileupload</module>
         <module>jakartaee</module>
         <module>micro</module> 
-        <module>microprofile</module>    
+        <module>microprofile</module>
+        <module>mojarra</module>
         <module>servlet</module>
         <module>wasp</module>
         <module>webprofile</module>
