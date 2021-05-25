@@ -48,7 +48,6 @@
         <module>cli</module>
         <module>embedded</module>
         <module>extension</module>
-        <module>faces</module>
         <module>http</module>
         <module>maven</module>
         <module>micro</module>

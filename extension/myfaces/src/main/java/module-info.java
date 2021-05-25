@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Faces - MyFaces integration module.
+ * The Piranha Extension - MyFaces integration module.
  * 
  * <p>
  *  This module delivers the integration code needed for MyFaces.
@@ -35,9 +35,9 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.faces.myfaces {
+module cloud.piranha.extension.myfaces {
 
-    exports cloud.piranha.faces.myfaces;
+    exports cloud.piranha.extension.myfaces;
     requires static cloud.piranha.extension.wasp;
     requires jakarta.servlet;
 }
