@@ -344,9 +344,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <argLine>--illegal-access=permit</argLine>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -416,7 +413,6 @@
                 <inherited>true</inherited>
                 <configuration>
                     <trimStackTrace>false</trimStackTrace>
-                    <argLine>--illegal-access=permit</argLine>
                 </configuration>
             </plugin>
             <plugin>
