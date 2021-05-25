@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.faces.mojarra;
+package cloud.piranha.extension.mojarra;
 
 import static java.lang.Boolean.TRUE;
 

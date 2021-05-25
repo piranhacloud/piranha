@@ -30,8 +30,8 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.faces</groupId>
-            <artifactId>piranha-faces-mojarra</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-mojarra</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>

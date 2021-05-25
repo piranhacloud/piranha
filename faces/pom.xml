@@ -16,7 +16,6 @@
     <name>Piranha Faces - Project</name>
 
     <modules>
-        <module>mojarra</module>
         <module>myfaces</module>
     </modules>
 

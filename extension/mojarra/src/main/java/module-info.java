@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Faces - Mojarra integration module.
+ * The Piranha Extension - Mojarra integration module.
  * 
  * <p>
  *  This module delivers the integration code needed for Mojarra.
@@ -35,9 +35,9 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.faces.mojarra {
+module cloud.piranha.extension.mojarra {
     
-    exports cloud.piranha.faces.mojarra;
+    exports cloud.piranha.extension.mojarra;
     requires static cloud.piranha.extension.wasp;
     requires jakarta.servlet;
 }
