@@ -39,7 +39,7 @@ import jakarta.servlet.ServletException;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
-import cloud.piranha.cdi.weld.WeldInitializer;
+import cloud.piranha.extension.weld.WeldInitializer;
 import cloud.piranha.security.eleos.AuthenticationInitializer;
 import cloud.piranha.security.exousia.AuthorizationInitializer;
 import cloud.piranha.security.exousia.AuthorizationPreInitializer;

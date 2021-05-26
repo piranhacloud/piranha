@@ -86,8 +86,8 @@
         
         <!-- Jakarta CDI -->
         <dependency>
-            <groupId>cloud.piranha.cdi</groupId>
-            <artifactId>piranha-cdi-weld</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-weld</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>

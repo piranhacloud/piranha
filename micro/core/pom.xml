@@ -11,7 +11,7 @@
 
     <artifactId>piranha-micro-core</artifactId>
 
-    <name>Piranha - Micro Core</name>
+    <name>Piranha - Micro - Core</name>
 
     <dependencyManagement>
         <dependencies>
@@ -96,8 +96,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.cdi</groupId>
-            <artifactId>piranha-cdi-weld</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-weld</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

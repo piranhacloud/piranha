@@ -25,40 +25,63 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.cdi.weld;
+package cloud.piranha.extension.weld;
 
-import java.security.Principal;
-
-import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
-import jakarta.security.enterprise.SecurityContext;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
-import org.jboss.weld.security.spi.SecurityServices;
+import org.jboss.weld.environment.servlet.Container;
+import org.jboss.weld.environment.servlet.ContainerContext;
+import org.jboss.weld.manager.api.WeldManager;
+import org.jboss.weld.resources.spi.ResourceLoader;
 
 /**
- * The implementation of this Weld SPI provides the current principal for injection by CDI.
- * 
- * <p>
- * Implementation detail: In Weld 3.1.* org.jboss.weld.bean.builtin.ee.PrincipalBean calls this.
- * 
- * @author Arjan Tijms
+ * The Weld container.
  *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WeldSecurityService implements SecurityServices {
+public class WeldContainer implements Container {
 
+    /**
+     * Destroy the container.
+     *
+     * @param context the container context.
+     */
     @Override
-    public Principal getPrincipal() {
-        Instance<SecurityContext> securityServiceInstance =  CDI.current().select(SecurityContext.class);
-        if (securityServiceInstance.isResolvable()) {
-            return securityServiceInstance.get().getCallerPrincipal();
+    public void destroy(ContainerContext context) {
+    }
+
+    /**
+     * Initialize the container.
+     *
+     * @param context the container context.
+     */
+    @Override
+    public void initialize(ContainerContext context) {
+        try {
+            CDI.setCDIProvider(new WeldProvider());
+        } catch (IllegalStateException ise) {
         }
-        
-        return null;
+        try {
+            WeldManager manager = context.getManager();
+            WeldProvider.setCDI(new WeldCDI(manager));
+            new InitialContext().rebind("java:comp/BeanManager", manager);
+        } catch (NamingException ne) {
+            throw new RuntimeException(ne);
+        }
     }
 
+    /**
+     * Touch the container.
+     *
+     * @param resourceLoader the resource loader.
+     * @param context the container context.
+     * @return true
+     * @throws Exception when a serious error occurs.
+     */
     @Override
-    public void cleanup() {
-        // Nothing to do here
+    public boolean touch(ResourceLoader resourceLoader, ContainerContext context) throws Exception {
+        return true;
     }
-    
 }
