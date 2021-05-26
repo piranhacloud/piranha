@@ -25,39 +25,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.cdi.weld;
+package cloud.piranha.extension.weld;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import jakarta.enterprise.inject.spi.CDI;
-import jakarta.enterprise.inject.spi.CDIProvider;
+import java.util.Set;
+
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletException;
+
+import cloud.piranha.webapp.api.WebApplication;
 
 /**
- * The Weld CDI provider.
- *
+ * The Weld Integration ServletContainerInitializer.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WeldProvider implements CDIProvider {
+public class WeldInitializer implements ServletContainerInitializer {
 
     /**
-     * Stores the instances.
-     */
-    private static final Map<ClassLoader, CDI<Object>> INSTANCES = new ConcurrentHashMap<>();
-
-    /**
-     * {@return the CDI}
+     * On startup.
+     *
+     * @param classes the annotated classes.
+     * @param servletContext the servlet context.
+     * @throws ServletException when a serious error occurs.
      */
     @Override
-    public CDI<Object> getCDI() {
-        return INSTANCES.get(Thread.currentThread().getContextClassLoader());
-    }
-
-    /**
-     * Set the CDI.
-     *
-     * @param cdi the CDI.
-     */
-    public static void setCDI(CDI<Object> cdi) {
-        INSTANCES.put(Thread.currentThread().getContextClassLoader(), cdi);
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        servletContext.setInitParameter("WELD_CONTEXT_ID_KEY", servletContext.toString());
+        
+        WebApplication webApplication = (WebApplication) servletContext;
+        
+        WeldInitListener weldInitListener = webApplication.createListener(WeldInitListener.class);
+        
+        servletContext.addListener(weldInitListener);
+        webApplication.setObjectInstanceManager(new WeldObjectInstanceManager());
+        
+        weldInitListener.delegate().contextInitialized(new ServletContextEvent(servletContext));
     }
 }

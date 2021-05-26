@@ -25,6 +25,7 @@
         <module>servlet</module>
         <module>wasp</module>
         <module>webprofile</module>
+        <module>weld</module>
     </modules>
 
     <dependencyManagement>

@@ -26,13 +26,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.cdi.weld.WeldContainer;
-import cloud.piranha.cdi.weld.WeldSecurityService;
+import cloud.piranha.extension.weld.WeldContainer;
+import cloud.piranha.extension.weld.WeldSecurityService;
 import org.jboss.weld.bootstrap.api.Service;
 import org.jboss.weld.environment.servlet.Container;
 
 /**
- * The Piranha CDI - Weld Integration module.
+ * The Piranha Extension - Weld Integration module.
  * 
  * <p>
  *  This module delivers Weld integration for web applications.
@@ -40,19 +40,15 @@ import org.jboss.weld.environment.servlet.Container;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.cdi.weld {
+module cloud.piranha.extension.weld {
 
-    exports cloud.piranha.cdi.weld;
-
-    opens cloud.piranha.cdi.weld;
-
+    exports cloud.piranha.extension.weld;
+    opens cloud.piranha.extension.weld;
     provides Container with WeldContainer;
     provides Service with WeldSecurityService;
-
     requires cloud.piranha.naming.impl;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-
     requires jakarta.inject;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;

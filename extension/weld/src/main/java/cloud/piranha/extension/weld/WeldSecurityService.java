@@ -25,48 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.cdi.weld;
+package cloud.piranha.extension.weld;
 
-import jakarta.enterprise.inject.spi.BeanManager;
-import org.jboss.weld.AbstractCDI;
-import org.jboss.weld.manager.api.WeldManager;
+import java.security.Principal;
+
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.security.enterprise.SecurityContext;
+
+import org.jboss.weld.security.spi.SecurityServices;
 
 /**
- * The CDI for Weld.
+ * The implementation of this Weld SPI provides the current principal for injection by CDI.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * <p>
+ * Implementation detail: In Weld 3.1.* org.jboss.weld.bean.builtin.ee.PrincipalBean calls this.
+ * 
+ * @author Arjan Tijms
+ *
  */
-public class WeldCDI extends AbstractCDI<Object> {
+public class WeldSecurityService implements SecurityServices {
 
-    /**
-     * Stores the manager.
-     */
-    private WeldManager manager;
-    
-    /**
-     * Constructor.
-     * 
-     * @param manager the WeldManager.
-     * 
-     */
-    public WeldCDI(WeldManager manager) {
-        this.manager = manager;
-    }
-
-    /**
-     * {@return the bean manager}
-     */
     @Override
-    public BeanManager getBeanManager() {
-        return manager;
+    public Principal getPrincipal() {
+        Instance<SecurityContext> securityServiceInstance =  CDI.current().select(SecurityContext.class);
+        if (securityServiceInstance.isResolvable()) {
+            return securityServiceInstance.get().getCallerPrincipal();
+        }
+        
+        return null;
+    }
+
+    @Override
+    public void cleanup() {
+        // Nothing to do here
     }
     
-    /**
-     * Set the WeldManager.
-     * 
-     * @param manager the WeldManager.
-     */
-    public void setWeldManager(WeldManager manager) {
-        this.manager = manager;
-    }
 }

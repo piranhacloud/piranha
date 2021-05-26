@@ -25,63 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.cdi.weld;
+package cloud.piranha.extension.weld;
 
-import jakarta.enterprise.inject.spi.CDI;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
-import org.jboss.weld.environment.servlet.Container;
-import org.jboss.weld.environment.servlet.ContainerContext;
+import jakarta.enterprise.inject.spi.BeanManager;
+import org.jboss.weld.AbstractCDI;
 import org.jboss.weld.manager.api.WeldManager;
-import org.jboss.weld.resources.spi.ResourceLoader;
 
 /**
- * The Weld container.
- *
+ * The CDI for Weld.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WeldContainer implements Container {
+public class WeldCDI extends AbstractCDI<Object> {
 
     /**
-     * Destroy the container.
-     *
-     * @param context the container context.
+     * Stores the manager.
      */
-    @Override
-    public void destroy(ContainerContext context) {
+    private WeldManager manager;
+    
+    /**
+     * Constructor.
+     * 
+     * @param manager the WeldManager.
+     * 
+     */
+    public WeldCDI(WeldManager manager) {
+        this.manager = manager;
     }
 
     /**
-     * Initialize the container.
-     *
-     * @param context the container context.
+     * {@return the bean manager}
      */
     @Override
-    public void initialize(ContainerContext context) {
-        try {
-            CDI.setCDIProvider(new WeldProvider());
-        } catch (IllegalStateException ise) {
-        }
-        try {
-            WeldManager manager = context.getManager();
-            WeldProvider.setCDI(new WeldCDI(manager));
-            new InitialContext().rebind("java:comp/BeanManager", manager);
-        } catch (NamingException ne) {
-            throw new RuntimeException(ne);
-        }
+    public BeanManager getBeanManager() {
+        return manager;
     }
-
+    
     /**
-     * Touch the container.
-     *
-     * @param resourceLoader the resource loader.
-     * @param context the container context.
-     * @return true
-     * @throws Exception when a serious error occurs.
+     * Set the WeldManager.
+     * 
+     * @param manager the WeldManager.
      */
-    @Override
-    public boolean touch(ResourceLoader resourceLoader, ContainerContext context) throws Exception {
-        return true;
+    public void setWeldManager(WeldManager manager) {
+        this.manager = manager;
     }
 }

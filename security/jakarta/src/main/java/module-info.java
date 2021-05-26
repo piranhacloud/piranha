@@ -39,7 +39,7 @@ module cloud.piranha.security.jakarta {
     
     exports cloud.piranha.security.jakarta;
     opens cloud.piranha.security.jakarta;
-    requires cloud.piranha.cdi.weld;
+    requires cloud.piranha.extension.weld;
     requires cloud.piranha.security.eleos;
     requires cloud.piranha.security.exousia;
     requires cloud.piranha.security.soteria;

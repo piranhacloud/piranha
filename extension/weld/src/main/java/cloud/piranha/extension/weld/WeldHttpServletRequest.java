@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.cdi.weld;
+package cloud.piranha.extension.weld;
 
 import static cloud.piranha.webapp.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
 

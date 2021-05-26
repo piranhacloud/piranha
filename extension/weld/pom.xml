@@ -3,15 +3,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.cdi</groupId>
+        <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
         <version>21.6.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-cdi-weld</artifactId>
+    <artifactId>piranha-extension-weld</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha CDI - Weld Integration</name>
+    <name>Piranha Extension - Weld</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

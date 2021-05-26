@@ -23,7 +23,6 @@
         <module>openwebbeans</module>
                 
           -->
-        <module>weld</module>
     </modules>
 
     <dependencyManagement>

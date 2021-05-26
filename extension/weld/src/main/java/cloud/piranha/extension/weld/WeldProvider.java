@@ -25,56 +25,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.cdi.weld;
+package cloud.piranha.extension.weld;
 
-import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletRequestEvent;
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.jboss.weld.environment.servlet.Listener;
-import org.jboss.weld.servlet.api.ServletListener;
-import org.jboss.weld.servlet.api.helpers.ForwardingServletListener;
-
-import cloud.piranha.webapp.api.CurrentRequestHolder;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDIProvider;
 
 /**
- * This Piranha specific Weld initializer forwards all initialization
- * to the original Weld initializer, but modifies the <code>HttpServletRequest</code>
- * that's passed into it.
- * 
- * <p>
- * The purpose of this is making sure Weld is able to access the <em>current</em> 
- * <code>HttpServletRequest</code> as that changes throughout the request processing
- * pipeline.
- * 
- * @see WeldHttpServletRequest
- * @see CurrentRequestHolder
- * 
- * @author Arjan Tijms
+ * The Weld CDI provider.
  *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WeldInitListener extends ForwardingServletListener {
+public class WeldProvider implements CDIProvider {
 
     /**
-     * Stores the weld target listener.
+     * Stores the instances.
      */
-    private ServletListener weldTargetListener = new Listener();
-    
+    private static final Map<ClassLoader, CDI<Object>> INSTANCES = new ConcurrentHashMap<>();
+
+    /**
+     * {@return the CDI}
+     */
     @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        // Do nothing
-    }
-    
-    @Override
-    public void requestInitialized(ServletRequestEvent sre) {
-        super.requestInitialized(new ServletRequestEvent(
-            sre.getServletContext(), 
-            new WeldHttpServletRequest((HttpServletRequest)sre.getServletRequest())));
+    public CDI<Object> getCDI() {
+        return INSTANCES.get(Thread.currentThread().getContextClassLoader());
     }
 
-    @Override
-    public ServletListener delegate() {
-        return weldTargetListener;
+    /**
+     * Set the CDI.
+     *
+     * @param cdi the CDI.
+     */
+    public static void setCDI(CDI<Object> cdi) {
+        INSTANCES.put(Thread.currentThread().getContextClassLoader(), cdi);
     }
-
 }

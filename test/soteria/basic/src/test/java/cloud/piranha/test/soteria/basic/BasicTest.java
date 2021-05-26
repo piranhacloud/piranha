@@ -44,7 +44,7 @@ import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
-import cloud.piranha.cdi.weld.WeldInitializer;
+import cloud.piranha.extension.weld.WeldInitializer;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;

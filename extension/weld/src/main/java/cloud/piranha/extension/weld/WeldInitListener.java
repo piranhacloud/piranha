@@ -25,42 +25,56 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.cdi.weld;
+package cloud.piranha.extension.weld;
 
-import java.util.Set;
-
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.http.HttpServletRequest;
 
-import cloud.piranha.webapp.api.WebApplication;
+import org.jboss.weld.environment.servlet.Listener;
+import org.jboss.weld.servlet.api.ServletListener;
+import org.jboss.weld.servlet.api.helpers.ForwardingServletListener;
+
+import cloud.piranha.webapp.api.CurrentRequestHolder;
 
 /**
- * The Weld Integration ServletContainerInitializer.
+ * This Piranha specific Weld initializer forwards all initialization
+ * to the original Weld initializer, but modifies the <code>HttpServletRequest</code>
+ * that's passed into it.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * <p>
+ * The purpose of this is making sure Weld is able to access the <em>current</em> 
+ * <code>HttpServletRequest</code> as that changes throughout the request processing
+ * pipeline.
+ * 
+ * @see WeldHttpServletRequest
+ * @see CurrentRequestHolder
+ * 
+ * @author Arjan Tijms
+ *
  */
-public class WeldInitializer implements ServletContainerInitializer {
+public class WeldInitListener extends ForwardingServletListener {
 
     /**
-     * On startup.
-     *
-     * @param classes the annotated classes.
-     * @param servletContext the servlet context.
-     * @throws ServletException when a serious error occurs.
+     * Stores the weld target listener.
      */
+    private ServletListener weldTargetListener = new Listener();
+    
     @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        servletContext.setInitParameter("WELD_CONTEXT_ID_KEY", servletContext.toString());
-        
-        WebApplication webApplication = (WebApplication) servletContext;
-        
-        WeldInitListener weldInitListener = webApplication.createListener(WeldInitListener.class);
-        
-        servletContext.addListener(weldInitListener);
-        webApplication.setObjectInstanceManager(new WeldObjectInstanceManager());
-        
-        weldInitListener.delegate().contextInitialized(new ServletContextEvent(servletContext));
+    public void contextInitialized(ServletContextEvent sce) {
+        // Do nothing
     }
+    
+    @Override
+    public void requestInitialized(ServletRequestEvent sre) {
+        super.requestInitialized(new ServletRequestEvent(
+            sre.getServletContext(), 
+            new WeldHttpServletRequest((HttpServletRequest)sre.getServletRequest())));
+    }
+
+    @Override
+    public ServletListener delegate() {
+        return weldTargetListener;
+    }
+
 }
