@@ -48,7 +48,6 @@
         <module>embedded</module>
         <module>extension</module>
         <module>http</module>
-        <module>maven</module>
         <module>micro</module>
         <module>microprofile</module>
         <module>modular</module>
