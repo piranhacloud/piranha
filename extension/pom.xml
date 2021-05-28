@@ -22,6 +22,7 @@
         <module>microprofile</module>
         <module>mojarra</module>
         <module>myfaces</module>
+        <module>openwebbeans</module>
         <module>servlet</module>
         <module>wasp</module>
         <module>webprofile</module>
