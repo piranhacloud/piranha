@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.cdi</groupId>
+        <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
-        <version>21.1.0-SNAPSHOT</version>
+        <version>21.6.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-cdi-openwebbeans</artifactId>
+    <artifactId>piranha-extension-openwebbeans</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha CDI - OpenWebBeans Integration</name>
+    <name>Piranha Extension - OpenWebBeans</name>
 
     <dependencies>
         <dependency>
@@ -31,8 +31,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.servlet4</groupId>
-            <artifactId>piranha-servlet4-api</artifactId>
+            <groupId>cloud.piranha.servlet</groupId>
+            <artifactId>piranha-servlet-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
