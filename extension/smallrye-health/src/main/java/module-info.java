@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha MicroProfile - Smallrye - Health integration module.
+ * The Piranha Extension - Smallrye Health module.
  * 
  * <p>
  *  This module delivers the code needed to integrate Smallrye Health.
@@ -35,12 +35,10 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.microprofile.smallrye.health {
+module cloud.piranha.extension.smallrye.health {
 
-    exports cloud.piranha.microprofile.smallrye.health;
-    
-    opens cloud.piranha.microprofile.smallrye.health;
-    
+    exports cloud.piranha.extension.smallrye.health;
+    opens cloud.piranha.extension.smallrye.health;
     requires static cloud.piranha.webapp.api;
     requires jakarta.inject;
     requires jakarta.servlet;
