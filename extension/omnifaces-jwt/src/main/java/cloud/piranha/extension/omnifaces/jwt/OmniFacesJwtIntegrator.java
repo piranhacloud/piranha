@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.microprofile.omnifaces.jwt;
+package cloud.piranha.extension.omnifaces.jwt;
 
 import static jakarta.ws.rs.RuntimeType.SERVER;
 import static org.glassfish.jersey.internal.spi.AutoDiscoverable.DEFAULT_PRIORITY;
@@ -39,7 +39,7 @@ import org.omnifaces.jwt.jaxrs.RolesAllowedDynamicFeature;
 
 
 /**
- * This AutoDiscoverable integrates OmniFaces JWT into Piranha
+ * This AutoDiscoverable integrates OmniFaces JWT into Jersey.
  * 
  * @author Arjan Tijms
  */

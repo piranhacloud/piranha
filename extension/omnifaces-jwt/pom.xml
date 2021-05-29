@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.microprofile.omnifaces</groupId>
+        <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
         <version>21.6.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-microprofile-omnifaces-jwt</artifactId>
+    <artifactId>piranha-extension-omnifaces-jwt</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha MicroProfile - OmniFaces - JWT Integration</name>
+    <name>Piranha Extension - OmniFaces JWT</name>
 
     <dependencies>
         <dependency>

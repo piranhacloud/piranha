@@ -33,8 +33,8 @@ module cloud.piranha.extension.microprofile {
     
     opens cloud.piranha.extension.microprofile;
     provides WebApplicationExtension with MicroProfileExtension;
+    requires cloud.piranha.extension.omnifaces.jwt;
     requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.microprofile.omnifaces.jwt;
     requires cloud.piranha.security.jakarta;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.webxml;

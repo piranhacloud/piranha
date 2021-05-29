@@ -70,8 +70,8 @@
 
         <!-- Piranha MicroProfile - OmniFaces JWT Integration -->
         <dependency>
-            <groupId>cloud.piranha.microprofile.omnifaces</groupId>
-            <artifactId>piranha-microprofile-omnifaces-jwt</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-omnifaces-jwt</artifactId>
             <version>${project.version}</version>
         </dependency>
 
