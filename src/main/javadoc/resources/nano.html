@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Piranha Nano</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>Piranha Nano</h1>
+        <p>
+            This distribution of Piranha is the smallest in our lineup and it
+            delivers you with a very opinionated embeddable partial 
+            implementation of a Servlet container. While very small it most 
+            certainly is very capable and it is very easy to use.
+        </p>
+        <h2>Example usage</h2>
+        <!-- tohtml.com -->
+        <!--
+            NanoPiranha piranha = new NanoPiranhaBuilder()
+                .servlet("TestHelloWorldServlet", new TestHelloWorldServlet())
+                .build();
+
+            NanoRequest request = new NanoRequestBuilder()
+                .method("GET")
+                .servletPath("/index.html")
+                .build();
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            NanoResponse response = new NanoResponseBuilder()
+                .outputStream(outputStream)
+                .build();
+
+            piranha.service(request, response);
+        
+        -->
+        <pre style="color:#000000;background:#ffffff;">NanoPiranha piranha <span style="color:#808030; ">=</span> new NanoPiranhaBuilder<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>servlet<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">TestHelloWorldServlet</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> new TestHelloWorldServlet<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>build<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+NanoRequest request <span style="color:#808030; ">=</span> new NanoRequestBuilder<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>method<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">GET</span><span style="color:#800000; ">"</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>servletPath<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">/index.html</span><span style="color:#800000; ">"</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>build<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+ByteArrayOutputStream outputStream <span style="color:#808030; ">=</span> new ByteArrayOutputStream<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+NanoResponse response <span style="color:#808030; ">=</span> new NanoResponseBuilder<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>outputStream<span style="color:#808030; ">(</span>outputStream<span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>build<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+piranha<span style="color:#808030; ">.</span>service<span style="color:#808030; ">(</span>request<span style="color:#808030; ">,</span> response<span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+        </pre>
+        <p>
+            The example above adds the TestHelloWorldServlet to Piranha Nano.
+            It creates a GET request at path index.html and it creates a 
+            response with a ByteArrayOutputStream as it output stream. And it 
+            then asks Piranha Nano to process it.
+        </p>
+        <h2>Expectations and assumptions</h2>
+        <ul>
+            <li>You take care of class loading (if more isolation is needed)</li>
+            <li>You add and initialize the filters you want to use in the right order</li>
+            <li>You add and initialize the one servlet you want to use (optional)</li>
+            <li>You setup the request object</li>
+            <li>You setup the response object</li>
+        </ul>
+        <h2>Limitations</h2>
+        <ul>
+            <li>Does not support ServletContainerInitializers</li>
+            <li>Does not support ServletContextListeners</li>
+            <li>Does not support ServletRequestListeners</li>
+            <li>Does not support request dispatching API</li>
+            <li>Does not support asynchronous Servlet API</li>
+            <li>Does not support HTTP sessions</li>
+        </ul>
+        <h2>Maven coordinates</h2>
+        <p>
+            Please use the following dependency.
+        </p>
+        <!-- tohtml.com -->
+        <!--
+        
+            <dependency>
+                <groupId>cloud.piranha</groupId>
+                <artifactId>piranha-nano</artifactId>
+                <version>y.m.p</version>
+            </dependency>
+        
+        -->
+
+<pre style="color:#000000;background:#ffffff;"><span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">dependency</span><span style="color:#a65700; ">&gt;</span>
+ <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">groupId</span><span style="color:#a65700; ">&gt;</span>cloud.piranha<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">groupId</span><span style="color:#a65700; ">&gt;</span>
+ <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">artifactId</span><span style="color:#a65700; ">&gt;</span>piranha-nano<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">artifactId</span><span style="color:#a65700; ">&gt;</span>
+ <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">version</span><span style="color:#a65700; ">&gt;</span>y.m.p<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">version</span><span style="color:#a65700; ">&gt;</span>
+<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">dependency</span><span style="color:#a65700; ">&gt;</span>
+</pre>
+        <p>
+            where y is the year, m is the month and p is the patch version of the release you want to use.
+        </p>
+        <h2>Where are the sources?</h2>
+        See GitHub at https://github.com/piranhacloud/piranha/tree/master/nano
+        <h2>Do you have any more examples?</h2>
+        <ul>
+            <li>Processing JSP pages</li>
+        </ul>
+        <p>
+            <a href="getting-started.html">Back to Getting Started</a>
+        </p>
+    </body>
+</html>
