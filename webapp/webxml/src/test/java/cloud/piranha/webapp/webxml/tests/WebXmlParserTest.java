@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.unit.webapp.webxml;
+package cloud.piranha.webapp.webxml.tests;
 
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.impl.DefaultWebApplication;

@@ -25,33 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.unit.webapp.webxml;
+package cloud.piranha.webapp.webxml.tests;
 
-import java.io.IOException;
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServlet;
 
 /**
- * A test filter
+ * A test servlet
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestFilter implements Filter {
-    
-    /**
-     * Filter processing.
-     * 
-     * @param request the request.
-     * @param response the response.
-     * @param chain the chain.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, 
-            FilterChain chain) throws IOException, ServletException {
-    }
+public class TestServlet extends HttpServlet {
 }

@@ -23,6 +23,5 @@
         <module>http-tests</module>
         <module>http-undertow</module>
         <module>http-webapp</module>
-        <module>webapp-webxml</module>
     </modules>
 </project>
