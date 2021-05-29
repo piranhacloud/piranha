@@ -58,11 +58,13 @@ public class MojarraIT {
      */
     @AfterAll
     public static void afterAll() throws Exception {
+        /*
         File pidFile = new File("target/piranha/tmp/piranha.pid");
         if (pidFile.exists()) {
             pidFile.delete();
         }
         Thread.sleep(5000);
+        */
     }
 
     /**
@@ -80,7 +82,7 @@ public class MojarraIT {
      */
     @BeforeAll
     public static void beforeAll() throws Exception {
-
+        /*
         ProcessBuilder builder = new ProcessBuilder();
         Process process;
 
@@ -96,6 +98,7 @@ public class MojarraIT {
                     start();
         }
         process.waitFor(5, TimeUnit.SECONDS);
+        */
     }
 
     /**
