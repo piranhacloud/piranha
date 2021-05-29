@@ -29,7 +29,7 @@
 import jakarta.servlet.ServletContainerInitializer;
 
 /**
- * The Piranha Webapplication - ServletContainerInitializer module.
+ * The Piranha Extension - ServletContainerInitializer module.
  * 
  * <p>
  *  This module delivers ServletContainerInitializer processing.
@@ -37,14 +37,11 @@ import jakarta.servlet.ServletContainerInitializer;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.webapp.scinitializer {
+module cloud.piranha.extension.scinitializer {
     
-    exports cloud.piranha.webapp.scinitializer;
-
-    opens cloud.piranha.webapp.scinitializer;
-
+    exports cloud.piranha.extension.scinitializer;
+    opens cloud.piranha.extension.scinitializer;
     requires cloud.piranha.webapp.api;
     requires jakarta.servlet;
-
     uses ServletContainerInitializer;
 }

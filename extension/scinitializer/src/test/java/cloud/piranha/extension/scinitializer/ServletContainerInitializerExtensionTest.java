@@ -25,8 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.scinitializer;
+package cloud.piranha.extension.scinitializer;
 
+import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import org.junit.jupiter.api.Test;
 

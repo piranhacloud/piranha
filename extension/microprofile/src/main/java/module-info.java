@@ -30,13 +30,12 @@ import cloud.piranha.extension.microprofile.MicroProfileExtension;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 
 module cloud.piranha.extension.microprofile {
+    
+    opens cloud.piranha.extension.microprofile;
+    provides WebApplicationExtension with MicroProfileExtension;
+    requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.microprofile.omnifaces.jwt;
     requires cloud.piranha.security.jakarta;
     requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.scinitializer;
     requires cloud.piranha.webapp.webxml;
-
-    provides WebApplicationExtension with MicroProfileExtension;
-    
-    opens cloud.piranha.extension.microprofile;
 }
