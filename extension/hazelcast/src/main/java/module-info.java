@@ -26,13 +26,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.session.hazelcast.HazelcastInitializer;
+import cloud.piranha.extension.hazelcast.HazelcastInitializer;
 
 import jakarta.servlet.ServletContainerInitializer;
 
-module cloud.piranha.session.hazelcast {
+module cloud.piranha.extension.hazelcast {
     
-    opens cloud.piranha.session.hazelcast;
+    opens cloud.piranha.extension.hazelcast;
 
     provides ServletContainerInitializer with HazelcastInitializer;
 
