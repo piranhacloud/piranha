@@ -17,7 +17,6 @@
 
     <modules>
         <module>smallrye</module>
-        <module>omnifaces</module>
     </modules>
 
     <dependencyManagement>

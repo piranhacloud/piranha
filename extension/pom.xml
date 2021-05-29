@@ -23,6 +23,7 @@
         <module>microprofile</module>
         <module>mojarra</module>
         <module>myfaces</module>
+        <module>omnifaces-jwt</module>
         <module>openwebbeans</module>
         <module>scinitializer</module>
         <module>servlet</module>

@@ -26,11 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.microprofile.omnifaces.jwt.OmniFacesJwtIntegrator;
+import cloud.piranha.extension.omnifaces.jwt.OmniFacesJwtIntegrator;
 import org.glassfish.jersey.internal.spi.ForcedAutoDiscoverable;
 
 /**
- * The Piranha MicroProfile - OmniFaces - JWT integration module.
+ * The Piranha Extension - OmniFaces JWT module.
  * 
  * <p>
  *  This module delivers the code needed to integrate OmniFaces JWT.
@@ -38,12 +38,10 @@ import org.glassfish.jersey.internal.spi.ForcedAutoDiscoverable;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.microprofile.omnifaces.jwt {
+module cloud.piranha.extension.omnifaces.jwt {
 
-    exports cloud.piranha.microprofile.omnifaces.jwt;
-
+    exports cloud.piranha.extension.omnifaces.jwt;
     provides ForcedAutoDiscoverable with OmniFacesJwtIntegrator;
-
     requires cloud.piranha.webapp.api;
     requires jakarta.annotation;
     requires jakarta.ws.rs;
