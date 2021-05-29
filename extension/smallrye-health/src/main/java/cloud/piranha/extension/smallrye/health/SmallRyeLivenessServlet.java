@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.microprofile.smallrye.health;
+package cloud.piranha.extension.smallrye.health;
 
 import io.smallrye.health.SmallRyeHealth;
 import io.smallrye.health.SmallRyeHealthReporter;

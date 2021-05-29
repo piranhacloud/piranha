@@ -49,7 +49,6 @@
         <module>extension</module>
         <module>http</module>
         <module>micro</module>
-        <module>microprofile</module>
         <module>modular</module>
         <module>naming</module>
         <module>nano</module>

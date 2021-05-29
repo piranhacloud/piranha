@@ -27,6 +27,7 @@
         <module>openwebbeans</module>
         <module>scinitializer</module>
         <module>servlet</module>
+        <module>smallrye-health</module>
         <module>tempdir</module>
         <module>wasp</module>
         <module>webprofile</module>
