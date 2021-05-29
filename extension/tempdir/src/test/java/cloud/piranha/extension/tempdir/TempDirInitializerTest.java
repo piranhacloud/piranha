@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.tempdir;
+package cloud.piranha.extension.tempdir;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.File;

@@ -19,7 +19,6 @@
         <module>annotationscan</module>
         <module>api</module>
         <module>impl</module>
-        <module>tempdir</module>
         <module>scinitializer</module>
         <module>webxml</module>
         <module>webannotation</module>

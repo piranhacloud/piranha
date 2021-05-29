@@ -25,6 +25,7 @@
         <module>myfaces</module>
         <module>openwebbeans</module>
         <module>servlet</module>
+        <module>tempdir</module>
         <module>wasp</module>
         <module>webprofile</module>
         <module>weld</module>
