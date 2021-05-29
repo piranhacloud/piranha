@@ -17,6 +17,7 @@
 
     <modules>
         <module>apache-fileupload</module>
+        <module>hazelcast</module>
         <module>jakartaee</module>
         <module>micro</module> 
         <module>microprofile</module>

@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.session.hazelcast;
+package cloud.piranha.extension.hazelcast;
 
 import cloud.piranha.webapp.api.HttpSessionManager;
 import java.io.Serializable;

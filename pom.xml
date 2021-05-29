@@ -59,7 +59,6 @@
         <module>server</module>
         <module>server2</module>
         <module>servlet</module>
-        <module>session</module>
         <module>transaction</module>
         <module>webapp</module>
     </modules>

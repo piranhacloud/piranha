@@ -25,12 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.session.hazelcast;
+package cloud.piranha.extension.hazelcast;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the HazelcastInitializer.
