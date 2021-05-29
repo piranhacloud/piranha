@@ -59,8 +59,3 @@ Or go into the directory of the external test you want to run and use:
 ```
 mvn clean install
 ```
-
-## Code conventions
-
-We have compiled a list of code conventions we try to adhere to, 
-see [Code Conventions](CODE_CONVENTIONS.md).
