@@ -31,7 +31,6 @@
         <module>micro</module>
         <module>mojarra2</module>
         <module>myfaces</module>
-        <module>quicklook</module>
         <!--<module>openwebbeans</module>-->
         <!--<module>smallrye-health</module>-->
         <!--<module>omnifaces-jwt</module>-->
