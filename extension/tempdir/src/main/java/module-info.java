@@ -25,54 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.tempdir;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.System.Logger.Level;
-import java.lang.System.Logger;
-
-import jakarta.servlet.ServletContainerInitializer;
-
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
- * The TEMPDIR WebApplicationExtension.
- *
+ * The Piranha Extension - TEMPDIR.
+ * 
+ * <p>
+ *  This module delivers the temporary directory functionality required for web
+ *  applications.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TempDirExtension implements WebApplicationExtension {
+module cloud.piranha.extension.tempdir {
 
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = System.getLogger(
-            TempDirExtension.class.getPackage().getName());
-
-    /**
-     * Configure the web application.
-     *
-     * @param webApplication the web application.
-     */
-    @Override
-    public void configure(WebApplication webApplication) {
-        try {
-            ClassLoader classLoader = webApplication.getClassLoader();
-
-            Class<? extends ServletContainerInitializer> clazz
-                    = classLoader.
-                            loadClass(TempDirInitializer.class.getName())
-                            .asSubclass(ServletContainerInitializer.class);
-
-            ServletContainerInitializer initializer
-                    = clazz.getDeclaredConstructor().newInstance();
-
-            webApplication.addInitializer(initializer);
-
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
-                | InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.log(Level.WARNING, "Unable to enable TEMPDIR WebApplicationExtension", ex);
-        }
-    }
+    exports cloud.piranha.extension.tempdir;
+    opens cloud.piranha.extension.tempdir;
+    requires cloud.piranha.webapp.api;
+    requires jakarta.servlet;
 }

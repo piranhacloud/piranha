@@ -25,23 +25,54 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.tempdir;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
+
+import jakarta.servlet.ServletContainerInitializer;
+
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
- * The Piranha Webapplication - TEMPDIR mopdule.
- * 
- * <p>
- *  This module delivers the temporary directory functionality required for web
- *  applications.
- * </p>
- * 
+ * The TEMPDIR WebApplicationExtension.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.webapp.tempdir {
+public class TempDirExtension implements WebApplicationExtension {
 
-    exports cloud.piranha.webapp.tempdir;
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(
+            TempDirExtension.class.getPackage().getName());
 
-    opens cloud.piranha.webapp.tempdir;
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        try {
+            ClassLoader classLoader = webApplication.getClassLoader();
 
-    requires cloud.piranha.webapp.api;
-    requires jakarta.servlet;
+            Class<? extends ServletContainerInitializer> clazz
+                    = classLoader.
+                            loadClass(TempDirInitializer.class.getName())
+                            .asSubclass(ServletContainerInitializer.class);
+
+            ServletContainerInitializer initializer
+                    = clazz.getDeclaredConstructor().newInstance();
+
+            webApplication.addInitializer(initializer);
+
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
+                | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException ex) {
+            LOGGER.log(Level.WARNING, "Unable to enable TEMPDIR WebApplicationExtension", ex);
+        }
+    }
 }
