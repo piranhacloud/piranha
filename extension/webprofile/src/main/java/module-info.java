@@ -28,10 +28,10 @@
 
 module cloud.piranha.extension.webprofile {
     
+    requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.webapp.annotationscan;
     requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.scinitializer;
     requires cloud.piranha.webapp.webannotation;
     requires cloud.piranha.webapp.webxml;
 }

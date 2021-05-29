@@ -24,6 +24,7 @@
         <module>mojarra</module>
         <module>myfaces</module>
         <module>openwebbeans</module>
+        <module>scinitializer</module>
         <module>servlet</module>
         <module>tempdir</module>
         <module>wasp</module>
