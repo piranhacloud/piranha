@@ -15,25 +15,27 @@
             certainly is very capable and it is very easy to use.
         </p>
         <h2>Example usage</h2>
-        <!-- tohtml.com -->
-        <!--
-            NanoPiranha piranha = new NanoPiranhaBuilder()
-                .servlet("TestHelloWorldServlet", new TestHelloWorldServlet())
-                .build();
-
-            NanoRequest request = new NanoRequestBuilder()
-                .method("GET")
-                .servletPath("/index.html")
-                .build();
-
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            NanoResponse response = new NanoResponseBuilder()
-                .outputStream(outputStream)
-                .build();
-
-            piranha.service(request, response);
         
-        -->
+<!-- tohtml.com
+        
+NanoPiranha piranha = new NanoPiranhaBuilder()
+    .servlet("TestHelloWorldServlet", new TestHelloWorldServlet())
+    .build();
+
+NanoRequest request = new NanoRequestBuilder()
+    .method("GET")
+    .servletPath("/index.html")
+    .build();
+
+ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+NanoResponse response = new NanoResponseBuilder()
+    .outputStream(outputStream)
+    .build();
+
+piranha.service(request, response);
+        
+-->
+
         <pre style="color:#000000;background:#ffffff;">NanoPiranha piranha <span style="color:#808030; ">=</span> new NanoPiranhaBuilder<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span>
     <span style="color:#808030; ">.</span>servlet<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">TestHelloWorldServlet</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> new TestHelloWorldServlet<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#808030; ">)</span>
     <span style="color:#808030; ">.</span>build<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
@@ -77,16 +79,16 @@ piranha<span style="color:#808030; ">.</span>service<span style="color:#808030; 
         <p>
             Please use the following dependency.
         </p>
-        <!-- tohtml.com -->
-        <!--
+
+<!-- tohtml.com
         
-            <dependency>
-                <groupId>cloud.piranha</groupId>
-                <artifactId>piranha-nano</artifactId>
-                <version>y.m.p</version>
-            </dependency>
+<dependency>
+    <groupId>cloud.piranha</groupId>
+    <artifactId>piranha-nano</artifactId>
+    <version>y.m.p</version>
+</dependency>
         
-        -->
+-->
 
 <pre style="color:#000000;background:#ffffff;"><span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">dependency</span><span style="color:#a65700; ">&gt;</span>
  <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">groupId</span><span style="color:#a65700; ">&gt;</span>cloud.piranha<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">groupId</span><span style="color:#a65700; ">&gt;</span>
@@ -98,10 +100,12 @@ piranha<span style="color:#808030; ">.</span>service<span style="color:#808030; 
             where y is the year, m is the month and p is the patch version of the release you want to use.
         </p>
         <h2>Where are the sources?</h2>
-        See GitHub at https://github.com/piranhacloud/piranha/tree/master/nano
+        <p>
+            See GitHub at https://github.com/piranhacloud/piranha/tree/master/nano
+        </p>
         <h2>Do you have any more examples?</h2>
         <ul>
-            <li>Processing JSP pages</li>
+            <li><a href="nano-jsp.html">Using JSP pages with Piranha Nano</a></li>
         </ul>
         <p>
             <a href="getting-started.html">Back to Getting Started</a>
