@@ -19,7 +19,6 @@
         <module>annotationscan</module>
         <module>api</module>
         <module>impl</module>
-        <module>webxml</module>
     </modules>
 
     <dependencyManagement>

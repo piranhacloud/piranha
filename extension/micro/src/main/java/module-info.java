@@ -35,6 +35,6 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webannotations;
+    requires cloud.piranha.extension.webxml;
     requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.webxml;
 }

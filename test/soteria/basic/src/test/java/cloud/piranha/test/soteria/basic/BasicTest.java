@@ -50,12 +50,12 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.security.eleos.AuthenticationInitializer;
 import cloud.piranha.security.exousia.AuthorizationInitializer;
 import cloud.piranha.security.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 import cloud.piranha.security.soteria.SoteriaInitializer;
-import cloud.piranha.webapp.webxml.WebXmlInitializer;
 
 @BasicAuthenticationMechanismDefinition(realmName = "test")
 class BasicTest {

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+            http://xmlns.jcp.org/xml/ns/javaee
+            http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <context-param>
+        <param-name>myname</param-name>
+        <param-value>myvalue</param-value>
+    </context-param>
+    <filter>
+        <filter-name>>Test Filter</filter-name>
+        <filter-class>cloud.piranha.extension.webxml.tests.TestFilter</filter-class>
+    </filter>
+    <servlet>
+        <servlet-name>Test Servlet</servlet-name>
+        <servlet-class>cloud.piranha.extension.webxml.test.TestServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
+    </servlet>    
+    <servlet>
+        <servlet-name>Test Servlet 2</servlet-name>
+        <servlet-class>cloud.piranha.extension.webxml.tests.TestServlet</servlet-class>
+        <async-supported>false</async-supported>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Test Servlet</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+    <mime-mapping>
+        <extension>class</extension>
+        <mime-type>application/x-java-class</mime-type>
+    </mime-mapping>
+    <default-context-path>/defaultContextPath</default-context-path>
+    <deny-uncovered-http-methods/>
+    <display-name>myServletContextName</display-name>
+    <distributable/>
+    <response-character-encoding>UTF-8</response-character-encoding>
+</web-app>

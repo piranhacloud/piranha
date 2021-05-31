@@ -31,10 +31,10 @@ package cloud.piranha.extension.webprofile;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
+import cloud.piranha.extension.webxml.WebXmlExtension;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
-import cloud.piranha.webapp.webxml.WebXmlExtension;
 
 /**
  * The EclipseWebProfileExtension.

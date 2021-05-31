@@ -34,6 +34,7 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.security.eleos.AuthenticationInitializer;
 import cloud.piranha.security.exousia.AuthorizationInitializer;
 import cloud.piranha.security.exousia.AuthorizationPreInitializer;
@@ -42,7 +43,6 @@ import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_P
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.CONSTRAINTS;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 import cloud.piranha.security.soteria.SoteriaInitializer;
-import cloud.piranha.webapp.webxml.WebXmlInitializer;
 import java.net.URL;
 import static java.util.Arrays.asList;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
