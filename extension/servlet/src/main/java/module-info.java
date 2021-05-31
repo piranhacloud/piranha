@@ -52,7 +52,7 @@ module cloud.piranha.extension.servlet {
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webannotations;
+    requires cloud.piranha.extension.webxml;
     requires cloud.piranha.webapp.annotationscan;
     requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.webxml;
 }

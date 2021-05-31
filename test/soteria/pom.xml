@@ -32,6 +32,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-webxml</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.security</groupId>
             <artifactId>piranha-security-eleos</artifactId>
             <version>${project.version}</version>
@@ -46,12 +52,6 @@
         <dependency>
             <groupId>cloud.piranha.security</groupId>
             <artifactId>piranha-security-jakarta</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-webxml</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

@@ -27,9 +27,9 @@
  */
 package com.piranha.test.webxml.webfragmentinjar;
 
+import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
-import cloud.piranha.webapp.webxml.WebXmlInitializer;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;

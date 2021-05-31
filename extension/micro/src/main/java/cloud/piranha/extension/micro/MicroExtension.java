@@ -32,10 +32,10 @@ import static java.util.Arrays.asList;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.wasp.WaspInitializer;
 import cloud.piranha.extension.webannotations.WebAnnotationsInitializer;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.webxml.WebXmlInitializer;
 
 /**
  * The default {@link WebApplicationExtension} used to configure a web application for Piranha Micro.

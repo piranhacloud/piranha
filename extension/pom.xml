@@ -33,6 +33,7 @@
         <module>webprofile</module>
         <module>weld</module>
         <module>webannotations</module>
+        <module>webxml</module>
     </modules>
 
     <dependencyManagement>
