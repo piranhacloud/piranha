@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Piranha Nano</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>Using JSP pages with Piranha Nano</h1>
+        <p>
+            Below is a quick recipe to get Piranha Nano serving JSP pages.
+        </p>
+        <h2>JSP page</h2>
+
+<!-- tohtml.com
+
+<%@page contentType="text/html" pageEncoding="UTF-8" session="false"%>
+Hello JSP
+
+-->
+
+<pre style="color:#000000;background:#ffffff;"><span style="color:#5f5035; background:#ffffe8; ">&lt;%</span><span style="color:#000000; background:#ffffe8; ">@page contentType</span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#808030; background:#ffffe8; ">"</span><span style="color:#0000e6; background:#ffffe8; ">text/html</span><span style="color:#808030; background:#ffffe8; ">"</span><span style="color:#000000; background:#ffffe8; "> pageEncoding</span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#808030; background:#ffffe8; ">"</span><span style="color:#0000e6; background:#ffffe8; ">UTF-8</span><span style="color:#808030; background:#ffffe8; ">"</span><span style="color:#000000; background:#ffffe8; "> session</span><span style="color:#808030; background:#ffffe8; ">=</span><span style="color:#808030; background:#ffffe8; ">"</span><span style="color:#0000e6; background:#ffffe8; ">false</span><span style="color:#808030; background:#ffffe8; ">"</span><span style="color:#5f5035; background:#ffffe8; ">%&gt;</span>
+Hello JSP
+</pre>
+
+        <h2>Java code</h2>
+
+<!-- tohtml.com
+
+NanoPiranha piranha = new NanoPiranhaBuilder()
+    .directoryResource("src/test/jsp")
+    .servlet("JSP Servlet", new JspServlet())
+    .servletInitParam("JSP Servlet", "classpath", System.getProperty("java.class.path"))
+    .servletInitParam("JSP Servlet", "compilerSourceVM", "1.8")
+    .servletInitParam("JSP Servlet", "compilerTargetVM", "1.8")
+    .build();
+
+NanoRequest request = new NanoRequestBuilder()
+    .method("GET")
+    .servletPath("/index.jsp")
+    .build();
+
+ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+NanoResponse response = new NanoResponseBuilder()
+    .outputStream(outputStream)
+    .build();
+
+piranha.service(request, response);
+
+-->
+
+<pre style="color:#000000;background:#ffffff;">NanoPiranha piranha <span style="color:#808030; ">=</span> new NanoPiranhaBuilder<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>directoryResource<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">src/test/jsp</span><span style="color:#800000; ">"</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>servlet<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">JSP Servlet</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> new JspServlet<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>servletInitParam<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">JSP Servlet</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">classpath</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> System<span style="color:#808030; ">.</span>getProperty<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">java.class.path</span><span style="color:#800000; ">"</span><span style="color:#808030; ">)</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>servletInitParam<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">JSP Servlet</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">compilerSourceVM</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">1.8</span><span style="color:#800000; ">"</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>servletInitParam<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">JSP Servlet</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">compilerTargetVM</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">1.8</span><span style="color:#800000; ">"</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>build<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+NanoRequest request <span style="color:#808030; ">=</span> new NanoRequestBuilder<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>method<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">GET</span><span style="color:#800000; ">"</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>servletPath<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">/index.jsp</span><span style="color:#800000; ">"</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>build<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+ByteArrayOutputStream outputStream <span style="color:#808030; ">=</span> new ByteArrayOutputStream<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+NanoResponse response <span style="color:#808030; ">=</span> new NanoResponseBuilder<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>outputStream<span style="color:#808030; ">(</span>outputStream<span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>build<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+piranha<span style="color:#808030; ">.</span>service<span style="color:#808030; ">(</span>request<span style="color:#808030; ">,</span> response<span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+</pre>
+
+        <p>
+            Note in this example src/test/jsp is the directory on your fileystem
+            where you put the index.jsp page
+        </p>
+        <h2>Maven coordinates</h2>
+        <p>
+            Please use the following dependencies for the example
+        </p>
+
+<!-- tohtml.com
+
+<dependency>
+    <groupId>cloud.piranha</groupId>
+    <artifactId>piranha-nano</artifactId>
+    <version>y.m.p</version>
+<dependency>
+<dependency>
+    <groupId>org.glassfish.web</groupId>
+    <artifactId>jakarta.servlet.jsp</artifactId>
+    <version>2.3.5</version>
+</dependency>
+
+-->
+
+<pre style="color:#000000;background:#ffffff;"><span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">dependency</span><span style="color:#a65700; ">&gt;</span>
+    <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">groupId</span><span style="color:#a65700; ">&gt;</span>cloud.piranha<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">groupId</span><span style="color:#a65700; ">&gt;</span>
+    <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">artifactId</span><span style="color:#a65700; ">&gt;</span>piranha-nano<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">artifactId</span><span style="color:#a65700; ">&gt;</span>
+    <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">version</span><span style="color:#a65700; ">&gt;</span>y.m.p<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">version</span><span style="color:#a65700; ">&gt;</span>
+<span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">dependency</span><span style="color:#a65700; ">&gt;</span>
+<span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">dependency</span><span style="color:#a65700; ">&gt;</span>
+    <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">groupId</span><span style="color:#a65700; ">&gt;</span>org.glassfish.web<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">groupId</span><span style="color:#a65700; ">&gt;</span>
+    <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">artifactId</span><span style="color:#a65700; ">&gt;</span>jakarta.servlet.jsp<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">artifactId</span><span style="color:#a65700; ">&gt;</span>
+    <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">version</span><span style="color:#a65700; ">&gt;</span>2.3.5<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">version</span><span style="color:#a65700; ">&gt;</span>
+<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">dependency</span><span style="color:#a65700; ">&gt;</span>
+</pre>
+    
+        <p>
+            where y is the year, m is the month and p is the patch version of
+            the release you want to use.
+        </p>
+        <p>
+            <a href="nano.html">Back</a>
+        </p>
+    </body>
+</html>
