@@ -30,10 +30,10 @@ package cloud.piranha.extension.servlet;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
+import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
 import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;
-import cloud.piranha.webapp.webannotation.WebAnnotationExtension;
 import cloud.piranha.webapp.webxml.WebXmlExtension;
 
 /**
@@ -55,7 +55,7 @@ public class ServletExtension implements WebApplicationExtension {
         context.add(AnnotationScanExtension.class);
         context.add(WaspExtension.class);
         context.add(WebXmlExtension.class);
-        context.add(WebAnnotationExtension.class);
+        context.add(WebAnnotationsExtension.class);
         context.add(TempDirExtension.class);
         context.add(ServletContainerInitializerExtension.class);
     }

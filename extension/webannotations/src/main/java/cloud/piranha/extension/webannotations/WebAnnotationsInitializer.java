@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.webannotation;
+package cloud.piranha.extension.webannotations;
 
 import static java.lang.System.Logger.Level.WARNING;
 import static java.util.Arrays.asList;
@@ -72,12 +72,12 @@ import jakarta.servlet.http.HttpServlet;
  *
  * @author Arjan Tijms
  */
-public class WebAnnotationInitializer implements ServletContainerInitializer {
+public class WebAnnotationsInitializer implements ServletContainerInitializer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(WebAnnotationInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(WebAnnotationsInitializer.class.getName());
 
     /**
      * On startup.

@@ -27,21 +27,19 @@
  */
 
 /**
- * The Piranha Webapplication - Web Annotation Integration module.
+ * The Piranha Extension - Web Annotations module.
  * 
  * <p>
- *  This module delivers everything related to Web Annotation (e.g. @WebServlet)
+ *  This module delivers everything related to web annotations (e.g. @WebServlet)
  *  processing.
  * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.webapp.webannotation {
+module cloud.piranha.extension.webannotations {
     
-    exports cloud.piranha.webapp.webannotation;
-
-    opens cloud.piranha.webapp.webannotation;
-    
+    exports cloud.piranha.extension.webannotations;
+    opens cloud.piranha.extension.webannotations;
     requires cloud.piranha.webapp.api;
     requires jakarta.annotation;
     requires jakarta.servlet;
