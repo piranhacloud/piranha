@@ -20,7 +20,6 @@
         <module>api</module>
         <module>impl</module>
         <module>webxml</module>
-        <module>webannotation</module>
     </modules>
 
     <dependencyManagement>

@@ -31,10 +31,10 @@ import static java.util.Arrays.asList;
 
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.wasp.WaspInitializer;
+import cloud.piranha.extension.webannotations.WebAnnotationsInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.webannotation.WebAnnotationInitializer;
 import cloud.piranha.webapp.webxml.WebXmlInitializer;
 
 /**
@@ -52,7 +52,7 @@ public class MicroExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         webApplication.addInitializer(new WebXmlInitializer());
-        webApplication.addInitializer(new WebAnnotationInitializer());
+        webApplication.addInitializer(new WebAnnotationsInitializer());
         webApplication.addInitializer(new JakartaSecurityAllInitializer());
         webApplication.addInitializer(new WaspInitializer());
         new ServletContainerInitializerExtension(

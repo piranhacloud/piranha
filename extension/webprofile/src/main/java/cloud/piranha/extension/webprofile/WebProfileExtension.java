@@ -30,10 +30,10 @@ package cloud.piranha.extension.webprofile;
 
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
+import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
-import cloud.piranha.webapp.webannotation.WebAnnotationExtension;
 import cloud.piranha.webapp.webxml.WebXmlExtension;
 
 /**
@@ -66,7 +66,7 @@ public class WebProfileExtension implements WebApplicationExtension {
     public void extend(WebApplicationExtensionContext context) {
         context.add(AnnotationScanExtension.class);
         context.add(WebXmlExtension.class);
-        context.add(WebAnnotationExtension.class);
+        context.add(WebAnnotationsExtension.class);
         context.add(TempDirExtension.class);
         context.add(ServletContainerInitializerExtension.class);
     }
