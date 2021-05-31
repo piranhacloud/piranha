@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Piranha Embedded</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>Piranha Embedded</h1>
+        <p>
+            This distribution of Piranha delivers you with an embeddable
+            implementation of a Servlet container. It is used extensively within
+            the Piranha project itself to test all the Servlet functionality.
+        </p>
+        <h2>Example usage</h2>
+        
+<!-- tohtml.com
+
+EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+    .servlet("SnoopServlet", SnoopServlet.class.getName())
+    .servletMapping("SnoopServlet", "/SnoopServlet")
+    .build()
+    .start();
+
+EmbeddedRequest request = new EmbeddedRequestBuilder()
+    .servletPath("/SnoopServlet")
+    .build();
+
+EmbeddedResponse response = new EmbeddedResponseBuilder()
+    .build();
+
+piranha.service(request, response);
+
+assertTrue(response.getResponseAsString().endsWith("SUCCESS"));
+
+piranha
+    .stop()
+    .destroy();
+
+-->
+
+
+<pre style="color:#000000;background:#ffffff;">EmbeddedPiranha piranha <span style="color:#808030; ">=</span> new EmbeddedPiranhaBuilder<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>servlet<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">SnoopServlet</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> SnoopServlet<span style="color:#808030; ">.</span>class<span style="color:#808030; ">.</span>getName<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>servletMapping<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">SnoopServlet</span><span style="color:#800000; ">"</span><span style="color:#808030; ">,</span> <span style="color:#800000; ">"</span><span style="color:#0000e6; ">/SnoopServlet</span><span style="color:#800000; ">"</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>build<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>start<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+EmbeddedRequest request <span style="color:#808030; ">=</span> new EmbeddedRequestBuilder<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>servletPath<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">/SnoopServlet</span><span style="color:#800000; ">"</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>build<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+EmbeddedResponse response <span style="color:#808030; ">=</span> new EmbeddedResponseBuilder<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>build<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+piranha<span style="color:#808030; ">.</span>service<span style="color:#808030; ">(</span>request<span style="color:#808030; ">,</span> response<span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+assertTrue<span style="color:#808030; ">(</span>response<span style="color:#808030; ">.</span>getResponseAsString<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#808030; ">.</span>endsWith<span style="color:#808030; ">(</span><span style="color:#800000; ">"</span><span style="color:#0000e6; ">SUCCESS</span><span style="color:#800000; ">"</span><span style="color:#808030; ">)</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+
+piranha
+    <span style="color:#808030; ">.</span>stop<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span>
+    <span style="color:#808030; ">.</span>destroy<span style="color:#808030; ">(</span><span style="color:#808030; ">)</span><span style="color:#800080; ">;</span>
+</pre>
+
+    
+        <p>
+            The example above adds the SnoopServlet to Piranha Embedded. It
+            creates a GET request at path /SnoopServlet and it create the
+            response. And it then asks Piranha Embedded to process it. And then
+            it asserts the response contains SUCCESS.
+        </p>
+        <h2>Recommendation</h2>
+        <p>
+            We recommend using the EmbeddedPiranhaBuilder to create your
+            instances of EmbeddedPiranha.
+        </p>
+        <h2>Expectations and assumptions</h2>
+        <ul>
+            <li>You take care of class loading (if more isolation is needed).</li>
+            <li>You setup the request object.</li>
+            <li>You setup the response object.</li>
+        </ul>
+        <h2>Limitations</h2>
+        <ul>
+            <li>Only supports one web application per Piranha Embedded instance.</li>
+        </ul>
+        <h2>Maven coordinates</h2>
+        <p>
+            Please use the following dependency.
+        </p>
+
+<!--
+
+<dependency>
+    <groupId>cloud.piranha</groupId>
+    <artifactId>piranha-embedded</artifactId>
+    <version>y.m.p</version>
+</dependency>
+
+-->
+
+
+<pre style="color:#000000;background:#ffffff;"><span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">dependency</span><span style="color:#a65700; ">&gt;</span>
+    <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">groupId</span><span style="color:#a65700; ">&gt;</span>cloud.piranha<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">groupId</span><span style="color:#a65700; ">&gt;</span>
+    <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">artifactId</span><span style="color:#a65700; ">&gt;</span>piranha-embedded<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">artifactId</span><span style="color:#a65700; ">&gt;</span>
+    <span style="color:#a65700; ">&lt;</span><span style="color:#5f5035; ">version</span><span style="color:#a65700; ">&gt;</span>y.m.p<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">version</span><span style="color:#a65700; ">&gt;</span>
+<span style="color:#a65700; ">&lt;/</span><span style="color:#5f5035; ">dependency</span><span style="color:#a65700; ">&gt;</span>
+</pre>
+
+        <p>
+            where y is the year, m is the month and p is the patch version of 
+            the release you want to use.
+        </p>
+        <h2>Where are the sources?</h2>
+        <p>
+            See GitHub at https://github.com/piranhacloud/piranha/tree/master/embedded
+        </p>
+        <hr>
+        <p>
+            <a href="getting-started.html">Back to Getting Started</a>
+        </p>
+    </body>
+</html>
