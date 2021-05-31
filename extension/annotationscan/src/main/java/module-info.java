@@ -25,48 +25,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.annotationscan;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.System.Logger.Level;
-import java.lang.System.Logger;
-
-import jakarta.servlet.ServletContainerInitializer;
-
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
- * The extension that enables annotation scanning.
- *
+ * The Piranha Extension - Annotation Scan module.
+ * 
+ * <p>
+ *  This module delivers the annotation scanning functionality required for web
+ *  applications.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AnnotationScanExtension implements WebApplicationExtension {
+module cloud.piranha.extension.annotationscan {
 
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = System.getLogger(AnnotationScanExtension.class.getName());
-
-    /**
-     * Configure the web application.
-     *
-     * @param webApplication the web application.
-     */
-    @Override
-    public void configure(WebApplication webApplication) {
-        try {
-            ClassLoader classLoader = webApplication.getClassLoader();
-            Class<? extends ServletContainerInitializer> clazz
-                    = classLoader
-                        .loadClass(AnnotationScanInitializer.class.getName())
-                        .asSubclass(ServletContainerInitializer.class);
-            ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
-            webApplication.addInitializer(initializer);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
-                | InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.log(Level.WARNING, "Unable to enable AnnotationScanExtension", ex);
-        }
-    }
+    exports cloud.piranha.extension.annotationscan;
+    opens cloud.piranha.extension.annotationscan;
+    requires cloud.piranha.resource.api;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
+    requires jakarta.servlet;
 }

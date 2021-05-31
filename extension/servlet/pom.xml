@@ -31,6 +31,18 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-annotationscan</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-scinitializer</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-tempdir</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -38,19 +50,6 @@
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-wasp</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-apache-fileupload</artifactId>
-            <version>${project.version}</version>
-            <classifier>shaded</classifier>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-scinitializer</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -68,15 +67,16 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-annotationscan</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-apache-fileupload</artifactId>
+            <version>${project.version}</version>
+            <classifier>shaded</classifier>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.tyrus</groupId>

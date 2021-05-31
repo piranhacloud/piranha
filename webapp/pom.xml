@@ -16,7 +16,6 @@
     <name>Piranha Webapplication - Project</name>
 
     <modules>
-        <module>annotationscan</module>
         <module>api</module>
         <module>impl</module>
     </modules>
