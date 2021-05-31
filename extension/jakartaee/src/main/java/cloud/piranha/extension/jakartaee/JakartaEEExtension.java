@@ -27,12 +27,12 @@
  */
 package cloud.piranha.extension.jakartaee;
 
+import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
 import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
-import cloud.piranha.webapp.annotationscan.AnnotationScanExtension;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 

@@ -25,25 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.annotationscan;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
+
+import jakarta.servlet.ServletContainerInitializer;
+
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
- * The Piranha Webapplication - Annotation Scan module.
- * 
- * <p>
- *  This module delivers the annotation scanning functionality required for web
- *  applications.
- * </p>
- * 
+ * The extension that enables annotation scanning.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.webapp.annotationscan {
+public class AnnotationScanExtension implements WebApplicationExtension {
 
-    exports cloud.piranha.webapp.annotationscan;
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(AnnotationScanExtension.class.getName());
 
-    opens cloud.piranha.webapp.annotationscan;
-    
-    requires cloud.piranha.resource.api;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
-    requires jakarta.servlet;
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        try {
+            ClassLoader classLoader = webApplication.getClassLoader();
+            Class<? extends ServletContainerInitializer> clazz
+                    = classLoader
+                        .loadClass(AnnotationScanInitializer.class.getName())
+                        .asSubclass(ServletContainerInitializer.class);
+            ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
+            webApplication.addInitializer(initializer);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
+                | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException ex) {
+            LOGGER.log(Level.WARNING, "Unable to enable AnnotationScanExtension", ex);
+        }
+    }
 }

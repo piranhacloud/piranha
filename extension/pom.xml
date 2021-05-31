@@ -16,6 +16,7 @@
     <name>Piranha Extension - Project</name>
 
     <modules>
+        <module>annotationscan</module>
         <module>apache-fileupload</module>
         <module>hazelcast</module>
         <module>jakartaee</module>

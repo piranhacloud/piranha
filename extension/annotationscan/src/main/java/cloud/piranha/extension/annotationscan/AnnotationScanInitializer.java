@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.annotationscan;
+package cloud.piranha.extension.annotationscan;
 
 import static java.lang.System.Logger.Level.WARNING;
 import static java.util.Arrays.stream;
