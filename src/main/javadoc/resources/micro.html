@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Piranha Micro</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>Piranha Micro</h1>
+        <h2>Installing Piranha Micro</h2>
+        <p>
+            Download the JAR file from <a href="https://repo1.maven.org/maven2/cloud/piranha/piranha-micro">Maven Central</a>.
+        </p>
+        <h2>Running with a WAR file</h2>
+        <p>
+            If you have a WAR file you can use the command line below:
+        </p>
+        <pre>
+
+  java -jar piranha-micro.jar --war your_webapplication.war
+        </pre>
+        <h2>Running with an exploded WAR file</h2>
+        <p>
+            If you have an exploded directory containing the contents of your
+            WAR file you can use the command line below:
+        </p>
+        <pre>
+
+  java -jar piranha-micro.jar --webapp your_webapp_directory
+        </pre>
+        <h2>Changing the HTTP port</h2>
+        <p>
+            If you want to use a different HTTP port (e.g to port 8888) you can
+            use --port as illustrated by the command line below:
+        </p>
+        <pre>
+
+  java -jar piranha-micro.jar --war your_webapplication.war --port 8888
+        </pre>
+        <h2>Additional customizations</h2>
+        <ul>
+            <li>Use an alternate HTTP server</li>
+            <li>Which extensions are available?</li>
+        </ul>
+        <h2>Limitations</h2>
+        <ul>
+            <li>Only supports one web application per JVM.</li>
+        </ul>
+        <h2>Where are the sources?</h2>
+        <p>
+            See GitHub at https://github.com/piranhacloud/piranha/tree/master/micro
+        </p>
+        <h2>Additional shared documentation</h2>
+        <ul>
+            <li>Adding more mime types to your web application</li>
+        </ul>
+        <hr>
+        <p>
+            <a href="getting-started.html">Back to Getting Started</a>
+        </p>
+    </body>
+</html>
