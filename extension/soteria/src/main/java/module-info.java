@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Security - Glassfish Soteria integration module.
+ * The Piranha Extension - Glassfish Soteria module.
  * 
  * <p>
  *  This module delivers Glassfish Soteria integration into Piranha.
@@ -35,13 +35,12 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.security.soteria {
+module cloud.piranha.extension.soteria {
     
-    exports cloud.piranha.security.soteria;
+    exports cloud.piranha.extension.soteria;
     requires cloud.piranha.naming.impl;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-
     requires jakarta.inject;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;

@@ -31,6 +31,7 @@
         <module>scinitializer</module>
         <module>servlet</module>
         <module>smallrye-health</module>
+        <module>soteria</module>
         <module>tempdir</module>
         <module>wasp</module>
         <module>webprofile</module>

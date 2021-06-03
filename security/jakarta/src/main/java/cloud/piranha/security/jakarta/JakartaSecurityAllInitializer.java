@@ -43,8 +43,8 @@ import cloud.piranha.extension.eleos.AuthenticationInitializer;
 import cloud.piranha.extension.exousia.AuthorizationInitializer;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
 import cloud.piranha.extension.weld.WeldInitializer;
-import cloud.piranha.security.soteria.SoteriaInitializer;
-import cloud.piranha.security.soteria.SoteriaPreCDIInitializer;
+import cloud.piranha.extension.soteria.SoteriaInitializer;
+import cloud.piranha.extension.soteria.SoteriaPreCDIInitializer;
 
 /**
  * The Jakarta Security All initializer.

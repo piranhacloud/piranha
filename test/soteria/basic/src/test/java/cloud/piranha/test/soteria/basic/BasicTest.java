@@ -55,7 +55,7 @@ import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.extension.exousia.AuthorizationInitializer;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
-import cloud.piranha.security.soteria.SoteriaInitializer;
+import cloud.piranha.extension.soteria.SoteriaInitializer;
 
 @BasicAuthenticationMechanismDefinition(realmName = "test")
 class BasicTest {
