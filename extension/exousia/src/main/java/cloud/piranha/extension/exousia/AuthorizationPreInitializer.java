@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.security.exousia;
+package cloud.piranha.extension.exousia;
 
 import java.security.Permission;
 import java.security.Policy;
@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import static cloud.piranha.security.exousia.AuthorizationPreFilter.localServletRequest;
+import static cloud.piranha.extension.exousia.AuthorizationPreFilter.localServletRequest;
 import static java.util.Collections.emptyList;
 import static org.omnifaces.exousia.constraints.SecurityConstraint.join;
 

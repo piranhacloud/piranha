@@ -39,13 +39,13 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-webxml</artifactId>
+            <artifactId>piranha-extension-exousia</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.security</groupId>
-            <artifactId>piranha-security-exousia</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-webxml</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

@@ -61,14 +61,14 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.wasp</groupId>
-            <artifactId>wasp</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-exousia</artifactId>
+            <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.security</groupId>
-            <artifactId>piranha-security-exousia</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.glassfish.wasp</groupId>
+            <artifactId>wasp</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>

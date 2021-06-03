@@ -27,9 +27,9 @@
  */
 package cloud.piranha.test.soteria.basic;
 
-import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
-import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
-import static cloud.piranha.security.exousia.AuthorizationPreInitializer.CONSTRAINTS;
+import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
+import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.CONSTRAINTS;
 import static java.util.Arrays.asList;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -52,8 +52,8 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
-import cloud.piranha.security.exousia.AuthorizationInitializer;
-import cloud.piranha.security.exousia.AuthorizationPreInitializer;
+import cloud.piranha.extension.exousia.AuthorizationInitializer;
+import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;
 import cloud.piranha.security.soteria.SoteriaInitializer;
 

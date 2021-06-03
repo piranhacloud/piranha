@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Security - OmniFaces Exousia integration module.
+ * The Piranha Extension - OmniFaces Exousia module.
  * 
  * <p>
  *  This module delivers OmniFaces Exousia integration into Piranha.
@@ -35,10 +35,9 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.security.exousia {
+module cloud.piranha.extension.exousia {
     
-    exports cloud.piranha.security.exousia;
-
+    exports cloud.piranha.extension.exousia;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires jakarta.security.jacc;
