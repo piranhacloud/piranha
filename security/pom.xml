@@ -16,7 +16,6 @@
     <name>Piranha Security - Project</name>
 
     <modules>
-        <module>exousia</module>
         <module>jakarta</module>
         <module>soteria</module>
         <module>file</module>

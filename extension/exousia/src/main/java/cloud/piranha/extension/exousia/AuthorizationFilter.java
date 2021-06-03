@@ -25,13 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.security.exousia;
+package cloud.piranha.extension.exousia;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
 import java.io.IOException;
 
-import jakarta.security.jacc.PolicyContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
@@ -46,33 +45,28 @@ import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 
 /**
- * This filter is uses to call a Jakarta Authentication system module at the
+ * This filter is used to call a Jakarta Authorization system module at the
  * start of an HTTP request.
  *
  * <p>
- * Note, this Filter *MUST* be installed as the first filter, and it should
- * *NOT* be possible to place a filter before this filter. The standard Servlet
- * API does not provide facilities for this.
+ * Note, this Filter should be installed after the AuthorizationPre filter, and
+ * after the AuthenticationFilter, but before any application filters.
  *
  * @author Arjan Tijms
  *
  */
-public class AuthorizationPreFilter extends HttpFilter implements FilterPriority {
-
-    /**
-     * Stores the local servlet request.
-     */
-    public static ThreadLocal<HttpServletRequest> localServletRequest = new ThreadLocal<>();
+public class AuthorizationFilter extends HttpFilter implements FilterPriority {
 
     /**
      * Stores the priority.
      */
-    public static int PRIORITY = 0;
-
-    private static final long serialVersionUID = 8478463438252262094L;
+    public static int PRIORITY = 10;
+    
+    private static final long serialVersionUID = 1178463438252262094L;
 
     /**
      * Stores the security manager.
+     * 
      */
     private SecurityManager securityManager;
 
@@ -93,19 +87,11 @@ public class AuthorizationPreFilter extends HttpFilter implements FilterPriority
 
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        WebApplication context = (WebApplication) request.getServletContext();
-        PolicyContext.setContextID(context.getServletContextId());
-
-        if (!securityManager.isRequestSecurityAsRequired(request, response)) {
+        if (!securityManager.isCallerAuthorizedForResource(request)) {
             response.setStatus(SC_FORBIDDEN);
             return;
         }
 
-        localServletRequest.set(request);
-        try {
-            chain.doFilter(request, response);
-        } finally {
-            localServletRequest.remove();
-        }
+        chain.doFilter(request, response);
     }
 }

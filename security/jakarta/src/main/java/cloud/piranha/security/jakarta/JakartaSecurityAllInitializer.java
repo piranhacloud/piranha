@@ -27,8 +27,8 @@
  */
 package cloud.piranha.security.jakarta;
 
-import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
-import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
+import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 
 import java.util.Set;
 
@@ -40,9 +40,9 @@ import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 import cloud.piranha.extension.eleos.AuthenticationInitializer;
+import cloud.piranha.extension.exousia.AuthorizationInitializer;
+import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
 import cloud.piranha.extension.weld.WeldInitializer;
-import cloud.piranha.security.exousia.AuthorizationInitializer;
-import cloud.piranha.security.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.soteria.SoteriaInitializer;
 import cloud.piranha.security.soteria.SoteriaPreCDIInitializer;
 

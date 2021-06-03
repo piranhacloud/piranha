@@ -28,9 +28,10 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.security</groupId>
-            <artifactId>piranha-security-exousia</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-exousia</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.security</groupId>
