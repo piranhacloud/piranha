@@ -18,6 +18,7 @@
     <modules>
         <module>annotationscan</module>
         <module>apache-fileupload</module>
+        <module>eleos</module>
         <module>hazelcast</module>
         <module>jakartaee</module>
         <module>micro</module> 

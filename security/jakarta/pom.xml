@@ -16,9 +16,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.security</groupId>
-            <artifactId>piranha-security-eleos</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eleos</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
             <exclusions>
                 <exclusion>
                     <groupId>jakarta.servlet</groupId>

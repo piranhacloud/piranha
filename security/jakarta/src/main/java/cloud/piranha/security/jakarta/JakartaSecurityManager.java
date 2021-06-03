@@ -27,7 +27,7 @@
  */
 package cloud.piranha.security.jakarta;
 
-import static cloud.piranha.security.eleos.AuthenticationInitializer.AUTH_SERVICE;
+import static cloud.piranha.extension.eleos.AuthenticationInitializer.AUTH_SERVICE;
 import static cloud.piranha.security.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
 import static cloud.piranha.webapp.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
 import static cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity.getCurrentSubject;
