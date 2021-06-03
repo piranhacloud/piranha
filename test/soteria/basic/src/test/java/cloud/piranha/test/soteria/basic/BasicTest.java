@@ -44,6 +44,7 @@ import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.modules.def.DefaultPolicy;
 import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
+import cloud.piranha.extension.eleos.AuthenticationInitializer;
 import cloud.piranha.extension.weld.WeldInitializer;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
@@ -51,7 +52,6 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
-import cloud.piranha.security.eleos.AuthenticationInitializer;
 import cloud.piranha.security.exousia.AuthorizationInitializer;
 import cloud.piranha.security.exousia.AuthorizationPreInitializer;
 import cloud.piranha.security.jakarta.JakartaSecurityInitializer;

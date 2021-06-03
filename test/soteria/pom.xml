@@ -33,13 +33,13 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-webxml</artifactId>
+            <artifactId>piranha-extension-eleos</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.security</groupId>
-            <artifactId>piranha-security-eleos</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-webxml</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.security.eleos;
+package cloud.piranha.extension.eleos;
 
 import static cloud.piranha.webapp.api.SecurityManager.AuthenticateSource.PRE_REQUEST_CONTAINER;
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
