@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.security</groupId>
+        <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
         <version>21.6.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-security-jakarta</artifactId>
+    <artifactId>piranha-extension-security-jakarta</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Security - Jakarta Security Integration</name>
+    <name>Piranha Extension - Security - Jakarta</name>
 
     <dependencies>
         <dependency>

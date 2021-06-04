@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.security.jakarta;
+package cloud.piranha.extension.security.jakarta;
 
 import static cloud.piranha.extension.eleos.AuthenticationInitializer.AUTH_SERVICE;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;

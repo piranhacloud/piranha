@@ -30,6 +30,7 @@
         <module>openwebbeans</module>
         <module>scinitializer</module>
         <module>security-file</module>
+        <module>security-jakarta</module>
         <module>servlet</module>
         <module>smallrye-health</module>
         <module>soteria</module>
