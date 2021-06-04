@@ -17,7 +17,6 @@
 
     <modules>
         <module>jakarta</module>
-        <module>file</module>
     </modules>
 
     <dependencyManagement>

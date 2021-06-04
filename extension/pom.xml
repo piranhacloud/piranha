@@ -29,6 +29,7 @@
         <module>omnifaces-jwt</module>
         <module>openwebbeans</module>
         <module>scinitializer</module>
+        <module>security-file</module>
         <module>servlet</module>
         <module>smallrye-health</module>
         <module>soteria</module>
