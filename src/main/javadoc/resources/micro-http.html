@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Piranha Micro - Use an alternate HTTP server</title>
+        <link rel="stylesheet" href="stylesheet.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>Piranha Micro</h1>
+        <h2>Use an alternate HTTP server</h2>
+        <p>
+            If you want to use an alternate HTTP server you can specify it using
+            the --http argument.
+        </p>
+        <p>
+            The following HTTP servers are available:
+        </p>
+        <ol>
+            <li>grizzly - the Grizzly HTTP server</li>
+            <li>http - the default HTTP server (HTTP/1.1 only)</li>
+            <li>netty - the Netty HTTP server</li>
+            <li>undertow - the Undertow HTTP server</li>
+        </ol>
+        <p>
+            So if you want to use the Netty server you would use the following
+            command-line:
+        </p>
+        <pre>
+
+  java -jar piranha-micro.jar --war your_webapplication.war --http netty
+        </pre>
+        <hr>
+        <p>
+            <a href="micro.html">Back</a>
+        </p>
+    </body>
+</html>
