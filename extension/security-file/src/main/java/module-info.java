@@ -25,34 +25,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.security.file;
 
-import cloud.piranha.webapp.impl.DefaultSecurityManager;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
+import cloud.piranha.extension.security.file.FileSecurityInitializer;
+import jakarta.servlet.ServletContainerInitializer;
 
 /**
- * The JUnit tests for the FileSecurityInitializer class.
+ * The Piranha Extension - File Security module.
+ * 
+ * <p>
+ *  This module delivers file-based security integration into Piranha.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class FileSecurityInitializerTest {
+module cloud.piranha.extension.security.file {
     
-    /**
-     * Test onStartup method.
-     * 
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    public void testOnStartup() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addInitializer(new FileSecurityInitializer());
-        webApplication.initialize();
-        DefaultSecurityManager manager = (DefaultSecurityManager) webApplication.getSecurityManager();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        manager.login(request, "j2ee", "j2ee");
-        assertTrue(manager.isUserInRole(request, "Administrator"));
-    }
+    exports cloud.piranha.extension.security.file;
+    provides ServletContainerInitializer with FileSecurityInitializer;
+    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
+    requires jakarta.servlet;
 }

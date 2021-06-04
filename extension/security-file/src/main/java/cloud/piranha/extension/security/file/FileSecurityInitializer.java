@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.security.file;
+package cloud.piranha.extension.security.file;
 
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
