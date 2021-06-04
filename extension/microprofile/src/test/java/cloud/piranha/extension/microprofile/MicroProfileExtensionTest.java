@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.microprofile;
 
-import cloud.piranha.security.jakarta.JakartaSecurityManager;
+import cloud.piranha.extension.security.jakarta.JakartaSecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import static org.junit.jupiter.api.Assertions.assertTrue;

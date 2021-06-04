@@ -107,8 +107,8 @@
 
         <!-- Jakarta Security -->
         <dependency>
-            <groupId>cloud.piranha.security</groupId>
-            <artifactId>piranha-security-jakarta</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-security-jakarta</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
