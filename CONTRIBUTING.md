@@ -63,5 +63,5 @@ mvn clean install
 ## Problems
 
 Support for Java modules has a feature gap in Eclipse and as such a workaround
-needs to be employed to make it working properly (June 2021).
+needs to be employed to make it work properly (June 2021).
 
