@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.transaction</groupId>
         <artifactId>project</artifactId>
-        <version>21.6.0-SNAPSHOT</version>
+        <version>21.7.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-transaction-nonxa</artifactId>
