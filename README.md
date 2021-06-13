@@ -14,23 +14,7 @@ integration modules.
 ## Getting Started
 
 To get started with Piranha please visit our 
-[Getting Started](https://piranha.cloud/gettingstarted.html) guide.
-
-## Distributions
-
-The following distributions are available.
-
-1. [Piranha Nano](https://piranha.cloud/nano/)
-1. [Piranha Embedded](https://piranha.cloud/embedded/)
-1. [Piranha Micro](https://piranha.cloud/micro/)
-1. [Piranha Server](https://piranha.cloud/server/)
-
-## Documentation
-
-The following documentations is available:
-
-1. [Hands-on documentation](https://piranha.cloud/overview.html)
-1. [JavaDoc documentation](https://javadoc.io/doc/cloud.piranha/project)
+[Getting Started](https://javadoc.io/doc/cloud.piranha/project/latest/resources/getting-started.html) guide.
 
 ## How do I contribute?
 
