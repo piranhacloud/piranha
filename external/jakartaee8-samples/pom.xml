@@ -18,50 +18,54 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.3.2</version>
-                <inherited>false</inherited> <!-- only execute these in the parent -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
                 <executions>
                     <execution>
-                        <id>git submodule update</id>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <executable>git</executable>
-                            <arguments>
-                                <argument>submodule</argument>
-                                <argument>update</argument>
-                                <argument>--remote</argument>
-                                <argument>--merge</argument>
-                                <argument>--init</argument>
-                            </arguments>
-                        </configuration>
+                        <id>download-jakarta-samples</id>
+                        <phase>validate</phase>
                         <goals>
-                            <goal>exec</goal>
+                            <goal>run</goal>
                         </goals>
+                        <configuration>
+                            <target>
+                                <!-- Download and unzip -->
+                                <get src="https://github.com/javaee-samples/jakartaee8-tck/archive/refs/heads/master.zip"
+                                     dest="${project.build.directory}/jakartaee8-tck.zip" skipexisting="true" />
+                                <unzip src="${project.build.directory}/jakartaee8-tck.zip"
+                                       dest="${project.build.directory}" />
+                            </target>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-invoker-plugin</artifactId>
                 <version>3.2.1</version>
-                <configuration>
-                    <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
-                    <streamLogs>true</streamLogs>
-                    <properties>
-                        <piranha.version>${project.version}</piranha.version>
-                    </properties>
-                </configuration>
                 <executions>
                     <execution>
                         <id>integration-test</id>
                         <goals>
                             <goal>run</goal>
                         </goals>
+                        <configuration>
+                            <streamLogs>true</streamLogs>
+                            <projectsDirectory>${project.build.directory}/jakartaee8-tck-master</projectsDirectory>
+                            <pomIncludes>
+                                <pomInclude>pom.xml</pomInclude>
+                            </pomIncludes>
+                            <properties>
+                                <piranha.version>${project.version}</piranha.version>
+                            </properties>
+                            <goals>clean install -fae</goals>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+
 </project>
