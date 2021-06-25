@@ -589,15 +589,15 @@ public class WebXmlParser {
                 WebXml.SecurityConstraint.WebResourceCollection webResourceCollection = new WebXml.SecurityConstraint.WebResourceCollection();
 
                 for (String urlPattern : parseStrings(xPath, "url-pattern/text()", node)) {
-                    webResourceCollection.urlPatterns.add(urlPattern);
+                    webResourceCollection.getUrlPatterns().add(urlPattern);
                 }
 
                 for (String httpMethod : parseStrings(xPath, "http-method/text()", node)) {
-                    webResourceCollection.httpMethods.add(httpMethod);
+                    webResourceCollection.getHttpMethods().add(httpMethod);
                 }
 
                 for (String httpMethodOmission : parseStrings(xPath, "http-method-omission/text()", node)) {
-                    webResourceCollection.httpMethodOmissions.add(httpMethodOmission);
+                    webResourceCollection.getHttpMethodOmissions().add(httpMethodOmission);
                 }
 
                 securityConstraint.webResourceCollections.add(webResourceCollection);
