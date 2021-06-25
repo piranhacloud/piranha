@@ -121,9 +121,9 @@ public class PiranhaToExousiaConverter {
             List<WebResourceCollection> webResourceCollections = new ArrayList<>();
             for (WebXml.SecurityConstraint.WebResourceCollection xmlCollection : xmlConstraint.webResourceCollections) {
                 webResourceCollections.add(new WebResourceCollection(
-                        xmlCollection.urlPatterns,
-                        xmlCollection.httpMethods,
-                        xmlCollection.httpMethodOmissions));
+                        xmlCollection.getUrlPatterns(),
+                        xmlCollection.getHttpMethods(),
+                        xmlCollection.getHttpMethodOmissions()));
             }
 
             constraints.add(new SecurityConstraint(

@@ -209,19 +209,73 @@ public class WebXml implements Serializable {
              * The list &lt;url-pattern&gt; snippets inside
              * &lt;web-resource-collection&gt;
              */
-            public List<String> urlPatterns = new ArrayList<>();
+            private List<String> urlPatterns = new ArrayList<>();
 
             /**
              * The list &lt;http-method&gt; snippets inside
              * &lt;web-resource-collection&gt;
              */
-            public List<String> httpMethods = new ArrayList<>();
+            private List<String> httpMethods = new ArrayList<>();
 
             /**
              * The list &lt;http-method-omission&gt; snippets inside
              * &lt;web-resource-collection&gt;
              */
-            public List<String> httpMethodOmissions = new ArrayList<>();
+            private List<String> httpMethodOmissions = new ArrayList<>();
+
+            /**
+             * Get the URL patterns.
+             * 
+             * @return the URL patterns.
+             */
+            public List<String> getUrlPatterns() {
+                return urlPatterns;
+            }
+
+            /**
+             * Set the URL patterns.
+             * 
+             * @param urlPatterns the URL patterns.
+             */
+            public void setUrlPatterns(List<String> urlPatterns) {
+                this.urlPatterns = urlPatterns;
+            }
+
+            /**
+             * Get the HTTP methods.
+             * 
+             * @return the HTTP methods.
+             */
+            public List<String> getHttpMethods() {
+                return httpMethods;
+            }
+
+            /**
+             * Set the HTTP methods.
+             * 
+             * @param httpMethods the HTTP methods.
+             */
+            public void setHttpMethods(List<String> httpMethods) {
+                this.httpMethods = httpMethods;
+            }
+
+            /**
+             * Get the HTTP method omissions.
+             * 
+             * @return the HTTP method omissions.
+             */
+            public List<String> getHttpMethodOmissions() {
+                return httpMethodOmissions;
+            }
+
+            /**
+             * Set the HTTP method omissions.
+             * 
+             * @param httpMethodOmissions the HTTP method omissions.
+             */
+            public void setHttpMethodOmissions(List<String> httpMethodOmissions) {
+                this.httpMethodOmissions = httpMethodOmissions;
+            }
         }
     }
 
