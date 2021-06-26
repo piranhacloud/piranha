@@ -600,18 +600,18 @@ public class WebXmlParser {
                     webResourceCollection.getHttpMethodOmissions().add(httpMethodOmission);
                 }
 
-                securityConstraint.webResourceCollections.add(webResourceCollection);
+                securityConstraint.getWebResourceCollections().add(webResourceCollection);
             }
 
             for (Node node : parseNodes(xPath, "auth-constraint", rootNode)) {
                 for (String roleName : parseStrings(xPath, "role-name/text()", node)) {
-                    securityConstraint.roleNames.add(roleName);
+                    securityConstraint.getRoleNames().add(roleName);
                 }
             }
 
-            securityConstraint.transportGuarantee = parseString(xPath, "user-data-constraint/transport-guarantee/text()", rootNode);
+            securityConstraint.setTransportGuarantee(parseString(xPath, "user-data-constraint/transport-guarantee/text()", rootNode));
 
-            webXml.securityConstraints.add(securityConstraint);
+            webXml.getSecurityConstraints().add(securityConstraint);
         } catch (XPathExpressionException xee) {
             LOGGER.log(WARNING, "Unable to parse <security-constraint> sections", xee);
         }

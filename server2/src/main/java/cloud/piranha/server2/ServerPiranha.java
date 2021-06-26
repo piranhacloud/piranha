@@ -149,7 +149,9 @@ public class ServerPiranha implements Runnable {
                   .filter(warFile -> warFile.getName().toLowerCase().endsWith(".war"))
                   .forEach(warFile -> deploy(warFile, webApplicationServer));
 
-            deployingFile.delete();
+            if (deployingFile.delete()) {
+                LOGGER.log(Level.WARNING, "Unable to delete deploying file");
+            }
         }
 
         long finishTime = System.currentTimeMillis();
@@ -169,7 +171,9 @@ public class ServerPiranha implements Runnable {
             if (!pidFile.exists()) {
                 webApplicationServer.stop();
                 httpServer.stop();
-                startedFile.delete();
+                if (!startedFile.delete()) {
+                    LOGGER.log(Level.WARNING, "Unable to delete PID file");
+                }
                 System.exit(0);
             }
         }
@@ -223,7 +227,9 @@ public class ServerPiranha implements Runnable {
     private File createDeployingFile() {
         File deployingFile = new File("webapps/deploying");
         try {
-            deployingFile.createNewFile();
+            if (!deployingFile.createNewFile()) {
+                LOGGER.log(Level.WARNING, "Unable to create deploying file");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -234,7 +240,9 @@ public class ServerPiranha implements Runnable {
         File startedFile = new File("webapps/started");
 
         try {
-            startedFile.createNewFile();
+            if (!startedFile.createNewFile()) {
+                LOGGER.log(Level.WARNING, "Unable to create started file");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

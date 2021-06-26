@@ -110,16 +110,16 @@ public class PiranhaToExousiaConverter {
      * @return the security constraints.
      */
     public List<SecurityConstraint> getConstraintsFromWebXml(WebXml webXml) {
-        if (webXml == null || webXml.securityConstraints == null) {
+        if (webXml == null || webXml.getSecurityConstraints() == null) {
             return null;
         }
 
         List<SecurityConstraint> constraints = new ArrayList<>();
 
-        for (WebXml.SecurityConstraint xmlConstraint : webXml.securityConstraints) {
+        for (WebXml.SecurityConstraint xmlConstraint : webXml.getSecurityConstraints()) {
 
             List<WebResourceCollection> webResourceCollections = new ArrayList<>();
-            for (WebXml.SecurityConstraint.WebResourceCollection xmlCollection : xmlConstraint.webResourceCollections) {
+            for (WebXml.SecurityConstraint.WebResourceCollection xmlCollection : xmlConstraint.getWebResourceCollections()) {
                 webResourceCollections.add(new WebResourceCollection(
                         xmlCollection.getUrlPatterns(),
                         xmlCollection.getHttpMethods(),
@@ -128,8 +128,8 @@ public class PiranhaToExousiaConverter {
 
             constraints.add(new SecurityConstraint(
                     webResourceCollections,
-                    new HashSet<>(xmlConstraint.roleNames),
-                    "confidential".equalsIgnoreCase(xmlConstraint.transportGuarantee)
+                    new HashSet<>(xmlConstraint.getRoleNames()),
+                    "confidential".equalsIgnoreCase(xmlConstraint.getTransportGuarantee())
                     ? CONFIDENTIAL : NONE));
 
         }

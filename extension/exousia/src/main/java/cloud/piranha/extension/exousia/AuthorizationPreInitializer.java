@@ -34,7 +34,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import static cloud.piranha.extension.exousia.AuthorizationPreFilter.localServletRequest;
 import static java.util.Collections.emptyList;
 import static org.omnifaces.exousia.constraints.SecurityConstraint.join;
 
@@ -124,7 +123,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         AuthorizationService authorizationService = new AuthorizationService(
                 factoryClass,
                 policyClass, context.getServletContextId(),
-                () -> localServletRequest.get(),
+                () -> AuthorizationPreFilter.getLocalServletRequest().get(),
                 DefaultAuthenticatedIdentity::getCurrentSubject,
                 new PiranhaPrincipalMapper());
 
