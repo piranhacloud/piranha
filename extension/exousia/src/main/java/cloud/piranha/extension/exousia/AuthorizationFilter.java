@@ -60,7 +60,7 @@ public class AuthorizationFilter extends HttpFilter implements FilterPriority {
     /**
      * Stores the priority.
      */
-    public static int PRIORITY = 10;
+    private static final int PRIORITY = 10;
     
     private static final long serialVersionUID = 1178463438252262094L;
 

@@ -62,12 +62,12 @@ public class AuthorizationPreFilter extends HttpFilter implements FilterPriority
     /**
      * Stores the local servlet request.
      */
-    public static ThreadLocal<HttpServletRequest> localServletRequest = new ThreadLocal<>();
+    private static final ThreadLocal<HttpServletRequest> LOCAL_SERVLET_REQUEST = new ThreadLocal<>();
 
     /**
      * Stores the priority.
      */
-    public static int PRIORITY = 0;
+    private static final int PRIORITY = 0;
 
     private static final long serialVersionUID = 8478463438252262094L;
 
@@ -75,6 +75,15 @@ public class AuthorizationPreFilter extends HttpFilter implements FilterPriority
      * Stores the security manager.
      */
     private SecurityManager securityManager;
+    
+    /**
+     * Get the local servlet request.
+     * 
+     * @return the local service request.
+     */
+    public static ThreadLocal<HttpServletRequest> getLocalServletRequest() {
+        return LOCAL_SERVLET_REQUEST;
+    }
 
     @Override
     public int getPriority() {
@@ -101,11 +110,11 @@ public class AuthorizationPreFilter extends HttpFilter implements FilterPriority
             return;
         }
 
-        localServletRequest.set(request);
+        LOCAL_SERVLET_REQUEST.set(request);
         try {
             chain.doFilter(request, response);
         } finally {
-            localServletRequest.remove();
+            LOCAL_SERVLET_REQUEST.remove();
         }
     }
 }

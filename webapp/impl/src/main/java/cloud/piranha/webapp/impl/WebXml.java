@@ -67,7 +67,7 @@ public class WebXml implements Serializable {
     /**
      * Stores the security constraints
      */
-    public List<SecurityConstraint> securityConstraints = new ArrayList<>();
+    private List<SecurityConstraint> securityConstraints = new ArrayList<>();
 
     /**
      * Stores the metadata complete flag.
@@ -180,7 +180,7 @@ public class WebXml implements Serializable {
         /**
          * Stores the web resource collections.
          */
-        public List<WebResourceCollection> webResourceCollections = new ArrayList<>();
+        private List<WebResourceCollection> webResourceCollections = new ArrayList<>();
 
         /**
          * The list &lt;role-name&gt; snippets inside &lt;auth-constraint&gt;
@@ -188,7 +188,7 @@ public class WebXml implements Serializable {
          * Note that we don't map the &lt;auth-constraint&gt; element separately
          * here
          */
-        public List<String> roleNames = new ArrayList<>();
+        private List<String> roleNames = new ArrayList<>();
 
         /**
          * The list &lt;transport-guarantee&gt; snippet inside
@@ -197,7 +197,61 @@ public class WebXml implements Serializable {
          * Note that we don't map the &lt;user-data-constraint&gt; element
          * separately here
          */
-        public String transportGuarantee;
+        private String transportGuarantee;
+
+        /**
+         * Get the transport guarantee.
+         * 
+         * @return the transport guarantee.
+         */
+        public String getTransportGuarantee() {
+            return transportGuarantee;
+        }
+
+        /**
+         * Set the transport guarantee.
+         * 
+         * @param transportGuarantee the transport guarantee.
+         */
+        public void setTransportGuarantee(String transportGuarantee) {
+            this.transportGuarantee = transportGuarantee;
+        }
+
+        /**
+         * Get the role names.
+         * 
+         * @return the role names.
+         */
+        public List<String> getRoleNames() {
+            return roleNames;
+        }
+
+        /**
+         * Set the role names.
+         * 
+         * @param roleNames the role names.
+         */
+        public void setRoleNames(List<String> roleNames) {
+            this.roleNames = roleNames;
+        }
+
+        /**
+         * Get the web resource collections.
+         * 
+         * @return the web resource collections.
+         */
+        public List<WebResourceCollection> getWebResourceCollections() {
+            return webResourceCollections;
+        }
+
+        /**
+         * Set the web resource collections.
+         * 
+         * @param webResourceCollections the web resource collections.
+         */
+        public void setWebResourceCollections(List<WebResourceCollection> webResourceCollections) {
+            this.webResourceCollections = webResourceCollections;
+        }
 
         /**
          * The &lt;web-resource-collection&gt; snippet inside a web.xml /
@@ -727,5 +781,23 @@ public class WebXml implements Serializable {
      */
     public void setLocaleEncodingMapping(Map<String, String> localeEncodingMapping) {
         this.localeEncodingMapping = localeEncodingMapping;
+    }
+
+    /**
+     * Get the security constraints.
+     * 
+     * @return the security constraints.
+     */
+    public List<SecurityConstraint> getSecurityConstraints() {
+        return securityConstraints;
+    }
+
+    /**
+     * Set the security constraints.
+     * 
+     * @param securityConstraints the security constraints.
+     */
+    public void setSecurityConstraints(List<SecurityConstraint> securityConstraints) {
+        this.securityConstraints = securityConstraints;
     }
 }
