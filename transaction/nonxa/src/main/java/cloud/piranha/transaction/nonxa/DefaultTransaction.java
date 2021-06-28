@@ -36,6 +36,8 @@ import jakarta.transaction.Synchronization;
 import jakarta.transaction.SystemException;
 import jakarta.transaction.Transaction;
 import jakarta.transaction.TransactionManager;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
 import javax.transaction.xa.XAResource;
 
 /**
@@ -44,6 +46,11 @@ import javax.transaction.xa.XAResource;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultTransaction implements Transaction {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(DefaultTransaction.class.getName());
 
     /**
      * Stores the status.
@@ -168,7 +175,7 @@ public class DefaultTransaction implements Transaction {
                 try {
                     synchronization.afterCompletion(status);
                 } catch (RuntimeException re) {
-                    re.printStackTrace();
+                    LOGGER.log(WARNING, "Error during afterCompletion processing", re);
                 }
             });
         }
@@ -184,7 +191,7 @@ public class DefaultTransaction implements Transaction {
                 try {
                     synchronization.beforeCompletion();
                 } catch (RuntimeException re) {
-                    re.printStackTrace();
+                    LOGGER.log(WARNING, "Error during beforeCompletion processing", re);
                 }
             });
         }

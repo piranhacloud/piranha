@@ -1886,7 +1886,7 @@ public class DefaultWebApplication implements WebApplication {
 
             return getInvocationDispatcher(servletInvocation);
         } catch (IOException | ServletException e) {
-            e.printStackTrace();
+            LOGGER.log(WARNING, "Error occurred while getting request dispatcher", e);
             return null;
         }
     }

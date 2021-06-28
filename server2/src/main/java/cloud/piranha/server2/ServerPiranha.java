@@ -244,7 +244,7 @@ public class ServerPiranha implements Runnable {
                 LOGGER.log(Level.WARNING, "Unable to create started file");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, "I/O error occurred creating started file", e);
         }
 
         return startedFile;
