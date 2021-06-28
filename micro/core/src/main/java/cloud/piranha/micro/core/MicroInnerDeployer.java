@@ -49,6 +49,7 @@ import java.util.ServiceLoader;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -250,10 +251,8 @@ public class MicroInnerDeployer {
                     "deployedApplication", new MicroInnerApplication(webApplication),
                     "deployedContextRoot", webApplication.getContextPath());
         } catch (IOException e) {
-            e.printStackTrace();
             throw new IllegalStateException(e);
         } catch (Exception e) {
-            e.printStackTrace();
             throw e;
         } finally {
             ThreadInitialContextFactory.removeInitialContext();
@@ -432,7 +431,7 @@ public class MicroInnerDeployer {
             }
 
         } catch (SAXException | IOException | ParserConfigurationException | XPathExpressionException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, "Unable to get caller credentials", e);
         }
 
     }
