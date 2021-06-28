@@ -35,6 +35,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import cloud.piranha.webapp.api.AsyncDispatcher;
 import cloud.piranha.webapp.api.WebApplication;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The default AsyncDispatcher.
@@ -42,6 +44,11 @@ import cloud.piranha.webapp.api.WebApplication;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultAsyncDispatcher implements AsyncDispatcher {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(DefaultAsyncDispatcher.class.getName());
 
     /**
      * Stores the web application.
@@ -91,7 +98,7 @@ public class DefaultAsyncDispatcher implements AsyncDispatcher {
             try {
                 requestDispatcher.forward(dispatchedRequest, asyncStartResponse);
             } catch (Throwable t) {
-                t.printStackTrace();
+                LOGGER.log(WARNING, "Error occurred during dispatch", t);
             }
 
             if (!dispatchedRequest.isAsyncStarted()) {

@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The default web application extension context.
@@ -40,6 +42,11 @@ import cloud.piranha.webapp.api.WebApplicationExtensionContext;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultWebApplicationExtensionContext implements WebApplicationExtensionContext {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(DefaultWebApplicationExtensionContext.class.getName());
 
     /**
      * Stores the extensions.
@@ -72,7 +79,7 @@ public class DefaultWebApplicationExtensionContext implements WebApplicationExte
             extensions.add(instance);
             extensionClasses.add(extension);
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex) {
-            ex.printStackTrace();
+            LOGGER.log(WARNING, "Error occurred while adding extension", ex);
         }
     }
 
