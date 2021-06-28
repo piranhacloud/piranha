@@ -41,6 +41,8 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 /**
@@ -49,6 +51,11 @@ import java.util.stream.Stream;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class MicroInnerApplication implements Consumer<Map<String, Object>> {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(MicroInnerApplication.class.getName());
 
     /**
      * Stores the web application.
@@ -73,7 +80,7 @@ public class MicroInnerApplication implements Consumer<Map<String, Object>> {
             webApplication.service(copyMapToApplicationRequest(requestMap), copyMapToApplicationResponse(requestMap));
 
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, "An error occurred servicing request", e);
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
             ThreadInitialContextFactory.removeInitialContext();

@@ -35,10 +35,8 @@ import org.jboss.weld.environment.deployment.discovery.BeanArchiveHandler;
 module cloud.piranha.micro.core {
     
     exports cloud.piranha.micro.core;
-
     provides BeanArchiveHandler with PiranhaBeanArchiveHandler;
     provides Extension with CdiExtension;
-
     requires cloud.piranha.extension.security.jakarta;
     requires cloud.piranha.extension.weld;
     requires cloud.piranha.http.api;
@@ -52,12 +50,12 @@ module cloud.piranha.micro.core {
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;
     requires jakarta.servlet;
+    requires java.logging;
     requires java.naming;
     requires java.xml;
     requires org.jboss.jandex;
     requires shrinkwrap.api;
     requires weld.environment.common;
-
     uses HttpServer;
     uses WebApplicationExtension;
 }
