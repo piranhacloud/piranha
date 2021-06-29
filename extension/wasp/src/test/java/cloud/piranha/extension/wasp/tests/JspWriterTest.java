@@ -34,12 +34,14 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.wasp.WaspInitializer;
+import jakarta.servlet.ServletException;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -123,17 +125,21 @@ class JspWriterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testClose3() throws Exception {
-        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .directoryResource("src/test/webapp/jspwriter")
-                .initializer(WaspInitializer.class.getName())
-                .buildAndStart();
-        EmbeddedRequest request = new EmbeddedRequestBuilder()
-                .servletPath("/close3.jsp")
-                .build();
-        EmbeddedResponse response = new EmbeddedResponse();
-        piranha.service(request, response);
-        piranha.stop().destroy();
+    void testClose3() {
+        try {
+            EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                    .directoryResource("src/test/webapp/jspwriter")
+                    .initializer(WaspInitializer.class.getName())
+                    .buildAndStart();
+            EmbeddedRequest request = new EmbeddedRequestBuilder()
+                    .servletPath("/close3.jsp")
+                    .build();
+            EmbeddedResponse response = new EmbeddedResponse();
+            piranha.service(request, response);
+            piranha.stop().destroy();
+        } catch (IOException | ServletException ex) {
+            fail();
+        }
     }
 
     /**

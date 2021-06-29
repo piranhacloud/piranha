@@ -36,6 +36,7 @@ import jakarta.servlet.ServletRegistration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -76,6 +77,7 @@ class WebXmlInitializerTest {
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/init2")));
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
+        assertTrue(webApplication.isInitialized());
     }
         
     /**

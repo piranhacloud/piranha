@@ -32,8 +32,10 @@ import cloud.piranha.webapp.api.WebApplicationExtension;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import java.io.IOException;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -45,18 +47,20 @@ class EmbeddedPiranhaTest {
 
     /**
      * Test service method.
-     *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testService() throws Exception {
-        EmbeddedRequest request = new EmbeddedRequest();
-        EmbeddedResponse response = new EmbeddedResponse();
-        EmbeddedPiranha piranha = new EmbeddedPiranha();
-        piranha.initialize();
-        piranha.start();
-        piranha.service(request, response);
-        piranha.stop();
+    void testService() {
+        try {
+            EmbeddedRequest request = new EmbeddedRequest();
+            EmbeddedResponse response = new EmbeddedResponse();
+            EmbeddedPiranha piranha = new EmbeddedPiranha();
+            piranha.initialize();
+            piranha.start();
+            piranha.service(request, response);
+            piranha.stop();
+        } catch (IOException | ServletException ex) {
+            fail();
+        }
     }
 
     /**

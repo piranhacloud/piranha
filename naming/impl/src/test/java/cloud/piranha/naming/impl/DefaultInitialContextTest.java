@@ -116,9 +116,13 @@ class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    void testClose() throws Exception {
-        DefaultInitialContext context = new DefaultInitialContext();
-        context.close();
+    void testClose() {
+        try {
+            DefaultInitialContext context = new DefaultInitialContext();
+            context.close();
+        } catch (NamingException ex) {
+            fail();
+        }
     }
 
     /**
@@ -197,10 +201,14 @@ class DefaultInitialContextTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    void testDestroySubcontext() throws Exception {
-        DefaultInitialContext context = new DefaultInitialContext();
-        context.createSubcontext(new CompositeName("context"));
-        context.destroySubcontext("context");
+    void testDestroySubcontext() {
+        try {
+            DefaultInitialContext context = new DefaultInitialContext();
+            context.createSubcontext(new CompositeName("context"));
+            context.destroySubcontext("context");
+        } catch (NamingException ex) {
+            fail();
+        }
     }
 
     /**

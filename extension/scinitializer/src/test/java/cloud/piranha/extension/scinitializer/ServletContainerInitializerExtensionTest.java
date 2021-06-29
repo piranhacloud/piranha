@@ -27,9 +27,9 @@
  */
 package cloud.piranha.extension.scinitializer;
 
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The JUnit tests for the ServletContainerInitializerExtension class.
@@ -46,5 +46,7 @@ class ServletContainerInitializerExtensionTest {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         ServletContainerInitializerExtension extension = new ServletContainerInitializerExtension();
         extension.configure(webApplication);
+        webApplication.initialize();
+        assertTrue(webApplication.isInitialized());
     }
 }
