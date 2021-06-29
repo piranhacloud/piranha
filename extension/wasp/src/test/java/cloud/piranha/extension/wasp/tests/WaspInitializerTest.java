@@ -33,7 +33,7 @@ import cloud.piranha.resource.DirectoryResource;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.HashSet;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The JUnit tests for the WaspInitializer.
@@ -49,9 +49,10 @@ class WaspInitializerTest {
      */
     @Test
     void testOnStartup() throws Exception {
-        DefaultWebApplication servletContext = new DefaultWebApplication();
-        servletContext.addResource(new DirectoryResource(new File("src/test/webapp/webapp1")));
-        WaspInitializer initializer = new WaspInitializer();
-        initializer.onStartup(new HashSet<>(), servletContext);
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.addResource(new DirectoryResource(new File("src/test/webapp/webapp1")));
+        webApp.addInitializer(new WaspInitializer());
+        webApp.initialize();
+        assertTrue(webApp.isInitialized());
     }
 }
