@@ -29,10 +29,12 @@ package cloud.piranha.nano;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpUpgradeHandler;
@@ -41,6 +43,9 @@ import jakarta.servlet.http.WebConnection;
 import org.junit.jupiter.api.Test;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The JUnit tests for the NanoRequest class.
@@ -62,20 +67,19 @@ class NanoRequestTest {
 
     /**
      * Test changeSessionId method.
-     *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testChangeSessionId() throws Exception {
+    void testChangeSessionId() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         NanoResponse response = new NanoResponse();
         response.setWebApplication(webApplication);
         NanoRequest request = new NanoRequest();
         request.setWebApplication(webApplication);
         webApplication.linkRequestAndResponse(request, response);
-        request.getSession(true);
-        request.changeSessionId();
+        String sessionId1 = request.getSession(true).getId();
+        String sessionId2 = request.changeSessionId();
         webApplication.unlinkRequestAndResponse(request, response);
+        assertNotEquals(sessionId1, sessionId2);
     }
 
     /**
@@ -385,19 +389,21 @@ class NanoRequestTest {
 
     /**
      * Test logout method.
-     *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testLogout() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        NanoResponse response = new NanoResponse();
-        response.setWebApplication(webApplication);
-        NanoRequest request = new NanoRequest();
-        request.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        request.logout();
-        webApplication.unlinkRequestAndResponse(request, response);
+    void testLogout() {
+        try {
+            DefaultWebApplication webApplication = new DefaultWebApplication();
+            NanoResponse response = new NanoResponse();
+            response.setWebApplication(webApplication);
+            NanoRequest request = new NanoRequest();
+            request.setWebApplication(webApplication);
+            webApplication.linkRequestAndResponse(request, response);
+            request.logout();
+            webApplication.unlinkRequestAndResponse(request, response);
+        } catch (ServletException ex) {
+            fail();
+        }
     }
 
     /**
@@ -406,15 +412,19 @@ class NanoRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testUpgrade() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        NanoResponse response = new NanoResponse();
-        response.setWebApplication(webApplication);
-        NanoRequest request = new NanoRequest();
-        request.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        request.upgrade(TestHttpUpgradeHandler.class);
-        webApplication.unlinkRequestAndResponse(request, response);
+    void testUpgrade() {
+        try {
+            DefaultWebApplication webApplication = new DefaultWebApplication();
+            NanoResponse response = new NanoResponse();
+            response.setWebApplication(webApplication);
+            NanoRequest request = new NanoRequest();
+            request.setWebApplication(webApplication);
+            webApplication.linkRequestAndResponse(request, response);
+            request.upgrade(TestHttpUpgradeHandler.class);
+            webApplication.unlinkRequestAndResponse(request, response);
+        } catch (IOException | ServletException ex) {
+            fail();
+        }
     }
 
     public static class TestHttpUpgradeHandler implements HttpUpgradeHandler {

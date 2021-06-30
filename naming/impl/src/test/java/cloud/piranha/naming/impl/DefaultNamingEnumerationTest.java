@@ -30,6 +30,7 @@ package cloud.piranha.naming.impl;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import javax.naming.NameClassPair;
+import javax.naming.NamingException;
 
 import org.junit.jupiter.api.Test;
 
@@ -44,13 +45,15 @@ public class DefaultNamingEnumerationTest {
 
     /**
      * Test close method.
-     *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testClose() throws Exception {
-        DefaultNamingEnumeration enumeration = new DefaultNamingEnumeration(new ArrayList<>());
-        enumeration.close();
+    public void testClose() {
+        try {
+            DefaultNamingEnumeration enumeration = new DefaultNamingEnumeration(new ArrayList<>());
+            enumeration.close();
+        } catch (NamingException ex) {
+            fail();
+        }
     }
 
     /**

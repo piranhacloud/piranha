@@ -249,15 +249,17 @@ class DefaultInitialContextTest {
 
     /**
      * Test destroySubcontext method.
-     *
-     * @throws Exception when an error occurs.
      */
     @Test
-    void testDestroySubcontext5() throws Exception {
-        DefaultInitialContext context = new DefaultInitialContext();
-        context.bind("context1/context2/name", 12);
-        context.unbind("context1/context2/name");
-        context.destroySubcontext(new CompositeName("context1/context2"));
+    void testDestroySubcontext5() {
+        try {
+            DefaultInitialContext context = new DefaultInitialContext();
+            context.bind("context1/context2/name", 12);
+            context.unbind("context1/context2/name");
+            context.destroySubcontext(new CompositeName("context1/context2"));
+        } catch (NamingException ex) {
+            fail();
+        }
     }
 
     /**
@@ -503,6 +505,7 @@ class DefaultInitialContextTest {
         context.bind("name", "value");
         assertNotNull(context.lookupLink("name"));
     }
+
     /**
      * Test lookupLink method.
      *
@@ -557,14 +560,16 @@ class DefaultInitialContextTest {
 
     /**
      * Test rename method.
-     *
-     * @throws Exception when an error occurs.
      */
     @Test
-    void testRename2() throws Exception {
-        DefaultInitialContext context = new DefaultInitialContext();
-        context.bind("name", "value");
-        context.rename(new CompositeName("name"), new CompositeName("newname"));
+    void testRename2() {
+        try {
+            DefaultInitialContext context = new DefaultInitialContext();
+            context.bind("name", "value");
+            context.rename(new CompositeName("name"), new CompositeName("newname"));
+        } catch (NamingException ex) {
+            fail();
+        }
     }
 
     /**
