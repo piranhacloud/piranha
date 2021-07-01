@@ -30,28 +30,8 @@ package cloud.piranha.webapp.impl;
 /**
  * The web.xml listener.
  *
+ * @param className the class name.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlListener {
-
-    /**
-     * Stores the class name.
-     */
-    String className;
-
-    /**
-     * Constructor.
-     *
-     * @param className the class name.
-     */
-    public WebXmlListener(String className) {
-        this.className = className;
-    }
-
-    /**
-     * {@return the class name}
-     */
-    public String getClassName() {
-        return className;
-    }
+public record WebXmlListener(String className) {
 }

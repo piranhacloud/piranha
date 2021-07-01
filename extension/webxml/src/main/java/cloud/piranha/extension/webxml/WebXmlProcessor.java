@@ -249,7 +249,7 @@ public class WebXmlProcessor {
         Iterator<WebXmlListener> iterator = webXml.getListeners().iterator();
         while (iterator.hasNext()) {
             WebXmlListener listener = iterator.next();
-            webApplication.addListener(listener.getClassName());
+            webApplication.addListener(listener.className());
         }
     }
 
