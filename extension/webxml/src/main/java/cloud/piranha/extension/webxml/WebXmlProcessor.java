@@ -264,7 +264,7 @@ public class WebXmlProcessor {
         while (mappingIterator.hasNext()) {
             WebXmlMimeMapping mapping = mappingIterator.next();
             webApplication.getMimeTypeManager()
-                    .addMimeType(mapping.getExtension(), mapping.getMimeType());
+                    .addMimeType(mapping.extension(), mapping.mimeType());
         }
     }
 
