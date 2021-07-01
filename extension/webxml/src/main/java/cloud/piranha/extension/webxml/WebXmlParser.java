@@ -430,12 +430,9 @@ public class WebXmlParser {
 
                     NodeList paramNodeList = (NodeList) xPath.evaluate("init-param", nodeList.item(i), NODESET);
                     for (int j = 0; j < paramNodeList.getLength(); j++) {
-                        WebXmlFilterInitParam initParam = new WebXmlFilterInitParam();
                         String name = parseString(xPath, "param-name/text()", paramNodeList.item(j));
-                        initParam.setName(name);
                         String value = parseString(xPath, "param-value/text()", paramNodeList.item(j));
-                        initParam.setValue(value);
-                        filter.addInitParam(initParam);
+                        filter.addInitParam(new WebXmlFilterInitParam(name, value));
                     }
                 }
             }

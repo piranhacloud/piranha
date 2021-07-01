@@ -233,7 +233,7 @@ public class WebXmlProcessor {
 
             if (dynamic != null) {
                 for (WebXmlFilterInitParam initParam : filter.getInitParams()) {
-                    dynamic.setInitParameter(initParam.getName(), initParam.getValue());
+                    dynamic.setInitParameter(initParam.name(), initParam.value());
                 }
             }
         });
