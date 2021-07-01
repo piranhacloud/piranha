@@ -681,11 +681,9 @@ public class WebXmlParser {
                 }
 
                 for (Node securityRoleRefNode : parseNodes(xPath, "security-role-ref", servletNode)) {
-                    WebXmlServletSecurityRoleRef securityRoleRef = new WebXmlServletSecurityRoleRef();
-                    securityRoleRef.setRoleName(parseString(xPath, "role-name/text()", securityRoleRefNode));
-                    securityRoleRef.setRoleLink(parseString(xPath, "role-link/text()", securityRoleRefNode));
-
-                    servlet.getSecurityRoleRefs().add(securityRoleRef);
+                    String roleName = parseString(xPath, "role-name/text()", securityRoleRefNode);
+                    String roleLink = parseString(xPath, "role-link/text()", securityRoleRefNode);
+                    servlet.getSecurityRoleRefs().add(new WebXmlServletSecurityRoleRef(roleName, roleLink));
                 }
                 
                 for (Node multipartConfigNode : parseNodes(xPath, "multipart-config", servletNode)) {
