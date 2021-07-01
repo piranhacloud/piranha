@@ -720,10 +720,8 @@ public class WebXmlParser {
         try {
             Node scNode = (Node) xPath.evaluate("//session-config", node, NODE);
             if (scNode != null) {
-                WebXmlSessionConfig sessionConfig = new WebXmlSessionConfig();
                 int sessionTimeout = parseInteger(xPath, "session-timeout/text()", scNode);
-                sessionConfig.setSessionTimeout(sessionTimeout);
-                webXml.setSessionConfig(sessionConfig);
+                webXml.setSessionConfig(new WebXmlSessionConfig(sessionTimeout));
                 Node cNode = (Node) xPath.evaluate("cookie-config", scNode, NODE);
                 if (cNode != null) {
                     WebXmlCookieConfig cookieConfig = new WebXmlCookieConfig();

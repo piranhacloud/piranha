@@ -416,7 +416,7 @@ public class WebXmlProcessor {
         if (sessionConfig == null) {
             return;
         }
-        webApplication.setSessionTimeout(sessionConfig.getSessionTimeout());
+        webApplication.setSessionTimeout(sessionConfig.sessionTimeout());
     }
 
     private boolean isEmpty(String string) {
