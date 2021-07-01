@@ -113,7 +113,7 @@ public class WebXmlProcessor {
         Iterator<WebXmlContextParam> iterator = webXml.getContextParams().iterator();
         while (iterator.hasNext()) {
             WebXmlContextParam contextParam = iterator.next();
-            webApplication.setInitParameter(contextParam.getName(), contextParam.getValue());
+            webApplication.setInitParameter(contextParam.name(), contextParam.value());
         }
     }
 
