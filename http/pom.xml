@@ -23,6 +23,7 @@
         <module>jdk</module>
         <module>nano</module>
         <module>netty</module>
+        <module>tests</module>
         <module>undertow</module>
         <module>webapp</module>
     </modules>
