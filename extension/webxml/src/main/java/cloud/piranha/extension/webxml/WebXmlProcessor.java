@@ -169,10 +169,10 @@ public class WebXmlProcessor {
         Iterator<WebXmlErrorPage> iterator = webXml.getErrorPages().iterator();
         while (iterator.hasNext()) {
             WebXmlErrorPage errorPage = iterator.next();
-            if (errorPage.getErrorCode() != null && !errorPage.getErrorCode().isEmpty()) {
-                webApplication.addErrorPage(Integer.parseInt(errorPage.getErrorCode()), errorPage.getLocation());
-            } else if (errorPage.getExceptionType() != null && !errorPage.getExceptionType().isEmpty()) {
-                webApplication.addErrorPage(errorPage.getExceptionType(), errorPage.getLocation());
+            if (errorPage.errorCode() != null && !errorPage.errorCode().isEmpty()) {
+                webApplication.addErrorPage(Integer.parseInt(errorPage.errorCode()), errorPage.location());
+            } else if (errorPage.exceptionType() != null && !errorPage.exceptionType().isEmpty()) {
+                webApplication.addErrorPage(errorPage.exceptionType(), errorPage.location());
             }
         }
     }
