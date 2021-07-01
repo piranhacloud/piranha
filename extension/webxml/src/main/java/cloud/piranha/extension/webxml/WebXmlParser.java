@@ -721,11 +721,8 @@ public class WebXmlParser {
                 webXml.setSessionConfig(new WebXmlSessionConfig(sessionTimeout));
                 Node cNode = (Node) xPath.evaluate("cookie-config", scNode, NODE);
                 if (cNode != null) {
-                    WebXmlCookieConfig cookieConfig = new WebXmlCookieConfig();
                     String name = parseString(xPath, "name/text()", cNode);
-                    if (name != null) {
-                        cookieConfig.setName(name);
-                    }
+                    WebXmlCookieConfig cookieConfig = new WebXmlCookieConfig(name);
                 }
             }
         } catch (XPathException xpe) {
