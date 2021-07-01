@@ -307,7 +307,7 @@ public class WebXmlProcessor {
         while (iterator.hasNext()) {
             WebXmlServletMapping mapping = iterator.next();
             webApplication.addServletMapping(
-                    mapping.getServletName(), mapping.getUrlPattern());
+                    mapping.servletName(), mapping.urlPattern());
         }
     }
 
