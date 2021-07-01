@@ -673,11 +673,9 @@ public class WebXmlParser {
                 }
 
                 for (Node initParamNode : parseNodes(xPath, "init-param", servletNode)) {
-                    WebXmlServletInitParam initParam = new WebXmlServletInitParam();
-                    initParam.setName(parseString(xPath, "param-name/text()", initParamNode));
-                    initParam.setValue(parseString(xPath, "param-value/text()", initParamNode));
-
-                    servlet.getInitParams().add(initParam);
+                    String name = parseString(xPath, "param-name/text()", initParamNode);
+                    String value = parseString(xPath, "param-value/text()", initParamNode);
+                    servlet.getInitParams().add(new WebXmlServletInitParam(name, value));
                 }
 
                 for (Node securityRoleRefNode : parseNodes(xPath, "security-role-ref", servletNode)) {

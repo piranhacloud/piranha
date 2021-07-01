@@ -365,7 +365,7 @@ public class WebXmlProcessor {
             servlet.getInitParams().forEach(initParam -> {
                 ServletRegistration servletRegistration = webApplication.getServletRegistration(servlet.getServletName());
                 if (servletRegistration != null) {
-                    servletRegistration.setInitParameter(initParam.getName(), initParam.getValue());
+                    servletRegistration.setInitParameter(initParam.name(), initParam.value());
                 }
             });
 
