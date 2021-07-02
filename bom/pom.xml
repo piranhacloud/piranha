@@ -25,20 +25,335 @@
                 <artifactId>commons-fileupload</artifactId>
                 <version>1.4</version>
             </dependency>
-
-            <!-- Arquillian -->
+            
+            <!-- H2 database -->
             <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>1.7.0.Alpha9</version>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>1.4.200</version>
+            </dependency>
+
+            <!-- Hazelcast  -->
+            <dependency>
+                <groupId>com.hazelcast</groupId>
+                <artifactId>hazelcast</artifactId>
+                <version>4.2</version>
+            </dependency>
+                    
+            <!-- Vaadin -->
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-client-compiled</artifactId>
+                <version>8.13.1</version>
             </dependency>
             <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-build</artifactId>
-                <version>1.7.0.Alpha9</version>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-server</artifactId>
+                <version>8.13.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-themes</artifactId>
+                <version>8.13.1</version>
             </dependency>
             
-            <!-- Grizzly -->
+            <!-- Picocli -->
+            <dependency>
+                <groupId>info.picocli</groupId>
+                <artifactId>picocli</artifactId>
+                <version>4.6.1</version>
+            </dependency>
+
+            <!-- Netty -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.1.65.Final</version>
+            </dependency>
+
+            <!-- Smallrye MicroProfile Config -->
+            <dependency>
+                <groupId>io.smallrye.config</groupId>
+                <artifactId>smallrye-config</artifactId>
+                <version>2.3.0</version>
+            </dependency>
+
+            <!-- Smallrye MicroProfile Health -->
+            <dependency>
+                <groupId>io.smallrye</groupId>
+                <artifactId>smallrye-health</artifactId>
+                <version>3.0.2</version>
+            </dependency>
+
+            <!-- Undertow -->
+            <dependency>
+                <groupId>io.undertow</groupId>
+                <artifactId>undertow-core</artifactId>
+                <version>2.2.8.Final</version>
+            </dependency>
+            
+            <!-- Jakarta Annotation -->
+            <dependency>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta.annotation-api</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+
+            <!-- Jakarta Authentication -->
+            <dependency>
+                <groupId>jakarta.authentication</groupId>
+                <artifactId>jakarta.authentication-api</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            
+            <!-- Jakarta Authorization -->
+            <dependency>
+                <groupId>jakarta.authorization</groupId>
+                <artifactId>jakarta.authorization-api</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            
+            <!-- Jakarta Expression Language -->
+            <dependency>
+                <groupId>jakarta.el</groupId>
+                <artifactId>jakarta.el-api</artifactId>
+                <version>4.0.0</version>
+            </dependency>            
+            
+            <!-- Jakarta Contexts Dependency Injection -->
+            <dependency>
+                <groupId>jakarta.enterprise</groupId>
+                <artifactId>jakarta.enterprise.cdi-api</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            
+            <!-- Jakarta Faces -->
+            <dependency>
+                <groupId>jakarta.faces</groupId>
+                <artifactId>jakarta.faces-api</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+
+            <!-- Jakarta JSON Processing -->
+            <dependency>
+                <groupId>jakarta.json</groupId>
+                <artifactId>jakarta.json-api</artifactId>
+                <version>2.0.1</version>
+            </dependency>
+
+            <!-- Jakarta JSON Binding -->
+            <dependency>
+                <groupId>jakarta.json.bind</groupId>
+                <artifactId>jakarta.json.bind-api</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            
+            <!-- Jakarta Persistence -->
+            <dependency>
+                <groupId>jakarta.persistence</groupId>
+                <artifactId>jakarta.persistence-api</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+
+            <!-- Jakarta EE WebProfile -->
+            <dependency>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-web-api</artifactId>
+                <version>9.1.0</version>
+            </dependency>
+            
+            <!-- Jakarta Security -->
+            <dependency>
+                <groupId>jakarta.security.enterprise</groupId>
+                <artifactId>jakarta.security.enterprise-api</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+
+            <!-- Jakarta Servlet -->
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>5.0.0</version>
+            </dependency>
+
+            <!-- Jakarta Server Pages -->
+            <dependency>
+                <groupId>jakarta.servlet.jsp</groupId>
+                <artifactId>jakarta.servlet.jsp-api</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            
+            <!-- Jakarta Standard Tag Library -->            
+            <dependency>
+                <groupId>jakarta.servlet.jsp.jstl</groupId>
+                <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            
+            <!-- Jakarta Transactions -->
+            <dependency>
+                <groupId>jakarta.transaction</groupId>
+                <artifactId>jakarta.transaction-api</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+
+            <!-- Jakarta Bean Validation -->
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            
+            <!-- Jakarta WebSocket -->
+            <dependency>
+                <groupId>jakarta.websocket</groupId>
+                <artifactId>jakarta.websocket-api</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            
+            <!-- Jakarta REST -->
+            <dependency>
+                <groupId>jakarta.ws.rs</groupId>
+                <artifactId>jakarta.ws.rs-api</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+
+            <!-- Jakarta XML Binding -->
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+
+            <!-- HtmlUnit -->
+            <dependency>
+                <groupId>net.sourceforge.htmlunit</groupId>
+                <artifactId>htmlunit</artifactId>
+                <version>2.50.0</version>
+            </dependency>
+
+            <!-- Apache BVal -->
+            <dependency>
+                <groupId>org.apache.bval</groupId>
+                <artifactId>bval-jsr</artifactId>
+                <version>2.0.5</version>
+            </dependency>
+
+            <!-- Apache Johnzon  -->
+            <dependency>
+                <groupId>org.apache.johnzon</groupId>
+                <artifactId>johnzon-core</artifactId>
+                <version>1.2.13</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.johnzon</groupId>
+                <artifactId>johnzon-jsonb</artifactId>
+                <version>1.2.13</version>
+            </dependency>
+
+            <!-- Apache Maven -->
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-plugin-api</artifactId>
+                <version>3.8.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.plugin-tools</groupId>
+                <artifactId>maven-plugin-annotations</artifactId>
+                <version>3.6.1</version>
+            </dependency>
+
+            <!-- Apache MyFaces -->
+            <dependency>
+                <groupId>org.apache.myfaces.core</groupId>
+                <artifactId>myfaces-impl</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+
+            <!-- Apache OpenWebBeans -->
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-impl</artifactId>
+                <version>2.0.23</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-jsf</artifactId>
+                <version>2.0.23</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-spi</artifactId>
+                <version>2.0.23</version>
+            </dependency>
+
+            <!-- Apache Struts -->
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts2-core</artifactId>
+                <version>2.5.26</version>
+            </dependency>
+
+            <!-- Apache Wicket -->
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-core</artifactId>
+                <version>9.3.0</version>
+            </dependency>
+
+            <!-- Eclipse Yasson  -->
+            <dependency>
+                <groupId>org.eclipse</groupId>
+                <artifactId>yasson</artifactId>
+                <version>2.0.2</version>
+            </dependency>
+            
+            <!-- Eclipse MicroProfile JWT Auth API -->
+            <dependency>
+                <groupId>org.eclipse.microprofile.jwt</groupId>
+                <artifactId>microprofile-jwt-auth-api</artifactId>
+                <version>1.2.1</version>
+            </dependency>
+            
+            <!-- EclipseLink -->
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>eclipselink</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.core</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.jpa</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+            
+            <!-- Eclipse EL -->
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>jakarta.el</artifactId>
+                <version>4.0.1</version>
+            </dependency>
+            
+            <!-- Eclipse Faces -->
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>jakarta.faces</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            
+            <!-- Eclipse JSON-P -->
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>jakarta.json</artifactId>
+                <version>2.0.1</version>
+            </dependency>
+            
+            <!-- Eclipse Grizzly -->
             <dependency>
                 <groupId>org.glassfish.grizzly</groupId>
                 <artifactId>grizzly-http-server</artifactId>
@@ -55,213 +370,14 @@
                 <version>2.0.0</version>
             </dependency>
 
-            <!-- H2 database -->
+            <!-- Eclipse JAXB -->
             <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>1.4.200</version>
-            </dependency>
-
-            <!-- Hazelcast HTTP Session integration -->
-            <dependency>
-                <groupId>com.hazelcast</groupId>
-                <artifactId>hazelcast</artifactId>
-                <version>4.2</version>
-            </dependency>
-            
-            <!-- HSQLDB -->
-            <dependency>
-                <groupId>org.hsqldb</groupId>
-                <artifactId>hsqldb</artifactId>
-                <version>2.6.0</version>
-            </dependency>
-
-            <!-- HtmlUnit -->
-            <dependency>
-                <groupId>net.sourceforge.htmlunit</groupId>
-                <artifactId>htmlunit</artifactId>
-                <version>2.50.0</version>
-            </dependency>
-            
-            <!-- Jakarta Annotation -->
-            <dependency>
-                <groupId>jakarta.annotation</groupId>
-                <artifactId>jakarta.annotation-api</artifactId>
-                <version>2.0.0</version>
-            </dependency>
-
-            <!-- Jakarta Authentication -->
-            <dependency>
-                <groupId>jakarta.authentication</groupId>
-                <artifactId>jakarta.authentication-api</artifactId>
-                <version>2.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.omnifaces</groupId>
-                <artifactId>eleos</artifactId>
-                <version>1.0</version>
-            </dependency>
-            
-            <!-- Jakarta Authorization -->
-            <dependency>
-                <groupId>jakarta.authorization</groupId>
-                <artifactId>jakarta.authorization-api</artifactId>
-                <version>2.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.omnifaces</groupId>
-                <artifactId>exousia</artifactId>
-                <version>1.1</version>
-            </dependency>
-
-            <!-- Jakarta Bean Validation -->
-            <dependency>
-                <groupId>jakarta.validation</groupId>
-                <artifactId>jakarta.validation-api</artifactId>
-                <version>3.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate.validator</groupId>
-                <artifactId>hibernate-validator-cdi</artifactId>
-                <version>7.0.1.Final</version>
-            </dependency>
-            <dependency><!-- Alternative impl -->
-                <groupId>org.apache.bval</groupId>
-                <artifactId>bval-jsr</artifactId>
-                <version>2.0.5</version>
-            </dependency>
-            
-            
-            <!-- Jakarta Contexts Dependency Injection -->
-            <dependency>
-                <groupId>jakarta.enterprise</groupId>
-                <artifactId>jakarta.enterprise.cdi-api</artifactId>
-                <version>3.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.weld.servlet</groupId>
-                <artifactId>weld-servlet-core</artifactId>
-                <version>4.0.1.SP1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.classfilewriter</groupId>
-                <artifactId>jboss-classfilewriter</artifactId>
-                <version>1.2.5.Final</version>
-            </dependency>
-            <dependency><!-- Alternative impl -->
-                <groupId>org.apache.openwebbeans</groupId>
-                <artifactId>openwebbeans-impl</artifactId>
-                <version>2.0.23</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.openwebbeans</groupId>
-                <artifactId>openwebbeans-jsf</artifactId>
-                <version>2.0.23</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.openwebbeans</groupId>
-                <artifactId>openwebbeans-spi</artifactId>
-                <version>2.0.23</version>
-            </dependency>
-
-            <!-- Jakarta EE web-profile -->
-            <dependency>
-                <groupId>jakarta.platform</groupId>
-                <artifactId>jakarta.jakartaee-web-api</artifactId>
-                <version>9.1.0</version>
-            </dependency>
-            
-            <!-- Jakarta Expression Language -->
-            <dependency>
-                <groupId>jakarta.el</groupId>
-                <artifactId>jakarta.el-api</artifactId>
-                <version>4.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>jakarta.el</artifactId>
-                <version>4.0.1</version>
-            </dependency>
-            
-            <!-- Jakarta Faces -->
-            <dependency>
-                <groupId>jakarta.faces</groupId>
-                <artifactId>jakarta.faces-api</artifactId>
-                <version>3.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>jakarta.faces</artifactId>
-                <version>3.0.0</version>
-            </dependency>
-            <dependency><!-- Alternative impl -->
-                <groupId>org.apache.myfaces.core</groupId>
-                <artifactId>myfaces-impl</artifactId>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
                 <version>3.0.1</version>
             </dependency>
-
-            <!-- Jakarta JSON Binding -->
-            <dependency>
-                <groupId>jakarta.json.bind</groupId>
-                <artifactId>jakarta.json.bind-api</artifactId>
-                <version>2.0.0</version>
-            </dependency>
-            <dependency><!-- Implementation 1: Yasson  -->
-                <groupId>org.eclipse</groupId>
-                <artifactId>yasson</artifactId>
-                <version>2.0.2</version>
-            </dependency>
-             <dependency><!-- Implementation 2: Johnzon  -->
-                <groupId>org.apache.johnzon</groupId>
-                <artifactId>johnzon-core</artifactId>
-                <version>1.2.13</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.johnzon</groupId>
-                <artifactId>johnzon-jsonb</artifactId>
-                <version>1.2.13</version>
-            </dependency>
-
-            <!-- Jakarta JSON Processing -->
-            <dependency>
-                <groupId>jakarta.json</groupId>
-                <artifactId>jakarta.json-api</artifactId>
-                <version>2.0.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>jakarta.json</artifactId>
-                <version>2.0.1</version>
-            </dependency>
             
-            <!-- Jakarta Persistence -->
-            <dependency>
-                <groupId>jakarta.persistence</groupId>
-                <artifactId>jakarta.persistence-api</artifactId>
-                <version>3.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>eclipselink</artifactId>
-                <version>3.0.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>org.eclipse.persistence.core</artifactId>
-                <version>3.0.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>org.eclipse.persistence.jpa</artifactId>
-                <version>3.0.1</version>
-            </dependency>
-                    
-            <!-- Jakarta REST -->
-            <dependency>
-                <groupId>jakarta.ws.rs</groupId>
-                <artifactId>jakarta.ws.rs-api</artifactId>
-                <version>3.0.0</version>
-            </dependency>
+            <!-- Eclipse Jersey -->
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet</artifactId>
@@ -278,13 +394,13 @@
                 <version>3.0.2</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.inject</groupId>
-                <artifactId>jersey-hk2</artifactId>
+                <groupId>org.glassfish.jersey.ext.cdi</groupId>
+                <artifactId>jersey-cdi1x</artifactId>
                 <version>3.0.2</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jersey.ext.cdi</groupId>
-                <artifactId>jersey-cdi1x</artifactId>
+                <groupId>org.glassfish.jersey.inject</groupId>
+                <artifactId>jersey-hk2</artifactId>
                 <version>3.0.2</version>
             </dependency>
             <dependency>
@@ -293,90 +409,121 @@
                 <version>3.0.2</version>
             </dependency>
             
-            <!-- Jakarta Security -->
+            <!-- Eclipse Soteria -->
             <dependency>
-                <groupId>jakarta.security.enterprise</groupId>
-                <artifactId>jakarta.security.enterprise-api</artifactId>
-                <version>2.0.0</version>
+                <groupId>org.glassfish.soteria</groupId>
+                <artifactId>soteria.spi.bean.decorator.weld</artifactId>
+                <version>2.0.1</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.soteria</groupId>
                 <artifactId>jakarta.security.enterprise</artifactId>
                 <version>2.0.1</version>
             </dependency>
-            <dependency>
-                <groupId>org.glassfish.soteria</groupId>
-                <artifactId>soteria.spi.bean.decorator.weld</artifactId>
-                <version>2.0.1</version>
-            </dependency>
-
-            <!-- Jakarta Server Pages -->
-            <dependency>
-                <groupId>jakarta.servlet.jsp</groupId>
-                <artifactId>jakarta.servlet.jsp-api</artifactId>
-                <version>3.0.0</version>
-            </dependency>
+            
+            <!-- Eclipse WaSP -->
             <dependency>
                 <groupId>org.glassfish.wasp</groupId>
                 <artifactId>wasp</artifactId>
                 <version>3.0.2</version>
             </dependency>
-
-            <!-- Jakarta Servlet -->
-            <dependency>
-                <groupId>jakarta.servlet</groupId>
-                <artifactId>jakarta.servlet-api</artifactId>
-                <version>5.0.0</version>
-            </dependency>
             
-            <!-- Jakarta Standard Tag Library -->            
-            <dependency>
-                <groupId>jakarta.servlet.jsp.jstl</groupId>
-                <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-                <version>2.0.0</version>
-            </dependency>
+            <!-- Eclipse JSTL -->
             <dependency>
                 <groupId>org.glassfish.web</groupId>
                 <artifactId>jakarta.servlet.jsp.jstl</artifactId>
                 <version>2.0.0</version>
             </dependency>
             
-            <!-- Jakarta Transactions -->
-            <dependency>
-                <groupId>jakarta.transaction</groupId>
-                <artifactId>jakarta.transaction-api</artifactId>
-                <version>2.0.0</version>
-            </dependency>
-
-            <!-- Jakarta XML Binding -->
-            <dependency>
-                <groupId>jakarta.xml.bind</groupId>
-                <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>3.0.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jaxb</groupId>
-                <artifactId>jaxb-runtime</artifactId>
-                <version>3.0.1</version>
-            </dependency>
-            
-            <!-- Jakarta WebSocket -->
-            <dependency>
-                <groupId>jakarta.websocket</groupId>
-                <artifactId>jakarta.websocket-api</artifactId>
-                <version>2.0.0</version>
-            </dependency>
+            <!-- Eclipse Tyrus -->
             <dependency>
                 <groupId>org.glassfish.tyrus</groupId>
                 <artifactId>tyrus-container-servlet</artifactId>
                 <version>2.0.0</version>
             </dependency>
+            
+            <!-- Hibernate Validator -->
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator-cdi</artifactId>
+                <version>7.0.1.Final</version>
+            </dependency>
+            
+            <!-- HSQLDB -->
+            <dependency>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>2.6.0</version>
+            </dependency>
 
-            <!-- Jandex -->
+            <!-- JBoss Classfile writer -->            
+            <dependency>
+                <groupId>org.jboss.classfilewriter</groupId>
+                <artifactId>jboss-classfilewriter</artifactId>
+                <version>1.2.5.Final</version>
+            </dependency>
+
+            <!-- JBoss Jandex -->
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jandex</artifactId>
                 <version>2.3.0.Final</version>
+            </dependency>
+
+            <!-- JBoss Arquillian -->
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>1.7.0.Alpha9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-build</artifactId>
+                <version>1.7.0.Alpha9</version>
+            </dependency>
+
+            <!-- JBoss Shrinkwrap -->
+            <dependency>
+                <groupId>org.jboss.shrinkwrap</groupId>
+                <artifactId>shrinkwrap-impl-base</artifactId>
+                <version>1.2.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.shrinkwrap.descriptors</groupId>
+                <artifactId>shrinkwrap-descriptors-api-base</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                <artifactId>shrinkwrap-resolver-api-maven</artifactId>
+                <version>3.1.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                <artifactId>shrinkwrap-resolver-depchain</artifactId>
+                <version>3.1.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+                <version>3.1.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                <artifactId>shrinkwrap-resolver-impl-maven-archive</artifactId>
+                <version>3.1.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                <artifactId>shrinkwrap-resolver-spi</artifactId>
+                <version>3.1.4</version>
+            </dependency>
+            
+            <!-- JBoss Weld -->
+            <dependency>
+                <groupId>org.jboss.weld.servlet</groupId>
+                <artifactId>weld-servlet-core</artifactId>
+                <version>4.0.1.SP1</version>
             </dependency>
             
             <!-- JUnit -->
@@ -410,94 +557,26 @@
                 <artifactId>junit-jupiter-params</artifactId>
                 <version>5.8.0-M1</version>
             </dependency>
-
-            <!-- Maven -->
+            
+            <!-- OmniFaces Eleos -->
             <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven-plugin-api</artifactId>
-                <version>3.8.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.maven.plugin-tools</groupId>
-                <artifactId>maven-plugin-annotations</artifactId>
-                <version>3.6.1</version>
-            </dependency>
-
-            <!-- Netty -->
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>4.1.65.Final</version>
+                <groupId>org.omnifaces</groupId>
+                <artifactId>eleos</artifactId>
+                <version>1.0</version>
             </dependency>
             
-            <!-- MicroProfile Config -->
+            <!-- OmniFaces Exousia -->
             <dependency>
-                <groupId>io.smallrye.config</groupId>
-                <artifactId>smallrye-config</artifactId>
-                <version>2.3.0</version>
+                <groupId>org.omnifaces</groupId>
+                <artifactId>exousia</artifactId>
+                <version>1.1</version>
             </dependency>
             
-            <!-- MicroProfile Health -->
-            <dependency>
-                <groupId>io.smallrye</groupId>
-                <artifactId>smallrye-health</artifactId>
-                <version>3.0.2</version>
-            </dependency>
-            
-            <!-- MicroProfile JWT Auth -->
-            <dependency>
-                <groupId>org.eclipse.microprofile.jwt</groupId>
-                <artifactId>microprofile-jwt-auth-api</artifactId>
-                <version>1.2.1</version>
-            </dependency>
+            <!-- OmniFaces MicroProfile JWT auth -->
             <dependency>
                 <groupId>org.omnifaces</groupId>
                 <artifactId>microprofile-jwt-auth</artifactId>
                 <version>1.0.1</version>
-            </dependency>
-
-            <!-- Picocli -->
-            <dependency>
-                <groupId>info.picocli</groupId>
-                <artifactId>picocli</artifactId>
-                <version>4.6.1</version>
-            </dependency>
-
-            <!-- Shrinkwrap -->
-            <dependency>
-                <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                <artifactId>shrinkwrap-resolver-depchain</artifactId>
-                <version>3.1.4</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.shrinkwrap.descriptors</groupId>
-                <artifactId>shrinkwrap-descriptors-api-base</artifactId>
-                <version>2.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                <artifactId>shrinkwrap-resolver-api-maven</artifactId>
-                <version>3.1.4</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                <artifactId>shrinkwrap-resolver-spi</artifactId>
-                <version>3.1.4</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.shrinkwrap</groupId>
-                <artifactId>shrinkwrap-impl-base</artifactId>
-                <version>1.2.6</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-                <version>3.1.4</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                <artifactId>shrinkwrap-resolver-impl-maven-archive</artifactId>
-                <version>3.1.4</version>
             </dependency>
 
             <!-- Spring MVC -->
@@ -505,44 +584,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
                 <version>5.3.7</version>
-            </dependency>
-           
-            <!-- Struts -->
-            <dependency>
-                <groupId>org.apache.struts</groupId>
-                <artifactId>struts2-core</artifactId>
-                <version>2.5.26</version>
-            </dependency>
-            
-            <!-- Undertow -->
-            <dependency>
-                <groupId>io.undertow</groupId>
-                <artifactId>undertow-core</artifactId>
-                <version>2.2.8.Final</version>
-            </dependency>
-            
-            <!-- Vaadin -->
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-client-compiled</artifactId>
-                <version>8.13.1</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-server</artifactId>
-                <version>8.13.1</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-themes</artifactId>
-                <version>8.13.1</version>
-            </dependency>
-            
-            <!-- Wicket -->
-            <dependency>
-                <groupId>org.apache.wicket</groupId>
-                <artifactId>wicket-core</artifactId>
-                <version>9.3.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
