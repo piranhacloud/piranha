@@ -29,43 +29,9 @@ package cloud.piranha.webapp.impl;
 
 /**
  * The web.xml servlet-mapping
- *
+ * @param servletName the servlet name.
+ * @param urlPattern  the URL pattern.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlServletMapping {
-
-    /**
-     * Stores the servlet name.
-     */
-    private final String servletName;
-
-    /**
-     * Stores the URL pattern.
-     */
-    private final String urlPattern;
-
-    /**
-     * Constructor.
-     *
-     * @param servletName the servlet name.
-     * @param urlPattern the URL pattern.
-     */
-    public WebXmlServletMapping(String servletName, String urlPattern) {
-        this.servletName = servletName;
-        this.urlPattern = urlPattern;
-    }
-
-    /**
-     * {@return the servlet name}
-     */
-    public String getServletName() {
-        return servletName;
-    }
-
-    /**
-     * {@return the URL pattern}
-     */
-    public String getUrlPattern() {
-        return urlPattern;
-    }
+public record WebXmlServletMapping(String servletName, String urlPattern) {
 }

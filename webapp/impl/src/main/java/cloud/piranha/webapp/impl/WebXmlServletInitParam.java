@@ -32,47 +32,5 @@ package cloud.piranha.webapp.impl;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlServletInitParam {
-
-    /**
-     * Stores the name.
-     */
-    private String name;
-
-    /**
-     * Stores the value.
-     */
-    private String value;
-
-    /**
-     * {@return the name}
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * {@return the value}
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * Set the name.
-     *
-     * @param name the name.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Set the value.
-     *
-     * @param value the value.
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
+public record WebXmlServletInitParam(String name, String value) {
 }

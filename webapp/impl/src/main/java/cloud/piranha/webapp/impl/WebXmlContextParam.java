@@ -32,40 +32,5 @@ package cloud.piranha.webapp.impl;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlContextParam {
-
-    /**
-     * Stores the name.
-     */
-    private final String name;
-
-    /**
-     * Stores the value.
-     */
-    private final String value;
-
-    /**
-     * Constructor.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
-    public WebXmlContextParam(String name, String value) {
-        this.name = name;
-        this.value = value;
-    }
-
-    /**
-     * {@return the name}
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * {@return the value}
-     */
-    public String getValue() {
-        return value;
-    }
+public record WebXmlContextParam(String name, String value) {
 }

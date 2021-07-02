@@ -30,42 +30,9 @@ package cloud.piranha.webapp.impl;
 /**
  * The web.xml mime-mapping.
  *
+ * @param extension the extension.
+ * @param mimeType  the mime type.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlMimeMapping {
-
-    /**
-     * Stores the extension.
-     */
-    private final String extension;
-
-    /**
-     * Stores the mime type.
-     */
-    private final String mimeType;
-
-    /**
-     * Constructor.
-     *
-     * @param extension the extension.
-     * @param mimeType the mime type.
-     */
-    public WebXmlMimeMapping(String extension, String mimeType) {
-        this.extension = extension;
-        this.mimeType = mimeType;
-    }
-
-    /**
-     * {@return the extension}
-     */
-    public String getExtension() {
-        return extension;
-    }
-
-    /**
-     * {@return the mime type}
-     */
-    public String getMimeType() {
-        return mimeType;
-    }
+public record WebXmlMimeMapping(String extension, String mimeType) {
 }

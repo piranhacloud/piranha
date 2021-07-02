@@ -30,56 +30,10 @@ package cloud.piranha.webapp.impl;
 /**
  * The web.xml error-page.
  *
+ * @param errorCode the error code.
+ * @param exceptionType the exception type.
+ * @param location the location.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlErrorPage  {
-
-    /**
-     * Stores the error code.
-     */
-    private final String errorCode;
-
-    /**
-     * Stores the exception type.
-     */
-    private final String exceptionType;
-
-    /**
-     * Stores the location.
-     */
-    private final String location;
-
-    /**
-     * Constructor.
-     *
-     * @param errorCode the error code.
-     * @param exceptionType the exception type.
-     * @param location the location.
-     */
-    public WebXmlErrorPage(String errorCode, String exceptionType, String location) {
-        this.errorCode = errorCode;
-        this.exceptionType = exceptionType;
-        this.location = location;
-    }
-
-    /**
-     * {@return the error code}
-     */
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    /**
-     * {@return the exception type}
-     */
-    public String getExceptionType() {
-        return exceptionType;
-    }
-
-    /**
-     * {@return the location}
-     */
-    public String getLocation() {
-        return location;
-    }
+public record WebXmlErrorPage(String errorCode, String exceptionType, String location) {
 }

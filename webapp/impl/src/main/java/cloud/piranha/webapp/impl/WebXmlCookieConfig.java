@@ -32,26 +32,5 @@ package cloud.piranha.webapp.impl;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlCookieConfig {
-
-    /**
-     * Stores the cookie name.
-     */
-    private String name;
-
-    /**
-     * {@return the name}
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Set the name.
-     *
-     * @param name the name.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+public record WebXmlCookieConfig(String name) {
 }

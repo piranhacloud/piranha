@@ -29,50 +29,9 @@ package cloud.piranha.webapp.impl;
 
 /**
  * The web.xml servlet security-role-ref element.
- *
+ * @param roleName The role scoped to a specific servlet, and the role uses in <code>isUser/CallerInRole</code> methods.
+ * @param roleLink The "global" application role, as defined by <code>declareRoles</code> or <code>security-role</code>
  * @author Arjan Tijms
  */
-public class WebXmlServletSecurityRoleRef {
-
-    /**
-     * The role scoped to a specific servlet, and the role uses in <code>isUser/CallerInRole</code> methods.
-     */
-    private String roleName;
-
-    /**
-     * The "global" application role, as defined by <code>declareRoles</code> or <code>security-role</code>
-     */
-    private String roleLink;
-
-    /**
-     * {@return the role name}
-     */
-    public String getRoleName() {
-        return roleName;
-    }
-
-    /**
-     * Set the role name.
-     * 
-     * @param roleName the role name.
-     */
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    /**
-     * {@return the role link}
-     */
-    public String getRoleLink() {
-        return roleLink;
-    }
-
-    /**
-     * Set the role link.
-     * 
-     * @param roleLink the role link.
-     */
-    public void setRoleLink(String roleLink) {
-        this.roleLink = roleLink;
-    }
+public record WebXmlServletSecurityRoleRef(String roleName, String roleLink) {
 }
