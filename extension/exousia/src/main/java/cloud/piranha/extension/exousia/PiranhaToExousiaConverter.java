@@ -164,8 +164,8 @@ public class PiranhaToExousiaConverter {
 
         for (WebXmlServletSecurityRoleRef piranhaSecurityRoleRef : piranhaSecurityRoleRefs) {
             exousiaSecurityRoleRefs.add(new SecurityRoleRef(
-                    piranhaSecurityRoleRef.getRoleName(),
-                    piranhaSecurityRoleRef.getRoleLink()));
+                    piranhaSecurityRoleRef.roleName(),
+                    piranhaSecurityRoleRef.roleLink()));
         }
 
         return exousiaSecurityRoleRefs;

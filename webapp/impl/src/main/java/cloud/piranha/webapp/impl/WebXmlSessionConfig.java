@@ -32,26 +32,5 @@ package cloud.piranha.webapp.impl;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlSessionConfig {
-
-    /**
-     * Stores the session timeout.
-     */
-    private int sessionTimeout;
-
-    /**
-     * {@return the session timeout}
-     */
-    public int getSessionTimeout() {
-        return sessionTimeout;
-    }
-
-    /**
-     * Set the session timeout.
-     *
-     * @param sessionTimeout the session timeout.
-     */
-    public void setSessionTimeout(int sessionTimeout) {
-        this.sessionTimeout = sessionTimeout;
-    }
+public record WebXmlSessionConfig(int sessionTimeout) {
 }

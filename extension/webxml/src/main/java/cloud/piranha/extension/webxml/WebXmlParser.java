@@ -430,12 +430,9 @@ public class WebXmlParser {
 
                     NodeList paramNodeList = (NodeList) xPath.evaluate("init-param", nodeList.item(i), NODESET);
                     for (int j = 0; j < paramNodeList.getLength(); j++) {
-                        WebXmlFilterInitParam initParam = new WebXmlFilterInitParam();
                         String name = parseString(xPath, "param-name/text()", paramNodeList.item(j));
-                        initParam.setName(name);
                         String value = parseString(xPath, "param-value/text()", paramNodeList.item(j));
-                        initParam.setValue(value);
-                        filter.addInitParam(initParam);
+                        filter.addInitParam(new WebXmlFilterInitParam(name, value));
                     }
                 }
             }
@@ -673,19 +670,15 @@ public class WebXmlParser {
                 }
 
                 for (Node initParamNode : parseNodes(xPath, "init-param", servletNode)) {
-                    WebXmlServletInitParam initParam = new WebXmlServletInitParam();
-                    initParam.setName(parseString(xPath, "param-name/text()", initParamNode));
-                    initParam.setValue(parseString(xPath, "param-value/text()", initParamNode));
-
-                    servlet.getInitParams().add(initParam);
+                    String name = parseString(xPath, "param-name/text()", initParamNode);
+                    String value = parseString(xPath, "param-value/text()", initParamNode);
+                    servlet.getInitParams().add(new WebXmlServletInitParam(name, value));
                 }
 
                 for (Node securityRoleRefNode : parseNodes(xPath, "security-role-ref", servletNode)) {
-                    WebXmlServletSecurityRoleRef securityRoleRef = new WebXmlServletSecurityRoleRef();
-                    securityRoleRef.setRoleName(parseString(xPath, "role-name/text()", securityRoleRefNode));
-                    securityRoleRef.setRoleLink(parseString(xPath, "role-link/text()", securityRoleRefNode));
-
-                    servlet.getSecurityRoleRefs().add(securityRoleRef);
+                    String roleName = parseString(xPath, "role-name/text()", securityRoleRefNode);
+                    String roleLink = parseString(xPath, "role-link/text()", securityRoleRefNode);
+                    servlet.getSecurityRoleRefs().add(new WebXmlServletSecurityRoleRef(roleName, roleLink));
                 }
                 
                 for (Node multipartConfigNode : parseNodes(xPath, "multipart-config", servletNode)) {
@@ -724,17 +717,12 @@ public class WebXmlParser {
         try {
             Node scNode = (Node) xPath.evaluate("//session-config", node, NODE);
             if (scNode != null) {
-                WebXmlSessionConfig sessionConfig = new WebXmlSessionConfig();
                 int sessionTimeout = parseInteger(xPath, "session-timeout/text()", scNode);
-                sessionConfig.setSessionTimeout(sessionTimeout);
-                webXml.setSessionConfig(sessionConfig);
+                webXml.setSessionConfig(new WebXmlSessionConfig(sessionTimeout));
                 Node cNode = (Node) xPath.evaluate("cookie-config", scNode, NODE);
                 if (cNode != null) {
-                    WebXmlCookieConfig cookieConfig = new WebXmlCookieConfig();
                     String name = parseString(xPath, "name/text()", cNode);
-                    if (name != null) {
-                        cookieConfig.setName(name);
-                    }
+                    WebXmlCookieConfig cookieConfig = new WebXmlCookieConfig(name);
                 }
             }
         } catch (XPathException xpe) {

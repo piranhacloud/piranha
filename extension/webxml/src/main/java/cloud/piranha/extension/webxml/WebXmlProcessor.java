@@ -113,7 +113,7 @@ public class WebXmlProcessor {
         Iterator<WebXmlContextParam> iterator = webXml.getContextParams().iterator();
         while (iterator.hasNext()) {
             WebXmlContextParam contextParam = iterator.next();
-            webApplication.setInitParameter(contextParam.getName(), contextParam.getValue());
+            webApplication.setInitParameter(contextParam.name(), contextParam.value());
         }
     }
 
@@ -169,10 +169,10 @@ public class WebXmlProcessor {
         Iterator<WebXmlErrorPage> iterator = webXml.getErrorPages().iterator();
         while (iterator.hasNext()) {
             WebXmlErrorPage errorPage = iterator.next();
-            if (errorPage.getErrorCode() != null && !errorPage.getErrorCode().isEmpty()) {
-                webApplication.addErrorPage(Integer.parseInt(errorPage.getErrorCode()), errorPage.getLocation());
-            } else if (errorPage.getExceptionType() != null && !errorPage.getExceptionType().isEmpty()) {
-                webApplication.addErrorPage(errorPage.getExceptionType(), errorPage.getLocation());
+            if (errorPage.errorCode() != null && !errorPage.errorCode().isEmpty()) {
+                webApplication.addErrorPage(Integer.parseInt(errorPage.errorCode()), errorPage.location());
+            } else if (errorPage.exceptionType() != null && !errorPage.exceptionType().isEmpty()) {
+                webApplication.addErrorPage(errorPage.exceptionType(), errorPage.location());
             }
         }
     }
@@ -233,7 +233,7 @@ public class WebXmlProcessor {
 
             if (dynamic != null) {
                 for (WebXmlFilterInitParam initParam : filter.getInitParams()) {
-                    dynamic.setInitParameter(initParam.getName(), initParam.getValue());
+                    dynamic.setInitParameter(initParam.name(), initParam.value());
                 }
             }
         });
@@ -249,7 +249,7 @@ public class WebXmlProcessor {
         Iterator<WebXmlListener> iterator = webXml.getListeners().iterator();
         while (iterator.hasNext()) {
             WebXmlListener listener = iterator.next();
-            webApplication.addListener(listener.getClassName());
+            webApplication.addListener(listener.className());
         }
     }
 
@@ -264,7 +264,7 @@ public class WebXmlProcessor {
         while (mappingIterator.hasNext()) {
             WebXmlMimeMapping mapping = mappingIterator.next();
             webApplication.getMimeTypeManager()
-                    .addMimeType(mapping.getExtension(), mapping.getMimeType());
+                    .addMimeType(mapping.extension(), mapping.mimeType());
         }
     }
 
@@ -307,7 +307,7 @@ public class WebXmlProcessor {
         while (iterator.hasNext()) {
             WebXmlServletMapping mapping = iterator.next();
             webApplication.addServletMapping(
-                    mapping.getServletName(), mapping.getUrlPattern());
+                    mapping.servletName(), mapping.urlPattern());
         }
     }
 
@@ -365,7 +365,7 @@ public class WebXmlProcessor {
             servlet.getInitParams().forEach(initParam -> {
                 ServletRegistration servletRegistration = webApplication.getServletRegistration(servlet.getServletName());
                 if (servletRegistration != null) {
-                    servletRegistration.setInitParameter(initParam.getName(), initParam.getValue());
+                    servletRegistration.setInitParameter(initParam.name(), initParam.value());
                 }
             });
 
@@ -416,7 +416,7 @@ public class WebXmlProcessor {
         if (sessionConfig == null) {
             return;
         }
-        webApplication.setSessionTimeout(sessionConfig.getSessionTimeout());
+        webApplication.setSessionTimeout(sessionConfig.sessionTimeout());
     }
 
     private boolean isEmpty(String string) {

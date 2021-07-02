@@ -30,70 +30,12 @@ package cloud.piranha.webapp.impl;
 /**
  * The web.xml login-config.
  *
+ * @param authMethod    the auth method.
+ * @param realmName     the realm name.
+ * @param formLoginPage the form login page.
+ * @param formErrorPage the form error page.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlLoginConfig {
-
-    /**
-     * Stores the auth method.
-     */
-    private final String authMethod;
-
-    /**
-     * Stores the realm name.
-     */
-    private final String realmName;
-
-    /**
-     * Stores the form login page.
-     */
-    private final String formLoginPage;
-
-    /**
-     * Stores the form error page.
-     */
-    private final String formErrorPage;
-
-    /**
-     * Constructor.
-     *
-     * @param authMethod the auth method.
-     * @param realmName the realm name.
-     * @param formLoginPage the form login page.
-     * @param formErrorPage the form error page.
-     */
-    public WebXmlLoginConfig(String authMethod, String realmName, String formLoginPage, String formErrorPage) {
-        this.authMethod = authMethod;
-        this.realmName = realmName;
-        this.formLoginPage = formLoginPage;
-        this.formErrorPage = formErrorPage;
-    }
-
-    /**
-     * {@return the auth method}
-     */
-    public String getAuthMethod() {
-        return authMethod;
-    }
-
-    /**
-     * {@return the realm name}
-     */
-    public String getRealmName() {
-        return realmName;
-    }
-
-    /**
-     * {@return the form login page}
-     */
-    public String getFormLoginPage() {
-        return formLoginPage;
-    }
-
-    /**
-     * {@return the form error page}
-     */
-    public String getFormErrorPage() {
-        return formErrorPage;
-    }
+public record WebXmlLoginConfig(String authMethod, String realmName, String formLoginPage,
+                                String formErrorPage) {
 }

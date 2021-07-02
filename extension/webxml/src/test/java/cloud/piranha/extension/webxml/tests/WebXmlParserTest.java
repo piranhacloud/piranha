@@ -127,9 +127,9 @@ class WebXmlParserTest {
         assertEquals("Test Servlet", servletName);
         List<WebXmlServletMapping> servletMappings = webXml.getServletMappings();
         assertEquals(2, servletMappings.size());
-        assertEquals(servletName, servletMappings.get(0).getServletName());
-        assertEquals("/foo", servletMappings.get(0).getUrlPattern());
-        assertEquals(servletName, servletMappings.get(1).getServletName());
-        assertEquals("/bar", servletMappings.get(1).getUrlPattern());
+        assertEquals(servletName, servletMappings.get(0).servletName());
+        assertEquals("/foo", servletMappings.get(0).urlPattern());
+        assertEquals(servletName, servletMappings.get(1).servletName());
+        assertEquals("/bar", servletMappings.get(1).urlPattern());
     }
 }
