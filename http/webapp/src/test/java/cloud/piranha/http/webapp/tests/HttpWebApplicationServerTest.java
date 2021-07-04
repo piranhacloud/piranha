@@ -39,7 +39,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -61,6 +60,7 @@ class HttpWebApplicationServerTest {
         webApp.setServletContextName("mycontext");
         server.addWebApplication(webApp);
         server.addMapping("notthere", "notreal");
+        assertEquals(webApp, server.getRequestMapper().findMapping("/notreal"));
     }
 
     /**
@@ -73,6 +73,7 @@ class HttpWebApplicationServerTest {
         webApp.setServletContextName("mycontext");
         server.addWebApplication(webApp);
         server.addMapping("mycontext", "mycontextmapping");
+        assertEquals(webApp, server.getRequestMapper().findMapping("/mycontextmapping"));
     }
 
     /**
@@ -86,6 +87,7 @@ class HttpWebApplicationServerTest {
         server.addWebApplication(webApp);
         server.addMapping("mycontext", "myurlpattern");
         server.addMapping("mycontext", "myurlpattern");
+        assertEquals(webApp, server.getRequestMapper().findMapping("/myurlpattern"));
     }
 
     /**
@@ -172,12 +174,10 @@ class HttpWebApplicationServerTest {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             assertTrue(response.body().contains("sessionIdCookie"));
-            //assertFalse(response.body().contains("sessionIdURL"));
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
         httpServer.stop();
         server.stop();
     }
-
 }
