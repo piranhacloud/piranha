@@ -38,6 +38,11 @@ public class Cookie implements Cloneable, Serializable {
      * Stores the serial version UID.
      */
     private static final long serialVersionUID = -4779842497728237253L;
+    
+    /**
+     * Stores the illegal characters for a name.
+     */
+    private static final char[] ILLEGAL_CHARACTERS_FOR_NAME = {',', ';', ' ', '$', '\t', '\n'};
 
     /**
      * Stores the comment.
@@ -53,11 +58,6 @@ public class Cookie implements Cloneable, Serializable {
      * Stores the HTTP only flag.
      */
     private boolean httpOnly;
-    
-    /**
-     * Stores the illegal characters for a name.
-     */
-    private char[] illegalCharactersForName = {',', ';', ' ', '$', '\t', '\n'};
 
     /**
      * Stores the max age.
@@ -102,6 +102,23 @@ public class Cookie implements Cloneable, Serializable {
     }
     
     /**
+     * Constructor.
+     * 
+     * @param cookie the cookie.
+     */
+    public Cookie(Cookie cookie) {
+        this.comment = cookie.comment;
+        this.domain = cookie.domain;
+        this.httpOnly = cookie.httpOnly;
+        this.maxAge = cookie.maxAge;
+        this.name = cookie.name;
+        this.path = cookie.path;
+        this.secure = cookie.secure;
+        this.value = cookie.value;
+        this.version = cookie.version;
+    }
+    
+    /**
      * Check if the name is valid.
      * 
      * @param name the name.
@@ -113,20 +130,16 @@ public class Cookie implements Cloneable, Serializable {
         if (name.length() == 0) {
             throw new IllegalArgumentException("Name cannot be empty");
         }
-        for(int i=0; i<illegalCharactersForName.length; i++) {
-            if (name.startsWith(Character.toString(illegalCharactersForName[i]))) {
-                throw new IllegalArgumentException("Name cannot contain '" + illegalCharactersForName[i] + "'");
+        for(int i=0; i<ILLEGAL_CHARACTERS_FOR_NAME.length; i++) {
+            if (name.startsWith(Character.toString(ILLEGAL_CHARACTERS_FOR_NAME[i]))) {
+                throw new IllegalArgumentException("Name cannot contain '" + ILLEGAL_CHARACTERS_FOR_NAME[i] + "'");
             }
         }
     }
 
     @Override
     public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException cnse) {
-            throw new RuntimeException(cnse);
-        }
+        return new Cookie(this);
     }
 
     /**

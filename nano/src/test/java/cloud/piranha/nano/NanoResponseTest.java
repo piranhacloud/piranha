@@ -34,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -50,6 +51,7 @@ class NanoResponseTest {
     void testAddCookie() {
         NanoResponse response = new NanoResponse();
         response.addCookie(new Cookie("name", "value"));
+        assertFalse(response.getCookies().isEmpty());
     }
 
     /**
@@ -210,6 +212,8 @@ class NanoResponseTest {
         webApplication.linkRequestAndResponse(request, response);
         response.sendRedirect("/redirect");
         webApplication.unlinkRequestAndResponse(request, response);
+        assertEquals(302, response.getStatus());
+        assertTrue(response.getHeader("Location").contains("/redirect"));
     }
 
     /**
@@ -219,6 +223,7 @@ class NanoResponseTest {
     void testSetDateHeader() {
         NanoResponse response = new NanoResponse();
         response.setDateHeader("header", 0);
+        assertEquals("Thu, 1 Jan 1970 00:00:00 GMT", response.getHeader("header"));
     }
 
     /**
