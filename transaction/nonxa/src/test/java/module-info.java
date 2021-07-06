@@ -25,19 +25,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.transaction.nonxa.test {
-    
-    exports cloud.piranha.transaction.nonxa.test;
+/**
+ * The Piranha Transaction - non-XA tests module.
+ * 
+ * <p>
+ *  This module delivers the tests for the non-XA transaction manager.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+module cloud.piranha.transaction.nonxa.tests {
 
-    opens cloud.piranha.transaction.nonxa.test;
-
+    exports cloud.piranha.transaction.nonxa.tests;
+    opens cloud.piranha.transaction.nonxa.tests;
+    requires cloud.piranha.naming.impl;
     requires cloud.piranha.transaction.api;
     requires cloud.piranha.transaction.nonxa;
+    requires com.h2database;
     requires jakarta.persistence;
+    requires java.naming;
     requires java.transaction.xa;
     requires org.junit.jupiter.api;
-    requires org.eclipse.persistence.core;
-    requires cloud.piranha.naming.impl;
-    requires static java.naming;
-    requires static java.sql;
 }

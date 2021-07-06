@@ -24,31 +24,40 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.transaction.nonxa.test;
+package cloud.piranha.transaction.nonxa.tests;
 
-import javax.naming.InitialContext;
-import jakarta.transaction.TransactionManager;
-import org.eclipse.persistence.config.SessionCustomizer;
-import org.eclipse.persistence.sessions.Session;
-import org.eclipse.persistence.transaction.JTATransactionController;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
- * A session customizer that sets the external transaction controller to use JTA.
+ * A simple JPA test table.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EclipseLinkSessionCustomizer implements SessionCustomizer {
+@Entity
+@Table(name = "jpa_test")
+public class JPATest {
 
     /**
-     * Customize the session.
-     * 
-     * @param session the session.
-     * @throws Exception when a serious error occurs.
+     * Stores the id.
      */
-    @Override
-    public void customize(Session session) throws Exception {
-        InitialContext initialContext = new InitialContext();
-        TransactionManager transactionManager = (TransactionManager) initialContext.lookup("java:/TransactionManager");
-        session.setExternalTransactionController(new JTATransactionController(transactionManager));
+    @Id
+    private int id;
+    
+    /**
+     * {@return the id}
+     */
+    public int getId() {
+        return id;
+    }
+    
+    /**
+     * Set the id.
+     * 
+     * @param id the id.
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 }
