@@ -27,7 +27,6 @@
  */
 package jakarta.servlet.http;
 
-import jakarta.servlet.http.HttpFilter;
 import java.io.IOException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

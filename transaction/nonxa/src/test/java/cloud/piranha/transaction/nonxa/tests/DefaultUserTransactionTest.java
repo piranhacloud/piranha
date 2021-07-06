@@ -24,7 +24,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.transaction.nonxa.test;
+package cloud.piranha.transaction.nonxa.tests;
 
 import jakarta.transaction.HeuristicRollbackException;
 import jakarta.transaction.NotSupportedException;

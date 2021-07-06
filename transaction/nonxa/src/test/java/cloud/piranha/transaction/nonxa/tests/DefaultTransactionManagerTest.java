@@ -24,22 +24,21 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.transaction.nonxa.test;
+package cloud.piranha.transaction.nonxa.tests;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import cloud.piranha.transaction.nonxa.DefaultTransactionManager;
 import jakarta.transaction.HeuristicMixedException;
 import jakarta.transaction.HeuristicRollbackException;
 import jakarta.transaction.InvalidTransactionException;
+import jakarta.transaction.NotSupportedException;
 import jakarta.transaction.RollbackException;
 import jakarta.transaction.Synchronization;
 import jakarta.transaction.SystemException;
 import jakarta.transaction.Transaction;
 import javax.transaction.xa.XAResource;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
-
-import cloud.piranha.transaction.nonxa.DefaultTransactionManager;
 
 /**
  * The JUnit tests for the DefaultTransactionManager class.
@@ -50,15 +49,18 @@ class DefaultTransactionManagerTest {
 
     /**
      * Test suspend method.
-     *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSuspend() throws Exception {
-        DefaultTransactionManager txManager = new DefaultTransactionManager();
-        txManager.begin();
-        Transaction tx = txManager.suspend();
-        txManager.resume(tx);
+    void testSuspend() {
+        try {
+            DefaultTransactionManager txManager = new DefaultTransactionManager();
+            txManager.begin();
+            Transaction tx = txManager.suspend();
+            txManager.resume(tx);
+        } catch (NotSupportedException | SystemException | 
+                InvalidTransactionException | IllegalStateException e) {
+            fail();
+        }
     }
 
     /**

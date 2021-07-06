@@ -27,10 +27,10 @@
  */
 package jakarta.servlet.http;
 
-import jakarta.servlet.http.HttpFilter;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -42,15 +42,17 @@ class HttpFilterTest {
 
     /**
      * Test doFilter method.
-     * 
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testDoFilter() throws Exception {
-        HttpServletRequest request = null;
-        HttpServletResponse response = null;
-        FilterChain chain = new TestFilterChain();
-        HttpFilter filter = new TestHttpFilter();
-        filter.doFilter(request, response, chain);
+    void testDoFilter() {
+        try {
+            HttpServletRequest request = null;
+            HttpServletResponse response = null;
+            FilterChain chain = new TestFilterChain();
+            HttpFilter filter = new TestHttpFilter();
+            filter.doFilter(request, response, chain);
+        } catch (IOException | ServletException e) {
+            fail();
+        }
     }
 }

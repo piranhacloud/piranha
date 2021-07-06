@@ -24,9 +24,10 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.transaction.nonxa.test;
+package cloud.piranha.transaction.nonxa.tests;
 
 import javax.naming.InitialContext;
+import javax.naming.NameNotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -44,7 +45,7 @@ import cloud.piranha.transaction.nonxa.DefaultTransactionManager;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class JPA2DatabasesTest {
+class JPADatabaseTest {
 
     /**
      * Test database.
@@ -55,47 +56,34 @@ class JPA2DatabasesTest {
     void testJpaDatabase() throws Exception {
         System.getProperties().put("java.naming.factory.initial", "cloud.piranha.naming.impl.DefaultInitialContextFactory");
         InitialContext initialContext = new InitialContext();
-        JdbcDataSource dataSource = new JdbcDataSource();
-        dataSource.setURL("jdbc:h2:./target/JPADatabaseTest2");
-        initialContext.bind("java:/JPADatabaseTest2", dataSource);
-        JdbcDataSource dataSource2 = new JdbcDataSource();
-        dataSource2.setURL("jdbc:h2:./target/JPADatabaseTest3");
-        initialContext.bind("java:/JPADatabaseTest3", dataSource2);
-        DefaultTransactionManager transactionManager = new DefaultTransactionManager();
-        initialContext.rebind("java:/TransactionManager", transactionManager);
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPADatabaseTest2");
-        EntityManagerFactory emf2 = Persistence.createEntityManagerFactory("JPADatabaseTest3");
+        JdbcDataSource dataSource;
+        try {
+            initialContext.lookup("java:/JPADatabaseTest");
+        } catch(NameNotFoundException nnfe) {
+            dataSource = new JdbcDataSource();
+            dataSource.setURL("jdbc:h2:./target/JPADatabaseTest");initialContext.bind("java:/JPADatabaseTest", dataSource);
+        }
+        DefaultTransactionManager transactionManager;
+        try {
+            transactionManager = (DefaultTransactionManager) initialContext.lookup("java:/TransactionManager");
+        } catch (NameNotFoundException nnfe) {
+            transactionManager = new DefaultTransactionManager();
+            initialContext.rebind("java:/TransactionManager", transactionManager);
+        }
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPADatabaseTest");
         transactionManager.begin();
         EntityManager em = emf.createEntityManager();
         JPATest jpaTest = new JPATest();
-        jpaTest.setId(1);
+        jpaTest.setId(3);
         em.persist(jpaTest);
         em.flush();
         Transaction transaction = transactionManager.getTransaction();
         assertEquals(0, transaction.getStatus());
-        EntityManager em2 = emf2.createEntityManager();
-        JPATest jpaTest2 = new JPATest();
-        jpaTest2.setId(2);
-        em2.persist(jpaTest2);
-        em2.flush();
-        Transaction transaction2 = transactionManager.getTransaction();
-        assertEquals(0, transaction2.getStatus());
         transactionManager.commit();
-        
         assertEquals(3, transaction.getStatus());
         em = emf.createEntityManager();
-        JPATest jpaTestb = em.find(JPATest.class, 1);
-        assertNotNull(jpaTestb);
-        assertEquals(jpaTest.getId(), jpaTestb.getId());
-        assertEquals(3, transaction2.getStatus());
-        em2 = emf2.createEntityManager();
-        JPATest jpaTest2b = em2.find(JPATest.class, 2);
-        assertNotNull(jpaTest2b);
-        assertEquals(jpaTest2b.getId(), jpaTest2.getId());
-        
-        em.close();
-        emf.close();
-        em2.close();
-        emf2.close();
+        JPATest jpaTest2 = em.find(JPATest.class, 3);
+        assertNotNull(jpaTest2);
+        assertEquals(jpaTest.getId(), jpaTest2.getId());
     }
 }

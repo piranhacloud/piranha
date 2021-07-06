@@ -9,7 +9,7 @@
             <property name="eclipselink.logging.level" value="FINEST"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
-            <property name="eclipselink.session.customizer" value="cloud.piranha.transaction.nonxa.test.EclipseLinkSessionCustomizer"/>   
+            <property name="eclipselink.session.customizer" value="cloud.piranha.transaction.nonxa.tests.EclipseLinkSessionCustomizer"/>   
         </properties>
     </persistence-unit>
     <persistence-unit name="JPADatabaseTest2" transaction-type="JTA"> 
@@ -20,7 +20,7 @@
             <property name="eclipselink.logging.level" value="FINEST"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
-            <property name="eclipselink.session.customizer" value="cloud.piranha.transaction.nonxa.test.EclipseLinkSessionCustomizer"/>   
+            <property name="eclipselink.session.customizer" value="cloud.piranha.transaction.nonxa.tests.EclipseLinkSessionCustomizer"/>   
         </properties>
     </persistence-unit>
     <persistence-unit name="JPADatabaseTest3" transaction-type="JTA"> 
@@ -31,7 +31,7 @@
             <property name="eclipselink.logging.level" value="FINEST"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
-            <property name="eclipselink.session.customizer" value="cloud.piranha.transaction.nonxa.test.EclipseLinkSessionCustomizer"/>   
+            <property name="eclipselink.session.customizer" value="cloud.piranha.transaction.nonxa.tests.EclipseLinkSessionCustomizer"/>   
         </properties>
     </persistence-unit>
 </persistence>

@@ -27,8 +27,6 @@
  */
 package jakarta.servlet.http;
 
-import jakarta.servlet.http.HttpServletResponseWrapper;
-import jakarta.servlet.http.HttpServletResponse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
@@ -55,5 +53,6 @@ class HttpServletResponseTest {
     void testSetTrailerFields() {
         HttpServletResponse response = new HttpServletResponseWrapper(null);
         ((HttpServletResponse) response).setTrailerFields(null);
+        assertNull(((HttpServletResponse) response).getTrailerFields());
     }
 }
