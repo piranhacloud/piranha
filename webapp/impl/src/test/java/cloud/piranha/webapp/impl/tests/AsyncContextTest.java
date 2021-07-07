@@ -27,53 +27,69 @@
  */
 package cloud.piranha.webapp.impl.tests;
 
-import cloud.piranha.webapp.impl.DefaultAsyncContext;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
-import org.junit.jupiter.api.Test;
-
+import jakarta.servlet.AsyncContext;
 import java.io.ByteArrayOutputStream;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the AsyncContext API.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class AsyncContextTest {
-    
+
     /**
      * Test dispatch method.
+     *
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testDispatch() {
+    void testDispatch() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setAsyncSupported(true);
         request.setWebApplication(webApp);
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setResponseCloser(() -> {});
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
-        DefaultAsyncContext context = new DefaultAsyncContext(request, response);
-        //context.dispatch();
+        AsyncContext context = request.startAsync(request, response);
+        context.dispatch();
+        while(!response.isCommitted()) {
+            Thread.sleep(10);
+        }
+        assertTrue(byteOutput.toString().contains("HTTP/1.1 404"));
     }
-    
+
     /**
      * Test dispatch method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testDispatch2() {
+    void testDispatch2() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setAsyncSupported(true);
         request.setWebApplication(webApp);
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setResponseCloser(() -> {});
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
-        //DefaultAsyncContext context = new DefaultAsyncContext(request, response);
-        ///context.dispatch("/mypath");
+        AsyncContext context = request.startAsync(request, response);
+        context.dispatch("/mypath");
+        while(!response.isCommitted()) {
+            Thread.sleep(10);
+        }
+        assertTrue(byteOutput.toString().contains("HTTP/1.1 404"));
     }
-    
+
     /**
      * Test dispatch method.
      */
@@ -87,6 +103,6 @@ class AsyncContextTest {
         response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
         //DefaultAsyncContext context = new DefaultAsyncContext(request, response);
-       /// context.dispatch(webApp, "/mypath");
+        /// context.dispatch(webApp, "/mypath");
     }
 }

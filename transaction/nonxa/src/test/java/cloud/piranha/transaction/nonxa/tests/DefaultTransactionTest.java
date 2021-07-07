@@ -26,19 +26,20 @@
  */
 package cloud.piranha.transaction.nonxa.tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import cloud.piranha.transaction.nonxa.DefaultTransaction;
+import jakarta.transaction.HeuristicMixedException;
+import jakarta.transaction.HeuristicRollbackException;
 import jakarta.transaction.RollbackException;
 import jakarta.transaction.Synchronization;
+import jakarta.transaction.SystemException;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
-
-import cloud.piranha.transaction.nonxa.DefaultTransaction;
 
 /**
  * The JUnit tests for the DefaultTransaction class.
@@ -49,14 +50,18 @@ class DefaultTransactionTest {
 
     /**
      * Test commit method.
-     *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testCommit() throws Exception {
-        DefaultTransaction transaction = new DefaultTransaction();
-        transaction.commit();
-        transaction.commit();
+    void testCommit() {
+        try {
+            DefaultTransaction transaction = new DefaultTransaction();
+            transaction.commit();
+            transaction.commit();
+        } catch (RollbackException | HeuristicMixedException | 
+                HeuristicRollbackException | SecurityException | 
+                IllegalStateException | SystemException ex) {
+            fail();
+        }
     }
 
     /**
