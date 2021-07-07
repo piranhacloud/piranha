@@ -26,16 +26,16 @@
  */
 package cloud.piranha.transaction.nonxa.tests;
 
+import cloud.piranha.transaction.nonxa.DefaultTransactionManager;
+import cloud.piranha.transaction.nonxa.DefaultUserTransaction;
 import jakarta.transaction.HeuristicRollbackException;
 import jakarta.transaction.NotSupportedException;
 import jakarta.transaction.Status;
+import jakarta.transaction.SystemException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
-
-import cloud.piranha.transaction.nonxa.DefaultTransactionManager;
-import cloud.piranha.transaction.nonxa.DefaultUserTransaction;
 
 /**
  * The JUnit tests for the DefaultUserTransaction class.
@@ -84,7 +84,7 @@ class DefaultUserTransactionTest {
         transaction.commit();
         assertThrows(IllegalStateException.class, transaction::commit);
     }
-    
+
     /**
      * Test getStatus method.
      *
@@ -112,15 +112,18 @@ class DefaultUserTransactionTest {
 
     /**
      * Test rollback method.
-     *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testRollback() throws Exception {
-        DefaultUserTransaction transaction = new DefaultUserTransaction(
-                new DefaultTransactionManager());
-        transaction.begin();
-        transaction.rollback();
+    void testRollback() {
+        try {
+            DefaultUserTransaction transaction = new DefaultUserTransaction(
+                    new DefaultTransactionManager());
+            transaction.begin();
+            transaction.rollback();
+        } catch (IllegalStateException | SecurityException
+                | SystemException | NotSupportedException ex) {
+            fail();
+        }
     }
 
     /**
@@ -136,17 +139,19 @@ class DefaultUserTransactionTest {
         transaction.setRollbackOnly();
         assertThrows(HeuristicRollbackException.class, transaction::commit);
     }
-    
+
     /**
      * Test setTransactionTimeout method.
-     *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetTransactionTimeout() throws Exception {
-        DefaultUserTransaction transaction = new DefaultUserTransaction(
-                new DefaultTransactionManager());
-        transaction.begin();
-        transaction.setTransactionTimeout(1000);
+    void testSetTransactionTimeout() {
+        try {
+            DefaultUserTransaction transaction = new DefaultUserTransaction(
+                    new DefaultTransactionManager());
+            transaction.begin();
+            transaction.setTransactionTimeout(1000);
+        } catch (SystemException | NotSupportedException ex) {
+            fail();
+        }
     }
 }

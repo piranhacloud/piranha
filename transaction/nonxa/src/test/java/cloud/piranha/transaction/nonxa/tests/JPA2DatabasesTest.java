@@ -67,14 +67,14 @@ class JPA2DatabasesTest {
         EntityManagerFactory emf2 = Persistence.createEntityManagerFactory("JPADatabaseTest3");
         transactionManager.begin();
         EntityManager em = emf.createEntityManager();
-        JPATest jpaTest = new JPATest();
+        JPATestModel jpaTest = new JPATestModel();
         jpaTest.setId(1);
         em.persist(jpaTest);
         em.flush();
         Transaction transaction = transactionManager.getTransaction();
         assertEquals(0, transaction.getStatus());
         EntityManager em2 = emf2.createEntityManager();
-        JPATest jpaTest2 = new JPATest();
+        JPATestModel jpaTest2 = new JPATestModel();
         jpaTest2.setId(2);
         em2.persist(jpaTest2);
         em2.flush();
@@ -84,12 +84,12 @@ class JPA2DatabasesTest {
         
         assertEquals(3, transaction.getStatus());
         em = emf.createEntityManager();
-        JPATest jpaTestb = em.find(JPATest.class, 1);
+        JPATestModel jpaTestb = em.find(JPATestModel.class, 1);
         assertNotNull(jpaTestb);
         assertEquals(jpaTest.getId(), jpaTestb.getId());
         assertEquals(3, transaction2.getStatus());
         em2 = emf2.createEntityManager();
-        JPATest jpaTest2b = em2.find(JPATest.class, 2);
+        JPATestModel jpaTest2b = em2.find(JPATestModel.class, 2);
         assertNotNull(jpaTest2b);
         assertEquals(jpaTest2b.getId(), jpaTest2.getId());
         

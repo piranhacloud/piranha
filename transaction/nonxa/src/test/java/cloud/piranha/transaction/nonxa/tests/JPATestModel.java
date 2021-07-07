@@ -37,7 +37,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "jpa_test")
-public class JPATest {
+public class JPATestModel {
 
     /**
      * Stores the id.
