@@ -54,8 +54,8 @@ class AsyncContextTest {
         request.setAsyncSupported(true);
         request.setWebApplication(webApp);
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setResponseCloser(() -> {});
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setResponseCloser(() -> {});
         response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
         AsyncContext context = request.startAsync(request, response);
@@ -78,8 +78,8 @@ class AsyncContextTest {
         request.setAsyncSupported(true);
         request.setWebApplication(webApp);
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setResponseCloser(() -> {});
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setResponseCloser(() -> {});
         response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
         AsyncContext context = request.startAsync(request, response);
@@ -92,17 +92,25 @@ class AsyncContextTest {
 
     /**
      * Test dispatch method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testDispatch3() {
+    void testDispatch3() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setAsyncSupported(true);
         request.setWebApplication(webApp);
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setResponseCloser(() -> {});
         response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
-        //DefaultAsyncContext context = new DefaultAsyncContext(request, response);
-        /// context.dispatch(webApp, "/mypath");
+        AsyncContext context = request.startAsync(request, response);
+        context.dispatch(webApp, "/mypath");
+        while(!response.isCommitted()) {
+            Thread.sleep(10);
+        }
+        assertTrue(byteOutput.toString().contains("HTTP/1.1 404"));
     }
 }

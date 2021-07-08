@@ -48,6 +48,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpUpgradeHandler;
 import jakarta.servlet.http.WebConnection;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
@@ -59,20 +60,19 @@ import org.junit.jupiter.api.Test;
 class DefaultHttpServletRequestTest {
 
     /**
-     * Test authenticate.
-     *
-     * @throws Exception
+     * Test authenticate method.
      */
     @Test
-    void testAuthenticate() throws Exception {
+    void testAuthenticate() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setSecurityManager(new DefaultSecurityManager());
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setWebApplication(webApp);
         HttpServletResponse response = new TestWebApplicationResponse();
         try {
-            request.authenticate(response);
+            assertFalse(request.authenticate(response));
         } catch (IOException | ServletException exception) {
+            fail();
         }
     }
 
