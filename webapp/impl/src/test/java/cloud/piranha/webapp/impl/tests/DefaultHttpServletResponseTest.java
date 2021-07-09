@@ -31,6 +31,7 @@ import cloud.piranha.webapp.api.LocaleEncodingManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -38,6 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -124,13 +126,15 @@ class DefaultHttpServletResponseTest {
 
     /**
      * Test flushBuffer method.
-     *
-     * @throws Exception when an error occurs.
      */
     @Test
-    void testFlushBuffer() throws Exception {
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        response.flushBuffer();
+    void testFlushBuffer() {
+        try {
+            DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+            response.flushBuffer();
+        } catch (IOException ex) {
+            fail();
+        }
     }
 
     /**
