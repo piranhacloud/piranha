@@ -32,6 +32,13 @@ import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.WebConnection;
+import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -39,17 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.IOException;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpUpgradeHandler;
-import jakarta.servlet.http.WebConnection;
 import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -77,19 +74,21 @@ class DefaultHttpServletRequestTest {
     }
 
     /**
-     * Test authenticate.
-     *
-     * @throws Exception
+     * Test authenticate method.
      */
     @Test
-    void testAuthenticate2() throws Exception {
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setSecurityManager(securityManager);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
-        HttpServletResponse response = new TestWebApplicationResponse();
-        request.authenticate(response);
+    void testAuthenticate2() {
+        try {
+            DefaultSecurityManager securityManager = new DefaultSecurityManager();
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            webApp.setSecurityManager(securityManager);
+            TestWebApplicationRequest request = new TestWebApplicationRequest();
+            request.setWebApplication(webApp);
+            HttpServletResponse response = new TestWebApplicationResponse();
+            request.authenticate(response);
+        } catch (IOException | ServletException ex) {
+            fail();
+        }
     }
 
     /**
@@ -116,8 +115,10 @@ class DefaultHttpServletRequestTest {
         webApp.linkRequestAndResponse(request, response);
         request.setWebApplication(webApp);
         HttpSession session = request.getSession(true);
+        String sessionId1 = session.getId();
         request.setRequestedSessionId(session.getId());
-        request.changeSessionId();
+        String sessionId2 = request.changeSessionId();
+        assertNotEquals(sessionId1, sessionId2);
     }
 
     @Test
@@ -255,7 +256,7 @@ class DefaultHttpServletRequestTest {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
         request.setWebApplication(webApp);
-        request.getRequestDispatcher("/test");
+        assertNotNull(request.getRequestDispatcher("/test"));
     }
 
     /**
