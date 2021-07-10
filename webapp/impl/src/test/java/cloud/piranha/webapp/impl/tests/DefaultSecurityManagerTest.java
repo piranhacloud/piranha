@@ -30,14 +30,17 @@ package cloud.piranha.webapp.impl.tests;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import com.sun.security.auth.UserPrincipal;
-import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
-
+import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the SecurityManagerImpl class.
@@ -160,19 +163,21 @@ class DefaultSecurityManagerTest {
 
     /**
      * Test login method.
-     *
-     * @throws ServletException when a servlet error occurs.
      */
     @Test
-    void testLogin() throws ServletException {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        webApp.linkRequestAndResponse(request, response);
-        securityManager.setWebApplication(webApp);
-        securityManager.addUser("username", "password", new String[]{"role1", "role2"});
-        securityManager.login(request, "username", "password");
+    void testLogin() {
+        try {
+            TestWebApplicationRequest request = new TestWebApplicationRequest();
+            TestWebApplicationResponse response = new TestWebApplicationResponse();
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            DefaultSecurityManager securityManager = new DefaultSecurityManager();
+            webApp.linkRequestAndResponse(request, response);
+            securityManager.setWebApplication(webApp);
+            securityManager.addUser("username", "password", new String[]{"role1", "role2"});
+            securityManager.login(request, "username", "password");
+        } catch (ServletException ex) {
+            fail();
+        }
     }
 
     /**

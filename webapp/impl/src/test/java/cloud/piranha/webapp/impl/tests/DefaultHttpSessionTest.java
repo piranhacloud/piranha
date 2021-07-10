@@ -30,7 +30,13 @@ package cloud.piranha.webapp.impl.tests;
 import cloud.piranha.webapp.impl.DefaultHttpSession;
 import cloud.piranha.webapp.impl.DefaultHttpSessionManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -129,16 +135,6 @@ class DefaultHttpSessionTest {
     }
 
     /**
-     * Test getSessionManager method.
-     */
-    @Test
-    void testGetSessionManager() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultHttpSession session = new DefaultHttpSession(webApp);
-        session.setSessionManager(new DefaultHttpSessionManager());
-    }
-
-    /**
      * Test getValue method.
      */
     @Test
@@ -167,10 +163,15 @@ class DefaultHttpSessionTest {
      */
     @Test
     void testInvalidate() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultHttpSession session = new DefaultHttpSession(webApp);
-        session.setSessionManager(new DefaultHttpSessionManager());
-        session.invalidate();
+        try {
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            DefaultHttpSession session = new DefaultHttpSession(webApp);
+            session.setSessionManager(new DefaultHttpSessionManager());
+            session.invalidate();
+            session.isNew();
+            fail();
+        } catch (IllegalStateException e) {
+        }
     }
 
     /**
