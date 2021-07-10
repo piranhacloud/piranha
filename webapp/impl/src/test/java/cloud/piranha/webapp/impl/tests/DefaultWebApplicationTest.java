@@ -144,8 +144,11 @@ class DefaultWebApplicationTest {
     @Test
     void testDeclareRoles() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setSecurityManager(new DefaultSecurityManager());
+        DefaultSecurityManager manager = new DefaultSecurityManager();
+        webApp.setSecurityManager(manager);
         webApp.declareRoles(new String[]{"ADMIN", "USER"});
+        assertTrue(manager.getRoles().contains("ADMIN"));
+        assertTrue(manager.getRoles().contains("USER"));
     }
 
     /**
@@ -599,18 +602,6 @@ class DefaultWebApplicationTest {
      */
     @Test
     void testGetSecurityManager() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        try {
-            webApp.getSecurityManager();
-        } catch (Exception exception) {
-        }
-    }
-
-    /**
-     * Test getSecurityManager.
-     */
-    @Test
-    void testGetSecurityManager2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setSecurityManager(new DefaultSecurityManager());
         assertNotNull(webApp.getSecurityManager());
