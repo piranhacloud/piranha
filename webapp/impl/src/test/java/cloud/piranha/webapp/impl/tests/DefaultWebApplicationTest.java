@@ -27,22 +27,14 @@
  */
 package cloud.piranha.webapp.impl.tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Set;
-
+import cloud.piranha.resource.DefaultResourceManager;
+import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.webapp.impl.DefaultMimeTypeManager;
+import cloud.piranha.webapp.impl.DefaultSecurityManager;
+import cloud.piranha.webapp.impl.DefaultServlet;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
+import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -53,17 +45,22 @@ import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.SessionTrackingMode;
 import jakarta.servlet.http.HttpServletRequest;
-
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.Date;
+import java.util.EnumSet;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
-
-import cloud.piranha.resource.DefaultResourceManager;
-import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.webapp.impl.DefaultMimeTypeManager;
-import cloud.piranha.webapp.impl.DefaultSecurityManager;
-import cloud.piranha.webapp.impl.DefaultServlet;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
-import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 
 /**
  * The JUnit tests for the DefaultWebApplication class.
@@ -110,7 +107,8 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test addMapping method (verify when we add twice addMapping will return a empty set).
+     * Test addMapping method (verify when we add twice addMapping will return a
+     * empty set).
      */
     @Test
     void testAddMapping2() {
@@ -709,12 +707,9 @@ class DefaultWebApplicationTest {
      */
     @Test
     void testGetSessionManager() {
-        try {
-            DefaultWebApplication webApp = new DefaultWebApplication();
-            webApp.setHttpSessionManager(null);
-            webApp.getHttpSessionManager();
-        } catch (IllegalStateException exception) {
-        }
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setHttpSessionManager(null);
+        assertNull(webApp.getHttpSessionManager());
     }
 
     /**
@@ -817,20 +812,18 @@ class DefaultWebApplicationTest {
 
     /**
      * Test initialize, start and stop methods.
-     *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testInitializeStartAndStop() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.initialize();
-        webApp.start();
-        webApp.stop();
-        webApp.destroy();
-
+    void testInitializeStartAndStop() {
         try {
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            webApp.initialize();
             webApp.start();
-        } catch (RuntimeException exception) {
+            webApp.stop();
+            webApp.destroy();
+            webApp.start();
+            fail();
+        } catch (RuntimeException e) {
         }
     }
 
@@ -840,7 +833,12 @@ class DefaultWebApplicationTest {
     @Test
     void testLog() {
         DefaultWebApplication webApp = new DefaultWebApplication();
+        final StringBuilder log = new StringBuilder();
+        webApp.setLoggingManager((String message, Throwable throwable) -> {
+            log.append(message);
+        });
         webApp.log("TEST");
+        assertEquals("TEST", log.toString());
     }
 
     /**
@@ -859,42 +857,45 @@ class DefaultWebApplicationTest {
     @Test
     void testLog3() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.log("TEST", new RuntimeException());
+        final StringBuilder log = new StringBuilder();
+        webApp.setLoggingManager((String message, Throwable throwable) -> {
+            log.append(message).append(" - ").append(throwable.getMessage());
+        });
+        webApp.log("TEST", new RuntimeException("Reason"));
+        assertEquals("TEST - Reason", log.toString());
     }
 
     /**
-     * Test login.
-     *
-     * @throws Exception
+     * Test login method.
      */
     @Test
-    void testLogin() throws Exception {
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setSecurityManager(securityManager);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
+    void testLogin() {
         try {
+            DefaultSecurityManager securityManager = new DefaultSecurityManager();
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            webApp.setSecurityManager(securityManager);
+            TestWebApplicationRequest request = new TestWebApplicationRequest();
+            request.setWebApplication(webApp);
             request.login("admin", "password");
+            fail();
         } catch (ServletException exception) {
         }
     }
 
     /**
-     * Test logout.
-     *
-     * @throws Exception
+     * Test logout method.
      */
     @Test
-    void testLogout() throws Exception {
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setSecurityManager(securityManager);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
+    void testLogout() {
         try {
+            DefaultSecurityManager securityManager = new DefaultSecurityManager();
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            webApp.setSecurityManager(securityManager);
+            TestWebApplicationRequest request = new TestWebApplicationRequest();
+            request.setWebApplication(webApp);
             request.logout();
         } catch (ServletException exception) {
+            fail();
         }
     }
 
@@ -1004,7 +1005,6 @@ class DefaultWebApplicationTest {
         assertThrows(NullPointerException.class, () -> webApp.getAttribute(null));
     }
 
-
     /**
      * Test setClassLoader method.
      */
@@ -1045,7 +1045,6 @@ class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertThrows(NullPointerException.class, () -> webApp.setInitParameter(null, "KABOOM"));
     }
-
 
     /**
      * Test setInitParameter method.
@@ -1111,7 +1110,7 @@ class DefaultWebApplicationTest {
     @Test
     void testSetBufferSize() throws Exception {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        try ( ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             response.setUnderlyingOutputStream(baos);
             response.flush();
             assertThrows(IllegalStateException.class, () -> response.setBufferSize(20));
