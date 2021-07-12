@@ -29,14 +29,13 @@ package cloud.piranha.webapp.impl.tests;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import jakarta.servlet.ServletContextEvent;
-import java.util.EventListener;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.http.HttpSessionListener;
+import java.util.EventListener;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -52,15 +51,6 @@ class ListenerTest {
     @Test
     void testAddListener() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addListener("ClassNotFoundListener");
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    void testAddListener2() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.initialize();
         assertThrows(IllegalStateException.class, () -> webApplication.addListener("ClassNotFoundListener"));
     }
@@ -69,50 +59,9 @@ class ListenerTest {
      * Test addListener method.
      */
     @Test
-    void testAddListener3() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addListener(TestHttpSessionListener.class.getName());
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    void testAddListener4() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addListener(TestHttpSessionListener.class);
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    void testAddListener5() {
+    void testAddListener2() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         assertThrows(IllegalArgumentException.class, () -> webApplication.addListener(TestInvalidTypeOfListener.class));
-    }
-
-    /**
-     * Test addListener method.
-     */
-    @Test
-    void testAddListener6() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addListener(TestBrokenHttpSessionListener.class);
-    }
-    
-    
-    /**
-     * Test addListener method.
-     */
-    @Test
-    void testAddListener7() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addListener(TestListenerAddingAnotherListener.class);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.stop();
-        webApplication.destroy();
     }
 
     /**
@@ -207,42 +156,6 @@ class ListenerTest {
          * Constructor.
          */
         public TestServletRequestListener() {
-        }
-    }
-
-    /**
-     * Test HTTP session listener.
-     */
-    public static class TestBrokenHttpSessionListener implements HttpSessionListener {
-
-        /**
-         * Constructor.
-         */
-        public TestBrokenHttpSessionListener() {
-            throw new UnsupportedOperationException();
-        }
-    }
-    
-    /**
-     * Test Servlet context listener.
-     */
-    public static class TestListenerAddingAnotherListener implements ServletContextListener {
-
-        /**
-         * Constructor.
-         */
-        public TestListenerAddingAnotherListener() {
-        }
-
-        @Override
-        public void contextInitialized(ServletContextEvent event) {
-            event.getServletContext().addListener(TestHttpSessionListener.class);
-            event.getServletContext().addListener(TestHttpSessionListener.class.getName());
-            try {
-                event.getServletContext().createListener(TestHttpSessionListener.class);
-            } catch(ServletException se) {
-                throw new RuntimeException(se);
-            }
         }
     }
 }

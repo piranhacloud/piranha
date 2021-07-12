@@ -187,14 +187,12 @@ class FilterTest {
 
     /**
      * Test addFilter method.
-     *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testAddFilter11() throws Exception {
+    void testAddFilter11() {
         webApp.initialize();
-        webApp.addFilter("filter", "InCompleteRegistrationFilter");
-        webApp.addFilter("filter", "InCompleteRegistrationFilter");
+        assertNotNull(webApp.addFilter("filter", "InCompleteRegistrationFilter"));
+        assertNull(webApp.addFilter("filter", "InCompleteRegistrationFilter"));
     }
 
     /**
