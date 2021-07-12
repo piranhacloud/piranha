@@ -73,18 +73,6 @@ class ServletContainerInitializerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testAddInitializer2() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addInitializer("this.does.not.exist");
-        webApp.initialize();
-    }
-
-    /**
-     * Test addInitializer method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
     void testAddInitializer3() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addInitializer(TestInitializer.class.getName());
