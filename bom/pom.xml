@@ -75,14 +75,14 @@
             <dependency>
                 <groupId>io.smallrye.config</groupId>
                 <artifactId>smallrye-config</artifactId>
-                <version>2.3.0</version>
+                <version>2.4.0</version>
             </dependency>
 
             <!-- Smallrye MicroProfile Health -->
             <dependency>
                 <groupId>io.smallrye</groupId>
                 <artifactId>smallrye-health</artifactId>
-                <version>3.0.2</version>
+                <version>3.1.1</version>
             </dependency>
 
             <!-- Undertow -->
@@ -343,7 +343,7 @@
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.faces</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
             </dependency>
             
             <!-- Eclipse JSON-P -->
@@ -474,12 +474,12 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.7.0.Alpha9</version>
+                <version>1.7.0.Alpha10</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-build</artifactId>
-                <version>1.7.0.Alpha9</version>
+                <version>1.7.0.Alpha10</version>
             </dependency>
 
             <!-- JBoss Shrinkwrap -->
@@ -583,7 +583,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>5.3.7</version>
+                <version>5.3.8</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
