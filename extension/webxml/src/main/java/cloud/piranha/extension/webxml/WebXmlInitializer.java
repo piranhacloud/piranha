@@ -44,8 +44,6 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 
 import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.impl.WebXml;
-import cloud.piranha.webapp.impl.WebXmlManager;
 
 /**
  * The web.xml initializer.

@@ -16,6 +16,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-webxml</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.naming</groupId>
             <artifactId>piranha-naming-impl</artifactId>
             <version>${project.version}</version>

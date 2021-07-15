@@ -25,17 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.impl;
+package cloud.piranha.extension.webxml;
 
 /**
- * The web.xml login-config.
- *
- * @param authMethod    the auth method.
- * @param realmName     the realm name.
- * @param formLoginPage the form login page.
- * @param formErrorPage the form error page.
- * @author Manfred Riem (mriem@manorrock.com)
+ * The web.xml servlet security-role-ref element.
+ * @param roleName The role scoped to a specific servlet, and the role uses in <code>isUser/CallerInRole</code> methods.
+ * @param roleLink The "global" application role, as defined by <code>declareRoles</code> or <code>security-role</code>
+ * @author Arjan Tijms
  */
-public record WebXmlLoginConfig(String authMethod, String realmName, String formLoginPage,
-                                String formErrorPage) {
+public record WebXmlServletSecurityRoleRef(String roleName, String roleLink) {
 }

@@ -25,12 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.impl;
+package cloud.piranha.extension.webxml;
 
 /**
- * The web.xml session-config.
- *
+ * The web.xml servlet-mapping
+ * @param servletName the servlet name.
+ * @param urlPattern  the URL pattern.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlSessionConfig(int sessionTimeout) {
+public record WebXmlServletMapping(String servletName, String urlPattern) {
 }

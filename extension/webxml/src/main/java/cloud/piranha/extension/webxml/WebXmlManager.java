@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.impl;
+package cloud.piranha.extension.webxml;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,7 +39,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import static cloud.piranha.webapp.impl.WebXml.OTHERS_TAG;
+import static cloud.piranha.extension.webxml.WebXml.OTHERS_TAG;
 
 /**
  * The web.xml manager.
