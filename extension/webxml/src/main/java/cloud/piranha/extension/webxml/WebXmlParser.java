@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.webxml;
 
-import static cloud.piranha.webapp.impl.WebXml.OTHERS_TAG;
+import static cloud.piranha.extension.webxml.WebXml.OTHERS_TAG;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.WARNING;
 import static java.util.regex.Pattern.quote;
@@ -55,23 +55,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import cloud.piranha.webapp.impl.WebXml;
-import cloud.piranha.webapp.impl.WebXmlContextParam;
-import cloud.piranha.webapp.impl.WebXmlCookieConfig;
-import cloud.piranha.webapp.impl.WebXmlErrorPage;
-import cloud.piranha.webapp.impl.WebXmlFilter;
-import cloud.piranha.webapp.impl.WebXmlFilterInitParam;
-import cloud.piranha.webapp.impl.WebXmlFilterMapping;
-import cloud.piranha.webapp.impl.WebXmlListener;
-import cloud.piranha.webapp.impl.WebXmlLoginConfig;
-import cloud.piranha.webapp.impl.WebXmlMimeMapping;
-import cloud.piranha.webapp.impl.WebXmlServlet;
-import cloud.piranha.webapp.impl.WebXmlServletInitParam;
-import cloud.piranha.webapp.impl.WebXmlServletMapping;
-import cloud.piranha.webapp.impl.WebXmlServletMultipartConfig;
-import cloud.piranha.webapp.impl.WebXmlServletSecurityRoleRef;
-import cloud.piranha.webapp.impl.WebXmlSessionConfig;
 
 /**
  * The web.xml / web-fragment.xml parser.

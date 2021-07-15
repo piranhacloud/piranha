@@ -45,16 +45,6 @@ import jakarta.servlet.ServletRegistration;
 import cloud.piranha.webapp.api.LocaleEncodingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WelcomeFileManager;
-import cloud.piranha.webapp.impl.WebXml;
-import cloud.piranha.webapp.impl.WebXmlContextParam;
-import cloud.piranha.webapp.impl.WebXmlErrorPage;
-import cloud.piranha.webapp.impl.WebXmlFilterInitParam;
-import cloud.piranha.webapp.impl.WebXmlListener;
-import cloud.piranha.webapp.impl.WebXmlMimeMapping;
-import cloud.piranha.webapp.impl.WebXmlServlet;
-import cloud.piranha.webapp.impl.WebXmlServletMapping;
-import cloud.piranha.webapp.impl.WebXmlServletMultipartConfig;
-import cloud.piranha.webapp.impl.WebXmlSessionConfig;
 
 /**
  * The web.xml / web-fragment.xml processor.

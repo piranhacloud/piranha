@@ -41,9 +41,9 @@ import org.omnifaces.exousia.AuthorizationService;
 import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.mapping.SecurityRoleRef;
 
+import cloud.piranha.extension.webxml.WebXmlManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
-import cloud.piranha.webapp.impl.WebXmlManager;
 import jakarta.security.jacc.PolicyConfiguration;
 import jakarta.security.jacc.PolicyContextException;
 import jakarta.servlet.FilterRegistration;

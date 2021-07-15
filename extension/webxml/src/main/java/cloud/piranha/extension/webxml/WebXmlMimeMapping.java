@@ -25,12 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.impl;
+package cloud.piranha.extension.webxml;
 
 /**
- * The web.xml servlet init-param.
+ * The web.xml mime-mapping.
  *
+ * @param extension the extension.
+ * @param mimeType  the mime type.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlServletInitParam(String name, String value) {
+public record WebXmlMimeMapping(String extension, String mimeType) {
 }

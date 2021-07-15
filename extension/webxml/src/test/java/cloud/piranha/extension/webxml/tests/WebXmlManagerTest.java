@@ -1,6 +1,6 @@
-package cloud.piranha.webapp.impl.tests;
+package cloud.piranha.extension.webxml.tests;
 
-import cloud.piranha.webapp.impl.WebXml;
+import cloud.piranha.extension.webxml.WebXml;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static cloud.piranha.webapp.impl.WebXml.OTHERS_TAG;
-import cloud.piranha.webapp.impl.WebXmlManager;
+import static cloud.piranha.extension.webxml.WebXml.OTHERS_TAG;
+import cloud.piranha.extension.webxml.WebXmlManager;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WebXmlManagerTest {

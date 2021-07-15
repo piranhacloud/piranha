@@ -45,9 +45,9 @@ import org.omnifaces.exousia.constraints.WebResourceCollection;
 import org.omnifaces.exousia.constraints.transformer.ElementsToConstraintsTransformer;
 import org.omnifaces.exousia.mapping.SecurityRoleRef;
 
-import cloud.piranha.webapp.impl.WebXml;
-import cloud.piranha.webapp.impl.WebXmlServlet;
-import cloud.piranha.webapp.impl.WebXmlServletSecurityRoleRef;
+import cloud.piranha.extension.webxml.WebXml;
+import cloud.piranha.extension.webxml.WebXmlServlet;
+import cloud.piranha.extension.webxml.WebXmlServletSecurityRoleRef;
 import jakarta.servlet.ServletSecurityElement;
 import jakarta.servlet.annotation.ServletSecurity;
 

@@ -25,12 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.impl;
+package cloud.piranha.extension.webxml;
 
 /**
- * The web.xml filter init-param.
+ * The web.xml login-config.
  *
+ * @param authMethod    the auth method.
+ * @param realmName     the realm name.
+ * @param formLoginPage the form login page.
+ * @param formErrorPage the form error page.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlFilterInitParam(String name, String value) {
+public record WebXmlLoginConfig(String authMethod, String realmName, String formLoginPage,
+                                String formErrorPage) {
 }

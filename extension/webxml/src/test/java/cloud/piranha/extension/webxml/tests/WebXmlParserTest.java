@@ -27,11 +27,11 @@
  */
 package cloud.piranha.extension.webxml.tests;
 
+import cloud.piranha.extension.webxml.WebXml;
 import cloud.piranha.extension.webxml.WebXmlParser;
+import cloud.piranha.extension.webxml.WebXmlServletMapping;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.WebXml;
-import cloud.piranha.webapp.impl.WebXmlServletMapping;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;

@@ -25,15 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.impl;
+package cloud.piranha.extension.webxml;
 
 /**
- * The web.xml error-page.
+ * The web.xml filter init-param.
  *
- * @param errorCode the error code.
- * @param exceptionType the exception type.
- * @param location the location.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlErrorPage(String errorCode, String exceptionType, String location) {
+public record WebXmlFilterInitParam(String name, String value) {
 }
