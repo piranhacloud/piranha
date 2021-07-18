@@ -21,4 +21,8 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+    <mime-mapping>
+        <extension>class</extension>
+        <mime-type>application/x-java-class</mime-type>
+    </mime-mapping>
 </web-app>
