@@ -127,11 +127,13 @@ public class WebXmlParser {
             LOGGER.log(WARNING, "Unable to parse <name> section", xpe);
         }
     }
+
     private void parseAbsoluteOrdering(WebXml webXml, XPath xPath, Node rootNode) {
         try {
             Node absoluteOrderingNode = (Node) xPath.evaluate("//absolute-ordering", rootNode, NODE);
-            if (absoluteOrderingNode == null)
+            if (absoluteOrderingNode == null) {
                 return;
+            }
             // It is possible to have only the <absolute-ordering/> to disable fragments
             List<String> fragmentNames = new ArrayList<>();
             NodeList childNodes = absoluteOrderingNode.getChildNodes();
@@ -142,8 +144,9 @@ public class WebXmlParser {
                     continue;
                 }
                 String s = parseString(xPath, "text()", item);
-                if (s != null && !s.trim().isEmpty())
+                if (s != null && !s.trim().isEmpty()) {
                     fragmentNames.add(s);
+                }
             }
             webXml.setAbsoluteOrdering(fragmentNames);
         } catch (XPathException xpe) {
@@ -167,8 +170,9 @@ public class WebXmlParser {
 
             List<String> afterValues = parseOrderingChildren(xPath, after);
 
-            if (!beforeValues.isEmpty() || !afterValues.isEmpty())
+            if (!beforeValues.isEmpty() || !afterValues.isEmpty()) {
                 webXml.setRelativeOrdering(new WebXml.RelativeOrder(beforeValues, afterValues));
+            }
         } catch (Exception xpe) {
             LOGGER.log(WARNING, "Unable to parse <ordering> section", xpe);
         }
@@ -210,7 +214,7 @@ public class WebXmlParser {
         }
         return result;
     }
-    
+
     /**
      * Parse a long.
      *
@@ -225,7 +229,7 @@ public class WebXmlParser {
         } catch (XPathException xpe) {
             LOGGER.log(WARNING, "Unable to parse boolean", xpe);
         }
-        
+
         return null;
     }
 
@@ -236,19 +240,15 @@ public class WebXmlParser {
      * @param xPath the XPath to use.
      * @param node the node to use.
      */
-    private void parseContextParameters(WebXml webXml, XPath xPath, Node node) {
-        try {
-            NodeList nodeList = (NodeList) xPath.evaluate("//context-param", node, NODESET);
-            if (nodeList != null) {
-                List<WebXmlContextParam> contextParams = webXml.getContextParams();
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    String name = parseString(xPath, "//param-name/text()", nodeList.item(i));
-                    String value = parseString(xPath, "//param-value/text()", nodeList.item(i));
-                    contextParams.add(new WebXmlContextParam(name, value));
-                }
+    private void parseContextParameters(WebXml webXml, XPath xPath, Node node) throws XPathExpressionException {
+        NodeList nodeList = (NodeList) xPath.evaluate("//context-param", node, NODESET);
+        if (nodeList != null) {
+            List<WebXmlContextParam> contextParams = webXml.getContextParams();
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                String name = parseString(xPath, "//param-name/text()", nodeList.item(i));
+                String value = parseString(xPath, "//param-value/text()", nodeList.item(i));
+                contextParams.add(new WebXmlContextParam(name, value));
             }
-        } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse <context-param> sections", xpe);
         }
     }
 
@@ -663,13 +663,13 @@ public class WebXmlParser {
                     String roleLink = parseString(xPath, "role-link/text()", securityRoleRefNode);
                     servlet.getSecurityRoleRefs().add(new WebXmlServletSecurityRoleRef(roleName, roleLink));
                 }
-                
+
                 for (Node multipartConfigNode : parseNodes(xPath, "multipart-config", servletNode)) {
                     if (servlet.getMultipartConfig() != null) {
                         LOGGER.log(WARNING, "Duplicate <multipart-config> sections in web.xml where only 1 allowed.");
                         break;
                     }
-                    
+
                     WebXmlServletMultipartConfig multipartConfig = new WebXmlServletMultipartConfig();
                     multipartConfig.setLocation(parseString(xPath, "location/text()", multipartConfigNode));
                     multipartConfig.setMaxFileSize(parseLong(xPath, "location/text()", multipartConfigNode));
@@ -713,7 +713,6 @@ public class WebXmlParser {
         }
     }
 
-
     /**
      * Parse the default-context-path section.
      *
@@ -751,8 +750,6 @@ public class WebXmlParser {
         }
     }
 
-
-
     /**
      * Parse a string.
      *
@@ -768,20 +765,18 @@ public class WebXmlParser {
 
     private Iterable<Node> parseNodes(XPath xPath, String expression, Node node) throws XPathExpressionException {
         return StreamSupport
-                .stream(toIterable((NodeList) xPath.evaluate(expression, node, NODESET)).spliterator(), false)
-                ::iterator;
+                .stream(toIterable((NodeList) xPath.evaluate(expression, node, NODESET)).spliterator(), false)::iterator;
     }
 
     private Iterable<String> parseStrings(XPath xPath, String expression, Node node) throws XPathExpressionException {
         return StreamSupport
                 .stream(toIterable((NodeList) xPath.evaluate(expression, node, NODESET)).spliterator(), false)
-                .map(Node::getNodeValue)
-                ::iterator;
+                .map(Node::getNodeValue)::iterator;
     }
 
     /**
      * Convert nodes list to iterable nodes.
-     * 
+     *
      * @param nodeList the node list.
      * @return the iterable nodes.
      */
@@ -828,7 +823,6 @@ public class WebXmlParser {
             LOGGER.log(WARNING, "Unable to parse <welcome-file-list> sections", xpe);
         }
     }
-
 
     private void parseLocaleEncodingMapping(WebXml webXml, XPath xPath, Node node) {
         try {
