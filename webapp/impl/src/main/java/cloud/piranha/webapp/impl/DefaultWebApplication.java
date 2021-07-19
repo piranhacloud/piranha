@@ -71,6 +71,7 @@ import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.api.ResourceManager;
 import cloud.piranha.webapp.api.AnnotationManager;
 import cloud.piranha.webapp.api.AsyncManager;
+import cloud.piranha.webapp.api.AuthenticationManager;
 import cloud.piranha.webapp.api.HttpRequestManager;
 import cloud.piranha.webapp.api.HttpSessionManager;
 import cloud.piranha.webapp.api.JspManager;
@@ -167,6 +168,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the async manager.
      */
     protected AsyncManager asyncManager;
+    
+    /**
+     * Stores the authentication manager.
+     */
+    protected AuthenticationManager authenticationManager;
 
     /**
      * Stores the class loader.
@@ -382,6 +388,7 @@ public class DefaultWebApplication implements WebApplication {
     public DefaultWebApplication() {
         annotationManager = new DefaultAnnotationManager();
         asyncManager = new DefaultAsyncManager();
+        authenticationManager = new DefaultAuthenticationManager();
         attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
         contextAttributeListeners = new ArrayList<>(1);
@@ -2023,6 +2030,12 @@ public class DefaultWebApplication implements WebApplication {
         return string == null || string.isEmpty();
     }
 
+    // ------------------------------------------------------------------------
+    @Override
+    public AuthenticationManager getAuthenticationManager() {
+        return authenticationManager;
+    }
+
     @Override
     public NamingManager getNamingManager() {
         return namingManager;
@@ -2031,6 +2044,11 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public PolicyManager getPolicyManager() {
         return policyManager;
+    }
+
+    @Override
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
     }
 
     @Override

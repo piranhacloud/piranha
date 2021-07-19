@@ -472,6 +472,21 @@ public interface WebApplication extends ServletContext {
      * @param welcomeFileManager the welcome file manager.
      */
     void setWelcomeFileManager(WelcomeFileManager welcomeFileManager);
+    
+    // ------------------------------------------------------------------------
+    /**
+     * Get the authentication manager.
+     * 
+     * @return the authentication manager.
+     */
+    AuthenticationManager getAuthenticationManager();
+    
+    /**
+     * Set the authentication manager.
+     * 
+     * @param authenticationManager the authentication manager.
+     */
+    void setAuthenticationManager(AuthenticationManager authenticationManager);
 
     /**
      * Set the locale encoding manager
