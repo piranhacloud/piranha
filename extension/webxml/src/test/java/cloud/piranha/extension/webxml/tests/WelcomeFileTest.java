@@ -25,21 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.tests;
+
+import cloud.piranha.extension.webxml.WebXmlInitializer;
+import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Piranha Extension - web.xml tests module.
+ * The JUnit tests testing web.xml &lt;welcome-file&gt;.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml.tests {
-    
-    exports cloud.piranha.extension.webxml.tests;
-    opens cloud.piranha.extension.webxml.tests;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.resource;
-    requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
-    requires jakarta.servlet;
-    requires org.junit.jupiter.api;
-    requires org.junit.platform.launcher;
+class WelcomeFileTest {
+
+    /**
+     * Test getWelcomeFileList method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetWelcomeFileList() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/welcomeFile")));
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
+        assertTrue(webApplication.getWelcomeFileManager().getWelcomeFileList().contains("index.xhtml"));
+    }
+
+    /**
+     * Test getWelcomeFileList method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetWelcomeFileList2() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/welcomeFile")));
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
+        assertFalse(webApplication.getWelcomeFileManager().getWelcomeFileList().contains("index.jsp"));
+    }
 }
