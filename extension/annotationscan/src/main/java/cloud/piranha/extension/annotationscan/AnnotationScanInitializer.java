@@ -114,7 +114,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
     public Class<?> loadClass(ClassLoader classLoader, String className) {
         try {
             return classLoader.loadClass(
-                    className.replaceAll("/", ".")
+                    className.replace("/", ".")
                             .substring(1, className.length() - ".class".length()));
         } catch (ClassNotFoundException e) {
         }
