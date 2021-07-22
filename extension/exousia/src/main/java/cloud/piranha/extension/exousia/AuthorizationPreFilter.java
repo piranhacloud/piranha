@@ -74,7 +74,7 @@ public class AuthorizationPreFilter extends HttpFilter implements FilterPriority
     /**
      * Stores the security manager.
      */
-    private SecurityManager securityManager;
+    private transient SecurityManager securityManager;
     
     /**
      * Get the local servlet request.

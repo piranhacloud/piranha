@@ -68,7 +68,7 @@ public class AuthorizationFilter extends HttpFilter implements FilterPriority {
      * Stores the security manager.
      * 
      */
-    private SecurityManager securityManager;
+    private transient SecurityManager securityManager;
 
     @Override
     public int getPriority() {

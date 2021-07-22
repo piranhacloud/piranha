@@ -96,6 +96,6 @@ public class DoNothingServerAuthModule implements ServerAuthModule {
 
     @Override
     public void cleanSubject(MessageInfo messageInfo, Subject subject) throws AuthException {
-
+        // as we do nothing, nothing is to be done here.
     }
 }
