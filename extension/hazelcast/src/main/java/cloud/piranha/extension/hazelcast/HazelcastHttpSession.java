@@ -46,7 +46,7 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     /**
      * Stores the attributes.
      */
-    private HashMap<String, Object> attributes = new HashMap<>();
+    private HashMap<String, Serializable> attributes = new HashMap<>();
 
     /**
      * Stores the creation time.
@@ -299,7 +299,7 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
             if (attributes.containsKey(name)) {
                 added = false;
             }
-            Object oldValue = attributes.put(name, value);
+            Object oldValue = attributes.put(name, (Serializable) value);
             if (added) {
                 sessionManager.attributeAdded(this, name, value);
             } else {

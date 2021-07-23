@@ -75,6 +75,11 @@ public class JakartaSecurityManager implements SecurityManager {
      * All declared roles in the application
      */
     private final Set<String> roles = ConcurrentHashMap.newKeySet();
+    
+    /**
+     * Stores the web application.
+     */
+    private WebApplication webApplication;
 
     @Override
     public void declareRoles(String[] roles) {
@@ -199,12 +204,12 @@ public class JakartaSecurityManager implements SecurityManager {
 
     @Override
     public WebApplication getWebApplication() {
-        return null;
+        return webApplication;
     }
 
     @Override
     public void setWebApplication(WebApplication webApplication) {
-
+        this.webApplication = webApplication;
     }
 
     @Override
