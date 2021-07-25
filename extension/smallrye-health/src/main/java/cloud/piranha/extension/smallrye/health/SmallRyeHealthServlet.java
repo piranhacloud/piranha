@@ -48,7 +48,7 @@ public class SmallRyeHealthServlet extends HttpServlet {
      * Stores the Health reporter.
      */
     @Inject
-    private SmallRyeHealthReporter reporter;
+    private transient SmallRyeHealthReporter reporter;
 
     /**
      * Handle the GET request.
