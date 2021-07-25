@@ -61,7 +61,7 @@ public class TempDirInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         File baseDir = new File("tmp");
         String name = servletContext.getContextPath();
-        name = name.replaceAll("/", "_");
+        name = name.replace("/", "_");
         if (name.trim().equals("")) {
             name = "ROOT";
         }
