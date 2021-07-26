@@ -67,7 +67,7 @@ public class WebXml implements Serializable {
     /**
      * Stores the security constraints
      */
-    private List<SecurityConstraint> securityConstraints = new ArrayList<>();
+    private transient List<SecurityConstraint> securityConstraints = new ArrayList<>();
 
     /**
      * Stores the metadata complete flag.
@@ -154,7 +154,7 @@ public class WebXml implements Serializable {
     /**
      * Stores the relative ordering.
      */
-    private RelativeOrder relativeOrdering;
+    private transient RelativeOrder relativeOrdering;
 
     /**
      * The &lt;security-constraint&gt; snippet inside a web.xml /
@@ -392,7 +392,7 @@ public class WebXml implements Serializable {
     /**
      * Stores the login config.
      */
-    private WebXmlLoginConfig loginConfig;
+    private transient WebXmlLoginConfig loginConfig;
 
     /**
      * Stores the mime mappings.
@@ -428,7 +428,7 @@ public class WebXml implements Serializable {
     /**
      * Stores the session configuration.
      */
-    private WebXmlSessionConfig sessionConfig;
+    private transient WebXmlSessionConfig sessionConfig;
 
     /**
      * Stores the welcome files.
