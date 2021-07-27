@@ -82,6 +82,7 @@ public class GrizzlyHttpServerResponse implements HttpServerResponse {
 
     @Override
     public void writeHeaders() throws IOException {
+        // writing the headers is taken care of when writing out the response.
     }
 
     @Override

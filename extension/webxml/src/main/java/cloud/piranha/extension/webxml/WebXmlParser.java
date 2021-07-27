@@ -64,9 +64,29 @@ import org.w3c.dom.NodeList;
 public class WebXmlParser {
 
     /**
+     * Stores the 'location/text()' selector.
+     */
+    private static final String LOCATION_TEXT_SELECTOR = "location/text()";
+
+    /**
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(WebXmlParser.class.getName());
+
+    /**
+     * Stores the 'servlet-name/text()' selector.
+     */
+    private static final String SERVLET_NAME_TEXT_SELECTOR = "servlet-name/text()";
+
+    /**
+     * Stores the 'text()' selector constant.
+     */
+    private static final String TEXT_SELECTOR = "text()";
+
+    /**
+     * Stores the 'url-pattern/text()' selector.
+     */
+    private static final String URL_PATTERN_TEXT_SELECTOR = "url-pattern/text()";
 
     /**
      * Parse the input stream.
@@ -143,7 +163,7 @@ public class WebXmlParser {
                     fragmentNames.add(OTHERS_TAG);
                     continue;
                 }
-                String s = parseString(xPath, "text()", item);
+                String s = parseString(xPath, TEXT_SELECTOR, item);
                 if (s != null && !s.trim().isEmpty()) {
                     fragmentNames.add(s);
                 }
@@ -184,7 +204,7 @@ public class WebXmlParser {
         if (orderingChild.getLength() == 1) {
             Node beforeTag = orderingChild.item(0);
             for (Node orderingNode : parseNodes(xPath, "*", beforeTag)) {
-                String fragmentName = parseString(xPath, "text()", orderingNode);
+                String fragmentName = parseString(xPath, TEXT_SELECTOR, orderingNode);
                 if (fragmentName != null && !fragmentName.trim().isEmpty()) {
                     values.add(fragmentName);
                     continue;
@@ -342,7 +362,7 @@ public class WebXmlParser {
                 for (int i = 0; i < nodeList.getLength(); i++) {
                     String errorCode = parseString(xPath, "error-code/text()", nodeList.item(i));
                     String exceptionType = parseString(xPath, "exception-type/text()", nodeList.item(i));
-                    String location = parseString(xPath, "location/text()", nodeList.item(i));
+                    String location = parseString(xPath, LOCATION_TEXT_SELECTOR, nodeList.item(i));
                     errorPages.add(new WebXmlErrorPage(errorCode, exceptionType, location));
                 }
             }
@@ -364,11 +384,11 @@ public class WebXmlParser {
                 String filterName = parseString(xPath, "filter-name/text()", node);
                 WebXmlFilterMapping webXmlFilterMapping = new WebXmlFilterMapping(filterName);
 
-                for (String urlPattern : parseStrings(xPath, "url-pattern/text()", node)) {
+                for (String urlPattern : parseStrings(xPath, URL_PATTERN_TEXT_SELECTOR, node)) {
                     webXmlFilterMapping.getUrlPatterns().add(urlPattern);
                 }
 
-                for (String servletName : parseStrings(xPath, "servlet-name/text()", node)) {
+                for (String servletName : parseStrings(xPath, SERVLET_NAME_TEXT_SELECTOR, node)) {
                     webXmlFilterMapping.getServletNames().add(servletName);
                 }
 
@@ -401,7 +421,7 @@ public class WebXmlParser {
                     filter.setFilterName(filterName);
                     String className = parseString(xPath, "filter-class/text()", nodeList.item(i));
                     filter.setClassName(className);
-                    String servletName = parseString(xPath, "servlet-name/text()", nodeList.item(i));
+                    String servletName = parseString(xPath, SERVLET_NAME_TEXT_SELECTOR, nodeList.item(i));
                     filter.setServletName(servletName);
 
                     Boolean asyncSupported = parseBoolean(xPath, "async-supported/text()", nodeList.item(i));
@@ -568,7 +588,7 @@ public class WebXmlParser {
             for (Node node : parseNodes(xPath, "web-resource-collection", rootNode)) {
                 WebXml.SecurityConstraint.WebResourceCollection webResourceCollection = new WebXml.SecurityConstraint.WebResourceCollection();
 
-                for (String urlPattern : parseStrings(xPath, "url-pattern/text()", node)) {
+                for (String urlPattern : parseStrings(xPath, URL_PATTERN_TEXT_SELECTOR, node)) {
                     webResourceCollection.getUrlPatterns().add(urlPattern);
                 }
 
@@ -620,8 +640,8 @@ public class WebXmlParser {
             if (nodeList != null) {
                 List<WebXmlServletMapping> servletMappings = webXml.getServletMappings();
                 for (int i = 0; i < nodeList.getLength(); i++) {
-                    String servletName = parseString(xPath, "servlet-name/text()", nodeList.item(i));
-                    for (String urlPattern : parseStrings(xPath, "url-pattern/text()", nodeList.item(i))) {
+                    String servletName = parseString(xPath, SERVLET_NAME_TEXT_SELECTOR, nodeList.item(i));
+                    for (String urlPattern : parseStrings(xPath, URL_PATTERN_TEXT_SELECTOR, nodeList.item(i))) {
                         servletMappings.add(new WebXmlServletMapping(servletName, urlPattern));
                     }
                 }
@@ -643,7 +663,7 @@ public class WebXmlParser {
             List<WebXmlServlet> servlets = webXml.getServlets();
             for (Node servletNode : parseNodes(xPath, "//servlet", rootNode)) {
                 WebXmlServlet servlet = new WebXmlServlet();
-                servlet.setServletName(parseString(xPath, "servlet-name/text()", servletNode));
+                servlet.setServletName(parseString(xPath, SERVLET_NAME_TEXT_SELECTOR, servletNode));
                 servlet.setClassName(parseString(xPath, "servlet-class/text()", servletNode));
                 servlet.setJspFile(parseString(xPath, "jsp-file/text()", servletNode));
 
@@ -671,10 +691,10 @@ public class WebXmlParser {
                     }
 
                     WebXmlServletMultipartConfig multipartConfig = new WebXmlServletMultipartConfig();
-                    multipartConfig.setLocation(parseString(xPath, "location/text()", multipartConfigNode));
-                    multipartConfig.setMaxFileSize(parseLong(xPath, "location/text()", multipartConfigNode));
-                    multipartConfig.setMaxRequestSize(parseLong(xPath, "location/text()", multipartConfigNode));
-                    multipartConfig.setFileSizeThreshold(parseInteger(xPath, "location/text()", multipartConfigNode));
+                    multipartConfig.setLocation(parseString(xPath, LOCATION_TEXT_SELECTOR, multipartConfigNode));
+                    multipartConfig.setMaxFileSize(parseLong(xPath, LOCATION_TEXT_SELECTOR, multipartConfigNode));
+                    multipartConfig.setMaxRequestSize(parseLong(xPath, LOCATION_TEXT_SELECTOR, multipartConfigNode));
+                    multipartConfig.setFileSizeThreshold(parseInteger(xPath, LOCATION_TEXT_SELECTOR, multipartConfigNode));
 
                     servlet.setMultipartConfig(multipartConfig);
                 }
@@ -814,7 +834,7 @@ public class WebXmlParser {
             if (nodeList != null) {
                 List<String> welcomeFiles = webXml.getWelcomeFiles();
                 for (int i = 0; i < nodeList.getLength(); i++) {
-                    String welcomeFile = parseString(xPath, "text()", nodeList.item(i));
+                    String welcomeFile = parseString(xPath, TEXT_SELECTOR, nodeList.item(i));
                     welcomeFiles.add(welcomeFile);
                     LOGGER.log(DEBUG, "Parsed welcome-file: {0}", welcomeFile);
                 }
