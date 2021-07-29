@@ -87,5 +87,6 @@ public class GrizzlyHttpServerResponse implements HttpServerResponse {
 
     @Override
     public void writeStatusLine() throws IOException {
+        // writing the status line is taken care of when writing out the response.
     }
 }

@@ -93,9 +93,11 @@ public class NettyHttpServerResponse implements HttpServerResponse {
 
     @Override
     public void writeHeaders() throws IOException {
+        // writing the headers is taken care of when writing out the response.
     }
 
     @Override
     public void writeStatusLine() throws IOException {
+        // writing the status line is taken care of when writing out the response.
     }
 }
