@@ -42,6 +42,11 @@ import java.util.stream.Stream;
 public class ByteArrayResource implements Resource {
 
     /**
+     * Stores the 'bytes://' protocol.
+     */
+    private static final String BYTES_PROTOCOL = "bytes://";
+
+    /**
      * Stores the byte-array.
      */
     private final byte[] bytes;
@@ -50,10 +55,10 @@ public class ByteArrayResource implements Resource {
      * Stores the location.
      */
     private final String location;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param location the location.
      * @param bytes the byte-array.
      */
@@ -97,7 +102,7 @@ public class ByteArrayResource implements Resource {
         }
 
         try {
-            return new URL(null, "bytes://" + "root" + location, new ByteArrayResourceURLStreamHandler(this));
+            return new URL(null, BYTES_PROTOCOL + "root" + location, new ByteArrayResourceURLStreamHandler(this));
         } catch (MalformedURLException e) {
             throw new IllegalStateException(e);
         }
@@ -113,10 +118,10 @@ public class ByteArrayResource implements Resource {
     public InputStream getResourceAsStream(String url) {
         return getResourceAsStreamByLocation(getLocationFromUrl(url));
     }
-    
+
     /**
      * Get the resource as stream by location.
-     * 
+     *
      * @param location the location.
      * @return the input stream
      */
@@ -124,38 +129,38 @@ public class ByteArrayResource implements Resource {
         if (location == null) {
             return null;
         }
-        
+
         if (!location.equals(this.location)) {
             return null;
         }
-        
+
         return new ByteArrayInputStream(bytes);
     }
-    
+
     private String getLocationFromUrl(String url) {
         if (url == null) {
             return null;
         }
-        
-        if (!url.contains("bytes://")) {
+
+        if (!url.contains(BYTES_PROTOCOL)) {
             // Already a relative URL, so should be the location
             return url;
         }
-        
+
         // Relative URL: [bytes://][root][location] eg bytes://root/WEB-INF/web.xml
         try {
-            URL bytesURL = new URL(url.substring(url.indexOf("bytes://")));
-            
+            URL bytesURL = new URL(url.substring(url.indexOf(BYTES_PROTOCOL)));
+
             String hostName = bytesURL.getHost();
             if (!"root".equals(hostName)) {
                 return null;
             }
-            
+
             return bytesURL.getPath().replace("//", "/");
         } catch (MalformedURLException e) {
             throw new IllegalStateException(e);
         }
-        
+
     }
-    
+
 }

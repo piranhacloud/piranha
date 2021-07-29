@@ -60,7 +60,7 @@ public class MicroWebApplication extends DefaultWebApplication {
     private final Runnable doNothing = new Runnable() {
         @Override
         public void run() {
-            
+            // do nothing ;)
         }
     };
 

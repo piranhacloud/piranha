@@ -41,6 +41,7 @@ public class NanoRequest extends DefaultWebApplicationRequest {
      * Constructor.
      */
     public NanoRequest() {
+        // make GraalVM happy.
     }
 
     /**

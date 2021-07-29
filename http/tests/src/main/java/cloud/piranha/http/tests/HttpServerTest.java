@@ -53,6 +53,26 @@ import org.junit.jupiter.api.Test;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public abstract class HttpServerTest {
+    
+    /**
+     * Stores the keep alive 'close' constant.
+     */
+    private static final String CLOSE = "close";
+
+    /**
+     * Stores the 'Content-Type' header constant.
+     */
+    private static final String CONTENT_TYPE = "Content-Type";
+    
+    /**
+     * Stores the 'Keep-Alive' header constant.
+     */
+    private static final String KEEP_ALIVE = "Keep-Alive";
+
+    /**
+     * Stores the 'text/plain' content type.
+     */
+    private static final String TEXT_PLAIN = "text/plain";
 
     /**
      * Create server with a port.
@@ -80,8 +100,8 @@ public abstract class HttpServerTest {
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
-                        response.setHeader("Content-Type", "text/plain");
-                        response.setHeader("Keep-Alive", "close");
+                        response.setHeader(CONTENT_TYPE, TEXT_PLAIN);
+                        response.setHeader(KEEP_ALIVE, CLOSE);
                         response.writeStatusLine();
                         response.writeHeaders();
                         OutputStream outputStream = response.getOutputStream();
@@ -168,8 +188,8 @@ public abstract class HttpServerTest {
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
-                        response.setHeader("Content-Type", "text/plain");
-                        response.setHeader("Keep-Alive", "close");
+                        response.setHeader(CONTENT_TYPE, TEXT_PLAIN);
+                        response.setHeader(KEEP_ALIVE, CLOSE);
                         response.writeStatusLine();
                         response.writeHeaders();
                         String value = request.getLocalAddress();
@@ -205,8 +225,8 @@ public abstract class HttpServerTest {
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
-                        response.setHeader("Content-Type", "text/plain");
-                        response.setHeader("Keep-Alive", "close");
+                        response.setHeader(CONTENT_TYPE, TEXT_PLAIN);
+                        response.setHeader(KEEP_ALIVE, CLOSE);
                         response.writeStatusLine();
                         response.writeHeaders();
                         String value = request.getQueryParameter("name");
@@ -242,8 +262,8 @@ public abstract class HttpServerTest {
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
-                        response.setHeader("Content-Type", "text/plain");
-                        response.setHeader("Keep-Alive", "close");
+                        response.setHeader(CONTENT_TYPE, TEXT_PLAIN);
+                        response.setHeader(KEEP_ALIVE, CLOSE);
                         response.writeStatusLine();
                         response.writeHeaders();
                         String value = request.getQueryParameter("name");
@@ -280,8 +300,8 @@ public abstract class HttpServerTest {
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
-                        response.setHeader("Content-Type", "text/plain");
-                        response.setHeader("Keep-Alive", "close");
+                        response.setHeader(CONTENT_TYPE, TEXT_PLAIN);
+                        response.setHeader(KEEP_ALIVE, CLOSE);
                         response.writeStatusLine();
                         response.writeHeaders();
                         String queryString = request.getQueryString();
@@ -366,15 +386,14 @@ public abstract class HttpServerTest {
 
     /**
      * Test if the server supports HTTP/1.0.
-     * 
+     *
      * @throws Exception when an error occurs.
      */
     @Test
     void testRequestHTTP10() throws Exception {
         HttpServer server = createServer(8755, HttpServerTest::returnProtocol);
         server.start();
-        try (Socket socket = new Socket("localhost", 8755);
-            OutputStream outputStream = socket.getOutputStream()) {
+        try ( Socket socket = new Socket("localhost", 8755);  OutputStream outputStream = socket.getOutputStream()) {
             outputStream.write("GET / HTTP/1.0\r\nHost: localhost:8755\r\n\r\n".getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             InputStream inputStream = socket.getInputStream();
@@ -388,7 +407,7 @@ public abstract class HttpServerTest {
 
     /**
      * Test if the server supports HTTP/1.1.
-     * 
+     *
      * @throws Exception when an error occurs.
      */
     @Test
@@ -396,8 +415,7 @@ public abstract class HttpServerTest {
         HttpServer server = createServer(8754, HttpServerTest::returnProtocol);
         server.start();
 
-        try (Socket socket = new Socket("localhost", 8754);
-             OutputStream outputStream = socket.getOutputStream()) {
+        try ( Socket socket = new Socket("localhost", 8754);  OutputStream outputStream = socket.getOutputStream()) {
             outputStream.write("GET / HTTP/1.1\r\nHost: localhost:8754\r\n\r\n".getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             InputStream inputStream = socket.getInputStream();
@@ -411,7 +429,7 @@ public abstract class HttpServerTest {
 
     /**
      * Return the HTTP protocol.
-     * 
+     *
      * @param request the request.
      * @param response the response.
      * @return false as this HTTP processor does not support async.
@@ -419,8 +437,8 @@ public abstract class HttpServerTest {
     private static boolean returnProtocol(HttpServerRequest request, HttpServerResponse response) {
         try {
             response.setStatus(200);
-            response.setHeader("Content-Type", "text/plain");
-            response.setHeader("Keep-Alive", "close");
+            response.setHeader(CONTENT_TYPE, TEXT_PLAIN);
+            response.setHeader(KEEP_ALIVE, CLOSE);
             response.writeStatusLine();
             response.writeHeaders();
             OutputStream outputStream = response.getOutputStream();

@@ -63,6 +63,7 @@ class ByteArrayResourceURLConnection extends URLConnection {
      */
     @Override
     public void connect() throws IOException {
+        // no-op.
     }
 
     /**

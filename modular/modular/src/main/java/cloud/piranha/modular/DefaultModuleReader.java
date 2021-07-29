@@ -87,6 +87,6 @@ public class DefaultModuleReader implements ModuleReader {
 
     @Override
     public void close() throws IOException {
-
+        // nothing to do here.
     }
 }
