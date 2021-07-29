@@ -50,6 +50,7 @@ public class WeldContainer implements Container {
      */
     @Override
     public void destroy(ContainerContext context) {
+        // nothing to do here.
     }
 
     /**
