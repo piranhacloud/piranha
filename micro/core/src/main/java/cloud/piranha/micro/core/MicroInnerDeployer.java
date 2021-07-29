@@ -343,7 +343,7 @@ public class MicroInnerDeployer {
                     -> annotationManager.addInstance(instanceClass, implementingClass));
     }
 
-    Optional<? super Class<?>> toClass(String className) {
+    Optional<Class<?>> toClass(String className) {
         try {
             return Optional.of(Class.forName(className, true, Thread.currentThread().getContextClassLoader()));
         } catch (ClassNotFoundException e) {

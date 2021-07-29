@@ -103,9 +103,7 @@ public class JarResource implements Resource {
     @Override
     public InputStream getResourceAsStream(String location) {
         InputStream result = null;
-        JarFile jar = null;
-        try {
-            jar = new JarFile(jarFile);
+        try (JarFile jar = new JarFile(jarFile)) {
             JarEntry entry = jar.getJarEntry(location.startsWith("/") ? location.substring(1) : location);
             if (entry != null) {
                 InputStream inputStream;
@@ -118,13 +116,6 @@ public class JarResource implements Resource {
                 inputStream.close();
             }
         } catch (IOException exception) {
-        } finally {
-            if (jar != null) {
-                try {
-                    jar.close();
-                } catch (IOException ioe) {
-                }
-            }
         }
         return result;
     }

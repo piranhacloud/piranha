@@ -62,6 +62,7 @@ public class DefaultNamingEnumeration implements NamingEnumeration<NameClassPair
      */
     @Override
     public void close() throws NamingException {
+        // nothing to do here.
     }
 
     /**
