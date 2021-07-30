@@ -176,7 +176,7 @@ public class ShrinkWrapResource implements Resource {
      *
      * @return the embedded archive that contains the actual data
      */
-    public Archive<?> getArchive() {
+    public Archive getArchive() {
         return archive;
     }
 
