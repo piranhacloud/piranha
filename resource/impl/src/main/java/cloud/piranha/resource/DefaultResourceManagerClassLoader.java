@@ -226,7 +226,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      * @return the .class name.
      */
     protected String normalizeName(String name) {
-        return name.replaceAll("\\.", "/") + ".class";
+        return name.replace(".", "/") + ".class";
     }
 
     /**
