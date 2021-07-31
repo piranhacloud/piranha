@@ -47,7 +47,7 @@ public class ServletRequestAttributeEvent extends ServletRequestEvent {
     /**
      * Stores the value.
      */
-    private final Object value;
+    private transient Object value;
 
     /**
      * Constructor.

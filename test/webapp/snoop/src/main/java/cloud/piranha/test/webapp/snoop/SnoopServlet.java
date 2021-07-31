@@ -70,15 +70,22 @@ public class SnoopServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Snoop</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Snoop</h1>");
-            out.println("<table>");
-            out.println("<tr><td>Attribute Names:</td><td>" + request.getAttributeNames() + "</td></tr>");
+        try ( PrintWriter out = response.getWriter()) {
+            String template = """
+                <html>
+                 <head>
+                  <title>Snoop</title>
+                 </head>
+                 <body>
+                  <h1>Snoop</h1>
+                  <table>
+                   <tr>
+                    <td>Attribute Names:</td>
+                    <td>%s</td>
+                   </tr>
+            """;
+            out.println(String.format(template, 
+                    request.getAttributeNames()));
             out.println("<tr><td>Auth Type:</td><td>" + request.getAuthType() + "</td></tr>");
             out.println("<tr><td>Character Encoding:</td><td>" + request.getCharacterEncoding() + "</td></tr>");
             out.println("<tr><td>Class:</td><td>" + request.getClass() + "</td></tr>");

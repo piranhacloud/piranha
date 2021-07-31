@@ -41,7 +41,7 @@ public abstract class GenericServlet implements Servlet, ServletConfig, Serializ
     /**
      * Stores the servlet config.
      */
-    private ServletConfig servletConfig;
+    private transient ServletConfig servletConfig;
 
     /**
      * Constructor.

@@ -42,7 +42,7 @@ public class ServletRequestEvent extends java.util.EventObject {
     /**
      * Stores the request.
      */
-    private final ServletRequest servletRequest;
+    private transient ServletRequest servletRequest;
 
     /**
      * Constructor.

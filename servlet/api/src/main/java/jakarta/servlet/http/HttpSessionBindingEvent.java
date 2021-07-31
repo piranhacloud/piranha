@@ -42,7 +42,7 @@ public class HttpSessionBindingEvent extends HttpSessionEvent {
     /**
      * Stores the value.
      */
-    private Object value;
+    private transient Object value;
 
     /**
      * Constructor.

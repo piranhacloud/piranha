@@ -47,7 +47,7 @@ public class ServletContextAttributeEvent extends ServletContextEvent {
     /**
      * Stores the value.
      */
-    private final Object value;
+    private transient Object value;
 
     /**
      * Constructor.
