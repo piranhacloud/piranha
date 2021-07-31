@@ -50,7 +50,7 @@ public class DefaultUserTransaction implements Serializable, UserTransaction {
     /**
      * Stores the transaction manager.
      */
-    private final TransactionManager transactionManager;
+    private transient TransactionManager transactionManager;
 
     /**
      * Constructor.
