@@ -101,7 +101,7 @@ public class DefaultAnnotationManager implements AnnotationManager {
 
 
     @Override
-    public List<AnnotationInfo<?>> getAnnotations(Class<?>... annotationClasses) {
+    public List<AnnotationInfo> getAnnotations(Class<?>... annotationClasses) {
         return
             Arrays.stream(annotationClasses)
                   .flatMap(this::getAnnotationStream)

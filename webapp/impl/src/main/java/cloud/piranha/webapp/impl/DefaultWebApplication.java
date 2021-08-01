@@ -1334,7 +1334,7 @@ public class DefaultWebApplication implements WebApplication {
                     Stream<Class<?>> instances = annotationManager.getInstances(value).stream();
 
                     // Get classes by target type
-                    List<AnnotationManager.AnnotationInfo<?>> annotations = annotationManager.getAnnotations(value);
+                    List<AnnotationManager.AnnotationInfo> annotations = annotationManager.getAnnotations(value);
                     Stream<Class<?>> classStream = annotations.stream().map(AnnotationManager.AnnotationInfo::getTargetType);
 
                     classes = Stream.concat(instances, classStream).collect(Collectors.toUnmodifiableSet());
