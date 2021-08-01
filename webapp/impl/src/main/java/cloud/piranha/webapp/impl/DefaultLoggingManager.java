@@ -45,6 +45,7 @@ public class DefaultLoggingManager implements LoggingManager {
      * Constructor.
      */
     public DefaultLoggingManager() {
+        // make GraalVM happy.
     }
 
     /**
@@ -55,5 +56,6 @@ public class DefaultLoggingManager implements LoggingManager {
      */
     @Override
     public void log(String message, Throwable throwable) {
+        // do nothing.
     }
 }

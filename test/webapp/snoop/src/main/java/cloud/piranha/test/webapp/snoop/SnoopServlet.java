@@ -83,10 +83,14 @@ public class SnoopServlet extends HttpServlet {
                     <td>Attribute Names:</td>
                     <td>%s</td>
                    </tr>
+                   <tr>
+                    <td>Auth Type:</td>
+                    <td>%s</td>
+                   </tr>
             """;
             out.println(String.format(template, 
-                    request.getAttributeNames()));
-            out.println("<tr><td>Auth Type:</td><td>" + request.getAuthType() + "</td></tr>");
+                    request.getAttributeNames(),
+                    request.getAuthType()));
             out.println("<tr><td>Character Encoding:</td><td>" + request.getCharacterEncoding() + "</td></tr>");
             out.println("<tr><td>Class:</td><td>" + request.getClass() + "</td></tr>");
             out.println("<tr><td>Content Length:</td><td>" + request.getContentLength() + "</td></tr>");

@@ -307,7 +307,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
 
     @Override
     public void setDispatcherType(DispatcherType dispatcherType) {
-
+        // cannot change the dispatcher type.
     }
 
     @Override
@@ -326,6 +326,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
 
     @Override
     public void setContextPath(String contextPath) {
+        // cannot change the context path.
     }
     
     @Override
@@ -335,6 +336,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
 
     @Override
     public void setWebApplication(WebApplication webApplication) {
+        // cannot be set.
     }
 
     @Override
