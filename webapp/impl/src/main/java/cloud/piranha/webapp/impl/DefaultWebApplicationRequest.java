@@ -1522,11 +1522,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.upgraded = upgraded;
     }
 
-    /**
-     * Set the user principal.
-     *
-     * @param userPrincipal the user principal.
-     */
+    @Override
     public void setUserPrincipal(Principal userPrincipal) {
         this.userPrincipal = userPrincipal;
     }

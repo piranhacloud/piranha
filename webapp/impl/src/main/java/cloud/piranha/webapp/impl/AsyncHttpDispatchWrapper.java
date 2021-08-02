@@ -50,6 +50,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
+import java.security.Principal;
 
 /**
  * The async HTTP dispatch wrapper.
@@ -332,6 +333,11 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     @Override
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
+    }
+    
+    @Override
+    public void setUserPrincipal(Principal userPrincipal) {
+        // cannot be set.
     }
 
     @Override

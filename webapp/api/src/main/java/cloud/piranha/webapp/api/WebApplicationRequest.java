@@ -30,6 +30,7 @@ package cloud.piranha.webapp.api;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 /**
  * The WebApplicationRequest API.
@@ -37,6 +38,11 @@ import jakarta.servlet.http.HttpServletRequest;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface WebApplicationRequest extends HttpServletRequest {
+    
+    /**
+     * {@return the multipartConfig}
+     */
+    MultipartConfigElement getMultipartConfig();
 
     /**
      * Set the context path.
@@ -58,6 +64,13 @@ public interface WebApplicationRequest extends HttpServletRequest {
      * @param servletPath the servlet path.
      */
     void setServletPath(String servletPath);
+    
+    /**
+     * Set the user principal.
+     * 
+     * @param userPrincipal the user principal.
+     */
+    void setUserPrincipal(Principal userPrincipal);
 
     /**
      * Set the web application.
@@ -65,9 +78,4 @@ public interface WebApplicationRequest extends HttpServletRequest {
      * @param webApplication the web application.
      */
     void setWebApplication(WebApplication webApplication);
-    
-    /**
-     * {@return the multipartConfig}
-     */
-    MultipartConfigElement getMultipartConfig();
 }

@@ -52,6 +52,7 @@ import org.omnifaces.exousia.AuthorizationService;
 import cloud.piranha.webapp.api.AuthenticatedIdentity;
 import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
 import cloud.piranha.webapp.impl.DefaultServletEnvironment;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
@@ -239,8 +240,8 @@ public class JakartaSecurityManager implements SecurityManager {
         // TODO: consider not setting principal in request separately
         Principal currentPrincipal = callerPrincipal == null ? null : callerPrincipal.getName() == null ? null : callerPrincipal;
 
-        DefaultWebApplicationRequest defaultWebApplicationRequest = (DefaultWebApplicationRequest) request;
-        defaultWebApplicationRequest.setUserPrincipal(currentPrincipal);
+        WebApplicationRequest webApplicationRequest = (WebApplicationRequest) request;
+        webApplicationRequest.setUserPrincipal(currentPrincipal);
 
         DefaultAuthenticatedIdentity.setCurrentIdentity(currentPrincipal, groups);
     }

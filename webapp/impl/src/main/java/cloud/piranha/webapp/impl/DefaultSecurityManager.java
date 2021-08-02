@@ -41,6 +41,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
 
 /**
  * The default SecurityManager.
@@ -220,13 +221,12 @@ public class DefaultSecurityManager implements SecurityManager {
     public void login(HttpServletRequest request, String username, String password) throws ServletException {
 
         if (logins.containsKey(username) && password != null && password.equals(logins.get(username))) {
-            DefaultWebApplicationRequest abstractRequest;
-
             while (request instanceof HttpServletRequestWrapper wrapper) {
                 request = (HttpServletRequest) wrapper.getRequest();
             }
-            abstractRequest = (DefaultWebApplicationRequest) request;
-            abstractRequest.setUserPrincipal(new DefaultSecurityPrincipal(username));
+            if (request instanceof WebApplicationRequest webAppRequest) {
+                webAppRequest.setUserPrincipal(new DefaultSecurityPrincipal(username));
+            }
         } else {
             throw new ServletException("Unable to login using the given username and password");
         }
