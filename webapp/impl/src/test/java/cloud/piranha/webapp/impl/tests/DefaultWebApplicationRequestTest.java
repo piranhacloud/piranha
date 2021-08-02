@@ -1,7 +1,6 @@
 package cloud.piranha.webapp.impl.tests;
 
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;

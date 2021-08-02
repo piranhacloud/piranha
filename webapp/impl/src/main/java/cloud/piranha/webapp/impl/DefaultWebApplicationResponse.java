@@ -65,6 +65,11 @@ import cloud.piranha.webapp.api.WebApplicationResponse;
 public class DefaultWebApplicationResponse extends ServletOutputStream implements WebApplicationResponse {
 
     /**
+     * Defines the 'ISO-8859-1' constant.
+     */
+    private static final String ISO_8859_1 = "ISO-8859-1";
+    
+    /**
      * Stores the body only flag.
      */
     protected boolean bodyOnly;
@@ -180,7 +185,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      */
     public DefaultWebApplicationResponse() {
         buffer = new byte[8192];
-        characterEncoding = "ISO-8859-1";
+        characterEncoding = ISO_8859_1;
         characterEncodingSet = false;
         committed = false;
         contentType = null;
@@ -270,7 +275,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
 
     @Override
     public String getCharacterEncoding() {
-        String result = "ISO-8859-1";
+        String result = ISO_8859_1;
         if (characterEncoding != null) {
             result = characterEncoding;
         }
@@ -362,7 +367,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (!gotOutput) {
             if (gotWriter == false) {
                 if (characterEncoding == null || !characterEncodingSet) {
-                    setCharacterEncoding("ISO-8859-1");
+                    setCharacterEncoding(ISO_8859_1);
                 }
                 gotWriter = true;
                 writer = new PrintWriter(new OutputStreamWriter(this, characterEncoding), false);
