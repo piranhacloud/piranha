@@ -86,6 +86,16 @@ import jakarta.servlet.http.Part;
 public class DefaultWebApplicationRequest extends ServletInputStream implements WebApplicationRequest {
 
     /**
+     * Defines the 'multipart/form-data' constant.
+     */
+    private static final String MULTIPART_FORM_DATA = "multipart/form-data";
+    
+    /**
+     * Defines the 'UTF-8' charset constant.
+     */
+    private static final String UTF_8 = "UTF-8";
+    
+    /**
      * Stores the auth type.
      */
     protected String authType;
@@ -676,10 +686,10 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                 if (mergedQueryString != null) {
                     for (String param : mergedQueryString.split("&")) {
                         String pair[] = param.split("=");
-                        String key = URLDecoder.decode(pair[0], "UTF-8");
+                        String key = URLDecoder.decode(pair[0], UTF_8);
                         String value = "";
                         if (pair.length > 1) {
-                            value = URLDecoder.decode(pair[1], "UTF-8");
+                            value = URLDecoder.decode(pair[1], UTF_8);
                         }
                         String[] values = parameters.get(key);
                         if (values == null) {
@@ -696,7 +706,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                 
                 boolean hasMultiPart
                         = // FORM/Multipart submission
-                        contentType != null && contentType.startsWith("multipart/form-data");
+                        contentType != null && contentType.startsWith(MULTIPART_FORM_DATA);
                 
                 if (hasMultiPart) {
                     for (Part part : getParts()) {
@@ -730,11 +740,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                             for (int i = 0; i < pairs.length; i++) {
                                 String[] pair = pairs[i].trim().split("=");
                                 if (pair.length == 2) {
-                                    pair[0] = URLDecoder.decode(pair[0], "UTF-8");
-                                    pair[1] = URLDecoder.decode(pair[1], "UTF-8");
+                                    pair[0] = URLDecoder.decode(pair[0], UTF_8);
+                                    pair[1] = URLDecoder.decode(pair[1], UTF_8);
                                     setParameter(pair[0], new String[]{pair[1]});
                                 } else {
-                                    pair[0] = URLDecoder.decode(pair[0], "UTF-8");
+                                    pair[0] = URLDecoder.decode(pair[0], UTF_8);
                                     if (!"".equals(pair[0])) {
                                         setParameter(pair[0], new String[]{""});
                                     }
@@ -1257,7 +1267,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void setContentType(String contentType) {
         this.contentType = contentType;
         
-        if (contentType.startsWith("multipart/form-data")) {
+        if (contentType.startsWith(MULTIPART_FORM_DATA)) {
             // "multipart/form-data" contains a boundary and no charset
             return;
         }
@@ -1635,7 +1645,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * @throws ServletException the exception thrown when it is not.
      */
     protected void verifyMultipartFormData() throws ServletException {
-        if (contentType != null && !contentType.startsWith("multipart/form-data")) {
+        if (contentType != null && !contentType.startsWith(MULTIPART_FORM_DATA)) {
             throw new ServletException("Request not of type multipart/form-data");
         }
     }
