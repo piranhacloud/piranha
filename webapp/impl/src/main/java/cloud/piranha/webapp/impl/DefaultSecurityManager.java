@@ -27,6 +27,13 @@
  */
 package cloud.piranha.webapp.impl;
 
+import cloud.piranha.webapp.api.SecurityManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationRequest;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,24 +41,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletRequestWrapper;
-import jakarta.servlet.http.HttpServletResponse;
-
-import cloud.piranha.webapp.api.SecurityManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
-
 /**
  * The default SecurityManager.
- *
- * <p>
- * This security manager implies the use of DefaultWebApplicationRequest, if
- * your server / web application does not want to use
- * DefaultWebApplicationRequest or subclass DefaultWebApplicationRequest you
- * have to implement your own security manager.
- * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -98,7 +89,7 @@ public class DefaultSecurityManager implements SecurityManager {
 
     /**
      * Add the user roles.
-     * 
+     *
      * @param username the username.
      * @param roles the roles.
      */
@@ -108,15 +99,6 @@ public class DefaultSecurityManager implements SecurityManager {
         }
     }
 
-    /**
-     * Authenticate the request.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @return true if authenticated, false otherwise.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a Servlet error occurs.
-     */
     @Override
     public boolean authenticate(
             HttpServletRequest request, HttpServletResponse response)
@@ -150,11 +132,6 @@ public class DefaultSecurityManager implements SecurityManager {
         return result;
     }
 
-    /**
-     * Declare roles.
-     *
-     * @param roles the roles.
-     */
     @Override
     public void declareRoles(String[] roles) {
         this.roles.addAll(Arrays.asList(roles));
@@ -165,31 +142,16 @@ public class DefaultSecurityManager implements SecurityManager {
         return new HashSet<>(roles);
     }
 
-    /**
-     * Get if we are denying uncovered HTTP methods.
-     *
-     * @return true if we are, false otherwise.
-     */
     @Override
     public boolean getDenyUncoveredHttpMethods() {
         return denyUncoveredHttpMethods;
     }
 
-    /**
-     * {@return the web application}
-     */
     @Override
     public WebApplication getWebApplication() {
         return webApplication;
     }
 
-    /**
-     * Is the user in the given role.
-     *
-     * @param request the request.
-     * @param role the role.
-     * @return true if in the role, false otherwise.
-     */
     @Override
     public boolean isUserInRole(HttpServletRequest request, String role) {
         boolean result = false;
@@ -209,14 +171,6 @@ public class DefaultSecurityManager implements SecurityManager {
         return result;
     }
 
-    /**
-     * Login with the given username and password.
-     *
-     * @param request the servlet request.
-     * @param username the username.
-     * @param password the password.
-     * @throws ServletException when a serious error occurs.
-     */
     @Override
     public void login(HttpServletRequest request, String username, String password) throws ServletException {
 
@@ -232,15 +186,18 @@ public class DefaultSecurityManager implements SecurityManager {
         }
     }
 
-    /**
-     * Logout.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @throws ServletException when a serious error occurs.
-     */
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        if (request.getUserPrincipal() != null) {
+            while (request instanceof HttpServletRequestWrapper wrapper) {
+                request = (HttpServletRequest) wrapper.getRequest();
+            }
+            if (request instanceof WebApplicationRequest webAppRequest) {
+                webAppRequest.setUserPrincipal(null);
+            }
+        } else {
+            throw new ServletException("Unable to logout as user is not logged in");
+        }
     }
 
     /**
@@ -253,21 +210,11 @@ public class DefaultSecurityManager implements SecurityManager {
         userRoles.remove(username);
     }
 
-    /**
-     * Set if we are denying uncovered HTTP methods.
-     *
-     * @param denyUncoveredHttpMethods the boolean value.
-     */
     @Override
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
         this.denyUncoveredHttpMethods = denyUncoveredHttpMethods;
     }
 
-    /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
-     */
     @Override
     public void setWebApplication(WebApplication webApplication) {
         this.webApplication = webApplication;
