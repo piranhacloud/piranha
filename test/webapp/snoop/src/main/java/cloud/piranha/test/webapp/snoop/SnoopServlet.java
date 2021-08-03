@@ -52,6 +52,11 @@ public class SnoopServlet extends HttpServlet {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(SnoopServlet.class.getName());
+    
+    /**
+     * Stores the '&lt;table>' constant.
+     */
+    private static final String TABLE_START = "<table>";
 
     /**
      * Stores the serial version UID.
@@ -82,12 +87,13 @@ public class SnoopServlet extends HttpServlet {
                    <tr><td>Attribute Names:</td><td>%s</td></tr>
                    <tr><td>Auth Type:</td><td>%s</td></tr>
                    <tr><td>Character Encoding:</td><td>%s</td></tr>
+                   <tr><td>Class:</td><td>%s</td></tr>
             """;
-            out.println(String.format(template, 
+            out.println(String.format(template,
                     request.getAttributeNames(),
                     request.getAuthType(),
-                    request.getCharacterEncoding()));
-            out.println("<tr><td>Class:</td><td>" + request.getClass() + "</td></tr>");
+                    request.getCharacterEncoding(),
+                    request.getClass()));
             out.println("<tr><td>Content Length:</td><td>" + request.getContentLength() + "</td></tr>");
             out.println("<tr><td>Content Type:</td><td>" + request.getContentType() + "</td></tr>");
             out.println("<tr><td>Context Path:</td><td>" + request.getContextPath() + "</td></tr>");
@@ -130,17 +136,11 @@ public class SnoopServlet extends HttpServlet {
             out.println("<tr><td>Is Secure:</td><td>" + request.isSecure() + "</td></tr>");
             out.println("</table>");
             out.println("<b>Attributes</b>");
-            Enumeration<String> attributeNames = request.getAttributeNames();
-            out.println("<table>");
-            while (attributeNames.hasMoreElements()) {
-                String name = attributeNames.nextElement();
-                out.println("<tr><td>" + name + "</td><td>" + request.getAttribute(name) + "</td></tr>");
-            }
-            out.println("</table>");
+            out.println(collectRequestAttributes(request));
             out.println("<b>Cookies</b>");
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
-                out.println("<table>");
+                out.println(TABLE_START);
                 for (int i = 0; i < cookies.length; i++) {
                     out.println("<tr><td>" + cookies[i].getName() + "</td><td>" + cookies[i].getValue() + "</td></tr>");
                 }
@@ -148,7 +148,7 @@ public class SnoopServlet extends HttpServlet {
             }
             out.println("<b>Headers</b>");
             Enumeration<String> headerNames = request.getHeaderNames();
-            out.println("<table>");
+            out.println(TABLE_START);
             while (headerNames.hasMoreElements()) {
                 String name = headerNames.nextElement();
                 out.println("<tr><td>" + name + "</td><td>" + request.getHeader(name) + "</td></tr>");
@@ -156,7 +156,7 @@ public class SnoopServlet extends HttpServlet {
             out.println("</table>");
             out.println("<b>Locales</b>");
             Enumeration<Locale> locales = request.getLocales();
-            out.println("<table>");
+            out.println(TABLE_START);
             while (locales.hasMoreElements()) {
                 Locale locale = locales.nextElement();
                 out.println("<tr><td>" + locale + "</td></tr>");
@@ -164,7 +164,7 @@ public class SnoopServlet extends HttpServlet {
             out.println("</table>");
             out.println("<b>Parameters</b>");
             Enumeration<String> parameterNames = request.getParameterNames();
-            out.println("<table>");
+            out.println(TABLE_START);
             while (parameterNames.hasMoreElements()) {
                 String name = parameterNames.nextElement();
                 out.println("<tr><td>" + name + "</td><td>" + Arrays.toString(request.getParameterValues(name)) + "</td></tr>");
@@ -172,7 +172,7 @@ public class SnoopServlet extends HttpServlet {
             out.println("</table>");
             out.println("<b>Session</b>");
             HttpSession session = request.getSession(true);
-            out.println("<table>");
+            out.println(TABLE_START);
             out.println("<tr><td>Creation Time</td><td>" + session.getCreationTime() + "</td></td>");
             out.println("<tr><td>Last Accessed Time</td><td>" + session.getLastAccessedTime() + "</td></td>");
             out.println("<tr><td>Servlet Context</td><td>" + session.getServletContext() + "</td></td>");
@@ -182,7 +182,7 @@ public class SnoopServlet extends HttpServlet {
             out.println("<tr><td>Is New</td><td>" + session.isNew() + "</td></td>");
             out.println("</table>");
             out.println("<b>Session Attributes</b>");
-            out.println("<table>");
+            out.println(TABLE_START);
             session.setAttribute("TEST", "TEST");
             Enumeration<String> names = session.getAttributeNames();
             while (names.hasMoreElements()) {
@@ -193,6 +193,28 @@ public class SnoopServlet extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
+    }
+
+    /**
+     * Collect the request attributes.
+     *
+     * @param request the request attributes.
+     * @return the HTML for the request attributes.
+     */
+    private String collectRequestAttributes(HttpServletRequest request) {
+        Enumeration<String> attributeNames = request.getAttributeNames();
+        StringBuilder result = new StringBuilder();
+        result.append(TABLE_START);
+        while (attributeNames.hasMoreElements()) {
+            String name = attributeNames.nextElement();
+            result.append("<tr><td>")
+                    .append(name)
+                    .append("</td><td>")
+                    .append(request.getAttribute(name))
+                    .append("</td></tr>");
+        }
+        result.append("</table>");
+        return result.toString();
     }
 
     /**

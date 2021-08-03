@@ -44,8 +44,6 @@ import org.junit.jupiter.api.Test;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The JUnit tests for the NanoRequest class.
@@ -400,9 +398,8 @@ class NanoRequestTest {
             request.setWebApplication(webApplication);
             webApplication.linkRequestAndResponse(request, response);
             request.logout();
-            webApplication.unlinkRequestAndResponse(request, response);
-        } catch (ServletException ex) {
             fail();
+        } catch (ServletException ex) {
         }
     }
 

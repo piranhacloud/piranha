@@ -894,8 +894,8 @@ class DefaultWebApplicationTest {
             TestWebApplicationRequest request = new TestWebApplicationRequest();
             request.setWebApplication(webApp);
             request.logout();
-        } catch (ServletException exception) {
             fail();
+        } catch (ServletException exception) {
         }
     }
 

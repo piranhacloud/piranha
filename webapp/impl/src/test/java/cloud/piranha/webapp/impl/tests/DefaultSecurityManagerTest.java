@@ -181,6 +181,45 @@ class DefaultSecurityManagerTest {
     }
 
     /**
+     * Test login method.
+     */
+    @Test
+    void testLogin2() {
+        try {
+            TestWebApplicationRequest request = new TestWebApplicationRequest();
+            TestWebApplicationResponse response = new TestWebApplicationResponse();
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            DefaultSecurityManager securityManager = new DefaultSecurityManager();
+            webApp.linkRequestAndResponse(request, response);
+            securityManager.setWebApplication(webApp);
+            securityManager.addUser("username", "password", new String[]{"role1", "role2"});
+            securityManager.login(request, "username", "wrong");
+            fail();
+        } catch (ServletException ex) {
+        }
+    }
+
+    /**
+     * Test login method.
+     */
+    @Test
+    void testLogin3() {
+        try {
+            TestWebApplicationRequest request = new TestWebApplicationRequest();
+            HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(request);
+            TestWebApplicationResponse response = new TestWebApplicationResponse();
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            DefaultSecurityManager securityManager = new DefaultSecurityManager();
+            webApp.linkRequestAndResponse(wrapper, response);
+            securityManager.setWebApplication(webApp);
+            securityManager.addUser("username", "password", new String[]{"role1", "role2"});
+            securityManager.login(wrapper, "username", "password");
+        } catch (ServletException ex) {
+            fail();
+        }
+    }
+
+    /**
      * Test removeUser method.
      */
     @Test
