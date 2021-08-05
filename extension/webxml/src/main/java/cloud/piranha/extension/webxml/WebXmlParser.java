@@ -296,18 +296,17 @@ public class WebXmlParser {
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
      * @param node the DOM node.
+     * @throws XPathExpressionException when an XPath error occurs.
      */
-    private void parseDefaultContextPath(WebXml webXml, XPath xPath, Node node) {
-        try {
-            Node contextPathNode = (Node) xPath.evaluate("//default-context-path", node, NODE);
-            if (contextPathNode != null) {
-                String defaultContextPath = parseString(xPath, "//default-context-path/text()", node);
-                if (defaultContextPath != null) {
-                    webXml.setDefaultContextPath(defaultContextPath);
-                }
+    private void parseDefaultContextPath(WebXml webXml, XPath xPath, Node node)
+            throws XPathExpressionException {
+
+        Node contextPathNode = (Node) xPath.evaluate("//default-context-path", node, NODE);
+        if (contextPathNode != null) {
+            String defaultContextPath = parseString(xPath, "//default-context-path/text()", node);
+            if (defaultContextPath != null) {
+                webXml.setDefaultContextPath(defaultContextPath);
             }
-        } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse <default-context-path> section", xpe);
         }
     }
 
