@@ -67,7 +67,6 @@ class WebXmlParserTest {
         assertFalse(webXml.getServlets().get(1).isAsyncSupported());
         assertFalse(webXml.getFilters().isEmpty());
         assertEquals(1, webXml.getFilters().size());
-        assertEquals("/defaultContextPath", webXml.getDefaultContextPath());
         assertTrue(webXml.getDenyUncoveredHttpMethods());
         assertEquals("myServletContextName", webXml.getDisplayName());
         assertTrue(webXml.isDistributable());
@@ -86,7 +85,6 @@ class WebXmlParserTest {
         InputStream inputStream = webApplication.getResourceAsStream("WEB-INF/web.xml");
         WebXmlParser parser = new WebXmlParser();
         WebXml webXml = parser.parse(inputStream);
-        assertNotEquals("/defaultContextPath", webXml.getDefaultContextPath());
         assertFalse(webXml.getDenyUncoveredHttpMethods());
         assertNotEquals("myServletContextName", webXml.getDisplayName());
         assertFalse(webXml.isDistributable());
