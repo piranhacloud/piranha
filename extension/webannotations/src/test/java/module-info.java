@@ -27,15 +27,24 @@
  */
 
 /**
- * The @WebServlet, @WebFilter, ... module.
+ * The JUnit tests for the @WebServlet, @WebFilter, ... module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webannotations {
+module cloud.piranha.extension.webannotations.tests {
     
-    exports cloud.piranha.extension.webannotations;
-    opens cloud.piranha.extension.webannotations;
+    exports cloud.piranha.extension.webannotations.tests;
+    opens cloud.piranha.extension.webannotations.tests;
+    requires cloud.piranha.extension.annotationscan;
+    requires cloud.piranha.extension.webannotations;
+    requires cloud.piranha.extension.webxml;
+    requires cloud.piranha.embedded;
+    requires cloud.piranha.resource.api;
+    requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
+    requires cloud.piranha.webapp.impl;
     requires jakarta.annotation;
     requires jakarta.servlet;
+    requires org.junit.jupiter.api;
+    requires org.junit.platform.launcher;
 }

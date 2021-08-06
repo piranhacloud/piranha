@@ -25,17 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webannotations.tests;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
- * The @WebServlet, @WebFilter, ... module.
- * 
+ * The test Servlet.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webannotations {
-    
-    exports cloud.piranha.extension.webannotations;
-    opens cloud.piranha.extension.webannotations;
-    requires cloud.piranha.webapp.api;
-    requires jakarta.annotation;
-    requires jakarta.servlet;
+@WebServlet(value = {"/url1", "/url2/*", "*.url3"})
+public class TestServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response) throws IOException, ServletException {
+        PrintWriter writer = response.getWriter();
+        writer.println("Hurray, it worked!");
+    }
 }

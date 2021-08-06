@@ -28,13 +28,48 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-embedded</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-annotationscan</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-webxml</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
