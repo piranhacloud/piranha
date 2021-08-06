@@ -28,64 +28,37 @@
 package cloud.piranha.webapp.api;
 
 import java.lang.reflect.AnnotatedElement;
-import java.util.List;
-import java.util.Set;
 
 /**
- * The AnnotationManager API.
+ * The annotation information.
  *
+ * @param <T> the type.
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
  */
-public interface AnnotationManager {
+public interface AnnotationInfo<T> {
 
     /**
-     * Get the annotations.
-     * 
-     * @param <T> the type.
-     * @param annotationClass the annotation class.
-     * @return the typed list of annotations.
+     * {@return the instance}
      */
-    <T> List<AnnotationInfo<T>> getAnnotations(Class<T> annotationClass);
-    
-    /**
-     * Get the annotations.
-     * 
-     * @param annotationClasses the annotation classes.
-     * @return the list of annotations.
-     */
-    List<AnnotationInfo> getAnnotations(Class<?>... annotationClasses);
+    T getInstance();
 
     /**
-     * Get the instances.
-     * 
-     * @param <T> the type.
-     * @param instanceClass the instance class.
-     * @return the typed list of instances.
+     * {@return the target}
      */
-    <T> List<Class<T>> getInstances(Class<T> instanceClass);
-    
-    /**
-     * Get the instances.
-     * 
-     * @param instanceClasses the instance classes.
-     * @return the list of instances.
-     */
-    List<Class<?>> getInstances(Class<?>... instanceClasses);
-
+    AnnotatedElement getTarget();
 
     /**
-     * {@return the set of all annotated classes}
+     * Get the target.
+     *
+     * @return the class.
      */
-    Set<Class<?>> getAnnotatedClasses();
-    
-    /**
-     * Get the annotation for the annotation class and annotated element type.
-     * 
-     * @param <T> the type.
-     * @param annotationClass the annotation class.
-     * @param type the annotated element type.
-     * @return the list of annotations.
-     */
-    <T> List<AnnotationInfo<T>> getAnnotationsByTarget(Class<T> annotationClass, AnnotatedElement type);
+    default Class getTargetType() {
+        Class result = null;
+        AnnotatedElement element = getTarget();
+        if (element instanceof Class clazz) {
+            result = clazz;
+        }
+        return result;
+    }
 }
