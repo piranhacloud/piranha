@@ -27,22 +27,8 @@
  */
 package cloud.piranha.extension.webannotations;
 
-import static java.lang.System.Logger.Level.WARNING;
-import static java.util.Arrays.asList;
-import static java.util.Arrays.stream;
-import static java.util.EnumSet.noneOf;
-import static java.util.stream.Collectors.toCollection;
-
-import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.lang.System.Logger;
-
+import cloud.piranha.webapp.api.AnnotationInfo;
 import cloud.piranha.webapp.api.AnnotationManager;
-import cloud.piranha.webapp.api.AnnotationManager.AnnotationInfo;
 import cloud.piranha.webapp.api.WebApplication;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
@@ -60,6 +46,18 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.ArrayList;
+import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
+import static java.util.EnumSet.noneOf;
+import java.util.EventListener;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * The web annotations initializer.

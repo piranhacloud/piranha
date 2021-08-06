@@ -27,40 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static cloud.piranha.webapp.api.ServletEnvironment.UNAVAILABLE;
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.WARNING;
-import static java.util.Collections.enumeration;
-import static java.util.Collections.reverse;
-import static java.util.Collections.unmodifiableMap;
-import static java.util.Objects.requireNonNull;
-import static java.util.function.Predicate.isEqual;
-import static java.util.function.Predicate.not;
-import static java.util.stream.Collectors.toSet;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.System.Logger;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.EventListener;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.naming.impl.DefaultInitialContext;
 import cloud.piranha.naming.impl.DefaultNamingManager;
@@ -69,6 +35,7 @@ import cloud.piranha.policy.impl.DefaultPolicyManager;
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.api.ResourceManager;
+import cloud.piranha.webapp.api.AnnotationInfo;
 import cloud.piranha.webapp.api.AnnotationManager;
 import cloud.piranha.webapp.api.AsyncManager;
 import cloud.piranha.webapp.api.HttpRequestManager;
@@ -81,6 +48,7 @@ import cloud.piranha.webapp.api.MultiPartManager;
 import cloud.piranha.webapp.api.ObjectInstanceManager;
 import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.ServletEnvironment;
+import static cloud.piranha.webapp.api.ServletEnvironment.UNAVAILABLE;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
 import cloud.piranha.webapp.api.WelcomeFileManager;
@@ -111,6 +79,37 @@ import jakarta.servlet.descriptor.JspConfigDescriptor;
 import jakarta.servlet.http.HttpSessionAttributeListener;
 import jakarta.servlet.http.HttpSessionIdListener;
 import jakarta.servlet.http.HttpSessionListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import static java.util.Collections.enumeration;
+import static java.util.Collections.reverse;
+import static java.util.Collections.unmodifiableMap;
+import java.util.Enumeration;
+import java.util.EventListener;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import static java.util.Objects.requireNonNull;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import static java.util.function.Predicate.isEqual;
+import static java.util.function.Predicate.not;
+import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toSet;
+import java.util.stream.Stream;
 
 /**
  * The default WebApplication.
@@ -1334,8 +1333,8 @@ public class DefaultWebApplication implements WebApplication {
                     Stream<Class<?>> instances = annotationManager.getInstances(value).stream();
 
                     // Get classes by target type
-                    List<AnnotationManager.AnnotationInfo> annotations = annotationManager.getAnnotations(value);
-                    Stream<Class<?>> classStream = annotations.stream().map(AnnotationManager.AnnotationInfo::getTargetType);
+                    List<AnnotationInfo> annotations = annotationManager.getAnnotations(value);
+                    Stream<Class<?>> classStream = annotations.stream().map(AnnotationInfo::getTargetType);
 
                     classes = Stream.concat(instances, classStream).collect(Collectors.toUnmodifiableSet());
                 }

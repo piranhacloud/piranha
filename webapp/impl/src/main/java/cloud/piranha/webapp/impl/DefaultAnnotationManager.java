@@ -27,21 +27,20 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
-
+import cloud.piranha.webapp.api.AnnotationInfo;
+import cloud.piranha.webapp.api.AnnotationManager;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Collections.emptyList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import static java.util.stream.Collectors.toList;
 import java.util.stream.Stream;
-
-import cloud.piranha.webapp.api.AnnotationManager;
 
 /**
  * The default AnnotationManager.
