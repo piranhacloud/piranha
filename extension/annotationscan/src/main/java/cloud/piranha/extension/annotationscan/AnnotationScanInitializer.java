@@ -27,14 +27,11 @@
  */
 package cloud.piranha.extension.annotationscan;
 
-import static java.lang.System.Logger.Level.WARNING;
-import static java.util.Arrays.stream;
-
-import java.lang.annotation.Annotation;
-import java.util.Set;
-import java.lang.System.Logger;
-import java.util.stream.Stream;
-
+import cloud.piranha.resource.api.ResourceManagerClassLoader;
+import cloud.piranha.webapp.api.AnnotationManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.impl.DefaultAnnotationInfo;
+import cloud.piranha.webapp.impl.DefaultAnnotationManager;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -44,12 +41,12 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.annotation.WebInitParam;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.annotation.WebServlet;
-
-import cloud.piranha.resource.api.ResourceManagerClassLoader;
-import cloud.piranha.webapp.api.AnnotationManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.impl.DefaultAnnotationManager;
-import cloud.piranha.webapp.impl.DefaultAnnotationManager.DefaultAnnotationInfo;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
+import java.lang.annotation.Annotation;
+import static java.util.Arrays.stream;
+import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * This ServletContainerInitializer deep scans for annotations and adds them to
