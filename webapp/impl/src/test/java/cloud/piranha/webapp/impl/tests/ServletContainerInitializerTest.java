@@ -27,23 +27,21 @@
  */
 package cloud.piranha.webapp.impl.tests;
 
+import cloud.piranha.webapp.impl.DefaultAnnotationInfo;
 import cloud.piranha.webapp.impl.DefaultAnnotationManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.lang.annotation.Retention;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Set;
-
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.HandlesTypes;
-
+import java.lang.annotation.Retention;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -99,7 +97,7 @@ class ServletContainerInitializerTest {
         DefaultAnnotationManager annotationManager = (DefaultAnnotationManager) webApp.getAnnotationManager();
         annotationManager.addInstance(Set.class, Collections.emptySet().getClass());
         annotationManager.addAnnotation(
-            new DefaultAnnotationManager.DefaultAnnotationInfo<>(
+            new DefaultAnnotationInfo<>(
                 ClassAnnotated.class.getAnnotation(SomeAnnotation.class),
                 ClassAnnotated.class
             )

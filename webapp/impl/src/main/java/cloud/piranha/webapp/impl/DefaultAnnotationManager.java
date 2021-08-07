@@ -50,45 +50,6 @@ import java.util.stream.Stream;
 public class DefaultAnnotationManager implements AnnotationManager {
 
     /**
-     * The default AnnotationInfo.
-     * 
-     * @param <T> the type.
-     */
-    public static class DefaultAnnotationInfo<T> implements AnnotationInfo<T> {
-
-        /**
-         * Stores the instance.
-         */
-        private final T instance;
-        
-        /**
-         * Stores the target.
-         */
-        private final AnnotatedElement target;
-
-        /**
-         * Constructor.
-         * 
-         * @param instance the instance.
-         * @param target the target annotated element.
-         */
-        public DefaultAnnotationInfo(T instance, AnnotatedElement target) {
-            this.instance = instance;
-            this.target = target;
-        }
-
-        @Override
-        public T getInstance() {
-            return instance;
-        }
-
-        @Override
-        public AnnotatedElement getTarget() {
-            return target;
-        }
-    }
-
-    /**
      * Stores the annotations.
      */
     private final Map<Class<?>, List<AnnotationInfo<?>>> annotations = new ConcurrentHashMap<>();
