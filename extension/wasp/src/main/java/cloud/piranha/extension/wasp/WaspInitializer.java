@@ -43,6 +43,8 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.jsp.JspFactory;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * The WaSP initializer.
@@ -67,32 +69,48 @@ public class WaspInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         LOGGER.log(DEBUG, "Initializing Jasper integration");
 
-        if (JspFactory.getDefaultFactory() == null) {
-            JspFactory.setDefaultFactory(new JspFactoryImpl());
+        WebApplication application = (WebApplication) servletContext;
+
+        boolean jspFound = false;
+        Map<String, ? extends ServletRegistration> registrations = application.getServletRegistrations();
+        for (Map.Entry<String, ? extends ServletRegistration> entry : registrations.entrySet()) {
+            ServletRegistration registration = entry.getValue();
+            Collection<String> mappings = registration.getMappings();
+            if (mappings.contains("*.jsp")) {
+                jspFound = true;
+                LOGGER.log(DEBUG, "Found *.jsp mapping, skipping WaSP integration");
+            }
         }
 
-        ServletRegistration.Dynamic registration = servletContext.addServlet("jsp", "org.apache.jasper.servlet.JspServlet");
-        registration.addMapping("*.jsp");
-        String classpath = System.getProperty("jdk.module.path",
-                System.getProperty("java.class.path")) +
-                getClassesDirectory(servletContext) +
-                getJarFiles(servletContext);
+        if (!jspFound) {
+            LOGGER.log(DEBUG, "Initializing WaSP integration");
 
-        LOGGER.log(TRACE, () -> "WaSP classpath is: " + classpath);
+            if (JspFactory.getDefaultFactory() == null) {
+                JspFactory.setDefaultFactory(new JspFactoryImpl());
+            }
 
-        registration.setInitParameter("classpath", classpath);
-        registration.setInitParameter("compilerSourceVM", "1.8");
-        registration.setInitParameter("compilerTargetVM", "1.8");
+            ServletRegistration.Dynamic registration = application.addServlet("jsp", "org.apache.jasper.servlet.JspServlet");
+            registration.addMapping("*.jsp");
+            String classpath = System.getProperty("jdk.module.path",
+                    System.getProperty("java.class.path"))
+                    + getClassesDirectory(application)
+                    + getJarFiles(application);
 
-        WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setJspManager(new WaspJspManager());
-        
-        // Use the multi scan algorithm from WaSP, so it finds jar files in our isolated class loader
-        servletContext.setAttribute("org.glassfish.wasp.useMultiJarScanAlgo", true);
+            LOGGER.log(TRACE, () -> "WaSP classpath is: " + classpath);
 
-        LOGGER.log(DEBUG, "Initialized WaSP integration");
+            registration.setInitParameter("classpath", classpath);
+            registration.setInitParameter("compilerSourceVM", "1.8");
+            registration.setInitParameter("compilerTargetVM", "1.8");
+
+            application.setJspManager(new WaspJspManager());
+
+            // Use the multi scan algorithm from WaSP, so it finds jar files in our isolated class loader
+            application.setAttribute("org.glassfish.wasp.useMultiJarScanAlgo", true);
+
+            LOGGER.log(DEBUG, "Initialized WaSP integration");
+        }
     }
-    
+
     /**
      * Get the WEB-INF/classes directory.
      *
