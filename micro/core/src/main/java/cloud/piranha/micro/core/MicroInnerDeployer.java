@@ -75,6 +75,7 @@ import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
+import cloud.piranha.webapp.api.AnnotationManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultAnnotationInfo;
@@ -322,7 +323,7 @@ public class MicroInnerDeployer {
                 .forEach(consumer);
     }
     
-    void addAnnotationToIndex(Index index, Class<?> webAnnotation, DefaultAnnotationManager annotationManager) {
+    void addAnnotationToIndex(Index index, Class<?> webAnnotation, AnnotationManager annotationManager) {
         getAnnotations(index, webAnnotation)
             // Get the annotation target and annotation instance corresponding to the
             // (raw/abstract) indexed annotation

@@ -52,20 +52,56 @@ public class DefaultAnnotationManager implements AnnotationManager {
     /**
      * Stores the annotations.
      */
-    private final Map<Class<?>, List<AnnotationInfo<?>>> annotations = new ConcurrentHashMap<>();
-    
+    protected final Map<Class, List<AnnotationInfo>> annotations = new ConcurrentHashMap<>();
+
     /**
      * Stores the instances.
      */
-    private final Map<Class<?>, List<Class<?>>> instances = new ConcurrentHashMap<>();
+    protected final Map<Class, List<Class>> instances = new ConcurrentHashMap<>();
 
+    @Override
+    public AnnotationManager addAnnotation(AnnotationInfo annotationInfo) {
+        annotations.computeIfAbsent(
+                ((Annotation) annotationInfo.getInstance()).annotationType(),
+                e -> new ArrayList<>())
+                .add(annotationInfo);
+
+        return this;
+    }
+
+    /**
+     * Add an instance.
+     *
+     * @param instanceClass the instance class.
+     * @param implementingClass the implementing class.
+     * @return the annotation manager.
+     */
+    public AnnotationManager addInstance(Class<?> instanceClass, Class<?> implementingClass) {
+        instances.computeIfAbsent(
+                instanceClass,
+                e -> new ArrayList<>())
+                .add(implementingClass);
+
+        return this;
+    }
+
+    @Override
+    public Set<Class<?>> getAnnotatedClasses() {
+        return new HashSet<>();
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> Stream<AnnotationInfo<T>> getAnnotationStream(Class<T> annotationClass) {
+        return annotations.getOrDefault(annotationClass, emptyList())
+                .stream()
+                .map(e -> (AnnotationInfo<T>) e);
+    }
 
     @Override
     public List<AnnotationInfo> getAnnotations(Class<?>... annotationClasses) {
-        return
-            Arrays.stream(annotationClasses)
-                  .flatMap(this::getAnnotationStream)
-                  .collect(toList());
+        return Arrays.stream(annotationClasses)
+                .flatMap(this::getAnnotationStream)
+                .collect(toList());
     }
 
     @Override
@@ -74,79 +110,27 @@ public class DefaultAnnotationManager implements AnnotationManager {
     }
 
     @Override
-    public List<Class<?>> getInstances(Class<?>... instanceClasses) {
-        return
-            Arrays.stream(instanceClasses)
-                  .flatMap(this::getInstanceStream)
-                  .collect(toList());
-    }
-
-    @Override
-    public <T> List<Class<T>> getInstances(Class<T> instanceClass) {
-        return getInstanceStream(instanceClass).toList();
-    }
-
-    /**
-     * Add the annotation.
-     * 
-     * @param annotationInfo the annotation info.
-     * @return the annotation manager.
-     */
-    public DefaultAnnotationManager addAnnotation(AnnotationInfo<?> annotationInfo) {
-        annotations.computeIfAbsent(
-            ((Annotation) annotationInfo.getInstance()).annotationType(),
-            e -> new ArrayList<>())
-                   .add(annotationInfo);
-
-        return this;
-    }
-
-    /**
-     * Add an instance.
-     * 
-     * @param instanceClass the instance class.
-     * @param implementingClass the implementing class.
-     * @return the annotation manager.
-     */
-    public DefaultAnnotationManager addInstance(Class<?> instanceClass, Class<?> implementingClass) {
-        instances.computeIfAbsent(
-            instanceClass,
-            e -> new ArrayList<>())
-                     .add(implementingClass);
-
-        return this;
-    }
-
-
-    // ### Private methods
-
-    @SuppressWarnings("unchecked")
-    private <T> Stream<AnnotationInfo<T>> getAnnotationStream(Class<T> annotationClass) {
-        return annotations.getOrDefault(annotationClass, emptyList())
-                          .stream()
-                          .map(e -> (AnnotationInfo<T>) e);
+    public <T> List<AnnotationInfo<T>> getAnnotationsByTarget(
+            Class<T> annotationClass, AnnotatedElement type) {
+        return null;
     }
 
     @SuppressWarnings("unchecked")
     private <T> Stream<Class<T>> getInstanceStream(Class<T> instanceClass) {
         return instances.getOrDefault(instanceClass, emptyList())
-                          .stream()
-                          .map(e -> (Class<T>) e);
+                .stream()
+                .map(e -> (Class<T>) e);
     }
 
-    // ### Not implemented
-
-    /**
-     * {@return the annotated classes}
-     */
     @Override
-    public Set<Class<?>> getAnnotatedClasses() {
-        return new HashSet<>();
+    public List<Class<?>> getInstances(Class<?>... instanceClasses) {
+        return Arrays.stream(instanceClasses)
+                .flatMap(this::getInstanceStream)
+                .collect(toList());
     }
 
-
     @Override
-    public <T> List<AnnotationInfo<T>> getAnnotationsByTarget(Class<T> annotationClass, AnnotatedElement type) {
-        return null;
+    public <T> List<Class<T>> getInstances(Class<T> instanceClass) {
+        return getInstanceStream(instanceClass).toList();
     }
 }

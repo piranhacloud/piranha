@@ -38,7 +38,15 @@ import java.util.Set;
  * @author Arjan Tijms
  */
 public interface AnnotationManager {
-
+   
+    /**
+     * Add the annotation.
+     *
+     * @param annotationInfo the annotation info.
+     * @return the annotation manager.
+     */
+    AnnotationManager addAnnotation(AnnotationInfo annotationInfo);
+    
     /**
      * Get the annotations.
      * 
@@ -72,7 +80,6 @@ public interface AnnotationManager {
      * @return the list of instances.
      */
     List<Class<?>> getInstances(Class<?>... instanceClasses);
-
 
     /**
      * {@return the set of all annotated classes}
