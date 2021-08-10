@@ -41,6 +41,5 @@ module cloud.piranha.extension.smallrye.health {
     opens cloud.piranha.extension.smallrye.health;
     requires static cloud.piranha.webapp.api;
     requires jakarta.inject;
-    requires jakarta.servlet;
     requires smallrye.health;
 }

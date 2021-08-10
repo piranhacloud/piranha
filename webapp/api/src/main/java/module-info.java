@@ -42,5 +42,5 @@ module cloud.piranha.webapp.api {
     requires cloud.piranha.naming.api;
     requires cloud.piranha.policy.api;
     requires cloud.piranha.resource.api;
-    requires jakarta.servlet;
+    requires transitive jakarta.servlet;
 }

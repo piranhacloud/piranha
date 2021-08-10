@@ -40,6 +40,5 @@ module cloud.piranha.extension.eleos {
     exports cloud.piranha.extension.eleos;
     requires cloud.piranha.webapp.api;
     requires jakarta.security.auth.message;
-    requires jakarta.servlet;
     requires org.omnifaces.eleos;
 }

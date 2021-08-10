@@ -37,5 +37,4 @@ module cloud.piranha.extension.webannotations {
     opens cloud.piranha.extension.webannotations;
     requires cloud.piranha.webapp.api;
     requires jakarta.annotation;
-    requires jakarta.servlet;
 }

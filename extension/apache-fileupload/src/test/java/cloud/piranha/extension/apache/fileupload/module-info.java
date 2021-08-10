@@ -35,6 +35,5 @@ module cloud.piranha.extension.apache.fileupload {
     opens cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-    requires jakarta.servlet;
     requires org.junit.jupiter.api;
 }

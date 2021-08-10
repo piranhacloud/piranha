@@ -42,6 +42,5 @@ module cloud.piranha.extension.webxml {
     opens cloud.piranha.extension.webxml;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-    requires jakarta.servlet;
     requires java.xml;
 }

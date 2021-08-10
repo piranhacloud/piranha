@@ -44,5 +44,4 @@ module cloud.piranha.extension.security.file {
     provides ServletContainerInitializer with FileSecurityInitializer;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-    requires jakarta.servlet;
 }

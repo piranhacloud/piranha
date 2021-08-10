@@ -42,6 +42,5 @@ module cloud.piranha.extension.exousia {
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires jakarta.security.jacc;
-    requires jakarta.servlet;
     requires org.omnifaces.exousia;
 }

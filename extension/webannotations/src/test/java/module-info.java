@@ -44,7 +44,6 @@ module cloud.piranha.extension.webannotations.tests {
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires jakarta.annotation;
-    requires jakarta.servlet;
     requires org.junit.jupiter.api;
     requires org.junit.platform.launcher;
 }
