@@ -47,7 +47,6 @@ module cloud.piranha.http.webapp.tests {
     requires cloud.piranha.naming.thread;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-    requires jakarta.servlet;
     requires java.net.http;
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.engine;

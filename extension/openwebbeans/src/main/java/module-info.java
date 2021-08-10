@@ -31,5 +31,4 @@ module cloud.piranha.cdi.openwebbeans {
     requires cloud.piranha.webapp.api;
     requires jakarta.cdi;
     requires jakarta.inject;
-    requires jakarta.servlet;
 }

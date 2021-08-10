@@ -49,7 +49,6 @@ module cloud.piranha.micro.core {
     requires jakarta.annotation;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;
-    requires jakarta.servlet;
     requires java.logging;
     requires java.naming;
     requires java.xml;

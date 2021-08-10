@@ -43,5 +43,4 @@ module cloud.piranha.extension.annotationscan {
     requires cloud.piranha.resource.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-    requires jakarta.servlet;
 }

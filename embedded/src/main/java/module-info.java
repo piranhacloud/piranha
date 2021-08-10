@@ -41,6 +41,5 @@ module cloud.piranha.embedded {
     requires cloud.piranha.resource;
     requires cloud.piranha.webapp.impl;
     requires cloud.piranha.webapp.api;
-    requires jakarta.servlet;
     requires java.naming;
 }
