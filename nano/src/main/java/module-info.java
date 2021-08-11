@@ -39,7 +39,6 @@ module cloud.piranha.nano {
 
     exports cloud.piranha.nano;
     opens cloud.piranha.nano;
-    requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;

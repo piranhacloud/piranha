@@ -36,19 +36,15 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.micro.loader {
+
     exports cloud.piranha.micro.loader;
     opens cloud.piranha.micro.loader;
-
     requires cloud.piranha.modular;
-    requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
     requires cloud.piranha.resource.shrinkwrap;
-
     requires org.jboss.jandex;
-
     requires shrinkwrap.api;
     requires shrinkwrap.resolver.api.maven;
-
 
     // Tests
     requires static java.net.http;

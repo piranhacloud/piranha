@@ -45,7 +45,6 @@ module cloud.piranha.server {
     requires cloud.piranha.naming.impl;
     requires cloud.piranha.naming.thread;
     requires cloud.piranha.resource;
-    requires cloud.piranha.resource.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires java.logging;

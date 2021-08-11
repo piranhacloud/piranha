@@ -39,7 +39,6 @@ module cloud.piranha.extension.webannotations.tests {
     requires cloud.piranha.extension.webannotations;
     requires cloud.piranha.extension.webxml;
     requires cloud.piranha.embedded;
-    requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
