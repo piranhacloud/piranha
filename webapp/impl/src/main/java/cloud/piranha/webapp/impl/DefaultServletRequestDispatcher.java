@@ -43,8 +43,8 @@ import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static java.util.Arrays.asList;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -681,31 +681,27 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     }
 
     private void setRequestParameters(String queryString, AsyncHttpDispatchWrapper asyncHttpDispatchWrapper) {
-        try {
-            Map<String, String[]> parameters = asyncHttpDispatchWrapper.getWrapperParameters();
+        Map<String, String[]> parameters = asyncHttpDispatchWrapper.getWrapperParameters();
 
-            if (queryString != null) {
-                for (String param : queryString.split("&")) {
-                    String pair[] = param.split("=");
-                    String key = URLDecoder.decode(pair[0], "UTF-8");
-                    String value = "";
-                    if (pair.length > 1) {
-                        value = URLDecoder.decode(pair[1], "UTF-8");
-                    }
-                    String[] values = parameters.get(key);
-                    if (values == null) {
-                        values = new String[]{value};
-                        parameters.put(key, values);
-                    } else {
-                        String[] newValues = new String[values.length + 1];
-                        System.arraycopy(values, 0, newValues, 0, values.length);
-                        newValues[values.length] = value;
-                        parameters.put(key, newValues);
-                    }
+        if (queryString != null) {
+            for (String param : queryString.split("&")) {
+                String[] pair = param.split("=");
+                String key = URLDecoder.decode(pair[0], StandardCharsets.UTF_8);
+                String value = "";
+                if (pair.length > 1) {
+                    value = URLDecoder.decode(pair[1], StandardCharsets.UTF_8);
+                }
+                String[] values = parameters.get(key);
+                if (values == null) {
+                    values = new String[]{value};
+                    parameters.put(key, values);
+                } else {
+                    String[] newValues = new String[values.length + 1];
+                    System.arraycopy(values, 0, newValues, 0, values.length);
+                    newValues[values.length] = value;
+                    parameters.put(key, newValues);
                 }
             }
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalStateException(e);
         }
 
     }

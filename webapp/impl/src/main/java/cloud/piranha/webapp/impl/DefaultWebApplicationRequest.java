@@ -30,6 +30,7 @@ package cloud.piranha.webapp.impl;
 import static cloud.piranha.webapp.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
 import static jakarta.servlet.DispatcherType.INCLUDE;
 import static jakarta.servlet.RequestDispatcher.INCLUDE_QUERY_STRING;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
 import java.io.BufferedReader;
@@ -89,12 +90,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Defines the 'multipart/form-data' constant.
      */
     private static final String MULTIPART_FORM_DATA = "multipart/form-data";
-    
-    /**
-     * Defines the 'UTF-8' charset constant.
-     */
-    private static final String UTF_8 = "UTF-8";
-    
+
     /**
      * Stores the auth type.
      */
@@ -761,7 +757,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     /**
      * Merge query string from this request and from the attribute
-     * {@link RequestDispatcher.INCLUDE_QUERY_STRING} if the dispatcher type is {@link DispatcherType.INCLUDE}
+     * {@link RequestDispatcher#INCLUDE_QUERY_STRING} if the dispatcher type is {@link DispatcherType#INCLUDE}
      * @return the query string merged
      */
     private String mergeQueryFromAttributes() {

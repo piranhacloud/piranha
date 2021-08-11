@@ -30,8 +30,8 @@ package cloud.piranha.http.jdk;
 import cloud.piranha.http.api.HttpServerRequest;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -123,19 +123,15 @@ public class JdkHttpRequest implements HttpServerRequest {
                 queryParameters = new HashMap<>();
                 String[] params = queryString.split("&");
                 for (String param : params) {
-                    try {
-                        String parameterName = URLDecoder.decode(param.split("=")[0], "UTF-8");
-                        String parameterValue = URLDecoder.decode(param.split("=")[1], "UTF-8");
-                        if (queryParameters.containsKey(parameterName)) {
-                            List<String> values = queryParameters.get(parameterName);
-                            values.add(parameterValue);
-                        } else {
-                            List<String> values = new ArrayList<>();
-                            values.add(parameterValue);
-                            queryParameters.put(parameterName, values);
-                        }
-                    } catch (UnsupportedEncodingException uee) {
-                        throw new RuntimeException(uee);
+                    String parameterName = URLDecoder.decode(param.split("=")[0], StandardCharsets.UTF_8);
+                    String parameterValue = URLDecoder.decode(param.split("=")[1], StandardCharsets.UTF_8);
+                    if (queryParameters.containsKey(parameterName)) {
+                        List<String> values = queryParameters.get(parameterName);
+                        values.add(parameterValue);
+                    } else {
+                        List<String> values = new ArrayList<>();
+                        values.add(parameterValue);
+                        queryParameters.put(parameterName, values);
                     }
                 }
             }
