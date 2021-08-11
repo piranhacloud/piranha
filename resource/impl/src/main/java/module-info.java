@@ -44,6 +44,5 @@ module cloud.piranha.resource {
     exports cloud.piranha.resource;
     opens cloud.piranha.resource;
     provides URLStreamHandlerProvider with ByteArrayResourceStreamHandlerProvider;
-    
-    requires cloud.piranha.resource.api;
+    requires transitive cloud.piranha.resource.api;
 }

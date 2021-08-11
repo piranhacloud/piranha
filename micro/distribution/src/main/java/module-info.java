@@ -38,17 +38,12 @@
 module cloud.piranha.micro {
     
     requires cloud.piranha.modular;
-    requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
     requires cloud.piranha.resource.shrinkwrap;
-
     requires java.logging;
-
     requires org.jboss.jandex;
-
     requires shrinkwrap.api;
     requires shrinkwrap.resolver.api.maven;
-
 
     // Tests
     requires static java.net.http;

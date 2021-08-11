@@ -41,11 +41,10 @@ module cloud.piranha.micro.embedded {
     requires cloud.piranha.naming.thread;
     requires cloud.piranha.policy.api;
     requires cloud.piranha.policy.thread;
-    requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.resource;
     requires cloud.piranha.resource.shrinkwrap;   
-    requires cloud.piranha.resource.api;
     requires java.naming;
     requires cloud.piranha.embedded;
     requires shrinkwrap.api;
