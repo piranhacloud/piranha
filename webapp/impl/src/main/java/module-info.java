@@ -43,7 +43,6 @@ module cloud.piranha.webapp.impl {
     requires cloud.piranha.naming.impl;
     requires cloud.piranha.policy.api;
     requires cloud.piranha.policy.impl;
-    requires cloud.piranha.resource.api;
     requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
 }
