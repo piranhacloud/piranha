@@ -39,6 +39,6 @@ module cloud.piranha.naming.impl {
 
     exports cloud.piranha.naming.impl;
     opens cloud.piranha.naming.impl;
-    requires cloud.piranha.naming.api;
-    requires java.naming;
+    requires transitive cloud.piranha.naming.api;
+    requires transitive java.naming;
 }

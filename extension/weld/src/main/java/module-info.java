@@ -52,7 +52,6 @@ module cloud.piranha.extension.weld {
     requires jakarta.inject;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;
-    requires java.naming;
     requires weld.api;
     requires weld.core.impl;
     requires weld.spi;
