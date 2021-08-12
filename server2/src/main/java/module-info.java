@@ -37,7 +37,6 @@ module cloud.piranha.server2 {
     requires cloud.piranha.extension.servlet;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
-    requires cloud.piranha.naming.api;
     requires cloud.piranha.naming.impl;
     requires cloud.piranha.naming.thread;
     requires cloud.piranha.policy.api;
@@ -49,7 +48,6 @@ module cloud.piranha.server2 {
     requires org.jboss.jandex;
     requires shrinkwrap.api;
     requires shrinkwrap.resolver.api.maven;
-    requires java.naming;
     requires java.logging;
     requires cloud.piranha.embedded;
     uses HttpServer;

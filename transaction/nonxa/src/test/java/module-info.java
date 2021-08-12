@@ -43,7 +43,6 @@ module cloud.piranha.transaction.nonxa.tests {
     requires cloud.piranha.transaction.nonxa;
     requires com.h2database;
     requires jakarta.persistence;
-    requires java.naming;
     requires java.transaction.xa;
     requires org.junit.jupiter.api;
 }
