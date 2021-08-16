@@ -25,22 +25,14 @@ jobs:
         cd server
         docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/server:amd64-latest .
         docker push piranhacloud/server:amd64-latest
-    - name: Build arm32v7 Docker image
-      run: |
-        cd server
-        docker build -f src/main/docker/Dockerfile.arm32v7 -t piranhacloud/server:arm32v7-latest .
-        docker push piranhacloud/server:arm32v7-latest
     - name: Push multi-arch Docker manifest
       run: |
         cd server
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create piranhacloud/server:latest \
-          piranhacloud/server:amd64-latest \
-          piranhacloud/server:arm32v7-latest
+          piranhacloud/server:amd64-latest
         docker manifest annotate piranhacloud/server:latest \
           piranhacloud/server:amd64-latest --os linux --arch amd64
-        docker manifest annotate piranhacloud/server:latest \
-          piranhacloud/server:arm32v7-latest --os linux --arch arm --variant armv7l
         docker manifest push piranhacloud/server:latest
   maven:
     runs-on: ubuntu-latest

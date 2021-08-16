@@ -1,4 +1,0 @@
-FROM adoptopenjdk:15-jdk-hotspot
-ADD target/piranha-server.tar.gz /usr/local/
-WORKDIR /usr/local/piranha/bin
-CMD ["sh", "run.sh"]
