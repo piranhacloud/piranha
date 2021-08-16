@@ -14,8 +14,9 @@ jobs:
     - name: Checkout sources
       uses: actions/checkout@v1
     - name: Set up Java ${{ matrix.java }}
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v2
       with:
+        distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
       run: mvn -B -DskipTests=true install
