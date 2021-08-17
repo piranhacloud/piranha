@@ -8,22 +8,10 @@
         <artifactId>project</artifactId>
         <version>21.9.0-SNAPSHOT</version>
     </parent>
-
-    <!--
-
-      Note this is diverging from the established POM directory structure
-      because we needed a directory structure for the various Piranha Micro
-      Maven modules, but we already where using the micro directory for the
-      Piranha Micro distribution. This puts the distribution in the new micro
-      directory structure as child module, but retains its original Maven
-      coordinates.
-
-      -->
-    <groupId>cloud.piranha</groupId>
     <artifactId>piranha-micro</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Micro - Distribution</name>
+    <name>Piranha - Micro</name>
 
     <dependencies>
         <dependency>
