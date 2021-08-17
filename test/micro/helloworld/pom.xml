@@ -89,7 +89,7 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>cloud.piranha</groupId>
+                                    <groupId>cloud.piranha.micro</groupId>
                                     <artifactId>piranha-micro</artifactId>
                                     <version>${project.version}</version>
                                     <overWrite>true</overWrite>
