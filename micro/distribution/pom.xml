@@ -77,6 +77,7 @@
     </dependencies>
 
     <build>
+        <finalName>piranha-micro</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -170,9 +171,16 @@
                         </goals>
                         <configuration>
                             <overwriteExistingFiles>true</overwriteExistingFiles>
-                            <module>
-                                <moduleInfoFile>${project.build.sourceDirectory}/module-info.java</moduleInfoFile>
-                            </module>
+                            <modules>
+                                <module>
+                                    <artifact>
+                                        <groupId>cloud.piranha.micro</groupId>
+                                        <artifactId>piranha-micro</artifactId>
+                                        <version>${project.version}</version>
+                                    </artifact>
+                                    <moduleInfoFile>${project.build.sourceDirectory}/module-info.java</moduleInfoFile>
+                                </module>
+                            </modules>
                         </configuration>
                     </execution>
                 </executions>

@@ -21,20 +21,28 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Build amd64 Docker image
+    - name: Build Piranha Server Docker image
       run: |
         cd server
         docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/server:amd64-latest .
         docker push piranhacloud/server:amd64-latest
-    - name: Push multi-arch Docker manifest
-      run: |
-        cd server
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create piranhacloud/server:latest \
           piranhacloud/server:amd64-latest
         docker manifest annotate piranhacloud/server:latest \
           piranhacloud/server:amd64-latest --os linux --arch amd64
         docker manifest push piranhacloud/server:latest
+    - name: Build Piranha Micro Docker image
+      run: |
+        cd micro/distribution
+        docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/micro:amd64-latest .
+        docker push piranhacloud/micro:amd64-latest
+        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker manifest create piranhacloud/micro:latest \
+          piranhacloud/micro:amd64-latest
+        docker manifest annotate piranhacloud/micro:latest \
+          piranhacloud/server:amd64-latest --os linux --arch amd64
+        docker manifest push piranhacloud/micro:latest
   maven:
     runs-on: ubuntu-latest
     steps:
