@@ -106,7 +106,7 @@ public class Cookie implements Cloneable, Serializable {
      * 
      * @param cookie the cookie.
      */
-    public Cookie(Cookie cookie) {
+    private Cookie(Cookie cookie) {
         this.comment = cookie.comment;
         this.domain = cookie.domain;
         this.httpOnly = cookie.httpOnly;
