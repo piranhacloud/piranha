@@ -41,7 +41,7 @@ jobs:
         docker manifest create piranhacloud/micro:latest \
           piranhacloud/micro:amd64-latest
         docker manifest annotate piranhacloud/micro:latest \
-          piranhacloud/server:amd64-latest --os linux --arch amd64
+          piranhacloud/micro:amd64-latest --os linux --arch amd64
         docker manifest push piranhacloud/micro:latest
   maven:
     runs-on: ubuntu-latest

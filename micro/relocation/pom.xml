@@ -9,6 +9,8 @@
     </parent>
     <groupId>cloud.piranha</groupId>
     <artifactId>piranha-micro</artifactId>
+    <packaging>pom</packaging>
+    <name>Piranha - Micro - Relocation</name>
     <distributionManagement>
         <relocation>
             <groupId>cloud.piranha.micro</groupId>
