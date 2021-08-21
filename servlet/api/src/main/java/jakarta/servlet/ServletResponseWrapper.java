@@ -49,6 +49,8 @@ public class ServletResponseWrapper implements ServletResponse {
      * @param wrapped the wrapped response.
      */
     public ServletResponseWrapper(ServletResponse wrapped) {
+        if (wrapped == null)
+            throw new IllegalArgumentException("wrapped cannot be null");
         this.wrapped = wrapped;
     }
 

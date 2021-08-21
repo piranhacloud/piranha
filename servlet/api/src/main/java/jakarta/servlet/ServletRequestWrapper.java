@@ -52,6 +52,8 @@ public class ServletRequestWrapper implements ServletRequest {
      * @param wrapped the wrapped request.
      */
     public ServletRequestWrapper(ServletRequest wrapped) {
+        if (wrapped == null)
+            throw new IllegalArgumentException("wrapped cannot be null");
         this.wrapped = wrapped;
     }
 
