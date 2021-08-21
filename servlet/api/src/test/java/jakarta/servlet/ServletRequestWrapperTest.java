@@ -27,8 +27,6 @@
  */
 package jakarta.servlet;
 
-import jakarta.servlet.DispatcherType;
-import jakarta.servlet.ServletRequestWrapper;
 import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -48,7 +46,7 @@ class ServletRequestWrapperTest {
      */
     @Test
     void testGetAsyncContext() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertNull(wrapper.getAsyncContext());
     }
 
@@ -57,126 +55,126 @@ class ServletRequestWrapperTest {
      */
     @Test
     void testGetAttribute() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertNull(wrapper.getAttribute("null"));
     }
-    
+
     /**
      * Test getAttributeNames method.
      */
     @Test
     void testGetAttributeNames() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertNotNull(wrapper.getAttributeNames());
     }
-    
+
     /**
      * Test getCharacterEncoding method.
      */
     @Test
     void testCharacterEncoding() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertEquals("UTF-8", wrapper.getCharacterEncoding());
     }
-    
+
     /**
      * Test getContentLength method.
      */
     @Test
     void testGetContentLength() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertEquals(-1, wrapper.getContentLength());
     }
-    
+
     /**
      * Test getContentLengthLong method.
      */
     @Test
     void testGetContentLengthLong() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertEquals(-1L, wrapper.getContentLengthLong());
     }
-    
+
     /**
      * Test getContentType method.
      */
     @Test
     void testGetContentType() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertEquals("text/html", wrapper.getContentType());
     }
-    
+
     /**
      * Test getDispatcherType method.
      */
     @Test
     void testGetDispatcherType() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertEquals(DispatcherType.ERROR, wrapper.getDispatcherType());
     }
-    
+
     /**
      * Test getInputStream method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
     void testGetInputStream() throws Exception {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertNotNull(wrapper.getInputStream());
     }
-    
+
     /**
      * Test getLocalAddr method.
      */
     @Test
     void testGetLocalAddr() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertEquals("127.0.0.1", wrapper.getLocalAddr());
     }
-    
+
     /**
      * Test getLocalName method.
      */
     @Test
     void testGetLocalName() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertEquals("localhost", wrapper.getLocalName());
     }
-    
+
     /**
      * Test getLocalPort method.
      */
     @Test
     void testGetLocalPort() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertEquals(8180, wrapper.getLocalPort());
     }
-    
+
     /**
      * Test getLocale method.
      */
     @Test
     void testGetLocale() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertEquals(Locale.getDefault(), wrapper.getLocale());
     }
-    
+
     /**
      * Test getLocales method.
      */
     @Test
     void testGetLocales() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertNotNull(wrapper.getLocales());
     }
-    
+
     /**
      * Test getParameter method.
      */
     @Test
     void testGetParameter() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertNull(wrapper.getParameter("null"));
     }
 
@@ -185,7 +183,7 @@ class ServletRequestWrapperTest {
      */
     @Test
     void testSetRequest() {
-        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest(null));
+        ServletRequestWrapper wrapper = new ServletRequestWrapper(new TestServletRequest());
         assertThrows(IllegalArgumentException.class, () -> wrapper.setRequest(null));
     }
 }

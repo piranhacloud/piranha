@@ -27,8 +27,6 @@
  */
 package jakarta.servlet;
 
-import jakarta.servlet.ServletRequestEvent;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.TestHttpServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -57,7 +55,7 @@ class ServletRequestEventTest {
     @Test
     void testGetServletRequest() {
         ServletContext servletContext = new TestServletContext();
-        HttpServletRequest servletRequest = new TestHttpServletRequest(null);
+        HttpServletRequest servletRequest = new TestHttpServletRequest();
         ServletRequestEvent event = new ServletRequestEvent(servletContext, servletRequest);
         assertNotNull(event.getServletRequest());
     }
