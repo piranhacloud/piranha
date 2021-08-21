@@ -42,8 +42,8 @@ class HttpServletResponseTest {
      */
     @Test
     void testGetTrailerFields() {
-        HttpServletResponse response = new HttpServletResponseWrapper(null);
-        assertNull(((HttpServletResponse) response).getTrailerFields());
+        HttpServletResponse response = new TestHttpServletResponse();
+        assertNull(response.getTrailerFields());
     }
 
     /**
@@ -51,8 +51,8 @@ class HttpServletResponseTest {
      */
     @Test
     void testSetTrailerFields() {
-        HttpServletResponse response = new HttpServletResponseWrapper(null);
-        ((HttpServletResponse) response).setTrailerFields(null);
-        assertNull(((HttpServletResponse) response).getTrailerFields());
+        HttpServletResponse response = new TestHttpServletResponse();
+        response.setTrailerFields(null);
+        assertNull(response.getTrailerFields());
     }
 }

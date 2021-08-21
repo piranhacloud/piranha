@@ -50,37 +50,37 @@ class HttpServletRequestWrapperTest {
      */
     @Test
     void testAuthenticate() throws Exception {
-        HttpServletRequestWrapper wrapper = new TestHttpServletRequest(null);
-        HttpServletResponseWrapper response = new HttpServletResponseWrapper(null);
+        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(new TestHttpServletRequest());
+        HttpServletResponseWrapper response = new HttpServletResponseWrapper(new TestHttpServletResponse());
         assertFalse(wrapper.authenticate(response));
     }
-    
+
     /**
      * Test getTrailerFields method.
      */
     @Test
-    void testGetTrailerFields() { 
-        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(null);
+    void testGetTrailerFields() {
+        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(new TestHttpServletRequest());
         assertNotNull(wrapper.getTrailerFields());
         Map<String, String> trailerFields = wrapper.getTrailerFields();
         assertTrue(trailerFields.isEmpty());
     }
-    
+
     /**
      * Test isTrailerFieldsReady method.
      */
     @Test
-    void testIsTrailerFieldsReady() { 
-        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(null);
+    void testIsTrailerFieldsReady() {
+        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(new TestHttpServletRequest());
         assertTrue(wrapper.isTrailerFieldsReady());
     }
-    
+
     /**
      * Test newPushBuilder method.
      */
     @Test
-    void testNewPushBuilder() { 
-        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(null);
+    void testNewPushBuilder() {
+        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(new TestHttpServletRequest());
         assertNull(wrapper.newPushBuilder());
     }
 }

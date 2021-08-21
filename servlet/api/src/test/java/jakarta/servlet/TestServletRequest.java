@@ -32,28 +32,18 @@ import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletRequestWrapper;
+
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Locale;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 /**
  * A test Servlet request.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestServletRequest extends ServletRequestWrapper {
-    
-    /**
-     * Constructor.
-     * 
-     * @param wrapped the wrapped Servlet request.
-     */
-    public TestServletRequest(ServletRequest wrapped) {
-        super(null);
-    }
-
+public class TestServletRequest implements ServletRequest {
     /**
      * {@return the async context}
      */
@@ -182,6 +172,116 @@ public class TestServletRequest extends ServletRequestWrapper {
      */
     @Override
     public String getParameter(String name) {
+        return null;
+    }
+
+    @Override
+    public Map<String, String[]> getParameterMap() {
+        return null;
+    }
+
+    @Override
+    public Enumeration<String> getParameterNames() {
+        return null;
+    }
+
+    @Override
+    public String[] getParameterValues(String name) {
+        return new String[0];
+    }
+
+    @Override
+    public String getProtocol() {
+        return null;
+    }
+
+    @Override
+    public BufferedReader getReader() throws IOException {
+        return null;
+    }
+
+    @Override
+    public String getRealPath(String path) {
+        return null;
+    }
+
+    @Override
+    public String getRemoteAddr() {
+        return null;
+    }
+
+    @Override
+    public String getRemoteHost() {
+        return null;
+    }
+
+    @Override
+    public int getRemotePort() {
+        return 0;
+    }
+
+    @Override
+    public RequestDispatcher getRequestDispatcher(String path) {
+        return null;
+    }
+
+    @Override
+    public String getScheme() {
+        return null;
+    }
+
+    @Override
+    public String getServerName() {
+        return null;
+    }
+
+    @Override
+    public int getServerPort() {
+        return 0;
+    }
+
+    @Override
+    public ServletContext getServletContext() {
+        return null;
+    }
+
+    @Override
+    public boolean isAsyncStarted() {
+        return false;
+    }
+
+    @Override
+    public boolean isAsyncSupported() {
+        return false;
+    }
+
+    @Override
+    public boolean isSecure() {
+        return false;
+    }
+
+    @Override
+    public void removeAttribute(String name) {
+
+    }
+
+    @Override
+    public void setAttribute(String name, Object object) {
+
+    }
+
+    @Override
+    public void setCharacterEncoding(String characterEncoding) throws UnsupportedEncodingException {
+
+    }
+
+    @Override
+    public AsyncContext startAsync() throws IllegalStateException {
+        return null;
+    }
+
+    @Override
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
         return null;
     }
 }
