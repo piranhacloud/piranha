@@ -31,10 +31,9 @@ import jakarta.servlet.http.HttpServletResponseWrapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.io.PrintWriter;
+import java.util.*;
+
 import jakarta.servlet.ServletOutputStream;
 
 /**
@@ -42,18 +41,18 @@ import jakarta.servlet.ServletOutputStream;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TestHttpServletResponse extends HttpServletResponseWrapper {
-    
+public class TestHttpServletResponse implements HttpServletResponse {
+
     /**
      * Stores the cookies.
      */
-    private ArrayList<Cookie> cookies = new ArrayList<>();
-    
+    private List<Cookie> cookies = new ArrayList<>();
+
     /**
      * Stores the headers.
      */
-    private HashMap<String, List<String>> headers = new HashMap<>();
-    
+    private Map<String, List<String>> headers = new HashMap<>();
+
     /**
      * Stores the Servlet output stream.
      */
@@ -68,16 +67,7 @@ public class TestHttpServletResponse extends HttpServletResponseWrapper {
      * Stores the status message.
      */
     private String statusMessage;
-    
-    /**
-     * Constructor.
-     * 
-     * @param response the response.
-     */
-    public TestHttpServletResponse(HttpServletResponse response) {
-        super(response);
-    }
-    
+
     /**
      * Add a a cookie.
      * 
@@ -150,6 +140,11 @@ public class TestHttpServletResponse extends HttpServletResponseWrapper {
         return url;
     }
 
+    @Override
+    public String encodeUrl(String url) {
+        return null;
+    }
+
     /**
      * Encode the redirect url.
      * 
@@ -159,6 +154,11 @@ public class TestHttpServletResponse extends HttpServletResponseWrapper {
     @Override
     public String encodeRedirectURL(String url) {
         return url;
+    }
+
+    @Override
+    public String encodeRedirectUrl(String url) {
+        return null;
     }
 
     /**
@@ -287,11 +287,96 @@ public class TestHttpServletResponse extends HttpServletResponseWrapper {
 
     /**
      * Set the status.
-     * 
+     *
      * @param status the status.
      */
     @Override
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    @Override
+    public void setStatus(int status, String message) {
+
+    }
+
+    @Override
+    public void flushBuffer() throws IOException {
+
+    }
+
+    @Override
+    public int getBufferSize() {
+        return 0;
+    }
+
+    @Override
+    public String getCharacterEncoding() {
+        return null;
+    }
+
+    @Override
+    public String getContentType() {
+        return null;
+    }
+
+    @Override
+    public Locale getLocale() {
+        return null;
+    }
+
+    @Override
+    public ServletOutputStream getOutputStream() throws IOException {
+        return outputStream;
+    }
+
+    @Override
+    public PrintWriter getWriter() throws IOException {
+        return null;
+    }
+
+    @Override
+    public boolean isCommitted() {
+        return false;
+    }
+
+    @Override
+    public void reset() {
+
+    }
+
+    @Override
+    public void resetBuffer() {
+
+    }
+
+    @Override
+    public void setBufferSize(int bufferSize) {
+
+    }
+
+    @Override
+    public void setCharacterEncoding(String characterEncoding) {
+
+    }
+
+    @Override
+    public void setContentLength(int contentLength) {
+
+    }
+
+    @Override
+    public void setContentLengthLong(long contentLength) {
+
+    }
+
+    @Override
+    public void setContentType(String contentType) {
+
+    }
+
+    @Override
+    public void setLocale(Locale locale) {
+
     }
 }

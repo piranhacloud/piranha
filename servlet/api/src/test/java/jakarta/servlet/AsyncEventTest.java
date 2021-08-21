@@ -27,11 +27,10 @@
  */
 package jakarta.servlet;
 
-import jakarta.servlet.AsyncEvent;
-import jakarta.servlet.http.HttpServletRequestWrapper;
-import jakarta.servlet.http.HttpServletResponseWrapper;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import jakarta.servlet.http.TestHttpServletResponse;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * The JUnit tests for the AsyncEvent class.
@@ -54,7 +53,7 @@ class AsyncEventTest {
      */
     @Test
     void testGetSuppliedRequest() {
-        AsyncEvent event = new AsyncEvent(new TestAsyncContext(null, null), new HttpServletRequestWrapper(null), null);
+        AsyncEvent event = new AsyncEvent(new TestAsyncContext(null, null), new TestServletRequest(), null);
         assertNotNull(event.getSuppliedRequest());
     }
 
@@ -63,7 +62,7 @@ class AsyncEventTest {
      */
     @Test
     void testGetSuppliedResponse() {
-        AsyncEvent event = new AsyncEvent(new TestAsyncContext(null, null), null, new HttpServletResponseWrapper(null));
+        AsyncEvent event = new AsyncEvent(new TestAsyncContext(null, null), null, new TestHttpServletResponse());
         assertNotNull(event.getSuppliedResponse());
     }
 

@@ -594,9 +594,8 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 // that in between the request that was provided by the application and the request it is wrapping.
                 ServletRequest wrappedRequest = applicationProvidedWrapper.getRequest();
 
-                AsyncHttpDispatchWrapper newAsyncHttpDispatchWrapper = new AsyncHttpDispatchWrapper(null);
                 // Note that by doing this, methods called on HttpServletRequestWrapper itself (and not its super interface) will throw.
-                newAsyncHttpDispatchWrapper.setRequest(wrappedRequest);
+                AsyncHttpDispatchWrapper newAsyncHttpDispatchWrapper = new AsyncHttpDispatchWrapper((HttpServletRequest) wrappedRequest);
 
                 applicationProvidedWrapper.setRequest(newAsyncHttpDispatchWrapper);
 
