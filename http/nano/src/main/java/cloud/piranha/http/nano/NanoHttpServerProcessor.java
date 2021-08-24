@@ -28,6 +28,8 @@
 package cloud.piranha.http.nano;
 
 import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServerProcessorEndState;
+import static cloud.piranha.http.api.HttpServerProcessorEndState.COMPLETED;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
 import cloud.piranha.http.webapp.HttpWebApplicationRequest;
@@ -63,7 +65,7 @@ public class NanoHttpServerProcessor implements HttpServerProcessor {
     }
 
     @Override
-    public boolean process(HttpServerRequest request, HttpServerResponse response) {
+    public HttpServerProcessorEndState process(HttpServerRequest request, HttpServerResponse response) {
         try (HttpWebApplicationRequest servletRequest = new HttpWebApplicationRequest(request)) {
             HttpWebApplicationResponse servletResponse = new HttpWebApplicationResponse(response);
             piranha.service(servletRequest, servletResponse);
@@ -71,6 +73,6 @@ public class NanoHttpServerProcessor implements HttpServerProcessor {
         } catch (Throwable t) {
             LOGGER.log(ERROR, "An error occurred while processing the request", t);
         }
-        return false;
+        return COMPLETED;
     }
 }

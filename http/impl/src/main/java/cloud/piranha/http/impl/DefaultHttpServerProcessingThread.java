@@ -27,6 +27,8 @@
  */
 package cloud.piranha.http.impl;
 
+import cloud.piranha.http.api.HttpServerProcessorEndState;
+import static cloud.piranha.http.api.HttpServerProcessorEndState.COMPLETED;
 import static java.lang.System.Logger.Level.WARNING;
 
 import java.io.IOException;
@@ -77,14 +79,14 @@ class DefaultHttpServerProcessingThread implements Runnable {
      */
     @Override
     public void run() {
-        boolean async = false;
+        HttpServerProcessorEndState state = COMPLETED;
         DefaultHttpServerResponse response = null;
         try {
             DefaultHttpServerRequest request = new DefaultHttpServerRequest(socket);
             response = new DefaultHttpServerResponse(socket);
-            async = server.processor.process(request, response);
+            state = server.processor.process(request, response);
         } finally {
-            if (!async) {
+            if (state == COMPLETED) {
                 try {
                     socket.shutdownInput();
 

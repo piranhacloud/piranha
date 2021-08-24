@@ -28,22 +28,24 @@
 package cloud.piranha.http.api;
 
 /**
- * The HTTP Server Processor API.
- *
- * <p>
- * This API is defined as the main entry point for HTTP request processing.
- * </p>
+ * The end state of the HTTP processing.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface HttpServerProcessor {
+public enum HttpServerProcessorEndState {
+
+    /**
+     * The processing has completed
+     */
+    COMPLETED,
     
     /**
-     * Process the request.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @return the end state.
+     * The processing has been asynced.
      */
-    HttpServerProcessorEndState process(HttpServerRequest request, HttpServerResponse response);
+    ASYNCED,
+    
+    /**
+     * The processing has been upgraded.
+     */
+    UPGRADED
 }

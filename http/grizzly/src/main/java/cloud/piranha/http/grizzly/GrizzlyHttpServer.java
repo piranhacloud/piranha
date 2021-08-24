@@ -28,6 +28,8 @@
 package cloud.piranha.http.grizzly;
 
 import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServerProcessorEndState;
+import static cloud.piranha.http.api.HttpServerProcessorEndState.ASYNCED;
 import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -159,7 +161,8 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
             public void service(Request request, Response response) throws Exception {
                 GrizzlyHttpServerRequest gRequest = new GrizzlyHttpServerRequest(request);
                 GrizzlyHttpServerResponse gResponse = new GrizzlyHttpServerResponse(response);
-                if (httpServerProcessor.process(gRequest, gResponse)) {
+                HttpServerProcessorEndState state = httpServerProcessor.process(gRequest, gResponse);
+                if (state == ASYNCED) {
                     response.suspend();
                 }
             }
