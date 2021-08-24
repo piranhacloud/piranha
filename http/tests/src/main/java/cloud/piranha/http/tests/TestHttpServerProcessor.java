@@ -37,6 +37,8 @@ import java.io.PrintWriter;
 import java.lang.System.Logger;
 
 import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServerProcessorEndState;
+import static cloud.piranha.http.api.HttpServerProcessorEndState.COMPLETED;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
 
@@ -64,15 +66,11 @@ public class TestHttpServerProcessor implements HttpServerProcessor {
     /**
      * Stores the error writing response message.
      */
-    private static final String IO_ERROR_WRITING_RESPONSE = "An I/O error occurred while writing the response";
+    private static final String IO_ERROR_WRITING_RESPONSE = 
+            "An I/O error occurred while writing the response";
 
-    /**
-     * @see
-     * HttpServerProcessor#process(cloud.piranha.http.api.HttpServerRequest,
-     * cloud.piranha.http.api.HttpServerResponse)
-     */
     @Override
-    public boolean process(HttpServerRequest request, HttpServerResponse response) {
+    public HttpServerProcessorEndState process(HttpServerRequest request, HttpServerResponse response) {
         response.setStatus(200);
         File baseDir = new File(System.getProperty("user.dir"));
         File file = new File(baseDir, request.getRequestTarget());
@@ -132,6 +130,6 @@ public class TestHttpServerProcessor implements HttpServerProcessor {
             }
         }
 
-        return false;
+        return COMPLETED;
     }
 }

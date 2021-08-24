@@ -29,6 +29,8 @@ package cloud.piranha.http.tests;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.api.HttpServerProcessorEndState;
+import static cloud.piranha.http.api.HttpServerProcessorEndState.COMPLETED;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
 import java.io.ByteArrayOutputStream;
@@ -117,7 +119,7 @@ public abstract class HttpServerTest {
                     } catch (IOException ioe) {
                     }
 
-                    return false;
+                    return COMPLETED;
                 });
         server.start();
         try {
@@ -199,7 +201,7 @@ public abstract class HttpServerTest {
                     } catch (IOException ioe) {
                     }
 
-                    return false;
+                    return COMPLETED;
                 });
         server.start();
         try {
@@ -236,7 +238,7 @@ public abstract class HttpServerTest {
                     } catch (IOException ioe) {
                     }
 
-                    return false;
+                    return COMPLETED;
                 });
         server.start();
         try {
@@ -273,7 +275,7 @@ public abstract class HttpServerTest {
                     } catch (IOException ioe) {
                     }
 
-                    return false;
+                    return COMPLETED;
                 });
         server.start();
         try {
@@ -311,7 +313,7 @@ public abstract class HttpServerTest {
                     } catch (IOException ioe) {
                     }
 
-                    return false;
+                    return COMPLETED;
                 });
         server.start();
         try {
@@ -432,9 +434,9 @@ public abstract class HttpServerTest {
      *
      * @param request the request.
      * @param response the response.
-     * @return false as this HTTP processor does not support async.
+     * @return state.
      */
-    private static boolean returnProtocol(HttpServerRequest request, HttpServerResponse response) {
+    private static HttpServerProcessorEndState returnProtocol(HttpServerRequest request, HttpServerResponse response) {
         try {
             response.setStatus(200);
             response.setHeader(CONTENT_TYPE, TEXT_PLAIN);
@@ -446,6 +448,6 @@ public abstract class HttpServerTest {
             outputStream.flush();
         } catch (IOException ioe) {
         }
-        return false;
+        return COMPLETED;
     }
 }
