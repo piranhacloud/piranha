@@ -28,9 +28,12 @@
 package cloud.piranha.webapp.impl.tests;
 
 import jakarta.servlet.ServletRequest;
+import java.io.UnsupportedEncodingException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -96,5 +99,49 @@ class ServletRequestTest {
     void testGetReader2() throws Exception {
         assertNotNull(request.getReader());
         assertThrows(IllegalStateException.class, () -> request.getInputStream());
+    }
+
+    /**
+     * Test setCharacterEncoding method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testSetCharacterEncoding() throws Exception {
+        request.setCharacterEncoding("UTF-8");
+        assertEquals("UTF-8", request.getCharacterEncoding());
+    }
+
+    /**
+     * Test setCharacterEncoding method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testSetCharacterEncoding2() throws Exception {
+        assertNull(request.getCharacterEncoding());
+        request.getReader();
+        request.setCharacterEncoding("UTF-8");
+        assertNotEquals("UTF-8", request.getCharacterEncoding());
+    }
+
+    /**
+     * Test setCharacterEncoding method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testSetCharacterEncoding3() {
+        assertThrows(UnsupportedEncodingException.class, () -> request.setCharacterEncoding("doesnotexist"));
+    }
+
+    /**
+     * Test setCharacterEncoding method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testSetCharacterEncoding4() {
+        assertThrows(UnsupportedEncodingException.class, () -> request.setCharacterEncoding(null));
     }
 }

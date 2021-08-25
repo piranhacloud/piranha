@@ -79,6 +79,7 @@ import jakarta.servlet.descriptor.JspConfigDescriptor;
 import jakarta.servlet.http.HttpSessionAttributeListener;
 import jakarta.servlet.http.HttpSessionIdListener;
 import jakarta.servlet.http.HttpSessionListener;
+import jakarta.servlet.http.WebConnection;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -1538,17 +1539,22 @@ public class DefaultWebApplication implements WebApplication {
         linkRequestAndResponse(request, response);
         requestInitialized(request);
 
-        DefaultWebApplicationRequest webappRequest = (DefaultWebApplicationRequest) request;
-        DefaultWebApplicationResponse httpResponse = (DefaultWebApplicationResponse) response;
+        DefaultWebApplicationRequest webAppRequest = (DefaultWebApplicationRequest) request;
+        DefaultWebApplicationResponse webAppResponse = (DefaultWebApplicationResponse) response;
 
         // Obtain a reference to the target servlet invocation, which includes the Servlet itself and/or Filters, as well as mapping data
-        DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(webappRequest.getServletPath(), webappRequest.getPathInfo());
+        DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(webAppRequest.getServletPath(), webAppRequest.getPathInfo());
         
         // Dispatch using the REQUEST dispatch type. This will invoke the Servlet and/or Filters if present and available.
-        getInvocationDispatcher(servletInvocation).request(webappRequest, httpResponse);
+        getInvocationDispatcher(servletInvocation).request(webAppRequest, webAppResponse);
 
         requestDestroyed(request);
         unlinkRequestAndResponse(request, response);
+        
+        if (webAppRequest.isUpgraded()) {
+            WebConnection connection = new DefaultWebConnection(webAppRequest, webAppResponse);
+            webAppRequest.getUpgradeHandler().init(connection);
+        }
     }
 
     /**

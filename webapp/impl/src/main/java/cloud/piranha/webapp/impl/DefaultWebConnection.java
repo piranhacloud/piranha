@@ -25,74 +25,57 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.api;
+package cloud.piranha.webapp.impl;
 
-import jakarta.servlet.DispatcherType;
-import jakarta.servlet.MultipartConfigElement;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpUpgradeHandler;
-import java.security.Principal;
+import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.webapp.api.WebApplicationResponse;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.WebConnection;
+import java.io.IOException;
 
 /**
- * The WebApplicationRequest API.
- *
+ * The default WebConnection.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebApplicationRequest extends HttpServletRequest {
+public class DefaultWebConnection implements WebConnection {
     
     /**
-     * {@return the multipartConfig}
+     * Stores the request.
      */
-    default MultipartConfigElement getMultipartConfig() {
-        return null;
-    }
+    private final WebApplicationRequest request;
     
     /**
-     * {@return the upgrade handler}
+     * Stores the response.
      */
-    default HttpUpgradeHandler getUpgradeHandler() {
-        return null;
-    }
-    
-    /**
-     * {@return true when upgraded, false otherwise}
-     */
-    default boolean isUpgraded() {
-        return false;
-    }
+    private final WebApplicationResponse response;
 
     /**
-     * Set the context path.
-     *
-     * @param contextPath the context path.
-     */
-    void setContextPath(String contextPath);
-
-    /**
-     * Set the dispatcher type.
-     *
-     * @param dispatcherType the dispatcher type.
-     */
-    void setDispatcherType(DispatcherType dispatcherType);
-
-    /**
-     * Set the servlet path.
-     *
-     * @param servletPath the servlet path.
-     */
-    void setServletPath(String servletPath);
-    
-    /**
-     * Set the user principal.
+     * Constructor.
      * 
-     * @param userPrincipal the user principal.
+     * @param request the request.
+     * @param response the response.
      */
-    void setUserPrincipal(Principal userPrincipal);
+    public DefaultWebConnection(
+            WebApplicationRequest request, WebApplicationResponse response) {
+        this.request = request;
+        this.response = response;
+    }
 
-    /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
-     */
-    void setWebApplication(WebApplication webApplication);
+    @Override
+    public ServletInputStream getInputStream() throws IOException {
+        return request.getInputStream();
+    }
+
+    @Override
+    public ServletOutputStream getOutputStream() throws IOException {
+        return response.getOutputStream();
+    }
+
+    @Override
+    public void close() throws Exception {
+        request.getInputStream().close();
+        response.getOutputStream().close();
+    }
 }
