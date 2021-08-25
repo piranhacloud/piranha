@@ -347,34 +347,36 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.parameters = new HashMap<>();
         this.upgraded = false;
     }
-
+    
     /**
-     * Authenticate.
-     *
-     * @param response the HTTP servlet response.
-     * @return true if authenticated, false otherwise.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a Servlet error occurs.
+     * Add or remove slash if needed.
+     * 
+     * @param string the string the look at.
+     * @return the sanitized string. 
      */
+    private String addOrRemoveSlashIfNeeded(String string) {
+        if (string.startsWith("/")) {
+            if (string.startsWith("//")) {
+                return string.substring(1);
+            }
+            
+            return string;
+        }
+
+        return "/" + string;
+    }
+
     @Override
     public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
         return webApplication.getSecurityManager().authenticate(this, response);
     }
 
-    /**
-     * Change the session id.
-     *
-     * @return the changed session id.
-     */
     @Override
     public String changeSessionId() {
         currentSessionId = webApplication.getHttpSessionManager().changeSessionId(this);
         return currentSessionId;
     }
 
-    /**
-     * {@return the async context}
-     */
     @Override
     public AsyncContext getAsyncContext() {
         if (asyncContext == null) {
@@ -1027,9 +1029,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return session;
     }
 
-    /**
-     * {@return the upgrade handler}
-     */
+    @Override
     public HttpUpgradeHandler getUpgradeHandler() {
         return upgradeHandler;
     }
@@ -1119,11 +1119,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return "https".equals(scheme);
     }
 
-    /**
-     * Is the request upgraded.
-     *
-     * @return false
-     */
+    @Override
     public boolean isUpgraded() {
         return upgraded;
     }
@@ -1728,17 +1724,5 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
 
         return null;
-    }
-    
-    private String addOrRemoveSlashIfNeeded(String string) {
-        if (string.startsWith("/")) {
-            if (string.startsWith("//")) {
-                return string.substring(1);
-            }
-            
-            return string;
-        }
-
-        return "/" + string;
     }
 }

@@ -27,13 +27,21 @@
  */
 package cloud.piranha.webapp.impl.tests;
 
-import java.io.UnsupportedEncodingException;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.WebConnection;
+import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for testing everything related to the HttpServletRequest API.
@@ -45,7 +53,7 @@ class HttpServletRequestTest {
     /**
      * Stores the HTTP servlet request.
      */
-    protected HttpServletRequest httpServletRequest;
+    protected TestWebApplicationRequest request;
 
     /**
      * Setup before testing.
@@ -54,50 +62,157 @@ class HttpServletRequestTest {
      */
     @BeforeEach
     void setUp() throws Exception {
-        httpServletRequest = new TestWebApplicationRequest();
+        request = new TestWebApplicationRequest();
     }
 
     /**
-     * Test setCharacterEncoding method.
+     * Test upgrade method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetCharacterEncoding() throws Exception {
-        httpServletRequest.setCharacterEncoding("UTF-8");
-        assertEquals("UTF-8", httpServletRequest.getCharacterEncoding());
+    void testUpgrade() throws Exception {
+        assertNotNull(request.upgrade(TestHandler.class));
     }
 
     /**
-     * Test setCharacterEncoding method.
+     * Test upgrade method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetCharacterEncoding2() throws Exception {
-        assertNull(httpServletRequest.getCharacterEncoding());
-        httpServletRequest.getReader();
-        httpServletRequest.setCharacterEncoding("UTF-8");
-        assertNotEquals("UTF-8", httpServletRequest.getCharacterEncoding());
+    void testUpgrade2() throws Exception {
+        assertThrows(ServletException.class, () -> request.upgrade(TestThrowingHandler.class));
     }
 
     /**
-     * Test setCharacterEncoding method.
-     *
-     * @throws Exception when a serious error occurs.
+     * Test upgrade method.
      */
     @Test
-    void testSetCharacterEncoding3() throws Exception {
-        assertThrows(UnsupportedEncodingException.class, () -> httpServletRequest.setCharacterEncoding("doesnotexist"));
+    void testUpgrade3() throws Exception {
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addServlet("Upgrade", TestHttpUpgradeServlet.class);
+        webApplication.addServletMapping("Upgrade", "/*");
+        webApplication.initialize();
+        webApplication.start();
+        request.setHeader("Upgrade", "YES");
+        request.setMethod("POST");
+        webApplication.service(request, response);
     }
 
-    /**
-     * Test setCharacterEncoding method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testSetCharacterEncoding4() throws Exception {
-        assertThrows(UnsupportedEncodingException.class, () -> httpServletRequest.setCharacterEncoding(null));
+    public static class TestHandler implements HttpUpgradeHandler {
+
+        public TestHandler() {
+        }
+
+        @Override
+        public void init(WebConnection wc) {
+        }
+
+        @Override
+        public void destroy() {
+        }
+    }
+
+    public static class TestThrowingHandler implements HttpUpgradeHandler {
+
+        public TestThrowingHandler() throws IllegalAccessException {
+            throw new IllegalAccessException();
+        }
+
+        @Override
+        public void init(WebConnection wc) {
+        }
+
+        @Override
+        public void destroy() {
+        }
+    }
+
+    public static class TestReadListenerHandler implements HttpUpgradeHandler {
+
+        public TestReadListenerHandler() {
+        }
+
+        @Override
+        public void init(WebConnection conection) {
+            try {
+                ServletInputStream input = conection.getInputStream();
+                ServletOutputStream output = conection.getOutputStream();
+                TestReadListener readListener = new TestReadListener(input, output);
+                input.setReadListener(readListener);
+                output.flush();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
+        @Override
+        public void destroy() {
+        }
+    }
+
+    public static class TestReadListener implements ReadListener {
+
+        private ServletInputStream input = null;
+
+        private ServletOutputStream output = null;
+
+        private static final String DELIMITER = "/";
+
+        public TestReadListener(ServletInputStream input, ServletOutputStream output) {
+            this.input = input;
+            this.output = output;
+        }
+
+        @Override
+        public void onDataAvailable() {
+            try {
+                StringBuilder sb = new StringBuilder();
+                int len = -1;
+                byte b[] = new byte[1024];
+                while (input.isReady() && (len = input.read(b)) != -1) {
+                    String data = new String(b, 0, len);
+                    sb.append(data);
+                }
+                output.println(DELIMITER + sb.toString());
+                output.flush();
+            } catch (Exception ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+
+        @Override
+        public void onAllDataRead() {
+            try {
+                output.close();
+            } catch (Exception ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+
+        @Override
+        public void onError(final Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    public static class TestHttpUpgradeServlet extends HttpServlet {
+
+        @Override
+        public void doPost(
+                HttpServletRequest request, HttpServletResponse response)
+                throws ServletException, IOException {
+
+            if (request.getHeader("Upgrade") != null) {
+                response.setStatus(101);
+                response.setHeader("Upgrade", "YES");
+                response.setHeader("Connection", "Upgrade");
+                request.upgrade(TestReadListenerHandler.class);
+            } else {
+                response.getWriter().println("Not upgraded");
+            }
+        }
     }
 }

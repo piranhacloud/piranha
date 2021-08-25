@@ -36,8 +36,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpUpgradeHandler;
-import jakarta.servlet.http.WebConnection;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -581,56 +579,5 @@ class DefaultHttpServletRequestTest {
                 throw e;
             }
         });
-    }
-
-    /**
-     * Test upgrade method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testUpgrade() throws Exception {
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNotNull(request.upgrade(TestHandler.class));
-    }
-
-    /**
-     * Test upgrade method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testUpgrade2() throws Exception {
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertThrows(ServletException.class, () -> request.upgrade(TestThrowingHandler.class));
-    }
-
-    public static class TestHandler implements HttpUpgradeHandler {
-
-        public TestHandler() {
-        }
-
-        @Override
-        public void init(WebConnection wc) {
-        }
-
-        @Override
-        public void destroy() {
-        }
-    }
-
-    static class TestThrowingHandler implements HttpUpgradeHandler {
-
-        TestThrowingHandler() throws IllegalAccessException {
-            throw new IllegalAccessException();
-        }
-
-        @Override
-        public void init(WebConnection wc) {
-        }
-
-        @Override
-        public void destroy() {
-        }
     }
 }
