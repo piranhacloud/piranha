@@ -65,7 +65,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(HttpWebApplicationServer.class.getPackageName());
-    
+
     /**
      * Stores the request mapper.
      */
@@ -123,7 +123,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         while (headerNames.hasNext()) {
             String name = headerNames.next();
             String value = request.getHeader(name);
-            applicationServerRequest.setHeader(name, value);
+            request.getHeaders(name).forEachRemaining(x -> applicationServerRequest.addHeader(name, x));
             if (name.equalsIgnoreCase("Content-Type")) {
                 applicationServerRequest.setContentType(value);
             }
