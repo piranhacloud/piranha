@@ -214,7 +214,8 @@ public class DefaultInvocationFinder {
             servletInvocation.setPathInfo(null);
         } else if (!mapping.isExtension()) {
             servletInvocation.setServletPath(mapping.getPattern().substring(0, mapping.getPattern().length() - 2));
-            servletInvocation.setPathInfo(path.substring(mapping.getPattern().length() - 2));
+            String newPathInfo = path.substring(mapping.getPattern().length() - 2);
+            servletInvocation.setPathInfo(newPathInfo.isEmpty() ? null : newPathInfo);
         } else {
             servletInvocation.setServletPath(servletPath);
             servletInvocation.setPathInfo(pathInfo);
