@@ -1319,6 +1319,16 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
+     * Add the header.
+     *
+     * @param name the name.
+     * @param value the value (string).
+     */
+    public void addHeader(String name, String value) {
+        headerManager.addHeader(name, value);
+    }
+
+    /**
      * Set the input stream.
      *
      * @param inputStream the input stream.
