@@ -27,19 +27,22 @@
  */
 package cloud.piranha.webapp.impl.tests;
 
-import jakarta.servlet.ServletRequest;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
+import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 import java.io.UnsupportedEncodingException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the ServletRequest API.
- * 
+ * The JUnit tests for testing everything related to the ServletRequest API.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class ServletRequestTest {
@@ -47,7 +50,7 @@ class ServletRequestTest {
     /**
      * Stores the servlet request.
      */
-    protected ServletRequest request;
+    protected TestWebApplicationRequest request;
 
     /**
      * Setup before testing.
@@ -57,6 +60,37 @@ class ServletRequestTest {
     @BeforeEach
     void setUp() throws Exception {
         request = new TestWebApplicationRequest();
+    }
+
+    /**
+     * Test getAsyncContext method.
+     */
+    @Test
+    void testGetAsyncContext() {
+        assertThrows(IllegalStateException.class, () -> request.getAsyncContext());
+    }
+
+    /**
+     * Test getAsyncContext method.
+     */
+    @Test
+    void testGetAsyncContext2() {
+        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        request.setWebApplication(webApplication);
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        request.setAsyncSupported(true);
+        request.startAsync();
+        assertNotNull(request.getAsyncContext());
+    }
+
+    /**
+     * Test getContentLengthLong method.
+     */
+    @Test
+    void testGetContentLengthLong() {
+        assertEquals(-1L, request.getContentLengthLong());
     }
 
     /**
@@ -81,6 +115,24 @@ class ServletRequestTest {
     }
 
     /**
+     * Test getLocale method.
+     */
+    @Test
+    void testGetLocale() {
+        request.setHeader("Accept-Language", "en");
+        assertNotNull(request.getLocale());
+    }
+
+    /**
+     * Test getLocale method.
+     */
+    @Test
+    void testGetLocales() {
+        request.setHeader("Accept-Language", "en, de");
+        assertNotNull(request.getLocales());
+    }
+
+    /**
      * Test getReader method.
      *
      * @throws Exception when a serious error occurs.
@@ -102,12 +154,59 @@ class ServletRequestTest {
     }
 
     /**
+     * Test getRealPath method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetRealPath() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        request.setWebApplication(webApplication);
+        assertThrows(UnsupportedOperationException.class, () -> request.getRealPath("/path"));
+    }
+
+    /**
+     * Test getRequestDispatcher method.
+     */
+    @Test
+    void testGetRequestDispatcher() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
+        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
+        request.setWebApplication(webApp);
+        assertNotNull(request.getRequestDispatcher("/test"));
+    }
+
+    /**
+     * Test isSecure method.
+     */
+    @Test
+    void testIsSecure() {
+        request.setScheme("https");
+        assertTrue(request.isSecure());
+    }
+
+    /**
+     * Test removeAttribute method.
+     */
+    @Test
+    void testRemoveAttribute() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        request.setWebApplication(webApplication);
+        request.setAttribute("name", "value");
+        assertNotNull(request.getAttribute("name"));
+        request.removeAttribute("name");
+        assertNull(request.getAttribute("name"));
+    }
+
+    /**
      * Test setCharacterEncoding method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
     void testSetCharacterEncoding() throws Exception {
+        assertNull(request.getCharacterEncoding());
         request.setCharacterEncoding("UTF-8");
         assertEquals("UTF-8", request.getCharacterEncoding());
     }
@@ -143,5 +242,33 @@ class ServletRequestTest {
     @Test
     void testSetCharacterEncoding4() {
         assertThrows(UnsupportedEncodingException.class, () -> request.setCharacterEncoding(null));
+    }
+
+    /**
+     * Test startAsync method.
+     */
+    @Test
+    void testStartAsync() {
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        request.setAttribute("piranha.response", response);
+        request.setAsyncSupported(false);
+        assertThrows(IllegalStateException.class, () -> request.startAsync(request, response));
+    }
+
+    /**
+     * Test startAsync method.
+     */
+    @Test
+    void testStartAsync2() {
+        assertThrows(IllegalStateException.class, () -> {
+            try {
+                request.setAttribute("piranha.response", new TestWebApplicationResponse());
+                request.setAsyncSupported(false);
+                request.startAsync();
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
+        });
     }
 }

@@ -27,7 +27,9 @@
  */
 package cloud.piranha.webapp.impl.tests;
 
+import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -35,11 +37,18 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpUpgradeHandler;
 import jakarta.servlet.http.WebConnection;
 import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -63,6 +72,216 @@ class HttpServletRequestTest {
     @BeforeEach
     void setUp() throws Exception {
         request = new TestWebApplicationRequest();
+    }
+
+    /**
+     * Test authenticate method.
+     */
+    @Test
+    void testAuthenticate() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.setSecurityManager(new DefaultSecurityManager());
+        request.setWebApplication(webApp);
+        HttpServletResponse response = new TestWebApplicationResponse();
+        try {
+            assertFalse(request.authenticate(response));
+        } catch (IOException | ServletException exception) {
+            fail();
+        }
+    }
+
+    /**
+     * Test authenticate method.
+     */
+    @Test
+    void testAuthenticate2() {
+        try {
+            DefaultSecurityManager securityManager = new DefaultSecurityManager();
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            webApp.setSecurityManager(securityManager);
+            request.setWebApplication(webApp);
+            HttpServletResponse response = new TestWebApplicationResponse();
+            request.authenticate(response);
+        } catch (IOException | ServletException ex) {
+            fail();
+        }
+    }
+
+    /**
+     * Test changeSessionId method.
+     */
+    @Test
+    void testChangeSessionId() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+        webApp.linkRequestAndResponse(request, response);
+        request.setWebApplication(webApp);
+        assertThrows(IllegalStateException.class, () -> request.changeSessionId());
+    }
+
+    /**
+     * Test changeSessionId method.
+     */
+    @Test
+    void testChangeSessionId2() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+        webApp.linkRequestAndResponse(request, response);
+        request.setWebApplication(webApp);
+        HttpSession session = request.getSession(true);
+        String sessionId1 = session.getId();
+        request.setRequestedSessionId(session.getId());
+        String sessionId2 = request.changeSessionId();
+        assertNotEquals(sessionId1, sessionId2);
+    }
+
+    /**
+     * Test changeSessionId method.
+     */
+    @Test
+    void testChangeSessionId3() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        webApp.linkRequestAndResponse(request, response);
+        request.setWebApplication(webApp);
+        HttpSession session = request.getSession(true);
+        String previousSessionId = session.getId();
+        String newSessionId = request.changeSessionId();
+        assertNotEquals(previousSessionId, newSessionId);
+        assertEquals(newSessionId, request.getSession(false).getId());
+    }
+
+    /**
+     * Test getDateHeader method.
+     */
+    @Test
+    void testGetDateHeader() {
+        assertEquals(-1L, request.getDateHeader("notfound"));
+    }
+
+    /**
+     * Test getIntHeader method.
+     */
+    @Test
+    void testGetIntHeader() {
+        assertEquals(-1, request.getIntHeader("notfound"));
+    }
+
+    /**
+     * Test getPart method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetPart() throws Exception {
+        request.setContentType("text/html");
+        assertThrows(ServletException.class, () -> request.getPart("not_there"));
+    }
+
+    /**
+     * Test getPart method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetPart2() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        request.setWebApplication(webApplication);
+        request.setContentType("multipart/form-data");
+        assertNull(request.getPart("not_there"));
+    }
+
+    /**
+     * Test getSession method.
+     */
+    @Test
+    void testGetSession() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        request.setWebApplication(webApp);
+        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setWebApplication(webApp);
+        webApp.linkRequestAndResponse(request, response);
+        HttpSession session = request.getSession(true);
+        request.setRequestedSessionId(session.getId());
+        assertNotNull(request.getSession());
+    }
+
+    /**
+     * Test getSession method.
+     */
+    @Test
+    void testGetSession2() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+        request.setWebApplication(webApp);
+        response.setWebApplication(webApp);
+        webApp.linkRequestAndResponse(request, response);
+        HttpSession session = request.getSession(true);
+        request.setRequestedSessionId(session.getId());
+        assertNotNull(request.getSession(false));
+    }
+
+    /**
+     * Test getSession method.
+     */
+    @Test
+    void testGetSession3() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+        request.setWebApplication(webApp);
+        response.setWebApplication(webApp);
+        webApp.linkRequestAndResponse(request, response);
+        HttpSession session = request.getSession(false);
+        assertNull(session);
+    }
+
+    /**
+     * Test setRequestedSessionIdFromURL method.
+     */
+    @Test
+    void testIsRequestedSessionIdFromUrl() {
+        assertFalse(request.isRequestedSessionIdFromUrl());
+    }
+
+    /**
+     * Test isRequestedSessionIdValid method.
+     */
+    @Test
+    void testIsRequestedSessionIdValid() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+        request.setWebApplication(webApp);
+        response.setWebApplication(webApp);
+        webApp.linkRequestAndResponse(request, response);
+        HttpSession session = request.getSession(true);
+        request.setRequestedSessionId(session.getId());
+        assertTrue(request.isRequestedSessionIdValid());
+    }
+
+    /**
+     * Test isUserInRole method.
+     */
+    @Test
+    void testIsUserInRole() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        request.setWebApplication(webApplication);
+        assertFalse(request.isUserInRole("notmatched"));
+    }
+
+    /**
+     * Test login method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testLogin() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        request.setWebApplication(webApplication);
+        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        securityManager.addUser("username", "password", new String[]{});
+        webApplication.setSecurityManager(securityManager);
+        request.login("username", "password");
+        assertNotNull(request.getUserPrincipal());
     }
 
     /**
