@@ -758,6 +758,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         }
         if (cookie.getMaxAge() > -1) {
             outputStream.write(("; Max-Age=" + cookie.getMaxAge()).getBytes());
+            String expireDate = formatDateToGMT(Instant.now().plusSeconds(cookie.getMaxAge()).toEpochMilli());
+            outputStream.write(("; Expires=" + expireDate).getBytes());
         }
         if (cookie.getSecure()) {
             outputStream.write("; Secure".getBytes());
