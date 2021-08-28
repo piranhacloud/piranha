@@ -120,110 +120,61 @@ public class DefaultHttpSession implements HttpSession {
         this.valid = true;
     }
 
-    /**
-     * {@return the attribute value}
-     * @param name the attribute name.
-     * @see HttpSession#getAttribute(java.lang.String)
-     */
     @Override
     public Object getAttribute(String name) {
         verifyValid("getAttribute");
         return this.attributes.get(name);
     }
 
-    /**
-     * {@return the attribute names}
-     * @see HttpSession#getAttributeNames()
-     */
     @Override
     public Enumeration<String> getAttributeNames() {
         verifyValid("getAttributeNames");
         return Collections.enumeration(attributes.keySet());
     }
 
-    /**
-     * {@return the creation time}
-     * @see HttpSession#getCreationTime()
-     */
     @Override
     public long getCreationTime() {
         verifyValid("getCreationTime");
         return this.creationTime;
     }
 
-    /**
-     * {@return the id}
-     * @see HttpSession#getId()
-     */
     @Override
     public String getId() {
         return this.id;
     }
 
-    /**
-     * {@return the last accessed time}
-     * @see HttpSession#getLastAccessedTime()
-     */
     @Override
     public long getLastAccessedTime() {
         verifyValid("getLastAccessedTime");
         return this.lastAccessedTime;
     }
 
-    /**
-     * {@return the maximum inactive interval}
-     * @see HttpSession#getMaxInactiveInterval()
-     */
     @Override
     public int getMaxInactiveInterval() {
         return this.maxInactiveInterval;
     }
 
-    /**
-     * {@return the servlet context}
-     * @see HttpSession#getServletContext()
-     */
     @Override
     public ServletContext getServletContext() {
         return servletContext;
     }
 
-    /**
-     * Get the session context.
-     *
-     * @return null
-     * @see HttpSession#getSessionContext()
-     */
     @Override
     public HttpSessionContext getSessionContext() {
         return null;
     }
 
-    /**
-     * {@return the value}
-     * @param name the attribute name.
-     * @see HttpSession#getValue(java.lang.String)
-     */
     @Override
     public Object getValue(String name) {
         return getAttribute(name);
     }
 
-    /**
-     * {@return the attribute names}
-     * @see HttpSession#getValueNames()
-     */
     @Override
     public String[] getValueNames() {
         verifyValid("getValueNames");
         return this.attributes.keySet().toArray(new String[0]);
     }
 
-    /**
-     * Invalidate the session.
-     *
-     * @see HttpSession#invalidate()
-     */
     @Override
     public void invalidate() {
         verifyValid("invalidate");
@@ -231,60 +182,28 @@ public class DefaultHttpSession implements HttpSession {
         this.valid = false;
     }
 
-    /**
-     * Is the session new.
-     *
-     * @return true if it is, false otherwise.
-     * @see HttpSession#isNew()
-     */
     @Override
     public boolean isNew() {
         verifyValid("isNew");
         return this.newFlag;
     }
 
-    /**
-     * Set the value.
-     *
-     * @param name the attribute name.
-     * @param value the attribute value.
-     * @see HttpSession#putValue(java.lang.String, java.lang.Object)
-     */
     @Override
     public void putValue(String name, Object value) {
         setAttribute(name, value);
     }
 
-    /**
-     * Remove the attribute.
-     *
-     * @param name the attribute name.
-     * @see HttpSession#removeAttribute(java.lang.String)
-     */
     @Override
     public void removeAttribute(String name) {
         verifyValid("removeAttribute");
         sessionManager.attributeRemoved(this, name, attributes.remove(name));
     }
 
-    /**
-     * Remove the value.
-     *
-     * @param name the attribute name.
-     * @see HttpSession#removeValue(java.lang.String)
-     */
     @Override
     public void removeValue(String name) {
         removeAttribute(name);
     }
 
-    /**
-     * Set the attribute.
-     *
-     * @param name the attribute name.
-     * @param value the attribute value.
-     * @see HttpSession#setAttribute(java.lang.String, java.lang.Object)
-     */
     @Override
     public void setAttribute(String name, Object value) {
         verifyValid("setAttribute");
@@ -313,12 +232,6 @@ public class DefaultHttpSession implements HttpSession {
         this.id = id;
     }
 
-    /**
-     * Set the maximum inactive interval.
-     *
-     * @param maxInactiveInterval the maximum inactive interval.
-     * @see HttpSession#setMaxInactiveInterval(int)
-     */
     @Override
     public void setMaxInactiveInterval(int maxInactiveInterval) {
         this.maxInactiveInterval = maxInactiveInterval;
@@ -352,5 +265,6 @@ public class DefaultHttpSession implements HttpSession {
         if (!valid) {
             throw new IllegalStateException("Session is invalid, called by: " + methodName);
         }
+        lastAccessedTime = System.currentTimeMillis();
     }
 }
