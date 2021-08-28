@@ -39,6 +39,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import jakarta.servlet.SessionCookieConfig;
 import jakarta.servlet.SessionTrackingMode;
+import static jakarta.servlet.SessionTrackingMode.COOKIE;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -49,8 +50,10 @@ import jakarta.servlet.http.HttpSessionBindingListener;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionIdListener;
 import jakarta.servlet.http.HttpSessionListener;
-import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * The default HttpSessionManager.
@@ -139,7 +142,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     public DefaultHttpSessionManager() {
         attributeListeners = new ArrayList<>(1);
-        defaultSessionTrackingModes = EnumSet.of(SessionTrackingMode.COOKIE);
+        defaultSessionTrackingModes = EnumSet.of(COOKIE);
         sessionTrackingModes = defaultSessionTrackingModes;
         idListeners = new ArrayList<>(1);
         name = "JSESSIONID";
@@ -147,6 +150,69 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         sessionTimeout = 10;
         maxAge = -1;
         sessions = new ConcurrentHashMap<>();
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleWithFixedDelay(() -> {
+            reapSessions();
+        }, 30, 30, SECONDS);
+    }
+
+    @Override
+    public <T extends EventListener> void addListener(T listener) {
+        if (listener instanceof HttpSessionAttributeListener httpSessionAttributeListener) {
+            attributeListeners.add(httpSessionAttributeListener);
+        }
+        if (listener instanceof HttpSessionIdListener httpSessionIdListener) {
+            idListeners.add(httpSessionIdListener);
+        }
+        if (listener instanceof HttpSessionListener httpSessionListener) {
+            sessionListeners.add(httpSessionListener);
+        }
+    }
+
+    @Override
+    public void attributeAdded(HttpSession session, String name, Object value) {
+        attributeListeners.stream().forEach(listener -> listener.attributeAdded(new HttpSessionBindingEvent(session, name, value)));
+        if (value instanceof HttpSessionBindingListener httpSessionBindingListener) {
+            httpSessionBindingListener.valueBound(new HttpSessionBindingEvent(session, name));
+        }
+    }
+
+    @Override
+    public void attributeRemoved(HttpSession session, String name, Object value) {
+        attributeListeners.stream().forEach(listener -> listener.attributeRemoved(new HttpSessionBindingEvent(session, name, value)));
+        if (value instanceof HttpSessionBindingListener httpSessionBindingListener) {
+            httpSessionBindingListener.valueUnbound(new HttpSessionBindingEvent(session, name));
+        }
+    }
+
+    @Override
+    public void attributeReplaced(HttpSession session, String name, Object oldValue, Object newValue) {
+        attributeListeners.stream().forEach(listener -> listener.attributeReplaced(new HttpSessionBindingEvent(session, name, oldValue)));
+        if (oldValue instanceof HttpSessionBindingListener httpSessionBindingListener) {
+            httpSessionBindingListener.valueUnbound(new HttpSessionBindingEvent(session, name));
+        }
+        if (newValue instanceof HttpSessionBindingListener httpSessionBindingListener) {
+            httpSessionBindingListener.valueBound(new HttpSessionBindingEvent(session, name));
+        }
+    }
+
+    @Override
+    public String changeSessionId(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            throw new IllegalStateException("No session active");
+        }
+
+        String oldSessionId = session.getId();
+        sessions.remove(oldSessionId);
+        String sessionId = UUID.randomUUID().toString();
+        DefaultHttpSession newSession = (DefaultHttpSession) session;
+        newSession.setId(sessionId);
+        sessions.put(sessionId, session);
+
+        idListeners.stream().forEach(idListener -> idListener.sessionIdChanged(new HttpSessionEvent(session), oldSessionId));
+
+        return sessionId;
     }
 
     @Override
@@ -181,244 +247,107 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     @Override
-    public HttpSession getSession(HttpServletRequest request, String currentSessionId) {
-        return sessions.get(currentSessionId);
-    }
-
-    /**
-     * Change the session id.
-     *
-     * @param request the request.
-     * @return the session id.
-     */
-    @Override
-    public String changeSessionId(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            throw new IllegalStateException("No session active");
-        }
-
-        String oldSessionId = session.getId();
-        sessions.remove(oldSessionId);
-        String sessionId = UUID.randomUUID().toString();
-        DefaultHttpSession newSession = (DefaultHttpSession) session;
-        newSession.setId(sessionId);
-        sessions.put(sessionId, session);
-
-        idListeners.stream().forEach(idListener -> idListener.sessionIdChanged(new HttpSessionEvent(session), oldSessionId));
-
-        return sessionId;
-    }
-
-    /**
-     * Add a listener.
-     *
-     * @param <T> the type.
-     * @param listener the listener.
-     */
-    @Override
-    public <T extends EventListener> void addListener(T listener) {
-        if (listener instanceof HttpSessionAttributeListener) {
-            attributeListeners.add((HttpSessionAttributeListener) listener);
-        }
-
-        if (listener instanceof HttpSessionIdListener) {
-            idListeners.add((HttpSessionIdListener) listener);
-        }
-
-        if (listener instanceof HttpSessionListener) {
-            sessionListeners.add((HttpSessionListener) listener);
-        }
-    }
-
-    /**
-     * Attribute added.
-     *
-     * @param session the HTTP session.
-     * @param name the name.
-     * @param value the value.
-     */
-    @Override
-    public void attributeAdded(HttpSession session, String name, Object value) {
-        attributeListeners.stream().forEach(listener -> listener.attributeAdded(new HttpSessionBindingEvent(session, name, value)));
-        if (value instanceof HttpSessionBindingListener) {
-            ((HttpSessionBindingListener) value).valueBound(new HttpSessionBindingEvent(session, name));
-        }
-    }
-
-    /**
-     * Attribute replaced.
-     *
-     * @param session the HTTP session.
-     * @param name the name.
-     * @param oldValue the old value.
-     * @param newValue the new value.
-     */
-    @Override
-    public void attributeReplaced(HttpSession session, String name, Object oldValue, Object newValue) {
-        attributeListeners.stream().forEach(listener -> listener.attributeReplaced(new HttpSessionBindingEvent(session, name, oldValue)));
-        if (oldValue instanceof HttpSessionBindingListener) {
-            ((HttpSessionBindingListener) oldValue).valueUnbound(new HttpSessionBindingEvent(session, name));
-        }
-        if (newValue instanceof HttpSessionBindingListener) {
-            ((HttpSessionBindingListener) newValue).valueBound(new HttpSessionBindingEvent(session, name));
-        }
-    }
-
-    @Override
-    public void attributeRemoved(HttpSession session, String name, Object value) {
-        attributeListeners.stream().forEach(listener -> listener.attributeRemoved(new HttpSessionBindingEvent(session, name, value)));
-        if (value instanceof HttpSessionBindingListener) {
-            ((HttpSessionBindingListener) value).valueUnbound(new HttpSessionBindingEvent(session, name));
-        }
-    }
-
-    /**
-     * Destroy the session.
-     *
-     * @param session the session.
-     */
-    @Override
     public synchronized void destroySession(HttpSession session) {
-        Enumeration<String> attributeNames = session.getAttributeNames();
-        while(attributeNames.hasMoreElements()) {
-            session.removeAttribute(attributeNames.nextElement());
-        }
         Iterator<HttpSessionListener> iterator = sessionListeners.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             HttpSessionListener sessionListener = iterator.next();
             sessionListener.sessionDestroyed(new HttpSessionEvent(session));
         }
         sessions.remove(session.getId());
     }
 
-    /**
-     * Encode the redirect URL.
-     *
-     * @param response the response.
-     * @param url the redirect url.
-     * @return the encoded redirect url.
-     */
     @Override
     public String encodeRedirectURL(HttpServletResponse response, String url) {
         return url;
     }
 
-    /**
-     * Encode the URL.
-     *
-     * @param response the response.
-     * @param url the url.
-     * @return the encoded url.
-     */
     @Override
     public String encodeURL(HttpServletResponse response, String url) {
         return url;
     }
 
-    /**
-     * {@return the comment}
-     */
     @Override
     public String getComment() {
         return comment;
     }
 
-    /**
-     * {@return the default session tracking modes}
-     */
     @Override
     public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
         return Collections.unmodifiableSet(defaultSessionTrackingModes);
     }
 
-    /**
-     * {@return the domain}
-     */
     @Override
     public String getDomain() {
         return domain;
     }
 
-    /**
-     * {@return the effective session tracking modes}
-     */
     @Override
     public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
         return Collections.unmodifiableSet(sessionTrackingModes);
     }
 
-    /**
-     * {@return the max age}
-     */
     @Override
     public int getMaxAge() {
         return maxAge;
     }
 
-    /**
-     * {@return the name}
-     */
     @Override
     public String getName() {
         return name;
     }
 
-    /**
-     * {@return the path}
-     */
     @Override
     public String getPath() {
         return path;
     }
 
-    /**
-     * {@return the session cookie config}
-     */
+    @Override
+    public HttpSession getSession(HttpServletRequest request, String currentSessionId) {
+        return sessions.get(currentSessionId);
+    }
+
     @Override
     public SessionCookieConfig getSessionCookieConfig() {
         return this;
     }
 
-    /**
-     * Get the session timeout (in minutes).
-     *
-     * @return the session timeout.
-     */
     @Override
     public int getSessionTimeout() {
         return sessionTimeout;
     }
 
-    /**
-     * Has a session with the given id.
-     *
-     * @param sessionId the session id.
-     * @return true if there is one, false otherwise.
-     */
     @Override
     public boolean hasSession(String sessionId) {
         return sessionId != null ? sessions.containsKey(sessionId) : false;
     }
 
-    /**
-     * Is HTTP only?
-     *
-     * @return true if HTTP only, false otherwise.
-     */
     @Override
     public boolean isHttpOnly() {
         return httpOnly;
     }
 
-    /**
-     * Is secure.
-     *
-     * @return the secure flag.
-     */
     @Override
     public boolean isSecure() {
         return secure;
+    }
+
+    /**
+     * Reap any inactive session.
+     */
+    protected void reapSessions() {
+        ArrayList<String> keys = new ArrayList<>();
+        keys.addAll(sessions.keySet());
+        keys.forEach(sessionId -> {
+            HttpSession session = sessions.get(sessionId);
+            if (session != null) {
+                try {
+                    if (session.getLastAccessedTime() + (session.getMaxInactiveInterval() * 1000) < System.currentTimeMillis()) {
+                        session.invalidate();
+                    }
+                } catch (IllegalStateException ise) {
+                }
+            }
+        });
     }
 
     @Override
@@ -477,21 +406,11 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         this.secure = secure;
     }
 
-    /**
-     * Set the session timeout.
-     *
-     * @param sessionTimeout the session timeout.
-     */
     @Override
     public void setSessionTimeout(int sessionTimeout) {
         this.sessionTimeout = sessionTimeout;
     }
 
-    /**
-     * Set the session tracking modes.
-     *
-     * @param sessionTrackingModes the session tracking modes.
-     */
     @Override
     public void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) {
         if (sessionTrackingModes.size() > 1 && sessionTrackingModes.contains(SessionTrackingMode.SSL)) {
@@ -500,11 +419,6 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         this.sessionTrackingModes = Collections.unmodifiableSet(sessionTrackingModes);
     }
 
-    /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
-     */
     @Override
     public void setWebApplication(WebApplication webApplication) {
         this.webApplication = webApplication;
