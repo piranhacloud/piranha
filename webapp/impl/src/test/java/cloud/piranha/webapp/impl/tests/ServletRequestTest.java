@@ -30,7 +30,11 @@ package cloud.piranha.webapp.impl.tests;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequestMapper;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -130,6 +134,24 @@ class ServletRequestTest {
     void testGetLocales() {
         request.setHeader("Accept-Language", "en, de");
         assertNotNull(request.getLocales());
+    }
+
+    @Test
+    void getParameterMap() {
+        request.setInputStream(new ByteArrayInputStream("param1=value1".getBytes(StandardCharsets.UTF_8)));
+        request.setContentType("application/x-www-form-urlencoded");
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        assertEquals(parameterMap.size(), 1);
+        assertArrayEquals(new String[]{"value1"}, parameterMap.get("param1"));
+    }
+
+    @Test
+    void getParameterMap2() {
+        request.setInputStream(new ByteArrayInputStream("param1=value1".getBytes(StandardCharsets.UTF_8)));
+        request.setContentType("application/x-www-form-urlencoded;charset=UTF-8");
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        assertEquals(parameterMap.size(), 1);
+        assertArrayEquals(new String[]{"value1"}, parameterMap.get("param1"));
     }
 
     /**

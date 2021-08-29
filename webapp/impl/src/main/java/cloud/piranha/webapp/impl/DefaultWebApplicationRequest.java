@@ -376,6 +376,17 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         currentSessionId = webApplication.getHttpSessionManager().changeSessionId(this);
         return currentSessionId;
     }
+    
+    @SafeVarargs
+    private <T> T coalesce(T... objects) {
+        for (T object : objects) {
+            if (object != null) {
+                return object;
+            }
+        }
+
+        return null;
+    }
 
     @Override
     public AsyncContext getAsyncContext() {
@@ -385,62 +396,36 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return asyncContext;
     }
 
-    /**
-     * Get the attribute.
-     *
-     * @param name the attribute name.
-     * @return the value.
-     */
     @Override
     public Object getAttribute(String name) {
         return attributeManager.getAttribute(name);
     }
 
-    /**
-     * Get attribute names.
-     *
-     * @return the attribute names.
-     */
     @Override
     public Enumeration<String> getAttributeNames() {
         return attributeManager.getAttributeNames();
     }
 
-    /**
-     * {@return the auth type}
-     */
     @Override
     public String getAuthType() {
         return authType;
     }
 
-    /**
-     * {@return the character encoding}
-     */
     @Override
     public String getCharacterEncoding() {
         return characterEncoding;
     }
 
-    /**
-     * {@return the content length}
-     */
     @Override
     public int getContentLength() {
         return (int) contentLength;
     }
 
-    /**
-     * {@return the content length}
-     */
     @Override
     public long getContentLengthLong() {
         return contentLength;
     }
 
-    /**
-     * {@return the content type}
-     */
     @Override
     public String getContentType() {
         return contentType;
@@ -451,9 +436,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return contextPath;
     }
 
-    /**
-     * {@return the cookies}
-     */
     @Override
     public Cookie[] getCookies() {
         Cookie[] result = null;
@@ -466,48 +448,26 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return result;
     }
 
-    /**
-     * {@return the date header}
-     * @param name the header name.
-     */
     @Override
     public long getDateHeader(String name) {
         return headerManager.getDateHeader(name);
     }
 
-    /**
-     * {@return the dispatcher type}
-     */
     @Override
     public DispatcherType getDispatcherType() {
         return dispatcherType;
     }
 
-    /**
-     * Get the header.
-     *
-     * @param name the header name.
-     * @return the header value.
-     */
     @Override
     public String getHeader(String name) {
         return headerManager.getHeader(name);
     }
 
-    /**
-     * {@return the header names}
-     */
     @Override
     public Enumeration<String> getHeaderNames() {
         return headerManager.getHeaderNames();
     }
 
-    /**
-     * Get the headers.
-     *
-     * @param name the header name.
-     * @return the header values.
-     */
     @Override
     public Enumeration<String> getHeaders(String name) {
         return headerManager.getHeaders(name);
@@ -525,12 +485,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.httpServletMapping = httpServletMapping;
     }
 
-    /**
-     * Get the input stream.
-     *
-     * @return the input stream.
-     * @throws IOException when a serious I/O error occurs.
-     */
     @Override
     public ServletInputStream getInputStream() throws IOException {
         ServletInputStream result;
@@ -544,44 +498,26 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return result;
     }
 
-    /**
-     * {@return the int header}
-     * @param name the name.
-     */
     @Override
     public int getIntHeader(String name) {
         return headerManager.getIntHeader(name);
     }
 
-    /**
-     * {@return the local address}
-     */
     @Override
     public String getLocalAddr() {
         return localAddress;
     }
 
-    /**
-     * {@return the local name}
-     */
     @Override
     public String getLocalName() {
         return localName;
     }
 
-    /**
-     * {@return the local port}
-     */
     @Override
     public int getLocalPort() {
         return localPort;
     }
 
-    /**
-     * Get locale.
-     *
-     * @return the locale.
-     */
     @Override
     public Locale getLocale() {
         Locale result = Locale.getDefault();
@@ -599,9 +535,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return result;
     }
 
-    /**
-     * {@return the locales}
-     */
     @Override
     public Enumeration<Locale> getLocales() {
         ArrayList<Locale> locales = new ArrayList<>();
@@ -663,10 +596,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return Collections.enumeration(parameters.keySet());
     }
 
-    /**
-     * {@return the parameter values}
-     * @param name the parameter name.
-     */
     @Override
     public String[] getParameterValues(String name) {
         getParametersFromRequest();
@@ -775,71 +704,38 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return queryStringFromAttribute + "&" + queryString;
     }
 
-    /**
-     * Get the part.
-     *
-     * @param name the name.
-     * @return the part, or null.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a servlet error occurs.
-     */
     @Override
     public Part getPart(String name) throws IOException, ServletException {
         verifyMultipartFormData();
         return webApplication.getMultiPartManager().getPart(webApplication, this, name);
     }
 
-    /**
-     * Get the parts.
-     *
-     * @return the parts.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a servlet error occurs.
-     */
     @Override
     public Collection<Part> getParts() throws IOException, ServletException {
         verifyMultipartFormData();
         return webApplication.getMultiPartManager().getParts(webApplication, this);
     }
 
-    /**
-     * {@return the path info}
-     */
     @Override
     public String getPathInfo() {
         return pathInfo;
     }
 
-    /**
-     * {@return the translated path}
-     */
     @Override
     public String getPathTranslated() {
         return null;
     }
 
-    /**
-     * {@return the protocol}
-     */
     @Override
     public String getProtocol() {
         return protocol;
     }
 
-    /**
-     * {@return the query string}
-     */
     @Override
     public String getQueryString() {
         return queryString;
     }
 
-    /**
-     * Get the reader.
-     *
-     * @return the reader.
-     * @throws IOException when a serious I/O error occurs.
-     */
     @Override
     public BufferedReader getReader() throws IOException {
         if (!gotInputStream) {
@@ -867,45 +763,27 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
     }
 
-
-    /**
-     * {@return the real path}
-     * @param path the path.
-     * @deprecated
-     */
     @Deprecated
     @Override
     public String getRealPath(String path) {
         throw new UnsupportedOperationException("HttpServletRequest.getRealPath is no longer supported");
     }
 
-    /**
-     * {@return the remote address}
-     */
     @Override
     public String getRemoteAddr() {
         return remoteAddr;
     }
 
-    /**
-     * {@return the remote host}
-     */
     @Override
     public String getRemoteHost() {
         return remoteHost;
     }
 
-    /**
-     * {@return the remote port}
-     */
     @Override
     public int getRemotePort() {
         return remotePort;
     }
 
-    /**
-     * {@return the remote user}
-     */
     @Override
     public String getRemoteUser() {
         String result = null;
@@ -915,10 +793,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return result;
     }
 
-    /**
-     * {@return the request dispatcher}
-     * @param path the path.
-     */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
         Path rootContext = Paths.get(getContextPath());
@@ -928,9 +802,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return webApplication.getRequestDispatcher(resolved.toString());
     }
 
-    /**
-     * {@return the request URI}
-     */
     @Override
     public String getRequestURI() {
         return addOrRemoveSlashIfNeeded(
@@ -939,9 +810,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
             coalesce(pathInfo, ""));
     }
 
-    /**
-     * {@return the request URL}
-     */
     @Override
     public StringBuffer getRequestURL() {
         StringBuffer result = new StringBuffer();
@@ -955,57 +823,36 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return result;
     }
 
-    /**
-     * {@return the requested session id}
-     */
     @Override
     public String getRequestedSessionId() {
         return requestedSessionId;
     }
 
-    /**
-     * {@return the scheme}
-     */
     @Override
     public String getScheme() {
         return scheme;
     }
 
-    /**
-     * {@return the server name}
-     */
     @Override
     public String getServerName() {
         return serverName;
     }
 
-    /**
-     * {@return the server port}
-     */
     @Override
     public int getServerPort() {
         return serverPort;
     }
 
-    /**
-     * {@return the servlet context}
-     */
     @Override
     public WebApplication getServletContext() {
         return webApplication;
     }
 
-    /**
-     * {@return the servlet path}
-     */
     @Override
     public String getServletPath() {
         return servletPath;
     }
 
-    /**
-     * {@return the session}
-     */
     @Override
     public HttpSession getSession() {
         return getSession(true);
@@ -1034,71 +881,37 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return upgradeHandler;
     }
 
-    /**
-     * {@return the user principal}
-     */
     @Override
     public Principal getUserPrincipal() {
         return userPrincipal;
     }
 
-    /**
-     * Is async started.
-     *
-     * @return is async started.
-     */
     @Override
     public boolean isAsyncStarted() {
         return asyncStarted;
     }
 
-    /**
-     * Is async supported.
-     *
-     * @return true if is async is supported.
-     */
     @Override
     public boolean isAsyncSupported() {
         return asyncSupported;
     }
 
-    /**
-     * Is the requested session id from cookie.
-     *
-     * @return if the requested session id from cookie.
-     */
     @Override
     public boolean isRequestedSessionIdFromCookie() {
         return requestedSessionIdFromCookie;
     }
 
-    /**
-     * Is the requested session id from the request url.
-     *
-     * @return if the requested session id from the request url.
-     */
     @Override
     public boolean isRequestedSessionIdFromURL() {
         return requestedSessionIdFromURL;
     }
 
-    /**
-     * Is the requested session id from the request url.
-     *
-     * @return if the requested session id from the request url.
-     * @deprecated
-     */
     @Deprecated
     @Override
     public boolean isRequestedSessionIdFromUrl() {
         return isRequestedSessionIdFromURL();
     }
 
-    /**
-     * Is the requested session id valid?
-     *
-     * @return true if it is, false otherwise.
-     */
     @Override
     public boolean isRequestedSessionIdValid() {
         boolean result = false;
@@ -1109,11 +922,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return result;
     }
 
-    /**
-     * Is the request secure.
-     *
-     * @return is the request secure.
-     */
     @Override
     public boolean isSecure() {
         return "https".equals(scheme);
@@ -1124,44 +932,21 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return upgraded;
     }
 
-    /**
-     * Is the user in the specified role.
-     *
-     * @param role the role.
-     * @return if the user in the specified role.
-     */
     @Override
     public boolean isUserInRole(String role) {
         return webApplication.getSecurityManager().isUserInRole(this, role);
     }
 
-    /**
-     * Login.
-     *
-     * @param username the username.
-     * @param password the password.
-     * @throws ServletException when a serious error occurs.
-     */
     @Override
     public void login(String username, String password) throws ServletException {
         webApplication.getSecurityManager().login(this, username, password);
     }
 
-    /**
-     * Logout.
-     *
-     * @throws ServletException when a serious error occurs.
-     */
     @Override
     public void logout() throws ServletException {
         webApplication.getSecurityManager().logout(this, (HttpServletResponse) this.webApplication.getResponse(this));
     }
 
-    /**
-     * Remove the attribute.
-     *
-     * @param name the name.
-     */
     @Override
     public void removeAttribute(String name) {
         Object oldValue = attributeManager.getAttribute(name);
@@ -1180,12 +965,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.asyncSupported = asyncSupported;
     }
 
-    /**
-     * Set the attribute.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
     @Override
     public void setAttribute(String name, Object value) {
         if (value != null) {
@@ -1221,12 +1000,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.authType = authType;
     }
 
-    /**
-     * Set the character encoding.
-     *
-     * @param characterEncoding the character encoding.
-     * @throws UnsupportedEncodingException when the encoding is not supported.
-     */
     @Override
     public void setCharacterEncoding(String characterEncoding) throws UnsupportedEncodingException {
         boolean supported = false;
@@ -1298,11 +1071,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
     }
 
-    /**
-     * Set the dispatcher type.
-     *
-     * @param dispatcherType the dispatcher type.
-     */
     @Override
     public void setDispatcherType(DispatcherType dispatcherType) {
         this.dispatcherType = dispatcherType;
@@ -1534,12 +1302,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.webApplication = webApplication;
     }
 
-    /**
-     * Start async.
-     *
-     * @return the async context.
-     * @throws IllegalStateException when async is not supported.
-     */
     @Override
     public AsyncContext startAsync() throws IllegalStateException {
         if (!isAsyncSupported()) {
@@ -1574,14 +1336,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.asyncStarted = asyncStarted;
     }
 
-    /**
-     * Start async.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @return the async context.
-     * @throws IllegalStateException when async is not supported.
-     */
     @Override
     public AsyncContext startAsync(ServletRequest request, ServletResponse response) throws IllegalStateException {
         requireNonNull(request); requireNonNull(response);
@@ -1616,15 +1370,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return asyncContext;
     }
 
-    /**
-     * Upgrade the request.
-     *
-     * @param <T> the type.
-     * @param handlerClass the handler class.
-     * @return the upgrade handler.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a serious error occurs.
-     */
     @SuppressWarnings("unchecked")
     @Override
     public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException {
@@ -1651,31 +1396,16 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     // -------------------------------------------------------------------------
     //  ServletInputStream methods
     // -------------------------------------------------------------------------
-    /**
-     * Is the Servlet input stream finished?
-     *
-     * @return true if it is, false otherwise.
-     */
     @Override
     public boolean isFinished() {
         return finished;
     }
 
-    /**
-     * Is the Servlet input stream ready?
-     *
-     * @return true if it is, false otherwise.
-     */
     @Override
     public boolean isReady() {
         return true;
     }
 
-    /**
-     * Set the read listener.
-     *
-     * @param listener the read listener.
-     */
     @Override
     public void setReadListener(ReadListener listener) {
         if (listener == null) {
@@ -1690,12 +1420,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.readListener = listener;
     }
 
-    /**
-     * Read from the Servlet input stream.
-     *
-     * @return the read value.
-     * @throws IOException when an I/O error occurs.
-     */
     @Override
     public int read() throws IOException {
         if (finished || getContentLength() == 0) {
@@ -1723,16 +1447,5 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         String requestURI = getRequestURI();
         String queryString = getQueryString();
         return queryString == null ? requestURI : requestURI + "?" + queryString;
-    }
-    
-    @SafeVarargs
-    private <T> T coalesce(T... objects) {
-        for (T object : objects) {
-            if (object != null) {
-                return object;
-            }
-        }
-
-        return null;
     }
 }

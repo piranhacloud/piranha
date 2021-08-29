@@ -30,7 +30,6 @@ package cloud.piranha.webapp.impl.tests;
 import cloud.piranha.http.api.HttpServerRequest;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 

@@ -28,9 +28,7 @@
 package cloud.piranha.webapp.impl.tests;
 
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.http.HttpSessionListener;
 import java.util.EventListener;
