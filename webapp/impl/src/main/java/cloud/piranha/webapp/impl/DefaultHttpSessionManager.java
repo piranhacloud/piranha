@@ -153,7 +153,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleWithFixedDelay(() -> {
             reapSessions();
-        }, 30, 30, SECONDS);
+        }, 5, 5, SECONDS);
     }
 
     @Override
