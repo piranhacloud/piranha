@@ -860,6 +860,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     @Override
     public HttpSession getSession(boolean create) {
+        if (webApplication == null)
+            return null;
         HttpSession session = null;
         HttpSessionManager manager = webApplication.getHttpSessionManager();
         if (currentSessionId == null && requestedSessionId != null) {

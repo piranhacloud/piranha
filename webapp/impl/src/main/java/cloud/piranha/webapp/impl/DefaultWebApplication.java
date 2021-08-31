@@ -1548,6 +1548,10 @@ public class DefaultWebApplication implements WebApplication {
         // Dispatch using the REQUEST dispatch type. This will invoke the Servlet and/or Filters if present and available.
         getInvocationDispatcher(servletInvocation).request(webAppRequest, webAppResponse);
 
+        if (webAppRequest.getSession(false) instanceof DefaultHttpSession session) {
+            session.setLastAccessedTime(System.currentTimeMillis());
+        }
+
         requestDestroyed(request);
         unlinkRequestAndResponse(request, response);
         
