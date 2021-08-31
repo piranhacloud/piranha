@@ -37,26 +37,24 @@ import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 
 /**
- * The default {@link cloud.piranha.webapp.api.WebApplicationExtension} used to
- * configure a web application.
+ * The default WebApplicationExtension used to configure a web application.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @see cloud.piranha.webapp.api.WebApplicationExtension
  */
 public class ServletExtension implements WebApplicationExtension {
 
-    /**
-     * Extend the web application.
-     *
-     * @param context the context.
-     */
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(AnnotationScanExtension.class);
-        context.add(WaspExtension.class);
         context.add(WebXmlExtension.class);
         context.add(WebAnnotationsExtension.class);
         context.add(TempDirExtension.class);
         context.add(ServletContainerInitializerExtension.class);
+        /*
+         * We need to be added after the ServletContainerInitializer extension
+         * as we ONLY want to initialize WaSP when no explicit *.jsp mapping has
+         * been done.
+         */
+        context.add(WaspExtension.class);
     }
 }
