@@ -265,6 +265,14 @@ public class DefaultHttpSession implements HttpSession {
         if (!valid) {
             throw new IllegalStateException("Session is invalid, called by: " + methodName);
         }
-        lastAccessedTime = System.currentTimeMillis();
+    }
+
+    /**
+     * Set the last accessed time.
+     *
+     * @param lastAccessedTime the last accessed time.
+     */
+    public void setLastAccessedTime(long lastAccessedTime) {
+        this.lastAccessedTime = lastAccessedTime;
     }
 }
