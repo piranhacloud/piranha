@@ -46,6 +46,7 @@ import org.omnifaces.exousia.constraints.transformer.ElementsToConstraintsTransf
 import org.omnifaces.exousia.mapping.SecurityRoleRef;
 
 import cloud.piranha.extension.webxml.WebXml;
+import cloud.piranha.extension.webxml.WebXmlSecurityConstraint;
 import cloud.piranha.extension.webxml.WebXmlServlet;
 import cloud.piranha.extension.webxml.WebXmlServletSecurityRoleRef;
 import jakarta.servlet.ServletSecurityElement;
@@ -116,10 +117,10 @@ public class PiranhaToExousiaConverter {
 
         List<SecurityConstraint> constraints = new ArrayList<>();
 
-        for (WebXml.SecurityConstraint xmlConstraint : webXml.getSecurityConstraints()) {
+        for (WebXmlSecurityConstraint xmlConstraint : webXml.getSecurityConstraints()) {
 
             List<WebResourceCollection> webResourceCollections = new ArrayList<>();
-            for (WebXml.SecurityConstraint.WebResourceCollection xmlCollection : xmlConstraint.getWebResourceCollections()) {
+            for (WebXmlSecurityConstraint.WebResourceCollection xmlCollection : xmlConstraint.getWebResourceCollections()) {
                 webResourceCollections.add(new WebResourceCollection(
                         xmlCollection.getUrlPatterns(),
                         xmlCollection.getHttpMethods(),

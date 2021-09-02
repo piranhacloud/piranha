@@ -582,10 +582,10 @@ public class WebXmlParser {
 
     private void processSecurityConstraint(WebXml webXml, XPath xPath, Node rootNode) {
         try {
-            WebXml.SecurityConstraint securityConstraint = new WebXml.SecurityConstraint();
+            WebXmlSecurityConstraint securityConstraint = new WebXmlSecurityConstraint();
 
             for (Node node : parseNodes(xPath, "web-resource-collection", rootNode)) {
-                WebXml.SecurityConstraint.WebResourceCollection webResourceCollection = new WebXml.SecurityConstraint.WebResourceCollection();
+                WebXmlSecurityConstraint.WebResourceCollection webResourceCollection = new WebXmlSecurityConstraint.WebResourceCollection();
 
                 for (String urlPattern : parseStrings(xPath, URL_PATTERN_TEXT_SELECTOR, node)) {
                     webResourceCollection.getUrlPatterns().add(urlPattern);
