@@ -34,7 +34,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -70,9 +69,7 @@ public class DefaultResourceManager implements ResourceManager {
     @Override
     public URL getResource(String location) throws MalformedURLException {
         URL result = null;
-        Iterator<Resource> iterator = resources.iterator();
-        while (iterator.hasNext()) {
-            Resource resource = iterator.next();
+        for (Resource resource : resources) {
             result = resource.getResource(location);
             if (result != null) {
                 break;
@@ -96,9 +93,7 @@ public class DefaultResourceManager implements ResourceManager {
     @Override
     public Collection<URL> getResources(String location) throws MalformedURLException {
         ArrayList<URL> result = new ArrayList<>();
-        Iterator<Resource> iterator = resources.iterator();
-        while (iterator.hasNext()) {
-            Resource resource = iterator.next();
+        for (Resource resource : resources) {
             URL url = resource.getResource(location);
             if (url != null) {
                 result.add(url);
@@ -120,9 +115,7 @@ public class DefaultResourceManager implements ResourceManager {
     @Override
     public InputStream getResourceAsStream(String location) {
         InputStream result = null;
-        Iterator<Resource> iterator = resources.iterator();
-        while (iterator.hasNext()) {
-            Resource resource = iterator.next();
+        for (Resource resource : resources) {
             result = resource.getResourceAsStream(location);
             if (result != null) {
                 break;

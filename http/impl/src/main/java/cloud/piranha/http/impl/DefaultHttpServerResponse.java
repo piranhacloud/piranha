@@ -153,9 +153,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
 
     @Override
     public void writeHeaders() throws IOException {
-        Iterator<String> names = headers.keySet().iterator();
-        while (names.hasNext()) {
-            String name = names.next();
+        for (String name : headers.keySet()) {
             writeHeader(name);
         }
         OutputStream output = getOutputStream();

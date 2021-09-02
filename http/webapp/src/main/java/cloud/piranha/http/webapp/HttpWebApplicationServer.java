@@ -91,9 +91,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      * @param contextPath the context path.
      */
     public void addMapping(String servletContextName, String contextPath) {
-        Iterator<WebApplication> webApps = webApplications.values().iterator();
-        while (webApps.hasNext()) {
-            WebApplication webApp = webApps.next();
+        for (WebApplication webApp : webApplications.values()) {
             if (webApp.getServletContextName().equals(servletContextName)) {
                 requestMapper.addMapping(webApp, contextPath);
                 break;

@@ -814,9 +814,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         writeContentType();
         writeContentLanguage();
         writeCookies();
-        Iterator<String> names = getHeaderNames().iterator();
-        while (names.hasNext()) {
-            String name = names.next();
+        for (String name : getHeaderNames()) {
             writeHeader(name);
         }
         outputStream.write("\n".getBytes());
