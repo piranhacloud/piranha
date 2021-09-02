@@ -100,9 +100,7 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processContextParameters(WebApplication webApplication, WebXml webXml) {
-        Iterator<WebXmlContextParam> iterator = webXml.getContextParams().iterator();
-        while (iterator.hasNext()) {
-            WebXmlContextParam contextParam = iterator.next();
+        for (WebXmlContextParam contextParam : webXml.getContextParams()) {
             webApplication.setInitParameter(contextParam.name(), contextParam.value());
         }
     }
@@ -156,9 +154,7 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processErrorPages(WebApplication webApplication, WebXml webXml) {
-        Iterator<WebXmlErrorPage> iterator = webXml.getErrorPages().iterator();
-        while (iterator.hasNext()) {
-            WebXmlErrorPage errorPage = iterator.next();
+        for (WebXmlErrorPage errorPage : webXml.getErrorPages()) {
             if (errorPage.errorCode() != null && !errorPage.errorCode().isEmpty()) {
                 webApplication.addErrorPage(Integer.parseInt(errorPage.errorCode()), errorPage.location());
             } else if (errorPage.exceptionType() != null && !errorPage.exceptionType().isEmpty()) {
@@ -236,9 +232,7 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processListeners(WebApplication webApplication, WebXml webXml) {
-        Iterator<WebXmlListener> iterator = webXml.getListeners().iterator();
-        while (iterator.hasNext()) {
-            WebXmlListener listener = iterator.next();
+        for (WebXmlListener listener : webXml.getListeners()) {
             webApplication.addListener(listener.className());
         }
     }
@@ -250,9 +244,7 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processMimeMappings(WebApplication webApplication, WebXml webXml) {
-        Iterator<WebXmlMimeMapping> mappingIterator = webXml.getMimeMappings().iterator();
-        while (mappingIterator.hasNext()) {
-            WebXmlMimeMapping mapping = mappingIterator.next();
+        for (WebXmlMimeMapping mapping : webXml.getMimeMappings()) {
             webApplication.getMimeTypeManager()
                     .addMimeType(mapping.extension(), mapping.mimeType());
         }
@@ -293,9 +285,7 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processServletMappings(WebApplication webApplication, WebXml webXml) {
-        Iterator<WebXmlServletMapping> iterator = webXml.getServletMappings().iterator();
-        while (iterator.hasNext()) {
-            WebXmlServletMapping mapping = iterator.next();
+        for (WebXmlServletMapping mapping : webXml.getServletMappings()) {
             webApplication.addServletMapping(
                     mapping.servletName(), mapping.urlPattern());
         }
@@ -326,9 +316,7 @@ public class WebXmlProcessor {
     private void processServlets(WebApplication webApplication, WebXml webXml) {
         LOGGER.log(DEBUG, "Configuring Servlets");
 
-        Iterator<WebXmlServlet> iterator = webXml.getServlets().iterator();
-        while (iterator.hasNext()) {
-            WebXmlServlet servlet = iterator.next();
+        for (WebXmlServlet servlet : webXml.getServlets()) {
             LOGGER.log(DEBUG, () -> "Configuring Servlet: " + servlet.getServletName());
 
             ServletRegistration.Dynamic dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
