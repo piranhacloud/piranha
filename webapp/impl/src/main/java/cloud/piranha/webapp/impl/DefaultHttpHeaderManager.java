@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -133,9 +132,7 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     @Override
     public Enumeration<String> getHeaderNames() {
         List<String> names = new ArrayList<>();
-        Iterator<DefaultHttpHeader> iterator = headers.values().iterator();
-        while (iterator.hasNext()) {
-            DefaultHttpHeader header = iterator.next();
+        for (DefaultHttpHeader header : headers.values()) {
             names.add(header.getName());
         }
         return Collections.enumeration(names);

@@ -70,9 +70,8 @@ public class UndertowHttpRequest implements HttpServerRequest {
     public Iterator<String> getHeaderNames() {
         if (headerNames == null) {
             headerNames = new ArrayList<>();
-            Iterator<HttpString> names = exchange.getRequestHeaders().getHeaderNames().iterator();
-            while(names.hasNext()) {
-                headerNames.add(names.next().toString());
+            for (HttpString httpString : exchange.getRequestHeaders().getHeaderNames()) {
+                headerNames.add(httpString.toString());
             }
         }
         return headerNames.iterator();

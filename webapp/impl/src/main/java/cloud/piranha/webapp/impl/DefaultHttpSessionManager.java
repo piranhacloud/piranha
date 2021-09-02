@@ -50,7 +50,6 @@ import jakarta.servlet.http.HttpSessionBindingListener;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionIdListener;
 import jakarta.servlet.http.HttpSessionListener;
-import java.util.Iterator;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -248,9 +247,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
 
     @Override
     public synchronized void destroySession(HttpSession session) {
-        Iterator<HttpSessionListener> iterator = sessionListeners.iterator();
-        while (iterator.hasNext()) {
-            HttpSessionListener sessionListener = iterator.next();
+        for (HttpSessionListener sessionListener : sessionListeners) {
             sessionListener.sessionDestroyed(new HttpSessionEvent(session));
         }
         sessions.remove(session.getId());
