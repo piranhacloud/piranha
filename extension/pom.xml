@@ -31,7 +31,7 @@
         <module>scinitializer</module>
         <module>security-file</module>
         <module>security-jakarta</module>
-        <module>servlet</module>
+        <module>server</module>
         <module>smallrye-health</module>
         <module>soteria</module>
         <module>tempdir</module>

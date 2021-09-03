@@ -132,10 +132,10 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Piranha Servlet extension -->
+        <!-- Piranha Server extension -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-servlet</artifactId>
+            <artifactId>piranha-extension-server</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

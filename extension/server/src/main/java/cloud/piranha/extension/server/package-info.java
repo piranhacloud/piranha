@@ -25,36 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.servlet;
-
-import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.extension.tempdir.TempDirExtension;
-import cloud.piranha.extension.wasp.WaspExtension;
-import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
-import cloud.piranha.extension.webxml.WebXmlExtension;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.api.WebApplicationExtensionContext;
-
 /**
- * The default WebApplicationExtension used to configure a web application.
+ * <p>
+ * This package contains the default
+ * {@link cloud.piranha.webapp.api.WebApplicationExtension} used to configure a
+ * web application.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletExtension implements WebApplicationExtension {
-
-    @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(AnnotationScanExtension.class);
-        context.add(WebXmlExtension.class);
-        context.add(WebAnnotationsExtension.class);
-        context.add(TempDirExtension.class);
-        context.add(ServletContainerInitializerExtension.class);
-        /*
-         * We need to be added after the ServletContainerInitializer extension
-         * as we ONLY want to initialize WaSP when no explicit *.jsp mapping has
-         * been done.
-         */
-        context.add(WaspExtension.class);
-    }
-}
+package cloud.piranha.extension.server;

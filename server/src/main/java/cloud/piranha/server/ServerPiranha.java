@@ -43,7 +43,7 @@ import java.lang.System.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import cloud.piranha.extension.servlet.ServletExtension;
+import cloud.piranha.extension.server.ServerExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.modular.ModuleLayerProcessor;
@@ -220,7 +220,7 @@ public class ServerPiranha implements Runnable {
 
                         if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                             DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                            extensionContext.add(ServletExtension.class);
+                            extensionContext.add(ServerExtension.class);
                             extensionContext.configure(webApplication);
                         } else {
                             DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
