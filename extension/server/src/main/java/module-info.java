@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Extension - Servlet module.
+ * The Piranha Extension - Server module.
  * 
  * <p>
  *  This module delivers everything a Servlet container should have available as
@@ -45,9 +45,9 @@
  *  <li>Web.xml support</li>
  * </ul>
  */
-module cloud.piranha.extension.servlet {
+module cloud.piranha.extension.server {
     
-    exports cloud.piranha.extension.servlet;
+    exports cloud.piranha.extension.server;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.tempdir;

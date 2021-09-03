@@ -34,7 +34,7 @@ module cloud.piranha.server2 {
     exports cloud.piranha.server2;
     requires cloud.piranha.micro.embedded;
     requires cloud.piranha.micro.loader;
-    requires cloud.piranha.extension.servlet;
+    requires cloud.piranha.extension.server;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.naming.impl;
