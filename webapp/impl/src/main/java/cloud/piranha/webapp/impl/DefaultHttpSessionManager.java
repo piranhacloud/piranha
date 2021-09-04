@@ -227,7 +227,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         if (path != null) {
             cookie.setPath(path);
         } else {
-            cookie.setPath("".equals(webApplication.getContextPath()) ? "/" : webApplication.getContextPath());
+            cookie.setPath("".equals(request.getContextPath()) ? "/" : request.getContextPath());
         }
 
         cookie.setComment(comment);
