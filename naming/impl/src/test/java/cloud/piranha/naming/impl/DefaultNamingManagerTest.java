@@ -45,7 +45,7 @@ public class DefaultNamingManagerTest {
      * @throws NamingException when a naming error occurs.
      */
     @Test
-    public void testGetInitialContext() throws NamingException {
+    void testGetInitialContext() throws NamingException {
         DefaultNamingManager manager = new DefaultNamingManager(new InitialContext() {});
         assertNotNull(manager.getContext());
     }

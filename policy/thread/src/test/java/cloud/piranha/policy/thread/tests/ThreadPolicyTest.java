@@ -42,13 +42,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ThreadPolicyTest {
-    
+class ThreadPolicyTest {
+
     /**
      * Test getParameters method.
      */
     @Test
-    public void testGetParameters() {
+    void testGetParameters() {
         ThreadPolicy policy = new ThreadPolicy();
         try {
             ThreadPolicy.setPolicy(Policy.getInstance("JavaPolicy", null));
@@ -64,7 +64,7 @@ public class ThreadPolicyTest {
      * Test getPermissions method.
      */
     @Test
-    public void testGetPermissions() {
+    void testGetPermissions() {
         ThreadPolicy policy = new ThreadPolicy();
         try {
             ThreadPolicy.setPolicy(Policy.getInstance("JavaPolicy", null));
@@ -80,7 +80,7 @@ public class ThreadPolicyTest {
      * Test getPermissions method.
      */
     @Test
-    public void testGetPermissions2() {
+    void testGetPermissions2() {
         ThreadPolicy policy = new ThreadPolicy();
         try {
             ThreadPolicy.setPolicy(Policy.getInstance("JavaPolicy", null));
@@ -96,7 +96,7 @@ public class ThreadPolicyTest {
      * Test getProvider method.
      */
     @Test
-    public void testGetProvider() {
+    void testGetProvider() {
         ThreadPolicy policy = new ThreadPolicy();
         try {
             ThreadPolicy.setPolicy(Policy.getInstance("JavaPolicy", null));
@@ -112,7 +112,7 @@ public class ThreadPolicyTest {
      * Test getType method.
      */
     @Test
-    public void testGetType() {
+    void testGetType() {
         ThreadPolicy policy = new ThreadPolicy();
         try {
             ThreadPolicy.setPolicy(Policy.getInstance("JavaPolicy", null));
@@ -128,7 +128,7 @@ public class ThreadPolicyTest {
      * Test implies method.
      */
     @Test
-    public void testImplies() {
+    void testImplies() {
         ThreadPolicy policy = new ThreadPolicy();
         try {
             ThreadPolicy.setPolicy(Policy.getInstance("JavaPolicy", null));
@@ -144,7 +144,7 @@ public class ThreadPolicyTest {
      * Test refresh method.
      */
     @Test
-    public void testRefresh() {
+    void testRefresh() {
         ThreadPolicy policy = new ThreadPolicy();
         try {
             ThreadPolicy.setPolicy(Policy.getInstance("JavaPolicy", null));

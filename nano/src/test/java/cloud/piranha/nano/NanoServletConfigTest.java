@@ -36,13 +36,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoServletConfigTest {
+class NanoServletConfigTest {
 
     /**
      * Test getServletName method.
      */
     @Test
-    public void testGetServletName() {
+    void testGetServletName() {
         NanoServletConfig config = new NanoServletConfig(null);
         assertNotNull(config.getServletName());
     }

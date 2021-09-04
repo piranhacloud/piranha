@@ -36,13 +36,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultPolicyManagerTest {
-    
+class DefaultPolicyManagerTest {
+
     /**
      * Test getPolicy method.
      */
     @Test
-    public void testGetPolicy() {
+    void testGetPolicy() {
         DefaultPolicyManager manager = new DefaultPolicyManager(null);
         assertNull(manager.getPolicy());
     }
