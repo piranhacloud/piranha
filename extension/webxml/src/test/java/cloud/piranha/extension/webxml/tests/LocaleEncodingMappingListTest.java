@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class LocaleEncodingMappingListTest {
+class LocaleEncodingMappingListTest {
 
     /**
      * Test getCharacterEncoding.
@@ -49,7 +49,7 @@ public class LocaleEncodingMappingListTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetCharacterEncoding() throws Exception {
+    void testGetCharacterEncoding() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/localeEncodingMappingList1")));
         webApplication.addInitializer(new WebXmlInitializer());

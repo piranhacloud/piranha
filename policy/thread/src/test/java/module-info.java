@@ -25,33 +25,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml.tests;
 
-import cloud.piranha.extension.webxml.WebXmlInitializer;
-import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import java.io.File;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
-
-/**
- * The JUnit tests testing the effective major version.
- * 
- * @author Manfred Riem (mriem@manorrock.com)
- */
-public class EffectiveMajorVersionTest {
-
-    /**
-     * Test the effective major version.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testEffectiveMajorVersion() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/effectiveMajorVersion1")));
-        webApplication.addInitializer(new WebXmlInitializer());
-        webApplication.initialize();
-        assertEquals(5, webApplication.getEffectiveMajorVersion());
-    }
+open module cloud.piranha.policy.thread.tests {
+    requires cloud.piranha.policy.thread;
+    requires org.junit.jupiter.api;
 }

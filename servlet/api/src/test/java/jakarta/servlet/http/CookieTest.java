@@ -45,7 +45,7 @@ class CookieTest {
      * Test constructor.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Cookie("$illegal", "value");
         });
@@ -55,7 +55,7 @@ class CookieTest {
      * Test constructor.
      */
     @Test
-    public void testConstructor2() {
+    void testConstructor2() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Cookie(",illegal", "value");
         });
@@ -65,7 +65,7 @@ class CookieTest {
      * Test constructor.
      */
     @Test
-    public void testConstructor3() {
+    void testConstructor3() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Cookie(";illegal", "value");
         });
@@ -75,7 +75,7 @@ class CookieTest {
      * Test constructor.
      */
     @Test
-    public void testConstructor4() {
+    void testConstructor4() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Cookie(" illegal", "value");
         });
@@ -85,7 +85,7 @@ class CookieTest {
      * Test constructor.
      */
     @Test
-    public void testConstructor5() {
+    void testConstructor5() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Cookie("\tillegal", "value");
         });
@@ -95,7 +95,7 @@ class CookieTest {
      * Test constructor.
      */
     @Test
-    public void testConstructor6() {
+    void testConstructor6() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Cookie("\nillegal", "value");
         });

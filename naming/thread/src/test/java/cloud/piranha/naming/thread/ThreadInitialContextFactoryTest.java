@@ -38,13 +38,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ThreadInitialContextFactoryTest {
+class ThreadInitialContextFactoryTest {
 
     /**
      * Test getInitialContext method.
      */
     @Test
-    public void testGetInitialContext() {
+    void testGetInitialContext() {
         ThreadInitialContextFactory factory = new ThreadInitialContextFactory();
         assertThrows(NamingException.class, () -> {
             factory.getInitialContext(null);
@@ -57,7 +57,7 @@ public class ThreadInitialContextFactoryTest {
      * @throws NamingException when a naming error occurs.
      */
     @Test
-    public void testGetInitialContext2() throws NamingException {
+    void testGetInitialContext2() throws NamingException {
         ThreadInitialContextFactory factory = new ThreadInitialContextFactory();
         ThreadInitialContextFactory.setInitialContext(new InitialContext() {});
         assertNotNull(factory.getInitialContext(null));
