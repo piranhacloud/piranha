@@ -50,7 +50,7 @@ public class WithoutLeadingSlashTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testWithoutLeadingSlash() throws Exception {
+    void testWithoutLeadingSlash() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/withoutLeadingSlash1")));
         webApplication.addInitializer(new WebXmlInitializer());

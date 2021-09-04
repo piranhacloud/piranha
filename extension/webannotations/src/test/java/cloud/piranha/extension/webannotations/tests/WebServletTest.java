@@ -47,7 +47,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebServletTest {
+class WebServletTest {
 
     /**
      * Test @WebServlet annotation.
@@ -55,7 +55,7 @@ public class WebServletTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testWebServletUrl1() throws Exception {
+    void testWebServletUrl1() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
@@ -80,7 +80,7 @@ public class WebServletTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testWebServletUrl1b() throws Exception {
+    void testWebServletUrl1b() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
@@ -105,7 +105,7 @@ public class WebServletTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testWebServletUrl2() throws Exception {
+    void testWebServletUrl2() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
@@ -130,7 +130,7 @@ public class WebServletTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testWebServletUrl2b() throws Exception {
+    void testWebServletUrl2b() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
@@ -155,7 +155,7 @@ public class WebServletTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testWebServletUrl3() throws Exception {
+    void testWebServletUrl3() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
@@ -180,7 +180,7 @@ public class WebServletTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testWebServletUrl3b() throws Exception {
+    void testWebServletUrl3b() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader

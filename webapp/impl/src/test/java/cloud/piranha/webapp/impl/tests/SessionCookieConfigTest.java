@@ -54,7 +54,7 @@ public class SessionCookieConfigTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testServletContextListener() throws Exception {
+    void testServletContextListener() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.getHttpSessionManager().setWebApplication(webApplication);
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
@@ -84,7 +84,7 @@ public class SessionCookieConfigTest {
         }
     }
 
-    public class TestServletContextListenerServlet extends HttpServlet {
+    public static class TestServletContextListenerServlet extends HttpServlet {
 
         @Override
         protected void service(HttpServletRequest request,
@@ -103,7 +103,7 @@ public class SessionCookieConfigTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testSetName() throws Exception {
+    void testSetName() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.getHttpSessionManager().setWebApplication(webApplication);
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
@@ -124,7 +124,7 @@ public class SessionCookieConfigTest {
         webApplication.stop();
     }
 
-    public class TestSetNameServlet extends HttpServlet {
+    public static class TestSetNameServlet extends HttpServlet {
 
         @Override
         protected void service(HttpServletRequest request,
@@ -141,7 +141,7 @@ public class SessionCookieConfigTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testSetSecure() throws Exception {
+    void testSetSecure() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.getHttpSessionManager().setWebApplication(webApplication);
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
@@ -162,7 +162,7 @@ public class SessionCookieConfigTest {
         webApplication.stop();
     }
 
-    public class TestSetSecureServlet extends HttpServlet {
+    public static class TestSetSecureServlet extends HttpServlet {
 
         @Override
         protected void service(HttpServletRequest request,
