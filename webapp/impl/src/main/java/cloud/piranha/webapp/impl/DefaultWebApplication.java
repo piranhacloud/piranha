@@ -38,6 +38,7 @@ import cloud.piranha.resource.api.ResourceManager;
 import cloud.piranha.webapp.api.AnnotationInfo;
 import cloud.piranha.webapp.api.AnnotationManager;
 import cloud.piranha.webapp.api.AsyncManager;
+import cloud.piranha.webapp.api.AuthenticationManager;
 import cloud.piranha.webapp.api.HttpRequestManager;
 import cloud.piranha.webapp.api.HttpSessionManager;
 import cloud.piranha.webapp.api.JspManager;
@@ -369,6 +370,11 @@ public class DefaultWebApplication implements WebApplication {
      * moment of writing it's not clear why this tainted mode is needed.
      */
     protected boolean tainted;
+    
+    /**
+     * Stores the authentication manager.
+     */
+    protected AuthenticationManager authenticationManager;
 
     /**
      * The source object where this web application instance originates from, i.e. the artifact this
@@ -2040,6 +2046,11 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public PolicyManager getPolicyManager() {
         return policyManager;
+    }
+
+    @Override
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
     }
 
     @Override
