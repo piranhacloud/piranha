@@ -490,6 +490,13 @@ public interface WebApplication extends ServletContext {
     void stop();
 
     /**
+     * Set the authentication manager.
+     * 
+     * @param authenticationManager the authentication manager.
+     */
+    void setAuthenticationManager(AuthenticationManager authenticationManager);
+
+    /**
      * Unlink the request and response.
      *
      * @param request the request.

@@ -61,7 +61,7 @@ public class FileSecurityInitializer implements ServletContainerInitializer {
         }
         if (userFile.exists()) {
             Properties userProperties = new Properties();
-            try (FileInputStream fileInput = new FileInputStream(userFile)) {
+            try ( FileInputStream fileInput = new FileInputStream(userFile)) {
                 userProperties.load(fileInput);
             } catch (IOException ioe) {
             }
@@ -71,14 +71,14 @@ public class FileSecurityInitializer implements ServletContainerInitializer {
                 securityManager.addUser(username, password);
             });
         }
-        
+
         File userRoleFile = new File("userrole.properties");
         if (!userRoleFile.exists()) {
             userRoleFile = new File("etc/userrole.properties");
         }
         if (userRoleFile.exists()) {
             Properties userRoleProperties = new Properties();
-            try (FileInputStream fileInput = new FileInputStream(userRoleFile)) {
+            try ( FileInputStream fileInput = new FileInputStream(userRoleFile)) {
                 userRoleProperties.load(fileInput);
             } catch (IOException ioe) {
             }
@@ -87,7 +87,12 @@ public class FileSecurityInitializer implements ServletContainerInitializer {
                 String roles = (String) entry.getValue();
                 securityManager.addUserRole(username, roles.split(","));
             });
-            
+
         }
+
+        webApplication.setAuthenticationManager(new FileAuthenticationManager(userFile));
+        webApplication.addFilter(
+                FileAuthenticationFilter.class.getName(),
+                FileAuthenticationFilter.class);
     }
 }
