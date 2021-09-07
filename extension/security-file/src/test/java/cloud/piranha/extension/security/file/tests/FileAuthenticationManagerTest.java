@@ -29,8 +29,10 @@ package cloud.piranha.extension.security.file.tests;
 
 import cloud.piranha.extension.security.file.FileAuthenticationManager;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import static jakarta.servlet.http.HttpServletRequest.BASIC_AUTH;
 import static jakarta.servlet.http.HttpServletRequest.FORM_AUTH;
 import java.io.File;
+import java.util.Base64;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
@@ -48,6 +50,23 @@ public class FileAuthenticationManagerTest {
      */
     @Test
     public void testAuthenticate() throws Exception {
+        FileAuthenticationManager manager = new FileAuthenticationManager(
+                new File("src/test/authmanager/authenticate0/users.properties"));
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setAuthType(BASIC_AUTH);
+        byte[] authBytes = "joe:password".getBytes();
+        String authBase64 = Base64.getEncoder().encodeToString(authBytes);
+        request.setHeader("Authorization", "Basic " + authBase64);
+        assertTrue(manager.authenticate(request, null));
+    }
+
+    /**
+     * Test authenticate method.
+     *
+     * @throws Exception when an error occurs.
+     */
+    @Test
+    public void testAuthenticate2() throws Exception {
         FileAuthenticationManager manager = new FileAuthenticationManager(
                 new File("src/test/authmanager/authenticate0/users.properties"));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();

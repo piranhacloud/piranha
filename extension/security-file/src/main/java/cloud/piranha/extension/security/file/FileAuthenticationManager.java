@@ -32,12 +32,15 @@ import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultSecurityPrincipal;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import static jakarta.servlet.http.HttpServletRequest.BASIC_AUTH;
 import static jakarta.servlet.http.HttpServletRequest.FORM_AUTH;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -49,14 +52,19 @@ import java.util.Properties;
 public class FileAuthenticationManager implements AuthenticationManager {
 
     /**
-     * Stores the users file.
+     * Stores the Base64 decoder.
      */
-    private File usersFile;
+    private Decoder decoder = Base64.getDecoder();
 
     /**
      * Stores the logins.
      */
     private final HashMap<String, String> logins = new HashMap<>();
+
+    /**
+     * Stores the users file.
+     */
+    private File usersFile;
 
     /**
      * Constructor.
@@ -65,7 +73,6 @@ public class FileAuthenticationManager implements AuthenticationManager {
      */
     public FileAuthenticationManager(File usersFile) {
         this.usersFile = usersFile;
-
         Properties userProperties = new Properties();
         try ( FileInputStream fileInput = new FileInputStream(usersFile)) {
             userProperties.load(fileInput);
@@ -83,6 +90,9 @@ public class FileAuthenticationManager implements AuthenticationManager {
             HttpServletResponse response) throws IOException, ServletException {
         if (request.getAuthType() != null) {
             switch (request.getAuthType()) {
+                case BASIC_AUTH -> {
+                    return authenticateBasic(request, response);
+                }
                 case FORM_AUTH -> {
                     return authenticateForm(request, response);
                 }
@@ -92,14 +102,35 @@ public class FileAuthenticationManager implements AuthenticationManager {
     }
 
     /**
-     * Authenticate FORM based.
+     * Authenticate using BASIC auth.
+     *
+     * @param request the request,
+     * @param response the response.
+     */
+    private boolean authenticateBasic(HttpServletRequest request,
+            HttpServletResponse response) throws IOException, ServletException {
+        boolean result = false;
+        if (request.getHeader("Authorization") != null) {
+            String decodedString = new String(decoder.decode(
+                    request.getHeader("Authorization").substring("Basic ".length())));
+            String username = decodedString.substring(0, decodedString.indexOf(':'));
+            String password = decodedString.substring(decodedString.indexOf(':') + 1);
+            login(request, username, password);
+            if (request.getUserPrincipal() != null) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Authenticate using FORM based.
      *
      * @param request the request,
      * @param response the response.
      */
     private boolean authenticateForm(HttpServletRequest request,
             HttpServletResponse response) throws IOException, ServletException {
-
         boolean result = false;
         String username = request.getParameter("j_username");
         String password = request.getParameter("j_password");
