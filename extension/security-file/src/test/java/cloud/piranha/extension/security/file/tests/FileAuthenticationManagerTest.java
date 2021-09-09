@@ -29,11 +29,15 @@ package cloud.piranha.extension.security.file.tests;
 
 import cloud.piranha.extension.security.file.FileAuthenticationManager;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import jakarta.servlet.ServletException;
 import static jakarta.servlet.http.HttpServletRequest.BASIC_AUTH;
+import static jakarta.servlet.http.HttpServletRequest.CLIENT_CERT_AUTH;
+import static jakarta.servlet.http.HttpServletRequest.DIGEST_AUTH;
 import static jakarta.servlet.http.HttpServletRequest.FORM_AUTH;
 import java.io.File;
 import java.util.Base64;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -70,10 +74,57 @@ public class FileAuthenticationManagerTest {
         FileAuthenticationManager manager = new FileAuthenticationManager(
                 new File("src/test/authmanager/authenticate0/users.properties"));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setAuthType(CLIENT_CERT_AUTH);
+        assertThrows(ServletException.class, () -> {
+            manager.authenticate(request, null);
+        });
+    }
+
+    /**
+     * Test authenticate method.
+     *
+     * @throws Exception when an error occurs.
+     */
+    @Test
+    public void testAuthenticate3() throws Exception {
+        FileAuthenticationManager manager = new FileAuthenticationManager(
+                new File("src/test/authmanager/authenticate0/users.properties"));
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setAuthType(DIGEST_AUTH);
+        request.setHeader("Authorization", "Digest ");
+        assertThrows(ServletException.class, () -> {
+            manager.authenticate(request, null);
+        });
+    }
+
+    /**
+     * Test authenticate method.
+     *
+     * @throws Exception when an error occurs.
+     */
+    @Test
+    public void testAuthenticate4() throws Exception {
+        FileAuthenticationManager manager = new FileAuthenticationManager(
+                new File("src/test/authmanager/authenticate0/users.properties"));
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setAuthType(FORM_AUTH);
         request.setParameter("j_username", new String[]{"joe"});
         request.setParameter("j_password", new String[]{"password"});
         assertTrue(manager.authenticate(request, null));
+    }
+
+    /**
+     * Test authenticate method.
+     */
+    @Test
+    public void testAuthenticate5() {
+        FileAuthenticationManager manager = new FileAuthenticationManager(
+                new File("src/test/authmanager/authenticate0/users.properties"));
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setAuthType("MyOwn");
+        assertThrows(ServletException.class, () -> {
+            manager.authenticate(request, null);
+        });
     }
 
     /**
