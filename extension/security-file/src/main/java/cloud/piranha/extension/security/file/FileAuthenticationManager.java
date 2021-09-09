@@ -33,6 +33,8 @@ import cloud.piranha.webapp.impl.DefaultSecurityPrincipal;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import static jakarta.servlet.http.HttpServletRequest.BASIC_AUTH;
+import static jakarta.servlet.http.HttpServletRequest.CLIENT_CERT_AUTH;
+import static jakarta.servlet.http.HttpServletRequest.DIGEST_AUTH;
 import static jakarta.servlet.http.HttpServletRequest.FORM_AUTH;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
@@ -93,12 +95,18 @@ public class FileAuthenticationManager implements AuthenticationManager {
                 case BASIC_AUTH -> {
                     return authenticateBasic(request, response);
                 }
+                case CLIENT_CERT_AUTH -> {
+                    return authenticateClientCert(request, response);
+                }
+                case DIGEST_AUTH -> {
+                    return authenticateDigest(request, response);
+                }
                 case FORM_AUTH -> {
                     return authenticateForm(request, response);
                 }
             }
         }
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new ServletException("AuthType '" + request.getAuthType() + "' is not supported");
     }
 
     /**
@@ -121,6 +129,28 @@ public class FileAuthenticationManager implements AuthenticationManager {
             }
         }
         return result;
+    }
+
+    /**
+     * Authenticate using CLIENT_CERT auth.
+     *
+     * @param request the request,
+     * @param response the response.
+     */
+    private boolean authenticateClientCert(HttpServletRequest request,
+            HttpServletResponse response) throws IOException, ServletException {
+        throw new ServletException("AuthType '" + request.getAuthType() + "' is not supported yet");
+    }
+
+    /**
+     * Authenticate using DIGEST auth.
+     *
+     * @param request the request,
+     * @param response the response.
+     */
+    private boolean authenticateDigest(HttpServletRequest request,
+            HttpServletResponse response) throws IOException, ServletException {
+        throw new ServletException("AuthType '" + request.getAuthType() + "' is not supported yet");
     }
 
     /**
