@@ -71,4 +71,12 @@ public interface AuthenticationManager {
      */
     void logout(HttpServletRequest request, HttpServletResponse response)
             throws ServletException;
+
+    /**
+     * Determine if the request needs authentication.
+     * 
+     * @param request the request.
+     * @return true if it does, false otherwise.
+     */
+    boolean needsAuthentication(HttpServletRequest request);
 }

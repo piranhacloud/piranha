@@ -197,4 +197,9 @@ public class FileAuthenticationManager implements AuthenticationManager {
             webAppRequest.setUserPrincipal(null);
         }
     }
+
+    @Override
+    public boolean needsAuthentication(HttpServletRequest request) {
+        return false;
+    }
 }

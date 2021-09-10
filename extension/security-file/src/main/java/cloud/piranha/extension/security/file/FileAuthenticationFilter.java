@@ -27,11 +27,13 @@
  */
 package cloud.piranha.extension.security.file;
 
-import jakarta.servlet.Filter;
+import cloud.piranha.webapp.api.AuthenticationManager;
+import cloud.piranha.webapp.api.WebApplication;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -39,11 +41,21 @@ import java.io.IOException;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class FileAuthenticationFilter implements Filter {
+public class FileAuthenticationFilter extends HttpFilter {
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain) throws IOException, ServletException {
-        chain.doFilter(request, response);
+    protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+
+        WebApplication webApp = (WebApplication) request.getServletContext();
+        AuthenticationManager authManager = webApp.getAuthenticationManager();
+        
+        if (request.getUserPrincipal() != null) {
+            chain.doFilter(request, response);
+        } else if (authManager.needsAuthentication(request)) {
+            chain.doFilter(request, response);
+        } else {
+            chain.doFilter(request, response);
+        }
     }
 }

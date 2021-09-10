@@ -388,6 +388,7 @@ public class DefaultWebApplication implements WebApplication {
     public DefaultWebApplication() {
         annotationManager = new DefaultAnnotationManager();
         asyncManager = new DefaultAsyncManager();
+        authenticationManager = new DefaultAuthenticationManager();
         attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
         contextAttributeListeners = new ArrayList<>(1);
@@ -2034,8 +2035,9 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    private boolean isEmpty(String string) {
-        return string == null || string.isEmpty();
+    @Override
+    public AuthenticationManager getAuthenticationManager() {
+        return authenticationManager;
     }
 
     @Override
@@ -2046,6 +2048,10 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public PolicyManager getPolicyManager() {
         return policyManager;
+    }
+
+    private boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
     }
 
     @Override
