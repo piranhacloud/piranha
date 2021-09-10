@@ -161,6 +161,11 @@ public interface WebApplication extends ServletContext {
     AsyncManager getAsyncManager();
 
     /**
+     * {@return the authentication manager}
+     */
+    AuthenticationManager getAuthenticationManager();
+
+    /**
      * {@return the default Servlet}
      */
     Servlet getDefaultServlet();

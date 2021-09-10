@@ -57,4 +57,9 @@ public class DefaultAuthenticationManager implements AuthenticationManager {
             throws ServletException {
         throw new ServletException("Logout is not supported");
     }
+
+    @Override
+    public boolean needsAuthentication(HttpServletRequest request) {
+        return false;
+    }
 }
