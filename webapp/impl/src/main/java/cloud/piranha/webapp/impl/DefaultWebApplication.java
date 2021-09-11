@@ -484,6 +484,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public void addInitializer(String className) {
+        LOGGER.log(DEBUG, "Adding ServletContainerInitializer: " + className);
         try {
             @SuppressWarnings("unchecked")
             Class<ServletContainerInitializer> clazz = (Class<ServletContainerInitializer>) getClassLoader().loadClass(className);

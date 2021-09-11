@@ -94,5 +94,8 @@ public class FileSecurityInitializer implements ServletContainerInitializer {
         webApplication.addFilter(
                 FileAuthenticationFilter.class.getName(),
                 FileAuthenticationFilter.class);
+        webApplication.addFilterMapping(
+                FileAuthenticationFilter.class.getName(),
+                "/*");
     }
 }
