@@ -52,6 +52,13 @@ public interface AuthenticationManager {
             HttpServletResponse response) throws IOException, ServletException;
     
     /**
+     * Add security mapping.
+     * 
+     * @param urlPattern the URL pattern.
+     */
+    void addSecurityMapping(String urlPattern);
+    
+    /**
      * Login.
      * 
      * @param request the request.

@@ -27,6 +27,7 @@
  */
 package cloud.piranha.extension.webxml;
 
+import cloud.piranha.webapp.api.AuthenticationManager;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.TRACE;
 import static java.util.stream.Collectors.toSet;
@@ -84,6 +85,7 @@ public class WebXmlProcessor {
         processRequestCharacterEncoding(webApplication, webXml);
         processResponseCharacterEncoding(webApplication, webXml);
         processRoleNames(webApplication, webXml);
+        processSecurityConstraints(webApplication, webXml);
         processServlets(webApplication, webXml);
         processServletMappings(webApplication, webXml);
         processWebApp(webApplication, webXml);
@@ -399,5 +401,22 @@ public class WebXmlProcessor {
 
     private boolean isEmpty(String string) {
         return string == null || string.isEmpty();
+    }
+
+    /**
+     * Process the security constraints.
+     * 
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processSecurityConstraints(WebApplication webApplication, WebXml webXml) {
+        AuthenticationManager manager = webApplication.getAuthenticationManager();
+        for(WebXmlSecurityConstraint constraint : webXml.getSecurityConstraints()) {
+            for(WebXmlSecurityConstraint.WebResourceCollection collection : constraint.getWebResourceCollections()) {
+                for(String urlPattern : collection.getUrlPatterns()) {
+                    manager.addSecurityMapping(urlPattern);
+                }
+            }
+        }
     }
 }

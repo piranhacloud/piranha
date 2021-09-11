@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Properties;
 
 /**
@@ -62,6 +63,11 @@ public class FileAuthenticationManager implements AuthenticationManager {
      * Stores the logins.
      */
     private final HashMap<String, String> logins = new HashMap<>();
+    
+    /**
+     * Stores the security mappings.
+     */
+    private final LinkedHashMap<String, String> securityMappings = new LinkedHashMap<>();
 
     /**
      * Stores the users file.
@@ -85,6 +91,11 @@ public class FileAuthenticationManager implements AuthenticationManager {
             String password = (String) entry.getValue();
             logins.put(username, password);
         });
+    }
+
+    @Override
+    public void addSecurityMapping(String urlPattern) {
+        this.securityMappings.put(urlPattern, urlPattern);
     }
 
     @Override

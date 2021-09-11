@@ -25,45 +25,44 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.impl;
+package cloud.piranha.extension.security.file.tests;
 
-import cloud.piranha.webapp.api.AuthenticationManager;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.extension.security.file.FileSecurityInitializer;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
+import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.webapp.impl.DefaultWebApplication;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import org.junit.jupiter.api.Test;
 
 /**
- * The default AuthenticationManager.
- *
+ * The JUnit tests for BASIC authentication.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultAuthenticationManager implements AuthenticationManager {
-
-    @Override
-    public boolean authenticate(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException, ServletException {
-        throw new ServletException("Authenticate is not supported");
-    }
-
-    @Override
-    public void login(HttpServletRequest request, String username, 
-            String password) throws ServletException {
-        throw new ServletException("Login is not supported");
-    }
-
-    @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException {
-        throw new ServletException("Logout is not supported");
-    }
-
-    @Override
-    public boolean needsAuthentication(HttpServletRequest request) {
-        return false;
-    }
-
-    @Override
-    public void addSecurityMapping(String urlPattern) {
+public class BasicTest {
+    
+    /**
+     * Test getUserPrincipal method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testGetUserPrincipal() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource("src/test/webapp/basic_user_principal"));
+        EmbeddedRequest request = new EmbeddedRequest();
+        request.setWebApplication(webApplication);
+        EmbeddedResponse response = new EmbeddedResponse();
+        response.setBodyOnly(true);
+        response.setWebApplication(webApplication);
+        webApplication.addInitializer(FileSecurityInitializer.class.getName());
+        webApplication.addInitializer(WebXmlInitializer.class.getName());
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
+        webApplication.stop();
+        assertNotEquals("The user principal is: joe", response.getResponseAsString());
     }
 }

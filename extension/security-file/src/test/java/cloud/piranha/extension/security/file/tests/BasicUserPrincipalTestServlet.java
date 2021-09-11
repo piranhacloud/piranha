@@ -25,45 +25,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.impl;
+package cloud.piranha.extension.security.file.tests;
 
-import cloud.piranha.webapp.api.AuthenticationManager;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
- * The default AuthenticationManager.
- *
+ * The Servlet for testing getting the user principal with BASIC auth.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultAuthenticationManager implements AuthenticationManager {
+public class BasicUserPrincipalTestServlet extends HttpServlet {
 
     @Override
-    public boolean authenticate(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException, ServletException {
-        throw new ServletException("Authenticate is not supported");
-    }
-
-    @Override
-    public void login(HttpServletRequest request, String username, 
-            String password) throws ServletException {
-        throw new ServletException("Login is not supported");
-    }
-
-    @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException {
-        throw new ServletException("Logout is not supported");
-    }
-
-    @Override
-    public boolean needsAuthentication(HttpServletRequest request) {
-        return false;
-    }
-
-    @Override
-    public void addSecurityMapping(String urlPattern) {
+    public void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        out.println("The user principal is: " + request.getUserPrincipal().getName());
     }
 }
