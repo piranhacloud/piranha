@@ -88,7 +88,7 @@ public class WebAnnotationsInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication webApp = (WebApplication) servletContext;
 
-        AnnotationManager annotationManager = webApp.getAnnotationManager();
+        AnnotationManager annotationManager = webApp.getManager(AnnotationManager.class);
 
         // Process @WebServlet
 

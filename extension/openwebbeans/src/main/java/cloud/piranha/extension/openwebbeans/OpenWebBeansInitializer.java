@@ -27,6 +27,7 @@
  */
 package cloud.piranha.extension.openwebbeans;
 
+import cloud.piranha.webapp.api.ObjectInstanceManager;
 import cloud.piranha.webapp.api.WebApplication;
 import java.util.Set;
 import jakarta.servlet.ServletContainerInitializer;
@@ -51,6 +52,6 @@ public class OpenWebBeansInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         servletContext.addListener("org.apache.webbeans.servlet.WebBeansConfigurationListener");
         WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setObjectInstanceManager(new OpenWebBeansObjectInstanceManager());
+        webApplication.setManager(ObjectInstanceManager.class, new OpenWebBeansObjectInstanceManager());
     }
 }

@@ -158,16 +158,10 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected static final int ERROR = 3;
 
-
     /**
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(DefaultWebApplication.class.getName());
-
-    /**
-     * Stores the async manager.
-     */
-    protected AsyncManager asyncManager;
 
     /**
      * Stores the class loader.
@@ -246,11 +240,6 @@ public class DefaultWebApplication implements WebApplication {
     protected final Map<String, Object> attributes;
 
     /**
-     * Stores the locale encoding manager
-     */
-    protected LocaleEncodingManager localeEncodingManager;
-
-    /**
      * Stores the servlet environments
      */
     protected final Map<String, DefaultServletEnvironment> servletEnvironments;
@@ -281,17 +270,6 @@ public class DefaultWebApplication implements WebApplication {
      */
     protected final List<ServletRequestListener> requestListeners;
 
-    // ### Managers
-    /**
-     * Stores the object instance manager.
-     */
-    protected ObjectInstanceManager objectInstanceManager;
-
-    /**
-     * Stores the annotation manager.
-     */
-    protected AnnotationManager annotationManager;
-
     /**
      * Stores the resource manager.
      */
@@ -308,73 +286,25 @@ public class DefaultWebApplication implements WebApplication {
     protected DefaultErrorPageManager errorPageManager;
 
     /**
-     * Stores the security manager.
-     */
-    protected SecurityManager securityManager;
-
-    /**
-     * Stores the JSP manager.
-     */
-    protected JspManager jspManager;
-
-    /**
-     * Stores the logging manager.
-     */
-    protected LoggingManager loggingManager;
-
-    /**
      * Stores the request manager.
      */
     protected HttpRequestManager httpRequestManager;
-
-    /**
-     * Stores the mime type manager.
-     */
-    protected MimeTypeManager mimeTypeManager;
-
-    /**
-     * Stores the multi part manager.
-     */
-    protected MultiPartManager multiPartManager;
-    
-    /**
-     * Stores the Policy manager.
-     */
-    protected PolicyManager policyManager;
-
-    /**
-     * Stores the request character encoding.
-     */
-    protected String requestCharacterEncoding;
-
-    /**
-     * Stores the web application request mapper.
-     */
-    protected WebApplicationRequestMapper webApplicationRequestMapper;
-
-    /**
-     * Stores the welcome file manager.
-     */
-    protected WelcomeFileManager welcomeFileManager;
 
     /**
      * Stores the invocation finder, which finds a Servlet, Filter(chain) and variants thereof to invoke
      * for a given request path.
      */
     protected DefaultInvocationFinder invocationFinder;
-
-    /**
-     * When we're in tainted mode, we have to throw exceptions for a large number of methods.
-     *
-     * Tainted mode is required for ServletContextListeners which have not been declared. At the
-     * moment of writing it's not clear why this tainted mode is needed.
-     */
-    protected boolean tainted;
     
     /**
-     * Stores the authentication manager.
+     * Stores the managers.
      */
-    protected AuthenticationManager authenticationManager;
+    protected HashMap<String, Object> managers;
+
+    /**
+     * Stores the request character encoding.
+     */
+    protected String requestCharacterEncoding;
 
     /**
      * The source object where this web application instance originates from, i.e. the artifact this
@@ -383,12 +313,35 @@ public class DefaultWebApplication implements WebApplication {
     protected Object source;
 
     /**
+     * When we're in tainted mode, we have to throw exceptions for a large number of methods.
+     *
+     * Tainted mode is required for ServletContextListeners which have not been declared. At the
+     * moment of writing it's not clear why this tainted mode is needed.
+     */
+    protected boolean tainted;
+
+    /**
+     * Stores the web application request mapper.
+     */
+    protected WebApplicationRequestMapper webApplicationRequestMapper;
+
+    /**
      * Constructor.
      */
     public DefaultWebApplication() {
-        annotationManager = new DefaultAnnotationManager();
-        asyncManager = new DefaultAsyncManager();
-        authenticationManager = new DefaultAuthenticationManager();
+        managers = new HashMap<>();
+        managers.put(AnnotationManager.class.getName(), new DefaultAnnotationManager());
+        managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
+        managers.put(AuthenticationManager.class.getName(), new DefaultAuthenticationManager());
+        managers.put(JspManager.class.getName(), new DefaultJspFileManager());
+        managers.put(MimeTypeManager.class.getName(), new DefaultMimeTypeManager());
+        managers.put(LocaleEncodingManager.class.getName(),  new DefaultLocaleEncodingManager());
+        managers.put(LoggingManager.class.getName(), new DefaultLoggingManager());
+        managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());
+        managers.put(ObjectInstanceManager.class.getName(), new DefaultObjectInstanceManager());
+        managers.put(PolicyManager.class.getName(), new DefaultPolicyManager());
+        managers.put(SecurityManager.class.getName(), new DefaultSecurityManager());
+        managers.put(WelcomeFileManager.class.getName(), new DefaultWelcomeFileManager());
         attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
         contextAttributeListeners = new ArrayList<>(1);
@@ -401,24 +354,15 @@ public class DefaultWebApplication implements WebApplication {
         httpRequestManager = new DefaultHttpRequestManager();
         initParameters = new ConcurrentHashMap<>(1);
         initializers = new ArrayList<>(1);
-        jspManager = new DefaultJspFileManager();
-        loggingManager = new DefaultLoggingManager();
-        mimeTypeManager = new DefaultMimeTypeManager();
-        multiPartManager = new DefaultMultiPartManager();
         namingManager = new DefaultNamingManager(new DefaultInitialContext());
-        objectInstanceManager = new DefaultObjectInstanceManager();
-        policyManager = new DefaultPolicyManager();
         requestListeners = new ArrayList<>(1);
         resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
         errorPageManager = new DefaultErrorPageManager();
-        securityManager = new DefaultSecurityManager();
         servletContextName = UUID.randomUUID().toString();
         servletEnvironments = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
-        welcomeFileManager = new DefaultWelcomeFileManager();
         invocationFinder = new DefaultInvocationFinder(this);
-        localeEncodingManager = new DefaultLocaleEncodingManager();
     }
 
     @Override
@@ -504,12 +448,10 @@ public class DefaultWebApplication implements WebApplication {
         if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Illegal to add JSP file because state is not SETUP");
         }
-
         if (isEmpty(servletName)) {
             throw new IllegalArgumentException("Servlet name cannot be null or empty");
         }
-
-        return jspManager.addJspFile(this, servletName, jspFile);
+        return getManager(JspManager.class).addJspFile(this, servletName, jspFile);
     }
 
     @SuppressWarnings("unchecked")
@@ -652,7 +594,7 @@ public class DefaultWebApplication implements WebApplication {
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
         checkTainted();
 
-        return objectInstanceManager.createFilter(filterClass);
+        return getManager(ObjectInstanceManager.class).createFilter(filterClass);
     }
 
     /**
@@ -667,7 +609,7 @@ public class DefaultWebApplication implements WebApplication {
     public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
         checkTainted();
 
-        T result = objectInstanceManager.createListener(clazz);
+        T result = getManager(ObjectInstanceManager.class).createListener(clazz);
         boolean ok = false;
         if (result instanceof ServletContextListener || result instanceof ServletContextAttributeListener || result instanceof ServletRequestListener
                 || result instanceof ServletRequestAttributeListener || result instanceof HttpSessionAttributeListener
@@ -695,7 +637,7 @@ public class DefaultWebApplication implements WebApplication {
     public <T extends Servlet> T createServlet(Class<T> servletClass) throws ServletException {
         checkTainted();
 
-        return objectInstanceManager.createServlet(servletClass);
+        return getManager(ObjectInstanceManager.class).createServlet(servletClass);
     }
 
     /**
@@ -705,7 +647,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void declareRoles(String... roles) {
-        securityManager.declareRoles(roles);
+        getManager(SecurityManager.class).declareRoles(roles);
     }
 
     /**
@@ -756,7 +698,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public boolean getDenyUncoveredHttpMethods() {
-        return securityManager.getDenyUncoveredHttpMethods();
+        return getManager(SecurityManager.class).getDenyUncoveredHttpMethods();
     }
 
     /**
@@ -805,14 +747,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * {@return the DependencyInjectionManager}
-     */
-    @Override
-    public ObjectInstanceManager getObjectInstanceManager() {
-        return objectInstanceManager;
-    }
-
-    /**
      * {@return the effective major version}
      */
     @Override
@@ -850,14 +784,6 @@ public class DefaultWebApplication implements WebApplication {
     public void setEffectiveMinorVersion(int effectiveMinorVersion) {
         this.effectiveMinorVersion = effectiveMinorVersion;
 
-    }
-
-    /**
-     * {@return the multi part manager}
-     */
-    @Override
-    public MultiPartManager getMultiPartManager() {
-        return multiPartManager;
     }
 
     /**
@@ -919,14 +845,10 @@ public class DefaultWebApplication implements WebApplication {
         return initializers;
     }
 
-    /**
-     * {@return the JSP config descriptor}
-     */
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
         checkTainted();
-
-        return jspManager.getJspConfigDescriptor();
+        return getManager(JspManager.class).getJspConfigDescriptor();
     }
 
     /**
@@ -954,15 +876,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public String getMimeType(String filename) {
-        return mimeTypeManager.getMimeType(filename);
-    }
-
-    /**
-     * {@return the mime type manager}
-     */
-    @Override
-    public MimeTypeManager getMimeTypeManager() {
-        return mimeTypeManager;
+        return getManager(MimeTypeManager.class).getMimeType(filename);
     }
 
     /**
@@ -1133,24 +1047,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * {@return the security manager}
-     */
-    @Override
-    public SecurityManager getSecurityManager() {
-        return securityManager;
-    }
-
-    @Override
-    public AnnotationManager getAnnotationManager() {
-        return annotationManager;
-    }
-
-    @Override
-    public void setAnnotationManager(AnnotationManager annotationManager) {
-        this.annotationManager = annotationManager;
-    }
-
-    /**
      * {@return the server info}
      */
     @Override
@@ -1259,14 +1155,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * {@return the welcome file manager}
-     */
-    @Override
-    public WelcomeFileManager getWelcomeFileManager() {
-        return welcomeFileManager;
-    }
-
-    /**
      * Initialize the web application.
      */
     @Override
@@ -1339,10 +1227,10 @@ public class DefaultWebApplication implements WebApplication {
                 if (annotation != null) {
                     Class<?>[] value = annotation.value();
                     // Get instances
-                    Stream<Class<?>> instances = annotationManager.getInstances(value).stream();
+                    Stream<Class<?>> instances = getManager(AnnotationManager.class).getInstances(value).stream();
 
                     // Get classes by target type
-                    List<AnnotationInfo> annotations = annotationManager.getAnnotations(value);
+                    List<AnnotationInfo> annotations = getManager(AnnotationManager.class).getAnnotations(value);
                     Stream<Class<?>> classStream = annotations.stream().map(AnnotationInfo::getTargetType);
 
                     classes = Stream.concat(instances, classStream).collect(Collectors.toUnmodifiableSet());
@@ -1508,7 +1396,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void log(String message, Throwable throwable) {
-        loggingManager.log(message, throwable);
+        getManager(LoggingManager.class).log(message, throwable);
     }
 
     /**
@@ -1630,7 +1518,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
-        securityManager.setDenyUncoveredHttpMethods(denyUncoveredHttpMethods);
+        getManager(SecurityManager.class).setDenyUncoveredHttpMethods(denyUncoveredHttpMethods);
     }
 
     /**
@@ -1690,56 +1578,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Set the JSP manager.
-     *
-     * @param jspManager the JSP manager.
-     */
-    @Override
-    public void setJspManager(JspManager jspManager) {
-        this.jspManager = jspManager;
-    }
-
-    /**
-     * Set the logging manager.
-     *
-     * @param loggingManager the logging manager.
-     */
-    @Override
-    public void setLoggingManager(LoggingManager loggingManager) {
-        this.loggingManager = loggingManager;
-    }
-
-    /**
-     * Set the mimeType manager.
-     *
-     * @param mimeTypeManager the mimeType manager.
-     */
-    @Override
-    public void setMimeTypeManager(MimeTypeManager mimeTypeManager) {
-        this.mimeTypeManager = mimeTypeManager;
-    }
-
-    /**
-     * Set the multi part manager.
-     *
-     * @param multiPartManager the multi part manager.
-     */
-    @Override
-    public void setMultiPartManager(MultiPartManager multiPartManager) {
-        this.multiPartManager = multiPartManager;
-    }
-
-    /**
-     * Set the object instance manager.
-     *
-     * @param objectInstanceManager the object instance manager.
-     */
-    @Override
-    public void setObjectInstanceManager(ObjectInstanceManager objectInstanceManager) {
-        this.objectInstanceManager = objectInstanceManager;
-    }
-
-    /**
      * Set the default request character encoding.
      *
      * @param requestCharacterEncoding the default request character encoding.
@@ -1767,16 +1605,6 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void setResponseCharacterEncoding(String responseCharacterEncoding) {
         this.responseCharacterEncoding = responseCharacterEncoding;
-    }
-
-    /**
-     * Set the security manager.
-     *
-     * @param securityManager the security manager.
-     */
-    @Override
-    public void setSecurityManager(SecurityManager securityManager) {
-        this.securityManager = securityManager;
     }
 
     /**
@@ -1836,16 +1664,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Set the welcome file manager.
-     *
-     * @param welcomeFileManager the welcome file manager.
-     */
-    @Override
-    public void setWelcomeFileManager(WelcomeFileManager welcomeFileManager) {
-        this.welcomeFileManager = welcomeFileManager;
-    }
-
-    /**
      * Start servicing.
      */
     @Override
@@ -1877,16 +1695,6 @@ public class DefaultWebApplication implements WebApplication {
     public void unlinkRequestAndResponse(ServletRequest request, ServletResponse response) {
         request.removeAttribute("piranha.response");
         responses.remove(response);
-    }
-
-    @Override
-    public LocaleEncodingManager getLocaleEncodingManager() {
-        return localeEncodingManager;
-    }
-
-    @Override
-    public void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager) {
-        this.localeEncodingManager = localeEncodingManager;
     }
 
     /**
@@ -1925,20 +1733,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * {@return the async manager}
-     */
-    @Override
-    public AsyncManager getAsyncManager() {
-        return asyncManager;
-    }
-
-
-
-    // ### Private methods
-
-
-
-    /**
      * Get the name request dispatcher.
      *
      * @param servletInvocation the servlet invocation.
@@ -1963,28 +1757,6 @@ public class DefaultWebApplication implements WebApplication {
     protected void verifyState(int desiredStatus, String message) {
         if (status != desiredStatus) {
             throw new RuntimeException(message);
-        }
-    }
-
-    /**
-     * Fire the request initialized event
-     *
-     * @param request the request
-     */
-    private void requestInitialized(ServletRequest request) {
-        if (!requestListeners.isEmpty()) {
-            requestListeners.stream().forEach(servletRequestListener -> servletRequestListener.requestInitialized(new ServletRequestEvent(this, request)));
-        }
-    }
-
-    /**
-     * Fire the request destroyed event
-     *
-     * @param request the request
-     */
-    private void requestDestroyed(ServletRequest request) {
-        if (!requestListeners.isEmpty()) {
-            requestListeners.stream().forEach(servletRequestListener -> servletRequestListener.requestDestroyed(new ServletRequestEvent(this, request)));
         }
     }
 
@@ -2018,27 +1790,28 @@ public class DefaultWebApplication implements WebApplication {
         contextAttributeListeners.stream().forEach(listener -> listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value)));
     }
 
-    private boolean isPermanentlyUnavailable(DefaultServletEnvironment environment) {
-        return
-            environment.getUnavailableException() instanceof UnavailableException && ((UnavailableException)
-            environment.getUnavailableException()).isPermanent();
-    }
-
-    private void checkTainted() {
-        if (tainted) {
-            throw new UnsupportedOperationException("ServletContext is in tainted mode (as required by spec).");
-        }
-    }
-
+    /**
+     * Make sure the application is not servicing when this method is called.
+     */
     private void checkServicing() {
         if (status == SERVICING) {
             throw new IllegalStateException("Cannot call this after web application has initialized");
         }
     }
 
+    /**
+     * Make sure the application is not tainted when this method is called.
+     */
+    private void checkTainted() {
+        if (tainted) {
+            throw new UnsupportedOperationException(
+                    "ServletContext is in tainted mode (as required by spec).");
+        }
+    }
+
     @Override
-    public AuthenticationManager getAuthenticationManager() {
-        return authenticationManager;
+    public <T> T getManager(Class<T> clazz) {
+        return clazz.cast(managers.get(clazz.getName()));
     }
 
     @Override
@@ -2046,20 +1819,55 @@ public class DefaultWebApplication implements WebApplication {
         return namingManager;
     }
 
-    @Override
-    public PolicyManager getPolicyManager() {
-        return policyManager;
-    }
-
+    /**
+     * Is the string null or empty.
+     * 
+     * @param string the string
+     * @return true if it is, false otherwise.
+     */
     private boolean isEmpty(String string) {
         return string == null || string.isEmpty();
     }
 
-    @Override
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
+    /**
+     * Is the servlet permanently unavailable.
+     * 
+     * @param environment the Servlet environment.
+     * @return true if it is, false otherwise.
+     */
+    private boolean isPermanentlyUnavailable(DefaultServletEnvironment environment) {
+        return
+            environment.getUnavailableException() instanceof UnavailableException && ((UnavailableException)
+            environment.getUnavailableException()).isPermanent();
     }
 
+    /**
+     * Fire the request destroyed event.
+     *
+     * @param request the request.
+     */
+    private void requestDestroyed(ServletRequest request) {
+        if (!requestListeners.isEmpty()) {
+            requestListeners.stream().forEach(servletRequestListener -> servletRequestListener.requestDestroyed(new ServletRequestEvent(this, request)));
+        }
+    }
+
+    /**
+     * Fire the request initialized event.
+     *
+     * @param request the request.
+     */
+    private void requestInitialized(ServletRequest request) {
+        if (!requestListeners.isEmpty()) {
+            requestListeners.stream().forEach(servletRequestListener -> servletRequestListener.requestInitialized(new ServletRequestEvent(this, request)));
+        }
+    }
+
+    @Override
+    public void setManager(Class clazz, Object manager) {
+        managers.put(clazz.getName(), manager);
+    }
+    
     @Override
     public void setNamingManager(NamingManager namingManager) {
         this.namingManager = namingManager;

@@ -27,24 +27,22 @@
  */
 package cloud.piranha.extension.wasp;
 
-import static java.io.File.pathSeparator;
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.TRACE;
-
-import java.io.File;
-import java.util.Set;
-import java.lang.System.Logger;
-
-import org.apache.jasper.runtime.JspFactoryImpl;
-
+import cloud.piranha.webapp.api.JspManager;
 import cloud.piranha.webapp.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.jsp.JspFactory;
+import java.io.File;
+import static java.io.File.pathSeparator;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
+import org.apache.jasper.runtime.JspFactoryImpl;
 
 /**
  * The WaSP initializer.
@@ -59,7 +57,7 @@ public class WaspInitializer implements ServletContainerInitializer {
     private static final Logger LOGGER = System.getLogger(WaspInitializer.class.getName());
 
     /**
-     * Initialize Jasper.
+     * Initialize WaSP.
      *
      * @param classes the classes.
      * @param servletContext the Servlet context.
@@ -67,10 +65,8 @@ public class WaspInitializer implements ServletContainerInitializer {
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        LOGGER.log(DEBUG, "Initializing Jasper integration");
-
+        LOGGER.log(DEBUG, "Determining if WaSP should be initialized");
         WebApplication application = (WebApplication) servletContext;
-
         boolean jspFound = false;
         Map<String, ? extends ServletRegistration> registrations = application.getServletRegistrations();
         for (Map.Entry<String, ? extends ServletRegistration> entry : registrations.entrySet()) {
@@ -81,33 +77,25 @@ public class WaspInitializer implements ServletContainerInitializer {
                 LOGGER.log(DEBUG, "Found *.jsp mapping, skipping WaSP integration");
             }
         }
-
         if (!jspFound) {
-            LOGGER.log(DEBUG, "Initializing WaSP integration");
-
+            LOGGER.log(DEBUG, "Initializing WaSP");
             if (JspFactory.getDefaultFactory() == null) {
                 JspFactory.setDefaultFactory(new JspFactoryImpl());
             }
-
-            ServletRegistration.Dynamic registration = application.addServlet("jsp", "org.apache.jasper.servlet.JspServlet");
+            ServletRegistration.Dynamic registration = application.addServlet(
+                    "jsp", "org.apache.jasper.servlet.JspServlet");
             registration.addMapping("*.jsp");
             String classpath = System.getProperty("jdk.module.path",
                     System.getProperty("java.class.path"))
                     + getClassesDirectory(application)
                     + getJarFiles(application);
-
             LOGGER.log(TRACE, () -> "WaSP classpath is: " + classpath);
-
             registration.setInitParameter("classpath", classpath);
             registration.setInitParameter("compilerSourceVM", "1.8");
             registration.setInitParameter("compilerTargetVM", "1.8");
-
-            application.setJspManager(new WaspJspManager());
-
-            // Use the multi scan algorithm from WaSP, so it finds jar files in our isolated class loader
+            application.setManager(JspManager.class, new WaspJspManager());
             application.setAttribute("org.glassfish.wasp.useMultiJarScanAlgo", true);
-
-            LOGGER.log(DEBUG, "Initialized WaSP integration");
+            LOGGER.log(DEBUG, "Initialized WaSP");
         }
     }
 
@@ -122,7 +110,6 @@ public class WaspInitializer implements ServletContainerInitializer {
         if (classesDirectory == null) {
             return "";
         }
-
         return pathSeparator + classesDirectory;
     }
 
@@ -134,7 +121,6 @@ public class WaspInitializer implements ServletContainerInitializer {
      */
     private String getJarFiles(ServletContext servletContext) {
         StringBuilder jarFiles = new StringBuilder();
-
         String realPath = servletContext.getRealPath("/WEB-INF/lib");
         if (realPath != null) {
             File directory = new File(realPath);
@@ -150,7 +136,6 @@ public class WaspInitializer implements ServletContainerInitializer {
                 }
             }
         }
-
         return jarFiles.toString();
     }
 

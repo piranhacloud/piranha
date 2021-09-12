@@ -29,6 +29,11 @@ package cloud.piranha.webapp.impl.tests;
 
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.webapp.api.LocaleEncodingManager;
+import cloud.piranha.webapp.api.LoggingManager;
+import cloud.piranha.webapp.api.MimeTypeManager;
+import cloud.piranha.webapp.api.ObjectInstanceManager;
+import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.impl.DefaultMimeTypeManager;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultServlet;
@@ -143,7 +148,7 @@ class DefaultWebApplicationTest {
     void testDeclareRoles() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultSecurityManager manager = new DefaultSecurityManager();
-        webApp.setSecurityManager(manager);
+        webApp.setManager(SecurityManager.class, manager);
         webApp.declareRoles(new String[]{"ADMIN", "USER"});
         assertTrue(manager.getRoles().contains("ADMIN"));
         assertTrue(manager.getRoles().contains("USER"));
@@ -306,9 +311,9 @@ class DefaultWebApplicationTest {
     @Test
     void testGetDependencyInjectionManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.getObjectInstanceManager());
-        webApp.setObjectInstanceManager(null);
-        assertNull(webApp.getObjectInstanceManager());
+        assertNotNull(webApp.getManager(ObjectInstanceManager.class));
+        webApp.setManager(ObjectInstanceManager.class, null);
+        assertNull(webApp.getManager(ObjectInstanceManager.class));
     }
 
     /**
@@ -410,7 +415,7 @@ class DefaultWebApplicationTest {
     void testGetMimeType() {
         DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setMimeTypeManager(mimeTypeManager);
+        webApp.setManager(MimeTypeManager.class, mimeTypeManager);
         assertNull(webApp.getMimeType("this_maps_to.null"));
     }
 
@@ -422,7 +427,7 @@ class DefaultWebApplicationTest {
         DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
         mimeTypeManager.addMimeType("class", "application/x-java-class");
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setMimeTypeManager(mimeTypeManager);
+        webApp.setManager(MimeTypeManager.class, mimeTypeManager);
         assertEquals(webApp.getMimeType("my.class"), "application/x-java-class");
     }
 
@@ -601,8 +606,8 @@ class DefaultWebApplicationTest {
     @Test
     void testGetSecurityManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setSecurityManager(new DefaultSecurityManager());
-        assertNotNull(webApp.getSecurityManager());
+        webApp.setManager(SecurityManager.class, new DefaultSecurityManager());
+        assertNotNull(webApp.getManager(SecurityManager.class));
     }
 
     /**
@@ -834,9 +839,9 @@ class DefaultWebApplicationTest {
     void testLog() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         final StringBuilder log = new StringBuilder();
-        webApp.setLoggingManager((String message, Throwable throwable) -> {
+        webApp.setManager(LoggingManager.class, (LoggingManager) ((String message, Throwable throwable) -> {
             log.append(message);
-        });
+        }));
         webApp.log("TEST");
         assertEquals("TEST", log.toString());
     }
@@ -858,9 +863,9 @@ class DefaultWebApplicationTest {
     void testLog3() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         final StringBuilder log = new StringBuilder();
-        webApp.setLoggingManager((String message, Throwable throwable) -> {
+        webApp.setManager(LoggingManager.class, (LoggingManager) ((String message, Throwable throwable) -> {
             log.append(message).append(" - ").append(throwable.getMessage());
-        });
+        }));
         webApp.log("TEST", new RuntimeException("Reason"));
         assertEquals("TEST - Reason", log.toString());
     }
@@ -873,7 +878,7 @@ class DefaultWebApplicationTest {
         try {
             DefaultSecurityManager securityManager = new DefaultSecurityManager();
             DefaultWebApplication webApp = new DefaultWebApplication();
-            webApp.setSecurityManager(securityManager);
+            webApp.setManager(SecurityManager.class, securityManager);
             TestWebApplicationRequest request = new TestWebApplicationRequest();
             request.setWebApplication(webApp);
             request.login("admin", "password");
@@ -890,7 +895,7 @@ class DefaultWebApplicationTest {
         try {
             DefaultSecurityManager securityManager = new DefaultSecurityManager();
             DefaultWebApplication webApp = new DefaultWebApplication();
-            webApp.setSecurityManager(securityManager);
+            webApp.setManager(SecurityManager.class, securityManager);
             TestWebApplicationRequest request = new TestWebApplicationRequest();
             request.setWebApplication(webApp);
             request.logout();
@@ -1063,7 +1068,7 @@ class DefaultWebApplicationTest {
     @Test
     void testSetLoggingManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setLoggingManager(null);
+        webApp.setManager(LoggingManager.class, null);
         assertThrows(NullPointerException.class, () -> webApp.log("KABOOM"));
     }
 
@@ -1091,7 +1096,7 @@ class DefaultWebApplicationTest {
     @Test
     void testSetLocale() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getLocaleEncodingManager().addCharacterEncoding(Locale.ITALY.toString(), "windows-1252");
+        webApp.getManager(LocaleEncodingManager.class).addCharacterEncoding(Locale.ITALY.toString(), "windows-1252");
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         response.setWebApplication(webApp);
         response.setLocale(Locale.ITALY);

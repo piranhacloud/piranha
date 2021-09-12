@@ -59,6 +59,8 @@ import java.util.Map;
 import cloud.piranha.webapp.api.AttributeManager;
 import cloud.piranha.webapp.api.HttpHeaderManager;
 import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.MultiPartManager;
+import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import jakarta.servlet.AsyncContext;
@@ -368,7 +370,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     @Override
     public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
-        return webApplication.getSecurityManager().authenticate(this, response);
+        return webApplication.getManager(SecurityManager.class).authenticate(this, response);
     }
 
     @Override
@@ -707,13 +709,13 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Part getPart(String name) throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getMultiPartManager().getPart(webApplication, this, name);
+        return webApplication.getManager(MultiPartManager.class).getPart(webApplication, this, name);
     }
 
     @Override
     public Collection<Part> getParts() throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getMultiPartManager().getParts(webApplication, this);
+        return webApplication.getManager(MultiPartManager.class).getParts(webApplication, this);
     }
 
     @Override
@@ -936,17 +938,17 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     @Override
     public boolean isUserInRole(String role) {
-        return webApplication.getSecurityManager().isUserInRole(this, role);
+        return webApplication.getManager(SecurityManager.class).isUserInRole(this, role);
     }
 
     @Override
     public void login(String username, String password) throws ServletException {
-        webApplication.getSecurityManager().login(this, username, password);
+        webApplication.getManager(SecurityManager.class).login(this, username, password);
     }
 
     @Override
     public void logout() throws ServletException {
-        webApplication.getSecurityManager().logout(this, (HttpServletResponse) this.webApplication.getResponse(this));
+        webApplication.getManager(SecurityManager.class).logout(this, (HttpServletResponse) this.webApplication.getResponse(this));
     }
 
     @Override
@@ -1437,11 +1439,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return read;
     }
 
-    @Override
-    public String toString() {
-        return getRequestURIWithQueryString() + " " + super.toString();
-    }
-
     /**
      * {@return the request URI with query string}
      */
@@ -1449,5 +1446,10 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         String requestURI = getRequestURI();
         String queryString = getQueryString();
         return queryString == null ? requestURI : requestURI + "?" + queryString;
+    }
+
+    @Override
+    public String toString() {
+        return getRequestURIWithQueryString() + " " + super.toString();
     }
 }

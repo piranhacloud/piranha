@@ -27,6 +27,7 @@
  */
 package cloud.piranha.webapp.impl.tests;
 
+import cloud.piranha.webapp.api.AnnotationManager;
 import cloud.piranha.webapp.impl.DefaultAnnotationInfo;
 import cloud.piranha.webapp.impl.DefaultAnnotationManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
@@ -94,7 +95,7 @@ class ServletContainerInitializerTest {
     void testInitializerWithHandlesTypes2 () {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addInitializer(InitializerWithHandlesTypes.class.getName());
-        DefaultAnnotationManager annotationManager = (DefaultAnnotationManager) webApp.getAnnotationManager();
+        DefaultAnnotationManager annotationManager = (DefaultAnnotationManager) webApp.getManager(AnnotationManager.class);
         annotationManager.addInstance(Set.class, Collections.emptySet().getClass());
         annotationManager.addAnnotation(
             new DefaultAnnotationInfo<>(

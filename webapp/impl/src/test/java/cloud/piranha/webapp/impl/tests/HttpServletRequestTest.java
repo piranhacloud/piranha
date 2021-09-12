@@ -27,6 +27,7 @@
  */
 package cloud.piranha.webapp.impl.tests;
 
+import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
@@ -80,7 +81,7 @@ class HttpServletRequestTest {
     @Test
     void testAuthenticate() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setSecurityManager(new DefaultSecurityManager());
+        webApp.setManager(SecurityManager.class, new DefaultSecurityManager());
         request.setWebApplication(webApp);
         HttpServletResponse response = new TestWebApplicationResponse();
         try {
@@ -98,7 +99,7 @@ class HttpServletRequestTest {
         try {
             DefaultSecurityManager securityManager = new DefaultSecurityManager();
             DefaultWebApplication webApp = new DefaultWebApplication();
-            webApp.setSecurityManager(securityManager);
+            webApp.setManager(SecurityManager.class, securityManager);
             request.setWebApplication(webApp);
             HttpServletResponse response = new TestWebApplicationResponse();
             request.authenticate(response);
@@ -279,7 +280,7 @@ class HttpServletRequestTest {
         request.setWebApplication(webApplication);
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         securityManager.addUser("username", "password", new String[]{});
-        webApplication.setSecurityManager(securityManager);
+        webApplication.setManager(SecurityManager.class, securityManager);
         request.login("username", "password");
         assertNotNull(request.getUserPrincipal());
     }

@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.thread.ThreadPolicy;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
@@ -94,7 +95,7 @@ public class MicroWebApplication extends DefaultWebApplication {
     @Override
     public void service(ServletRequest request, ServletResponse response) {
         try {
-            ThreadPolicy.setPolicy(getPolicyManager().getPolicy());
+            ThreadPolicy.setPolicy(getManager(PolicyManager.class).getPolicy());
             ThreadInitialContextFactory.setInitialContext(getNamingManager().getContext());
             deployedApplication.accept(copyApplicationRequestToMap((WebApplicationRequest) request, (WebApplicationResponse) response));
         } finally {

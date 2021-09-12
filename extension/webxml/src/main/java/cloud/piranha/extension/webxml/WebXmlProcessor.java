@@ -44,6 +44,8 @@ import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletRegistration;
 
 import cloud.piranha.webapp.api.LocaleEncodingManager;
+import cloud.piranha.webapp.api.MimeTypeManager;
+import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WelcomeFileManager;
 
@@ -247,7 +249,7 @@ public class WebXmlProcessor {
      */
     private void processMimeMappings(WebApplication webApplication, WebXml webXml) {
         for (WebXmlMimeMapping mapping : webXml.getMimeMappings()) {
-            webApplication.getMimeTypeManager()
+            webApplication.getManager(MimeTypeManager.class)
                     .addMimeType(mapping.extension(), mapping.mimeType());
         }
     }
@@ -277,7 +279,7 @@ public class WebXmlProcessor {
     }
 
     private void processRoleNames(WebApplication webApplication, WebXml webXml) {
-        webApplication.getSecurityManager().declareRoles(webXml.getRoleNames());
+        webApplication.getManager(SecurityManager.class).declareRoles(webXml.getRoleNames());
     }
 
     /**
@@ -363,7 +365,7 @@ public class WebXmlProcessor {
         LOGGER.log(DEBUG, "Adding welcome files");
 
         Iterator<String> iterator = webXml.getWelcomeFiles().iterator();
-        WelcomeFileManager welcomeFileManager = webApplication.getWelcomeFileManager();
+        WelcomeFileManager welcomeFileManager = webApplication.getManager(WelcomeFileManager.class);
         while (iterator.hasNext()) {
             String welcomeFile = iterator.next();
             LOGGER.log(DEBUG, () -> "Adding welcome file: " + welcomeFile);
@@ -377,7 +379,7 @@ public class WebXmlProcessor {
             return;
         }
 
-        LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
+        LocaleEncodingManager localeEncodingManager = webApplication.getManager(LocaleEncodingManager.class);
         if (localeEncodingManager == null) {
             return;
         }
@@ -410,7 +412,7 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processSecurityConstraints(WebApplication webApplication, WebXml webXml) {
-        AuthenticationManager manager = webApplication.getAuthenticationManager();
+        AuthenticationManager manager = webApplication.getManager(AuthenticationManager.class);
         for(WebXmlSecurityConstraint constraint : webXml.getSecurityConstraints()) {
             for(WebXmlSecurityConstraint.WebResourceCollection collection : constraint.getWebResourceCollections()) {
                 for(String urlPattern : collection.getUrlPatterns()) {
