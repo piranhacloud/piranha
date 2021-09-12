@@ -86,4 +86,13 @@ public interface AuthenticationManager {
      * @return true if it does, false otherwise.
      */
     boolean needsAuthentication(HttpServletRequest request);
+    
+    /**
+     * Request authentication.
+     * 
+     * @param request the request.
+     * @param response the response.
+     */
+    void requestAuthentication(HttpServletRequest request, 
+            HttpServletResponse response);
 }
