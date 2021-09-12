@@ -28,6 +28,7 @@
 package cloud.piranha.extension.microprofile;
 
 import cloud.piranha.extension.security.jakarta.JakartaSecurityManager;
+import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -56,6 +57,6 @@ class MicroProfileExtensionTest {
         context.add(extension);
         context.configure(webApplication);
         webApplication.initialize();
-        assertTrue(webApplication.getSecurityManager() instanceof JakartaSecurityManager);
+        assertTrue(webApplication.getManager(SecurityManager.class) instanceof JakartaSecurityManager);
     }
 }

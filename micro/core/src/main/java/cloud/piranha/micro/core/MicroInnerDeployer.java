@@ -195,7 +195,7 @@ public class MicroInnerDeployer {
             Index index = getIndex();
 
             // Target of annotations
-            DefaultAnnotationManager annotationManager = (DefaultAnnotationManager) webApplication.getAnnotationManager();
+            DefaultAnnotationManager annotationManager = (DefaultAnnotationManager) webApplication.getManager(AnnotationManager.class);
 
             // Copy annotations from our "annotations" collection from source index to target manager
             forEachWebAnnotation(webAnnotation -> addAnnotationToIndex(index, webAnnotation, annotationManager));

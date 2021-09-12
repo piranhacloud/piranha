@@ -27,6 +27,8 @@
  */
 package cloud.piranha.extension.security.file;
 
+import cloud.piranha.webapp.api.AuthenticationManager;
+import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import java.io.File;
@@ -53,7 +55,7 @@ public class FileSecurityInitializer implements ServletContainerInitializer {
 
         WebApplication webApplication = (WebApplication) servletContext;
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        webApplication.setSecurityManager(securityManager);
+        webApplication.setManager(SecurityManager.class, securityManager);
 
         File userFile = new File("user.properties");
         if (!userFile.exists()) {
@@ -90,7 +92,8 @@ public class FileSecurityInitializer implements ServletContainerInitializer {
 
         }
 
-        webApplication.setAuthenticationManager(new FileAuthenticationManager(userFile));
+        webApplication.setManager(AuthenticationManager.class, 
+                new FileAuthenticationManager(userFile));
         webApplication.addFilter(
                 FileAuthenticationFilter.class.getName(),
                 FileAuthenticationFilter.class);

@@ -28,6 +28,7 @@
 package cloud.piranha.extension.security.file.tests;
 
 import cloud.piranha.extension.security.file.FileSecurityInitializer;
+import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
@@ -51,7 +52,7 @@ public class FileSecurityInitializerTest {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addInitializer(new FileSecurityInitializer());
         webApplication.initialize();
-        DefaultSecurityManager manager = (DefaultSecurityManager) webApplication.getSecurityManager();
+        DefaultSecurityManager manager = (DefaultSecurityManager) webApplication.getManager(SecurityManager.class);
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         manager.login(request, "j2ee", "j2ee");
         assertTrue(manager.isUserInRole(request, "Administrator"));

@@ -158,7 +158,7 @@ class DefaultHttpServletResponseTest {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         DefaultWebApplication webApp = new DefaultWebApplication();
         response.setWebApplication(webApp);
-        LocaleEncodingManager localeEncodingManager = webApp.getLocaleEncodingManager();
+        LocaleEncodingManager localeEncodingManager = webApp.getManager(LocaleEncodingManager.class);
         localeEncodingManager.addCharacterEncoding(Locale.JAPAN.toString(), "euc-jp");
         localeEncodingManager.addCharacterEncoding(Locale.CHINA.toString(), "gb18030");
 

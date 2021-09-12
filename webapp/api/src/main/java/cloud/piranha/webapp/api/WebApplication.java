@@ -28,13 +28,8 @@
 package cloud.piranha.webapp.api;
 
 import cloud.piranha.naming.api.NamingManager;
-import cloud.piranha.policy.api.PolicyManager;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
-
+import cloud.piranha.resource.api.Resource;
+import cloud.piranha.resource.api.ResourceManager;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.Servlet;
@@ -44,9 +39,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-
-import cloud.piranha.resource.api.Resource;
-import cloud.piranha.resource.api.ResourceManager;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The WebApplication API.
@@ -149,23 +146,6 @@ public interface WebApplication extends ServletContext {
     void destroy();
 
     /**
-     * Gets the annotation manager.
-     *
-     * @return the annotation manager.
-     */
-    AnnotationManager getAnnotationManager();
-
-    /**
-     * {@return the async manager}
-     */
-    AsyncManager getAsyncManager();
-
-    /**
-     * {@return the authentication manager}
-     */
-    AuthenticationManager getAuthenticationManager();
-
-    /**
      * {@return the default Servlet}
      */
     Servlet getDefaultServlet();
@@ -176,26 +156,11 @@ public interface WebApplication extends ServletContext {
      * @return true if we are, false otherwise.
      */
     boolean getDenyUncoveredHttpMethods();
-
-    /**
-     * {@return the mime type manager}
-     */
-    MimeTypeManager getMimeTypeManager();
-
-    /**
-     * {@return the multi part manager}
-     */
-    MultiPartManager getMultiPartManager();
     
     /**
      * {@return the naming manager}
      */
     NamingManager getNamingManager();
-    
-    /**
-     * {@return the policy manager}
-     */
-    PolicyManager getPolicyManager();
 
     /**
      * Returns the unique Id of this web application corresponding to this
@@ -235,13 +200,6 @@ public interface WebApplication extends ServletContext {
     Collection<String> getMappings(String servletName);
 
     /**
-     * Get the object instance manager.
-     *
-     * @return the DependencyInjectionManager.
-     */
-    ObjectInstanceManager getObjectInstanceManager();
-
-    /**
      * {@return the associated request}
      * @param response the response.
      */
@@ -252,21 +210,6 @@ public interface WebApplication extends ServletContext {
      * @param request the request.
      */
     ServletResponse getResponse(ServletRequest request);
-
-    /**
-     * {@return the security manager}
-     */
-    SecurityManager getSecurityManager();
-
-    /**
-     * {@return the welcome file manager}
-     */
-    WelcomeFileManager getWelcomeFileManager();
-
-    /**
-     * {@return the locale encoding manager}
-     */
-    LocaleEncodingManager getLocaleEncodingManager();
 
     /**
      * Initialize the web application.
@@ -395,32 +338,21 @@ public interface WebApplication extends ServletContext {
     void setHttpRequestManager(HttpRequestManager httpRequestManager);
 
     /**
-     * Set the JSP manager.
-     *
-     * @param jspManager the JSP manager.
+     * Get the manager.
+     * 
+     * @param <T> the manager return type.
+     * @param clazz the manager class.
+     * @return the manager.
      */
-    void setJspManager(JspManager jspManager);
-
+    <T> T getManager(Class<T> clazz);
+    
     /**
-     * Set the logging manager.
-     *
-     * @param loggingManager the logging manager.
+     * Set the manager.
+     * 
+     * @param clazz the manager class.
+     * @param manager the manager instance.
      */
-    void setLoggingManager(LoggingManager loggingManager);
-
-    /**
-     * Set the mimeType manager.
-     *
-     * @param mimeTypeManager the mimeType manager.
-     */
-    void setMimeTypeManager(MimeTypeManager mimeTypeManager);
-
-    /**
-     * Set the multi part manager.
-     *
-     * @param multiPartManager the multi part manager.
-     */
-    void setMultiPartManager(MultiPartManager multiPartManager);
+    void setManager(Class clazz, Object manager);
     
     /**
      * Set the naming manager.
@@ -430,32 +362,11 @@ public interface WebApplication extends ServletContext {
     void setNamingManager(NamingManager namingManager);
 
     /**
-     * Set the object instance manager.
-     *
-     * @param objectInstanceManager the object instance manager.
-     */
-    void setObjectInstanceManager(ObjectInstanceManager objectInstanceManager);
-
-    /**
      * Set the resource manager.
      *
      * @param resourceManager the resource manager.
      */
     void setResourceManager(ResourceManager resourceManager);
-
-    /**
-     * Set the security manager.
-     *
-     * @param securityManager the security manager.
-     */
-    void setSecurityManager(SecurityManager securityManager);
-
-    /**
-     * Sets the annotation manager.
-     *
-     * @param annotationManager the annotation manager
-     */
-    void setAnnotationManager(AnnotationManager annotationManager);
 
     /**
      * Set the servlet context name.
@@ -472,19 +383,6 @@ public interface WebApplication extends ServletContext {
     void setWebApplicationRequestMapper(WebApplicationRequestMapper webApplicationRequestMapper);
 
     /**
-     * Set the welcome file manager.
-     *
-     * @param welcomeFileManager the welcome file manager.
-     */
-    void setWelcomeFileManager(WelcomeFileManager welcomeFileManager);
-
-    /**
-     * Set the locale encoding manager
-     * @param localeEncodingManager the locale encoding manager
-     */
-    void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager);
-
-    /**
      * Start servicing.
      */
     void start();
@@ -493,13 +391,6 @@ public interface WebApplication extends ServletContext {
      * Stop servicing.
      */
     void stop();
-
-    /**
-     * Set the authentication manager.
-     * 
-     * @param authenticationManager the authentication manager.
-     */
-    void setAuthenticationManager(AuthenticationManager authenticationManager);
 
     /**
      * Unlink the request and response.

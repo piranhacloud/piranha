@@ -72,7 +72,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication webApp = (WebApplication) servletContext;
 
-        AnnotationManager annotationManager = webApp.getAnnotationManager();
+        AnnotationManager annotationManager = webApp.getManager(AnnotationManager.class);
 
         ClassLoader classLoader = webApp.getClassLoader();
         if (classLoader instanceof ResourceManagerClassLoader == false) {

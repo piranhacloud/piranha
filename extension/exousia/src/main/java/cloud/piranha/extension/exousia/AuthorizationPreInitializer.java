@@ -42,6 +42,7 @@ import org.omnifaces.exousia.constraints.SecurityConstraint;
 import org.omnifaces.exousia.mapping.SecurityRoleRef;
 
 import cloud.piranha.extension.webxml.WebXmlManager;
+import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
 import jakarta.security.jacc.PolicyConfiguration;
@@ -137,7 +138,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
 
         if (securityConstraints != null) {
             for (SecurityConstraint securityConstraint : securityConstraints) {
-                context.getSecurityManager().declareRoles(securityConstraint.getRolesAllowed());
+                context.getManager(SecurityManager.class).declareRoles(securityConstraint.getRolesAllowed());
             }
         }
 
@@ -146,7 +147,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         } else {
             authorizationService.addConstraintsToPolicy(
                     securityConstraints != null ? securityConstraints : emptyList(),
-                    context.getSecurityManager().getRoles(),
+                    context.getManager(SecurityManager.class).getRoles(),
                     context.getDenyUncoveredHttpMethods(),
                     getSecurityRoleRefsFromWebXml(context));
         }

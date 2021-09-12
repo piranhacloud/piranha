@@ -27,15 +27,14 @@
  */
 package cloud.piranha.extension.apache.fileupload;
 
-import java.util.Set;
-
+import cloud.piranha.webapp.api.MultiPartManager;
 import cloud.piranha.webapp.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
-
-import static java.lang.System.Logger;
-import static java.lang.System.Logger.Level.INFO;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+import java.util.Set;
 
 /**
  * The ServletContainerInitializer for the ApacheMultiPartManager.
@@ -56,17 +55,13 @@ public class ApacheMultiPartInitializer implements ServletContainerInitializer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(ApacheMultiPartInitializer.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(ApacheMultiPartInitializer.class.getName());
 
-    /**
-     * @see ServletContainerInitializer#onStartup(java.util.Set, jakarta.servlet.ServletContext)
-     */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        LOGGER.log(INFO, "Initializing ApacheMultiPartManager");
-
+        LOGGER.log(DEBUG, "Initializing ApacheMultiPartManager");
         WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setMultiPartManager(new ApacheMultiPartManager());
+        webApplication.setManager(MultiPartManager.class, new ApacheMultiPartManager());
         webApplication.addListener("org.apache.commons.fileupload.servlet.FileCleanerCleanup");
     }
 }

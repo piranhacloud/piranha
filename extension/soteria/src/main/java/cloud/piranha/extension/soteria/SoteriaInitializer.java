@@ -32,6 +32,7 @@ import java.lang.System.Logger;
 
 import org.glassfish.soteria.servlet.SamRegistrationInstaller;
 
+import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
@@ -64,7 +65,7 @@ public class SoteriaInitializer implements ServletContainerInitializer {
         LOGGER.log(DEBUG, "Initializing Soteria");
         
         WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.getSecurityManager().setUsernamePasswordLoginHandler(new IdentityStoreLoginHandler());
+        webApplication.getManager(SecurityManager.class).setUsernamePasswordLoginHandler(new IdentityStoreLoginHandler());
         
         SamRegistrationInstaller installer = new SamRegistrationInstaller();
         

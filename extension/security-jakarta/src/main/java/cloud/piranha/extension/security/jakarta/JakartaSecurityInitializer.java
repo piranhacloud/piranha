@@ -33,6 +33,7 @@ import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 
+import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.WebApplication;
 
 /**
@@ -52,6 +53,6 @@ public class JakartaSecurityInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setSecurityManager(new JakartaSecurityManager());
+        webApplication.setManager(SecurityManager.class, new JakartaSecurityManager());
     }
 }
