@@ -41,6 +41,10 @@ import java.io.IOException;
 public class DefaultAuthenticationManager implements AuthenticationManager {
 
     @Override
+    public void addSecurityMapping(String urlPattern) {
+    }
+    
+    @Override
     public boolean authenticate(HttpServletRequest request, 
             HttpServletResponse response) throws IOException, ServletException {
         throw new ServletException("Authenticate is not supported");
@@ -64,6 +68,6 @@ public class DefaultAuthenticationManager implements AuthenticationManager {
     }
 
     @Override
-    public void addSecurityMapping(String urlPattern) {
+    public void requestAuthentication(HttpServletRequest request, HttpServletResponse response) {
     }
 }

@@ -185,7 +185,6 @@ public class FileAuthenticationManager implements AuthenticationManager {
     @Override
     public void login(HttpServletRequest request, String username,
             String password) throws ServletException {
-
         if (logins.containsKey(username) && password != null && password.equals(logins.get(username))) {
             while (request instanceof HttpServletRequestWrapper wrapper) {
                 request = (HttpServletRequest) wrapper.getRequest();
@@ -211,6 +210,25 @@ public class FileAuthenticationManager implements AuthenticationManager {
 
     @Override
     public boolean needsAuthentication(HttpServletRequest request) {
-        return false;
+        boolean result = false;
+        String requestUri = request.getRequestURI();
+        for(String securityMapping : securityMappings.keySet()) {
+            if (securityMapping.endsWith("*")) {
+                securityMapping = securityMapping.substring(0, securityMapping.length() - 1);
+                if (requestUri.indexOf(securityMapping) == 0) {
+                    result = true;
+                    break;
+                }
+            } else if (securityMapping.startsWith("*")) {
+                
+            } else {
+                
+            }
+        }
+        return result;
+    }
+    
+    @Override
+    public void requestAuthentication(HttpServletRequest request, HttpServletResponse response) {
     }
 }
