@@ -37,7 +37,7 @@
             <dependency>
                 <groupId>com.hazelcast</groupId>
                 <artifactId>hazelcast</artifactId>
-                <version>4.2.1</version>
+                <version>4.2.2</version>
             </dependency>
                     
             <!-- Vaadin -->
@@ -68,7 +68,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.66.Final</version>
+                <version>4.1.67.Final</version>
             </dependency>
 
             <!-- Smallrye MicroProfile Config -->

@@ -29,7 +29,7 @@
             <dependency>
                 <groupId>org.jboss.arquillian.container</groupId>
                 <artifactId>arquillian-container-test-api</artifactId>
-                <version>1.5.0.Final</version>
+                <version>1.7.0.Alpha3</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
