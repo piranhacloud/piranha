@@ -1864,7 +1864,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public void setManager(Class clazz, Object manager) {
+    public <T> void setManager(Class<T> clazz, T manager) {
         managers.put(clazz.getName(), manager);
     }
     
