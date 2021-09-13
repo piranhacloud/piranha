@@ -349,10 +349,11 @@ public interface WebApplication extends ServletContext {
     /**
      * Set the manager.
      * 
+     * @param <T> the manager type.
      * @param clazz the manager class.
      * @param manager the manager instance.
      */
-    void setManager(Class clazz, Object manager);
+    <T> void setManager(Class<T> clazz, T manager);
     
     /**
      * Set the naming manager.
