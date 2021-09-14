@@ -43,6 +43,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import org.apache.jasper.runtime.JspFactoryImpl;
+import org.apache.jasper.runtime.TldScanner;
 
 /**
  * The WaSP initializer.
@@ -96,6 +97,9 @@ public class WaspInitializer implements ServletContainerInitializer {
             application.setManager(JspManager.class, new WaspJspManager());
             application.setAttribute("org.glassfish.wasp.useMultiJarScanAlgo", true);
             LOGGER.log(DEBUG, "Initialized WaSP");
+            
+            TldScanner scanner = new TldScanner();
+            scanner.onStartup(classes, servletContext);
         }
     }
 
