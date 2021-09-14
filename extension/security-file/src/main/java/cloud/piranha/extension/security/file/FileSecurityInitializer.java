@@ -36,6 +36,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Set;
+
+import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -94,9 +96,10 @@ public class FileSecurityInitializer implements ServletContainerInitializer {
 
         webApplication.setManager(AuthenticationManager.class, 
                 new FileAuthenticationManager(userFile));
-        webApplication.addFilter(
+        FilterRegistration.Dynamic dynamic = webApplication.addFilter(
                 FileAuthenticationFilter.class.getName(),
                 FileAuthenticationFilter.class);
+        dynamic.setAsyncSupported(true);
         webApplication.addFilterMapping(
                 FileAuthenticationFilter.class.getName(),
                 "/*");
