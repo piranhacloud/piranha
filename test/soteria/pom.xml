@@ -56,12 +56,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
             <scope>test</scope>
@@ -87,6 +81,11 @@
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-mojarra</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.herring</groupId>
+            <artifactId>herring</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

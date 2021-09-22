@@ -43,9 +43,9 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.mojarra.MojarraInitializer;
-import cloud.piranha.naming.impl.DefaultInitialContext;
 import cloud.piranha.naming.impl.DefaultNamingManager;
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import com.manorrock.herring.DefaultInitialContext;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
 
 /**
  * The JUnit tests for the Hello Weld web application.

@@ -44,9 +44,9 @@ import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.embedded.MicroWebApplication;
 import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.thread.ThreadPolicy;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
 
 import static java.lang.System.Logger.Level.INFO;
 

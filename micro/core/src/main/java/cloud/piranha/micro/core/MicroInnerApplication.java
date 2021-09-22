@@ -27,11 +27,11 @@
  */
 package cloud.piranha.micro.core;
 
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.CookieParser;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 

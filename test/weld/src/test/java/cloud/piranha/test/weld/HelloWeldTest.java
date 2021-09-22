@@ -34,6 +34,7 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.mojarra.MojarraInitializer;
+import com.manorrock.herring.DefaultInitialContextFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,8 +54,8 @@ class HelloWeldTest {
      */
     @Test
     void testIndexHtml() throws Exception {
-        System.getProperties().put("java.naming.factory.initial", 
-                "cloud.piranha.naming.impl.DefaultInitialContextFactory");
+        System.getProperties().put("java.naming.factory.initial",
+                DefaultInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")

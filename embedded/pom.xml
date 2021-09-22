@@ -26,12 +26,6 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-         <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-thread</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-impl</artifactId>
@@ -42,6 +36,11 @@
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+         <dependency>
+            <groupId>com.manorrock.herring</groupId>
+            <artifactId>herring-thread</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>

@@ -39,12 +39,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.thread.ThreadPolicy;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 

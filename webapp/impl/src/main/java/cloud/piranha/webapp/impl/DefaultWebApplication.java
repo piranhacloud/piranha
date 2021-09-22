@@ -28,7 +28,6 @@
 package cloud.piranha.webapp.impl;
 
 import cloud.piranha.naming.api.NamingManager;
-import cloud.piranha.naming.impl.DefaultInitialContext;
 import cloud.piranha.naming.impl.DefaultNamingManager;
 import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.impl.DefaultPolicyManager;
@@ -53,6 +52,7 @@ import static cloud.piranha.webapp.api.ServletEnvironment.UNAVAILABLE;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequestMapper;
 import cloud.piranha.webapp.api.WelcomeFileManager;
+import com.manorrock.herring.DefaultInitialContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterRegistration;

@@ -40,12 +40,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-thread</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
@@ -67,6 +61,11 @@
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-embedded</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.herring</groupId>
+            <artifactId>herring-thread</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -102,14 +102,6 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-
-        <!-- Piranha Naming - Thread implementation -->
-        <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-thread</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
         
         <!-- Piranha Policy -->
         <dependency>
@@ -145,6 +137,11 @@
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.herring</groupId>
+            <artifactId>herring-thread</artifactId>
             <scope>compile</scope>
         </dependency>
         

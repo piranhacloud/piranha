@@ -79,9 +79,8 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-thread</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.manorrock.herring</groupId>
+            <artifactId>herring-thread</artifactId>
         </dependency>
         
         <dependency>

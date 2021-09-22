@@ -39,6 +39,18 @@
                 <artifactId>hazelcast</artifactId>
                 <version>4.2.2</version>
             </dependency>
+            
+            <!-- Manorrock Herring -->
+            <dependency>
+                <groupId>com.manorrock.herring</groupId>
+                <artifactId>herring</artifactId>
+                <version>21.9.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.manorrock.herring</groupId>
+                <artifactId>herring-thread</artifactId>
+                <version>21.9.1</version>
+            </dependency>
                     
             <!-- Vaadin -->
             <dependency>

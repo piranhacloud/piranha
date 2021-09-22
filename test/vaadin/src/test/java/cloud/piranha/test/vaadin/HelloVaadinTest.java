@@ -32,6 +32,7 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
+import com.manorrock.herring.DefaultInitialContextFactory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -51,7 +52,7 @@ class HelloVaadinTest {
     @Test
     void testIndexHtmlPage() throws Exception {
         System.getProperties().put("java.naming.factory.initial", 
-                "cloud.piranha.naming.impl.DefaultInitialContextFactory");
+                DefaultInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .servletMapping("Vaadin", "/*")

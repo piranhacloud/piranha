@@ -27,7 +27,6 @@
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.AliasedDirectoryResource;
 import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
 import cloud.piranha.resource.DirectoryResource;
@@ -37,6 +36,7 @@ import cloud.piranha.webapp.api.HttpSessionManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;

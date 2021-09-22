@@ -72,7 +72,6 @@ import org.xml.sax.SAXException;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import cloud.piranha.webapp.api.AnnotationManager;
@@ -82,6 +81,7 @@ import cloud.piranha.webapp.impl.DefaultAnnotationInfo;
 import cloud.piranha.webapp.impl.DefaultAnnotationManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Priority;

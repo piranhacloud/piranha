@@ -34,6 +34,7 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.faces.myfaces.MyFacesInitializer;
+import com.manorrock.herring.DefaultInitialContextFactory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ class HelloOpenWebBeansTest {
     @Test
     void testIndexHtml() throws Exception {
         System.getProperties().put("java.naming.factory.initial",
-                "cloud.piranha.naming.impl.DefaultInitialContextFactory");
+                DefaultInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")

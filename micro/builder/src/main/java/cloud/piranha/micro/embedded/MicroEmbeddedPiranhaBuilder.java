@@ -31,9 +31,9 @@ import org.jboss.shrinkwrap.api.Archive;
 
 import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.thread.ThreadPolicy;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
 
 /**
  * Builder for an embedded Piranha instance based on Piranha Micro

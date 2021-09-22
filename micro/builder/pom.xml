@@ -38,12 +38,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-thread</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.policy</groupId>
             <artifactId>piranha-policy-api</artifactId>
             <version>${project.version}</version>
@@ -60,6 +54,11 @@
             <artifactId>piranha-resource-shrinkwrap</artifactId>
             <version>${project.version}</version>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.manorrock.herring</groupId>
+            <artifactId>herring-thread</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap.descriptors</groupId>

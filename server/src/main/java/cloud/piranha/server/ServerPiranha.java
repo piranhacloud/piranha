@@ -47,7 +47,6 @@ import cloud.piranha.extension.server.ServerExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.modular.ModuleLayerProcessor;
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.modular.DefaultModuleFinder;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.webapp.api.WebApplicationExtension;
@@ -55,6 +54,7 @@ import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
 
 import static java.lang.System.Logger.Level.INFO;
 

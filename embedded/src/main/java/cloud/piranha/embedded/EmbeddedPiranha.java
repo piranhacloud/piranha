@@ -27,10 +27,10 @@
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;

@@ -18,7 +18,6 @@
     <modules>
         <module>api</module>
         <module>impl</module>
-        <module>thread</module>
     </modules>
 
     <dependencyManagement>

@@ -32,12 +32,10 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.micro.embedded {
-    
     exports cloud.piranha.micro.embedded;
     opens cloud.piranha.micro.embedded;
     requires cloud.piranha.micro.loader;
     requires cloud.piranha.naming.impl;
-    requires cloud.piranha.naming.thread;
     requires cloud.piranha.policy.api;
     requires cloud.piranha.policy.thread;
     requires cloud.piranha.webapp.api;
@@ -45,5 +43,6 @@ module cloud.piranha.micro.embedded {
     requires cloud.piranha.resource;
     requires cloud.piranha.resource.shrinkwrap;
     requires cloud.piranha.embedded;
+    requires com.manorrock.herring.thread;
     requires shrinkwrap.api;
 }
