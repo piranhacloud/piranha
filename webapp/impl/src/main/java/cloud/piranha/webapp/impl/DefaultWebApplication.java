@@ -27,7 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.naming.impl.DefaultNamingManager;
 import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.impl.DefaultPolicyManager;
@@ -45,6 +44,7 @@ import cloud.piranha.webapp.api.LocaleEncodingManager;
 import cloud.piranha.webapp.api.LoggingManager;
 import cloud.piranha.webapp.api.MimeTypeManager;
 import cloud.piranha.webapp.api.MultiPartManager;
+import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.api.ObjectInstanceManager;
 import cloud.piranha.webapp.api.SecurityManager;
 import cloud.piranha.webapp.api.ServletEnvironment;

@@ -27,7 +27,6 @@
  */
 package cloud.piranha.webapp.api;
 
-import cloud.piranha.naming.api.NamingManager;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.api.ResourceManager;
 import jakarta.servlet.DispatcherType;

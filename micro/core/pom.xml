@@ -74,11 +74,6 @@
                 
          <!-- Setting the JNDI context per Micro instance, piggy-backing on a single global one -->
         <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.manorrock.herring</groupId>
             <artifactId>herring-thread</artifactId>
         </dependency>

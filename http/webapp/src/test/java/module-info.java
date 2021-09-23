@@ -42,7 +42,6 @@ module cloud.piranha.http.webapp.tests {
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;
-    requires cloud.piranha.naming.api;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires com.manorrock.herring.thread;

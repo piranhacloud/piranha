@@ -27,7 +27,7 @@
  */
 package cloud.piranha.naming.impl;
 
-import cloud.piranha.naming.api.NamingManager;
+import cloud.piranha.webapp.api.NamingManager;
 import javax.naming.Context;
 
 /**

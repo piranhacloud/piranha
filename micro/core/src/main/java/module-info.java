@@ -41,7 +41,6 @@ module cloud.piranha.micro.core {
     requires cloud.piranha.extension.weld;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
-    requires cloud.piranha.naming.api;
     requires cloud.piranha.resource.shrinkwrap;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;

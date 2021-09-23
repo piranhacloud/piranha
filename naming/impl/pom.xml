@@ -16,8 +16,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-api</artifactId>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

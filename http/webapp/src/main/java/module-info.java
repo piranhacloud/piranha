@@ -41,7 +41,6 @@ module cloud.piranha.http.webapp {
     opens cloud.piranha.http.webapp;
     requires transitive cloud.piranha.http.api;
     requires cloud.piranha.webapp.api;
-    requires cloud.piranha.naming.api;
     requires cloud.piranha.webapp.impl;
     requires com.manorrock.herring.thread;
 }
