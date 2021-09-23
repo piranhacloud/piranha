@@ -9,11 +9,11 @@ jobs:
     steps:
     - name: Checkout sources
       uses: actions/checkout@v1
-    - name: Set up Java 16
+    - name: Set up Java 17
       uses: actions/setup-java@v2
       with:
         distribution: 'temurin'
-        java-version: 16
+        java-version: 17
     - name: Build with Maven
       run: mvn --no-transfer-progress -B -DskipTests=true -DskipITs -P '!test' verify
     - name: Login to Docker Hub
@@ -48,11 +48,11 @@ jobs:
     steps:
     - name: Checkout sources
       uses: actions/checkout@v1
-    - name: Set up Java 16
+    - name: Set up Java 17
       uses: actions/setup-java@v2
       with:
         distribution: 'temurin'
-        java-version: 16
+        java-version: 17
         server-id: ossrh
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
@@ -66,11 +66,11 @@ jobs:
     steps:
     - name: Checkout sources
       uses: actions/checkout@v1
-    - name: Set up Java 16
+    - name: Set up Java 17
       uses: actions/setup-java@v2
       with:
         distribution: 'temurin'
-        java-version: 16
+        java-version: 17
     - name: Analyze with SonarCloud
       run: |
         mvn --no-transfer-progress -B install verify site \
