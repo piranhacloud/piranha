@@ -42,5 +42,6 @@ module cloud.piranha.http.tests {
     opens cloud.piranha.http.tests;
     requires cloud.piranha.http.api;
     requires java.net.http;
-    requires org.junit.jupiter.api;
+    requires static org.junit.jupiter.api;
+    requires static org.apiguardian.api;
 }
