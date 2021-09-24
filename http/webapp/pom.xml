@@ -21,9 +21,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-             <groupId>cloud.piranha.naming</groupId>
-             <artifactId>piranha-naming-impl</artifactId>
-             <version>${project.version}</version>
+            <groupId>cloud.piranha.naming</groupId>
+            <artifactId>piranha-naming-impl</artifactId>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -33,8 +33,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-             <groupId>com.manorrock.herring</groupId>
-             <artifactId>herring-thread</artifactId>
+            <groupId>com.manorrock.herring</groupId>
+            <artifactId>herring-thread</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>

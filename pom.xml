@@ -40,6 +40,7 @@
             <name>Thiago Henrique Hupner</name>
         </developer>
     </developers>
+
     <modules>
         <module>arquillian</module>
         <module>bom</module>
@@ -57,6 +58,7 @@
         <module>servlet</module>
         <module>webapp</module>
     </modules>
+
     <scm>
         <connection>scm:git:git://github.com/piranhacloud/piranha.git</connection>
         <developerConnection>scm:git:git@github.com:piranhacloud/piranha.git</developerConnection>

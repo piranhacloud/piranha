@@ -8,6 +8,7 @@
         <artifactId>project</artifactId>
         <version>21.10.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>piranha-micro</artifactId>
     <packaging>jar</packaging>
 
