@@ -14,11 +14,6 @@
 
     <name>Piranha Test - Project</name>
 
-    <!--
-        
-        See MIGRATION.md
-    
-      -->
     <modules>
         <module>arquillian</module>
         <module>classloader</module>
@@ -31,16 +26,9 @@
         <module>micro</module>
         <module>mojarra2</module>
         <module>myfaces</module>
-        <!--<module>openwebbeans</module>-->
-        <!--<module>smallrye-health</module>-->
-        <!--<module>omnifaces-jwt</module>-->
         <module>soteria</module>
-        <!--<module>springmvc</module>-->
-        <!--<module>struts</module>-->
-        <!--<module>vaadin</module>-->
         <module>webxml</module>
         <module>weld</module>
-        <!--<module>wicket</module>-->
         <module>webapp</module>
         <module>server</module>
     </modules>

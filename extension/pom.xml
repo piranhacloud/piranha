@@ -22,17 +22,13 @@
         <module>exousia</module>
         <module>hazelcast</module>
         <module>jakartaee</module>
-        <module>micro</module> 
-        <module>microprofile</module>
+        <module>micro</module>
         <module>mojarra</module>
         <module>myfaces</module>
-        <module>omnifaces-jwt</module>
-        <module>openwebbeans</module>
         <module>scinitializer</module>
         <module>security-file</module>
         <module>security-jakarta</module>
         <module>server</module>
-        <module>smallrye-health</module>
         <module>soteria</module>
         <module>tempdir</module>
         <module>wasp</module>
