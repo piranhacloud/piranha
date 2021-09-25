@@ -90,16 +90,7 @@
             <artifactId>piranha-extension-weld</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
-        </dependency>
-        
-        <!-- Jakarta JNDI -->
-        <dependency>
-            <groupId>cloud.piranha.naming</groupId>
-            <artifactId>piranha-naming-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        
+        </dependency>        
         
         <!-- Piranha implementation details -->
         

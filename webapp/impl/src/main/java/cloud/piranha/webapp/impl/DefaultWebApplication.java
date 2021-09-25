@@ -27,7 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.naming.impl.DefaultNamingManager;
 import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.impl.DefaultPolicyManager;
 import cloud.piranha.resource.DefaultResourceManager;
