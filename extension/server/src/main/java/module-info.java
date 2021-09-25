@@ -30,24 +30,20 @@
  * The Piranha Extension - Server module.
  * 
  * <p>
- *  This module delivers everything a Servlet container should have available as
- *  part of its runtime.
- * </p>
- * <p>
- *  It delivers the following:
+ *  This module delivers the following default extensions for Piranha Server:
  * </p>
  * <ul>
  *  <li>Annotation scanning support</li>
- *  <li>Jakarta Pages support</li>
  *  <li>ServletContainerInitializer support</li>
  *  <li>TEMPDIR support</li>
+ *  <li>WaSP support</li>
  *  <li>Web annotations support</li>
  *  <li>Web.xml support</li>
  * </ul>
  */
 module cloud.piranha.extension.server {
-    
     exports cloud.piranha.extension.server;
+    opens cloud.piranha.extension.server;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.tempdir;

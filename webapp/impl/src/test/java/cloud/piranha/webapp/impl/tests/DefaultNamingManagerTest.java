@@ -25,8 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.naming.impl;
+package cloud.piranha.webapp.impl.tests;
 
+import cloud.piranha.webapp.impl.DefaultNamingManager;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

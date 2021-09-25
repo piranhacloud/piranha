@@ -41,17 +41,16 @@ import org.jboss.weld.environment.servlet.Container;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.weld {
-
     exports cloud.piranha.extension.weld;
     opens cloud.piranha.extension.weld;
     provides Container with WeldContainer;
     provides Service with WeldSecurityService;
-    requires cloud.piranha.naming.impl;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires jakarta.inject;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;
+    requires java.naming;
     requires weld.api;
     requires weld.core.impl;
     requires weld.spi;

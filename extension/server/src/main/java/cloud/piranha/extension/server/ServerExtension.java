@@ -37,7 +37,7 @@ import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationExtensionContext;
 
 /**
- * The default WebApplicationExtension used to configure a web application.
+ * The ServerExtension delivers the default extensions for Piranha Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

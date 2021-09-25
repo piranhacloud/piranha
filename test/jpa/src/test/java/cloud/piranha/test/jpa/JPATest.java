@@ -27,25 +27,22 @@
  */
 package cloud.piranha.test.jpa;
 
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import javax.naming.InitialContext;
-
-import org.hsqldb.jdbc.JDBCDataSource;
-import org.junit.jupiter.api.Test;
-
-import cloud.piranha.extension.weld.WeldInitializer;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.mojarra.MojarraInitializer;
-import cloud.piranha.naming.impl.DefaultNamingManager;
+import cloud.piranha.extension.weld.WeldInitializer;
+import cloud.piranha.webapp.impl.DefaultNamingManager;
 import com.manorrock.herring.DefaultInitialContext;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+import javax.naming.InitialContext;
+import org.hsqldb.jdbc.JDBCDataSource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the Hello Weld web application.

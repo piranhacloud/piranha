@@ -35,7 +35,6 @@ module cloud.piranha.micro.embedded {
     exports cloud.piranha.micro.embedded;
     opens cloud.piranha.micro.embedded;
     requires cloud.piranha.micro.loader;
-    requires cloud.piranha.naming.impl;
     requires cloud.piranha.policy.api;
     requires cloud.piranha.policy.thread;
     requires cloud.piranha.webapp.api;
