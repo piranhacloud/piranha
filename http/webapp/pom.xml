@@ -19,7 +19,7 @@
             <artifactId>piranha-http-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>    
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
@@ -27,8 +27,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-             <groupId>com.manorrock.herring</groupId>
-             <artifactId>herring-thread</artifactId>
+            <groupId>com.manorrock.herring</groupId>
+            <artifactId>herring-thread</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
