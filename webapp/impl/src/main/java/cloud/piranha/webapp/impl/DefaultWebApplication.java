@@ -192,11 +192,6 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the effective minor version.
      */
     protected int effectiveMinorVersion = -1;
-    
-    /**
-     * Stores the naming manager.
-     */
-    protected NamingManager namingManager;
 
     /**
      * Stores the servlet context name.
@@ -337,6 +332,7 @@ public class DefaultWebApplication implements WebApplication {
         managers.put(LocaleEncodingManager.class.getName(),  new DefaultLocaleEncodingManager());
         managers.put(LoggingManager.class.getName(), new DefaultLoggingManager());
         managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());
+        managers.put(NamingManager.class.getName(), new DefaultNamingManager(new DefaultInitialContext()));
         managers.put(ObjectInstanceManager.class.getName(), new DefaultObjectInstanceManager());
         managers.put(PolicyManager.class.getName(), new DefaultPolicyManager());
         managers.put(SecurityManager.class.getName(), new DefaultSecurityManager());
@@ -353,7 +349,6 @@ public class DefaultWebApplication implements WebApplication {
         httpRequestManager = new DefaultHttpRequestManager();
         initParameters = new ConcurrentHashMap<>(1);
         initializers = new ArrayList<>(1);
-        namingManager = new DefaultNamingManager(new DefaultInitialContext());
         requestListeners = new ArrayList<>(1);
         resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
@@ -1748,18 +1743,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Verify the web application state.
-     *
-     * @param desiredStatus the desired status.
-     * @param message the message.
-     */
-    protected void verifyState(int desiredStatus, String message) {
-        if (status != desiredStatus) {
-            throw new RuntimeException(message);
-        }
-    }
-
-    /**
      * Attribute added.
      *
      * @param name the name.
@@ -1813,11 +1796,6 @@ public class DefaultWebApplication implements WebApplication {
         return clazz.cast(managers.get(clazz.getName()));
     }
 
-    @Override
-    public NamingManager getNamingManager() {
-        return namingManager;
-    }
-
     /**
      * Is the string null or empty.
      * 
@@ -1866,9 +1844,16 @@ public class DefaultWebApplication implements WebApplication {
     public <T> void setManager(Class<T> clazz, T manager) {
         managers.put(clazz.getName(), manager);
     }
-    
-    @Override
-    public void setNamingManager(NamingManager namingManager) {
-        this.namingManager = namingManager;
+
+    /**
+     * Verify the web application state.
+     *
+     * @param desiredStatus the desired status.
+     * @param message the message.
+     */
+    protected void verifyState(int desiredStatus, String message) {
+        if (status != desiredStatus) {
+            throw new RuntimeException(message);
+        }
     }
 }

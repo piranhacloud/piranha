@@ -27,6 +27,7 @@
  */
 package cloud.piranha.micro.core;
 
+import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.CookieParser;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
@@ -76,7 +77,7 @@ public class MicroInnerApplication implements Consumer<Map<String, Object>> {
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
-            ThreadInitialContextFactory.setInitialContext(webApplication.getNamingManager().getContext());
+            ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
             webApplication.service(copyMapToApplicationRequest(requestMap), copyMapToApplicationResponse(requestMap));
 
         } catch (ServletException | IOException e) {

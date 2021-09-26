@@ -34,6 +34,7 @@ import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.mojarra.MojarraInitializer;
 import cloud.piranha.extension.weld.WeldInitializer;
+import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.impl.DefaultNamingManager;
 import com.manorrock.herring.DefaultInitialContext;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
@@ -78,7 +79,8 @@ class JPATest {
                 .servletPath("/index.html")
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
-        piranha.getWebApplication().setNamingManager(new DefaultNamingManager(defaultInitialContext));
+        piranha.getWebApplication().setManager(NamingManager.class, 
+                new DefaultNamingManager(defaultInitialContext));
         piranha.service(request, response);
         assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Count: 0"));

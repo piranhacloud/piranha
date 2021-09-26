@@ -33,6 +33,7 @@ import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
 import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.thread.ThreadPolicy;
+import cloud.piranha.webapp.api.NamingManager;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
 
 /**
@@ -94,7 +95,7 @@ public class MicroEmbeddedPiranhaBuilder {
 
 		try {
 			ThreadPolicy.setPolicy(microWebApplication.getManager(PolicyManager.class).getPolicy());
-			ThreadInitialContextFactory.setInitialContext(microWebApplication.getNamingManager().getContext());
+			ThreadInitialContextFactory.setInitialContext(microWebApplication.getManager(NamingManager.class).getContext());
 
 			microWebApplication.setDeployedApplication(
 					new MicroOuterDeployer(configuration.postConstruct()).deploy(archive).getDeployedApplication());

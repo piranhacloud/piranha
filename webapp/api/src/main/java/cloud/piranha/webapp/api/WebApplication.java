@@ -155,11 +155,6 @@ public interface WebApplication extends ServletContext {
      * @return true if we are, false otherwise.
      */
     boolean getDenyUncoveredHttpMethods();
-    
-    /**
-     * {@return the naming manager}
-     */
-    NamingManager getNamingManager();
 
     /**
      * Returns the unique Id of this web application corresponding to this
@@ -330,13 +325,6 @@ public interface WebApplication extends ServletContext {
     void setHttpSessionManager(HttpSessionManager httpSessionManager);
 
     /**
-     * Set the HTTP request manager.
-     *
-     * @param httpRequestManager the HTTP request manager.
-     */
-    void setHttpRequestManager(HttpRequestManager httpRequestManager);
-
-    /**
      * Get the manager.
      * 
      * @param <T> the manager return type.
@@ -346,6 +334,13 @@ public interface WebApplication extends ServletContext {
     <T> T getManager(Class<T> clazz);
     
     /**
+     * Set the HTTP request manager.
+     *
+     * @param httpRequestManager the HTTP request manager.
+     */
+    void setHttpRequestManager(HttpRequestManager httpRequestManager);
+
+    /**
      * Set the manager.
      * 
      * @param <T> the manager type.
@@ -354,13 +349,6 @@ public interface WebApplication extends ServletContext {
      */
     <T> void setManager(Class<T> clazz, T manager);
     
-    /**
-     * Set the naming manager.
-     * 
-     * @param namingManager the naming manager.
-     */
-    void setNamingManager(NamingManager namingManager);
-
     /**
      * Set the resource manager.
      *
