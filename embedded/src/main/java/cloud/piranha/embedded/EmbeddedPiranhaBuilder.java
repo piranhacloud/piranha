@@ -97,6 +97,11 @@ public class EmbeddedPiranhaBuilder {
      * Stores the HTTP session manager.
      */
     private HttpSessionManager httpSessionManager;
+    
+    /**
+     * Stores the listeners.
+     */
+    private final ArrayList<String> listeners;
 
     /**
      * Stores the resources.
@@ -129,6 +134,7 @@ public class EmbeddedPiranhaBuilder {
         filterInitParameters = new LinkedHashMap<>();
         filterMappings = new LinkedHashMap<>();
         initializers = new ArrayList<>();
+        listeners = new ArrayList<>();
         resources = new ArrayList<>();
         servlets = new LinkedHashMap<>();
         servletInitParameters = new LinkedHashMap<>();
@@ -195,6 +201,8 @@ public class EmbeddedPiranhaBuilder {
         resources.forEach(webApplication::addResource);
 
         initializers.forEach(webApplication::addInitializer);
+        
+        listeners.forEach(webApplication::addListener);
 
         servlets.entrySet().forEach(entry -> {
             String servletName = entry.getKey();
@@ -375,6 +383,17 @@ public class EmbeddedPiranhaBuilder {
      */
     public EmbeddedPiranhaBuilder initializer(String className) {
         initializers.add(className);
+        return this;
+    }
+    
+    /**
+     * Add a listeners.
+     * 
+     * @param className the class name.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder listener(String className) {
+        listeners.add(className);
         return this;
     }
     
