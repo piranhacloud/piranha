@@ -27,30 +27,17 @@
  */
 
 /**
- * The Piranha Extension - Server module.
+ * The Piranha Extension - Herring integration module.
  * 
  * <p>
- *  This module delivers the following default extensions for Piranha Server:
+ *  This module delivers the integration of Manorrock Herring into Piranha.
  * </p>
- * <ul>
- *  <li>Annotation scanning support</li>
- *  <li>JNDI support (Manorrock Herring)</li>
- *  <li>ServletContainerInitializer support</li>
- *  <li>TEMPDIR support</li>
- *  <li>WaSP support</li>
- *  <li>Web annotations support</li>
- *  <li>Web.xml support</li>
- * </ul>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.server {
-    exports cloud.piranha.extension.server;
-    opens cloud.piranha.extension.server;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webannotations;
-    requires cloud.piranha.extension.webxml;
+module cloud.piranha.extension.herring {
+    exports cloud.piranha.extension.herring;
+    opens cloud.piranha.extension.herring;
     requires cloud.piranha.webapp.api;
+    requires transitive com.manorrock.herring.thread;
 }

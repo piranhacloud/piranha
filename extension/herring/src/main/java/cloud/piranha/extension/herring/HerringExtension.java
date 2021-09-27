@@ -25,32 +25,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.herring;
+
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
- * The Piranha Extension - Server module.
- * 
- * <p>
- *  This module delivers the following default extensions for Piranha Server:
- * </p>
- * <ul>
- *  <li>Annotation scanning support</li>
- *  <li>JNDI support (Manorrock Herring)</li>
- *  <li>ServletContainerInitializer support</li>
- *  <li>TEMPDIR support</li>
- *  <li>WaSP support</li>
- *  <li>Web annotations support</li>
- *  <li>Web.xml support</li>
- * </ul>
+ * The extension that delivers the integration of Manorrock Herring into
+ * Piranha.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.server {
-    exports cloud.piranha.extension.server;
-    opens cloud.piranha.extension.server;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webannotations;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.webapp.api;
+public class HerringExtension implements WebApplicationExtension {
+
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        webApplication.addListener(HerringServletRequestListener.class.getName());
+    }
 }

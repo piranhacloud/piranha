@@ -21,6 +21,7 @@
         <module>eleos</module>
         <module>exousia</module>
         <module>hazelcast</module>
+        <module>herring</module>
         <module>jakartaee</module>
         <module>micro</module>
         <module>mojarra</module>

@@ -487,26 +487,26 @@ public class DefaultWebApplication implements WebApplication {
             throw new IllegalStateException("Illegal to add listener because state is not SETUP");
         }
 
-        if (listener instanceof ServletContextListener) {
+        if (listener instanceof ServletContextListener servletContextListener) {
             if (source != null && source instanceof ServletContainerInitializer == false) {
                 throw new IllegalArgumentException("Illegal to add ServletContextListener because this context was not passed to a ServletContainerInitializer");
             }
 
             if (status == INITIALIZED_DECLARED) {
-                contextListeners.add((ServletContextListener) listener);
+                contextListeners.add(servletContextListener);
             } else {
-                declaredContextListeners.add((ServletContextListener) listener);
+                declaredContextListeners.add(servletContextListener);
             }
         }
 
-        if (listener instanceof ServletContextAttributeListener) {
-            contextAttributeListeners.add((ServletContextAttributeListener) listener);
+        if (listener instanceof ServletContextAttributeListener servletContextAttributeListener) {
+            contextAttributeListeners.add(servletContextAttributeListener);
         }
-        if (listener instanceof ServletRequestListener) {
-            requestListeners.add((ServletRequestListener) listener);
+        if (listener instanceof ServletRequestListener servletRequestListener) {
+            requestListeners.add(servletRequestListener);
         }
-        if (listener instanceof ServletRequestAttributeListener) {
-            httpRequestManager.addListener((ServletRequestAttributeListener) listener);
+        if (listener instanceof ServletRequestAttributeListener servletRequestAttributeListener) {
+            httpRequestManager.addListener(servletRequestAttributeListener);
         }
         if (listener instanceof HttpSessionAttributeListener) {
             httpSessionManager.addListener(listener);
@@ -722,9 +722,6 @@ public class DefaultWebApplication implements WebApplication {
         return contextPath;
     }
 
-    /**
-     * @see WebApplication#getDefaultSessionTrackingModes()
-     */
     @Override
     public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
         checkTainted();
@@ -732,17 +729,11 @@ public class DefaultWebApplication implements WebApplication {
         return httpSessionManager.getDefaultSessionTrackingModes();
     }
 
-    /**
-     * @see WebApplication#getDefaultServlet()
-     */
     @Override
     public Servlet getDefaultServlet() {
         return defaultServlet;
     }
 
-    /**
-     * {@return the effective major version}
-     */
     @Override
     public int getEffectiveMajorVersion() {
         checkTainted();

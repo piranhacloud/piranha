@@ -27,30 +27,16 @@
  */
 
 /**
- * The Piranha Extension - Server module.
+ * The JUnit tests module for the Piranha Extension - Herring module.
  * 
- * <p>
- *  This module delivers the following default extensions for Piranha Server:
- * </p>
- * <ul>
- *  <li>Annotation scanning support</li>
- *  <li>JNDI support (Manorrock Herring)</li>
- *  <li>ServletContainerInitializer support</li>
- *  <li>TEMPDIR support</li>
- *  <li>WaSP support</li>
- *  <li>Web annotations support</li>
- *  <li>Web.xml support</li>
- * </ul>
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.server {
-    exports cloud.piranha.extension.server;
-    opens cloud.piranha.extension.server;
-    requires cloud.piranha.extension.annotationscan;
+module cloud.piranha.extension.herring.tests {
+    exports cloud.piranha.extension.herring.tests;
+    opens cloud.piranha.extension.herring.tests;
+    requires cloud.piranha.embedded;
     requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webannotations;
-    requires cloud.piranha.extension.webxml;
     requires cloud.piranha.webapp.api;
+    requires java.naming;
+    requires org.junit.jupiter.api;
 }

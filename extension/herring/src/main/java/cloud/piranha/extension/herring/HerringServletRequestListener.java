@@ -25,32 +25,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.herring;
+
+import cloud.piranha.webapp.api.NamingManager;
+import cloud.piranha.webapp.api.WebApplication;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
+import static java.lang.System.Logger.Level.ALL;
 
 /**
- * The Piranha Extension - Server module.
- * 
- * <p>
- *  This module delivers the following default extensions for Piranha Server:
- * </p>
- * <ul>
- *  <li>Annotation scanning support</li>
- *  <li>JNDI support (Manorrock Herring)</li>
- *  <li>ServletContainerInitializer support</li>
- *  <li>TEMPDIR support</li>
- *  <li>WaSP support</li>
- *  <li>Web annotations support</li>
- *  <li>Web.xml support</li>
- * </ul>
+ * The Herring ServletRequestListener.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.server {
-    exports cloud.piranha.extension.server;
-    opens cloud.piranha.extension.server;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webannotations;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.webapp.api;
+public class HerringServletRequestListener implements ServletRequestListener {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(
+            HerringServletRequestListener.class.getName());
+
+    @Override
+    public void requestDestroyed(ServletRequestEvent event) {
+        LOGGER.log(ALL, "Removing InitialContext");
+        ThreadInitialContextFactory.removeInitialContext();
+    }
+
+    @Override
+    public void requestInitialized(ServletRequestEvent event) {
+        LOGGER.log(ALL, "Setting InitialContext");
+        WebApplication webApplication = (WebApplication) event.getServletContext();
+        NamingManager manager = webApplication.getManager(NamingManager.class);
+        ThreadInitialContextFactory.setInitialContext(manager.getContext());
+    }
 }

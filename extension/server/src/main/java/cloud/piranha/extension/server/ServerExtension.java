@@ -28,6 +28,7 @@
 package cloud.piranha.extension.server;
 
 import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
+import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
@@ -45,6 +46,7 @@ public class ServerExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
+        context.add(HerringExtension.class);
         context.add(AnnotationScanExtension.class);
         context.add(WebXmlExtension.class);
         context.add(WebAnnotationsExtension.class);
