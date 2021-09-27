@@ -17,6 +17,14 @@
     </description>
 
     <dependencies>
+        <!-- compile -->
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-herring</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        
         <!-- Jakarta Servlet -->
         <dependency>
             <groupId>cloud.piranha.servlet</groupId>

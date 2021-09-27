@@ -28,10 +28,8 @@
 package cloud.piranha.embedded;
 
 import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
-import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -163,7 +161,6 @@ public class EmbeddedPiranha {
      */
     public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
         try {
-            ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
             ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(e -> webApplication.getResourceAsStream(e));
 
             if (servletRequest.getServletContext() == null && servletRequest instanceof EmbeddedRequest embeddedRequest) {
@@ -178,7 +175,6 @@ public class EmbeddedPiranha {
             webApplication.unlinkRequestAndResponse(servletRequest, servletResponse);
 
         } finally {
-            ThreadInitialContextFactory.removeInitialContext();
             ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(null);
         }
     }

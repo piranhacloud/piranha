@@ -30,5 +30,11 @@
             <artifactId>jaxb-impl</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-herring</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

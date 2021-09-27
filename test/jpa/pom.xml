@@ -47,6 +47,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-herring</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-weld</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -61,11 +67,6 @@
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-embedded</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.manorrock.herring</groupId>
-            <artifactId>herring-thread</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

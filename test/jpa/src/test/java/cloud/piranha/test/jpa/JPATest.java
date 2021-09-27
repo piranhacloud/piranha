@@ -32,6 +32,7 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.mojarra.MojarraInitializer;
 import cloud.piranha.extension.weld.WeldInitializer;
 import cloud.piranha.webapp.api.NamingManager;
@@ -70,6 +71,7 @@ class JPATest {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")
+                .extension(HerringExtension.class)
                 .initializer(WeldInitializer.class.getName())
                 .initializer(MojarraInitializer.class.getName())
                 .build()
@@ -84,7 +86,6 @@ class JPATest {
         piranha.service(request, response);
         assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Count: 0"));
-        piranha.stop()
-                .destroy();
+        piranha.stop().destroy();
     }
 }

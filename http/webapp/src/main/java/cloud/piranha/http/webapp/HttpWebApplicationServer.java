@@ -33,7 +33,6 @@ import static cloud.piranha.http.api.HttpServerProcessorEndState.ASYNCED;
 import static cloud.piranha.http.api.HttpServerProcessorEndState.COMPLETED;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
-import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
@@ -42,7 +41,6 @@ import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.webapp.impl.CookieParser;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import java.io.IOException;
@@ -264,7 +262,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
 
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
-            ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
             Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
             String contextPath = webApplication.getContextPath();
             request.setContextPath(contextPath);
@@ -278,7 +275,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             request.getParameterMap();
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
-            ThreadInitialContextFactory.removeInitialContext();
         }
     }
 

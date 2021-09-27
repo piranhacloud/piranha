@@ -27,12 +27,10 @@
  */
 package cloud.piranha.micro.core;
 
-import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.impl.CookieParser;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 
@@ -77,14 +75,12 @@ public class MicroInnerApplication implements Consumer<Map<String, Object>> {
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(webApplication.getClassLoader());
-            ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
             webApplication.service(copyMapToApplicationRequest(requestMap), copyMapToApplicationResponse(requestMap));
 
         } catch (ServletException | IOException e) {
             LOGGER.log(Level.WARNING, "An error occurred servicing request", e);
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
-            ThreadInitialContextFactory.removeInitialContext();
         }
     }
 

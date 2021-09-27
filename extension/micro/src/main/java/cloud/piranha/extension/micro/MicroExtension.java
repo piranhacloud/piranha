@@ -27,8 +27,7 @@
  */
 package cloud.piranha.extension.micro;
 
-import static java.util.Arrays.asList;
-
+import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.extension.wasp.WaspInitializer;
@@ -36,6 +35,8 @@ import cloud.piranha.extension.webannotations.WebAnnotationsInitializer;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.webapp.api.WebApplicationExtensionContext;
+import static java.util.Arrays.asList;
 
 /**
  * The default {@link WebApplicationExtension} used to configure a web application for Piranha Micro.
@@ -44,11 +45,11 @@ import cloud.piranha.webapp.api.WebApplicationExtension;
  */
 public class MicroExtension implements WebApplicationExtension {
 
-    /**
-     * Configure the web application.
-     *
-     * @param webApplication the web application.
-     */
+    @Override
+    public void extend(WebApplicationExtensionContext context) {
+        context.add(HerringExtension.class);
+    }
+
     @Override
     public void configure(WebApplication webApplication) {
         webApplication.addInitializer(new WebXmlInitializer());

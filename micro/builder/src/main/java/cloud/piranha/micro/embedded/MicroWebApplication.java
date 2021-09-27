@@ -41,11 +41,9 @@ import java.util.function.Consumer;
 
 import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.thread.ThreadPolicy;
-import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 
@@ -97,11 +95,9 @@ public class MicroWebApplication extends DefaultWebApplication {
     public void service(ServletRequest request, ServletResponse response) {
         try {
             ThreadPolicy.setPolicy(getManager(PolicyManager.class).getPolicy());
-            ThreadInitialContextFactory.setInitialContext(getManager(NamingManager.class).getContext());
             deployedApplication.accept(copyApplicationRequestToMap((WebApplicationRequest) request, (WebApplicationResponse) response));
         } finally {
             ThreadPolicy.removePolicy();
-            ThreadInitialContextFactory.removeInitialContext();
         }
     }
 

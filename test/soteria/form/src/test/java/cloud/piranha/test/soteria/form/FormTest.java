@@ -28,6 +28,7 @@
 package cloud.piranha.test.soteria.form;
 
 import cloud.piranha.webapp.impl.DefaultServlet;
+import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.weld.WeldInitializer;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
@@ -70,6 +71,7 @@ public class FormTest {
     public void testAuthenticated() throws Exception {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .extension(HerringExtension.class)
                 .initializer(WebXmlInitializer.class.getName())
                 .initializer(WeldInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)

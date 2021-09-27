@@ -32,7 +32,7 @@ import cloud.piranha.webapp.api.WebApplication;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
-import static java.lang.System.Logger.Level.ALL;
+import static java.lang.System.Logger.Level.DEBUG;
 
 /**
  * The Herring ServletRequestListener.
@@ -49,13 +49,13 @@ public class HerringServletRequestListener implements ServletRequestListener {
 
     @Override
     public void requestDestroyed(ServletRequestEvent event) {
-        LOGGER.log(ALL, "Removing InitialContext");
+        LOGGER.log(DEBUG, "Removing InitialContext");
         ThreadInitialContextFactory.removeInitialContext();
     }
 
     @Override
     public void requestInitialized(ServletRequestEvent event) {
-        LOGGER.log(ALL, "Setting InitialContext");
+        LOGGER.log(DEBUG, "Setting InitialContext");
         WebApplication webApplication = (WebApplication) event.getServletContext();
         NamingManager manager = webApplication.getManager(NamingManager.class);
         ThreadInitialContextFactory.setInitialContext(manager.getContext());
