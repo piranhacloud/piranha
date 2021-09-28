@@ -44,13 +44,6 @@
                 <artifactId>herring-thread</artifactId>
                 <version>21.9.1</version>
             </dependency>
-            
-            <!-- Picocli -->
-            <dependency>
-                <groupId>info.picocli</groupId>
-                <artifactId>picocli</artifactId>
-                <version>4.6.1</version>
-            </dependency>
 
             <!-- Netty -->
             <dependency>
