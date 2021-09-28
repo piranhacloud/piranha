@@ -33,7 +33,6 @@ import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.resource.StringResource;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.webapp.api.HttpSessionManager;
-import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
@@ -176,7 +175,6 @@ public class EmbeddedPiranhaBuilder {
         EmbeddedPiranha piranha = new EmbeddedPiranha();
 
         WebApplication webApplication = piranha.getWebApplication();
-        ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
         
         ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(e -> webApplication.getResourceAsStream(e));
         
@@ -249,7 +247,6 @@ public class EmbeddedPiranhaBuilder {
         webApplication.initializeServlets();
         webApplication.initializeFinish();
 
-        ThreadInitialContextFactory.removeInitialContext();
         ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(null);
         return piranha;
     }

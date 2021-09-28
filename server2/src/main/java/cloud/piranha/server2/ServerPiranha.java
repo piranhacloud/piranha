@@ -46,7 +46,6 @@ import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
 import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.thread.ThreadPolicy;
-import cloud.piranha.webapp.api.NamingManager;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
 
 import static java.lang.System.Logger.Level.INFO;
@@ -198,7 +197,6 @@ public class ServerPiranha implements Runnable {
             microWebApplication.setContextPath(contextPath);
 
             ThreadPolicy.setPolicy(microWebApplication.getManager(PolicyManager.class).getPolicy());
-            ThreadInitialContextFactory.setInitialContext(microWebApplication.getManager(NamingManager.class).getContext());
 
             microWebApplication.setDeployedApplication(
                 new MicroOuterDeployer(configuration.postConstruct())
@@ -210,7 +208,6 @@ public class ServerPiranha implements Runnable {
             LOGGER.log(Level.ERROR, () -> "Failed to initialize app " + contextPath, e);
         } finally {
             ThreadPolicy.removePolicy();
-            ThreadInitialContextFactory.removeInitialContext();
         }
     }
 

@@ -72,7 +72,7 @@ public class HerringExtensionTest {
                 context1.getEnvironment().get("TheSame"),
                 context2.getEnvironment().get("TheSame"));
     }
-
+    
     /**
      * Inner class used to test if the InitialContext set by listener is equal
      * to the one set on the naming manager.

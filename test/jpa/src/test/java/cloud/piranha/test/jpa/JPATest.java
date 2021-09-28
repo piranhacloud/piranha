@@ -87,5 +87,6 @@ class JPATest {
         assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Count: 0"));
         piranha.stop().destroy();
+        ThreadInitialContextFactory.removeInitialContext();
     }
 }

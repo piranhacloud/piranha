@@ -75,7 +75,6 @@ import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import cloud.piranha.webapp.api.AnnotationManager;
-import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultAnnotationInfo;
@@ -179,8 +178,6 @@ public class MicroInnerDeployer {
 
             WebApplication webApplication = getWebApplication(applicationArchive, classLoader);
             
-            ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
-
             LOGGER.log(INFO,
                     "Starting web application " + applicationArchive.getName() + " on Piranha Micro " + webApplication.getAttribute(MICRO_PIRANHA));
 
@@ -256,8 +253,6 @@ public class MicroInnerDeployer {
             throw new IllegalStateException(e);
         } catch (Exception e) {
             throw e;
-        } finally {
-            ThreadInitialContextFactory.removeInitialContext();
         }
     }
     

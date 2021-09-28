@@ -27,37 +27,27 @@
  */
 package cloud.piranha.extension.herring;
 
-import cloud.piranha.webapp.api.NamingManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The extension that delivers the integration of Manorrock Herring into
- * Piranha.
+ * The Herring ServletContextListener.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HerringExtension implements WebApplicationExtension {
+public class HerringServletContextListener implements ServletContextListener {
 
     /**
      * Stores the logger.
      */
     private static final System.Logger LOGGER = System.getLogger(
-            HerringExtension.class.getName());
+            HerringServletContextListener.class.getName());
 
-    /**
-     * Configure the web application.
-     *
-     * @param webApplication the web application.
-     */
     @Override
-    public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Configuring webapplication");
-        NamingManager manager = webApplication.getManager(NamingManager.class);
-        ThreadInitialContextFactory.setInitialContext(manager.getContext());
-        webApplication.addListener(HerringServletContextListener.class.getName());
-        webApplication.addListener(HerringServletRequestListener.class.getName());
+    public void contextInitialized(ServletContextEvent event) {
+        LOGGER.log(DEBUG, "Removing InitialContext");
+        ThreadInitialContextFactory.removeInitialContext();
     }
 }

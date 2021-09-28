@@ -35,6 +35,7 @@
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- test -->
         <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-embedded</artifactId>
@@ -42,8 +43,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.herring</groupId>
-            <artifactId>herring</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-herring</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

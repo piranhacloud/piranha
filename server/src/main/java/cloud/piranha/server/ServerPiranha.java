@@ -49,7 +49,6 @@ import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.modular.ModuleLayerProcessor;
 import cloud.piranha.modular.DefaultModuleFinder;
 import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
@@ -58,7 +57,6 @@ import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
 
 import static java.lang.System.Logger.Level.INFO;
-
 
 /**
  * The Servlet container version of Piranha.
@@ -93,7 +91,9 @@ public class ServerPiranha implements Runnable {
     private boolean ssl = false;
 
     /**
-     * {@return the instance}
+     * {
+     *
+     * @return the instance}
      */
     public static ServerPiranha get() {
         return INSTANCE;
@@ -204,48 +204,41 @@ public class ServerPiranha implements Runnable {
                     File webAppDirectory = new File(webappsDirectory, contextPath);
                     extractWarFile(webapp, webAppDirectory);
 
+                    DefaultWebApplication webApplication = new CrossContextWebApplication(requestMapper);
+
+                    webApplication.addResource(new DirectoryResource(webAppDirectory));
+
+                    DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDirectory);
+                    webApplication.setClassLoader(classLoader);
+
+                    if (Boolean.getBoolean("cloud.piranha.modular.enable")) {
+                        setupLayers(classLoader);
+                    }
+
+                    if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
+                        DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
+                        extensionContext.add(ServerExtension.class);
+                        extensionContext.configure(webApplication);
+                    } else {
+                        DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
+                        ServiceLoader<WebApplicationExtension> serviceLoader = ServiceLoader.load(WebApplicationExtension.class, classLoader);
+                        extensionContext.add(serviceLoader.iterator().next());
+                        extensionContext.configure(webApplication);
+                    }
+
+                    if (contextPath.equalsIgnoreCase("ROOT")) {
+                        contextPath = "";
+                    } else if (!contextPath.startsWith("/")) {
+                        contextPath = "/" + contextPath;
+                    }
+                    webApplication.setContextPath(contextPath);
+                    webApplicationServer.addWebApplication(webApplication);
+
                     try {
-                        DefaultWebApplication webApplication = new CrossContextWebApplication(requestMapper);
-
-                        ThreadInitialContextFactory.setInitialContext(webApplication.getManager(NamingManager.class).getContext());
-
-                        webApplication.addResource(new DirectoryResource(webAppDirectory));
-
-
-                        DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDirectory);
-                        webApplication.setClassLoader(classLoader);
-
-                        if (Boolean.getBoolean("cloud.piranha.modular.enable")) {
-                            setupLayers(classLoader);
-                        }
-
-                        if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
-                            DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                            extensionContext.add(ServerExtension.class);
-                            extensionContext.configure(webApplication);
-                        } else {
-                            DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                            ServiceLoader<WebApplicationExtension> serviceLoader = ServiceLoader.load(WebApplicationExtension.class, classLoader);
-                            extensionContext.add(serviceLoader.iterator().next());
-                            extensionContext.configure(webApplication);
-                        }
-
-                        if (contextPath.equalsIgnoreCase("ROOT")) {
-                            contextPath = "";
-                        } else if (!contextPath.startsWith("/")) {
-                            contextPath = "/" + contextPath;
-                        }
-                        webApplication.setContextPath(contextPath);
-                        webApplicationServer.addWebApplication(webApplication);
-
-                        try {
-                            webApplication.initialize();
-                            webApplication.start();
-                        } catch (Exception e) {
-                            LOGGER.log(Level.ERROR, () -> "Failed to initialize app " + webapp.getName(), e);
-                        }
-                    } finally {
-                        ThreadInitialContextFactory.removeInitialContext();
+                        webApplication.initialize();
+                        webApplication.start();
+                    } catch (Exception e) {
+                        LOGGER.log(Level.ERROR, () -> "Failed to initialize app " + webapp.getName(), e);
                     }
                 }
             }
@@ -265,8 +258,9 @@ public class ServerPiranha implements Runnable {
             if (!pidFile.exists()) {
                 webApplicationServer.stop();
                 httpServer.stop();
-                if (ssl)
+                if (ssl) {
                     httpsServer.stop();
+                }
                 System.exit(0);
             }
         }
