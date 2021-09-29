@@ -17,7 +17,6 @@
 
     <modules>
         <module>el</module>
-        <module>microprofile</module>
         <module>pages</module>
         <module>servlet</module>
     </modules>
