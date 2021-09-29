@@ -493,13 +493,6 @@
                 <artifactId>eleos</artifactId>
                 <version>1.0</version>
             </dependency>
-            
-            <!-- OmniFaces MicroProfile JWT auth -->
-            <dependency>
-                <groupId>org.omnifaces</groupId>
-                <artifactId>microprofile-jwt-auth</artifactId>
-                <version>1.0.1</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
