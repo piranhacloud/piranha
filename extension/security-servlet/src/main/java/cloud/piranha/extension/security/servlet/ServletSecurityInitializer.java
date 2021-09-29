@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.security.jakarta;
+package cloud.piranha.extension.security.servlet;
 
 import java.util.Set;
 
@@ -41,10 +41,10 @@ import cloud.piranha.webapp.api.WebApplication;
  * 
  * @author Arjan Tijms
  */
-public class JakartaSecurityInitializer implements ServletContainerInitializer {
+public class ServletSecurityInitializer implements ServletContainerInitializer {
     
     /**
-     * Initialize Jakarta Security
+     * Initialize Servlet Security
      * 
      * @param classes the classes.
      * @param servletContext the Servlet context.
@@ -53,6 +53,6 @@ public class JakartaSecurityInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setManager(SecurityManager.class, new JakartaSecurityManager());
+        webApplication.setManager(SecurityManager.class, new ServletSecurityManager());
     }
 }

@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.security.jakarta;
+package cloud.piranha.extension.security.servlet;
 
 import static cloud.piranha.extension.eleos.AuthenticationInitializer.AUTH_SERVICE;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
@@ -58,14 +58,12 @@ import cloud.piranha.webapp.impl.DefaultServletEnvironment;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 
 /**
- * SecurityManager implementation that uses Jakarta Security semantics.
- *
- * WIP!
+ * SecurityManager implementation that uses Servlet Security semantics.
  *
  * @author Arjan Tijms
  *
  */
-public class JakartaSecurityManager implements SecurityManager {
+public class ServletSecurityManager implements SecurityManager {
 
     /**
      * Handler for the specific HttpServletRequest#login method call

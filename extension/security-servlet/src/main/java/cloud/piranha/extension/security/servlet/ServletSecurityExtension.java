@@ -25,55 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.security.jakarta;
+package cloud.piranha.extension.security.servlet;
 
-import java.util.Set;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.System.Logger.Level;
+import java.lang.System.Logger;
 
-import cloud.piranha.extension.security.servlet.ServletSecurityAllInitializer;
-import cloud.piranha.extension.soteria.SoteriaInitializer;
-import cloud.piranha.extension.soteria.SoteriaPreCDIInitializer;
-import cloud.piranha.extension.weld.WeldInitializer;
 import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
+
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
- * The Jakarta Security All initializer.
+ * The extension for Servlet Security.
  *
- * @author Arjan Tijms
+ * @author Thiago Henrique Hupner
  */
-public class JakartaSecurityAllInitializer implements ServletContainerInitializer {
+public class ServletSecurityExtension implements WebApplicationExtension {
 
     /**
-     * Stores the initializers.
+     * Stores the logger.
      */
-    ServletContainerInitializer[] initializers = {
-
-        // Makes web.xml login-config available to Soteria
-        new SoteriaPreCDIInitializer(),
-        
-        // Initializes the Servlet Security primitives, on which Jakarta Security is based
-        new ServletSecurityAllInitializer(),
-
-        // Initializes CDI, on which Jakarta Security is also based
-        new WeldInitializer(),
-
-        // Configures Soteria, which implements Jakarta Security and sets itself as a Servlet 
-        // authentication module
-        new SoteriaInitializer(),
-    };
+    private static final Logger LOGGER = System.getLogger(ServletSecurityExtension.class.getName());
 
     /**
-     * Initialize Jakarta Security
+     * Configure the web application.
      *
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
+     * @param webApplication the web application.
      */
     @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        for (ServletContainerInitializer initializer : initializers) {
-            initializer.onStartup(classes, servletContext);
+    public void configure(WebApplication webApplication) {
+        try {
+            ClassLoader classLoader = webApplication.getClassLoader();
+            Class<? extends ServletContainerInitializer> clazz
+                    = classLoader.
+                    loadClass(ServletSecurityAllInitializer.class.getName())
+                    .asSubclass(ServletContainerInitializer.class);
+            ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
+            webApplication.addInitializer(initializer);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
+                | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException ex) {
+            LOGGER.log(Level.WARNING, "Unable to enable the ServletSecurityExtension", ex);
         }
     }
 }

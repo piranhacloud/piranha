@@ -21,7 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-security-jakarta</artifactId>
+            <artifactId>piranha-extension-security-servlet</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

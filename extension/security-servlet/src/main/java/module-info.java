@@ -30,23 +30,20 @@
  * The Piranha Extension - Jakarta Security module.
  * 
  * <p>
- *  This module delivers Jakarta Security integration into Piranha.
+ *  This module delivers Servlet Security integration into Piranha.
  * </p>
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
  */
-module cloud.piranha.extension.security.jakarta {
+module cloud.piranha.extension.security.servlet {
     
-    exports cloud.piranha.extension.security.jakarta;
-    opens cloud.piranha.extension.security.jakarta;
+    exports cloud.piranha.extension.security.servlet;
+    opens cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.eleos;
     requires cloud.piranha.extension.exousia;
-    requires cloud.piranha.extension.soteria;
-    requires cloud.piranha.extension.weld;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires org.omnifaces.eleos;
     requires org.glassfish.exousia;
     requires java.naming;
-    requires cloud.piranha.extension.security.servlet;
 }
