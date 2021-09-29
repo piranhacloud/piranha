@@ -33,7 +33,7 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
-import cloud.piranha.extension.security.jakarta.JakartaSecurityInitializer;
+import cloud.piranha.extension.security.servlet.ServletSecurityInitializer;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
@@ -69,7 +69,7 @@ class BasicConnectionTest {
                     new WebUserDataPermission("/*", "!GET"),
                     new WebUserDataPermission("/*", "GET:CONFIDENTIAL")))
                 .initializer(AuthorizationPreInitializer.class.getName())
-                .initializer(JakartaSecurityInitializer.class.getName())
+                .initializer(ServletSecurityInitializer.class.getName())
                 .servlet("PublicServlet", PublicServlet.class.getName())
                 .servletMapping("PublicServlet", "/public/servlet")
                 .build()

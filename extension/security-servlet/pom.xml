@@ -9,27 +9,29 @@
         <version>21.10.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-extension-security-jakarta</artifactId>
+    <artifactId>piranha-extension-security-servlet</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Extension - Security - Jakarta</name>
+    <name>Piranha Extension - Security - Servlet</name>
 
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-security-servlet</artifactId>
+            <artifactId>piranha-extension-eleos</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-soteria</artifactId>
+            <artifactId>piranha-extension-exousia</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-weld</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>

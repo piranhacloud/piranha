@@ -42,7 +42,7 @@ import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.CONSTRAINTS;
-import cloud.piranha.extension.security.jakarta.JakartaSecurityInitializer;
+import cloud.piranha.extension.security.servlet.ServletSecurityInitializer;
 import cloud.piranha.extension.soteria.SoteriaInitializer;
 import java.net.URL;
 import static java.util.Arrays.asList;
@@ -81,7 +81,7 @@ public class FormTest {
                 .initializer(AuthorizationPreInitializer.class.getName())
                 .initializer(AuthenticationInitializer.class.getName())
                 .initializer(AuthorizationInitializer.class.getName())
-                .initializer(JakartaSecurityInitializer.class.getName())
+                .initializer(ServletSecurityInitializer.class.getName())
                 .initializer(SoteriaInitializer.class.getName())
                 .servlet("ProtectedServlet", ProtectedServlet.class.getName())
                 .servletMapping("ProtectedServlet", "/protected/servlet")

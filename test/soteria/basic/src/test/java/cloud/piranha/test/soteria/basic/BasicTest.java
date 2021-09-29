@@ -55,7 +55,7 @@ import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.extension.exousia.AuthorizationInitializer;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
 import cloud.piranha.extension.herring.HerringExtension;
-import cloud.piranha.extension.security.jakarta.JakartaSecurityInitializer;
+import cloud.piranha.extension.security.servlet.ServletSecurityInitializer;
 import cloud.piranha.extension.soteria.SoteriaInitializer;
 
 @BasicAuthenticationMechanismDefinition(realmName = "test")
@@ -76,7 +76,7 @@ class BasicTest {
                 .initializer(AuthorizationPreInitializer.class.getName())
                 .initializer(AuthenticationInitializer.class.getName())
                 .initializer(AuthorizationInitializer.class.getName())
-                .initializer(JakartaSecurityInitializer.class.getName())
+                .initializer(ServletSecurityInitializer.class.getName())
                 .initializer(SoteriaInitializer.class.getName())
                 .servlet("PublicServlet", PublicServlet.class.getName())
                 .servletMapping("PublicServlet", "/public/servlet")

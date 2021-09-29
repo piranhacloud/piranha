@@ -25,42 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.security.jakarta;
+package cloud.piranha.extension.security.servlet;
+
+import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
+import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 
 import java.util.Set;
 
-import cloud.piranha.extension.security.servlet.ServletSecurityAllInitializer;
-import cloud.piranha.extension.soteria.SoteriaInitializer;
-import cloud.piranha.extension.soteria.SoteriaPreCDIInitializer;
-import cloud.piranha.extension.weld.WeldInitializer;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 
+import org.glassfish.exousia.modules.def.DefaultPolicy;
+import org.glassfish.exousia.modules.def.DefaultPolicyConfigurationFactory;
+
+import cloud.piranha.extension.eleos.AuthenticationInitializer;
+import cloud.piranha.extension.exousia.AuthorizationInitializer;
+import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
+
 /**
- * The Jakarta Security All initializer.
+ * The Servlet Security All initializer.
  *
  * @author Arjan Tijms
  */
-public class JakartaSecurityAllInitializer implements ServletContainerInitializer {
+public class ServletSecurityAllInitializer implements ServletContainerInitializer {
 
     /**
      * Stores the initializers.
      */
     ServletContainerInitializer[] initializers = {
 
-        // Makes web.xml login-config available to Soteria
-        new SoteriaPreCDIInitializer(),
-        
-        // Initializes the Servlet Security primitives, on which Jakarta Security is based
-        new ServletSecurityAllInitializer(),
+        // Configures the security constraints, authorization module
+        // and authorization filter that checks constraints before authentication
+        new AuthorizationPreInitializer(),
 
-        // Initializes CDI, on which Jakarta Security is also based
-        new WeldInitializer(),
+        // Configures the authentication module and authentication filter
+        new AuthenticationInitializer(),
 
-        // Configures Soteria, which implements Jakarta Security and sets itself as a Servlet 
-        // authentication module
-        new SoteriaInitializer(),
+        // Configures the authorization filter that checks constraints after authentication
+        new AuthorizationInitializer(),
+
+        // Configures the security manager used for programmatic security such as request.login
+        new ServletSecurityInitializer(),
     };
 
     /**
@@ -72,6 +78,11 @@ public class JakartaSecurityAllInitializer implements ServletContainerInitialize
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        // The default Servlet Authorization module, which implements authorization as defined
+        // by the Jakarta Servlet specifications
+        servletContext.setAttribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class);
+        servletContext.setAttribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class);
+
         for (ServletContainerInitializer initializer : initializers) {
             initializer.onStartup(classes, servletContext);
         }

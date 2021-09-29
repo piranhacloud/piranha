@@ -28,6 +28,7 @@
         <module>myfaces</module>
         <module>scinitializer</module>
         <module>security-file</module>
+        <module>security-servlet</module>
         <module>security-jakarta</module>
         <module>server</module>
         <module>soteria</module>
