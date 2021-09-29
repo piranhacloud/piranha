@@ -27,10 +27,10 @@
  */
 
 /**
- * The Piranha Extension - OmniFaces Exousia module.
+ * The Piranha Extension - Eclipse Exousia module.
  * 
  * <p>
- *  This module delivers OmniFaces Exousia integration into Piranha.
+ *  This module delivers Eclipse Exousia integration into Piranha.
  * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
@@ -42,5 +42,6 @@ module cloud.piranha.extension.exousia {
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires jakarta.security.jacc;
-    requires org.omnifaces.exousia;
+    requires org.glassfish.exousia;
+    requires jakarta.servlet;
 }

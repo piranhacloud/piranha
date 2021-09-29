@@ -47,7 +47,7 @@ import jakarta.servlet.http.HttpSession;
 
 import org.omnifaces.eleos.config.helper.Caller;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
-import org.omnifaces.exousia.AuthorizationService;
+import org.glassfish.exousia.AuthorizationService;
 
 import cloud.piranha.webapp.api.AuthenticatedIdentity;
 import cloud.piranha.webapp.api.SecurityManager;

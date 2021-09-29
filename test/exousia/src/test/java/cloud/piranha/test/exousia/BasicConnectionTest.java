@@ -44,8 +44,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
-import org.omnifaces.exousia.modules.def.DefaultPolicy;
-import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
+import org.glassfish.exousia.modules.def.DefaultPolicy;
+import org.glassfish.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 /**
  * The JUnit tests for the basic connection test

@@ -46,6 +46,6 @@ module cloud.piranha.extension.security.jakarta {
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
     requires org.omnifaces.eleos;
-    requires org.omnifaces.exousia;
+    requires org.glassfish.exousia;
     requires java.naming;
 }

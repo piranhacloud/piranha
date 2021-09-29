@@ -40,9 +40,9 @@ import java.util.Base64;
 import jakarta.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
 
 import org.junit.jupiter.api.Test;
-import org.omnifaces.exousia.constraints.SecurityConstraint;
-import org.omnifaces.exousia.modules.def.DefaultPolicy;
-import org.omnifaces.exousia.modules.def.DefaultPolicyConfigurationFactory;
+import org.glassfish.exousia.constraints.SecurityConstraint;
+import org.glassfish.exousia.modules.def.DefaultPolicy;
+import org.glassfish.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 import cloud.piranha.extension.eleos.AuthenticationInitializer;
 import cloud.piranha.extension.weld.WeldInitializer;

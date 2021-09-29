@@ -350,6 +350,13 @@
                 <version>2.0.1</version>
             </dependency>
             
+            <!-- Eclipse Exousia -->
+            <dependency>
+                <groupId>org.glassfish.exousia</groupId>
+                <artifactId>exousia</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            
             <!-- Eclipse Tyrus -->
             <dependency>
                 <groupId>org.glassfish.tyrus</groupId>
@@ -485,13 +492,6 @@
                 <groupId>org.omnifaces</groupId>
                 <artifactId>eleos</artifactId>
                 <version>1.0</version>
-            </dependency>
-            
-            <!-- OmniFaces Exousia -->
-            <dependency>
-                <groupId>org.omnifaces</groupId>
-                <artifactId>exousia</artifactId>
-                <version>1.1</version>
             </dependency>
             
             <!-- OmniFaces MicroProfile JWT auth -->
