@@ -28,7 +28,17 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.omnifaces</groupId>
+            <groupId>jakarta.authorization</groupId>
+            <artifactId>jakarta.authorization-api</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.exousia</groupId>
             <artifactId>exousia</artifactId>
             <exclusions>
                 <exclusion>

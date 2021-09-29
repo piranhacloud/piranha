@@ -27,9 +27,9 @@
  */
 package cloud.piranha.extension.exousia;
 
-import static java.util.Collections.emptyList;
 import static jakarta.servlet.annotation.ServletSecurity.TransportGuarantee.CONFIDENTIAL;
 import static jakarta.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
+import static java.util.Collections.emptyList;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,10 +40,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.omnifaces.exousia.constraints.SecurityConstraint;
-import org.omnifaces.exousia.constraints.WebResourceCollection;
-import org.omnifaces.exousia.constraints.transformer.ElementsToConstraintsTransformer;
-import org.omnifaces.exousia.mapping.SecurityRoleRef;
+import org.glassfish.exousia.constraints.SecurityConstraint;
+import org.glassfish.exousia.constraints.WebResourceCollection;
+import org.glassfish.exousia.constraints.transformer.ElementsToConstraintsTransformer;
+import org.glassfish.exousia.mapping.SecurityRoleRef;
 
 import cloud.piranha.extension.webxml.WebXml;
 import cloud.piranha.extension.webxml.WebXmlSecurityConstraint;

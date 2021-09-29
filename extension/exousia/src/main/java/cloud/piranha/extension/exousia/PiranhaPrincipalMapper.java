@@ -34,7 +34,7 @@ import java.util.List;
 
 import javax.security.auth.Subject;
 
-import org.omnifaces.exousia.spi.PrincipalMapper;
+import org.glassfish.exousia.spi.PrincipalMapper;
 
 import cloud.piranha.webapp.api.AuthenticatedIdentity;
 

@@ -27,6 +27,9 @@
  */
 package cloud.piranha.extension.exousia;
 
+import static java.util.Collections.emptyList;
+import static org.glassfish.exousia.constraints.SecurityConstraint.join;
+
 import java.security.Permission;
 import java.security.Policy;
 import java.util.List;
@@ -34,12 +37,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import static java.util.Collections.emptyList;
-import static org.omnifaces.exousia.constraints.SecurityConstraint.join;
-
-import org.omnifaces.exousia.AuthorizationService;
-import org.omnifaces.exousia.constraints.SecurityConstraint;
-import org.omnifaces.exousia.mapping.SecurityRoleRef;
+import org.glassfish.exousia.AuthorizationService;
+import org.glassfish.exousia.constraints.SecurityConstraint;
+import org.glassfish.exousia.mapping.SecurityRoleRef;
 
 import cloud.piranha.extension.webxml.WebXmlManager;
 import cloud.piranha.webapp.api.SecurityManager;
@@ -115,45 +115,69 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication context = (WebApplication) servletContext;
 
-        // Gets the authorization module classes that were configured externally
-        Class<?> factoryClass = getAttribute(servletContext, AUTHZ_FACTORY_CLASS);
-        Class<? extends Policy> policyClass = getAttribute(servletContext, AUTHZ_POLICY_CLASS);
-
         // Create the main Exousia authorization service, which implements the various entry points (an SPI)
         // for a runtime to make use of Jakarta Authorization
-        AuthorizationService authorizationService = new AuthorizationService(
-                factoryClass,
-                policyClass, context.getServletContextId(),
-                () -> AuthorizationPreFilter.getLocalServletRequest().get(),
-                DefaultAuthenticatedIdentity::getCurrentSubject,
-                new PiranhaPrincipalMapper());
-
+        AuthorizationService authorizationService = getAuthorizationService(context);
+        
         // Join together in one list the constraints set by the servlet security elements, and the
         // piranha specific security constraint
-        List<SecurityConstraint> securityConstraints = join(
-                getConstraintsFromSecurityElements(servletContext),
-                getConstraintsFromSecurityAnnotations(servletContext),
-                getOptionalAttribute(servletContext, CONSTRAINTS),
-                getConstraintsFromWebXMl(context));
+        List<SecurityConstraint> securityConstraints = getAllScurityConstraints(context);
 
-        if (securityConstraints != null) {
-            for (SecurityConstraint securityConstraint : securityConstraints) {
-                context.getManager(SecurityManager.class).declareRoles(securityConstraint.getRolesAllowed());
-            }
+        for (SecurityConstraint securityConstraint : securityConstraints) {
+            context.getManager(SecurityManager.class).declareRoles(securityConstraint.getRolesAllowed());
         }
 
         if (hasPermissionsSet(context)) {
             setPermissions(context, authorizationService);
         } else {
-            authorizationService.addConstraintsToPolicy(
-                    securityConstraints != null ? securityConstraints : emptyList(),
-                    context.getManager(SecurityManager.class).getRoles(),
-                    context.getDenyUncoveredHttpMethods(),
-                    getSecurityRoleRefsFromWebXml(context));
+            setConstraints(context, authorizationService, securityConstraints);
         }
+        
+        authorizationService.commitPolicy();
+        addAuthorizationPreFilter(context);
+    }
+    
+    
+    // ### Private methods
+    
+    
+    private AuthorizationService getAuthorizationService(WebApplication context) throws ServletException {
+        // Gets the authorization module classes that were configured externally
+        Class<?> factoryClass = getAttribute(context, AUTHZ_FACTORY_CLASS);
+        Class<? extends Policy> policyClass = getAttribute(context, AUTHZ_POLICY_CLASS);
 
-        servletContext.setAttribute(AUTHZ_SERVICE, authorizationService);
-        FilterRegistration.Dynamic dynamic = servletContext.addFilter(AuthorizationPreFilter.class.getSimpleName(), AuthorizationPreFilter.class);
+        // Create the main Exousia authorization service, which implements the various entry points (an SPI)
+        // for a runtime to make use of Jakarta Authorization
+        AuthorizationService authorizationService = new AuthorizationService(
+                factoryClass, policyClass,
+                context.getServletContextId(),
+                DefaultAuthenticatedIdentity::getCurrentSubject,
+                new PiranhaPrincipalMapper());
+        
+        authorizationService.setRequestSupplier(
+            () -> AuthorizationPreFilter.getLocalServletRequest().get());
+        
+        context.setAttribute(AUTHZ_SERVICE, authorizationService);
+        
+        return authorizationService;
+    }
+    
+    private List<SecurityConstraint> getAllScurityConstraints(WebApplication context) throws ServletException {
+        List<SecurityConstraint> allScurityConstraints = join(
+            getConstraintsFromSecurityElements(context),
+            getConstraintsFromSecurityAnnotations(context),
+            getOptionalAttribute(context, CONSTRAINTS),
+            getConstraintsFromWebXMl(context));
+        
+        if (allScurityConstraints == null) {
+            return emptyList();
+        }
+        
+        return allScurityConstraints;
+    }
+    
+    private void addAuthorizationPreFilter(WebApplication context) {
+        FilterRegistration.Dynamic dynamic = context.addFilter(AuthorizationPreFilter.class.getSimpleName(), AuthorizationPreFilter.class);
         dynamic.setAsyncSupported(true);
         context.addFilterMapping(AuthorizationPreFilter.class.getSimpleName(), "/*");
     }
@@ -231,11 +255,17 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
                     policyConfiguration.addToRole(perRoleEntry.getKey(), perRoleEntry.getValue());
                 }
             }
-
-            policyConfiguration.commit();
         } catch (PolicyContextException e) {
             throw new IllegalStateException(e);
         }
+    }
+    
+    private void setConstraints(WebApplication context, AuthorizationService authorizationService, List<SecurityConstraint> securityConstraints) throws ServletException {
+        authorizationService.addConstraintsToPolicy(
+            securityConstraints,
+            context.getManager(SecurityManager.class).getRoles(),
+            context.getDenyUncoveredHttpMethods(),
+            getSecurityRoleRefsFromWebXml(context));
     }
 
 
