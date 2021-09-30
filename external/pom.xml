@@ -17,7 +17,6 @@
 
     <modules>
         <module>jakartaee-samples</module>
-        <module>omnifaces</module>
         <module>quicklook</module>
         <module>tck</module>
     </modules>
