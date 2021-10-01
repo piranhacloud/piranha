@@ -48,7 +48,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HerringExtensionTest {
+class HerringExtensionTest {
 
     /**
      * Test configure method.
@@ -56,7 +56,7 @@ public class HerringExtensionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testConfigure() throws Exception {
+    void testConfigure() throws Exception {
         System.setProperty(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .extension(HerringExtension.class)

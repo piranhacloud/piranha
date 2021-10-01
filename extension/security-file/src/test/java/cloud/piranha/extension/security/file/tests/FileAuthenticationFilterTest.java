@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class FileAuthenticationFilterTest {
+class FileAuthenticationFilterTest {
     
     /**
      * Test doFilter method.
@@ -47,7 +47,7 @@ public class FileAuthenticationFilterTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testDoFilter() throws Exception {
+    void testDoFilter() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApplication);

@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HazelcastInitializerTest {
+class HazelcastInitializerTest {
     
     @Test
     void testInitializer() {

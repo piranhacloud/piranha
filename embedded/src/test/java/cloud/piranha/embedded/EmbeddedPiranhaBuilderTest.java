@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EmbeddedPiranhaBuilderTest {
+class EmbeddedPiranhaBuilderTest {
 
     /**
      * Test listener method.
@@ -45,7 +45,7 @@ public class EmbeddedPiranhaBuilderTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testListener() throws Exception {
+    void testListener() throws Exception {
         EmbeddedPiranhaBuilder builder = new EmbeddedPiranhaBuilder();
         EmbeddedPiranha piranha = builder
                 .listener(TestServletRequestListener.class.getName())

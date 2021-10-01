@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class BasicTest {
+class BasicTest {
 
     /**
      * Test getUserPrincipal method.
@@ -49,7 +49,7 @@ public class BasicTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetUserPrincipal() throws Exception {
+    void testGetUserPrincipal() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource("src/test/webapp/basic_user_principal"));
         EmbeddedRequest request = new EmbeddedRequest();

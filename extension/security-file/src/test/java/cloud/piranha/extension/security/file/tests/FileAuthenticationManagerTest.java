@@ -45,7 +45,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class FileAuthenticationManagerTest {
+class FileAuthenticationManagerTest {
 
     /**
      * Test authenticate method.
