@@ -41,6 +41,7 @@ import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -72,7 +73,23 @@ class HerringExtensionTest {
                 context1.getEnvironment().get("TheSame"),
                 context2.getEnvironment().get("TheSame"));
     }
-    
+
+    /**
+     * Test configure method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testConfigure2() throws Exception {
+        new EmbeddedPiranhaBuilder()
+                .extension(HerringExtension.class)
+                .listener(TestServletRequestListener.class.getName())
+                .build()
+                .start();
+        assertEquals(System.getProperty(INITIAL_CONTEXT_FACTORY), 
+                ThreadInitialContextFactory.class.getName());
+    }
+
     /**
      * Inner class used to test if the InitialContext set by listener is equal
      * to the one set on the naming manager.

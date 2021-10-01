@@ -32,6 +32,8 @@ import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.INFO;
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 
 /**
  * The extension that delivers the integration of Manorrock Herring into
@@ -55,6 +57,10 @@ public class HerringExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(DEBUG, "Configuring webapplication");
+        if (System.getProperty(INITIAL_CONTEXT_FACTORY) == null) {
+            LOGGER.log(INFO, INITIAL_CONTEXT_FACTORY + " was not set, setting it");
+            System.setProperty(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
+        }
         NamingManager manager = webApplication.getManager(NamingManager.class);
         ThreadInitialContextFactory.setInitialContext(manager.getContext());
         webApplication.addListener(HerringServletContextListener.class.getName());

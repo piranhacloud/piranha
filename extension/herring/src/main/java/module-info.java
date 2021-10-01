@@ -40,4 +40,5 @@ module cloud.piranha.extension.herring {
     opens cloud.piranha.extension.herring;
     requires cloud.piranha.webapp.api;
     requires transitive com.manorrock.herring.thread;
+    requires transitive java.naming;
 }
