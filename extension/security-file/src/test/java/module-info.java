@@ -32,8 +32,8 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.security.file.tests {
-    
     exports cloud.piranha.extension.security.file.tests;
+    opens cloud.piranha.extension.security.file.tests;
     requires cloud.piranha.embedded;
     requires cloud.piranha.extension.security.file;
     requires cloud.piranha.extension.webxml;
