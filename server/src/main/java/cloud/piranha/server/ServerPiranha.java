@@ -204,7 +204,7 @@ public class ServerPiranha implements Runnable {
                     File webAppDirectory = new File(webappsDirectory, contextPath);
                     extractWarFile(webapp, webAppDirectory);
 
-                    DefaultWebApplication webApplication = new CrossContextWebApplication(requestMapper);
+                    DefaultWebApplication webApplication = new ServerWebApplication(requestMapper);
 
                     webApplication.addResource(new DirectoryResource(webAppDirectory));
 
