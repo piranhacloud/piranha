@@ -150,9 +150,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         maxAge = -1;
         sessions = new ConcurrentHashMap<>();
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleWithFixedDelay(() -> {
-            reapSessions();
-        }, 5, 5, SECONDS);
+        scheduler.scheduleWithFixedDelay(this::reapSessions, 5, 5, SECONDS);
     }
 
     @Override
