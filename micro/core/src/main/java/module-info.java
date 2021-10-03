@@ -44,7 +44,6 @@ module cloud.piranha.micro.core {
     requires cloud.piranha.resource.shrinkwrap;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-    requires com.manorrock.herring.thread;
     requires jakarta.annotation;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;

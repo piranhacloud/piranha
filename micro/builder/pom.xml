@@ -56,11 +56,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.manorrock.herring</groupId>
-            <artifactId>herring-thread</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.jboss.shrinkwrap.descriptors</groupId>
             <artifactId>shrinkwrap-descriptors-api-base</artifactId>
             <optional>true</optional>

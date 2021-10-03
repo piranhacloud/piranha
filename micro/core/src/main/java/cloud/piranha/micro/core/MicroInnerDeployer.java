@@ -32,7 +32,6 @@ import static java.lang.System.Logger.Level.INFO;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static org.jboss.jandex.AnnotationTarget.Kind.CLASS;
 import static org.jboss.jandex.DotName.createSimple;
@@ -81,7 +80,6 @@ import cloud.piranha.webapp.impl.DefaultAnnotationInfo;
 import cloud.piranha.webapp.impl.DefaultAnnotationManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Priority;
@@ -174,8 +172,6 @@ public class MicroInnerDeployer {
      */
     public Map<String, Object> start(Archive<?> applicationArchive, ClassLoader classLoader, Map<String, Function<URL, URLConnection>> handlers, Map<String, Object> config) {
         try {
-            System.getProperties().put(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
-
             WebApplication webApplication = getWebApplication(applicationArchive, classLoader);
             
             LOGGER.log(INFO,

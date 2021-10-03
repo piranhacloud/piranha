@@ -44,7 +44,6 @@ module cloud.piranha.server {
     requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-    requires com.manorrock.herring.thread;
     requires java.logging;
     uses HttpServer;
     uses WebApplicationExtension;

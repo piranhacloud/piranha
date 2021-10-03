@@ -42,6 +42,5 @@ module cloud.piranha.micro.embedded {
     requires cloud.piranha.resource;
     requires cloud.piranha.resource.shrinkwrap;
     requires cloud.piranha.embedded;
-    requires com.manorrock.herring.thread;
     requires shrinkwrap.api;
 }

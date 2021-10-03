@@ -38,6 +38,5 @@ module cloud.piranha.embedded {
     requires cloud.piranha.resource;
     requires cloud.piranha.webapp.impl;
     requires cloud.piranha.webapp.api;
-    requires com.manorrock.herring.thread;
     requires java.naming;
 }

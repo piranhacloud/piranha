@@ -36,7 +36,6 @@ import cloud.piranha.webapp.api.HttpSessionManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +43,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.ServletRegistration;
 
@@ -171,7 +169,6 @@ public class EmbeddedPiranhaBuilder {
      * @return the instance.
      */
     public EmbeddedPiranha build() {
-        System.getProperties().put(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranha();
 
         WebApplication webApplication = piranha.getWebApplication();
