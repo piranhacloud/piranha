@@ -30,16 +30,14 @@
  * The Piranha Webapplication - Implementation module.
  * 
  * <p>
- *  This module delivers the implementation for a web application.
+ *  This module delivers the default implementation for a webapplication.
  * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.webapp.impl {
-    
     exports cloud.piranha.webapp.impl;
     opens cloud.piranha.webapp.impl;
-    requires com.manorrock.herring;
     requires cloud.piranha.policy.api;
     requires cloud.piranha.policy.impl;
     requires cloud.piranha.resource;

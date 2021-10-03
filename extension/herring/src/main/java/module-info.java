@@ -27,10 +27,34 @@
  */
 
 /**
- * The Piranha Extension - Herring integration module.
- * 
  * <p>
  *  This module delivers the integration of Manorrock Herring into Piranha.
+ * </p>
+ * <p>
+ *  It includes the following:
+ * </p>
+ * <ul>
+ *  <li>A WebApplicationExtension</li>
+ *  <li>A ServletContextListener</li>
+ *  <li>A ServletRequestListener</li>
+ * </ul>
+ * <h2>The WebApplicationExtension</h2>
+ * <p>
+ *  The extension is responsible for setting up the proper Context instance so
+ *  it can be made available during webapplication initialization and 
+ *  subsequently during request processing.
+ * </p>
+ * <h2>The ServletContextListener</h2>
+ * <p>
+ *  This listener is responsible for the corner case of removing the Context
+ *  set by the WebApplicationExtension and it signals the end of initialization.
+ * </p>
+ * <h2>The ServletRequestListener</h2>
+ * <p>
+ *  This listener is responsible for making the correct Context instance 
+ *  available on the current thread just before the request gets serviced and to
+ *  remove the Context instance from the current thread at the end of the
+ *  request.
  * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
@@ -39,6 +63,7 @@ module cloud.piranha.extension.herring {
     exports cloud.piranha.extension.herring;
     opens cloud.piranha.extension.herring;
     requires cloud.piranha.webapp.api;
+    requires transitive com.manorrock.herring;
     requires transitive com.manorrock.herring.thread;
     requires transitive java.naming;
 }

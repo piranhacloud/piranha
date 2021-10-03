@@ -27,18 +27,21 @@
  */
 package cloud.piranha.extension.herring;
 
-import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
+import com.manorrock.herring.DefaultInitialContext;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
+import javax.naming.Context;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 
 /**
- * The extension that delivers the integration of Manorrock Herring into
- * Piranha.
+ * The WebApplicationExtension that is responsible for setting up the proper
+ * Context instance so it can be made available during webapplication
+ * initialization and subsequently during request processing as well as
+ * delivering listeners to set/remove the Context from the current thread.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -65,8 +68,9 @@ public class HerringExtension implements WebApplicationExtension {
         if (!System.getProperty(INITIAL_CONTEXT_FACTORY).equals(ThreadInitialContextFactory.class.getName())) {
             LOGGER.log(WARNING, INITIAL_CONTEXT_FACTORY + " is not set to " + ThreadInitialContextFactory.class.getName());
         }
-        NamingManager manager = webApplication.getManager(NamingManager.class);
-        ThreadInitialContextFactory.setInitialContext(manager.getContext());
+        Context context = new DefaultInitialContext();
+        webApplication.setAttribute(Context.class.getName(), context);
+        ThreadInitialContextFactory.setInitialContext(context);
         webApplication.addListener(HerringServletContextListener.class.getName());
         webApplication.addListener(HerringServletRequestListener.class.getName());
     }

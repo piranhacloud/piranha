@@ -27,15 +27,17 @@
  */
 package cloud.piranha.extension.herring;
 
-import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
 import static java.lang.System.Logger.Level.DEBUG;
+import javax.naming.Context;
 
 /**
- * The Herring ServletRequestListener.
+ * The ServletRequestListener that sets the Context instance on the current
+ * thread just before request processing and removes the Context instance from
+ * the current after the request has been processed.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -57,7 +59,7 @@ public class HerringServletRequestListener implements ServletRequestListener {
     public void requestInitialized(ServletRequestEvent event) {
         LOGGER.log(DEBUG, "Setting InitialContext");
         WebApplication webApplication = (WebApplication) event.getServletContext();
-        NamingManager manager = webApplication.getManager(NamingManager.class);
-        ThreadInitialContextFactory.setInitialContext(manager.getContext());
+        Context context = (Context) webApplication.getAttribute(Context.class.getName());
+        ThreadInitialContextFactory.setInitialContext(context);
     }
 }

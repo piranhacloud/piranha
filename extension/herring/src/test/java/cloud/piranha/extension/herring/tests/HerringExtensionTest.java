@@ -32,7 +32,6 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.herring.HerringExtension;
-import cloud.piranha.webapp.api.NamingManager;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
@@ -41,7 +40,8 @@ import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -67,7 +67,7 @@ class HerringExtensionTest {
         EmbeddedRequest request = new EmbeddedRequest();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        Context context1 = piranha.getWebApplication().getManager(NamingManager.class).getContext();
+        Context context1 = (Context) piranha.getWebApplication().getAttribute(Context.class.getName());
         Context context2 = (Context) piranha.getWebApplication().getAttribute("InitialContext");
         assertEquals(
                 context1.getEnvironment().get("TheSame"),
@@ -86,8 +86,28 @@ class HerringExtensionTest {
                 .listener(TestServletRequestListener.class.getName())
                 .build()
                 .start();
-        assertEquals(System.getProperty(INITIAL_CONTEXT_FACTORY), 
+        assertEquals(System.getProperty(INITIAL_CONTEXT_FACTORY),
                 ThreadInitialContextFactory.class.getName());
+    }
+
+    /**
+     * Test configure method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testConfigure3() throws Exception {
+        new EmbeddedPiranhaBuilder()
+                .extension(HerringExtension.class)
+                .listener(TestServletRequestListener.class.getName())
+                .build()
+                .start();
+        try {
+            InitialContext context = new InitialContext();
+            fail();
+        } catch (NamingException ne) {
+            assertTrue(ne.getMessage().contains("Initial context not available for thread"));
+        }
     }
 
     /**
