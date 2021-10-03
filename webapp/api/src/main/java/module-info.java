@@ -30,17 +30,15 @@
  * The Piranha Webapplication - API module.
  * 
  * <p>
- *  This module defines the runtime API for each web application. 
+ *  This module defines the API for each webapplication. 
  * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.webapp.api {
-    
     exports cloud.piranha.webapp.api;
     opens cloud.piranha.webapp.api;
     requires cloud.piranha.policy.api;
     requires cloud.piranha.resource.api;
     requires transitive jakarta.servlet;
-    requires java.naming;
 }

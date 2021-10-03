@@ -27,12 +27,12 @@
  */
 package cloud.piranha.extension.herring;
 
-import cloud.piranha.webapp.api.NamingManager;
 import cloud.piranha.webapp.api.WebApplication;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
 import static java.lang.System.Logger.Level.DEBUG;
+import javax.naming.Context;
 
 /**
  * The Herring ServletRequestListener.
@@ -57,7 +57,7 @@ public class HerringServletRequestListener implements ServletRequestListener {
     public void requestInitialized(ServletRequestEvent event) {
         LOGGER.log(DEBUG, "Setting InitialContext");
         WebApplication webApplication = (WebApplication) event.getServletContext();
-        NamingManager manager = webApplication.getManager(NamingManager.class);
-        ThreadInitialContextFactory.setInitialContext(manager.getContext());
+        Context context = (Context) webApplication.getAttribute(Context.class.getName());
+        ThreadInitialContextFactory.setInitialContext(context);
     }
 }

@@ -22,6 +22,7 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <!-- compile -->
         <dependency>
             <groupId>cloud.piranha.policy</groupId>
             <artifactId>piranha-policy-impl</artifactId>
@@ -40,11 +41,7 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>com.manorrock.herring</groupId>
-            <artifactId>herring</artifactId>
-            <scope>compile</scope>
-        </dependency>
+        <!-- test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

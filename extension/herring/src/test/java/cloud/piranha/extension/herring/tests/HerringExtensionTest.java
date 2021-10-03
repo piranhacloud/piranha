@@ -32,7 +32,6 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.herring.HerringExtension;
-import cloud.piranha.webapp.api.NamingManager;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
@@ -68,7 +67,7 @@ class HerringExtensionTest {
         EmbeddedRequest request = new EmbeddedRequest();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
-        Context context1 = piranha.getWebApplication().getManager(NamingManager.class).getContext();
+        Context context1 = (Context) piranha.getWebApplication().getAttribute(Context.class.getName());
         Context context2 = (Context) piranha.getWebApplication().getAttribute("InitialContext");
         assertEquals(
                 context1.getEnvironment().get("TheSame"),

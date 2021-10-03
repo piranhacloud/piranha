@@ -35,10 +35,9 @@ import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.mojarra.MojarraInitializer;
 import cloud.piranha.extension.weld.WeldInitializer;
-import cloud.piranha.webapp.api.NamingManager;
-import cloud.piranha.webapp.impl.DefaultNamingManager;
 import com.manorrock.herring.DefaultInitialContext;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
+import javax.naming.Context;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import javax.naming.InitialContext;
 import org.hsqldb.jdbc.JDBCDataSource;
@@ -61,8 +60,8 @@ class JPATest {
     @Test
     void testIndexHtml() throws Exception {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
-        DefaultInitialContext defaultInitialContext = new DefaultInitialContext();
-        ThreadInitialContextFactory.setInitialContext(defaultInitialContext);
+        DefaultInitialContext context = new DefaultInitialContext();
+        ThreadInitialContextFactory.setInitialContext(context);
         InitialContext initialContext = new InitialContext();
         JDBCDataSource ds = new JDBCDataSource();
         ds.setUrl("jdbc:hsqldb:mem:demo");
@@ -81,8 +80,7 @@ class JPATest {
                 .servletPath("/index.html")
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
-        piranha.getWebApplication().setManager(NamingManager.class, 
-                new DefaultNamingManager(defaultInitialContext));
+        piranha.getWebApplication().setAttribute(Context.class.getName(), context);
         piranha.service(request, response);
         assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Count: 0"));
