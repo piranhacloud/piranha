@@ -175,9 +175,9 @@ public class EmbeddedPiranhaBuilder {
         EmbeddedPiranha piranha = new EmbeddedPiranha();
 
         WebApplication webApplication = piranha.getWebApplication();
-        
-        ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(e -> webApplication.getResourceAsStream(e));
-        
+
+        ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(webApplication::getResourceAsStream);
+
         if (extensionClasses != null && !extensionClasses.isEmpty()) {
             DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
             for (Class<? extends WebApplicationExtension> extensionClass : extensionClasses) {

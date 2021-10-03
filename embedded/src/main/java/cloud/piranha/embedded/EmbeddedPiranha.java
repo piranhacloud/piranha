@@ -161,7 +161,7 @@ public class EmbeddedPiranha {
      */
     public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
         try {
-            ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(e -> webApplication.getResourceAsStream(e));
+            ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(webApplication::getResourceAsStream);
 
             if (servletRequest.getServletContext() == null && servletRequest instanceof EmbeddedRequest embeddedRequest) {
                 embeddedRequest.setWebApplication(webApplication);
