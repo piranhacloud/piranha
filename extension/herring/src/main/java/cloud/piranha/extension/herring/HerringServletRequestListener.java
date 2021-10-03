@@ -35,7 +35,9 @@ import static java.lang.System.Logger.Level.DEBUG;
 import javax.naming.Context;
 
 /**
- * The Herring ServletRequestListener.
+ * The ServletRequestListener that sets the Context instance on the current
+ * thread just before request processing and removes the Context instance from
+ * the current after the request has been processed.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

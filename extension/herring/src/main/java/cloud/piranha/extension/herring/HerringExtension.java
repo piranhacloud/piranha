@@ -38,8 +38,10 @@ import javax.naming.Context;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 
 /**
- * The extension that delivers the integration of Manorrock Herring into
- * Piranha.
+ * The WebApplicationExtension that is responsible for setting up the proper
+ * Context instance so it can be made available during webapplication
+ * initialization and subsequently during request processing as well as
+ * delivering listeners to set/remove the Context from the current thread.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

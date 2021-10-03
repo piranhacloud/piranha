@@ -33,7 +33,8 @@ import jakarta.servlet.ServletContextListener;
 import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The Herring ServletContextListener.
+ * The ServletContextListener used to remove the Context instance once
+ * initialization is done.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
