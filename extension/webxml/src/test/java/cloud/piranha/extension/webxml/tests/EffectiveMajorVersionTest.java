@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EffectiveMajorVersionTest {
+class EffectiveMajorVersionTest {
 
     /**
      * Test the effective major version.

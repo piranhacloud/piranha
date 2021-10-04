@@ -27,7 +27,7 @@
  */
 
 /**
- * The JUnit tests module for the Piranha Extension - Herring module.
+ * The JUnit tests module for the cloud.piranha.extension.herring module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -37,6 +37,5 @@ module cloud.piranha.extension.herring.tests {
     requires cloud.piranha.embedded;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.webapp.api;
-    requires java.naming;
     requires org.junit.jupiter.api;
 }

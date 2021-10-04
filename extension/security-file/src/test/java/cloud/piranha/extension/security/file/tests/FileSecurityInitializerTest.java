@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class FileSecurityInitializerTest {
+class FileSecurityInitializerTest {
     
     /**
      * Test onStartup method.
@@ -48,7 +48,7 @@ public class FileSecurityInitializerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testOnStartup() throws Exception {
+    void testOnStartup() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addInitializer(new FileSecurityInitializer());
         webApplication.initialize();

@@ -53,7 +53,7 @@ class FileAuthenticationManagerTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testAuthenticate() throws Exception {
+    void testAuthenticate() throws Exception {
         FileAuthenticationManager manager = new FileAuthenticationManager(
                 new File("src/test/authmanager/authenticate0/users.properties"));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
@@ -70,7 +70,7 @@ class FileAuthenticationManagerTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testAuthenticate2() throws Exception {
+    void testAuthenticate2() throws Exception {
         FileAuthenticationManager manager = new FileAuthenticationManager(
                 new File("src/test/authmanager/authenticate0/users.properties"));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
@@ -86,7 +86,7 @@ class FileAuthenticationManagerTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testAuthenticate3() throws Exception {
+    void testAuthenticate3() throws Exception {
         FileAuthenticationManager manager = new FileAuthenticationManager(
                 new File("src/test/authmanager/authenticate0/users.properties"));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
@@ -103,7 +103,7 @@ class FileAuthenticationManagerTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testAuthenticate4() throws Exception {
+    void testAuthenticate4() throws Exception {
         FileAuthenticationManager manager = new FileAuthenticationManager(
                 new File("src/test/authmanager/authenticate0/users.properties"));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
@@ -117,7 +117,7 @@ class FileAuthenticationManagerTest {
      * Test authenticate method.
      */
     @Test
-    public void testAuthenticate5() {
+    void testAuthenticate5() {
         FileAuthenticationManager manager = new FileAuthenticationManager(
                 new File("src/test/authmanager/authenticate0/users.properties"));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
@@ -133,7 +133,7 @@ class FileAuthenticationManagerTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testLogin() throws Exception {
+    void testLogin() throws Exception {
         FileAuthenticationManager manager = new FileAuthenticationManager(
                 new File("src/test/authmanager/authenticate0/users.properties"));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
@@ -146,7 +146,7 @@ class FileAuthenticationManagerTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testLogout() throws Exception {
+    void testLogout() throws Exception {
         FileAuthenticationManager manager = new FileAuthenticationManager(new File(""));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         manager.logout(request, null);

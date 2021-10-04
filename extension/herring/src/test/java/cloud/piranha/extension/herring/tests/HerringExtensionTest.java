@@ -111,8 +111,8 @@ class HerringExtensionTest {
     }
 
     /**
-     * Inner class used to test if the InitialContext set by listener is equal
-     * to the one set on the naming manager.
+     * Inner class used to test if the Context set by listener is equal to the
+     * one set as the attribute on the WebApplication instance.
      */
     public static class TestServletRequestListener implements ServletRequestListener {
 
