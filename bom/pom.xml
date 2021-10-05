@@ -37,12 +37,12 @@
             <dependency>
                 <groupId>com.manorrock.herring</groupId>
                 <artifactId>herring</artifactId>
-                <version>21.9.1</version>
+                <version>21.10.0</version>
             </dependency>
             <dependency>
                 <groupId>com.manorrock.herring</groupId>
                 <artifactId>herring-thread</artifactId>
-                <version>21.9.1</version>
+                <version>21.10.0</version>
             </dependency>
 
             <!-- Netty -->
