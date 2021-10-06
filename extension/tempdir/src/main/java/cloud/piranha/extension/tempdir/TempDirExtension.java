@@ -37,7 +37,7 @@ import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
 
 /**
- * The TEMPDIR WebApplicationExtension.
+ * The WebApplicationExtension that adds the ServletContainerInitializer.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -46,8 +46,7 @@ public class TempDirExtension implements WebApplicationExtension {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(
-            TempDirExtension.class.getPackage().getName());
+    private static final Logger LOGGER = System.getLogger(TempDirExtension.class.getName());
 
     /**
      * Configure the web application.
