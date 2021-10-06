@@ -48,18 +48,17 @@ CMD="${JAVA_BIN} ${JAVA_ARGS} ${SSL_DEBUG} ${SSL_KEY_STORE} ${SSL_KEY_STORE_PASS
 
 echo Starting Piranha using command: ${CMD}
 
+touch tmp/piranha.pid
+
 if [[ "$*" == *"--verbose"* ]]; then
-    echo Starting in foreground
     ${CMD}
 else
    if [[ "$*" == *"--run"* ]]; then
-      echo Starting in background with wait on PID
       exec ${CMD} &
       PID=$!
       echo $PID >> tmp/piranha.pid
       wait $PID
    else
-      echo Starting in background
       ${CMD} &
       echo $! >> tmp/piranha.pid
    fi
