@@ -50,6 +50,7 @@
         <module>micro</module>
         <module>modular</module>
         <module>nano</module>
+        <module>pico</module>
         <module>policy</module>
         <module>resource</module>
         <module>server</module>
