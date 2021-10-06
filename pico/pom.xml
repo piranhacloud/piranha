@@ -22,4 +22,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <modules>
+        <module>core</module>
+    </modules>
 </project>
