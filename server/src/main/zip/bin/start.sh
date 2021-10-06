@@ -16,9 +16,11 @@ else
     INIT_OPTIONS="-jar lib/piranha-server.jar"
 fi
 
+
 if [[ "$*" == *"--suspend"* ]]; then
     JAVA_ARGS="${JAVA_ARGS} -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:9009"
 fi
+
 
 #
 # Turn SSL on.
@@ -47,9 +49,18 @@ CMD="${JAVA_BIN} ${JAVA_ARGS} ${SSL_DEBUG} ${SSL_KEY_STORE} ${SSL_KEY_STORE_PASS
 echo Starting Piranha using command: ${CMD}
 
 if [[ "$*" == *"--verbose"* ]]; then
+    echo Starting in foreground
     ${CMD}
 else
-    ${CMD} &
+   if [[ "$*" == *"--run"* ]]; then
+      echo Starting in background with wait on PID
+      exec ${CMD} &
+      PID=$!
+      echo $PID >> tmp/piranha.pid
+      wait $PID
+   else
+      echo Starting in background
+      ${CMD} &
+      echo $! >> tmp/piranha.pid
+   fi
 fi
-
-echo $! >> tmp/piranha.pid
