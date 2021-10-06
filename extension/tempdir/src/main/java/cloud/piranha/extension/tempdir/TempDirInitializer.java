@@ -39,7 +39,8 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 
 /**
- * The ServletContext temporary directory initializer.
+ * The initializer that creates the temporary directory on the filesystem and
+ * sets the context attribute to point to that directory.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

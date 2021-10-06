@@ -27,17 +27,30 @@
  */
 
 /**
- * The Piranha Extension - TEMPDIR.
- * 
  * <p>
  *  This module delivers the temporary directory functionality required for web
  *  applications.
+ * </p>
+ * <p>
+ *  It includes the following:
+ * </p>
+ * <ul>
+ *  <li>A WebApplicationExtension</li>
+ *  <li>A ServletContainerInitializer</li>
+ * </ul>
+ * <h2>The WebApplicationExtension</h2>
+ * <p>
+ *  The extension is responsible for adding the ServletContainerInitializer.
+ * </p>
+ * <h2>The ServletContainerInitializer</h2>
+ * <p>
+ *  The initializer is responsible for creating the temporary directory on the
+ *  filesystem and setting the context attribute to point to that directory.
  * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.tempdir {
-
     exports cloud.piranha.extension.tempdir;
     opens cloud.piranha.extension.tempdir;
     requires cloud.piranha.webapp.api;
