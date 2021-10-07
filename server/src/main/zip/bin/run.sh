@@ -1,3 +1,3 @@
 #!/bin/bash
 
-exec ./start.sh --run
+exec ./start.sh --run $*
