@@ -4,7 +4,7 @@ cd ..
 
 if [ -z ${JAVA_HOME} ]; then
     echo Using default java
-    JAVA_BIN=java 
+    JAVA_BIN=java
 else
     echo Using JAVA_HOME: ${JAVA_HOME}
     JAVA_BIN=${JAVA_HOME}/bin/java
@@ -15,6 +15,12 @@ if [[ "${PIRANHA_JPMS}" == "true" ]]; then
 else
     INIT_OPTIONS="-jar lib/piranha-server.jar"
 fi
+
+
+if [[ "$*" == *"--suspend"* ]]; then
+    JAVA_ARGS="${JAVA_ARGS} -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:9009"
+fi
+
 
 #
 # Turn SSL on.
@@ -36,8 +42,24 @@ fi
 #
 # SSL_KEY_STORE_PASSWORD=-Djavax.net.ssl.keyStorePassword=password
 
-${JAVA_BIN} ${JAVA_ARGS} ${SSL_DEBUG} ${SSL_KEY_STORE} ${SSL_KEY_STORE_PASSWORD} \
+CMD="${JAVA_BIN} ${JAVA_ARGS} ${SSL_DEBUG} ${SSL_KEY_STORE} ${SSL_KEY_STORE_PASSWORD} \
   -Djava.util.logging.config.file=etc/logging.properties \
-  ${INIT_OPTIONS} ${SSL_ON} &
+  ${INIT_OPTIONS} ${SSL_ON}"
 
-echo $! >> tmp/piranha.pid
+echo Starting Piranha using command: ${CMD}
+
+touch tmp/piranha.pid
+
+if [[ "$*" == *"--verbose"* ]]; then
+    ${CMD}
+else
+   if [[ "$*" == *"--run"* ]]; then
+      exec ${CMD} &
+      PID=$!
+      echo $PID >> tmp/piranha.pid
+      wait $PID
+   else
+      ${CMD} &
+      echo $! >> tmp/piranha.pid
+   fi
+fi
