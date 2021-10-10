@@ -44,7 +44,6 @@ module cloud.piranha.http.webapp.tests {
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;
-    requires com.manorrock.herring.thread;
     requires java.net.http;
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.engine;

@@ -54,7 +54,6 @@ import cloud.piranha.webapp.api.WebApplicationServerRequestMapper;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
 
 import static java.lang.System.Logger.Level.INFO;
 
@@ -105,9 +104,6 @@ public class ServerPiranha implements Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        if (System.getProperty("java.naming.factory.initial") == null) {
-            System.setProperty("java.naming.factory.initial", ThreadInitialContextFactory.class.getName());
-        }
         INSTANCE = new ServerPiranha();
         INSTANCE.processArguments(arguments);
         INSTANCE.run();

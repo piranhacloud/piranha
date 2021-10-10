@@ -46,7 +46,6 @@ import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
 import cloud.piranha.policy.api.PolicyManager;
 import cloud.piranha.policy.thread.ThreadPolicy;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
 
 import static java.lang.System.Logger.Level.INFO;
 
@@ -97,7 +96,6 @@ public class ServerPiranha implements Runnable {
      */
     public static void main(String[] arguments) {
         Policy.setPolicy(new ThreadPolicy());
-        System.setProperty("java.naming.factory.initial", ThreadInitialContextFactory.class.getName());
         INSTANCE = new ServerPiranha();
         INSTANCE.processArguments(arguments);
         INSTANCE.run();

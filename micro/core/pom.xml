@@ -71,12 +71,6 @@
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
-                
-         <!-- Setting the JNDI context per Micro instance, piggy-backing on a single global one -->
-        <dependency>
-            <groupId>com.manorrock.herring</groupId>
-            <artifactId>herring-thread</artifactId>
-        </dependency>
         
         <dependency>
             <groupId>jakarta.ws.rs</groupId>
