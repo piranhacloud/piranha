@@ -27,8 +27,10 @@
  */
 package cloud.piranha.extension.webxml.tests;
 
+import cloud.piranha.extension.mimetype.DefaultMimeTypeManager;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.webapp.api.MimeTypeManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,6 +51,8 @@ class MimeMappingTest {
     @Test
     void testGetMimeType() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultMimeTypeManager manager = new DefaultMimeTypeManager();
+        webApplication.setAttribute(MimeTypeManager.class.getName(), manager);
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/mimeMapping")));
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();

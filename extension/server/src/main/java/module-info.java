@@ -47,6 +47,7 @@ module cloud.piranha.extension.server {
     opens cloud.piranha.extension.server;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.herring;
+    requires cloud.piranha.extension.mimetype;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.wasp;

@@ -27,19 +27,30 @@
  */
 
 /**
- * The Piranha Extension - web.xml tests module.
+ * <p>
+ *  This module delivers the integration of mime-type handling.
+ * </p>
+ * <p>
+ *  It includes the following:
+ * </p>
+ * <ul>
+ *  <li>A WebApplicationExtension</li>
+ *  <li>A MimeTypeManager</li>
+ * </ul>
+ * <h2>The WebApplicationExtension</h2>
+ * <p>
+ *  The extension is responsible for creating the DefaultMimeTypeManager and
+ *  setting the correct context attribute for it.
+ * </p>
+ * <h2>The MimeTypeManager</h2>
+ * <p>
+ *  This manager delivers the implementation of mime-type handling.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml.tests {
-    
-    exports cloud.piranha.extension.webxml.tests;
-    opens cloud.piranha.extension.webxml.tests;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.mimetype;
-    requires cloud.piranha.resource;
+module cloud.piranha.extension.mimetype {
+    exports cloud.piranha.extension.mimetype;
+    opens cloud.piranha.extension.mimetype;
     requires cloud.piranha.webapp.api;
-    requires cloud.piranha.webapp.impl;
-    requires org.junit.jupiter.api;
-    requires org.junit.platform.launcher;
 }

@@ -326,7 +326,6 @@ public class DefaultWebApplication implements WebApplication {
         managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
         managers.put(AuthenticationManager.class.getName(), new DefaultAuthenticationManager());
         managers.put(JspManager.class.getName(), new DefaultJspFileManager());
-        managers.put(MimeTypeManager.class.getName(), new DefaultMimeTypeManager());
         managers.put(LocaleEncodingManager.class.getName(),  new DefaultLocaleEncodingManager());
         managers.put(LoggingManager.class.getName(), new DefaultLoggingManager());
         managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());
@@ -854,11 +853,16 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * {@return the mime type}
+     * 
      * @param filename the filename.
      */
     @Override
     public String getMimeType(String filename) {
-        return getManager(MimeTypeManager.class).getMimeType(filename);
+        String mimeType = null;
+        if (getAttribute(MimeTypeManager.class.getName()) instanceof MimeTypeManager manager) {
+            mimeType = manager.getMimeType(filename);
+        }
+        return mimeType;
     }
 
     /**

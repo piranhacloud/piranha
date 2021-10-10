@@ -34,7 +34,6 @@ import cloud.piranha.webapp.api.LoggingManager;
 import cloud.piranha.webapp.api.MimeTypeManager;
 import cloud.piranha.webapp.api.ObjectInstanceManager;
 import cloud.piranha.webapp.api.SecurityManager;
-import cloud.piranha.webapp.impl.DefaultMimeTypeManager;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultServlet;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
@@ -406,29 +405,6 @@ class DefaultWebApplicationTest {
     void testGetMajorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertEquals(5, webApp.getMajorVersion());
-    }
-
-    /**
-     * Test getMimeType method.
-     */
-    @Test
-    void testGetMimeType() {
-        DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setManager(MimeTypeManager.class, mimeTypeManager);
-        assertNull(webApp.getMimeType("this_maps_to.null"));
-    }
-
-    /**
-     * Test getMimeType method.
-     */
-    @Test
-    void testGetMimeType2() {
-        DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
-        mimeTypeManager.addMimeType("class", "application/x-java-class");
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setManager(MimeTypeManager.class, mimeTypeManager);
-        assertEquals(webApp.getMimeType("my.class"), "application/x-java-class");
     }
 
     /**

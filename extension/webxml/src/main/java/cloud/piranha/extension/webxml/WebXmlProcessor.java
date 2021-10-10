@@ -248,9 +248,10 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processMimeMappings(WebApplication webApplication, WebXml webXml) {
-        for (WebXmlMimeMapping mapping : webXml.getMimeMappings()) {
-            webApplication.getManager(MimeTypeManager.class)
-                    .addMimeType(mapping.extension(), mapping.mimeType());
+        if (webApplication.getAttribute(MimeTypeManager.class.getName()) instanceof MimeTypeManager manager) {
+            webXml.getMimeMappings().forEach(mapping -> {
+                manager.addMimeType(mapping.extension(), mapping.mimeType());
+            });
         }
     }
 
@@ -407,15 +408,15 @@ public class WebXmlProcessor {
 
     /**
      * Process the security constraints.
-     * 
+     *
      * @param webApplication the web application.
      * @param webXml the web.xml.
      */
     private void processSecurityConstraints(WebApplication webApplication, WebXml webXml) {
         AuthenticationManager manager = webApplication.getManager(AuthenticationManager.class);
-        for(WebXmlSecurityConstraint constraint : webXml.getSecurityConstraints()) {
-            for(WebXmlSecurityConstraint.WebResourceCollection collection : constraint.getWebResourceCollections()) {
-                for(String urlPattern : collection.getUrlPatterns()) {
+        for (WebXmlSecurityConstraint constraint : webXml.getSecurityConstraints()) {
+            for (WebXmlSecurityConstraint.WebResourceCollection collection : constraint.getWebResourceCollections()) {
+                for (String urlPattern : collection.getUrlPatterns()) {
                     manager.addSecurityMapping(urlPattern);
                 }
             }

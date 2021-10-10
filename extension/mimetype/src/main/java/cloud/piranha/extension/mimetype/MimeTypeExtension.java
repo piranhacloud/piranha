@@ -25,63 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.webapp.impl;
-
-import java.util.HashMap;
-import java.util.Map;
+package cloud.piranha.extension.mimetype;
 
 import cloud.piranha.webapp.api.MimeTypeManager;
+import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.webapp.api.WebApplicationExtension;
+import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The default MimeTypeManager.
- *
+ * The WebApplicationExtension that registers the DefaultMimeTypeManager.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultMimeTypeManager implements MimeTypeManager {
+public class MimeTypeExtension implements WebApplicationExtension {
 
     /**
-     * Stores the mime types.
+     * Stores the logger.
      */
-    private final Map<String, String> mimeTypes = new HashMap<>();
+    private static final System.Logger LOGGER = System.getLogger(MimeTypeExtension.class.getName());
 
     /**
-     * Constructor.
-     */
-    public DefaultMimeTypeManager() {
-        mimeTypes.put("css", "text/css");
-        mimeTypes.put("js", "text/javascript");
-        mimeTypes.put("ico", "image/x-icon");
-        mimeTypes.put("svg", "image/svg+xml");
-        mimeTypes.put("png", "image/png");
-        mimeTypes.put("ttf", "font/ttf");
-        mimeTypes.put("html", "text/html");
-        mimeTypes.put("htm", "text/html");
-        mimeTypes.put("text", "text/plain");
-        mimeTypes.put("txt", "text/plain");
-    }
-
-    /**
-     * Add the mime type.
+     * Configure the web application.
      *
-     * @param extension the extension (without the dot).
-     * @param mimeType the mime type to return.
+     * @param webApplication the web application.
      */
     @Override
-    public void addMimeType(String extension, String mimeType) {
-        mimeTypes.put(extension.toLowerCase(), mimeType);
-    }
-
-    /**
-     * Get the mime type.
-     *
-     * @param filename the filename.
-     * @return the mime type, or null if not found.
-     */
-    @Override
-    public String getMimeType(String filename) {
-        if (!filename.contains(".")) {
-            return null;
-        }
-        return mimeTypes.get(filename.substring(filename.lastIndexOf(".") + 1).toLowerCase());
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(DEBUG, "Configuring webapplication");
+        webApplication.setAttribute(MimeTypeManager.class.getName(), new DefaultMimeTypeManager());
     }
 }

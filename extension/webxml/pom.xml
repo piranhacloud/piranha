@@ -15,6 +15,7 @@
     <name>Piranha Extension - web.xml</name>
 
     <dependencies>
+        <!-- provided -->
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-impl</artifactId>
@@ -38,6 +39,13 @@
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-mimetype</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
