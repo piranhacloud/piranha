@@ -27,44 +27,132 @@
  */
 package cloud.piranha.extension.wasp;
 
-import static java.lang.System.Logger.Level.WARNING;
+import static java.io.File.pathSeparator;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
 
+import java.io.File;
 import java.lang.System.Logger;
+import java.util.Set;
 
+import org.apache.jasper.runtime.JspFactoryImpl;
+import org.apache.jasper.runtime.TldScanner;
+
+import cloud.piranha.webapp.api.JspManager;
 import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
 import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.jsp.JspFactory;
 
 /**
- * The extension that will enable WaSP integration (aka. JSP).
+ * The WaSP initializer.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WaspExtension implements WebApplicationExtension {
+public class WaspInitializer implements ServletContainerInitializer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(WaspExtension.class.getName());
+    private static final Logger LOGGER = System.getLogger(WaspInitializer.class.getName());
 
     /**
-     * Configure the web application.
+     * Initialize WaSP.
      *
-     * @param webApplication the web application.
+     * @param classes the classes.
+     * @param servletContext the Servlet context.
+     * @throws ServletException when a Servlet error occurs.
      */
     @Override
-    public void configure(WebApplication webApplication) {
-        try {
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        WebApplication application = (WebApplication) servletContext;
 
-            webApplication.addInitializer(
-                webApplication.getClassLoader()
-                              .loadClass(WaspInitializer.class.getName())
-                              .asSubclass(ServletContainerInitializer.class)
-                              .getDeclaredConstructor()
-                              .newInstance());
+        LOGGER.log(DEBUG, "Initializing WaSP");
 
-        } catch (ReflectiveOperationException | SecurityException ex) {
-            LOGGER.log(WARNING, "Unable to enable the WaSP extension", ex);
+        if (JspFactory.getDefaultFactory() == null) {
+            JspFactory.setDefaultFactory(new JspFactoryImpl());
+        }
+
+        ServletRegistration.Dynamic registration = application.addServlet("jsp", "org.apache.jasper.servlet.JspServlet");
+        registration.addMapping("*.jsp");
+        registration.setInitParameter("classpath", getClassPath(application));
+        registration.setInitParameter("compilerSourceVM", "1.8");
+        registration.setInitParameter("compilerTargetVM", "1.8");
+        application.setManager(JspManager.class, new WaspJspManager());
+        application.setAttribute("org.glassfish.wasp.useMultiJarScanAlgo", true);
+
+        LOGGER.log(DEBUG, "Initialized WaSP");
+
+        TldScanner scanner = new TldScanner();
+        scanner.onStartup(classes, servletContext);
+    }
+
+    /**
+     * Gets the full classpath used for JSP
+     *
+     * @param application the application
+     * @return the full classpath used for JSP
+     */
+    private String getClassPath(WebApplication application) {
+        String classpath =
+                System.getProperty("jdk.module.path", System.getProperty("java.class.path")) +
+                getClassesDirectory(application) +
+                getJarFiles(application);
+
+        LOGGER.log(TRACE, () -> "WaSP classpath is: " + classpath);
+
+        return classpath;
+    }
+
+    /**
+     * Get the WEB-INF/classes directory.
+     *
+     * @param servletContext the servlet context.
+     * @return the classes directory.
+     */
+    private String getClassesDirectory(ServletContext servletContext) {
+        String classesDirectory = servletContext.getRealPath("/WEB-INF/classes");
+        if (classesDirectory == null) {
+            return "";
+        }
+
+        return pathSeparator + classesDirectory;
+    }
+
+    /**
+     * Get the WEB-INF/lib JAR files.
+     *
+     * @param servletContext the servlet context.
+     * @return the location of the JAR files.
+     */
+    private String getJarFiles(ServletContext servletContext) {
+        StringBuilder jarFiles = new StringBuilder();
+        String realPath = servletContext.getRealPath("/WEB-INF/lib");
+        if (realPath != null) {
+            File directory = new File(realPath);
+            if (directory.isDirectory()) {
+                String[] files = directory.list();
+                if (files != null) {
+                    for (String file : files) {
+                        if (file.toLowerCase().endsWith(".jar")) {
+                            jarFiles.append(pathSeparator);
+                            jarFiles.append(file);
+                        }
+                    }
+                }
+            }
+        }
+
+        return jarFiles.toString();
+    }
+
+    static {
+        // This is a hack until Jasper handles JPMS
+        if (WaspInitializer.class.getModule().isNamed()) {
+            String oldExtDirs = System.getProperty("java.ext.dirs", "");
+            System.setProperty("java.ext.dirs", System.getProperty("jdk.module.path") + pathSeparator + oldExtDirs);
         }
     }
 }
