@@ -1,22 +1,11 @@
-<project name="Piranha Deployment" default="deploy" xmlns:if="ant:if" xmlns:unless="ant:unless">
+<project name="Piranha Deployment" default="deploy">
     
-    <target name="-deploy" xmlns:if="ant:if" xmlns:unless="ant:unless">
+    <target name="-deploy">
         <echo message="Starting Piranha deploy"/>
         <echoproperties/>
-        
-        <!-- Deploy all wars-->
-        <copy unless:set="run.test" todir="${deploy.dir}" flatten="true" includeEmptyDirs="false" verbose="true">
+        <copy todir="${deploy.dir}" flatten="true" includeEmptyDirs="false" verbose="true">
             <fileset dir="${dist.dir}"/>
         </copy>
-        
-        <!-- Deploy single war -->
-        <sequential if:set="run.test">
-            <dirname property="run.test.path" file="/${run.test}"/>
-            <echo message="Deploying only wars at path ${run.test.path} since run.test is set."/>
-            <copy todir="${deploy.dir}" flatten="true" includeEmptyDirs="false" verbose="true">
-                <fileset dir="${dist.dir}" includes="**${run.test.path}/*.war" />
-            </copy>
-        </sequential>
     </target>
 
     <target name="-undeploy">
