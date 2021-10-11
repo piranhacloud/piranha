@@ -429,6 +429,11 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <inherited>true</inherited>
+                <configuration>
+                    <excludes>
+                        <exclude>com/gargoylesoftware/htmlunit/**</exclude>
+                    </excludes>
+                </configuration>                
                 <executions>
                     <execution>
                         <id>default-prepare-agent</id>
