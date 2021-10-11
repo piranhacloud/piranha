@@ -56,8 +56,5 @@ public class ServerExtension implements WebApplicationExtension {
         context.add(WebAnnotationsExtension.class);
         context.add(TempDirExtension.class);
         context.add(ServletContainerInitializerExtension.class);
-        context.add(ServletSecurityExtension.class);
-
-
     }
 }
