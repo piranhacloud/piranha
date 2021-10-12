@@ -138,6 +138,14 @@ public interface WebApplication extends ServletContext {
      * @see ServletRegistration#addMapping(String...)
      */
     Set<String> addServletMapping(String servletName, String... urlPatterns);
+    
+    /**
+     * Remove a mapping for a servlet.
+     *
+     * @param urlPattern the URL pattern
+     * @return the Servlet name the pattern was mapped to, or null if no prior mapping.
+     */
+    String removeServletMapping(String urlPattern);
 
     /**
      * Destroy the web application.
