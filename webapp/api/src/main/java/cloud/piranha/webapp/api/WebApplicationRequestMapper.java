@@ -49,6 +49,14 @@ public interface WebApplicationRequestMapper {
      * @return the URL patterns that were added.
      */
     Set<String> addServletMapping(String servletName, String... urlPatterns);
+    
+    /**
+     * Remove a mapping.
+     *
+     * @param urlPattern the URL pattern
+     * @return the Servlet name the pattern was mapped to, or null if no prior mapping.
+     */
+    String removeServletMapping(String urlPattern);
 
     /**
      * Add a filter mapping.
