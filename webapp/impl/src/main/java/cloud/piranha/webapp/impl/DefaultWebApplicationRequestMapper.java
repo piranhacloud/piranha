@@ -101,16 +101,14 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
             throw new IllegalArgumentException("Mappings for " + servletName + " cannot be empty");
         }
 
-        if (!stream(urlPatterns).anyMatch(pattern -> pattern.equals(" OVERRIDE "))) {
-            // Servlet:JAVADOC:696.1 - If any of the specified URL patterns are already mapped to a different Servlet, no updates will be performed.
-            Set<String> mappedToOtherServlet = stream(urlPatterns)
-                .filter(servletMappings::containsKey)
-                .filter(urlPattern -> !servletMappings.get(urlPattern).equals(servletName))
-                .collect(toSet());
+        // Servlet:JAVADOC:696.1 - If any of the specified URL patterns are already mapped to a different Servlet, no updates will be performed.
+        Set<String> mappedToOtherServlet = stream(urlPatterns)
+            .filter(servletMappings::containsKey)
+            .filter(urlPattern -> !servletMappings.get(urlPattern).equals(servletName))
+            .collect(toSet());
 
-            if (!mappedToOtherServlet.isEmpty()) {
-                return mappedToOtherServlet;
-            }
+        if (!mappedToOtherServlet.isEmpty()) {
+            return mappedToOtherServlet;
         }
 
         for (String urlPattern : urlPatterns) {
@@ -128,6 +126,11 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
         }
 
         return emptySet();
+    }
+
+    @Override
+    public String removeServletMapping(String urlPattern) {
+        return servletMappings.remove(urlPattern);
     }
 
     /**
