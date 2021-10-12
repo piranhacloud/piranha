@@ -569,6 +569,11 @@ public class DefaultWebApplication implements WebApplication {
     public Set<String> addServletMapping(String servletName, String... urlPatterns) {
         return webApplicationRequestMapper.addServletMapping(servletName, urlPatterns);
     }
+    
+    @Override
+    public String removeServletMapping(String urlPattern) {
+        return webApplicationRequestMapper.removeServletMapping(urlPattern);
+    }
 
     @Override
     public void addErrorPage(int code, String location) {
