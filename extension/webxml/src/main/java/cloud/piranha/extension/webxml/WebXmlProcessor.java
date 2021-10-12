@@ -291,8 +291,14 @@ public class WebXmlProcessor {
      */
     private void processServletMappings(WebApplication webApplication, WebXml webXml) {
         for (WebXmlServletMapping mapping : webXml.getServletMappings()) {
-            webApplication.addServletMapping(
-                    mapping.servletName(), mapping.urlPattern());
+            if (mapping.urlPattern().equals("*.jsp")) {
+                LOGGER.log(DEBUG, "Application defined *.jsp mapping, therefor overriding any existing mapping.");
+                webApplication.addServletMapping(
+                        mapping.servletName(), mapping.urlPattern(), " OVERRIDE ");
+            } else {
+                webApplication.addServletMapping(
+                        mapping.servletName(), mapping.urlPattern());
+            }
         }
     }
 
