@@ -48,8 +48,6 @@ public class ServerExtension implements WebApplicationExtension {
     public void extend(WebApplicationExtensionContext context) {
         context.add(HerringExtension.class);
         context.add(AnnotationScanExtension.class);
-        // WaspExtension must be added before WebXmlExtension, so webApplication.addJspFile that's called by WebXmlExtension
-        // works.
         context.add(WaspExtension.class);
         context.add(WebXmlExtension.class);
         context.add(WebAnnotationsExtension.class);
