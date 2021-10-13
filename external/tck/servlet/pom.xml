@@ -36,10 +36,10 @@
     
     <profiles>
         <profile>
-            <id>linux</id>
+            <id>unix</id>
             <activation>
                 <os>
-                    <family>linux</family>
+                    <family>unix</family>
                 </os>
             </activation>
             <build>
@@ -52,9 +52,14 @@
                             <execution>
                                 <id>validate</id>
                                 <phase>validate</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
                                 <configuration>
-                                    <target>
-                                        <!-- download, unzip and rename TCK -->
+                                    <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                        <echo>Executing UNIX profile</echo>
+                                        
+                                        <!-- Download, unzip and rename TCK -->
                                         <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9/promoted/servlet-tck-5.0.2.zip"
                                              dest="${project.build.directory}/tck.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/tck.zip"
@@ -62,7 +67,7 @@
                                         <move file="${project.build.directory}/servlet-tck"
                                               tofile="${project.build.directory}/tck"/>
                                 
-                                        <!-- download, unzip, rename and chmod Ant 1.10.9 -->
+                                        <!-- Download, unzip, rename and chmod Ant 1.10.9 -->
                                         <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
                                              dest="${project.build.directory}/ant.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/ant.zip"
@@ -73,7 +78,7 @@
                                                perm="ugo+rx"
                                                includes="*"/>
                                 
-                                        <!-- keep copy of original ts.jte -->
+                                        <!-- Keep copy of original ts.jte -->
                                         <copy file="${tck.home}/bin/ts.jte.jdk11"
                                               tofile="${tck.home}/bin/ts.jte.orig"/> 
 
@@ -82,24 +87,56 @@
                                         <copy file="${tck.home}/bin/ts.jte.jdk11"
                                               tofile="${tck.home}/bin/ts.jte"/>
 
-                                        <!-- setup ts.jte for signature tests -->
+                                        <!-- Optionally control which tests we are running -->
+                                        <sequential if:set="exclude.timeout">
+                                            <echo message="Excluding tests that time-out" />    
+                                            <copy file="${tck.home}/bin/ts.jtx"
+                                                tofile="${tck.home}/bin/ts.jtx.orig" />
+                                    
+                                            <copy file="${project.basedir}/src/test/etc/ts.jtx"
+                                                tofile="${tck.home}/bin/ts.jtx" />
+                                        </sequential>
+                                    
+                                        <sequential if:set="exclude.failing">
+                                            <echo message="Excluding failing tests" /> 
+                                            <copy file="${tck.home}/bin/ts.jtx"
+                                                tofile="${tck.home}/bin/ts.jtx.orig" />
+                                    
+                                            <copy file="${project.basedir}/src/test/etc/ts-failed.jtx"
+                                                tofile="${tck.home}/bin/ts.jtx" />
+                                        </sequential>
+
+                                        <sequential if:set="run.test">
+                                            <echo message="Running single test" /> 
+                                            <copy file="${tck.home}/bin/ts.jtx"
+                                                tofile="${tck.home}/bin/ts.jtx.orig" />
+                                    
+                                            <copy file="${project.basedir}/src/test/etc/ts-all.jtx"
+                                                tofile="${tck.home}/bin/ts.jtx" />
+                                    
+                                            <replaceregexp file="${tck.home}/bin/ts.jtx"
+                                                match="${run.test}$" replace="#${run.test}" byline="true" />
+                                        </sequential>
+                                        
+
+                                        <!-- Setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="servlet\.classes=(.*)"
                                                        replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar"
                                                        byline="true"/>
                                         
-                                        <!-- remove java.endorsed.dirs by Xbootclasspath -->
+                                        <!-- Remove java.endorsed.dirs by Xbootclasspath -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="\s+-Djava\.endorsed\.dirs=(.*)"
                                                        replace="-Xbootclasspath/a:${tck.home}/endorsedlib/flow\.jar \\\"
                                                        byline="true"/>
                                 
-                                        <!-- copy Piranha script into the TCK -->
+                                        <!-- Copy Piranha script into the TCK -->
                                         <copy todir="${tck.home}/bin/xml/impl/piranha">
                                             <fileset dir="${project.basedir}/src/test/piranha"/>
                                         </copy>
                                 
-                                        <!-- setup ts.jte to know about Piranha -->
+                                        <!-- Setup ts.jte to know about Piranha -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="impl\.vi=(.*)"
                                                        replace="impl\.vi=piranha"
@@ -126,10 +163,8 @@
                                         </copy>
                                     </target>
                                 </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
                             </execution>
+                            
                             <execution>
                                 <id>pre-integration-test</id>
                                 <phase>pre-integration-test</phase>
@@ -137,27 +172,32 @@
                                     <goal>run</goal>
                                 </goals>
                                 <configuration>
-                                    <target>
-                                        <!-- deploy all the WARs -->
-                                        <exec executable="${ant.home}/bin/ant" 
-                                              dir="${tck.home}/bin">
+                                    <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                    
+                                        <!-- Deploy all the WARs -->
+                                        <exec executable="${ant.home}/bin/ant" dir="${tck.home}/bin">
                                             <arg value="-Dwork.dir=${piranha.home}/work"/>
                                             <arg value="-Dreport.dir=${piranha.home}/report"/>
                                             <arg value="deploy.all"/>
+                                            <arg value="-Drun.test=${run.test}" if:set="run.test"/>
                                         </exec>
-                                        <!-- start the server -->
-                                        <exec executable="${piranha.home}/bin/start.sh"
-                                              dir="${piranha.home}/bin">
+                                        
+                                        <!-- Start the server -->
+                                        <exec executable="${piranha.home}/bin/start.sh" dir="${piranha.home}/bin">
                                             <env key="SSL_ON" value="--ssl"/>
                                             <env key="SSL_KEY_STORE" value="-Djavax.net.ssl.keyStore=etc/keystore.jks"/>
-                                            <env key="SSL_KEY_STORE_PASSWORD"
-                                                 value="-Djavax.net.ssl.keyStorePassword=password"/>
+                                            <env key="SSL_KEY_STORE_PASSWORD" value="-Djavax.net.ssl.keyStorePassword=password"/>
+                                            <arg value="--suspend" if:set="suspend" />
                                         </exec>
-                                        <!-- give the server some time to settle down -->
-                                        <sleep seconds="30"/>
+                                        
+                                        <!-- Give the server some time to settle down -->
+                                        <sleep seconds="40" if:set="suspend"/>
+                                        <sleep seconds="30" unless:set="run.test"/>
+                                        <sleep seconds="2" if:set="run.test" unless:set="suspend"/>
                                     </target>
                                 </configuration>
                             </execution>
+                            
                             <execution>
                                 <id>integration-test</id>
                                 <phase>integration-test</phase>
@@ -166,9 +206,8 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <!-- run all the tests -->
-                                        <exec executable="${ant.home}/bin/ant"
-                                              dir="${test.home}">
+                                        <!-- Run all the tests -->
+                                        <exec executable="${ant.home}/bin/ant" dir="${test.home}">
                                             <arg value="-Dwork.dir=${piranha.home}/work"/>
                                             <arg value="-Dreport.dir=${piranha.home}/report"/>
                                             <arg value="runclient"/>
@@ -176,22 +215,23 @@
                                     </target>
                                 </configuration>
                             </execution>
+                            
                             <execution>
                                 <id>post-integration-test</id>
                                 <phase>post-integration-test</phase>
-                                <configuration>
-                                    <target>
-                                        <!-- stop the server -->
-                                        <exec executable="${piranha.home}/bin/stop.sh"
-                                              dir="${piranha.home}/bin"/>
-                                    </target>
-                                </configuration>
-                                <goals>
+                                 <goals>
                                     <goal>run</goal>
                                 </goals>
+                                <configuration>
+                                    <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                        <!-- stop the server -->
+                                        <exec executable="${piranha.home}/bin/stop.sh" dir="${piranha.home}/bin" unless:set="server.keeprunning" />
+                                    </target>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
+                    
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
@@ -237,13 +277,10 @@
                 </plugins>
             </build>
         </profile>
+        
+        
         <profile>
-            <id>mac</id>
-            <activation>
-                <os>
-                    <family>mac</family>
-                </os>
-            </activation>
+            <id>unix2</id>
             <build>
                 <plugins>
                     <plugin>
@@ -275,9 +312,20 @@
                                                perm="ugo+rx"
                                                includes="*"/>
                                 
-                                        <!-- keep copy of original ts.jte -->
-                                        <copy file="${tck.home}/bin/ts.jte"
+                                         <!-- keep copy of original ts.jte -->
+                                        <copy file="${tck.home}/bin/ts.jte.jdk11"
                                               tofile="${tck.home}/bin/ts.jte.orig"/> 
+
+                                        <delete file="${tck.home}/bin/ts.jte" />
+
+                                        <copy file="${tck.home}/bin/ts.jte.jdk11"
+                                              tofile="${tck.home}/bin/ts.jte"/>
+                                              
+                                        <copy file="${tck.home}/bin/ts.jtx"
+                                              tofile="${tck.home}/bin/ts.jtx.orig"/> 
+                                              
+                                        <copy file="${project.basedir}/src/test/etc/ts.jtx"
+                                              tofile="${tck.home}/bin/ts.jtx"/>
                                 
                                         <!-- setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
@@ -327,21 +375,27 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <!-- deploy all the WARs -->
-                                        <exec executable="${ant.home}/bin/ant" 
-                                              dir="${tck.home}/bin">
+                                        <!-- Deploy all the WARs -->
+                                        <exec executable="${ant.home}/bin/ant" dir="${tck.home}/bin">
                                             <arg value="-Dwork.dir=${piranha.home}/work"/>
                                             <arg value="-Dreport.dir=${piranha.home}/report"/>
                                             <arg value="deploy.all"/>
                                         </exec>
-                                        <!-- start the server -->
-                                        <exec executable="${piranha.home}/bin/start.sh"
-                                              dir="${piranha.home}/bin"/>
-                                        <!-- give the server some time to settle down -->
-                                        <sleep seconds="30"/>
+                                        
+                                        <delete file="${piranha.home}/webapps/started" failonerror="false"/>
+                                        
+                                        <!-- Start the server -->
+                                        <exec executable="${piranha.home}/bin/start.sh" dir="${piranha.home}/bin"/>
+                                        
+                                        <echo>Waiting till Piranha started</echo>
+                                        <!-- Wait until the server is started -->
+                                        <waitfor maxwait="3" maxwaitunit="minute" checkevery="500">
+                                            <available file="${piranha.home}/webapps/started"/>
+                                        </waitfor>
                                     </target>
                                 </configuration>
                             </execution>
+                            
                             <execution>
                                 <id>integration-test</id>
                                 <phase>integration-test</phase>
@@ -351,8 +405,7 @@
                                 <configuration>
                                     <target>
                                         <!-- run all the tests -->
-                                        <exec executable="${ant.home}/bin/ant" 
-                                              dir="${test.home}">
+                                        <exec executable="${ant.home}/bin/ant" dir="${test.home}">
                                             <arg value="-Dwork.dir=${piranha.home}/work"/>
                                             <arg value="-Dreport.dir=${piranha.home}/report"/>
                                             <arg value="runclient"/>
@@ -360,14 +413,14 @@
                                     </target>
                                 </configuration>
                             </execution>
+                            
                             <execution>
                                 <id>post-integration-test</id>
                                 <phase>post-integration-test</phase>
                                 <configuration>
                                     <target>
                                         <!-- stop the server -->
-                                        <exec executable="${piranha.home}/bin/stop.sh"
-                                              dir="${piranha.home}/bin"/>
+                                        <exec executable="${piranha.home}/bin/stop.sh" dir="${piranha.home}/bin"/>
                                     </target>
                                 </configuration>
                                 <goals>
@@ -408,7 +461,7 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>cloud.piranha</groupId>
-                                            <artifactId>piranha-server</artifactId>
+                                            <artifactId>piranha-server2</artifactId>
                                             <version>${project.version}</version>
                                             <type>zip</type>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
@@ -421,6 +474,18 @@
                 </plugins>
             </build>
         </profile>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <profile>
             <id>windows</id>
             <activation>
@@ -612,380 +677,6 @@
             </build>
         </profile>
         
-        <profile>
-            <id>linux2</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
-                        <executions>
-                            <execution>
-                                <id>validate</id>
-                                <phase>validate</phase>
-                                <configuration>
-                                    <target>
-                                        <!-- download, unzip and rename TCK -->
-                                        <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9/promoted/servlet-tck-5.0.1.zip"
-                                             dest="${project.build.directory}/tck.zip" skipexisting="true"/>
-                                        <unzip src="${project.build.directory}/tck.zip"
-                                               dest="${project.build.directory}"/>
-                                        <move file="${project.build.directory}/servlet-tck"
-                                              tofile="${project.build.directory}/tck"/>
-                                
-                                        <!-- download, unzip, rename and chmod Ant 1.10.9 -->
-                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
-                                             dest="${project.build.directory}/ant.zip" skipexisting="true"/>
-                                        <unzip src="${project.build.directory}/ant.zip"
-                                               dest="${project.build.directory}"/>
-                                        <move file="${project.build.directory}/apache-ant-1.10.9"
-                                              tofile="${project.build.directory}/ant"/>
-                                        <chmod dir="${ant.home}/bin"
-                                               perm="ugo+rx"
-                                               includes="*"/>
-                                
-                                        <!-- keep copy of original ts.jte -->
-                                        <copy file="${tck.home}/bin/ts.jte"
-                                              tofile="${tck.home}/bin/ts.jte.orig"/> 
-                                
-                                        <!-- setup ts.jte for signature tests -->
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="servlet\.classes=(.*)"
-                                                       replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar"
-                                                       byline="true"/>
-                                        
-                                        <!-- remove java.endorsed.dirs by \ -->
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="\s+-Djava\.endorsed\.dirs=(.*)"
-                                                       replace="\\\"
-                                                       byline="true"/>
-                                
-                                        <!-- copy Piranha script into the TCK -->
-                                        <copy todir="${tck.home}/bin/xml/impl/piranha">
-                                            <fileset dir="${project.basedir}/src/test/piranha"/>
-                                        </copy>
-                                
-                                        <!-- setup ts.jte to know about Piranha -->
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="impl\.vi=(.*)"
-                                                       replace="impl\.vi=piranha"
-                                                       byline="true"/>
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="impl\.vi\.deploy\.dir=(.*)"
-                                                       replace="impl\.vi\.deploy\.dir=${piranha.home}/webapps"
-                                                       byline="true"/>
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="webServerHost=(.*)"
-                                                       replace="webServerHost=localhost"
-                                                       byline="true"/>
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="webServerPort=(.*)"
-                                                       replace="webServerPort=8080"
-                                                       byline="true"/>
-                                    </target>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>pre-integration-test</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <!-- Deploy all the WARs -->
-                                        <exec executable="${ant.home}/bin/ant" dir="${tck.home}/bin">
-                                            <arg value="-Dwork.dir=${piranha.home}/work"/>
-                                            <arg value="-Dreport.dir=${piranha.home}/report"/>
-                                            <arg value="deploy.all"/>
-                                        </exec>
-                                        
-                                        <delete file="${piranha.home}/webapps/started" failonerror="false"/>
-                                        
-                                        <!-- Start the server -->
-                                        <exec executable="${piranha.home}/bin/start.sh" dir="${piranha.home}/bin"/>
-                                        
-                                        <echo>Waiting till Piranha started</echo>
-                                        <!-- Wait until the server is started -->
-                                        <waitfor maxwait="3" maxwaitunit="minute" checkevery="500">
-                                            <available file="${piranha.home}/webapps/started"/>
-                                        </waitfor>
-                                    </target>
-                                </configuration>
-                            </execution>
-                            
-                            <execution>
-                                <id>integration-test</id>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <!-- run all the tests -->
-                                        <exec executable="${ant.home}/bin/ant" dir="${test.home}">
-                                            <arg value="-Dwork.dir=${piranha.home}/work"/>
-                                            <arg value="-Dreport.dir=${piranha.home}/report"/>
-                                            <arg value="runclient"/>
-                                        </exec>
-                                    </target>
-                                </configuration>
-                            </execution>
-                            
-                            <execution>
-                                <id>post-integration-test</id>
-                                <phase>post-integration-test</phase>
-                                <configuration>
-                                    <target>
-                                        <!-- stop the server -->
-                                        <exec executable="${piranha.home}/bin/stop.sh" dir="${piranha.home}/bin"/>
-                                    </target>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>copy</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>copy</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>cloud.piranha.servlet</groupId>
-                                            <artifactId>piranha-servlet-api</artifactId>
-                                            <version>${project.version}</version>
-                                            <outputDirectory>${signature.home}</outputDirectory>
-                                            <destFileName>piranha-servlet-api.jar</destFileName>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>unpack</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>cloud.piranha</groupId>
-                                            <artifactId>piranha-server2</artifactId>
-                                            <version>${project.version}</version>
-                                            <type>zip</type>
-                                            <outputDirectory>${project.build.directory}</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        
-        
-        <profile>
-            <id>mac2</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
-                        <executions>
-                            <execution>
-                                <id>validate</id>
-                                <phase>validate</phase>
-                                <configuration>
-                                    <target>
-                                        <!-- download, unzip and rename TCK -->
-                                        <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9/promoted/servlet-tck-5.0.1.zip"
-                                             dest="${project.build.directory}/tck.zip" skipexisting="true"/>
-                                        <unzip src="${project.build.directory}/tck.zip"
-                                               dest="${project.build.directory}"/>
-                                        <move file="${project.build.directory}/servlet-tck"
-                                              tofile="${project.build.directory}/tck"/>
-                                
-                                        <!-- download, unzip, rename and chmod Ant 1.10.9 -->
-                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
-                                             dest="${project.build.directory}/ant.zip" skipexisting="true"/>
-                                        <unzip src="${project.build.directory}/ant.zip"
-                                               dest="${project.build.directory}"/>
-                                        <move file="${project.build.directory}/apache-ant-1.10.9"
-                                              tofile="${project.build.directory}/ant"/>
-                                        <chmod dir="${ant.home}/bin"
-                                               perm="ugo+rx"
-                                               includes="*"/>
-                                
-                                        <!-- keep copy of original ts.jte -->
-                                        <copy file="${tck.home}/bin/ts.jte"
-                                              tofile="${tck.home}/bin/ts.jte.orig"/> 
-                                
-                                        <!-- setup ts.jte for signature tests -->
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="servlet\.classes=(.*)"
-                                                       replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar"
-                                                       byline="true"/>
-                                        
-                                        <!-- remove java.endorsed.dirs by \ -->
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="\s+-Djava\.endorsed\.dirs=(.*)"
-                                                       replace="\\\"
-                                                       byline="true"/>
-                                
-                                        <!-- copy Piranha script into the TCK -->
-                                        <copy todir="${tck.home}/bin/xml/impl/piranha">
-                                            <fileset dir="${project.basedir}/src/test/piranha"/>
-                                        </copy>
-                                
-                                        <!-- setup ts.jte to know about Piranha -->
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="impl\.vi=(.*)"
-                                                       replace="impl\.vi=piranha"
-                                                       byline="true"/>
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="impl\.vi\.deploy\.dir=(.*)"
-                                                       replace="impl\.vi\.deploy\.dir=${piranha.home}/webapps"
-                                                       byline="true"/>
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="webServerHost=(.*)"
-                                                       replace="webServerHost=localhost"
-                                                       byline="true"/>
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="webServerPort=(.*)"
-                                                       replace="webServerPort=8080"
-                                                       byline="true"/>
-                                    </target>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>pre-integration-test</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <echo>Deploy all wars</echo>
-                                        
-                                        <!-- deploy all the WARs -->
-                                        <exec executable="${ant.home}/bin/ant" 
-                                              dir="${tck.home}/bin">
-                                            <arg value="-Dwork.dir=${piranha.home}/work"/>
-                                            <arg value="-Dreport.dir=${piranha.home}/report"/>
-                                            <arg value="deploy.all"/>
-                                        </exec>
-                                        
-                                        <delete file="${piranha.home}/webapps/started" failonerror="false"/>
-                                        
-                                        <!-- Start the server -->
-                                        <exec executable="${piranha.home}/bin/start.sh" dir="${piranha.home}/bin"/>
-                                        
-                                        <echo>Waiting till Piranha started</echo>
-                                        <!-- Wait until the server is started -->
-                                        <waitfor maxwait="3" maxwaitunit="minute" checkevery="500">
-                                            <available file="${piranha.home}/webapps/started"/>
-                                        </waitfor>
-                                    </target>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>integration-test</id>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <!-- run all the tests -->
-                                        <exec executable="${ant.home}/bin/ant" 
-                                              dir="${test.home}">
-                                            <arg value="-Dwork.dir=${piranha.home}/work"/>
-                                            <arg value="-Dreport.dir=${piranha.home}/report"/>
-                                            <arg value="runclient"/>
-                                        </exec>
-                                    </target>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>post-integration-test</id>
-                                <phase>post-integration-test</phase>
-                                <configuration>
-                                    <target>
-                                        <!-- stop the server -->
-                                        <exec executable="${piranha.home}/bin/stop.sh"
-                                              dir="${piranha.home}/bin"/>
-                                    </target>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>copy</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>copy</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>cloud.piranha.servlet</groupId>
-                                            <artifactId>piranha-servlet-api</artifactId>
-                                            <version>${project.version}</version>
-                                            <outputDirectory>${signature.home}</outputDirectory>
-                                            <destFileName>piranha-servlet-api.jar</destFileName>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>unpack</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>cloud.piranha</groupId>
-                                            <artifactId>piranha-server2</artifactId>
-                                            <version>${project.version}</version>
-                                            <type>zip</type>
-                                            <outputDirectory>${project.build.directory}</outputDirectory>
-                                            <overWrite>true</overWrite>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+       
     </profiles>
 </project>
