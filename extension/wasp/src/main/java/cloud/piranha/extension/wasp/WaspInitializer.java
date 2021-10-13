@@ -27,6 +27,17 @@
  */
 package cloud.piranha.extension.wasp;
 
+import static java.io.File.pathSeparator;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
+
+import java.io.File;
+import java.lang.System.Logger;
+import java.util.Set;
+
+import org.apache.jasper.runtime.JspFactoryImpl;
+import org.apache.jasper.runtime.TldScanner;
+
 import cloud.piranha.webapp.api.JspManager;
 import cloud.piranha.webapp.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
@@ -34,16 +45,6 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.jsp.JspFactory;
-import java.io.File;
-import static java.io.File.pathSeparator;
-import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.TRACE;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import org.apache.jasper.runtime.JspFactoryImpl;
-import org.apache.jasper.runtime.TldScanner;
 
 /**
  * The WaSP initializer.
@@ -66,41 +67,43 @@ public class WaspInitializer implements ServletContainerInitializer {
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        LOGGER.log(DEBUG, "Determining if WaSP should be initialized");
         WebApplication application = (WebApplication) servletContext;
-        boolean jspFound = false;
-        Map<String, ? extends ServletRegistration> registrations = application.getServletRegistrations();
-        for (Map.Entry<String, ? extends ServletRegistration> entry : registrations.entrySet()) {
-            ServletRegistration registration = entry.getValue();
-            Collection<String> mappings = registration.getMappings();
-            if (mappings.contains("*.jsp")) {
-                jspFound = true;
-                LOGGER.log(DEBUG, "Found *.jsp mapping, skipping WaSP integration");
-            }
+
+        LOGGER.log(DEBUG, "Initializing WaSP");
+
+        if (JspFactory.getDefaultFactory() == null) {
+            JspFactory.setDefaultFactory(new JspFactoryImpl());
         }
-        if (!jspFound) {
-            LOGGER.log(DEBUG, "Initializing WaSP");
-            if (JspFactory.getDefaultFactory() == null) {
-                JspFactory.setDefaultFactory(new JspFactoryImpl());
-            }
-            ServletRegistration.Dynamic registration = application.addServlet(
-                    "jsp", "org.apache.jasper.servlet.JspServlet");
-            registration.addMapping("*.jsp");
-            String classpath = System.getProperty("jdk.module.path",
-                    System.getProperty("java.class.path"))
-                    + getClassesDirectory(application)
-                    + getJarFiles(application);
-            LOGGER.log(TRACE, () -> "WaSP classpath is: " + classpath);
-            registration.setInitParameter("classpath", classpath);
-            registration.setInitParameter("compilerSourceVM", "1.8");
-            registration.setInitParameter("compilerTargetVM", "1.8");
-            application.setManager(JspManager.class, new WaspJspManager());
-            application.setAttribute("org.glassfish.wasp.useMultiJarScanAlgo", true);
-            LOGGER.log(DEBUG, "Initialized WaSP");
-            
-            TldScanner scanner = new TldScanner();
-            scanner.onStartup(classes, servletContext);
-        }
+
+        ServletRegistration.Dynamic registration = application.addServlet("jsp", "org.apache.jasper.servlet.JspServlet");
+        registration.addMapping("*.jsp");
+        registration.setInitParameter("classpath", getClassPath(application));
+        registration.setInitParameter("compilerSourceVM", "1.8");
+        registration.setInitParameter("compilerTargetVM", "1.8");
+        application.setManager(JspManager.class, new WaspJspManager());
+        application.setAttribute("org.glassfish.wasp.useMultiJarScanAlgo", true);
+
+        LOGGER.log(DEBUG, "Initialized WaSP");
+
+        TldScanner scanner = new TldScanner();
+        scanner.onStartup(classes, servletContext);
+    }
+
+    /**
+     * Gets the full classpath used for JSP
+     *
+     * @param application the application
+     * @return the full classpath used for JSP
+     */
+    private String getClassPath(WebApplication application) {
+        String classpath =
+                System.getProperty("jdk.module.path", System.getProperty("java.class.path")) +
+                getClassesDirectory(application) +
+                getJarFiles(application);
+
+        LOGGER.log(TRACE, () -> "WaSP classpath is: " + classpath);
+
+        return classpath;
     }
 
     /**
@@ -114,6 +117,7 @@ public class WaspInitializer implements ServletContainerInitializer {
         if (classesDirectory == null) {
             return "";
         }
+
         return pathSeparator + classesDirectory;
     }
 
@@ -140,6 +144,7 @@ public class WaspInitializer implements ServletContainerInitializer {
                 }
             }
         }
+
         return jarFiles.toString();
     }
 

@@ -29,13 +29,11 @@ package cloud.piranha.extension.wasp;
 
 import static java.lang.System.Logger.Level.WARNING;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.System.Logger;
-
-import jakarta.servlet.ServletContainerInitializer;
 
 import cloud.piranha.webapp.api.WebApplication;
 import cloud.piranha.webapp.api.WebApplicationExtension;
+import jakarta.servlet.ServletContainerInitializer;
 
 /**
  * The extension that will enable WaSP integration (aka. JSP).
@@ -57,16 +55,15 @@ public class WaspExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         try {
-            
+
             webApplication.addInitializer(
                 webApplication.getClassLoader()
                               .loadClass(WaspInitializer.class.getName())
                               .asSubclass(ServletContainerInitializer.class)
                               .getDeclaredConstructor()
                               .newInstance());
-            
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException ex) {
+
+        } catch (ReflectiveOperationException | SecurityException ex) {
             LOGGER.log(WARNING, "Unable to enable the WaSP extension", ex);
         }
     }

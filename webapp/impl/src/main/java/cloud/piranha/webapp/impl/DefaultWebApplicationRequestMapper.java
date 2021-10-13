@@ -120,12 +120,17 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
                 if (!urlPattern.startsWith("*") && !urlPattern.startsWith("/")) {
                     urlPattern = "/" + urlPattern;
                 }
-                
+
                 servletMappings.put(urlPattern, servletName);
             }
         }
 
         return emptySet();
+    }
+
+    @Override
+    public String removeServletMapping(String urlPattern) {
+        return servletMappings.remove(urlPattern);
     }
 
     /**
