@@ -8,7 +8,7 @@
     <parent>
         <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
-        <version>21.10.0-SNAPSHOT</version>
+        <version>21.10.0</version>
     </parent>
     <artifactId>piranha-extension-server</artifactId>
     <packaging>jar</packaging>
