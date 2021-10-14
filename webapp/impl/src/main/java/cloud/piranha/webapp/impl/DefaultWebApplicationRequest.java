@@ -172,7 +172,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the httpServletMapping.
      */
     protected HttpServletMapping httpServletMapping;
-    
+
     /**
      * Stores the input stream.
      */
@@ -197,7 +197,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the method.
      */
     protected String method;
-    
+
     /**
      * Stores the multipartConfig.
      */
@@ -282,7 +282,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the servlet path.
      */
     protected String servletPath;
-    
+
     /**
      * Stores the original servlet path.
      */
@@ -349,19 +349,19 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.parameters = new HashMap<>();
         this.upgraded = false;
     }
-    
+
     /**
      * Add or remove slash if needed.
-     * 
+     *
      * @param string the string the look at.
-     * @return the sanitized string. 
+     * @return the sanitized string.
      */
     private String addOrRemoveSlashIfNeeded(String string) {
         if (string.startsWith("/")) {
             if (string.startsWith("//")) {
                 return string.substring(1);
             }
-            
+
             return string;
         }
 
@@ -378,7 +378,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         currentSessionId = webApplication.getHttpSessionManager().changeSessionId(this);
         return currentSessionId;
     }
-    
+
     @SafeVarargs
     private <T> T coalesce(T... objects) {
         for (T object : objects) {
@@ -432,7 +432,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public String getContentType() {
         return contentType;
     }
-   
+
     @Override
     public String getContextPath() {
         return contextPath;
@@ -448,6 +448,22 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
             }
         }
         return result;
+    }
+
+    /**
+     * {@return the current session id}
+     */
+    public String getCurrentSessionId() {
+        return currentSessionId;
+    }
+
+    /**
+     * Sets the current session id
+     *
+     * @param currentSessionId the current session id
+     */
+    public void setCurrentSessionId(String currentSessionId) {
+        this.currentSessionId = currentSessionId;
     }
 
     @Override
@@ -474,7 +490,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public Enumeration<String> getHeaders(String name) {
         return headerManager.getHeaders(name);
     }
-    
+
     @Override
     public HttpServletMapping getHttpServletMapping() {
         return httpServletMapping;
@@ -563,7 +579,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public String getMethod() {
         return method;
     }
-    
+
     @Override
     public MultipartConfigElement getMultipartConfig() {
         return multipartConfig;
@@ -575,7 +591,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void setMultipartConfig(MultipartConfigElement multipartConfig) {
         this.multipartConfig = multipartConfig;
     }
-   
+
     @Override
     public String getParameter(String name) {
         String result = null;
@@ -585,7 +601,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
         return result;
     }
-    
+
     @Override
     public Map<String, String[]> getParameterMap() {
         getParametersFromRequest();
@@ -632,11 +648,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                         }
                     }
                 }
-                
+
                 boolean hasMultiPart
                         = // FORM/Multipart submission
                         contentType != null && contentType.startsWith(MULTIPART_FORM_DATA);
-                
+
                 if (hasMultiPart) {
                     for (Part part : getParts()) {
                         if (part.getSubmittedFileName() == null) {
@@ -658,11 +674,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                             byteOutput.write(read);
                             read = read();
                         }
-    
+
                         if (read != -1) {
                             byteOutput.write(read);
                         }
-    
+
                         String parameterString = new String(byteOutput.toByteArray());
                         String[] pairs = parameterString.trim().split("&");
                         if (pairs != null) {
@@ -808,7 +824,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public String getRequestURI() {
         return addOrRemoveSlashIfNeeded(
             contextPath +
-            coalesce(originalServletPath, servletPath) + 
+            coalesce(originalServletPath, servletPath) +
             coalesce(pathInfo, ""));
     }
 
@@ -821,7 +837,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         result.append(":");
         result.append(getServerPort());
         result.append(getRequestURI());
-        
+
         return result;
     }
 
@@ -862,8 +878,10 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     @Override
     public HttpSession getSession(boolean create) {
-        if (webApplication == null)
+        if (webApplication == null) {
             return null;
+        }
+
         HttpSession session = null;
         HttpSessionManager manager = webApplication.getHttpSessionManager();
         if (currentSessionId == null && requestedSessionId != null) {
@@ -1035,17 +1053,17 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public void setContentType(String contentType) {
         this.contentType = contentType;
-        
+
         if (contentType.startsWith(MULTIPART_FORM_DATA)) {
             // "multipart/form-data" contains a boundary and no charset
             return;
         }
-        
+
         String[] parts = contentType.split(";");
         if (parts.length == 1) {
             return;
         }
-        
+
         String charset = parts[1].trim();
         String[] pair = charset.split("=");
         if (pair.length == 1) {
@@ -1267,7 +1285,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
     }
-    
+
     /**
      * Gets the original Servlet Path
      *
@@ -1333,7 +1351,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     /**
      * Set the async started flag.
-     * 
+     *
      * @param asyncStarted the async started flag.
      */
     public void setAsyncStarted(boolean asyncStarted) {
