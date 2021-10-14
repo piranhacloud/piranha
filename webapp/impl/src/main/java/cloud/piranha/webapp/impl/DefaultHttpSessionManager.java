@@ -27,8 +27,9 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.HttpSessionManager;
-import cloud.piranha.webapp.api.WebApplication;
+import static jakarta.servlet.SessionTrackingMode.COOKIE;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -37,9 +38,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
+import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.webapp.api.WebApplication;
 import jakarta.servlet.SessionCookieConfig;
 import jakarta.servlet.SessionTrackingMode;
-import static jakarta.servlet.SessionTrackingMode.COOKIE;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -50,9 +55,6 @@ import jakarta.servlet.http.HttpSessionBindingListener;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionIdListener;
 import jakarta.servlet.http.HttpSessionListener;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * The default HttpSessionManager.
@@ -216,6 +218,9 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     public synchronized HttpSession createSession(HttpServletRequest request) {
         String sessionId = UUID.randomUUID().toString();
         DefaultHttpSession session = new DefaultHttpSession(webApplication, sessionId, true);
+
+        // Note: session timeout is in minutes, inactive interval is seconds
+        session.setMaxInactiveInterval(getSessionTimeout() * 60);
         session.setSessionManager(this);
         sessions.put(sessionId, session);
 
