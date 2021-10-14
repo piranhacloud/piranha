@@ -85,7 +85,7 @@ public class DefaultServlet extends HttpServlet {
     }
 
     private InputStream getResource(HttpServletRequest request) {
-        if (request.getServletContext() == null) {
+        if (request.getServletContext() == null || request.getServletPath() == null) {
             return null;
         }
 

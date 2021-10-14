@@ -71,7 +71,7 @@ public class DefaultInvocationFinder {
 
     /**
      * Constructor.
-     * 
+     *
      * @param webApplication the web application.
      */
     public DefaultInvocationFinder(DefaultWebApplication webApplication) {
@@ -80,7 +80,7 @@ public class DefaultInvocationFinder {
 
     /**
      * Find the servlet invocation by path.
-     * 
+     *
      * @param servletPath the servlet path.
      * @param pathInfo the path info.
      * @return the servlet invocation.
@@ -93,7 +93,7 @@ public class DefaultInvocationFinder {
 
     /**
      * Find the servlet invocation by path.
-     * 
+     *
      * @param dispatcherType the dispatcher type.
      * @param servletPath the servlet path.
      * @param pathInfo the path info.
@@ -108,8 +108,13 @@ public class DefaultInvocationFinder {
             if (dispatcherType == REQUEST) {
                 servletInvocation = getWelcomeFileServletInvocation(servletPath, pathInfo != null ? pathInfo : "/");
 
-                if (servletInvocation == null) { // TODO: access rules for WEB-INF
-                    servletInvocation = getDefaultServletInvocation(servletPath, pathInfo);
+                if (servletInvocation == null) {
+                    String servletPathLower = servletPath.toLowerCase();
+                    if (servletPathLower.startsWith("/web-inf") || servletPathLower.startsWith("/meta-inf")) {
+                        servletInvocation = getDefaultServletInvocation(null, null);
+                    } else {
+                        servletInvocation = getDefaultServletInvocation(servletPath, pathInfo);
+                    }
                 }
             } else {
                 // Note: no WEB-INF checks needed here
@@ -125,7 +130,7 @@ public class DefaultInvocationFinder {
 
     /**
      * Add the filters.
-     * 
+     *
      * @param dispatcherType the dispatcher type.
      * @param servletInvocation the servlet invocation.
      * @param servletPath the servlet path.
@@ -156,7 +161,7 @@ public class DefaultInvocationFinder {
 
     /**
      * Find the servlet invocation by servlet name.
-     * 
+     *
      * @param servletName the servlet name.
      * @return the servlet invocation, or null if not found.
      */
@@ -172,7 +177,7 @@ public class DefaultInvocationFinder {
         servletInvocation.setServletEnvironment(servletEnvironment);
         servletInvocation.seedFilterChain();
         servletInvocation.setFromNamed(true);
-        
+
         return servletInvocation;
     }
 
@@ -200,12 +205,12 @@ public class DefaultInvocationFinder {
         servletInvocation.setApplicationRequestMapping(mapping);
         servletInvocation.setServletName(servletName);
         servletInvocation.setServletEnvironment(servletEnvironment);
-        
+
         servletInvocation.getHttpServletMapping().setMappingMatch(
-            mapping.isExact() ? EXACT : 
-            mapping.isExtension()? EXTENSION : 
+            mapping.isExact() ? EXACT :
+            mapping.isExtension()? EXTENSION :
             PATH);
-        
+
         servletInvocation.getHttpServletMapping().setPattern(mapping.getPattern());
         servletInvocation.getHttpServletMapping().setServletName(servletName);
         servletInvocation.getHttpServletMapping().setMatchValue(mapping.getMatchValue());
@@ -232,7 +237,7 @@ public class DefaultInvocationFinder {
         for (String welcomeFile : webApplication.getManager(WelcomeFileManager.class).getWelcomeFileList()) {
             if (!isStaticResource(servletPath, pathInfo + welcomeFile))
                 continue;
-            
+
             return getDefaultServletInvocation(servletPath, pathInfo + welcomeFile);
         }
 
@@ -240,21 +245,21 @@ public class DefaultInvocationFinder {
 
         for (String welcomeFile : webApplication.getManager(WelcomeFileManager.class).getWelcomeFileList()) {
             if (
-                
+
                 // .jsp files are special in the system, as they are mapped to a servlet, but also
                 // have to be present at exactly that path as static resource. Additionally we have
                 // the required index.jsp welcome file, that may not actually be there.
                 (welcomeFile.endsWith(".jsp") && !isStaticResource(servletPath, pathInfo + welcomeFile))
-                
+
                 ) {
                 continue;
             }
-            
+
             DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo + welcomeFile);
             if (servletInvocation != null) {
                 servletInvocation.setOriginalServletPath(servletPath);
             }
-            
+
             return servletInvocation;
         }
 
@@ -271,7 +276,7 @@ public class DefaultInvocationFinder {
             if (string.startsWith("//")) {
                 return string.substring(1);
             }
-            
+
             return string;
         }
 
@@ -280,12 +285,12 @@ public class DefaultInvocationFinder {
 
     private DefaultServletInvocation getDefaultServletInvocation(String servletPath, String pathInfo) {
         ServletEnvironment servletEnvironment = null;
-        
+
         String servletName = webApplication.webApplicationRequestMapper.getDefaultServlet();
         if (servletName != null) {
             servletEnvironment = webApplication.servletEnvironments.get(servletName);
         }
-        
+
         if (servletEnvironment == null) {
             Servlet defaultServlet = webApplication.defaultServlet;
             if (defaultServlet == null) {
@@ -294,17 +299,17 @@ public class DefaultInvocationFinder {
             servletName = "default";
             servletEnvironment = new DefaultServletEnvironment(webApplication, servletName, defaultServlet);
         }
-      
+
 
         DefaultServletInvocation servletInvocation = new DefaultServletInvocation();
 
         servletInvocation.setServletName(servletName);
         servletInvocation.setServletEnvironment(servletEnvironment);
-        
-        // 12.2 
-        // A string containing only the "/" character indicates the "default" servlet of the application. 
+
+        // 12.2
+        // A string containing only the "/" character indicates the "default" servlet of the application.
         // In this case the servlet path is the request URI minus the context path and the path info is null.
-        servletInvocation.setServletPath(addOrRemoveSlashIfNeeded(servletPath + (pathInfo == null ? "" : pathInfo)));
+        servletInvocation.setServletPath(servletPath == null? null : addOrRemoveSlashIfNeeded(servletPath + (pathInfo == null ? "" : pathInfo)));
         servletInvocation.setInvocationPath(servletPath); // look at whether its really needed to have path and invocation path
         servletInvocation.setPathInfo(null);
         servletInvocation.getHttpServletMapping().setMappingMatch(DEFAULT);
@@ -380,10 +385,10 @@ public class DefaultInvocationFinder {
 
         return Integer.compare(filterX.getPriority(), filterY.getPriority());
     }
-    
+
     private boolean hasDefaultServlet() {
-        return 
-            webApplication.defaultServlet != null || 
+        return
+            webApplication.defaultServlet != null ||
             webApplication.webApplicationRequestMapper.getDefaultServlet() != null;
     }
 
