@@ -64,6 +64,7 @@ import jakarta.servlet.UnavailableException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * The default ServletRequestDispatcher.
@@ -189,7 +190,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             httpResponse.flushBuffer();
             rethrow(exception);
         } else if (webappRequest.getAttribute(ERROR_MESSAGE) != null) {
-            // Specified by spec/javadoc: "The server defaults to creating the response to look like an HTML-formatted server error page containing the specified message, 
+            // Specified by spec/javadoc: "The server defaults to creating the response to look like an HTML-formatted server error page containing the specified message,
             // setting the content type to "text/html"."
             httpResponse.setContentType("text/html");
             httpResponse.getWriter()
@@ -248,6 +249,10 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             includedRequest.setDispatcherType(INCLUDE);
             includedRequest.setPathInfo(null);
             includedRequest.setQueryString(originalRequest.getQueryString());
+            HttpSession session = originalRequest.getSession(false);
+            if (session != null) {
+                includedRequest.setCurrentSessionId(session.getId());
+            }
 
             copyAttributesFromRequest(originalRequest, includedRequest, attributeName -> true);
 
@@ -261,7 +266,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             CurrentRequestHolder currentRequestHolder = updateCurrentRequest(originalRequest, includedRequest);
 
             invocationFinder.addFilters(INCLUDE, servletInvocation, includedRequest.getServletPath(), "");
-            
+
             if (originalRequest instanceof DefaultWebApplicationRequest defaultRequest) {
                 // 12.3.1
                 // "the HttpServletMapping is not available for servlets that have been obtained with a call to
@@ -314,7 +319,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
     /**
      * Send an error response.
-     * 
+     *
      * @param servletName the servlet name.
      * @param servletRequest the servlet request.
      * @param servletResponse the servlet response.
@@ -333,6 +338,10 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             errorRequest.setMultipartConfig(servletEnvironment.getMultipartConfig());
             errorRequest.setContextPath(request.getContextPath());
             errorRequest.setDispatcherType(ERROR);
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                errorRequest.setCurrentSessionId(session.getId());
+            }
 
             if (path != null) {
                 setForwardAttributes(request, errorRequest,
@@ -401,6 +410,10 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             forwardedRequest.setContextPath(request.getContextPath());
             forwardedRequest.setHttpServletMapping(servletInvocation.getHttpServletMapping());
             forwardedRequest.setDispatcherType(FORWARD);
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                forwardedRequest.setCurrentSessionId(session.getId());
+            }
 
             if (path != null) {
                 setForwardAttributes(request, forwardedRequest,
@@ -427,7 +440,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             if (servletInvocation.getServletEnvironment() != null) {
                 forwardedRequest.setAsyncSupported(request.isAsyncSupported() && isAsyncSupportedInChain());
             }
-            
+
             if (servletInvocation.isFromNamed() && request instanceof DefaultWebApplicationRequest defaultRequest) {
                 // 12.3.1
                 // "the HttpServletMapping is not available for servlets that have been obtained with a call to
