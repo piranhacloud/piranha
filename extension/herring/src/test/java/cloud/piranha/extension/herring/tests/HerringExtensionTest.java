@@ -80,7 +80,7 @@ class HerringExtensionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testConfigure2() throws Exception {
+    void testConfigure2() throws Exception {
         new EmbeddedPiranhaBuilder()
                 .extension(HerringExtension.class)
                 .listener(TestServletRequestListener.class.getName())
@@ -96,7 +96,7 @@ class HerringExtensionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testConfigure3() throws Exception {
+    void testConfigure3() throws Exception {
         new EmbeddedPiranhaBuilder()
                 .extension(HerringExtension.class)
                 .listener(TestServletRequestListener.class.getName())

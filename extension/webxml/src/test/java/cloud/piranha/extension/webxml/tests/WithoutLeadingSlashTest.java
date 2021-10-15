@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WithoutLeadingSlashTest {
+class WithoutLeadingSlashTest {
 
     /**
      * Test without leading slash..
