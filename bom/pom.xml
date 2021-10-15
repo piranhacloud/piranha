@@ -19,12 +19,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Apache Commons File Upload -->    
-            <dependency>
-                <groupId>commons-fileupload</groupId>
-                <artifactId>commons-fileupload</artifactId>
-                <version>1.4</version>
-            </dependency>
             
             <!-- Hazelcast  -->
             <dependency>

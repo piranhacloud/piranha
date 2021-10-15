@@ -45,6 +45,7 @@
                                 <artifactItem>
                                     <groupId>commons-fileupload</groupId>
                                     <artifactId>commons-fileupload</artifactId>
+                                    <version>1.4</version>
                                     <classifier>sources</classifier>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}/fileupload-source</outputDirectory>
@@ -66,7 +67,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>add-commons-fileupload-sources</id>
@@ -85,7 +85,6 @@
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>replacer</artifactId>
-                <version>1.5.3</version>
                 <executions>
                     <execution>
                         <phase>generate-resources</phase>
