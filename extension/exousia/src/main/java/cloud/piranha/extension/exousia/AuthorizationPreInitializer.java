@@ -193,6 +193,10 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     }
 
     private List<SecurityConstraint> filterAnnotatedConstraints(List<SecurityConstraint> webXmlConstraints, List<SecurityConstraint> annotationConstraints) {
+        if (isAnyNull(webXmlConstraints, annotationConstraints)) {
+            return annotationConstraints;
+        }
+
         // Servlet Spec 13.4.1
         //
         // When a security-constraint in the portable deployment descriptor includes a url-pattern
@@ -347,6 +351,16 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         T t = (T) servletContext.getAttribute(name);
 
         return t;
+    }
+
+    private static boolean isAnyNull(Object... values) {
+        for (Object value : values) {
+            if (value == null) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
