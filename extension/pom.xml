@@ -27,6 +27,7 @@
         <module>mimetype</module>
         <module>mojarra</module>
         <module>myfaces</module>
+        <module>policy</module>
         <module>scinitializer</module>
         <module>security-file</module>
         <module>security-servlet</module>
