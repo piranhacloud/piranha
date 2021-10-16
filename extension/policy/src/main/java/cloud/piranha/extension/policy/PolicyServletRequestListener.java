@@ -25,19 +25,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.policy;
+
+import cloud.piranha.webapp.api.WebApplication;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
+import static java.lang.System.Logger.Level.DEBUG;
+import java.security.Policy;
 
 /**
- * The Piranha Policy - Thread module.
- * 
- * <p>
- *  This module delivers the thread implementation needed for Policy integration
- *  in web applications.
- * </p>
- * 
+ * The ServletRequestListener that sets the Policy instance on the current
+ * thread just before request processing and removes the Policy instance from
+ * the current after the request has been processed.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.policy.thread {
-    
-    exports cloud.piranha.policy.thread;
-    opens cloud.piranha.policy.thread;
+public class PolicyServletRequestListener implements ServletRequestListener {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(PolicyServletRequestListener.class.getName());
+
+    @Override
+    public void requestDestroyed(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Removing Policy");
+        PolicyThreadLocal.removePolicy();
+    }
+
+    @Override
+    public void requestInitialized(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Setting Policy");
+        WebApplication webApplication = (WebApplication) event.getServletContext();
+        Policy policy = (Policy) webApplication.getAttribute(Policy.class.getName());
+        PolicyThreadLocal.setPolicy(policy);
+    }
 }

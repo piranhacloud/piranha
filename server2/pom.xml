@@ -103,20 +103,6 @@
             <scope>compile</scope>
         </dependency>
         
-        <!-- Piranha Policy -->
-        <dependency>
-            <groupId>cloud.piranha.policy</groupId>
-            <artifactId>piranha-policy-api</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.policy</groupId>
-            <artifactId>piranha-policy-thread</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!-- Piranha Resource -->
         <dependency>
             <groupId>cloud.piranha.resource</groupId>

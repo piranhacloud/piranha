@@ -39,8 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import cloud.piranha.policy.api.PolicyManager;
-import cloud.piranha.policy.thread.ThreadPolicy;
 import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.api.WebApplicationResponse;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
@@ -49,11 +47,11 @@ import jakarta.servlet.ServletResponse;
 
 /**
  * A Piranha Micro web application.
- * 
+ *
  * @author Arjan Tijms
  */
 public class MicroWebApplication extends DefaultWebApplication {
-    
+
     /**
      * Runnable to do nothing
      */
@@ -70,7 +68,9 @@ public class MicroWebApplication extends DefaultWebApplication {
     private Consumer<Map<String, Object>> deployedApplication;
 
     /**
-     * {@return the deployed application}
+     * {
+     *
+     * @return the deployed application}
      */
     public Consumer<Map<String, Object>> getDeployedApplication() {
         return deployedApplication;
@@ -78,7 +78,7 @@ public class MicroWebApplication extends DefaultWebApplication {
 
     /**
      * Set the deployed application.
-     * 
+     *
      * @param deployedApplication the deployed application.
      */
     public void setDeployedApplication(Consumer<Map<String, Object>> deployedApplication) {
@@ -87,23 +87,18 @@ public class MicroWebApplication extends DefaultWebApplication {
 
     /**
      * Service the request.
-     * 
+     *
      * @param request the request.
      * @param response the resposne.
      */
     @Override
     public void service(ServletRequest request, ServletResponse response) {
-        try {
-            ThreadPolicy.setPolicy(getManager(PolicyManager.class).getPolicy());
-            deployedApplication.accept(copyApplicationRequestToMap((WebApplicationRequest) request, (WebApplicationResponse) response));
-        } finally {
-            ThreadPolicy.removePolicy();
-        }
+        deployedApplication.accept(copyApplicationRequestToMap((WebApplicationRequest) request, (WebApplicationResponse) response));
     }
 
     /**
      * Copy the request and response to a map.
-     * 
+     *
      * @param applicationRequest the web application request.
      * @param applicationResponse the web application response.
      * @return the map.
@@ -119,29 +114,31 @@ public class MicroWebApplication extends DefaultWebApplication {
 
     /**
      * Get a map of request.
-     * 
-     * @return the map. 
+     *
+     * @return the map.
      */
     private Map<String, Object> requestToMap(WebApplicationRequest request) {
         return Map.ofEntries(
-            entry("LocalAddr", request.getLocalAddr()),
-            entry("LocalName", request.getLocalName()),
-            entry("LocalPort", request.getLocalPort()),
-            entry("RemoteAddr", request.getRemoteAddr()),
-            entry("RemoteHost", request.getRemoteHost()),
-            entry("RemotePort", request.getRemotePort()),
-            entry("ServerName", request.getServerName()),
-            entry("ServerPort", request.getServerPort()),
-            entry("Method", request.getMethod()),
-            entry("ContextPath", request.getContextPath()),
-            entry("ServletPath", request.getServletPath()),
-            entry("QueryString", request.getQueryString() == null? "" : request.getQueryString()),
-            entry("InputStream", getInputStreamUnchecked(request)),
-            entry("Headers", getHeadersAsMap(request)));
+                entry("LocalAddr", request.getLocalAddr()),
+                entry("LocalName", request.getLocalName()),
+                entry("LocalPort", request.getLocalPort()),
+                entry("RemoteAddr", request.getRemoteAddr()),
+                entry("RemoteHost", request.getRemoteHost()),
+                entry("RemotePort", request.getRemotePort()),
+                entry("ServerName", request.getServerName()),
+                entry("ServerPort", request.getServerPort()),
+                entry("Method", request.getMethod()),
+                entry("ContextPath", request.getContextPath()),
+                entry("ServletPath", request.getServletPath()),
+                entry("QueryString", request.getQueryString() == null ? "" : request.getQueryString()),
+                entry("InputStream", getInputStreamUnchecked(request)),
+                entry("Headers", getHeadersAsMap(request)));
     }
 
     /**
-     * {@return the unchecked input stream}
+     * {
+     *
+     * @return the unchecked input stream}
      */
     private InputStream getInputStreamUnchecked(WebApplicationRequest request) {
         try {
@@ -153,7 +150,7 @@ public class MicroWebApplication extends DefaultWebApplication {
 
     /**
      * Get the headers as a map.
-     * 
+     *
      * @return the map.
      */
     private Map<String, List<String>> getHeadersAsMap(WebApplicationRequest request) {
@@ -166,16 +163,15 @@ public class MicroWebApplication extends DefaultWebApplication {
         }
         return headers;
     }
-    
-    
+
     /**
      * Get a map of underlying output stream and response closer.
-     * 
+     *
      * @return the map.
      */
     private Map<String, Object> responseToMap(WebApplicationResponse response) {
         return Map.of(
-            "UnderlyingOutputStream", response.getUnderlyingOutputStream(),
-            "ResponseCloser", response.getResponseCloser() == null? doNothing : response.getResponseCloser() );
+                "UnderlyingOutputStream", response.getUnderlyingOutputStream(),
+                "ResponseCloser", response.getResponseCloser() == null ? doNothing : response.getResponseCloser());
     }
 }

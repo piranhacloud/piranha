@@ -29,7 +29,6 @@ package cloud.piranha.server2;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.Policy;
 import java.util.Arrays;
 import java.util.ServiceLoader;
 import java.lang.System.Logger.Level;
@@ -44,8 +43,6 @@ import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.embedded.MicroWebApplication;
 import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
-import cloud.piranha.policy.api.PolicyManager;
-import cloud.piranha.policy.thread.ThreadPolicy;
 
 import static java.lang.System.Logger.Level.INFO;
 
@@ -83,7 +80,9 @@ public class ServerPiranha implements Runnable {
     private boolean ssl = false;
 
     /**
-     * {@return the instance}
+     * {
+     *
+     * @return the instance}
      */
     public static ServerPiranha get() {
         return INSTANCE;
@@ -95,7 +94,6 @@ public class ServerPiranha implements Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        Policy.setPolicy(new ThreadPolicy());
         INSTANCE = new ServerPiranha();
         INSTANCE.processArguments(arguments);
         INSTANCE.run();
@@ -144,9 +142,9 @@ public class ServerPiranha implements Runnable {
             File deployingFile = createDeployingFile();
 
             Arrays.stream(webapps)
-                  .parallel()
-                  .filter(warFile -> warFile.getName().toLowerCase().endsWith(".war"))
-                  .forEach(warFile -> deploy(warFile, webApplicationServer));
+                    .parallel()
+                    .filter(warFile -> warFile.getName().toLowerCase().endsWith(".war"))
+                    .forEach(warFile -> deploy(warFile, webApplicationServer));
 
             if (deployingFile.delete()) {
                 LOGGER.log(Level.WARNING, "Unable to delete deploying file");
@@ -182,7 +180,6 @@ public class ServerPiranha implements Runnable {
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
     }
 
-
     private void deploy(File warFile, HttpWebApplicationServer webApplicationServer) {
         String contextPath = getContextPath(warFile);
 
@@ -193,19 +190,14 @@ public class ServerPiranha implements Runnable {
         try {
             MicroWebApplication microWebApplication = new MicroWebApplication();
             microWebApplication.setContextPath(contextPath);
-
-            ThreadPolicy.setPolicy(microWebApplication.getManager(PolicyManager.class).getPolicy());
-
             microWebApplication.setDeployedApplication(
-                new MicroOuterDeployer(configuration.postConstruct())
-                    .deploy(ShrinkWrap.create(ZipImporter.class, warFile.getName()).importFrom(warFile).as(WebArchive.class))
-                    .getDeployedApplication());
+                    new MicroOuterDeployer(configuration.postConstruct())
+                            .deploy(ShrinkWrap.create(ZipImporter.class, warFile.getName()).importFrom(warFile).as(WebArchive.class))
+                            .getDeployedApplication());
 
             webApplicationServer.addWebApplication(microWebApplication);
         } catch (Exception e) {
             LOGGER.log(Level.ERROR, () -> "Failed to initialize app " + contextPath, e);
-        } finally {
-            ThreadPolicy.removePolicy();
         }
     }
 

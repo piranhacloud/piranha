@@ -36,8 +36,6 @@ module cloud.piranha.server2 {
     requires cloud.piranha.extension.server;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
-    requires cloud.piranha.policy.api;
-    requires cloud.piranha.policy.thread;
     requires cloud.piranha.resource;
     requires cloud.piranha.webapp.api;
     requires cloud.piranha.webapp.impl;

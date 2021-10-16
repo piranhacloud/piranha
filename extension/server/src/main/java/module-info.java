@@ -35,6 +35,8 @@
  * <ul>
  *  <li>Annotation scanning support</li>
  *  <li>JNDI support (Manorrock Herring)</li>
+ *  <li>Mimetype support</li>
+ *  <li>Policy support</li>
  *  <li>ServletContainerInitializer support</li>
  *  <li>TEMPDIR support</li>
  *  <li>WaSP support</li>
@@ -48,6 +50,7 @@ module cloud.piranha.extension.server {
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.mimetype;
+    requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.wasp;
