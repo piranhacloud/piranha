@@ -27,43 +27,26 @@
  */
 package cloud.piranha.extension.policy;
 
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.WARNING;
-import java.security.NoSuchAlgorithmException;
-import java.security.Policy;
 
 /**
- * The WebApplicationExtension that is responsible for setting up the proper
- * Policy instance so it can be made available during web application
- * initialization and subsequently during request processing as well as
- * delivering listeners to set/remove the Policy from the current thread.
+ * The ServletContextListener used to remove the Context instance once
+ * initialization is done.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PolicyExtension implements WebApplicationExtension {
+public class PolicyServletContextListener implements ServletContextListener {
 
     /**
      * Stores the logger.
      */
-    private static final System.Logger LOGGER = System.getLogger(PolicyExtension.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(PolicyServletContextListener.class.getName());
 
-    /**
-     * Configure the web application.
-     *
-     * @param webApplication the web application.
-     */
     @Override
-    public void configure(WebApplication webApplication) {
-        try {
-            LOGGER.log(DEBUG, "Configuring webapplication");
-            Policy policy = Policy.getInstance("JavaPolicy", null);
-            webApplication.setAttribute(Policy.class.getName(), policy);
-            PolicyThreadLocal.setPolicy(policy);
-            webApplication.addListener(PolicyServletContextListener.class.getName());
-        } catch (NoSuchAlgorithmException ex) {
-            LOGGER.log(WARNING, "Error setting up Policy", ex);
-        }
+    public void contextInitialized(ServletContextEvent event) {
+        LOGGER.log(DEBUG, "Removing InitialContext");
+        PolicyThreadLocal.removePolicy();
     }
 }

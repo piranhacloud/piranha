@@ -27,43 +27,34 @@
  */
 package cloud.piranha.extension.policy;
 
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.WARNING;
-import java.security.NoSuchAlgorithmException;
 import java.security.Policy;
+import java.util.HashMap;
 
 /**
- * The WebApplicationExtension that is responsible for setting up the proper
- * Policy instance so it can be made available during web application
- * initialization and subsequently during request processing as well as
- * delivering listeners to set/remove the Policy from the current thread.
+ * The class to set/remove the thread local for Policy.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PolicyExtension implements WebApplicationExtension {
+public class PolicyThreadLocal {
 
     /**
-     * Stores the logger.
+     * Stores the policies by thread id.
      */
-    private static final System.Logger LOGGER = System.getLogger(PolicyExtension.class.getName());
+    private static final HashMap<Long, Policy> POLICIES = new HashMap<>(1);
 
     /**
-     * Configure the web application.
+     * Remove the policy.
+     */
+    public static void removePolicy() {
+        POLICIES.remove(Thread.currentThread().getId());
+    }
+
+    /**
+     * Set the policy.
      *
-     * @param webApplication the web application.
+     * @param policy the policy.
      */
-    @Override
-    public void configure(WebApplication webApplication) {
-        try {
-            LOGGER.log(DEBUG, "Configuring webapplication");
-            Policy policy = Policy.getInstance("JavaPolicy", null);
-            webApplication.setAttribute(Policy.class.getName(), policy);
-            PolicyThreadLocal.setPolicy(policy);
-            webApplication.addListener(PolicyServletContextListener.class.getName());
-        } catch (NoSuchAlgorithmException ex) {
-            LOGGER.log(WARNING, "Error setting up Policy", ex);
-        }
+    public static void setPolicy(Policy policy) {
+        POLICIES.put(Thread.currentThread().getId(), policy);
     }
 }
