@@ -31,7 +31,7 @@ import java.security.Policy;
 import java.util.HashMap;
 
 /**
- * The class to set/remove the thread local for Policy.
+ * The class to keep track of setting/removing the thread local for Policy.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

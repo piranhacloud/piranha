@@ -32,7 +32,7 @@ import jakarta.servlet.ServletContextListener;
 import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The ServletContextListener used to remove the Context instance once
+ * The ServletContextListener used to remove the Policy instance once
  * initialization is done.
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -46,7 +46,7 @@ public class PolicyServletContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        LOGGER.log(DEBUG, "Removing InitialContext");
+        LOGGER.log(DEBUG, "Removing Policy");
         PolicyThreadLocal.removePolicy();
     }
 }
