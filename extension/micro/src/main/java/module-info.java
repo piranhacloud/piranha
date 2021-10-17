@@ -32,6 +32,7 @@ module cloud.piranha.extension.micro {
     provides WebApplicationExtension with MicroExtension;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.mimetype;
+    requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.security.jakarta;
     requires cloud.piranha.extension.wasp;
