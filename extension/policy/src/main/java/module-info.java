@@ -27,17 +27,40 @@
  */
 
 /**
- * The Piranha Policy - Thread module.
- * 
  * <p>
- *  This module delivers the thread implementation needed for Policy integration
- *  in web applications.
+ *  This module delivers the integration of Policy into Piranha.
+ * </p>
+ * <p>
+ *  It includes the following:
+ * </p>
+ * <ul>
+ *  <li>A WebApplicationExtension</li>
+ *  <li>A ServletContextListener</li>
+ *  <li>A ServletRequestListener</li>
+ * </ul>
+ * <h2>The WebApplicationExtension</h2>
+ * <p>
+ *  The extension is responsible for setting up the proper Policy instance so
+ *  it can be made available during web application initialization and 
+ *  subsequently during request processing.
+ * </p>
+ * <h2>The ServletContextListener</h2>
+ * <p>
+ *  This listener is responsible for the corner case of removing the Policy
+ *  set by the WebApplicationExtension and it signals the end of initialization.
+ * </p>
+ * <h2>The ServletRequestListener</h2>
+ * <p>
+ *  This listener is responsible for making the correct Policy instance 
+ *  available on the current thread just before the request gets serviced and to
+ *  remove the Policy instance from the current thread at the end of the
+ *  request.
  * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.policy.thread {
-    
-    exports cloud.piranha.policy.thread;
-    opens cloud.piranha.policy.thread;
+module cloud.piranha.extension.policy {
+    exports cloud.piranha.extension.policy;
+    opens cloud.piranha.extension.policy;
+    requires cloud.piranha.webapp.api;
 }

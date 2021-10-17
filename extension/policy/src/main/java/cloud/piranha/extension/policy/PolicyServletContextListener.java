@@ -25,15 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.policy;
+
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The Piranha Policy - Implementation test module.
- * 
+ * The ServletContextListener used to remove the Policy instance once
+ * initialization is done.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.policy.impl.tests {
-    opens cloud.piranha.policy.impl.tests;
-    requires cloud.piranha.policy.impl;
-    requires org.junit.jupiter.api;
-    requires org.junit.jupiter.engine;
+public class PolicyServletContextListener implements ServletContextListener {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(PolicyServletContextListener.class.getName());
+
+    @Override
+    public void contextInitialized(ServletContextEvent event) {
+        LOGGER.log(DEBUG, "Removing Policy");
+        PolicyThreadLocal.removePolicy();
+    }
 }

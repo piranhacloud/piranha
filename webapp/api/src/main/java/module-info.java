@@ -38,7 +38,6 @@
 module cloud.piranha.webapp.api {
     exports cloud.piranha.webapp.api;
     opens cloud.piranha.webapp.api;
-    requires cloud.piranha.policy.api;
     requires cloud.piranha.resource.api;
     requires transitive jakarta.servlet;
 }

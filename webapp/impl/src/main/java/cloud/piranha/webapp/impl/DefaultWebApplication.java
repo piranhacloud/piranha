@@ -27,8 +27,6 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.policy.api.PolicyManager;
-import cloud.piranha.policy.impl.DefaultPolicyManager;
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.api.ResourceManager;
@@ -330,7 +328,6 @@ public class DefaultWebApplication implements WebApplication {
         managers.put(LoggingManager.class.getName(), new DefaultLoggingManager());
         managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());
         managers.put(ObjectInstanceManager.class.getName(), new DefaultObjectInstanceManager());
-        managers.put(PolicyManager.class.getName(), new DefaultPolicyManager());
         managers.put(SecurityManager.class.getName(), new DefaultSecurityManager());
         managers.put(WelcomeFileManager.class.getName(), new DefaultWelcomeFileManager());
         attributes = new HashMap<>(1);
