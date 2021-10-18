@@ -28,6 +28,7 @@
 package cloud.piranha.extension.eleos;
 
 import static jakarta.security.auth.message.config.AuthConfigFactory.DEFAULT_FACTORY_SECURITY_PROPERTY;
+import static java.lang.System.Logger.Level.INFO;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.readString;
@@ -35,6 +36,7 @@ import static java.util.Arrays.stream;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.System.Logger;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Security;
@@ -70,6 +72,11 @@ import jakarta.servlet.ServletException;
 public class AuthenticationInitializer implements ServletContainerInitializer {
 
     /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(AuthenticationInitializer.class.getName());
+
+    /**
      * Stores the auth module class name.
      */
     public static final String AUTH_MODULE_CLASS = AuthenticationInitializer.class.getName() + ".auth.module.class";
@@ -89,7 +96,7 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
 
-        System.out.println("*** AuthenticationInitializer ***");
+        LOGGER.log(INFO, "*** Initializing Authentication ***");
 
         String appContextId = servletContext.getVirtualServerName() + " " + servletContext.getContextPath();
 
