@@ -72,11 +72,6 @@ import jakarta.servlet.ServletException;
 public class AuthenticationInitializer implements ServletContainerInitializer {
 
     /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = System.getLogger(AuthenticationInitializer.class.getName());
-
-    /**
      * Stores the auth module class name.
      */
     public static final String AUTH_MODULE_CLASS = AuthenticationInitializer.class.getName() + ".auth.module.class";
@@ -85,6 +80,11 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
      * Stores the auth service name.
      */
     public static final String AUTH_SERVICE = AuthenticationInitializer.class.getName() + ".auth.service";
+
+    /**
+     * Stores the logger.
+     */
+    public static final Logger LOGGER = System.getLogger(AuthenticationInitializer.class.getName());
 
     /**
      * Initialize Eleos
