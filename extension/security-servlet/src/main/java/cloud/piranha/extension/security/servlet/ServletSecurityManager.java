@@ -39,15 +39,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import jakarta.servlet.ServletConfig;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
+import org.glassfish.exousia.AuthorizationService;
 import org.omnifaces.eleos.config.helper.Caller;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
-import org.glassfish.exousia.AuthorizationService;
 
 import cloud.piranha.webapp.api.AuthenticatedIdentity;
 import cloud.piranha.webapp.api.SecurityManager;
@@ -56,6 +50,11 @@ import cloud.piranha.webapp.api.WebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
 import cloud.piranha.webapp.impl.DefaultServletEnvironment;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * SecurityManager implementation that uses Servlet Security semantics.
@@ -69,12 +68,17 @@ public class ServletSecurityManager implements SecurityManager {
      * Handler for the specific HttpServletRequest#login method call
      */
     private UsernamePasswordLoginHandler usernamePasswordLoginHandler;
-    
+
     /**
      * All declared roles in the application
      */
     private final Set<String> roles = ConcurrentHashMap.newKeySet();
-    
+
+    /**
+     * Stores if we are denying uncovered HTTP methods.
+     */
+    private boolean denyUncoveredHttpMethods;
+
     /**
      * Stores the web application.
      */
@@ -87,6 +91,10 @@ public class ServletSecurityManager implements SecurityManager {
 
     @Override
     public void declareRoles(Collection<String> roles) {
+        if (roles == null) {
+            return;
+        }
+
         this.roles.addAll(roles);
     }
 
@@ -156,8 +164,8 @@ public class ServletSecurityManager implements SecurityManager {
             request.getSession().setAttribute(".caller", caller);
         }
 
-        if (caller != null) {
-            setIdentityForCurrentRequest(request, caller.getCallerPrincipal(), caller.getGroups());
+        if (caller != null && caller.getCallerPrincipal() != null) {
+            setIdentityForCurrentRequest(request, caller.getCallerPrincipal(), caller.getGroups(), "authenticate");
         }
 
         if (caller == null) {
@@ -174,7 +182,7 @@ public class ServletSecurityManager implements SecurityManager {
         if (resultIdentity == null) {
             throw new ServletException();
         }
-        setIdentityForCurrentRequest(request, resultIdentity.getCallerPrincipal(), resultIdentity.getGroups());
+        setIdentityForCurrentRequest(request, resultIdentity.getCallerPrincipal(), resultIdentity.getGroups(), "login");
     }
 
     @Override
@@ -195,6 +203,10 @@ public class ServletSecurityManager implements SecurityManager {
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         getAuthenticationService(request).clearSubject(request, response, getCurrentSubject());
+
+        WebApplicationRequest webApplicationRequest = (WebApplicationRequest) request;
+        webApplicationRequest.setUserPrincipal(null);
+        webApplicationRequest.setAuthType(null);
 
         DefaultAuthenticatedIdentity.clear();
     }
@@ -224,19 +236,22 @@ public class ServletSecurityManager implements SecurityManager {
 
     @Override
     public boolean getDenyUncoveredHttpMethods() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return denyUncoveredHttpMethods;
     }
 
     @Override
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.denyUncoveredHttpMethods = denyUncoveredHttpMethods;
     }
 
-    private void setIdentityForCurrentRequest(HttpServletRequest request, Principal callerPrincipal, Set<String> groups) {
+    private void setIdentityForCurrentRequest(HttpServletRequest request, Principal callerPrincipal, Set<String> groups, String authType) {
         Principal currentPrincipal = callerPrincipal == null ? null : callerPrincipal.getName() == null ? null : callerPrincipal;
 
         WebApplicationRequest webApplicationRequest = (WebApplicationRequest) request;
         webApplicationRequest.setUserPrincipal(currentPrincipal);
+        if (currentPrincipal != null) {
+            webApplicationRequest.setAuthType(authType);
+        }
 
         DefaultAuthenticatedIdentity.setCurrentIdentity(currentPrincipal, groups);
     }

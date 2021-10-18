@@ -32,16 +32,15 @@ import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_
 
 import java.util.Set;
 
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-
 import org.glassfish.exousia.modules.def.DefaultPolicy;
 import org.glassfish.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 import cloud.piranha.extension.eleos.AuthenticationInitializer;
 import cloud.piranha.extension.exousia.AuthorizationInitializer;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 /**
  * The Servlet Security All initializer.
@@ -55,6 +54,9 @@ public class ServletSecurityAllInitializer implements ServletContainerInitialize
      */
     ServletContainerInitializer[] initializers = {
 
+        // Configures the security manager used for programmatic security such as request.login
+        new ServletSecurityInitializer(),
+
         // Configures the security constraints, authorization module
         // and authorization filter that checks constraints before authentication
         new AuthorizationPreInitializer(),
@@ -64,9 +66,6 @@ public class ServletSecurityAllInitializer implements ServletContainerInitialize
 
         // Configures the authorization filter that checks constraints after authentication
         new AuthorizationInitializer(),
-
-        // Configures the security manager used for programmatic security such as request.login
-        new ServletSecurityInitializer(),
     };
 
     /**
