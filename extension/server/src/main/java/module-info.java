@@ -28,7 +28,7 @@
 
 /**
  * The Piranha Extension - Server module.
- * 
+ *
  * <p>
  *  This module delivers the following default extensions for Piranha Server:
  * </p>
@@ -52,9 +52,11 @@ module cloud.piranha.extension.server {
     requires cloud.piranha.extension.mimetype;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;
+    requires cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webannotations;
     requires cloud.piranha.extension.webxml;
     requires cloud.piranha.webapp.api;
+
 }

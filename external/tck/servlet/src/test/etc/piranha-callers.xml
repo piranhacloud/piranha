@@ -1,0 +1,5 @@
+<callers>
+    <caller callername="j2ee" password="j2ee" groups="Administrator,Employee" />
+    <caller callername="javajoe" password="javajoe" groups="VP,Manager" />
+</callers>
+
