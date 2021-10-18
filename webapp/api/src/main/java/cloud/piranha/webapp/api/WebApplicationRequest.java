@@ -27,11 +27,12 @@
  */
 package cloud.piranha.webapp.api;
 
+import java.security.Principal;
+
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpUpgradeHandler;
-import java.security.Principal;
 
 /**
  * The WebApplicationRequest API.
@@ -39,27 +40,34 @@ import java.security.Principal;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface WebApplicationRequest extends HttpServletRequest {
-    
+
     /**
      * {@return the multipartConfig}
      */
     default MultipartConfigElement getMultipartConfig() {
         return null;
     }
-    
+
     /**
      * {@return the upgrade handler}
      */
     default HttpUpgradeHandler getUpgradeHandler() {
         return null;
     }
-    
+
     /**
      * {@return true when upgraded, false otherwise}
      */
     default boolean isUpgraded() {
         return false;
     }
+
+    /**
+     * Set the auth type.
+     *
+     * @param authType the auth type.
+     */
+    void setAuthType(String authType);
 
     /**
      * Set the context path.
@@ -81,10 +89,10 @@ public interface WebApplicationRequest extends HttpServletRequest {
      * @param servletPath the servlet path.
      */
     void setServletPath(String servletPath);
-    
+
     /**
      * Set the user principal.
-     * 
+     *
      * @param userPrincipal the user principal.
      */
     void setUserPrincipal(Principal userPrincipal);
