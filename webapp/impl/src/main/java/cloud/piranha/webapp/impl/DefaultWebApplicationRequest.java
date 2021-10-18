@@ -1018,6 +1018,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      *
      * @param authType the auth type.
      */
+    @Override
     public void setAuthType(String authType) {
         this.authType = authType;
     }

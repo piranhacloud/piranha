@@ -33,6 +33,7 @@ import static java.util.Collections.list;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.requireNonNull;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -50,11 +51,10 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
-import java.security.Principal;
 
 /**
  * The async HTTP dispatch wrapper.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implements WebApplicationRequest {
@@ -63,17 +63,17 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
      * Stores the servlet path.
      */
     private String servletPath;
-    
+
     /**
      * Stores the path info.
      */
     private String pathInfo;
-    
+
     /**
      * Stores the request URI.
      */
     private String requestURI;
-    
+
     /**
      * Stores the query string.
      */
@@ -83,7 +83,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
      * Stores the async context.
      */
     private AsyncContext asyncContext;
-    
+
     /**
      * Stores the async started flag.
      */
@@ -98,7 +98,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
      * Stores the wrapper attributes.
      */
     private List<String> wrapperAttributes = new ArrayList<>();
-    
+
     /**
      * Stores the wrapper parameters.
      */
@@ -106,7 +106,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
 
     /**
      * Constructor.
-     * 
+     *
      * @param request the HTTP servlet request.
      */
     public AsyncHttpDispatchWrapper(HttpServletRequest request) {
@@ -136,7 +136,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
 
     /**
      * Set the path info.
-     * 
+     *
      * @param pathInfo the path info.
      */
     public void setPathInfo(String pathInfo) {
@@ -150,7 +150,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
 
     /**
      * Set the request URI.
-     * 
+     *
      * @param requestURI the request URI.
      */
     public void setRequestURI(String requestURI) {
@@ -275,7 +275,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
 
     /**
      * Set the query string.
-     * 
+     *
      * @param queryString the query string.
      */
     public void setQueryString(String queryString) {
@@ -284,7 +284,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
 
     /**
      * Set as a wrapper attribute.
-     * 
+     *
      * @param name the name.
      * @param value the value.
      */
@@ -329,12 +329,17 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     public void setContextPath(String contextPath) {
         // cannot change the context path.
     }
-    
+
     @Override
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
     }
-    
+
+    @Override
+    public void setAuthType(String authType) {
+        // cannot be set.
+    }
+
     @Override
     public void setUserPrincipal(Principal userPrincipal) {
         // cannot be set.
