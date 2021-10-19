@@ -47,13 +47,13 @@ import jakarta.servlet.http.HttpServletResponse;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class BootstrapTest {
+class BootstrapTest {
   
     /**
      * Test bootstrap.
      */
     @Test
-    public void testBootstrap() {
+    void testBootstrap() {
         String result;
         try (EmbeddedRequest request = new EmbeddedRequest();
                 EmbeddedResponse response = new EmbeddedResponse()) {

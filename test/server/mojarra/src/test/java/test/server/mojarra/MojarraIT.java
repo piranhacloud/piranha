@@ -116,7 +116,7 @@ public class MojarraIT {
      */
     @Test
     @Disabled
-    public void testIndexHtml() throws Exception {
+    void testIndexHtml() throws Exception {
         HtmlPage page = webClient.getPage("http://localhost:8080/mojarra/index.xhtml");
         assertTrue(page.asXml().contains("<body>Hello Mojarra</body>"));
     }

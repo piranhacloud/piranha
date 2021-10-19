@@ -106,7 +106,7 @@ public class HelloWorldIT {
      */
     @Test
     @Disabled
-    public void testIndexHtml() throws Exception {
+    void testIndexHtml() throws Exception {
         HtmlPage page = webClient.getPage("http://localhost:8080/index.html");
         assertTrue(page.asXml().contains("Hello World!"));
     }

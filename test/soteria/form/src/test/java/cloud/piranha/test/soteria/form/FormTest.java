@@ -65,10 +65,10 @@ import org.glassfish.exousia.modules.def.DefaultPolicyConfigurationFactory;
         loginToContinue = @LoginToContinue(
                 loginPage = "/login-page",
                 errorPage = "/error-page"))
-public class FormTest {
+class FormTest {
 
     @Test
-    public void testAuthenticated() throws Exception {
+    void testAuthenticated() throws Exception {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .extension(HerringExtension.class)

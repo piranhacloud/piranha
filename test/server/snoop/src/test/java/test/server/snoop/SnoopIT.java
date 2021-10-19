@@ -146,7 +146,7 @@ public class SnoopIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testSnoop() throws Exception {
+    void testSnoop() throws Exception {
         HtmlPage page = webClient.getPage("http://localhost:8080/snoop/Snoop");
         assertTrue(page.asXml().contains("Snoop"));
     }
