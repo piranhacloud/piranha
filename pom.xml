@@ -44,6 +44,7 @@
     <modules>
         <module>arquillian</module>
         <module>bom</module>
+        <module>core</module>
         <module>embedded</module>
         <module>extension</module>
         <module>http</module>
