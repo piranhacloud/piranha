@@ -68,7 +68,7 @@
                                 <!-- setup ts.jte for signature tests -->
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="servlet\.classes=(.*)"
-                                               replace="servlet\.classes=${signature.home}/piranha-servlet-api.jar${pathsep}${signature.home}/wasp.jar${pathsep}${signature.home}/jakarta.servlet.jsp-api.jar"
+                                               replace="servlet\.classes=${signature.home}/piranha-core-servlet-api.jar${pathsep}${signature.home}/wasp.jar${pathsep}${signature.home}/jakarta.servlet.jsp-api.jar"
                                                byline="true"/>
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="el\.classes=(.*)"
@@ -188,11 +188,11 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>cloud.piranha.servlet</groupId>
-                                    <artifactId>piranha-servlet-api</artifactId>
+                                    <groupId>cloud.piranha.core</groupId>
+                                    <artifactId>piranha-core-servlet-api</artifactId>
                                     <version>${project.version}</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
-                                    <destFileName>piranha-servlet-api.jar</destFileName>
+                                    <destFileName>piranha-core-servlet-api.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.glassfish.wasp</groupId>

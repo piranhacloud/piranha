@@ -15,18 +15,14 @@
     <name>Piranha Extension - Security - File</name>
 
     <dependencies>
-        <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
+        <!-- provided -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-impl</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- test -->
         <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-embedded</artifactId>

@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Servlet - API module.
+ * The Piranha - Core - Servlet API module.
  * 
  * <p>
  *  This module delivers the Servlet API as per the Servlet specification.
@@ -36,12 +36,10 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module jakarta.servlet {
-
     exports jakarta.servlet;
     exports jakarta.servlet.annotation;
     exports jakarta.servlet.descriptor;
     exports jakarta.servlet.http;
-    
     opens jakarta.servlet;
     opens jakarta.servlet.annotation;
     opens jakarta.servlet.descriptor;

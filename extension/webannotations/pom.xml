@@ -15,12 +15,7 @@
     <name>Piranha Extension - Web Annotations</name>
 
     <dependencies>
-        <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
+        <!-- provided -->
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
             <artifactId>piranha-webapp-api</artifactId>
@@ -28,14 +23,14 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- test -->
+        <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-embedded</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource-impl</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -52,15 +47,16 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-impl</artifactId>
+            <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource-impl</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-            <scope>provided</scope>
+            <groupId>cloud.piranha.webapp</groupId>
+            <artifactId>piranha-webapp-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

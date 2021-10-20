@@ -15,15 +15,16 @@
     <name>Piranha Extension - Mojarra</name>
 
     <dependencies>
+        <!-- provided -->
         <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-wasp</artifactId>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-servlet-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.servlet</groupId>
-            <artifactId>piranha-servlet-api</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-wasp</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
@@ -32,6 +33,7 @@
             <artifactId>jakarta.websocket-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- runtime -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.faces</artifactId>

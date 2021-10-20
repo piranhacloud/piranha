@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.servlet</groupId>
+        <groupId>cloud.piranha.core</groupId>
         <artifactId>project</artifactId>
         <version>21.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-servlet-api</artifactId>
+    <artifactId>piranha-core-servlet-api</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Servlet - API</name>
+    <name>Piranha - Core - Servlet API</name>
 
     <dependencies>
         <dependency>
