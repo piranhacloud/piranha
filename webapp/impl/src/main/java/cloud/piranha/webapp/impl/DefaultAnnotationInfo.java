@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.AnnotationInfo;
+import cloud.piranha.core.api.AnnotationInfo;
 import java.lang.reflect.AnnotatedElement;
 
 /**

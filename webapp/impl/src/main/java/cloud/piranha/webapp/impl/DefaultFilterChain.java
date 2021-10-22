@@ -41,7 +41,7 @@ import jakarta.servlet.SingleThreadModel;
 import jakarta.servlet.UnavailableException;
 import jakarta.servlet.http.HttpServletResponse;
 
-import cloud.piranha.webapp.api.ServletInvocation;
+import cloud.piranha.core.api.ServletInvocation;
 
 /**
  * The default FilterChain.

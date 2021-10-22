@@ -27,7 +27,6 @@
  */
 package cloud.piranha.extension.webxml;
 
-import cloud.piranha.webapp.api.AuthenticationManager;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.TRACE;
 import static java.util.stream.Collectors.toSet;
@@ -43,11 +42,12 @@ import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletRegistration;
 
-import cloud.piranha.webapp.api.LocaleEncodingManager;
-import cloud.piranha.webapp.api.MimeTypeManager;
-import cloud.piranha.webapp.api.SecurityManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WelcomeFileManager;
+import cloud.piranha.core.api.AuthenticationManager;
+import cloud.piranha.core.api.LocaleEncodingManager;
+import cloud.piranha.core.api.MimeTypeManager;
+import cloud.piranha.core.api.SecurityManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WelcomeFileManager;
 
 /**
  * The web.xml / web-fragment.xml processor.

@@ -36,7 +36,7 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionContext;
 
-import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.core.api.HttpSessionManager;
 
 /**
  * The default HttpSession.

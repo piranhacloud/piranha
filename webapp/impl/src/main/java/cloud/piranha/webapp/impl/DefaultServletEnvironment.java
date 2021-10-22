@@ -41,8 +41,8 @@ import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletSecurityElement;
 
-import cloud.piranha.webapp.api.ServletEnvironment;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.ServletEnvironment;
+import cloud.piranha.core.api.WebApplication;
 
 /**
  * The default ServletEnvironment.

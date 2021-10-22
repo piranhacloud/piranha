@@ -33,8 +33,8 @@ import java.lang.System.Logger;
 
 import jakarta.servlet.ServletContainerInitializer;
 
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
  * The extension for Servlet Security.

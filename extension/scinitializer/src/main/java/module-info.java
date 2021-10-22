@@ -41,6 +41,6 @@ module cloud.piranha.extension.scinitializer {
     
     exports cloud.piranha.extension.scinitializer;
     opens cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     uses ServletContainerInitializer;
 }

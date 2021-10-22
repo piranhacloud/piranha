@@ -32,7 +32,7 @@ module cloud.piranha.webapp.impl.tests {
     opens cloud.piranha.webapp.impl.tests;
     requires cloud.piranha.http.api;
     requires cloud.piranha.resource;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires cloud.piranha.webapp.impl;
     requires jdk.security.auth;
     requires org.junit.jupiter.api;

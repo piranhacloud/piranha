@@ -28,7 +28,7 @@
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.micro.core.CdiExtension;
 import cloud.piranha.micro.core.PiranhaBeanArchiveHandler;
-import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplicationExtension;
 import jakarta.enterprise.inject.spi.Extension;
 import org.jboss.weld.environment.deployment.discovery.BeanArchiveHandler;
 
@@ -42,7 +42,7 @@ module cloud.piranha.micro.core {
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.resource.shrinkwrap;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires cloud.piranha.webapp.impl;
     requires jakarta.annotation;
     requires jakarta.cdi;

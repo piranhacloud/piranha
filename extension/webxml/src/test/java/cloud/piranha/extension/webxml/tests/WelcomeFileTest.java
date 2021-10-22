@@ -29,7 +29,7 @@ package cloud.piranha.extension.webxml.tests;
 
 import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.webapp.api.WelcomeFileManager;
+import cloud.piranha.core.api.WelcomeFileManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertFalse;

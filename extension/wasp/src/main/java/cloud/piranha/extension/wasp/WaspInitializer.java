@@ -38,8 +38,8 @@ import java.util.Set;
 import org.apache.jasper.runtime.JspFactoryImpl;
 import org.apache.jasper.runtime.TldScanner;
 
-import cloud.piranha.webapp.api.JspManager;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.JspManager;
+import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;

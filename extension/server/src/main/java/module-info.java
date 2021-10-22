@@ -57,6 +57,6 @@ module cloud.piranha.extension.server {
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webannotations;
     requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
 
 }

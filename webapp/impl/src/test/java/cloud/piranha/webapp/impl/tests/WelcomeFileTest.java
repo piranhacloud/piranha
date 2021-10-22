@@ -28,7 +28,7 @@
 package cloud.piranha.webapp.impl.tests;
 
 import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.webapp.api.WelcomeFileManager;
+import cloud.piranha.core.api.WelcomeFileManager;
 import cloud.piranha.webapp.impl.DefaultServlet;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;

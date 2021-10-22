@@ -30,9 +30,9 @@ package cloud.piranha.webapp.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.api.WebApplicationExtensionContext;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplicationExtensionContext;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.WARNING;
 

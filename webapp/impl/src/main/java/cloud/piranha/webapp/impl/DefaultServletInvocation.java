@@ -29,10 +29,10 @@ package cloud.piranha.webapp.impl;
 
 import java.util.List;
 
-import cloud.piranha.webapp.api.FilterEnvironment;
-import cloud.piranha.webapp.api.ServletEnvironment;
-import cloud.piranha.webapp.api.ServletInvocation;
-import cloud.piranha.webapp.api.WebApplicationRequestMapping;
+import cloud.piranha.core.api.FilterEnvironment;
+import cloud.piranha.core.api.ServletEnvironment;
+import cloud.piranha.core.api.ServletInvocation;
+import cloud.piranha.core.api.WebApplicationRequestMapping;
 import jakarta.servlet.FilterChain;
 
 /**

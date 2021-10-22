@@ -27,8 +27,8 @@
  */
 package cloud.piranha.extension.security.file;
 
-import cloud.piranha.webapp.api.AuthenticationManager;
-import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.core.api.AuthenticationManager;
+import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultSecurityPrincipal;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -40,6 +40,6 @@ module cloud.piranha.http.webapp {
     exports cloud.piranha.http.webapp;
     opens cloud.piranha.http.webapp;
     requires transitive cloud.piranha.http.api;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires cloud.piranha.webapp.impl;
 }

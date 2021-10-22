@@ -29,7 +29,7 @@ package cloud.piranha.extension.soteria;
 
 import cloud.piranha.extension.webxml.WebXml;
 import cloud.piranha.extension.webxml.WebXmlManager;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;

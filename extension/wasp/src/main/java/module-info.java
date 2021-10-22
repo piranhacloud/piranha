@@ -39,7 +39,7 @@ module cloud.piranha.extension.wasp {
     
     exports cloud.piranha.extension.wasp;
     opens cloud.piranha.extension.wasp;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires jakarta.servlet.jsp;
     requires org.glassfish.wasp;
 }

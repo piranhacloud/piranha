@@ -178,7 +178,8 @@ public class UndertowHttpServer implements HttpServer {
         } else {
             builder.addHttpListener(serverPort, "0.0.0.0");
         }
-        builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true);
+        builder = builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true);
+        builder = builder.setServerOption(UndertowOptions.SHUTDOWN_TIMEOUT, 5000);
         undertow = builder.build();
         undertow.start();
     }

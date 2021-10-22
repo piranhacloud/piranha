@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 
-import cloud.piranha.webapp.api.HttpHeader;
+import cloud.piranha.core.api.HttpHeader;
 
 /**
  * The default HttpHeader.

@@ -36,7 +36,7 @@ import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.resource.JarResource;
 import cloud.piranha.resource.MultiReleaseResource;
 import cloud.piranha.resource.api.ResourceManager;
-import cloud.piranha.webapp.api.WebApplicationClassLoader;
+import cloud.piranha.core.api.WebApplicationClassLoader;
 
 /**
  * The default WebApplicationClassLoader.

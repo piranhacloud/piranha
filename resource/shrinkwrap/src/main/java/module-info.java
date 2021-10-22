@@ -40,7 +40,7 @@ module cloud.piranha.resource.shrinkwrap {
     exports cloud.piranha.resource.shrinkwrap;
     opens cloud.piranha.resource.shrinkwrap;
     requires cloud.piranha.resource;
-    requires static cloud.piranha.webapp.api;
+    requires static cloud.piranha.core.api;
     requires shrinkwrap.api;
     requires static cloud.piranha.webapp.impl;
 }

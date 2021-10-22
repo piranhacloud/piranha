@@ -27,8 +27,8 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WelcomeFileManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WelcomeFileManager;
 import java.io.IOException;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;

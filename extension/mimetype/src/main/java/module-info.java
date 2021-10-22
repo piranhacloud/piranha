@@ -52,5 +52,5 @@
 module cloud.piranha.extension.mimetype {
     exports cloud.piranha.extension.mimetype;
     opens cloud.piranha.extension.mimetype;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
 }

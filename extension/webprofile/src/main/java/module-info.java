@@ -33,5 +33,5 @@ module cloud.piranha.extension.webprofile {
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.webannotations;
     requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
 }

@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.herring;
 
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.WebApplication;
 import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;

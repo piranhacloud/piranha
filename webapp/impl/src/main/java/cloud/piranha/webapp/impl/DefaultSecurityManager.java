@@ -27,9 +27,9 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.SecurityManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.core.api.SecurityManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;

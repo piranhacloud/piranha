@@ -31,8 +31,8 @@ import static java.lang.System.Logger.Level.WARNING;
 
 import java.lang.System.Logger;
 
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
 import jakarta.servlet.ServletContainerInitializer;
 
 /**

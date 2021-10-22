@@ -26,7 +26,7 @@
  */
 
 import cloud.piranha.extension.micro.MicroExtension;
-import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplicationExtension;
 
 module cloud.piranha.extension.micro {
     provides WebApplicationExtension with MicroExtension;
@@ -38,5 +38,5 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webannotations;
     requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
 }

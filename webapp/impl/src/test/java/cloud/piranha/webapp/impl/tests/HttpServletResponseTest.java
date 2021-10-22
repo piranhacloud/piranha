@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.impl.tests;
 
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.IOException;
 import java.io.PrintWriter;

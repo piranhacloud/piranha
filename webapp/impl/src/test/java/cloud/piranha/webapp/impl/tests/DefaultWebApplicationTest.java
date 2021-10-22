@@ -29,11 +29,11 @@ package cloud.piranha.webapp.impl.tests;
 
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.webapp.api.LocaleEncodingManager;
-import cloud.piranha.webapp.api.LoggingManager;
-import cloud.piranha.webapp.api.MimeTypeManager;
-import cloud.piranha.webapp.api.ObjectInstanceManager;
-import cloud.piranha.webapp.api.SecurityManager;
+import cloud.piranha.core.api.LocaleEncodingManager;
+import cloud.piranha.core.api.LoggingManager;
+import cloud.piranha.core.api.MimeTypeManager;
+import cloud.piranha.core.api.ObjectInstanceManager;
+import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultServlet;
 import cloud.piranha.webapp.impl.DefaultWebApplication;

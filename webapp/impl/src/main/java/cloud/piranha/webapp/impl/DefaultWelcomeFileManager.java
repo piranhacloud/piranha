@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.WelcomeFileManager;
+import cloud.piranha.core.api.WelcomeFileManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

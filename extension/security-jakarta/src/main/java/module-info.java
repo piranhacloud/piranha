@@ -43,7 +43,7 @@ module cloud.piranha.extension.security.jakarta {
     requires cloud.piranha.extension.exousia;
     requires cloud.piranha.extension.soteria;
     requires cloud.piranha.extension.weld;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires cloud.piranha.webapp.impl;
     requires org.omnifaces.eleos;
     requires org.glassfish.exousia;

@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.impl.tests;
 
-import cloud.piranha.webapp.api.AnnotationManager;
+import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.webapp.impl.DefaultAnnotationInfo;
 import cloud.piranha.webapp.impl.DefaultAnnotationManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;

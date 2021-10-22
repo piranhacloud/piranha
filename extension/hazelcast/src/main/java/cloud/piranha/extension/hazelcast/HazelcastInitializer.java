@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.hazelcast;
 
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.WebApplication;
 
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;

@@ -27,9 +27,9 @@
  */
 package cloud.piranha.extension.security.file;
 
-import cloud.piranha.webapp.api.AuthenticationManager;
-import cloud.piranha.webapp.api.SecurityManager;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.AuthenticationManager;
+import cloud.piranha.core.api.SecurityManager;
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import java.io.File;
 import java.io.FileInputStream;

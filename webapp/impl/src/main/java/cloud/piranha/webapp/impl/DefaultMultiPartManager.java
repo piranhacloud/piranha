@@ -35,9 +35,9 @@ import java.lang.System.Logger;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Part;
 
-import cloud.piranha.webapp.api.MultiPartManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.core.api.MultiPartManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
 
 /**
  * The default MultiPartManager.

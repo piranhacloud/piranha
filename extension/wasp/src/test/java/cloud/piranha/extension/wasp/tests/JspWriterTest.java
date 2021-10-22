@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.wasp.tests;
 
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;

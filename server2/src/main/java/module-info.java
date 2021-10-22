@@ -27,7 +27,7 @@
  */
 
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplicationExtension;
 
 module cloud.piranha.server2 {
     exports cloud.piranha.server2;
@@ -37,7 +37,7 @@ module cloud.piranha.server2 {
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.resource;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires cloud.piranha.webapp.impl;
     requires cloud.piranha.resource.shrinkwrap;
     requires org.jboss.jandex;

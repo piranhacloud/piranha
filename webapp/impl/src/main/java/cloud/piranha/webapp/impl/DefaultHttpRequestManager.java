@@ -35,7 +35,7 @@ import jakarta.servlet.ServletRequestAttributeEvent;
 import jakarta.servlet.ServletRequestAttributeListener;
 import jakarta.servlet.http.HttpServletRequest;
 
-import cloud.piranha.webapp.api.HttpRequestManager;
+import cloud.piranha.core.api.HttpRequestManager;
 
 /**
  *

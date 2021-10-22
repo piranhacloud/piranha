@@ -33,7 +33,7 @@ import java.util.Objects;
 
 import jakarta.servlet.DispatcherType;
 
-import cloud.piranha.webapp.api.FilterMapping;
+import cloud.piranha.core.api.FilterMapping;
 
 /**
  * The default FilterMapping.

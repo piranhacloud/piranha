@@ -29,7 +29,7 @@ package cloud.piranha.extension.security.servlet;
 
 import static cloud.piranha.extension.eleos.AuthenticationInitializer.AUTH_SERVICE;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
-import static cloud.piranha.webapp.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
+import static cloud.piranha.core.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
 import static cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity.getCurrentSubject;
 import static java.util.Arrays.asList;
 
@@ -43,10 +43,10 @@ import org.glassfish.exousia.AuthorizationService;
 import org.omnifaces.eleos.config.helper.Caller;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
 
-import cloud.piranha.webapp.api.AuthenticatedIdentity;
-import cloud.piranha.webapp.api.SecurityManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.core.api.AuthenticatedIdentity;
+import cloud.piranha.core.api.SecurityManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
 import cloud.piranha.webapp.impl.DefaultServletEnvironment;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;

@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.LocaleEncodingManager;
+import cloud.piranha.core.api.LocaleEncodingManager;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -41,6 +41,6 @@ module cloud.piranha.extension.annotationscan {
     exports cloud.piranha.extension.annotationscan;
     opens cloud.piranha.extension.annotationscan;
     requires cloud.piranha.resource.api;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires cloud.piranha.webapp.impl;
 }

@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.AuthorizationManager;
+import cloud.piranha.core.api.AuthorizationManager;
 
 /**
  * The default AuthorizationManager.

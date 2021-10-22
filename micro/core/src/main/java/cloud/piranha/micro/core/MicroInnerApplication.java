@@ -27,7 +27,7 @@
  */
 package cloud.piranha.micro.core;
 
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.webapp.impl.CookieParser;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;

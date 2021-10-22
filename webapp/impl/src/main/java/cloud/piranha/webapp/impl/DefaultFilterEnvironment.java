@@ -44,8 +44,8 @@ import jakarta.servlet.Filter;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 
-import cloud.piranha.webapp.api.FilterEnvironment;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.FilterEnvironment;
+import cloud.piranha.core.api.WebApplication;
 
 /**
  * The default FilterEnvironment.

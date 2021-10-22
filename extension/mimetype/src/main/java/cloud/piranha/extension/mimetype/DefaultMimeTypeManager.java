@@ -29,7 +29,7 @@ package cloud.piranha.extension.mimetype;
 
 import java.util.HashMap;
 import java.util.Map;
-import cloud.piranha.webapp.api.MimeTypeManager;
+import cloud.piranha.core.api.MimeTypeManager;
 
 /**
  * The MimeTypeManager that delivers mime-type handling.

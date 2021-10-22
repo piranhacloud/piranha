@@ -32,8 +32,8 @@ import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtensio
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.api.WebApplicationExtensionContext;
+import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplicationExtensionContext;
 
 /**
  * The EclipseWebProfileExtension.
@@ -52,7 +52,7 @@ import cloud.piranha.webapp.api.WebApplicationExtensionContext;
  * </ol>
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @see cloud.piranha.webapp.api.WebApplicationExtension
+ * @see cloud.piranha.core.api.WebApplicationExtension
  */
 public class WebProfileExtension implements WebApplicationExtension {
 

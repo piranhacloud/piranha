@@ -36,7 +36,7 @@ import javax.security.auth.Subject;
 
 import org.glassfish.exousia.spi.PrincipalMapper;
 
-import cloud.piranha.webapp.api.AuthenticatedIdentity;
+import cloud.piranha.core.api.AuthenticatedIdentity;
 
 /**
  * @author Arjan Tijms

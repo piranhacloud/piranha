@@ -24,5 +24,6 @@
     </dependencyManagement>    
     <modules>
         <module>servlet-api</module>
+        <module>api</module>
     </modules>
 </project>

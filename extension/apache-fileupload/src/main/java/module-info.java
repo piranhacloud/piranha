@@ -38,5 +38,5 @@ module cloud.piranha.extension.apache.fileupload {
     
     opens cloud.piranha.extension.apache.fileupload;
     provides ServletContainerInitializer with ApacheMultiPartInitializer;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
 }

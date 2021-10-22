@@ -37,7 +37,7 @@
  * The image below illustrates how the request and response handling is done by
  * Piranha Embedded. When an {@link cloud.piranha.embedded.EmbeddedRequest}
  * comes in it uses a
- * {@link cloud.piranha.webapp.api.WebApplicationRequestMapper} to determine
+ * {@link cloud.piranha.core.api.WebApplicationRequestMapper} to determine
  * which FilterChain needs to process the incoming request.
  * </p>
  *

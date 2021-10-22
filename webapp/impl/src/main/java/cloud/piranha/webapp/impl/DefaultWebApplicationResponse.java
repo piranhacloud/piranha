@@ -53,9 +53,9 @@ import jakarta.servlet.WriteListener;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
-import cloud.piranha.webapp.api.LocaleEncodingManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationResponse;
+import cloud.piranha.core.api.LocaleEncodingManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationResponse;
 
 /**
  * The default WebApplicationResponse.

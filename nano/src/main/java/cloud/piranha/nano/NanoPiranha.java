@@ -27,7 +27,7 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import java.io.IOException;
 import java.util.Iterator;
@@ -43,7 +43,7 @@ import jakarta.servlet.ServletResponse;
  * The smallest version of Piranha in our lineup.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @see cloud.piranha.webapp.api
+ * @see cloud.piranha.core.api
  */
 public class NanoPiranha {
 

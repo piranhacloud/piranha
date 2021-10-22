@@ -27,9 +27,9 @@
  */
 package cloud.piranha.extension.webannotations;
 
-import cloud.piranha.webapp.api.AnnotationInfo;
-import cloud.piranha.webapp.api.AnnotationManager;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.AnnotationInfo;
+import cloud.piranha.core.api.AnnotationManager;
+import cloud.piranha.core.api.WebApplication;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.DispatcherType;

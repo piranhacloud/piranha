@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.policy;
 
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
 import static java.lang.System.Logger.Level.DEBUG;

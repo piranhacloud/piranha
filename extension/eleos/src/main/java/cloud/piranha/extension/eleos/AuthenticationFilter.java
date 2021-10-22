@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.eleos;
 
-import static cloud.piranha.webapp.api.SecurityManager.AuthenticateSource.PRE_REQUEST_CONTAINER;
+import static cloud.piranha.core.api.SecurityManager.AuthenticateSource.PRE_REQUEST_CONTAINER;
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
 import java.io.IOException;
@@ -41,9 +41,9 @@ import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import cloud.piranha.webapp.api.FilterPriority;
-import cloud.piranha.webapp.api.SecurityManager;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.FilterPriority;
+import cloud.piranha.core.api.SecurityManager;
+import cloud.piranha.core.api.WebApplication;
 
 /**
  * This filter is uses to call a Jakarta Authentication system module at the start of an HTTP request.

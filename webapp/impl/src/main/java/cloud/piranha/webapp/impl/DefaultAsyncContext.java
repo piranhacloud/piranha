@@ -49,10 +49,10 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.ServletResponseWrapper;
 import jakarta.servlet.http.HttpServletRequest;
 
-import cloud.piranha.webapp.api.AsyncManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
-import cloud.piranha.webapp.api.WebApplicationResponse;
+import cloud.piranha.core.api.AsyncManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
 
 /**
  * The default AsyncContext.

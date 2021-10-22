@@ -28,7 +28,7 @@
 /**
  * <p>
  * This package contains the 
- * {@link cloud.piranha.webapp.api.WebApplicationExtension} used to configure a
+ * {@link cloud.piranha.core.api.WebApplicationExtension} used to configure a
  * Jakarta EE web application.
  * </p>
  *

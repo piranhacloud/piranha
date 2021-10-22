@@ -32,7 +32,7 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import cloud.piranha.webapp.api.AttributeManager;
+import cloud.piranha.core.api.AttributeManager;
 
 /**
  * The default AttributeManager.

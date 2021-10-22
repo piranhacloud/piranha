@@ -28,7 +28,7 @@
 package cloud.piranha.embedded;
 
 import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;

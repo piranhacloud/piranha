@@ -41,9 +41,9 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import cloud.piranha.webapp.api.MultiPartManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.core.api.MultiPartManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
 import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Part;
@@ -66,8 +66,8 @@ public class ApacheMultiPartManager implements MultiPartManager {
     private static final Logger LOGGER = System.getLogger(ApacheMultiPartManager.class.getPackageName());
 
     /**
-     * @see MultiPartManager#getParts(cloud.piranha.webapp.api.WebApplication,
-     * cloud.piranha.webapp.api.WebApplicationRequest)
+     * @see MultiPartManager#getParts(cloud.piranha.core.api.WebApplication,
+     * cloud.piranha.core.api.WebApplicationRequest)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -96,8 +96,8 @@ public class ApacheMultiPartManager implements MultiPartManager {
     }
 
     /**
-     * @see MultiPartManager#getPart(cloud.piranha.webapp.api.WebApplication,
-     * cloud.piranha.webapp.api.WebApplicationRequest, java.lang.String)
+     * @see MultiPartManager#getPart(cloud.piranha.core.api.WebApplication,
+     * cloud.piranha.core.api.WebApplicationRequest, java.lang.String)
      */
     @Override
     public Part getPart(WebApplication webApplication, WebApplicationRequest request, String name) throws ServletException {

@@ -35,9 +35,9 @@ import cloud.piranha.extension.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.extension.wasp.WaspInitializer;
 import cloud.piranha.extension.webannotations.WebAnnotationsInitializer;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationExtension;
-import cloud.piranha.webapp.api.WebApplicationExtensionContext;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplicationExtensionContext;
 import static java.util.Arrays.asList;
 
 /**

@@ -40,7 +40,7 @@ module cloud.piranha.extension.webxml {
     
     exports cloud.piranha.extension.webxml;
     opens cloud.piranha.extension.webxml;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires cloud.piranha.webapp.impl;
     requires java.xml;
 }

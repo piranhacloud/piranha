@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.impl.tests;
 
-import cloud.piranha.webapp.api.LocaleEncodingManager;
+import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
 import jakarta.servlet.http.HttpServletResponse;

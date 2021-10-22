@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
-import static cloud.piranha.webapp.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
+import static cloud.piranha.core.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
 import static cloud.piranha.webapp.impl.DefaultWebApplicationRequest.unwrap;
 import static jakarta.servlet.AsyncContext.ASYNC_CONTEXT_PATH;
 import static jakarta.servlet.AsyncContext.ASYNC_PATH_INFO;
@@ -51,10 +51,10 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import cloud.piranha.webapp.api.CurrentRequestHolder;
-import cloud.piranha.webapp.api.FilterEnvironment;
-import cloud.piranha.webapp.api.ServletEnvironment;
-import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.core.api.CurrentRequestHolder;
+import cloud.piranha.core.api.FilterEnvironment;
+import cloud.piranha.core.api.ServletEnvironment;
+import cloud.piranha.core.api.WebApplicationRequest;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;

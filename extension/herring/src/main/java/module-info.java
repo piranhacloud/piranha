@@ -62,7 +62,7 @@
 module cloud.piranha.extension.herring {
     exports cloud.piranha.extension.herring;
     opens cloud.piranha.extension.herring;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires transitive com.manorrock.herring;
     requires transitive com.manorrock.herring.thread;
     requires transitive java.naming;

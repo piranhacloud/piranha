@@ -35,6 +35,6 @@ module cloud.piranha.extension.webannotations {
     
     exports cloud.piranha.extension.webannotations;
     opens cloud.piranha.extension.webannotations;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires jakarta.annotation;
 }

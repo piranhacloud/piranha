@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import cloud.piranha.webapp.api.HttpHeaderManager;
+import cloud.piranha.core.api.HttpHeaderManager;
 
 /**
  * The default HttpHeaderManager.

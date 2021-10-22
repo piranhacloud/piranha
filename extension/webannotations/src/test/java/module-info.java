@@ -40,7 +40,7 @@ module cloud.piranha.extension.webannotations.tests {
     requires cloud.piranha.extension.webxml;
     requires cloud.piranha.embedded;
     requires cloud.piranha.resource;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires cloud.piranha.webapp.impl;
     requires jakarta.annotation;
     requires org.junit.jupiter.api;

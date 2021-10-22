@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.hazelcast;
 
-import cloud.piranha.webapp.api.HttpSessionManager;
+import cloud.piranha.core.api.HttpSessionManager;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Enumeration;

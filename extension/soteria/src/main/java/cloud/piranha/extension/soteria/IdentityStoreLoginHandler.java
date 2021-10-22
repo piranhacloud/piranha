@@ -36,8 +36,8 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.security.enterprise.identitystore.IdentityStoreHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
-import cloud.piranha.webapp.api.AuthenticatedIdentity;
-import cloud.piranha.webapp.api.SecurityManager.UsernamePasswordLoginHandler;
+import cloud.piranha.core.api.AuthenticatedIdentity;
+import cloud.piranha.core.api.SecurityManager.UsernamePasswordLoginHandler;
 
 /**
  * @author Arjan Tijms

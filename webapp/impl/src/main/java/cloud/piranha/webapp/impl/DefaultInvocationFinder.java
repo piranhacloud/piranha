@@ -40,11 +40,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import cloud.piranha.webapp.api.FilterEnvironment;
-import cloud.piranha.webapp.api.FilterPriority;
-import cloud.piranha.webapp.api.ServletEnvironment;
-import cloud.piranha.webapp.api.WebApplicationRequestMapping;
-import cloud.piranha.webapp.api.WelcomeFileManager;
+import cloud.piranha.core.api.FilterEnvironment;
+import cloud.piranha.core.api.FilterPriority;
+import cloud.piranha.core.api.ServletEnvironment;
+import cloud.piranha.core.api.WebApplicationRequestMapping;
+import cloud.piranha.core.api.WelcomeFileManager;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.Servlet;

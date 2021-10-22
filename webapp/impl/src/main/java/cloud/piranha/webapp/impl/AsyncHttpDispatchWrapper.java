@@ -41,9 +41,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import cloud.piranha.webapp.api.AttributeManager;
-import cloud.piranha.webapp.api.WebApplication;
-import cloud.piranha.webapp.api.WebApplicationRequest;
+import cloud.piranha.core.api.AttributeManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.MultipartConfigElement;

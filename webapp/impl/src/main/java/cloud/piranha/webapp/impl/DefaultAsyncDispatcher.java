@@ -33,8 +33,8 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
-import cloud.piranha.webapp.api.AsyncDispatcher;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.AsyncDispatcher;
+import cloud.piranha.core.api.WebApplication;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.WARNING;
 

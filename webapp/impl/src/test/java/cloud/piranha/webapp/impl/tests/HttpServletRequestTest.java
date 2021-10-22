@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.impl.tests;
 
-import cloud.piranha.webapp.api.SecurityManager;
+import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;

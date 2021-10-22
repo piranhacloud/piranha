@@ -28,8 +28,8 @@
 package cloud.piranha.extension.annotationscan;
 
 import cloud.piranha.resource.api.ResourceManagerClassLoader;
-import cloud.piranha.webapp.api.AnnotationManager;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.AnnotationManager;
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.webapp.impl.DefaultAnnotationInfo;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;

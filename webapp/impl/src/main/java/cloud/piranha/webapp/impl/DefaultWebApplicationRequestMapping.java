@@ -27,7 +27,7 @@
  */
 package cloud.piranha.webapp.impl;
 
-import cloud.piranha.webapp.api.WebApplicationRequestMapping;
+import cloud.piranha.core.api.WebApplicationRequestMapping;
 
 /**
  * The default WebApplicationRequestMapping.

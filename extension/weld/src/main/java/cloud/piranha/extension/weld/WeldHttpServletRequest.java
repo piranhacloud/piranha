@@ -27,12 +27,12 @@
  */
 package cloud.piranha.extension.weld;
 
-import static cloud.piranha.webapp.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
+import static cloud.piranha.core.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 import cloud.piranha.webapp.impl.DefaultCurrentRequestHolder;
-import cloud.piranha.webapp.api.CurrentRequestHolder;
+import cloud.piranha.core.api.CurrentRequestHolder;
 
 /**
  * An HttpServletRequest wrapper that always delegates every operation to what has been set as

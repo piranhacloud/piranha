@@ -27,8 +27,8 @@
  */
 package cloud.piranha.extension.apache.fileupload;
 
-import cloud.piranha.webapp.api.MultiPartManager;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.MultiPartManager;
+import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;

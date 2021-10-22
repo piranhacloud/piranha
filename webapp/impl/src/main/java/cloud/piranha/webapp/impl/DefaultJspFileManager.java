@@ -30,8 +30,8 @@ package cloud.piranha.webapp.impl;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.descriptor.JspConfigDescriptor;
 
-import cloud.piranha.webapp.api.JspManager;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.JspManager;
+import cloud.piranha.core.api.WebApplication;
 
 /**
  * The default JspFileManager.

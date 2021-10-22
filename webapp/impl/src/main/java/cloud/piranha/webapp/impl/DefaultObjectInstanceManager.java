@@ -33,7 +33,7 @@ import jakarta.servlet.Filter;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
 
-import cloud.piranha.webapp.api.ObjectInstanceManager;
+import cloud.piranha.core.api.ObjectInstanceManager;
 
 /**
  * The default object instance manager.

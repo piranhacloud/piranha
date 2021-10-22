@@ -36,6 +36,6 @@ module cloud.piranha.extension.herring.tests {
     opens cloud.piranha.extension.herring.tests;
     requires cloud.piranha.embedded;
     requires cloud.piranha.extension.herring;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires org.junit.jupiter.api;
 }

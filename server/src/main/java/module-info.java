@@ -27,7 +27,7 @@
  */
 
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.webapp.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
  * The Piranha Server module.
@@ -42,7 +42,7 @@ module cloud.piranha.server {
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.modular;
     requires cloud.piranha.resource;
-    requires cloud.piranha.webapp.api;
+    requires cloud.piranha.core.api;
     requires cloud.piranha.webapp.impl;
     requires java.logging;
     uses HttpServer;

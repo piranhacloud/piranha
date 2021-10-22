@@ -27,8 +27,8 @@
  */
 package cloud.piranha.extension.weld;
 
-import cloud.piranha.webapp.api.ObjectInstanceManager;
-import cloud.piranha.webapp.api.WebApplication;
+import cloud.piranha.core.api.ObjectInstanceManager;
+import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;

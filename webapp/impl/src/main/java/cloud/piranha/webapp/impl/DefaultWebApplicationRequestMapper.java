@@ -42,8 +42,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import cloud.piranha.webapp.api.FilterMapping;
-import cloud.piranha.webapp.api.WebApplicationRequestMapper;
+import cloud.piranha.core.api.FilterMapping;
+import cloud.piranha.core.api.WebApplicationRequestMapper;
 import jakarta.servlet.DispatcherType;
 
 /**

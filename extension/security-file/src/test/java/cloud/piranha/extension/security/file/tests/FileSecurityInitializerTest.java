@@ -28,7 +28,7 @@
 package cloud.piranha.extension.security.file.tests;
 
 import cloud.piranha.extension.security.file.FileSecurityInitializer;
-import cloud.piranha.webapp.api.SecurityManager;
+import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.webapp.impl.DefaultSecurityManager;
 import cloud.piranha.webapp.impl.DefaultWebApplication;
 import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
