@@ -23,7 +23,8 @@
         </dependencies>
     </dependencyManagement>    
     <modules>
-        <module>servlet-api</module>
         <module>api</module>
+        <module>impl</module>
+        <module>servlet-api</module>
     </modules>
 </project>

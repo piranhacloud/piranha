@@ -29,8 +29,8 @@ package cloud.piranha.extension.webxml.tests;
 
 import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import java.io.File;
 import jakarta.servlet.ServletRegistration;
 import static org.junit.jupiter.api.Assertions.assertEquals;

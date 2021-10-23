@@ -27,7 +27,7 @@
  */
 package cloud.piranha.test.soteria.form;
 
-import cloud.piranha.webapp.impl.DefaultServlet;
+import cloud.piranha.core.impl.DefaultServlet;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.weld.WeldInitializer;
 import cloud.piranha.embedded.EmbeddedPiranha;

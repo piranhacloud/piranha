@@ -18,14 +18,16 @@
     </properties>
 
     <dependencies>
+        <!-- provided -->
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- test -->
         <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-impl</artifactId>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-impl</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

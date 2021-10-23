@@ -31,7 +31,7 @@ import static cloud.piranha.core.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIB
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import cloud.piranha.webapp.impl.DefaultCurrentRequestHolder;
+import cloud.piranha.core.impl.DefaultCurrentRequestHolder;
 import cloud.piranha.core.api.CurrentRequestHolder;
 
 /**

@@ -27,7 +27,7 @@
  */
 package cloud.piranha.http.webapp.tests;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;

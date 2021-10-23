@@ -43,5 +43,5 @@ module cloud.piranha.extension.security.file {
     exports cloud.piranha.extension.security.file;
     provides ServletContainerInitializer with FileSecurityInitializer;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
 }

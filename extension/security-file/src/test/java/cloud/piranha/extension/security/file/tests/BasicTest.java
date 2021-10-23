@@ -32,7 +32,7 @@ import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.security.file.FileSecurityInitializer;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.jupiter.api.Test;
 

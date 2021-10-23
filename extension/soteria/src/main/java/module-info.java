@@ -39,7 +39,7 @@ module cloud.piranha.extension.soteria {
     exports cloud.piranha.extension.soteria;
     requires cloud.piranha.extension.webxml;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
     requires jakarta.inject;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;

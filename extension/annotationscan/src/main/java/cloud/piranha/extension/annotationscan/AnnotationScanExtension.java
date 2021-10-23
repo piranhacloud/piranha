@@ -27,14 +27,12 @@
  */
 package cloud.piranha.extension.annotationscan;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.System.Logger.Level;
-import java.lang.System.Logger;
-
-import jakarta.servlet.ServletContainerInitializer;
-
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
+import jakarta.servlet.ServletContainerInitializer;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * The extension that enables annotation scanning.

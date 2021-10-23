@@ -28,7 +28,7 @@
 package cloud.piranha.http.webapp;
 
 import cloud.piranha.http.api.HttpServerRequest;
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;

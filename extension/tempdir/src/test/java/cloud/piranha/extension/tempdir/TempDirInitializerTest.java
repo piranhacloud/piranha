@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.tempdir;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;

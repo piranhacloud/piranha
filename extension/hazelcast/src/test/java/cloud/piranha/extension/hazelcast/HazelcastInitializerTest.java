@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.hazelcast;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 

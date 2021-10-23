@@ -28,7 +28,7 @@
 package cloud.piranha.http.webapp;
 
 import cloud.piranha.http.api.HttpServerResponse;
-import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import java.io.IOException;
 
 /**

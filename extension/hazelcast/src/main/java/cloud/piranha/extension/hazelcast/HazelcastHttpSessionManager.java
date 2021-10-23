@@ -30,7 +30,7 @@ package cloud.piranha.extension.hazelcast;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
-import cloud.piranha.webapp.impl.DefaultHttpSessionManager;
+import cloud.piranha.core.impl.DefaultHttpSessionManager;
 import java.util.UUID;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

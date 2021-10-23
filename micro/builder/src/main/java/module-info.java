@@ -36,7 +36,7 @@ module cloud.piranha.micro.embedded {
     opens cloud.piranha.micro.embedded;
     requires cloud.piranha.micro.loader;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
     requires cloud.piranha.resource;
     requires cloud.piranha.resource.shrinkwrap;
     requires cloud.piranha.embedded;

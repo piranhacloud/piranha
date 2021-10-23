@@ -28,10 +28,10 @@
 package cloud.piranha.extension.security.file.tests;
 
 import cloud.piranha.extension.security.file.FileAuthenticationFilter;
-import cloud.piranha.webapp.impl.DefaultFilterChain;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
-import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import cloud.piranha.core.impl.DefaultFilterChain;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationRequest;
+import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import org.junit.jupiter.api.Test;
 
 /**

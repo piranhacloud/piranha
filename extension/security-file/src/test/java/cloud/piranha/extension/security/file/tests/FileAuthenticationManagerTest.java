@@ -28,7 +28,7 @@
 package cloud.piranha.extension.security.file.tests;
 
 import cloud.piranha.extension.security.file.FileAuthenticationManager;
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import jakarta.servlet.ServletException;
 import static jakarta.servlet.http.HttpServletRequest.BASIC_AUTH;
 import static jakarta.servlet.http.HttpServletRequest.CLIENT_CERT_AUTH;

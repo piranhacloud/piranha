@@ -51,9 +51,9 @@ import cloud.piranha.modular.DefaultModuleFinder;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationServerRequestMapper;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultWebApplicationClassLoader;
-import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
+import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 
 import static java.lang.System.Logger.Level.INFO;
 

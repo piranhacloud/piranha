@@ -42,7 +42,7 @@ import jakarta.servlet.http.WebConnection;
 
 import org.junit.jupiter.api.Test;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
 import java.io.IOException;
 
 /**

@@ -42,7 +42,7 @@ module cloud.piranha.extension.security.servlet {
     requires cloud.piranha.extension.eleos;
     requires cloud.piranha.extension.exousia;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
     requires org.omnifaces.eleos;
     requires org.glassfish.exousia;
     requires java.naming;

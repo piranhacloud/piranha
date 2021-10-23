@@ -28,9 +28,9 @@
 package cloud.piranha.micro.core;
 
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.webapp.impl.CookieParser;
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
-import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import cloud.piranha.core.impl.CookieParser;
+import cloud.piranha.core.impl.DefaultWebApplicationRequest;
+import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 

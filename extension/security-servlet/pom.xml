@@ -15,6 +15,7 @@
     <name>Piranha Extension - Security - Servlet</name>
 
     <dependencies>
+        <!-- compile -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eleos</artifactId>
@@ -33,9 +34,10 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- provided -->
         <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-impl</artifactId>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-impl</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

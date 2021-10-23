@@ -14,18 +14,20 @@
     <name>Piranha HTTP - WebApplication Integration</name>
 
     <dependencies>
+        <!-- compile -->
+        <dependency>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>    
-        <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
+        <!-- test -->
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-impl</artifactId>

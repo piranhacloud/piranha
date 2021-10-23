@@ -49,7 +49,7 @@ import org.glassfish.exousia.mapping.SecurityRoleRef;
 import cloud.piranha.extension.webxml.WebXmlManager;
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
+import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
 import jakarta.security.jacc.PolicyConfiguration;
 import jakarta.security.jacc.PolicyContextException;
 import jakarta.servlet.FilterRegistration;

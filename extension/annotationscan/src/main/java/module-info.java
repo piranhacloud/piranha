@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Extension - Annotation Scan module.
+ * The Piranha - Extension - Annotation Scan module.
  * 
  * <p>
  *  This module delivers the annotation scanning functionality required for web
@@ -40,7 +40,7 @@ module cloud.piranha.extension.annotationscan {
 
     exports cloud.piranha.extension.annotationscan;
     opens cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.resource.api;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
+    requires cloud.piranha.resource.api;
 }

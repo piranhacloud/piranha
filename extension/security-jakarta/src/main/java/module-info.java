@@ -44,7 +44,7 @@ module cloud.piranha.extension.security.jakarta {
     requires cloud.piranha.extension.soteria;
     requires cloud.piranha.extension.weld;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
     requires org.omnifaces.eleos;
     requires org.glassfish.exousia;
     requires java.naming;

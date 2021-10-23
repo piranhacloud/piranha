@@ -36,7 +36,7 @@ module cloud.piranha.embedded {
     exports cloud.piranha.embedded;
     opens cloud.piranha.embedded;
     requires cloud.piranha.resource;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
     requires cloud.piranha.core.api;
     requires java.naming;
 }

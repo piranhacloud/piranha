@@ -27,7 +27,7 @@
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 
 /**
  * The WebApplicationRequest class used by

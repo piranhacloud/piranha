@@ -27,7 +27,7 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.webapp.impl.DefaultWebApplicationResponse;
+import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import java.io.ByteArrayOutputStream;
 
 /**

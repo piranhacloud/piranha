@@ -30,7 +30,7 @@ package cloud.piranha.extension.security.file;
 import cloud.piranha.core.api.AuthenticationManager;
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.webapp.impl.DefaultSecurityManager;
+import cloud.piranha.core.impl.DefaultSecurityManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

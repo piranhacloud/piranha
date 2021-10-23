@@ -46,7 +46,7 @@ module cloud.piranha.extension.weld {
     provides Container with WeldContainer;
     provides Service with WeldSecurityService;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
     requires jakarta.inject;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;

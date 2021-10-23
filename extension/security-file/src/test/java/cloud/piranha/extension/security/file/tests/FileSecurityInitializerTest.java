@@ -29,9 +29,9 @@ package cloud.piranha.extension.security.file.tests;
 
 import cloud.piranha.extension.security.file.FileSecurityInitializer;
 import cloud.piranha.core.api.SecurityManager;
-import cloud.piranha.webapp.impl.DefaultSecurityManager;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
-import cloud.piranha.webapp.impl.DefaultWebApplicationRequest;
+import cloud.piranha.core.impl.DefaultSecurityManager;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 

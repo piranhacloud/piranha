@@ -40,7 +40,7 @@ module cloud.piranha.extension.exousia {
     exports cloud.piranha.extension.exousia;
     requires cloud.piranha.extension.webxml;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
     requires jakarta.security.jacc;
     requires org.glassfish.exousia;
     requires jakarta.servlet;

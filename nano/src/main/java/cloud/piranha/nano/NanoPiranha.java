@@ -28,7 +28,7 @@
 package cloud.piranha.nano;
 
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;

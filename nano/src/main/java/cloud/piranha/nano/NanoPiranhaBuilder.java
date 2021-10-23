@@ -27,7 +27,7 @@
  */
 package cloud.piranha.nano;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.resource.api.Resource;

@@ -28,7 +28,7 @@
 package cloud.piranha.server;
 
 import cloud.piranha.core.api.WebApplicationServerRequestMapper;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
 import jakarta.servlet.ServletContext;
 import java.util.Objects;
 

@@ -58,7 +58,7 @@ import cloud.piranha.extension.webxml.WebXmlManager;
 import cloud.piranha.core.api.AuthenticatedIdentity;
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.webapp.impl.DefaultAuthenticatedIdentity;
+import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;

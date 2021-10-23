@@ -39,7 +39,7 @@ module cloud.piranha.extension.security.file.tests {
     requires cloud.piranha.extension.webxml;
     requires cloud.piranha.resource;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.engine;
 }

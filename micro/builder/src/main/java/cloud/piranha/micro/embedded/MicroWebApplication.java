@@ -41,7 +41,7 @@ import java.util.function.Consumer;
 
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 

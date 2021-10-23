@@ -28,7 +28,7 @@
 package cloud.piranha.extension.wasp.tests;
 
 import cloud.piranha.extension.wasp.WaspInitializer;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.resource.DirectoryResource;
 import org.junit.jupiter.api.Test;
 

@@ -29,103 +29,98 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <!-- JUnit -->
+        <!-- compile -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>cloud.piranha.micro</groupId>
-            <artifactId>piranha-micro-loader</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <dependency>
-             <groupId>cloud.piranha</groupId>
-             <artifactId>piranha-embedded</artifactId>
-             <version>${project.version}</version>
-        </dependency>
-        
-        <!-- Handling of archives and loading modules via Maven -->
-        <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource-shrinkwrap</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.descriptors</groupId>
-            <artifactId>shrinkwrap-descriptors-api-base</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-api-maven</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-spi</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-impl-maven-archive</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- Handling of annotation and class index -->
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jandex</artifactId>
-            <optional>true</optional>
-        </dependency>
-  
-        <dependency>
-            <groupId>cloud.piranha.micro</groupId>
-            <artifactId>piranha-micro-builder</artifactId>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-embedded</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-      
-        <!-- Piranha HTTP - WebApplication -->
         <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-webapp</artifactId>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-impl</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Piranha Resource -->
-        <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- Piranha Server extension -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-server</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- Piranha Webapplication implementation -->
         <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-impl</artifactId>
+            <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-webapp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
+        <dependency>
+            <groupId>cloud.piranha.micro</groupId>
+            <artifactId>piranha-micro-builder</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.micro</groupId>
+            <artifactId>piranha-micro-loader</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>           
+        <dependency>
+            <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource-shrinkwrap</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jandex</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.descriptors</groupId>
+            <artifactId>shrinkwrap-descriptors-api-base</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-api-maven</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven-archive</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-spi</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -180,7 +175,6 @@
         <profile>
             <id>grizzly</id>
             <dependencies>
-                <!-- Piranha HTTP - Grizzly Integration -->
                 <dependency>
                     <groupId>cloud.piranha.http</groupId>
                     <artifactId>piranha-http-grizzly</artifactId>
@@ -195,7 +189,6 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <dependencies>
-                <!-- Piranha HTTP implementation -->
                 <dependency>
                     <groupId>cloud.piranha.http</groupId>
                     <artifactId>piranha-http-impl</artifactId>
@@ -207,7 +200,6 @@
         <profile>
             <id>jdk</id>
             <dependencies>
-                <!-- Piranha HTTP - JDK HTTP Server Integration  -->
                 <dependency>
                     <groupId>cloud.piranha.http</groupId>
                     <artifactId>piranha-http-jdk</artifactId>
@@ -219,7 +211,6 @@
         <profile>
             <id>netty</id>
             <dependencies>
-                <!-- Piranha HTTP - Netty Integration  -->
                 <dependency>
                     <groupId>cloud.piranha.http</groupId>
                     <artifactId>piranha-http-netty</artifactId>
@@ -231,7 +222,6 @@
         <profile>
             <id>undertow</id>
             <dependencies>
-                <!-- Piranha HTTP - Undertow Integration -->
                 <dependency>
                     <groupId>cloud.piranha.http</groupId>
                     <artifactId>piranha-http-undertow</artifactId>

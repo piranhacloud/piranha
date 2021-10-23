@@ -43,7 +43,7 @@ module cloud.piranha.micro.core {
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.resource.shrinkwrap;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
     requires jakarta.annotation;
     requires jakarta.cdi;
     requires jakarta.security.enterprise.api;

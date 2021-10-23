@@ -38,7 +38,7 @@ module cloud.piranha.server2 {
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.resource;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
     requires cloud.piranha.resource.shrinkwrap;
     requires org.jboss.jandex;
     requires shrinkwrap.api;

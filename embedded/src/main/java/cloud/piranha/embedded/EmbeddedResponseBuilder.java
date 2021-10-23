@@ -27,7 +27,7 @@
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
 
 /**
  * The builder so you can easily build instances of

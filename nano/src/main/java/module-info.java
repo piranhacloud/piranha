@@ -41,5 +41,5 @@ module cloud.piranha.nano {
     opens cloud.piranha.nano;
     requires cloud.piranha.resource;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
 }

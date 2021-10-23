@@ -42,5 +42,5 @@ module cloud.piranha.extension.eleos {
     requires jakarta.security.auth.message;
     requires org.omnifaces.eleos;
     requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
 }

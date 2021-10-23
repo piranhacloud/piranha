@@ -28,7 +28,7 @@
 package cloud.piranha.extension.mimetype;
 
 import cloud.piranha.core.api.MimeTypeManager;
-import cloud.piranha.webapp.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.BeforeEach;

@@ -35,7 +35,7 @@ import cloud.piranha.resource.api.Resource;
 import cloud.piranha.core.api.HttpSessionManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.webapp.impl.DefaultWebApplicationExtensionContext;
+import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;

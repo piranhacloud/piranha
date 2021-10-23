@@ -18,6 +18,7 @@
     </properties>
 
     <dependencies>
+        <!-- compile -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
@@ -34,14 +35,22 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- provided -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- test -->
         <dependency>
-            <groupId>cloud.piranha.webapp</groupId>
-            <artifactId>piranha-webapp-impl</artifactId>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-embedded</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-impl</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -53,19 +62,13 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-weld</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-mojarra</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-embedded</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-weld</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -75,8 +78,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -90,8 +93,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.el</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -35,6 +35,6 @@ module cloud.piranha.extension.hazelcast {
     opens cloud.piranha.extension.hazelcast;
     provides ServletContainerInitializer with HazelcastInitializer;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.webapp.impl;
+    requires cloud.piranha.core.impl;
     requires com.hazelcast.core;
 }
