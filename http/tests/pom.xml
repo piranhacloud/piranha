@@ -29,5 +29,10 @@
             <artifactId>piranha-http-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>me.alexpanov</groupId>
+            <artifactId>free-port-finder</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
 </project>
