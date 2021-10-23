@@ -49,7 +49,6 @@
         <module>extension</module>
         <module>http</module>
         <module>micro</module>
-        <module>modular</module>
         <module>nano</module>
         <module>resource</module>
         <module>server</module>

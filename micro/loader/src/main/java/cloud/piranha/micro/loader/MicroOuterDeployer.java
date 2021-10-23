@@ -62,8 +62,8 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.repository.MavenRemoteRepositories;
 import org.jboss.shrinkwrap.resolver.api.maven.repository.MavenRemoteRepository;
 
-import cloud.piranha.modular.DefaultModuleFinder;
-import cloud.piranha.modular.ModuleLayerProcessor;
+import cloud.piranha.core.jpms.DefaultModuleFinder;
+import cloud.piranha.core.jpms.ModuleLayerProcessor;
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DefaultResourceManagerClassLoader;
 import cloud.piranha.resource.MultiReleaseResource;

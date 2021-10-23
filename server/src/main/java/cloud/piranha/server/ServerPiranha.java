@@ -43,17 +43,17 @@ import java.lang.System.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import cloud.piranha.extension.server.ServerExtension;
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.webapp.HttpWebApplicationServer;
-import cloud.piranha.modular.ModuleLayerProcessor;
-import cloud.piranha.modular.DefaultModuleFinder;
-import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationServerRequestMapper;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
+import cloud.piranha.core.jpms.ModuleLayerProcessor;
+import cloud.piranha.core.jpms.DefaultModuleFinder;
+import cloud.piranha.extension.server.ServerExtension;
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.webapp.HttpWebApplicationServer;
+import cloud.piranha.resource.DirectoryResource;
 
 import static java.lang.System.Logger.Level.INFO;
 

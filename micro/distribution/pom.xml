@@ -16,15 +16,15 @@
 
     <dependencies>
         <dependency>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-jpms</artifactId>
+            <version>${project.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.micro</groupId>
             <artifactId>piranha-micro-loader</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.modular</groupId>
-            <artifactId>piranha-modular-jpms</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>

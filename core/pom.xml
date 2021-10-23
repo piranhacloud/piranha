@@ -25,6 +25,7 @@
     <modules>
         <module>api</module>
         <module>impl</module>
+        <module>jpms</module>
         <module>servlet-api</module>
     </modules>
 </project>

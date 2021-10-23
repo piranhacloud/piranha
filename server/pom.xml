@@ -37,6 +37,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-jpms</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-security-file</artifactId>
             <version>${project.version}</version>
@@ -51,12 +57,6 @@
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-webapp</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.modular</groupId>
-            <artifactId>piranha-modular-jpms</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

@@ -35,8 +35,8 @@
  *
  * @author Thiago Henrique Hupner
  */
-module cloud.piranha.modular {
+module cloud.piranha.core.jpms {
 
-    exports cloud.piranha.modular;
+    exports cloud.piranha.core.jpms;
     requires cloud.piranha.resource.api;
 }
