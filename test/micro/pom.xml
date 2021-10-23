@@ -20,4 +20,13 @@
         <module>mojarra</module>
         <module>snoop</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>cloud.piranha.micro</groupId>
+            <artifactId>piranha-micro</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
