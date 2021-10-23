@@ -39,7 +39,6 @@ module cloud.piranha.server {
     exports cloud.piranha.server;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.core.jpms;
     requires cloud.piranha.extension.server;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;

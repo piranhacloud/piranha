@@ -27,9 +27,9 @@
  *
  */
 
-package cloud.piranha.core.jpms.tests;
+package cloud.piranha.test.jpms;
 
-import cloud.piranha.core.jpms.DefaultModuleFinder;
+import cloud.piranha.core.impl.DefaultModuleFinder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

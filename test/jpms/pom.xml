@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.core</groupId>
+        <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
         <version>21.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-core-jpms</artifactId>
+    <artifactId>jpms</artifactId>
 
-    <name>Piranha - Core - JPMS</name>
+    <name>Piranha Test - JPMS</name>
 
     <dependencies>
         <dependency>
@@ -41,19 +41,11 @@
             <artifactId>junit-jupiter-params</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>
-                        --add-opens=cloud.piranha.core.jpms/cloud.piranha.core.jpms.tests=ALL-UNNAMED
-                    </argLine>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

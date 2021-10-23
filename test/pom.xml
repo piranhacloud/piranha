@@ -23,6 +23,7 @@
         <module>hazelcast</module>
         <module>jersey</module>
         <module>jpa</module>
+        <module>jpms</module>
         <module>micro</module>
         <module>mojarra2</module>
         <module>myfaces</module>

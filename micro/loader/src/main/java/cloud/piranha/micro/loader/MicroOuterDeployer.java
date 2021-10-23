@@ -62,8 +62,8 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.repository.MavenRemoteRepositories;
 import org.jboss.shrinkwrap.resolver.api.maven.repository.MavenRemoteRepository;
 
-import cloud.piranha.core.jpms.DefaultModuleFinder;
-import cloud.piranha.core.jpms.ModuleLayerProcessor;
+import cloud.piranha.core.impl.DefaultModuleFinder;
+import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.DefaultResourceManagerClassLoader;
 import cloud.piranha.resource.MultiReleaseResource;
@@ -236,13 +236,11 @@ public class MicroOuterDeployer {
         ModuleLayer.Controller controller = ModuleLayer.defineModules(resolve, List.of(ModuleLayer.boot()), m -> piranhaLibsModuleFinder.find(m).isPresent() ? piranhaClassLoader : webInfClassLoader);
         ModuleLayer moduleLayer = controller.layer();
 
-        Module javaBaseModule = ModuleLayer.boot().findModule("java.base").orElseThrow();
-
         // Allow the module layer to read the classes from the unnamed module
         moduleLayer.findModule("cloud.piranha.resource.shrinkwrap").ifPresent(x -> controller.addReads(x, this.getClass().getModule()));
         moduleLayer.findModule("cloud.piranha.micro.core").ifPresent(x -> controller.addReads(x, this.getClass().getModule()));
 
-        ModuleLayerProcessor.processModuleLayerOptions(moduleLayer, controller);
+        DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
     }
 
     /**

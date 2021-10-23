@@ -27,7 +27,9 @@
  *
  */
 
-package cloud.piranha.core.jpms;
+package cloud.piranha.core.impl;
+
+import cloud.piranha.core.api.ModuleLayerProcessor;
 
 import java.lang.System.Logger;
 
@@ -37,8 +39,12 @@ import static java.lang.System.Logger.Level.WARNING;
  * The module layer processor
  * @author Thiago Henrique Hupner
  */
-public class ModuleLayerProcessor {
+public enum DefaultModuleLayerProcessor implements ModuleLayerProcessor {
 
+    /**
+     * Singleton instance
+     */
+    INSTANCE;
     /**
      * Stores the add opens property
      * <p>
@@ -66,18 +72,11 @@ public class ModuleLayerProcessor {
     /**
      * Stores the logger
      */
-    private static final Logger LOGGER = System.getLogger(ModuleLayerProcessor.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(DefaultModuleLayerProcessor.class.getPackageName());
 
-    private ModuleLayerProcessor() {
-        super();
-    }
-
-    /**
-     * Process the module layer according to the properties
-     * @param moduleLayer the module layer
-     * @param controller the controller
-     */
-    public static void processModuleLayerOptions(ModuleLayer moduleLayer, ModuleLayer.Controller controller) {
+    @Override
+    public void processModuleLayerOptions(ModuleLayer.Controller controller) {
+        ModuleLayer moduleLayer = controller.layer();
 
         String opens = System.getProperty(ADD_OPENS);
         if (opens != null) {

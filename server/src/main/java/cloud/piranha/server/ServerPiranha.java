@@ -48,8 +48,8 @@ import cloud.piranha.core.api.WebApplicationServerRequestMapper;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.core.jpms.ModuleLayerProcessor;
-import cloud.piranha.core.jpms.DefaultModuleFinder;
+import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
+import cloud.piranha.core.impl.DefaultModuleFinder;
 import cloud.piranha.extension.server.ServerExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
@@ -278,9 +278,7 @@ public class ServerPiranha implements Runnable {
         if (!roots.isEmpty()) {
             Configuration configuration = ModuleLayer.boot().configuration().resolveAndBind(defaultModuleFinder, ModuleFinder.of(), roots);
             ModuleLayer.Controller controller = ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
-            ModuleLayer moduleLayer = controller.layer();
-
-            ModuleLayerProcessor.processModuleLayerOptions(moduleLayer, controller);
+            DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
         }
     }
 }
