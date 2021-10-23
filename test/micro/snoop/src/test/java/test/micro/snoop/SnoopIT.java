@@ -30,6 +30,8 @@ package test.micro.snoop;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import java.io.File;
+
+import me.alexpanov.net.FreePortFinder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -48,6 +50,11 @@ public class SnoopIT {
      * Stores the process.
      */
     static private Process process;
+
+    /**
+     * Stores the port
+     */
+    private static int port;
 
     /**
      * Stores the web client.
@@ -77,6 +84,7 @@ public class SnoopIT {
      */
     @BeforeAll
     public static void beforeAll() throws Exception {
+        port = FreePortFinder.findFreeLocalPort();
         process = new ProcessBuilder()
                 .directory(new File("target"))
                 .command("java",
@@ -84,6 +92,8 @@ public class SnoopIT {
                         // "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5000",
                         "-jar",
                         "piranha-micro.jar",
+                        "--port",
+                        String.valueOf(port),
                         "--war",
                         "snoop.war")
                 .start();
@@ -105,7 +115,7 @@ public class SnoopIT {
      */
     @Test
     void testSnoop() throws Exception {
-        HtmlPage page = webClient.getPage("http://localhost:8080/Snoop");
+        HtmlPage page = webClient.getPage("http://localhost:" + port + "/Snoop");
         assertTrue(page.asXml().contains("Snoop"));
     }
 }

@@ -30,6 +30,8 @@ package test.micro.mojarra;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import java.io.File;
+
+import me.alexpanov.net.FreePortFinder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -49,6 +51,11 @@ public class MojarraIT {
      * Stores the process.
      */
     static private Process process;
+
+    /**
+     * Stores the port
+     */
+    private static int port;
 
     /**
      * Stores the web client.
@@ -78,6 +85,7 @@ public class MojarraIT {
      */
     @BeforeAll
     public static void beforeAll() throws Exception {
+        port = FreePortFinder.findFreeLocalPort();
         process = new ProcessBuilder()
                 .directory(new File("target"))
                 .command("java",
@@ -85,6 +93,8 @@ public class MojarraIT {
                         // "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5000",
                         "-jar",
                         "piranha-micro.jar",
+                        "--port",
+                        String.valueOf(port),
                         "--war",
                         "mojarra.war")
                 .start();
@@ -107,7 +117,7 @@ public class MojarraIT {
     @Test
     @Disabled
     void testIndexXhtml() throws Exception {
-        HtmlPage page = webClient.getPage("http://localhost:8080/index.xhtml");
+        HtmlPage page = webClient.getPage("http://localhost:" + port + "/index.xhtml");
         assertTrue(page.asXml().contains("<body>Hello Mojarra</body>"));
     }
 }
