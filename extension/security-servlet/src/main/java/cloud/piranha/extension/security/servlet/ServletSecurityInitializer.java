@@ -57,6 +57,7 @@ public class ServletSecurityInitializer implements ServletContainerInitializer {
         SecurityManager securityManager = webApplication.getManager(SecurityManager.class);
         if (securityManager != null) {
             servletSecurityManager.setDenyUncoveredHttpMethods(securityManager.getDenyUncoveredHttpMethods());
+            servletSecurityManager.declareRoles(securityManager.getRoles());
         }
 
         webApplication.setManager(SecurityManager.class, servletSecurityManager);
