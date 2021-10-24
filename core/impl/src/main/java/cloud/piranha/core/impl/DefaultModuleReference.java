@@ -27,9 +27,9 @@
  *
  */
 
-package cloud.piranha.core.jpms;
+package cloud.piranha.core.impl;
 
-import cloud.piranha.core.jpms.DefaultModuleReader;
+import cloud.piranha.core.impl.DefaultModuleReader;
 import cloud.piranha.resource.api.Resource;
 
 import java.io.IOException;
@@ -39,8 +39,9 @@ import java.lang.module.ModuleReference;
 import java.net.URI;
 
 /**
- *  Provides an implementation of {@link ModuleDescriptor} to work
- *  with {@link Resource}
+ * Provides an implementation of {@link ModuleReference} to work
+ * with {@link Resource}
+ *
  * @author Thiago Henrique Hupner
  */
 public class DefaultModuleReference extends ModuleReference {
@@ -52,9 +53,10 @@ public class DefaultModuleReference extends ModuleReference {
 
     /**
      * Constructor
+     *
      * @param descriptor the descriptor
-     * @param location the location
-     * @param resource the resource
+     * @param location   the location
+     * @param resource   the resource
      */
     public DefaultModuleReference(ModuleDescriptor descriptor, URI location, Resource resource) {
         super(descriptor, location);

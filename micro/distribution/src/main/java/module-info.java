@@ -36,8 +36,7 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.micro {
-    
-    requires cloud.piranha.core.jpms;
+
     requires cloud.piranha.resource;
     requires cloud.piranha.resource.shrinkwrap;
     requires java.logging;
