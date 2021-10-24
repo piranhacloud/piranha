@@ -85,14 +85,12 @@ public class ServerPiranha implements Runnable {
     private static ServerPiranha INSTANCE;
 
     /**
-     * Stores the SSL flag.
+     * Stores the SSL enabled flag.
      */
-    private boolean ssl = false;
+    private boolean sslEnabled = false;
 
     /**
-     * {
-     *
-     * @return the instance}
+     * {@return the instance}
      */
     public static ServerPiranha get() {
         return INSTANCE;
@@ -160,7 +158,7 @@ public class ServerPiranha implements Runnable {
         if (arguments != null) {
             for (String argument : arguments) {
                 if (argument.equals("--ssl")) {
-                    ssl = true;
+                    sslEnabled = true;
                 }
             }
         }
@@ -180,7 +178,7 @@ public class ServerPiranha implements Runnable {
         httpServer.setHttpServerProcessor(webApplicationServer);
         httpServer.start();
         HttpServer httpsServer = null;
-        if (ssl) {
+        if (sslEnabled) {
             httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
             httpsServer.setHttpServerProcessor(webApplicationServer);
             httpsServer.setServerPort(8443);
@@ -254,7 +252,7 @@ public class ServerPiranha implements Runnable {
             if (!pidFile.exists()) {
                 webApplicationServer.stop();
                 httpServer.stop();
-                if (ssl) {
+                if (sslEnabled) {
                     httpsServer.stop();
                 }
                 System.exit(0);
@@ -280,5 +278,14 @@ public class ServerPiranha implements Runnable {
             ModuleLayer.Controller controller = ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
             DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
         }
+    }
+
+    /**
+     * Enable/disable SSL.
+     *
+     * @param sslEnabled the SSL enabled flag.
+     */
+    public void setSslEnabled(boolean sslEnabled) {
+        this.sslEnabled = sslEnabled;
     }
 }
