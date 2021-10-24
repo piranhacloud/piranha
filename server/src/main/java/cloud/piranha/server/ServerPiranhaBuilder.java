@@ -35,4 +35,31 @@ package cloud.piranha.server;
  * @see cloud.piranha.server.ServerPiranha
  */
 public class ServerPiranhaBuilder {
+    
+    /**
+     * Stores the SSL flag.
+     */
+    private boolean ssl = false;
+    
+    /**
+     * Enable SSL.
+     * 
+     * @param ssl the SSL flag.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder ssl(boolean ssl) {
+        this.ssl = ssl;
+        return this;
+    }
+    
+    /**
+     * Build the server.
+     * 
+     * @return the server.
+     */
+    public ServerPiranha build() {
+        ServerPiranha piranha = new ServerPiranha();
+        piranha.setSslEnabled(ssl);
+        return piranha;
+    }
 }
