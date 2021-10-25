@@ -83,6 +83,11 @@ public class ServerPiranha implements Runnable {
      * Stores the one and only instance of the server.
      */
     private static ServerPiranha INSTANCE;
+    
+    /**
+     * Stores the JMPS enabled flag.
+     */
+    private boolean jpmsEnabled = false;
 
     /**
      * Stores the SSL enabled flag.
@@ -278,6 +283,15 @@ public class ServerPiranha implements Runnable {
             ModuleLayer.Controller controller = ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
             DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
         }
+    }
+    
+    /**
+     * Enable disable JPMS.
+     * 
+     * @param jpmsEnabled the JPMS enabled flag.
+     */
+    public void setJpmsEnabled(boolean jpmsEnabled) {
+        this.jpmsEnabled = jpmsEnabled;
     }
 
     /**

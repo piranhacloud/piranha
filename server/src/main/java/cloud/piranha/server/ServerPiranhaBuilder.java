@@ -37,9 +37,25 @@ package cloud.piranha.server;
 public class ServerPiranhaBuilder {
     
     /**
+     * Stores the JPMS flag.
+     */
+    private boolean jpms = false;
+    
+    /**
      * Stores the SSL flag.
      */
     private boolean ssl = false;
+    
+    /**
+     * Enable/disable JPMS.
+     * 
+     * @param jpms the JPMS flag.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder jpms(boolean jpms) {
+        this.jpms = jpms;
+        return this;
+    }
     
     /**
      * Enable SSL.
@@ -59,6 +75,7 @@ public class ServerPiranhaBuilder {
      */
     public ServerPiranha build() {
         ServerPiranha piranha = new ServerPiranha();
+        piranha.setJpmsEnabled(jpms);
         piranha.setSslEnabled(ssl);
         return piranha;
     }
