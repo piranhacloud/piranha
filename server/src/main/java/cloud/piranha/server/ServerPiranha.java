@@ -80,11 +80,6 @@ public class ServerPiranha implements Runnable {
     private static final Logger LOGGER = System.getLogger(ServerPiranha.class.getPackageName());
 
     /**
-     * Stores the one and only instance of the server.
-     */
-    private static ServerPiranha INSTANCE;
-    
-    /**
      * Stores the JMPS enabled flag.
      */
     private boolean jpmsEnabled = false;
@@ -95,24 +90,6 @@ public class ServerPiranha implements Runnable {
     private boolean sslEnabled = false;
 
     /**
-     * {@return the instance}
-     */
-    public static ServerPiranha get() {
-        return INSTANCE;
-    }
-
-    /**
-     * Main method.
-     *
-     * @param arguments the arguments.
-     */
-    public static void main(String[] arguments) {
-        INSTANCE = new ServerPiranha();
-        INSTANCE.processArguments(arguments);
-        INSTANCE.run();
-    }
-
-    /**
      * Extract the zip input stream.
      *
      * @param zipInput the zip input stream.
@@ -120,7 +97,7 @@ public class ServerPiranha implements Runnable {
      * @throws IOException when an I/O error occurs.
      */
     private void extractZipInputStream(ZipInputStream zipInput, String filePath) throws IOException {
-        try (BufferedOutputStream bufferOutput = new BufferedOutputStream(new FileOutputStream(filePath))) {
+        try ( BufferedOutputStream bufferOutput = new BufferedOutputStream(new FileOutputStream(filePath))) {
             byte[] bytesIn = new byte[8192];
             int read;
             while ((read = zipInput.read(bytesIn)) != -1) {
@@ -136,7 +113,7 @@ public class ServerPiranha implements Runnable {
         if (!webApplicationDirectory.exists()) {
             webApplicationDirectory.mkdirs();
         }
-        try (ZipInputStream zipInput = new ZipInputStream(new FileInputStream(warFile))) {
+        try ( ZipInputStream zipInput = new ZipInputStream(new FileInputStream(warFile))) {
             ZipEntry entry = zipInput.getNextEntry();
             while (entry != null) {
                 String filePath = webApplicationDirectory + File.separator + entry.getName();
@@ -155,22 +132,7 @@ public class ServerPiranha implements Runnable {
     }
 
     /**
-     * Process the arguments.
-     *
-     * @param arguments the arguments.
-     */
-    private void processArguments(String[] arguments) {
-        if (arguments != null) {
-            for (String argument : arguments) {
-                if (argument.equals("--ssl")) {
-                    sslEnabled = true;
-                }
-            }
-        }
-    }
-
-    /**
-     * Start method.
+     * Run method.
      */
     @Override
     public void run() {
@@ -260,13 +222,13 @@ public class ServerPiranha implements Runnable {
                 if (sslEnabled) {
                     httpsServer.stop();
                 }
-                System.exit(0);
             }
         }
 
         finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Stopped Piranha");
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
+        System.exit(0);
     }
 
     private void setupLayers(DefaultWebApplicationClassLoader classLoader) {
@@ -284,10 +246,10 @@ public class ServerPiranha implements Runnable {
             DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
         }
     }
-    
+
     /**
-     * Enable disable JPMS.
-     * 
+     * Enable/disable JPMS.
+     *
      * @param jpmsEnabled the JPMS enabled flag.
      */
     public void setJpmsEnabled(boolean jpmsEnabled) {
@@ -302,4 +264,23 @@ public class ServerPiranha implements Runnable {
     public void setSslEnabled(boolean sslEnabled) {
         this.sslEnabled = sslEnabled;
     }
+    
+    /**
+     * Start the server.
+     */
+    public void start() {
+        Thread thread = new Thread(this);
+        thread.setDaemon(false);
+        thread.start();
+    }
+
+    /**
+     * Stop the server.
+     */
+    public void stop() {
+        File pidFile = new File("tmp/piranha.pid");
+        if (pidFile.exists()) {
+            pidFile.delete();
+        }
+    }    
 }
