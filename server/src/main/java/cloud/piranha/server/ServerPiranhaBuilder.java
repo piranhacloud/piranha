@@ -27,6 +27,8 @@
  */
 package cloud.piranha.server;
 
+import java.io.File;
+
 /**
  * The builder so you can easily build instances of
  * {@link cloud.piranha.server.ServerPiranha}.
@@ -35,20 +37,38 @@ package cloud.piranha.server;
  * @see cloud.piranha.server.ServerPiranha
  */
 public class ServerPiranhaBuilder {
-    
+
     /**
      * Stores the JPMS flag.
      */
     private boolean jpms = false;
-    
+
     /**
      * Stores the SSL flag.
      */
     private boolean ssl = false;
-    
+
+    /**
+     * Stores the web applications directory.
+     */
+    private String webAppsDir = "webapps";
+
+    /**
+     * Build the server.
+     *
+     * @return the server.
+     */
+    public ServerPiranha build() {
+        ServerPiranha piranha = new ServerPiranha();
+        piranha.setJpmsEnabled(jpms);
+        piranha.setSslEnabled(ssl);
+        piranha.setWebAppsDir(new File(webAppsDir));
+        return piranha;
+    }
+
     /**
      * Enable/disable JPMS.
-     * 
+     *
      * @param jpms the JPMS flag.
      * @return the builder.
      */
@@ -56,10 +76,10 @@ public class ServerPiranhaBuilder {
         this.jpms = jpms;
         return this;
     }
-    
+
     /**
      * Enable SSL.
-     * 
+     *
      * @param ssl the SSL flag.
      * @return the builder.
      */
@@ -67,16 +87,15 @@ public class ServerPiranhaBuilder {
         this.ssl = ssl;
         return this;
     }
-    
+
     /**
-     * Build the server.
-     * 
-     * @return the server.
+     * Set the web applications directory.
+     *
+     * @param webAppsDir the web applications directory.
+     * @return the builder.
      */
-    public ServerPiranha build() {
-        ServerPiranha piranha = new ServerPiranha();
-        piranha.setJpmsEnabled(jpms);
-        piranha.setSslEnabled(ssl);
-        return piranha;
+    public ServerPiranhaBuilder webAppsDir(String webAppsDir) {
+        this.webAppsDir = webAppsDir;
+        return this;
     }
 }

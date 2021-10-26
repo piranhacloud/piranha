@@ -29,7 +29,7 @@ package cloud.piranha.server;
 
 /**
  * The bootstrapper for Piranha Server.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class ServerBootstrap {
@@ -42,12 +42,15 @@ public class ServerBootstrap {
     private ServerPiranhaBuilder processArguments(String[] arguments) {
         ServerPiranhaBuilder builder = new ServerPiranhaBuilder();
         if (arguments != null) {
-            for (String argument : arguments) {
-                if (argument.equals("--jpms")) {
+            for (int i = 0; i < arguments.length; i++) {
+                if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
                 }
-                if (argument.equals("--ssl")) {
+                if (arguments[i].equals("--ssl")) {
                     builder = builder.ssl(true);
+                }
+                if (arguments[i].equals("--webapps-dir")) {
+                    builder = builder.webAppsDir(arguments[i + 1]);
                 }
             }
         }

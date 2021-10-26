@@ -90,6 +90,11 @@ public class ServerPiranha implements Runnable {
     private boolean sslEnabled = false;
 
     /**
+     * Stores the web applications directory.
+     */
+    private File webAppsDir = new File("webapps");
+
+    /**
      * Extract the zip input stream.
      *
      * @param zipInput the zip input stream.
@@ -156,13 +161,13 @@ public class ServerPiranha implements Runnable {
 
         WebApplicationServerRequestMapper requestMapper = webApplicationServer.getRequestMapper();
 
-        File webappsDirectory = new File("webapps");
-        File[] webapps = webappsDirectory.listFiles();
+        webAppsDir = new File("webapps");
+        File[] webapps = webAppsDir.listFiles();
         if (webapps != null) {
             for (File webapp : webapps) {
                 if (webapp.getName().toLowerCase().endsWith(".war")) {
                     String contextPath = webapp.getName().substring(0, webapp.getName().length() - 4);
-                    File webAppDirectory = new File(webappsDirectory, contextPath);
+                    File webAppDirectory = new File(webAppsDir, contextPath);
                     extractWarFile(webapp, webAppDirectory);
 
                     DefaultWebApplication webApplication = new ServerWebApplication(requestMapper);
@@ -264,7 +269,16 @@ public class ServerPiranha implements Runnable {
     public void setSslEnabled(boolean sslEnabled) {
         this.sslEnabled = sslEnabled;
     }
-    
+
+    /**
+     * Set the web applications directory.
+     *
+     * @param webAppsDir the web applications directory.
+     */
+    public void setWebAppsDir(File webAppsDir) {
+        this.webAppsDir = webAppsDir;
+    }
+
     /**
      * Start the server.
      */
@@ -282,5 +296,5 @@ public class ServerPiranha implements Runnable {
         if (pidFile.exists()) {
             pidFile.delete();
         }
-    }    
+    }
 }
