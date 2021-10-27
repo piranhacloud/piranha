@@ -78,6 +78,11 @@ public class ServerPiranha implements Runnable {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(ServerPiranha.class.getPackageName());
+    
+    /**
+     * Stores the HTTP port.
+     */
+    private int httpPort;
 
     /**
      * Stores the JMPS enabled flag.
@@ -146,7 +151,7 @@ public class ServerPiranha implements Runnable {
 
         HttpWebApplicationServer webApplicationServer = new HttpWebApplicationServer();
         HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
-        httpServer.setServerPort(8080);
+        httpServer.setServerPort(httpPort);
         httpServer.setHttpServerProcessor(webApplicationServer);
         httpServer.start();
         HttpServer httpsServer = null;
@@ -177,7 +182,7 @@ public class ServerPiranha implements Runnable {
                     DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDirectory);
                     webApplication.setClassLoader(classLoader);
 
-                    if (Boolean.getBoolean("cloud.piranha.modular.enable")) {
+                    if (Boolean.getBoolean("cloud.piranha.modular.enable") || jpmsEnabled) {
                         setupLayers(classLoader);
                     }
 
