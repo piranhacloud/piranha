@@ -118,7 +118,8 @@ class FilterTest {
     void testAddFilter4() throws Exception {
         webApp.initialize();
         webApp.start();
-        assertThrows(IllegalStateException.class, () -> webApp.addFilter("filter", new TestMultiple1Filter()));
+        TestMultiple1Filter filter = new TestMultiple1Filter();
+        assertThrows(IllegalStateException.class, () -> webApp.addFilter("filter", filter));
     }
 
     /**

@@ -164,7 +164,7 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
     private WebXmlLoginConfig getLoginConfig(ServletContext servletContext) {
         WebXmlManager manager = (WebXmlManager) servletContext.getAttribute(WebXmlManager.KEY);
         WebXml webXml = manager.getWebXml();
-        if (!isAnyNull(() -> webXml, () -> webXml.getLoginConfig(), () -> webXml.getLoginConfig().authMethod())) {
+        if (!isAnyNull(() -> webXml, webXml::getLoginConfig, () -> webXml.getLoginConfig().authMethod())) {
             return webXml.getLoginConfig();
         }
 
@@ -198,10 +198,7 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
 
     @SafeVarargs
     private boolean isAnyNull(Supplier<Object>... suppliers) {
-        return stream(suppliers)
-                .filter(e -> e.get() == null)
-                .findFirst()
-                .isPresent();
+        return stream(suppliers).anyMatch(e -> e.get() == null);
     }
 
     private void addFilter(ServletContext servletContext, Class<?> filterClass) {

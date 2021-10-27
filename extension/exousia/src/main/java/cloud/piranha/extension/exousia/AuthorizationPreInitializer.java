@@ -218,7 +218,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
             for (WebResourceCollection webResourceCollection : annotationConstraint.getWebResourceCollections()) {
                 WebResourceCollection newWebResourceCollection = webResourceCollection;
                 if (!disjoint(webXmlUrlPatterns, webResourceCollection.getUrlPatterns())) {
-                    Set<String> complementPatterns = new HashSet<String>(webResourceCollection.getUrlPatterns());
+                    Set<String> complementPatterns = new HashSet<>(webResourceCollection.getUrlPatterns());
                     complementPatterns.removeAll(webXmlUrlPatterns);
 
                     if (complementPatterns.isEmpty()) {

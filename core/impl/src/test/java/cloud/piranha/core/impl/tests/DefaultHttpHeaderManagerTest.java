@@ -155,7 +155,7 @@ class DefaultHttpHeaderManagerTest {
     void testGetIntHeader2() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
         manager.setHeader("NAME", "abcd");
-        assertThrows(IllegalArgumentException.class, () -> assertEquals(1, manager.getIntHeader("NAME")));
+        assertThrows(IllegalArgumentException.class, () -> manager.getIntHeader("NAME"));
     }
 
     /**

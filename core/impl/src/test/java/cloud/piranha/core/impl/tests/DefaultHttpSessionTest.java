@@ -155,7 +155,7 @@ class DefaultHttpSessionTest {
     void testGetValueNames() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
-        assertTrue(session.getValueNames().length == 0);
+        assertEquals(0, session.getValueNames().length);
     }
 
     /**
@@ -163,14 +163,14 @@ class DefaultHttpSessionTest {
      */
     @Test
     void testInvalidate() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultHttpSession session = new DefaultHttpSession(webApp);
+        session.setSessionManager(new DefaultHttpSessionManager());
+        session.invalidate();
         try {
-            DefaultWebApplication webApp = new DefaultWebApplication();
-            DefaultHttpSession session = new DefaultHttpSession(webApp);
-            session.setSessionManager(new DefaultHttpSessionManager());
-            session.invalidate();
             session.isNew();
             fail();
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException expected) {
         }
     }
 
