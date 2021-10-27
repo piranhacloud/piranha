@@ -29,7 +29,6 @@ package cloud.piranha.extension.security.servlet;
 
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
-import java.util.Optional;
 
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
@@ -67,7 +66,7 @@ public class ServletSecurityExtension implements WebApplicationExtension {
                               .stream()
                               .filter(e -> e.getClass().getName().endsWith("SecurityInitializer"))
                               .findFirst()
-                              .ifPresent(initializer -> webApplication.getInitializers().remove(initializer);
+                              .ifPresent(securityInitializer -> webApplication.getInitializers().remove(securityInitializer));
             webApplication.addInitializer(initializer);
 
         } catch (ReflectiveOperationException | SecurityException | IllegalArgumentException ex) {
