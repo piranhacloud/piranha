@@ -78,7 +78,7 @@ public class ServerPiranha implements Runnable {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(ServerPiranha.class.getPackageName());
-    
+
     /**
      * Stores the HTTP port.
      */
@@ -150,10 +150,12 @@ public class ServerPiranha implements Runnable {
         LOGGER.log(INFO, () -> "Starting Piranha");
 
         HttpWebApplicationServer webApplicationServer = new HttpWebApplicationServer();
+
         HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
         httpServer.setServerPort(httpPort);
         httpServer.setHttpServerProcessor(webApplicationServer);
         httpServer.start();
+
         HttpServer httpsServer = null;
         if (sslEnabled) {
             httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
@@ -255,6 +257,15 @@ public class ServerPiranha implements Runnable {
             ModuleLayer.Controller controller = ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
             DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
         }
+    }
+
+    /**
+     * Set the HTTP server port.
+     *
+     * @param httpPort the HTTP server port.
+     */
+    public void setHttpPort(int httpPort) {
+        this.httpPort = httpPort;
     }
 
     /**

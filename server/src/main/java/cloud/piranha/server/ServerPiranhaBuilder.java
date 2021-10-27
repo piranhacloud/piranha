@@ -37,6 +37,11 @@ import java.io.File;
  * @see cloud.piranha.server.ServerPiranha
  */
 public class ServerPiranhaBuilder {
+    
+    /**
+     * Stores the HTTP port.
+     */
+    private int httpPort = 8080;
 
     /**
      * Stores the JPMS flag.
@@ -60,10 +65,22 @@ public class ServerPiranhaBuilder {
      */
     public ServerPiranha build() {
         ServerPiranha piranha = new ServerPiranha();
+        piranha.setHttpPort(httpPort);
         piranha.setJpmsEnabled(jpms);
         piranha.setSslEnabled(ssl);
         piranha.setWebAppsDir(new File(webAppsDir));
         return piranha;
+    }
+
+    /**
+     * Set the HTTP server port.
+     * 
+     * @param httpPort the HTTP server port.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder httpPort(int httpPort) {
+        this.httpPort = httpPort;
+        return this;
     }
 
     /**
