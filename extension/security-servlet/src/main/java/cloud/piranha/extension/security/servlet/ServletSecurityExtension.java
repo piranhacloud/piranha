@@ -27,14 +27,12 @@
  */
 package cloud.piranha.extension.security.servlet;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.System.Logger.Level;
 import java.lang.System.Logger;
-
-import jakarta.servlet.ServletContainerInitializer;
+import java.lang.System.Logger.Level;
 
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
+import jakarta.servlet.ServletContainerInitializer;
 
 /**
  * The extension for Servlet Security.
@@ -56,16 +54,22 @@ public class ServletSecurityExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         try {
-            ClassLoader classLoader = webApplication.getClassLoader();
-            Class<? extends ServletContainerInitializer> clazz
-                    = classLoader.
-                    loadClass(ServletSecurityAllInitializer.class.getName())
-                    .asSubclass(ServletContainerInitializer.class);
-            ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
+            ServletContainerInitializer initializer =
+                webApplication.getClassLoader()
+                              .loadClass(ServletSecurityAllInitializer.class.getName())
+                              .asSubclass(ServletContainerInitializer.class)
+                              .getDeclaredConstructor()
+                              .newInstance();
+
+            // Find and remove previous version
+                webApplication.getInitializers()
+                              .stream()
+                              .filter(e -> e.getClass().getName().endsWith("SecurityInitializer"))
+                              .findFirst()
+                              .ifPresent(securityInitializer -> webApplication.getInitializers().remove(securityInitializer));
             webApplication.addInitializer(initializer);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
-                | InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException ex) {
+
+        } catch (ReflectiveOperationException | SecurityException | IllegalArgumentException ex) {
             LOGGER.log(Level.WARNING, "Unable to enable the ServletSecurityExtension", ex);
         }
     }
