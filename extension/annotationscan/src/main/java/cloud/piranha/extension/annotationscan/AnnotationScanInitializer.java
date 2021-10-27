@@ -75,12 +75,10 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
         AnnotationManager annotationManager = webApp.getManager(AnnotationManager.class);
 
         ClassLoader classLoader = webApp.getClassLoader();
-        if (classLoader instanceof ResourceManagerClassLoader == false) {
+        if (!(classLoader instanceof ResourceManagerClassLoader resourceManagerClassLoader)) {
             LOGGER.log(WARNING, "ResourceManagerClassLoader not installed. This scanner does not work");
             return;
         }
-
-        ResourceManagerClassLoader resourceManagerClassLoader = (ResourceManagerClassLoader) classLoader;
 
         resourceManagerClassLoader
                 .getResourceManager()

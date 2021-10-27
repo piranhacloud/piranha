@@ -363,7 +363,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     public synchronized PrintWriter getWriter() throws IOException {
         PrintWriter result = null;
         if (!gotOutput) {
-            if (gotWriter == false) {
+            if (!gotWriter) {
                 if (characterEncoding == null || !characterEncodingSet) {
                     setCharacterEncoding(ISO_8859_1);
                 }

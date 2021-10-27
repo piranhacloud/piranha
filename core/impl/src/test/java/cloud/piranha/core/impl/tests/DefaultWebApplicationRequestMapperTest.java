@@ -32,6 +32,7 @@ import cloud.piranha.core.impl.DefaultWebApplicationRequestMapper;
 import cloud.piranha.core.impl.DefaultWebApplicationRequestMapping;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -174,7 +175,7 @@ class DefaultWebApplicationRequestMapperTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         webApp.service(request, response);
 
-        assertTrue(response.getStatus() != 200);
+        assertNotEquals(200, response.getStatus());
     }
 
     /**

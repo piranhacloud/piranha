@@ -141,7 +141,7 @@ class ServletRequestTest {
         request.setInputStream(new ByteArrayInputStream("param1=value1".getBytes(StandardCharsets.UTF_8)));
         request.setContentType("application/x-www-form-urlencoded");
         Map<String, String[]> parameterMap = request.getParameterMap();
-        assertEquals(parameterMap.size(), 1);
+        assertEquals(1, parameterMap.size());
         assertArrayEquals(new String[]{"value1"}, parameterMap.get("param1"));
     }
 
@@ -150,7 +150,7 @@ class ServletRequestTest {
         request.setInputStream(new ByteArrayInputStream("param1=value1".getBytes(StandardCharsets.UTF_8)));
         request.setContentType("application/x-www-form-urlencoded;charset=UTF-8");
         Map<String, String[]> parameterMap = request.getParameterMap();
-        assertEquals(parameterMap.size(), 1);
+        assertEquals(1, parameterMap.size());
         assertArrayEquals(new String[]{"value1"}, parameterMap.get("param1"));
     }
 
@@ -282,15 +282,10 @@ class ServletRequestTest {
      */
     @Test
     void testStartAsync2() {
+        request.setAttribute("piranha.response", new TestWebApplicationResponse());
+        request.setAsyncSupported(false);
         assertThrows(IllegalStateException.class, () -> {
-            try {
-                request.setAttribute("piranha.response", new TestWebApplicationResponse());
-                request.setAsyncSupported(false);
-                request.startAsync();
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw e;
-            }
+            request.startAsync();
         });
     }
 }

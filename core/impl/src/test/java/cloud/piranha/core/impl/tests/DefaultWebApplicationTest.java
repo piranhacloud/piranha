@@ -123,7 +123,7 @@ class DefaultWebApplicationTest {
         assertNotNull(dynamic);
         dynamic.addMapping("/echo");
         assertTrue(dynamic.getMappings().size() > 0);
-        assertTrue(dynamic.addMapping("/echo").size() == 0);
+        assertEquals(0, dynamic.addMapping("/echo").size());
     }
 
     /**
@@ -796,12 +796,12 @@ class DefaultWebApplicationTest {
      */
     @Test
     void testInitializeStartAndStop() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.initialize();
+        webApp.start();
+        webApp.stop();
+        webApp.destroy();
         try {
-            DefaultWebApplication webApp = new DefaultWebApplication();
-            webApp.initialize();
-            webApp.start();
-            webApp.stop();
-            webApp.destroy();
             webApp.start();
             fail();
         } catch (RuntimeException e) {
@@ -829,7 +829,8 @@ class DefaultWebApplicationTest {
     @SuppressWarnings("deprecation")
     void testLog2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertThrows(UnsupportedOperationException.class, () -> webApp.log(new IllegalStateException(), "TEST"));
+        IllegalStateException exception = new IllegalStateException();
+        assertThrows(UnsupportedOperationException.class, () -> webApp.log(exception, "TEST"));
     }
 
     /**

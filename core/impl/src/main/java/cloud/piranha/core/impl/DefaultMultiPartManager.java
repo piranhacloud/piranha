@@ -78,7 +78,7 @@ public class DefaultMultiPartManager implements MultiPartManager {
     @Override
     public Part getPart(WebApplication webApplication,
             WebApplicationRequest request, String name) throws ServletException {
-        LOGGER.log(Level.DEBUG, "Getting part: {0} for request: {1}", new Object[]{name, request});
+        LOGGER.log(Level.DEBUG, "Getting part: {0} for request: {1}", name, request);
         return null;
     }
 }
