@@ -63,14 +63,11 @@ public class ServletSecurityExtension implements WebApplicationExtension {
                               .newInstance();
 
             // Find and remove previous version
-            Optional<ServletContainerInitializer> optionalInit =
                 webApplication.getInitializers()
                               .stream()
                               .filter(e -> e.getClass().getName().endsWith("SecurityInitializer"))
-                              .findFirst();
-            if (optionalInit.isPresent()) {
-                webApplication.getInitializers().remove(optionalInit.get());
-            }
+                              .findFirst()
+                              .ifPresent(initializer -> webApplication.getInitializers().remove(initializer);
             webApplication.addInitializer(initializer);
 
         } catch (ReflectiveOperationException | SecurityException | IllegalArgumentException ex) {
