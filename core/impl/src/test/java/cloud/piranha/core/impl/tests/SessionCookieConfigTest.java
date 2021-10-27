@@ -46,7 +46,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SessionCookieConfigTest {
+class SessionCookieConfigTest {
     
     /**
      * Test changing using a ServletContextListener.

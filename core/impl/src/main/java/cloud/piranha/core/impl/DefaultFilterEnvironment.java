@@ -119,13 +119,6 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
         this.className = filter.getClass().getName();
     }
 
-    /**
-     * Add the mappings for the servlet names.
-     *
-     * @param dispatcherTypes the dispatcher types.
-     * @param isMatchAfter is a matcher after.
-     * @param servletNames the servlet names.
-     */
     @Override
     public void addMappingForServletNames(EnumSet<DispatcherType> dispatcherTypes, boolean isMatchAfter, String... servletNames) {
         String[] names = Stream.of(servletNames).map(s -> "servlet:// " + s).toArray(String[]::new);
@@ -133,117 +126,76 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
         Arrays.stream(servletNames).forEach(x -> servletNameMappings.put(x, filterName));
     }
 
-    /**
-     * Add the mappings.
-     *
-     * @param dispatcherTypes the dispatcher types.
-     * @param isMatchAfter true to call the filter this mapping applies to after declared ones, false to call it before declared ones.
-     * @param urlPatterns the url patterns.
-     */
     @Override
     public void addMappingForUrlPatterns(EnumSet<DispatcherType> dispatcherTypes, boolean isMatchAfter, String... urlPatterns) {
         webApplication.addFilterMapping(dispatcherTypes, filterName, isMatchAfter, urlPatterns);
         Arrays.stream(urlPatterns).forEach(x -> urlPatternMappings.put(x, filterName));
     }
 
-    /**
-     * {@return the class name}
-     */
     @Override
     public String getClassName() {
         return className;
     }
 
-    /**
-     * {@return the filter}
-     */
     @Override
     public Filter getFilter() {
         return filter;
     }
 
-    /**
-     * {@return the filter name}
-     */
     @Override
     public String getFilterName() {
         return filterName;
     }
 
-    /**
-     * Get the init parameter.
-     *
-     * @param name the name
-     * @return the value.
-     */
     @Override
     public String getInitParameter(String name) {
         return initParameters.get(name);
     }
 
-    /**
-     * Get the init parameter names.
-     *
-     * @return the enumeration.
-     */
     @Override
     public Enumeration<String> getInitParameterNames() {
         return Collections.enumeration(initParameters.keySet());
     }
 
-    /**
-     * {@return the init parameters}
-     */
     @Override
     public Map<String, String> getInitParameters() {
         return initParameters;
     }
 
-    /**
-     * {@return the name}
-     */
     @Override
     public String getName() {
         return filterName;
     }
 
-    /**
-     * {@return the servlet context}
-     */
     @Override
     public ServletContext getServletContext() {
         return this.webApplication;
     }
 
-    /**
-     * {@return the servlet name mappings}
-     */
     @Override
     public Collection<String> getServletNameMappings() {
         return Collections.unmodifiableCollection(servletNameMappings.keySet());
     }
 
     /**
-     * {@return the URL pattern mappings}
+     * Get the status.
+     * 
+     * @return the status.
      */
+    public int getStatus() {
+        return status;
+    }
+
     @Override
     public Collection<String> getUrlPatternMappings() {
         return Collections.unmodifiableCollection(urlPatternMappings.keySet());
     }
 
-    /**
-     * {@return the web application}
-     */
     @Override
     public WebApplication getWebApplication() {
         return webApplication;
     }
 
-    /**
-     * Initialize the filter.
-     *
-     * @throws ServletException when a servlet error occurs.
-     */
     @Override
     public void initialize() throws ServletException {
         if (filter == null) {
@@ -256,43 +208,26 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
         }
     }
 
-    /**
-     * Set async supported.
-     *
-     * @param asyncSupported the async supported flag.
-     */
+    @Override
+    public boolean isAsyncSupported() {
+        return asyncSupported;
+    }
+
     @Override
     public void setAsyncSupported(boolean asyncSupported) {
         this.asyncSupported = asyncSupported;
     }
 
-    /**
-     * Set the class name.
-     *
-     * @param className the class name.
-     */
     @Override
     public void setClassName(String className) {
         this.className = className;
     }
 
-    /**
-     * Set the filter name.
-     *
-     * @param filterName the filter name.
-     */
     @Override
     public void setFilterName(String filterName) {
         this.filterName = filterName;
     }
 
-    /**
-     * Set the init parameter.
-     *
-     * @param name the parameter name.
-     * @param value the parameter value.
-     * @return if the init parameter was set.
-     */
     @Override
     public boolean setInitParameter(String name, String value) {
         boolean result = false;
@@ -303,12 +238,6 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
         return result;
     }
 
-    /**
-     * Set the init parameters.
-     *
-     * @param initParameters the init parameters
-     * @return the set of conflicting parameter names.
-     */
     @Override
     public Set<String> setInitParameters(Map<String, String> initParameters) {
         HashSet<String> conflicting = new HashSet<>();
@@ -330,11 +259,6 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
         return conflicting;
     }
 
-    /**
-     * Set status.
-     *
-     * @param status the status.
-     */
     @Override
     public void setStatus(int status) {
         this.status = status;
@@ -343,11 +267,6 @@ public class DefaultFilterEnvironment implements FilterEnvironment {
     @Override
     public void setWebApplication(WebApplication webApplication) {
         this.webApplication = webApplication;
-    }
-
-    @Override
-    public boolean isAsyncSupported() {
-        return asyncSupported;
     }
 
     @Override

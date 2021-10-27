@@ -80,8 +80,8 @@ public class DefaultErrorPageManager {
                 rootException = rootException.getSuperclass();
             }
 
-            if (page == null && exception instanceof ServletException) {
-                page = getErrorPage(((ServletException) exception).getRootCause(), httpResponse);
+            if (page == null && exception instanceof ServletException servletException) {
+                page = getErrorPage(servletException.getRootCause(), httpResponse);
             }
 
             return page;

@@ -118,7 +118,7 @@ public class DefaultAsyncContext implements AsyncContext {
     /**
      * Stores the timeout.
      */
-    private long timeout = Long.valueOf(System.getProperty("piranha.async.timeout", "30000")); // 30 seconds, as mandated by spec
+    private long timeout = Long.parseLong(System.getProperty("piranha.async.timeout", "30000")); // 30 seconds, as mandated by spec
 
     /**
      * Tracks whether dispatch() has already been called on this context or not.

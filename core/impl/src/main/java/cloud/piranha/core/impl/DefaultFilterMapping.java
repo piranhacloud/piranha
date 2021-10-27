@@ -54,7 +54,6 @@ public class DefaultFilterMapping implements FilterMapping {
      */
     private final String urlPattern;
 
-
     /**
      * Constructor.
      *
@@ -78,59 +77,36 @@ public class DefaultFilterMapping implements FilterMapping {
         this.urlPattern = urlPattern;
     }
 
-    /**
-     * Equals.
-     *
-     * @param object the object to compare against.
-     * @return true if equal, false otherwise.
-     */
     @Override
     public boolean equals(Object object) {
-        if (object instanceof DefaultFilterMapping == false) {
-            return false;
-        }
-
         boolean result = false;
-        DefaultFilterMapping mapping = (DefaultFilterMapping) object;
-        if (mapping.filterName.equals(filterName)
-                && mapping.urlPattern.equals(urlPattern)
-                && mapping.dispatcherType.equals(dispatcherType)
-                ) {
-            result = true;
-        }
 
+        if (object instanceof DefaultFilterMapping mapping) {
+            if (mapping.filterName.equals(filterName)
+                    && mapping.urlPattern.equals(urlPattern)
+                    && mapping.dispatcherType.equals(dispatcherType)) {
+                result = true;
+            }
+        }
+        
         return result;
     }
 
-    /**
-     * {@return the dispatcher type}
-     */
     @Override
     public DispatcherType getDispatcherType() {
         return dispatcherType;
     }
 
-    /**
-     * {@return the filter name}
-     */
     @Override
     public String getFilterName() {
         return filterName;
     }
 
-    /**
-     * {@return the URL pattern}
-     */
     @Override
     public String getUrlPattern() {
         return urlPattern;
     }
 
-    /**
-     * Hash code.
-     *
-     * @return the hash code.
-     */
     @Override
     public int hashCode() {
         int hash = 7;

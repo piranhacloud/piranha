@@ -126,8 +126,8 @@ public class DefaultFilterChain implements FilterChain {
             // the init method failed)
             Exception exception;
             Throwable throwable = servletInvocation.getServletEnvironment().getUnavailableException();
-            if (throwable instanceof Exception) {
-                exception = (Exception) throwable;
+            if (throwable instanceof Exception e) {
+                exception = e;
             } else {
                 exception = new UnavailableException("");
                 exception.initCause(throwable);
@@ -140,8 +140,8 @@ public class DefaultFilterChain implements FilterChain {
             request.setAttribute("piranha.request.exception", exception);
             throw new ServletException(exception);
 
-        } else if (response instanceof HttpServletResponse) {
-            ((HttpServletResponse) response).sendError(SC_NOT_FOUND);
+        } else if (response instanceof HttpServletResponse httpServletResponse) {
+            httpServletResponse.sendError(SC_NOT_FOUND);
         }
     }
 }

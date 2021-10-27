@@ -107,8 +107,8 @@ public class DefaultAsyncDispatcher implements AsyncDispatcher {
     }
 
     private ServletRequest addAsyncWrapper(ServletRequest request) {
-        if (request instanceof HttpServletRequest) {
-            return new AsyncHttpDispatchWrapper((HttpServletRequest) request);
+        if (request instanceof HttpServletRequest httpServletRequest) {
+            return new AsyncHttpDispatchWrapper(httpServletRequest);
         }
 
         return new AsyncNonHttpDispatchWrapper(request);
