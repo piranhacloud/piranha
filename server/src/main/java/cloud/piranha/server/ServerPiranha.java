@@ -82,7 +82,7 @@ public class ServerPiranha implements Runnable {
     /**
      * Stores the HTTP port.
      */
-    private int httpPort;
+    private int httpPort = 8080;
 
     /**
      * Stores the JMPS enabled flag.
