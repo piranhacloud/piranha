@@ -99,7 +99,7 @@ public class ServerPiranhaBuilderTest {
         piranha.start();
         Thread.sleep(1000);
         SocketFactory factory = SSLSocketFactory.getDefault();
-        try ( SSLSocket socket = (SSLSocket) factory.createSocket("localhost", 8228)) {
+        try ( SSLSocket socket = (SSLSocket) factory.createSocket("localhost", 8338)) {
             assertNotNull(socket.getOutputStream());
         }
         piranha.stop();
