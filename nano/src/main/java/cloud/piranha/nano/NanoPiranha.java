@@ -29,6 +29,8 @@ package cloud.piranha.nano;
 
 import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import java.io.IOException;
 import java.util.Iterator;
@@ -37,8 +39,6 @@ import java.util.List;
 import jakarta.servlet.Filter;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 
 /**
  * The smallest version of Piranha in our lineup.
@@ -101,15 +101,8 @@ public class NanoPiranha implements Piranha {
         return webApplication;
     }
 
-    /**
-     * Service.
-     *
-     * @param servletRequest the request.
-     * @param servletResponse the response.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    public void service(ServletRequest servletRequest, ServletResponse servletResponse)
+    @Override
+    public void service(WebApplicationRequest request, WebApplicationResponse response)
             throws IOException, ServletException {
         Iterator<Filter> iterator = filters.descendingIterator();
         NanoFilterChain chain = new NanoFilterChain(servlet);
@@ -118,15 +111,14 @@ public class NanoPiranha implements Piranha {
             NanoFilterChain previousChain = chain;
             chain = new NanoFilterChain(filter, previousChain);
         }
-        if (servletRequest.getServletContext() == null
-                && servletRequest instanceof NanoRequest nanoRequest) {
+        if (request instanceof NanoRequest nanoRequest) {
             nanoRequest.setWebApplication(webApplication);
         }
-        if (servletResponse instanceof NanoResponse nanoResponse) {
+        if (response instanceof NanoResponse nanoResponse) {
             nanoResponse.setWebApplication(webApplication);
         }
-        chain.doFilter(servletRequest, servletResponse);
-        servletResponse.flushBuffer();
+        chain.doFilter(request, response);
+        response.flushBuffer();
     }
 
     /**

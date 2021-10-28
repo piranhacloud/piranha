@@ -45,6 +45,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.core.api.WebApplicationServerRequestMapper;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
@@ -55,6 +57,7 @@ import cloud.piranha.extension.server.ServerExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.DirectoryResource;
+import jakarta.servlet.ServletException;
 
 import static java.lang.System.Logger.Level.INFO;
 
@@ -111,10 +114,15 @@ public class ServerPiranha implements Piranha, Runnable {
     private Thread thread;
 
     /**
+     * Stores the HTTP web application server.
+     */
+    private HttpWebApplicationServer webApplicationServer;
+
+    /**
      * Stores the web applications directory.
      */
     private File webAppsDir = new File("webapps");
-
+    
     /**
      * Extract the zip input stream.
      *
@@ -165,7 +173,7 @@ public class ServerPiranha implements Piranha, Runnable {
         long startTime = System.currentTimeMillis();
         LOGGER.log(INFO, () -> "Starting Piranha");
 
-        HttpWebApplicationServer webApplicationServer = new HttpWebApplicationServer();
+        webApplicationServer = new HttpWebApplicationServer();
 
         HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
         httpServer.setServerPort(httpPort);
@@ -275,6 +283,12 @@ public class ServerPiranha implements Piranha, Runnable {
             ModuleLayer.Controller controller = ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
             DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
         }
+    }
+    
+    @Override
+    public void service(WebApplicationRequest request, WebApplicationResponse response) 
+            throws IOException, ServletException {
+        webApplicationServer.service(request, response);
     }
 
     /**

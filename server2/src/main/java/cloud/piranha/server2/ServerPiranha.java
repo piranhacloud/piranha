@@ -39,11 +39,14 @@ import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import cloud.piranha.core.api.Piranha;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.embedded.MicroWebApplication;
 import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
+import jakarta.servlet.ServletException;
 
 import static java.lang.System.Logger.Level.INFO;
 
@@ -81,9 +84,12 @@ public class ServerPiranha implements Piranha, Runnable {
     private boolean ssl = false;
 
     /**
-     * {
-     *
-     * @return the instance}
+     * Stores the HTTP web application server.
+     */
+    private HttpWebApplicationServer webApplicationServer;    
+    
+    /**
+     * {@return the instance}
      */
     public static ServerPiranha get() {
         return INSTANCE;
@@ -123,7 +129,7 @@ public class ServerPiranha implements Piranha, Runnable {
         long startTime = System.currentTimeMillis();
         LOGGER.log(INFO, () -> "Starting Piranha");
 
-        HttpWebApplicationServer webApplicationServer = new HttpWebApplicationServer();
+        webApplicationServer = new HttpWebApplicationServer();
         HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
         httpServer.setServerPort(8080);
         httpServer.setHttpServerProcessor(webApplicationServer);
@@ -239,4 +245,10 @@ public class ServerPiranha implements Piranha, Runnable {
 
         return startedFile;
     }
+    
+    @Override
+    public void service(WebApplicationRequest request, WebApplicationResponse response) 
+            throws IOException, ServletException {
+        webApplicationServer.service(request, response);
+    }    
 }
