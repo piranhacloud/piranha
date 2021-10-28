@@ -83,6 +83,17 @@ public class ServerPiranhaBuilder {
         piranha.setWebAppsDir(new File(webAppsDir));
         return piranha;
     }
+    
+    /**
+     * Set the exit on stop flag.
+     * 
+     * @param exitOnStop the exit on stop flag.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder exitOnStop(boolean exitOnStop) {
+        this.exitOnStop = exitOnStop;
+        return this;
+    }
 
     /**
      * Set the HTTP server port.

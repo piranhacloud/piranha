@@ -40,7 +40,7 @@ public class ServerBootstrap {
      * @param arguments the arguments.
      */
     private ServerPiranhaBuilder processArguments(String[] arguments) {
-        ServerPiranhaBuilder builder = new ServerPiranhaBuilder();
+        ServerPiranhaBuilder builder = new ServerPiranhaBuilder().exitOnStop(true);
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--jpms")) {
