@@ -27,6 +27,7 @@
  */
 package cloud.piranha.embedded;
 
+import cloud.piranha.core.api.Piranha;
 import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.impl.DefaultWebApplication;
@@ -43,7 +44,7 @@ import java.util.Map;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EmbeddedPiranha {
+public class EmbeddedPiranha implements Piranha {
 
     /**
      * Stores the web application.

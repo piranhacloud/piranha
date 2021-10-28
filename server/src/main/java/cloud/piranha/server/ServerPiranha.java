@@ -27,6 +27,7 @@
  */
 package cloud.piranha.server;
 
+import cloud.piranha.core.api.Piranha;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -72,7 +73,7 @@ import static java.lang.System.Logger.Level.INFO;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServerPiranha implements Runnable {
+public class ServerPiranha implements Piranha, Runnable {
 
     /**
      * Stores the logger.

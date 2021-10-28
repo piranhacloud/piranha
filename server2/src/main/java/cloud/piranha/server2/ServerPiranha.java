@@ -27,6 +27,7 @@
  */
 package cloud.piranha.server2;
 
+import cloud.piranha.core.api.Piranha;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -34,9 +35,6 @@ import java.util.ServiceLoader;
 import java.lang.System.Logger.Level;
 import java.lang.System.Logger;
 
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.importer.ZipImporter;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
@@ -62,7 +60,7 @@ import static java.lang.System.Logger.Level.INFO;
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
  */
-public class ServerPiranha implements Runnable {
+public class ServerPiranha implements Piranha, Runnable {
 
     /**
      * Stores the logger.
