@@ -80,6 +80,11 @@ public class ServerPiranha implements Runnable {
     private static final Logger LOGGER = System.getLogger(ServerPiranha.class.getPackageName());
 
     /**
+     * Stores the exit on stop flag.
+     */
+    private boolean exitOnStop = true;
+    
+    /**
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
@@ -93,6 +98,11 @@ public class ServerPiranha implements Runnable {
      * Stores the SSL enabled flag.
      */
     private boolean sslEnabled = false;
+    
+    /**
+     * Stores the thread we use.
+     */
+    private Thread thread;
 
     /**
      * Stores the web applications directory.
@@ -240,7 +250,9 @@ public class ServerPiranha implements Runnable {
         finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Stopped Piranha");
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
-        System.exit(0);
+        if (exitOnStop) {
+            System.exit(0);
+        }
     }
 
     private void setupLayers(DefaultWebApplicationClassLoader classLoader) {
@@ -257,6 +269,15 @@ public class ServerPiranha implements Runnable {
             ModuleLayer.Controller controller = ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
             DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
         }
+    }
+    
+    /**
+     * Set the exit on stop flag.
+     * 
+     * @param exitOnStop the exit on stop flag.
+     */
+    public void setExitOnStop(boolean exitOnStop) {
+        this.exitOnStop = exitOnStop;
     }
 
     /**
@@ -299,7 +320,7 @@ public class ServerPiranha implements Runnable {
      * Start the server.
      */
     public void start() {
-        Thread thread = new Thread(this);
+        thread = new Thread(this);
         thread.setDaemon(false);
         thread.start();
     }

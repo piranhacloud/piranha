@@ -39,6 +39,11 @@ import java.io.File;
 public class ServerPiranhaBuilder {
     
     /**
+     * Stores the exit on stop flag.
+     */
+    private boolean exitOnStop = false;
+    
+    /**
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
@@ -65,6 +70,7 @@ public class ServerPiranhaBuilder {
      */
     public ServerPiranha build() {
         ServerPiranha piranha = new ServerPiranha();
+        piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
         piranha.setJpmsEnabled(jpms);
         piranha.setSslEnabled(ssl);
