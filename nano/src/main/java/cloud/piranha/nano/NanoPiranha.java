@@ -39,7 +39,6 @@ import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import java.nio.file.DirectoryStream.Filter;
 
 /**
  * The smallest version of Piranha in our lineup.
