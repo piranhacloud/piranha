@@ -49,6 +49,9 @@ public class ServerBootstrap {
                 if (arguments[i].equals("--ssl")) {
                     builder = builder.ssl(true);
                 }
+                if (arguments[i].equals("--sslKeyStoreFile")) {
+                    builder = builder.sslKeystoreFile(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--webapps-dir")) {
                     builder = builder.webAppsDir(arguments[i + 1]);
                 }

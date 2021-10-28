@@ -83,12 +83,12 @@ public class ServerPiranha implements Runnable {
      * Stores the exit on stop flag.
      */
     private boolean exitOnStop = true;
-    
+
     /**
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
-    
+
     /**
      * Stores the HTTPS port.
      */
@@ -103,7 +103,7 @@ public class ServerPiranha implements Runnable {
      * Stores the SSL enabled flag.
      */
     private boolean sslEnabled = false;
-    
+
     /**
      * Stores the thread we use.
      */
@@ -275,10 +275,10 @@ public class ServerPiranha implements Runnable {
             DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
         }
     }
-    
+
     /**
      * Set the exit on stop flag.
-     * 
+     *
      * @param exitOnStop the exit on stop flag.
      */
     public void setExitOnStop(boolean exitOnStop) {
@@ -296,7 +296,7 @@ public class ServerPiranha implements Runnable {
 
     /**
      * Set the HTTPS server port.
-     * 
+     *
      * @param httpsPort the HTTPS server port.
      */
     public void setHttpsPort(int httpsPort) {
@@ -319,6 +319,22 @@ public class ServerPiranha implements Runnable {
      */
     public void setSslEnabled(boolean sslEnabled) {
         this.sslEnabled = sslEnabled;
+    }
+
+    /**
+     * Set the SSL keystore file.
+     *
+     * <p>
+     * Convenience wrapper around the <code>javax.net.ssl.keyStore</code> system
+     * property. Note using this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param sslKeystoreFile the SSL keystore file.
+     */
+    public void setSslKeystoreFile(String sslKeystoreFile) {
+        if (sslKeystoreFile != null) {
+            System.setProperty("javax.net.ssl.keyStore", sslKeystoreFile);
+        }
     }
 
     /**

@@ -89,10 +89,10 @@ public class ServerPiranhaBuilderTest {
      */
     @Test
     public void testHttpsPort() throws Exception {
-        System.setProperty("javax.net.ssl.keyStore", "src/main/zip/etc/keystore.jks");
         System.setProperty("javax.net.ssl.keyStorePassword", "password");
         ServerPiranha piranha = new ServerPiranhaBuilder()
                 .ssl(true)
+                .sslKeystoreFile("src/main/zip/etc/keystore.jks")
                 .httpPort(8228)
                 .httpsPort(8338)
                 .build();

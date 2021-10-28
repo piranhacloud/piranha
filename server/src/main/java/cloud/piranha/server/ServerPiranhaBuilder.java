@@ -62,6 +62,11 @@ public class ServerPiranhaBuilder {
      * Stores the SSL flag.
      */
     private boolean ssl = false;
+    
+    /**
+     * Stores the SSL keystore file.
+     */
+    private String sslKeystoreFile;
 
     /**
      * Stores the web applications directory.
@@ -80,6 +85,9 @@ public class ServerPiranhaBuilder {
         piranha.setHttpsPort(httpsPort);
         piranha.setJpmsEnabled(jpms);
         piranha.setSslEnabled(ssl);
+        if (sslKeystoreFile != null) {
+            piranha.setSslKeystoreFile(sslKeystoreFile);
+        }
         piranha.setWebAppsDir(new File(webAppsDir));
         return piranha;
     }
@@ -136,6 +144,17 @@ public class ServerPiranhaBuilder {
      */
     public ServerPiranhaBuilder ssl(boolean ssl) {
         this.ssl = ssl;
+        return this;
+    }
+
+    /**
+     * Set the SSL keystore file.
+     * 
+     * @param sslKeystoreFile the SSL keystore file.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
+        this.sslKeystoreFile = sslKeystoreFile;
         return this;
     }
 
