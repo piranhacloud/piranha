@@ -88,6 +88,11 @@ public class ServerPiranha implements Runnable {
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
+    
+    /**
+     * Stores the HTTPS port.
+     */
+    private int httpsPort = 8043;
 
     /**
      * Stores the JMPS enabled flag.
@@ -170,7 +175,7 @@ public class ServerPiranha implements Runnable {
         if (sslEnabled) {
             httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
             httpsServer.setHttpServerProcessor(webApplicationServer);
-            httpsServer.setServerPort(8443);
+            httpsServer.setServerPort(httpsPort);
             httpsServer.setSSL(true);
             httpsServer.start();
         }
@@ -287,6 +292,15 @@ public class ServerPiranha implements Runnable {
      */
     public void setHttpPort(int httpPort) {
         this.httpPort = httpPort;
+    }
+
+    /**
+     * Set the HTTPS server port.
+     * 
+     * @param httpsPort the HTTPS server port.
+     */
+    public void setHttpsPort(int httpsPort) {
+        this.httpsPort = httpsPort;
     }
 
     /**

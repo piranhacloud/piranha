@@ -30,6 +30,9 @@ package cloud.piranha.server.tests;
 import cloud.piranha.server.ServerPiranha;
 import cloud.piranha.server.ServerPiranhaBuilder;
 import java.net.Socket;
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 
@@ -72,6 +75,32 @@ public class ServerPiranhaBuilderTest {
         piranha.start();
         Thread.sleep(1000);
         try ( Socket socket = new Socket("localhost", 8118)) {
+            assertNotNull(socket.getOutputStream());
+        }
+        piranha.stop();
+        assertNotNull(piranha);
+    }
+    
+
+    /**
+     * Test httpsPort method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testHttpsPort() throws Exception {
+        System.setProperty("javax.net.ssl.keyStore", "src/main/zip/etc/keystore.jks");
+        System.setProperty("javax.net.ssl.keyStorePassword", "password");
+        System.setProperty("javax.net.debug", "ssl");
+        ServerPiranha piranha = new ServerPiranhaBuilder()
+                .ssl(true)
+                .httpPort(8228)
+                .httpsPort(8338)
+                .build();
+        piranha.start();
+        Thread.sleep(1000);
+        SocketFactory factory = SSLSocketFactory.getDefault();
+        try ( SSLSocket socket = (SSLSocket) factory.createSocket("localhost", 8228)) {
             assertNotNull(socket.getOutputStream());
         }
         piranha.stop();

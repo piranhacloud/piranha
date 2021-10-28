@@ -47,6 +47,11 @@ public class ServerPiranhaBuilder {
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
+    
+    /**
+     * Stores the HTTPS port.
+     */
+    private int httpsPort = 8043;
 
     /**
      * Stores the JPMS flag.
@@ -72,6 +77,7 @@ public class ServerPiranhaBuilder {
         ServerPiranha piranha = new ServerPiranha();
         piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
+        piranha.setHttpsPort(httpsPort);
         piranha.setJpmsEnabled(jpms);
         piranha.setSslEnabled(ssl);
         piranha.setWebAppsDir(new File(webAppsDir));
@@ -86,6 +92,17 @@ public class ServerPiranhaBuilder {
      */
     public ServerPiranhaBuilder httpPort(int httpPort) {
         this.httpPort = httpPort;
+        return this;
+    }
+    
+    /**
+     * Set the HTTPS server port.
+     * 
+     * @param httpsPort the HTTPS server port.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder httpsPort(int httpsPort) {
+        this.httpsPort = httpsPort;
         return this;
     }
 

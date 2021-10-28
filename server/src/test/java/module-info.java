@@ -36,6 +36,7 @@ module cloud.piranha.server.tests {
     exports cloud.piranha.server.tests;
     requires cloud.piranha.server;
     requires java.net.http;
+    requires java.base;
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.engine;
 }
