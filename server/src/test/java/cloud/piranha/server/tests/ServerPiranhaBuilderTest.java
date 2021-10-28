@@ -81,7 +81,6 @@ public class ServerPiranhaBuilderTest {
         assertNotNull(piranha);
     }
     
-
     /**
      * Test httpsPort method.
      *
