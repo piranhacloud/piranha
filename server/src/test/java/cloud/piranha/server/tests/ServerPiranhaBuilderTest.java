@@ -33,6 +33,7 @@ import java.net.Socket;
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 
@@ -90,7 +91,6 @@ public class ServerPiranhaBuilderTest {
     public void testHttpsPort() throws Exception {
         System.setProperty("javax.net.ssl.keyStore", "src/main/zip/etc/keystore.jks");
         System.setProperty("javax.net.ssl.keyStorePassword", "password");
-        System.setProperty("javax.net.debug", "ssl");
         ServerPiranha piranha = new ServerPiranhaBuilder()
                 .ssl(true)
                 .httpPort(8228)
@@ -101,7 +101,10 @@ public class ServerPiranhaBuilderTest {
         SocketFactory factory = SSLSocketFactory.getDefault();
         try ( SSLSocket socket = (SSLSocket) factory.createSocket("localhost", 8338)) {
             assertNotNull(socket.getOutputStream());
+            assertNotNull(socket.getSSLParameters());
+            assertEquals("TLSv1.3", socket.getSSLParameters().getProtocols()[0]);
         }
+        Thread.sleep(5000);
         piranha.stop();
         assertNotNull(piranha);
     }
