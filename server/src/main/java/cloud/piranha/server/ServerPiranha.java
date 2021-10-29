@@ -122,7 +122,7 @@ public class ServerPiranha implements Piranha, Runnable {
      * Stores the web applications directory.
      */
     private File webAppsDir = new File("webapps");
-    
+
     /**
      * Extract the zip input stream.
      *
@@ -284,9 +284,9 @@ public class ServerPiranha implements Piranha, Runnable {
             DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
         }
     }
-    
+
     @Override
-    public void service(WebApplicationRequest request, WebApplicationResponse response) 
+    public void service(WebApplicationRequest request, WebApplicationResponse response)
             throws IOException, ServletException {
         webApplicationServer.service(request, response);
     }
@@ -349,6 +349,23 @@ public class ServerPiranha implements Piranha, Runnable {
     public void setSslKeystoreFile(String sslKeystoreFile) {
         if (sslKeystoreFile != null) {
             System.setProperty("javax.net.ssl.keyStore", sslKeystoreFile);
+        }
+    }
+
+    /**
+     * Set the SSL keystore password.
+     *
+     * <p>
+     * Convenience wrapper around the
+     * <code>javax.net.ssl.keyStorePassword</code> system property. Note using
+     * this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param sslKeystorePassword
+     */
+    void setSslKeystorePassword(String sslKeystorePassword) {
+        if (sslKeystorePassword != null) {
+            System.setProperty("javax.net.ssl.keyStorePassword", sslKeystorePassword);
         }
     }
 
