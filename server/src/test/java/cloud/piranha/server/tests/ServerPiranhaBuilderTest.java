@@ -29,12 +29,14 @@ package cloud.piranha.server.tests;
 
 import cloud.piranha.server.ServerPiranha;
 import cloud.piranha.server.ServerPiranhaBuilder;
+import java.net.ConnectException;
 import java.net.Socket;
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -81,7 +83,28 @@ public class ServerPiranhaBuilderTest {
         piranha.stop();
         assertNotNull(piranha);
     }
-    
+
+    /**
+     * Test httpPort method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    public void testHttpPort2() throws Exception {
+        ServerPiranha piranha = new ServerPiranhaBuilder()
+                .httpPort(-1)
+                .httpsPort(8043)
+                .build();
+        piranha.start();
+        Thread.sleep(1000);
+        try ( Socket socket = new Socket("localhost", 8080)) {
+            fail();
+        } catch (ConnectException e) {
+        }
+        piranha.stop();
+        assertNotNull(piranha);
+    }
+
     /**
      * Test httpsPort method.
      *

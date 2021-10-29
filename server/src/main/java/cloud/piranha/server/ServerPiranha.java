@@ -92,11 +92,21 @@ public class ServerPiranha implements Piranha, Runnable {
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
+    
+    /**
+     * Stores the HTTP server.
+     */
+    private HttpServer httpServer;
 
     /**
      * Stores the HTTPS port.
      */
     private int httpsPort = 8043;
+
+    /**
+     * Stores the HTTP server.
+     */
+    private HttpServer httpsServer;
 
     /**
      * Stores the JMPS enabled flag.
@@ -166,6 +176,21 @@ public class ServerPiranha implements Piranha, Runnable {
     }
 
     /**
+     * Are we running?
+     *
+     * @return true if we are, false otherwise.
+     */
+    private boolean isRunning() {
+        boolean result = false;
+        if (httpServer != null) {
+            result = httpServer.isRunning();
+        } else if (httpsServer != null) {
+            result = httpsServer.isRunning();
+        }
+        return result;
+    }
+
+    /**
      * Run method.
      */
     @Override
@@ -175,12 +200,13 @@ public class ServerPiranha implements Piranha, Runnable {
 
         webApplicationServer = new HttpWebApplicationServer();
 
-        HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
-        httpServer.setServerPort(httpPort);
-        httpServer.setHttpServerProcessor(webApplicationServer);
-        httpServer.start();
+        if (httpPort > 0) {
+            httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+            httpServer.setServerPort(httpPort);
+            httpServer.setHttpServerProcessor(webApplicationServer);
+            httpServer.start();
+        }
 
-        HttpServer httpsServer = null;
         if (sslEnabled) {
             httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
             httpsServer.setHttpServerProcessor(webApplicationServer);
@@ -245,7 +271,7 @@ public class ServerPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
         File pidFile = new File("tmp/piranha.pid");
-        while (httpServer.isRunning()) {
+        while (isRunning()) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ie) {
@@ -254,7 +280,9 @@ public class ServerPiranha implements Piranha, Runnable {
 
             if (!pidFile.exists()) {
                 webApplicationServer.stop();
-                httpServer.stop();
+                if (httpServer != null) {
+                    httpServer.stop();
+                }
                 if (sslEnabled) {
                     httpsServer.stop();
                 }
