@@ -35,6 +35,15 @@ package cloud.piranha.server;
 public class ServerBootstrap {
 
     /**
+     * Main method.
+     *
+     * @param arguments the arguments.
+     */
+    public static void main(String[] arguments) {
+        new ServerBootstrap().processArguments(arguments).build().start();
+    }
+
+    /**
      * Process the arguments.
      *
      * @param arguments the arguments.
@@ -43,14 +52,26 @@ public class ServerBootstrap {
         ServerPiranhaBuilder builder = new ServerPiranhaBuilder().exitOnStop(true);
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
+                if (arguments[i].equals("--help")) {
+                    showHelp();
+                }
+                if (arguments[i].equals("--http-port")) {
+                    builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
+                }
+                if (arguments[i].equals("--https-port")) {
+                    builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
+                }
                 if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
                 }
                 if (arguments[i].equals("--ssl")) {
                     builder = builder.ssl(true);
                 }
-                if (arguments[i].equals("--sslKeyStoreFile")) {
+                if (arguments[i].equals("--ssl-keystore-file")) {
                     builder = builder.sslKeystoreFile(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--ssl-keystore-password")) {
+                    builder = builder.sslKeystorePassword(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--webapps-dir")) {
                     builder = builder.webAppsDir(arguments[i + 1]);
@@ -61,11 +82,20 @@ public class ServerBootstrap {
     }
 
     /**
-     * Main method.
-     *
-     * @param arguments the arguments.
+     * Show help.
      */
-    public static void main(String[] arguments) {
-        new ServerBootstrap().processArguments(arguments).build().start();
+    private void showHelp() {
+        System.out.println(
+                """
+                  --help                  - Show this help
+                  --http-port             - Set the HTTP port (use -1 to disable)
+                  --https-port            - Set the HTTPS port
+                  --jmps                  - Enable Java Platform Module System
+                  --ssl                   - Enable TLS/SSL
+                  --ssl-keystore-file     - Set the SSL keystore file
+                  --ssl-keystore-password - Set the SSL keystore file
+                  --webapps-dir           - Set the webapp directory
+                """);
+        System.exit(0);
     }
 }
