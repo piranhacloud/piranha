@@ -133,8 +133,8 @@ public class DefaultFilterChain implements FilterChain {
                 exception.initCause(throwable);
             }
 
-            if (response instanceof HttpServletResponse) {
-                ((HttpServletResponse) response).setStatus(500);
+            if (response instanceof HttpServletResponse httpServletResponse) {
+                httpServletResponse.setStatus(500);
             }
 
             request.setAttribute("piranha.request.exception", exception);

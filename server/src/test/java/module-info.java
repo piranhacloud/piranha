@@ -33,6 +33,7 @@
  */
 module cloud.piranha.server.tests {
 
+    opens cloud.piranha.server.tests;
     exports cloud.piranha.server.tests;
     requires cloud.piranha.server;
     requires java.net.http;

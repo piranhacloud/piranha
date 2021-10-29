@@ -358,7 +358,7 @@ public class DefaultInvocationFinder {
                 .toList();
 
         List<FilterEnvironment> notPrioritisedFilters = filterEnvironments.stream()
-                .filter(e -> e.getFilter() instanceof FilterPriority == false)
+                .filter(e -> !(e.getFilter() instanceof FilterPriority))
                 .toList();
 
         List<FilterEnvironment> currentEnvironments = new ArrayList<>();

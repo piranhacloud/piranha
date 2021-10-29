@@ -29,9 +29,7 @@
 
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.impl.DefaultModuleReader;
 import cloud.piranha.resource.api.Resource;
-
 import java.io.IOException;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleReader;

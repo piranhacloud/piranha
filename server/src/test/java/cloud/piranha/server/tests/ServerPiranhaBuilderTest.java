@@ -44,7 +44,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServerPiranhaBuilderTest {
+class ServerPiranhaBuilderTest {
 
     /**
      * Test build method.
@@ -52,7 +52,7 @@ public class ServerPiranhaBuilderTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testBuild() throws Exception {
+    void testBuild() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
                 .webAppsDir("src/test/server/build")
                 .build();
@@ -71,7 +71,7 @@ public class ServerPiranhaBuilderTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testHttpPort() throws Exception {
+    void testHttpPort() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
                 .httpPort(8118)
                 .build();
@@ -90,7 +90,7 @@ public class ServerPiranhaBuilderTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testHttpPort2() throws Exception {
+    void testHttpPort2() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
                 .httpPort(-1)
                 .httpsPort(8043)
@@ -111,7 +111,7 @@ public class ServerPiranhaBuilderTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testHttpsPort() throws Exception {
+    void testHttpsPort() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
                 .ssl(true)
                 .sslKeystoreFile("src/main/zip/etc/keystore.jks")

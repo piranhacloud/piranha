@@ -49,8 +49,8 @@ public class DefaultHttpRequestManager implements HttpRequestManager {
 
     @Override
     public <T extends EventListener> void addListener(T listener) {
-        if (listener instanceof ServletRequestAttributeListener) {
-            attributeListeners.add((ServletRequestAttributeListener) listener);
+        if (listener instanceof ServletRequestAttributeListener attributeListener) {
+            attributeListeners.add(attributeListener);
         }
     }
 

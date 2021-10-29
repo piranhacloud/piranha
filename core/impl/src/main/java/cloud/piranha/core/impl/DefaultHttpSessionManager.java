@@ -316,7 +316,11 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
 
     @Override
     public boolean hasSession(String sessionId) {
-        return sessionId != null ? sessions.containsKey(sessionId) : false;
+        boolean result = false;
+        if (sessionId != null) {
+            result = sessions.containsKey(sessionId);
+        }
+        return result;
     }
 
     @Override
