@@ -44,4 +44,5 @@ module cloud.piranha.http.tests {
     requires java.net.http;
     requires static org.junit.jupiter.api;
     requires static org.apiguardian.api;
+    requires free.port.finder;
 }

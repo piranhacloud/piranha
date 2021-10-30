@@ -48,6 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+import me.alexpanov.net.FreePortFinder;
 
 /**
  * An abstract JUnit test for any HttpServer implementation.
@@ -98,7 +99,8 @@ public abstract class HttpServerTest {
      */
     @Test
     void testAddHeader() {
-        HttpServer server = createServer(8765,
+        int port = findPort();
+        HttpServer server = createServer(port,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
@@ -124,7 +126,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8765")).header("name", "value1").build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port)).header("name", "value1").build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -144,11 +146,12 @@ public abstract class HttpServerTest {
      */
     @Test
     void testFile() throws Exception {
-        HttpServer server = createServer(8764);
+        int port = findPort();
+        HttpServer server = createServer(port);
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8764/pom.xml")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/pom.xml")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String responseText = response.body();
@@ -167,11 +170,12 @@ public abstract class HttpServerTest {
      */
     @Test
     void testFileNotFound() throws Exception {
-        HttpServer server = createServer(8763);
+        int port = findPort();
+        HttpServer server = createServer(port);
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8763/this_is_certainly_not_there")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/this_is_certainly_not_there")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
             assertEquals(404, response.statusCode());
         } catch (IOException ioe) {
@@ -186,7 +190,8 @@ public abstract class HttpServerTest {
      */
     @Test
     void testGetLocalAddress() {
-        HttpServer server = createServer(8762,
+        int port = findPort();
+        HttpServer server = createServer(port,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
@@ -206,7 +211,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8762")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port)).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -223,7 +228,8 @@ public abstract class HttpServerTest {
      */
     @Test
     void testGetQueryParameter() {
-        HttpServer server = createServer(8761,
+        int port = findPort();
+        HttpServer server = createServer(port,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
@@ -243,7 +249,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8761/?name=value")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/?name=value")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -260,7 +266,8 @@ public abstract class HttpServerTest {
      */
     @Test
     void testGetQueryParameter2() {
-        HttpServer server = createServer(8760,
+        int port = findPort();
+        HttpServer server = createServer(port,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
@@ -280,7 +287,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8760/?name=value&name=value2")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/?name=value&name=value2")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -298,7 +305,8 @@ public abstract class HttpServerTest {
      */
     @Test
     void testGetQueryString() {
-        HttpServer server = createServer(8759,
+        int port = findPort();
+        HttpServer server = createServer(port,
                 (HttpServerRequest request, HttpServerResponse response) -> {
                     try {
                         response.setStatus(200);
@@ -318,7 +326,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8759/?name=value")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/?name=value")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -337,11 +345,12 @@ public abstract class HttpServerTest {
      */
     @Test
     void testProcessing() throws Exception {
-        HttpServer server = createServer(8758);
+        int port = findPort();
+        HttpServer server = createServer(port);
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8758")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port)).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
             assertEquals(200, response.statusCode());
         } catch (IOException ioe) {
@@ -358,11 +367,12 @@ public abstract class HttpServerTest {
      */
     @Test
     void testProcessing2() throws Exception {
-        HttpServer server = createServer(8757);
+        int port = findPort();
+        HttpServer server = createServer(port);
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8757")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port)).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
             assertEquals(200, response.statusCode());
         } catch (IOException ioe) {
@@ -379,7 +389,8 @@ public abstract class HttpServerTest {
      */
     @Test
     void testStartAndStop() throws Exception {
-        HttpServer server = createServer(8756);
+        int port = findPort();
+        HttpServer server = createServer(port);
         server.start();
         assertTrue(server.isRunning());
         server.stop();
@@ -393,10 +404,11 @@ public abstract class HttpServerTest {
      */
     @Test
     void testRequestHTTP10() throws Exception {
-        HttpServer server = createServer(8755, HttpServerTest::returnProtocol);
+        int port = findPort();
+        HttpServer server = createServer(port, HttpServerTest::returnProtocol);
         server.start();
-        try ( Socket socket = new Socket("localhost", 8755);  OutputStream outputStream = socket.getOutputStream()) {
-            outputStream.write("GET / HTTP/1.0\r\nHost: localhost:8755\r\n\r\n".getBytes(StandardCharsets.UTF_8));
+        try ( Socket socket = new Socket("localhost", port);  OutputStream outputStream = socket.getOutputStream()) {
+            outputStream.write(("GET / HTTP/1.0\r\nHost: localhost:" + port + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             InputStream inputStream = socket.getInputStream();
             ByteArrayOutputStream response = new ByteArrayOutputStream();
@@ -414,11 +426,12 @@ public abstract class HttpServerTest {
      */
     @Test
     void testRequestHTTP11() throws Exception {
-        HttpServer server = createServer(8754, HttpServerTest::returnProtocol);
+        int port = findPort();
+        HttpServer server = createServer(port, HttpServerTest::returnProtocol);
         server.start();
 
-        try ( Socket socket = new Socket("localhost", 8754);  OutputStream outputStream = socket.getOutputStream()) {
-            outputStream.write("GET / HTTP/1.1\r\nHost: localhost:8754\r\n\r\n".getBytes(StandardCharsets.UTF_8));
+        try ( Socket socket = new Socket("localhost", port);  OutputStream outputStream = socket.getOutputStream()) {
+            outputStream.write(("GET / HTTP/1.1\r\nHost: localhost:" + port + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             InputStream inputStream = socket.getInputStream();
             ByteArrayOutputStream response = new ByteArrayOutputStream();
@@ -449,5 +462,9 @@ public abstract class HttpServerTest {
         } catch (IOException ioe) {
         }
         return COMPLETED;
+    }
+
+    private static int findPort() {
+        return FreePortFinder.findFreeLocalPort();
     }
 }
