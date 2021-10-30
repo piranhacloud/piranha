@@ -72,6 +72,11 @@ public class ServerPiranhaBuilder {
      * Stores the SSL keystore password.
      */
     private String sslKeystorePassword;
+    
+    /**
+     * Stores the verbose flag.
+     */
+    private boolean verbose = false;
 
     /**
      * Stores the web applications directory.
@@ -84,6 +89,9 @@ public class ServerPiranhaBuilder {
      * @return the server.
      */
     public ServerPiranha build() {
+        if (verbose) {
+            showArguments();
+        }
         ServerPiranha piranha = new ServerPiranha();
         piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
@@ -145,6 +153,39 @@ public class ServerPiranhaBuilder {
     }
 
     /**
+     * Show the arguments used.
+     */
+    private void showArguments() {
+        System.out.printf(
+                """
+                
+                PIRANHA SERVER
+                
+                Arguments
+                =========
+                
+                Exit on stop          : %s
+                HTTP port             : %s
+                HTTPS port            : %s
+                JPMS enabled          : %s
+                SSL enabled           : %s
+                SSL keystore file     : %s
+                SSK keystore password : ****
+                Web applications dir  : %s
+                
+                """,
+                new Object[] {
+                    exitOnStop,
+                    httpPort,
+                    httpsPort,
+                    jpms,
+                    ssl,
+                    sslKeystoreFile,
+                    webAppsDir,
+                });
+    }
+
+    /**
      * Enable SSL.
      *
      * @param ssl the SSL flag.
@@ -174,6 +215,17 @@ public class ServerPiranhaBuilder {
      */
     public ServerPiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
         this.sslKeystorePassword = sslKeystorePassword;
+        return this;
+    }
+
+    /**
+     * Set the verbose flag.
+     * 
+     * @param verbose the verbose flag.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder verbose(boolean verbose) {
+        this.verbose = verbose;
         return this;
     }
 

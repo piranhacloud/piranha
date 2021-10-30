@@ -33,14 +33,19 @@ package cloud.piranha.server;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class ServerBootstrap {
-
+    
     /**
      * Main method.
      *
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        new ServerBootstrap().processArguments(arguments).build().start();
+        ServerPiranhaBuilder builder = new ServerBootstrap().processArguments(arguments);
+        if (builder != null) {
+            builder.build().start();
+        } else {
+            showHelp();
+        }
     }
 
     /**
@@ -53,7 +58,7 @@ public class ServerBootstrap {
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--help")) {
-                    showHelp();
+                    return null;
                 }
                 if (arguments[i].equals("--http-port")) {
                     builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
@@ -73,6 +78,9 @@ public class ServerBootstrap {
                 if (arguments[i].equals("--ssl-keystore-password")) {
                     builder = builder.sslKeystorePassword(arguments[i + 1]);
                 }
+                if (arguments[i].equals("--verbose")) {
+                    builder = builder.verbose(true);
+                }
                 if (arguments[i].equals("--webapps-dir")) {
                     builder = builder.webAppsDir(arguments[i + 1]);
                 }
@@ -84,7 +92,7 @@ public class ServerBootstrap {
     /**
      * Show help.
      */
-    private void showHelp() {
+    private static void showHelp() {
         System.out.println(
                 """
                   --help                  - Show this help
@@ -96,6 +104,5 @@ public class ServerBootstrap {
                   --ssl-keystore-password - Set the SSL keystore file
                   --webapps-dir           - Set the webapp directory
                 """);
-        System.exit(0);
     }
 }
