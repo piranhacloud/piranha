@@ -157,7 +157,7 @@ public class DefaultSecurityManager implements SecurityManager {
         boolean result = false;
 
         if (request.getRemoteUser() != null) {
-            String foundRoles[] = userRoles.get(request.getRemoteUser());
+            String[] foundRoles= userRoles.get(request.getRemoteUser());
             if (foundRoles != null) {
                 for (String foundRole : foundRoles) {
                     if (foundRole.equals(role)) {
