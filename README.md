@@ -3,6 +3,7 @@
 # Piranha Project
 
 ![build status](https://github.com/piranhacloud/piranha/workflows/build/badge.svg)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=piranhacloud_piranha)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=coverage)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
