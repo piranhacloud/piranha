@@ -43,14 +43,6 @@ import static jakarta.servlet.DispatcherType.ERROR;
 import static jakarta.servlet.DispatcherType.FORWARD;
 import static jakarta.servlet.DispatcherType.INCLUDE;
 import jakarta.servlet.RequestDispatcher;
-import static jakarta.servlet.RequestDispatcher.FORWARD_REQUEST_URI;
-import static jakarta.servlet.RequestDispatcher.FORWARD_SERVLET_PATH;
-import static jakarta.servlet.RequestDispatcher.INCLUDE_CONTEXT_PATH;
-import static jakarta.servlet.RequestDispatcher.INCLUDE_MAPPING;
-import static jakarta.servlet.RequestDispatcher.INCLUDE_PATH_INFO;
-import static jakarta.servlet.RequestDispatcher.INCLUDE_QUERY_STRING;
-import static jakarta.servlet.RequestDispatcher.INCLUDE_REQUEST_URI;
-import static jakarta.servlet.RequestDispatcher.INCLUDE_SERVLET_PATH;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletRequestWrapper;
@@ -251,7 +243,9 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             HttpServletRequest originalRequest = unwrap(servletRequest, HttpServletRequest.class);
 
             // Change the underlying request if the request was wrapped
-            ServletRequestWrapper wrapper = servletRequest instanceof ServletRequestWrapper ? getLastWrapper((ServletRequestWrapper) servletRequest) : new HttpServletRequestWrapper(originalRequest);
+            ServletRequestWrapper wrapper = (servletRequest instanceof ServletRequestWrapper wrapped)
+                    ? getLastWrapper(wrapped) 
+                    : new HttpServletRequestWrapper(originalRequest);
             wrapper.setRequest(includedRequest);
 
             includedRequest.setWebApplication(servletEnvironment.getWebApplication());
@@ -322,8 +316,8 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     private ServletRequestWrapper getLastWrapper(ServletRequestWrapper wrapper) {
         ServletRequestWrapper currentWrapper = wrapper;
         ServletRequest currentRequest = wrapper;
-        while (currentRequest instanceof ServletRequestWrapper) {
-            currentWrapper = (ServletRequestWrapper) currentRequest;
+        while (currentRequest instanceof ServletRequestWrapper wrapped) {
+            currentWrapper = wrapped;
             currentRequest = currentWrapper.getRequest();
         }
 
