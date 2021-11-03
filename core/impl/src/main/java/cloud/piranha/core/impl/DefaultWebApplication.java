@@ -27,11 +27,6 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.impl.DefaultObjectInstanceManager;
-import cloud.piranha.core.impl.DefaultLoggingManager;
-import cloud.piranha.core.impl.DefaultLocaleEncodingManager;
-import cloud.piranha.core.impl.DefaultJspFileManager;
-import cloud.piranha.core.impl.DefaultHttpRequestManager;
 import cloud.piranha.core.impl.DefaultFilterEnvironment;
 import cloud.piranha.core.impl.DefaultErrorPageManager;
 import cloud.piranha.core.impl.DefaultAuthenticationManager;

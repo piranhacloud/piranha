@@ -553,9 +553,9 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         if (servletRequest instanceof AsyncHttpDispatchWrapper
                 || servletRequest instanceof AsyncNonHttpDispatchWrapper) {
 
-            if (servletRequest instanceof AsyncHttpDispatchWrapper) {
+            if (servletRequest instanceof AsyncHttpDispatchWrapper wrapper) {
                 // The caller provided or let us default to an HttpServletRequest
-                asyncHttpForward((AsyncHttpDispatchWrapper) servletRequest, servletResponse);
+                asyncHttpForward(wrapper, servletResponse);
                 return;
             }
 
@@ -734,24 +734,24 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         while (currentRequest instanceof ServletRequestWrapper wrapper) {
             currentRequest = wrapper.getRequest();
 
-            if (currentRequest instanceof HttpServletRequest) {
-                return (HttpServletRequest) currentRequest;
+            if (currentRequest instanceof HttpServletRequest httpServletRequest) {
+                return httpServletRequest;
             }
         }
         return null;
     }
 
     private void rethrow(Throwable exception) throws ServletException, IOException {
-        if (exception instanceof ServletException) {
-            throw (ServletException) exception;
+        if (exception instanceof ServletException servletException) {
+            throw servletException;
         }
 
-        if (exception instanceof IOException) {
-            throw (IOException) exception;
+        if (exception instanceof IOException ioException) {
+            throw ioException;
         }
 
-        if (exception instanceof RuntimeException) {
-            throw (RuntimeException) exception;
+        if (exception instanceof RuntimeException runtimeException) {
+            throw runtimeException;
         }
 
         throw new IllegalStateException(exception);
