@@ -25,42 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.nano;
+package cloud.piranha.http.webapp;
 
+import cloud.piranha.core.api.Piranha;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerProcessorEndState;
 import static cloud.piranha.http.api.HttpServerProcessorEndState.COMPLETED;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.http.api.HttpServerResponse;
-import cloud.piranha.http.webapp.HttpWebApplicationRequest;
-import cloud.piranha.http.webapp.HttpWebApplicationResponse;
-import cloud.piranha.nano.NanoPiranha;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.ERROR;
 
 /**
- * The Piranha Nano HttpServerProcessor.
+ * The Web Application HttpServerProcessor.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoHttpServerProcessor implements HttpServerProcessor {
+public class HttpWebApplicationServerProcessor implements HttpServerProcessor {
     
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(NanoHttpServerProcessor.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(HttpWebApplicationServerProcessor.class.getPackageName());
 
     /**
-     * Stores the Piranha Nano instance.
+     * Stores the Piranha instance.
      */
-    private final NanoPiranha piranha;
+    private final Piranha piranha;
 
     /**
      * Constructor.
-     * 
-     * @param piranha the Piranha Nano instance.
+     *
+     * @param piranha the Piranha instance.
      */
-    public NanoHttpServerProcessor(NanoPiranha piranha) {
+    public HttpWebApplicationServerProcessor(Piranha piranha) {
         this.piranha = piranha;
     }
 
