@@ -27,10 +27,6 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.impl.DefaultFilterEnvironment;
-import cloud.piranha.core.impl.DefaultErrorPageManager;
-import cloud.piranha.core.impl.DefaultAuthenticationManager;
-import cloud.piranha.core.impl.DefaultAsyncManager;
 import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.api.ResourceManager;
@@ -52,11 +48,6 @@ import static cloud.piranha.core.api.ServletEnvironment.UNAVAILABLE;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequestMapper;
 import cloud.piranha.core.api.WelcomeFileManager;
-import cloud.piranha.core.impl.DefaultAnnotationManager;
-import cloud.piranha.core.impl.DefaultHttpSession;
-import cloud.piranha.core.impl.DefaultHttpSessionManager;
-import cloud.piranha.core.impl.DefaultMultiPartManager;
-import cloud.piranha.core.impl.DefaultSecurityManager;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterRegistration;
@@ -490,7 +481,7 @@ public class DefaultWebApplication implements WebApplication {
         }
 
         if (listener instanceof ServletContextListener servletContextListener) {
-            if (source != null && source instanceof ServletContainerInitializer == false) {
+            if (source != null && !(source instanceof ServletContainerInitializer)) {
                 throw new IllegalArgumentException("Illegal to add ServletContextListener because this context was not passed to a ServletContainerInitializer");
             }
 
