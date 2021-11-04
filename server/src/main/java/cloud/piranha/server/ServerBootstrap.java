@@ -97,7 +97,7 @@ public class ServerBootstrap {
                   --http-port             - Set the HTTP port (use -1 to disable)
                   --https-port            - Set the HTTPS port
                   --jmps                  - Enable Java Platform Module System
-                  --ssl-keystore-file     - Set the SSL keystore file
+                  --ssl-keystore-file     - Set the SSL keystore file (applies to the whole JVM)
                   --ssl-keystore-password - Set the SSL keystore password
                   --webapps-dir           - Set the webapp directory
                 """);

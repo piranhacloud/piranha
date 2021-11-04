@@ -21,29 +21,18 @@ fi
 
 echo ${DEBUG_OPTIONS}
 
-
-#
-# Turn SSL on.
-#
-# SSL_ON=--ssl
-
 #
 # Set the SSL debug mode which is useful for debugging SSL connections.
 #
 # SSL_DEBUG=-Djavax.net.debug=ssl
 
 #
-# Set the key store to use.
-#
-# SSL_KEY_STORE=-Djavax.net.ssl.keyStore=etc/keystore.jks
-
-#
 # Set the key store password to use.
 #
 # SSL_KEY_STORE_PASSWORD=-Djavax.net.ssl.keyStorePassword=password
 
-${JAVA_BIN} ${DEBUG_OPTIONS} ${JAVA_ARGS} ${SSL_DEBUG} ${SSL_KEY_STORE} ${SSL_KEY_STORE_PASSWORD} \
+${JAVA_BIN} ${DEBUG_OPTIONS} ${JAVA_ARGS} ${SSL_DEBUG} ${SSL_KEY_STORE_PASSWORD} \
   -Djava.util.logging.config.file=etc/logging.properties -jar \
-  lib/piranha-server.jar ${SSL_ON} &
+  lib/piranha-server.jar $* &
 
 echo $! >> tmp/piranha.pid
