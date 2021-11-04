@@ -113,7 +113,6 @@ class ServerPiranhaBuilderTest {
     @Test
     void testHttpsPort() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
-                .ssl(true)
                 .sslKeystoreFile("src/main/zip/etc/keystore.jks")
                 .sslKeystorePassword("password")
                 .httpPort(8228)

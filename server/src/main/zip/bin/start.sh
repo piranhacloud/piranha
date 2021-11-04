@@ -21,12 +21,6 @@ if [[ "$*" == *"--suspend"* ]]; then
     JAVA_ARGS="${JAVA_ARGS} -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:9009"
 fi
 
-
-#
-# Turn SSL on.
-#
-# SSL_ON=--ssl
-
 #
 # Set the SSL debug mode which is useful for debugging SSL connections.
 #
@@ -44,7 +38,7 @@ fi
 
 CMD="${JAVA_BIN} ${JAVA_ARGS} ${SSL_DEBUG} ${SSL_KEY_STORE} ${SSL_KEY_STORE_PASSWORD} \
   -Djava.util.logging.config.file=etc/logging.properties \
-  ${INIT_OPTIONS} ${SSL_ON}"
+  ${INIT_OPTIONS} $*"
 
 echo Starting Piranha using command: ${CMD}
 

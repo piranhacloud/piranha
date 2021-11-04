@@ -51,17 +51,12 @@ public class ServerPiranhaBuilder {
     /**
      * Stores the HTTPS port.
      */
-    private int httpsPort = 8043;
+    private int httpsPort = -1;
 
     /**
      * Stores the JPMS flag.
      */
     private boolean jpms = false;
-
-    /**
-     * Stores the SSL flag.
-     */
-    private boolean ssl = false;
     
     /**
      * Stores the SSL keystore file.
@@ -97,7 +92,6 @@ public class ServerPiranhaBuilder {
         piranha.setHttpPort(httpPort);
         piranha.setHttpsPort(httpsPort);
         piranha.setJpmsEnabled(jpms);
-        piranha.setSslEnabled(ssl);
         if (sslKeystoreFile != null) {
             piranha.setSslKeystoreFile(sslKeystoreFile);
         }
@@ -168,7 +162,6 @@ public class ServerPiranhaBuilder {
                 HTTP port             : %s
                 HTTPS port            : %s
                 JPMS enabled          : %s
-                SSL enabled           : %s
                 SSL keystore file     : %s
                 SSK keystore password : ****
                 Web applications dir  : %s
@@ -179,21 +172,9 @@ public class ServerPiranhaBuilder {
                     httpPort,
                     httpsPort,
                     jpms,
-                    ssl,
                     sslKeystoreFile,
                     webAppsDir,
                 });
-    }
-
-    /**
-     * Enable SSL.
-     *
-     * @param ssl the SSL flag.
-     * @return the builder.
-     */
-    public ServerPiranhaBuilder ssl(boolean ssl) {
-        this.ssl = ssl;
-        return this;
     }
 
     /**

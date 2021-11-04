@@ -69,9 +69,6 @@ public class ServerBootstrap {
                 if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
                 }
-                if (arguments[i].equals("--ssl")) {
-                    builder = builder.ssl(true);
-                }
                 if (arguments[i].equals("--ssl-keystore-file")) {
                     builder = builder.sslKeystoreFile(arguments[i + 1]);
                 }
@@ -93,15 +90,15 @@ public class ServerBootstrap {
      * Show help.
      */
     private static void showHelp() {
+        System.out.println();
         System.out.println(
                 """
                   --help                  - Show this help
                   --http-port             - Set the HTTP port (use -1 to disable)
                   --https-port            - Set the HTTPS port
                   --jmps                  - Enable Java Platform Module System
-                  --ssl                   - Enable TLS/SSL
                   --ssl-keystore-file     - Set the SSL keystore file
-                  --ssl-keystore-password - Set the SSL keystore file
+                  --ssl-keystore-password - Set the SSL keystore password
                   --webapps-dir           - Set the webapp directory
                 """);
     }

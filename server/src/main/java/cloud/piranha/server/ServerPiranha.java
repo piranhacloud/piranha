@@ -114,11 +114,6 @@ public class ServerPiranha implements Piranha, Runnable {
     private boolean jpmsEnabled = false;
 
     /**
-     * Stores the SSL enabled flag.
-     */
-    private boolean sslEnabled = false;
-
-    /**
      * Stores the thread we use.
      */
     private Thread thread;
@@ -207,7 +202,7 @@ public class ServerPiranha implements Piranha, Runnable {
             httpServer.start();
         }
 
-        if (sslEnabled) {
+        if (httpsPort > 0) {
             httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
             httpsServer.setHttpServerProcessor(webApplicationServer);
             httpsServer.setServerPort(httpsPort);
@@ -283,7 +278,7 @@ public class ServerPiranha implements Piranha, Runnable {
                 if (httpServer != null) {
                     httpServer.stop();
                 }
-                if (sslEnabled) {
+                if (httpsServer != null) {
                     httpsServer.stop();
                 }
             }
@@ -353,15 +348,6 @@ public class ServerPiranha implements Piranha, Runnable {
      */
     public void setJpmsEnabled(boolean jpmsEnabled) {
         this.jpmsEnabled = jpmsEnabled;
-    }
-
-    /**
-     * Enable/disable SSL.
-     *
-     * @param sslEnabled the SSL enabled flag.
-     */
-    public void setSslEnabled(boolean sslEnabled) {
-        this.sslEnabled = sslEnabled;
     }
 
     /**
