@@ -26,12 +26,7 @@ fi
 #
 # SSL_DEBUG=-Djavax.net.debug=ssl
 
-#
-# Set the key store password to use.
-#
-# SSL_KEY_STORE_PASSWORD=-Djavax.net.ssl.keyStorePassword=password
-
-CMD="${JAVA_BIN} ${JAVA_ARGS} ${SSL_DEBUG} ${SSL_KEY_STORE_PASSWORD} \
+CMD="${JAVA_BIN} ${JAVA_ARGS} ${SSL_DEBUG} \
   -Djava.util.logging.config.file=etc/logging.properties \
   ${INIT_OPTIONS} $*"
 

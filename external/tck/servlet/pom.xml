@@ -184,10 +184,10 @@
                                         
                                         <!-- Start the server -->
                                         <exec executable="${piranha.home}/bin/start.sh" dir="${piranha.home}/bin">
-                                            <env key="SSL_KEY_STORE_PASSWORD" value="-Djavax.net.ssl.keyStorePassword=password"/>
                                             <arg value="--suspend" if:set="suspend" />
                                             <arg value="--https-port 8443"/> 
                                             <arg value="--ssl-keystore-file etc/keystore.jks"/>
+                                            <arg value="--ssl-keystore-password password"/>
                                         </exec>
                                         
                                         <!-- Give the server some time to settle down -->

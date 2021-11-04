@@ -33,7 +33,7 @@ package cloud.piranha.server;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class ServerBootstrap {
-    
+
     /**
      * Main method.
      *
@@ -93,13 +93,15 @@ public class ServerBootstrap {
         System.out.println();
         System.out.println(
                 """
-                  --help                  - Show this help
-                  --http-port             - Set the HTTP port (use -1 to disable)
-                  --https-port            - Set the HTTPS port
-                  --jmps                  - Enable Java Platform Module System
-                  --ssl-keystore-file     - Set the SSL keystore file (applies to the whole JVM)
-                  --ssl-keystore-password - Set the SSL keystore password
-                  --webapps-dir           - Set the webapp directory
+                  --help                           - Show this help
+                  --http-port <integer>            - Set the HTTP port (use -1 to disable)
+                  --https-port <integer>           - Set the HTTPS port (disabled by default)
+                  --jpms                           - Enable Java Platform Module System
+                  --ssl-keystore-file <file>       - Set the SSL keystore file (applies to the
+                                                     whole JVM)
+                  --ssl-keystore-password <string> - Set the SSL keystore password (applies to
+                                                     the whole JVM)
+                  --webapps-dir <directory>        - Set the web applications directory
                 """);
     }
 }

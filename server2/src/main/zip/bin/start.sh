@@ -26,12 +26,7 @@ echo ${DEBUG_OPTIONS}
 #
 # SSL_DEBUG=-Djavax.net.debug=ssl
 
-#
-# Set the key store password to use.
-#
-# SSL_KEY_STORE_PASSWORD=-Djavax.net.ssl.keyStorePassword=password
-
-${JAVA_BIN} ${DEBUG_OPTIONS} ${JAVA_ARGS} ${SSL_DEBUG} ${SSL_KEY_STORE_PASSWORD} \
+${JAVA_BIN} ${DEBUG_OPTIONS} ${JAVA_ARGS} ${SSL_DEBUG} \
   -Djava.util.logging.config.file=etc/logging.properties -jar \
   lib/piranha-server.jar $* &
 
