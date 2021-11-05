@@ -9,25 +9,126 @@
         <version>21.11.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cloud.piranha.test.server</groupId>
-    <artifactId>project</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>test-server-standard</artifactId>
+    <packaging>jar</packaging>
 
-    <name>Piranha Test - Server - Project</name>
+    <name>Piranha Test - Piranha Server Standard</name>
+    <description>
+        This project tests the Piranha Server Standard zip bundle.
+    </description>
 
-    <modules>
-        <module>helloworld</module>
-        <module>snoop</module>
-        <module>mojarra</module>
-    </modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
+        <!-- test -->
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-server</artifactId>
+            <groupId>cloud.piranha.server</groupId>
+            <artifactId>piranha-server-standard</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.test.webapp</groupId>
+            <artifactId>test-webapp-helloworld</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
-            <type>zip</type>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>post-integration-test</phase>
+                        <configuration>
+                            <target>
+                                <delete file="${project.build.directory}/piranha-server.zip"/>
+                                <delete dir="${project.build.directory}/piranha"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-install</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>cloud.piranha.server</groupId>
+                                    <artifactId>piranha-server-standard</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>cloud.piranha.test.webapp</groupId>
+                                    <artifactId>test-webapp-helloworld</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>war</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}/piranha/webapps</outputDirectory>
+                                    <destFileName>helloworld.war</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

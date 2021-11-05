@@ -25,64 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package test.server.mojarra;
+package tests;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import java.io.File;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.util.concurrent.TimeUnit;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
- * The integration tests for the Mojarra web application.
+ * The integration tests for the HelloWorld web application.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class MojarraIT {
+public class HelloWorldIT {
 
     /**
-     * Stores the web client.
-     */
-    private WebClient webClient;
-
-    /**
-     * Cleanup after tests.
+     * Test getting index.html page.
      *
      * @throws Exception when a serious error occurs.
      */
-    @AfterAll
-    public static void afterAll() throws Exception {
-        /*
-        File pidFile = new File("target/piranha/tmp/piranha.pid");
-        if (pidFile.exists()) {
-            pidFile.delete();
-        }
-        Thread.sleep(5000);
-        */
-    }
-
-    /**
-     * Cleanup after each test.
-     */
-    @AfterEach
-    public void afterEach() {
-        webClient.close();
-    }
-
-    /**
-     * Setup before all tests.
-     *
-     * @throws Exception when an error occurs.
-     */
-    @BeforeAll
-    public static void beforeAll() throws Exception {
-        /*
+    @Test
+    void testIndexHtml() throws Exception {
         ProcessBuilder builder = new ProcessBuilder();
         Process process;
 
@@ -92,32 +62,36 @@ public class MojarraIT {
                     command("start.cmd").
                     start();
         } else {
-            process = builder.
-                    directory(new File("target/piranha/bin")).
-                    command("sh", "./start.sh").
-                    start();
+            process = builder
+                    .directory(new File("target/piranha/bin"))
+                    .command("/bin/bash", "-c", "./run.sh")
+                    .start();
         }
+        
         process.waitFor(5, TimeUnit.SECONDS);
-        */
-    }
 
-    /**
-     * Setup before each test.
-     */
-    @BeforeEach
-    public void beforeEach() {
-        webClient = new WebClient();
-    }
+        if (process.isAlive()) {
 
-    /**
-     * Test getting index.html page.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    @Disabled
-    void testIndexHtml() throws Exception {
-        HtmlPage page = webClient.getPage("http://localhost:8080/mojarra/index.xhtml");
-        assertTrue(page.asXml().contains("<body>Hello Mojarra</body>"));
+            HttpRequest request = HttpRequest
+                    .newBuilder(new URI("http://localhost:8080/helloworld/index.html"))
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = HttpClient
+                    .newHttpClient()
+                    .send(request, BodyHandlers.ofString());
+
+            assertEquals(response.statusCode(), 200);
+            assertTrue(response.body().contains("Hello World!"));
+
+            File pidFile = new File("target/piranha/tmp/piranha.pid");
+            if (pidFile.exists()) {
+                pidFile.delete();
+            }
+            
+            Thread.sleep(5000);
+        } else {
+            fail("Piranha server did not start!");
+        }
     }
 }

@@ -1,4 +1,4 @@
-FROM eclipse-temurin:16
+FROM eclipse-temurin:17
 ADD target/piranha-server.tar.gz /usr/local/
 WORKDIR /usr/local/piranha/bin
-CMD ["sh", "run.sh"]
+CMD ["/bin/bash", "./run.sh"]
