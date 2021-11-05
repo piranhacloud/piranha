@@ -151,7 +151,7 @@
                             <transformers>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>cloud.piranha.micro.MicroPiranha</mainClass>
+                                    <mainClass>cloud.piranha.micro.MicroBootstrap</mainClass>
                                 </transformer>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />

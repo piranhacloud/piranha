@@ -44,7 +44,7 @@ import cloud.piranha.micro.loader.MicroOuterDeployer;
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
  */
-public class MicroPiranha implements Runnable {
+public class MicroBootstrap implements Runnable {
 
     /**
      * The HTTP port on which Piranha accepts requests
@@ -72,7 +72,7 @@ public class MicroPiranha implements Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        MicroPiranha runner = new MicroPiranha();
+        MicroBootstrap runner = new MicroBootstrap();
         runner.configure(arguments);
         runner.run();
         while (true) {
