@@ -1008,6 +1008,7 @@ public class DefaultWebApplication implements WebApplication {
 
         return collect;
     }
+
     /**
      * {@return the resource paths}
      * @param path the path.
@@ -1807,9 +1808,11 @@ public class DefaultWebApplication implements WebApplication {
      * @return true if it is, false otherwise.
      */
     private boolean isPermanentlyUnavailable(DefaultServletEnvironment environment) {
-        return
-            environment.getUnavailableException() instanceof UnavailableException && ((UnavailableException)
-            environment.getUnavailableException()).isPermanent();
+        boolean permanent = false;
+        if (environment.getUnavailableException() instanceof UnavailableException ue) {
+            permanent = ue.isPermanent();
+        }
+        return permanent;
     }
 
     /**

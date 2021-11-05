@@ -628,7 +628,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                 String mergedQueryString = mergeQueryFromAttributes();
                 if (mergedQueryString != null) {
                     for (String param : mergedQueryString.split("&")) {
-                        String pair[] = param.split("=");
+                        String[] pair = param.split("=");
                         String key = URLDecoder.decode(pair[0], UTF_8);
                         String value = "";
                         if (pair.length > 1) {
@@ -1377,8 +1377,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         asyncStarted = true;
 
         Object previousAttribute = request.getAttribute(PREVIOUS_REQUEST);
-        while (previousAttribute instanceof HttpServletRequest) {
-            HttpServletRequest previousRequest = unwrap((HttpServletRequest) previousAttribute, HttpServletRequest.class);
+        while (previousAttribute instanceof HttpServletRequest httpServletRequest) {
+            HttpServletRequest previousRequest = unwrap(httpServletRequest, HttpServletRequest.class);
 
             if (previousRequest instanceof DefaultWebApplicationRequest defaultRequest) {
                 defaultRequest.setAsyncStarted(true);

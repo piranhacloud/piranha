@@ -37,7 +37,6 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.WriteListener;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import static jakarta.servlet.http.HttpServletResponse.SC_FOUND;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
