@@ -25,7 +25,7 @@
         <!-- test -->
         <dependency>
             <groupId>cloud.piranha.server</groupId>
-            <artifactId>piranha-server</artifactId>
+            <artifactId>piranha-server-standard</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
             <scope>test</scope>
