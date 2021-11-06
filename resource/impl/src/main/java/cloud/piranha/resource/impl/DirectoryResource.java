@@ -25,55 +25,57 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl;
 
-import cloud.piranha.resource.api.Resource;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import cloud.piranha.resource.api.Resource;
+
 /**
- * The default PrefixJarResource.
+ * The default DirectoryResource.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PrefixJarResource implements Resource {
+public class DirectoryResource implements Resource {
 
     /**
-     * Stores the JAR file.
+     * Stores the root directory.
      */
-    private JarFile jarFile;
-
-    /**
-     * Stores the prefix.
-     */
-    private String prefix;
+    private File rootDirectory;
 
     /**
      * Constructor.
      */
-    public PrefixJarResource() {
-        this.jarFile = null;
-        this.prefix = null;
+    public DirectoryResource() {
+    }
+    
+    /**
+     * Constructor.
+     *
+     * @param rootDirectory the root directory.
+     */
+    public DirectoryResource(String rootDirectory) {
+        this (new File(rootDirectory));
     }
 
     /**
      * Constructor.
      *
-     * @param jarFile the JAR file.
-     * @param prefix the prefix.
+     * @param rootDirectory the root directory.
      */
-    public PrefixJarResource(JarFile jarFile, String prefix) {
-        this.jarFile = jarFile;
-        if (!prefix.endsWith("/")) {
-            this.prefix = prefix + "/";
-        } else {
-            this.prefix = prefix;
-        }
+    public DirectoryResource(File rootDirectory) {
+        this.rootDirectory = rootDirectory;
     }
 
     /**
@@ -82,20 +84,21 @@ public class PrefixJarResource implements Resource {
     @Override
     public URL getResource(String location) {
         URL result = null;
-        try {
-            location = prefix + location;
-            JarEntry jarEntry = jarFile.getJarEntry(location);
-            if (jarEntry != null) {
-                result = new URL("jar://" + jarFile.getName() + "#!/" + location);
+
+        if (location != null) {
+            File file = new File(rootDirectory, location);
+            if (file.exists()) {
+                try {
+                    result = new URL(file.toURI().toString());
+                } catch (MalformedURLException exception) {
+                }
             }
-        } catch (MalformedURLException use) {
         }
+
         return result;
     }
 
     /**
-     * Get the resource as a stream.
-     *
      * @param location the resource location.
      * @return the input stream, or null if not found.
      * @see Resource#getResourceAsStream(java.lang.String)
@@ -103,60 +106,50 @@ public class PrefixJarResource implements Resource {
     @Override
     public InputStream getResourceAsStream(String location) {
         InputStream result = null;
-        location = prefix + location;
-        JarEntry jarEntry = jarFile.getJarEntry(location);
-        if (jarEntry != null) {
-            try {
-                result = jarFile.getInputStream(jarEntry);
-            } catch (IOException ioe) {
-            }
+        File file = new File(rootDirectory, location);
+
+        try {
+            result = new FileInputStream(file);
+        } catch (FileNotFoundException exception) {
         }
+
         return result;
     }
     
     @Override
     public Stream<String> getAllLocations() {
-        return Stream.empty();
-    }
-
-    /**
-     * {@return the JAR file}
-     */
-    public JarFile getJarFile() {
-        return this.jarFile;
-    }
-
-    /**
-     * {@return the prefix}
-     */
-    public String getPrefix() {
-        return this.prefix;
-    }
-
-    /**
-     * Set the JAR file.
-     *
-     * @param jarFile the JAR file.
-     */
-    public void setJarFile(JarFile jarFile) {
-        this.jarFile = jarFile;
-    }
-
-    /**
-     * Set the prefix.
-     *
-     * @param prefix the prefix.
-     */
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-        if (!prefix.endsWith("/")) {
-            this.prefix = prefix + "/";
+        try {
+            Path rootPath = Paths.get(rootDirectory.toURI());
+            Path root = Paths.get("/");
+            return Files.walk(rootPath)
+                .filter(Predicate.not(Files::isDirectory))
+                .map(rootPath::relativize)
+                .map(root::resolve)
+                .map(Path::toString);
+        } catch (IOException e) {
+            return Stream.empty();
         }
+    }
+
+    /**
+     * {@return the root directory}
+     */
+    public File getRootDirectory() {
+        return this.rootDirectory;
+    }
+
+    /**
+     * Set the root directory.
+     *
+     * @param rootDirectory the root directory.
+     */
+    public void setRootDirectory(File rootDirectory) {
+        this.rootDirectory = rootDirectory;
     }
 
     @Override
     public String getName() {
-        return jarFile.getName();
+        return rootDirectory.getName();
     }
 
 }

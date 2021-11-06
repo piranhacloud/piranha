@@ -25,46 +25,62 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl.tests;
 
+import cloud.piranha.resource.impl.ByteArrayResource;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * The JUnit tests for the DefaultJarResource class.
- *
+ * The JUnit tests for the ByteArrayResource class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class JarResourceTest {
-
+class ByteArrayResourceTest {
+    
     /**
-     * Test getResource method.
+     * Test getAllLocations method.
      */
     @Test
-    void testGetResource() {
-        JarResource resource = new JarResource();
-        assertNull(resource.getResource(null));
+    void testGetAllLocations() {
+        ByteArrayResource resource = new ByteArrayResource("mylocation", null);
+        assertEquals(1, resource.getAllLocations().count());
+    }
+    
+    /**
+     * Test getBytes method.
+     */
+    @Test
+    void testGetBytes() {
+        ByteArrayResource resource = new ByteArrayResource("", null);
+        assertNull(resource.getBytes());
     }
 
     /**
      * Test getResource method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetResource2() {
-        JarResource resource = new JarResource();
-        assertThrows(NullPointerException.class, () -> resource.getResource("we_wont_find_this"));
+    void testGetResource() throws Exception {
+        ByteArrayResource resource = new ByteArrayResource("mylocation", new byte[0]);
+        assertNotNull(resource.getResource("mylocation"));
+        assertNull(resource.getResource("notmylocation"));
+        assertTrue(resource.getResource("mylocation").openStream() instanceof ByteArrayInputStream);
     }
 
     /**
-     * Test getResource method.
+     * Test getResourceAsStream method.
      */
     @Test
-    void testGetResource3() {
-        JarResource resource = new JarResource();
-        resource.setJarFile(new File("this_jar_file_does_not_exist.jar"));
-        assertNull(resource.getResource("we_wont_find_this"));
+    void testGetResourceAsStream() {
+        ByteArrayResource resource = new ByteArrayResource("mylocation", new byte[0]);
+        assertTrue(resource.getResourceAsStream("mylocation") instanceof ByteArrayInputStream);
+        assertNull(resource.getResourceAsStream("notmylocation"));
     }
 }

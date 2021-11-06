@@ -30,10 +30,10 @@ module cloud.piranha.core.impl.tests {
 
     exports cloud.piranha.core.impl.tests;
     opens cloud.piranha.core.impl.tests;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.resource;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.resource.impl;
     requires jdk.security.auth;
     requires org.junit.jupiter.api;
 }

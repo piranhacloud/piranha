@@ -25,8 +25,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl.tests;
 
+import cloud.piranha.resource.impl.DirectoryResource;
+import cloud.piranha.resource.impl.DefaultResourceManager;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -73,7 +75,7 @@ class DefaultResourceManagerTest {
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(new DirectoryResource(new File(".")));
         manager.addResource(new DirectoryResource(new File("")));
-        assertNotNull(manager.getResource("/src/main/java/cloud/piranha/resource/DefaultResourceManager.java"));
+        assertNotNull(manager.getResource("/src/main/java/cloud/piranha/resource/impl/DefaultResourceManager.java"));
     }
 
     /**
@@ -94,6 +96,6 @@ class DefaultResourceManagerTest {
         DefaultResourceManager manager = new DefaultResourceManager();
         manager.addResource(new DirectoryResource(new File(".")));
         manager.addResource(new DirectoryResource(new File("")));
-        assertNotNull(manager.getResourceAsStream("/src/main/java/cloud/piranha/resource/DefaultResourceManager.java"));
+        assertNotNull(manager.getResourceAsStream("/src/main/java/cloud/piranha/resource/impl/DefaultResourceManager.java"));
     }
 }

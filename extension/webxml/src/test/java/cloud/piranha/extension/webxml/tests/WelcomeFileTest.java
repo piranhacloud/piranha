@@ -27,10 +27,10 @@
  */
 package cloud.piranha.extension.webxml.tests;
 
-import cloud.piranha.extension.webxml.WebXmlInitializer;
-import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.core.api.WelcomeFileManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
+import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

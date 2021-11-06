@@ -25,55 +25,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLStreamHandler;
+import java.net.spi.URLStreamHandlerProvider;
+import java.util.function.Function;
 
 /**
- * The URLConnection for a byte-array resource.
+ * Handler for the <code>bytes://</code> protocol.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
+ *
  */
-class ByteArrayResourceURLConnection extends URLConnection {
+public class ByteArrayResourceStreamHandlerProvider extends URLStreamHandlerProvider {
     
     /**
-     * Stores the byte-array resource.
+     * A Function that provides the input stream based on the string form of a <code>bytes://</code> URL.
      */
-    private ByteArrayResource resource;
-
-    /**
-     * Constructor.
-     * 
-     * @param url the URL.
-     * @param resource the byte-array resource
-     */
-    protected ByteArrayResourceURLConnection(URL url, ByteArrayResource resource) {
-        super(url);
-        this.resource = resource;
-    }    
+    private static InheritableThreadLocal<Function<String, InputStream>> localGetResourceAsStreamFunction = new InheritableThreadLocal<>();
+    
+    @Override
+    public URLStreamHandler createURLStreamHandler(String protocol) {
+        if (!"bytes".equals(protocol)) {
+            return null;
+        }
+        
+        return new URLStreamHandler() {
+            @Override
+            protected URLConnection openConnection(URL u) throws IOException {
+                return new URLConnection(u) {
+                    @Override
+                    public InputStream getInputStream() throws IOException {
+                        return localGetResourceAsStreamFunction.get().apply(u.toString());
+                    }
+                    
+                    @Override
+                    public void connect() throws IOException {
+                        // Do nothing
+                    }
+                };
+            }
+        };
+    }
     
     /**
-     * Connect.
+     * Sets a Function that provides the input stream based on the string form of a <code>bytes://</code> URL.
      * 
-     * @throws IOException when an I/O error occurs.
+     * @param getResourceAsStreamFunction the function to transform a string URL to an input stream
      */
-    @Override
-    public void connect() throws IOException {
-        // no-op.
+    public static void setGetResourceAsStreamFunction(Function<String, InputStream> getResourceAsStreamFunction) {
+        localGetResourceAsStreamFunction.set(getResourceAsStreamFunction);
     }
 
-    /**
-     * Get the input stream.
-     * 
-     * @return the input stream.
-     * @throws IOException when an I/O error occurs.
-     */
-    @Override
-    public InputStream getInputStream() throws IOException {
-        return new ByteArrayInputStream(resource.getBytes());
-    }
 }

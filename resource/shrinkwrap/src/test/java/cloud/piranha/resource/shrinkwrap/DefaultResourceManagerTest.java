@@ -37,8 +37,8 @@ import java.net.URL;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.jupiter.api.Test;
 
-import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.api.Resource;
+import cloud.piranha.resource.impl.DefaultResourceManager;
 
 /**
  * The JUnit tests for ShrinkWrapResource

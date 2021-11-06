@@ -28,13 +28,13 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.WebApplicationClassLoader;
-import cloud.piranha.resource.AliasedNamedResource;
-import cloud.piranha.resource.DefaultResourceManager;
-import cloud.piranha.resource.DefaultResourceManagerClassLoader;
-import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.resource.JarResource;
-import cloud.piranha.resource.MultiReleaseResource;
 import cloud.piranha.resource.api.ResourceManager;
+import cloud.piranha.resource.impl.AliasedNamedResource;
+import cloud.piranha.resource.impl.DefaultResourceManager;
+import cloud.piranha.resource.impl.DefaultResourceManagerClassLoader;
+import cloud.piranha.resource.impl.DirectoryResource;
+import cloud.piranha.resource.impl.JarResource;
+import cloud.piranha.resource.impl.MultiReleaseResource;
 import java.io.File;
 
 /**

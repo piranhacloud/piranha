@@ -25,8 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl.tests;
 
+import cloud.piranha.resource.impl.DirectoryResource;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

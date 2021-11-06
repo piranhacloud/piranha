@@ -25,29 +25,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import cloud.piranha.resource.api.Resource;
 
 /**
- * The default DirectoryResource.
+ * The default AliasedDirectoryResource.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DirectoryResource implements Resource {
+public class AliasedDirectoryResource implements Resource {
 
     /**
      * Stores the root directory.
@@ -55,27 +50,27 @@ public class DirectoryResource implements Resource {
     private File rootDirectory;
 
     /**
-     * Constructor.
+     * Stores the alias.
      */
-    public DirectoryResource() {
-    }
-    
+    private String alias;
+
     /**
      * Constructor.
-     *
-     * @param rootDirectory the root directory.
      */
-    public DirectoryResource(String rootDirectory) {
-        this (new File(rootDirectory));
+    public AliasedDirectoryResource() {
+        this.rootDirectory = null;
+        this.alias = null;
     }
 
     /**
      * Constructor.
      *
      * @param rootDirectory the root directory.
+     * @param alias the alias.
      */
-    public DirectoryResource(File rootDirectory) {
+    public AliasedDirectoryResource(File rootDirectory, String alias) {
         this.rootDirectory = rootDirectory;
+        this.alias = alias;
     }
 
     /**
@@ -84,17 +79,16 @@ public class DirectoryResource implements Resource {
     @Override
     public URL getResource(String location) {
         URL result = null;
-
-        if (location != null) {
+        if (location.startsWith(alias)) {
+            location = location.substring(alias.length());
             File file = new File(rootDirectory, location);
             if (file.exists()) {
                 try {
-                    result = new URL(file.toURI().toString());
+                    result = file.toURI().toURL();
                 } catch (MalformedURLException exception) {
                 }
             }
         }
-
         return result;
     }
 
@@ -106,29 +100,27 @@ public class DirectoryResource implements Resource {
     @Override
     public InputStream getResourceAsStream(String location) {
         InputStream result = null;
-        File file = new File(rootDirectory, location);
-
-        try {
-            result = new FileInputStream(file);
-        } catch (FileNotFoundException exception) {
+        if (location.startsWith(alias)) {
+            location = location.substring(alias.length() + 1);
+            File file = new File(rootDirectory, location);
+            try {
+                result = new FileInputStream(file);
+            } catch (FileNotFoundException exception) {
+            }
         }
-
         return result;
     }
     
     @Override
     public Stream<String> getAllLocations() {
-        try {
-            Path rootPath = Paths.get(rootDirectory.toURI());
-            Path root = Paths.get("/");
-            return Files.walk(rootPath)
-                .filter(Predicate.not(Files::isDirectory))
-                .map(rootPath::relativize)
-                .map(root::resolve)
-                .map(Path::toString);
-        } catch (IOException e) {
-            return Stream.empty();
-        }
+        return Stream.empty();
+    }
+
+    /**
+     * {@return the alias}
+     */
+    public String getAlias() {
+        return this.alias;
     }
 
     /**
@@ -139,6 +131,15 @@ public class DirectoryResource implements Resource {
     }
 
     /**
+     * Set the alias.
+     *
+     * @param alias the alias.
+     */
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    /**
      * Set the root directory.
      *
      * @param rootDirectory the root directory.
@@ -146,10 +147,4 @@ public class DirectoryResource implements Resource {
     public void setRootDirectory(File rootDirectory) {
         this.rootDirectory = rootDirectory;
     }
-
-    @Override
-    public String getName() {
-        return rootDirectory.getName();
-    }
-
 }

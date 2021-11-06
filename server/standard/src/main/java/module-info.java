@@ -35,14 +35,14 @@ import cloud.piranha.core.api.WebApplicationExtension;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.server {
-
     exports cloud.piranha.server;
+    opens cloud.piranha.server;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.server;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
-    requires cloud.piranha.resource;
+    requires cloud.piranha.resource.impl;
     requires java.logging;
     uses HttpServer;
     uses WebApplicationExtension;

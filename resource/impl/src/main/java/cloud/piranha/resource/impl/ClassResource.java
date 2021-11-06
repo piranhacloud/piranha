@@ -25,22 +25,69 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl;
+
+import cloud.piranha.resource.api.Resource;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.stream.Stream;
 
 /**
- * A resource based on a string value.
+ * A resource backed by a class.
  *
- * @author Arjan Tijms
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StringResource extends ByteArrayResource {
+public class ClassResource implements Resource {
 
     /**
-     * Creates the resource using a string value
-     * @param location the location of the value
-     * @param value the value itself
+     * Stores the class name.
      */
-    public StringResource(String location, String value) {
-        super(location, value.getBytes());
+    private final String className;
+
+    /**
+     * Stores the location.
+     */
+    private String location;
+
+    /**
+     * Constructor.
+     *
+     * @param className the class name.
+     */
+    public ClassResource(String className) {
+        this.className = className;
+        try {
+            this.location = "/" + Class.forName(className).getName().replace(".", "/") + ".class";
+        } catch (ClassNotFoundException ex) {
+            this.location = null;
+        }
     }
-    
+
+    @Override
+    public URL getResource(String location) {
+        URL result = null;
+        if (this.location.equals(location)) {
+            return getClass().getResource(location);
+        }
+        return result;
+    }
+
+    @Override
+    public InputStream getResourceAsStream(String location) {
+        InputStream result = null;
+        if (this.location.equals(location)) {
+            result = getClass().getResourceAsStream(location);
+        }
+        return result;
+    }
+
+    @Override
+    public Stream<String> getAllLocations() {
+        ArrayList<String> result = new ArrayList<>();
+        if (location != null) {
+            result.add(location);
+        }
+        return result.stream();
+    }
 }

@@ -27,18 +27,57 @@
  *
  */
 
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl;
 
 import cloud.piranha.resource.api.Resource;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.stream.Stream;
 
-class AliasedNamedResourceTest {
+/**
+ * A {@link Resource} wrapper with a custom name
+ */
+public class AliasedNamedResource implements Resource {
 
-    @Test
-    void testGetName() {
-        Resource resource = new AliasedNamedResource(new ByteArrayResource("/", new byte[0]), "custom name");
-        assertEquals("custom name", resource.getName());
+    /**
+     * Stores the resource
+     */
+    private final Resource resource;
+
+    /**
+     * Stores the resource name
+     */
+    private final String resourceName;
+
+    /**
+     * Constructor
+     * @param resource the resource
+     * @param resourceName the resource name
+     */
+    public AliasedNamedResource(Resource resource, String resourceName) {
+        this.resource = resource;
+        this.resourceName = resourceName;
     }
+
+    @Override
+    public URL getResource(String location) {
+        return resource.getResource(location);
+    }
+
+    @Override
+    public InputStream getResourceAsStream(String location) {
+        return resource.getResourceAsStream(location);
+    }
+
+    @Override
+    public Stream<String> getAllLocations() {
+        return resource.getAllLocations();
+    }
+
+    @Override
+    public String getName() {
+        return resourceName;
+    }
+
 }

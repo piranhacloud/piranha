@@ -25,35 +25,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import org.junit.jupiter.api.Test;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
 
 /**
- * The JUnit tests for the DefaultJarResource class.
- *
+ * The byte-array resource URL stream handler.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class PrefixJarResourceTest {
+class ByteArrayResourceURLStreamHandler extends URLStreamHandler {
 
     /**
-     * Test getResource method.
+     * Stores the byte-array resource.
      */
-    @Test
-    void testGetResource() {
-        PrefixJarResource resource = new PrefixJarResource();
-        assertThrows(NullPointerException.class, () -> assertNull(resource.getResource(null)));
+    private final ByteArrayResource resource;
+    
+    /**
+     * Constructor.
+     * 
+     * @param resource the byte-array resource.
+     */
+    public ByteArrayResourceURLStreamHandler(ByteArrayResource resource) {
+        this.resource = resource;
     }
 
     /**
-     * Test getResource method.
+     * Open the connection.
+     * 
+     * @param url the URL.
+     * @return the URL connection.
+     * @throws IOException when an I/O error occurs.
      */
-    @Test
-    void testGetResource2() {
-        PrefixJarResource resource = new PrefixJarResource();
-        assertThrows(NullPointerException.class, () -> resource.getResource("we_wont_find_this"));
+    @Override
+    protected URLConnection openConnection(URL url) throws IOException {
+        return new ByteArrayResourceURLConnection(url, resource);
     }
 }

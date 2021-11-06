@@ -1,1 +1,1 @@
-cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider
+cloud.piranha.resource.impl.ByteArrayResourceStreamHandlerProvider

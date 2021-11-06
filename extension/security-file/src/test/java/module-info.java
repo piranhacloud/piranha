@@ -34,12 +34,12 @@
 module cloud.piranha.extension.security.file.tests {
     exports cloud.piranha.extension.security.file.tests;
     opens cloud.piranha.extension.security.file.tests;
+    requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
     requires cloud.piranha.embedded;
     requires cloud.piranha.extension.security.file;
     requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.resource;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
+    requires cloud.piranha.resource.impl;
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.engine;
 }

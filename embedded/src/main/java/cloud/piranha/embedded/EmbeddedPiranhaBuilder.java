@@ -27,15 +27,15 @@
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.resource.AliasedDirectoryResource;
-import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
-import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.resource.StringResource;
-import cloud.piranha.resource.api.Resource;
 import cloud.piranha.core.api.HttpSessionManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
+import cloud.piranha.resource.api.Resource;
+import cloud.piranha.resource.impl.AliasedDirectoryResource;
+import cloud.piranha.resource.impl.ByteArrayResourceStreamHandlerProvider;
+import cloud.piranha.resource.impl.DirectoryResource;
+import cloud.piranha.resource.impl.StringResource;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;

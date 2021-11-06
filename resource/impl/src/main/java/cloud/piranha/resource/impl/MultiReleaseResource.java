@@ -27,7 +27,7 @@
  *
  */
 
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl;
 
 import cloud.piranha.resource.api.Resource;
 

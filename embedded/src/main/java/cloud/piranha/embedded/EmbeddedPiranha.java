@@ -28,11 +28,11 @@
 package cloud.piranha.embedded;
 
 import cloud.piranha.core.api.Piranha;
-import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.resource.impl.ByteArrayResourceStreamHandlerProvider;
 import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.util.ArrayList;

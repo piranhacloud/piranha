@@ -1,6 +1,6 @@
 import java.net.spi.URLStreamHandlerProvider;
 
-import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
+import cloud.piranha.resource.impl.ByteArrayResourceStreamHandlerProvider;
 
 /*
  * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
@@ -31,7 +31,7 @@ import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
  */
 
 /**
- * The Piranha Resource - implementation module.
+ * The Piranha - Resource - Implementation module.
  * 
  * <p>
  *  This module delivers the default implementation of the Resource API.
@@ -39,10 +39,10 @@ import cloud.piranha.resource.ByteArrayResourceStreamHandlerProvider;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.resource {
+module cloud.piranha.resource.impl {
 
-    exports cloud.piranha.resource;
-    opens cloud.piranha.resource;
+    exports cloud.piranha.resource.impl;
+    opens cloud.piranha.resource.impl;
     provides URLStreamHandlerProvider with ByteArrayResourceStreamHandlerProvider;
     requires transitive cloud.piranha.resource.api;
 }

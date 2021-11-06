@@ -37,7 +37,7 @@
  */
 module cloud.piranha.micro {
 
-    requires cloud.piranha.resource;
+    requires cloud.piranha.resource.impl;
     requires cloud.piranha.resource.shrinkwrap;
     requires java.logging;
     requires org.jboss.jandex;

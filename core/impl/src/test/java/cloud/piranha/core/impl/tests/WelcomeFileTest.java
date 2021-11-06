@@ -27,12 +27,12 @@
  */
 package cloud.piranha.core.impl.tests;
 
-import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.core.api.WelcomeFileManager;
 import cloud.piranha.core.impl.DefaultServlet;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
+import cloud.piranha.resource.impl.DirectoryResource;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;

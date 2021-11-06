@@ -25,69 +25,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl.tests;
 
-import cloud.piranha.resource.api.Resource;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.stream.Stream;
+import cloud.piranha.resource.impl.JarResource;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * A resource backed by a class.
+ * The JUnit tests for the DefaultJarResource class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ClassResource implements Resource {
+class JarResourceTest {
 
     /**
-     * Stores the class name.
+     * Test getResource method.
      */
-    private final String className;
+    @Test
+    void testGetResource() {
+        JarResource resource = new JarResource();
+        assertNull(resource.getResource(null));
+    }
 
     /**
-     * Stores the location.
+     * Test getResource method.
      */
-    private String location;
+    @Test
+    void testGetResource2() {
+        JarResource resource = new JarResource();
+        assertThrows(NullPointerException.class, () -> resource.getResource("we_wont_find_this"));
+    }
 
     /**
-     * Constructor.
-     *
-     * @param className the class name.
+     * Test getResource method.
      */
-    public ClassResource(String className) {
-        this.className = className;
-        try {
-            this.location = "/" + Class.forName(className).getName().replace(".", "/") + ".class";
-        } catch (ClassNotFoundException ex) {
-            this.location = null;
-        }
-    }
-
-    @Override
-    public URL getResource(String location) {
-        URL result = null;
-        if (this.location.equals(location)) {
-            return getClass().getResource(location);
-        }
-        return result;
-    }
-
-    @Override
-    public InputStream getResourceAsStream(String location) {
-        InputStream result = null;
-        if (this.location.equals(location)) {
-            result = getClass().getResourceAsStream(location);
-        }
-        return result;
-    }
-
-    @Override
-    public Stream<String> getAllLocations() {
-        ArrayList<String> result = new ArrayList<>();
-        if (location != null) {
-            result.add(location);
-        }
-        return result.stream();
+    @Test
+    void testGetResource3() {
+        JarResource resource = new JarResource();
+        resource.setJarFile(new File("this_jar_file_does_not_exist.jar"));
+        assertNull(resource.getResource("we_wont_find_this"));
     }
 }

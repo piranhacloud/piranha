@@ -27,9 +27,9 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.resource.DefaultResourceManager;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.api.ResourceManager;
+import cloud.piranha.resource.impl.DefaultResourceManager;
 import cloud.piranha.core.api.AnnotationInfo;
 import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.AsyncManager;

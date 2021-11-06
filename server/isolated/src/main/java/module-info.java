@@ -30,21 +30,22 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.core.api.WebApplicationExtension;
 
 module cloud.piranha.server.isolated {
+    opens cloud.piranha.server.isolated;
     exports cloud.piranha.server.isolated;
-    requires cloud.piranha.micro.embedded;
-    requires cloud.piranha.micro.loader;
+    requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
+    requires cloud.piranha.embedded;
     requires cloud.piranha.extension.server;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
-    requires cloud.piranha.resource;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
+    requires cloud.piranha.micro.embedded;
+    requires cloud.piranha.micro.loader;
+    requires cloud.piranha.resource.impl;
     requires cloud.piranha.resource.shrinkwrap;
     requires org.jboss.jandex;
     requires shrinkwrap.api;
     requires shrinkwrap.resolver.api.maven;
     requires java.logging;
-    requires cloud.piranha.embedded;
     uses HttpServer;
     uses WebApplicationExtension;
 }

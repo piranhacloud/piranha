@@ -27,6 +27,8 @@
  */
 package cloud.piranha.extension.webannotations.tests;
 
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
@@ -34,10 +36,8 @@ import cloud.piranha.embedded.EmbeddedResponseBuilder;
 import cloud.piranha.extension.annotationscan.AnnotationScanInitializer;
 import cloud.piranha.extension.webannotations.WebAnnotationsInitializer;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
-import cloud.piranha.resource.ClassResource;
-import cloud.piranha.resource.DirectoryResource;
-import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
+import cloud.piranha.resource.impl.ClassResource;
+import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;

@@ -56,7 +56,7 @@ import cloud.piranha.core.impl.DefaultModuleFinder;
 import cloud.piranha.extension.server.ServerExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
-import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.ServletException;
 
 import static java.lang.System.Logger.Level.INFO;

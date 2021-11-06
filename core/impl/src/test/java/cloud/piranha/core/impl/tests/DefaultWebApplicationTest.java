@@ -27,11 +27,8 @@
  */
 package cloud.piranha.core.impl.tests;
 
-import cloud.piranha.resource.DefaultResourceManager;
-import cloud.piranha.resource.DirectoryResource;
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.LoggingManager;
-import cloud.piranha.core.api.MimeTypeManager;
 import cloud.piranha.core.api.ObjectInstanceManager;
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.impl.DefaultSecurityManager;
@@ -39,6 +36,8 @@ import cloud.piranha.core.impl.DefaultServlet;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationRequestMapper;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
+import cloud.piranha.resource.impl.DefaultResourceManager;
+import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;

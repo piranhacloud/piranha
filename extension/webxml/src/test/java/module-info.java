@@ -32,14 +32,13 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.webxml.tests {
-    
     exports cloud.piranha.extension.webxml.tests;
     opens cloud.piranha.extension.webxml.tests;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.mimetype;
-    requires cloud.piranha.resource;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
+    requires cloud.piranha.extension.webxml;
+    requires cloud.piranha.extension.mimetype;
+    requires cloud.piranha.resource.impl;
     requires org.junit.jupiter.api;
     requires org.junit.platform.launcher;
 }

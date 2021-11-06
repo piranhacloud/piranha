@@ -25,8 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl.tests;
 
+import cloud.piranha.resource.impl.AliasedDirectoryResource;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,7 @@ class AliasedDirectoryResourceTest {
         AliasedDirectoryResource resource = new AliasedDirectoryResource();
         resource.setRootDirectory(new File("src/main/java"));
         resource.setAlias("/alias");
-        assertNotNull(resource.getResource("/alias/cloud/piranha/resource/DirectoryResource.java"));
+        assertNotNull(resource.getResource("/alias/cloud/piranha/resource/impl/DirectoryResource.java"));
     }
 
     /**
@@ -64,7 +65,7 @@ class AliasedDirectoryResourceTest {
     @Test
     void testGetResource3() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource(new File("src/test/java/org"), "/org");
-        assertNull(resource.getResource("/cloud/piranha/resource/AliasedDirectoryResourceTest2.java"));
+        assertNull(resource.getResource("/cloud/piranha/resource/impl/tests/AliasedDirectoryResourceTest2.java"));
     }
 
     /**
@@ -82,7 +83,7 @@ class AliasedDirectoryResourceTest {
     @Test
     void testGetResourceAsStream2() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource(new File("src/main/java"), "/alias");
-        assertNotNull(resource.getResourceAsStream("/alias/cloud/piranha/resource/DirectoryResource.java"));
+        assertNotNull(resource.getResourceAsStream("/alias/cloud/piranha/resource/impl/DirectoryResource.java"));
     }
 
     /**
@@ -91,7 +92,7 @@ class AliasedDirectoryResourceTest {
     @Test
     void testGetResourceAsStream3() {
         AliasedDirectoryResource resource = new AliasedDirectoryResource(new File("src/main/java"), "/alias");
-        assertNull(resource.getResourceAsStream("/alias/cloud/piranha/DirectoryResource.class"));
+        assertNull(resource.getResourceAsStream("/alias/cloud/piranha/impl/DirectoryResource.class"));
     }
 
     /**

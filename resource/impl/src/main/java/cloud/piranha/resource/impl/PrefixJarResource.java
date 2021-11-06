@@ -25,47 +25,55 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl;
 
 import cloud.piranha.resource.api.Resource;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
-import java.util.zip.ZipEntry;
 
 /**
- * The default JarResource.
+ * The default PrefixJarResource.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JarResource implements Resource {
+public class PrefixJarResource implements Resource {
 
     /**
      * Stores the JAR file.
      */
-    private File jarFile;
+    private JarFile jarFile;
+
+    /**
+     * Stores the prefix.
+     */
+    private String prefix;
 
     /**
      * Constructor.
      */
-    public JarResource() {
+    public PrefixJarResource() {
+        this.jarFile = null;
+        this.prefix = null;
     }
 
     /**
      * Constructor.
      *
      * @param jarFile the JAR file.
+     * @param prefix the prefix.
      */
-    public JarResource(File jarFile) {
+    public PrefixJarResource(JarFile jarFile, String prefix) {
         this.jarFile = jarFile;
+        if (!prefix.endsWith("/")) {
+            this.prefix = prefix + "/";
+        } else {
+            this.prefix = prefix;
+        }
     }
 
     /**
@@ -74,27 +82,19 @@ public class JarResource implements Resource {
     @Override
     public URL getResource(String location) {
         URL result = null;
-        if (location != null) {
-            try {
-                try (JarFile jar = new JarFile(jarFile)) {
-                    if (jar.getJarEntry(location) != null) {
-                        result = new URL("jar:" + jarFile.toURI() + "!/" + location);
-                    }
-                }
-            } catch (IOException ioe) {
-                result = null;
+        try {
+            location = prefix + location;
+            JarEntry jarEntry = jarFile.getJarEntry(location);
+            if (jarEntry != null) {
+                result = new URL("jar://" + jarFile.getName() + "#!/" + location);
             }
+        } catch (MalformedURLException use) {
         }
         return result;
     }
 
     /**
      * Get the resource as a stream.
-     *
-     * <p>
-     * Note that this method will read the content of a JAR entry into a
-     * byte-array to avoid locking the JAR file.
-     * </p>
      *
      * @param location the resource location.
      * @return the input stream, or null if not found.
@@ -103,43 +103,34 @@ public class JarResource implements Resource {
     @Override
     public InputStream getResourceAsStream(String location) {
         InputStream result = null;
-        try (JarFile jar = new JarFile(jarFile)) {
-            JarEntry entry = jar.getJarEntry(location.startsWith("/") ? location.substring(1) : location);
-            if (entry != null) {
-                InputStream inputStream;
-                try (InputStream jarInputStream = jar.getInputStream(entry)) {
-                    inputStream = new BufferedInputStream(jarInputStream);
-                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                    inputStream.transferTo(outputStream);
-                    result = new ByteArrayInputStream(outputStream.toByteArray());
-                }
-                inputStream.close();
+        location = prefix + location;
+        JarEntry jarEntry = jarFile.getJarEntry(location);
+        if (jarEntry != null) {
+            try {
+                result = jarFile.getInputStream(jarEntry);
+            } catch (IOException ioe) {
             }
-        } catch (IOException exception) {
         }
         return result;
     }
-
+    
     @Override
     public Stream<String> getAllLocations() {
-        List<String> entryNames;
-        try (JarFile jar = new JarFile(jarFile)) {
-             entryNames = jar
-                    .stream()
-                    .map(ZipEntry::getName)
-                    .map(x -> "/" + x)
-                    .toList();
-        } catch (IOException e) {
-            return Stream.of();
-        }
-        return entryNames.stream();
+        return Stream.empty();
     }
 
     /**
      * {@return the JAR file}
      */
-    public File getJarFile() {
+    public JarFile getJarFile() {
         return this.jarFile;
+    }
+
+    /**
+     * {@return the prefix}
+     */
+    public String getPrefix() {
+        return this.prefix;
     }
 
     /**
@@ -147,12 +138,25 @@ public class JarResource implements Resource {
      *
      * @param jarFile the JAR file.
      */
-    public void setJarFile(File jarFile) {
+    public void setJarFile(JarFile jarFile) {
         this.jarFile = jarFile;
+    }
+
+    /**
+     * Set the prefix.
+     *
+     * @param prefix the prefix.
+     */
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+        if (!prefix.endsWith("/")) {
+            this.prefix = prefix + "/";
+        }
     }
 
     @Override
     public String getName() {
         return jarFile.getName();
     }
+
 }

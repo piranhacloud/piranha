@@ -27,8 +27,10 @@
  *
  */
 
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl.tests;
 
+import cloud.piranha.resource.impl.ByteArrayResource;
+import cloud.piranha.resource.impl.MultiReleaseResource;
 import cloud.piranha.resource.api.Resource;
 
 import java.io.IOException;

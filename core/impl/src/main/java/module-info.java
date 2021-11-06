@@ -39,5 +39,5 @@ module cloud.piranha.core.impl {
     exports cloud.piranha.core.impl;
     opens cloud.piranha.core.impl;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.resource;
+    requires cloud.piranha.resource.impl;
 }

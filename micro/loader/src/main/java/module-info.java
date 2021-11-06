@@ -40,7 +40,7 @@ module cloud.piranha.micro.loader {
     exports cloud.piranha.micro.loader;
     opens cloud.piranha.micro.loader;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.resource;
+    requires cloud.piranha.resource.impl;
     requires cloud.piranha.resource.shrinkwrap;
     requires org.jboss.jandex;
     requires shrinkwrap.api;

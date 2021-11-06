@@ -32,16 +32,15 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.webannotations.tests {
-    
     exports cloud.piranha.extension.webannotations.tests;
     opens cloud.piranha.extension.webannotations.tests;
+    requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
+    requires cloud.piranha.embedded;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.webannotations;
     requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.embedded;
-    requires cloud.piranha.resource;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
+    requires cloud.piranha.resource.impl;
     requires jakarta.annotation;
     requires org.junit.jupiter.api;
     requires org.junit.platform.launcher;

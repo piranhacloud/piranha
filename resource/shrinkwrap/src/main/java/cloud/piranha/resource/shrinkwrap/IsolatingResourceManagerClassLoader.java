@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 
-import cloud.piranha.resource.DefaultResourceManagerClassLoader;
+import cloud.piranha.resource.impl.DefaultResourceManagerClassLoader;
 
 /**
  * The default WebApplicationClassLoader.

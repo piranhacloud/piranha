@@ -25,61 +25,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
+package cloud.piranha.resource.impl.tests;
+
+import cloud.piranha.resource.impl.PrefixJarResource;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 /**
- * The JUnit tests for the ByteArrayResource class.
- * 
+ * The JUnit tests for the DefaultJarResource class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ByteArrayResourceTest {
-    
+class PrefixJarResourceTest {
+
     /**
-     * Test getAllLocations method.
+     * Test getResource method.
      */
     @Test
-    void testGetAllLocations() {
-        ByteArrayResource resource = new ByteArrayResource("mylocation", null);
-        assertEquals(1, resource.getAllLocations().count());
-    }
-    
-    /**
-     * Test getBytes method.
-     */
-    @Test
-    void testGetBytes() {
-        ByteArrayResource resource = new ByteArrayResource("", null);
-        assertNull(resource.getBytes());
+    void testGetResource() {
+        PrefixJarResource resource = new PrefixJarResource();
+        assertThrows(NullPointerException.class, () -> assertNull(resource.getResource(null)));
     }
 
     /**
      * Test getResource method.
-     * 
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetResource() throws Exception {
-        ByteArrayResource resource = new ByteArrayResource("mylocation", new byte[0]);
-        assertNotNull(resource.getResource("mylocation"));
-        assertNull(resource.getResource("notmylocation"));
-        assertTrue(resource.getResource("mylocation").openStream() instanceof ByteArrayInputStream);
-    }
-
-    /**
-     * Test getResourceAsStream method.
-     */
-    @Test
-    void testGetResourceAsStream() {
-        ByteArrayResource resource = new ByteArrayResource("mylocation", new byte[0]);
-        assertTrue(resource.getResourceAsStream("mylocation") instanceof ByteArrayInputStream);
-        assertNull(resource.getResourceAsStream("notmylocation"));
+    void testGetResource2() {
+        PrefixJarResource resource = new PrefixJarResource();
+        assertThrows(NullPointerException.class, () -> resource.getResource("we_wont_find_this"));
     }
 }

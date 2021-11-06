@@ -27,18 +27,13 @@
  */
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
+ * The tests for the Piranha - Resource - Implementation module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
+module cloud.piranha.resource.impl.tests {
+    exports cloud.piranha.resource.impl.tests;
+    opens cloud.piranha.resource.impl.tests;
     requires cloud.piranha.resource.impl;
+    requires org.junit.jupiter.api;
 }

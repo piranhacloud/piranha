@@ -25,10 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package classloader;
 
-import cloud.piranha.resource.DefaultResourceManager;
-import cloud.piranha.resource.DirectoryResource;
+import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
+import cloud.piranha.resource.impl.DefaultResourceManager;
+import cloud.piranha.resource.impl.DirectoryResource;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

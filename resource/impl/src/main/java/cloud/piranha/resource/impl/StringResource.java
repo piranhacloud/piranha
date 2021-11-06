@@ -25,43 +25,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.resource;
-
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLStreamHandler;
+package cloud.piranha.resource.impl;
 
 /**
- * The byte-array resource URL stream handler.
- * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * A resource based on a string value.
+ *
+ * @author Arjan Tijms
  */
-class ByteArrayResourceURLStreamHandler extends URLStreamHandler {
+public class StringResource extends ByteArrayResource {
 
     /**
-     * Stores the byte-array resource.
+     * Creates the resource using a string value
+     * @param location the location of the value
+     * @param value the value itself
      */
-    private final ByteArrayResource resource;
+    public StringResource(String location, String value) {
+        super(location, value.getBytes());
+    }
     
-    /**
-     * Constructor.
-     * 
-     * @param resource the byte-array resource.
-     */
-    public ByteArrayResourceURLStreamHandler(ByteArrayResource resource) {
-        this.resource = resource;
-    }
-
-    /**
-     * Open the connection.
-     * 
-     * @param url the URL.
-     * @return the URL connection.
-     * @throws IOException when an I/O error occurs.
-     */
-    @Override
-    protected URLConnection openConnection(URL url) throws IOException {
-        return new ByteArrayResourceURLConnection(url, resource);
-    }
 }
