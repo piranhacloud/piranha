@@ -86,8 +86,8 @@ public class HazelcastHttpSessionManager extends DefaultHttpSessionManager {
             key = UUID.randomUUID().toString();
             HazelcastHttpSession newSession = (HazelcastHttpSession) session;
             newSession.setId(key);
-            sessions.put(key, (HazelcastHttpSession) session);
-            idListeners.stream().forEach(idListener -> idListener.sessionIdChanged(new HttpSessionEvent(session), oldSessionId));
+            sessions.put(key, newSession);
+            idListeners.stream().forEach(idListener -> idListener.sessionIdChanged(new HttpSessionEvent(newSession), oldSessionId));
         } else {
             throw new IllegalStateException("No session active");
         }

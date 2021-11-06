@@ -44,7 +44,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HelloWorldIT {
+class HelloWorldIT {
 
     /**
      * Test getting index.html page.

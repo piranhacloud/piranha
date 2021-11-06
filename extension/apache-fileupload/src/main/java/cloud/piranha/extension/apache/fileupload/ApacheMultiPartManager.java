@@ -101,7 +101,7 @@ public class ApacheMultiPartManager implements MultiPartManager {
      */
     @Override
     public Part getPart(WebApplication webApplication, WebApplicationRequest request, String name) throws ServletException {
-        LOGGER.log(DEBUG, "Getting part: {0} for request: {1}", new Object[] { name, request });
+        LOGGER.log(DEBUG, "Getting part: {0} for request: {1}", name, request);
         
         if (!isMultipartContent(request)) {
             throw new ServletException("Not a multipart/form-data request");

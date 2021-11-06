@@ -63,7 +63,7 @@ public class FileAuthenticationManager implements AuthenticationManager {
      * Stores the logins.
      */
     private final HashMap<String, String> logins = new HashMap<>();
-    
+
     /**
      * Stores the security mappings.
      */
@@ -212,7 +212,7 @@ public class FileAuthenticationManager implements AuthenticationManager {
     public boolean needsAuthentication(HttpServletRequest request) {
         boolean result = false;
         String requestUri = request.getRequestURI();
-        for(String securityMapping : securityMappings.keySet()) {
+        for (String securityMapping : securityMappings.keySet()) {
             if (securityMapping.endsWith("*")) {
                 securityMapping = securityMapping.substring(0, securityMapping.length() - 1);
                 if (requestUri.indexOf(securityMapping) == 0) {
@@ -220,14 +220,14 @@ public class FileAuthenticationManager implements AuthenticationManager {
                     break;
                 }
             } else if (securityMapping.startsWith("*")) {
-                
+
             } else {
-                
+
             }
         }
         return result;
     }
-    
+
     @Override
     public void requestAuthentication(HttpServletRequest request, HttpServletResponse response) {
     }

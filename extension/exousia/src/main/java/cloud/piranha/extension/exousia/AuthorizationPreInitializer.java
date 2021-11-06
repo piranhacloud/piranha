@@ -346,7 +346,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         return t;
     }
 
-    private static  <T> T getOptionalAttribute(ServletContext servletContext, String name) throws ServletException {
+    private static  <T> T getOptionalAttribute(ServletContext servletContext, String name) {
         @SuppressWarnings("unchecked")
         T t = (T) servletContext.getAttribute(name);
 

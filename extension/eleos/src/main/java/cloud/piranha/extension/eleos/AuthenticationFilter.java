@@ -61,7 +61,7 @@ public class AuthenticationFilter extends HttpFilter implements FilterPriority {
     /**
      * Stores the priority.
      */
-    private static int PRIORITY = 5;
+    private static int priority = 5;
 
     /**
      * Stores the security manager.
@@ -70,7 +70,7 @@ public class AuthenticationFilter extends HttpFilter implements FilterPriority {
     
     @Override
     public int getPriority() {
-        return PRIORITY;
+        return priority;
     }
     
     @Override
