@@ -7,7 +7,7 @@
         <artifactId>project</artifactId>
         <version>21.11.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-server</artifactId>
+    <artifactId>piranha-server-standard</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - Server</name>
     <description>

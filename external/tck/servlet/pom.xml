@@ -259,7 +259,7 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>cloud.piranha.server</groupId>
-                                            <artifactId>piranha-server</artifactId>
+                                            <artifactId>piranha-server-standard</artifactId>
                                             <version>${project.version}</version>
                                             <type>zip</type>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
