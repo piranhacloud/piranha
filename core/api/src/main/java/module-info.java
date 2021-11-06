@@ -38,6 +38,6 @@
 module cloud.piranha.core.api {
     exports cloud.piranha.core.api;
     opens cloud.piranha.core.api;
-    requires cloud.piranha.resource.api;
+    requires transitive cloud.piranha.resource.api;
     requires transitive jakarta.servlet;
 }

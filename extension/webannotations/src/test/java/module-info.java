@@ -40,7 +40,6 @@ module cloud.piranha.extension.webannotations.tests {
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.webannotations;
     requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.resource.impl;
     requires jakarta.annotation;
     requires org.junit.jupiter.api;
     requires org.junit.platform.launcher;

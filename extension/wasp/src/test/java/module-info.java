@@ -33,7 +33,6 @@ module cloud.piranha.extension.wasp.tests {
     requires cloud.piranha.core.impl;
     requires cloud.piranha.embedded;
     requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.resource.impl;
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.engine;
     requires org.junit.platform.launcher;

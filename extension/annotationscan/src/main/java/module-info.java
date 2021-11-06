@@ -37,10 +37,8 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.annotationscan {
-
     exports cloud.piranha.extension.annotationscan;
     opens cloud.piranha.extension.annotationscan;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.resource.api;
 }
