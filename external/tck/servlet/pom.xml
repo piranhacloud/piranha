@@ -117,7 +117,6 @@
                                             <replaceregexp file="${tck.home}/bin/ts.jtx"
                                                 match="${run.test}$" replace="#${run.test}" byline="true" />
                                         </sequential>
-                                        
 
                                         <!-- Setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
@@ -164,7 +163,6 @@
                                     </target>
                                 </configuration>
                             </execution>
-                            
                             <execution>
                                 <id>pre-integration-test</id>
                                 <phase>pre-integration-test</phase>
@@ -197,7 +195,6 @@
                                     </target>
                                 </configuration>
                             </execution>
-                            
                             <execution>
                                 <id>integration-test</id>
                                 <phase>integration-test</phase>
@@ -215,7 +212,6 @@
                                     </target>
                                 </configuration>
                             </execution>
-                            
                             <execution>
                                 <id>post-integration-test</id>
                                 <phase>post-integration-test</phase>
@@ -231,7 +227,6 @@
                             </execution>
                         </executions>
                     </plugin>
-                    
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
@@ -263,7 +258,7 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>cloud.piranha</groupId>
+                                            <groupId>cloud.piranha.server</groupId>
                                             <artifactId>piranha-server</artifactId>
                                             <version>${project.version}</version>
                                             <type>zip</type>
@@ -277,10 +272,8 @@
                 </plugins>
             </build>
         </profile>
-        
-        
         <profile>
-            <id>unix2</id>
+            <id>unix-isolated</id>
             <build>
                 <plugins>
                     <plugin>
@@ -395,7 +388,6 @@
                                     </target>
                                 </configuration>
                             </execution>
-                            
                             <execution>
                                 <id>integration-test</id>
                                 <phase>integration-test</phase>
@@ -413,7 +405,6 @@
                                     </target>
                                 </configuration>
                             </execution>
-                            
                             <execution>
                                 <id>post-integration-test</id>
                                 <phase>post-integration-test</phase>
@@ -460,8 +451,8 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>cloud.piranha</groupId>
-                                            <artifactId>piranha-server2</artifactId>
+                                            <groupId>cloud.piranha.server</groupId>
+                                            <artifactId>piranha-server-isolated</artifactId>
                                             <version>${project.version}</version>
                                             <type>zip</type>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
@@ -474,18 +465,6 @@
                 </plugins>
             </build>
         </profile>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         <profile>
             <id>windows</id>
             <activation>
@@ -662,7 +641,7 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>cloud.piranha</groupId>
+                                            <groupId>cloud.piranha.server</groupId>
                                             <artifactId>piranha-server</artifactId>
                                             <version>${project.version}</version>
                                             <type>zip</type>
@@ -676,7 +655,5 @@
                 </plugins>
             </build>
         </profile>
-        
-       
     </profiles>
 </project>

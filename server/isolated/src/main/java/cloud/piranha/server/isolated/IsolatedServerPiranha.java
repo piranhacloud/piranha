@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server2;
+package cloud.piranha.server.isolated;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,17 +66,17 @@ import static java.lang.System.Logger.Level.INFO;
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
  */
-public class ServerPiranha implements Piranha, Runnable {
+public class IsolatedServerPiranha implements Piranha, Runnable {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(ServerPiranha.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(IsolatedServerPiranha.class.getPackageName());
 
     /**
      * Stores the one and only instance of the server.
      */
-    private static ServerPiranha INSTANCE;
+    private static IsolatedServerPiranha INSTANCE;
 
     /**
      * Stores the SSL flag.
@@ -91,7 +91,7 @@ public class ServerPiranha implements Piranha, Runnable {
     /**
      * {@return the instance}
      */
-    public static ServerPiranha get() {
+    public static IsolatedServerPiranha get() {
         return INSTANCE;
     }
 
@@ -101,7 +101,7 @@ public class ServerPiranha implements Piranha, Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        INSTANCE = new ServerPiranha();
+        INSTANCE = new IsolatedServerPiranha();
         INSTANCE.processArguments(arguments);
         INSTANCE.run();
     }

@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <name>Piranha - Server - Project</name>
     <modules>
+        <module>isolated</module>
         <module>standard</module>
     </modules>
 </project>

@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>21.11.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-server-standard</artifactId>
+    <artifactId>piranha-server</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Server - Standard</name>
+    <name>Piranha - Server</name>
     <description>
         The server version of Piranha.
     </description>

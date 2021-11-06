@@ -4,17 +4,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha</groupId>
+        <groupId>cloud.piranha.server</groupId>
         <artifactId>project</artifactId>
         <version>21.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-server2</artifactId>
+    <artifactId>piranha-server-isolated</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Server</name>
+    <name>Piranha - Server - Isolated</name>
     <description>
-        The server version of Piranha.
+        The isolated server version of Piranha.
     </description>
 
     <dependencyManagement>
@@ -163,7 +163,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>cloud.piranha.server2.ServerPiranha</mainClass>
+                            <mainClass>cloud.piranha.server.isolated.ServerPiranha</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
