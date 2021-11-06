@@ -23,7 +23,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build Piranha Server Docker image
       run: |
-        cd server
+        cd server/standard
         docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/server:amd64-latest .
         docker push piranhacloud/server:amd64-latest
         export DOCKER_CLI_EXPERIMENTAL=enabled
