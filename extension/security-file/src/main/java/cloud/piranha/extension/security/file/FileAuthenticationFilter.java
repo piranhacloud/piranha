@@ -53,7 +53,12 @@ public class FileAuthenticationFilter extends HttpFilter {
         if (request.getUserPrincipal() != null) {
             chain.doFilter(request, response);
         } else if (authManager.needsAuthentication(request)) {
-            chain.doFilter(request, response);
+            boolean authenticated = authManager.authenticate(request, response);
+            if (authenticated) {
+                chain.doFilter(request, response);
+            } else {
+                authManager.requestAuthentication(request, response);
+            }
         } else {
             chain.doFilter(request, response);
         }

@@ -31,7 +31,6 @@ import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
 import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
@@ -56,6 +55,5 @@ public class ServerExtension implements WebApplicationExtension {
         context.add(WebAnnotationsExtension.class);
         context.add(TempDirExtension.class);
         context.add(ServletContainerInitializerExtension.class);
-        context.add(ServletSecurityExtension.class);
     }
 }

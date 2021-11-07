@@ -11,11 +11,15 @@
         <servlet-name>BasicUserPrincipalTestServlet</servlet-name>
         <url-pattern>/basic_user_principal/*</url-pattern>
     </servlet-mapping>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>My Realm</realm-name>
+    </login-config>
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>BasicUserPrincipal</web-resource-name>
             <url-pattern>/basic_user_principal/*</url-pattern>
             <http-method>GET</http-method>
         </web-resource-collection>
-    </security-constraint>    
+    </security-constraint>
 </web-app>

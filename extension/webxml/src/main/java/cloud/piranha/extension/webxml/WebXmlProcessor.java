@@ -83,6 +83,7 @@ public class WebXmlProcessor {
         processFilters(webApplication, webXml);
         processFilterMappings(webApplication, webXml);
         processListeners(webApplication, webXml);
+        processLoginConfig(webApplication, webXml);
         processMimeMappings(webApplication, webXml);
         processRequestCharacterEncoding(webApplication, webXml);
         processResponseCharacterEncoding(webApplication, webXml);
@@ -238,6 +239,24 @@ public class WebXmlProcessor {
     private void processListeners(WebApplication webApplication, WebXml webXml) {
         for (WebXmlListener listener : webXml.getListeners()) {
             webApplication.addListener(listener.className());
+        }
+    }
+
+    /**
+     * Process the login config.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processLoginConfig(WebApplication webApplication, WebXml webXml) {
+        AuthenticationManager authManager = webApplication.getManager(AuthenticationManager.class);
+        if (authManager != null && webXml.getLoginConfig() != null) {
+            if (webXml.getLoginConfig().authMethod() != null) {
+                authManager.setAuthMethod(webXml.getLoginConfig().authMethod());
+            }
+            if (webXml.getLoginConfig().realmName() != null) {
+                authManager.setRealmName(webXml.getLoginConfig().realmName());
+            }
         }
     }
 

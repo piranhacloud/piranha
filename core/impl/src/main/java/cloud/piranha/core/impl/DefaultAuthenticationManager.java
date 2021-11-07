@@ -51,6 +51,11 @@ public class DefaultAuthenticationManager implements AuthenticationManager {
     }
 
     @Override
+    public String getRealmName() {
+        return null;
+    }
+
+    @Override
     public void login(HttpServletRequest request, String username, 
             String password) throws ServletException {
         throw new ServletException("Login is not supported");
@@ -69,5 +74,13 @@ public class DefaultAuthenticationManager implements AuthenticationManager {
 
     @Override
     public void requestAuthentication(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    @Override
+    public void setAuthMethod(String authMethod) {
+    }
+
+    @Override
+    public void setRealmName(String realmName) {
     }
 }
