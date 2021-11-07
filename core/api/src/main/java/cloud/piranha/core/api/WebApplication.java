@@ -140,14 +140,17 @@ public interface WebApplication extends ServletContext {
     Set<String> addServletMapping(String servletName, String... urlPatterns);
     
     /**
+     * Remove a mapping for a servlet.
+     *
+     * @param urlPattern the URL pattern
+     * @return the Servlet name the pattern was mapped to, or null if no prior mapping.
+     */
+    String removeServletMapping(String urlPattern);
+
+    /**
      * Destroy the web application.
      */
     void destroy();
-    
-    /**
-     * {@return the authentication manager}
-     */
-    AuthenticationManager getAuthenticationManager();
 
     /**
      * {@return the default Servlet}
@@ -263,14 +266,6 @@ public interface WebApplication extends ServletContext {
     void linkRequestAndResponse(ServletRequest request, ServletResponse response);
 
     /**
-     * Remove a mapping for a servlet.
-     *
-     * @param urlPattern the URL pattern
-     * @return the Servlet name the pattern was mapped to, or null if no prior mapping.
-     */
-    String removeServletMapping(String urlPattern);
-    
-    /**
      * Service the request.
      *
      * @param request the request.
@@ -281,13 +276,6 @@ public interface WebApplication extends ServletContext {
     void service(ServletRequest request, ServletResponse response)
             throws ServletException, IOException;
 
-    /**
-     * Set the authentication manager.
-     * 
-     * @param authenticationManager the authentication manager.
-     */
-    void setAuthenticationManager(AuthenticationManager authenticationManager);
-    
     /**
      * Set the class loader.
      *

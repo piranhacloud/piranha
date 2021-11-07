@@ -12,7 +12,7 @@
     </parent>
     <artifactId>piranha-extension-server</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Server</name>
+    <name>Piranha Extension - Server</name>
     <description>
         This module delivers the default set of extensions for Piranha Server.
     </description>
@@ -48,11 +48,11 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-security-file</artifactId>
+            <artifactId>piranha-extension-security-servlet</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>

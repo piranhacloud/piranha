@@ -27,17 +27,17 @@
  */
 package cloud.piranha.extension.server;
 
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.extension.security.file.FileSecurityExtension;
+import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
 import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
+import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplicationExtensionContext;
 
 /**
  * The ServerExtension delivers the default extensions for Piranha Server.
@@ -52,10 +52,10 @@ public class ServerExtension implements WebApplicationExtension {
         context.add(PolicyExtension.class);
         context.add(AnnotationScanExtension.class);
         context.add(WaspExtension.class);
-        context.add(FileSecurityExtension.class);
         context.add(WebXmlExtension.class);
         context.add(WebAnnotationsExtension.class);
         context.add(TempDirExtension.class);
         context.add(ServletContainerInitializerExtension.class);
+        context.add(ServletSecurityExtension.class);
     }
 }

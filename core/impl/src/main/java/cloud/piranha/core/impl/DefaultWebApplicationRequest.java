@@ -61,7 +61,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import static java.lang.System.Logger.Level.WARNING;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
@@ -87,11 +86,6 @@ import static java.util.Objects.requireNonNull;
  */
 public class DefaultWebApplicationRequest extends ServletInputStream implements WebApplicationRequest {
 
-    /**
-     * Stores the logger.
-     */
-    private static final System.Logger LOGGER = System.getLogger(DefaultWebApplicationRequest.class.getName());
-    
     /**
      * Defines the 'multipart/form-data' constant.
      */
@@ -374,14 +368,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     @Override
     public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
-        boolean result = false;
-        if (webApplication.getAuthenticationManager() != null) {
-            result = webApplication.getAuthenticationManager().authenticate(this, response);
-        } else {
-            LOGGER.log(WARNING, "No authentication manager set");
-            throw new ServletException("No authentication manager set");
-        }
-        return result;
+        return webApplication.getManager(SecurityManager.class).authenticate(this, response);
     }
 
     @Override
@@ -972,22 +959,12 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     @Override
     public void login(String username, String password) throws ServletException {
-        if (webApplication.getAuthenticationManager() != null) {
-            webApplication.getAuthenticationManager().login(this, username, password);
-        } else {
-            LOGGER.log(WARNING, "No authentication manager set");
-            throw new ServletException("No authentication manager set");
-        }
+        webApplication.getManager(SecurityManager.class).login(this, username, password);
     }
 
     @Override
     public void logout() throws ServletException {
-        if (webApplication.getAuthenticationManager() != null) {
-            webApplication.getAuthenticationManager().logout(this, (HttpServletResponse) this.webApplication.getResponse(this));
-        } else {
-            LOGGER.log(WARNING, "No authentication manager set");
-            throw new ServletException("No authentication manager set");
-        }
+        webApplication.getManager(SecurityManager.class).logout(this, (HttpServletResponse) this.webApplication.getResponse(this));
     }
 
     @Override

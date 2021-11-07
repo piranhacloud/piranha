@@ -55,11 +55,6 @@ import java.util.Properties;
 public class FileAuthenticationManager implements AuthenticationManager {
 
     /**
-     * Stores the auth method.
-     */
-    private String authMethod;
-    
-    /**
      * Stores the Base64 decoder.
      */
     private Decoder decoder = Base64.getDecoder();
@@ -68,11 +63,6 @@ public class FileAuthenticationManager implements AuthenticationManager {
      * Stores the logins.
      */
     private final HashMap<String, String> logins = new HashMap<>();
-    
-    /**
-     * Stores the realm name.
-     */
-    private String realmName = "Authentication Realm";
 
     /**
      * Stores the security mappings.
@@ -111,14 +101,8 @@ public class FileAuthenticationManager implements AuthenticationManager {
     @Override
     public boolean authenticate(HttpServletRequest request,
             HttpServletResponse response) throws IOException, ServletException {
-        
-        String authType = request.getAuthType();
-        if (authType == null) {
-            authType = authMethod;
-        }
-        
-        if (authType != null) {
-            switch (authType) {
+        if (request.getAuthType() != null) {
+            switch (request.getAuthType()) {
                 case BASIC_AUTH -> {
                     return authenticateBasic(request, response);
                 }
@@ -201,11 +185,6 @@ public class FileAuthenticationManager implements AuthenticationManager {
         }
         return result;
     }
-    
-    @Override
-    public String getRealmName() {
-        return realmName;
-    }
 
     @Override
     public void login(HttpServletRequest request, String username,
@@ -254,20 +233,6 @@ public class FileAuthenticationManager implements AuthenticationManager {
     }
 
     @Override
-    public void requestAuthentication(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException {
-        response.setStatus(401);
-        response.setHeader("WWW-Authenticate", "Basic realm=\"" + getRealmName() + "\"");
-        response.flushBuffer();
-    }
-    
-    @Override
-    public void setAuthMethod(String authMethod) {
-        this.authMethod = authMethod;
-    }
-    
-    @Override
-    public void setRealmName(String realmName) {
-        this.realmName = realmName;
+    public void requestAuthentication(HttpServletRequest request, HttpServletResponse response) {
     }
 }

@@ -12,7 +12,7 @@
     <artifactId>piranha-extension-webxml</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Extension - web.xml</name>
+    <name>Piranha Extension - web.xml</name>
 
     <dependencies>
         <!-- provided -->

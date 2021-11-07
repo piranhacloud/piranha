@@ -847,6 +847,40 @@ class DefaultWebApplicationTest {
     }
 
     /**
+     * Test login method.
+     */
+    @Test
+    void testLogin() {
+        try {
+            DefaultSecurityManager securityManager = new DefaultSecurityManager();
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            webApp.setManager(SecurityManager.class, securityManager);
+            TestWebApplicationRequest request = new TestWebApplicationRequest();
+            request.setWebApplication(webApp);
+            request.login("admin", "password");
+            fail();
+        } catch (ServletException exception) {
+        }
+    }
+
+    /**
+     * Test logout method.
+     */
+    @Test
+    void testLogout() {
+        try {
+            DefaultSecurityManager securityManager = new DefaultSecurityManager();
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            webApp.setManager(SecurityManager.class, securityManager);
+            TestWebApplicationRequest request = new TestWebApplicationRequest();
+            request.setWebApplication(webApp);
+            request.logout();
+            fail();
+        } catch (ServletException exception) {
+        }
+    }
+
+    /**
      * Test removeAttribute method.
      */
     @Test

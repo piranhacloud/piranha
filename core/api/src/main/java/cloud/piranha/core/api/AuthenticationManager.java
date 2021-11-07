@@ -34,18 +34,11 @@ import java.io.IOException;
 
 /**
  * The AuthenticationManager API.
- *
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface AuthenticationManager {
-
-    /**
-     * Add security mapping.
-     *
-     * @param urlPattern the URL pattern.
-     */
-    void addSecurityMapping(String urlPattern);
-
+    
     /**
      * Authenticate the request.
      *
@@ -55,30 +48,30 @@ public interface AuthenticationManager {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a Servlet error occurs.
      */
-    boolean authenticate(HttpServletRequest request,
+    boolean authenticate(HttpServletRequest request, 
             HttpServletResponse response) throws IOException, ServletException;
-
+    
     /**
-     * Get the realm name (if any).
-     *
-     * @return the realm name.
+     * Add security mapping.
+     * 
+     * @param urlPattern the URL pattern.
      */
-    String getRealmName();
-
+    void addSecurityMapping(String urlPattern);
+    
     /**
      * Login.
-     *
+     * 
      * @param request the request.
      * @param username the username.
      * @param password the password.
      * @throws ServletException when a Servlet error occurs.
      */
-    void login(HttpServletRequest request, String username, String password)
+    void login(HttpServletRequest request, String username, String password) 
             throws ServletException;
 
     /**
      * Logout.
-     *
+     * 
      * @param request the request.
      * @param response the response.
      * @throws ServletException when a Servlet error occurs.
@@ -88,33 +81,18 @@ public interface AuthenticationManager {
 
     /**
      * Determine if the request needs authentication.
-     *
+     * 
      * @param request the request.
      * @return true if it does, false otherwise.
      */
     boolean needsAuthentication(HttpServletRequest request);
-
+    
     /**
      * Request authentication.
-     *
+     * 
      * @param request the request.
      * @param response the response.
-     * @throws IOException when an I/O error occurs.
      */
-    void requestAuthentication(HttpServletRequest request,
-            HttpServletResponse response) throws IOException;
-
-    /**
-     * Set the auth method.
-     * 
-     * @param authMethod the auth method.
-     */
-    void setAuthMethod(String authMethod);
-
-    /**
-     * Set the realm name.
-     * 
-     * @param realmName the realm name.
-     */
-    void setRealmName(String realmName);
+    void requestAuthentication(HttpServletRequest request, 
+            HttpServletResponse response);
 }
