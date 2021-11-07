@@ -27,8 +27,6 @@
  */
 package cloud.piranha.core.impl.tests;
 
-import cloud.piranha.core.api.SecurityManager;
-import cloud.piranha.core.impl.DefaultSecurityManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import jakarta.servlet.ReadListener;
@@ -49,7 +47,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -73,39 +70,6 @@ class HttpServletRequestTest {
     @BeforeEach
     void setUp() throws Exception {
         request = new TestWebApplicationRequest();
-    }
-
-    /**
-     * Test authenticate method.
-     */
-    @Test
-    void testAuthenticate() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setManager(SecurityManager.class, new DefaultSecurityManager());
-        request.setWebApplication(webApp);
-        HttpServletResponse response = new TestWebApplicationResponse();
-        try {
-            assertFalse(request.authenticate(response));
-        } catch (IOException | ServletException exception) {
-            fail();
-        }
-    }
-
-    /**
-     * Test authenticate method.
-     */
-    @Test
-    void testAuthenticate2() {
-        try {
-            DefaultSecurityManager securityManager = new DefaultSecurityManager();
-            DefaultWebApplication webApp = new DefaultWebApplication();
-            webApp.setManager(SecurityManager.class, securityManager);
-            request.setWebApplication(webApp);
-            HttpServletResponse response = new TestWebApplicationResponse();
-            request.authenticate(response);
-        } catch (IOException | ServletException ex) {
-            fail();
-        }
     }
 
     /**
@@ -267,22 +231,6 @@ class HttpServletRequestTest {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         request.setWebApplication(webApplication);
         assertFalse(request.isUserInRole("notmatched"));
-    }
-
-    /**
-     * Test login method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testLogin() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        request.setWebApplication(webApplication);
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        securityManager.addUser("username", "password", new String[]{});
-        webApplication.setManager(SecurityManager.class, securityManager);
-        request.login("username", "password");
-        assertNotNull(request.getUserPrincipal());
     }
 
     /**

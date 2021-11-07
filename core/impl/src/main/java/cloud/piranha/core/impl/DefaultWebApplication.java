@@ -157,6 +157,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(DefaultWebApplication.class.getName());
+    
+    /**
+     * Stores the authentication manager.
+     */
+    protected AuthenticationManager authenticationManager;
 
     /**
      * Stores the class loader.
@@ -322,7 +327,6 @@ public class DefaultWebApplication implements WebApplication {
         managers = new HashMap<>();
         managers.put(AnnotationManager.class.getName(), new DefaultAnnotationManager());
         managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
-        managers.put(AuthenticationManager.class.getName(), new DefaultAuthenticationManager());
         managers.put(JspManager.class.getName(), new DefaultJspFileManager());
         managers.put(LocaleEncodingManager.class.getName(),  new DefaultLocaleEncodingManager());
         managers.put(LoggingManager.class.getName(), new DefaultLoggingManager());
@@ -1785,6 +1789,11 @@ public class DefaultWebApplication implements WebApplication {
                     "ServletContext is in tainted mode (as required by spec).");
         }
     }
+    
+    @Override 
+    public AuthenticationManager getAuthenticationManager() {
+        return authenticationManager;
+    }
 
     @Override
     public <T> T getManager(Class<T> clazz) {
@@ -1837,6 +1846,11 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
+    @Override
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+    
     @Override
     public <T> void setManager(Class<T> clazz, T manager) {
         managers.put(clazz.getName(), manager);

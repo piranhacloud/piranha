@@ -27,7 +27,6 @@
  */
 package cloud.piranha.extension.security.file;
 
-import cloud.piranha.core.api.AuthenticationManager;
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.impl.DefaultSecurityManager;
@@ -94,8 +93,7 @@ public class FileSecurityInitializer implements ServletContainerInitializer {
 
         }
 
-        webApplication.setManager(AuthenticationManager.class, 
-                new FileAuthenticationManager(userFile));
+        webApplication.setAuthenticationManager(new FileAuthenticationManager(userFile));
         FilterRegistration.Dynamic dynamic = webApplication.addFilter(
                 FileAuthenticationFilter.class.getName(),
                 FileAuthenticationFilter.class);

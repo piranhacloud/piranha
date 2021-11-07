@@ -48,6 +48,7 @@ import cloud.piranha.core.api.MimeTypeManager;
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WelcomeFileManager;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The web.xml / web-fragment.xml processor.
@@ -249,14 +250,18 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processLoginConfig(WebApplication webApplication, WebXml webXml) {
-        AuthenticationManager authManager = webApplication.getManager(AuthenticationManager.class);
-        if (authManager != null && webXml.getLoginConfig() != null) {
-            if (webXml.getLoginConfig().authMethod() != null) {
-                authManager.setAuthMethod(webXml.getLoginConfig().authMethod());
+        AuthenticationManager authManager = webApplication.getAuthenticationManager();
+        if (authManager != null) {
+            if (webXml.getLoginConfig() != null) {
+                if (webXml.getLoginConfig().authMethod() != null) {
+                    authManager.setAuthMethod(webXml.getLoginConfig().authMethod());
+                }
+                if (webXml.getLoginConfig().realmName() != null) {
+                    authManager.setRealmName(webXml.getLoginConfig().realmName());
+                }
             }
-            if (webXml.getLoginConfig().realmName() != null) {
-                authManager.setRealmName(webXml.getLoginConfig().realmName());
-            }
+        } else {
+            LOGGER.log(WARNING, "No authentication manager is set, not applying login config");
         }
     }
 
@@ -403,6 +408,10 @@ public class WebXmlProcessor {
         }
     }
 
+    private boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
+    }
+
     private void processLocaleEncodingMapping(WebApplication webApplication, WebXml webXml) {
         Map<String, String> localeMapping = webXml.getLocaleEncodingMapping();
         if (localeMapping == null) {
@@ -418,6 +427,27 @@ public class WebXmlProcessor {
     }
 
     /**
+     * Process the security constraints.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processSecurityConstraints(WebApplication webApplication, WebXml webXml) {
+        AuthenticationManager manager = webApplication.getAuthenticationManager();
+        if (manager != null) {
+            for (WebXmlSecurityConstraint constraint : webXml.getSecurityConstraints()) {
+                for (WebXmlSecurityConstraint.WebResourceCollection collection : constraint.getWebResourceCollections()) {
+                    for (String urlPattern : collection.getUrlPatterns()) {
+                        manager.addSecurityMapping(urlPattern);
+                    }
+                }
+            }
+        } else {
+            LOGGER.log(WARNING, "No authentication manager is set, not applying security contraints");
+        }
+    }
+
+    /**
      * Process the session config.
      *
      * @param webApplication the web application.
@@ -429,26 +459,5 @@ public class WebXmlProcessor {
             return;
         }
         webApplication.setSessionTimeout(sessionConfig.sessionTimeout());
-    }
-
-    private boolean isEmpty(String string) {
-        return string == null || string.isEmpty();
-    }
-
-    /**
-     * Process the security constraints.
-     *
-     * @param webApplication the web application.
-     * @param webXml the web.xml.
-     */
-    private void processSecurityConstraints(WebApplication webApplication, WebXml webXml) {
-        AuthenticationManager manager = webApplication.getManager(AuthenticationManager.class);
-        for (WebXmlSecurityConstraint constraint : webXml.getSecurityConstraints()) {
-            for (WebXmlSecurityConstraint.WebResourceCollection collection : constraint.getWebResourceCollections()) {
-                for (String urlPattern : collection.getUrlPatterns()) {
-                    manager.addSecurityMapping(urlPattern);
-                }
-            }
-        }
     }
 }

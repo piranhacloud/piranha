@@ -48,16 +48,20 @@ public class FileAuthenticationFilter extends HttpFilter {
             throws IOException, ServletException {
 
         WebApplication webApp = (WebApplication) request.getServletContext();
-        AuthenticationManager authManager = webApp.getManager(AuthenticationManager.class);
-        
-        if (request.getUserPrincipal() != null) {
-            chain.doFilter(request, response);
-        } else if (authManager.needsAuthentication(request)) {
-            boolean authenticated = authManager.authenticate(request, response);
-            if (authenticated) {
+        AuthenticationManager authManager = webApp.getAuthenticationManager();
+
+        if (authManager != null) {
+            if (request.getUserPrincipal() != null) {
                 chain.doFilter(request, response);
+            } else if (authManager.needsAuthentication(request)) {
+                boolean authenticated = authManager.authenticate(request, response);
+                if (authenticated) {
+                    chain.doFilter(request, response);
+                } else {
+                    authManager.requestAuthentication(request, response);
+                }
             } else {
-                authManager.requestAuthentication(request, response);
+                chain.doFilter(request, response);
             }
         } else {
             chain.doFilter(request, response);
