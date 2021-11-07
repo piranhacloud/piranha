@@ -26,11 +26,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.extension.security.file.FileSecurityInitializer;
-import jakarta.servlet.ServletContainerInitializer;
-
 /**
- * The Piranha Extension - File Security module.
+ * The Piranha - Extension - File Security module.
  * 
  * <p>
  *  This module delivers file-based security integration into Piranha.
@@ -39,9 +36,8 @@ import jakarta.servlet.ServletContainerInitializer;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.security.file {
-    
+    opens cloud.piranha.extension.security.file;
     exports cloud.piranha.extension.security.file;
-    provides ServletContainerInitializer with FileSecurityInitializer;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
 }

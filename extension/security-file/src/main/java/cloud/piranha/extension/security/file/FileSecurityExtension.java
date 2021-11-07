@@ -25,37 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.server;
+package cloud.piranha.extension.security.file;
 
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
-import cloud.piranha.extension.herring.HerringExtension;
-import cloud.piranha.extension.policy.PolicyExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.extension.security.file.FileSecurityExtension;
-import cloud.piranha.extension.tempdir.TempDirExtension;
-import cloud.piranha.extension.wasp.WaspExtension;
-import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
-import cloud.piranha.extension.webxml.WebXmlExtension;
+import jakarta.servlet.ServletContainerInitializer;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.reflect.InvocationTargetException;
 
 /**
- * The ServerExtension delivers the default extensions for Piranha Server.
+ * The WebApplicationExtension that adds the ServletContainerInitializer.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServerExtension implements WebApplicationExtension {
+public class FileSecurityExtension implements WebApplicationExtension {
 
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(FileSecurityExtension.class.getName());
+
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
     @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(HerringExtension.class);
-        context.add(PolicyExtension.class);
-        context.add(AnnotationScanExtension.class);
-        context.add(WaspExtension.class);
-        context.add(FileSecurityExtension.class);
-        context.add(WebXmlExtension.class);
-        context.add(WebAnnotationsExtension.class);
-        context.add(TempDirExtension.class);
-        context.add(ServletContainerInitializerExtension.class);
+    public void configure(WebApplication webApplication) {
+        try {
+            ClassLoader classLoader = webApplication.getClassLoader();
+
+            Class<? extends ServletContainerInitializer> clazz
+                    = classLoader.
+                            loadClass(FileSecurityInitializer.class.getName())
+                            .asSubclass(ServletContainerInitializer.class);
+
+            ServletContainerInitializer initializer
+                    = clazz.getDeclaredConstructor().newInstance();
+
+            webApplication.addInitializer(initializer);
+
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
+                | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException ex) {
+            LOGGER.log(Level.WARNING, "Unable to enable File Security WebApplicationExtension", ex);
+        }
     }
 }
