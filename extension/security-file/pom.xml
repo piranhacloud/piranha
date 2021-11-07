@@ -12,7 +12,7 @@
     <artifactId>piranha-extension-security-file</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Extension - Security - File</name>
+    <name>Piranha - Extension - Security - File</name>
 
     <dependencies>
         <!-- provided -->

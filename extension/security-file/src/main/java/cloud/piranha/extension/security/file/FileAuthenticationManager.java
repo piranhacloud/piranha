@@ -125,9 +125,10 @@ public class FileAuthenticationManager implements AuthenticationManager {
      *
      * @param request the request,
      * @param response the response.
+     * @throws ServletException when a serious error occurs.
      */
     private boolean authenticateBasic(HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
+            HttpServletResponse response) throws ServletException {
         boolean result = false;
         if (request.getHeader("Authorization") != null) {
             String decodedString = new String(decoder.decode(
@@ -147,9 +148,10 @@ public class FileAuthenticationManager implements AuthenticationManager {
      *
      * @param request the request,
      * @param response the response.
+     * @throws ServletException when a serious error occurs.
      */
     private boolean authenticateClientCert(HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
+            HttpServletResponse response) throws ServletException {
         throw new ServletException("AuthType '" + request.getAuthType() + "' is not supported yet");
     }
 
@@ -158,9 +160,10 @@ public class FileAuthenticationManager implements AuthenticationManager {
      *
      * @param request the request,
      * @param response the response.
+     * @throws ServletException when a serious error occurs.
      */
     private boolean authenticateDigest(HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
+            HttpServletResponse response) throws ServletException {
         throw new ServletException("AuthType '" + request.getAuthType() + "' is not supported yet");
     }
 
@@ -169,9 +172,10 @@ public class FileAuthenticationManager implements AuthenticationManager {
      *
      * @param request the request,
      * @param response the response.
+     * @throws ServletException when a serious error occurs.
      */
     private boolean authenticateForm(HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
+            HttpServletResponse response) throws ServletException {
         boolean result = false;
         String username = request.getParameter("j_username");
         String password = request.getParameter("j_password");

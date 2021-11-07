@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Extension - Project</name>
+    <name>Piranha - Extension - Project</name>
 
     <modules>
         <module>annotationscan</module>

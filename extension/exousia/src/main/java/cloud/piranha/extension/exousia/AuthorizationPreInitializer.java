@@ -252,9 +252,8 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
      *
      * @param servletContext the Servlet context.
      * @return the list of security constraints.
-     * @throws ServletException when a Servlet error occurs.
      */
-    private List<SecurityConstraint> getConstraintsFromSecurityElements(ServletContext servletContext) throws ServletException {
+    private List<SecurityConstraint> getConstraintsFromSecurityElements(ServletContext servletContext) {
         return piranhaToExousiaConverter.getConstraintsFromSecurityElements(getOptionalAttribute(servletContext, SECURITY_ELEMENTS));
     }
 
@@ -263,9 +262,8 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
      *
      * @param servletContext the Servlet context.
      * @return the list of security constraints.
-     * @throws ServletException when a Servlet error occurs.
      */
-    private List<SecurityConstraint> getConstraintsFromSecurityAnnotations(ServletContext servletContext) throws ServletException {
+    private List<SecurityConstraint> getConstraintsFromSecurityAnnotations(ServletContext servletContext) {
         return piranhaToExousiaConverter.getConstraintsFromSecurityAnnotations(getOptionalAttribute(servletContext, SECURITY_ANNOTATIONS));
     }
 
@@ -296,12 +294,12 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
 
 
 
-    private boolean hasPermissionsSet(ServletContext servletContext) throws ServletException {
+    private boolean hasPermissionsSet(ServletContext servletContext) {
         return getOptionalAttribute(servletContext, UNCHECKED_PERMISSIONS) != null
                 || getOptionalAttribute(servletContext, PERROLE_PERMISSIONS) != null;
     }
 
-    private void setPermissions(ServletContext servletContext, AuthorizationService authorizationService) throws ServletException {
+    private void setPermissions(ServletContext servletContext, AuthorizationService authorizationService) {
         // Add permissions to the policy configuration, which is the repository that the policy (authorization module)
         // uses
         PolicyConfiguration policyConfiguration = authorizationService.getPolicyConfiguration();

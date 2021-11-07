@@ -143,12 +143,15 @@ public class ServletSecurityManager implements SecurityManager {
             }
         }
 
+        boolean mandatory = true;
+        if (source != MID_REQUEST_USER) {
+            mandatory = !isRequestedResourcePublic(request);
+        }
         Caller caller = authenticationService.validateRequest(
                 request,
                 response,
                 source == MID_REQUEST_USER,
-                source == MID_REQUEST_USER? true : !isRequestedResourcePublic(request));
-
+                mandatory);
 
         // Caller is null means authentication failed. If authentication did not happen (auth module decided to do nothing)
         // we have a caller instance with a null caller principal
