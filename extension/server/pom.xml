@@ -12,7 +12,7 @@
     </parent>
     <artifactId>piranha-extension-server</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha Extension - Server</name>
+    <name>Piranha - Extension - Server</name>
     <description>
         This module delivers the default set of extensions for Piranha Server.
     </description>

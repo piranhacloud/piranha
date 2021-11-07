@@ -13,6 +13,7 @@
     <name>Piranha - Server - Project</name>
     <modules>
         <module>isolated</module>
+        <module>slim</module>
         <module>standard</module>
     </modules>
 </project>
