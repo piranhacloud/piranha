@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.Logger.Level.WARNING;
 import java.lang.module.Configuration;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleFinder;
@@ -383,6 +384,21 @@ public class SlimServerPiranha implements Piranha, Runnable {
      * Start the server.
      */
     public void start() {
+        File pidFile = new File("tmp/piranha.pid");
+        
+        if (!pidFile.exists()) {
+            try {
+                if (!pidFile.getParentFile().exists()) {
+                    pidFile.getParentFile().mkdirs();
+                }
+                pidFile.createNewFile();
+            } catch (IOException ex) {
+                LOGGER.log(WARNING, "Unable to create PID file");
+            }
+        } else {
+            LOGGER.log(WARNING, "PID file already exsists");
+        }
+
         thread = new Thread(this);
         thread.setDaemon(false);
         thread.start();
@@ -396,5 +412,7 @@ public class SlimServerPiranha implements Piranha, Runnable {
         if (pidFile.exists()) {
             pidFile.delete();
         }
+        
+        thread = null;
     }
 }

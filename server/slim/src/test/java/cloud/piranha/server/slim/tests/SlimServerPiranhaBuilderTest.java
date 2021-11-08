@@ -47,25 +47,6 @@ import org.junit.jupiter.api.Test;
 class SlimServerPiranhaBuilderTest {
 
     /**
-     * Test build method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testBuild() throws Exception {
-        SlimServerPiranha piranha = new SlimServerPiranhaBuilder()
-                .webAppsDir("src/test/server/build")
-                .build();
-        piranha.start();
-        Thread.sleep(1000);
-        try ( Socket socket = new Socket("localhost", 8080)) {
-            assertNotNull(socket.getOutputStream());
-        }
-        piranha.stop();
-        assertNotNull(piranha);
-    }
-
-    /**
      * Test httpPort method.
      *
      * @throws Exception when a serious error occurs.
@@ -76,12 +57,12 @@ class SlimServerPiranhaBuilderTest {
                 .httpPort(8118)
                 .build();
         piranha.start();
-        Thread.sleep(1000);
+        Thread.sleep(5000);
         try ( Socket socket = new Socket("localhost", 8118)) {
             assertNotNull(socket.getOutputStream());
         }
         piranha.stop();
-        assertNotNull(piranha);
+        Thread.sleep(5000);
     }
 
     /**
@@ -96,13 +77,13 @@ class SlimServerPiranhaBuilderTest {
                 .httpsPort(8043)
                 .build();
         piranha.start();
-        Thread.sleep(1000);
+        Thread.sleep(5000);
         try ( Socket socket = new Socket("localhost", 8080)) {
             fail();
         } catch (ConnectException e) {
         }
         piranha.stop();
-        assertNotNull(piranha);
+        Thread.sleep(5000);
     }
 
     /**
@@ -111,7 +92,7 @@ class SlimServerPiranhaBuilderTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testHttpsPort() throws Exception {
+    void testHttpsPort2() throws Exception {
         SlimServerPiranha piranha = new SlimServerPiranhaBuilder()
                 .sslKeystoreFile("src/main/zip/etc/keystore.jks")
                 .sslKeystorePassword("password")
@@ -119,15 +100,14 @@ class SlimServerPiranhaBuilderTest {
                 .httpsPort(8338)
                 .build();
         piranha.start();
-        Thread.sleep(1000);
+        Thread.sleep(5000);
         SocketFactory factory = SSLSocketFactory.getDefault();
         try ( SSLSocket socket = (SSLSocket) factory.createSocket("localhost", 8338)) {
             assertNotNull(socket.getOutputStream());
             assertNotNull(socket.getSSLParameters());
             assertEquals("TLSv1.3", socket.getSSLParameters().getProtocols()[0]);
         }
-        Thread.sleep(5000);
         piranha.stop();
-        assertNotNull(piranha);
+        Thread.sleep(5000);
     }
 }

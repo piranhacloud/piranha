@@ -60,6 +60,7 @@ import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.ServletException;
 
 import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The Servlet container version of Piranha.
@@ -265,7 +266,7 @@ public class ServerPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
-        File pidFile = new File("tmp/piranha.pid");
+        File pidFile = new File("tmp/piranha.pid");        
         while (isRunning()) {
             try {
                 Thread.sleep(2000);
@@ -396,6 +397,21 @@ public class ServerPiranha implements Piranha, Runnable {
      * Start the server.
      */
     public void start() {
+        File pidFile = new File("tmp/piranha.pid");
+        
+        if (!pidFile.exists()) {
+            try {
+                if (!pidFile.getParentFile().exists()) {
+                    pidFile.getParentFile().mkdirs();
+                }
+                pidFile.createNewFile();
+            } catch (IOException ex) {
+                LOGGER.log(WARNING, "Unable to create PID file");
+            }
+        } else {
+            LOGGER.log(WARNING, "PID file already exsists");
+        }
+        
         thread = new Thread(this);
         thread.setDaemon(false);
         thread.start();
@@ -406,8 +422,11 @@ public class ServerPiranha implements Piranha, Runnable {
      */
     public void stop() {
         File pidFile = new File("tmp/piranha.pid");
+        
         if (pidFile.exists()) {
             pidFile.delete();
         }
+        
+        thread = null;
     }
 }

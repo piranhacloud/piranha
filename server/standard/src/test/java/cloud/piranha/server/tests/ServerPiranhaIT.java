@@ -35,6 +35,8 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
@@ -106,16 +108,26 @@ class ServerPiranhaIT {
                     command("sh", "./start.sh").
                     start();
         }
-        process.waitFor(15, TimeUnit.SECONDS);
+        process.waitFor(5, TimeUnit.SECONDS);
+        Thread.sleep(5000);
         
         File pidFile = new File("target/piranha/tmp/piranha.pid");
-        if (pidFile.exists()) {
-            pidFile.delete();
+        assertTrue(pidFile.exists());
+
+        if (System.getProperty("os.name").toLowerCase().equals("windows")) {
+            process = builder.
+                    directory(new File("target/piranha/bin")).
+                    command("stop.cmd").
+                    start();
         } else {
-            fail("PID file does not exist");
+            process = builder.
+                    directory(new File("target/piranha/bin")).
+                    command("sh", "./stop.sh").
+                    start();
         }
-        process.waitFor(15, TimeUnit.SECONDS);
-        
-        process.destroy();
+        process.waitFor(5, TimeUnit.SECONDS);
+        Thread.sleep(5000);
+
+        assertFalse(pidFile.exists());
     }
 }
