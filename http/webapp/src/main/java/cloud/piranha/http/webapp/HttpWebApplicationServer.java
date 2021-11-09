@@ -45,8 +45,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import java.io.IOException;
 import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.ERROR;
-import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
 import java.util.Iterator;
 import java.util.Map;
@@ -63,7 +63,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(HttpWebApplicationServer.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(HttpWebApplicationServer.class.getName());
 
     /**
      * Stores the request mapper.
@@ -100,7 +100,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
 
     @Override
     public void addWebApplication(WebApplication webApplication) {
-        LOGGER.log(INFO, () -> "Adding web application with context path: " + webApplication.getContextPath());
+        LOGGER.log(DEBUG, () -> "Adding web application with context path: " + webApplication.getContextPath());
         webApplications.put(webApplication.getContextPath(), webApplication);
         requestMapper.addMapping(webApplication, webApplication.getContextPath());
     }
@@ -209,7 +209,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
 
     @Override
     public void initialize() {
-        LOGGER.log(INFO, "Starting initialization of {0} web application(s)", webApplications.size());
+        LOGGER.log(DEBUG, "Starting initialization of {0} web application(s)", webApplications.size());
         webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -219,7 +219,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        LOGGER.log(INFO, "Finished initialization of {0} web application(s)", webApplications.size());
+        LOGGER.log(DEBUG, "Finished initialization of {0} web application(s)", webApplications.size());
     }
 
     @Override
@@ -293,7 +293,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      */
     @Override
     public void start() {
-        LOGGER.log(INFO, "Starting HTTP web application server");
+        LOGGER.log(DEBUG, "Starting HTTP web application server");
         webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -303,7 +303,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        LOGGER.log(INFO, "Started HTTP web application server");
+        LOGGER.log(DEBUG, "Started HTTP web application server");
     }
 
     /**
@@ -311,7 +311,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      */
     @Override
     public void stop() {
-        LOGGER.log(INFO, "Stopping HTTP web application server");
+        LOGGER.log(DEBUG, "Stopping HTTP web application server");
         webApplications.values().forEach(webApp -> {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
@@ -321,6 +321,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         });
-        LOGGER.log(INFO, "Stopped HTTP web application server");
+        LOGGER.log(DEBUG, "Stopped HTTP web application server");
     }
 }

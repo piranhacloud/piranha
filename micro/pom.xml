@@ -37,6 +37,7 @@
              Creates a web application that it either returns or deploys itself to an embedded HTTP server.     
         -->
         <module>core</module>
+        <module>slim</module>
     </modules>
 
     <dependencyManagement>
