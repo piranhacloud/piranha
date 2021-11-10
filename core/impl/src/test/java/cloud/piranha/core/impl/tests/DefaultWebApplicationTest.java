@@ -1087,7 +1087,21 @@ class DefaultWebApplicationTest {
         PrintWriter writer = response.getWriter();
         assertEquals("text/html;charset=ISO-8859-1", response.getContentType());
     }
+    
+    /**
+     * Test getMimeType method.
+     */
+    @Test
+    void testGetMimeType() {
+        DefaultWebApplication application = new DefaultWebApplication();
+        assertNull(application.getMimeType("index.html"));
+    }
 
+    /**
+     * Test setBufferSize method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
     @Test
     void testSetBufferSize() throws Exception {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();

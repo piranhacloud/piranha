@@ -25,10 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.mimetype;
+package cloud.piranha.extension.mimetype.tests;
 
 import cloud.piranha.core.api.MimeTypeManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.extension.mimetype.DefaultMimeTypeManager;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.BeforeEach;
@@ -80,7 +81,7 @@ class DefaultMimeTypeManagerTest {
     void testGetMimeType2() {
         DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setAttribute(MimeTypeManager.class.getName(), mimeTypeManager);
+        webApp.setMimeTypeManager(mimeTypeManager);
         assertNull(webApp.getMimeType("this_maps_to.null"));
     }
 
@@ -92,7 +93,7 @@ class DefaultMimeTypeManagerTest {
         DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
         mimeTypeManager.addMimeType("class", "application/x-java-class");
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setAttribute(MimeTypeManager.class.getName(), mimeTypeManager);
+        webApp.setMimeTypeManager(mimeTypeManager);
         assertEquals(webApp.getMimeType("my.class"), "application/x-java-class");
     }
 
@@ -103,7 +104,7 @@ class DefaultMimeTypeManagerTest {
     void testGetMimeType4() {
         DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setAttribute(MimeTypeManager.class.getName(), mimeTypeManager);
+        webApp.setMimeTypeManager(mimeTypeManager);
         assertNull(webApp.getMimeType("myclass"));
     }
 }

@@ -248,7 +248,8 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processMimeMappings(WebApplication webApplication, WebXml webXml) {
-        if (webApplication.getAttribute(MimeTypeManager.class.getName()) instanceof MimeTypeManager manager) {
+        MimeTypeManager manager = webApplication.getMimeTypeManager();
+        if (manager != null) {
             webXml.getMimeMappings().forEach(mapping -> {
                 manager.addMimeType(mapping.extension(), mapping.mimeType());
             });

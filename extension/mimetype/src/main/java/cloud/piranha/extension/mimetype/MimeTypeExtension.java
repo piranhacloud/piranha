@@ -27,13 +27,12 @@
  */
 package cloud.piranha.extension.mimetype;
 
-import cloud.piranha.core.api.MimeTypeManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The WebApplicationExtension that registers the DefaultMimeTypeManager.
+ * The WebApplicationExtension that sets the DefaultMimeTypeManager.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -51,7 +50,7 @@ public class MimeTypeExtension implements WebApplicationExtension {
      */
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Configuring webapplication");
-        webApplication.setAttribute(MimeTypeManager.class.getName(), new DefaultMimeTypeManager());
+        LOGGER.log(DEBUG, "Setting mime-type manager");
+        webApplication.setMimeTypeManager(new DefaultMimeTypeManager());
     }
 }

@@ -326,13 +326,6 @@ public interface WebApplication extends ServletContext {
     void setEffectiveMinorVersion(int version);
 
     /**
-     * Set the HTTP session manager.
-     *
-     * @param httpSessionManager the HTTP session manager.
-     */
-    void setHttpSessionManager(HttpSessionManager httpSessionManager);
-
-    /**
      * Get the manager.
      * 
      * @param <T> the manager return type.
@@ -342,11 +335,25 @@ public interface WebApplication extends ServletContext {
     <T> T getManager(Class<T> clazz);
     
     /**
+     * Get the mime-type manager.
+     * 
+     * @return the mime-type manager.
+     */
+    MimeTypeManager getMimeTypeManager();
+    
+    /**
      * Set the HTTP request manager.
      *
      * @param httpRequestManager the HTTP request manager.
      */
     void setHttpRequestManager(HttpRequestManager httpRequestManager);
+
+    /**
+     * Set the HTTP session manager.
+     *
+     * @param httpSessionManager the HTTP session manager.
+     */
+    void setHttpSessionManager(HttpSessionManager httpSessionManager);
 
     /**
      * Set the manager.
@@ -356,6 +363,13 @@ public interface WebApplication extends ServletContext {
      * @param manager the manager instance.
      */
     <T> void setManager(Class<T> clazz, T manager);
+    
+    /**
+     * Set the mime-type manager.
+     * 
+     * @param mimeTypeManager the mime-type manager.
+     */
+    void setMimeTypeManager(MimeTypeManager mimeTypeManager);
     
     /**
      * Set the resource manager.

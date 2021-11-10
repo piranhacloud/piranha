@@ -25,39 +25,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.server;
+package cloud.piranha.extension.mimetype.tests;
 
-import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
-import cloud.piranha.extension.herring.HerringExtension;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.extension.mimetype.MimeTypeExtension;
-import cloud.piranha.extension.policy.PolicyExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
-import cloud.piranha.extension.tempdir.TempDirExtension;
-import cloud.piranha.extension.wasp.WaspExtension;
-import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
-import cloud.piranha.extension.webxml.WebXmlExtension;
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationExtensionContext;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * The ServerExtension delivers the default extensions for Piranha Server.
- *
+ * The JUnit tests for the MimeTypeExtension class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServerExtension implements WebApplicationExtension {
-
-    @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(MimeTypeExtension.class);
-        context.add(HerringExtension.class);
-        context.add(PolicyExtension.class);
-        context.add(AnnotationScanExtension.class);
-        context.add(WaspExtension.class);
-        context.add(WebXmlExtension.class);
-        context.add(WebAnnotationsExtension.class);
-        context.add(TempDirExtension.class);
-        context.add(ServletContainerInitializerExtension.class);
-        context.add(ServletSecurityExtension.class);
+public class MimeTypeExtensionTest {
+    
+    /**
+     * Test configure method.
+     */
+    @Test
+    public void testConfigure() {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .extension(MimeTypeExtension.class)
+                .build();
+        assertNotNull(piranha.getWebApplication().getMimeType("index.html"));
     }
 }

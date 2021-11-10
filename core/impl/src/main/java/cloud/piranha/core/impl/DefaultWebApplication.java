@@ -290,6 +290,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the managers.
      */
     protected HashMap<String, Object> managers;
+    
+    /**
+     * Stores the mime-type manager.
+     */
+    protected MimeTypeManager mimeTypeManager;
 
     /**
      * Stores the request character encoding.
@@ -853,18 +858,18 @@ public class DefaultWebApplication implements WebApplication {
         return webApplicationRequestMapper.getServletMappings(servletName);
     }
 
-    /**
-     * {@return the mime type}
-     * 
-     * @param filename the filename.
-     */
     @Override
     public String getMimeType(String filename) {
         String mimeType = null;
-        if (getAttribute(MimeTypeManager.class.getName()) instanceof MimeTypeManager manager) {
-            mimeType = manager.getMimeType(filename);
+        if (mimeTypeManager != null) {
+            mimeType = mimeTypeManager.getMimeType(filename);
         }
         return mimeType;
+    }
+    
+    @Override
+    public MimeTypeManager getMimeTypeManager() {
+        return mimeTypeManager;
     }
 
     /**
@@ -1564,6 +1569,11 @@ public class DefaultWebApplication implements WebApplication {
             initParameters.put(name, value);
         }
         return result;
+    }
+    
+    @Override
+    public void setMimeTypeManager(MimeTypeManager mimeTypeManager) {
+        this.mimeTypeManager = mimeTypeManager;
     }
 
     /**

@@ -27,7 +27,6 @@
  */
 package cloud.piranha.extension.webxml.tests;
 
-import cloud.piranha.core.api.MimeTypeManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.extension.mimetype.DefaultMimeTypeManager;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
@@ -52,7 +51,7 @@ class MimeMappingTest {
     void testGetMimeType() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultMimeTypeManager manager = new DefaultMimeTypeManager();
-        webApplication.setAttribute(MimeTypeManager.class.getName(), manager);
+        webApplication.setMimeTypeManager(manager);
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/mimeMapping")));
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
