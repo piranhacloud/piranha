@@ -250,8 +250,8 @@ public class ServerPiranha implements Piranha, Runnable {
                     } else if (!contextPath.startsWith("/")) {
                         contextPath = "/" + contextPath;
                     }
+                    
                     webApplication.setContextPath(contextPath);
-                    webApplicationServer.addWebApplication(webApplication);
 
                     try {
                         webApplication.initialize();
@@ -259,6 +259,8 @@ public class ServerPiranha implements Piranha, Runnable {
                     } catch (Exception e) {
                         LOGGER.log(Level.ERROR, () -> "Failed to initialize app " + webapp.getName(), e);
                     }
+                    
+                    webApplicationServer.addWebApplication(webApplication);
                 }
             }
         }
