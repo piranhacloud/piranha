@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-extension-weld</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha Extension - Weld</name>
+    <name>Piranha - Extension - Weld</name>
     <dependencies>
         <!-- compile -->
         <dependency>

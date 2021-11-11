@@ -12,7 +12,7 @@
     <artifactId>piranha-extension-webannotations</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Extension - Web Annotations</name>
+    <name>Piranha - Extension - Web Annotations</name>
 
     <dependencies>
         <!-- provided -->

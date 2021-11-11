@@ -11,7 +11,7 @@
     <artifactId>piranha-extension-tempdir</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Extension - TEMPDIR</name>
+    <name>Piranha - Extension - TEMPDIR</name>
 
     <dependencies>
         <!-- provided -->

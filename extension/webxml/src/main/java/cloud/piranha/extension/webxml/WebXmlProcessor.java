@@ -250,9 +250,9 @@ public class WebXmlProcessor {
     private void processMimeMappings(WebApplication webApplication, WebXml webXml) {
         MimeTypeManager manager = webApplication.getMimeTypeManager();
         if (manager != null) {
-            webXml.getMimeMappings().forEach(mapping -> {
-                manager.addMimeType(mapping.extension(), mapping.mimeType());
-            });
+            webXml.getMimeMappings().forEach(mapping
+                    -> manager.addMimeType(mapping.extension(), mapping.mimeType())
+            );
         }
     }
 

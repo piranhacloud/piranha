@@ -57,12 +57,12 @@ public class WebXml implements Serializable {
     /**
      * Stores the major version.
      */
-    public int majorVersion = -1;
+    private int majorVersion = -1;
 
     /**
      * Stores the minor version.
      */
-    public int minorVersion = -1;
+    private int minorVersion = -1;
 
     /**
      * Stores the security constraints

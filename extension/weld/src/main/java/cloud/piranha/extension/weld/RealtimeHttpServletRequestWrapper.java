@@ -354,8 +354,8 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     public boolean isWrapperFor(ServletRequest wrapped) {
         if (this.getWrapped() == wrapped) {
             return true;
-        } else if (this.getWrapped() instanceof RealtimeHttpServletRequestWrapper) {
-            return ((RealtimeHttpServletRequestWrapper) this.getWrapped()).isWrapperFor(wrapped);
+        } else if (this.getWrapped() instanceof RealtimeHttpServletRequestWrapper realtimeWrapped) {
+            return realtimeWrapped.isWrapperFor(wrapped);
         } else {
             return false;
         }
@@ -375,8 +375,8 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
         }
         if (wrappedType.isAssignableFrom(getWrapped().getClass())) {
             return true;
-        } else if (getWrapped() instanceof RealtimeHttpServletRequestWrapper) {
-            return ((RealtimeHttpServletRequestWrapper) getWrapped()).isWrapperFor(wrappedType);
+        } else if (getWrapped() instanceof RealtimeHttpServletRequestWrapper realtimeWrapped) {
+            return realtimeWrapped.isWrapperFor(wrappedType);
         } else {
             return false;
         }

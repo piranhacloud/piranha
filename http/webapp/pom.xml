@@ -11,7 +11,7 @@
     <artifactId>piranha-http-webapp</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha HTTP - WebApplication Integration</name>
+    <name>Piranha - HTTP - WebApplication Integration</name>
 
     <dependencies>
         <!-- compile -->

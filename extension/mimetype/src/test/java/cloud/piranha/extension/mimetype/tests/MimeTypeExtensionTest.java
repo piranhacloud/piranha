@@ -38,13 +38,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class MimeTypeExtensionTest {
+class MimeTypeExtensionTest {
     
     /**
      * Test configure method.
      */
     @Test
-    public void testConfigure() {
+    void testConfigure() {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .extension(MimeTypeExtension.class)
                 .build();
