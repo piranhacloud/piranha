@@ -37,17 +37,17 @@ import java.io.File;
  * @see cloud.piranha.server.lite.LiteServerPiranha
  */
 public class LiteServerPiranhaBuilder {
-    
+
     /**
      * Stores the exit on stop flag.
      */
     private boolean exitOnStop = false;
-    
+
     /**
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
-    
+
     /**
      * Stores the HTTPS port.
      */
@@ -57,17 +57,17 @@ public class LiteServerPiranhaBuilder {
      * Stores the JPMS flag.
      */
     private boolean jpms = false;
-    
+
     /**
      * Stores the SSL keystore file.
      */
     private String sslKeystoreFile;
-    
+
     /**
      * Stores the SSL keystore password.
      */
     private String sslKeystorePassword;
-    
+
     /**
      * Stores the verbose flag.
      */
@@ -101,10 +101,10 @@ public class LiteServerPiranhaBuilder {
         piranha.setWebAppsDir(new File(webAppsDir));
         return piranha;
     }
-    
+
     /**
      * Set the exit on stop flag.
-     * 
+     *
      * @param exitOnStop the exit on stop flag.
      * @return the builder.
      */
@@ -115,7 +115,7 @@ public class LiteServerPiranhaBuilder {
 
     /**
      * Set the HTTP server port.
-     * 
+     *
      * @param httpPort the HTTP server port.
      * @return the builder.
      */
@@ -123,10 +123,10 @@ public class LiteServerPiranhaBuilder {
         this.httpPort = httpPort;
         return this;
     }
-    
+
     /**
      * Set the HTTPS server port.
-     * 
+     *
      * @param httpsPort the HTTPS server port.
      * @return the builder.
      */
@@ -167,19 +167,18 @@ public class LiteServerPiranhaBuilder {
                 Web applications dir  : %s
                 
                 """,
-                new Object[] {
-                    exitOnStop,
-                    httpPort,
-                    httpsPort,
-                    jpms,
-                    sslKeystoreFile,
-                    webAppsDir,
-                });
+                exitOnStop,
+                httpPort,
+                httpsPort,
+                jpms,
+                sslKeystoreFile,
+                webAppsDir
+        );
     }
 
     /**
      * Set the SSL keystore file.
-     * 
+     *
      * @param sslKeystoreFile the SSL keystore file.
      * @return the builder.
      */
@@ -187,10 +186,10 @@ public class LiteServerPiranhaBuilder {
         this.sslKeystoreFile = sslKeystoreFile;
         return this;
     }
-    
+
     /**
      * Set the SSL keystore password.
-     * 
+     *
      * @param sslKeystorePassword the SSL keystore password.
      * @return the builder.
      */
@@ -201,7 +200,7 @@ public class LiteServerPiranhaBuilder {
 
     /**
      * Set the verbose flag.
-     * 
+     *
      * @param verbose the verbose flag.
      * @return the builder.
      */

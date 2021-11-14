@@ -73,7 +73,7 @@ public class SlimMicroPiranhaBuilder {
      * Stores the WAR file(name).
      */
     private String warFile;
-    
+
     /**
      * Stores the web application directory.
      */
@@ -174,15 +174,14 @@ public class SlimMicroPiranhaBuilder {
                 Webapp dir            : %s
                 
                 """,
-                new Object[]{
-                    exitOnStop,
-                    httpPort,
-                    httpsPort,
-                    jpms,
-                    sslKeystoreFile,
-                    warFile,
-                    webAppDir,
-                });
+                exitOnStop,
+                httpPort,
+                httpsPort,
+                jpms,
+                sslKeystoreFile,
+                warFile,
+                webAppDir
+        );
     }
 
     /**
@@ -231,7 +230,7 @@ public class SlimMicroPiranhaBuilder {
 
     /**
      * Set the web application directory.
-     * 
+     *
      * @param webAppDir the web application directory.
      * @return the builder.
      */
