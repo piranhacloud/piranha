@@ -37,23 +37,23 @@ import java.util.function.Function;
 
 /**
  * Handler for the <code>bytes://</code> protocol.
- * 
- * @author Arjan Tijms
  *
+ * @author Arjan Tijms
  */
 public class ByteArrayResourceStreamHandlerProvider extends URLStreamHandlerProvider {
-    
+
     /**
-     * A Function that provides the input stream based on the string form of a <code>bytes://</code> URL.
+     * A Function that provides the input stream based on the string form of a
+     * <code>bytes://</code> URL.
      */
     private static InheritableThreadLocal<Function<String, InputStream>> localGetResourceAsStreamFunction = new InheritableThreadLocal<>();
-    
+
     @Override
     public URLStreamHandler createURLStreamHandler(String protocol) {
         if (!"bytes".equals(protocol)) {
             return null;
         }
-        
+
         return new URLStreamHandler() {
             @Override
             protected URLConnection openConnection(URL u) throws IOException {
@@ -62,7 +62,7 @@ public class ByteArrayResourceStreamHandlerProvider extends URLStreamHandlerProv
                     public InputStream getInputStream() throws IOException {
                         return localGetResourceAsStreamFunction.get().apply(u.toString());
                     }
-                    
+
                     @Override
                     public void connect() throws IOException {
                         // Do nothing
@@ -73,12 +73,23 @@ public class ByteArrayResourceStreamHandlerProvider extends URLStreamHandlerProv
     }
     
     /**
-     * Sets a Function that provides the input stream based on the string form of a <code>bytes://</code> URL.
+     * Get the Function set to handle <code>bytes://</code> protocol handling.
      * 
-     * @param getResourceAsStreamFunction the function to transform a string URL to an input stream
+     * @return the Function, or null.
      */
-    public static void setGetResourceAsStreamFunction(Function<String, InputStream> getResourceAsStreamFunction) {
-        localGetResourceAsStreamFunction.set(getResourceAsStreamFunction);
+    public static Function<String, InputStream> getGetResourceAsStreamFunction() {
+        return localGetResourceAsStreamFunction.get();
     }
 
+    /**
+     * Sets a Function that provides the input stream based on the string form
+     * of a <code>bytes://</code> URL.
+     *
+     * @param getResourceAsStreamFunction the function to transform a string URL
+     * to an input stream
+     */
+    public static void setGetResourceAsStreamFunction(
+            Function<String, InputStream> getResourceAsStreamFunction) {
+        localGetResourceAsStreamFunction.set(getResourceAsStreamFunction);
+    }
 }

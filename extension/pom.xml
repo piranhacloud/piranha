@@ -18,6 +18,7 @@
     <modules>
         <module>annotationscan</module>
         <module>apache-fileupload</module>
+        <module>bytesstreamhandler</module>
         <module>eleos</module>
         <module>exousia</module>
         <module>hazelcast</module>

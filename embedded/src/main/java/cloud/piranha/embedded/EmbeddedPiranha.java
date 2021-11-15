@@ -32,7 +32,6 @@ import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.resource.impl.ByteArrayResourceStreamHandlerProvider;
 import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -147,23 +146,16 @@ public class EmbeddedPiranha implements Piranha {
 
     @Override
     public void service(WebApplicationRequest request, WebApplicationResponse response) throws IOException, ServletException {
-        try {
-            ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(webApplication::getResourceAsStream);
-
-            if (request instanceof EmbeddedRequest embeddedRequest) {
-                embeddedRequest.setWebApplication(webApplication);
-            }
-            if (response instanceof EmbeddedResponse embeddedResponse) {
-                embeddedResponse.setWebApplication(webApplication);
-            }
-
-            webApplication.linkRequestAndResponse(request, response);
-            webApplication.service(request, response);
-            webApplication.unlinkRequestAndResponse(request, response);
-
-        } finally {
-            ByteArrayResourceStreamHandlerProvider.setGetResourceAsStreamFunction(null);
+        if (request instanceof EmbeddedRequest embeddedRequest) {
+            embeddedRequest.setWebApplication(webApplication);
         }
+        if (response instanceof EmbeddedResponse embeddedResponse) {
+            embeddedResponse.setWebApplication(webApplication);
+        }
+
+        webApplication.linkRequestAndResponse(request, response);
+        webApplication.service(request, response);
+        webApplication.unlinkRequestAndResponse(request, response);
     }
 
     /**
