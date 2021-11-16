@@ -27,27 +27,27 @@
  */
 package cloud.piranha.extension.webxml;
 
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.TRACE;
-import static java.util.stream.Collectors.toSet;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.lang.System.Logger;
-
-import jakarta.servlet.DispatcherType;
-import jakarta.servlet.FilterRegistration;
-import jakarta.servlet.MultipartConfigElement;
-import jakarta.servlet.ServletRegistration;
-
 import cloud.piranha.core.api.AuthenticationManager;
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.MimeTypeManager;
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WelcomeFileManager;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.ServletRegistration;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
+import static java.lang.System.Logger.Level.WARNING;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import static java.util.stream.Collectors.toSet;
+
+
 
 /**
  * The web.xml / web-fragment.xml processor.
@@ -385,18 +385,22 @@ public class WebXmlProcessor {
         }
     }
 
+    /**
+     * Process the locale-encoding mapping.
+     * 
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
     private void processLocaleEncodingMapping(WebApplication webApplication, WebXml webXml) {
         Map<String, String> localeMapping = webXml.getLocaleEncodingMapping();
-        if (localeMapping == null) {
-            return;
+        if (localeMapping != null) {
+            LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
+            if (localeEncodingManager != null) {
+                localeMapping.forEach(localeEncodingManager::addCharacterEncoding);
+            } else {
+                LOGGER.log(WARNING, "No LocaleEncodingManager set, skipping adding locales");
+            }
         }
-
-        LocaleEncodingManager localeEncodingManager = webApplication.getManager(LocaleEncodingManager.class);
-        if (localeEncodingManager == null) {
-            return;
-        }
-
-        localeMapping.forEach(localeEncodingManager::addCharacterEncoding);
     }
 
     /**

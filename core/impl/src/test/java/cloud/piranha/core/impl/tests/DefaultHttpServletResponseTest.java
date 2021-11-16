@@ -27,7 +27,6 @@
  */
 package cloud.piranha.core.impl.tests;
 
-import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import jakarta.servlet.http.HttpServletResponse;
@@ -146,87 +145,6 @@ class DefaultHttpServletResponseTest {
         assertEquals("ISO-8859-1", response.getCharacterEncoding());
         response.setCharacterEncoding("UTF-8");
         assertEquals("UTF-8", response.getCharacterEncoding());
-    }
-
-    /**
-     * Test getCharacterEncoding method.
-     * 
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testGetCharacterEncoding2() throws Exception {
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        response.setWebApplication(webApp);
-        LocaleEncodingManager localeEncodingManager = webApp.getManager(LocaleEncodingManager.class);
-        localeEncodingManager.addCharacterEncoding(Locale.JAPAN.toString(), "euc-jp");
-        localeEncodingManager.addCharacterEncoding(Locale.CHINA.toString(), "gb18030");
-
-        response.setContentType("text/html");
-        assertEquals("iso-8859-1", response.getCharacterEncoding().toLowerCase());
-
-        /*
-         * setLocale should change character encoding based on
-         * locale-encoding-mapping-list
-         */
-        response.setLocale(Locale.JAPAN);
-        assertEquals("euc-jp", response.getCharacterEncoding().toLowerCase());
-
-        /*
-         * setLocale should change character encoding based on
-         * locale-encoding-mapping-list
-         */
-        response.setLocale(Locale.CHINA);
-        assertEquals("gb18030", response.getCharacterEncoding().toLowerCase());
-
-        /*
-         * setContentType here doesn't define character encoding (so character
-         * encoding should stay as it is)
-         */
-        response.setContentType("text/html");
-        assertEquals("gb18030", response.getCharacterEncoding().toLowerCase());
-
-        /*
-         * setCharacterEncoding should still be able to change encoding
-         */
-        response.setCharacterEncoding("utf-8");
-        assertEquals("utf-8", response.getCharacterEncoding().toLowerCase());
-
-        /*
-         * setLocale should not override explicit character encoding request
-         */
-        response.setLocale(Locale.JAPAN);
-        assertEquals("utf-8", response.getCharacterEncoding().toLowerCase());
-
-        /*
-         * setContentType should still be able to change encoding
-         */
-        response.setContentType("text/html;charset=gb18030");
-        assertEquals("gb18030", response.getCharacterEncoding().toLowerCase());
-
-        /*
-         * setCharacterEncoding should still be able to change encoding
-         */
-        response.setCharacterEncoding("utf-8");
-        assertEquals("utf-8", response.getCharacterEncoding());
-
-        /*
-         * getWriter should freeze the character encoding
-         */
-        response.getWriter();
-        assertEquals("utf-8", response.getCharacterEncoding());
-
-        /*
-         * setCharacterEncoding should no longer be able to change the encoding
-         */
-        response.setCharacterEncoding("iso-8859-1");
-        assertEquals("utf-8", response.getCharacterEncoding());
-
-        /*
-         * setLocale should not override explicit character encoding request
-         */
-        response.setLocale(Locale.JAPAN);
-        assertEquals("utf-8", response.getCharacterEncoding());
     }
 
     /**

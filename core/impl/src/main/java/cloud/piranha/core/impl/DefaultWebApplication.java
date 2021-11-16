@@ -133,8 +133,8 @@ public class DefaultWebApplication implements WebApplication {
     protected static final int SETUP = 0;
 
     /**
-     * Stores the INITIALIZED_DECLARED constant. This signals that web.xml, web-fragment.xml
-     * and annotations have been processed.
+     * Stores the INITIALIZED_DECLARED constant. This signals that web.xml,
+     * web-fragment.xml and annotations have been processed.
      */
     protected static final int INITIALIZED_DECLARED = 4;
 
@@ -246,12 +246,14 @@ public class DefaultWebApplication implements WebApplication {
     protected final List<ServletContextAttributeListener> contextAttributeListeners;
 
     /**
-     * Stores the servlet context listeners that were declared in web.xml, web-fragment.xml, or via annotations
+     * Stores the servlet context listeners that were declared in web.xml,
+     * web-fragment.xml, or via annotations
      */
     protected final List<ServletContextListener> declaredContextListeners;
 
     /**
-     * Stores the servlet context listeners that were not declared in web.xml, web-fragment.xml, or via annotations
+     * Stores the servlet context listeners that were not declared in web.xml,
+     * web-fragment.xml, or via annotations
      */
     protected final List<ServletContextListener> contextListeners;
 
@@ -281,16 +283,21 @@ public class DefaultWebApplication implements WebApplication {
     protected HttpRequestManager httpRequestManager;
 
     /**
-     * Stores the invocation finder, which finds a Servlet, Filter(chain) and variants thereof to invoke
-     * for a given request path.
+     * Stores the invocation finder, which finds a Servlet, Filter(chain) and
+     * variants thereof to invoke for a given request path.
      */
     protected DefaultInvocationFinder invocationFinder;
     
     /**
+     * Stores the locale encoding manager.
+     */
+    protected LocaleEncodingManager localeEncodingManager;
+
+    /**
      * Stores the managers.
      */
     protected HashMap<String, Object> managers;
-    
+
     /**
      * Stores the mime-type manager.
      */
@@ -302,16 +309,19 @@ public class DefaultWebApplication implements WebApplication {
     protected String requestCharacterEncoding;
 
     /**
-     * The source object where this web application instance originates from, i.e. the artifact this
-     * was last passed into by the container. Compare to the source object of an event.
+     * The source object where this web application instance originates from,
+     * i.e. the artifact this was last passed into by the container. Compare to
+     * the source object of an event.
      */
     protected Object source;
 
     /**
-     * When we're in tainted mode, we have to throw exceptions for a large number of methods.
+     * When we're in tainted mode, we have to throw exceptions for a large
+     * number of methods.
      *
-     * Tainted mode is required for ServletContextListeners which have not been declared. At the
-     * moment of writing it's not clear why this tainted mode is needed.
+     * Tainted mode is required for ServletContextListeners which have not been
+     * declared. At the moment of writing it's not clear why this tainted mode
+     * is needed.
      */
     protected boolean tainted;
 
@@ -329,7 +339,6 @@ public class DefaultWebApplication implements WebApplication {
         managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
         managers.put(AuthenticationManager.class.getName(), new DefaultAuthenticationManager());
         managers.put(JspManager.class.getName(), new DefaultJspFileManager());
-        managers.put(LocaleEncodingManager.class.getName(),  new DefaultLocaleEncodingManager());
         managers.put(LoggingManager.class.getName(), new DefaultLoggingManager());
         managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());
         managers.put(ObjectInstanceManager.class.getName(), new DefaultObjectInstanceManager());
@@ -571,7 +580,7 @@ public class DefaultWebApplication implements WebApplication {
     public Set<String> addServletMapping(String servletName, String... urlPatterns) {
         return webApplicationRequestMapper.addServletMapping(servletName, urlPatterns);
     }
-    
+
     @Override
     public String removeServletMapping(String urlPattern) {
         return webApplicationRequestMapper.removeServletMapping(urlPattern);
@@ -656,7 +665,6 @@ public class DefaultWebApplication implements WebApplication {
 
         servletEnvironments.values().stream().forEach(servletEnv -> servletEnv.getServlet().destroy());
         servletEnvironments.clear();
-
 
         reverse(contextListeners);
         contextListeners.stream().forEach(listener -> listener.contextDestroyed(new ServletContextEvent(this)));
@@ -866,7 +874,7 @@ public class DefaultWebApplication implements WebApplication {
         }
         return mimeType;
     }
-    
+
     @Override
     public MimeTypeManager getMimeTypeManager() {
         return mimeTypeManager;
@@ -961,7 +969,8 @@ public class DefaultWebApplication implements WebApplication {
      * Returns the file path or the first nested folder
      *
      * @apiNote
-     *  <p><b>Examples.</b>
+     * <p>
+     * <b>Examples.</b>
      * <pre>{@code
      *  getFileOrFirstFolder("/rootFolder", "/rootFolder/file.html").equals("/rootFolder/file.html")
      * }</pre>
@@ -979,7 +988,7 @@ public class DefaultWebApplication implements WebApplication {
      * @param resource the resource that is a file directory or file
      * @return the file path or the first nested folder
      */
-    private String getFileOrFirstFolder(String path, String resource){
+    private String getFileOrFirstFolder(String path, String resource) {
         String normalizedPath = path.endsWith("/") ? path : path + "/";
         String[] split = resource.replace(normalizedPath, "/").split("/");
 
@@ -993,19 +1002,22 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Returns a directory-like listing of all the paths to resources
-     * within the web application whose longest sub-path matches the supplied path argument.
+     * Returns a directory-like listing of all the paths to resources within the
+     * web application whose longest sub-path matches the supplied path
+     * argument.
+     *
      * @param path the partial path used to match the resources
-     * @return a Set containing the directory listing, or null if there are no resources in the web application
-     * whose path begins with the supplied path.
+     * @return a Set containing the directory listing, or null if there are no
+     * resources in the web application whose path begins with the supplied
+     * path.
      */
     private Set<String> getResourcePathsImpl(String path) {
-        Set<String> collect =
-            resourceManager.getAllLocations()
-                           .filter(resource -> resource.startsWith(path))
-                           .filter(not(isEqual(path)))
-                           .map(resource -> getFileOrFirstFolder(path, resource))
-                           .collect(toSet());
+        Set<String> collect
+                = resourceManager.getAllLocations()
+                        .filter(resource -> resource.startsWith(path))
+                        .filter(not(isEqual(path)))
+                        .map(resource -> getFileOrFirstFolder(path, resource))
+                        .collect(toSet());
 
         if (collect.isEmpty()) {
             return null;
@@ -1232,7 +1244,7 @@ public class DefaultWebApplication implements WebApplication {
                 try {
                     source = initializer;
                     initializer.onStartup(classes, this);
-                }  finally {
+                } finally {
                     source = null;
                 }
             } catch (Throwable t) {
@@ -1305,14 +1317,14 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Is the web application initialized.
-     * 
+     *
      * @return true if it is, false otherwise.
      */
     @Override
     public boolean isInitialized() {
         return status >= INITIALIZED && status < ERROR;
     }
-    
+
     /**
      * Initialize the servlet.
      *
@@ -1434,7 +1446,7 @@ public class DefaultWebApplication implements WebApplication {
 
         // Obtain a reference to the target servlet invocation, which includes the Servlet itself and/or Filters, as well as mapping data
         DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(webAppRequest.getServletPath(), webAppRequest.getPathInfo());
-        
+
         // Dispatch using the REQUEST dispatch type. This will invoke the Servlet and/or Filters if present and available.
         getInvocationDispatcher(servletInvocation).request(webAppRequest, webAppResponse);
 
@@ -1444,7 +1456,7 @@ public class DefaultWebApplication implements WebApplication {
 
         requestDestroyed(request);
         unlinkRequestAndResponse(request, response);
-        
+
         if (webAppRequest.isUpgraded()) {
             WebConnection connection = new DefaultWebConnection(webAppRequest, webAppResponse);
             webAppRequest.getUpgradeHandler().init(connection);
@@ -1570,7 +1582,7 @@ public class DefaultWebApplication implements WebApplication {
         }
         return result;
     }
-    
+
     @Override
     public void setMimeTypeManager(MimeTypeManager mimeTypeManager) {
         this.mimeTypeManager = mimeTypeManager;
@@ -1732,22 +1744,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     /**
-     * Get the name request dispatcher.
-     *
-     * @param servletInvocation the servlet invocation.
-     * @return the request dispatcher.
-     */
-    private DefaultServletRequestDispatcher getInvocationDispatcher(DefaultServletInvocation servletInvocation) {
-        return new DefaultServletRequestDispatcher(servletInvocation, this);
-    }
-
-    private void verifyRequestResponseTypes(ServletRequest request, ServletResponse response) throws ServletException {
-        if (!(request instanceof DefaultWebApplicationRequest) || !(response instanceof DefaultWebApplicationResponse)) {
-            throw new ServletException("Invalid request or response");
-        }
-    }
-
-    /**
      * Attribute added.
      *
      * @param name the name.
@@ -1796,6 +1792,21 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
+    /**
+     * Get the name request dispatcher.
+     *
+     * @param servletInvocation the servlet invocation.
+     * @return the request dispatcher.
+     */
+    private DefaultServletRequestDispatcher getInvocationDispatcher(DefaultServletInvocation servletInvocation) {
+        return new DefaultServletRequestDispatcher(servletInvocation, this);
+    }
+
+    @Override
+    public LocaleEncodingManager getLocaleEncodingManager() {
+        return localeEncodingManager;
+    }
+
     @Override
     public <T> T getManager(Class<T> clazz) {
         return clazz.cast(managers.get(clazz.getName()));
@@ -1803,7 +1814,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Is the string null or empty.
-     * 
+     *
      * @param string the string
      * @return true if it is, false otherwise.
      */
@@ -1813,7 +1824,7 @@ public class DefaultWebApplication implements WebApplication {
 
     /**
      * Is the servlet permanently unavailable.
-     * 
+     *
      * @param environment the Servlet environment.
      * @return true if it is, false otherwise.
      */
@@ -1848,8 +1859,26 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
+    public void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager) {
+        this.localeEncodingManager = localeEncodingManager;
+    }
+
+    @Override
     public <T> void setManager(Class<T> clazz, T manager) {
         managers.put(clazz.getName(), manager);
+    }
+
+    /**
+     * Verify the request/response types.
+     * 
+     * @param request the request.
+     * @param response the response.
+     * @throws ServletException when request or response is invalid.
+     */
+    protected void verifyRequestResponseTypes(ServletRequest request, ServletResponse response) throws ServletException {
+        if (!(request instanceof DefaultWebApplicationRequest) || !(response instanceof DefaultWebApplicationResponse)) {
+            throw new ServletException("Invalid request or response");
+        }
     }
 
     /**

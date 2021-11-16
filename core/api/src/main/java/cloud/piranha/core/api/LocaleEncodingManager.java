@@ -35,17 +35,18 @@ package cloud.piranha.core.api;
 public interface LocaleEncodingManager {
 
     /**
-     * Add a mapping between a locale and an encoding
-     * @param locale the locale to be the key
-     * @param encoding the encoding to be the value
+     * Add a mapping between a locale and an encoding.
+     * 
+     * @param locale the locale.
+     * @param encoding the encoding.
      */
     void addCharacterEncoding(String locale, String encoding);
 
-
     /**
-     * Get the encoding for the locale
-     * @param locale the locale
-     * @return the encoding for the locale, null otherwise
+     * Get the encoding for the locale.
+     * 
+     * @param locale the locale.
+     * @return the encoding, otherwise null.
      */
     String getCharacterEncoding(String locale);
 }

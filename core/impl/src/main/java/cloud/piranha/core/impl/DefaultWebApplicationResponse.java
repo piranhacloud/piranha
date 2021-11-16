@@ -555,7 +555,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
                 return;
             }
             if (!gotWriter && !characterEncodingSet) {
-                LocaleEncodingManager localeEncodingManager = webApplication.getManager(LocaleEncodingManager.class);
+                LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
                 if (localeEncodingManager != null) {
                     String encoding = localeEncodingManager.getCharacterEncoding(locale.toString());
                     if (encoding == null) { 

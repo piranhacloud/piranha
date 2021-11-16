@@ -41,6 +41,7 @@ module cloud.piranha.server.lite {
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.herring;
+    requires cloud.piranha.extension.locale_encoding;
     requires cloud.piranha.extension.mimetype;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;

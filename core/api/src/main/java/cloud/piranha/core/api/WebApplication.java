@@ -84,7 +84,8 @@ public interface WebApplication extends ServletContext {
      * Add a mapping for the given filter.
      *
      * @param filterName the filter name.
-     * @param isMatchAfter true to call the filter this mapping applies to after declared ones, false to call it before declared ones.
+     * @param isMatchAfter true to call the filter this mapping applies to after
+     * declared ones, false to call it before declared ones.
      * @param urlPatterns the URL patterns.
      * @return the possible empty set of already mapped URL patterns.
      * @see FilterRegistration#addMappingForUrlPatterns(EnumSet, boolean,
@@ -97,9 +98,11 @@ public interface WebApplication extends ServletContext {
     /**
      * Add a mapping for the given filter.
      *
-     * @param dispatcherTypes the dispatcher types. Can be null to use default DispatcherType.REQUEST.
+     * @param dispatcherTypes the dispatcher types. Can be null to use default
+     * DispatcherType.REQUEST.
      * @param filterName the filter name.
-     * @param isMatchAfter true to call the filter this mapping applies to after declared ones, false to call it before declared ones.
+     * @param isMatchAfter true to call the filter this mapping applies to after
+     * declared ones, false to call it before declared ones.
      * @param urlPatterns the URL patterns.
      * @return the possible empty set of already mapped URL patterns.
      * @see FilterRegistration#addMappingForUrlPatterns(EnumSet, boolean,
@@ -138,12 +141,13 @@ public interface WebApplication extends ServletContext {
      * @see ServletRegistration#addMapping(String...)
      */
     Set<String> addServletMapping(String servletName, String... urlPatterns);
-    
+
     /**
      * Remove a mapping for a servlet.
      *
      * @param urlPattern the URL pattern
-     * @return the Servlet name the pattern was mapped to, or null if no prior mapping.
+     * @return the Servlet name the pattern was mapped to, or null if no prior
+     * mapping.
      */
     String removeServletMapping(String urlPattern);
 
@@ -190,7 +194,6 @@ public interface WebApplication extends ServletContext {
      * @return list of ServletContainerInitializers
      */
     List<ServletContainerInitializer> getInitializers();
-
 
     /**
      * Get the mappings for a particular servlet.
@@ -249,10 +252,10 @@ public interface WebApplication extends ServletContext {
      * @return true if it is, false otherwise.
      */
     boolean isDistributable();
-    
+
     /**
      * Is the web application initialized.
-     * 
+     *
      * @return true if it is, false otherwise.
      */
     boolean isInitialized();
@@ -319,28 +322,35 @@ public interface WebApplication extends ServletContext {
     void setEffectiveMajorVersion(int version);
 
     /**
+     * Get the locale encoding manager.
+     *
+     * @return the locale encoding manager.
+     */
+    LocaleEncodingManager getLocaleEncodingManager();
+
+    /**
+     * Get the manager.
+     *
+     * @param <T> the manager return type.
+     * @param clazz the manager class.
+     * @return the manager.
+     */
+    <T> T getManager(Class<T> clazz);
+
+    /**
+     * Get the mime-type manager.
+     *
+     * @return the mime-type manager.
+     */
+    MimeTypeManager getMimeTypeManager();
+
+    /**
      * Set the effective minor version.
      *
      * @param version the effective minor version.
      */
     void setEffectiveMinorVersion(int version);
 
-    /**
-     * Get the manager.
-     * 
-     * @param <T> the manager return type.
-     * @param clazz the manager class.
-     * @return the manager.
-     */
-    <T> T getManager(Class<T> clazz);
-    
-    /**
-     * Get the mime-type manager.
-     * 
-     * @return the mime-type manager.
-     */
-    MimeTypeManager getMimeTypeManager();
-    
     /**
      * Set the HTTP request manager.
      *
@@ -356,21 +366,28 @@ public interface WebApplication extends ServletContext {
     void setHttpSessionManager(HttpSessionManager httpSessionManager);
 
     /**
+     * Set the locale encoding manager.
+     *
+     * @param localeEncodingManager
+     */
+    void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager);
+
+    /**
      * Set the manager.
-     * 
+     *
      * @param <T> the manager type.
      * @param clazz the manager class.
      * @param manager the manager instance.
      */
     <T> void setManager(Class<T> clazz, T manager);
-    
+
     /**
      * Set the mime-type manager.
-     * 
+     *
      * @param mimeTypeManager the mime-type manager.
      */
     void setMimeTypeManager(MimeTypeManager mimeTypeManager);
-    
+
     /**
      * Set the resource manager.
      *

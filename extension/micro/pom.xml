@@ -11,7 +11,7 @@
 
     <artifactId>piranha-extension-micro</artifactId>
 
-    <name>Piranha Extension - Micro</name>
+    <name>Piranha - Extension - Micro</name>
     <description>
         This module delivers the default extension for Piranha Micro.
     </description>
@@ -21,6 +21,12 @@
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-herring</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-locale_encoding</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

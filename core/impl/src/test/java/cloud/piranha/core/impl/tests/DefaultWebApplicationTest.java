@@ -1070,16 +1070,6 @@ class DefaultWebApplicationTest {
     }
 
     @Test
-    void testSetLocale() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager(LocaleEncodingManager.class).addCharacterEncoding(Locale.ITALY.toString(), "windows-1252");
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApp);
-        response.setLocale(Locale.ITALY);
-        assertEquals("windows-1252", response.getCharacterEncoding());
-    }
-
-    @Test
     void testGetContentType() throws Exception {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         assertNull(response.getContentType());

@@ -36,6 +36,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-locale_encoding</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-mimetype</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>

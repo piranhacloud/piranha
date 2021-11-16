@@ -49,6 +49,7 @@ module cloud.piranha.extension.server {
     opens cloud.piranha.extension.server;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.herring;
+    requires cloud.piranha.extension.locale_encoding;
     requires cloud.piranha.extension.mimetype;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;
@@ -58,5 +59,4 @@ module cloud.piranha.extension.server {
     requires cloud.piranha.extension.webannotations;
     requires cloud.piranha.extension.webxml;
     requires cloud.piranha.core.api;
-
 }
