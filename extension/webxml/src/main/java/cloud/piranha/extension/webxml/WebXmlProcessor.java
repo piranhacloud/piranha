@@ -27,7 +27,6 @@
  */
 package cloud.piranha.extension.webxml;
 
-import cloud.piranha.core.api.AuthenticationManager;
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.MimeTypeManager;
 import cloud.piranha.core.api.SecurityManager;
@@ -428,11 +427,11 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processSecurityConstraints(WebApplication webApplication, WebXml webXml) {
-        AuthenticationManager manager = webApplication.getManager(AuthenticationManager.class);
+        SecurityManager manager = webApplication.getManager(SecurityManager.class);
         for (WebXmlSecurityConstraint constraint : webXml.getSecurityConstraints()) {
             for (WebXmlSecurityConstraint.WebResourceCollection collection : constraint.getWebResourceCollections()) {
                 for (String urlPattern : collection.getUrlPatterns()) {
-                    manager.addSecurityMapping(urlPattern);
+                    // what are we to do here?
                 }
             }
         }

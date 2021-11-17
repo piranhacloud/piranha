@@ -33,7 +33,6 @@ import cloud.piranha.resource.impl.DefaultResourceManager;
 import cloud.piranha.core.api.AnnotationInfo;
 import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.AsyncManager;
-import cloud.piranha.core.api.AuthenticationManager;
 import cloud.piranha.core.api.HttpRequestManager;
 import cloud.piranha.core.api.HttpSessionManager;
 import cloud.piranha.core.api.JspManager;
@@ -337,7 +336,6 @@ public class DefaultWebApplication implements WebApplication {
         managers = new HashMap<>();
         managers.put(AnnotationManager.class.getName(), new DefaultAnnotationManager());
         managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
-        managers.put(AuthenticationManager.class.getName(), new DefaultAuthenticationManager());
         managers.put(JspManager.class.getName(), new DefaultJspFileManager());
         managers.put(LoggingManager.class.getName(), new DefaultLoggingManager());
         managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());

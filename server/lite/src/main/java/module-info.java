@@ -45,7 +45,6 @@ module cloud.piranha.server.lite {
     requires cloud.piranha.extension.mimetype;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.file;
     requires cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.webannotations;
