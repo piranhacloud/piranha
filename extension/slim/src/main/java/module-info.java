@@ -25,21 +25,20 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server.slim;
-
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationExtensionContext;
 
 /**
- * The default WebApplicationExtension for Piranha Server Slim.
+ * The Slim extension.
  *
- * @author Manfred Riem (mriem@manorrock.com)
+ * <p>
+ *  This module delivers the following default extension to a Piranha variant:
+ * </p>
+ * <ul>
+ *  <li>ServletContainerInitializer support</li>
+ * </ul>
  */
-public class SlimServerExtension implements WebApplicationExtension {
-
-    @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(ServletContainerInitializerExtension.class);
-    }
+module cloud.piranha.extension.slim {
+    exports cloud.piranha.extension.slim;
+    opens cloud.piranha.extension.slim;
+    requires cloud.piranha.core.api;
+    requires cloud.piranha.extension.scinitializer;
 }

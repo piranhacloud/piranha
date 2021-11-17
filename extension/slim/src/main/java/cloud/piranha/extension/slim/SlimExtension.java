@@ -25,24 +25,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.slim;
 
-import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplicationExtensionContext;
 
 /**
- * The Piranha Server Slim module.
+ * The WebApplicationExtension that delivers the 
+ * ServletContainerInitializerExtension as its only configured extension.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.server.slim {
-    exports cloud.piranha.server.slim;
-    opens cloud.piranha.server.slim;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.slim;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
-    uses HttpServer;
-    uses WebApplicationExtension;
+public class SlimExtension implements WebApplicationExtension {
+
+    @Override
+    public void extend(WebApplicationExtensionContext context) {
+        context.add(ServletContainerInitializerExtension.class);
+    }
 }

@@ -35,6 +35,7 @@
         <module>security-servlet</module>
         <module>security-jakarta</module>
         <module>server</module>
+        <module>slim</module>
         <module>soteria</module>
         <module>tempdir</module>
         <module>wasp</module>
