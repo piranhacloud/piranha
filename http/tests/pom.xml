@@ -12,7 +12,7 @@
     <artifactId>piranha-http-tests</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha HTTP - Tests</name>
+    <name>Piranha - HTTP - Tests</name>
 
     <dependencies>
         <dependency>

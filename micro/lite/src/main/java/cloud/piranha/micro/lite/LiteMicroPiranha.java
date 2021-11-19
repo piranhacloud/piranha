@@ -36,6 +36,7 @@ import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
+import cloud.piranha.extension.lite.LiteExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
@@ -223,7 +224,7 @@ public class LiteMicroPiranha implements Piranha, Runnable {
 
             if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                 DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                extensionContext.add(LiteMicroExtension.class);
+                extensionContext.add(LiteExtension.class);
                 extensionContext.configure(webApplication);
             } else {
                 DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();

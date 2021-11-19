@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-extension-policy</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha Extension - Policy</name>
+    <name>Piranha - Extension - Policy</name>
     <dependencies>
         <!-- provided -->
         <dependency>

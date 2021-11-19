@@ -12,5 +12,5 @@
     <artifactId>piranha-resource-api</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Resource - API</name>
+    <name>Piranha - Resource - API</name>
 </project>
