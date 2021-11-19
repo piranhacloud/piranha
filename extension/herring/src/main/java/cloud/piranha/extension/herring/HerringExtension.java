@@ -39,7 +39,7 @@ import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 
 /**
  * The WebApplicationExtension that is responsible for setting up the proper
- * Context instance so it can be made available during webapplication
+ * Context instance so it can be made available during web application
  * initialization and subsequently during request processing as well as
  * delivering listeners to set/remove the Context from the current thread.
  *
@@ -60,7 +60,7 @@ public class HerringExtension implements WebApplicationExtension {
      */
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Configuring webapplication");
+        LOGGER.log(DEBUG, "Configuring JNDI support by means of Manorrock Herring");
         if (System.getProperty(INITIAL_CONTEXT_FACTORY) == null) {
             LOGGER.log(INFO, INITIAL_CONTEXT_FACTORY + " was not set, setting it");
             System.setProperty(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());

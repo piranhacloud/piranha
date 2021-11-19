@@ -24,6 +24,7 @@
         <module>hazelcast</module>
         <module>herring</module>
         <module>jakartaee</module>
+        <module>lite</module>
         <module>locale_encoding</module>
         <module>micro</module>
         <module>mimetype</module>

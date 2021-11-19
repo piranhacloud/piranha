@@ -28,51 +28,40 @@
 package cloud.piranha.server.lite;
 
 import cloud.piranha.core.api.Piranha;
+import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
+import cloud.piranha.core.api.WebApplicationServerRequestMapper;
+import cloud.piranha.core.impl.DefaultModuleFinder;
+import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
+import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
+import cloud.piranha.extension.lite.LiteExtension;
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.webapp.HttpWebApplicationServer;
+import cloud.piranha.resource.impl.DirectoryResource;
+import jakarta.servlet.ServletException;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.Logger.Level.WARNING;
 import java.lang.module.Configuration;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleFinder;
 import java.lang.module.ModuleReference;
 import java.util.List;
 import java.util.ServiceLoader;
-import java.lang.System.Logger.Level;
-import java.lang.System.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
-import cloud.piranha.core.api.WebApplicationServerRequestMapper;
-import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
-import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
-import cloud.piranha.core.impl.DefaultModuleFinder;
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.webapp.HttpWebApplicationServer;
-import cloud.piranha.resource.impl.DirectoryResource;
-import jakarta.servlet.ServletException;
-
-import static java.lang.System.Logger.Level.INFO;
-import static java.lang.System.Logger.Level.WARNING;
-
 /**
- * The Servlet container version of Piranha.
- *
- * <p>
- * This version of Piranha makes it possible for you to run multiple web
- * applications at the same time.
- * </p>
- *
- * <p>
- * It has a shutdown mechanism that allows you to shutdown the server by
- * removing the piranha.pid file that should be created by the startup script.
- * </p>
+ * The Lite version of Piranha Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -81,7 +70,7 @@ public class LiteServerPiranha implements Piranha, Runnable {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(LiteServerPiranha.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(LiteServerPiranha.class.getName());
 
     /**
      * Stores the exit on stop flag.
@@ -235,7 +224,7 @@ public class LiteServerPiranha implements Piranha, Runnable {
 
                     if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                         DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                        extensionContext.add(LiteServerExtension.class);
+                        extensionContext.add(LiteExtension.class);
                         extensionContext.configure(webApplication);
                     } else {
                         DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();

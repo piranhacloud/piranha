@@ -26,23 +26,38 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.core.api.WebApplicationExtension;
-
 /**
- * The Piranha Server Lite module.
+ * The Lite extension.
  *
- * @author Manfred Riem (mriem@manorrock.com)
+ * <p>
+ *  This module delivers the Lite extension which in turn enables the following
+ *  support:
+ * </p>
+ * <ul>
+ *  <li>Annotation scanning support</li>
+ *  <li>JNDI support</li>
+ *  <li>Locale encoding support</li>
+ *  <li>Mime-type support</li>
+ *  <li>Policy support</li>
+ *  <li>ServletContainerInitializer support</li>
+ *  <li>Servlet Security support</li>
+ *  <li>TEMPDIR support</li>
+ *  <li>Web annotations support</li>
+ *  <li>web.xml support</li>
+ * </ul>
  */
-module cloud.piranha.server.lite {
-    exports cloud.piranha.server.lite;
-    opens cloud.piranha.server.lite;
+module cloud.piranha.extension.lite {
+    exports cloud.piranha.extension.lite;
+    opens cloud.piranha.extension.lite;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.lite;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
-    uses HttpServer;
-    uses WebApplicationExtension;
+    requires transitive cloud.piranha.extension.annotationscan;
+    requires transitive cloud.piranha.extension.herring;
+    requires transitive cloud.piranha.extension.locale_encoding;
+    requires transitive cloud.piranha.extension.mimetype;
+    requires transitive cloud.piranha.extension.policy;
+    requires transitive cloud.piranha.extension.scinitializer;
+    requires transitive cloud.piranha.extension.security.servlet;
+    requires transitive cloud.piranha.extension.tempdir;
+    requires transitive cloud.piranha.extension.webannotations;
+    requires transitive cloud.piranha.extension.webxml;
 }

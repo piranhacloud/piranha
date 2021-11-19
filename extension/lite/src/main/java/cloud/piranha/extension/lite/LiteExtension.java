@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server.lite;
+package cloud.piranha.extension.lite;
 
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
@@ -41,16 +41,17 @@ import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
 
 /**
- * The LiteServerExtension delivers the default extensions for Piranha Server Lite.
+ * The WebApplicationExtension that adds the extensions for a Lite version of
+ * Piranha.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class LiteServerExtension implements WebApplicationExtension {
+public class LiteExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
-        context.add(MimeTypeExtension.class);
         context.add(HerringExtension.class);
+        context.add(MimeTypeExtension.class);
         context.add(LocaleEncodingExtension.class);
         context.add(PolicyExtension.class);
         context.add(AnnotationScanExtension.class);
