@@ -12,7 +12,7 @@
     <artifactId>piranha-extension-hazelcast</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Extension - Hazelcast</name>
+    <name>Piranha - Extension - Hazelcast</name>
 
     <dependencies>
         <!-- compile -->

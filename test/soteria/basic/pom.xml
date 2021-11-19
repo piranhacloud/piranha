@@ -12,7 +12,7 @@
     <artifactId>soteria-basic</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Test - Soteria - BASIC</name>
+    <name>Piranha - Test - Soteria - BASIC</name>
 
     <dependencies>
         <dependency>

@@ -10,7 +10,7 @@
 
     <artifactId>piranha-arquillian-server</artifactId>
 
-    <name>Piranha Arquillian - Server</name>
+    <name>Piranha - Arquillian - Server</name>
     <description>
         Piranha integration for the Arquillian Project.
     </description>

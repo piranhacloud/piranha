@@ -12,7 +12,7 @@
     <artifactId>test-webapp-mojarra</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Test - Webapplication - Mojarra</name>
+    <name>Piranha - Test - Webapplication - Mojarra</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

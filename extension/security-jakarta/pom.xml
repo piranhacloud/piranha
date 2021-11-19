@@ -12,7 +12,7 @@
     <artifactId>piranha-extension-security-jakarta</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Extension - Security - Jakarta</name>
+    <name>Piranha - Extension - Security - Jakarta</name>
 
     <dependencies>
         <!-- compile -->

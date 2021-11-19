@@ -11,7 +11,7 @@
     <artifactId>web-fragment-in-jar-test</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Test - web.xml - web-fragment in JAR test</name>
+    <name>Piranha - Test - web.xml - web-fragment in JAR test</name>
 
     <dependencies>
         <!-- test -->

@@ -11,5 +11,5 @@
     <artifactId>web-fragment-in-jar</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Test - web.xml - web-fragment in JAR</name>
+    <name>Piranha - Test - web.xml - web-fragment in JAR</name>
 </project>

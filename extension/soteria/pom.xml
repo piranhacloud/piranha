@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-extension-soteria</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha Extension - Soteria</name>
+    <name>Piranha - Extension - Soteria</name>
     <dependencies>
         <!-- compile -->
         <dependency>

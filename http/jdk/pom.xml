@@ -12,7 +12,7 @@
     <artifactId>piranha-http-jdk</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha HTTP - JDK HTTP Server Integration</name>
+    <name>Piranha - HTTP - JDK HTTP Server Integration</name>
 
     <dependencies>
         <dependency>

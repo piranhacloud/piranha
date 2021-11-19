@@ -12,7 +12,7 @@
     <artifactId>jpms</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Test - JPMS</name>
+    <name>Piranha - Test - JPMS</name>
 
     <dependencies>
         <dependency>

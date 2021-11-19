@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Test - Embedded - Project</name>
+    <name>Piranha - Test - Embedded - Project</name>
 
     <modules>
         <module>bootstrap</module>

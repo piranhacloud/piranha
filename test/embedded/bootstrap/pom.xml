@@ -12,7 +12,7 @@
     <artifactId>test-embedded-bootstrap</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Test - Embedded - Bootstrap</name>
+    <name>Piranha - Test - Embedded - Bootstrap</name>
 
     <dependencies>
         <dependency>

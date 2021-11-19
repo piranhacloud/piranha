@@ -12,7 +12,7 @@
     <artifactId>test-micro-snoop</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Test - Micro - Snoop</name>
+    <name>Piranha - Test - Micro - Snoop</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

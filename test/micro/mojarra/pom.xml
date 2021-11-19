@@ -12,7 +12,7 @@
     <artifactId>test-micro-mojarra</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Test - Micro - Mojarra</name>
+    <name>Piranha - Test - Micro - Mojarra</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

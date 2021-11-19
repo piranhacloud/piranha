@@ -11,7 +11,7 @@
     <artifactId>weld</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Test - Weld</name>
+    <name>Piranha - Test - Weld</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

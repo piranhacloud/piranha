@@ -11,7 +11,7 @@
     <artifactId>hazelcast</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Test - Hazelcast HTTP Session</name>
+    <name>Piranha - Test - Hazelcast HTTP Session</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

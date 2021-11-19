@@ -12,7 +12,7 @@
     <artifactId>piranha-http-grizzly</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha HTTP - Grizzly Integration</name>
+    <name>Piranha - HTTP - Grizzly Integration</name>
 
     <dependencies>
         <dependency>

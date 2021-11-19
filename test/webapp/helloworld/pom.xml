@@ -12,7 +12,7 @@
     <artifactId>test-webapp-helloworld</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Test - Webapplication - HelloWorld</name>
+    <name>Piranha - Test - Webapplication - HelloWorld</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

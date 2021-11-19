@@ -12,7 +12,7 @@
     <artifactId>test-micro-helloworld</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Test - Micro - HelloWorld</name>
+    <name>Piranha - Test - Micro - HelloWorld</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

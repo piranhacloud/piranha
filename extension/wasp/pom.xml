@@ -12,7 +12,7 @@
     <artifactId>piranha-extension-wasp</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Extension - WaSP</name>
+    <name>Piranha - Extension - WaSP</name>
 
     <dependencies>
         <!-- compile -->

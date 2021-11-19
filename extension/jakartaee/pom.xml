@@ -12,7 +12,7 @@
     <artifactId>piranha-extension-jakartaee</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Extension - Jakarta EE</name>
+    <name>Piranha - Extension - Jakarta EE</name>
     <description>
       This module delivers everything needed for a Jakarta EE compatible server.
     </description>

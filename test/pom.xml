@@ -12,7 +12,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Test - Project</name>
+    <name>Piranha - Test - Project</name>
 
     <modules>
         <module>arquillian</module>

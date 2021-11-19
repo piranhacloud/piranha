@@ -12,7 +12,7 @@
     <artifactId>piranha-resource-shrinkwrap</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Resource - Shrinkwrap Integration</name>
+    <name>Piranha - Resource - Shrinkwrap Integration</name>
 
     <dependencies>
         <!-- compile -->

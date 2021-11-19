@@ -9,10 +9,10 @@
         <version>21.12.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>mojarra2</artifactId>
+    <artifactId>mojarra</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Test - Mojarra2</name>
+    <name>Piranha - Test - Mojarra</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

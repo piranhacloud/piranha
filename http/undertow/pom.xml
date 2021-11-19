@@ -12,7 +12,7 @@
     <artifactId>piranha-http-undertow</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha HTTP - Undertow Integration</name>
+    <name>Piranha - HTTP - Undertow Integration</name>
 
     <dependencies>
         <dependency>

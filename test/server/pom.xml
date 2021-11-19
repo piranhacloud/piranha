@@ -12,7 +12,7 @@
     <artifactId>test-server-standard</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Test - Piranha Server Standard</name>
+    <name>Piranha - Test - Piranha Server Standard</name>
     <description>
         This project tests the Piranha Server Standard zip bundle.
     </description>

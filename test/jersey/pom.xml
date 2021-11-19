@@ -11,7 +11,7 @@
     <artifactId>jersey</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Test - Jersey</name>
+    <name>Piranha - Test - Jersey</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

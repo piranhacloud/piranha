@@ -12,7 +12,7 @@
     <artifactId>exousia</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Test - Exousia</name>
+    <name>Piranha - Test - Exousia</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

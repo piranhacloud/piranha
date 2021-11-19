@@ -12,7 +12,7 @@
     <artifactId>piranha-extension-myfaces</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Extension - MyFaces</name>
+    <name>Piranha - Extension - MyFaces</name>
 
     <dependencies>
         <!-- provided -->

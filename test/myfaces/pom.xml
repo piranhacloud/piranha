@@ -11,7 +11,7 @@
     <artifactId>myfaces</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Test - MyFaces</name>
+    <name>Piranha - Test - MyFaces</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

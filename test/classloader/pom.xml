@@ -11,7 +11,7 @@
     <artifactId>classloader</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Test - Classloader</name>
+    <name>Piranha - Test - Classloader</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

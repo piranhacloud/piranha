@@ -11,7 +11,7 @@
     <artifactId>jpa</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha Test - JPA</name>
+    <name>Piranha - Test - JPA</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-extension-webprofile</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha Extension - Web Profile</name>
+    <name>Piranha - Extension - Web Profile</name>
     <description>
         This Maven module delivers the Jakarta EE Web Profile backed by Eclipse
         implementation projects (where possible).

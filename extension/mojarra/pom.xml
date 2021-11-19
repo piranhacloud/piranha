@@ -12,7 +12,7 @@
     <artifactId>piranha-extension-mojarra</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Extension - Mojarra</name>
+    <name>Piranha - Extension - Mojarra</name>
 
     <dependencies>
         <!-- provided -->

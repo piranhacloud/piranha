@@ -12,7 +12,7 @@
     <artifactId>piranha-http-netty</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha HTTP - Netty Integration</name>
+    <name>Piranha - HTTP - Netty Integration</name>
 
     <dependencies>
         <dependency>
