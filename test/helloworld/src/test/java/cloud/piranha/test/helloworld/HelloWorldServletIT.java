@@ -25,37 +25,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package helloworld;
+package cloud.piranha.test.helloworld;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import cloud.piranha.server.ServerPiranha;
+import cloud.piranha.server.ServerPiranhaBuilder;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * A 'Hello World!' Servlet.
- *
+ * The 'Hello World' integration test.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HelloWorldServlet extends HttpServlet {
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html");
-        try ( PrintWriter out = response.getWriter()) {
-            out.println("""
-                        <!DOCTYPE html>
-                        <html>
-                          <head>
-                            <title>Hello World!</title>
-                          </head>
-                          <body>
-                            <h1>Hello World!</h1>
-                          </body>
-                        </html>""");
-        }
+class HelloWorldServletIT {
+    
+    /**
+     * Test the 'Hello World!' servlet.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testHelloWorld() throws Exception {
+        ServerPiranha piranha = new ServerPiranhaBuilder()
+                .webAppsDir("target/webapps")
+                .build();
+        
+        piranha.start();
+        
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:8080/index.html"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertTrue(response.body().contains("Hello World!"));
+        
+        piranha.stop();
     }
 }

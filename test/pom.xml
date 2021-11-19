@@ -21,6 +21,7 @@
         <module>embedded</module>
         <module>exousia</module>
         <module>hazelcast</module>
+        <module>helloworld</module>
         <module>jersey</module>
         <module>jpa</module>
         <module>jpms</module>

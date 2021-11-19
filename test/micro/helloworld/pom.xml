@@ -20,8 +20,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.test.webapp</groupId>
-            <artifactId>test-webapp-helloworld</artifactId>
+            <groupId>cloud.piranha.test</groupId>
+            <artifactId>piranha-test-helloworld</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
@@ -97,8 +97,8 @@
                                     <destFileName>piranha-micro.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>cloud.piranha.test.webapp</groupId>
-                                    <artifactId>test-webapp-helloworld</artifactId>
+                                    <groupId>cloud.piranha.test</groupId>
+                                    <artifactId>piranha-test-helloworld</artifactId>
                                     <version>${project.version}</version>
                                     <type>war</type>
                                     <overWrite>true</overWrite>

@@ -113,6 +113,11 @@ public class ServerPiranha implements Piranha, Runnable {
      * Stores the JMPS enabled flag.
      */
     private boolean jpmsEnabled = false;
+    
+    /**
+     * Stores the started flag.
+     */
+    private boolean started = false;
 
     /**
      * Stores the thread we use.
@@ -185,6 +190,15 @@ public class ServerPiranha implements Piranha, Runnable {
         }
         return result;
     }
+    
+    /**
+     * Have we started?
+     * 
+     * @return true if we have, false otherwise.
+     */
+    private boolean isStarted() {
+        return started;
+    }
 
     /**
      * Run method.
@@ -214,7 +228,6 @@ public class ServerPiranha implements Piranha, Runnable {
 
         WebApplicationServerRequestMapper requestMapper = webApplicationServer.getRequestMapper();
 
-        webAppsDir = new File("webapps");
         File[] webapps = webAppsDir.listFiles();
         if (webapps != null) {
             for (File webapp : webapps) {
@@ -268,6 +281,8 @@ public class ServerPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
+        started = true;
+        
         File pidFile = new File("tmp/piranha.pid");        
         while (isRunning()) {
             try {
@@ -417,6 +432,13 @@ public class ServerPiranha implements Piranha, Runnable {
         thread = new Thread(this);
         thread.setDaemon(false);
         thread.start();
+        
+        while(!isStarted()) {
+            try {
+                Thread.sleep(10);
+            } catch(InterruptedException e) {
+            }
+        }
     }
 
     /**
@@ -429,6 +451,7 @@ public class ServerPiranha implements Piranha, Runnable {
             pidFile.delete();
         }
         
+        started = false;
         thread = null;
     }
 }

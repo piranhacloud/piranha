@@ -16,7 +16,6 @@
     <name>Piranha - Test - Webapplication - Project</name>
 
     <modules>
-        <module>helloworld</module>
         <module>snoop</module>
         <module>mojarra</module>
     </modules>

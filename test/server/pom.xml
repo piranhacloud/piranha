@@ -31,8 +31,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.test.webapp</groupId>
-            <artifactId>test-webapp-helloworld</artifactId>
+            <groupId>cloud.piranha.test</groupId>
+            <artifactId>piranha-test-helloworld</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
             <type>war</type>
@@ -116,8 +116,8 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>cloud.piranha.test.webapp</groupId>
-                                    <artifactId>test-webapp-helloworld</artifactId>
+                                    <groupId>cloud.piranha.test</groupId>
+                                    <artifactId>piranha-test-helloworld</artifactId>
                                     <version>${project.version}</version>
                                     <type>war</type>
                                     <overWrite>true</overWrite>
