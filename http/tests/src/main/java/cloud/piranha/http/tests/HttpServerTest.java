@@ -119,6 +119,7 @@ public abstract class HttpServerTest {
                         }
                         outputStream.flush();
                     } catch (IOException ioe) {
+                        // nothing to do here.
                     }
 
                     return COMPLETED;
@@ -204,6 +205,7 @@ public abstract class HttpServerTest {
                         outputStream.write(value.getBytes());
                         outputStream.flush();
                     } catch (IOException ioe) {
+                        // nothing to do here.
                     }
 
                     return COMPLETED;
@@ -242,6 +244,7 @@ public abstract class HttpServerTest {
                         outputStream.write(value.getBytes());
                         outputStream.flush();
                     } catch (IOException ioe) {
+                        // nothing to do here.
                     }
 
                     return COMPLETED;
