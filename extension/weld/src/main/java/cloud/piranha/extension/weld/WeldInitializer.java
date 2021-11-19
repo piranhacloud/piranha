@@ -27,7 +27,6 @@
  */
 package cloud.piranha.extension.weld;
 
-import cloud.piranha.core.api.ObjectInstanceManager;
 import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
@@ -55,7 +54,7 @@ public class WeldInitializer implements ServletContainerInitializer {
         WebApplication webApplication = (WebApplication) servletContext;
         WeldInitListener weldInitListener = webApplication.createListener(WeldInitListener.class);
         servletContext.addListener(weldInitListener);
-        webApplication.setManager(ObjectInstanceManager.class, new WeldObjectInstanceManager());
+        webApplication.setObjectInstanceManager(new WeldObjectInstanceManager());
         weldInitListener.delegate().contextInitialized(new ServletContextEvent(servletContext));
     }
 }

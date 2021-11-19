@@ -27,9 +27,7 @@
  */
 package cloud.piranha.core.impl.tests;
 
-import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.LoggingManager;
-import cloud.piranha.core.api.ObjectInstanceManager;
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.impl.DefaultSecurityManager;
 import cloud.piranha.core.impl.DefaultServlet;
@@ -54,7 +52,6 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Enumeration;
-import java.util.Locale;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -304,14 +301,14 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test getDependencyInjectionManager method.
+     * Test getObjectInstanceManager method.
      */
     @Test
-    void testGetDependencyInjectionManager() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.getManager(ObjectInstanceManager.class));
-        webApp.setManager(ObjectInstanceManager.class, null);
-        assertNull(webApp.getManager(ObjectInstanceManager.class));
+    void testGetObjectInstanceManager() {
+        DefaultWebApplication application = new DefaultWebApplication();
+        assertNotNull(application.getObjectInstanceManager());
+        application.setObjectInstanceManager(null);
+        assertNull(application.getObjectInstanceManager());
     }
 
     /**

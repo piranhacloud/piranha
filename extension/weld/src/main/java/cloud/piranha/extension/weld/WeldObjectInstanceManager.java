@@ -37,20 +37,12 @@ import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
 
 /**
- * The Weld object instance manager.
+ * The Weld variant of the ObjectInstanceManager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class WeldObjectInstanceManager implements ObjectInstanceManager {
 
-    /**
-     * Create the Filter.
-     *
-     * @param <T> the return type.
-     * @param filterClass the Filter class.
-     * @return the Filter.
-     * @throws ServletException when it fails to create the filter.
-     */
     @Override
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
         T result = null;
@@ -73,14 +65,6 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
         return result;
     }
 
-    /**
-     * Create the listener.
-     * 
-     * @param <T> the type.
-     * @param clazz the class.
-     * @return the Listener.
-     * @throws ServletException when it fails to create the listener.
-     */
     @Override
     public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
         T result = null;
@@ -103,14 +87,6 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
         return result;
     }
     
-    /**
-     * Create the Servlet.
-     *
-     * @param <T> the type.
-     * @param servletClass the Servlet class.
-     * @return the Servlet.
-     * @throws ServletException when it fails to create the servlet.
-     */
     @Override
     public <T extends Servlet> T createServlet(Class<T> servletClass) throws ServletException {
         T result = null;

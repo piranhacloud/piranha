@@ -301,6 +301,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the mime-type manager.
      */
     protected MimeTypeManager mimeTypeManager;
+    
+    /**
+     * Stores the object instance manager.
+     */
+    protected ObjectInstanceManager objectInstanceManager;
 
     /**
      * Stores the request character encoding.
@@ -339,7 +344,6 @@ public class DefaultWebApplication implements WebApplication {
         managers.put(JspManager.class.getName(), new DefaultJspFileManager());
         managers.put(LoggingManager.class.getName(), new DefaultLoggingManager());
         managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());
-        managers.put(ObjectInstanceManager.class.getName(), new DefaultObjectInstanceManager());
         managers.put(SecurityManager.class.getName(), new DefaultSecurityManager());
         managers.put(WelcomeFileManager.class.getName(), new DefaultWelcomeFileManager());
         attributes = new HashMap<>(1);
@@ -362,6 +366,7 @@ public class DefaultWebApplication implements WebApplication {
         servletEnvironments = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
         invocationFinder = new DefaultInvocationFinder(this);
+        objectInstanceManager = new DefaultObjectInstanceManager();
     }
 
     @Override
@@ -597,23 +602,14 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
         checkTainted();
-
-        return getManager(ObjectInstanceManager.class).createFilter(filterClass);
+        return objectInstanceManager.createFilter(filterClass);
     }
 
-    /**
-     * Create the listener.
-     *
-     * @param <T> the type.
-     * @param clazz the class of the listener to create.
-     * @return the listener.
-     * @throws ServletException when it fails to create the listener.
-     */
     @Override
     public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
         checkTainted();
 
-        T result = getManager(ObjectInstanceManager.class).createListener(clazz);
+        T result = objectInstanceManager.createListener(clazz);
         boolean ok = false;
         if (result instanceof ServletContextListener || result instanceof ServletContextAttributeListener || result instanceof ServletRequestListener
                 || result instanceof ServletRequestAttributeListener || result instanceof HttpSessionAttributeListener
@@ -629,19 +625,10 @@ public class DefaultWebApplication implements WebApplication {
         return result;
     }
 
-    /**
-     * Create the servlet.
-     *
-     * @param <T> the return type.
-     * @param servletClass the servlet class.
-     * @return the servlet.
-     * @throws ServletException when a Servlet error occurs.
-     */
     @Override
     public <T extends Servlet> T createServlet(Class<T> servletClass) throws ServletException {
         checkTainted();
-
-        return getManager(ObjectInstanceManager.class).createServlet(servletClass);
+        return objectInstanceManager.createServlet(servletClass);
     }
 
     /**
@@ -885,11 +872,12 @@ public class DefaultWebApplication implements WebApplication {
     public int getMinorVersion() {
         return 0;
     }
+    
+    @Override
+    public ObjectInstanceManager getObjectInstanceManager() {
+        return objectInstanceManager;
+    }
 
-    /**
-     * {@return the real path}
-     * @param path the path
-     */
     @Override
     public String getRealPath(String path) {
         String realPath = null;
@@ -1586,11 +1574,11 @@ public class DefaultWebApplication implements WebApplication {
         this.mimeTypeManager = mimeTypeManager;
     }
 
-    /**
-     * Set the default request character encoding.
-     *
-     * @param requestCharacterEncoding the default request character encoding.
-     */
+    @Override
+    public void setObjectInstanceManager(ObjectInstanceManager objectInstanceManager) {
+        this.objectInstanceManager = objectInstanceManager;
+    }
+    
     @Override
     public void setRequestCharacterEncoding(String requestCharacterEncoding) {
         this.requestCharacterEncoding = requestCharacterEncoding;

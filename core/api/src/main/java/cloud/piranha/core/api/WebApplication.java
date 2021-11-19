@@ -203,6 +203,11 @@ public interface WebApplication extends ServletContext {
      * @see ServletRegistration#getMappings()
      */
     Collection<String> getMappings(String servletName);
+    
+    /**
+     * {@return the object instance manager.}
+     */
+    ObjectInstanceManager getObjectInstanceManager();
 
     /**
      * {@return the associated request}
@@ -387,6 +392,13 @@ public interface WebApplication extends ServletContext {
      * @param mimeTypeManager the mime-type manager.
      */
     void setMimeTypeManager(MimeTypeManager mimeTypeManager);
+    
+    /**
+     * Set the object instance manager.
+     * 
+     * @param objectInstanceManager the object instance manager.
+     */
+    void setObjectInstanceManager(ObjectInstanceManager objectInstanceManager);
 
     /**
      * Set the resource manager.
