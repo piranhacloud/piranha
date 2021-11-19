@@ -28,7 +28,6 @@
 package cloud.piranha.extension.eleos;
 
 import static jakarta.security.auth.message.config.AuthConfigFactory.DEFAULT_FACTORY_SECURITY_PROPERTY;
-import static java.lang.System.Logger.Level.INFO;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.readString;
@@ -63,6 +62,7 @@ import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import static java.lang.System.Logger.Level.DEBUG;
 
 /**
  * The Eleos initializer.
@@ -96,7 +96,7 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
 
-        LOGGER.log(INFO, "*** Initializing Authentication ***");
+        LOGGER.log(DEBUG, "Initializing Eleos");
 
         String appContextId = servletContext.getVirtualServerName() + " " + servletContext.getContextPath();
 
