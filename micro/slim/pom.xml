@@ -2,39 +2,39 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha.micro</groupId>
         <artifactId>project</artifactId>
         <version>21.12.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>piranha-micro-slim</artifactId>
     <packaging>jar</packaging>
-
     <name>Piranha - Micro - Slim</name>
-
     <dependencies>
         <!-- compile -->
         <dependency>
             <groupId>cloud.piranha.core</groupId>
             <artifactId>piranha-core-impl</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-slim</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-impl</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-webapp</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-scinitializer</artifactId>
-            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <!-- test -->
         <dependency>
@@ -53,7 +53,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <finalName>piranha-micro-slim</finalName>
         <plugins>

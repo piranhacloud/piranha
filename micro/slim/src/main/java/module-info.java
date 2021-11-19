@@ -26,17 +26,7 @@
  */
 
 /**
- * The Piranha - Micro - Slim module.
- * 
- * <p>
- *  This module delivers the Slim version of Piranha Micro. It does this by
- *  delivering you with a self-contained executable JAR file. The only 
- *  WebApplicationExtension that is enabled by default is the 
- *  ServletContainerInitializer extension that makes it possible for you to 
- *  deliver your own ServletContainerInitializer in your web application to
- *  configure your web application. Or you can deliver your own custom 
- *  WebApplicationExtension.
- * </p>
+ * The Slim version of Piranha Micro.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -45,8 +35,8 @@ module cloud.piranha.micro.slim {
     opens cloud.piranha.micro.slim;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.http.api;
+    requires cloud.piranha.extension.slim;
+    requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;
     requires java.logging;
 }

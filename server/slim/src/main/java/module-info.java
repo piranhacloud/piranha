@@ -30,7 +30,7 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
- * The Piranha Server Slim module.
+ * The Slim version of Piranha Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

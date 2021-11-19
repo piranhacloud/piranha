@@ -30,7 +30,8 @@
  * The Slim extension.
  *
  * <p>
- *  This module delivers the following default extension to a Piranha variant:
+ *  This module delivers the Slim extension which in turn enables the following
+ *  support:
  * </p>
  * <ul>
  *  <li>ServletContainerInitializer support</li>
@@ -40,5 +41,5 @@ module cloud.piranha.extension.slim {
     exports cloud.piranha.extension.slim;
     opens cloud.piranha.extension.slim;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.scinitializer;
+    requires transitive cloud.piranha.extension.scinitializer;
 }
