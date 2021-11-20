@@ -26,15 +26,15 @@
  */
 
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.micro.core.CdiExtension;
-import cloud.piranha.micro.core.PiranhaBeanArchiveHandler;
+import cloud.piranha.micro.shrinkwrap.core.CdiExtension;
+import cloud.piranha.micro.shrinkwrap.core.PiranhaBeanArchiveHandler;
 import cloud.piranha.core.api.WebApplicationExtension;
 import jakarta.enterprise.inject.spi.Extension;
 import org.jboss.weld.environment.deployment.discovery.BeanArchiveHandler;
 
-module cloud.piranha.micro.core {
+module cloud.piranha.micro.shrinkwrap.core {
     
-    exports cloud.piranha.micro.core;
+    exports cloud.piranha.micro.shrinkwrap.core;
     provides BeanArchiveHandler with PiranhaBeanArchiveHandler;
     provides Extension with CdiExtension;
     requires cloud.piranha.extension.security.jakarta;

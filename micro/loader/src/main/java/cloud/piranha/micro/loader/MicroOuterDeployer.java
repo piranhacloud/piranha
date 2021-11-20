@@ -191,7 +191,7 @@ public class MicroOuterDeployer {
 
             microInnerDeployer
                     = Class.forName(
-                            "cloud.piranha.micro.core.MicroInnerDeployer",
+                            "cloud.piranha.micro.shrinkwrap.core.MicroInnerDeployer",
                             true,
                             webInfClassLoader)
                             .getDeclaredConstructor()
@@ -238,7 +238,7 @@ public class MicroOuterDeployer {
 
         // Allow the module layer to read the classes from the unnamed module
         moduleLayer.findModule("cloud.piranha.resource.shrinkwrap").ifPresent(x -> controller.addReads(x, this.getClass().getModule()));
-        moduleLayer.findModule("cloud.piranha.micro.core").ifPresent(x -> controller.addReads(x, this.getClass().getModule()));
+        moduleLayer.findModule("cloud.piranha.micro.shrinkwrap.core").ifPresent(x -> controller.addReads(x, this.getClass().getModule()));
 
         DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
     }

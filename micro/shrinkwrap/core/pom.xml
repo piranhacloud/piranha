@@ -7,11 +7,20 @@
         <groupId>cloud.piranha.micro</groupId>
         <artifactId>project</artifactId>
         <version>21.12.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>piranha-micro-core</artifactId>
+    <groupId>cloud.piranha.micro.shrinkwrap</groupId>
+    <artifactId>piranha-micro-shrinkwrap-core</artifactId>
 
-    <name>Piranha - Micro - Core</name>
+    <name>Piranha - Micro - Shrinkwrap - Core</name>
+    <description>
+        This project delivers the Piranha Micro Shrinkwrap Core code. It sets up
+        the "global" environment for a micro instance, such as JNDI, a URL 
+        handler, a default identity store, and the annotation index.  It creates
+        a web application that it either returns or deploys itself to an 
+        embedded HTTP server.     
+    </description>
 
     <dependencyManagement>
         <dependencies>

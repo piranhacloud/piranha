@@ -207,7 +207,7 @@ public class MicroConfiguration {
                 .toList();
 
         mergedDependencies = Stream.of(
-                Stream.of("cloud.piranha.micro:piranha-micro-core:" + version),
+                Stream.of("cloud.piranha.micro.shrinkwrap:piranha-micro-shrinkwrap-core:" + version),
                 Stream.of("cloud.piranha.http:piranha-http-" + httpServer + ":" + version),
                 dependenciesFromExtensionsStream,
                 directDependenciesStream
