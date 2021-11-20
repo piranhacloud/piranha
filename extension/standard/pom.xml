@@ -10,9 +10,9 @@
         <artifactId>project</artifactId>
         <version>21.12.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-server</artifactId>
+    <artifactId>piranha-extension-standard</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Server</name>
+    <name>Piranha - Extension - Standard</name>
     <description>
         This module delivers the default set of extensions for Piranha Server.
     </description>

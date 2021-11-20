@@ -35,7 +35,7 @@ module cloud.piranha.server.isolated {
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.embedded;
-    requires cloud.piranha.extension.server;
+    requires cloud.piranha.extension.standard;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.micro.embedded;

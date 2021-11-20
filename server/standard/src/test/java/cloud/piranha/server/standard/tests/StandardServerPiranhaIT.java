@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server.tests;
+package cloud.piranha.server.standard.tests;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -44,7 +44,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServerPiranhaIT {
+class StandardServerPiranhaIT {
 
     /**
      * Extract the zip input stream.

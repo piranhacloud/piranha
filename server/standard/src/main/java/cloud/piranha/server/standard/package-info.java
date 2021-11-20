@@ -57,4 +57,4 @@
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-package cloud.piranha.server;
+package cloud.piranha.server.standard;

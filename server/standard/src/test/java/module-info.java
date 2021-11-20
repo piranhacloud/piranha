@@ -31,11 +31,11 @@
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.server.tests {
+module cloud.piranha.server.standard.tests {
 
-    opens cloud.piranha.server.tests;
-    exports cloud.piranha.server.tests;
-    requires cloud.piranha.server;
+    opens cloud.piranha.server.standard.tests;
+    exports cloud.piranha.server.standard.tests;
+    requires cloud.piranha.server.standard;
     requires java.net.http;
     requires java.base;
     requires org.junit.jupiter.api;

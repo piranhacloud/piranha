@@ -27,10 +27,10 @@
  */
 
 /**
- * The Piranha Extension - Server module.
+ * The Standard Extension module.
  *
  * <p>
- *  This module delivers the following default extensions for Piranha Server:
+ *  This module delivers the following extensions:
  * </p>
  * <ul>
  *  <li>Annotation scanning support</li>
@@ -44,9 +44,9 @@
  *  <li>Web.xml support</li>
  * </ul>
  */
-module cloud.piranha.extension.server {
-    exports cloud.piranha.extension.server;
-    opens cloud.piranha.extension.server;
+module cloud.piranha.extension.standard {
+    exports cloud.piranha.extension.standard;
+    opens cloud.piranha.extension.standard;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.locale_encoding;

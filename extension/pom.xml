@@ -34,9 +34,9 @@
         <module>scinitializer</module>
         <module>security-servlet</module>
         <module>security-jakarta</module>
-        <module>server</module>
         <module>slim</module>
         <module>soteria</module>
+        <module>standard</module>
         <module>tempdir</module>
         <module>wasp</module>
         <module>webprofile</module>

@@ -30,16 +30,16 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
- * The Piranha Server module.
+ * The Standard variant of Piranha Server module.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.server {
-    exports cloud.piranha.server;
-    opens cloud.piranha.server;
+module cloud.piranha.server.standard {
+    exports cloud.piranha.server.standard;
+    opens cloud.piranha.server.standard;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.server;
+    requires cloud.piranha.extension.standard;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.server.core;

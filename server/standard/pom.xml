@@ -34,7 +34,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-server</artifactId>
+            <artifactId>piranha-extension-standard</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -113,7 +113,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>cloud.piranha.server.ServerBootstrap</mainClass>
+                            <mainClass>cloud.piranha.server.standard.StandardServerBootstrap</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

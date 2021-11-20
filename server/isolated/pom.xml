@@ -44,7 +44,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-server</artifactId>
+            <artifactId>piranha-extension-standard</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

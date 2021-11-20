@@ -25,9 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server;
+package cloud.piranha.server.standard;
 
-import cloud.piranha.extension.server.ServerExtension;
+import cloud.piranha.extension.standard.StandardExtension;
 import cloud.piranha.server.core.ServerPiranhaBuilder;
 
 /**
@@ -35,7 +35,7 @@ import cloud.piranha.server.core.ServerPiranhaBuilder;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServerBootstrap {
+public class StandardServerBootstrap {
 
     /**
      * Main method.
@@ -43,7 +43,7 @@ public class ServerBootstrap {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        ServerPiranhaBuilder builder = new ServerBootstrap().processArguments(arguments);
+        ServerPiranhaBuilder builder = new StandardServerBootstrap().processArguments(arguments);
         if (builder != null) {
             builder.build().start();
         } else {
@@ -59,7 +59,7 @@ public class ServerBootstrap {
     private ServerPiranhaBuilder processArguments(String[] arguments) {
         
         ServerPiranhaBuilder builder = new ServerPiranhaBuilder()
-                .defaultExtensionClass(ServerExtension.class)
+                .defaultExtensionClass(StandardExtension.class)
                 .exitOnStop(true);
         
         if (arguments != null) {

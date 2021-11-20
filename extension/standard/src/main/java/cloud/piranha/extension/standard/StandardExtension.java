@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.server;
+package cloud.piranha.extension.standard;
 
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
@@ -42,11 +42,11 @@ import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
 
 /**
- * The ServerExtension delivers the default extensions for Piranha Server.
+ * The StandardExtension delivers the default extensions for Piranha Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServerExtension implements WebApplicationExtension {
+public class StandardExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
