@@ -28,8 +28,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-lite</artifactId>
+            <groupId>cloud.piranha.micro</groupId>
+            <artifactId>piranha-micro-standard</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -48,13 +48,6 @@
     <build>
         <finalName>piranha-test-helloworld</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -80,10 +73,8 @@
                         <phase>post-integration-test</phase>
                         <configuration>
                             <target>
-                                <!--
                                 <delete dir="target/webapps"/>
                                 <delete dir="tmp"/>
-                                                                -->
                             </target>
                         </configuration>
                         <goals>
@@ -91,6 +82,21 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <forkCount>1</forkCount>
+                    <reuseForks>false</reuseForks>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
             </plugin>
         </plugins>
     </build>

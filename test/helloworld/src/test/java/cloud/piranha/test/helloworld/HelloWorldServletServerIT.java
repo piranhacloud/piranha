@@ -40,14 +40,18 @@ import org.junit.jupiter.api.Test;
 
 /**
  * The 'Hello World' integration test.
- * 
+ *
+ * <p>
+ * This tests illustrates how to do integration testing using Piranha Server.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HelloWorldServletIT {
-    
+class HelloWorldServletServerIT {
+
     /**
      * Test the 'Hello World!' servlet.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -56,16 +60,16 @@ class HelloWorldServletIT {
                 .defaultExtensionClass(StandardExtension.class)
                 .webAppsDir("target/webapps")
                 .build();
-        
+
         piranha.start();
-        
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
                 .newBuilder(new URI("http://localhost:8080/index.html"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello World!"));
-        
+
         piranha.stop();
     }
 }

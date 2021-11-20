@@ -39,6 +39,7 @@
         <module>core</module>
         <module>lite</module>
         <module>slim</module>
+        <module>standard</module>
     </modules>
 
     <dependencyManagement>

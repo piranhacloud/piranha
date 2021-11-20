@@ -27,48 +27,49 @@
  */
 package cloud.piranha.test.helloworld;
 
-import cloud.piranha.embedded.EmbeddedPiranha;
-import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
-import cloud.piranha.embedded.EmbeddedRequest;
-import cloud.piranha.embedded.EmbeddedRequestBuilder;
-import cloud.piranha.embedded.EmbeddedResponse;
-import cloud.piranha.embedded.EmbeddedResponseBuilder;
-import cloud.piranha.extension.standard.StandardExtension;
+import cloud.piranha.micro.standard.StandardMicroPiranha;
+import cloud.piranha.micro.standard.StandardMicroPiranhaBuilder;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * The 'Hello World' JUnit test.
- * 
+ * The 'Hello World' integration test.
+ *
  * <p>
- *  This tests illustrates how to do unit testing using Piranha Embedded.
+ * This tests illustrates how to do integration testing using Piranha Micro.
  * </p>
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HelloWorldServletTest {
-    
+class HelloWorldServletMicroIT {
+
     /**
      * Test the 'Hello World!' servlet.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
     void testHelloWorld() throws Exception {
-        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .directoryResource("src/main/webapp")
-                .extension(StandardExtension.class)
-                .buildAndStart();
-        
-        EmbeddedRequest request = new EmbeddedRequestBuilder()
+        StandardMicroPiranha piranha = new StandardMicroPiranhaBuilder()
+                .warFile("target/webapps/ROOT.war")
+                .webAppDir("target/webapps/ROOT")
                 .build();
-        
-        EmbeddedResponse response = new EmbeddedResponseBuilder()
-                .bodyOnly(true)
+
+        piranha.start();
+        Thread.sleep(2000);
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:8080/index.html"))
                 .build();
-        
-        piranha.service(request, response);
-        
-        assertTrue(response.getResponseAsString().contains("Hello World!"));
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertTrue(response.body().contains("Hello World!"));
+
+        piranha.stop();
     }
 }
