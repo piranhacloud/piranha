@@ -57,7 +57,7 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
         }
         if (!constructed) {
             try {
-                result = filterClass.newInstance();
+                result = filterClass.getDeclaredConstructor().newInstance();
             } catch (Throwable throwable) {
                 throw new ServletException(throwable);
             }
@@ -79,7 +79,7 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
         }
         if (!constructed) {
             try {
-                result = clazz.newInstance();
+                result = clazz.getDeclaredConstructor().newInstance();
             } catch (Throwable throwable) {
                 throw new ServletException(throwable);
             }
@@ -101,7 +101,7 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
         }
         if (!constructed) {
             try {
-                result = servletClass.newInstance();
+                result = servletClass.getDeclaredConstructor().newInstance();
             } catch (Throwable throwable) {
                 throw new ServletException(throwable);
             }

@@ -137,8 +137,8 @@ public class MicroOuterDeployer {
             archive.add(EmptyAsset.INSTANCE, "WEB-INF/beans.xml");
         }
         
-        if (archive instanceof WebArchive) {
-            ((WebArchive) archive).addClass(MicroInfo.class);
+        if (archive instanceof WebArchive webArchive) {
+            webArchive.addClass(MicroInfo.class);
         }
 
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();

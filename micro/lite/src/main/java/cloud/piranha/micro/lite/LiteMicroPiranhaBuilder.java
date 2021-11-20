@@ -174,15 +174,13 @@ public class LiteMicroPiranhaBuilder {
                 Webapp dir            : %s
                 
                 """,
-                new Object[]{
-                    exitOnStop,
-                    httpPort,
-                    httpsPort,
-                    jpms,
-                    sslKeystoreFile,
-                    warFile,
-                    webAppDir,
-                });
+                exitOnStop,
+                httpPort,
+                httpsPort,
+                jpms,
+                sslKeystoreFile,
+                warFile,
+                webAppDir);
     }
 
     /**

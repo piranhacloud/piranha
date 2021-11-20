@@ -40,11 +40,16 @@ import jakarta.inject.Named;
 public class WeldRequestBean {
 
     /**
+     * Stores the HELLO constant.
+     */
+    private static final String HELLO = "Hello Weld!";
+
+    /**
      * Get the "Hello Weld".
      *
      * @return "Hello Weld"
      */
     public String getHello() {
-        return "Hello Weld";
+        return HELLO;
     }
 }
