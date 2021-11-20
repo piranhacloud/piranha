@@ -227,7 +227,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         HttpServerProcessorEndState state = COMPLETED;
         try {
             DefaultWebApplicationRequest serverRequest = (DefaultWebApplicationRequest) createRequest(request);
-            DefaultWebApplicationResponse serverResponse = (DefaultWebApplicationResponse) createResponse(response);
+            DefaultWebApplicationResponse serverResponse = createResponse(response);
             service(serverRequest, serverResponse);
             if (serverRequest.isAsyncStarted()) {
                 state = ASYNCED;

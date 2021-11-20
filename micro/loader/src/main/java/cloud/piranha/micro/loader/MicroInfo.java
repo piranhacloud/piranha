@@ -33,13 +33,18 @@ package cloud.piranha.micro.loader;
  *
  */
 public class MicroInfo {
-    
+
+    /**
+     * Stores the platform constant
+     */
+    private static final String PLATFORM = "micro";
+
     /**
      * 
      * @return the platform, set info based on properties later
      */
     public String getPlatform() {
-        return "micro";
+        return PLATFORM;
     }
     
 

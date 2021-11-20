@@ -158,6 +158,11 @@ public class DefaultWebApplication implements WebApplication {
     private static final Logger LOGGER = System.getLogger(DefaultWebApplication.class.getName());
 
     /**
+     * Stores the piranha.response constant
+     */
+    private static final String PIRANHA_RESPONSE = "piranha.response";
+
+    /**
      * Stores the class loader.
      */
     protected ClassLoader classLoader;
@@ -1035,7 +1040,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public ServletResponse getResponse(ServletRequest request) {
-        return (ServletResponse) request.getAttribute("piranha.response");
+        return (ServletResponse) request.getAttribute(PIRANHA_RESPONSE);
     }
 
     /**
@@ -1363,7 +1368,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void linkRequestAndResponse(ServletRequest request, ServletResponse response) {
-        request.setAttribute("piranha.response", response);
+        request.setAttribute(PIRANHA_RESPONSE, response);
         responses.put(response, request);
     }
 
@@ -1690,7 +1695,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void unlinkRequestAndResponse(ServletRequest request, ServletResponse response) {
-        request.removeAttribute("piranha.response");
+        request.removeAttribute(PIRANHA_RESPONSE);
         responses.remove(response);
     }
 

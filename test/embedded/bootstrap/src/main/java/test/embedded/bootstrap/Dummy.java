@@ -25,11 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package test.embedded.bootstrap;
 
 /**
  * A dummy class to make Sonarcloud happy.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class Dummy {
+public interface Dummy {
 }

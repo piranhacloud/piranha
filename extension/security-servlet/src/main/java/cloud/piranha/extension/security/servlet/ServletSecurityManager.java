@@ -171,11 +171,7 @@ public class ServletSecurityManager implements SecurityManager {
             setIdentityForCurrentRequest(request, caller.getCallerPrincipal(), caller.getGroups(), "authenticate");
         }
 
-        if (caller == null) {
-            return false;
-        }
-
-        return true;
+        return caller != null;
     }
 
     @Override
