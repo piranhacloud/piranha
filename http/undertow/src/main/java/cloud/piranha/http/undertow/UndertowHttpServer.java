@@ -48,7 +48,7 @@ public class UndertowHttpServer implements HttpServer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(UndertowHttpServer.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(UndertowHttpServer.class.getName());
 
     /**
      * Stores the HTTP server processor.

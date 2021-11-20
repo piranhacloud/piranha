@@ -49,7 +49,7 @@ class DefaultHttpServerAcceptorThread implements Runnable {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(
-            DefaultHttpServerAcceptorThread.class.getPackageName());
+            DefaultHttpServerAcceptorThread.class.getName());
 
     /**
      * Stores the HTTP server.

@@ -72,7 +72,7 @@ public enum DefaultModuleLayerProcessor implements ModuleLayerProcessor {
     /**
      * Stores the logger
      */
-    private static final Logger LOGGER = System.getLogger(DefaultModuleLayerProcessor.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(DefaultModuleLayerProcessor.class.getName());
 
     @Override
     public void processModuleLayerOptions(ModuleLayer.Controller controller) {

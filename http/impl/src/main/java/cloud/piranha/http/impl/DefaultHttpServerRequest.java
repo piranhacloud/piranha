@@ -53,7 +53,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(
-            DefaultHttpServerRequest.class.getPackageName());
+            DefaultHttpServerRequest.class.getName());
 
     /**
      * Stores the headers.

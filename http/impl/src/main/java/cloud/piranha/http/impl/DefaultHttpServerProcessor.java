@@ -59,7 +59,7 @@ public class DefaultHttpServerProcessor implements HttpServerProcessor {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(
-            DefaultHttpServerProcessor.class.getPackageName());
+            DefaultHttpServerProcessor.class.getName());
     
     /**
      * Stores the error writing response message.

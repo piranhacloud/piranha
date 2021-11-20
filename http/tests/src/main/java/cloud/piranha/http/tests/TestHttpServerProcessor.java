@@ -61,7 +61,7 @@ public class TestHttpServerProcessor implements HttpServerProcessor {
      * Stores the logger.
      */
     private static final Logger LOGGER = 
-            System.getLogger(TestHttpServerProcessor.class.getPackageName());
+            System.getLogger(TestHttpServerProcessor.class.getName());
 
     /**
      * Stores the error writing response message.

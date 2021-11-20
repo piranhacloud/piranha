@@ -58,8 +58,7 @@ public class DefaultHttpServer implements HttpServer {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(
-            DefaultHttpServer.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(DefaultHttpServer.class.getName());
 
     /**
      * Stores the executor service.

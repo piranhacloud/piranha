@@ -48,7 +48,7 @@ class DefaultHttpServerThreadFactory implements ThreadFactory {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(
-            DefaultHttpServerThreadFactory.class.getPackageName());
+            DefaultHttpServerThreadFactory.class.getName());
 
     /**
      * Stores the id.

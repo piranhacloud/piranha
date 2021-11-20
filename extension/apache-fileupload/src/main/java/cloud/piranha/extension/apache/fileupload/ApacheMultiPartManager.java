@@ -63,7 +63,7 @@ public class ApacheMultiPartManager implements MultiPartManager {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(ApacheMultiPartManager.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(ApacheMultiPartManager.class.getName());
 
     /**
      * @see MultiPartManager#getParts(cloud.piranha.core.api.WebApplication,

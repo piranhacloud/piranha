@@ -46,7 +46,7 @@ public class HttpWebApplicationServerProcessor implements HttpServerProcessor {
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(HttpWebApplicationServerProcessor.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(HttpWebApplicationServerProcessor.class.getName());
 
     /**
      * Stores the Piranha instance.

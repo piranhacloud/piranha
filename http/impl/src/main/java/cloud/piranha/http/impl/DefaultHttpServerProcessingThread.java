@@ -51,7 +51,7 @@ class DefaultHttpServerProcessingThread implements Runnable {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(
-            DefaultHttpServerProcessingThread.class.getPackageName());
+            DefaultHttpServerProcessingThread.class.getName());
 
     /**
      * Stores the server.

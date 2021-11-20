@@ -66,7 +66,7 @@ public class DefaultModuleFinder implements ModuleFinder {
     /**
      * Stores the logger
      */
-    private static final Logger LOGGER = System.getLogger(DefaultModuleFinder.class.getPackageName());
+    private static final Logger LOGGER = System.getLogger(DefaultModuleFinder.class.getName());
 
     /**
      * Stores the attribute Automatic-Module-Name

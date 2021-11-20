@@ -77,27 +77,32 @@ public class SnoopServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             String template = """
-                <html>
-                 <head>
-                  <title>Snoop</title>
-                 </head>
-                 <body>
-                  <h1>Snoop</h1>
-                  <table>
-                   <tr><td>Attribute Names:</td><td>%s</td></tr>
-                   <tr><td>Auth Type:</td><td>%s</td></tr>
-                   <tr><td>Character Encoding:</td><td>%s</td></tr>
-                   <tr><td>Class:</td><td>%s</td></tr>
-            """;
+            <html>
+              <head>
+                <title>Snoop</title>
+              </head>
+              <body>
+                <h1>Snoop</h1>
+                <table>
+                  <tr><td>Attribute Names:</td><td>%s</td></tr>
+                  <tr><td>Auth Type:</td><td>%s</td></tr>
+                  <tr><td>Character Encoding:</td><td>%s</td></tr>
+                  <tr><td>Class:</td><td>%s</td></tr>
+                  <tr><td>Content Length:</td><td>%s</td></tr>
+                  <tr><td>Content Type:</td><td>%s</td></tr>
+                  <tr><td>Context Path:</td><td>%s</td></tr>
+                  <tr><td>Cookies:</td><td>%s</td></tr>
+                        """;
             out.println(String.format(template,
                     request.getAttributeNames(),
                     request.getAuthType(),
                     request.getCharacterEncoding(),
-                    request.getClass()));
-            out.println("<tr><td>Content Length:</td><td>" + request.getContentLength() + "</td></tr>");
-            out.println("<tr><td>Content Type:</td><td>" + request.getContentType() + "</td></tr>");
-            out.println("<tr><td>Context Path:</td><td>" + request.getContextPath() + "</td></tr>");
-            out.println("<tr><td>Cookies:</td><td>" + Arrays.toString(request.getCookies()) + "</td></tr>");
+                    request.getClass(),
+                    request.getContentLength(),
+                    request.getContentType(),
+                    request.getContextPath(),
+                    Arrays.toString(request.getCookies())
+            ));
             out.println("<tr><td>Dispatcher Type:</td><td>" + request.getDispatcherType() + "</td></tr>");
             out.println("<tr><td>Header Names:</td><td>" + request.getHeaderNames() + "</td></tr>");
             out.println("<tr><td>Local Address:</td><td>" + request.getLocalAddr() + "</td></tr>");
