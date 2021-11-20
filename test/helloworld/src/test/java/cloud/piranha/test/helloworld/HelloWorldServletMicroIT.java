@@ -34,7 +34,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -49,27 +51,47 @@ import org.junit.jupiter.api.Test;
 class HelloWorldServletMicroIT {
 
     /**
+     * Stores the Piranha instance.
+     */
+    private StandardMicroPiranha piranha;
+
+    /**
+     * After each test.
+     */
+    @AfterEach
+    void afterAll() {
+        piranha.stop();
+    }
+
+    /**
+     * Before each test.
+     */
+    @BeforeEach
+    void beforeEach() {
+        piranha = new StandardMicroPiranhaBuilder()
+                .warFile("target/webapps/ROOT.war")
+                .webAppDir("target/webapps/ROOT")
+                .build();
+        piranha.start();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    /**
      * Test the 'Hello World!' servlet.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
     void testHelloWorld() throws Exception {
-        StandardMicroPiranha piranha = new StandardMicroPiranhaBuilder()
-                .warFile("target/webapps/ROOT.war")
-                .webAppDir("target/webapps/ROOT")
-                .build();
-
-        piranha.start();
-        Thread.sleep(2000);
-
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
                 .newBuilder(new URI("http://localhost:8080/index.html"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello World!"));
-
-        piranha.stop();
     }
 }

@@ -34,41 +34,63 @@ import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.embedded.EmbeddedResponseBuilder;
 import cloud.piranha.extension.standard.StandardExtension;
+import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * The 'Hello World' JUnit test.
- * 
+ *
  * <p>
- *  This tests illustrates how to do unit testing using Piranha Embedded.
+ * This tests illustrates how to do unit testing using Piranha Embedded.
  * </p>
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HelloWorldServletTest {
-    
+class HelloWorldServletEmbeddedTest {
+
+    /**
+     * Stores the Piranha instance.
+     */
+    private EmbeddedPiranha piranha;
+
+    /**
+     * After each.
+     */
+    @AfterEach
+    void afterEach() {
+        piranha.stop();
+    }
+
+    /**
+     * Before each.
+     */
+    @BeforeEach
+    void beforeEach() {
+        piranha = new EmbeddedPiranhaBuilder()
+                .directoryResource("src/main/webapp")
+                .extension(StandardExtension.class)
+                .buildAndStart();
+    }
+
     /**
      * Test the 'Hello World!' servlet.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
     void testHelloWorld() throws Exception {
-        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .directoryResource("src/main/webapp")
-                .extension(StandardExtension.class)
-                .buildAndStart();
-        
+
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .build();
-        
+
         EmbeddedResponse response = new EmbeddedResponseBuilder()
                 .bodyOnly(true)
                 .build();
-        
+
         piranha.service(request, response);
-        
+
         assertTrue(response.getResponseAsString().contains("Hello World!"));
     }
 }

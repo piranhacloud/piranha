@@ -16,7 +16,6 @@
     <name>Piranha - Test - Micro - Project</name>
 
     <modules>
-        <module>helloworld</module>
         <module>mojarra</module>
         <module>snoop</module>
     </modules>

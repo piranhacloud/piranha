@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package tests;
+package cloud.piranha.test.server;
 
 import java.io.File;
 import java.net.URI;
@@ -40,11 +40,11 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
- * The integration tests for the HelloWorld web application.
+ * The integration tests that test the Piranha Server zip distribution.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HelloWorldIT {
+class ServerIT {
 
     /**
      * Test getting index.html page.

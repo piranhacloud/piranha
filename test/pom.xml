@@ -18,7 +18,6 @@
         <module>arquillian</module>
         <module>classloader</module>
         <module>classloader2</module>
-        <module>embedded</module>
         <module>exousia</module>
         <module>hazelcast</module>
         <module>helloworld</module>

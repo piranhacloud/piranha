@@ -9,12 +9,12 @@
         <version>21.12.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>test-server-standard</artifactId>
+    <artifactId>test-server</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Test - Piranha Server Standard</name>
+    <name>Piranha - Test - Server</name>
     <description>
-        This project tests the Piranha Server Standard zip bundle.
+        This project tests the Piranha Server zip bundle.
     </description>
 
     <properties>
