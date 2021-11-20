@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server;
+package cloud.piranha.server.core;
 
 import cloud.piranha.core.api.WebApplicationServerRequestMapper;
 import cloud.piranha.core.impl.DefaultWebApplication;

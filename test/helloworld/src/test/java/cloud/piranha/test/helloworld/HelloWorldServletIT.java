@@ -27,8 +27,9 @@
  */
 package cloud.piranha.test.helloworld;
 
-import cloud.piranha.server.ServerPiranha;
-import cloud.piranha.server.ServerPiranhaBuilder;
+import cloud.piranha.extension.server.ServerExtension;
+import cloud.piranha.server.core.ServerPiranha;
+import cloud.piranha.server.core.ServerPiranhaBuilder;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -52,6 +53,7 @@ class HelloWorldServletIT {
     @Test
     void testHelloWorld() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
+                .defaultExtensionClass(ServerExtension.class)
                 .webAppsDir("target/webapps")
                 .build();
         

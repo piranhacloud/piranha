@@ -25,35 +25,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server.slim;
-
-import cloud.piranha.core.api.WebApplicationServerRequestMapper;
-import cloud.piranha.core.impl.DefaultWebApplication;
-import jakarta.servlet.ServletContext;
-import java.util.Objects;
 
 /**
- * This web application supports finding other contexts using
- * {@link ServletContext#getContext(String)}.
+ * The tests module for core module of Piranha Server.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SlimServerWebApplication extends DefaultWebApplication {
-
-    /**
-     * Stores the request mapper.
-     */
-    private final WebApplicationServerRequestMapper requestMapper;
-
-    /**
-     * Constructor.
-     *
-     * @param requestMapper the request mapper.
-     */
-    public SlimServerWebApplication(WebApplicationServerRequestMapper requestMapper) {
-        this.requestMapper = Objects.requireNonNull(requestMapper);
-    }
-
-    @Override
-    public ServletContext getContext(String uripath) {
-        return requestMapper.findMapping(uripath);
-    }
+module cloud.piranha.server.core.tests {
+    exports cloud.piranha.server.core.tests;
+    opens cloud.piranha.server.core.tests;
+    requires cloud.piranha.extension.lite;
+    requires cloud.piranha.http.impl;
+    requires cloud.piranha.server.core;
+    requires org.junit.jupiter.api;
+    requires org.junit.jupiter.engine;
+    requires org.junit.jupiter.params;
 }

@@ -44,6 +44,12 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>cloud.piranha.server</groupId>
+            <artifactId>piranha-server-core</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

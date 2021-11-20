@@ -1,3 +1,5 @@
+package cloud.piranha.server.core.tests;
+
 /*
  * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
  *
@@ -25,10 +27,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server.slim.tests;
 
-import cloud.piranha.server.slim.SlimServerPiranha;
-import cloud.piranha.server.slim.SlimServerPiranhaBuilder;
+
+import cloud.piranha.extension.lite.LiteExtension;
+import cloud.piranha.server.core.ServerPiranha;
+import cloud.piranha.server.core.ServerPiranhaBuilder;
 import java.net.ConnectException;
 import java.net.Socket;
 import javax.net.SocketFactory;
@@ -40,11 +43,11 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the SlimServerPiranhaBuilder class.
+ * The JUnit tests for the ServerPiranhaBuilder class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class SlimServerPiranhaBuilderTest {
+class ServerPiranhaBuilderTest {
 
     /**
      * Test httpPort method.
@@ -53,7 +56,8 @@ class SlimServerPiranhaBuilderTest {
      */
     @Test
     void testHttpPort() throws Exception {
-        SlimServerPiranha piranha = new SlimServerPiranhaBuilder()
+        ServerPiranha piranha = new ServerPiranhaBuilder()
+                .defaultExtensionClass(LiteExtension.class)
                 .httpPort(8118)
                 .build();
         piranha.start();
@@ -66,13 +70,14 @@ class SlimServerPiranhaBuilderTest {
     }
 
     /**
-     * Test httpPort method.
+     * Test httpsPort method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
     void testHttpPort2() throws Exception {
-        SlimServerPiranha piranha = new SlimServerPiranhaBuilder()
+        ServerPiranha piranha = new ServerPiranhaBuilder()
+                .defaultExtensionClass(LiteExtension.class)
                 .httpPort(-1)
                 .httpsPort(8043)
                 .build();
@@ -93,7 +98,8 @@ class SlimServerPiranhaBuilderTest {
      */
     @Test
     void testHttpsPort2() throws Exception {
-        SlimServerPiranha piranha = new SlimServerPiranhaBuilder()
+        ServerPiranha piranha = new ServerPiranhaBuilder()
+                .defaultExtensionClass(LiteExtension.class)
                 .sslKeystoreFile("src/main/zip/etc/keystore.jks")
                 .sslKeystorePassword("password")
                 .httpPort(8228)

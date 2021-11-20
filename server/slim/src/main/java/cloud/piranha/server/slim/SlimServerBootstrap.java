@@ -27,8 +27,11 @@
  */
 package cloud.piranha.server.slim;
 
+import cloud.piranha.extension.slim.SlimExtension;
+import cloud.piranha.server.core.ServerPiranhaBuilder;
+
 /**
- * The bootstrapper for Piranha Server.
+ * The bootstrapper for the Slim version of Piranha Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -40,7 +43,7 @@ public class SlimServerBootstrap {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        SlimServerPiranhaBuilder builder = new SlimServerBootstrap().processArguments(arguments);
+        ServerPiranhaBuilder builder = new SlimServerBootstrap().processArguments(arguments);
         if (builder != null) {
             builder.build().start();
         } else {
@@ -53,8 +56,12 @@ public class SlimServerBootstrap {
      *
      * @param arguments the arguments.
      */
-    private SlimServerPiranhaBuilder processArguments(String[] arguments) {
-        SlimServerPiranhaBuilder builder = new SlimServerPiranhaBuilder().exitOnStop(true);
+    private ServerPiranhaBuilder processArguments(String[] arguments) {
+        
+        ServerPiranhaBuilder builder = new ServerPiranhaBuilder()
+                .defaultExtensionClass(SlimExtension.class)
+                .exitOnStop(true);
+        
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--help")) {
