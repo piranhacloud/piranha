@@ -16,5 +16,6 @@
         <module>lite</module>
         <module>slim</module>
         <module>standard</module>
+        <module>core</module>
     </modules>
 </project>

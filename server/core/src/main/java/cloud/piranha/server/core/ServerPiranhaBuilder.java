@@ -25,18 +25,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server;
+package cloud.piranha.server.core;
 
 import java.io.File;
 
 /**
  * The builder so you can easily build instances of
- * {@link cloud.piranha.server.ServerPiranha}.
+ * {@link cloud.piranha.server.core.ServerPiranha}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @see cloud.piranha.server.ServerPiranha
+ * @see cloud.piranha.server.core.ServerPiranha
  */
 public class ServerPiranhaBuilder {
+
+    /**
+     * Stores the default extension.
+     */
+    private Class defaultExtensionClass;
 
     /**
      * Stores the exit on stop flag.
@@ -88,6 +93,7 @@ public class ServerPiranhaBuilder {
             showArguments();
         }
         ServerPiranha piranha = new ServerPiranha();
+        piranha.setDefaultExtensionClass(defaultExtensionClass);
         piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
         piranha.setHttpsPort(httpsPort);
@@ -100,6 +106,17 @@ public class ServerPiranhaBuilder {
         }
         piranha.setWebAppsDir(new File(webAppsDir));
         return piranha;
+    }
+
+    /**
+     * Set the default extension class.
+     *
+     * @param defaultExtensionClass the default extension class.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder defaultExtensionClass(Class defaultExtensionClass) {
+        this.defaultExtensionClass = defaultExtensionClass;
+        return this;
     }
 
     /**
@@ -158,6 +175,7 @@ public class ServerPiranhaBuilder {
                 Arguments
                 =========
                 
+                Default extension     : %s
                 Exit on stop          : %s
                 HTTP port             : %s
                 HTTPS port            : %s
@@ -167,6 +185,7 @@ public class ServerPiranhaBuilder {
                 Web applications dir  : %s
                 
                 """,
+                defaultExtensionClass.getName(),
                 exitOnStop,
                 httpPort,
                 httpsPort,

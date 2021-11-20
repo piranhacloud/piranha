@@ -25,35 +25,20 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server.lite;
 
-import cloud.piranha.core.api.WebApplicationServerRequestMapper;
-import cloud.piranha.core.impl.DefaultWebApplication;
-import jakarta.servlet.ServletContext;
-import java.util.Objects;
+import cloud.piranha.http.api.HttpServer;
 
 /**
- * This web application supports finding other contexts using
- * {@link ServletContext#getContext(String)}.
+ * The core module for Piranha Server variants.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class LiteServerWebApplication extends DefaultWebApplication {
-
-    /**
-     * Stores the request mapper.
-     */
-    private final WebApplicationServerRequestMapper requestMapper;
-
-    /**
-     * Constructor.
-     *
-     * @param requestMapper the request mapper.
-     */
-    public LiteServerWebApplication(WebApplicationServerRequestMapper requestMapper) {
-        this.requestMapper = Objects.requireNonNull(requestMapper);
-    }
-
-    @Override
-    public ServletContext getContext(String uripath) {
-        return requestMapper.findMapping(uripath);
-    }
+module cloud.piranha.server.core {
+    exports cloud.piranha.server.core;
+    opens cloud.piranha.server.core;
+    requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.webapp;
+    uses HttpServer;
 }

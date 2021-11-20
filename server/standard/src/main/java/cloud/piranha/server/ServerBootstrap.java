@@ -27,6 +27,9 @@
  */
 package cloud.piranha.server;
 
+import cloud.piranha.extension.server.ServerExtension;
+import cloud.piranha.server.core.ServerPiranhaBuilder;
+
 /**
  * The bootstrapper for Piranha Server.
  *
@@ -54,7 +57,11 @@ public class ServerBootstrap {
      * @param arguments the arguments.
      */
     private ServerPiranhaBuilder processArguments(String[] arguments) {
-        ServerPiranhaBuilder builder = new ServerPiranhaBuilder().exitOnStop(true);
+        
+        ServerPiranhaBuilder builder = new ServerPiranhaBuilder()
+                .defaultExtensionClass(ServerExtension.class)
+                .exitOnStop(true);
+        
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--help")) {

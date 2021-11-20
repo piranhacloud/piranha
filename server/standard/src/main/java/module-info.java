@@ -42,6 +42,7 @@ module cloud.piranha.server {
     requires cloud.piranha.extension.server;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
+    requires cloud.piranha.server.core;
     requires java.logging;
     uses HttpServer;
     uses WebApplicationExtension;

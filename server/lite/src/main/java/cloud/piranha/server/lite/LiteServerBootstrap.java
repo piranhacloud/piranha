@@ -27,8 +27,11 @@
  */
 package cloud.piranha.server.lite;
 
+import cloud.piranha.extension.lite.LiteExtension;
+import cloud.piranha.server.core.ServerPiranhaBuilder;
+
 /**
- * The bootstrapper for Piranha Server.
+ * The bootstrapper for the Lite version of Piranha Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -40,7 +43,7 @@ public class LiteServerBootstrap {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        LiteServerPiranhaBuilder builder = new LiteServerBootstrap().processArguments(arguments);
+        ServerPiranhaBuilder builder = new LiteServerBootstrap().processArguments(arguments);
         if (builder != null) {
             builder.build().start();
         } else {
@@ -53,8 +56,12 @@ public class LiteServerBootstrap {
      *
      * @param arguments the arguments.
      */
-    private LiteServerPiranhaBuilder processArguments(String[] arguments) {
-        LiteServerPiranhaBuilder builder = new LiteServerPiranhaBuilder().exitOnStop(true);
+    private ServerPiranhaBuilder processArguments(String[] arguments) {
+        
+        ServerPiranhaBuilder builder = new ServerPiranhaBuilder()
+                .defaultExtensionClass(LiteExtension.class)
+                .exitOnStop(true);
+        
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--help")) {

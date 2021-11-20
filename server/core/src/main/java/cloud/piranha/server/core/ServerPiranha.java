@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server.slim;
+package cloud.piranha.server.core;
 
 import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.WebApplicationExtension;
@@ -37,7 +37,6 @@ import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.extension.slim.SlimExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
@@ -61,17 +60,22 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * The Slim version of Piranha Server.
+ * The Lite version of Piranha Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SlimServerPiranha implements Piranha, Runnable {
+public class ServerPiranha implements Piranha, Runnable {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(SlimServerPiranha.class.getName());
+    private static final Logger LOGGER = System.getLogger(ServerPiranha.class.getName());
 
+    /**
+     * Stores the default extension class.
+     */
+    private Class<? extends WebApplicationExtension> defaultExtensionClass;
+    
     /**
      * Stores the exit on stop flag.
      */
@@ -81,7 +85,7 @@ public class SlimServerPiranha implements Piranha, Runnable {
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
-    
+
     /**
      * Stores the HTTP server.
      */
@@ -101,6 +105,11 @@ public class SlimServerPiranha implements Piranha, Runnable {
      * Stores the JMPS enabled flag.
      */
     private boolean jpmsEnabled = false;
+
+    /**
+     * Stores the started flag.
+     */
+    private boolean started = false;
 
     /**
      * Stores the thread we use.
@@ -175,6 +184,15 @@ public class SlimServerPiranha implements Piranha, Runnable {
     }
 
     /**
+     * Have we started?
+     * 
+     * @return true if we have, false otherwise.
+     */
+    private boolean isStarted() {
+        return started;
+    }
+
+    /**
      * Run method.
      */
     @Override
@@ -202,7 +220,6 @@ public class SlimServerPiranha implements Piranha, Runnable {
 
         WebApplicationServerRequestMapper requestMapper = webApplicationServer.getRequestMapper();
 
-        webAppsDir = new File("webapps");
         File[] webapps = webAppsDir.listFiles();
         if (webapps != null) {
             for (File webapp : webapps) {
@@ -211,7 +228,7 @@ public class SlimServerPiranha implements Piranha, Runnable {
                     File webAppDirectory = new File(webAppsDir, contextPath);
                     extractWarFile(webapp, webAppDirectory);
 
-                    DefaultWebApplication webApplication = new SlimServerWebApplication(requestMapper);
+                    DefaultWebApplication webApplication = new ServerWebApplication(requestMapper);
 
                     webApplication.addResource(new DirectoryResource(webAppDirectory));
 
@@ -224,7 +241,7 @@ public class SlimServerPiranha implements Piranha, Runnable {
 
                     if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                         DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                        extensionContext.add(SlimExtension.class);
+                        extensionContext.add(defaultExtensionClass);
                         extensionContext.configure(webApplication);
                     } else {
                         DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
@@ -238,8 +255,8 @@ public class SlimServerPiranha implements Piranha, Runnable {
                     } else if (!contextPath.startsWith("/")) {
                         contextPath = "/" + contextPath;
                     }
+
                     webApplication.setContextPath(contextPath);
-                    webApplicationServer.addWebApplication(webApplication);
 
                     try {
                         webApplication.initialize();
@@ -247,6 +264,8 @@ public class SlimServerPiranha implements Piranha, Runnable {
                     } catch (Exception e) {
                         LOGGER.log(Level.ERROR, () -> "Failed to initialize app " + webapp.getName(), e);
                     }
+
+                    webApplicationServer.addWebApplication(webApplication);
                 }
             }
         }
@@ -254,6 +273,8 @@ public class SlimServerPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
+        started = true;
+        
         File pidFile = new File("tmp/piranha.pid");
         while (isRunning()) {
             try {
@@ -301,6 +322,16 @@ public class SlimServerPiranha implements Piranha, Runnable {
     public void service(WebApplicationRequest request, WebApplicationResponse response)
             throws IOException, ServletException {
         webApplicationServer.service(request, response);
+    }
+
+    /**
+     * Set the default extension class.
+     *
+     * @param defaultExtensionClass the default extension class.
+     */
+    public void setDefaultExtensionClass(
+            Class<? extends WebApplicationExtension> defaultExtensionClass) {
+        this.defaultExtensionClass = defaultExtensionClass;
     }
 
     /**
@@ -386,7 +417,7 @@ public class SlimServerPiranha implements Piranha, Runnable {
      */
     public void start() {
         File pidFile = new File("tmp/piranha.pid");
-        
+
         if (!pidFile.exists()) {
             try {
                 if (!pidFile.getParentFile().exists()) {
@@ -403,6 +434,14 @@ public class SlimServerPiranha implements Piranha, Runnable {
         thread = new Thread(this);
         thread.setDaemon(false);
         thread.start();
+        
+        while(!isStarted()) {
+            try {
+                Thread.sleep(10);
+            } catch(InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
     /**
@@ -410,10 +449,12 @@ public class SlimServerPiranha implements Piranha, Runnable {
      */
     public void stop() {
         File pidFile = new File("tmp/piranha.pid");
+
         if (pidFile.exists()) {
             pidFile.delete();
         }
-        
+
+        started = false;
         thread = null;
     }
 }
