@@ -23,7 +23,6 @@
         <module>exousia</module>
         <module>hazelcast</module>
         <module>herring</module>
-        <module>jakartaee</module>
         <module>lite</module>
         <module>locale_encoding</module>
         <module>micro</module>
@@ -39,7 +38,6 @@
         <module>standard</module>
         <module>tempdir</module>
         <module>wasp</module>
-        <module>webprofile</module>
         <module>weld</module>
         <module>webannotations</module>
         <module>webxml</module>
