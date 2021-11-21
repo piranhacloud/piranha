@@ -204,15 +204,13 @@ public class MicroInnerDeployer {
                     -> getAnnotationInstances(annotationTarget, HandlesTypes.class)
                         .map(HandlesTypes.class::cast)
                         .forEach(handlesTypesInstance
-                            -> {
-                                stream(handlesTypesInstance.value()).forEach(e -> {
+                            -> stream(handlesTypesInstance.value()).forEach(e -> {
                                     if (e.isAnnotation()) {
                                         addAnnotationToIndex(index, e, annotationManager);
                                     } else {
                                         addInstanceToIndex(index, e, annotationManager);
                                     }
-                                });
-                            }));
+                                })));
 
             // Setup the default identity store, which is used as the default "username and roles database" for
             // (Servlet) security.

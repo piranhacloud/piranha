@@ -721,11 +721,6 @@ public class WebXmlParser {
             if (scNode != null) {
                 int sessionTimeout = parseInteger(xPath, "session-timeout/text()", scNode);
                 webXml.setSessionConfig(new WebXmlSessionConfig(sessionTimeout));
-                Node cNode = (Node) xPath.evaluate("cookie-config", scNode, NODE);
-                if (cNode != null) {
-                    String name = parseString(xPath, "name/text()", cNode);
-                    WebXmlCookieConfig cookieConfig = new WebXmlCookieConfig(name);
-                }
             }
         } catch (XPathException xpe) {
             LOGGER.log(WARNING, "Unable to parse <session-config> section", xpe);

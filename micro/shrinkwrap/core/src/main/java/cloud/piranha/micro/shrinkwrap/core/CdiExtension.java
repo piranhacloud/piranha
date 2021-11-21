@@ -48,7 +48,7 @@ public class CdiExtension implements Extension {
      * @param beanManager the bean manager.
      */
     public void register(@Observes BeforeBeanDiscovery beforeBeanDiscovery, BeanManager beanManager) {
-        if (!InMemoryIdentityStore.getCALLER_TO_CREDENTIALS().isEmpty()) {
+        if (!InMemoryIdentityStore.getCallerToCredentials().isEmpty()) {
             beforeBeanDiscovery.addAnnotatedType(
                     beanManager.createAnnotatedType(InMemoryIdentityStore.class),
                     "Piranha " + InMemoryIdentityStore.class.getName());

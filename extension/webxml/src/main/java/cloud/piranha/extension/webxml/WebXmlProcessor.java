@@ -46,8 +46,6 @@ import java.util.Map;
 import java.util.Set;
 import static java.util.stream.Collectors.toSet;
 
-
-
 /**
  * The web.xml / web-fragment.xml processor.
  *
@@ -386,7 +384,7 @@ public class WebXmlProcessor {
 
     /**
      * Process the locale-encoding mapping.
-     * 
+     *
      * @param webApplication the web application.
      * @param webXml the web.xml.
      */
@@ -427,13 +425,6 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processSecurityConstraints(WebApplication webApplication, WebXml webXml) {
-        SecurityManager manager = webApplication.getManager(SecurityManager.class);
-        for (WebXmlSecurityConstraint constraint : webXml.getSecurityConstraints()) {
-            for (WebXmlSecurityConstraint.WebResourceCollection collection : constraint.getWebResourceCollections()) {
-                for (String urlPattern : collection.getUrlPatterns()) {
-                    // what are we to do here?
-                }
-            }
-        }
+        // what are we to do here?
     }
 }

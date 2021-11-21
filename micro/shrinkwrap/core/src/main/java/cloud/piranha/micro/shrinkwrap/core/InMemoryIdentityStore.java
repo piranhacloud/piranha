@@ -121,7 +121,7 @@ public class InMemoryIdentityStore implements IdentityStore {
     /**
      * {@return the caller to credentials map}
      */
-    public static Map<String, Credential> getCALLER_TO_CREDENTIALS() {
+    public static Map<String, Credential> getCallerToCredentials() {
         return CALLER_TO_CREDENTIALS;
     }
 
