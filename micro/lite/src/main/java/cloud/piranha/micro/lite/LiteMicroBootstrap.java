@@ -27,6 +27,9 @@
  */
 package cloud.piranha.micro.lite;
 
+import cloud.piranha.extension.lite.LiteExtension;
+import cloud.piranha.micro.core.MicroPiranhaBuilder;
+
 /**
  * The bootstrapper for the Lite version of Piranha Micro.
  *
@@ -40,7 +43,8 @@ public class LiteMicroBootstrap {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        LiteMicroPiranhaBuilder builder = new LiteMicroBootstrap().processArguments(arguments);
+        MicroPiranhaBuilder builder = new LiteMicroBootstrap().processArguments(arguments);
+
         if (builder != null) {
             builder.build().start();
         } else {
@@ -53,8 +57,11 @@ public class LiteMicroBootstrap {
      *
      * @param arguments the arguments.
      */
-    private LiteMicroPiranhaBuilder processArguments(String[] arguments) {
-        LiteMicroPiranhaBuilder builder = new LiteMicroPiranhaBuilder().exitOnStop(true);
+    private MicroPiranhaBuilder processArguments(String[] arguments) {
+        MicroPiranhaBuilder builder = new MicroPiranhaBuilder()
+                .defaultExtensionClass(LiteExtension.class)
+                .exitOnStop(true);
+        
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--help")) {

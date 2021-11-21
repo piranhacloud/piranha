@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro.standard;
+package cloud.piranha.micro.core;
 
 import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.WebApplicationExtension;
@@ -36,7 +36,6 @@ import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.extension.standard.StandardExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
@@ -64,12 +63,17 @@ import java.util.zip.ZipInputStream;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardMicroPiranha implements Piranha, Runnable {
+public class MicroPiranha implements Piranha, Runnable {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(StandardMicroPiranha.class.getName());
+    private static final Logger LOGGER = System.getLogger(MicroPiranha.class.getName());
+
+    /**
+     * Stores the default extension class.
+     */
+    private Class<? extends WebApplicationExtension> defaultExtensionClass;
 
     /**
      * Stores the exit on stop flag.
@@ -120,7 +124,7 @@ public class StandardMicroPiranha implements Piranha, Runnable {
      * Stores the HTTP web application server.
      */
     private HttpWebApplicationServer webApplicationServer;
-    
+
     /**
      * Stores the web application directory;
      */
@@ -145,7 +149,7 @@ public class StandardMicroPiranha implements Piranha, Runnable {
 
     /**
      * Extract the WAR file.
-     * 
+     *
      * @param warFile the WAR file.
      * @param webApplicationDirectory the web application directory.
      */
@@ -207,11 +211,11 @@ public class StandardMicroPiranha implements Piranha, Runnable {
         }
 
         if (webAppDir != null && webAppDir.exists()) {
-            
+
             if (contextPath == null) {
                 contextPath = webAppDir.getName();
             }
-            
+
             DefaultWebApplication webApplication = new DefaultWebApplication();
             webApplication.addResource(new DirectoryResource(webAppDir));
 
@@ -224,7 +228,7 @@ public class StandardMicroPiranha implements Piranha, Runnable {
 
             if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                 DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                extensionContext.add(StandardExtension.class);
+                extensionContext.add(defaultExtensionClass);
                 extensionContext.configure(webApplication);
             } else {
                 DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
@@ -252,7 +256,7 @@ public class StandardMicroPiranha implements Piranha, Runnable {
         if (webAppDir == null && warFile == null) {
             LOGGER.log(WARNING, "No web application deployed");
         }
-        
+
         webApplicationServer.start();
 
         long finishTime = System.currentTimeMillis();
@@ -288,6 +292,16 @@ public class StandardMicroPiranha implements Piranha, Runnable {
     public void service(WebApplicationRequest request, WebApplicationResponse response)
             throws IOException, ServletException {
         webApplicationServer.service(request, response);
+    }
+
+    /**
+     * Set the default extension class.
+     *
+     * @param defaultExtensionClass the default extension class.
+     */
+    public void setDefaultExtensionClass(
+            Class<? extends WebApplicationExtension> defaultExtensionClass) {
+        this.defaultExtensionClass = defaultExtensionClass;
     }
 
     /**
@@ -370,7 +384,7 @@ public class StandardMicroPiranha implements Piranha, Runnable {
 
     /**
      * Set the web application directory.
-     * 
+     *
      * @param webAppDir the web application directory.
      */
     public void setWebAppDir(String webAppDir) {

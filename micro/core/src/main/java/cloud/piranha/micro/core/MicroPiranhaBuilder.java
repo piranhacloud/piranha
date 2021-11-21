@@ -25,14 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro.lite;
+package cloud.piranha.micro.core;
+
+import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
- * The builder to create a Slim version of Piranha Micro.
+ * The builder to create a version of Piranha Micro.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class LiteMicroPiranhaBuilder {
+public class MicroPiranhaBuilder {
+    
+    /**
+     * Stores the default extension class.
+     */
+    private Class<? extends WebApplicationExtension> defaultExtensionClass;
 
     /**
      * Stores the exit on stop flag.
@@ -84,11 +91,12 @@ public class LiteMicroPiranhaBuilder {
      *
      * @return the Piranha instance.
      */
-    public LiteMicroPiranha build() {
+    public MicroPiranha build() {
         if (verbose) {
             showArguments();
         }
-        LiteMicroPiranha piranha = new LiteMicroPiranha();
+        MicroPiranha piranha = new MicroPiranha();
+        piranha.setDefaultExtensionClass(defaultExtensionClass);
         piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
         piranha.setHttpsPort(httpsPort);
@@ -109,12 +117,23 @@ public class LiteMicroPiranhaBuilder {
     }
 
     /**
+     * Set the default extension class.
+     *
+     * @param defaultExtensionClass the default extension class.
+     * @return the builder.
+     */
+    public MicroPiranhaBuilder defaultExtensionClass(Class defaultExtensionClass) {
+        this.defaultExtensionClass = defaultExtensionClass;
+        return this;
+    }
+
+    /**
      * Set the exit on stop flag.
      *
      * @param exitOnStop the exit on stop flag.
      * @return the builder.
      */
-    public LiteMicroPiranhaBuilder exitOnStop(boolean exitOnStop) {
+    public MicroPiranhaBuilder exitOnStop(boolean exitOnStop) {
         this.exitOnStop = exitOnStop;
         return this;
     }
@@ -125,7 +144,7 @@ public class LiteMicroPiranhaBuilder {
      * @param httpPort the HTTP server port.
      * @return the builder.
      */
-    public LiteMicroPiranhaBuilder httpPort(int httpPort) {
+    public MicroPiranhaBuilder httpPort(int httpPort) {
         this.httpPort = httpPort;
         return this;
     }
@@ -136,7 +155,7 @@ public class LiteMicroPiranhaBuilder {
      * @param httpsPort the HTTPS server port.
      * @return the builder.
      */
-    public LiteMicroPiranhaBuilder httpsPort(int httpsPort) {
+    public MicroPiranhaBuilder httpsPort(int httpsPort) {
         this.httpsPort = httpsPort;
         return this;
     }
@@ -147,7 +166,7 @@ public class LiteMicroPiranhaBuilder {
      * @param jpms the JPMS flag.
      * @return the builder.
      */
-    public LiteMicroPiranhaBuilder jpms(boolean jpms) {
+    public MicroPiranhaBuilder jpms(boolean jpms) {
         this.jpms = jpms;
         return this;
     }
@@ -159,11 +178,12 @@ public class LiteMicroPiranhaBuilder {
         System.out.printf(
                 """
                 
-                PIRANHA MICRO SLIM
+                PIRANHA MICRO
                 
                 Arguments
                 =========
                 
+                Default Extension     : %s
                 Exit on stop          : %s
                 HTTP port             : %s
                 HTTPS port            : %s
@@ -174,6 +194,7 @@ public class LiteMicroPiranhaBuilder {
                 Webapp dir            : %s
                 
                 """,
+                defaultExtensionClass.getName(),
                 exitOnStop,
                 httpPort,
                 httpsPort,
@@ -189,7 +210,7 @@ public class LiteMicroPiranhaBuilder {
      * @param sslKeystoreFile the SSL keystore file.
      * @return the builder.
      */
-    public LiteMicroPiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
+    public MicroPiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
         this.sslKeystoreFile = sslKeystoreFile;
         return this;
     }
@@ -200,7 +221,7 @@ public class LiteMicroPiranhaBuilder {
      * @param sslKeystorePassword the SSL keystore password.
      * @return the builder.
      */
-    public LiteMicroPiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
+    public MicroPiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
         this.sslKeystorePassword = sslKeystorePassword;
         return this;
     }
@@ -211,7 +232,7 @@ public class LiteMicroPiranhaBuilder {
      * @param verbose the verbose flag.
      * @return the builder.
      */
-    public LiteMicroPiranhaBuilder verbose(boolean verbose) {
+    public MicroPiranhaBuilder verbose(boolean verbose) {
         this.verbose = verbose;
         return this;
     }
@@ -222,7 +243,7 @@ public class LiteMicroPiranhaBuilder {
      * @param warFile the WAR file.
      * @return the builder.
      */
-    public LiteMicroPiranhaBuilder warFile(String warFile) {
+    public MicroPiranhaBuilder warFile(String warFile) {
         this.warFile = warFile;
         return this;
     }
@@ -233,7 +254,7 @@ public class LiteMicroPiranhaBuilder {
      * @param webAppDir the web application directory.
      * @return the builder.
      */
-    public LiteMicroPiranhaBuilder webAppDir(String webAppDir) {
+    public MicroPiranhaBuilder webAppDir(String webAppDir) {
         this.webAppDir = webAppDir;
         return this;
     }

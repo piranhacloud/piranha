@@ -26,12 +26,7 @@
  */
 
 /**
- * The Piranha - Micro - Lite module.
- * 
- * <p>
- *  This module delivers the Lite version of Piranha Micro. It does this by
- *  delivering you with a self-contained executable JAR file.
- * </p>
+ * The Lite version of Piranha Micro
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -43,5 +38,6 @@ module cloud.piranha.micro.lite {
     requires cloud.piranha.extension.lite;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
+    requires cloud.piranha.micro.core;
     requires java.logging;
 }

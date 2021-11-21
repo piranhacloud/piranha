@@ -27,6 +27,9 @@
  */
 package cloud.piranha.micro.standard;
 
+import cloud.piranha.extension.standard.StandardExtension;
+import cloud.piranha.micro.core.MicroPiranhaBuilder;
+
 /**
  * The bootstrapper for the Standard version of Piranha Micro.
  *
@@ -40,7 +43,7 @@ public class StandardMicroBootstrap {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        StandardMicroPiranhaBuilder builder = new StandardMicroBootstrap().processArguments(arguments);
+        MicroPiranhaBuilder builder = new StandardMicroBootstrap().processArguments(arguments);
         if (builder != null) {
             builder.build().start();
         } else {
@@ -53,8 +56,12 @@ public class StandardMicroBootstrap {
      *
      * @param arguments the arguments.
      */
-    private StandardMicroPiranhaBuilder processArguments(String[] arguments) {
-        StandardMicroPiranhaBuilder builder = new StandardMicroPiranhaBuilder().exitOnStop(true);
+    private MicroPiranhaBuilder processArguments(String[] arguments) {
+        
+        MicroPiranhaBuilder builder = new MicroPiranhaBuilder()
+                .defaultExtensionClass(StandardExtension.class)
+                .exitOnStop(true);
+        
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--help")) {

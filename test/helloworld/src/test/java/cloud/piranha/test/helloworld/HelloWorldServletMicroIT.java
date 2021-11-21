@@ -27,8 +27,9 @@
  */
 package cloud.piranha.test.helloworld;
 
-import cloud.piranha.micro.standard.StandardMicroPiranha;
-import cloud.piranha.micro.standard.StandardMicroPiranhaBuilder;
+import cloud.piranha.extension.standard.StandardExtension;
+import cloud.piranha.micro.core.MicroPiranha;
+import cloud.piranha.micro.core.MicroPiranhaBuilder;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -53,7 +54,7 @@ class HelloWorldServletMicroIT {
     /**
      * Stores the Piranha instance.
      */
-    private StandardMicroPiranha piranha;
+    private MicroPiranha piranha;
 
     /**
      * After each test.
@@ -68,7 +69,8 @@ class HelloWorldServletMicroIT {
      */
     @BeforeEach
     void beforeEach() {
-        piranha = new StandardMicroPiranhaBuilder()
+        piranha = new MicroPiranhaBuilder()
+                .defaultExtensionClass(StandardExtension.class)
                 .warFile("target/webapps/ROOT.war")
                 .webAppDir("target/webapps/ROOT")
                 .build();

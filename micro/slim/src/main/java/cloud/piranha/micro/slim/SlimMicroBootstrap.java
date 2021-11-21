@@ -27,6 +27,9 @@
  */
 package cloud.piranha.micro.slim;
 
+import cloud.piranha.extension.slim.SlimExtension;
+import cloud.piranha.micro.core.MicroPiranhaBuilder;
+
 /**
  * The bootstrapper for the Slim version of Piranha Micro.
  *
@@ -40,7 +43,7 @@ public class SlimMicroBootstrap {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        SlimMicroPiranhaBuilder builder = new SlimMicroBootstrap().processArguments(arguments);
+        MicroPiranhaBuilder builder = new SlimMicroBootstrap().processArguments(arguments);
         if (builder != null) {
             builder.build().start();
         } else {
@@ -53,8 +56,12 @@ public class SlimMicroBootstrap {
      *
      * @param arguments the arguments.
      */
-    private SlimMicroPiranhaBuilder processArguments(String[] arguments) {
-        SlimMicroPiranhaBuilder builder = new SlimMicroPiranhaBuilder().exitOnStop(true);
+    private MicroPiranhaBuilder processArguments(String[] arguments) {
+        
+        MicroPiranhaBuilder builder = new MicroPiranhaBuilder()
+                .defaultExtensionClass(SlimExtension.class)
+                .exitOnStop(true);
+        
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--help")) {

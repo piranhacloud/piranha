@@ -38,5 +38,6 @@ module cloud.piranha.micro.slim {
     requires cloud.piranha.extension.slim;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;
+    requires cloud.piranha.micro.core;
     requires java.logging;
 }

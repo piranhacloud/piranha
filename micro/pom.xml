@@ -31,6 +31,7 @@
             an embedded Maven into an in-memory class loader.             
         -->
         <module>loader</module>
+        <module>core</module>
         <module>lite</module>
         <module>shrinkwrap/core</module>
         <module>slim</module>

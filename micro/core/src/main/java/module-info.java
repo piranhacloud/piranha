@@ -25,19 +25,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import cloud.piranha.http.api.HttpServer;
+
 /**
- * The Standard version of Piranha Micro.
- * 
+ * The core module for Piranha Micro variants.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.micro.standard {
-    exports cloud.piranha.micro.standard;
-    opens cloud.piranha.micro.standard;
+module cloud.piranha.micro.core {
+    exports cloud.piranha.micro.core;
+    opens cloud.piranha.micro.core;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.standard;
-    requires cloud.piranha.http.impl;
+    requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
-    requires cloud.piranha.micro.core;
-    requires java.logging;
+    uses HttpServer;
 }
