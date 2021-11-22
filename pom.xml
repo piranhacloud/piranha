@@ -48,6 +48,7 @@
         <module>embedded</module>
         <module>extension</module>
         <module>http</module>
+        <module>maven</module>
         <module>micro</module>
         <module>nano</module>
         <module>resource</module>
