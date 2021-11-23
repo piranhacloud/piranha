@@ -56,6 +56,7 @@ import org.junit.jupiter.api.Test;
 import org.glassfish.exousia.constraints.SecurityConstraint;
 import org.glassfish.exousia.modules.def.DefaultPolicy;
 import org.glassfish.exousia.modules.def.DefaultPolicyConfigurationFactory;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *
@@ -115,10 +116,7 @@ class FormTest {
                 .build();
         response = new EmbeddedResponse();
         piranha.service(request, response);
-        assertTrue(
-                response.getStatus() == 302,
-                "Should redirect"
-        );
+        assertEquals(response.getStatus(), 302,"Should redirect");
 
         URL redirectUrl = new URL(response.getHeader("Location"));
         request = new EmbeddedRequestBuilder()

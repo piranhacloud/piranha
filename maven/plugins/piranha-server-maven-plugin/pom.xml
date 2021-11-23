@@ -10,7 +10,12 @@
     <groupId>cloud.piranha.maven.plugins</groupId>
     <artifactId>piranha-server-maven-plugin</artifactId>
     <version>21.12.0-SNAPSHOT</version>
-    <name>Piranha - Maven - Plugins - Piranha Server Maven Plugin</name>
+    <name>Piranha Server Maven Plugin</name>
+    <description>
+        The Piranha Server Maven Plugin delivers you with a Maven plugin you can
+        use to deploy your web application to Piranha Server facilitating an
+        inner-loop development experience.
+    </description>
     <packaging>maven-plugin</packaging>
     <dependencies>
         <dependency>

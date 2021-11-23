@@ -52,6 +52,11 @@ public class SnoopServlet extends HttpServlet {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(SnoopServlet.class.getName());
+
+    /**
+     * Stores the '&lt;/table>' constant.
+     */
+    private static final String TABLE_END = "</table>";
     
     /**
      * Stores the '&lt;table>' constant.
@@ -77,21 +82,22 @@ public class SnoopServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             String template = """
-            <html>
-              <head>
-                <title>Snoop</title>
-              </head>
-              <body>
-                <h1>Snoop</h1>
-                <table>
-                  <tr><td>Attribute Names:</td><td>%s</td></tr>
-                  <tr><td>Auth Type:</td><td>%s</td></tr>
-                  <tr><td>Character Encoding:</td><td>%s</td></tr>
-                  <tr><td>Class:</td><td>%s</td></tr>
-                  <tr><td>Content Length:</td><td>%s</td></tr>
-                  <tr><td>Content Type:</td><td>%s</td></tr>
-                  <tr><td>Context Path:</td><td>%s</td></tr>
-                  <tr><td>Cookies:</td><td>%s</td></tr>
+<html>
+  <head>
+    <title>Snoop</title>
+  </head>
+  <body>
+    <h1>Snoop</h1>
+    <table>
+      <tr><td>Attribute Names</td><td>%s</td></tr>
+      <tr><td>Auth Type</td><td>%s</td></tr>
+      <tr><td>Character Encoding</td><td>%s</td></tr>
+      <tr><td>Class</td><td>%s</td></tr>
+      <tr><td>Content Length</td><td>%s</td></tr>
+      <tr><td>Content Type</td><td>%s</td></tr>
+      <tr><td>Context Path</td><td>%s</td></tr>
+      <tr><td>Cookies</td><td>%s</td></tr>
+      <tr><td>Dispatchker Type</td><td>%s</td></tr>
                         """;
             out.println(String.format(template,
                     request.getAttributeNames(),
@@ -101,9 +107,9 @@ public class SnoopServlet extends HttpServlet {
                     request.getContentLength(),
                     request.getContentType(),
                     request.getContextPath(),
-                    Arrays.toString(request.getCookies())
+                    Arrays.toString(request.getCookies()),
+                    request.getDispatcherType()
             ));
-            out.println("<tr><td>Dispatcher Type:</td><td>" + request.getDispatcherType() + "</td></tr>");
             out.println("<tr><td>Header Names:</td><td>" + request.getHeaderNames() + "</td></tr>");
             out.println("<tr><td>Local Address:</td><td>" + request.getLocalAddr() + "</td></tr>");
             out.println("<tr><td>Local Name:</td><td>" + request.getLocalName() + "</td></tr>");
@@ -139,17 +145,23 @@ public class SnoopServlet extends HttpServlet {
             out.println("<tr><td>Is Requested Session Id From URL:</td><td>" + request.isRequestedSessionIdFromURL() + "</td></tr>");
             out.println("<tr><td>Is Requested Session Id From Url:</td><td>" + request.isRequestedSessionIdFromUrl() + "</td></tr>");
             out.println("<tr><td>Is Secure:</td><td>" + request.isSecure() + "</td></tr>");
-            out.println("</table>");
+            out.println(TABLE_END);
             out.println("<b>Attributes</b>");
             out.println(collectRequestAttributes(request));
             out.println("<b>Cookies</b>");
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 out.println(TABLE_START);
+                String cookieEntry
+                        = """
+ <tr><td>%s</td><td>%s</td></tr>
+                          """;
                 for (int i = 0; i < cookies.length; i++) {
-                    out.println("<tr><td>" + cookies[i].getName() + "</td><td>" + cookies[i].getValue() + "</td></tr>");
+                    out.println(String.format(cookieEntry,
+                            cookies[i].getName(),
+                            cookies[i].getValue()));
                 }
-                out.println("</table>");
+                out.println(TABLE_END);
             }
             out.println("<b>Headers</b>");
             Enumeration<String> headerNames = request.getHeaderNames();
@@ -158,7 +170,7 @@ public class SnoopServlet extends HttpServlet {
                 String name = headerNames.nextElement();
                 out.println("<tr><td>" + name + "</td><td>" + request.getHeader(name) + "</td></tr>");
             }
-            out.println("</table>");
+            out.println(TABLE_END);
             out.println("<b>Locales</b>");
             Enumeration<Locale> locales = request.getLocales();
             out.println(TABLE_START);
@@ -166,7 +178,7 @@ public class SnoopServlet extends HttpServlet {
                 Locale locale = locales.nextElement();
                 out.println("<tr><td>" + locale + "</td></tr>");
             }
-            out.println("</table>");
+            out.println(TABLE_END);
             out.println("<b>Parameters</b>");
             Enumeration<String> parameterNames = request.getParameterNames();
             out.println(TABLE_START);
@@ -174,18 +186,30 @@ public class SnoopServlet extends HttpServlet {
                 String name = parameterNames.nextElement();
                 out.println("<tr><td>" + name + "</td><td>" + Arrays.toString(request.getParameterValues(name)) + "</td></tr>");
             }
-            out.println("</table>");
+            out.println(TABLE_END);
             out.println("<b>Session</b>");
             HttpSession session = request.getSession(true);
-            out.println(TABLE_START);
-            out.println("<tr><td>Creation Time</td><td>" + session.getCreationTime() + "</td></td>");
-            out.println("<tr><td>Last Accessed Time</td><td>" + session.getLastAccessedTime() + "</td></td>");
-            out.println("<tr><td>Servlet Context</td><td>" + session.getServletContext() + "</td></td>");
-            out.println("<tr><td>Max Inactive Interval</td><td>" + session.getMaxInactiveInterval() + "</td></td>");
-            out.println("<tr><td>Session Context</td><td>" + session.getSessionContext() + "</td></td>");
-            out.println("<tr><td>Id</td><td>" + session.getId() + "</td></td>");
-            out.println("<tr><td>Is New</td><td>" + session.isNew() + "</td></td>");
-            out.println("</table>");
+            String sessionTable
+                    = """
+<table>
+  <tr><td>Creation Time</td></td>%s</td></tr>
+  <tr><td>Last Accessed Time</td></td>%s</td></tr>
+  <tr><td>Session Context</td></td>%s</td></tr>
+  <tr><td>Max Inactive Interval</td></td>%s</td></tr>
+  <tr><td>Session Context</td></td>%s</td></tr>
+  <tr><td>Id</td></td>%s</td></tr>               
+  <tr><td>Is New</td></td>%s</td></tr>
+</tabLe>
+                    """;
+            out.println(String.format(sessionTable,
+                    session.getCreationTime(),
+                    session.getLastAccessedTime(),
+                    session.getServletContext(),
+                    session.getMaxInactiveInterval(),
+                    session.getSessionContext(),
+                    session.getId(),
+                    session.isNew()
+            ));
             out.println("<b>Session Attributes</b>");
             out.println(TABLE_START);
             session.setAttribute("TEST", "TEST");
@@ -194,7 +218,7 @@ public class SnoopServlet extends HttpServlet {
                 String name = names.nextElement();
                 out.println("<tr><td>" + name + "</td><td>" + session.getAttribute(name) + "</td></tr>");
             }
-            out.println("</table>");
+            out.println(TABLE_END);
             out.println("</body>");
             out.println("</html>");
         }
@@ -218,7 +242,7 @@ public class SnoopServlet extends HttpServlet {
                     .append(request.getAttribute(name))
                     .append("</td></tr>");
         }
-        result.append("</table>");
+        result.append(TABLE_END);
         return result.toString();
     }
 

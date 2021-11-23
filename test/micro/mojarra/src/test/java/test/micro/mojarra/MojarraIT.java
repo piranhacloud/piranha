@@ -30,6 +30,7 @@ package test.micro.mojarra;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import me.alexpanov.net.FreePortFinder;
 import org.junit.jupiter.api.AfterAll;
@@ -98,7 +99,8 @@ public class MojarraIT {
                         "--war",
                         "mojarra.war")
                 .start();
-        Thread.sleep(5000);
+        
+        TimeUnit.SECONDS.sleep(5);
     }
 
     /**

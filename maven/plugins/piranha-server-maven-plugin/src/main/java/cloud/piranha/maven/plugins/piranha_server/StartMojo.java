@@ -225,7 +225,9 @@ public class StartMojo extends AbstractMojo {
                             File file = new File(targetDir, zipEntry.getName());
                             Files.copy(zipFile.getInputStream(zipEntry), file.toPath(), REPLACE_EXISTING);
                             if (zipEntry.getName().toLowerCase().endsWith(".sh")) {
-                                file.setExecutable(true);
+                                if (!file.setExecutable(true)) {
+                                    System.err.println("Unable to set " + zipEntry.getName() + " to executable");
+                                }
                             }
                         } catch (IOException ioe) {
                             ioe.printStackTrace(System.err);

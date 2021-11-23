@@ -89,7 +89,7 @@ class ServerIT {
                 pidFile.delete();
             }
             
-            Thread.sleep(5000);
+            TimeUnit.SECONDS.sleep(5);
         } else {
             fail("Piranha server did not start!");
         }
