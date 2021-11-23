@@ -50,6 +50,12 @@ import org.apache.maven.plugins.annotations.Parameter;
 public class StartMojo extends AbstractMojo {
 
     /**
+     * Stores the project build directory.
+     */
+    @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
+    private String buildDir;
+    
+    /**
      * Stores the local repository directory.
      */
     private File localRepositoryDir = new File(System.getProperty("user.home"), ".m2/repository");
@@ -111,8 +117,9 @@ public class StartMojo extends AbstractMojo {
      * @throws IOException when an I/O error occurs.
      */
     private void copyWarFileToPiranhaServer() throws IOException {
-        File warFile = new File("target", warName + ".war");
-        File outputFile = new File("target/piranha-server/piranha/webapps", warName + ".war");
+        File warFile = new File(buildDir, warName + ".war");
+        File outputFile = new File(buildDir + "/piranha-server/piranha/webapps", 
+                warName + ".war");
         Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
     }
 
@@ -186,13 +193,13 @@ public class StartMojo extends AbstractMojo {
 
         if (System.getProperty("os.name").toLowerCase().equals("windows")) {
             process = builder
-                    .directory(new File("target/piranha-server/piranha/bin"))
+                    .directory(new File(buildDir + "/piranha-server/piranha/bin"))
                     .command("start.cmd")
                     .inheritIO()
                     .start();
         } else {
             process = builder
-                    .directory(new File("target/piranha-server/piranha/bin"))
+                    .directory(new File(buildDir + "/piranha-server/piranha/bin"))
                     .command("/bin/bash", "-c", "./run.sh")
                     .inheritIO()
                     .start();
@@ -205,7 +212,7 @@ public class StartMojo extends AbstractMojo {
      * @param zipFile the zip file.
      */
     private void unzipPiranhaZipFile(ZipFile zipFile) throws IOException {
-        File targetDir = new File("target/piranha-server");
+        File targetDir = new File(buildDir + "/piranha-server");
         if (!targetDir.exists()) {
             if (!targetDir.mkdirs()) {
                 System.err.println("Unable to create directories");

@@ -25,16 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.maven.plugins.piranha_server;
+package cloud.piranha.maven.plugins.piranha_micro;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import java.util.zip.ZipFile;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -42,7 +43,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * The piranha-server:run goal.
+ * The piranha-micro:run goal.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -50,16 +51,16 @@ import org.apache.maven.plugins.annotations.Parameter;
 public class RunMojo extends AbstractMojo {
 
     /**
-     * Stores the project build directory.
-     */
-    @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
-    private String buildDir;
-    
-    /**
      * Stores the local repository directory.
      */
     private File localRepositoryDir = new File(System.getProperty("user.home"), ".m2/repository");
 
+    /**
+     * The version of Piranha Micro to use.
+     */
+    @Parameter(required = false)
+    private String version;
+    
     /**
      * Stores the WAR name.
      */
@@ -112,13 +113,13 @@ public class RunMojo extends AbstractMojo {
     }
 
     /**
-     * Copy the WAR file to Piranha Server.
-     * 
+     * Copy the WAR file to Piranha Micro.
+     *
      * @throws IOException when an I/O error occurs.
      */
-    private void copyWarFileToPiranhaServer() throws IOException {
-        File warFile = new File(buildDir, warName + ".war");
-        File outputFile = new File(buildDir + "/piranha-server/piranha/webapps", warName + ".war");
+    private void copyWarFileToPiranhaMicro() throws IOException {
+        File warFile = new File("target", warName + ".war");
+        File outputFile = new File("target/piranha-micro", warName + ".war");
         Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
     }
 
@@ -128,18 +129,20 @@ public class RunMojo extends AbstractMojo {
      * @return the version.
      */
     private String determineVersionToUse() {
-        return "21.11.0";
+        if (version == null) {
+            version = getClass().getPackage().getImplementationVersion();
+        }
+        return version;
     }
 
-    // 5. start the server and wait for the process.
     @Override
     public void execute() throws MojoExecutionException {
         try {
-            String version = determineVersionToUse();
-            ZipFile zipFile = getPiranhaZipFile(version);
-            unzipPiranhaZipFile(zipFile);
-            copyWarFileToPiranhaServer();
-            startAndWaitForPiranhaServer();
+            version = determineVersionToUse();
+            File zipFile = getPiranhaZipFile(version);
+            copyPiranhaMicroZipFile(zipFile);
+            copyWarFileToPiranhaMicro();
+            startAndWaitForPiranhaMicro();
         } catch (IOException ioe) {
             throw new MojoExecutionException(ioe);
         }
@@ -152,19 +155,19 @@ public class RunMojo extends AbstractMojo {
      * @return the zip file.
      * @throws IOException when an I/O error occurs.
      */
-    private ZipFile getPiranhaZipFile(String version) throws IOException {
+    private File getPiranhaZipFile(String version) throws IOException {
         URL downloadUrl = createMavenCentralArtifactUrl(
-                "cloud.piranha.server",
-                "piranha-server-standard",
+                "cloud.piranha.micro",
+                "piranha-micro-standard",
                 version,
-                "zip"
+                "jar"
         );
 
         String artifactPath = createArtifactPath(
-                "cloud.piranha.server",
-                "piranha-server-standard",
+                "cloud.piranha.micro",
+                "piranha-micro-standard",
                 version,
-                "zip"
+                "jar"
         );
 
         File zipFile = new File(localRepositoryDir, artifactPath);
@@ -178,31 +181,29 @@ public class RunMojo extends AbstractMojo {
             Files.copy(inputStream,
                     zipFile.toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
+        } catch(FileNotFoundException fnfe) {
+            fnfe.printStackTrace(System.err);
         }
 
-        return new ZipFile(new File(localRepositoryDir, artifactPath));
+        return new File(localRepositoryDir, artifactPath);
     }
 
     /**
-     * Start and wait for Piranha Server.
+     * Start and wait for Piranha Micro.
      */
-    private void startAndWaitForPiranhaServer() throws IOException {
+    private void startAndWaitForPiranhaMicro() throws IOException {
         ProcessBuilder builder = new ProcessBuilder();
         Process process;
 
-        if (System.getProperty("os.name").toLowerCase().equals("windows")) {
-            process = builder
-                    .directory(new File(buildDir + "/piranha-server/piranha/bin"))
-                    .command("start.cmd")
-                    .inheritIO()
-                    .start();
-        } else {
-            process = builder
-                    .directory(new File(buildDir + "/piranha-server/piranha/bin"))
-                    .command("/bin/bash", "-c", "./run.sh")
-                    .inheritIO()
-                    .start();
-        }
+        process = builder
+                .directory(new File("target/piranha-micro"))
+                .command("java",
+                        "-jar",
+                        "piranha-micro.jar",
+                        "--war-file",
+                        warName + ".war")
+                .inheritIO()
+                .start();
 
         try {
             process.waitFor();
@@ -213,40 +214,19 @@ public class RunMojo extends AbstractMojo {
     }
 
     /**
-     * Unzip the Piranha Server zip bundle.
+     * Copy the Piranha Micro zip bundle.
      *
      * @param zipFile the zip file.
      */
-    private void unzipPiranhaZipFile(ZipFile zipFile) throws IOException {
-        File targetDir = new File(buildDir, "piranha-server");
+    private void copyPiranhaMicroZipFile(File zipFile) throws IOException {
+        File targetDir = new File("target/piranha-micro");
         if (!targetDir.exists()) {
             if (!targetDir.mkdirs()) {
                 System.err.println("Unable to create directories");
             }
         }
-        zipFile.entries().asIterator().forEachRemaining(
-                zipEntry -> {
-                    if (zipEntry.isDirectory()) {
-                        File directory = new File(targetDir, zipEntry.getName());
-                        if (!directory.exists()) {
-                            if (!directory.mkdirs()) {
-                                System.err.println("Unable to create directories");
-                            }
-                        }
-                    } else {
-                        try {
-                            File file = new File(targetDir, zipEntry.getName());
-                            Files.copy(zipFile.getInputStream(zipEntry), file.toPath(), REPLACE_EXISTING);
-                            if (zipEntry.getName().toLowerCase().endsWith(".sh")) {
-                                if (!file.setExecutable(true)) {
-                                    System.err.println("Unable to set " + zipEntry.getName() + " to executable");
-                                }
-                            }
-                        } catch (IOException ioe) {
-                            ioe.printStackTrace(System.err);
-                        }
-                    }
-                }
-        );
+        Files.copy(zipFile.toPath(),
+                Path.of("target/piranha-micro/piranha-micro.jar"),
+                REPLACE_EXISTING);
     }
 }

@@ -34,6 +34,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * The piranha-server:stop goal.
@@ -43,11 +44,17 @@ import org.apache.maven.plugins.annotations.Mojo;
 @Mojo(name = "stop", defaultPhase = LifecyclePhase.NONE)
 public class StopMojo extends AbstractMojo {
 
+    /**
+     * Stores the project build directory.
+     */
+    @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
+    private String buildDir;
+    
     @Override
     public void execute() throws MojoExecutionException {
         try {
             Files.deleteIfExists(new File(
-                    "target/piranha-server/piranha/tmp/piranha.pid").toPath());
+                    buildDir + "/piranha-server/piranha/tmp/piranha.pid").toPath());
         } catch (IOException ioe) {
             throw new MojoExecutionException(ioe);
         }
