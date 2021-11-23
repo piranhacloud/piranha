@@ -4,13 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.micro</groupId>
+        <groupId>cloud.piranha.micro.shrinkwrap</groupId>
         <artifactId>project</artifactId>
         <version>21.12.0-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
-
-    <groupId>cloud.piranha.micro.shrinkwrap</groupId>
     <artifactId>piranha-micro-shrinkwrap-builder</artifactId>
     <packaging>jar</packaging>
 

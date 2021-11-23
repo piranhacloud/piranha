@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cloud.piranha.micro</groupId>
+        <artifactId>project</artifactId>
+        <version>21.12.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>cloud.piranha.micro.shrinkwrap</groupId>
+    <artifactId>project</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Piranha - Micro - Shrinkwrap - Project</name>
+
+    <modules>
+        <!-- 
+            The builder frontend to Micro - a builder that lets one create a usable micro instance
+            programmatically.
+         -->
+        <module>builder</module>
+        <module>core</module>
+        <!-- 
+            The Micro bootstrap code - A thin shell that loads Micro itself and its dependencies via
+            an embedded Maven into an in-memory class loader.             
+        -->
+        <module>loader</module>
+        <!-- 
+            The command line frontend to Micro - a Java class with Main() method to start Micro
+            from specifically a command line.
+         -->
+        <module>shrinkwrap</module>
+    </modules>
+</project>
