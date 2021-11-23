@@ -56,4 +56,4 @@
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-package cloud.piranha.micro.loader;
+package cloud.piranha.micro.shrinkwrap.loader;

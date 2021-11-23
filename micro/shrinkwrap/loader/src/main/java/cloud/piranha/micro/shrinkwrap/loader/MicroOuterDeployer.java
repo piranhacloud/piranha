@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro.loader;
+package cloud.piranha.micro.shrinkwrap.loader;
 
 import static java.util.Objects.requireNonNull;
 import static java.lang.System.Logger.Level.WARNING;

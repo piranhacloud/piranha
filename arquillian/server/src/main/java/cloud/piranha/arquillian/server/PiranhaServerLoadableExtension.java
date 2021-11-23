@@ -35,8 +35,7 @@ import org.jboss.arquillian.container.spi.client.container.LifecycleException;
 import org.jboss.arquillian.container.spi.client.protocol.ProtocolDescription;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
-
-import cloud.piranha.micro.loader.MicroConfiguration;
+import cloud.piranha.micro.shrinkwrap.loader.MicroConfiguration;
 
 /**
  * The extension sets up the Arquillian Server Connector

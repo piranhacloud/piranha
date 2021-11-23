@@ -28,15 +28,13 @@
 package cloud.piranha.micro;
 
 import java.io.File;
-
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ExplodedImporter;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-
-import cloud.piranha.micro.loader.MicroConfiguration;
-import cloud.piranha.micro.loader.MicroOuterDeployer;
+import cloud.piranha.micro.shrinkwrap.loader.MicroConfiguration;
+import cloud.piranha.micro.shrinkwrap.loader.MicroOuterDeployer;
 
 /**
  * The micro version of Piranha.

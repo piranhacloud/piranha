@@ -34,11 +34,9 @@ import org.jboss.arquillian.container.spi.client.protocol.metadata.HTTPContext;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.Servlet;
 import org.jboss.shrinkwrap.api.Archive;
-
 import cloud.piranha.arquillian.server.PiranhaServerLoadableExtension.PiranhaServerContainerConfiguration;
-import cloud.piranha.micro.loader.MicroDeployOutcome;
-import cloud.piranha.micro.loader.MicroOuterDeployer;
-
+import cloud.piranha.micro.shrinkwrap.loader.MicroDeployOutcome;
+import cloud.piranha.micro.shrinkwrap.loader.MicroOuterDeployer;
 import static java.lang.System.Logger.Level.INFO;
 
 /**

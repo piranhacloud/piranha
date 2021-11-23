@@ -35,9 +35,9 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.micro.loader {
-    exports cloud.piranha.micro.loader;
-    opens cloud.piranha.micro.loader;
+module cloud.piranha.micro.shrinkwrap.loader {
+    exports cloud.piranha.micro.shrinkwrap.loader;
+    opens cloud.piranha.micro.shrinkwrap.loader;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.resource.shrinkwrap;
     requires org.jboss.jandex;

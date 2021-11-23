@@ -22,8 +22,8 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.micro</groupId>
-            <artifactId>piranha-micro-loader</artifactId>
+            <groupId>cloud.piranha.micro.shrinkwrap</groupId>
+            <artifactId>piranha-micro-shrinkwrap-loader</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

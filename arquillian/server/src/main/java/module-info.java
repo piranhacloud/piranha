@@ -34,7 +34,7 @@ module cloud.piranha.arquillian.server {
 
     provides LoadableExtension with PiranhaServerLoadableExtension;
 
-    requires cloud.piranha.micro.loader;
+    requires cloud.piranha.micro.shrinkwrap.loader;
 
     requires arquillian.container.spi;
     requires arquillian.core.spi;

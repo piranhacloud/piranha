@@ -28,9 +28,8 @@
 package cloud.piranha.micro.embedded;
 
 import org.jboss.shrinkwrap.api.Archive;
-
-import cloud.piranha.micro.loader.MicroConfiguration;
-import cloud.piranha.micro.loader.MicroOuterDeployer;
+import cloud.piranha.micro.shrinkwrap.loader.MicroConfiguration;
+import cloud.piranha.micro.shrinkwrap.loader.MicroOuterDeployer;
 
 /**
  * Builder for an embedded Piranha instance based on Piranha Micro
