@@ -25,19 +25,75 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.micro.shrinkwrap.builder;
+
+import cloud.piranha.embedded.EmbeddedPiranha;
 
 /**
- * The Piranha Embedded module.
+ * Embedded variant using Micro
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
+ *
  */
-module cloud.piranha.micro.embedded {
-    exports cloud.piranha.micro.embedded;
-    opens cloud.piranha.micro.embedded;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.embedded;
-    requires cloud.piranha.micro.shrinkwrap.loader;
-    requires cloud.piranha.resource.shrinkwrap;
-    requires shrinkwrap.api;
+public class MicroEmbeddedPiranha extends EmbeddedPiranha {
+
+    /**
+     * Constructor.
+     */
+    public MicroEmbeddedPiranha() {
+        super(new MicroWebApplication());
+    }
+
+    /**
+     * {@return the web application}
+     */
+    @Override
+    public MicroWebApplication getWebApplication() {
+        return (MicroWebApplication) super.getWebApplication();
+    }
+
+    /**
+     * Initialize the web application.
+     *
+     * @return the instance.
+     */
+    @Override
+    public MicroEmbeddedPiranha initialize() {
+        getWebApplication().initialize();
+        return this;
+    }
+
+    /**
+     * Start the web application.
+     *
+     * @return the instance.
+     */
+    @Override
+    public MicroEmbeddedPiranha start() {
+        getWebApplication().start();
+        return this;
+    }
+
+    /**
+     * Stop the web application.
+     *
+     * @return the instance.
+     */
+    @Override
+    public MicroEmbeddedPiranha stop() {
+        getWebApplication().stop();
+        return this;
+    }
+
+    /**
+     * Destroy the web application.
+     *
+     * @return the instance.
+     */
+    @Override
+    public MicroEmbeddedPiranha destroy() {
+        getWebApplication().destroy();
+        return this;
+    }
+
 }

@@ -21,18 +21,17 @@
          -->
         <module>distribution</module>
         
+        <module>core</module>
+        <module>lite</module>
         <!-- The builder frontend to Micro - a builder that lets one create a usable micro instance
              programmatically.
          -->
-        <module>builder</module>
-        
+        <module>shrinkwrap/builder</module>
+        <module>shrinkwrap/core</module>
         <!-- 
             The Micro bootstrap code - A thin shell that loads Micro itself and its dependencies via
             an embedded Maven into an in-memory class loader.             
         -->
-        <module>core</module>
-        <module>lite</module>
-        <module>shrinkwrap/core</module>
         <module>shrinkwrap/loader</module>
         <module>slim</module>
         <module>standard</module>

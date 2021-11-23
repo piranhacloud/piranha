@@ -55,4 +55,4 @@
  * @author Manfred Riem (mriem@manorrock.com)
  * @see cloud.piranha.embedded.EmbeddedPiranhaBuilder
  */
-package cloud.piranha.micro.embedded;
+package cloud.piranha.micro.shrinkwrap.builder;

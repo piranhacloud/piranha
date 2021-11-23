@@ -43,7 +43,7 @@ import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
-import cloud.piranha.micro.embedded.MicroWebApplication;
+import cloud.piranha.micro.shrinkwrap.builder.MicroWebApplication;
 import cloud.piranha.micro.shrinkwrap.loader.MicroConfiguration;
 import cloud.piranha.micro.shrinkwrap.loader.MicroOuterDeployer;
 import jakarta.servlet.ServletException;

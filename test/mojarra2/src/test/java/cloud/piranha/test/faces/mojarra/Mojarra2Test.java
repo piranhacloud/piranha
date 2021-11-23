@@ -37,7 +37,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.jupiter.api.Test;
 
-import cloud.piranha.micro.embedded.MicroEmbeddedPiranhaBuilder;
+import cloud.piranha.micro.shrinkwrap.builder.MicroEmbeddedPiranhaBuilder;
 
 
 /**

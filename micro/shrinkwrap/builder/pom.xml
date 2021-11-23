@@ -7,12 +7,14 @@
         <groupId>cloud.piranha.micro</groupId>
         <artifactId>project</artifactId>
         <version>21.12.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>piranha-micro-builder</artifactId>
+    <groupId>cloud.piranha.micro.shrinkwrap</groupId>
+    <artifactId>piranha-micro-shrinkwrap-builder</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Micro - Builder</name>
+    <name>Piranha - Micro - Shrinkwrap - Builder</name>
 
     <dependencies>
         <!-- compile -->

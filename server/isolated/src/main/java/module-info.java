@@ -38,7 +38,7 @@ module cloud.piranha.server.isolated {
     requires cloud.piranha.extension.standard;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
-    requires cloud.piranha.micro.embedded;
+    requires cloud.piranha.micro.shrinkwrap.builder;
     requires cloud.piranha.micro.shrinkwrap.loader;
     requires cloud.piranha.resource.shrinkwrap;
     requires org.jboss.jandex;
