@@ -93,7 +93,7 @@ public class MojarraIT {
                         // "-Xdebug",
                         // "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5000",
                         "-jar",
-                        "piranha-micro.jar",
+                        "piranha-micro-shrinkwrap.jar",
                         "--port",
                         String.valueOf(port),
                         "--war",

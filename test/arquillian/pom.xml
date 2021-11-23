@@ -41,8 +41,8 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.micro</groupId>
-            <artifactId>piranha-micro</artifactId>
+            <groupId>cloud.piranha.micro.shrinkwrap</groupId>
+            <artifactId>piranha-micro-shrinkwrap</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

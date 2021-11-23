@@ -16,15 +16,11 @@
     <name>Piranha - Micro - Project</name>
 
     <modules>
-        <!-- The command line frontend to Micro - a Java class with Main() method to start Micro
-             from specifically a command line.
-         -->
-        <module>distribution</module>
-        
         <module>core</module>
         <module>lite</module>
-        <!-- The builder frontend to Micro - a builder that lets one create a usable micro instance
-             programmatically.
+        <!-- 
+            The builder frontend to Micro - a builder that lets one create a usable micro instance
+            programmatically.
          -->
         <module>shrinkwrap/builder</module>
         <module>shrinkwrap/core</module>
@@ -33,6 +29,11 @@
             an embedded Maven into an in-memory class loader.             
         -->
         <module>shrinkwrap/loader</module>
+        <!-- 
+            The command line frontend to Micro - a Java class with Main() method to start Micro
+            from specifically a command line.
+         -->
+        <module>shrinkwrap/shrinkwrap</module>
         <module>slim</module>
         <module>standard</module>
     </modules>

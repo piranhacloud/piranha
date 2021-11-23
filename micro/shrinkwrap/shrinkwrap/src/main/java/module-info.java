@@ -35,7 +35,7 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.micro {
+module cloud.piranha.micro.shrinkwrap {
 
     requires cloud.piranha.resource.impl;
     requires cloud.piranha.resource.shrinkwrap;

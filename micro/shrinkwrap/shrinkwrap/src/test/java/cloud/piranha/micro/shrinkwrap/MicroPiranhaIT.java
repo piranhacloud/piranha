@@ -25,35 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.micro.shrinkwrap;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 /**
- * <p>
- * This package delivers you with a Servlet container that hosts only a single
- * application.
- * </p>
- *
- * <h2>Architecture diagram</h2>
- *
- * <p>
- * The image below illustrates how the request and response handling is done by
- * Piranha Micro. When a request comes in to the HTTP server it dispatches it to
- * the WebApplicationServer which in turn
- * dispatches it to the <code>WebApplication</code> which then in turn uses
- * <code>WebApplicationRequestMapper</code> to determine
- * which FilterChain needs to process the incoming request and it dispatches to
- * it.
- * </p>
- *
- * <p>
- * <img alt="Request and response handling" src="doc-files/request-response.png">
- * </p>
+ * The integration test for the MicroPiranha class.
  * 
- * <h2>How do I use Piranha Micro?</h2>
- *
- * <p>
- * See our <a href="https://piranha.cloud/micro/">documentation</a> for more
- * information.
- * </p>
- *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-package cloud.piranha.micro;
+class MicroPiranhaIT {
+    
+    /**
+     * Test the Piranha Micro command line.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    @Disabled
+    void testCommandLine() throws Exception {
+        String version = System.getProperty("VERSION");
+        ProcessBuilder builder = new ProcessBuilder();
+        builder.command("java", "-jar", "target/piranha-micro-shrinkwrap" + version + "-all.jar");
+        Process process = builder.start();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8080/")).build();
+        HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(404, response.statusCode());
+        process.destroyForcibly();
+    }
+}

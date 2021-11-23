@@ -7,12 +7,14 @@
         <groupId>cloud.piranha.micro</groupId>
         <artifactId>project</artifactId>
         <version>21.12.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>piranha-micro</artifactId>
+    <groupId>cloud.piranha.micro.shrinkwrap</groupId>
+    <artifactId>piranha-micro-shrinkwrap</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Micro</name>
+    <name>Piranha - Micro - Shrinkwrap</name>
 
     <dependencies>
         <dependency>
@@ -78,7 +80,7 @@
     </dependencies>
 
     <build>
-        <finalName>piranha-micro</finalName>
+        <finalName>piranha-micro-shrinkwrap</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -151,7 +153,7 @@
                             <transformers>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>cloud.piranha.micro.MicroBootstrap</mainClass>
+                                    <mainClass>cloud.piranha.micro.shrinkwrap.MicroBootstrap</mainClass>
                                 </transformer>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
@@ -175,8 +177,8 @@
                             <modules>
                                 <module>
                                     <artifact>
-                                        <groupId>cloud.piranha.micro</groupId>
-                                        <artifactId>piranha-micro</artifactId>
+                                        <groupId>cloud.piranha.micro.shrinkwrap</groupId>
+                                        <artifactId>piranha-micro-shrinkwrap</artifactId>
                                         <version>${project.version}</version>
                                     </artifact>
                                     <moduleInfoFile>${project.build.sourceDirectory}/module-info.java</moduleInfoFile>
