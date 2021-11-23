@@ -39,7 +39,9 @@ import org.junit.jupiter.api.Test;
  * The 'Hello from Piranha Server!' integration test.
  *
  * <p>
- * This tests illustrates how to do integration testing using Piranha Server.
+ * This tests illustrates how to do integration testing using Piranha Server
+ * using the Piranha Server Maven Plugin. This is the recommended way to do
+ * integration testing when developing a web application for Piranha Server.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)

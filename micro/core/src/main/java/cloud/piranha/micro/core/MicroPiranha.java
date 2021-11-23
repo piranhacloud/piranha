@@ -86,19 +86,9 @@ public class MicroPiranha implements Piranha, Runnable {
     private int httpPort = 8080;
 
     /**
-     * Stores the HTTP server.
-     */
-    private HttpServer httpServer;
-
-    /**
      * Stores the HTTPS port.
      */
     private int httpsPort = 8043;
-
-    /**
-     * Stores the HTTP server.
-     */
-    private HttpServer httpsServer;
 
     /**
      * Stores the JMPS enabled flag.
@@ -172,6 +162,7 @@ public class MicroPiranha implements Piranha, Runnable {
                 entry = zipInput.getNextEntry();
             }
         } catch (IOException ioe) {
+            LOGGER.log(WARNING, "I/O error occurred while extracting WAR file", ioe);
         }
     }
 
@@ -186,14 +177,14 @@ public class MicroPiranha implements Piranha, Runnable {
         webApplicationServer = new HttpWebApplicationServer();
 
         if (httpPort > 0) {
-            httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+            HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
             httpServer.setServerPort(httpPort);
             httpServer.setHttpServerProcessor(webApplicationServer);
             httpServer.start();
         }
 
         if (httpsPort > 0) {
-            httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+            HttpServer httpsServer =ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
             httpsServer.setHttpServerProcessor(webApplicationServer);
             httpsServer.setServerPort(httpsPort);
             httpsServer.setSSL(true);

@@ -75,6 +75,7 @@ class DefaultHttpServerAcceptorThread implements Runnable {
                 Socket socket = server.serverSocket.accept();
                 server.executorService.execute(new DefaultHttpServerProcessingThread(server, socket));
             } catch (IOException exception) {
+                // not interesting to do anything with this here as the client probably just hung up.
             } catch (Throwable throwable) {
                 LOGGER.log(WARNING, "An error occurred while accepting a socket connection", throwable);
             }

@@ -41,10 +41,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * The 'Hello World' integration test.
+ * The 'Hello World!' integration test.
  *
  * <p>
- * This tests illustrates how to do integration testing using Piranha Server.
+ * This test illustrates how to do integration testing with Piranha Server 
+ * using a programmatic API. Note that doing integration testing this way is
+ * really meant for the Piranha project itself. If you are developing a web 
+ * application we recommend you use the Piranha Server Maven plugin instead.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)

@@ -122,7 +122,8 @@ public class MicroPiranhaBuilder {
      * @param defaultExtensionClass the default extension class.
      * @return the builder.
      */
-    public MicroPiranhaBuilder defaultExtensionClass(Class defaultExtensionClass) {
+    public MicroPiranhaBuilder defaultExtensionClass(
+            Class<? extends WebApplicationExtension> defaultExtensionClass) {
         this.defaultExtensionClass = defaultExtensionClass;
         return this;
     }

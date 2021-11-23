@@ -40,10 +40,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * The 'Hello World' JUnit test.
+ * The 'Hello World!' JUnit test.
  *
  * <p>
- * This tests illustrates how to do unit testing using Piranha Embedded.
+ * This test illustrates how to do unit testing using Piranha Embedded.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)

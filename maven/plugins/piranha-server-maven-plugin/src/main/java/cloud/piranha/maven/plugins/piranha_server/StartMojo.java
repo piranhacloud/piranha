@@ -54,7 +54,7 @@ public class StartMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
     private String buildDir;
-    
+
     /**
      * Stores the local repository directory.
      */
@@ -113,12 +113,12 @@ public class StartMojo extends AbstractMojo {
 
     /**
      * Copy the WAR file to Piranha Server.
-     * 
+     *
      * @throws IOException when an I/O error occurs.
      */
     private void copyWarFileToPiranhaServer() throws IOException {
         File warFile = new File(buildDir, warName + ".war");
-        File outputFile = new File(buildDir + "/piranha-server/piranha/webapps", 
+        File outputFile = new File(buildDir + "/piranha-server/piranha/webapps",
                 warName + ".war");
         Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
     }
@@ -189,17 +189,14 @@ public class StartMojo extends AbstractMojo {
      */
     private void startPiranhaServer() throws IOException {
         ProcessBuilder builder = new ProcessBuilder();
-        Process process;
 
         if (System.getProperty("os.name").toLowerCase().equals("windows")) {
-            process = builder
-                    .directory(new File(buildDir, "piranha-server/piranha/bin"))
+            builder.directory(new File(buildDir, "piranha-server/piranha/bin"))
                     .command("start.cmd")
                     .inheritIO()
                     .start();
         } else {
-            process = builder
-                    .directory(new File(buildDir, "piranha-server/piranha/bin"))
+            builder.directory(new File(buildDir, "piranha-server/piranha/bin"))
                     .command("/bin/bash", "-c", "./start.sh")
                     .inheritIO()
                     .start();
