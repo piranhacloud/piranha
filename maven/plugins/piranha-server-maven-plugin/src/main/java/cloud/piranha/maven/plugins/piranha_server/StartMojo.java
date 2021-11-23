@@ -193,14 +193,14 @@ public class StartMojo extends AbstractMojo {
 
         if (System.getProperty("os.name").toLowerCase().equals("windows")) {
             process = builder
-                    .directory(new File(buildDir + "/piranha-server/piranha/bin"))
+                    .directory(new File(buildDir, "piranha-server/piranha/bin"))
                     .command("start.cmd")
                     .inheritIO()
                     .start();
         } else {
             process = builder
-                    .directory(new File(buildDir + "/piranha-server/piranha/bin"))
-                    .command("/bin/bash", "-c", "./run.sh")
+                    .directory(new File(buildDir, "piranha-server/piranha/bin"))
+                    .command("/bin/bash", "-c", "./start.sh")
                     .inheritIO()
                     .start();
         }
@@ -212,7 +212,7 @@ public class StartMojo extends AbstractMojo {
      * @param zipFile the zip file.
      */
     private void unzipPiranhaZipFile(ZipFile zipFile) throws IOException {
-        File targetDir = new File(buildDir + "/piranha-server");
+        File targetDir = new File(buildDir, "piranha-server");
         if (!targetDir.exists()) {
             if (!targetDir.mkdirs()) {
                 System.err.println("Unable to create directories");
