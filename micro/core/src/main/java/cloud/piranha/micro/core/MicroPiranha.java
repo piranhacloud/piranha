@@ -44,7 +44,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
@@ -121,6 +123,11 @@ public class MicroPiranha implements Piranha, Runnable {
     private File webAppDir;
 
     /**
+     * Stores the PID.
+     */
+    private Long pid;
+
+    /**
      * Extract the zip input stream.
      *
      * @param zipInput the zip input stream.
@@ -184,7 +191,7 @@ public class MicroPiranha implements Piranha, Runnable {
         }
 
         if (httpsPort > 0) {
-            HttpServer httpsServer =ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+            HttpServer httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
             httpsServer.setHttpServerProcessor(webApplicationServer);
             httpsServer.setServerPort(httpsPort);
             httpsServer.setSSL(true);
@@ -254,7 +261,29 @@ public class MicroPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
+        if (pid != null) {
+            File pidFile = new File("tmp", "piranha-micro.pid");
+            if (!pidFile.getParentFile().exists()) {
+                if (pidFile.getParentFile().mkdirs()) {
+                    LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
+                }
+            }
+            try (PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
+                writer.println(pid);
+                writer.flush();
+            } catch (IOException ioe) {
+                LOGGER.log(WARNING, "Unable to write PID file", ioe);
+            }
+        }
+
         while (!stop) {
+            if (pid != null) {
+                System.out.println("PID FILE CHECK");
+                File pidFile = new File("tmp", "piranha-micro.pid");
+                if (!pidFile.exists()) {
+                    stop();
+                }
+            }
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ie) {
@@ -329,6 +358,15 @@ public class MicroPiranha implements Piranha, Runnable {
      */
     public void setJpmsEnabled(boolean jpmsEnabled) {
         this.jpmsEnabled = jpmsEnabled;
+    }
+
+    /**
+     * Set the PID.
+     *
+     * @param pid the PID.
+     */
+    public void setPid(Long pid) {
+        this.pid = pid;
     }
 
     /**

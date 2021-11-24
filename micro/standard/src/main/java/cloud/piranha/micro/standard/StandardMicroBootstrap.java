@@ -91,6 +91,9 @@ public class StandardMicroBootstrap {
                 if (arguments[i].equals("--webapp-dir")) {
                     builder = builder.webAppDir(arguments[i + 1]);
                 }
+                if (arguments[i].equals("--write-pid")) {
+                    builder = builder.pid(ProcessHandle.current().pid());
+                }
             }
         }
         return builder;
@@ -117,6 +120,7 @@ public class StandardMicroBootstrap {
                                                      application (auto creates when it does not
                                                      exist, if omitted runtime will use the 
                                                      filename portion of --war-file)
+                  --write-pid                      - Write out a PID file
                 """);
     }
 }

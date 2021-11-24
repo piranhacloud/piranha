@@ -35,7 +35,7 @@ import cloud.piranha.core.api.WebApplicationExtension;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class MicroPiranhaBuilder {
-    
+
     /**
      * Stores the default extension class.
      */
@@ -80,11 +80,16 @@ public class MicroPiranhaBuilder {
      * Stores the WAR file(name).
      */
     private String warFile;
-    
+
     /**
      * Stores the web application directory.
      */
     private String webAppDir;
+
+    /**
+     * Stores the PID.
+     */
+    private Long pid;
 
     /**
      * Build the Piranha instance.
@@ -113,6 +118,7 @@ public class MicroPiranhaBuilder {
         if (webAppDir != null) {
             piranha.setWebAppDir(webAppDir);
         }
+        piranha.setPid(pid);
         return piranha;
     }
 
@@ -189,6 +195,7 @@ public class MicroPiranhaBuilder {
                 HTTP port             : %s
                 HTTPS port            : %s
                 JPMS enabled          : %s
+                PID                   : %s
                 SSL keystore file     : %s
                 SSK keystore password : ****
                 WAR filename          : %s
@@ -200,6 +207,7 @@ public class MicroPiranhaBuilder {
                 httpPort,
                 httpsPort,
                 jpms,
+                pid,
                 sslKeystoreFile,
                 warFile,
                 webAppDir);
@@ -251,12 +259,23 @@ public class MicroPiranhaBuilder {
 
     /**
      * Set the web application directory.
-     * 
+     *
      * @param webAppDir the web application directory.
      * @return the builder.
      */
     public MicroPiranhaBuilder webAppDir(String webAppDir) {
         this.webAppDir = webAppDir;
+        return this;
+    }
+
+    /**
+     * Set the PID.
+     *
+     * @param pid the PID.
+     * @return the builder.
+     */
+    public MicroPiranhaBuilder pid(Long pid) {
+        this.pid = pid;
         return this;
     }
 }
