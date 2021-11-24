@@ -261,8 +261,9 @@ public class MicroPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
+        File pidFile = new File("tmp", "piranha-micro.pid");
+                
         if (pid != null) {
-            File pidFile = new File("tmp", "piranha-micro.pid");
             if (!pidFile.getParentFile().exists()) {
                 if (pidFile.getParentFile().mkdirs()) {
                     LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
@@ -278,8 +279,6 @@ public class MicroPiranha implements Piranha, Runnable {
 
         while (!stop) {
             if (pid != null) {
-                System.out.println("PID FILE CHECK");
-                File pidFile = new File("tmp", "piranha-micro.pid");
                 if (!pidFile.exists()) {
                     stop();
                 }
