@@ -262,14 +262,14 @@ public class MicroPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
         File pidFile = new File("tmp", "piranha-micro.pid");
-                
+
         if (pid != null) {
             if (!pidFile.getParentFile().exists()) {
                 if (pidFile.getParentFile().mkdirs()) {
                     LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
                 }
             }
-            try (PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
+            try ( PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
                 writer.println(pid);
                 writer.flush();
             } catch (IOException ioe) {
@@ -278,10 +278,8 @@ public class MicroPiranha implements Piranha, Runnable {
         }
 
         while (!stop) {
-            if (pid != null) {
-                if (!pidFile.exists()) {
-                    stop();
-                }
+            if (pid != null && !pidFile.exists()) {
+                stop();
             }
             try {
                 Thread.sleep(2000);
