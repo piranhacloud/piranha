@@ -33,6 +33,7 @@ jobs:
         files: '**/target/surefire-reports/*.xml'
   docker:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/current'
     steps:
     - name: Checkout sources
       uses: actions/checkout@v1
