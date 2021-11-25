@@ -153,6 +153,11 @@ public class DefaultWebApplication implements WebApplication {
     protected static final int ERROR = 3;
 
     /**
+     * Stores the 'Illegal to add listener because state is not SETUP' message.
+     */
+    private static final String ILLEGAL_TO_ADD_LISTENER = "Illegal to add listener because state is not SETUP";
+
+    /**
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(DefaultWebApplication.class.getName());
@@ -469,7 +474,7 @@ public class DefaultWebApplication implements WebApplication {
         checkTainted();
 
         if (status != SETUP && status != INITIALIZED_DECLARED) {
-            throw new IllegalStateException("Illegal to add listener because state is not SETUP");
+            throw new IllegalStateException(ILLEGAL_TO_ADD_LISTENER);
         }
 
         try {
@@ -484,7 +489,7 @@ public class DefaultWebApplication implements WebApplication {
         checkTainted();
 
         if (status != SETUP && status != INITIALIZED_DECLARED) {
-            throw new IllegalStateException("Illegal to add listener because state is not SETUP");
+            throw new IllegalStateException(ILLEGAL_TO_ADD_LISTENER);
         }
 
         try {
@@ -499,7 +504,7 @@ public class DefaultWebApplication implements WebApplication {
         checkTainted();
 
         if (status != SETUP && status != INITIALIZED_DECLARED) {
-            throw new IllegalStateException("Illegal to add listener because state is not SETUP");
+            throw new IllegalStateException(ILLEGAL_TO_ADD_LISTENER);
         }
 
         if (listener instanceof ServletContextListener servletContextListener) {

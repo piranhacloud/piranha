@@ -49,6 +49,16 @@ import org.apache.maven.plugins.annotations.Parameter;
  */
 @Mojo(name = "run", defaultPhase = LifecyclePhase.NONE)
 public class RunMojo extends AbstractMojo {
+    
+    /**
+     * Stores the Piranha Micro base directory constant.
+     */
+    private static final String PIRANHA_MICRO_DIR = "target/piranha-micro";
+    
+    /**
+     * Stores the 'Unable to create directories' message.
+     */
+    private static final String UNABLE_TO_CREATE_DIRECTORIES = "Unable to create directories";
 
     /**
      * Stores the local repository directory.
@@ -119,7 +129,7 @@ public class RunMojo extends AbstractMojo {
      */
     private void copyWarFileToPiranhaMicro() throws IOException {
         File warFile = new File("target", warName + ".war");
-        File outputFile = new File("target/piranha-micro", warName + ".war");
+        File outputFile = new File(PIRANHA_MICRO_DIR, warName + ".war");
         Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
     }
 
@@ -173,7 +183,7 @@ public class RunMojo extends AbstractMojo {
         File zipFile = new File(localRepositoryDir, artifactPath);
         if (!zipFile.exists()) {
             if (!zipFile.getParentFile().mkdirs()) {
-                System.err.println("Unable to create directories");
+                System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
             }
         }
 
@@ -196,7 +206,7 @@ public class RunMojo extends AbstractMojo {
         Process process;
 
         process = builder
-                .directory(new File("target/piranha-micro"))
+                .directory(new File(PIRANHA_MICRO_DIR))
                 .command("java",
                         "-jar",
                         "piranha-micro.jar",
@@ -219,10 +229,10 @@ public class RunMojo extends AbstractMojo {
      * @param zipFile the zip file.
      */
     private void copyPiranhaMicroZipFile(File zipFile) throws IOException {
-        File targetDir = new File("target/piranha-micro");
+        File targetDir = new File(PIRANHA_MICRO_DIR);
         if (!targetDir.exists()) {
             if (!targetDir.mkdirs()) {
-                System.err.println("Unable to create directories");
+                System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
             }
         }
         Files.copy(zipFile.toPath(),

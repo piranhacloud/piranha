@@ -56,6 +56,11 @@ import cloud.piranha.resource.api.ResourceManagerClassLoader;
 public class DefaultResourceManagerClassLoader extends ClassLoader implements ResourceManagerClassLoader {
     
     /**
+     * Stores the 'Unable to load class: ' message prefix.
+     */
+    private static final String UNABLE_TO_LOAD_CLASS = "Unable to load class: ";
+    
+    /**
      * Set that keeps a list of classes we know aren't there, so we don't have to search for them again.
      */
     private Set<String> notFoundClasses = ConcurrentHashMap.newKeySet();
@@ -128,7 +133,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                 
                 result = _loadClass(name, resolve);
             } catch (Throwable throwable) {
-                throw new ClassNotFoundException("Unable to load class: " + name, throwable);
+                throw new ClassNotFoundException(UNABLE_TO_LOAD_CLASS + name, throwable);
             }
         }
         
@@ -153,7 +158,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         }
         
         if (result == null) {
-            throw new ClassNotFoundException("Unable to load class: " + name);
+            throw new ClassNotFoundException(UNABLE_TO_LOAD_CLASS + name);
         }
         
         return result;
@@ -201,7 +206,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                 }
             }
         } catch (Throwable throwable) {
-            throw new IllegalStateException("Unable to load class: " + name, throwable);
+            throw new IllegalStateException(UNABLE_TO_LOAD_CLASS + name, throwable);
         }
         
         return result;

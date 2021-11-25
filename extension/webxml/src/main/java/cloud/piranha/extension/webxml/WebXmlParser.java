@@ -89,6 +89,11 @@ public class WebXmlParser {
     private static final String URL_PATTERN_TEXT_SELECTOR = "url-pattern/text()";
 
     /**
+     * Stores the 'Unable to parse &lt;security-constraint&gt; ...' message.
+     */
+    private static final String UNABLE_TO_PARSE_SECURITY_CONSTRAINT = "Unable to parse <security-constraint> sections";
+
+    /**
      * Parse the input stream.
      *
      * @param inputStream the input stream.
@@ -576,7 +581,7 @@ public class WebXmlParser {
                 processSecurityConstraint(webXml, xPath, node);
             }
         } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse <security-constraint> sections", xpe);
+            LOGGER.log(WARNING, UNABLE_TO_PARSE_SECURITY_CONSTRAINT, xpe);
         }
     }
 
@@ -612,7 +617,7 @@ public class WebXmlParser {
 
             webXml.getSecurityConstraints().add(securityConstraint);
         } catch (XPathExpressionException xee) {
-            LOGGER.log(WARNING, "Unable to parse <security-constraint> sections", xee);
+            LOGGER.log(WARNING, UNABLE_TO_PARSE_SECURITY_CONSTRAINT, xee);
         }
     }
 
@@ -622,7 +627,7 @@ public class WebXmlParser {
                 webXml.getRoleNames().add(roleName);
             }
         } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse <security-constraint> sections", xpe);
+            LOGGER.log(WARNING, UNABLE_TO_PARSE_SECURITY_CONSTRAINT, xpe);
         }
     }
 

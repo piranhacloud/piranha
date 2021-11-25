@@ -45,7 +45,7 @@ public interface AnnotationManager {
      * @param annotationInfo the annotation info.
      * @return the annotation manager.
      */
-    AnnotationManager addAnnotation(AnnotationInfo annotationInfo);
+    AnnotationManager addAnnotation(AnnotationInfo<?> annotationInfo);
     
     /**
      * Get the annotations.

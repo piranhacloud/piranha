@@ -72,10 +72,15 @@ public class ServerPiranha implements Piranha, Runnable {
     private static final Logger LOGGER = System.getLogger(ServerPiranha.class.getName());
 
     /**
+     * Stores the 'tmp/piranha.pid' file constant.
+     */
+    private static final String PID_FILE = "tmp/piranha.pid";
+
+    /**
      * Stores the default extension class.
      */
     private Class<? extends WebApplicationExtension> defaultExtensionClass;
-    
+
     /**
      * Stores the exit on stop flag.
      */
@@ -185,7 +190,7 @@ public class ServerPiranha implements Piranha, Runnable {
 
     /**
      * Have we started?
-     * 
+     *
      * @return true if we have, false otherwise.
      */
     private boolean isStarted() {
@@ -274,8 +279,8 @@ public class ServerPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
         started = true;
-        
-        File pidFile = new File("tmp/piranha.pid");
+
+        File pidFile = new File(PID_FILE);
         while (isRunning()) {
             try {
                 Thread.sleep(2000);
@@ -416,7 +421,7 @@ public class ServerPiranha implements Piranha, Runnable {
      * Start the server.
      */
     public void start() {
-        File pidFile = new File("tmp/piranha.pid");
+        File pidFile = new File(PID_FILE);
 
         if (!pidFile.exists()) {
             try {
@@ -434,11 +439,11 @@ public class ServerPiranha implements Piranha, Runnable {
         thread = new Thread(this);
         thread.setDaemon(false);
         thread.start();
-        
-        while(!isStarted()) {
+
+        while (!isStarted()) {
             try {
                 Thread.sleep(10);
-            } catch(InterruptedException e) {
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
@@ -448,7 +453,7 @@ public class ServerPiranha implements Piranha, Runnable {
      * Stop the server.
      */
     public void stop() {
-        File pidFile = new File("tmp/piranha.pid");
+        File pidFile = new File(PID_FILE);
 
         if (pidFile.exists()) {
             pidFile.delete();

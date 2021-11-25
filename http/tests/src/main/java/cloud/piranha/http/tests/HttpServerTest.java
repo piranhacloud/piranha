@@ -71,6 +71,11 @@ public abstract class HttpServerTest {
      * Stores the 'Keep-Alive' header constant.
      */
     private static final String KEEP_ALIVE = "Keep-Alive";
+    
+    /**
+     * Stores the 'http://localhost:' prefix.
+     */
+    private static final String HTTP_LOCALHOST_PREFIX = "http://localhost:";
 
     /**
      * Stores the 'text/plain' content type.
@@ -127,7 +132,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port)).header("name", "value1").build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create(HTTP_LOCALHOST_PREFIX + port)).header("name", "value1").build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -152,7 +157,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/pom.xml")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create(HTTP_LOCALHOST_PREFIX + port + "/pom.xml")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String responseText = response.body();
@@ -176,7 +181,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/this_is_certainly_not_there")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create(HTTP_LOCALHOST_PREFIX + port + "/this_is_certainly_not_there")).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
             assertEquals(404, response.statusCode());
         } catch (IOException ioe) {
@@ -213,7 +218,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port)).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create(HTTP_LOCALHOST_PREFIX + port)).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -252,7 +257,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/?name=value")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create(HTTP_LOCALHOST_PREFIX + port + "/?name=value")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -290,7 +295,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/?name=value&name=value2")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create(HTTP_LOCALHOST_PREFIX + port + "/?name=value&name=value2")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -329,7 +334,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/?name=value")).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create(HTTP_LOCALHOST_PREFIX + port + "/?name=value")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             assertEquals(200, response.statusCode());
             String body = response.body();
@@ -353,7 +358,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port)).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create(HTTP_LOCALHOST_PREFIX + port)).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
             assertEquals(200, response.statusCode());
         } catch (IOException ioe) {
@@ -375,7 +380,7 @@ public abstract class HttpServerTest {
         server.start();
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:" + port)).build();
+            HttpRequest request = HttpRequest.newBuilder(URI.create(HTTP_LOCALHOST_PREFIX + port)).build();
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
             assertEquals(200, response.statusCode());
         } catch (IOException ioe) {
