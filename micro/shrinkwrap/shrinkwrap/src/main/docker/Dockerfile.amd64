@@ -1,5 +1,0 @@
-FROM eclipse-temurin:16
-RUN mkdir /usr/local/piranha
-ADD target/piranha-micro-shrinkwrap.jar /usr/local/piranha
-WORKDIR /usr/local/piranha
-CMD ["java", "-jar", "piranha-micro-shrinkwrap.jar"]

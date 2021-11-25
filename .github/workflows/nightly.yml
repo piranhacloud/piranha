@@ -34,8 +34,8 @@ jobs:
         docker manifest push piranhacloud/server:latest
     - name: Build Piranha Micro Docker image
       run: |
-        cd micro/distribution
-        docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/micro:amd64-latest .
+        cd micro/standard
+        docker build -f Dockerfile.amd64 -t piranhacloud/micro:amd64-latest .
         docker push piranhacloud/micro:amd64-latest
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create piranhacloud/micro:latest \
