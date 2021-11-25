@@ -24,25 +24,25 @@ jobs:
     - name: Build Piranha Server Docker image
       run: |
         cd server/standard
-        docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/server:amd64-latest .
-        docker push piranhacloud/server:amd64-latest
+        docker build -f Dockerfile.amd64 -t piranhacloud/server:amd64-snapshot .
+        docker push piranhacloud/server:amd64-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create piranhacloud/server:latest \
-          piranhacloud/server:amd64-latest
-        docker manifest annotate piranhacloud/server:latest \
-          piranhacloud/server:amd64-latest --os linux --arch amd64
-        docker manifest push piranhacloud/server:latest
+        docker manifest create piranhacloud/server:snapshot \
+          piranhacloud/server:amd64-snapshot
+        docker manifest annotate piranhacloud/server:snapshot \
+          piranhacloud/server:amd64-snapshot --os linux --arch amd64
+        docker manifest push piranhacloud/server:snapshot
     - name: Build Piranha Micro Docker image
       run: |
         cd micro/standard
-        docker build -f Dockerfile.amd64 -t piranhacloud/micro:amd64-latest .
-        docker push piranhacloud/micro:amd64-latest
+        docker build -f Dockerfile.amd64 -t piranhacloud/micro:amd64-snapshot .
+        docker push piranhacloud/micro:amd64-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create piranhacloud/micro:latest \
-          piranhacloud/micro:amd64-latest
-        docker manifest annotate piranhacloud/micro:latest \
-          piranhacloud/micro:amd64-latest --os linux --arch amd64
-        docker manifest push piranhacloud/micro:latest
+        docker manifest create piranhacloud/micro:snapshot \
+          piranhacloud/micro:amd64-snapshot
+        docker manifest annotate piranhacloud/micro:snapshot \
+          piranhacloud/micro:amd64-snapshot --os linux --arch amd64
+        docker manifest push piranhacloud/micro:snapshot
   maven:
     runs-on: ubuntu-latest
     steps:
