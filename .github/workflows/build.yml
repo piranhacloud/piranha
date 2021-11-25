@@ -99,3 +99,24 @@ jobs:
         docker manifest annotate piranhacloud/micro:snapshot \
           piranhacloud/micro:amd64-snapshot --os linux --arch amd64
         docker manifest push piranhacloud/micro:snapshot        
+  quicklook:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [ '17' ]
+        os: [ubuntu-latest]
+    steps:
+    - name: Checkout Sources
+      uses: actions/checkout@v1
+    - name: Setup Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+    - name: Build with Maven
+      run: mvn -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -ntp install
+    - name: Run Quicklook tests
+      run: |
+        cd external/quicklook
+        mvn --no-transfer-progress install
