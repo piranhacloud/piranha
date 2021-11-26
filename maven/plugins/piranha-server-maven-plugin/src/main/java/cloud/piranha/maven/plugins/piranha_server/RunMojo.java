@@ -42,7 +42,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * The piranha-server:run goal.
+ * This goal will deploy the Maven WAR module, start Piranha Server and wait for
+ * it. It echoes the Piranha Server console back to you for your convenience.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -54,7 +55,7 @@ public class RunMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
     private String buildDir;
-    
+
     /**
      * Stores the local repository directory.
      */
@@ -113,7 +114,7 @@ public class RunMojo extends AbstractMojo {
 
     /**
      * Copy the WAR file to Piranha Server.
-     * 
+     *
      * @throws IOException when an I/O error occurs.
      */
     private void copyWarFileToPiranhaServer() throws IOException {
@@ -187,9 +188,9 @@ public class RunMojo extends AbstractMojo {
      * Start and wait for Piranha Server.
      */
     private void startAndWaitForPiranhaServer() throws IOException {
-        
+
         System.out.println("Application is available at: http://localhost:8080/" + warName);
-        
+
         ProcessBuilder builder = new ProcessBuilder();
         Process process;
 
