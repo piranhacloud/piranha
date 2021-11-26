@@ -7,7 +7,7 @@ on:
       - 'v*'
   pull_request:
     branches:
-      - current  
+      - '*'  
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -99,12 +99,30 @@ jobs:
         docker manifest annotate piranhacloud/micro:snapshot \
           piranhacloud/micro:amd64-snapshot --os linux --arch amd64
         docker manifest push piranhacloud/micro:snapshot
+  sonarcloud:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v1
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: 17
+    - name: Analyze with SonarCloud
+      run: |
+        mvn --no-transfer-progress -B install verify site \
+        sonar:sonar -Dsonar.projectKey=piranhacloud_piranha \
+        -Dsonar.organization=piranhacloud -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${{ secrets.SONAR_LOGIN }}
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
   sonatype:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
       uses: actions/checkout@v1
-    - name: Set up Java 17
+    - name: Set up Java
       uses: actions/setup-java@v2
       with:
         distribution: 'temurin'

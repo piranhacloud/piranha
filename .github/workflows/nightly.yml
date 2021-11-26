@@ -4,24 +4,6 @@ on:
   - cron: "0 0 * * *"
   workflow_dispatch:
 jobs:
-  sonarcloud:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout sources
-      uses: actions/checkout@v1
-    - name: Set up Java 17
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: 17
-    - name: Analyze with SonarCloud
-      run: |
-        mvn --no-transfer-progress -B install verify site \
-        sonar:sonar -Dsonar.projectKey=piranhacloud_piranha \
-        -Dsonar.organization=piranhacloud -Dsonar.host.url=https://sonarcloud.io \
-        -Dsonar.login=${{ secrets.SONAR_LOGIN }}
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   stale:
     runs-on: ubuntu-latest
     steps:
