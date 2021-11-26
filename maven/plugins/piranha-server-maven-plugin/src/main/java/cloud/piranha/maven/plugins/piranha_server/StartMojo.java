@@ -193,14 +193,14 @@ public class StartMojo extends AbstractMojo {
         if (System.getProperty("os.name").toLowerCase().equals("windows")) {
             builder.directory(new File(buildDir, "piranha-server/piranha/bin"))
                     .command("start.cmd")
-                    .inheritIO()
                     .start();
         } else {
             builder.directory(new File(buildDir, "piranha-server/piranha/bin"))
                     .command("/bin/bash", "-c", "./start.sh")
-                    .inheritIO()
                     .start();
         }
+        
+        System.out.println("Application is available at: http://localhost:8080/" + warName);
     }
 
     /**

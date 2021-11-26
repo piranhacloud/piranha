@@ -187,6 +187,9 @@ public class RunMojo extends AbstractMojo {
      * Start and wait for Piranha Server.
      */
     private void startAndWaitForPiranhaServer() throws IOException {
+        
+        System.out.println("Application is available at: http://localhost:8080/" + warName);
+        
         ProcessBuilder builder = new ProcessBuilder();
         Process process;
 

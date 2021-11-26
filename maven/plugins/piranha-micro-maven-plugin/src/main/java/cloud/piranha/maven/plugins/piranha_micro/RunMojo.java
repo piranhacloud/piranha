@@ -202,10 +202,10 @@ public class RunMojo extends AbstractMojo {
      * Start and wait for Piranha Micro.
      */
     private void startAndWaitForPiranhaMicro() throws IOException {
-        ProcessBuilder builder = new ProcessBuilder();
-        Process process;
 
-        process = builder
+        System.out.println("Application is available at: http://localhost:8080/" + warName);
+
+        Process process = new ProcessBuilder()
                 .directory(new File(PIRANHA_MICRO_DIR))
                 .command("java",
                         "-jar",
