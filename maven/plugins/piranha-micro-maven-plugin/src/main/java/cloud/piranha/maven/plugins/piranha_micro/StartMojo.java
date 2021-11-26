@@ -42,8 +42,17 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+/*
+ * -----------------------------------------------------------------------------
+ * Documentation for this plugin is at src/main/javadoc/resources/micro-maven-plugin.html
+ * at the top-level project. If you introduce anything new / change anything 
+ * that needs documentation please make sure this HTML page is updated.
+ * -----------------------------------------------------------------------------
+ */
+
 /**
- * The piranha-micro:start goal.
+ * This goal will deploy the Maven WAR module and start Piranha Micro in a 
+ * separate process.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
