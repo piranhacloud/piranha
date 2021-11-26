@@ -318,9 +318,12 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
      * {@return the request URI with query string}
      */
     public String getRequestURIWithQueryString() {
-        String requestURI = getRequestURI();
-        String queryString = getQueryString();
-        return queryString == null ? requestURI : requestURI + "?" + queryString;
+        StringBuilder builder = new StringBuilder();
+        builder.append(getRequestURI());
+        if (getQueryString() != null) {
+            builder.append("?").append(queryString);
+        }
+        return builder.toString();
     }
 
     @Override

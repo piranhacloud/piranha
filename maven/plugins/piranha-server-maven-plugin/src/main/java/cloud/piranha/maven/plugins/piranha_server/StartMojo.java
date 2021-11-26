@@ -57,6 +57,11 @@ import org.apache.maven.plugins.annotations.Parameter;
  */
 @Mojo(name = "start", defaultPhase = LifecyclePhase.NONE)
 public class StartMojo extends AbstractMojo {
+    
+    /**
+     * Stores the 'Unable to create directories' message.
+     */
+    private static final String UNABLE_TO_CREATE_DIRECTORIES = "Unable to create directories";
 
     /**
      * Stores the project build directory.
@@ -180,7 +185,7 @@ public class StartMojo extends AbstractMojo {
         File zipFile = new File(localRepositoryDir, artifactPath);
         if (!zipFile.exists()) {
             if (!zipFile.getParentFile().mkdirs()) {
-                System.err.println("Unable to create directories");
+                System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
             }
         }
 
@@ -221,16 +226,15 @@ public class StartMojo extends AbstractMojo {
         File targetDir = new File(buildDir, "piranha-server");
         if (!targetDir.exists()) {
             if (!targetDir.mkdirs()) {
-                System.err.println("Unable to create directories");
+                System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
             }
         }
-        zipFile.entries().asIterator().forEachRemaining(
-                zipEntry -> {
+        zipFile.entries().asIterator().forEachRemaining(zipEntry -> {
                     if (zipEntry.isDirectory()) {
                         File directory = new File(targetDir, zipEntry.getName());
                         if (!directory.exists()) {
                             if (!directory.mkdirs()) {
-                                System.err.println("Unable to create directories");
+                                System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
                             }
                         }
                     } else {

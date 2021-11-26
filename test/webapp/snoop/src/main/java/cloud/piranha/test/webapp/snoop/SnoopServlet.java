@@ -99,6 +99,7 @@ public class SnoopServlet extends HttpServlet {
       <tr><td>Cookies</td><td>%s</td></tr>
       <tr><td>Dispatchker Type</td><td>%s</td></tr>
       <tr><td>Header Names</td><td>%s</td></tr>
+      <tr><td>Local Address</td><td>%s</td></tr>
                         """;
             out.println(String.format(template,
                     request.getAttributeNames(),
@@ -110,9 +111,9 @@ public class SnoopServlet extends HttpServlet {
                     request.getContextPath(),
                     Arrays.toString(request.getCookies()),
                     request.getDispatcherType(),
-                    request.getHeaderNames()
+                    request.getHeaderNames(),
+                    request.getLocalAddr()
             ));
-            out.println("<tr><td>Local Address:</td><td>" + request.getLocalAddr() + "</td></tr>");
             out.println("<tr><td>Local Name:</td><td>" + request.getLocalName() + "</td></tr>");
             out.println("<tr><td>Local Port:</td><td>" + request.getLocalPort() + "</td></tr>");
             out.println("<tr><td>Locale:</td><td>" + request.getLocale() + "</td></tr>");

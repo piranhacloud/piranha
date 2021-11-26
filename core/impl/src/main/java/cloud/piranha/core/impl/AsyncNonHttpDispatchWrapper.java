@@ -41,11 +41,6 @@ import java.util.Map;
 public class AsyncNonHttpDispatchWrapper extends ServletRequestWrapper {
 
     /**
-     * Stores the attributes.
-     */
-    private Map<String, Object> attributes;
-
-    /**
      * Constructor.
      *
      * @param request the servlet request.
