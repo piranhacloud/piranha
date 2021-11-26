@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: Checkout sources
       uses: actions/checkout@v1
-    - name: Set up Java 17
+    - name: Set up Java
       uses: actions/setup-java@v2
       with:
         distribution: 'temurin'
@@ -32,7 +32,7 @@ jobs:
         TAG=${GITHUB_REF}
         INDEX=${TAG%v*}
         VERSION=${TAG:${#INDEX}}
-        docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/server:amd64-$VERSION .
+        docker build -f Dockerfile.amd64 -t piranhacloud/server:amd64-$VERSION .
         docker push piranhacloud/server:amd64-$VERSION
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create piranhacloud/server:$VERSION \
@@ -42,11 +42,11 @@ jobs:
         docker manifest push piranhacloud/server:$VERSION
     - name: Build Micro Docker image
       run: |
-        cd micro/distribution
+        cd micro/standard
         TAG=${GITHUB_REF}
         INDEX=${TAG%v*}
         VERSION=${TAG:${#INDEX}}
-        docker build -f src/main/docker/Dockerfile.amd64 -t piranhacloud/micro:amd64-$VERSION .
+        docker build -f Dockerfile.amd64 -t piranhacloud/micro:amd64-$VERSION .
         docker push piranhacloud/micro:amd64-$VERSION
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create piranhacloud/micro:$VERSION \
