@@ -41,6 +41,14 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+/*
+ * -----------------------------------------------------------------------------
+ * Documentation for this plugin is at src/main/javadoc/resources/server-maven-plugin.html
+ * at the top-level project. If you introduce anything new / change anything 
+ * that needs documentation please make sure this HTML page is updated.
+ * -----------------------------------------------------------------------------
+ */
+
 /**
  * This goal will deploy the Maven WAR module, start Piranha Server and wait for
  * it. It echoes the Piranha Server console back to you for your convenience.
