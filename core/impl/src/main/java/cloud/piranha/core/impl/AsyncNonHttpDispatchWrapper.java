@@ -31,7 +31,6 @@ import jakarta.servlet.DispatcherType;
 import static jakarta.servlet.DispatcherType.ASYNC;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletRequestWrapper;
-import java.util.Map;
 
 /**
  * The async non-HTTP dispatch wrapper.
