@@ -68,6 +68,12 @@ public class RunMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
     private String buildDir;
+    
+    /**
+     * Stores the debug flag.
+     */
+    @Parameter(property = "piranha.server.debug", defaultValue = "false", required = false)
+    private String debug;
 
     /**
      * Stores the local repository directory.
@@ -206,6 +212,12 @@ public class RunMojo extends AbstractMojo {
 
         ProcessBuilder builder = new ProcessBuilder();
         Process process;
+        
+        StringBuilder arguments = new StringBuilder();
+        
+        if (Boolean.valueOf(debug)) {
+            arguments.append(" --suspend");
+        }
 
         if (System.getProperty("os.name").toLowerCase().equals("windows")) {
             process = builder
@@ -216,7 +228,7 @@ public class RunMojo extends AbstractMojo {
         } else {
             process = builder
                     .directory(new File(buildDir + "/piranha-server/piranha/bin"))
-                    .command("/bin/bash", "-c", "./run.sh")
+                    .command("/bin/bash", "-c", "./run.sh" + arguments.toString())
                     .inheritIO()
                     .start();
         }

@@ -68,7 +68,13 @@ public class StartMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
     private String buildDir;
-
+    
+    /**
+     * Stores the debug flag.
+     */
+    @Parameter(property = "piranha.server.debug", defaultValue = "false", required = false)
+    private String debug;
+    
     /**
      * Stores the local repository directory.
      */
@@ -204,17 +210,24 @@ public class StartMojo extends AbstractMojo {
     private void startPiranhaServer() throws IOException {
         ProcessBuilder builder = new ProcessBuilder();
 
+        System.out.println("Application is available at: http://localhost:8080/" + warName);
+               
+        StringBuilder arguments = new StringBuilder();
+        
+        if (Boolean.valueOf(debug)) {
+            arguments.append(" --suspend");
+            System.out.println("Waiting for debugger to attach to port: 9009");
+        }
+        
         if (System.getProperty("os.name").toLowerCase().equals("windows")) {
             builder.directory(new File(buildDir, "piranha-server/piranha/bin"))
                     .command("start.cmd")
                     .start();
         } else {
             builder.directory(new File(buildDir, "piranha-server/piranha/bin"))
-                    .command("/bin/bash", "-c", "./start.sh")
+                    .command("/bin/bash", "-c", "./start.sh" + arguments.toString())
                     .start();
         }
-        
-        System.out.println("Application is available at: http://localhost:8080/" + warName);
     }
 
     /**
