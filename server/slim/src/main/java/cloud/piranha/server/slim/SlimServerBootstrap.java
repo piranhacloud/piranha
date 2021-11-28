@@ -27,7 +27,9 @@
  */
 package cloud.piranha.server.slim;
 
+import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.slim.SlimExtension;
+import cloud.piranha.server.core.ServerBootstrap;
 import cloud.piranha.server.core.ServerPiranhaBuilder;
 
 /**
@@ -35,8 +37,13 @@ import cloud.piranha.server.core.ServerPiranhaBuilder;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SlimServerBootstrap {
+public class SlimServerBootstrap extends ServerBootstrap {
 
+    @Override
+    protected Class<? extends WebApplicationExtension> getDefaultExtension() {
+        return SlimExtension.class;
+    }
+    
     /**
      * Main method.
      *
@@ -49,66 +56,5 @@ public class SlimServerBootstrap {
         } else {
             showHelp();
         }
-    }
-
-    /**
-     * Process the arguments.
-     *
-     * @param arguments the arguments.
-     */
-    private ServerPiranhaBuilder processArguments(String[] arguments) {
-        
-        ServerPiranhaBuilder builder = new ServerPiranhaBuilder()
-                .defaultExtensionClass(SlimExtension.class)
-                .exitOnStop(true);
-        
-        if (arguments != null) {
-            for (int i = 0; i < arguments.length; i++) {
-                if (arguments[i].equals("--help")) {
-                    return null;
-                }
-                if (arguments[i].equals("--http-port")) {
-                    builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
-                }
-                if (arguments[i].equals("--https-port")) {
-                    builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
-                }
-                if (arguments[i].equals("--jpms")) {
-                    builder = builder.jpms(true);
-                }
-                if (arguments[i].equals("--ssl-keystore-file")) {
-                    builder = builder.sslKeystoreFile(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--ssl-keystore-password")) {
-                    builder = builder.sslKeystorePassword(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--verbose")) {
-                    builder = builder.verbose(true);
-                }
-                if (arguments[i].equals("--webapps-dir")) {
-                    builder = builder.webAppsDir(arguments[i + 1]);
-                }
-            }
-        }
-        return builder;
-    }
-
-    /**
-     * Show help.
-     */
-    private static void showHelp() {
-        System.out.println();
-        System.out.println(
-                """
-                  --help                           - Show this help
-                  --http-port <integer>            - Set the HTTP port (use -1 to disable)
-                  --https-port <integer>           - Set the HTTPS port (disabled by default)
-                  --jpms                           - Enable Java Platform Module System
-                  --ssl-keystore-file <file>       - Set the SSL keystore file (applies to the
-                                                     whole JVM)
-                  --ssl-keystore-password <string> - Set the SSL keystore password (applies to
-                                                     the whole JVM)
-                  --webapps-dir <directory>        - Set the web applications directory
-                """);
     }
 }
