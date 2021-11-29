@@ -47,7 +47,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.module.Configuration;
@@ -221,7 +220,6 @@ public class ServerPiranha implements Piranha, Runnable {
             httpsServer.setSSL(true);
             httpsServer.start();
         }
-        webApplicationServer.start();
 
         WebApplicationServerRequestMapper requestMapper = webApplicationServer.getRequestMapper();
 
@@ -262,18 +260,14 @@ public class ServerPiranha implements Piranha, Runnable {
                     }
 
                     webApplication.setContextPath(contextPath);
-
-                    try {
-                        webApplication.initialize();
-                        webApplication.start();
-                    } catch (Exception e) {
-                        LOGGER.log(Level.ERROR, () -> "Failed to initialize app " + webapp.getName(), e);
-                    }
-
                     webApplicationServer.addWebApplication(webApplication);
                 }
             }
         }
+
+        webApplicationServer.initialize();
+        webApplicationServer.start();
+
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
