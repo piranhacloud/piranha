@@ -50,7 +50,7 @@ class MojarraIT {
      */
     @Test
     void testHelloWorld() throws Exception {
-        Thread.sleep(10000);
+        Thread.sleep(15000);
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
                 .newBuilder(new URI("http://localhost:8080/piranha-test-mojarra/index.xhtml"))

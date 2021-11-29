@@ -36,7 +36,6 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.zip.ZipFile;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -57,18 +56,12 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @Mojo(name = "start", defaultPhase = LifecyclePhase.NONE)
-public class StartMojo extends AbstractMojo {
+public class StartMojo extends ServerMojo {
     
     /**
      * Stores the 'Unable to create directories' message.
      */
     private static final String UNABLE_TO_CREATE_DIRECTORIES = "Unable to create directories";
-
-    /**
-     * Stores the project build directory.
-     */
-    @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
-    private String buildDir;
     
     /**
      * Stores the debug flag.
