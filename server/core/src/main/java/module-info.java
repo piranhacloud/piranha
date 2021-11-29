@@ -40,5 +40,6 @@ module cloud.piranha.server.core {
     requires cloud.piranha.core.impl;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
+    requires java.naming;
     uses HttpServer;
 }

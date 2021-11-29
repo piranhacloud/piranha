@@ -28,6 +28,7 @@
 package cloud.piranha.server.core;
 
 import java.io.File;
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 
 /**
  * The builder so you can easily build instances of
@@ -57,6 +58,11 @@ public class ServerPiranhaBuilder {
      * Stores the HTTPS port.
      */
     private int httpsPort = -1;
+    
+    /**
+     * Stores the InitialContext factory.
+     */
+    private String initialContextFactory = "com.manorrock.herring.thread.ThreadInitialContextFactory";
 
     /**
      * Stores the JPMS flag.
@@ -92,6 +98,7 @@ public class ServerPiranhaBuilder {
         if (verbose) {
             showArguments();
         }
+        System.setProperty(INITIAL_CONTEXT_FACTORY, initialContextFactory);
         ServerPiranha piranha = new ServerPiranha();
         piranha.setDefaultExtensionClass(defaultExtensionClass);
         piranha.setExitOnStop(exitOnStop);
