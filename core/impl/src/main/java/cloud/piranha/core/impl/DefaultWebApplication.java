@@ -1163,10 +1163,16 @@ public class DefaultWebApplication implements WebApplication {
     public void initialize() {
         LOGGER.log(DEBUG, "Initializing web application at {0}", contextPath);
         verifyState(SETUP, "Unable to initialize web application");
-        initializeInitializers();
-        initializeFilters();
-        initializeServlets();
-        initializeFinish();
+        ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+        try {
+            Thread.currentThread().setContextClassLoader(classLoader);
+            initializeInitializers();
+            initializeFilters();
+            initializeServlets();
+            initializeFinish();
+        } finally {
+            Thread.currentThread().setContextClassLoader(oldClassLoader);
+        }
     }
 
     /**

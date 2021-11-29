@@ -71,7 +71,6 @@ public class HerringExtension implements WebApplicationExtension {
         Context context = new DefaultInitialContext();
         webApplication.setAttribute(Context.class.getName(), context);
         ThreadInitialContextFactory.setInitialContext(context);
-        webApplication.addListener(HerringServletContextListener.class.getName());
         webApplication.addListener(HerringServletRequestListener.class.getName());
     }
 }

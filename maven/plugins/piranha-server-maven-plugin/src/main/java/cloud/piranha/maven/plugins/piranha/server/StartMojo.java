@@ -25,9 +25,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.maven.plugins.piranha_server;
+package cloud.piranha.maven.plugins.piranha.server;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -50,13 +51,13 @@ import org.apache.maven.plugins.annotations.Parameter;
  */
 
 /**
- * This goal will deploy the Maven WAR module, start Piranha Server and wait for
- * it. It echoes the Piranha Server console back to you for your convenience.
+ * This goal will deploy the Maven WAR module and start Piranha Server in a 
+ * separate process.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Mojo(name = "run", defaultPhase = LifecyclePhase.NONE)
-public class RunMojo extends AbstractMojo {
+@Mojo(name = "start", defaultPhase = LifecyclePhase.NONE)
+public class StartMojo extends AbstractMojo {
     
     /**
      * Stores the 'Unable to create directories' message.
@@ -74,12 +75,18 @@ public class RunMojo extends AbstractMojo {
      */
     @Parameter(property = "piranha.server.debug", defaultValue = "false", required = false)
     private String debug;
-
+    
     /**
      * Stores the local repository directory.
      */
     private File localRepositoryDir = new File(System.getProperty("user.home"), ".m2/repository");
 
+    /**
+     * The version of Piranha Server to use.
+     */
+    @Parameter(name = "version", property = "piranha.server.version", required = false)
+    private String version;
+    
     /**
      * Stores the WAR name.
      */
@@ -138,7 +145,8 @@ public class RunMojo extends AbstractMojo {
      */
     private void copyWarFileToPiranhaServer() throws IOException {
         File warFile = new File(buildDir, warName + ".war");
-        File outputFile = new File(buildDir + "/piranha-server/piranha/webapps", warName + ".war");
+        File outputFile = new File(buildDir + "/piranha-server/piranha/webapps",
+                warName + ".war");
         Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
     }
 
@@ -148,7 +156,10 @@ public class RunMojo extends AbstractMojo {
      * @return the version.
      */
     private String determineVersionToUse() {
-        return "21.11.0";
+        if (version == null) {
+            version = getClass().getPackage().getImplementationVersion();
+        }
+        return version;
     }
 
     // 5. start the server and wait for the process.
@@ -159,7 +170,7 @@ public class RunMojo extends AbstractMojo {
             ZipFile zipFile = getPiranhaZipFile(version);
             unzipPiranhaZipFile(zipFile);
             copyWarFileToPiranhaServer();
-            startAndWaitForPiranhaServer();
+            startPiranhaServer();
         } catch (IOException ioe) {
             throw new MojoExecutionException(ioe);
         }
@@ -198,46 +209,36 @@ public class RunMojo extends AbstractMojo {
             Files.copy(inputStream,
                     zipFile.toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
+        } catch(FileNotFoundException fnfe) {
+            fnfe.printStackTrace(System.err);
         }
 
         return new ZipFile(new File(localRepositoryDir, artifactPath));
     }
 
     /**
-     * Start and wait for Piranha Server.
+     * Start Piranha Server.
      */
-    private void startAndWaitForPiranhaServer() throws IOException {
+    private void startPiranhaServer() throws IOException {
+        ProcessBuilder builder = new ProcessBuilder();
 
         System.out.println("Application is available at: http://localhost:8080/" + warName);
-
-        ProcessBuilder builder = new ProcessBuilder();
-        Process process;
-        
+               
         StringBuilder arguments = new StringBuilder();
         
         if (Boolean.valueOf(debug)) {
             arguments.append(" --suspend");
+            System.out.println("Waiting for debugger to attach to port: 9009");
         }
-
+        
         if (System.getProperty("os.name").toLowerCase().equals("windows")) {
-            process = builder
-                    .directory(new File(buildDir + "/piranha-server/piranha/bin"))
+            builder.directory(new File(buildDir, "piranha-server/piranha/bin"))
                     .command("start.cmd")
-                    .inheritIO()
                     .start();
         } else {
-            process = builder
-                    .directory(new File(buildDir + "/piranha-server/piranha/bin"))
-                    .command("/bin/bash", "-c", "./run.sh" + arguments.toString())
-                    .inheritIO()
+            builder.directory(new File(buildDir, "piranha-server/piranha/bin"))
+                    .command("/bin/bash", "-c", "./start.sh" + arguments.toString())
                     .start();
-        }
-
-        try {
-            process.waitFor();
-        } catch (InterruptedException ie) {
-            ie.printStackTrace(System.err);
-            Thread.currentThread().interrupt();
         }
     }
 

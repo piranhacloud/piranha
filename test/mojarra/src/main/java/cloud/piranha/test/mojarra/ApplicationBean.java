@@ -25,30 +25,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.herring;
+package cloud.piranha.test.mojarra;
 
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
-import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletContextListener;
-import static java.lang.System.Logger.Level.DEBUG;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
 
 /**
- * The ServletContextListener used to remove the Context instance once
- * initialization is done.
- *
+ * The one and only application bean.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HerringServletContextListener implements ServletContextListener {
-
+@ApplicationScoped
+@Named("applicationBean")
+public class ApplicationBean {
+    
     /**
-     * Stores the logger.
+     * Get the 'Hello World from Mojarra!'.
+     * 
+     * @return the 'Hello World from Mojarra!'.
      */
-    private static final System.Logger LOGGER = System.getLogger(
-            HerringServletContextListener.class.getName());
-
-    @Override
-    public void contextInitialized(ServletContextEvent event) {
-        LOGGER.log(DEBUG, "Removing InitialContext");
-        ThreadInitialContextFactory.removeInitialContext();
+    public String helloWorld() {
+        return "Hello World from Mojarra!'";
     }
 }

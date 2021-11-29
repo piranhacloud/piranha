@@ -40,8 +40,6 @@ import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -88,26 +86,6 @@ class HerringExtensionTest {
                 .start();
         assertEquals(System.getProperty(INITIAL_CONTEXT_FACTORY),
                 ThreadInitialContextFactory.class.getName());
-    }
-
-    /**
-     * Test configure method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testConfigure3() throws Exception {
-        new EmbeddedPiranhaBuilder()
-                .extension(HerringExtension.class)
-                .listener(TestServletRequestListener.class.getName())
-                .build()
-                .start();
-        try {
-            InitialContext context = new InitialContext();
-            fail();
-        } catch (NamingException ne) {
-            assertTrue(ne.getMessage().contains("Initial context not available for thread"));
-        }
     }
 
     /**
