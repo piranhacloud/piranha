@@ -347,6 +347,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
                         session.invalidate();
                     }
                 } catch (IllegalStateException ise) {
+                    // nothing to do
                 }
             }
         });

@@ -81,14 +81,13 @@ public class DefaultFilterMapping implements FilterMapping {
     public boolean equals(Object object) {
         boolean result = false;
 
-        if (object instanceof DefaultFilterMapping mapping) {
-            if (mapping.filterName.equals(filterName)
-                    && mapping.urlPattern.equals(urlPattern)
-                    && mapping.dispatcherType.equals(dispatcherType)) {
-                result = true;
-            }
+        if (object instanceof DefaultFilterMapping mapping
+                && mapping.filterName.equals(filterName)
+                && mapping.urlPattern.equals(urlPattern)
+                && mapping.dispatcherType.equals(dispatcherType)) {
+            result = true;
         }
-        
+
         return result;
     }
 

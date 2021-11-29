@@ -166,7 +166,9 @@ public class DefaultModuleFinder implements ModuleFinder {
                 String tail = name.substring(start + 1);
                 ModuleDescriptor.Version.parse(tail);
                 versionString = tail;
-            } catch (IllegalArgumentException ignore) { }
+            } catch (IllegalArgumentException ignore) {
+                // nothing to do here.
+            }
 
             name = name.substring(0, start);
         }
@@ -255,6 +257,7 @@ public class DefaultModuleFinder implements ModuleFinder {
                 return ModuleDescriptor.read(moduleInfo, () -> packages(resource));
             }
         } catch (IOException e) {
+            // nothing to do here.
         }
         return null;
     }
@@ -270,6 +273,7 @@ public class DefaultModuleFinder implements ModuleFinder {
             }
 
         } catch (IOException e) {
+            // nothing to do here.
         }
 
         return null;

@@ -383,11 +383,4 @@ public class DefaultInvocationFinder {
 
         return Integer.compare(filterX.getPriority(), filterY.getPriority());
     }
-
-    private boolean hasDefaultServlet() {
-        return
-            webApplication.defaultServlet != null ||
-            webApplication.webApplicationRequestMapper.getDefaultServlet() != null;
-    }
-
 }
