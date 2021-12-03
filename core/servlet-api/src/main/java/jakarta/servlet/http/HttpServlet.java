@@ -32,7 +32,6 @@ import jakarta.servlet.GenericServlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import static jakarta.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 
 /**
  * The HttpServlet API.
@@ -146,25 +145,32 @@ public abstract class HttpServlet extends GenericServlet {
         String method = request.getMethod();
         if (method != null) {
             switch (method) {
-                case "GET" ->
+                case "GET":
                     doGet(request, response);
-                case "HEAD" ->
+                    break;
+                case "HEAD":
                     doHead(request, response);
-                case "POST" ->
+                    break;
+                case "POST":
                     doPost(request, response);
-                case "PUT" ->
+                    break;
+                case "PUT":
                     doPut(request, response);
-                case "DELETE" ->
+                    break;
+                case "DELETE":
                     doDelete(request, response);
-                case "OPTIONS" ->
+                    break;
+                case "OPTIONS":
                     doOptions(request, response);
-                case "TRACE" ->
+                    break;
+                case "TRACE":
                     doTrace(request, response);
-                default ->
-                    response.sendError(SC_NOT_IMPLEMENTED, "HTTP method not implemented");
+                    break;
+                default:
+                    response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, "HTTP method not implemented");
             }
         } else {
-            response.sendError(SC_NOT_IMPLEMENTED, "HTTP method not implemented");
+            response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, "HTTP method not implemented");
         }
     }
 
