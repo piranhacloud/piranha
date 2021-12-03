@@ -38,9 +38,10 @@
         <module>standard</module>
         <module>tempdir</module>
         <module>wasp</module>
-        <module>weld</module>
         <module>webannotations</module>
         <module>webxml</module>
+        <module>weld</module>
+        <module>weld-servlet</module>
     </modules>
 
     <dependencyManagement>

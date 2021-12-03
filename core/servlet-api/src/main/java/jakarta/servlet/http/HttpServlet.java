@@ -32,6 +32,7 @@ import jakarta.servlet.GenericServlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import static jakarta.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 
 /**
  * The HttpServlet API.
@@ -143,30 +144,27 @@ public abstract class HttpServlet extends GenericServlet {
      */
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String method = request.getMethod();
-        switch (method) {
-            case "GET":
-                doGet(request, response);
-                break;
-            case "HEAD":
-                doHead(request, response);
-                break;
-            case "POST":
-                doPost(request, response);
-                break;
-            case "PUT":
-                doPut(request, response);
-                break;
-            case "DELETE":
-                doDelete(request, response);
-                break;
-            case "OPTIONS":
-                doOptions(request, response);
-                break;
-            case "TRACE":
-                doTrace(request, response);
-                break;
-            default:
-                response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, "HTTP method not implemented");
+        if (method != null) {
+            switch (method) {
+                case "GET" ->
+                    doGet(request, response);
+                case "HEAD" ->
+                    doHead(request, response);
+                case "POST" ->
+                    doPost(request, response);
+                case "PUT" ->
+                    doPut(request, response);
+                case "DELETE" ->
+                    doDelete(request, response);
+                case "OPTIONS" ->
+                    doOptions(request, response);
+                case "TRACE" ->
+                    doTrace(request, response);
+                default ->
+                    response.sendError(SC_NOT_IMPLEMENTED, "HTTP method not implemented");
+            }
+        } else {
+            response.sendError(SC_NOT_IMPLEMENTED, "HTTP method not implemented");
         }
     }
 
