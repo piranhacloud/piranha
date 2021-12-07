@@ -52,6 +52,11 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
      */
     public HttpWebApplicationRequest(HttpServerRequest wrapped) {
         this.wrapped = wrapped;
+        setServletPath(wrapped.getRequestTarget());
+        setInputStream(wrapped.getInputStream());
+        if (wrapped.getHeader("Content-Length") != null) {
+            setContentLength(Integer.valueOf(wrapped.getHeader("Content-Length")));
+        }
     }
 
     @Override
@@ -71,5 +76,15 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
         ArrayList<String> headers = new ArrayList<>();
         wrapped.getHeaders(name).forEachRemaining(headers::add);
         return Collections.enumeration(headers);
+    }
+
+    @Override
+    public String getMethod() {
+        return wrapped.getMethod();
+    }
+
+    @Override
+    public String getQueryString() {
+        return wrapped.getQueryString();
     }
 }
