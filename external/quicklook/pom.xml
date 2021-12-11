@@ -75,7 +75,7 @@
                             <properties>
                                 <piranha.version>${project.version}</piranha.version>
                             </properties>
-                            <goals>clean install -P piranha-micro</goals>
+                            <goals>clean install -ntp -P piranha-micro</goals>
                         </configuration>
                     </execution>
                 </executions>

@@ -25,8 +25,8 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Build with Maven
-      run: mvn -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -ntp install
+      run: mvn -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -ntp -P '!test' install
     - name: Run Quicklook tests
       run: |
         cd external/quicklook
-        mvn --no-transfer-progress install
+        mvn -ntp install
