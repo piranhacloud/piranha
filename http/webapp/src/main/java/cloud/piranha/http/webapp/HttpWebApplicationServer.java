@@ -210,7 +210,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     @Override
     public void initialize() {
         LOGGER.log(DEBUG, "Starting initialization of {0} web application(s)", webApplications.size());
-        webApplications.values().forEach(webApp -> {
+        for(WebApplication webApp : webApplications.values()) {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
                 Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
@@ -218,7 +218,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             } finally {
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
-        });
+        }
         LOGGER.log(DEBUG, "Finished initialization of {0} web application(s)", webApplications.size());
     }
 
