@@ -1,0 +1,39 @@
+name: codeql
+on: 
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - 'v*'
+  pull_request:
+    branches:
+      - '*'  
+jobs:
+  codeql:
+    name: codeql
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'java' ]
+        java: [ '17' ]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: ${{ matrix.language }}
+    - name: Setup Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+    - name: Build with Maven
+      run: mvn --no-transfer-progress -B -DskipTests=true -DskipITs=true install
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1       
