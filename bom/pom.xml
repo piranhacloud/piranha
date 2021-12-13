@@ -30,7 +30,7 @@
             <!-- Netty -->
             <!-- 
            
-               Downgraded to 4.1.68 because 4.1.69-70 does not have module-info.
+               Downgraded to 4.1.68 because 4.1.[69-72] does not have module-info.
               
             -->
             <dependency>
@@ -43,7 +43,7 @@
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-core</artifactId>
-                <version>2.2.13.Final</version>
+                <version>2.2.14.Final</version>
             </dependency>
             
             <!-- Jakarta Annotation -->
@@ -183,7 +183,7 @@
             <dependency>
                 <groupId>net.sourceforge.htmlunit</groupId>
                 <artifactId>htmlunit</artifactId>
-                <version>2.55.0</version>
+                <version>2.56.0</version>
             </dependency>
 
             <!-- Apache BVal -->
