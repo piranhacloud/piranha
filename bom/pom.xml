@@ -30,13 +30,13 @@
             <!-- Netty -->
             <!-- 
            
-               Downgraded to 4.1.69 because 4.1.70 does not have module-info.
+               Downgraded to 4.1.68 because 4.1.69-70 does not have module-info.
               
             -->
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.69.Final</version>
+                <version>4.1.68.Final</version>
             </dependency>
 
             <!-- Undertow -->
