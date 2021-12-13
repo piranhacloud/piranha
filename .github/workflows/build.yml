@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [ '17', '18-ea' ]
+        java: [ '17' ]
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
