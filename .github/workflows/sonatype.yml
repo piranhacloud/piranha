@@ -5,11 +5,9 @@ on:
       - '*'
     tags-ignore:
       - 'v*'
-  pull_request:
-    branches:
-      - '*'  
 jobs:
   sonatype:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
@@ -23,7 +21,7 @@ jobs:
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
     - name: Build with Maven
-      run: mvn --no-transfer-progress -B -DskipTests=true -P '!test' deploy
+      run: mvn -B -DskipTests=true -P '!test' -ntp deploy
       env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}

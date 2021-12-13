@@ -30,35 +30,7 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        files: '**/target/surefire-reports/*.xml'
-  codeql:
-    name: codeql
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'java' ]
-        java: [ '17' ]
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      with:
-        languages: ${{ matrix.language }}
-    - name: Setup Java
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: ${{ matrix.java }}
-    - name: Build with Maven
-      run: mvn --no-transfer-progress -B -DskipTests=true -DskipITs=true install
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1       
+        files: '**/target/surefire-reports/*.xml'     
   docker:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/current'
@@ -98,22 +70,4 @@ jobs:
           piranhacloud/micro:amd64-snapshot
         docker manifest annotate piranhacloud/micro:snapshot \
           piranhacloud/micro:amd64-snapshot --os linux --arch amd64
-        docker manifest push piranhacloud/micro:snapshot   
-  sonatype:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout sources
-      uses: actions/checkout@v1
-    - name: Set up Java
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: 17
-        server-id: ossrh
-        server-username: MAVEN_USERNAME
-        server-password: MAVEN_PASSWORD
-    - name: Build with Maven
-      run: mvn --no-transfer-progress -B -DskipTests=true -P '!test' deploy
-      env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        docker manifest push piranhacloud/micro:snapshot
