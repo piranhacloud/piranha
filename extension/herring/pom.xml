@@ -15,13 +15,13 @@
         <dependency>
             <groupId>com.manorrock.herring</groupId>
             <artifactId>herring</artifactId>
-            <version>21.10.0</version>
+            <version>21.11.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.manorrock.herring</groupId>
             <artifactId>herring-thread</artifactId>
-            <version>21.10.0</version>
+            <version>21.11.0</version>
             <scope>compile</scope>
         </dependency>
         <!-- provided -->
