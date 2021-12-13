@@ -1,20 +1,15 @@
-name: build
-on: 
-  push:
-    branches:
-      - '*'
-    tags-ignore:
-      - 'v*'
-  pull_request:
-    branches:
-      - '*'  
+name: build-ea
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        java: [ '17' ]
+        java: [ '18-ea' ]
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
@@ -25,9 +20,9 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Build with Maven
-      run: mvn --no-transfer-progress -B install
+      run: mvn --no-transfer-progress -B install -Djacoco.skip=true
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        files: '**/target/surefire-reports/*.xml'     
+        files: '**/target/surefire-reports/*.xml'
