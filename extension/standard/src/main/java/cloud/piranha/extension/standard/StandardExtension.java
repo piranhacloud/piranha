@@ -55,10 +55,10 @@ public class StandardExtension implements WebApplicationExtension {
         context.add(LocaleEncodingExtension.class);
         context.add(PolicyExtension.class);
         context.add(AnnotationScanExtension.class);
-        context.add(WaspExtension.class);
         context.add(WebXmlExtension.class);
         context.add(WebAnnotationsExtension.class);
         context.add(TempDirExtension.class);
+        context.add(WaspExtension.class);
         context.add(ServletContainerInitializerExtension.class);
         context.add(ServletSecurityExtension.class);
     }
