@@ -33,12 +33,17 @@ jobs:
         INDEX=${TAG%v*}
         VERSION=${TAG:${#INDEX}}
         docker build -f Dockerfile.amd64 -t piranhacloud/server:amd64-$VERSION .
+        docker build --platform linux/arm64/v8 -f Dockerfile.arm64v8 -t piranhacloud/server:arm64v8-$VERSION .
         docker push piranhacloud/server:amd64-$VERSION
+        docker push piranhacloud/server:arm64v8-$VERSION
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create piranhacloud/server:$VERSION \
-          piranhacloud/server:amd64-$VERSION
+        docker manifest create --amend piranhacloud/server:$VERSION \
+          piranhacloud/server:amd64-$VERSION \
+          piranhacloud/server:arm64v8-$VERSION
         docker manifest annotate piranhacloud/server:$VERSION \
           piranhacloud/server:amd64-$VERSION --os linux --arch amd64
+        docker manifest annotate piranhacloud/server:$VERSION \
+          piranhacloud/server:arm64v8-$VERSION --os linux --arch arm64 --variant v8
         docker manifest push piranhacloud/server:$VERSION
     - name: Build Micro Docker image
       run: |
@@ -47,12 +52,17 @@ jobs:
         INDEX=${TAG%v*}
         VERSION=${TAG:${#INDEX}}
         docker build -f Dockerfile.amd64 -t piranhacloud/micro:amd64-$VERSION .
+        docker build --platform linux/arm64/v8 -f Dockerfile.arm64v8 -t piranhacloud/micro:arm64v8-$VERSION .
         docker push piranhacloud/micro:amd64-$VERSION
+        docker push piranhacloud/micro:arm64v8-$VERSION
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create piranhacloud/micro:$VERSION \
-          piranhacloud/micro:amd64-$VERSION
+          piranhacloud/micro:amd64-$VERSION \
+          piranhacloud/micro:arm64v8-$VERSION
         docker manifest annotate piranhacloud/micro:$VERSION \
           piranhacloud/micro:amd64-$VERSION --os linux --arch amd64
+        docker manifest annotate piranhacloud/micro:$VERSION \
+          piranhacloud/micro:arm64v8-$VERSION --os linux --arch arm64 --variant v8
         docker manifest push piranhacloud/micro:$VERSION
     - name: Build with Maven
       run: |
