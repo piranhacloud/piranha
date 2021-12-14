@@ -1651,6 +1651,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setSessionTimeout(int sessionTimeout) {
+        checkTainted();
         if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Illegal to set session timeout because state is not SETUP");
         }
