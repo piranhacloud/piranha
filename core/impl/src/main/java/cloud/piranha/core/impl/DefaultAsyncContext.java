@@ -104,14 +104,14 @@ public class DefaultAsyncContext implements AsyncContext {
     private final ServletResponse asyncStartResponse;
 
     /**
-     * "the request object passed to the first servlet object in the call chain
-     * that received the request from the client."
+     * The request object passed to the first servlet object in the call chain
+     * that received the request from the client.
      */
     private final WebApplicationRequest originalRequest;
 
     /**
      * The response object passed to the first servlet object in the call chain
-     * that received the request from the client."
+     * that received the request from the client.
      */
     private final WebApplicationResponse originalResponse;
 
@@ -234,29 +234,35 @@ public class DefaultAsyncContext implements AsyncContext {
     @Override
     public void complete() {
 
-        scheduledThreadPoolExecutor.shutdownNow();
+        /*
+         * dispatch has not been called which means we cannot close the response
+         * as the container needs to complete the original request/response.
+         */
+        if (dispatched) {
+            scheduledThreadPoolExecutor.shutdownNow();
 
-        LOGGER.log(DEBUG, () -> "Completing async processing");
+            LOGGER.log(DEBUG, () -> "Completing async processing");
 
-        if (!listeners.isEmpty()) {
-            listeners.forEach(listener -> {
-                try {
-                    listener.onComplete(new AsyncEvent(this));
-                } catch (IOException ioe) {
-                    LOGGER.log(WARNING, () -> "IOException when calling onComplete on AsyncListener", ioe);
-                }
-            });
+            if (!listeners.isEmpty()) {
+                listeners.forEach(listener -> {
+                    try {
+                        listener.onComplete(new AsyncEvent(this));
+                    } catch (IOException ioe) {
+                        LOGGER.log(WARNING, () -> "IOException when calling onComplete on AsyncListener", ioe);
+                    }
+                });
+            }
+
+            LOGGER.log(DEBUG, () -> "Flushing async asyncStartResponse buffer");
+
+            try {
+                asyncStartResponse.flushBuffer();
+            } catch (IOException ioe) {
+                LOGGER.log(WARNING, () -> "IOException when flushing async asyncStartResponse buffer", ioe);
+            }
+            
+            originalResponse.closeAsyncResponse();
         }
-
-        LOGGER.log(DEBUG, () -> "Flushing async asyncStartResponse buffer");
-
-        try {
-            asyncStartResponse.flushBuffer();
-        } catch (IOException ioe) {
-            LOGGER.log(WARNING, () -> "IOException when flushing async asyncStartResponse buffer", ioe);
-        }
-
-        originalResponse.closeAsyncResponse();
     }
 
     /**
