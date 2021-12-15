@@ -29,6 +29,8 @@ package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.HttpSessionManager;
 import cloud.piranha.core.api.WebApplication;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.SessionCookieConfig;
 import jakarta.servlet.SessionTrackingMode;
 import static jakarta.servlet.SessionTrackingMode.COOKIE;
@@ -53,13 +55,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The default HttpSessionManager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultHttpSessionManager implements HttpSessionManager, SessionCookieConfig {
+public class DefaultHttpSessionManager implements HttpSessionManager, SessionCookieConfig, ServletRequestListener, HttpSessionListener {
+
+    /**
+     * Stores the session counter constant.
+     */
+    private static final String SESSION_COUNTER = DefaultHttpSessionManager.class.getName() + ".sessionCounter";
 
     /**
      * Stores the session listeners.
@@ -341,7 +349,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         keys.addAll(sessions.keySet());
         keys.forEach(sessionId -> {
             HttpSession session = sessions.get(sessionId);
-            if (session != null) {
+            if (session != null && session.getAttribute(SESSION_COUNTER) == null) {
                 try {
                     if (session.getLastAccessedTime() + (session.getMaxInactiveInterval() * 1000) < System.currentTimeMillis()) {
                         session.invalidate();
@@ -425,5 +433,44 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     @Override
     public void setWebApplication(WebApplication webApplication) {
         this.webApplication = webApplication;
+    }
+
+    @Override
+    public void requestInitialized(ServletRequestEvent event) {
+        if (event.getServletRequest() instanceof HttpServletRequest httpRequest) {
+            HttpSession session = httpRequest.getSession(false);
+            if (session != null) {
+                synchronized (session) {
+                    AtomicInteger integer = (AtomicInteger) session.getAttribute(SESSION_COUNTER);
+                    if (integer != null) {
+                        integer.incrementAndGet();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void requestDestroyed(ServletRequestEvent event) {
+        if (event.getServletRequest() instanceof HttpServletRequest httpRequest) {
+            HttpSession session = httpRequest.getSession(false);
+            if (session != null) {
+                synchronized (session) {
+                    AtomicInteger integer = (AtomicInteger) session.getAttribute(SESSION_COUNTER);
+                    if (integer != null && integer.decrementAndGet() == 0) {
+                        session.removeAttribute(SESSION_COUNTER);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void sessionCreated(HttpSessionEvent httpSessionEvent) {
+        HttpSession session = httpSessionEvent.getSession();
+        synchronized (session) {
+            AtomicInteger integer = new AtomicInteger(1);
+            session.setAttribute(SESSION_COUNTER, integer);
+        }
     }
 }
