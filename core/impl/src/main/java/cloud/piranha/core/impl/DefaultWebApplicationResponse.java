@@ -91,6 +91,11 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      * Stores if the character encoding has been set manually.
      */
     protected boolean characterEncodingSet;
+    
+    /**
+     * Stores if the character encoding was set using setLocale.
+     */
+    protected boolean characterEncodingLocaleSet;
 
     /**
      * Stores the committed flag.
@@ -184,6 +189,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         buffer = new byte[8192];
         characterEncoding = ISO_8859_1;
         characterEncodingSet = false;
+        characterEncodingLocaleSet = false;
         committed = false;
         contentType = null;
         contentTypeSet = false;
@@ -296,7 +302,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (contentType == null) {
             return null;
         }
-        String encoding = characterEncodingSet ? ";charset=" + characterEncoding : "";
+        String encoding = (characterEncodingLocaleSet || characterEncodingSet) ? ";charset=" + characterEncoding : "";
         return contentType + encoding;
     }
 
@@ -563,7 +569,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
                     }
                     if (encoding != null && !characterEncodingSet) {
                         characterEncoding = encoding;
-                        characterEncodingSet = true;
+                        characterEncodingLocaleSet = true;
                     }
                 }
             }
