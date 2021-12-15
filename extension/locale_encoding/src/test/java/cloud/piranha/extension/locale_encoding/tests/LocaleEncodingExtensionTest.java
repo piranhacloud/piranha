@@ -217,12 +217,12 @@ class LocaleEncodingExtensionTest {
     }
 
     /**
-     * Test setLocale method on WebApplicationResponse.
+     * Test getCharacterEncoding method on WebApplicationResponse.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetLocale() {
+    void testGetCharacterEncoding3() {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .extension(LocaleEncodingExtension.class)
                 .build()
@@ -233,5 +233,25 @@ class LocaleEncodingExtensionTest {
         response.setWebApplication(webApp);
         response.setLocale(Locale.ITALY);
         assertEquals("windows-1252", response.getCharacterEncoding());
+    }
+
+    /**
+     * Test getContentType method on WebApplicationResponse.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetContentType() {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .extension(LocaleEncodingExtension.class)
+                .build()
+                .start();
+        WebApplication webApp = piranha.getWebApplication();
+        webApp.getLocaleEncodingManager().addCharacterEncoding(new Locale("ja").toString(), "Shift_Jis");
+        EmbeddedResponse response = new EmbeddedResponse();
+        response.setWebApplication(webApp);
+        response.setLocale(new Locale("ja"));
+        response.setContentType("text/html");
+        assertEquals("text/html;charset=Shift_Jis", response.getContentType());
     }
 }
