@@ -563,6 +563,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
                     }
                     if (encoding != null && !characterEncodingSet) {
                         characterEncoding = encoding;
+                        characterEncodingSet = true;
                     }
                 }
             }
