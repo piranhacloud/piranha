@@ -27,13 +27,9 @@
  */
 package jakarta.servlet;
 
-import jakarta.servlet.MultipartConfigElement;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.lang.annotation.Annotation;
-
 import jakarta.servlet.annotation.MultipartConfig;
-
+import java.lang.annotation.Annotation;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 /**

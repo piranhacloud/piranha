@@ -27,20 +27,14 @@
  */
 package jakarta.servlet;
 
-import jakarta.servlet.ServletSecurityElement;
-import jakarta.servlet.HttpConstraintElement;
-import jakarta.servlet.HttpMethodConstraintElement;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-
 import jakarta.servlet.annotation.HttpConstraint;
 import jakarta.servlet.annotation.HttpMethodConstraint;
 import jakarta.servlet.annotation.ServletSecurity;
-
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /**

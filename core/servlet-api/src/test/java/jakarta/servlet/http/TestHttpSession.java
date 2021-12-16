@@ -27,11 +27,9 @@
  */
 package jakarta.servlet.http;
 
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionContext;
+import jakarta.servlet.ServletContext;
 import java.util.Collections;
 import java.util.Enumeration;
-import jakarta.servlet.ServletContext;
 
 /**
  * A Test HttpSession.

@@ -27,8 +27,6 @@
  */
 package jakarta.servlet;
 
-import jakarta.servlet.HttpConstraintElement;
-import jakarta.servlet.HttpMethodConstraintElement;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
