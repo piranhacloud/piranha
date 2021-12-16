@@ -33,7 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -155,28 +154,6 @@ class WebApplicationRequestTest {
         assertEquals(0, request.getRemotePort());
         request.setRemotePort(12345);
         assertEquals(12345, request.getRemotePort());
-    }
-
-    /**
-     * Test setRequestedSessionIdFromCookie method.
-     */
-    @Test
-    void testSetRequestedSessionIdFromCookie() {
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertFalse(request.isRequestedSessionIdFromCookie());
-        request.setRequestedSessionIdFromCookie(true);
-        assertTrue(request.isRequestedSessionIdFromCookie());
-    }
-
-    /**
-     * Test setRequestedSessionIdFromURL method.
-     */
-    @Test
-    void testSetRequestedSessionIdFromURL() {
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        assertFalse(request.isRequestedSessionIdFromURL());
-        request.setRequestedSessionIdFromURL(true);
-        assertTrue(request.isRequestedSessionIdFromURL());
     }
 
     /**

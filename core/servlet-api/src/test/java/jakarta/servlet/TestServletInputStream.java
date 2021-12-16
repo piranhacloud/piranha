@@ -27,8 +27,6 @@
  */
 package jakarta.servlet;
 
-import jakarta.servlet.ServletInputStream;
-import jakarta.servlet.ReadListener;
 import java.io.IOException;
 
 /**

@@ -30,7 +30,6 @@ package cloud.piranha.core.impl.tests;
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.impl.DefaultSecurityManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -38,17 +37,14 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpUpgradeHandler;
 import jakarta.servlet.http.WebConnection;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -109,50 +105,6 @@ class HttpServletRequestTest {
     }
 
     /**
-     * Test changeSessionId method.
-     */
-    @Test
-    void testChangeSessionId() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        webApp.linkRequestAndResponse(request, response);
-        request.setWebApplication(webApp);
-        assertThrows(IllegalStateException.class, () -> request.changeSessionId());
-    }
-
-    /**
-     * Test changeSessionId method.
-     */
-    @Test
-    void testChangeSessionId2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        webApp.linkRequestAndResponse(request, response);
-        request.setWebApplication(webApp);
-        HttpSession session = request.getSession(true);
-        String sessionId1 = session.getId();
-        request.setRequestedSessionId(session.getId());
-        String sessionId2 = request.changeSessionId();
-        assertNotEquals(sessionId1, sessionId2);
-    }
-
-    /**
-     * Test changeSessionId method.
-     */
-    @Test
-    void testChangeSessionId3() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        webApp.linkRequestAndResponse(request, response);
-        request.setWebApplication(webApp);
-        HttpSession session = request.getSession(true);
-        String previousSessionId = session.getId();
-        String newSessionId = request.changeSessionId();
-        assertNotEquals(previousSessionId, newSessionId);
-        assertEquals(newSessionId, request.getSession(false).getId());
-    }
-
-    /**
      * Test getDateHeader method.
      */
     @Test
@@ -190,73 +142,6 @@ class HttpServletRequestTest {
         request.setWebApplication(webApplication);
         request.setContentType("multipart/form-data");
         assertNull(request.getPart("not_there"));
-    }
-
-    /**
-     * Test getSession method.
-     */
-    @Test
-    void testGetSession() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        request.setWebApplication(webApp);
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApp);
-        webApp.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession(true);
-        request.setRequestedSessionId(session.getId());
-        assertNotNull(request.getSession());
-    }
-
-    /**
-     * Test getSession method.
-     */
-    @Test
-    void testGetSession2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        request.setWebApplication(webApp);
-        response.setWebApplication(webApp);
-        webApp.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession(true);
-        request.setRequestedSessionId(session.getId());
-        assertNotNull(request.getSession(false));
-    }
-
-    /**
-     * Test getSession method.
-     */
-    @Test
-    void testGetSession3() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        request.setWebApplication(webApp);
-        response.setWebApplication(webApp);
-        webApp.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession(false);
-        assertNull(session);
-    }
-
-    /**
-     * Test setRequestedSessionIdFromURL method.
-     */
-    @Test
-    void testIsRequestedSessionIdFromUrl() {
-        assertFalse(request.isRequestedSessionIdFromUrl());
-    }
-
-    /**
-     * Test isRequestedSessionIdValid method.
-     */
-    @Test
-    void testIsRequestedSessionIdValid() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        request.setWebApplication(webApp);
-        response.setWebApplication(webApp);
-        webApp.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession(true);
-        request.setRequestedSessionId(session.getId());
-        assertTrue(request.isRequestedSessionIdValid());
     }
 
     /**
