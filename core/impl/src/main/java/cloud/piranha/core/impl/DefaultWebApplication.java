@@ -365,10 +365,12 @@ public class DefaultWebApplication implements WebApplication {
         filters = new LinkedHashMap<>(1);
         httpSessionManager = new DefaultHttpSessionManager();
         httpSessionManager.setWebApplication(this);
+        httpSessionManager.addListener((DefaultHttpSessionManager) httpSessionManager);
+        requestListeners = new ArrayList<>(1);
+        requestListeners.add((DefaultHttpSessionManager) httpSessionManager);
         httpRequestManager = new DefaultHttpRequestManager();
         initParameters = new ConcurrentHashMap<>(1);
         initializers = new ArrayList<>(1);
-        requestListeners = new ArrayList<>(1);
         resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
         errorPageManager = new DefaultErrorPageManager();
