@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.EventListener;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -263,6 +264,11 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         }
         sessions.remove(session.getId());
         sessionCounters.remove(session.getId());
+        Iterator<String> attributeNames = session.getAttributeNames().asIterator();
+        while(attributeNames.hasNext()) {
+            String attributeName = attributeNames.next();
+            attributeRemoved(session, attributeName, session.getAttribute(attributeName));
+        }
     }
 
     @Override
