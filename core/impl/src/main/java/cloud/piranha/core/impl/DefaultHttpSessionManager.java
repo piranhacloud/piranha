@@ -48,13 +48,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.EventListener;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -62,12 +63,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultHttpSessionManager implements HttpSessionManager, SessionCookieConfig, ServletRequestListener, HttpSessionListener {
-
-    /**
-     * Stores the session counter constant.
-     */
-    private static final String SESSION_COUNTER = DefaultHttpSessionManager.class.getName() + ".sessionCounter";
+public class DefaultHttpSessionManager implements HttpSessionManager, SessionCookieConfig, ServletRequestListener {
 
     /**
      * Stores the session listeners.
@@ -120,6 +116,11 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     protected boolean secure;
 
     /**
+     * Stores the session counters.
+     */
+    protected final Map<String, AtomicInteger> sessionCounters = new HashMap<>();
+
+    /**
      * Stores the session listeners.
      */
     protected final ArrayList<HttpSessionListener> sessionListeners;
@@ -158,7 +159,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         maxAge = -1;
         sessions = new ConcurrentHashMap<>();
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleWithFixedDelay(this::reapSessions, 5, 5, SECONDS);
+        scheduler.scheduleWithFixedDelay(this::reapSessions, 0, 1300, MILLISECONDS);
     }
 
     @Override
@@ -229,6 +230,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         session.setMaxInactiveInterval(getSessionTimeout() * 60);
         session.setSessionManager(this);
         sessions.put(sessionId, session);
+        sessionCounters.put(session.getId(), new AtomicInteger(1));
 
         HttpServletResponse response = (HttpServletResponse) webApplication.getResponse(request);
         Cookie cookie = new Cookie(name, sessionId);
@@ -260,6 +262,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
             sessionListener.sessionDestroyed(new HttpSessionEvent(session));
         }
         sessions.remove(session.getId());
+        sessionCounters.remove(session.getId());
     }
 
     @Override
@@ -349,13 +352,17 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         keys.addAll(sessions.keySet());
         keys.forEach(sessionId -> {
             HttpSession session = sessions.get(sessionId);
-            if (session != null && session.getAttribute(SESSION_COUNTER) == null) {
-                try {
-                    if (session.getLastAccessedTime() + (session.getMaxInactiveInterval() * 1000) < System.currentTimeMillis()) {
-                        session.invalidate();
+            if (session != null) {
+                synchronized (session) {
+                    if (sessionCounters.getOrDefault(session.getId(), new AtomicInteger(0)).intValue() <= 0) {
+                        try {
+                            if (session.getLastAccessedTime() + (session.getMaxInactiveInterval() * 1000) - 1300 < System.currentTimeMillis()) {
+                                session.invalidate();
+                            }
+                        } catch (IllegalStateException ise) {
+                            // nothing to do
+                        }
                     }
-                } catch (IllegalStateException ise) {
-                    // nothing to do
                 }
             }
         });
@@ -441,7 +448,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
             HttpSession session = httpRequest.getSession(false);
             if (session != null) {
                 synchronized (session) {
-                    AtomicInteger integer = (AtomicInteger) session.getAttribute(SESSION_COUNTER);
+                    AtomicInteger integer = sessionCounters.get(session.getId());
                     if (integer != null) {
                         integer.incrementAndGet();
                     }
@@ -456,21 +463,12 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
             HttpSession session = httpRequest.getSession(false);
             if (session != null) {
                 synchronized (session) {
-                    AtomicInteger integer = (AtomicInteger) session.getAttribute(SESSION_COUNTER);
-                    if (integer != null && integer.decrementAndGet() == 0) {
-                        session.removeAttribute(SESSION_COUNTER);
+                    AtomicInteger integer = sessionCounters.get(session.getId());
+                    if (integer != null) {
+                        integer.decrementAndGet();
                     }
                 }
             }
-        }
-    }
-
-    @Override
-    public void sessionCreated(HttpSessionEvent httpSessionEvent) {
-        HttpSession session = httpSessionEvent.getSession();
-        synchronized (session) {
-            AtomicInteger integer = new AtomicInteger(1);
-            session.setAttribute(SESSION_COUNTER, integer);
         }
     }
 }
