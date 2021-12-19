@@ -170,15 +170,6 @@ class WebApplicationRequestTest {
     }
 
     /**
-     * Test getIntHeader method.
-     */
-    @Test
-    void testGetIntHeader() {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(-1, request.getIntHeader("notfound"));
-    }
-
-    /**
      * Test getLocale method.
      */
     @Test
