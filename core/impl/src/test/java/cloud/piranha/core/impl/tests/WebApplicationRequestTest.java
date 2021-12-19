@@ -170,6 +170,15 @@ class WebApplicationRequestTest {
     }
 
     /**
+     * Test getIntHeader method.
+     */
+    @Test
+    void testGetIntHeader() {
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        assertEquals(-1, request.getIntHeader("notfound"));
+    }
+
+    /**
      * Test getLocale method.
      */
     @Test
@@ -262,7 +271,7 @@ class WebApplicationRequestTest {
     void testGetReader2() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertNotNull(request.getReader());
-        assertNotNull(assertThrows(IllegalStateException.class, 
+        assertNotNull(assertThrows(IllegalStateException.class,
                 () -> request.getInputStream()));
     }
 
@@ -276,7 +285,7 @@ class WebApplicationRequestTest {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setWebApplication(webApplication);
-        assertNotNull(assertThrows(UnsupportedOperationException.class, 
+        assertNotNull(assertThrows(UnsupportedOperationException.class,
                 () -> request.getRealPath("/path")));
     }
 
@@ -398,7 +407,7 @@ class WebApplicationRequestTest {
     @Test
     void testSetCharacterEncoding3() {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNotNull(assertThrows(UnsupportedEncodingException.class, 
+        assertNotNull(assertThrows(UnsupportedEncodingException.class,
                 () -> request.setCharacterEncoding("doesnotexist")));
     }
 
@@ -410,7 +419,7 @@ class WebApplicationRequestTest {
     @Test
     void testSetCharacterEncoding4() {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNotNull(assertThrows(UnsupportedEncodingException.class, 
+        assertNotNull(assertThrows(UnsupportedEncodingException.class,
                 () -> request.setCharacterEncoding(null)));
     }
 
@@ -539,7 +548,7 @@ class WebApplicationRequestTest {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         request.setAttribute("piranha.response", response);
         request.setAsyncSupported(false);
-        assertNotNull(assertThrows(IllegalStateException.class, 
+        assertNotNull(assertThrows(IllegalStateException.class,
                 () -> request.startAsync(request, response)));
     }
 
@@ -551,7 +560,7 @@ class WebApplicationRequestTest {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         request.setAttribute("piranha.response", new TestWebApplicationResponse());
         request.setAsyncSupported(false);
-        assertNotNull(assertThrows(IllegalStateException.class, 
+        assertNotNull(assertThrows(IllegalStateException.class,
                 () -> request.startAsync()));
     }
 
@@ -602,7 +611,7 @@ class WebApplicationRequestTest {
 
         /**
          * Constructor.
-         * 
+         *
          * @throws IllegalAccessException on purpose.
          */
         public TestUpgrade2HttpUpgradeHandler() throws IllegalAccessException {
@@ -667,7 +676,7 @@ class WebApplicationRequestTest {
         public void destroy() {
         }
     }
-    
+
     /**
      * A ReadListener used by the testUpgrade3 method.
      */
@@ -690,7 +699,7 @@ class WebApplicationRequestTest {
 
         /**
          * Constructor.
-         * 
+         *
          * @param inputStream the input steam.
          * @param outputStream the output stream.
          */
