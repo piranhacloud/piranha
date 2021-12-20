@@ -12,7 +12,7 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v2
       with:
