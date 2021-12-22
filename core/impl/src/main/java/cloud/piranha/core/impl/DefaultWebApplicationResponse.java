@@ -369,7 +369,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         PrintWriter result = null;
         if (!gotOutput) {
             if (!gotWriter) {
-                if (characterEncoding == null || !characterEncodingSet) {
+                if (characterEncoding == null || !(characterEncodingSet || characterEncodingLocaleSet)) {
                     setCharacterEncoding(ISO_8859_1);
                 }
                 gotWriter = true;
