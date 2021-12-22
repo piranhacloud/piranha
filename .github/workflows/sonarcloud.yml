@@ -1,4 +1,4 @@
-name: stale
+name: sonarcloud
 on:
   schedule:
   - cron: "0 0 * * *"
