@@ -27,11 +27,9 @@
  */
 package jakarta.servlet.http;
 
-import jakarta.servlet.http.HttpUtils;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the HttpUtils class.

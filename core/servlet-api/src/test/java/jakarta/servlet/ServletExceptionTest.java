@@ -27,7 +27,6 @@
  */
 package jakarta.servlet;
 
-import jakarta.servlet.ServletException;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -44,13 +44,11 @@ import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRegistration.Dynamic;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
-import jakarta.servlet.SessionTrackingMode;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -292,15 +290,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test getDefaultSessionTrackingModes method.
-     */
-    @Test
-    void testGetDefaultSessionTrackingModes() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertTrue(webApp.getDefaultSessionTrackingModes().contains(SessionTrackingMode.COOKIE));
-    }
-
-    /**
      * Test getObjectInstanceManager method.
      */
     @Test
@@ -338,29 +327,6 @@ class DefaultWebApplicationTest {
     void testGetEffectiveMinorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertEquals(0, webApp.getEffectiveMinorVersion());
-    }
-
-    /**
-     * Test getEffectiveSessionTrackingModes method.
-     */
-    @Test
-    void testGetEffectiveSessionTrackingModes() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        Set<SessionTrackingMode> trackingModes = EnumSet.of(SessionTrackingMode.URL);
-        webApp.setSessionTrackingModes(trackingModes);
-        assertTrue(webApp.getEffectiveSessionTrackingModes().contains(SessionTrackingMode.URL));
-    }
-
-    /**
-     * Test getEffectiveSessionTrackingModes method.
-     */
-    @Test
-    void testGetEffectiveSessionTrackingModes2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.initialize();
-        webApp.start();
-        Set<SessionTrackingMode> trackingModes = EnumSet.of(SessionTrackingMode.URL);
-        assertThrows(IllegalStateException.class, () -> webApp.setSessionTrackingModes(trackingModes));
     }
 
     /**
@@ -642,60 +608,6 @@ class DefaultWebApplicationTest {
     void testGetServlets() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertThrows(UnsupportedOperationException.class, () -> webApp.getServlets());
-    }
-
-    /**
-     * Test getSession.
-     *
-     * @throws Exception
-     */
-    @Test
-    void testGetSession() throws Exception {
-        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        ServletRegistration.Dynamic dynamic = webApp.addServlet("session", "cloud.piranha.core.impl.tests.TestSessionServlet");
-        assertNotNull(dynamic);
-        dynamic.addMapping("/session");
-        webApp.initialize();
-        webApp.start();
-
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/session");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-
-        webApp.service(request, response);
-
-        assertNotNull(response.getResponseBytes());
-    }
-
-    /**
-     * Test getSessionCookieConfig method.
-     */
-    @Test
-    void testGetSessionCookieConfig() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.getSessionCookieConfig());
-    }
-
-    /**
-     * Test getSessionManager method.
-     */
-    @Test
-    void testGetSessionManager() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setHttpSessionManager(null);
-        assertNull(webApp.getHttpSessionManager());
-    }
-
-    /**
-     * Test getSessionManager method.
-     */
-    @Test
-    void testGetSessionManager2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.getHttpSessionManager());
     }
 
     /**
@@ -1043,27 +955,6 @@ class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setManager(LoggingManager.class, null);
         assertThrows(NullPointerException.class, () -> webApp.log("KABOOM"));
-    }
-
-    /**
-     * Test setSessionTimeout method
-     */
-    @Test
-    void testSessionTimeout() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setSessionTimeout(50);
-        assertEquals(50, webApp.getSessionTimeout());
-    }
-
-    /**
-     * Test setSessionTimeout method
-     */
-    @Test
-    void testSessionTimeout2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.initialize();
-        webApp.start();
-        assertThrows(IllegalStateException.class, () -> webApp.setSessionTimeout(50));
     }
 
     @Test

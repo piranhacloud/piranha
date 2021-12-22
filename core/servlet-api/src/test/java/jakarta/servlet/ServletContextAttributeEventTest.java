@@ -27,11 +27,8 @@
  */
 package jakarta.servlet;
 
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletContextAttributeEvent;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the ServletContextAttributeEvent class.

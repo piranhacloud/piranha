@@ -27,15 +27,7 @@
  */
 package jakarta.servlet;
 
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.SessionCookieConfig;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.SessionTrackingMode;
-import jakarta.servlet.ServletRegistration;
-import jakarta.servlet.Filter;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.Servlet;
-import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -43,7 +35,6 @@ import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.Map;
 import java.util.Set;
-import jakarta.servlet.descriptor.JspConfigDescriptor;
 
 /**
  * A Test ServletContext.

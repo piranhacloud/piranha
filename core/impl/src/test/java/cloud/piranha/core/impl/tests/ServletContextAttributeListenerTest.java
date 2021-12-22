@@ -42,7 +42,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.impl.DefaultHttpSessionManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
 
 /**
@@ -65,7 +64,6 @@ class ServletContextAttributeListenerTest {
     @BeforeEach
     void setUp() throws Exception {
         webApplication = new DefaultWebApplication();
-        webApplication.setHttpSessionManager(new DefaultHttpSessionManager());
     }
 
     /**
