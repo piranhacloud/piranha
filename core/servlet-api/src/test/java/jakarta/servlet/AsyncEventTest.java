@@ -28,9 +28,8 @@
 package jakarta.servlet;
 
 import jakarta.servlet.http.TestHttpServletResponse;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the AsyncEvent class.

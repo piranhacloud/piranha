@@ -30,7 +30,6 @@ package cloud.piranha.core.impl.tests;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.ServletRequestListener;
-import jakarta.servlet.http.HttpSessionListener;
 import java.util.EventListener;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -79,18 +78,6 @@ class ListenerTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testCreateListener2() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        assertNotNull(webApplication.createListener(
-                TestHttpSessionListener.class));
-    }
-
-    /**
-     * Test createListener method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
     void testCreateListener3() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         assertNotNull(webApplication.createListener(
@@ -107,18 +94,6 @@ class ListenerTest {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         assertNotNull(webApplication.createListener(
                 TestServletRequestListener.class));
-    }
-
-    /**
-     * Test HTTP session listener.
-     */
-    public static class TestHttpSessionListener implements HttpSessionListener {
-
-        /**
-         * Constructor.
-         */
-        public TestHttpSessionListener() {
-        }
     }
 
     /**

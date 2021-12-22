@@ -27,10 +27,10 @@
  */
 package jakarta.servlet;
 
-import jakarta.servlet.UnavailableException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the UnavailableException class.

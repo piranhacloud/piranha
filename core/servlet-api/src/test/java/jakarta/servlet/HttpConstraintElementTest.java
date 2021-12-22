@@ -27,10 +27,9 @@
  */
 package jakarta.servlet;
 
-import jakarta.servlet.HttpConstraintElement;
 import jakarta.servlet.annotation.ServletSecurity;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for the HttpConstraintElement class.
