@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.extension.security.slim;
 
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
@@ -42,11 +42,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * The default SecurityManager.
+ * The SlimSecurityManager that delivers 
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultSecurityManager implements SecurityManager {
+public class SlimSecurityManager implements SecurityManager {
 
     /**
      * Stores if we are denying uncovered HTTP methods.
@@ -179,7 +179,7 @@ public class DefaultSecurityManager implements SecurityManager {
                 request = (HttpServletRequest) wrapper.getRequest();
             }
             if (request instanceof WebApplicationRequest webAppRequest) {
-                webAppRequest.setUserPrincipal(new DefaultSecurityPrincipal(username));
+                webAppRequest.setUserPrincipal(new SlimSecurityManagerPrincipal(username));
             }
         } else {
             throw new ServletException("Unable to login using the given username and password");

@@ -75,7 +75,7 @@ public class AuthenticationFilter extends HttpFilter implements FilterPriority {
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        securityManager = ((WebApplication) filterConfig.getServletContext()).getManager(SecurityManager.class);
+        securityManager = ((WebApplication) filterConfig.getServletContext()).getSecurityManager();
     }
     
     @Override

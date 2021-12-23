@@ -321,6 +321,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the request character encoding.
      */
     protected String requestCharacterEncoding;
+    
+    /**
+     * Stores the security manager.
+     */
+    protected SecurityManager securityManager;
 
     /**
      * The source object where this web application instance originates from,
@@ -354,7 +359,6 @@ public class DefaultWebApplication implements WebApplication {
         managers.put(JspManager.class.getName(), new DefaultJspFileManager());
         managers.put(LoggingManager.class.getName(), new DefaultLoggingManager());
         managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());
-        managers.put(SecurityManager.class.getName(), new DefaultSecurityManager());
         managers.put(WelcomeFileManager.class.getName(), new DefaultWelcomeFileManager());
         attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
@@ -374,11 +378,11 @@ public class DefaultWebApplication implements WebApplication {
         resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
         errorPageManager = new DefaultErrorPageManager();
+        objectInstanceManager = new DefaultObjectInstanceManager();
+        invocationFinder = new DefaultInvocationFinder(this);
         servletContextName = UUID.randomUUID().toString();
         servletEnvironments = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
-        invocationFinder = new DefaultInvocationFinder(this);
-        objectInstanceManager = new DefaultObjectInstanceManager();
     }
 
     @Override
@@ -650,7 +654,9 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void declareRoles(String... roles) {
-        getManager(SecurityManager.class).declareRoles(roles);
+        if (securityManager != null) {
+            securityManager.declareRoles(roles);
+        }
     }
 
     /**
@@ -700,7 +706,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public boolean getDenyUncoveredHttpMethods() {
-        return getManager(SecurityManager.class).getDenyUncoveredHttpMethods();
+        return securityManager != null ? securityManager.getDenyUncoveredHttpMethods() : false;
     }
 
     /**
@@ -1528,7 +1534,9 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
-        getManager(SecurityManager.class).setDenyUncoveredHttpMethods(denyUncoveredHttpMethods);
+        if (securityManager != null) {
+            securityManager.setDenyUncoveredHttpMethods(denyUncoveredHttpMethods);
+        }
     }
 
     /**
@@ -1817,6 +1825,11 @@ public class DefaultWebApplication implements WebApplication {
         return clazz.cast(managers.get(clazz.getName()));
     }
 
+    @Override
+    public SecurityManager getSecurityManager() {
+        return securityManager;
+    }
+
     /**
      * Is the string null or empty.
      *
@@ -1871,6 +1884,11 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public <T> void setManager(Class<T> clazz, T manager) {
         managers.put(clazz.getName(), manager);
+    }
+
+    @Override
+    public void setSecurityManager(SecurityManager securityManager) {
+        this.securityManager = securityManager;
     }
 
     /**

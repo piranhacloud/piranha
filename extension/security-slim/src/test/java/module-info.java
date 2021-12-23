@@ -25,36 +25,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
-
-import java.security.Principal;
 
 /**
- * The default SecurityPrincipal.
+ * This module delivers the tests for the 
+ * 'cloud.piranha.extension.security.slim' module.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultSecurityPrincipal implements Principal {
-
-    /**
-     * Stores the name.
-     */
-    private final String name;
-
-    /**
-     * Constructor.
-     *
-     * @param name the name.
-     */
-    public DefaultSecurityPrincipal(String name) {
-        this.name = name;
-    }
-
-    /**
-     * {@return the name}
-     */
-    @Override
-    public String getName() {
-        return name;
-    }
+module cloud.piranha.extension.security.slim.tests {
+    
+    exports cloud.piranha.extension.security.slim.tests;
+    opens cloud.piranha.extension.security.slim.tests;
+    requires cloud.piranha.core.impl;
+    requires cloud.piranha.extension.security.slim;
+    requires jakarta.servlet;
+    requires org.junit.jupiter.api;
 }

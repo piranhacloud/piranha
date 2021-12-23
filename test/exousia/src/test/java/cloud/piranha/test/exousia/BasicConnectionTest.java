@@ -33,11 +33,11 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
-import cloud.piranha.extension.security.servlet.ServletSecurityInitializer;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
+import cloud.piranha.extension.security.servlet.ServletSecurityManagerInitializer;
 import static java.util.Arrays.asList;
 import jakarta.security.jacc.WebUserDataPermission;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -62,6 +62,7 @@ class BasicConnectionTest {
     @Test
     void testNonSecureConnection() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .initializer(ServletSecurityManagerInitializer.class.getName())
                 .initializer(WebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
@@ -69,7 +70,6 @@ class BasicConnectionTest {
                     new WebUserDataPermission("/*", "!GET"),
                     new WebUserDataPermission("/*", "GET:CONFIDENTIAL")))
                 .initializer(AuthorizationPreInitializer.class.getName())
-                .initializer(ServletSecurityInitializer.class.getName())
                 .servlet("PublicServlet", PublicServlet.class.getName())
                 .servletMapping("PublicServlet", "/public/servlet")
                 .build()
@@ -92,6 +92,7 @@ class BasicConnectionTest {
     @Test
     void testSecureConnection() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .initializer(ServletSecurityManagerInitializer.class.getName())
                 .initializer(WebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
@@ -118,6 +119,7 @@ class BasicConnectionTest {
     @Test
     void testSecureConnectionExactMapping() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .initializer(ServletSecurityManagerInitializer.class.getName())
                 .initializer(WebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)

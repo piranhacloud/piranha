@@ -25,41 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.security.servlet;
-
-import java.util.Set;
+package cloud.piranha.extension.security.servlet.tests;
 
 import cloud.piranha.core.api.SecurityManager;
-import cloud.piranha.core.api.WebApplication;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.extension.security.servlet.ServletSecurityManager;
+import cloud.piranha.extension.security.servlet.ServletSecurityManagerInitializer;
 import jakarta.servlet.ServletException;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Jakarta Security initializer.
- *
- * @author Arjan Tijms
+ * The JUnit tests for the ServletSecurityManagerInitializer class.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletSecurityInitializer implements ServletContainerInitializer {
-
-    /**
-     * Initialize Servlet Security
-     *
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        WebApplication webApplication = (WebApplication) servletContext;
-
-        ServletSecurityManager servletSecurityManager = new ServletSecurityManager();
-        SecurityManager securityManager = webApplication.getManager(SecurityManager.class);
-        if (securityManager != null) {
-            servletSecurityManager.setDenyUncoveredHttpMethods(securityManager.getDenyUncoveredHttpMethods());
-            servletSecurityManager.declareRoles(securityManager.getRoles());
+public class ServletSecurityManagerInitializerTest {
+    
+    @Test
+    public void testOnStartup() {
+        try {
+            DefaultWebApplication webApplication = new DefaultWebApplication();
+            ServletSecurityManagerInitializer initializer = new ServletSecurityManagerInitializer();
+            initializer.onStartup(null, webApplication);
+            assertTrue(webApplication.getSecurityManager() instanceof ServletSecurityManager);
+        } catch (ServletException ex) {
+            fail();
         }
-
-        webApplication.setManager(SecurityManager.class, servletSecurityManager);
     }
 }

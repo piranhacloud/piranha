@@ -49,7 +49,6 @@ import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
 import cloud.piranha.core.impl.DefaultServletEnvironment;
-import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -138,8 +137,8 @@ public class ServletSecurityManager implements SecurityManager {
         if (session != null) {
             storedCaller = (Caller) session.getAttribute(".caller");
             if (storedCaller != null) {
-                DefaultWebApplicationRequest piranhaRequest = (DefaultWebApplicationRequest) request;
-                piranhaRequest.setUserPrincipal(new MarkerPrincipal(storedCaller.getName()));
+                WebApplicationRequest webApplicationRequest = (WebApplicationRequest) request;
+                webApplicationRequest.setUserPrincipal(new ServletSecurityPrincipal(storedCaller.getName()));
             }
         }
 
@@ -159,7 +158,7 @@ public class ServletSecurityManager implements SecurityManager {
             return false;
         }
 
-        if (caller.getCallerPrincipal() instanceof MarkerPrincipal) {
+        if (caller.getCallerPrincipal() instanceof ServletSecurityPrincipal) {
             caller = storedCaller;
         }
 
@@ -263,22 +262,4 @@ public class ServletSecurityManager implements SecurityManager {
 
         return "";
     }
-
-    class MarkerPrincipal implements Principal {
-
-        /**
-         * The main principal's name
-         */
-        private final String name;
-
-        public MarkerPrincipal(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
-    }
-
 }

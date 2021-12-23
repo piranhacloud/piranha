@@ -25,11 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl.tests;
+package cloud.piranha.extension.security.slim.tests;
 
-import cloud.piranha.core.impl.DefaultSecurityManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
-import com.sun.security.auth.UserPrincipal;
+import cloud.piranha.core.impl.DefaultWebApplicationRequest;
+import cloud.piranha.core.impl.DefaultWebApplicationResponse;
+import cloud.piranha.extension.security.slim.SlimSecurityManager;
+import cloud.piranha.extension.security.slim.SlimSecurityManagerPrincipal;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
@@ -43,20 +45,20 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the SecurityManagerImpl class.
+ * The JUnit tests for the SlimSecurityManager class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultSecurityManagerTest {
+class SlimSecurityManagerTest {
 
     /**
      * Test addUser method.
      */
     @Test
     void testAddUser() {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setUserPrincipal(new UserPrincipal("username"));
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setUserPrincipal(new SlimSecurityManagerPrincipal("username"));
+        SlimSecurityManager securityManager = new SlimSecurityManager();
         securityManager.addUser("username", "password", new String[]{"role1", "role2"});
         assertTrue(securityManager.isUserInRole(request, "role1"));
     }
@@ -69,11 +71,12 @@ class DefaultSecurityManagerTest {
      */
     @Test
     void testAuthenticate() throws ServletException, IOException {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         request.setAuthType(HttpServletRequest.BASIC_AUTH);
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        assertThrows(ServletException.class, () -> assertFalse(securityManager.authenticate(request, response)));
+        SlimSecurityManager securityManager = new SlimSecurityManager();
+        assertNotNull(assertThrows(ServletException.class, 
+                () -> securityManager.authenticate(request, response)));
     }
 
     /**
@@ -85,10 +88,10 @@ class DefaultSecurityManagerTest {
      */
     @Test
     void testAuthenticate2() throws ServletException, IOException {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         request.setAuthType(HttpServletRequest.CLIENT_CERT_AUTH);
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        SlimSecurityManager securityManager = new SlimSecurityManager();
         assertThrows(ServletException.class, () -> assertFalse(securityManager.authenticate(request, response)));
     }
 
@@ -101,10 +104,10 @@ class DefaultSecurityManagerTest {
      */
     @Test
     void testAuthenticate3() throws ServletException, IOException {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         request.setAuthType(HttpServletRequest.DIGEST_AUTH);
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        SlimSecurityManager securityManager = new SlimSecurityManager();
         assertThrows(ServletException.class, () -> assertFalse(securityManager.authenticate(request, response)));
     }
 
@@ -117,10 +120,10 @@ class DefaultSecurityManagerTest {
      */
     @Test
     void testAuthenticate4() throws ServletException, IOException {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         request.setAuthType(HttpServletRequest.FORM_AUTH);
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        SlimSecurityManager securityManager = new SlimSecurityManager();
         assertThrows(ServletException.class, () -> assertFalse(securityManager.authenticate(request, response)));
     }
 
@@ -132,12 +135,12 @@ class DefaultSecurityManagerTest {
      */
     @Test
     void testAuthenticate5() throws ServletException, IOException {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setParameter("j_username", new String[]{"username"});
         request.setParameter("j_password", new String[]{"password"});
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         request.setAuthType(HttpServletRequest.FORM_AUTH);
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        SlimSecurityManager securityManager = new SlimSecurityManager();
         securityManager.addUser("username", "password", new String[]{"role1"});
         assertTrue(securityManager.authenticate(request, response));
     }
@@ -150,15 +153,28 @@ class DefaultSecurityManagerTest {
      */
     @Test
     void testAuthenticate6() throws ServletException, IOException {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setParameter("j_username", new String[]{"username"});
         request.setParameter("j_password", new String[]{"password"});
         HttpServletRequestWrapper wrappedRequest = new HttpServletRequestWrapper(request);
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         request.setAuthType(HttpServletRequest.FORM_AUTH);
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        SlimSecurityManager securityManager = new SlimSecurityManager();
         securityManager.addUser("username", "password", new String[]{"role1"});
         assertTrue(securityManager.authenticate(wrappedRequest, response));
+    }
+
+    /**
+     * Test declareRoles method.
+     */
+    @Test
+    void testDeclareRoles() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        SlimSecurityManager manager = new SlimSecurityManager();
+        webApp.setSecurityManager(manager);
+        webApp.declareRoles(new String[]{"ADMIN", "USER"});
+        assertTrue(manager.getRoles().contains("ADMIN"));
+        assertTrue(manager.getRoles().contains("USER"));
     }
 
     /**
@@ -167,10 +183,10 @@ class DefaultSecurityManagerTest {
     @Test
     void testLogin() {
         try {
-            TestWebApplicationRequest request = new TestWebApplicationRequest();
-            TestWebApplicationResponse response = new TestWebApplicationResponse();
+            DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+            DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
             DefaultWebApplication webApp = new DefaultWebApplication();
-            DefaultSecurityManager securityManager = new DefaultSecurityManager();
+            SlimSecurityManager securityManager = new SlimSecurityManager();
             webApp.linkRequestAndResponse(request, response);
             securityManager.setWebApplication(webApp);
             securityManager.addUser("username", "password", new String[]{"role1", "role2"});
@@ -186,10 +202,10 @@ class DefaultSecurityManagerTest {
     @Test
     void testLogin2() {
         try {
-            TestWebApplicationRequest request = new TestWebApplicationRequest();
-            TestWebApplicationResponse response = new TestWebApplicationResponse();
+            DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+            DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
             DefaultWebApplication webApp = new DefaultWebApplication();
-            DefaultSecurityManager securityManager = new DefaultSecurityManager();
+            SlimSecurityManager securityManager = new SlimSecurityManager();
             webApp.linkRequestAndResponse(request, response);
             securityManager.setWebApplication(webApp);
             securityManager.addUser("username", "password", new String[]{"role1", "role2"});
@@ -205,11 +221,11 @@ class DefaultSecurityManagerTest {
     @Test
     void testLogin3() {
         try {
-            TestWebApplicationRequest request = new TestWebApplicationRequest();
+            DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
             HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(request);
-            TestWebApplicationResponse response = new TestWebApplicationResponse();
+            DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
             DefaultWebApplication webApp = new DefaultWebApplication();
-            DefaultSecurityManager securityManager = new DefaultSecurityManager();
+            SlimSecurityManager securityManager = new SlimSecurityManager();
             webApp.linkRequestAndResponse(wrapper, response);
             securityManager.setWebApplication(webApp);
             securityManager.addUser("username", "password", new String[]{"role1", "role2"});
@@ -224,9 +240,9 @@ class DefaultSecurityManagerTest {
      */
     @Test
     void testRemoveUser() {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setUserPrincipal(new UserPrincipal("username"));
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setUserPrincipal(new SlimSecurityManagerPrincipal("username"));
+        SlimSecurityManager securityManager = new SlimSecurityManager();
         securityManager.addUser("username", "password", new String[]{"role1", "role2"});
         assertTrue(securityManager.isUserInRole(request, "role1"));
         securityManager.removeUser("username");
@@ -238,7 +254,7 @@ class DefaultSecurityManagerTest {
      */
     @Test
     void testGetWebApplication() {
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        SlimSecurityManager securityManager = new SlimSecurityManager();
         assertNull(securityManager.getWebApplication());
     }
 
@@ -247,7 +263,7 @@ class DefaultSecurityManagerTest {
      */
     @Test
     void testGetWebApplication2() {
-        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        SlimSecurityManager securityManager = new SlimSecurityManager();
         securityManager.setWebApplication(new DefaultWebApplication());
         assertNotNull(securityManager.getWebApplication());
     }

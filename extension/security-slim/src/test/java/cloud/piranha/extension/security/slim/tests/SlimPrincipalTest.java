@@ -25,26 +25,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl.tests;
+package cloud.piranha.extension.security.slim.tests;
 
-import cloud.piranha.core.impl.DefaultSecurityPrincipal;
+import cloud.piranha.extension.security.slim.SlimSecurityManagerPrincipal;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * The JUnit tests for the DefaultSecurityPrincipal class.
+ * The JUnit tests for the SlimSecurityManagerPrincipal class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultSecurityPrincipalTest {
+class SlimPrincipalTest {
 
     /**
      * Test getName method.
      */
     @Test
     void testGetName() {
-        DefaultSecurityPrincipal principal = new DefaultSecurityPrincipal("user");
+        SlimSecurityManagerPrincipal principal = new SlimSecurityManagerPrincipal("user");
         assertEquals("user", principal.getName());
     }
 }

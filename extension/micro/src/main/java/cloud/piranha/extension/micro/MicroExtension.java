@@ -36,9 +36,10 @@ import cloud.piranha.extension.mimetype.MimeTypeExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.security.jakarta.JakartaSecurityAllInitializer;
+import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.wasp.WaspInitializer;
 import cloud.piranha.extension.webannotations.WebAnnotationsInitializer;
-import cloud.piranha.extension.webxml.WebXmlInitializer;
+import cloud.piranha.extension.webxml.WebXmlExtension;
 import static java.util.Arrays.asList;
 
 /**
@@ -50,6 +51,8 @@ public class MicroExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
+        context.add(ServletSecurityManagerExtension.class);
+        context.add(WebXmlExtension.class);
         context.add(HerringExtension.class);
         context.add(LocaleEncodingExtension.class);
         context.add(PolicyExtension.class);
@@ -58,7 +61,6 @@ public class MicroExtension implements WebApplicationExtension {
 
     @Override
     public void configure(WebApplication webApplication) {
-        webApplication.addInitializer(new WebXmlInitializer());
         webApplication.addInitializer(new WebAnnotationsInitializer());
         webApplication.addInitializer(new JakartaSecurityAllInitializer());
         webApplication.addInitializer(new WaspInitializer());
