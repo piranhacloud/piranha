@@ -25,26 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl.tests;
+package cloud.piranha.extension.security.slim.tests;
 
-import cloud.piranha.core.impl.DefaultSecurityPrincipal;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.extension.security.slim.SlimSecurityManager;
+import cloud.piranha.extension.security.slim.SlimSecurityManagerInitializer;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * The JUnit tests for the DefaultSecurityPrincipal class.
+ * The JUnit tests for the SlimSecurityManagerInitializer class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultSecurityPrincipalTest {
-
+public class SlimSecurityManagerInitializerTest {
+    
     /**
-     * Test getName method.
+     * Test onStartup method.
+     * 
+     * @throws Exception when an error occurs.
      */
     @Test
-    void testGetName() {
-        DefaultSecurityPrincipal principal = new DefaultSecurityPrincipal("user");
-        assertEquals("user", principal.getName());
+    public void testOnStartup() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        SlimSecurityManagerInitializer initializer = new SlimSecurityManagerInitializer();
+        webApplication.addInitializer(initializer);
+        webApplication.initialize();
+        assertTrue(webApplication.getSecurityManager() instanceof SlimSecurityManager);
     }
 }

@@ -42,7 +42,7 @@ import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.CONSTRAINTS;
-import cloud.piranha.extension.security.servlet.ServletSecurityInitializer;
+import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.soteria.SoteriaInitializer;
 import java.net.URL;
 import static java.util.Arrays.asList;
@@ -72,6 +72,7 @@ class FormTest {
     void testAuthenticated() throws Exception {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .extension(ServletSecurityManagerExtension.class)
                 .extension(HerringExtension.class)
                 .initializer(WebXmlInitializer.class.getName())
                 .initializer(WeldInitializer.class.getName())
@@ -82,7 +83,6 @@ class FormTest {
                 .initializer(AuthorizationPreInitializer.class.getName())
                 .initializer(AuthenticationInitializer.class.getName())
                 .initializer(AuthorizationInitializer.class.getName())
-                .initializer(ServletSecurityInitializer.class.getName())
                 .initializer(SoteriaInitializer.class.getName())
                 .servlet("ProtectedServlet", ProtectedServlet.class.getName())
                 .servletMapping("ProtectedServlet", "/protected/servlet")

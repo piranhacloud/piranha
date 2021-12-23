@@ -29,7 +29,6 @@ package cloud.piranha.extension.webxml;
 
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.MimeTypeManager;
-import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WelcomeFileManager;
 import jakarta.servlet.DispatcherType;
@@ -278,7 +277,11 @@ public class WebXmlProcessor {
     }
 
     private void processRoleNames(WebApplication webApplication, WebXml webXml) {
-        webApplication.getManager(SecurityManager.class).declareRoles(webXml.getRoleNames());
+        if (webApplication.getSecurityManager() == null) {
+            LOGGER.log(WARNING, "No SecurityManager configured");
+        } else {
+            webApplication.getSecurityManager().declareRoles(webXml.getRoleNames());
+        }
     }
 
     /**
@@ -395,7 +398,7 @@ public class WebXmlProcessor {
             if (localeEncodingManager != null) {
                 localeMapping.forEach(localeEncodingManager::addCharacterEncoding);
             } else {
-                LOGGER.log(WARNING, "No LocaleEncodingManager set, skipping adding locales");
+                LOGGER.log(WARNING, "No LocaleEncodingManager configured");
             }
         }
     }

@@ -220,6 +220,11 @@ public interface WebApplication extends ServletContext {
      * @param request the request.
      */
     ServletResponse getResponse(ServletRequest request);
+    
+    /**
+     * {@return the security manager}
+     */
+    SecurityManager getSecurityManager();
 
     /**
      * Initialize the web application.
@@ -406,6 +411,13 @@ public interface WebApplication extends ServletContext {
      * @param resourceManager the resource manager.
      */
     void setResourceManager(ResourceManager resourceManager);
+
+    /**
+     * Set the security manager.
+     * 
+     * @param securityManager 
+     */
+    void setSecurityManager(SecurityManager securityManager);
 
     /**
      * Set the servlet context name.

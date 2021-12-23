@@ -54,9 +54,6 @@ public class ServletSecurityAllInitializer implements ServletContainerInitialize
      */
     ServletContainerInitializer[] initializers = {
 
-        // Configures the security manager used for programmatic security such as request.login
-        new ServletSecurityInitializer(),
-
         // Configures the security constraints, authorization module
         // and authorization filter that checks constraints before authentication
         new AuthorizationPreInitializer(),

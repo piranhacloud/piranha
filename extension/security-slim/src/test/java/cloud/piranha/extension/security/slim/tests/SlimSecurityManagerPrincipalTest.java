@@ -25,50 +25,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.soteria;
+package cloud.piranha.extension.security.slim.tests;
 
-import java.util.Set;
-import java.lang.System.Logger;
-
-import org.glassfish.soteria.servlet.SamRegistrationInstaller;
-
-import cloud.piranha.core.api.WebApplication;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-
-import static java.lang.System.Logger.Level.DEBUG;
+import cloud.piranha.extension.security.slim.SlimSecurityManagerPrincipal;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Soteria initializer.
- *
- * @author Arjan Tijms
+ * The JUnit tests for the SlimSecurityManagerPrincipal class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SoteriaInitializer implements ServletContainerInitializer {
+class SlimSecurityManagerPrincipalTest {
 
     /**
-     * Stores the logger.
+     * Test getName method.
      */
-    private static final Logger LOGGER = System.getLogger(SoteriaInitializer.class.getName());
-
-    /**
-     * Initialize Soteria.
-     *
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        LOGGER.log(DEBUG, "Initializing Soteria");
-        
-        WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.getSecurityManager().setUsernamePasswordLoginHandler(new IdentityStoreLoginHandler());
-        
-        SamRegistrationInstaller installer = new SamRegistrationInstaller();
-        
-        installer.onStartup(classes, servletContext);
-        LOGGER.log(DEBUG, "Initialized Soteria");
+    @Test
+    void testGetName() {
+        SlimSecurityManagerPrincipal principal = new SlimSecurityManagerPrincipal("user");
+        assertEquals("user", principal.getName());
     }
 }

@@ -25,16 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.extension.security.slim;
 
 import java.security.Principal;
 
 /**
- * The default SecurityPrincipal.
+ * The Principal used by the SlimSecurityManager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultSecurityPrincipal implements Principal {
+public class SlimSecurityManagerPrincipal implements Principal {
 
     /**
      * Stores the name.
@@ -46,7 +46,7 @@ public class DefaultSecurityPrincipal implements Principal {
      *
      * @param name the name.
      */
-    public DefaultSecurityPrincipal(String name) {
+    public SlimSecurityManagerPrincipal(String name) {
         this.name = name;
     }
 

@@ -47,7 +47,6 @@ import org.glassfish.exousia.constraints.WebResourceCollection;
 import org.glassfish.exousia.mapping.SecurityRoleRef;
 
 import cloud.piranha.extension.webxml.WebXmlManager;
-import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
 import jakarta.security.jacc.PolicyConfiguration;
@@ -129,7 +128,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         List<SecurityConstraint> securityConstraints = getAllScurityConstraints(context);
 
         for (SecurityConstraint securityConstraint : securityConstraints) {
-            context.getManager(SecurityManager.class).declareRoles(securityConstraint.getRolesAllowed());
+            context.getSecurityManager().declareRoles(securityConstraint.getRolesAllowed());
         }
 
         if (hasPermissionsSet(context)) {
@@ -326,7 +325,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     private void setConstraints(WebApplication context, AuthorizationService authorizationService, List<SecurityConstraint> securityConstraints) throws ServletException {
         authorizationService.addConstraintsToPolicy(
             securityConstraints,
-            context.getManager(SecurityManager.class).getRoles(),
+            context.getSecurityManager().getRoles(),
             context.getDenyUncoveredHttpMethods(),
             getSecurityRoleRefsFromWebXml(context));
     }

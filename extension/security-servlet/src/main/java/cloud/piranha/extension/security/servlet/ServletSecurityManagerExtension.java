@@ -25,43 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard;
+package cloud.piranha.extension.security.servlet;
 
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
-import cloud.piranha.extension.herring.HerringExtension;
-import cloud.piranha.extension.locale_encoding.LocaleEncodingExtension;
-import cloud.piranha.extension.mimetype.MimeTypeExtension;
-import cloud.piranha.extension.policy.PolicyExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
-import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
-import cloud.piranha.extension.tempdir.TempDirExtension;
-import cloud.piranha.extension.wasp.WaspExtension;
-import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
-import cloud.piranha.extension.webxml.WebXmlExtension;
+import jakarta.servlet.ServletContainerInitializer;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The StandardExtension delivers the default extensions for Piranha Server.
+ * The WebApplicationExtension that adds the ServletSecurityManagerInitializer.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardExtension implements WebApplicationExtension {
+public class ServletSecurityManagerExtension implements WebApplicationExtension {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(
+            ServletSecurityManagerExtension.class.getName());
 
     @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(ServletSecurityManagerExtension.class);
-        context.add(MimeTypeExtension.class);
-        context.add(HerringExtension.class);
-        context.add(LocaleEncodingExtension.class);
-        context.add(PolicyExtension.class);
-        context.add(AnnotationScanExtension.class);
-        context.add(WebXmlExtension.class);
-        context.add(WebAnnotationsExtension.class);
-        context.add(TempDirExtension.class);
-        context.add(WaspExtension.class);
-        context.add(ServletContainerInitializerExtension.class);
-        context.add(ServletSecurityExtension.class);
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(DEBUG, "Adding ServletSecurityManagerInitializer");
+        try {
+            ServletContainerInitializer initializer
+                    = webApplication.getClassLoader()
+                            .loadClass(ServletSecurityManagerInitializer.class.getName())
+                            .asSubclass(ServletContainerInitializer.class)
+                            .getDeclaredConstructor()
+                            .newInstance();
+            webApplication.addInitializer(initializer);
+        } catch (ReflectiveOperationException | SecurityException | IllegalArgumentException ex) {
+            LOGGER.log(Logger.Level.WARNING, "Unable to add the ServletSecurityManagerInitializer", ex);
+        }
     }
 }

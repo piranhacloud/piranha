@@ -25,41 +25,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.security.servlet;
-
-import java.util.Set;
-
-import cloud.piranha.core.api.SecurityManager;
-import cloud.piranha.core.api.WebApplication;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
 
 /**
- * The Jakarta Security initializer.
+ * This module delivers the tests for the 
+ * 'cloud.piranha.extension.security.slim' module.
  *
- * @author Arjan Tijms
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletSecurityInitializer implements ServletContainerInitializer {
-
-    /**
-     * Initialize Servlet Security
-     *
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        WebApplication webApplication = (WebApplication) servletContext;
-
-        ServletSecurityManager servletSecurityManager = new ServletSecurityManager();
-        SecurityManager securityManager = webApplication.getManager(SecurityManager.class);
-        if (securityManager != null) {
-            servletSecurityManager.setDenyUncoveredHttpMethods(securityManager.getDenyUncoveredHttpMethods());
-            servletSecurityManager.declareRoles(securityManager.getRoles());
-        }
-
-        webApplication.setManager(SecurityManager.class, servletSecurityManager);
-    }
+module cloud.piranha.extension.security.slim.tests {
+    
+    exports cloud.piranha.extension.security.slim.tests;
+    opens cloud.piranha.extension.security.slim.tests;
+    requires cloud.piranha.core.impl;
+    requires cloud.piranha.extension.security.slim;
+    requires jakarta.servlet;
+    requires org.junit.jupiter.api;
 }
