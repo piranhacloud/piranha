@@ -27,34 +27,31 @@
  */
 package cloud.piranha.extension.security.slim;
 
-import java.security.Principal;
+import cloud.piranha.core.api.WebApplication;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+import java.util.Set;
 
 /**
- * The Principal used by the SlimSecurityManager.
+ * The ServletContainerInitializer that sets the SlimSecurityManager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SlimSecurityManagerPrincipal implements Principal {
+public class SlimSecurityManagerInitializer implements ServletContainerInitializer {
 
     /**
-     * Stores the name.
+     * Stores the logger.
      */
-    private final String name;
+    private static final Logger LOGGER = System.getLogger(SlimSecurityManagerInitializer.class.getName());
 
-    /**
-     * Constructor.
-     *
-     * @param name the name.
-     */
-    public SlimSecurityManagerPrincipal(String name) {
-        this.name = name;
-    }
-
-    /**
-     * {@return the name}
-     */
     @Override
-    public String getName() {
-        return name;
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext)
+            throws ServletException {
+        LOGGER.log(DEBUG, "Set the SlimSecurityManager");
+        WebApplication webApplication = (WebApplication) servletContext;
+        webApplication.setSecurityManager(new SlimSecurityManager());
     }
 }

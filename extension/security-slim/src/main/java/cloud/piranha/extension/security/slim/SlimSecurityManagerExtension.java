@@ -27,34 +27,36 @@
  */
 package cloud.piranha.extension.security.slim;
 
-import java.security.Principal;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import jakarta.servlet.ServletContainerInitializer;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
- * The Principal used by the SlimSecurityManager.
+ * The SlimSecurityManager extension.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SlimSecurityManagerPrincipal implements Principal {
+public class SlimSecurityManagerExtension implements WebApplicationExtension {
 
     /**
-     * Stores the name.
+     * Stores the logger.
      */
-    private final String name;
+    private static final Logger LOGGER = System.getLogger(SlimSecurityManagerExtension.class.getName());
 
-    /**
-     * Constructor.
-     *
-     * @param name the name.
-     */
-    public SlimSecurityManagerPrincipal(String name) {
-        this.name = name;
-    }
-
-    /**
-     * {@return the name}
-     */
     @Override
-    public String getName() {
-        return name;
+    public void configure(WebApplication webApplication) {
+        try {
+            ServletContainerInitializer initializer =
+                webApplication.getClassLoader()
+                              .loadClass(SlimSecurityManagerInitializer.class.getName())
+                              .asSubclass(ServletContainerInitializer.class)
+                              .getDeclaredConstructor()
+                              .newInstance();
+            webApplication.addInitializer(initializer);
+        } catch (ReflectiveOperationException | SecurityException | IllegalArgumentException ex) {
+            LOGGER.log(WARNING, "Unable to add the SlimSecurityManagerInitializer", ex);
+        }
     }
 }

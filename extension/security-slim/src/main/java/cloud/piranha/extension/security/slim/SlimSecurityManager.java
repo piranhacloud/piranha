@@ -42,7 +42,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * The SlimSecurityManager that delivers 
+ * The SlimSecurityManager. 
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

@@ -34,6 +34,10 @@ import cloud.piranha.extension.security.slim.SlimSecurityManager;
 import cloud.piranha.extension.security.slim.SlimSecurityManagerPrincipal;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import static jakarta.servlet.http.HttpServletRequest.BASIC_AUTH;
+import static jakarta.servlet.http.HttpServletRequest.CLIENT_CERT_AUTH;
+import static jakarta.servlet.http.HttpServletRequest.DIGEST_AUTH;
+import static jakarta.servlet.http.HttpServletRequest.FORM_AUTH;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -62,18 +66,30 @@ class SlimSecurityManagerTest {
         securityManager.addUser("username", "password", new String[]{"role1", "role2"});
         assertTrue(securityManager.isUserInRole(request, "role1"));
     }
+    
+    /**
+     * Test addUserRole method.
+     */
+    @Test
+    void testAddUserRole() {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setUserPrincipal(new SlimSecurityManagerPrincipal("username"));
+        SlimSecurityManager securityManager = new SlimSecurityManager();
+        securityManager.addUser("username", "password");
+        securityManager.addUserRole("username", new String[]{"role1", "role2"});
+        assertTrue(securityManager.isUserInRole(request, "role1"));
+    }
 
     /**
      * Test authenticate method.
      *
      * @throws ServletException because BASIC authentication is not supported.
-     * @throws IOException when an I/O error occurs.
      */
     @Test
-    void testAuthenticate() throws ServletException, IOException {
+    void testAuthenticate() throws ServletException {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        request.setAuthType(HttpServletRequest.BASIC_AUTH);
+        request.setAuthType(BASIC_AUTH);
         SlimSecurityManager securityManager = new SlimSecurityManager();
         assertNotNull(assertThrows(ServletException.class, 
                 () -> securityManager.authenticate(request, response)));
@@ -84,15 +100,15 @@ class SlimSecurityManagerTest {
      *
      * @throws ServletException because CLIENT_CERT_AUTH authentication is not
      * supported.
-     * @throws IOException when an I/O error occurs.
      */
     @Test
-    void testAuthenticate2() throws ServletException, IOException {
+    void testAuthenticate2() throws ServletException {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        request.setAuthType(HttpServletRequest.CLIENT_CERT_AUTH);
+        request.setAuthType(CLIENT_CERT_AUTH);
         SlimSecurityManager securityManager = new SlimSecurityManager();
-        assertThrows(ServletException.class, () -> assertFalse(securityManager.authenticate(request, response)));
+        assertNotNull(assertThrows(ServletException.class, 
+                () -> securityManager.authenticate(request, response)));
     }
 
     /**
@@ -100,15 +116,15 @@ class SlimSecurityManagerTest {
      *
      * @throws ServletException because DIGEST_AUTH authentication is not
      * supported.
-     * @throws IOException when an I/O error occurs.
      */
     @Test
-    void testAuthenticate3() throws ServletException, IOException {
+    void testAuthenticate3() throws ServletException {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        request.setAuthType(HttpServletRequest.DIGEST_AUTH);
+        request.setAuthType(DIGEST_AUTH);
         SlimSecurityManager securityManager = new SlimSecurityManager();
-        assertThrows(ServletException.class, () -> assertFalse(securityManager.authenticate(request, response)));
+        assertNotNull(assertThrows(ServletException.class, 
+                () -> securityManager.authenticate(request, response)));
     }
 
     /**
@@ -116,22 +132,21 @@ class SlimSecurityManagerTest {
      *
      * @throws ServletException because DIGEST_AUTH authentication is not
      * supported.
-     * @throws IOException when an I/O error occurs.
      */
     @Test
-    void testAuthenticate4() throws ServletException, IOException {
+    void testAuthenticate4() throws ServletException {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         request.setAuthType(HttpServletRequest.FORM_AUTH);
         SlimSecurityManager securityManager = new SlimSecurityManager();
-        assertThrows(ServletException.class, () -> assertFalse(securityManager.authenticate(request, response)));
+        assertNotNull(assertThrows(ServletException.class, 
+                () -> securityManager.authenticate(request, response)));
     }
 
     /**
      * Test authenticate method.
      *
      * @throws ServletException when a servlet error occurs.
-     * @throws IOException when an I/O error occurs.
      */
     @Test
     void testAuthenticate5() throws ServletException, IOException {
@@ -139,7 +154,7 @@ class SlimSecurityManagerTest {
         request.setParameter("j_username", new String[]{"username"});
         request.setParameter("j_password", new String[]{"password"});
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        request.setAuthType(HttpServletRequest.FORM_AUTH);
+        request.setAuthType(FORM_AUTH);
         SlimSecurityManager securityManager = new SlimSecurityManager();
         securityManager.addUser("username", "password", new String[]{"role1"});
         assertTrue(securityManager.authenticate(request, response));
@@ -158,7 +173,7 @@ class SlimSecurityManagerTest {
         request.setParameter("j_password", new String[]{"password"});
         HttpServletRequestWrapper wrappedRequest = new HttpServletRequestWrapper(request);
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        request.setAuthType(HttpServletRequest.FORM_AUTH);
+        request.setAuthType(FORM_AUTH);
         SlimSecurityManager securityManager = new SlimSecurityManager();
         securityManager.addUser("username", "password", new String[]{"role1"});
         assertTrue(securityManager.authenticate(wrappedRequest, response));
@@ -236,6 +251,68 @@ class SlimSecurityManagerTest {
     }
 
     /**
+     * Test logout method.
+     */
+    @Test
+    void testLogout() {
+        try {
+            DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+            DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            SlimSecurityManager securityManager = new SlimSecurityManager();
+            webApp.linkRequestAndResponse(request, response);
+            securityManager.setWebApplication(webApp);
+            securityManager.addUser("username", "password", new String[]{"role1", "role2"});
+            securityManager.login(request, "username", "password");
+            securityManager.logout(request, response);
+            assertNull(request.getUserPrincipal());
+        } catch (ServletException ex) {
+            fail();
+        }
+    }
+
+    /**
+     * Test logout method.
+     */
+    @Test
+    void testLogout2() {
+        try {
+            DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+            HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(request);
+            DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            SlimSecurityManager securityManager = new SlimSecurityManager();
+            webApp.linkRequestAndResponse(wrapper, response);
+            securityManager.setWebApplication(webApp);
+            securityManager.addUser("username", "password", new String[]{"role1", "role2"});
+            securityManager.login(wrapper, "username", "password");
+            securityManager.logout(wrapper, response);
+            assertNull(request.getUserPrincipal());
+        } catch (ServletException ex) {
+            fail();
+        }
+    }
+
+    /**
+     * Test logout method.
+     */
+    @Test
+    void testLogout3() {
+        try {
+            DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+            DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            SlimSecurityManager securityManager = new SlimSecurityManager();
+            webApp.linkRequestAndResponse(request, response);
+            securityManager.setWebApplication(webApp);
+            securityManager.logout(request, response);
+            fail();
+        } catch (ServletException ex) {
+            // nothing to do here.
+        }
+    }
+
+    /**
      * Test removeUser method.
      */
     @Test
@@ -266,5 +343,27 @@ class SlimSecurityManagerTest {
         SlimSecurityManager securityManager = new SlimSecurityManager();
         securityManager.setWebApplication(new DefaultWebApplication());
         assertNotNull(securityManager.getWebApplication());
+    }
+    
+    /**
+     * Test setDenyUncoveredHttpMethods method.
+     */
+    @Test
+    void testSetDenyUncoveredHttpMethods() {
+        
+        SlimSecurityManager securityManager = new SlimSecurityManager();
+        securityManager.setDenyUncoveredHttpMethods(true);
+        assertTrue(securityManager.getDenyUncoveredHttpMethods());
+    }
+    
+    /**
+     * Test setDenyUncoveredHttpMethods method.
+     */
+    @Test
+    void testSetDenyUncoveredHttpMethods2() {
+        
+        SlimSecurityManager securityManager = new SlimSecurityManager();
+        securityManager.setDenyUncoveredHttpMethods(false);
+        assertFalse(securityManager.getDenyUncoveredHttpMethods());
     }
 }
