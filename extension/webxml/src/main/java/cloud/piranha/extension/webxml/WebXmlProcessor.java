@@ -335,13 +335,15 @@ public class WebXmlProcessor {
         for (WebXmlServlet servlet : webXml.getServlets()) {
             LOGGER.log(DEBUG, () -> "Configuring Servlet: " + servlet.getServletName());
 
-            ServletRegistration.Dynamic dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
-
+            ServletRegistration.Dynamic dynamic;
+            
             String jspFile = servlet.getJspFile();
             if (!isEmpty(jspFile)) {
-                webApplication.addJspFile(servlet.getServletName(), jspFile);
+                dynamic = webApplication.addJspFile(servlet.getServletName(), jspFile);
+            } else {
+                dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
             }
-
+            
             if (servlet.isAsyncSupported()) {
                 dynamic.setAsyncSupported(true);
             }

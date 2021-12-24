@@ -30,10 +30,9 @@ package cloud.piranha.extension.wasp.tests;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.extension.wasp.WaspInitializer;
 import cloud.piranha.resource.impl.DirectoryResource;
-import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the WaspInitializer.
@@ -50,7 +49,7 @@ class WaspInitializerTest {
     @Test
     void testOnStartup() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DirectoryResource(new File("src/test/webapp/webapp1")));
+        webApp.addResource(new DirectoryResource(new File("src/test/webapp/waspinitializer")));
         webApp.addInitializer(new WaspInitializer());
         webApp.initialize();
         assertTrue(webApp.isInitialized());
