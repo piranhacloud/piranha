@@ -323,13 +323,13 @@ public interface WebApplication extends ServletContext {
      * @param distributable the distributable flag.
      */
     void setDistributable(boolean distributable);
-
+    
     /**
-     * Set the effective major version.
-     *
-     * @param version the effective major version.
+     * Get the JSP manager.
+     * 
+     * @return the JSP manager.
      */
-    void setEffectiveMajorVersion(int version);
+    JspManager getJspManager();
 
     /**
      * Get the locale encoding manager.
@@ -362,6 +362,13 @@ public interface WebApplication extends ServletContext {
     MimeTypeManager getMimeTypeManager();
 
     /**
+     * Set the effective major version.
+     *
+     * @param version the effective major version.
+     */
+    void setEffectiveMajorVersion(int version);
+
+    /**
      * Set the effective minor version.
      *
      * @param version the effective minor version.
@@ -381,6 +388,13 @@ public interface WebApplication extends ServletContext {
      * @param httpSessionManager the HTTP session manager.
      */
     void setHttpSessionManager(HttpSessionManager httpSessionManager);
+    
+    /**
+     * Set the JSP manager.
+     * 
+     * @param jspManager the JSP manager.
+     */
+    void setJspManager(JspManager jspManager);
 
     /**
      * Set the locale encoding manager.

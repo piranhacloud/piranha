@@ -353,6 +353,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the web application request mapper.
      */
     protected WebApplicationRequestMapper webApplicationRequestMapper;
+    
+    /**
+     * Stores the JSP manager.
+     */
+    protected JspManager jspManager;
 
     /**
      * Constructor.
@@ -361,7 +366,6 @@ public class DefaultWebApplication implements WebApplication {
         managers = new HashMap<>();
         managers.put(AnnotationManager.class.getName(), new DefaultAnnotationManager());
         managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
-        managers.put(JspManager.class.getName(), new DefaultJspFileManager());
         managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());
         managers.put(WelcomeFileManager.class.getName(), new DefaultWelcomeFileManager());
         attributes = new HashMap<>(1);
@@ -475,7 +479,7 @@ public class DefaultWebApplication implements WebApplication {
         if (isEmpty(servletName)) {
             throw new IllegalArgumentException("Servlet name cannot be null or empty");
         }
-        return getManager(JspManager.class).addJspFile(this, servletName, jspFile);
+        return jspManager != null ? jspManager.addJspFile(this, servletName, jspFile) : null;
     }
 
     @SuppressWarnings("unchecked")
@@ -851,7 +855,12 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
         checkTainted();
-        return getManager(JspManager.class).getJspConfigDescriptor();
+        return jspManager != null ? jspManager.getJspConfigDescriptor() : null;
+    }
+    
+    @Override
+    public JspManager getJspManager() {
+        return jspManager;
     }
 
     /**
@@ -1539,16 +1548,6 @@ public class DefaultWebApplication implements WebApplication {
         this.distributable = distributable;
     }
 
-    /**
-     * Set the HTTP session manager.
-     *
-     * @param httpSessionManager the HTTP session manager.
-     */
-    @Override
-    public void setHttpSessionManager(HttpSessionManager httpSessionManager) {
-        this.httpSessionManager = httpSessionManager;
-    }
-
     @Override
     public HttpRequestManager getHttpRequestManager() {
         return httpRequestManager;
@@ -1559,13 +1558,11 @@ public class DefaultWebApplication implements WebApplication {
         this.httpRequestManager = httpRequestManager;
     }
 
-    /**
-     * Set the init parameter.
-     *
-     * @param name the name.
-     * @param value the value.
-     * @return true if it could be set, false otherwise.
-     */
+    @Override
+    public void setHttpSessionManager(HttpSessionManager httpSessionManager) {
+        this.httpSessionManager = httpSessionManager;
+    }
+
     @Override
     public boolean setInitParameter(String name, String value) {
         requireNonNull(name);
@@ -1583,6 +1580,11 @@ public class DefaultWebApplication implements WebApplication {
             initParameters.put(name, value);
         }
         return result;
+    }
+    
+    @Override
+    public void setJspManager(JspManager jspManager) {
+        this.jspManager = jspManager;
     }
 
     @Override

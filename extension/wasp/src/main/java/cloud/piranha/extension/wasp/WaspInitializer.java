@@ -27,24 +27,20 @@
  */
 package cloud.piranha.extension.wasp;
 
-import static java.io.File.pathSeparator;
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.TRACE;
-
-import java.io.File;
-import java.lang.System.Logger;
-import java.util.Set;
-
-import org.apache.jasper.runtime.JspFactoryImpl;
-import org.apache.jasper.runtime.TldScanner;
-
-import cloud.piranha.core.api.JspManager;
 import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.jsp.JspFactory;
+import java.io.File;
+import static java.io.File.pathSeparator;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
+import java.util.Set;
+import org.apache.jasper.runtime.JspFactoryImpl;
+import org.apache.jasper.runtime.TldScanner;
 
 /**
  * The WaSP initializer.
@@ -80,7 +76,7 @@ public class WaspInitializer implements ServletContainerInitializer {
         registration.setInitParameter("classpath", getClassPath(application));
         registration.setInitParameter("compilerSourceVM", "1.8");
         registration.setInitParameter("compilerTargetVM", "1.8");
-        application.setManager(JspManager.class, new WaspJspManager());
+        application.setJspManager(new WaspJspManager());
         application.setAttribute("org.glassfish.wasp.useMultiJarScanAlgo", true);
 
         LOGGER.log(DEBUG, "Initialized WaSP");
