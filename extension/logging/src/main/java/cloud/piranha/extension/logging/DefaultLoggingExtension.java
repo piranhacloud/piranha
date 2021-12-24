@@ -25,27 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.extension.logging;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The LoggingManager API.
- *
+ * The WebApplicationExtension that sets the DefaultLoggingManager.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface LoggingManager {
-    
-    /**
-     * Log the message.
-     * 
-     * @param message the message.
-     */
-    void log(String message);
+public class DefaultLoggingExtension implements WebApplicationExtension {
 
     /**
-     * Log the message.
-     *
-     * @param message the message.
-     * @param throwable the throwable.
+     * Stores the logger.
      */
-    void log(String message, Throwable throwable);
+    private static final System.Logger LOGGER = System.getLogger(DefaultLoggingExtension.class.getName());
+
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(DEBUG, "Setting DefaultLoggingManager");
+        webApplication.setLoggingManager(new DefaultLoggingManager());
+    }
 }

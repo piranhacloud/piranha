@@ -25,27 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.extension.logging.tests;
+
+import cloud.piranha.extension.logging.DefaultLoggingManager;
+import org.junit.jupiter.api.Test;
 
 /**
- * The LoggingManager API.
- *
+ * The JUnit tests for the DefaultLoggingManager class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface LoggingManager {
+public class DefaultLoggingManagerTest {
     
     /**
-     * Log the message.
-     * 
-     * @param message the message.
+     * Test log method
      */
-    void log(String message);
+    @Test
+    public void testLog() {
+        DefaultLoggingManager manager = new DefaultLoggingManager();
+        manager.log("TEST", new RuntimeException());
+    }
 
     /**
-     * Log the message.
-     *
-     * @param message the message.
-     * @param throwable the throwable.
+     * Test of log method.
      */
-    void log(String message, Throwable throwable);
+    @Test
+    public void testLog_String() {
+        DefaultLoggingManager manager = new DefaultLoggingManager();
+        manager.log("TEST");
+    }
 }

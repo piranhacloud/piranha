@@ -25,37 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.extension.logging;
 
 import cloud.piranha.core.api.LoggingManager;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The default LoggingManager.
  *
- * <p>
- * The default LoggingManager swallows everything. If you want to do some actual
- * logging you need to deliver your custom LoggingManager.
- * </p>
- *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultLoggingManager implements LoggingManager {
-
+    
     /**
-     * Constructor.
+     * Stores the logger.
      */
-    public DefaultLoggingManager() {
-        // make GraalVM happy.
-    }
+    private static final Logger LOGGER = System.getLogger(DefaultLoggingManager.class.getName());
 
-    /**
-     * Log the message.
-     *
-     * @param message the message to log.
-     * @param throwable the throwable to log.
-     */
     @Override
     public void log(String message, Throwable throwable) {
-        // do nothing.
+        LOGGER.log(WARNING, message, throwable);
+    }
+
+    @Override
+    public void log(String message) {
+        LOGGER.log(INFO, message);
     }
 }

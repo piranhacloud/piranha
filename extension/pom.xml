@@ -25,6 +25,7 @@
         <module>herring</module>
         <module>lite</module>
         <module>locale_encoding</module>
+        <module>logging</module>
         <module>micro</module>
         <module>mimetype</module>
         <module>mojarra</module>

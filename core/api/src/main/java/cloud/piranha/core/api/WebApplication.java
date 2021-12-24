@@ -337,6 +337,13 @@ public interface WebApplication extends ServletContext {
      * @return the locale encoding manager.
      */
     LocaleEncodingManager getLocaleEncodingManager();
+    
+    /**
+     * Get the logging manager.
+     * 
+     * @return the logging manager.
+     */
+    LoggingManager getLoggingManager();
 
     /**
      * Get the manager.
@@ -381,6 +388,13 @@ public interface WebApplication extends ServletContext {
      * @param localeEncodingManager
      */
     void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager);
+    
+    /**
+     * Set the logging manager.
+     * 
+     * @param loggingManager the logging manager.
+     */
+    void setLoggingManager(LoggingManager loggingManager);
 
     /**
      * Set the manager.

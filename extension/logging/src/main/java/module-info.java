@@ -25,27 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
 
 /**
- * The LoggingManager API.
- *
+ * This module delivers the default logging implementation.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface LoggingManager {
-    
-    /**
-     * Log the message.
-     * 
-     * @param message the message.
-     */
-    void log(String message);
-
-    /**
-     * Log the message.
-     *
-     * @param message the message.
-     * @param throwable the throwable.
-     */
-    void log(String message, Throwable throwable);
+module cloud.piranha.extension.logging {
+    exports cloud.piranha.extension.logging;
+    opens cloud.piranha.extension.logging;
+    requires cloud.piranha.core.api;
 }

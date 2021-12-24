@@ -25,27 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
 
 /**
- * The LoggingManager API.
- *
+ * The tests module for the 'cloud.piranha.extension.logging' module.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface LoggingManager {
-    
-    /**
-     * Log the message.
-     * 
-     * @param message the message.
-     */
-    void log(String message);
-
-    /**
-     * Log the message.
-     *
-     * @param message the message.
-     * @param throwable the throwable.
-     */
-    void log(String message, Throwable throwable);
+module cloud.piranha.extension.logging.tests {
+    exports cloud.piranha.extension.logging.tests;
+    opens cloud.piranha.extension.logging.tests;
+    requires cloud.piranha.extension.logging;
+    requires org.junit.jupiter.api;
 }
