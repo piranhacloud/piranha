@@ -133,4 +133,9 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
     public String getProtocol() {
         return request.getProtocol().getProtocolString();
     }
+
+    @Override
+    public boolean isSecure() {
+        return request.isSecure();
+    }
 }

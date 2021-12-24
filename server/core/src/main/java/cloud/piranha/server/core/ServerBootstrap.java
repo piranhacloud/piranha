@@ -50,15 +50,15 @@ public abstract class ServerBootstrap {
         System.out.println();
         System.out.println(
                 """
-                  --help                           - Show this help
-                  --http-port <integer>            - Set the HTTP port (use -1 to disable)
-                  --https-port <integer>           - Set the HTTPS port (disabled by default)
-                  --jpms                           - Enable Java Platform Module System
-                  --ssl-keystore-file <file>       - Set the SSL keystore file (applies to the
-                                                     whole JVM)
-                  --ssl-keystore-password <string> - Set the SSL keystore password (applies to
-                                                     the whole JVM)
-                  --webapps-dir <directory>        - Set the web applications directory
+                  --help                             - Show this help
+                  --http-port <integer>              - Set the HTTP port (use -1 to disable)
+                  --https-port <integer>             - Set the HTTPS port (disabled by default)
+                  --jpms                             - Enable Java Platform Module System
+                  --ssl-keystore-file <file>         - Set the SSL keystore file 
+                  --ssl-keystore-password <string>   - Set the SSL keystore password
+                  --ssl-truststore-file <file>       - Set the SSL keystore file
+                  --ssl-truststore-password <string> - Set the SSL keystore password
+                  --webapps-dir <directory>          - Set the web applications directory
                 """);
     }  
 
@@ -89,6 +89,12 @@ public abstract class ServerBootstrap {
                 }
                 if (arguments[i].equals("--ssl-keystore-password")) {
                     builder = builder.sslKeystorePassword(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--ssl-truststore-file")) {
+                    builder = builder.sslTruststoreFile(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--ssl-truststore-password")) {
+                    builder = builder.sslTruststorePassword(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--verbose")) {
                     builder = builder.verbose(true);

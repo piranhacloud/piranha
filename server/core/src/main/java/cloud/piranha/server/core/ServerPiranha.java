@@ -411,6 +411,39 @@ public class ServerPiranha implements Piranha, Runnable {
     }
 
     /**
+     * Set the SSL truststore file.
+     *
+     * <p>
+     * Convenience wrapper around the <code>javax.net.ssl.trustStore</code> system
+     * property. Note using this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param sslTruststoreFile the SSL truststore file.
+     */
+    public void setSslTruststoreFile(String sslTruststoreFile) {
+        if (sslTruststoreFile != null) {
+            System.setProperty("javax.net.ssl.trustStore", sslTruststoreFile);
+        }
+    }
+
+    /**
+     * Set the SSL truststore password.
+     *
+     * <p>
+     * Convenience wrapper around the
+     * <code>javax.net.ssl.trustStorePassword</code> system property. Note using
+     * this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param sslTruststorePassword the SSL truststore password.
+     */
+    void setSslTruststorePassword(String sslTruststorePassword) {
+        if (sslTruststorePassword != null) {
+            System.setProperty("javax.net.ssl.trustStorePassword", sslTruststorePassword);
+        }
+    }
+
+    /**
      * Set the web applications directory.
      *
      * @param webAppsDir the web applications directory.

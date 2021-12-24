@@ -173,6 +173,11 @@ public class JdkHttpRequest implements HttpServerRequest {
         return exchange.getProtocol();
     }
 
+    @Override
+    public boolean isSecure() {
+        return exchange.getRequestURI().getRawSchemeSpecificPart().equalsIgnoreCase("https");
+    }
+
     /**
      * Parse.
      */

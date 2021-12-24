@@ -156,6 +156,19 @@
                                                        match="securedWebServicePort=(.*)"
                                                        replace="securedWebServicePort=8443"
                                                        byline="true"/>
+                                        <replaceregexp file="${tck.home}/bin/ts.jte"
+                                                       match="\s+-Djavax\.net\.ssl\.keyStore=(.*)"
+                                                       replace="-Djavax\.net\.ssl\.keyStore=${piranha.home}/etc/keystore.jks \\\"
+                                                       byline="true"/>
+                                        <replaceregexp file="${tck.home}/bin/ts.jte"
+                                                       match="\s+-Djavax\.net\.ssl\.keyStorePassword=(.*)"
+                                                       replace="-Djavax\.net\.ssl\.keyStorePassword=password \\\"
+                                                       byline="true"/>
+                                        <replaceregexp file="${tck.home}/bin/ts.jte"
+                                                       match="\s+-Djavax\.net\.ssl\.trustStore=(.*)"
+                                                       replace="-Djavax\.net\.ssl\.trustStore=${piranha.home}/etc/truststore.jks -Djavax\.net\.ssl\.trustStorePassword=password \\\"
+                                                       byline="true"/>
+                                        
                                         <!-- copy Piranha users / roles into the TCK -->
                                         <copy todir="${piranha.home}/etc">
                                             <fileset dir="${project.basedir}/src/test/etc"/>
@@ -186,6 +199,8 @@
                                             <arg value="--https-port 8443"/> 
                                             <arg value="--ssl-keystore-file etc/keystore.jks"/>
                                             <arg value="--ssl-keystore-password password"/>
+                                            <arg value="--ssl-truststore-file etc/truststore.jks"/>
+                                            <arg value="--ssl-truststore-password password"/>
                                         </exec>
                                         
                                         <!-- Give the server some time to settle down -->
@@ -354,6 +369,22 @@
                                                        match="webServerPort=(.*)"
                                                        replace="webServerPort=8080"
                                                        byline="true"/>
+                                        <replaceregexp file="${tck.home}/bin/ts.jte"
+                                                       match="securedWebServicePort=(.*)"
+                                                       replace="securedWebServicePort=8443"
+                                                       byline="true"/>
+                                        <replaceregexp file="${tck.home}/bin/ts.jte"
+                                                       match="\s+-Djavax\.net\.ssl\.keyStore=(.*)"
+                                                       replace="-Djavax\.net\.ssl\.keyStore=${piranha.home}/etc/keystore.jks \\\"
+                                                       byline="true"/>
+                                        <replaceregexp file="${tck.home}/bin/ts.jte"
+                                                       match="\s+-Djavax\.net\.ssl\.keyStorePassword=(.*)"
+                                                       replace="-Djavax\.net\.ssl\.keyStorePassword=password \\\"
+                                                       byline="true"/>
+                                        <replaceregexp file="${tck.home}/bin/ts.jte"
+                                                       match="\s+-Djavax\.net\.ssl\.trustStore=(.*)"
+                                                       replace="-Djavax\.net\.ssl\.trustStore=${piranha.home}/etc/truststore.jks -Djavax\.net\.ssl\.trustStorePassword=password \\\"
+                                                       byline="true"/>
                                     </target>
                                 </configuration>
                                 <goals>
@@ -378,7 +409,14 @@
                                         <delete file="${piranha.home}/webapps/started" failonerror="false"/>
                                         
                                         <!-- Start the server -->
-                                        <exec executable="${piranha.home}/bin/start.sh" dir="${piranha.home}/bin"/>
+                                        <exec executable="${piranha.home}/bin/start.sh" dir="${piranha.home}/bin">
+                                            <arg value="--suspend" if:set="suspend" />
+                                            <arg value="--https-port 8443"/> 
+                                            <arg value="--ssl-keystore-file etc/keystore.jks"/>
+                                            <arg value="--ssl-keystore-password password"/>
+                                            <arg value="--ssl-truststore-file etc/truststore.jks"/>
+                                            <arg value="--ssl-truststore-password password"/>
+                                        </exec>
                                         
                                         <echo>Waiting till Piranha started</echo>
                                         <!-- Wait until the server is started -->
