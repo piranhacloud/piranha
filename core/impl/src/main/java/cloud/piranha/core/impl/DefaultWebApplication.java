@@ -301,6 +301,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the locale encoding manager.
      */
     protected LocaleEncodingManager localeEncodingManager;
+    
+    /**
+     * Stores the logging manager.
+     */
+    protected LoggingManager loggingManager;
 
     /**
      * Stores the managers.
@@ -357,7 +362,6 @@ public class DefaultWebApplication implements WebApplication {
         managers.put(AnnotationManager.class.getName(), new DefaultAnnotationManager());
         managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
         managers.put(JspManager.class.getName(), new DefaultJspFileManager());
-        managers.put(LoggingManager.class.getName(), new DefaultLoggingManager());
         managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());
         managers.put(WelcomeFileManager.class.getName(), new DefaultWelcomeFileManager());
         attributes = new HashMap<>(1);
@@ -1391,38 +1395,24 @@ public class DefaultWebApplication implements WebApplication {
         responses.put(response, request);
     }
 
-    /**
-     * Log a message.
-     *
-     * @param exception the exception.
-     * @param message the message.
-     * @deprecated
-     */
     @Deprecated
     @Override
     public void log(Exception exception, String message) {
         throw new UnsupportedOperationException("ServletContext.log(Exception, String) is no longer supported");
     }
 
-    /**
-     * Log a message.
-     *
-     * @param message the message.
-     * @param throwable the throwable.
-     */
     @Override
     public void log(String message, Throwable throwable) {
-        getManager(LoggingManager.class).log(message, throwable);
+        if (loggingManager != null) {
+            loggingManager.log(message, throwable);
+        }
     }
 
-    /**
-     * Log a message.
-     *
-     * @param message the message.
-     */
     @Override
     public void log(String message) {
-        log(message, null);
+        if (loggingManager != null) {
+            loggingManager.log(message);
+        }
     }
 
     /**
@@ -1821,6 +1811,11 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
+    public LoggingManager getLoggingManager() {
+        return loggingManager;
+    }
+
+    @Override
     public <T> T getManager(Class<T> clazz) {
         return clazz.cast(managers.get(clazz.getName()));
     }
@@ -1879,6 +1874,11 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager) {
         this.localeEncodingManager = localeEncodingManager;
+    }
+
+    @Override
+    public void setLoggingManager(LoggingManager loggingManager) {
+        this.loggingManager = loggingManager;
     }
 
     @Override

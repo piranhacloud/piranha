@@ -714,13 +714,8 @@ class DefaultWebApplicationTest {
      */
     @Test
     void testLog() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        final StringBuilder log = new StringBuilder();
-        webApp.setManager(LoggingManager.class, (LoggingManager) ((String message, Throwable throwable) -> {
-            log.append(message);
-        }));
-        webApp.log("TEST");
-        assertEquals("TEST", log.toString());
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.log("TEST");
     }
 
     /**
@@ -731,7 +726,8 @@ class DefaultWebApplicationTest {
     void testLog2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         IllegalStateException exception = new IllegalStateException();
-        assertThrows(UnsupportedOperationException.class, () -> webApp.log(exception, "TEST"));
+        assertNotNull(assertThrows(UnsupportedOperationException.class, 
+                () -> webApp.log(exception, "TEST")));
     }
 
     /**
@@ -740,12 +736,7 @@ class DefaultWebApplicationTest {
     @Test
     void testLog3() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        final StringBuilder log = new StringBuilder();
-        webApp.setManager(LoggingManager.class, (LoggingManager) ((String message, Throwable throwable) -> {
-            log.append(message).append(" - ").append(throwable.getMessage());
-        }));
-        webApp.log("TEST", new RuntimeException("Reason"));
-        assertEquals("TEST - Reason", log.toString());
+        webApp.log("TEST", new RuntimeException());
     }
 
     /**
@@ -941,9 +932,9 @@ class DefaultWebApplicationTest {
      */
     @Test
     void testSetLoggingManager() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setManager(LoggingManager.class, null);
-        assertThrows(NullPointerException.class, () -> webApp.log("KABOOM"));
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.setLoggingManager(null);
+        webApplication.log("KABOOM");
     }
 
     @Test

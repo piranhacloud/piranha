@@ -32,6 +32,7 @@ import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.locale_encoding.LocaleEncodingExtension;
+import cloud.piranha.extension.logging.DefaultLoggingExtension;
 import cloud.piranha.extension.mimetype.MimeTypeExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
@@ -52,6 +53,7 @@ public class StandardExtension implements WebApplicationExtension {
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(ServletSecurityManagerExtension.class);
+        context.add(DefaultLoggingExtension.class);
         context.add(MimeTypeExtension.class);
         context.add(HerringExtension.class);
         context.add(LocaleEncodingExtension.class);
