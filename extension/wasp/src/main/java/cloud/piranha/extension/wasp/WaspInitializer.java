@@ -70,13 +70,15 @@ public class WaspInitializer implements ServletContainerInitializer {
         if (JspFactory.getDefaultFactory() == null) {
             JspFactory.setDefaultFactory(new JspFactoryImpl());
         }
-
-        ServletRegistration.Dynamic registration = application.addServlet("jsp", "org.apache.jasper.servlet.JspServlet");
-        registration.addMapping("*.jsp");
-        registration.setInitParameter("classpath", getClassPath(application));
-        registration.setInitParameter("compilerSourceVM", "1.8");
-        registration.setInitParameter("compilerTargetVM", "1.8");
-        application.setJspManager(new WaspJspManager());
+        
+        if (application.getServletRegistration("jsp") == null) {
+            ServletRegistration.Dynamic registration = application.addServlet("jsp", "org.apache.jasper.servlet.JspServlet");
+            registration.addMapping("*.jsp");
+            registration.setInitParameter("classpath", getClassPath(application));
+            registration.setInitParameter("compilerSourceVM", "1.8");
+            registration.setInitParameter("compilerTargetVM", "1.8");
+        }
+        
         application.setAttribute("org.glassfish.wasp.useMultiJarScanAlgo", true);
 
         LOGGER.log(DEBUG, "Initialized WaSP");
