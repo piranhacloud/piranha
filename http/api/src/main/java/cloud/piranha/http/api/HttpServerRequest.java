@@ -127,4 +127,9 @@ public interface HttpServerRequest {
     default String getProtocol() {
         return "HTTP/1.1";
     }
+    
+    /**
+     * {@return if we are secure}
+     */
+    boolean isSecure();
 }

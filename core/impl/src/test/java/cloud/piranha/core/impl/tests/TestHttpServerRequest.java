@@ -54,6 +54,11 @@ public class TestHttpServerRequest implements HttpServerRequest {
     public String getQueryParameter(String string) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public boolean isSecure() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
     /**
      * Stores the headers.

@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.System.Logger;
+import javax.net.ssl.SSLSocket;
 
 /**
  * The default implementation of HTTP Server Request.
@@ -181,6 +182,11 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     @Override
+    public String getProtocol() {
+        return protocol;
+    }
+
+    @Override
     public String getQueryParameter(String name) {
         String result = null;
         synchronized (this) {
@@ -231,6 +237,11 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     @Override
     public String getRequestTarget() {
         return requestTarget;
+    }
+    
+    @Override
+    public boolean isSecure() {
+        return socket instanceof SSLSocket;
     }
 
     /**
@@ -318,10 +329,5 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
         if (!protocol.isEmpty()) {
             protocol = protocolRequestLine;
         }
-    }
-
-    @Override
-    public String getProtocol() {
-        return protocol;
     }
 }
