@@ -381,6 +381,13 @@ public interface WebApplication extends ServletContext {
      * @return the mime-type manager.
      */
     MimeTypeManager getMimeTypeManager();
+    
+    /**
+     * Get the multi-part manager.
+     * 
+     * @return the multi-part manager.
+     */
+    MultiPartManager getMultiPartManager();
 
     /**
      * Set the effective major version.
@@ -453,6 +460,13 @@ public interface WebApplication extends ServletContext {
      * @param mimeTypeManager the mime-type manager.
      */
     void setMimeTypeManager(MimeTypeManager mimeTypeManager);
+    
+    /**
+     * Set the multi-part manager.
+     * 
+     * @param multiPartManager the multi-part manager. 
+     */
+    void setMultiPartManager(MultiPartManager multiPartManager);
     
     /**
      * Set the object instance manager.
