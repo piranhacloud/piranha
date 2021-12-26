@@ -427,6 +427,10 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         verifyNotCommitted("sendError");
         resetBuffer();
         setStatus(status);
+        flushBuffer();
+        if (gotWriter) {
+            writer.close();
+        }
     }
 
     @Override
