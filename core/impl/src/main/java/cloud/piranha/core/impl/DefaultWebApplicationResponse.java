@@ -438,6 +438,10 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         setStatus(status);
         this.statusMessage = statusMessage;
         setErrorMessageAttribute();
+        flushBuffer();
+        if (gotWriter) {
+            writer.close();
+        }
     }
 
     @Override
