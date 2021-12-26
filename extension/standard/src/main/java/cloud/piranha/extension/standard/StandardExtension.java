@@ -40,6 +40,7 @@ import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
+import cloud.piranha.extension.wasp.WaspJspManagerExtension;
 import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
 
@@ -53,6 +54,7 @@ public class StandardExtension implements WebApplicationExtension {
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(ServletSecurityManagerExtension.class);
+        context.add(WaspJspManagerExtension.class);
         context.add(DefaultLoggingExtension.class);
         context.add(MimeTypeExtension.class);
         context.add(HerringExtension.class);
