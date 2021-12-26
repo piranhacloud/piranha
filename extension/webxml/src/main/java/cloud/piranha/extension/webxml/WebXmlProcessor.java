@@ -70,6 +70,7 @@ public class WebXmlProcessor {
      */
     public void process(WebXml webXml, WebApplication webApplication) {
         LOGGER.log(TRACE, "Started WebXmlProcessor.process");
+        processMetadataComplete(webApplication, webXml);
         processContextParameters(webApplication, webXml);
         processDefaultContextPath(webApplication, webXml);
         processDenyUncoveredHttpMethods(webApplication, webXml);
@@ -91,6 +92,18 @@ public class WebXmlProcessor {
         processLocaleEncodingMapping(webApplication, webXml);
         processSessionConfig(webApplication, webXml);
         LOGGER.log(TRACE, "Finished WebXmlProcessor.process");
+    }
+
+    /**
+     * Process the metadata complete.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processMetadataComplete(WebApplication webApplication, WebXml webXml) {
+        if (webXml.getMetadataComplete()) {
+            webApplication.setMetadataComplete(true);
+        }
     }
 
     /**
