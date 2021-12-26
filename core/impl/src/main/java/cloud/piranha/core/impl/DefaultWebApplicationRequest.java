@@ -203,9 +203,14 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     protected String method;
 
     /**
-     * Stores the multipartConfig.
+     * Stores the multipart config.
      */
     protected MultipartConfigElement multipartConfig;
+    
+    /**
+     * Stores the multipart manager.
+     */
+    protected MultiPartManager multipartManager;
 
     /**
      * Stores the parameters.
@@ -735,13 +740,17 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Part getPart(String name) throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getManager(MultiPartManager.class).getPart(webApplication, this, name);
+        return multipartManager != null 
+                ? multipartManager.getPart(webApplication, this, name) 
+                : null;
     }
 
     @Override
     public Collection<Part> getParts() throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getManager(MultiPartManager.class).getParts(webApplication, this);
+        return multipartManager != null
+                ? multipartManager.getParts(webApplication, this)
+                : Collections.EMPTY_LIST;
     }
 
     @Override

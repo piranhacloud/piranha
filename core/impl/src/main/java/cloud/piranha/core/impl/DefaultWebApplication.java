@@ -323,6 +323,11 @@ public class DefaultWebApplication implements WebApplication {
     protected MimeTypeManager mimeTypeManager;
     
     /**
+     * Stores the multi-part manager.
+     */
+    protected MultiPartManager multiPartManager;
+    
+    /**
      * Stores the object instance manager.
      */
     protected ObjectInstanceManager objectInstanceManager;
@@ -371,7 +376,6 @@ public class DefaultWebApplication implements WebApplication {
         managers = new HashMap<>();
         managers.put(AnnotationManager.class.getName(), new DefaultAnnotationManager());
         managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
-        managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());
         managers.put(WelcomeFileManager.class.getName(), new DefaultWelcomeFileManager());
         attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
@@ -876,12 +880,6 @@ public class DefaultWebApplication implements WebApplication {
         return 5;
     }
 
-    /**
-     * Get the servlet mappings for the given servlet.
-     *
-     * @param servletName the name of the servlet.
-     * @return the servlet mappings.
-     */
     @Override
     public Collection<String> getMappings(String servletName) {
         return webApplicationRequestMapper.getServletMappings(servletName);
@@ -889,11 +887,9 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public String getMimeType(String filename) {
-        String mimeType = null;
-        if (mimeTypeManager != null) {
-            mimeType = mimeTypeManager.getMimeType(filename);
-        }
-        return mimeType;
+        return mimeTypeManager != null 
+                ? mimeTypeManager.getMimeType(filename)
+                : null;
     }
 
     @Override
@@ -901,12 +897,14 @@ public class DefaultWebApplication implements WebApplication {
         return mimeTypeManager;
     }
 
-    /**
-     * {@return the minor version}
-     */
     @Override
     public int getMinorVersion() {
         return 0;
+    }
+    
+    @Override
+    public MultiPartManager getMultiPartManager() {
+        return multiPartManager;
     }
     
     @Override
@@ -1595,6 +1593,11 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void setMimeTypeManager(MimeTypeManager mimeTypeManager) {
         this.mimeTypeManager = mimeTypeManager;
+    }
+    
+    @Override
+    public void setMultiPartManager(MultiPartManager multiPartManager) {
+        this.multiPartManager = multiPartManager;
     }
 
     @Override
