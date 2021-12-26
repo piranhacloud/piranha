@@ -88,140 +88,142 @@ public class WebAnnotationsInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication webApp = (WebApplication) servletContext;
 
-        AnnotationManager annotationManager = webApp.getManager(AnnotationManager.class);
+        if (!webApp.isMetadataComplete()) {
 
-        // Process @WebServlet
+            AnnotationManager annotationManager = webApp.getManager(AnnotationManager.class);
 
-        for (AnnotationInfo<WebServlet> annotationInfo : annotationManager.getAnnotations(WebServlet.class)) {
+            // Process @WebServlet
+            for (AnnotationInfo<WebServlet> annotationInfo : annotationManager.getAnnotations(WebServlet.class)) {
 
-            WebServlet webServlet = annotationInfo.getInstance();
+                WebServlet webServlet = annotationInfo.getInstance();
 
-            String servletName = webServlet.name();
-            if ("".equals(servletName)) {
-                servletName = annotationInfo.getTargetType().getName(); // WebServlet only has target Type
-            }
-
-            // Add the Servlet
-            Dynamic registration = webApp.addServlet(servletName, annotationInfo.getTargetType().getName());
-
-            if (registration != null) {
-                // Add params
-                if (webServlet.initParams().length != 0) {
-                    stream(webServlet.initParams()).forEach(initParam -> registration.setInitParameter(initParam.name(), initParam.value()));
+                String servletName = webServlet.name();
+                if ("".equals(servletName)) {
+                    servletName = annotationInfo.getTargetType().getName(); // WebServlet only has target Type
                 }
-            
-                registration.setAsyncSupported(webServlet.asyncSupported());
-            }
 
-            String[] urlPatterns = webServlet.value();
-            if (urlPatterns.length == 0) {
-                urlPatterns = webServlet.urlPatterns();
-            }
+                // Add the Servlet
+                Dynamic registration = webApp.addServlet(servletName, annotationInfo.getTargetType().getName());
 
-            // Add mapping
-            webApp.addServletMapping(servletName, urlPatterns);
-        }
-
-        // Process @WebFilter
-
-        for (AnnotationInfo<WebFilter> annotationInfo : annotationManager.getAnnotations(WebFilter.class)) {
-
-            WebFilter webFilter = annotationInfo.getInstance();
-
-            String filterName = webFilter.filterName();
-            if ("".equals(filterName)) {
-                filterName = annotationInfo.getTargetType().getName(); // WebServlet only has target Type
-            }
-
-            // Add the Filter
-            FilterRegistration.Dynamic registration = webApp.addFilter(filterName, annotationInfo.getTargetType().getName());
-
-            // Add params
-            if (webFilter.initParams().length != 0) {
-                stream(webFilter.initParams()).forEach(initParam ->
-                    registration.setInitParameter(initParam.name(), initParam.value())
-                );
-            }
-
-            if (registration != null)
-                registration.setAsyncSupported(webFilter.asyncSupported());
-
-            String[] urlPatterns = webFilter.value();
-            if (urlPatterns.length == 0) {
-                urlPatterns = webFilter.urlPatterns();
-            }
-
-            // Add mapping for URL patterns, if any
-            if (urlPatterns.length > 0) {
-                webApp.addFilterMapping(filterName, urlPatterns);
-            }
-
-            // Add mapping for Servlet names, if any
-            if (webFilter.servletNames().length > 0) {
-                registration.addMappingForServletNames(
-                    stream(webFilter.dispatcherTypes())
-                        .collect(toCollection(() -> noneOf(DispatcherType.class))),
-                    true,
-                    webFilter.servletNames());
-            }
-        }
-        
-        // Process @MultipartConfig
-        // This assumes all applicable Servlets have been registered, either via web.xml, annotations or programmatically prior to this point.
-        for (AnnotationInfo<MultipartConfig> annotationInfo : annotationManager.getAnnotations(MultipartConfig.class)) {
-            for (ServletRegistration servletRegistration : servletContext.getServletRegistrations().values()) {
-                if (servletRegistration instanceof Dynamic dynamicRegistration) {
-                    Class<?> targetType = annotationInfo.getTargetType();
-                    if (targetType != null && targetType.getName().equals(servletRegistration.getClassName())) {
-                        dynamicRegistration.setMultipartConfig(new MultipartConfigElement(annotationInfo.getInstance()));
+                if (registration != null) {
+                    // Add params
+                    if (webServlet.initParams().length != 0) {
+                        stream(webServlet.initParams()).forEach(initParam -> registration.setInitParameter(initParam.name(), initParam.value()));
                     }
+
+                    registration.setAsyncSupported(webServlet.asyncSupported());
                 }
-            }
-        }
 
-        // Process @ServletSecurity
-        List<Entry<List<String>, ServletSecurity>> securityAnnotations = new ArrayList<>();
-        for (AnnotationInfo<ServletSecurity> annotationInfo : annotationManager.getAnnotations(ServletSecurity.class)) {
-
-            Class<?> servlet = getTargetServlet(annotationInfo);
-
-            // Take into account mixed mapped (annotation + web.xml later)
-            WebServlet webServlet = servlet.getAnnotation(WebServlet.class);
-
-            if (webServlet != null) {
                 String[] urlPatterns = webServlet.value();
                 if (urlPatterns.length == 0) {
                     urlPatterns = webServlet.urlPatterns();
                 }
 
-                securityAnnotations.add(new SimpleImmutableEntry<>(
-                    asList(urlPatterns),
-                    annotationInfo.getInstance()));
-            } else {
-                LOGGER.log(WARNING,
-                    "@ServletSecurity encountered on Servlet " + servlet +
-                    "but no @WebServlet encountered");
+                // Add mapping
+                webApp.addServletMapping(servletName, urlPatterns);
             }
-        }
-        webApp.setAttribute(
-            "cloud.piranha.authorization.exousia.AuthorizationPreInitializer.security.annotations",
-            securityAnnotations
-        );
 
-        // Collect the roles from various annotations
-        for (AnnotationInfo<RolesAllowed> rolesAllowedInfo : annotationManager.getAnnotations(RolesAllowed.class)) {
-            webApp.declareRoles(rolesAllowedInfo.getInstance().value());
-        }
+            // Process @WebFilter
+            for (AnnotationInfo<WebFilter> annotationInfo : annotationManager.getAnnotations(WebFilter.class)) {
 
-        for (AnnotationInfo<DeclareRoles> declareRolesInfo : annotationManager.getAnnotations(DeclareRoles.class)) {
-            webApp.declareRoles(declareRolesInfo.getInstance().value());
-        }
+                WebFilter webFilter = annotationInfo.getInstance();
 
-        // Process @WebListener
-        for (AnnotationInfo<WebListener> annotationInfo : annotationManager.getAnnotations(WebListener.class)) {
-            webApp.addListener(getTargetListener(annotationInfo));
-        }
+                String filterName = webFilter.filterName();
+                if ("".equals(filterName)) {
+                    filterName = annotationInfo.getTargetType().getName(); // WebServlet only has target Type
+                }
 
+                // Add the Filter
+                FilterRegistration.Dynamic registration = webApp.addFilter(filterName, annotationInfo.getTargetType().getName());
+
+                // Add params
+                if (webFilter.initParams().length != 0) {
+                    stream(webFilter.initParams()).forEach(initParam
+                            -> registration.setInitParameter(initParam.name(), initParam.value())
+                    );
+                }
+
+                if (registration != null) {
+                    registration.setAsyncSupported(webFilter.asyncSupported());
+                }
+
+                String[] urlPatterns = webFilter.value();
+                if (urlPatterns.length == 0) {
+                    urlPatterns = webFilter.urlPatterns();
+                }
+
+                // Add mapping for URL patterns, if any
+                if (urlPatterns.length > 0) {
+                    webApp.addFilterMapping(filterName, urlPatterns);
+                }
+
+                // Add mapping for Servlet names, if any
+                if (webFilter.servletNames().length > 0) {
+                    registration.addMappingForServletNames(
+                            stream(webFilter.dispatcherTypes())
+                                    .collect(toCollection(() -> noneOf(DispatcherType.class))),
+                            true,
+                            webFilter.servletNames());
+                }
+            }
+
+            // Process @MultipartConfig
+            // This assumes all applicable Servlets have been registered, either via web.xml, annotations or programmatically prior to this point.
+            for (AnnotationInfo<MultipartConfig> annotationInfo : annotationManager.getAnnotations(MultipartConfig.class)) {
+                for (ServletRegistration servletRegistration : servletContext.getServletRegistrations().values()) {
+                    if (servletRegistration instanceof Dynamic dynamicRegistration) {
+                        Class<?> targetType = annotationInfo.getTargetType();
+                        if (targetType != null && targetType.getName().equals(servletRegistration.getClassName())) {
+                            dynamicRegistration.setMultipartConfig(new MultipartConfigElement(annotationInfo.getInstance()));
+                        }
+                    }
+                }
+            }
+
+            // Process @ServletSecurity
+            List<Entry<List<String>, ServletSecurity>> securityAnnotations = new ArrayList<>();
+            for (AnnotationInfo<ServletSecurity> annotationInfo : annotationManager.getAnnotations(ServletSecurity.class)) {
+
+                Class<?> servlet = getTargetServlet(annotationInfo);
+
+                // Take into account mixed mapped (annotation + web.xml later)
+                WebServlet webServlet = servlet.getAnnotation(WebServlet.class);
+
+                if (webServlet != null) {
+                    String[] urlPatterns = webServlet.value();
+                    if (urlPatterns.length == 0) {
+                        urlPatterns = webServlet.urlPatterns();
+                    }
+
+                    securityAnnotations.add(new SimpleImmutableEntry<>(
+                            asList(urlPatterns),
+                            annotationInfo.getInstance()));
+                } else {
+                    LOGGER.log(WARNING,
+                            "@ServletSecurity encountered on Servlet " + servlet
+                            + "but no @WebServlet encountered");
+                }
+            }
+            webApp.setAttribute(
+                    "cloud.piranha.authorization.exousia.AuthorizationPreInitializer.security.annotations",
+                    securityAnnotations
+            );
+
+            // Collect the roles from various annotations
+            for (AnnotationInfo<RolesAllowed> rolesAllowedInfo : annotationManager.getAnnotations(RolesAllowed.class)) {
+                webApp.declareRoles(rolesAllowedInfo.getInstance().value());
+            }
+
+            for (AnnotationInfo<DeclareRoles> declareRolesInfo : annotationManager.getAnnotations(DeclareRoles.class)) {
+                webApp.declareRoles(declareRolesInfo.getInstance().value());
+            }
+
+            // Process @WebListener
+            for (AnnotationInfo<WebListener> annotationInfo : annotationManager.getAnnotations(WebListener.class)) {
+                webApp.addListener(getTargetListener(annotationInfo));
+            }
+
+        }
         webApp.initializeDeclaredFinish();
     }
 

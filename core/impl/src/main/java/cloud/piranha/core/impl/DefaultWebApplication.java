@@ -311,6 +311,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the managers.
      */
     protected HashMap<String, Object> managers;
+    
+    /**
+     * Stores the metadata complete flag.
+     */
+    protected boolean metadataComplete;
 
     /**
      * Stores the mime-type manager.
@@ -1338,14 +1343,14 @@ public class DefaultWebApplication implements WebApplication {
         return distributable;
     }
 
-    /**
-     * Is the web application initialized.
-     *
-     * @return true if it is, false otherwise.
-     */
     @Override
     public boolean isInitialized() {
         return status >= INITIALIZED && status < ERROR;
+    }
+    
+    @Override
+    public boolean isMetadataComplete() {
+        return metadataComplete;
     }
 
     /**
@@ -1886,6 +1891,11 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public <T> void setManager(Class<T> clazz, T manager) {
         managers.put(clazz.getName(), manager);
+    }
+    
+    @Override
+    public void setMetadataComplete(boolean metadataComplete) {
+        this.metadataComplete = metadataComplete;
     }
 
     @Override

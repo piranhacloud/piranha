@@ -269,6 +269,13 @@ public interface WebApplication extends ServletContext {
      * @return true if it is, false otherwise.
      */
     boolean isInitialized();
+    
+    /**
+     * Is the web application metadata complete.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    boolean isMetadataComplete();
 
     /**
      * Link the request and response.
@@ -418,6 +425,13 @@ public interface WebApplication extends ServletContext {
      * @param manager the manager instance.
      */
     <T> void setManager(Class<T> clazz, T manager);
+    
+    /**
+     * Set the metadata complete flag.
+     * 
+     * @param metadataComplete the metadata complete flag.
+     */
+    void setMetadataComplete(boolean metadataComplete);
 
     /**
      * Set the mime-type manager.
