@@ -155,6 +155,13 @@ public interface WebApplication extends ServletContext {
      * Destroy the web application.
      */
     void destroy();
+    
+    /**
+     * Get the annotation manager.
+     * 
+     * @return the annotation manager.
+     */
+    AnnotationManager getAnnotationManager();
 
     /**
      * {@return the default Servlet}
@@ -295,6 +302,13 @@ public interface WebApplication extends ServletContext {
      */
     void service(ServletRequest request, ServletResponse response)
             throws ServletException, IOException;
+    
+    /**
+     * Set the annotation manager.
+     * 
+     * @param annotationManager the annotation manager.
+     */
+    void setAnnotationManager(AnnotationManager annotationManager);
 
     /**
      * Set the class loader.

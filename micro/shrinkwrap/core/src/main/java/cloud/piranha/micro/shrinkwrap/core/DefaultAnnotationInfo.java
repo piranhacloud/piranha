@@ -25,62 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl.tests;
+package cloud.piranha.micro.shrinkwrap.core;
 
-import cloud.piranha.core.impl.DefaultWebApplication;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import java.util.Set;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.jupiter.api.Test;
+import cloud.piranha.core.api.AnnotationInfo;
+import java.lang.reflect.AnnotatedElement;
 
 /**
- * The JUnit tests for testing everything related to the
- * ServletContainerInitializer API.
+ * The default AnnotationInfo.
  *
+ * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
+ * @param <T> the type.
  */
-class ServletContainerInitializerTest {
+public class DefaultAnnotationInfo<T> implements AnnotationInfo<T> {
 
     /**
-     * Test addInitializer method.
-     *
-     * @throws Exception when a serious error occurs.
+     * Stores the instance.
      */
-    @Test
-    void testAddInitializer() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addInitializer(new TestInitializer());
-        webApp.initialize();
-        assertNotNull(webApp.getAttribute("initializerCalled"));
+    private final T instance;
+
+    /**
+     * Stores the target.
+     */
+    private final AnnotatedElement target;
+
+    /**
+     * Constructor.
+     *
+     * @param instance the instance.
+     * @param target the target annotated element.
+     */
+    public DefaultAnnotationInfo(T instance, AnnotatedElement target) {
+        this.instance = instance;
+        this.target = target;
     }
 
-    /**
-     * Test addInitializer method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAddInitializer3() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addInitializer(TestInitializer.class.getName());
-        webApp.initialize();
-        assertNotNull(webApp.getAttribute("initializerCalled"));
+    @Override
+    public T getInstance() {
+        return instance;
     }
 
-    /**
-     * A test ServletContainerInitializer used to make sure they are called when
-     * the web application initializes.
-     */
-    public static class TestInitializer implements ServletContainerInitializer {
-
-        public TestInitializer() {
-        }
-
-        @Override
-        public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-            servletContext.setAttribute("initializerCalled", true);
-        }
+    @Override
+    public AnnotatedElement getTarget() {
+        return target;
     }
 }
