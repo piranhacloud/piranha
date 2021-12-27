@@ -25,15 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.apache.fileupload;
-
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-import org.junit.jupiter.api.Test;
+package cloud.piranha.extension.apache.fileupload.tests;
 
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
+import cloud.piranha.extension.apache.fileupload.ApacheMultiPartManager;
 import jakarta.servlet.MultipartConfigElement;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the ApacheMultiPartManager class.

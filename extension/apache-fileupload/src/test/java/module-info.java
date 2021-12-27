@@ -30,9 +30,11 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.apache.fileupload {
+module cloud.piranha.extension.apache.fileupload.tests {
     
-    opens cloud.piranha.extension.apache.fileupload;
+    exports cloud.piranha.extension.apache.fileupload.tests;
+    opens cloud.piranha.extension.apache.fileupload.tests;
+    requires cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires org.junit.jupiter.api;
