@@ -107,6 +107,8 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 if (webXml.getMetadataComplete()) {
                     return;
                 }
+                
+                removeExistingServletMappings(webApp, manager);
 
                 manager.getOrderedFragments().forEach(fragment -> processor.process(fragment, webApp));
             } else {
@@ -119,4 +121,23 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         LOGGER.log(DEBUG, () -> "Exiting WebXmlInitializer.onStartup");
     }
 
+    /**
+     * Remove any servlet mappings in the web fragments that are already mapped
+     * by the regular web.xml.
+     * 
+     * @param webApp the web application.
+     * @param manager the web.xml manager.
+     */
+    private void removeExistingServletMappings(WebApplication webApp, WebXmlManager manager) {
+        for(WebXmlServletMapping mapping : manager.getWebXml().getServletMappings()) {
+            for(WebXml fragment : manager.getOrderedFragments()) {
+                ArrayList<WebXmlServletMapping> candidateList = new ArrayList<>(fragment.getServletMappings());
+                for(WebXmlServletMapping candidateMapping : candidateList) {
+                    if (candidateMapping.servletName().equals(mapping.servletName())) {
+                        fragment.getServletMappings().remove(candidateMapping);
+                    }
+                }
+            }
+        }
+    }
 }
