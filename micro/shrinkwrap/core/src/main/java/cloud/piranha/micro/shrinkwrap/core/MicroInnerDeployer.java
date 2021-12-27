@@ -76,10 +76,9 @@ import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.impl.DefaultAnnotationInfo;
-import cloud.piranha.core.impl.DefaultAnnotationManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
+import cloud.piranha.extension.annotationscan.DefaultAnnotationManager;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Priority;
@@ -189,7 +188,9 @@ public class MicroInnerDeployer {
             Index index = getIndex();
 
             // Target of annotations
-            DefaultAnnotationManager annotationManager = (DefaultAnnotationManager) webApplication.getManager(AnnotationManager.class);
+            AnnotationManager annotationManager = new DefaultAnnotationManager();
+            webApplication.setAnnotationManager(annotationManager);
+            
 
             // Copy annotations from our "annotations" collection from source index to target manager
             forEachWebAnnotation(webAnnotation -> addAnnotationToIndex(index, webAnnotation, annotationManager));
@@ -327,7 +328,7 @@ public class MicroInnerDeployer {
                             new DefaultAnnotationInfo<>(annotationInstance, annotationTarget))));
     }
     
-    void addInstanceToIndex(Index index, Class<?> instanceClass, DefaultAnnotationManager annotationManager) {
+    void addInstanceToIndex(Index index, Class<?> instanceClass, AnnotationManager annotationManager) {
         getInstances(index, instanceClass)
             .map(this::getTarget)
             .forEach(implementingClass

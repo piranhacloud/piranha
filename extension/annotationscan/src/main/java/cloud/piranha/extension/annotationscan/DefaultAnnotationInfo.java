@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.extension.annotationscan;
 
 import cloud.piranha.core.api.AnnotationInfo;
 import java.lang.reflect.AnnotatedElement;

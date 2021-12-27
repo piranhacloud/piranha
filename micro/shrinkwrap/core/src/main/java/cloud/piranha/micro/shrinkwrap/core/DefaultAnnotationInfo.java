@@ -25,60 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.micro.shrinkwrap.core;
 
-import cloud.piranha.core.api.MultiPartManager;
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Part;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
-import java.util.Collection;
-import java.util.Collections;
+import cloud.piranha.core.api.AnnotationInfo;
+import java.lang.reflect.AnnotatedElement;
 
 /**
- * The default MultiPartManager.
+ * The default AnnotationInfo.
  *
+ * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
+ * @param <T> the type.
  */
-public class DefaultMultiPartManager implements MultiPartManager {
+public class DefaultAnnotationInfo<T> implements AnnotationInfo<T> {
 
     /**
-     * Stores the logger.
+     * Stores the instance.
      */
-    private static final Logger LOGGER = System.getLogger(DefaultMultiPartManager.class.getName());
+    private final T instance;
 
     /**
-     * Get the parts.
+     * Stores the target.
+     */
+    private final AnnotatedElement target;
+
+    /**
+     * Constructor.
      *
-     * @param webApplication the web application.
-     * @param request the request.
-     * @return the parts.
-     * @throws ServletException when the request is not a multipart/form-data
-     * request.
+     * @param instance the instance.
+     * @param target the target annotated element.
      */
-    @Override
-    public Collection<Part> getParts(WebApplication webApplication,
-            WebApplicationRequest request) throws ServletException {
-        LOGGER.log(Level.DEBUG, "Getting parts for request: {0}", request);
-        return Collections.emptyList();
+    public DefaultAnnotationInfo(T instance, AnnotatedElement target) {
+        this.instance = instance;
+        this.target = target;
     }
 
-    /**
-     * Get the part.
-     *
-     * @param webApplication the web application.
-     * @param request the request.
-     * @param name the name of the part.
-     * @return the part, or null if not found.
-     * @throws ServletException when the request is not a multipart/form-data
-     * request.
-     */
     @Override
-    public Part getPart(WebApplication webApplication,
-            WebApplicationRequest request, String name) throws ServletException {
-        LOGGER.log(Level.DEBUG, "Getting part: {0} for request: {1}", name, request);
-        return null;
+    public T getInstance() {
+        return instance;
+    }
+
+    @Override
+    public AnnotatedElement getTarget() {
+        return target;
     }
 }

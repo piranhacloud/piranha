@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.extension.annotationscan;
 
 import cloud.piranha.core.api.AnnotationInfo;
 import cloud.piranha.core.api.AnnotationManager;
@@ -60,13 +60,11 @@ public class DefaultAnnotationManager implements AnnotationManager {
     protected final Map<Class, List<Class>> instances = new ConcurrentHashMap<>();
 
     @Override
-    public AnnotationManager addAnnotation(AnnotationInfo annotationInfo) {
+    public void addAnnotation(AnnotationInfo annotationInfo) {
         annotations.computeIfAbsent(
                 ((Annotation) annotationInfo.getInstance()).annotationType(),
                 e -> new ArrayList<>())
                 .add(annotationInfo);
-
-        return this;
     }
 
     /**
@@ -74,15 +72,13 @@ public class DefaultAnnotationManager implements AnnotationManager {
      *
      * @param instanceClass the instance class.
      * @param implementingClass the implementing class.
-     * @return the annotation manager.
      */
-    public AnnotationManager addInstance(Class<?> instanceClass, Class<?> implementingClass) {
+    @Override
+    public void addInstance(Class<?> instanceClass, Class<?> implementingClass) {
         instances.computeIfAbsent(
                 instanceClass,
                 e -> new ArrayList<>())
                 .add(implementingClass);
-
-        return this;
     }
 
     @Override
