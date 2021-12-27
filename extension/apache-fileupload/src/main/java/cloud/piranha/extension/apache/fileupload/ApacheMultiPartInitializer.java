@@ -27,7 +27,6 @@
  */
 package cloud.piranha.extension.apache.fileupload;
 
-import cloud.piranha.core.api.MultiPartManager;
 import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
@@ -59,9 +58,9 @@ public class ApacheMultiPartInitializer implements ServletContainerInitializer {
 
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        LOGGER.log(DEBUG, "Initializing ApacheMultiPartManager");
+        LOGGER.log(DEBUG, "Setting ApacheMultiPartManager");
         WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setManager(MultiPartManager.class, new ApacheMultiPartManager());
+        webApplication.setMultiPartManager(new ApacheMultiPartManager());
         webApplication.addListener("org.apache.commons.fileupload.servlet.FileCleanerCleanup");
     }
 }

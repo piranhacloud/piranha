@@ -30,7 +30,6 @@ package cloud.piranha.extension.annotationscan;
 import cloud.piranha.resource.api.ResourceManagerClassLoader;
 import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.impl.DefaultAnnotationInfo;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -71,8 +70,14 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication webApp = (WebApplication) servletContext;
-
-        AnnotationManager annotationManager = webApp.getManager(AnnotationManager.class);
+        
+        AnnotationManager annotationManager = webApp.getAnnotationManager();
+        if (annotationManager == null) {
+             annotationManager = new DefaultAnnotationManager();
+            webApp.setAnnotationManager(annotationManager);
+        }
+        
+        final AnnotationManager annotationMgr = annotationManager;
 
         ClassLoader classLoader = webApp.getClassLoader();
         if (!(classLoader instanceof ResourceManagerClassLoader resourceManagerClassLoader)) {
@@ -88,7 +93,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
                 .filter(this::hasWebAnnotation)
                 .forEach(targetClazz -> getWebAnnotations(targetClazz)
                 .forEach(annotationInstance
-                        -> annotationManager.addAnnotation(
+                        -> annotationMgr.addAnnotation(
                         new DefaultAnnotationInfo<>(annotationInstance, targetClazz))));
     }
 

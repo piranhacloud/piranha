@@ -155,6 +155,13 @@ public interface WebApplication extends ServletContext {
      * Destroy the web application.
      */
     void destroy();
+    
+    /**
+     * Get the annotation manager.
+     * 
+     * @return the annotation manager.
+     */
+    AnnotationManager getAnnotationManager();
 
     /**
      * {@return the default Servlet}
@@ -295,6 +302,13 @@ public interface WebApplication extends ServletContext {
      */
     void service(ServletRequest request, ServletResponse response)
             throws ServletException, IOException;
+    
+    /**
+     * Set the annotation manager.
+     * 
+     * @param annotationManager the annotation manager.
+     */
+    void setAnnotationManager(AnnotationManager annotationManager);
 
     /**
      * Set the class loader.
@@ -367,6 +381,13 @@ public interface WebApplication extends ServletContext {
      * @return the mime-type manager.
      */
     MimeTypeManager getMimeTypeManager();
+    
+    /**
+     * Get the multi-part manager.
+     * 
+     * @return the multi-part manager.
+     */
+    MultiPartManager getMultiPartManager();
 
     /**
      * Set the effective major version.
@@ -439,6 +460,13 @@ public interface WebApplication extends ServletContext {
      * @param mimeTypeManager the mime-type manager.
      */
     void setMimeTypeManager(MimeTypeManager mimeTypeManager);
+    
+    /**
+     * Set the multi-part manager.
+     * 
+     * @param multiPartManager the multi-part manager. 
+     */
+    void setMultiPartManager(MultiPartManager multiPartManager);
     
     /**
      * Set the object instance manager.

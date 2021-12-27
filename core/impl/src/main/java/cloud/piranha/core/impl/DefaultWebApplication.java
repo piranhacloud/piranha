@@ -166,6 +166,16 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the piranha.response constant
      */
     private static final String PIRANHA_RESPONSE = "piranha.response";
+    
+    /**
+     * Stores the annotation manager.
+     */
+    protected AnnotationManager annotationManager;
+
+    /**
+     * Stores the attributes.
+     */
+    protected final Map<String, Object> attributes;
 
     /**
      * Stores the class loader.
@@ -232,11 +242,6 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the init parameters.
      */
     protected final Map<String, String> initParameters;
-
-    /**
-     * Stores the attributes.
-     */
-    protected final Map<String, Object> attributes;
 
     /**
      * Stores the servlet environments
@@ -323,6 +328,11 @@ public class DefaultWebApplication implements WebApplication {
     protected MimeTypeManager mimeTypeManager;
     
     /**
+     * Stores the multi-part manager.
+     */
+    protected MultiPartManager multiPartManager;
+    
+    /**
      * Stores the object instance manager.
      */
     protected ObjectInstanceManager objectInstanceManager;
@@ -369,9 +379,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     public DefaultWebApplication() {
         managers = new HashMap<>();
-        managers.put(AnnotationManager.class.getName(), new DefaultAnnotationManager());
         managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
-        managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());
         managers.put(WelcomeFileManager.class.getName(), new DefaultWelcomeFileManager());
         attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
@@ -692,39 +700,27 @@ public class DefaultWebApplication implements WebApplication {
         status = SETUP;
     }
 
-    /**
-     * Get the attribute.
-     *
-     * @param name the attribute name.
-     * @return the attribute value.
-     */
+    @Override
+    public AnnotationManager getAnnotationManager() {
+        return annotationManager;
+    }
+
     @Override
     public Object getAttribute(String name) {
         Objects.requireNonNull(name);
         return attributes.get(name);
     }
 
-    /**
-     * {@return the attribute names}
-     */
     @Override
     public Enumeration<String> getAttributeNames() {
         return enumeration(attributes.keySet());
     }
 
-    /**
-     * Are we denying uncovered HTTP methods.
-     *
-     * @return true if we are, false otherwise.
-     */
     @Override
     public boolean getDenyUncoveredHttpMethods() {
         return securityManager != null ? securityManager.getDenyUncoveredHttpMethods() : false;
     }
 
-    /**
-     * {@return the class loader}
-     */
     @Override
     public ClassLoader getClassLoader() {
         return classLoader;
@@ -876,12 +872,6 @@ public class DefaultWebApplication implements WebApplication {
         return 5;
     }
 
-    /**
-     * Get the servlet mappings for the given servlet.
-     *
-     * @param servletName the name of the servlet.
-     * @return the servlet mappings.
-     */
     @Override
     public Collection<String> getMappings(String servletName) {
         return webApplicationRequestMapper.getServletMappings(servletName);
@@ -889,11 +879,9 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public String getMimeType(String filename) {
-        String mimeType = null;
-        if (mimeTypeManager != null) {
-            mimeType = mimeTypeManager.getMimeType(filename);
-        }
-        return mimeType;
+        return mimeTypeManager != null 
+                ? mimeTypeManager.getMimeType(filename)
+                : null;
     }
 
     @Override
@@ -901,12 +889,14 @@ public class DefaultWebApplication implements WebApplication {
         return mimeTypeManager;
     }
 
-    /**
-     * {@return the minor version}
-     */
     @Override
     public int getMinorVersion() {
         return 0;
+    }
+    
+    @Override
+    public MultiPartManager getMultiPartManager() {
+        return multiPartManager;
     }
     
     @Override
@@ -1261,10 +1251,10 @@ public class DefaultWebApplication implements WebApplication {
                 if (annotation != null) {
                     Class<?>[] value = annotation.value();
                     // Get instances
-                    Stream<Class<?>> instances = getManager(AnnotationManager.class).getInstances(value).stream();
+                    Stream<Class<?>> instances = annotationManager.getInstances(value).stream();
 
                     // Get classes by target type
-                    List<AnnotationInfo> annotations = getManager(AnnotationManager.class).getAnnotations(value);
+                    List<AnnotationInfo> annotations = annotationManager.getAnnotations(value);
                     Stream<Class<?>> classStream = annotations.stream().map(AnnotationInfo::getTargetType);
 
                     classes = Stream.concat(instances, classStream).collect(Collectors.toUnmodifiableSet());
@@ -1476,6 +1466,16 @@ public class DefaultWebApplication implements WebApplication {
             webAppRequest.getUpgradeHandler().init(connection);
         }
     }
+    
+    /**
+     * Set the annotation manager.
+     * 
+     * @param annotationManager the annotation manager.
+     */
+    @Override
+    public void setAnnotationManager(AnnotationManager annotationManager) {
+        this.annotationManager = annotationManager;
+    }
 
     /**
      * Set the attribute.
@@ -1595,6 +1595,11 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void setMimeTypeManager(MimeTypeManager mimeTypeManager) {
         this.mimeTypeManager = mimeTypeManager;
+    }
+    
+    @Override
+    public void setMultiPartManager(MultiPartManager multiPartManager) {
+        this.multiPartManager = multiPartManager;
     }
 
     @Override
