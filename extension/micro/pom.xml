@@ -20,6 +20,12 @@
         <!-- compile -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-apache-fileupload</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-herring</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -86,13 +92,6 @@
             <scope>provided</scope>
         </dependency>
         <!-- runtime -->
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-apache-fileupload</artifactId>
-            <version>${project.version}</version>
-            <classifier>shaded</classifier>
-            <scope>runtime</scope>
-        </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-soteria</artifactId>

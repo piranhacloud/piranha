@@ -25,9 +25,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.extension.apache.fileupload.ApacheMultiPartInitializer;
-import jakarta.servlet.ServletContainerInitializer;
-
 /**
  * This module delivers file upload functionality using Apache Commons
  * FileUpload.
@@ -35,8 +32,8 @@ import jakarta.servlet.ServletContainerInitializer;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.apache.fileupload {
-    
+
+    exports cloud.piranha.extension.apache.fileupload;
     opens cloud.piranha.extension.apache.fileupload;
-    provides ServletContainerInitializer with ApacheMultiPartInitializer;
     requires cloud.piranha.core.api;
 }
