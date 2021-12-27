@@ -349,14 +349,14 @@ public class WebXmlProcessor {
             LOGGER.log(DEBUG, () -> "Configuring Servlet: " + servlet.getServletName());
 
             ServletRegistration.Dynamic dynamic;
-            
+
             String jspFile = servlet.getJspFile();
             if (!isEmpty(jspFile)) {
                 dynamic = webApplication.addJspFile(servlet.getServletName(), jspFile);
             } else {
                 dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
             }
-            
+
             if (servlet.isAsyncSupported()) {
                 dynamic.setAsyncSupported(true);
             }
@@ -392,11 +392,13 @@ public class WebXmlProcessor {
         LOGGER.log(DEBUG, "Adding welcome files");
 
         Iterator<String> iterator = webXml.getWelcomeFiles().iterator();
-        WelcomeFileManager welcomeFileManager = webApplication.getManager(WelcomeFileManager.class);
-        while (iterator.hasNext()) {
-            String welcomeFile = iterator.next();
-            LOGGER.log(DEBUG, () -> "Adding welcome file: " + welcomeFile);
-            welcomeFileManager.addWelcomeFile(welcomeFile);
+        WelcomeFileManager welcomeFileManager = webApplication.getWelcomeFileManager();
+        if (welcomeFileManager != null) {
+            while (iterator.hasNext()) {
+                String welcomeFile = iterator.next();
+                LOGGER.log(DEBUG, () -> "Adding welcome file: " + welcomeFile);
+                welcomeFileManager.addWelcomeFile(welcomeFile);
+            }
         }
     }
 

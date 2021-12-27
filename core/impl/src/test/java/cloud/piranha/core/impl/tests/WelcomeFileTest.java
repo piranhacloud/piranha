@@ -32,6 +32,7 @@ import cloud.piranha.core.impl.DefaultServlet;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
+import cloud.piranha.core.impl.DefaultWelcomeFileManager;
 import cloud.piranha.resource.impl.DirectoryResource;
 import org.junit.jupiter.api.Test;
 
@@ -56,6 +57,7 @@ class WelcomeFileTest {
     void testIndexHtml() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DirectoryResource(new File("src/test/webapp/default")));
+        webApp.setWelcomeFileManager(new DefaultWelcomeFileManager());
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
@@ -80,7 +82,8 @@ class WelcomeFileTest {
     @Test
     void testCustomWelcomeFilel() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager(WelcomeFileManager.class).addWelcomeFile("custom.html");
+        webApp.setWelcomeFileManager(new DefaultWelcomeFileManager());
+        webApp.getWelcomeFileManager().addWelcomeFile("custom.html");
         webApp.addResource(new DirectoryResource(new File("src/test/webapp/custom")));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);

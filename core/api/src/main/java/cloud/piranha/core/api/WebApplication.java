@@ -184,6 +184,13 @@ public interface WebApplication extends ServletContext {
     default String getServletContextId() {
         return getVirtualServerName() + " " + getContextPath();
     }
+    
+    /**
+     * Get the welcome file manager.
+     * 
+     * @return the welcome file manager.
+     */
+    WelcomeFileManager getWelcomeFileManager();
 
     /**
      * {@return the HttpSessionManager}
@@ -503,6 +510,13 @@ public interface WebApplication extends ServletContext {
      */
     void setWebApplicationRequestMapper(WebApplicationRequestMapper webApplicationRequestMapper);
 
+    /**
+     * Set the welcome file manager.
+     * 
+     * @param welcomeFileManager the welcome file manager.
+     */
+    void setWelcomeFileManager(WelcomeFileManager welcomeFileManager);
+    
     /**
      * Start servicing.
      */

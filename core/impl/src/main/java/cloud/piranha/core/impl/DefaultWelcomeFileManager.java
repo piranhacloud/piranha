@@ -28,13 +28,8 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.WelcomeFileManager;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 
 /**
  * The default WelcomeFileManager.
@@ -74,12 +69,6 @@ public class DefaultWelcomeFileManager implements WelcomeFileManager {
             removeDefaults = false;
         }
         welcomeFileList.add(welcomeFile);
-    }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, 
-            FilterChain chain) throws IOException, ServletException {
-        chain.doFilter(request, response);
     }
     
     @Override
