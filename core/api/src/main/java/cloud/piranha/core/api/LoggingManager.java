@@ -33,6 +33,13 @@ package cloud.piranha.core.api;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface LoggingManager {
+    
+    /**
+     * Log the message.
+     * 
+     * @param message the message.
+     */
+    void log(String message);
 
     /**
      * Log the message.

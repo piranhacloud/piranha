@@ -382,7 +382,7 @@ class NanoRequestTest {
         NanoRequest request = new NanoRequest();
         request.setWebApplication(webApplication);
         webApplication.linkRequestAndResponse(request, response);
-        assertThrows(ServletException.class, () -> request.login("username", "password"));
+        request.login("username", "password");
     }
 
     /**
@@ -398,8 +398,8 @@ class NanoRequestTest {
             request.setWebApplication(webApplication);
             webApplication.linkRequestAndResponse(request, response);
             request.logout();
-            fail();
         } catch (ServletException ex) {
+            fail();
         }
     }
 

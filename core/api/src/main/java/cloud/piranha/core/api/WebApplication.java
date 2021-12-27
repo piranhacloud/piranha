@@ -155,6 +155,13 @@ public interface WebApplication extends ServletContext {
      * Destroy the web application.
      */
     void destroy();
+    
+    /**
+     * Get the annotation manager.
+     * 
+     * @return the annotation manager.
+     */
+    AnnotationManager getAnnotationManager();
 
     /**
      * {@return the default Servlet}
@@ -220,6 +227,11 @@ public interface WebApplication extends ServletContext {
      * @param request the request.
      */
     ServletResponse getResponse(ServletRequest request);
+    
+    /**
+     * {@return the security manager}
+     */
+    SecurityManager getSecurityManager();
 
     /**
      * Initialize the web application.
@@ -264,6 +276,13 @@ public interface WebApplication extends ServletContext {
      * @return true if it is, false otherwise.
      */
     boolean isInitialized();
+    
+    /**
+     * Is the web application metadata complete.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    boolean isMetadataComplete();
 
     /**
      * Link the request and response.
@@ -283,6 +302,13 @@ public interface WebApplication extends ServletContext {
      */
     void service(ServletRequest request, ServletResponse response)
             throws ServletException, IOException;
+    
+    /**
+     * Set the annotation manager.
+     * 
+     * @param annotationManager the annotation manager.
+     */
+    void setAnnotationManager(AnnotationManager annotationManager);
 
     /**
      * Set the class loader.
@@ -318,13 +344,13 @@ public interface WebApplication extends ServletContext {
      * @param distributable the distributable flag.
      */
     void setDistributable(boolean distributable);
-
+    
     /**
-     * Set the effective major version.
-     *
-     * @param version the effective major version.
+     * Get the JSP manager.
+     * 
+     * @return the JSP manager.
      */
-    void setEffectiveMajorVersion(int version);
+    JspManager getJspManager();
 
     /**
      * Get the locale encoding manager.
@@ -332,6 +358,13 @@ public interface WebApplication extends ServletContext {
      * @return the locale encoding manager.
      */
     LocaleEncodingManager getLocaleEncodingManager();
+    
+    /**
+     * Get the logging manager.
+     * 
+     * @return the logging manager.
+     */
+    LoggingManager getLoggingManager();
 
     /**
      * Get the manager.
@@ -348,6 +381,20 @@ public interface WebApplication extends ServletContext {
      * @return the mime-type manager.
      */
     MimeTypeManager getMimeTypeManager();
+    
+    /**
+     * Get the multi-part manager.
+     * 
+     * @return the multi-part manager.
+     */
+    MultiPartManager getMultiPartManager();
+
+    /**
+     * Set the effective major version.
+     *
+     * @param version the effective major version.
+     */
+    void setEffectiveMajorVersion(int version);
 
     /**
      * Set the effective minor version.
@@ -369,6 +416,13 @@ public interface WebApplication extends ServletContext {
      * @param httpSessionManager the HTTP session manager.
      */
     void setHttpSessionManager(HttpSessionManager httpSessionManager);
+    
+    /**
+     * Set the JSP manager.
+     * 
+     * @param jspManager the JSP manager.
+     */
+    void setJspManager(JspManager jspManager);
 
     /**
      * Set the locale encoding manager.
@@ -376,6 +430,13 @@ public interface WebApplication extends ServletContext {
      * @param localeEncodingManager
      */
     void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager);
+    
+    /**
+     * Set the logging manager.
+     * 
+     * @param loggingManager the logging manager.
+     */
+    void setLoggingManager(LoggingManager loggingManager);
 
     /**
      * Set the manager.
@@ -385,6 +446,13 @@ public interface WebApplication extends ServletContext {
      * @param manager the manager instance.
      */
     <T> void setManager(Class<T> clazz, T manager);
+    
+    /**
+     * Set the metadata complete flag.
+     * 
+     * @param metadataComplete the metadata complete flag.
+     */
+    void setMetadataComplete(boolean metadataComplete);
 
     /**
      * Set the mime-type manager.
@@ -392,6 +460,13 @@ public interface WebApplication extends ServletContext {
      * @param mimeTypeManager the mime-type manager.
      */
     void setMimeTypeManager(MimeTypeManager mimeTypeManager);
+    
+    /**
+     * Set the multi-part manager.
+     * 
+     * @param multiPartManager the multi-part manager. 
+     */
+    void setMultiPartManager(MultiPartManager multiPartManager);
     
     /**
      * Set the object instance manager.
@@ -406,6 +481,13 @@ public interface WebApplication extends ServletContext {
      * @param resourceManager the resource manager.
      */
     void setResourceManager(ResourceManager resourceManager);
+
+    /**
+     * Set the security manager.
+     * 
+     * @param securityManager 
+     */
+    void setSecurityManager(SecurityManager securityManager);
 
     /**
      * Set the servlet context name.

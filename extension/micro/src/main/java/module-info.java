@@ -30,12 +30,14 @@ import cloud.piranha.core.api.WebApplicationExtension;
 
 module cloud.piranha.extension.micro {
     provides WebApplicationExtension with MicroExtension;
+    requires cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.locale_encoding;
     requires cloud.piranha.extension.mimetype;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.security.jakarta;
+    requires cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webannotations;
     requires cloud.piranha.extension.webxml;

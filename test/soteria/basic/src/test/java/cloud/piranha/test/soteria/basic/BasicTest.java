@@ -55,7 +55,7 @@ import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.extension.exousia.AuthorizationInitializer;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
 import cloud.piranha.extension.herring.HerringExtension;
-import cloud.piranha.extension.security.servlet.ServletSecurityInitializer;
+import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.soteria.SoteriaInitializer;
 
 @BasicAuthenticationMechanismDefinition(realmName = "test")
@@ -66,6 +66,7 @@ class BasicTest {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
 
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .extension(ServletSecurityManagerExtension.class)
                 .extension(HerringExtension.class)
                 .initializer(WebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
@@ -76,7 +77,6 @@ class BasicTest {
                 .initializer(AuthorizationPreInitializer.class.getName())
                 .initializer(AuthenticationInitializer.class.getName())
                 .initializer(AuthorizationInitializer.class.getName())
-                .initializer(ServletSecurityInitializer.class.getName())
                 .initializer(SoteriaInitializer.class.getName())
                 .servlet("PublicServlet", PublicServlet.class.getName())
                 .servletMapping("PublicServlet", "/public/servlet")

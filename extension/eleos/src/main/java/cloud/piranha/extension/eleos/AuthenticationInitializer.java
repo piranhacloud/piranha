@@ -55,7 +55,6 @@ import cloud.piranha.extension.webxml.WebXml;
 import cloud.piranha.extension.webxml.WebXmlLoginConfig;
 import cloud.piranha.extension.webxml.WebXmlManager;
 import cloud.piranha.core.api.AuthenticatedIdentity;
-import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
 import jakarta.servlet.FilterRegistration;
@@ -132,7 +131,7 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
     private void setUsernamePasswordLoginHandler(ServletContext servletContext, DefaultAuthenticationService authenticationService) {
         WebApplication webApplication = (WebApplication) servletContext;
 
-        webApplication.getManager(SecurityManager.class).setUsernamePasswordLoginHandler(
+        webApplication.getSecurityManager().setUsernamePasswordLoginHandler(
             (request, username, password) -> callerToIdentity(authenticationService.login(username, password))
         );
     }

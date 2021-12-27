@@ -37,6 +37,7 @@ module cloud.piranha.micro.shrinkwrap.core {
     exports cloud.piranha.micro.shrinkwrap.core;
     provides BeanArchiveHandler with PiranhaBeanArchiveHandler;
     provides Extension with CdiExtension;
+    requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.security.jakarta;
     requires cloud.piranha.extension.weld;
     requires cloud.piranha.http.api;

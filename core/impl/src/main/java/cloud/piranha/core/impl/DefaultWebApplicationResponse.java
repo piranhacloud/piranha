@@ -218,6 +218,10 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
 
     @Override
     public void addHeader(String name, String value) {
+        if (isCommitted()) {
+            return;
+        }
+        
         if (isInclude()) {
             return;
         }
@@ -457,6 +461,9 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         }
         setHeader("Location", url.toExternalForm());
         flushBuffer();
+        if (gotWriter) {
+            writer.close();
+        }
     }
 
     /**

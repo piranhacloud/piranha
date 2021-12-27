@@ -58,14 +58,21 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
      * Stores the HTTP server processor.
      */
     private final HttpServerProcessor httpServerProcessor;
+    
+    /**
+     * Stores the secure flag.
+     */
+    private final boolean secure;
 
     /**
      * Constructor.
      *
      * @param httpServerProcessor the HTTP server processor.
+     * @param secure the secure flag.
      */
-    public NettyHttpServerHandler(HttpServerProcessor httpServerProcessor) {
+    public NettyHttpServerHandler(HttpServerProcessor httpServerProcessor, boolean secure) {
         this.httpServerProcessor = httpServerProcessor;
+        this.secure = secure;
     }
 
     /**
@@ -86,7 +93,7 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
      */
     @Override
     protected void channelRead0(ChannelHandlerContext context, FullHttpRequest object) {
-        NettyHttpServerRequest nettyRequest = new NettyHttpServerRequest(context, object);
+        NettyHttpServerRequest nettyRequest = new NettyHttpServerRequest(context, object, secure);
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, true);
         NettyHttpServerResponse nettyResponse = new NettyHttpServerResponse(response);
         httpServerProcessor.process(nettyRequest, nettyResponse);

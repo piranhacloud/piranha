@@ -144,6 +144,10 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
                 }
             }
         }
+        
+        if (request.isSecure()) {
+            applicationServerRequest.setScheme("https");
+        }
 
         return applicationServerRequest;
     }

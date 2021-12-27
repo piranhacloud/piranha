@@ -64,17 +64,24 @@ public class NettyHttpServerRequest implements HttpServerRequest {
      * Stores the underlying HTTP request.
      */
     private final FullHttpRequest request;
+    
+    /**
+     * Stores the secure flag.
+     */
+    private final boolean secure;
 
     /**
      * Constructor.
      *
      * @param request the HTTP request.
      * @param context the context.
+     * @param secure the secure flag.
      */
-    public NettyHttpServerRequest(ChannelHandlerContext context, FullHttpRequest request) {
+    public NettyHttpServerRequest(ChannelHandlerContext context, FullHttpRequest request, boolean secure) {
         super();
         this.context = context;
         this.request = request;
+        this.secure = secure;
     }
 
     @Override
@@ -171,5 +178,10 @@ public class NettyHttpServerRequest implements HttpServerRequest {
     @Override
     public String getProtocol() {
         return request.protocolVersion().text();
+    }
+
+    @Override
+    public boolean isSecure() {
+        return secure;
     }
 }

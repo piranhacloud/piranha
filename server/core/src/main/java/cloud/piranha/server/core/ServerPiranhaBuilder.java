@@ -80,6 +80,16 @@ public class ServerPiranhaBuilder {
     private String sslKeystorePassword;
 
     /**
+     * Stores the SSL truststore file.
+     */
+    private String sslTruststoreFile;
+
+    /**
+     * Stores the SSL truststore password.
+     */
+    private String sslTruststorePassword;
+
+    /**
      * Stores the verbose flag.
      */
     private boolean verbose = false;
@@ -110,6 +120,12 @@ public class ServerPiranhaBuilder {
         }
         if (sslKeystorePassword != null) {
             piranha.setSslKeystorePassword(sslKeystorePassword);
+        }
+        if (sslTruststoreFile != null) {
+            piranha.setSslKeystoreFile(sslTruststoreFile);
+        }
+        if (sslTruststorePassword != null) {
+            piranha.setSslKeystorePassword(sslTruststorePassword);
         }
         piranha.setWebAppsDir(new File(webAppsDir));
         return piranha;
@@ -182,14 +198,16 @@ public class ServerPiranhaBuilder {
                 Arguments
                 =========
                 
-                Default extension     : %s
-                Exit on stop          : %s
-                HTTP port             : %s
-                HTTPS port            : %s
-                JPMS enabled          : %s
-                SSL keystore file     : %s
-                SSK keystore password : ****
-                Web applications dir  : %s
+                Default extension       : %s
+                Exit on stop            : %s
+                HTTP port               : %s
+                HTTPS port              : %s
+                JPMS enabled            : %s
+                SSL keystore file       : %s
+                SSL keystore password   : ****
+                SSL truststore file     : %s
+                SSL truststore password : ****
+                Web applications dir    : %s
                 
                 """,
                 defaultExtensionClass.getName(),
@@ -198,6 +216,7 @@ public class ServerPiranhaBuilder {
                 httpsPort,
                 jpms,
                 sslKeystoreFile,
+                sslTruststoreFile,
                 webAppsDir
         );
     }
@@ -221,6 +240,28 @@ public class ServerPiranhaBuilder {
      */
     public ServerPiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
         this.sslKeystorePassword = sslKeystorePassword;
+        return this;
+    }
+
+    /**
+     * Set the SSL truststore file.
+     *
+     * @param sslTruststoreFile the SSL truststore file.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder sslTruststoreFile(String sslTruststoreFile) {
+        this.sslTruststoreFile = sslTruststoreFile;
+        return this;
+    }
+
+    /**
+     * Set the SSL truststore password.
+     *
+     * @param sslTruststorePassword the SSL truststore password.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder sslTruststorePassword(String sslTruststorePassword) {
+        this.sslTruststorePassword = sslTruststorePassword;
         return this;
     }
 

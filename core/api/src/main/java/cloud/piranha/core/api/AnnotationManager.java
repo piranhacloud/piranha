@@ -43,9 +43,16 @@ public interface AnnotationManager {
      * Add the annotation.
      *
      * @param annotationInfo the annotation info.
-     * @return the annotation manager.
      */
-    AnnotationManager addAnnotation(AnnotationInfo<?> annotationInfo);
+    void addAnnotation(AnnotationInfo<?> annotationInfo);
+    
+    /**
+     * Add an instance.
+     * 
+     * @param instanceClass the instance class.
+     * @param implementingClass the implementing class.
+     */
+    void addInstance(Class<?> instanceClass, Class<?> implementingClass);
     
     /**
      * Get the annotations.

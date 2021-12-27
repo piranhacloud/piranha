@@ -29,7 +29,6 @@ package cloud.piranha.extension.webxml;
 
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.MimeTypeManager;
-import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WelcomeFileManager;
 import jakarta.servlet.DispatcherType;
@@ -71,6 +70,7 @@ public class WebXmlProcessor {
      */
     public void process(WebXml webXml, WebApplication webApplication) {
         LOGGER.log(TRACE, "Started WebXmlProcessor.process");
+        processMetadataComplete(webApplication, webXml);
         processContextParameters(webApplication, webXml);
         processDefaultContextPath(webApplication, webXml);
         processDenyUncoveredHttpMethods(webApplication, webXml);
@@ -92,6 +92,18 @@ public class WebXmlProcessor {
         processLocaleEncodingMapping(webApplication, webXml);
         processSessionConfig(webApplication, webXml);
         LOGGER.log(TRACE, "Finished WebXmlProcessor.process");
+    }
+
+    /**
+     * Process the metadata complete.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processMetadataComplete(WebApplication webApplication, WebXml webXml) {
+        if (webXml.getMetadataComplete()) {
+            webApplication.setMetadataComplete(true);
+        }
     }
 
     /**
@@ -278,7 +290,11 @@ public class WebXmlProcessor {
     }
 
     private void processRoleNames(WebApplication webApplication, WebXml webXml) {
-        webApplication.getManager(SecurityManager.class).declareRoles(webXml.getRoleNames());
+        if (webApplication.getSecurityManager() == null) {
+            LOGGER.log(WARNING, "No SecurityManager configured");
+        } else {
+            webApplication.getSecurityManager().declareRoles(webXml.getRoleNames());
+        }
     }
 
     /**
@@ -332,13 +348,15 @@ public class WebXmlProcessor {
         for (WebXmlServlet servlet : webXml.getServlets()) {
             LOGGER.log(DEBUG, () -> "Configuring Servlet: " + servlet.getServletName());
 
-            ServletRegistration.Dynamic dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
-
+            ServletRegistration.Dynamic dynamic;
+            
             String jspFile = servlet.getJspFile();
             if (!isEmpty(jspFile)) {
-                webApplication.addJspFile(servlet.getServletName(), jspFile);
+                dynamic = webApplication.addJspFile(servlet.getServletName(), jspFile);
+            } else {
+                dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
             }
-
+            
             if (servlet.isAsyncSupported()) {
                 dynamic.setAsyncSupported(true);
             }
@@ -395,7 +413,7 @@ public class WebXmlProcessor {
             if (localeEncodingManager != null) {
                 localeMapping.forEach(localeEncodingManager::addCharacterEncoding);
             } else {
-                LOGGER.log(WARNING, "No LocaleEncodingManager set, skipping adding locales");
+                LOGGER.log(WARNING, "No LocaleEncodingManager configured");
             }
         }
     }

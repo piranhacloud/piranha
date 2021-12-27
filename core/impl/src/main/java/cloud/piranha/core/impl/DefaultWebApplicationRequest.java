@@ -31,7 +31,6 @@ import cloud.piranha.core.api.AttributeManager;
 import cloud.piranha.core.api.HttpHeaderManager;
 import cloud.piranha.core.api.HttpSessionManager;
 import cloud.piranha.core.api.MultiPartManager;
-import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import static cloud.piranha.core.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
@@ -61,6 +60,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.System.Logger;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
@@ -85,6 +85,12 @@ import static java.util.Objects.requireNonNull;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultWebApplicationRequest extends ServletInputStream implements WebApplicationRequest {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER
+            = System.getLogger(DefaultWebApplicationRequest.class.getName());
 
     /**
      * Defines the 'multipart/form-data' constant.
@@ -197,9 +203,14 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     protected String method;
 
     /**
-     * Stores the multipartConfig.
+     * Stores the multipart config.
      */
     protected MultipartConfigElement multipartConfig;
+    
+    /**
+     * Stores the multipart manager.
+     */
+    protected MultiPartManager multipartManager;
 
     /**
      * Stores the parameters.
@@ -368,7 +379,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     @Override
     public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
-        return webApplication.getManager(SecurityManager.class).authenticate(this, response);
+        boolean authenticated = false;
+        if (webApplication.getSecurityManager() != null) {
+            authenticated = webApplication.getSecurityManager().authenticate(this, response);
+        }
+        return authenticated;
     }
 
     @Override
@@ -659,11 +674,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                     }
                 } else {
 
-                boolean hasBody
-                        = // FORM submission
-                        contentType != null && contentType.startsWith("application/x-www-form-urlencoded")
-                        || // PUT parameters
-                        "put".equalsIgnoreCase(getMethod()) && getContentLength() > 0;
+                    boolean hasBody
+                            = // FORM submission
+                            contentType != null && contentType.startsWith("application/x-www-form-urlencoded")
+                            || // PUT parameters
+                            "put".equalsIgnoreCase(getMethod()) && getContentLength() > 0;
 
                     if (hasBody) {
                         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
@@ -704,7 +719,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     /**
      * Merge query string from this request and from the attribute
-     * {@link RequestDispatcher#INCLUDE_QUERY_STRING} if the dispatcher type is {@link DispatcherType#INCLUDE}
+     * {@link RequestDispatcher#INCLUDE_QUERY_STRING} if the dispatcher type is
+     * {@link DispatcherType#INCLUDE}
+     *
      * @return the query string merged
      */
     private String mergeQueryFromAttributes() {
@@ -723,13 +740,17 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Part getPart(String name) throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getManager(MultiPartManager.class).getPart(webApplication, this, name);
+        return multipartManager != null 
+                ? multipartManager.getPart(webApplication, this, name) 
+                : null;
     }
 
     @Override
     public Collection<Part> getParts() throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getManager(MultiPartManager.class).getParts(webApplication, this);
+        return multipartManager != null
+                ? multipartManager.getParts(webApplication, this)
+                : Collections.EMPTY_LIST;
     }
 
     @Override
@@ -813,17 +834,18 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public RequestDispatcher getRequestDispatcher(String path) {
         Path rootContext = Paths.get(getContextPath());
         Path resolved = rootContext.resolveSibling(Paths.get(path)).normalize();
-        if (!resolved.startsWith(rootContext))
+        if (!resolved.startsWith(rootContext)) {
             resolved = rootContext.resolveSibling(resolved);
+        }
         return webApplication.getRequestDispatcher(resolved.toString());
     }
 
     @Override
     public String getRequestURI() {
         return addOrRemoveSlashIfNeeded(
-            contextPath +
-            coalesce(originalServletPath, servletPath) +
-            coalesce(pathInfo, ""));
+                contextPath
+                + coalesce(originalServletPath, servletPath)
+                + coalesce(pathInfo, ""));
     }
 
     @Override
@@ -954,17 +976,26 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     @Override
     public boolean isUserInRole(String role) {
-        return webApplication.getManager(SecurityManager.class).isUserInRole(this, role);
+        boolean userInRole = false;
+        if (webApplication.getSecurityManager() != null) {
+            userInRole = webApplication.getSecurityManager().isUserInRole(this, role);
+        }
+        return userInRole;
     }
 
     @Override
     public void login(String username, String password) throws ServletException {
-        webApplication.getManager(SecurityManager.class).login(this, username, password);
+        if (webApplication.getSecurityManager() != null) {
+            webApplication.getSecurityManager().login(this, username, password);
+        }
     }
 
     @Override
     public void logout() throws ServletException {
-        webApplication.getManager(SecurityManager.class).logout(this, (HttpServletResponse) this.webApplication.getResponse(this));
+        if (webApplication.getSecurityManager() != null) {
+            webApplication.getSecurityManager().logout(this, 
+                    (HttpServletResponse) webApplication.getResponse(this));
+        }
     }
 
     @Override
@@ -1359,7 +1390,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     @Override
     public AsyncContext startAsync(ServletRequest request, ServletResponse response) throws IllegalStateException {
-        requireNonNull(request); requireNonNull(response);
+        requireNonNull(request);
+        requireNonNull(response);
 
         if (!isAsyncSupported()) {
             throw new IllegalStateException("Async is not supported");
@@ -1386,7 +1418,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
             previousAttribute = previousRequest.getAttribute(PREVIOUS_REQUEST);
         }
-
 
         return asyncContext;
     }

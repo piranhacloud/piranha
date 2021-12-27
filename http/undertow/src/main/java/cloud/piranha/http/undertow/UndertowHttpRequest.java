@@ -144,4 +144,9 @@ public class UndertowHttpRequest implements HttpServerRequest {
     public String getProtocol() {
         return exchange.getProtocol().toString();
     }
+
+    @Override
+    public boolean isSecure() {
+        return exchange.isSecure();
+    }
 }

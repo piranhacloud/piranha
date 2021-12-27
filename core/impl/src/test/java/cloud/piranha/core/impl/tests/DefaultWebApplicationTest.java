@@ -28,8 +28,6 @@
 package cloud.piranha.core.impl.tests;
 
 import cloud.piranha.core.api.LoggingManager;
-import cloud.piranha.core.api.SecurityManager;
-import cloud.piranha.core.impl.DefaultSecurityManager;
 import cloud.piranha.core.impl.DefaultServlet;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationRequestMapper;
@@ -140,11 +138,7 @@ class DefaultWebApplicationTest {
     @Test
     void testDeclareRoles() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultSecurityManager manager = new DefaultSecurityManager();
-        webApp.setManager(SecurityManager.class, manager);
         webApp.declareRoles(new String[]{"ADMIN", "USER"});
-        assertTrue(manager.getRoles().contains("ADMIN"));
-        assertTrue(manager.getRoles().contains("USER"));
     }
 
     /**
@@ -544,8 +538,7 @@ class DefaultWebApplicationTest {
     @Test
     void testGetSecurityManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setManager(SecurityManager.class, new DefaultSecurityManager());
-        assertNotNull(webApp.getManager(SecurityManager.class));
+        assertNull(webApp.getSecurityManager());
     }
 
     /**
@@ -721,13 +714,8 @@ class DefaultWebApplicationTest {
      */
     @Test
     void testLog() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        final StringBuilder log = new StringBuilder();
-        webApp.setManager(LoggingManager.class, (LoggingManager) ((String message, Throwable throwable) -> {
-            log.append(message);
-        }));
-        webApp.log("TEST");
-        assertEquals("TEST", log.toString());
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.log("TEST");
     }
 
     /**
@@ -738,7 +726,8 @@ class DefaultWebApplicationTest {
     void testLog2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         IllegalStateException exception = new IllegalStateException();
-        assertThrows(UnsupportedOperationException.class, () -> webApp.log(exception, "TEST"));
+        assertNotNull(assertThrows(UnsupportedOperationException.class, 
+                () -> webApp.log(exception, "TEST")));
     }
 
     /**
@@ -747,12 +736,7 @@ class DefaultWebApplicationTest {
     @Test
     void testLog3() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        final StringBuilder log = new StringBuilder();
-        webApp.setManager(LoggingManager.class, (LoggingManager) ((String message, Throwable throwable) -> {
-            log.append(message).append(" - ").append(throwable.getMessage());
-        }));
-        webApp.log("TEST", new RuntimeException("Reason"));
-        assertEquals("TEST - Reason", log.toString());
+        webApp.log("TEST", new RuntimeException());
     }
 
     /**
@@ -761,14 +745,12 @@ class DefaultWebApplicationTest {
     @Test
     void testLogin() {
         try {
-            DefaultSecurityManager securityManager = new DefaultSecurityManager();
             DefaultWebApplication webApp = new DefaultWebApplication();
-            webApp.setManager(SecurityManager.class, securityManager);
             TestWebApplicationRequest request = new TestWebApplicationRequest();
             request.setWebApplication(webApp);
             request.login("admin", "password");
-            fail();
         } catch (ServletException exception) {
+            fail();
         }
     }
 
@@ -778,14 +760,12 @@ class DefaultWebApplicationTest {
     @Test
     void testLogout() {
         try {
-            DefaultSecurityManager securityManager = new DefaultSecurityManager();
             DefaultWebApplication webApp = new DefaultWebApplication();
-            webApp.setManager(SecurityManager.class, securityManager);
             TestWebApplicationRequest request = new TestWebApplicationRequest();
             request.setWebApplication(webApp);
             request.logout();
-            fail();
         } catch (ServletException exception) {
+            fail();
         }
     }
 
@@ -952,9 +932,9 @@ class DefaultWebApplicationTest {
      */
     @Test
     void testSetLoggingManager() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setManager(LoggingManager.class, null);
-        assertThrows(NullPointerException.class, () -> webApp.log("KABOOM"));
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.setLoggingManager(null);
+        webApplication.log("KABOOM");
     }
 
     @Test

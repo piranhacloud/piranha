@@ -43,7 +43,13 @@
             <artifactId>piranha-http-webapp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>        
+        </dependency>     
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-annotationscan</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>   
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jandex</artifactId>

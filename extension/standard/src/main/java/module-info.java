@@ -35,6 +35,7 @@
  * <ul>
  *  <li>Annotation scanning support</li>
  *  <li>JNDI support (Manorrock Herring)</li>
+ *  <li>Logging support</li>
  *  <li>Mimetype support</li>
  *  <li>Policy support</li>
  *  <li>ServletContainerInitializer support</li>
@@ -47,9 +48,11 @@
 module cloud.piranha.extension.standard {
     exports cloud.piranha.extension.standard;
     opens cloud.piranha.extension.standard;
+    requires cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.locale_encoding;
+    requires cloud.piranha.extension.logging;
     requires cloud.piranha.extension.mimetype;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;

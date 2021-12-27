@@ -100,6 +100,6 @@ public class NettyHttpServerInitializer extends ChannelInitializer<SocketChannel
         pipeline.addLast(new HttpRequestDecoder());
         pipeline.addLast(new HttpResponseEncoder());
         pipeline.addLast(new HttpObjectAggregator(10*1024*1024));
-        pipeline.addLast(new NettyHttpServerHandler(httpServerProcessor));
+        pipeline.addLast(new NettyHttpServerHandler(httpServerProcessor, ssl));
     }
 }

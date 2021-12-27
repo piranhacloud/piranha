@@ -166,6 +166,16 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the piranha.response constant
      */
     private static final String PIRANHA_RESPONSE = "piranha.response";
+    
+    /**
+     * Stores the annotation manager.
+     */
+    protected AnnotationManager annotationManager;
+
+    /**
+     * Stores the attributes.
+     */
+    protected final Map<String, Object> attributes;
 
     /**
      * Stores the class loader.
@@ -234,11 +244,6 @@ public class DefaultWebApplication implements WebApplication {
     protected final Map<String, String> initParameters;
 
     /**
-     * Stores the attributes.
-     */
-    protected final Map<String, Object> attributes;
-
-    /**
      * Stores the servlet environments
      */
     protected final Map<String, DefaultServletEnvironment> servletEnvironments;
@@ -301,16 +306,31 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the locale encoding manager.
      */
     protected LocaleEncodingManager localeEncodingManager;
+    
+    /**
+     * Stores the logging manager.
+     */
+    protected LoggingManager loggingManager;
 
     /**
      * Stores the managers.
      */
     protected HashMap<String, Object> managers;
+    
+    /**
+     * Stores the metadata complete flag.
+     */
+    protected boolean metadataComplete;
 
     /**
      * Stores the mime-type manager.
      */
     protected MimeTypeManager mimeTypeManager;
+    
+    /**
+     * Stores the multi-part manager.
+     */
+    protected MultiPartManager multiPartManager;
     
     /**
      * Stores the object instance manager.
@@ -321,6 +341,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the request character encoding.
      */
     protected String requestCharacterEncoding;
+    
+    /**
+     * Stores the security manager.
+     */
+    protected SecurityManager securityManager;
 
     /**
      * The source object where this web application instance originates from,
@@ -343,18 +368,18 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the web application request mapper.
      */
     protected WebApplicationRequestMapper webApplicationRequestMapper;
+    
+    /**
+     * Stores the JSP manager.
+     */
+    protected JspManager jspManager;
 
     /**
      * Constructor.
      */
     public DefaultWebApplication() {
         managers = new HashMap<>();
-        managers.put(AnnotationManager.class.getName(), new DefaultAnnotationManager());
         managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
-        managers.put(JspManager.class.getName(), new DefaultJspFileManager());
-        managers.put(LoggingManager.class.getName(), new DefaultLoggingManager());
-        managers.put(MultiPartManager.class.getName(), new DefaultMultiPartManager());
-        managers.put(SecurityManager.class.getName(), new DefaultSecurityManager());
         managers.put(WelcomeFileManager.class.getName(), new DefaultWelcomeFileManager());
         attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
@@ -374,11 +399,11 @@ public class DefaultWebApplication implements WebApplication {
         resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
         errorPageManager = new DefaultErrorPageManager();
+        objectInstanceManager = new DefaultObjectInstanceManager();
+        invocationFinder = new DefaultInvocationFinder(this);
         servletContextName = UUID.randomUUID().toString();
         servletEnvironments = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
-        invocationFinder = new DefaultInvocationFinder(this);
-        objectInstanceManager = new DefaultObjectInstanceManager();
     }
 
     @Override
@@ -467,7 +492,7 @@ public class DefaultWebApplication implements WebApplication {
         if (isEmpty(servletName)) {
             throw new IllegalArgumentException("Servlet name cannot be null or empty");
         }
-        return getManager(JspManager.class).addJspFile(this, servletName, jspFile);
+        return jspManager != null ? jspManager.addJspFile(this, servletName, jspFile) : null;
     }
 
     @SuppressWarnings("unchecked")
@@ -650,7 +675,9 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void declareRoles(String... roles) {
-        getManager(SecurityManager.class).declareRoles(roles);
+        if (securityManager != null) {
+            securityManager.declareRoles(roles);
+        }
     }
 
     /**
@@ -673,39 +700,27 @@ public class DefaultWebApplication implements WebApplication {
         status = SETUP;
     }
 
-    /**
-     * Get the attribute.
-     *
-     * @param name the attribute name.
-     * @return the attribute value.
-     */
+    @Override
+    public AnnotationManager getAnnotationManager() {
+        return annotationManager;
+    }
+
     @Override
     public Object getAttribute(String name) {
         Objects.requireNonNull(name);
         return attributes.get(name);
     }
 
-    /**
-     * {@return the attribute names}
-     */
     @Override
     public Enumeration<String> getAttributeNames() {
         return enumeration(attributes.keySet());
     }
 
-    /**
-     * Are we denying uncovered HTTP methods.
-     *
-     * @return true if we are, false otherwise.
-     */
     @Override
     public boolean getDenyUncoveredHttpMethods() {
-        return getManager(SecurityManager.class).getDenyUncoveredHttpMethods();
+        return securityManager != null ? securityManager.getDenyUncoveredHttpMethods() : false;
     }
 
-    /**
-     * {@return the class loader}
-     */
     @Override
     public ClassLoader getClassLoader() {
         return classLoader;
@@ -841,7 +856,12 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
         checkTainted();
-        return getManager(JspManager.class).getJspConfigDescriptor();
+        return jspManager != null ? jspManager.getJspConfigDescriptor() : null;
+    }
+    
+    @Override
+    public JspManager getJspManager() {
+        return jspManager;
     }
 
     /**
@@ -852,12 +872,6 @@ public class DefaultWebApplication implements WebApplication {
         return 5;
     }
 
-    /**
-     * Get the servlet mappings for the given servlet.
-     *
-     * @param servletName the name of the servlet.
-     * @return the servlet mappings.
-     */
     @Override
     public Collection<String> getMappings(String servletName) {
         return webApplicationRequestMapper.getServletMappings(servletName);
@@ -865,11 +879,9 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public String getMimeType(String filename) {
-        String mimeType = null;
-        if (mimeTypeManager != null) {
-            mimeType = mimeTypeManager.getMimeType(filename);
-        }
-        return mimeType;
+        return mimeTypeManager != null 
+                ? mimeTypeManager.getMimeType(filename)
+                : null;
     }
 
     @Override
@@ -877,12 +889,14 @@ public class DefaultWebApplication implements WebApplication {
         return mimeTypeManager;
     }
 
-    /**
-     * {@return the minor version}
-     */
     @Override
     public int getMinorVersion() {
         return 0;
+    }
+    
+    @Override
+    public MultiPartManager getMultiPartManager() {
+        return multiPartManager;
     }
     
     @Override
@@ -1237,10 +1251,10 @@ public class DefaultWebApplication implements WebApplication {
                 if (annotation != null) {
                     Class<?>[] value = annotation.value();
                     // Get instances
-                    Stream<Class<?>> instances = getManager(AnnotationManager.class).getInstances(value).stream();
+                    Stream<Class<?>> instances = annotationManager.getInstances(value).stream();
 
                     // Get classes by target type
-                    List<AnnotationInfo> annotations = getManager(AnnotationManager.class).getAnnotations(value);
+                    List<AnnotationInfo> annotations = annotationManager.getAnnotations(value);
                     Stream<Class<?>> classStream = annotations.stream().map(AnnotationInfo::getTargetType);
 
                     classes = Stream.concat(instances, classStream).collect(Collectors.toUnmodifiableSet());
@@ -1319,14 +1333,14 @@ public class DefaultWebApplication implements WebApplication {
         return distributable;
     }
 
-    /**
-     * Is the web application initialized.
-     *
-     * @return true if it is, false otherwise.
-     */
     @Override
     public boolean isInitialized() {
         return status >= INITIALIZED && status < ERROR;
+    }
+    
+    @Override
+    public boolean isMetadataComplete() {
+        return metadataComplete;
     }
 
     /**
@@ -1385,38 +1399,24 @@ public class DefaultWebApplication implements WebApplication {
         responses.put(response, request);
     }
 
-    /**
-     * Log a message.
-     *
-     * @param exception the exception.
-     * @param message the message.
-     * @deprecated
-     */
     @Deprecated
     @Override
     public void log(Exception exception, String message) {
         throw new UnsupportedOperationException("ServletContext.log(Exception, String) is no longer supported");
     }
 
-    /**
-     * Log a message.
-     *
-     * @param message the message.
-     * @param throwable the throwable.
-     */
     @Override
     public void log(String message, Throwable throwable) {
-        getManager(LoggingManager.class).log(message, throwable);
+        if (loggingManager != null) {
+            loggingManager.log(message, throwable);
+        }
     }
 
-    /**
-     * Log a message.
-     *
-     * @param message the message.
-     */
     @Override
     public void log(String message) {
-        log(message, null);
+        if (loggingManager != null) {
+            loggingManager.log(message);
+        }
     }
 
     /**
@@ -1465,6 +1465,16 @@ public class DefaultWebApplication implements WebApplication {
             WebConnection connection = new DefaultWebConnection(webAppRequest, webAppResponse);
             webAppRequest.getUpgradeHandler().init(connection);
         }
+    }
+    
+    /**
+     * Set the annotation manager.
+     * 
+     * @param annotationManager the annotation manager.
+     */
+    @Override
+    public void setAnnotationManager(AnnotationManager annotationManager) {
+        this.annotationManager = annotationManager;
     }
 
     /**
@@ -1528,7 +1538,9 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
-        getManager(SecurityManager.class).setDenyUncoveredHttpMethods(denyUncoveredHttpMethods);
+        if (securityManager != null) {
+            securityManager.setDenyUncoveredHttpMethods(denyUncoveredHttpMethods);
+        }
     }
 
     /**
@@ -1541,16 +1553,6 @@ public class DefaultWebApplication implements WebApplication {
         this.distributable = distributable;
     }
 
-    /**
-     * Set the HTTP session manager.
-     *
-     * @param httpSessionManager the HTTP session manager.
-     */
-    @Override
-    public void setHttpSessionManager(HttpSessionManager httpSessionManager) {
-        this.httpSessionManager = httpSessionManager;
-    }
-
     @Override
     public HttpRequestManager getHttpRequestManager() {
         return httpRequestManager;
@@ -1561,13 +1563,11 @@ public class DefaultWebApplication implements WebApplication {
         this.httpRequestManager = httpRequestManager;
     }
 
-    /**
-     * Set the init parameter.
-     *
-     * @param name the name.
-     * @param value the value.
-     * @return true if it could be set, false otherwise.
-     */
+    @Override
+    public void setHttpSessionManager(HttpSessionManager httpSessionManager) {
+        this.httpSessionManager = httpSessionManager;
+    }
+
     @Override
     public boolean setInitParameter(String name, String value) {
         requireNonNull(name);
@@ -1586,10 +1586,20 @@ public class DefaultWebApplication implements WebApplication {
         }
         return result;
     }
+    
+    @Override
+    public void setJspManager(JspManager jspManager) {
+        this.jspManager = jspManager;
+    }
 
     @Override
     public void setMimeTypeManager(MimeTypeManager mimeTypeManager) {
         this.mimeTypeManager = mimeTypeManager;
+    }
+    
+    @Override
+    public void setMultiPartManager(MultiPartManager multiPartManager) {
+        this.multiPartManager = multiPartManager;
     }
 
     @Override
@@ -1813,8 +1823,18 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
+    public LoggingManager getLoggingManager() {
+        return loggingManager;
+    }
+
+    @Override
     public <T> T getManager(Class<T> clazz) {
         return clazz.cast(managers.get(clazz.getName()));
+    }
+
+    @Override
+    public SecurityManager getSecurityManager() {
+        return securityManager;
     }
 
     /**
@@ -1869,8 +1889,23 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
+    public void setLoggingManager(LoggingManager loggingManager) {
+        this.loggingManager = loggingManager;
+    }
+
+    @Override
     public <T> void setManager(Class<T> clazz, T manager) {
         managers.put(clazz.getName(), manager);
+    }
+    
+    @Override
+    public void setMetadataComplete(boolean metadataComplete) {
+        this.metadataComplete = metadataComplete;
+    }
+
+    @Override
+    public void setSecurityManager(SecurityManager securityManager) {
+        this.securityManager = securityManager;
     }
 
     /**
