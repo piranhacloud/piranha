@@ -30,6 +30,7 @@ package cloud.piranha.extension.micro;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
+import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.locale_encoding.LocaleEncodingExtension;
 import cloud.piranha.extension.mimetype.MimeTypeExtension;
@@ -52,6 +53,7 @@ public class MicroExtension implements WebApplicationExtension {
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(ServletSecurityManagerExtension.class);
+        context.add(ApacheMultiPartExtension.class);
         context.add(WebXmlExtension.class);
         context.add(HerringExtension.class);
         context.add(LocaleEncodingExtension.class);
