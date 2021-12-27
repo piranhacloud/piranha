@@ -12,7 +12,7 @@ else
 fi
 
 if [[ "${PIRANHA_JPMS}" == "true" ]]; then
-    INIT_OPTIONS="--module-path lib -m cloud.piranha.server"
+    INIT_OPTIONS="--module-path lib -m cloud.piranha.server.standard"
 else
     INIT_OPTIONS="-jar lib/piranha-server.jar"
 fi
