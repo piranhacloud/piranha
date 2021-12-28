@@ -42,6 +42,7 @@
         <module>wasp</module>
         <module>webannotations</module>
         <module>webxml</module>
+        <module>welcomefile</module>
         <module>weld</module>
         <module>weld-servlet</module>
     </modules>

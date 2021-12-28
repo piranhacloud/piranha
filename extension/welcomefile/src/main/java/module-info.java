@@ -25,54 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
-
-import cloud.piranha.core.api.WelcomeFileManager;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * The default WelcomeFileManager.
- *
+ * The welcome-file module.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWelcomeFileManager implements WelcomeFileManager {
-
-    /**
-     * Stores the remove defaults flag.
-     */
-    private boolean removeDefaults;
-
-    /**
-     * Stores the welcome file list.
-     */
-    private final ArrayList<String> welcomeFileList;
-
-    /**
-     * Constructor.
-     */
-    public DefaultWelcomeFileManager() {
-        removeDefaults = true;
-        welcomeFileList = new ArrayList<>();
-        welcomeFileList.add("index.jsp");
-        welcomeFileList.add("index.html");
-        welcomeFileList.add("index.htm");
-    }
-
-    @Override
-    public void addWelcomeFile(String welcomeFile) {
-        /*
-         * Upon the first welcome-file added the default list is deleted.
-         */
-        if (removeDefaults) {
-            welcomeFileList.clear();
-            removeDefaults = false;
-        }
-        welcomeFileList.add(welcomeFile);
-    }
-    
-    @Override
-    public List<String> getWelcomeFileList() {
-        return welcomeFileList;
-    }
+module cloud.piranha.extension.welcomefile {
+    exports cloud.piranha.extension.welcomefile;
+    opens cloud.piranha.extension.welcomefile;
+    requires cloud.piranha.core.api;
 }

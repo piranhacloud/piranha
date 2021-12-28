@@ -27,40 +27,16 @@
  */
 
 /**
- * The Standard Extension module.
- *
- * <p>
- *  This module delivers the following extensions:
- * </p>
- * <ul>
- *  <li>Annotation scanning support</li>
- *  <li>JNDI support (Manorrock Herring)</li>
- *  <li>Logging support</li>
- *  <li>Mimetype support</li>
- *  <li>Policy support</li>
- *  <li>ServletContainerInitializer support</li>
- *  <li>TEMPDIR support</li>
- *  <li>WaSP support</li>
- *  <li>Web annotations support</li>
- *  <li>Web.xml support</li>
- * </ul>
+ * The tests module for the welcome-file module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard {
-    exports cloud.piranha.extension.standard;
-    opens cloud.piranha.extension.standard;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.locale_encoding;
-    requires cloud.piranha.extension.logging;
-    requires cloud.piranha.extension.mimetype;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webannotations;
-    requires cloud.piranha.extension.webxml;
+module cloud.piranha.extension.welcomefile.tests {
+    exports cloud.piranha.extension.welcomefile.tests;
+    opens cloud.piranha.extension.welcomefile.tests;
     requires cloud.piranha.extension.welcomefile;
     requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
+    requires org.junit.jupiter.api;
+    requires org.junit.platform.launcher;
 }

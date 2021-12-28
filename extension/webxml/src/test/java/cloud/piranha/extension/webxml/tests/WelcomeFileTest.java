@@ -28,8 +28,8 @@
 package cloud.piranha.extension.webxml.tests;
 
 import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.impl.DefaultWelcomeFileManager;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
+import cloud.piranha.extension.welcomefile.DefaultWelcomeFileManager;
 import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertFalse;

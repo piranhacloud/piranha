@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Extension - web.xml tests module.
+ * The tests module for the web.xml module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -36,8 +36,9 @@ module cloud.piranha.extension.webxml.tests {
     opens cloud.piranha.extension.webxml.tests;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.webxml;
     requires cloud.piranha.extension.mimetype;
+    requires cloud.piranha.extension.webxml;
+    requires cloud.piranha.extension.welcomefile;
     requires org.junit.jupiter.api;
     requires org.junit.platform.launcher;
 }

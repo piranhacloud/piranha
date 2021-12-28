@@ -408,7 +408,6 @@ public class DefaultWebApplication implements WebApplication {
         servletContextName = UUID.randomUUID().toString();
         servletEnvironments = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
-        welcomeFileManager = new DefaultWelcomeFileManager();
     }
 
     @Override

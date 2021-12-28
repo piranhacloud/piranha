@@ -25,17 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl.tests;
+package cloud.piranha.extension.welcomefile.tests;
 
-import cloud.piranha.core.api.WelcomeFileManager;
 import cloud.piranha.core.impl.DefaultServlet;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
-import cloud.piranha.core.impl.DefaultWelcomeFileManager;
+import cloud.piranha.extension.welcomefile.DefaultWelcomeFileManager;
 import cloud.piranha.resource.impl.DirectoryResource;
 import org.junit.jupiter.api.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -54,9 +52,9 @@ class WelcomeFileTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testIndexHtml() throws Exception {
+    void testWelcomeFile1() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addResource(new DirectoryResource(new File("src/test/webapp/default")));
+        webApp.addResource(new DirectoryResource(new File("src/test/webapp/welcomefile1")));
         webApp.setWelcomeFileManager(new DefaultWelcomeFileManager());
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
@@ -80,11 +78,11 @@ class WelcomeFileTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testCustomWelcomeFilel() throws Exception {
+    void testWelcomeFile2() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWelcomeFileManager(new DefaultWelcomeFileManager());
         webApp.getWelcomeFileManager().addWelcomeFile("custom.html");
-        webApp.addResource(new DirectoryResource(new File("src/test/webapp/custom")));
+        webApp.addResource(new DirectoryResource(new File("src/test/webapp/welcomefile2")));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
