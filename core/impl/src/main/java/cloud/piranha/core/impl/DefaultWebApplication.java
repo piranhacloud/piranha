@@ -171,6 +171,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the annotation manager.
      */
     protected AnnotationManager annotationManager;
+    
+    /**
+     * Stores the async manager.
+     */
+    protected AsyncManager asyncManager;
 
     /**
      * Stores the attributes.
@@ -383,8 +388,6 @@ public class DefaultWebApplication implements WebApplication {
      * Constructor.
      */
     public DefaultWebApplication() {
-        managers = new HashMap<>();
-        managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
         attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
         contextAttributeListeners = new ArrayList<>(1);
@@ -707,6 +710,11 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public AnnotationManager getAnnotationManager() {
         return annotationManager;
+    }
+
+    @Override
+    public AsyncManager getAsyncManager() {
+        return asyncManager;
     }
 
     @Override
@@ -1461,14 +1469,14 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
     
-    /**
-     * Set the annotation manager.
-     * 
-     * @param annotationManager the annotation manager.
-     */
     @Override
     public void setAnnotationManager(AnnotationManager annotationManager) {
         this.annotationManager = annotationManager;
+    }
+
+    @Override
+    public void setAsyncManager(AsyncManager asyncManager) {
+        this.asyncManager = asyncManager;
     }
 
     /**
@@ -1816,11 +1824,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public <T> T getManager(Class<T> clazz) {
-        return clazz.cast(managers.get(clazz.getName()));
-    }
-
-    @Override
     public SecurityManager getSecurityManager() {
         return securityManager;
     }
@@ -1881,11 +1884,6 @@ public class DefaultWebApplication implements WebApplication {
         this.loggingManager = loggingManager;
     }
 
-    @Override
-    public <T> void setManager(Class<T> clazz, T manager) {
-        managers.put(clazz.getName(), manager);
-    }
-    
     @Override
     public void setMetadataComplete(boolean metadataComplete) {
         this.metadataComplete = metadataComplete;

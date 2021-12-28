@@ -26,42 +26,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * The Standard Extension module.
- *
- * <p>
- *  This module delivers the following extensions:
- * </p>
- * <ul>
- *  <li>Annotation scanning support</li>
- *  <li>JNDI support (Manorrock Herring)</li>
- *  <li>Logging support</li>
- *  <li>Mimetype support</li>
- *  <li>Policy support</li>
- *  <li>ServletContainerInitializer support</li>
- *  <li>TEMPDIR support</li>
- *  <li>WaSP support</li>
- *  <li>Web annotations support</li>
- *  <li>Web.xml support</li>
- * </ul>
- */
-module cloud.piranha.extension.standard {
-    exports cloud.piranha.extension.standard;
-    opens cloud.piranha.extension.standard;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.async;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.locale_encoding;
-    requires cloud.piranha.extension.logging;
-    requires cloud.piranha.extension.mimetype;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webannotations;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
+module cloud.piranha.extension.async {
+    exports cloud.piranha.extension.async;
+    opens cloud.piranha.extension.async;
     requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
 }

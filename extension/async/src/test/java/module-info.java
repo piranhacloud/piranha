@@ -25,23 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.AsyncDispatcher;
-import cloud.piranha.core.api.AsyncManager;
-import cloud.piranha.core.api.WebApplication;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-
-/**
- * The default AsyncManager.
- *
- * @author Manfred Riem (mriem@manorrock.com)
- */
-public class DefaultAsyncManager implements AsyncManager {
-
-    @Override
-    public AsyncDispatcher getDispatcher(WebApplication webApplication, String path, ServletRequest asyncStartRequest, ServletResponse asyncStartResponse) {
-        return new DefaultAsyncDispatcher(webApplication, path, asyncStartRequest, asyncStartResponse);
-    }
+module cloud.piranha.extension.async.tests {
+    exports cloud.piranha.extension.async.tests;
+    opens cloud.piranha.extension.async.tests;
+    requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
+    requires cloud.piranha.extension.async;
+    requires org.junit.jupiter.api;
 }
