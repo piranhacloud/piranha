@@ -31,6 +31,7 @@ import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
+import cloud.piranha.extension.async.AsyncExtension;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.locale_encoding.LocaleEncodingExtension;
 import cloud.piranha.extension.logging.DefaultLoggingExtension;
@@ -57,6 +58,7 @@ public class StandardExtension implements WebApplicationExtension {
     public void extend(WebApplicationExtensionContext context) {
         context.add(ServletSecurityManagerExtension.class);
         context.add(ApacheMultiPartExtension.class);
+        context.add(AsyncExtension.class);
         context.add(WelcomeFileExtension.class);
         context.add(WaspJspManagerExtension.class);
         context.add(DefaultLoggingExtension.class);

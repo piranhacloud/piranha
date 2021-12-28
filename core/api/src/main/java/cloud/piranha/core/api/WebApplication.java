@@ -157,6 +157,13 @@ public interface WebApplication extends ServletContext {
     void destroy();
     
     /**
+     * Get the async manager.
+     * 
+     * @return the async manager.
+     */
+    AsyncManager getAsyncManager();
+    
+    /**
      * Get the annotation manager.
      * 
      * @return the annotation manager.
@@ -374,15 +381,6 @@ public interface WebApplication extends ServletContext {
     LoggingManager getLoggingManager();
 
     /**
-     * Get the manager.
-     *
-     * @param <T> the manager return type.
-     * @param clazz the manager class.
-     * @return the manager.
-     */
-    <T> T getManager(Class<T> clazz);
-
-    /**
      * Get the mime-type manager.
      *
      * @return the mime-type manager.
@@ -395,6 +393,13 @@ public interface WebApplication extends ServletContext {
      * @return the multi-part manager.
      */
     MultiPartManager getMultiPartManager();
+    
+    /**
+     * Set the async manager.
+     * 
+     * @param asyncManager the async manager.
+     */
+    void setAsyncManager(AsyncManager asyncManager);
 
     /**
      * Set the effective major version.
@@ -444,15 +449,6 @@ public interface WebApplication extends ServletContext {
      * @param loggingManager the logging manager.
      */
     void setLoggingManager(LoggingManager loggingManager);
-
-    /**
-     * Set the manager.
-     *
-     * @param <T> the manager type.
-     * @param clazz the manager class.
-     * @param manager the manager instance.
-     */
-    <T> void setManager(Class<T> clazz, T manager);
     
     /**
      * Set the metadata complete flag.

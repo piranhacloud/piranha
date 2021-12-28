@@ -223,7 +223,7 @@ public class DefaultAsyncContext implements AsyncContext {
         dispatched = true;
 
         WebApplication webApplication = (WebApplication) servletContext;
-        AsyncManager asyncManager = webApplication.getManager(AsyncManager.class);
+        AsyncManager asyncManager = webApplication.getAsyncManager();
         asyncManager.getDispatcher(webApplication, path, asyncStartRequest, asyncStartResponse)
                 .dispatch();
     }
