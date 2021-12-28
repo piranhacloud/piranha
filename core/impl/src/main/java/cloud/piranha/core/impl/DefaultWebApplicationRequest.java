@@ -30,7 +30,6 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.AttributeManager;
 import cloud.piranha.core.api.HttpHeaderManager;
 import cloud.piranha.core.api.HttpSessionManager;
-import cloud.piranha.core.api.MultiPartManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import static cloud.piranha.core.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
@@ -206,11 +205,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the multipart config.
      */
     protected MultipartConfigElement multipartConfig;
-    
-    /**
-     * Stores the multipart manager.
-     */
-    protected MultiPartManager multipartManager;
 
     /**
      * Stores the parameters.
@@ -740,16 +734,16 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Part getPart(String name) throws IOException, ServletException {
         verifyMultipartFormData();
-        return multipartManager != null 
-                ? multipartManager.getPart(webApplication, this, name) 
+        return webApplication.getMultiPartManager() != null 
+                ? webApplication.getMultiPartManager().getPart(webApplication, this, name) 
                 : null;
     }
 
     @Override
     public Collection<Part> getParts() throws IOException, ServletException {
         verifyMultipartFormData();
-        return multipartManager != null
-                ? multipartManager.getParts(webApplication, this)
+        return webApplication.getMultiPartManager() != null
+                ? webApplication.getMultiPartManager().getParts(webApplication, this)
                 : Collections.EMPTY_LIST;
     }
 
