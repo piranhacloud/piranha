@@ -373,6 +373,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the JSP manager.
      */
     protected JspManager jspManager;
+    
+    /**
+     * Stores the welcome file manager.
+     */
+    protected WelcomeFileManager welcomeFileManager;
 
     /**
      * Constructor.
@@ -380,7 +385,6 @@ public class DefaultWebApplication implements WebApplication {
     public DefaultWebApplication() {
         managers = new HashMap<>();
         managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
-        managers.put(WelcomeFileManager.class.getName(), new DefaultWelcomeFileManager());
         attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
         contextAttributeListeners = new ArrayList<>(1);
@@ -1148,33 +1152,26 @@ public class DefaultWebApplication implements WebApplication {
         return httpSessionManager.getSessionCookieConfig();
     }
 
-    /**
-     * {@return the default session timeout}
-     */
     @Override
     public int getSessionTimeout() {
         return httpSessionManager.getSessionTimeout();
     }
 
-    /**
-     * {@return the session manager}
-     */
     @Override
     public HttpSessionManager getHttpSessionManager() {
         return httpSessionManager;
     }
 
-    /**
-     * {@return the virtual server name}
-     */
     @Override
     public String getVirtualServerName() {
         return virtualServerName;
     }
 
-    /**
-     * Initialize the web application.
-     */
+    @Override
+    public WelcomeFileManager getWelcomeFileManager() {
+        return welcomeFileManager;
+    }
+
     @Override
     public void initialize() {
         LOGGER.log(DEBUG, "Initializing web application at {0}", contextPath);
@@ -1191,9 +1188,6 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    /**
-     * Finish the initialization.
-     */
     @Override
     public void initializeDeclaredFinish() {
         if (status == SETUP) {
@@ -1679,19 +1673,16 @@ public class DefaultWebApplication implements WebApplication {
         this.virtualServerName = virtualServerName;
     }
 
-    /**
-     * Set the web application request mapper.
-     *
-     * @param webApplicationRequestMapper the web application request mapper.
-     */
     @Override
     public void setWebApplicationRequestMapper(WebApplicationRequestMapper webApplicationRequestMapper) {
         this.webApplicationRequestMapper = webApplicationRequestMapper;
     }
 
-    /**
-     * Start servicing.
-     */
+    @Override
+    public void setWelcomeFileManager(WelcomeFileManager welcomeFileManager) {
+        this.welcomeFileManager = welcomeFileManager;
+    }
+
     @Override
     public void start() {
         LOGGER.log(DEBUG, "Starting web application at {0}", contextPath);
@@ -1700,9 +1691,6 @@ public class DefaultWebApplication implements WebApplication {
         LOGGER.log(DEBUG, "Started web application at {0}", contextPath);
     }
 
-    /**
-     * Stop servicing.
-     */
     @Override
     public void stop() {
         LOGGER.log(DEBUG, "Stopping web application at {0}", contextPath);

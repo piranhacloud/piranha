@@ -25,42 +25,54 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.welcomefile;
+
+import cloud.piranha.core.api.WelcomeFileManager;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * The Standard Extension module.
+ * The default WelcomeFileManager.
  *
- * <p>
- *  This module delivers the following extensions:
- * </p>
- * <ul>
- *  <li>Annotation scanning support</li>
- *  <li>JNDI support (Manorrock Herring)</li>
- *  <li>Logging support</li>
- *  <li>Mimetype support</li>
- *  <li>Policy support</li>
- *  <li>ServletContainerInitializer support</li>
- *  <li>TEMPDIR support</li>
- *  <li>WaSP support</li>
- *  <li>Web annotations support</li>
- *  <li>Web.xml support</li>
- * </ul>
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard {
-    exports cloud.piranha.extension.standard;
-    opens cloud.piranha.extension.standard;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.locale_encoding;
-    requires cloud.piranha.extension.logging;
-    requires cloud.piranha.extension.mimetype;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webannotations;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
-    requires cloud.piranha.core.api;
+public class DefaultWelcomeFileManager implements WelcomeFileManager {
+
+    /**
+     * Stores the remove defaults flag.
+     */
+    private boolean removeDefaults;
+
+    /**
+     * Stores the welcome file list.
+     */
+    private final ArrayList<String> welcomeFileList;
+
+    /**
+     * Constructor.
+     */
+    public DefaultWelcomeFileManager() {
+        removeDefaults = true;
+        welcomeFileList = new ArrayList<>();
+        welcomeFileList.add("index.jsp");
+        welcomeFileList.add("index.html");
+        welcomeFileList.add("index.htm");
+    }
+
+    @Override
+    public void addWelcomeFile(String welcomeFile) {
+        /*
+         * Upon the first welcome-file added the default list is deleted.
+         */
+        if (removeDefaults) {
+            welcomeFileList.clear();
+            removeDefaults = false;
+        }
+        welcomeFileList.add(welcomeFile);
+    }
+    
+    @Override
+    public List<String> getWelcomeFileList() {
+        return welcomeFileList;
+    }
 }

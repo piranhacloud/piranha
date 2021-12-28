@@ -44,9 +44,10 @@ import cloud.piranha.extension.wasp.WaspExtension;
 import cloud.piranha.extension.wasp.WaspJspManagerExtension;
 import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
+import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
 
 /**
- * The StandardExtension delivers the default extensions for Piranha Server.
+ * The extension that delivers the extensions for Piranha Micro/Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -56,6 +57,7 @@ public class StandardExtension implements WebApplicationExtension {
     public void extend(WebApplicationExtensionContext context) {
         context.add(ServletSecurityManagerExtension.class);
         context.add(ApacheMultiPartExtension.class);
+        context.add(WelcomeFileExtension.class);
         context.add(WaspJspManagerExtension.class);
         context.add(DefaultLoggingExtension.class);
         context.add(MimeTypeExtension.class);

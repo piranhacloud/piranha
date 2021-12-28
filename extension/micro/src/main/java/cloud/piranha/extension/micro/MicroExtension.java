@@ -41,6 +41,7 @@ import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.wasp.WaspInitializer;
 import cloud.piranha.extension.webannotations.WebAnnotationsInitializer;
 import cloud.piranha.extension.webxml.WebXmlExtension;
+import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
 import static java.util.Arrays.asList;
 
 /**
@@ -54,6 +55,7 @@ public class MicroExtension implements WebApplicationExtension {
     public void extend(WebApplicationExtensionContext context) {
         context.add(ServletSecurityManagerExtension.class);
         context.add(ApacheMultiPartExtension.class);
+        context.add(WelcomeFileExtension.class);
         context.add(WebXmlExtension.class);
         context.add(HerringExtension.class);
         context.add(LocaleEncodingExtension.class);

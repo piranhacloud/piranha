@@ -25,28 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.extension.welcomefile;
 
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WelcomeFileManager;
-import java.io.IOException;
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import cloud.piranha.core.api.WebApplicationExtension;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The default WelcomeFile filter.
+ * The welcome-file extension.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWelcomeFileFilter implements Filter {
+public class WelcomeFileExtension implements WebApplicationExtension {
 
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(WelcomeFileExtension.class.getName());
+
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, 
-            FilterChain chain) throws IOException, ServletException {
-        WebApplication webApplication = (WebApplication) request.getServletContext();
-        webApplication.getManager(WelcomeFileManager.class).doFilter(request, response, chain);
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(DEBUG, "Setting WelcomeFileManager");
+        webApplication.setWelcomeFileManager(new DefaultWelcomeFileManager());
     }
 }
