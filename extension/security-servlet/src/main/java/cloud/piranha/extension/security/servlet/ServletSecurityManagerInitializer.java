@@ -53,6 +53,6 @@ public class ServletSecurityManagerInitializer implements ServletContainerInitia
             throws ServletException {
         LOGGER.log(DEBUG, "Set the ServletSecurityManager");
         WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setSecurityManager(new ServletSecurityManager());
+        webApplication.getManager().setSecurityManager(new ServletSecurityManager());
     }
 }

@@ -52,6 +52,6 @@ public class SlimSecurityManagerInitializer implements ServletContainerInitializ
             throws ServletException {
         LOGGER.log(DEBUG, "Set the SlimSecurityManager");
         WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setSecurityManager(new SlimSecurityManager());
+        webApplication.getManager().setSecurityManager(new SlimSecurityManager());
     }
 }

@@ -62,7 +62,7 @@ class DefaultAnnotationManagerTest {
     @Test
     void testInitializerWithHandlesTypes () {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setAnnotationManager(new DefaultAnnotationManager());
+        webApp.getManager().setAnnotationManager(new DefaultAnnotationManager());
         webApp.addInitializer(InitializerWithHandlesTypes.class.getName());
         webApp.initialize();
         assertTrue(webApp.getAttribute("object_class") instanceof Boolean);
@@ -75,9 +75,10 @@ class DefaultAnnotationManagerTest {
     @Test
     void testInitializerWithHandlesTypes2 () {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setAnnotationManager(new DefaultAnnotationManager());
+        webApp.getManager().setAnnotationManager(new DefaultAnnotationManager());
         webApp.addInitializer(InitializerWithHandlesTypes.class.getName());
-        DefaultAnnotationManager annotationManager = (DefaultAnnotationManager) webApp.getAnnotationManager();
+        DefaultAnnotationManager annotationManager = 
+                (DefaultAnnotationManager) webApp.getManager().getAnnotationManager();
         annotationManager.addInstance(Set.class, Collections.emptySet().getClass());
         annotationManager.addAnnotation(
             new DefaultAnnotationInfo<>(

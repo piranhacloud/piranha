@@ -189,7 +189,7 @@ public class MicroInnerDeployer {
 
             // Target of annotations
             AnnotationManager annotationManager = new DefaultAnnotationManager();
-            webApplication.setAnnotationManager(annotationManager);
+            webApplication.getManager().setAnnotationManager(annotationManager);
             
 
             // Copy annotations from our "annotations" collection from source index to target manager

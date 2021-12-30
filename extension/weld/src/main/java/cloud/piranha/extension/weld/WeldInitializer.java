@@ -54,7 +54,7 @@ public class WeldInitializer implements ServletContainerInitializer {
         WebApplication webApplication = (WebApplication) servletContext;
         WeldInitListener weldInitListener = webApplication.createListener(WeldInitListener.class);
         servletContext.addListener(weldInitListener);
-        webApplication.setObjectInstanceManager(new WeldObjectInstanceManager());
+        webApplication.getManager().setObjectInstanceManager(new WeldObjectInstanceManager());
         weldInitListener.delegate().contextInitialized(new ServletContextEvent(servletContext));
     }
 }

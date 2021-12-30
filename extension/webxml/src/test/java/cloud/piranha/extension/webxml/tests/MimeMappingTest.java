@@ -51,7 +51,7 @@ class MimeMappingTest {
     void testGetMimeType() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultMimeTypeManager manager = new DefaultMimeTypeManager();
-        webApplication.setMimeTypeManager(manager);
+        webApplication.getManager().setMimeTypeManager(manager);
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/mimeMapping")));
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();

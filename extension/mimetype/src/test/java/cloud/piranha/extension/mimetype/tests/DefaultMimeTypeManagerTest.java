@@ -81,7 +81,7 @@ class DefaultMimeTypeManagerTest {
     void testGetMimeType2() {
         DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setMimeTypeManager(mimeTypeManager);
+        webApp.getManager().setMimeTypeManager(mimeTypeManager);
         assertNull(webApp.getMimeType("this_maps_to.null"));
     }
 
@@ -93,7 +93,7 @@ class DefaultMimeTypeManagerTest {
         DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
         mimeTypeManager.addMimeType("class", "application/x-java-class");
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setMimeTypeManager(mimeTypeManager);
+        webApp.getManager().setMimeTypeManager(mimeTypeManager);
         assertEquals(webApp.getMimeType("my.class"), "application/x-java-class");
     }
 
@@ -104,7 +104,7 @@ class DefaultMimeTypeManagerTest {
     void testGetMimeType4() {
         DefaultMimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setMimeTypeManager(mimeTypeManager);
+        webApp.getManager().setMimeTypeManager(mimeTypeManager);
         assertNull(webApp.getMimeType("myclass"));
     }
 }

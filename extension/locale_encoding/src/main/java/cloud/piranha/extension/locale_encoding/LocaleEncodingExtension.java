@@ -47,6 +47,6 @@ public class LocaleEncodingExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(DEBUG, "Configuring the LocaleEncodingManager");
-        webApplication.setLocaleEncodingManager(new DefaultLocaleEncodingManager());
+        webApplication.getManager().setLocaleEncodingManager(new DefaultLocaleEncodingManager());
     }
 }

@@ -52,6 +52,6 @@ public class AsyncExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(DEBUG, "Setting AsyncManager");
-        webApplication.setAsyncManager(new DefaultAsyncManager());
+        webApplication.getManager().setAsyncManager(new DefaultAsyncManager());
     }
 }

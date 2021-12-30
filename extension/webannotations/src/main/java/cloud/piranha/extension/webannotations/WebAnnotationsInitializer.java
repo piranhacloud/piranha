@@ -90,7 +90,7 @@ public class WebAnnotationsInitializer implements ServletContainerInitializer {
 
         if (!webApp.isMetadataComplete()) {
 
-            AnnotationManager annotationManager = webApp.getAnnotationManager();
+            AnnotationManager annotationManager = webApp.getManager().getAnnotationManager();
 
             // Process @WebServlet
             for (AnnotationInfo<WebServlet> annotationInfo : annotationManager.getAnnotations(WebServlet.class)) {

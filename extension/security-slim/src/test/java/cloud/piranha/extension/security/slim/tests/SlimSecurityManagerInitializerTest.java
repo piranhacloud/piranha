@@ -51,6 +51,6 @@ public class SlimSecurityManagerInitializerTest {
         SlimSecurityManagerInitializer initializer = new SlimSecurityManagerInitializer();
         webApplication.addInitializer(initializer);
         webApplication.initialize();
-        assertTrue(webApplication.getSecurityManager() instanceof SlimSecurityManager);
+        assertTrue(webApplication.getManager().getSecurityManager() instanceof SlimSecurityManager);
     }
 }

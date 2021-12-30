@@ -229,10 +229,10 @@ public class DefaultInvocationFinder {
 
     private DefaultServletInvocation getWelcomeFileServletInvocation(String servletPath, String pathInfo) throws IOException {
 
-        if (webApplication.getWelcomeFileManager() != null) {
+        if (webApplication.getManager().getWelcomeFileManager() != null) {
             // Try if we have a welcome file that we can load via the default servlet
 
-            for (String welcomeFile : webApplication.getWelcomeFileManager().getWelcomeFileList()) {
+            for (String welcomeFile : webApplication.getManager().getWelcomeFileManager().getWelcomeFileList()) {
                 if (!isStaticResource(servletPath, pathInfo + welcomeFile)) {
                     continue;
                 }
@@ -241,7 +241,7 @@ public class DefaultInvocationFinder {
             }
 
             // Next try if we have a welcome servlet
-            for (String welcomeFile : webApplication.getWelcomeFileManager().getWelcomeFileList()) {
+            for (String welcomeFile : webApplication.getManager().getWelcomeFileManager().getWelcomeFileList()) {
                 if ( // .jsp files are special in the system, as they are mapped to a servlet, but also
                         // have to be present at exactly that path as static resource. Additionally we have
                         // the required index.jsp welcome file, that may not actually be there.

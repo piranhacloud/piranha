@@ -52,6 +52,6 @@ public class WelcomeFileExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(DEBUG, "Setting WelcomeFileManager");
-        webApplication.setWelcomeFileManager(new DefaultWelcomeFileManager());
+        webApplication.getManager().setWelcomeFileManager(new DefaultWelcomeFileManager());
     }
 }

@@ -131,7 +131,7 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
     private void setUsernamePasswordLoginHandler(ServletContext servletContext, DefaultAuthenticationService authenticationService) {
         WebApplication webApplication = (WebApplication) servletContext;
 
-        webApplication.getSecurityManager().setUsernamePasswordLoginHandler(
+        webApplication.getManager().getSecurityManager().setUsernamePasswordLoginHandler(
             (request, username, password) -> callerToIdentity(authenticationService.login(username, password))
         );
     }

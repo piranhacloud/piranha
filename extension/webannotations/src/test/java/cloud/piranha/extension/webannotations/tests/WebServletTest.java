@@ -58,7 +58,7 @@ class WebServletTest {
     @Test
     void testWebServletUrl1() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
-        application.setAnnotationManager(new DefaultAnnotationManager());
+        application.getManager().setAnnotationManager(new DefaultAnnotationManager());
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
                 = new DefaultWebApplicationClassLoader(new File("src/test/webapp/webservlet"));
@@ -84,7 +84,7 @@ class WebServletTest {
     @Test
     void testWebServletUrl1b() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
-        application.setAnnotationManager(new DefaultAnnotationManager());
+        application.getManager().setAnnotationManager(new DefaultAnnotationManager());
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
                 = new DefaultWebApplicationClassLoader(new File("src/test/webapp/webservlet"));
@@ -110,7 +110,7 @@ class WebServletTest {
     @Test
     void testWebServletUrl2() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
-        application.setAnnotationManager(new DefaultAnnotationManager());
+        application.getManager().setAnnotationManager(new DefaultAnnotationManager());
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
                 = new DefaultWebApplicationClassLoader(new File("src/test/webapp/webservlet"));
@@ -136,7 +136,7 @@ class WebServletTest {
     @Test
     void testWebServletUrl2b() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
-        application.setAnnotationManager(new DefaultAnnotationManager());
+        application.getManager().setAnnotationManager(new DefaultAnnotationManager());
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
                 = new DefaultWebApplicationClassLoader(new File("src/test/webapp/webservlet"));
@@ -162,7 +162,7 @@ class WebServletTest {
     @Test
     void testWebServletUrl3() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
-        application.setAnnotationManager(new DefaultAnnotationManager());
+        application.getManager().setAnnotationManager(new DefaultAnnotationManager());
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
                 = new DefaultWebApplicationClassLoader(new File("src/test/webapp/webservlet"));
@@ -188,7 +188,7 @@ class WebServletTest {
     @Test
     void testWebServletUrl3b() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
-        application.setAnnotationManager(new DefaultAnnotationManager());
+        application.getManager().setAnnotationManager(new DefaultAnnotationManager());
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
                 = new DefaultWebApplicationClassLoader(new File("src/test/webapp/webservlet"));

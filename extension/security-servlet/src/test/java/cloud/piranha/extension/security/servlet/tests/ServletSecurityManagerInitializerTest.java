@@ -27,7 +27,6 @@
  */
 package cloud.piranha.extension.security.servlet.tests;
 
-import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.extension.security.servlet.ServletSecurityManager;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerInitializer;
@@ -49,7 +48,7 @@ public class ServletSecurityManagerInitializerTest {
             DefaultWebApplication webApplication = new DefaultWebApplication();
             ServletSecurityManagerInitializer initializer = new ServletSecurityManagerInitializer();
             initializer.onStartup(null, webApplication);
-            assertTrue(webApplication.getSecurityManager() instanceof ServletSecurityManager);
+            assertTrue(webApplication.getManager().getSecurityManager() instanceof ServletSecurityManager);
         } catch (ServletException ex) {
             fail();
         }

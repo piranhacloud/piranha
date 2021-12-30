@@ -60,7 +60,7 @@ public class ApacheMultiPartInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         LOGGER.log(DEBUG, "Setting ApacheMultiPartManager");
         WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.setMultiPartManager(new ApacheMultiPartManager());
+        webApplication.getManager().setMultiPartManager(new ApacheMultiPartManager());
         webApplication.addListener("org.apache.commons.fileupload.servlet.FileCleanerCleanup");
     }
 }

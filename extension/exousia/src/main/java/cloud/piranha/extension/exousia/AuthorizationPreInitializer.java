@@ -128,7 +128,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         List<SecurityConstraint> securityConstraints = getAllScurityConstraints(context);
 
         for (SecurityConstraint securityConstraint : securityConstraints) {
-            context.getSecurityManager().declareRoles(securityConstraint.getRolesAllowed());
+            context.getManager().getSecurityManager().declareRoles(securityConstraint.getRolesAllowed());
         }
 
         if (hasPermissionsSet(context)) {
@@ -325,8 +325,8 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     private void setConstraints(WebApplication context, AuthorizationService authorizationService, List<SecurityConstraint> securityConstraints) throws ServletException {
         authorizationService.addConstraintsToPolicy(
             securityConstraints,
-            context.getSecurityManager().getRoles(),
-            context.getDenyUncoveredHttpMethods(),
+            context.getManager().getSecurityManager().getRoles(),
+            context.getManager().getSecurityManager().getDenyUncoveredHttpMethods(),
             getSecurityRoleRefsFromWebXml(context));
     }
 

@@ -186,7 +186,7 @@ class SlimSecurityManagerTest {
     void testDeclareRoles() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         SlimSecurityManager manager = new SlimSecurityManager();
-        webApp.setSecurityManager(manager);
+        webApp.getManager().setSecurityManager(manager);
         webApp.declareRoles(new String[]{"ADMIN", "USER"});
         assertTrue(manager.getRoles().contains("ADMIN"));
         assertTrue(manager.getRoles().contains("USER"));

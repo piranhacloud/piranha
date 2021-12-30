@@ -55,7 +55,7 @@ class WelcomeFileTest {
     void testWelcomeFile1() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DirectoryResource(new File("src/test/webapp/welcomefile1")));
-        webApp.setWelcomeFileManager(new DefaultWelcomeFileManager());
+        webApp.getManager().setWelcomeFileManager(new DefaultWelcomeFileManager());
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
@@ -80,8 +80,8 @@ class WelcomeFileTest {
     @Test
     void testWelcomeFile2() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWelcomeFileManager(new DefaultWelcomeFileManager());
-        webApp.getWelcomeFileManager().addWelcomeFile("custom.html");
+        webApp.getManager().setWelcomeFileManager(new DefaultWelcomeFileManager());
+        webApp.getManager().getWelcomeFileManager().addWelcomeFile("custom.html");
         webApp.addResource(new DirectoryResource(new File("src/test/webapp/welcomefile2")));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
