@@ -36,6 +36,7 @@ module cloud.piranha.extension.security.slim.tests {
     
     exports cloud.piranha.extension.security.slim.tests;
     opens cloud.piranha.extension.security.slim.tests;
+    requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.security.slim;
     requires jakarta.servlet;

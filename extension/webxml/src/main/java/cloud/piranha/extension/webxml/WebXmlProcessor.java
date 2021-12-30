@@ -38,7 +38,6 @@ import jakarta.servlet.ServletRegistration;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.TRACE;
-import static java.lang.System.Logger.Level.WARNING;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -137,7 +136,10 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processDenyUncoveredHttpMethods(WebApplication webApplication, WebXml webXml) {
-        webApplication.setDenyUncoveredHttpMethods(webXml.getDenyUncoveredHttpMethods());
+        if (webApplication.getManager().getSecurityManager() != null) {
+            webApplication.getManager().getSecurityManager()
+                    .setDenyUncoveredHttpMethods(webXml.getDenyUncoveredHttpMethods());
+        }
     }
 
     /**
@@ -257,7 +259,7 @@ public class WebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processMimeMappings(WebApplication webApplication, WebXml webXml) {
-        MimeTypeManager manager = webApplication.getMimeTypeManager();
+        MimeTypeManager manager = webApplication.getManager().getMimeTypeManager();
         if (manager != null) {
             webXml.getMimeMappings().forEach(mapping
                     -> manager.addMimeType(mapping.extension(), mapping.mimeType())
@@ -290,10 +292,8 @@ public class WebXmlProcessor {
     }
 
     private void processRoleNames(WebApplication webApplication, WebXml webXml) {
-        if (webApplication.getSecurityManager() == null) {
-            LOGGER.log(WARNING, "No SecurityManager configured");
-        } else {
-            webApplication.getSecurityManager().declareRoles(webXml.getRoleNames());
+        if (webApplication.getManager().getSecurityManager() != null) {
+            webApplication.getManager().getSecurityManager().declareRoles(webXml.getRoleNames());
         }
     }
 
@@ -392,7 +392,7 @@ public class WebXmlProcessor {
         LOGGER.log(DEBUG, "Adding welcome files");
 
         Iterator<String> iterator = webXml.getWelcomeFiles().iterator();
-        WelcomeFileManager welcomeFileManager = webApplication.getWelcomeFileManager();
+        WelcomeFileManager welcomeFileManager = webApplication.getManager().getWelcomeFileManager();
         if (welcomeFileManager != null) {
             while (iterator.hasNext()) {
                 String welcomeFile = iterator.next();
@@ -411,11 +411,9 @@ public class WebXmlProcessor {
     private void processLocaleEncodingMapping(WebApplication webApplication, WebXml webXml) {
         Map<String, String> localeMapping = webXml.getLocaleEncodingMapping();
         if (localeMapping != null) {
-            LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
+            LocaleEncodingManager localeEncodingManager = webApplication.getManager().getLocaleEncodingManager();
             if (localeEncodingManager != null) {
                 localeMapping.forEach(localeEncodingManager::addCharacterEncoding);
-            } else {
-                LOGGER.log(WARNING, "No LocaleEncodingManager configured");
             }
         }
     }

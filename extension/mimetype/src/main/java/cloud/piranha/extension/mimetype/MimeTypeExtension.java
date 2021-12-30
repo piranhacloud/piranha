@@ -51,6 +51,6 @@ public class MimeTypeExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(DEBUG, "Setting mime-type manager");
-        webApplication.setMimeTypeManager(new DefaultMimeTypeManager());
+        webApplication.getManager().setMimeTypeManager(new DefaultMimeTypeManager());
     }
 }

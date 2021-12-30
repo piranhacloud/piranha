@@ -51,7 +51,7 @@ class AsyncContextTest {
     @Test
     void testDispatch() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setAsyncManager(new DefaultAsyncManager());
+        webApp.getManager().setAsyncManager(new DefaultAsyncManager());
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setAsyncSupported(true);
         request.setWebApplication(webApp);
@@ -76,7 +76,7 @@ class AsyncContextTest {
     @Test
     void testDispatch2() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setAsyncManager(new DefaultAsyncManager());
+        webApp.getManager().setAsyncManager(new DefaultAsyncManager());
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setAsyncSupported(true);
         request.setWebApplication(webApp);
@@ -101,7 +101,7 @@ class AsyncContextTest {
     @Test
     void testDispatch3() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setAsyncManager(new DefaultAsyncManager());
+        webApp.getManager().setAsyncManager(new DefaultAsyncManager());
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setAsyncSupported(true);
         request.setWebApplication(webApp);

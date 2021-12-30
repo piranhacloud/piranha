@@ -27,7 +27,6 @@
  */
 package cloud.piranha.core.impl.tests;
 
-import cloud.piranha.core.api.LoggingManager;
 import cloud.piranha.core.impl.DefaultServlet;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationRequestMapper;
@@ -127,7 +126,7 @@ class DefaultWebApplicationTest {
     void testAddResource() throws Exception {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setResourceManager(resourceManager);
+        webApp.getManager().setResourceManager(resourceManager);
         webApp.addResource(new DirectoryResource(new File(".")));
         assertNotNull(webApp.getResource("/src/main/java"));
     }
@@ -289,9 +288,9 @@ class DefaultWebApplicationTest {
     @Test
     void testGetObjectInstanceManager() {
         DefaultWebApplication application = new DefaultWebApplication();
-        assertNotNull(application.getObjectInstanceManager());
-        application.setObjectInstanceManager(null);
-        assertNull(application.getObjectInstanceManager());
+        assertNotNull(application.getManager().getObjectInstanceManager());
+        application.getManager().setObjectInstanceManager(null);
+        assertNull(application.getManager().getObjectInstanceManager());
     }
 
     /**
@@ -401,7 +400,7 @@ class DefaultWebApplicationTest {
     void testGetRealPath() {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setResourceManager(resourceManager);
+        webApp.getManager().setResourceManager(resourceManager);
         assertNull(webApp.getRealPath("index.html"));
     }
 
@@ -412,7 +411,7 @@ class DefaultWebApplicationTest {
     void testGetRealPath2() {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setResourceManager(resourceManager);
+        webApp.getManager().setResourceManager(resourceManager);
         webApp.addResource(new DirectoryResource(new File(".")));
         assertNotNull(webApp.getRealPath("/src/main/java"));
     }
@@ -462,7 +461,7 @@ class DefaultWebApplicationTest {
     void testGetResourceAsStream() {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setResourceManager(resourceManager);
+        webApp.getManager().setResourceManager(resourceManager);
         webApp.addResource(new DirectoryResource(new File(".")));
         assertNotNull(webApp.getResourceAsStream("/pom.xml"));
     }
@@ -482,7 +481,7 @@ class DefaultWebApplicationTest {
         // Simulating the Javadoc example of the getResourcePaths method
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setResourceManager(resourceManager);
+        webApp.getManager().setResourceManager(resourceManager);
         webApp.addResource(new DirectoryResource("src/test/webapp/resourcepaths"));
 
         Set<String> resourcePathsRoot = webApp.getResourcePaths("/");
@@ -513,7 +512,7 @@ class DefaultWebApplicationTest {
     void testGetResourcePaths4() {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setResourceManager(resourceManager);
+        webApp.getManager().setResourceManager(resourceManager);
         webApp.addResource(new DirectoryResource("src/test/webapp/resourcepaths"));
 
         assertNull(webApp.getResourcePaths("/welcome.html"));
@@ -538,7 +537,7 @@ class DefaultWebApplicationTest {
     @Test
     void testGetSecurityManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNull(webApp.getSecurityManager());
+        assertNull(webApp.getManager().getSecurityManager());
     }
 
     /**
@@ -726,8 +725,7 @@ class DefaultWebApplicationTest {
     void testLog2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         IllegalStateException exception = new IllegalStateException();
-        assertNotNull(assertThrows(UnsupportedOperationException.class, 
-                () -> webApp.log(exception, "TEST")));
+        webApp.log(exception, "TEST");
     }
 
     /**
@@ -933,7 +931,7 @@ class DefaultWebApplicationTest {
     @Test
     void testSetLoggingManager() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.setLoggingManager(null);
+        webApplication.getManager().setLoggingManager(null);
         webApplication.log("KABOOM");
     }
 

@@ -28,7 +28,6 @@
 package cloud.piranha.core.api;
 
 import cloud.piranha.resource.api.Resource;
-import cloud.piranha.resource.api.ResourceManager;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.Servlet;
@@ -143,44 +142,55 @@ public interface WebApplication extends ServletContext {
     Set<String> addServletMapping(String servletName, String... urlPatterns);
 
     /**
-     * Remove a mapping for a servlet.
-     *
-     * @param urlPattern the URL pattern
-     * @return the Servlet name the pattern was mapped to, or null if no prior
-     * mapping.
-     */
-    String removeServletMapping(String urlPattern);
-
-    /**
      * Destroy the web application.
      */
     void destroy();
-    
-    /**
-     * Get the async manager.
-     * 
-     * @return the async manager.
-     */
-    AsyncManager getAsyncManager();
-    
-    /**
-     * Get the annotation manager.
-     * 
-     * @return the annotation manager.
-     */
-    AnnotationManager getAnnotationManager();
 
     /**
-     * {@return the default Servlet}
+     * Get the default servlet.
+     * 
+     * @return the default Servlet.
      */
     Servlet getDefaultServlet();
 
     /**
-     * Are we denying uncovered HTTP methods.
+     * Gets the ServletContainerInitializers
      *
-     * @return true if we are, false otherwise.
+     * @return list of ServletContainerInitializers
      */
-    boolean getDenyUncoveredHttpMethods();
+    List<ServletContainerInitializer> getInitializers();
+
+    /**
+     * Get the web application manager.
+     *
+     * @return the web application manager.
+     */
+    WebApplicationManager getManager();
+
+    /**
+     * Get the mappings for a particular servlet.
+     *
+     * @param servletName the servlet name.
+     * @return the possible empty set of mapped URL patterns.
+     * @see ServletRegistration#getMappings()
+     */
+    Collection<String> getMappings(String servletName);
+
+    /**
+     * Get the request.
+     *
+     * @param response the response.
+     * @return the request.
+     */
+    ServletRequest getRequest(ServletResponse response);
+
+    /**
+     * Get the response.
+     *
+     * @param request the request.
+     * @return the response.
+     */
+    ServletResponse getResponse(ServletRequest request);
 
     /**
      * Returns the unique Id of this web application corresponding to this
@@ -191,61 +201,6 @@ public interface WebApplication extends ServletContext {
     default String getServletContextId() {
         return getVirtualServerName() + " " + getContextPath();
     }
-    
-    /**
-     * Get the welcome file manager.
-     * 
-     * @return the welcome file manager.
-     */
-    WelcomeFileManager getWelcomeFileManager();
-
-    /**
-     * {@return the HttpSessionManager}
-     */
-    HttpSessionManager getHttpSessionManager();
-
-    /**
-     * {@return the HttpRequestManager}
-     */
-    HttpRequestManager getHttpRequestManager();
-
-    /**
-     * Gets the ServletContainerInitializers
-     *
-     * @return list of ServletContainerInitializers
-     */
-    List<ServletContainerInitializer> getInitializers();
-
-    /**
-     * Get the mappings for a particular servlet.
-     *
-     * @param servletName the servlet name.
-     * @return the possible empty set of mapped URL patterns.
-     * @see ServletRegistration#getMappings()
-     */
-    Collection<String> getMappings(String servletName);
-    
-    /**
-     * {@return the object instance manager.}
-     */
-    ObjectInstanceManager getObjectInstanceManager();
-
-    /**
-     * {@return the associated request}
-     * @param response the response.
-     */
-    ServletRequest getRequest(ServletResponse response);
-
-    /**
-     * {@return the associated response}
-     * @param request the request.
-     */
-    ServletResponse getResponse(ServletRequest request);
-    
-    /**
-     * {@return the security manager}
-     */
-    SecurityManager getSecurityManager();
 
     /**
      * Initialize the web application.
@@ -258,14 +213,14 @@ public interface WebApplication extends ServletContext {
     void initializeDeclaredFinish();
 
     /**
-     * Finish the initialization.
-     */
-    void initializeFinish();
-
-    /**
      * Initialize the filters.
      */
     void initializeFilters();
+
+    /**
+     * Finish the initialization.
+     */
+    void initializeFinish();
 
     /**
      * Initialize the servlet container initializers.
@@ -290,10 +245,10 @@ public interface WebApplication extends ServletContext {
      * @return true if it is, false otherwise.
      */
     boolean isInitialized();
-    
+
     /**
      * Is the web application metadata complete.
-     * 
+     *
      * @return true if it is, false otherwise.
      */
     boolean isMetadataComplete();
@@ -307,6 +262,15 @@ public interface WebApplication extends ServletContext {
     void linkRequestAndResponse(ServletRequest request, ServletResponse response);
 
     /**
+     * Remove a mapping for a servlet.
+     *
+     * @param urlPattern the URL pattern
+     * @return the Servlet name the pattern was mapped to, or null if no prior
+     * mapping.
+     */
+    String removeServletMapping(String urlPattern);
+
+    /**
      * Service the request.
      *
      * @param request the request.
@@ -316,13 +280,6 @@ public interface WebApplication extends ServletContext {
      */
     void service(ServletRequest request, ServletResponse response)
             throws ServletException, IOException;
-    
-    /**
-     * Set the annotation manager.
-     * 
-     * @param annotationManager the annotation manager.
-     */
-    void setAnnotationManager(AnnotationManager annotationManager);
 
     /**
      * Set the class loader.
@@ -346,60 +303,11 @@ public interface WebApplication extends ServletContext {
     void setDefaultServlet(Servlet defaultServlet);
 
     /**
-     * Set if we are denying uncovered HTTP methods.
-     *
-     * @param denyUncoveredHttpMethods the boolean value.
-     */
-    void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods);
-
-    /**
      * Set if the web application is distributable.
      *
      * @param distributable the distributable flag.
      */
     void setDistributable(boolean distributable);
-    
-    /**
-     * Get the JSP manager.
-     * 
-     * @return the JSP manager.
-     */
-    JspManager getJspManager();
-
-    /**
-     * Get the locale encoding manager.
-     *
-     * @return the locale encoding manager.
-     */
-    LocaleEncodingManager getLocaleEncodingManager();
-    
-    /**
-     * Get the logging manager.
-     * 
-     * @return the logging manager.
-     */
-    LoggingManager getLoggingManager();
-
-    /**
-     * Get the mime-type manager.
-     *
-     * @return the mime-type manager.
-     */
-    MimeTypeManager getMimeTypeManager();
-    
-    /**
-     * Get the multi-part manager.
-     * 
-     * @return the multi-part manager.
-     */
-    MultiPartManager getMultiPartManager();
-    
-    /**
-     * Set the async manager.
-     * 
-     * @param asyncManager the async manager.
-     */
-    void setAsyncManager(AsyncManager asyncManager);
 
     /**
      * Set the effective major version.
@@ -416,81 +324,11 @@ public interface WebApplication extends ServletContext {
     void setEffectiveMinorVersion(int version);
 
     /**
-     * Set the HTTP request manager.
-     *
-     * @param httpRequestManager the HTTP request manager.
-     */
-    void setHttpRequestManager(HttpRequestManager httpRequestManager);
-
-    /**
-     * Set the HTTP session manager.
-     *
-     * @param httpSessionManager the HTTP session manager.
-     */
-    void setHttpSessionManager(HttpSessionManager httpSessionManager);
-    
-    /**
-     * Set the JSP manager.
-     * 
-     * @param jspManager the JSP manager.
-     */
-    void setJspManager(JspManager jspManager);
-
-    /**
-     * Set the locale encoding manager.
-     *
-     * @param localeEncodingManager
-     */
-    void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager);
-    
-    /**
-     * Set the logging manager.
-     * 
-     * @param loggingManager the logging manager.
-     */
-    void setLoggingManager(LoggingManager loggingManager);
-    
-    /**
      * Set the metadata complete flag.
-     * 
+     *
      * @param metadataComplete the metadata complete flag.
      */
     void setMetadataComplete(boolean metadataComplete);
-
-    /**
-     * Set the mime-type manager.
-     *
-     * @param mimeTypeManager the mime-type manager.
-     */
-    void setMimeTypeManager(MimeTypeManager mimeTypeManager);
-    
-    /**
-     * Set the multi-part manager.
-     * 
-     * @param multiPartManager the multi-part manager. 
-     */
-    void setMultiPartManager(MultiPartManager multiPartManager);
-    
-    /**
-     * Set the object instance manager.
-     * 
-     * @param objectInstanceManager the object instance manager.
-     */
-    void setObjectInstanceManager(ObjectInstanceManager objectInstanceManager);
-
-    /**
-     * Set the resource manager.
-     *
-     * @param resourceManager the resource manager.
-     */
-    void setResourceManager(ResourceManager resourceManager);
-
-    /**
-     * Set the security manager.
-     * 
-     * @param securityManager 
-     */
-    void setSecurityManager(SecurityManager securityManager);
 
     /**
      * Set the servlet context name.
@@ -506,13 +344,6 @@ public interface WebApplication extends ServletContext {
      */
     void setWebApplicationRequestMapper(WebApplicationRequestMapper webApplicationRequestMapper);
 
-    /**
-     * Set the welcome file manager.
-     * 
-     * @param welcomeFileManager the welcome file manager.
-     */
-    void setWelcomeFileManager(WelcomeFileManager welcomeFileManager);
-    
     /**
      * Start servicing.
      */

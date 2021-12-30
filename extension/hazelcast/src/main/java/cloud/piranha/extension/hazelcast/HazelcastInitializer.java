@@ -47,6 +47,6 @@ public class HazelcastInitializer implements ServletContainerInitializer {
         WebApplication webApplication = (WebApplication) servletContext;
         HazelcastHttpSessionManager sessionManager = new HazelcastHttpSessionManager();
         sessionManager.setWebApplication(webApplication);
-        webApplication.setHttpSessionManager(sessionManager);
+        webApplication.getManager().setHttpSessionManager(sessionManager);
     }
 }

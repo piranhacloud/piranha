@@ -52,10 +52,10 @@ class WelcomeFileTest {
     void testGetWelcomeFileList() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/welcomeFile")));
-        webApplication.setWelcomeFileManager(new DefaultWelcomeFileManager());
+        webApplication.getManager().setWelcomeFileManager(new DefaultWelcomeFileManager());
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
-        assertTrue(webApplication.getWelcomeFileManager().getWelcomeFileList().contains("index.xhtml"));
+        assertTrue(webApplication.getManager().getWelcomeFileManager().getWelcomeFileList().contains("index.xhtml"));
     }
 
     /**
@@ -67,9 +67,9 @@ class WelcomeFileTest {
     void testGetWelcomeFileList2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/welcomeFile")));
-        webApplication.setWelcomeFileManager(new DefaultWelcomeFileManager());
+        webApplication.getManager().setWelcomeFileManager(new DefaultWelcomeFileManager());
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
-        assertFalse(webApplication.getWelcomeFileManager().getWelcomeFileList().contains("index.jsp"));
+        assertFalse(webApplication.getManager().getWelcomeFileManager().getWelcomeFileList().contains("index.jsp"));
     }
 }

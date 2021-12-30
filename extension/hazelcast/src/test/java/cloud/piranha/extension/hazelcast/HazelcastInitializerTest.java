@@ -43,6 +43,6 @@ class HazelcastInitializerTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addInitializer(new HazelcastInitializer());
         webApp.initialize();
-        assertTrue(webApp.getHttpSessionManager() instanceof HazelcastHttpSessionManager);
+        assertTrue(webApp.getManager().getHttpSessionManager() instanceof HazelcastHttpSessionManager);
     }
 }

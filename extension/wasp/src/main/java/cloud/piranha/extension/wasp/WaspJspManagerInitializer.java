@@ -58,6 +58,6 @@ public class WaspJspManagerInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         LOGGER.log(DEBUG, "Setting the WaspJspManager");
         WebApplication application = (WebApplication) servletContext;
-        application.setJspManager(new WaspJspManager());
+        application.getManager().setJspManager(new WaspJspManager());
     }
 }

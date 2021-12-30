@@ -59,7 +59,7 @@ public class WeldServletContainer implements Container {
             WebApplication webApplication = (WebApplication) context.getServletContext();
             WeldObjectInstanceManager manager = new WeldObjectInstanceManager();
             manager.setManager(context.getManager());
-            webApplication.setObjectInstanceManager(manager);
+            webApplication.getManager().setObjectInstanceManager(manager);
         } catch (Exception e) {
             LOGGER.log(WARNING, "Exception occurred while creating WeldServletContainer");
         }

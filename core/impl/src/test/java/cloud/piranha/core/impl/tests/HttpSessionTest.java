@@ -449,7 +449,7 @@ public class HttpSessionTest {
     void testGetServletContext() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultHttpSession session = new DefaultHttpSession(webApp);
-        session.setSessionManager(webApp.getHttpSessionManager());
+        session.setSessionManager(webApp.getManager().getHttpSessionManager());
         assertNotNull(session.getServletContext());
     }
 
@@ -586,8 +586,8 @@ public class HttpSessionTest {
     @Test
     void testGetSessionManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setHttpSessionManager(null);
-        assertNull(webApp.getHttpSessionManager());
+        webApp.getManager().setHttpSessionManager(null);
+        assertNull(webApp.getManager().getHttpSessionManager());
     }
 
     /**
@@ -596,7 +596,7 @@ public class HttpSessionTest {
     @Test
     void testGetSessionManager2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.getHttpSessionManager());
+        assertNotNull(webApp.getManager().getHttpSessionManager());
     }
 
     /**
@@ -830,7 +830,6 @@ public class HttpSessionTest {
     @Test
     void testSetComment() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getHttpSessionManager().setWebApplication(webApplication);
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
@@ -857,7 +856,7 @@ public class HttpSessionTest {
         webApplication.initialize();
         webApplication.start();
         assertNotNull(assertThrows(IllegalStateException.class, 
-                () -> webApplication.getHttpSessionManager()
+                () -> webApplication.getManager().getHttpSessionManager()
                         .getSessionCookieConfig().setComment("MY COMMENT")));
         webApplication.stop();
     }

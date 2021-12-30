@@ -51,6 +51,6 @@ public class DefaultLoggingExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(DEBUG, "Setting DefaultLoggingManager");
-        webApplication.setLoggingManager(new DefaultLoggingManager());
+        webApplication.getManager().setLoggingManager(new DefaultLoggingManager());
     }
 }

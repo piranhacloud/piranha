@@ -35,6 +35,7 @@ import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.locale_encoding.LocaleEncodingExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
 import java.util.Locale;
+import static java.util.Locale.ITALY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
@@ -145,7 +146,7 @@ class LocaleEncodingExtensionTest {
 
         EmbeddedResponse response = new EmbeddedResponse();
         response.setWebApplication(webApp);
-        LocaleEncodingManager localeEncodingManager = webApp.getLocaleEncodingManager();
+        LocaleEncodingManager localeEncodingManager = webApp.getManager().getLocaleEncodingManager();
         localeEncodingManager.addCharacterEncoding(Locale.JAPAN.toString(), "euc-jp");
         localeEncodingManager.addCharacterEncoding(Locale.CHINA.toString(), "gb18030");
 
@@ -228,10 +229,11 @@ class LocaleEncodingExtensionTest {
                 .build()
                 .start();
         WebApplication webApp = piranha.getWebApplication();
-        webApp.getLocaleEncodingManager().addCharacterEncoding(Locale.ITALY.toString(), "windows-1252");
+        webApp.getManager().getLocaleEncodingManager()
+                .addCharacterEncoding(ITALY.toString(), "windows-1252");
         EmbeddedResponse response = new EmbeddedResponse();
         response.setWebApplication(webApp);
-        response.setLocale(Locale.ITALY);
+        response.setLocale(ITALY);
         assertEquals("windows-1252", response.getCharacterEncoding());
     }
 
@@ -247,7 +249,8 @@ class LocaleEncodingExtensionTest {
                 .build()
                 .start();
         WebApplication webApp = piranha.getWebApplication();
-        webApp.getLocaleEncodingManager().addCharacterEncoding(new Locale("ja").toString(), "Shift_Jis");
+        webApp.getManager().getLocaleEncodingManager()
+                .addCharacterEncoding(new Locale("ja").toString(), "Shift_Jis");
         EmbeddedResponse response = new EmbeddedResponse();
         response.setWebApplication(webApp);
         response.setLocale(new Locale("ja"));

@@ -64,7 +64,7 @@ public class SoteriaInitializer implements ServletContainerInitializer {
         LOGGER.log(DEBUG, "Initializing Soteria");
         
         WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.getSecurityManager().setUsernamePasswordLoginHandler(new IdentityStoreLoginHandler());
+        webApplication.getManager().getSecurityManager().setUsernamePasswordLoginHandler(new IdentityStoreLoginHandler());
         
         SamRegistrationInstaller installer = new SamRegistrationInstaller();
         

@@ -242,8 +242,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     public String encodeRedirectURL(String url) {
         String result = url;
 
-        if (webApplication.getHttpSessionManager() != null) {
-            result = webApplication.getHttpSessionManager().encodeRedirectURL(this, url);
+        if (webApplication.getManager().getHttpSessionManager() != null) {
+            result = webApplication.getManager().getHttpSessionManager().encodeRedirectURL(this, url);
         }
 
         return result;
@@ -258,8 +258,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     @Override
     public String encodeURL(String url) {
         String result = url;
-        if (webApplication.getHttpSessionManager() != null) {
-            result = webApplication.getHttpSessionManager().encodeURL(this, url);
+        if (webApplication.getManager().getHttpSessionManager() != null) {
+            result = webApplication.getManager().getHttpSessionManager().encodeURL(this, url);
         }
         return result;
     }
@@ -568,7 +568,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
                 return;
             }
             if (!gotWriter && !characterEncodingSet) {
-                LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
+                LocaleEncodingManager localeEncodingManager = webApplication.getManager().getLocaleEncodingManager();
                 if (localeEncodingManager != null) {
                     String encoding = localeEncodingManager.getCharacterEncoding(locale.toString());
                     if (encoding == null) { 

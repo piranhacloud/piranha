@@ -34,4 +34,5 @@ module cloud.piranha.core.impl.tests {
     requires cloud.piranha.http.api;
     requires jdk.security.auth;
     requires org.junit.jupiter.api;
+    requires org.junit.platform.launcher;
 }

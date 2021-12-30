@@ -181,7 +181,7 @@ public class EmbeddedPiranhaBuilder {
         }
 
         if (httpSessionManager != null) {
-            webApplication.setHttpSessionManager(httpSessionManager);
+            webApplication.getManager().setHttpSessionManager(httpSessionManager);
             httpSessionManager.setWebApplication(webApplication);
         }
 
