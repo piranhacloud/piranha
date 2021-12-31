@@ -29,12 +29,14 @@ package cloud.piranha.extension.webxml;
 
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.MimeTypeManager;
+import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebXml;
 import cloud.piranha.core.api.WebXmlContextParam;
 import cloud.piranha.core.api.WebXmlErrorPage;
 import cloud.piranha.core.api.WebXmlFilterInitParam;
 import cloud.piranha.core.api.WebXmlListener;
+import cloud.piranha.core.api.WebXmlLoginConfig;
 import cloud.piranha.core.api.WebXmlServlet;
 import cloud.piranha.core.api.WebXmlServletMapping;
 import cloud.piranha.core.api.WebXmlServletMultipartConfig;
@@ -88,6 +90,7 @@ public class WebXmlProcessor {
         processFilters(webApplication, webXml);
         processFilterMappings(webApplication, webXml);
         processListeners(webApplication, webXml);
+        processLoginConfig(webApplication, webXml);
         processMimeMappings(webApplication, webXml);
         processRequestCharacterEncoding(webApplication, webXml);
         processResponseCharacterEncoding(webApplication, webXml);
@@ -258,6 +261,31 @@ public class WebXmlProcessor {
     private void processListeners(WebApplication webApplication, WebXml webXml) {
         for (WebXmlListener listener : webXml.getListeners()) {
             webApplication.addListener(listener.className());
+        }
+    }
+
+    /**
+     * Process the login-config.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processLoginConfig(WebApplication webApplication, WebXml webXml) {
+        SecurityManager manager = webApplication.getManager().getSecurityManager();
+        if (manager != null && webXml.getLoginConfig() != null) {
+            WebXmlLoginConfig loginConfig = webXml.getLoginConfig();
+            if (loginConfig.authMethod() != null) {
+                manager.setAuthMethod(loginConfig.authMethod());
+            }
+            if (loginConfig.formErrorPage() != null) {
+                manager.setFormErrorPage(loginConfig.formErrorPage());
+            }
+            if (loginConfig.formLoginPage() != null) {
+                manager.setFormLoginPage(loginConfig.formLoginPage());
+            }
+            if (loginConfig.realmName() != null) {
+                manager.setRealmName(loginConfig.realmName());
+            }
         }
     }
 

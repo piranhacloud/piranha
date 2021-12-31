@@ -47,16 +47,36 @@ import java.util.Set;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class SlimSecurityManager implements SecurityManager {
+    
+    /**
+     * Stores the auth method.
+     */
+    protected String authMethod;
 
     /**
      * Stores if we are denying uncovered HTTP methods.
      */
     protected boolean denyUncoveredHttpMethods = false;
+    
+    /**
+     * Stores the form error page.
+     */
+    protected String formErrorPage;
+    
+    /**
+     * Stores the form login page.
+     */
+    protected String formLoginPage;
 
     /**
      * Stores the logins.
      */
     protected final HashMap<String, String> logins = new HashMap<>();
+    
+    /**
+     * Stores the realm name.
+     */
+    protected String realmName;
 
     /**
      * Stores the roles.
@@ -136,15 +156,35 @@ public class SlimSecurityManager implements SecurityManager {
     public void declareRoles(String[] roles) {
         this.roles.addAll(Arrays.asList(roles));
     }
-
+    
     @Override
-    public Set<String> getRoles() {
-        return new HashSet<>(roles);
+    public String getAuthMethod() {
+        return authMethod;
     }
 
     @Override
     public boolean getDenyUncoveredHttpMethods() {
         return denyUncoveredHttpMethods;
+    }
+
+    @Override
+    public String getFormErrorPage() {
+        return formErrorPage;
+    }
+
+    @Override
+    public String getFormLoginPage() {
+        return formLoginPage;
+    }
+    
+    @Override
+    public String getRealmName() {
+        return realmName;
+    }
+
+    @Override
+    public Set<String> getRoles() {
+        return new HashSet<>(roles);
     }
 
     @Override
@@ -209,10 +249,30 @@ public class SlimSecurityManager implements SecurityManager {
         logins.remove(username);
         userRoles.remove(username);
     }
+    
+    @Override
+    public void setAuthMethod(String authMethod) {
+        this.authMethod = authMethod;
+    }
 
     @Override
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
         this.denyUncoveredHttpMethods = denyUncoveredHttpMethods;
+    }
+
+    @Override
+    public void setFormErrorPage(String formErrorPage) {
+        this.formErrorPage = formErrorPage;
+    }
+
+    @Override
+    public void setFormLoginPage(String formLoginPage) {
+        this.formLoginPage = formLoginPage;
+    }
+
+    @Override
+    public void setRealmName(String realmName) {
+        this.realmName = realmName;
     }
 
     @Override
