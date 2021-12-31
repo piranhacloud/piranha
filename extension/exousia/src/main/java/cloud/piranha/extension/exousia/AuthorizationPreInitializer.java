@@ -27,27 +27,8 @@
  */
 package cloud.piranha.extension.exousia;
 
-import static java.util.Collections.disjoint;
-import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toSet;
-import static org.glassfish.exousia.constraints.SecurityConstraint.join;
-
-import java.security.Permission;
-import java.security.Policy;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import org.glassfish.exousia.AuthorizationService;
-import org.glassfish.exousia.constraints.SecurityConstraint;
-import org.glassfish.exousia.constraints.WebResourceCollection;
-import org.glassfish.exousia.mapping.SecurityRoleRef;
-
-import cloud.piranha.extension.webxml.WebXmlManager;
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebXmlManager;
 import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
 import jakarta.security.jacc.PolicyConfiguration;
 import jakarta.security.jacc.PolicyContextException;
@@ -55,6 +36,22 @@ import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import java.security.Permission;
+import java.security.Policy;
+import java.util.ArrayList;
+import static java.util.Collections.disjoint;
+import static java.util.Collections.emptyList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import static java.util.stream.Collectors.toSet;
+import org.glassfish.exousia.AuthorizationService;
+import org.glassfish.exousia.constraints.SecurityConstraint;
+import static org.glassfish.exousia.constraints.SecurityConstraint.join;
+import org.glassfish.exousia.constraints.WebResourceCollection;
+import org.glassfish.exousia.mapping.SecurityRoleRef;
 
 /**
  * The Exousia initializer.
@@ -274,7 +271,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
      * @throws ServletException when a Servlet error occurs.
      */
     private List<SecurityConstraint> getConstraintsFromWebXml(WebApplication webApplication) throws ServletException {
-        WebXmlManager manager =  getAttribute(webApplication, WebXmlManager.KEY);
+        WebXmlManager manager = webApplication.getManager().getWebXmlManager();
         return piranhaToExousiaConverter.getConstraintsFromWebXml(manager.getWebXml());
     }
 
@@ -286,7 +283,7 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
      * @throws ServletException when a Servlet error occurs.
      */
     public Map<String, List<SecurityRoleRef>> getSecurityRoleRefsFromWebXml(WebApplication webApplication) throws ServletException {
-        WebXmlManager manager =  getAttribute(webApplication, WebXmlManager.KEY);
+        WebXmlManager manager = webApplication.getManager().getWebXmlManager();
         return piranhaToExousiaConverter.getSecurityRoleRefsFromWebXml(webApplication.getServletRegistrations().keySet(), manager.getWebXml());
     }
 

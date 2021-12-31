@@ -25,17 +25,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml;
+package cloud.piranha.core.api;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The web.xml filter-mapping.
+ * A filter-mapping inside of web.xml/web-fragment.xml.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class WebXmlFilterMapping {
+
+    /**
+     * The type of dispatch on which the filter is invoked.
+     *
+     * <p>
+     * Valid values are FORWARD, INCLUDE, REQUEST, and ERROR.
+     * </p>
+     */
+    private List<String> dispatchers = new ArrayList<>();
 
     /**
      * Stores the filter name.
@@ -43,60 +52,84 @@ public class WebXmlFilterMapping {
     private String filterName;
 
     /**
+     * Stores the servlet names to which a filter is mapped.
+     */
+    private List<String> servletNames = new ArrayList<>();
+
+    /**
      * Stores the URL pattern.
      */
-    private final List<String> urlPatterns = new ArrayList<>();
-
-
-    /**
-     * Names of the Servlets to which a filter is mapped
-     */
-    private final List<String> servletNames = new ArrayList<>();
+    private List<String> urlPatterns = new ArrayList<>();
 
     /**
-     * The type of dispatch on which the filter is invoked. Valid values:
-     * FORWARD
-     * INCLUDE
-     * REQUEST
-     * ERROR
-     */
-    private final List<String> dispatchers = new ArrayList<>();
-
-    /**
-     * Constructor.
+     * Get the dispatchers.
      *
-     * @param filterName the filter name.
+     * @return the dispatchers.
      */
-    public WebXmlFilterMapping(String filterName) {
-        this.filterName = filterName;
+    public List<String> getDispatchers() {
+        return dispatchers;
     }
 
     /**
-     * {@return the filter name}
+     * Get the filter name.
+     *
+     * @return the filter name.
      */
     public String getFilterName() {
         return filterName;
     }
 
     /**
-     * {@return the URL patterns}
-     */
-    public List<String> getUrlPatterns() {
-        return urlPatterns;
-    }
-
-    /**
-     * {@return the Servlet names}
+     * Get the servlet names.
+     *
+     * @return the servlet names.
      */
     public List<String> getServletNames() {
         return servletNames;
     }
 
     /**
-     * {@return the dispatchers}
+     * Get the URL patterns.
+     *
+     * @return the URL patterns.
      */
-    public List<String> getDispatchers() {
-        return dispatchers;
+    public List<String> getUrlPatterns() {
+        return urlPatterns;
+    }
+
+    /**
+     * Set the dispatchers.
+     *
+     * @param dispatchers the dispatchers.
+     */
+    public void setDispatchers(List<String> dispatchers) {
+        this.dispatchers = dispatchers;
+    }
+
+    /**
+     * Set the filter name.
+     *
+     * @param filterName the filter name.
+     */
+    public void setFilterName(String filterName) {
+        this.filterName = filterName;
+    }
+
+    /**
+     * Set the servlet names.
+     *
+     * @param servletNames the servlet names.
+     */
+    public void setServletNames(List<String> servletNames) {
+        this.servletNames = servletNames;
+    }
+
+    /**
+     * Set the URL patterns.
+     *
+     * @param urlPatterns the URL patterns.
+     */
+    public void setUrlPatterns(List<String> urlPatterns) {
+        this.urlPatterns = urlPatterns;
     }
 }
-

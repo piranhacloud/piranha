@@ -126,6 +126,13 @@ public interface WebApplicationManager {
     SecurityManager getSecurityManager();
     
     /**
+     * Get the web.xml manager.
+     * 
+     * @return the web.xml manager.
+     */
+    WebXmlManager getWebXmlManager();
+    
+    /**
      * Get the welcome file manager.
      * 
      * @return the welcome file manager.
@@ -215,6 +222,13 @@ public interface WebApplicationManager {
      * @param securityManager the security manager.
      */
     void setSecurityManager(SecurityManager securityManager);
+    
+    /**
+     * Set the web.xml manager.
+     * 
+     * @param webXmlManager the web.xml manager.
+     */
+    void setWebXmlManager(WebXmlManager webXmlManager);
     
     /**
      * Set the welcome file manager.

@@ -27,41 +27,38 @@
  */
 package cloud.piranha.extension.eleos;
 
+import cloud.piranha.core.api.AuthenticatedIdentity;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebXml;
+import cloud.piranha.core.api.WebXmlLoginConfig;
+import cloud.piranha.core.api.WebXmlManager;
+import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
 import static jakarta.security.auth.message.config.AuthConfigFactory.DEFAULT_FACTORY_SECURITY_PROPERTY;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.nio.file.Files.exists;
-import static java.nio.file.Files.readString;
-import static java.util.Arrays.stream;
-
+import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.exists;
+import static java.nio.file.Files.readString;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Security;
+import static java.util.Arrays.stream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
-
 import org.omnifaces.eleos.config.factory.ConfigParser;
 import org.omnifaces.eleos.config.factory.DefaultConfigFactory;
 import org.omnifaces.eleos.config.factory.DefaultConfigParser;
 import org.omnifaces.eleos.config.helper.Caller;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
 import org.omnifaces.eleos.services.InMemoryStore;
-
-import cloud.piranha.extension.webxml.WebXml;
-import cloud.piranha.extension.webxml.WebXmlLoginConfig;
-import cloud.piranha.extension.webxml.WebXmlManager;
-import cloud.piranha.core.api.AuthenticatedIdentity;
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
-import jakarta.servlet.FilterRegistration;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import static java.lang.System.Logger.Level.DEBUG;
 
 /**
  * The Eleos initializer.
@@ -161,7 +158,8 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
     }
 
     private WebXmlLoginConfig getLoginConfig(ServletContext servletContext) {
-        WebXmlManager manager = (WebXmlManager) servletContext.getAttribute(WebXmlManager.KEY);
+        WebApplication webApplication = (WebApplication) servletContext;
+        WebXmlManager manager = webApplication.getManager().getWebXmlManager();
         WebXml webXml = manager.getWebXml();
         if (!isAnyNull(() -> webXml, webXml::getLoginConfig, () -> webXml.getLoginConfig().authMethod())) {
             return webXml.getLoginConfig();

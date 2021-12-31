@@ -27,23 +27,22 @@
  */
 package cloud.piranha.extension.webxml;
 
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.WARNING;
-
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebXml;
+import cloud.piranha.core.api.WebXmlServletMapping;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.lang.System.Logger;
-
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-
-import cloud.piranha.core.api.WebApplication;
 
 /**
  * The web.xml initializer.
@@ -69,11 +68,11 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         LOGGER.log(DEBUG, () -> "Entering WebXmlInitializer.onStartup");
 
         try {
-            WebXmlParser parser = new WebXmlParser();
-            WebXmlManager manager = new WebXmlManager();
-            servletContext.setAttribute(WebXmlManager.KEY, manager);
+            WebApplication webApplication = (WebApplication) servletContext;
+            DefaultWebXmlManager manager = new DefaultWebXmlManager();
+            webApplication.getManager().setWebXmlManager(manager);
 
-            WebApplication webApp = (WebApplication) servletContext;
+            WebXmlParser parser = new WebXmlParser();
             InputStream inputStream = servletContext.getResourceAsStream("WEB-INF/web.xml");
             if (inputStream != null) {
                 WebXml webXml = parser.parse(servletContext.getResourceAsStream("WEB-INF/web.xml"));
@@ -102,15 +101,15 @@ public class WebXmlInitializer implements ServletContainerInitializer {
                 WebXml webXml = manager.getWebXml();
                 WebXmlProcessor processor = new WebXmlProcessor();
 
-                processor.process(webXml, webApp);
+                processor.process(webXml, webApplication);
 
                 if (webXml.getMetadataComplete()) {
                     return;
                 }
                 
-                removeExistingServletMappings(webApp, manager);
+                removeExistingServletMappings(webApplication, manager);
 
-                manager.getOrderedFragments().forEach(fragment -> processor.process(fragment, webApp));
+                manager.getOrderedFragments().forEach(fragment -> processor.process(fragment, webApplication));
             } else {
                 LOGGER.log(DEBUG, "No web.xml found!");
             }
@@ -128,7 +127,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      * @param webApp the web application.
      * @param manager the web.xml manager.
      */
-    private void removeExistingServletMappings(WebApplication webApp, WebXmlManager manager) {
+    private void removeExistingServletMappings(WebApplication webApp, DefaultWebXmlManager manager) {
         for(WebXmlServletMapping mapping : manager.getWebXml().getServletMappings()) {
             for(WebXml fragment : manager.getOrderedFragments()) {
                 ArrayList<WebXmlServletMapping> candidateList = new ArrayList<>(fragment.getServletMappings());

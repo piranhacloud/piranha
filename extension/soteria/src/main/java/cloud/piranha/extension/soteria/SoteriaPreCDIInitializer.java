@@ -27,17 +27,15 @@
  */
 package cloud.piranha.extension.soteria;
 
-import cloud.piranha.extension.webxml.WebXml;
-import cloud.piranha.extension.webxml.WebXmlManager;
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebXml;
+import cloud.piranha.core.api.WebXmlManager;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
-
-import java.util.Set;
-import java.lang.System.Logger.Level;
 import java.lang.System.Logger;
-
+import java.lang.System.Logger.Level;
+import java.util.Set;
 import org.glassfish.soteria.SoteriaServiceProviders;
 import org.glassfish.soteria.cdi.spi.WebXmlLoginConfig;
 
@@ -63,8 +61,8 @@ public class SoteriaPreCDIInitializer implements ServletContainerInitializer {
      */
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        WebApplication context = (WebApplication) servletContext;
-        WebXmlManager manager = (WebXmlManager) context.getAttribute(WebXmlManager.KEY);
+        WebApplication webApplication = (WebApplication) servletContext;
+        WebXmlManager manager = webApplication.getManager().getWebXmlManager();
         WebXml webXml = manager.getWebXml();
         if (webXml != null && webXml.getLoginConfig() != null
                 && webXml.getLoginConfig().authMethod() != null) {

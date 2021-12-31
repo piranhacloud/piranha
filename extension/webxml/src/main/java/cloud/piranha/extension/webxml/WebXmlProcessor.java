@@ -30,6 +30,15 @@ package cloud.piranha.extension.webxml;
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.MimeTypeManager;
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebXml;
+import cloud.piranha.core.api.WebXmlContextParam;
+import cloud.piranha.core.api.WebXmlErrorPage;
+import cloud.piranha.core.api.WebXmlFilterInitParam;
+import cloud.piranha.core.api.WebXmlListener;
+import cloud.piranha.core.api.WebXmlServlet;
+import cloud.piranha.core.api.WebXmlServletMapping;
+import cloud.piranha.core.api.WebXmlServletMultipartConfig;
+import cloud.piranha.core.api.WebXmlSessionConfig;
 import cloud.piranha.core.api.WelcomeFileManager;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
@@ -426,10 +435,9 @@ public class WebXmlProcessor {
      */
     private void processSessionConfig(WebApplication webApplication, WebXml webXml) {
         WebXmlSessionConfig sessionConfig = webXml.getSessionConfig();
-        if (sessionConfig == null) {
-            return;
+        if (sessionConfig != null) {
+            webApplication.setSessionTimeout(sessionConfig.getSessionTimeout());
         }
-        webApplication.setSessionTimeout(sessionConfig.sessionTimeout());
     }
 
     private boolean isEmpty(String string) {

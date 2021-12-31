@@ -25,30 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.core.api;
 
 /**
- * The webxml extension module.
- * 
- * <p>
- *  This module delivers everything related to web.xml / web-fragment.xml 
- *  parsing and processing. You can either use the WebApplicationExtension or
- *  the ServletContainerInitializer to add it to a Piranha runtime.
- * </p>
- * 
- * <p>
- *  Note that this extension allows you to inspect the effective WebXml to make
- *  sure it was processed correctly. It is however NOT RECOMMENDED that other 
- *  extensions / initializers directly use the WebXmlManager API to configure
- *  themselves, but instead use other manager APIs or the WebApplication API.
- * </p>
- * 
+ * A servlet init-param inside of web.xml/web-fragment.xml.
+ *
+ * @param name the name.
+ * @param value the value.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
-    
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires java.xml;
+public record WebXmlServletInitParam(String name, String value) {
+
 }

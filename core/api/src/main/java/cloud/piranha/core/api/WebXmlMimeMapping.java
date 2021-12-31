@@ -25,12 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml;
+package cloud.piranha.core.api;
 
 /**
- * The web.xml session-config cookie-config.
+ * A mime-mapping inside of web.xml/web-fragment.xml.
  *
+ * @param extension the extension.
+ * @param mimeType the mime type.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlCookieConfig(String name) {
+public record WebXmlMimeMapping(String extension, String mimeType) {
+
 }

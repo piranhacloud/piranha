@@ -25,13 +25,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml;
+package cloud.piranha.core.api;
 
 /**
- * The web.xml servlet-mapping
- * @param servletName the servlet name.
- * @param urlPattern  the URL pattern.
+ * The WebXmlManager API.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlServletMapping(String servletName, String urlPattern) {
+public interface WebXmlManager {
+
+    /**
+     * Get the web.xml.
+     * 
+     * @return the web.xml
+     */
+    WebXml getWebXml();
 }

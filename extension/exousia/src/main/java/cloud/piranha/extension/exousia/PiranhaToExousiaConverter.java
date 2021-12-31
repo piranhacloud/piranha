@@ -27,30 +27,27 @@
  */
 package cloud.piranha.extension.exousia;
 
+import cloud.piranha.core.api.WebXmlServletSecurityRoleRef;
+import cloud.piranha.core.api.WebXml;
+import cloud.piranha.core.api.WebXmlSecurityConstraint;
+import cloud.piranha.core.api.WebXmlServlet;
+import jakarta.servlet.ServletSecurityElement;
+import jakarta.servlet.annotation.ServletSecurity;
 import static jakarta.servlet.annotation.ServletSecurity.TransportGuarantee.CONFIDENTIAL;
 import static jakarta.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
-import static java.util.Collections.emptyList;
-
 import java.util.ArrayList;
 import java.util.Collections;
+import static java.util.Collections.emptyList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import org.glassfish.exousia.constraints.SecurityConstraint;
 import org.glassfish.exousia.constraints.WebResourceCollection;
 import org.glassfish.exousia.constraints.transformer.ElementsToConstraintsTransformer;
 import org.glassfish.exousia.mapping.SecurityRoleRef;
-
-import cloud.piranha.extension.webxml.WebXml;
-import cloud.piranha.extension.webxml.WebXmlSecurityConstraint;
-import cloud.piranha.extension.webxml.WebXmlServlet;
-import cloud.piranha.extension.webxml.WebXmlServletSecurityRoleRef;
-import jakarta.servlet.ServletSecurityElement;
-import jakarta.servlet.annotation.ServletSecurity;
 
 /**
  * This class converts from Piranha security types to Exousia security types.
