@@ -25,17 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml;
+package cloud.piranha.core.api;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The &lt;security-constraint&gt; snippet inside a web.xml / webfragment.xml.
+ * A security-constraint inside of web.xml/web-fragment.xml.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class WebXmlSecurityConstraint {
+
+    /**
+     * The list &lt;role-name&gt; snippets inside &lt;auth-constraint&gt;
+     *
+     * Note that we don't map the &lt;auth-constraint&gt; element separately
+     * here
+     */
+    private List<String> roleNames = new ArrayList<>();
+
+    /**
+     * The list &lt;transport-guarantee&gt; snippet inside
+     * &lt;user-data-constraint&gt;
+     *
+     * Note that we don't map the &lt;user-data-constraint&gt; element
+     * separately here
+     */
+    private String transportGuarantee;
 
     // Example:
     //  <security-constraint>
@@ -58,21 +75,13 @@ public class WebXmlSecurityConstraint {
     private List<WebResourceCollection> webResourceCollections = new ArrayList<>();
 
     /**
-     * The list &lt;role-name&gt; snippets inside &lt;auth-constraint&gt;
+     * Get the role names.
      *
-     * Note that we don't map the &lt;auth-constraint&gt; element separately
-     * here
+     * @return the role names.
      */
-    private List<String> roleNames = new ArrayList<>();
-
-    /**
-     * The list &lt;transport-guarantee&gt; snippet inside
-     * &lt;user-data-constraint&gt;
-     *
-     * Note that we don't map the &lt;user-data-constraint&gt; element
-     * separately here
-     */
-    private String transportGuarantee;
+    public List<String> getRoleNames() {
+        return roleNames;
+    }
 
     /**
      * Get the transport guarantee.
@@ -84,21 +93,12 @@ public class WebXmlSecurityConstraint {
     }
 
     /**
-     * Set the transport guarantee.
+     * Get the web resource collections.
      *
-     * @param transportGuarantee the transport guarantee.
+     * @return the web resource collections.
      */
-    public void setTransportGuarantee(String transportGuarantee) {
-        this.transportGuarantee = transportGuarantee;
-    }
-
-    /**
-     * Get the role names.
-     *
-     * @return the role names.
-     */
-    public List<String> getRoleNames() {
-        return roleNames;
+    public List<WebResourceCollection> getWebResourceCollections() {
+        return webResourceCollections;
     }
 
     /**
@@ -111,12 +111,12 @@ public class WebXmlSecurityConstraint {
     }
 
     /**
-     * Get the web resource collections.
+     * Set the transport guarantee.
      *
-     * @return the web resource collections.
+     * @param transportGuarantee the transport guarantee.
      */
-    public List<WebResourceCollection> getWebResourceCollections() {
-        return webResourceCollections;
+    public void setTransportGuarantee(String transportGuarantee) {
+        this.transportGuarantee = transportGuarantee;
     }
 
     /**

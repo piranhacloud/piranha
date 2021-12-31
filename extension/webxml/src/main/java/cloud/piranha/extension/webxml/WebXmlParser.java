@@ -27,7 +27,23 @@
  */
 package cloud.piranha.extension.webxml;
 
-import static cloud.piranha.extension.webxml.WebXml.OTHERS_TAG;
+import cloud.piranha.core.api.WebXml;
+import cloud.piranha.core.api.WebXmlSecurityConstraint;
+import cloud.piranha.core.api.WebXmlFilterMapping;
+import cloud.piranha.core.api.WebXmlListener;
+import cloud.piranha.core.api.WebXmlErrorPage;
+import cloud.piranha.core.api.WebXmlLoginConfig;
+import cloud.piranha.core.api.WebXmlSessionConfig;
+import cloud.piranha.core.api.WebXmlContextParam;
+import cloud.piranha.core.api.WebXmlMimeMapping;
+import cloud.piranha.core.api.WebXmlFilter;
+import cloud.piranha.core.api.WebXmlFilterInitParam;
+import cloud.piranha.core.api.WebXmlServlet;
+import cloud.piranha.core.api.WebXmlServletMultipartConfig;
+import cloud.piranha.core.api.WebXmlServletSecurityRoleRef;
+import cloud.piranha.core.api.WebXmlServletInitParam;
+import cloud.piranha.core.api.WebXmlServletMapping;
+import static cloud.piranha.core.api.WebXml.OTHERS_TAG;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.WARNING;
 import static java.util.regex.Pattern.quote;
@@ -386,7 +402,8 @@ public class WebXmlParser {
         try {
             for (Node node : parseNodes(xPath, "//filter-mapping", rootNode)) {
                 String filterName = parseString(xPath, "filter-name/text()", node);
-                WebXmlFilterMapping webXmlFilterMapping = new WebXmlFilterMapping(filterName);
+                WebXmlFilterMapping webXmlFilterMapping = new WebXmlFilterMapping();
+                webXmlFilterMapping.setFilterName(filterName);
 
                 for (String urlPattern : parseStrings(xPath, URL_PATTERN_TEXT_SELECTOR, node)) {
                     webXmlFilterMapping.getUrlPatterns().add(urlPattern);
@@ -725,7 +742,9 @@ public class WebXmlParser {
             Node scNode = (Node) xPath.evaluate("//session-config", node, NODE);
             if (scNode != null) {
                 int sessionTimeout = parseInteger(xPath, "session-timeout/text()", scNode);
-                webXml.setSessionConfig(new WebXmlSessionConfig(sessionTimeout));
+                WebXmlSessionConfig sessionConfig = new WebXmlSessionConfig();
+                sessionConfig.setSessionTimeout(sessionTimeout);
+                webXml.setSessionConfig(sessionConfig);
             }
         } catch (XPathException xpe) {
             LOGGER.log(WARNING, "Unable to parse <session-config> section", xpe);

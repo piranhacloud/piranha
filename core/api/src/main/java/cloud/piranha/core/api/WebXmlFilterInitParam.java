@@ -25,11 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml;
+package cloud.piranha.core.api;
 
 /**
- * The web.xml filter init-param.
+ * A filter init-param inside of web.xml/web-fragment.xml.
  *
+ * @param name the name.
+ * @param value the value.
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public record WebXmlFilterInitParam(String name, String value) {

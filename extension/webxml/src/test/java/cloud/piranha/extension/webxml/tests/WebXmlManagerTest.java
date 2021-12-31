@@ -1,16 +1,16 @@
 package cloud.piranha.extension.webxml.tests;
 
-import cloud.piranha.extension.webxml.WebXml;
-import org.junit.jupiter.api.Test;
-
+import cloud.piranha.core.api.WebXml;
+import static cloud.piranha.core.api.WebXml.OTHERS_TAG;
+import cloud.piranha.extension.webxml.DefaultWebXmlManager;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static cloud.piranha.extension.webxml.WebXml.OTHERS_TAG;
-import cloud.piranha.extension.webxml.WebXmlManager;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 class WebXmlManagerTest {
 
@@ -22,7 +22,7 @@ class WebXmlManagerTest {
 
     @Test
     void testNoOrdering() {
-        WebXmlManager manager = new WebXmlManager();
+        DefaultWebXmlManager manager = new DefaultWebXmlManager();
         WebXml webXml = new WebXml();
         manager.setWebXml(webXml);
 
@@ -42,7 +42,7 @@ class WebXmlManagerTest {
 
     @Test
     void testAbsoluteOrdering() {
-        WebXmlManager manager = new WebXmlManager();
+        DefaultWebXmlManager manager = new DefaultWebXmlManager();
         WebXml webXml = new WebXml();
         manager.setWebXml(webXml);
 
@@ -62,7 +62,7 @@ class WebXmlManagerTest {
 
     @Test
     void testAbsoluteOrdering2() {
-        WebXmlManager manager = new WebXmlManager();
+        DefaultWebXmlManager manager = new DefaultWebXmlManager();
         WebXml webXml = new WebXml();
         manager.setWebXml(webXml);
 
@@ -82,7 +82,7 @@ class WebXmlManagerTest {
 
     @Test
     void testAbsoluteOrdering3() {
-        WebXmlManager manager = new WebXmlManager();
+        DefaultWebXmlManager manager = new DefaultWebXmlManager();
         WebXml webXml = new WebXml();
         manager.setWebXml(webXml);
 
@@ -104,7 +104,7 @@ class WebXmlManagerTest {
 
     @Test
     void testAbsoluteOrdering4() {
-        WebXmlManager manager = new WebXmlManager();
+        DefaultWebXmlManager manager = new DefaultWebXmlManager();
         WebXml webXml = new WebXml();
         manager.setWebXml(webXml);
 
@@ -126,7 +126,7 @@ class WebXmlManagerTest {
 
     @Test
     void testAbsoluteOrdering5() {
-        WebXmlManager manager = new WebXmlManager();
+        DefaultWebXmlManager manager = new DefaultWebXmlManager();
         WebXml webXml = new WebXml();
         manager.setWebXml(webXml);
 
@@ -148,7 +148,7 @@ class WebXmlManagerTest {
 
     @Test
     void testRelativeOrdering() {
-        WebXmlManager manager = new WebXmlManager();
+        DefaultWebXmlManager manager = new DefaultWebXmlManager();
         WebXml webXml = new WebXml();
         manager.setWebXml(webXml);
 
@@ -181,7 +181,7 @@ class WebXmlManagerTest {
 
     @Test
     void testRelativeOrdering2() {
-        WebXmlManager manager = new WebXmlManager();
+        DefaultWebXmlManager manager = new DefaultWebXmlManager();
         WebXml webXml = new WebXml();
         manager.setWebXml(webXml);
 
@@ -220,7 +220,7 @@ class WebXmlManagerTest {
 
     @Test
     void testRelativeOrdering3() {
-        WebXmlManager manager = new WebXmlManager();
+        DefaultWebXmlManager manager = new DefaultWebXmlManager();
         WebXml webXml = new WebXml();
         manager.setWebXml(webXml);
 

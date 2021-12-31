@@ -25,17 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml;
+package cloud.piranha.core.api;
 
 /**
- * The web.xml login-config.
+ * A login-config inside of web.xml/web-fragment.xml.
  *
- * @param authMethod    the auth method.
- * @param realmName     the realm name.
+ * @param authMethod the auth method.
+ * @param realmName the realm name.
  * @param formLoginPage the form login page.
  * @param formErrorPage the form error page.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlLoginConfig(String authMethod, String realmName, String formLoginPage,
-                                String formErrorPage) {
+public record WebXmlLoginConfig(
+        String authMethod,
+        String realmName,
+        String formLoginPage,
+        String formErrorPage) {
+
 }

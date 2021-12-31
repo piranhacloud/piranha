@@ -25,17 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml;
+package cloud.piranha.core.api;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The web.xml servlet.
+ * A filter inside of web.xml/web-fragment.xml.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlServlet {
+public class WebXmlFilter {
 
     /**
      * Stores if async is supported.
@@ -48,14 +48,14 @@ public class WebXmlServlet {
     private String className;
 
     /**
-     * Stores the init params.
+     * Stores the filter name.
      */
-    private final List<WebXmlServletInitParam> initParams = new ArrayList<>();
+    private String filterName;
 
     /**
-     * Stores the security role refs.
+     * Stores the init parameters.
      */
-    private final List<WebXmlServletSecurityRoleRef> securityRoleRefs = new ArrayList<>();
+    private final List<WebXmlFilterInitParam> initParams = new ArrayList<>();
 
     /**
      * Stores the servlet name.
@@ -63,44 +63,48 @@ public class WebXmlServlet {
     private String servletName;
 
     /**
-     * Stores the JSP file
-     */
-    private String jspFile;
-    
-    
-    /**
-     * Stores the MultipartConfig
-     */
-    private WebXmlServletMultipartConfig multipartConfig;
-
-    /**
      * Add init param.
      *
      * @param initParam the init param.
      */
-    public void addInitParam(WebXmlServletInitParam initParam) {
+    public void addInitParam(WebXmlFilterInitParam initParam) {
         this.initParams.add(initParam);
     }
 
     /**
-     * {@return the class name}
+     * Get the class name.
+     *
+     * @return the class name.
      */
     public String getClassName() {
         return className;
     }
 
     /**
-     * {@return the init params}
+     * Get the filter name.
+     *
+     * @return the filter name.
      */
-    public List<WebXmlServletInitParam> getInitParams() {
+    public String getFilterName() {
+        return filterName;
+    }
+
+    /**
+     * Get the init parameters.
+     *
+     * @return the init parameters.
+     */
+    public List<WebXmlFilterInitParam> getInitParams() {
         return initParams;
     }
 
     /**
-     * {@return the security role refs}
+     * Get the servlet name.
+     *
+     * @return the servlet name.
      */
-    public List<WebXmlServletSecurityRoleRef> getSecurityRoleRefs() {
-        return securityRoleRefs;
+    public String getServletName() {
+        return servletName;
     }
 
     /**
@@ -113,10 +117,12 @@ public class WebXmlServlet {
     }
 
     /**
-     * {@return the servlet name}
+     * Set if async is supported.
+     *
+     * @param asyncSupported the boolean value.
      */
-    public String getServletName() {
-        return servletName;
+    public void setAsyncSupported(boolean asyncSupported) {
+        this.asyncSupported = asyncSupported;
     }
 
     /**
@@ -129,12 +135,12 @@ public class WebXmlServlet {
     }
 
     /**
-     * Set if async is supported.
+     * Set the filter name.
      *
-     * @param asyncSupported the boolean value.
+     * @param filterName the filter name.
      */
-    public void setAsyncSupported(boolean asyncSupported) {
-        this.asyncSupported = asyncSupported;
+    public void setFilterName(String filterName) {
+        this.filterName = filterName;
     }
 
     /**
@@ -144,51 +150,5 @@ public class WebXmlServlet {
      */
     public void setServletName(String servletName) {
         this.servletName = servletName;
-    }
-
-    /**
-     * {@return the jsp file}
-     */
-    public String getJspFile() {
-        return jspFile;
-    }
-
-    /**
-     * Set the JSP file
-     *
-     * @param jspFile - the JSP file
-     */
-    public void setJspFile(String jspFile) {
-        this.jspFile = jspFile;
-    }
-    
-    /**
-     * {@return the multipartConfig}
-     */
-    public WebXmlServletMultipartConfig getMultipartConfig() {
-        return multipartConfig;
-    }
-
-    /**
-     * @param multipartConfig the multipartConfig to set
-     */
-    public void setMultipartConfig(WebXmlServletMultipartConfig multipartConfig) {
-        this.multipartConfig = multipartConfig;
-    }
-
-    /**
-     * Return string representation.
-     *
-     * @return the string representation.
-     */
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Servlet[");
-        builder.append("servletName=").append(servletName).append(",");
-        builder.append("className=").append(className).append(",");
-        builder.append("jspFile=").append(jspFile).append(",");
-        builder.append("asyncSupported=").append(asyncSupported).append("]");
-        return builder.toString();
     }
 }

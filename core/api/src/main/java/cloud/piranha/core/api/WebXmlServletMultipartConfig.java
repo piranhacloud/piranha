@@ -25,88 +25,107 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml;
+package cloud.piranha.core.api;
 
+/**
+ * A servlet multipart-config inside of web.xml/web-fragment.xml.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
+ */
 public class WebXmlServletMultipartConfig {
-    
+
     /**
-     * Location to store files
+     * Stores the location to store the files.
      */
     private String location;
 
     /**
-     * Maximum size for files. -1 means unlimited.
-     * 
+     * Stores the maximum size for files. If value is set to -1 it means
+     * unlimited.
      */
     private long maxFileSize = -1;
 
     /**
-     * Maximum size for requests -1 means unlimited.
-     * 
+     * Stores the maximum size for requests. If value is set to -1 it means
+     * unlimited.
      */
     private long maxRequestSize = -1;
 
     /**
-     * Threshold for bytes kept in memory before written to disk
-     *
+     * Stores the threshold for bytes kept in memory before written to disk.
      */
     private int fileSizeThreshold = 0;
-    
+
     /**
-     * {@return the location}
+     * Get the location.
+     *
+     * @return the location.
      */
     public String getLocation() {
         return location;
     }
 
     /**
-     * @param location the location to set
-     */
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    /**
-     * {@return the maxFileSize}
+     * Get the max file size.
+     *
+     * @return the max file size.
      */
     public long getMaxFileSize() {
         return maxFileSize;
     }
 
     /**
-     * @param maxFileSize the maxFileSize to set
-     */
-    public void setMaxFileSize(long maxFileSize) {
-        this.maxFileSize = maxFileSize;
-    }
-
-    /**
-     * {@return the maxRequestSize}
+     * Get the max request size.
+     *
+     * @return the max request size.
      */
     public long getMaxRequestSize() {
         return maxRequestSize;
     }
 
     /**
-     * @param maxRequestSize the maxRequestSize to set
-     */
-    public void setMaxRequestSize(long maxRequestSize) {
-        this.maxRequestSize = maxRequestSize;
-    }
-
-    /**
-     * {@return the fileSizeThreshold}
+     * Get the file size threshold.
+     *
+     * @return the file size threshold.
      */
     public int getFileSizeThreshold() {
         return fileSizeThreshold;
     }
 
     /**
-     * @param fileSizeThreshold the fileSizeThreshold to set
+     * Set the location.
+     *
+     * @param location the location.
+     */
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    /**
+     * Set the max file size.
+     *
+     * @param maxFileSize the max file size.
+     */
+    public void setMaxFileSize(long maxFileSize) {
+        this.maxFileSize = maxFileSize;
+    }
+
+    /**
+     * Set the max request size.
+     *
+     * @param maxRequestSize the max request size.
+     */
+    public void setMaxRequestSize(long maxRequestSize) {
+        this.maxRequestSize = maxRequestSize;
+    }
+
+    /**
+     * Set the file size threshold.
+     *
+     * @param fileSizeThreshold the file size threshold.
      */
     public void setFileSizeThreshold(int fileSizeThreshold) {
         this.fileSizeThreshold = fileSizeThreshold;
     }
-
-   
 }

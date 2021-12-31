@@ -27,6 +27,9 @@
  */
 package cloud.piranha.extension.webxml;
 
+import cloud.piranha.core.api.WebXml;
+import static cloud.piranha.core.api.WebXml.OTHERS_TAG;
+import cloud.piranha.core.api.WebXmlManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,19 +42,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import static cloud.piranha.extension.webxml.WebXml.OTHERS_TAG;
-
 /**
  * The web.xml manager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlManager {
-
-    /**
-     * Stores the application scoped key.
-     */
-    public static final String KEY = WebXmlManager.class.getName();
+public class DefaultWebXmlManager implements WebXmlManager {
 
     /**
      * Stores the initial web.xml
@@ -100,9 +96,7 @@ public class WebXmlManager {
         this.webFragments = webFragments;
     }
 
-    /**
-     * {@return the web.xml}
-     */
+    @Override
     public WebXml getWebXml() {
         return webXml;
     }

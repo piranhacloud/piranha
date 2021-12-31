@@ -25,13 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml;
+package cloud.piranha.core.api;
 
 /**
- * The web.xml servlet security-role-ref element.
- * @param roleName The role scoped to a specific servlet, and the role uses in <code>isUser/CallerInRole</code> methods.
- * @param roleLink The "global" application role, as defined by <code>declareRoles</code> or <code>security-role</code>
- * @author Arjan Tijms
+ * A servlet-mapping inside of web.xml/web-fragment.xml.
+ *
+ * @param servletName the servlet name.
+ * @param urlPattern the URL pattern.
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlServletSecurityRoleRef(String roleName, String roleLink) {
+public record WebXmlServletMapping(String servletName, String urlPattern) {
+
 }
