@@ -27,20 +27,19 @@
  */
 
 /**
- * The Piranha Extension - OmniFaces Eleos integration module.
+ * The OmniFaces Eleos extension module.
  *
  * <p>
- *  This module delivers OmniFaces Eleos integration into Piranha.
+ *  This module integrates OmniFaces Eleos into Piranha. See 
+ *  https://github.com/omnifaces/eleos for more information.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.eleos {
-
     exports cloud.piranha.extension.eleos;
     requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
     requires jakarta.security.auth.message;
     requires org.omnifaces.eleos;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.core.impl;
 }
