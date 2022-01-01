@@ -32,20 +32,20 @@
         <module>security-servlet</module>
         <module>security-jakarta</module>
         <module>slim</module>
+        <module>slim-security</module>
         <module>soteria</module>
         <module>standard</module>
+        <module>standard-localeencoding</module>
         <module>standard-logging</module>
         <module>standard-mimetype</module>
+        <module>standard-servletannotations</module>
+        <module>standard-scinitializer</module>
         <module>standard-tempdir</module>
+        <module>standard-welcomefile</module>
         <module>wasp</module>
         <module>webxml</module>
         <module>weld</module>
         <module>weld-servlet</module>
-        <module>standard-welcomefile</module>
-        <module>standard-localeencoding</module>
-        <module>standard-scinitializer</module>
-        <module>slim-security</module>
-        <module>standard-servletannotations</module>
     </modules>
 
     <dependencyManagement>
