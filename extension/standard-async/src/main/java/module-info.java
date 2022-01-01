@@ -26,9 +26,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.extension.async {
-    exports cloud.piranha.extension.async;
-    opens cloud.piranha.extension.async;
+module cloud.piranha.extension.standard.async {
+    exports cloud.piranha.extension.standard.async;
+    opens cloud.piranha.extension.standard.async;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
 }

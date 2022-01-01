@@ -344,26 +344,4 @@ class SlimSecurityManagerTest {
         securityManager.setWebApplication(new DefaultWebApplication());
         assertNotNull(securityManager.getWebApplication());
     }
-    
-    /**
-     * Test setDenyUncoveredHttpMethods method.
-     */
-    @Test
-    void testSetDenyUncoveredHttpMethods() {
-        
-        SlimSecurityManager securityManager = new SlimSecurityManager();
-        securityManager.setDenyUncoveredHttpMethods(true);
-        assertTrue(securityManager.getDenyUncoveredHttpMethods());
-    }
-    
-    /**
-     * Test setDenyUncoveredHttpMethods method.
-     */
-    @Test
-    void testSetDenyUncoveredHttpMethods2() {
-        
-        SlimSecurityManager securityManager = new SlimSecurityManager();
-        securityManager.setDenyUncoveredHttpMethods(false);
-        assertFalse(securityManager.getDenyUncoveredHttpMethods());
-    }
 }

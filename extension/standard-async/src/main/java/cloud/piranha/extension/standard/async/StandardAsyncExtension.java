@@ -25,12 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.standard.async;
 
-module cloud.piranha.extension.async.tests {
-    exports cloud.piranha.extension.async.tests;
-    opens cloud.piranha.extension.async.tests;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.async;
-    requires org.junit.jupiter.api;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+
+/**
+ * The extension that enables annotation scanning.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+public class StandardAsyncExtension implements WebApplicationExtension {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(StandardAsyncExtension.class.getName());
+
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(DEBUG, "Setting AsyncManager");
+        webApplication.getManager().setAsyncManager(new StandardAsyncManager());
+    }
 }

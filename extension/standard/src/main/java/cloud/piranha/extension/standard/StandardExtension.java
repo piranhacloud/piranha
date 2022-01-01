@@ -31,11 +31,11 @@ import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
-import cloud.piranha.extension.async.AsyncExtension;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
+import cloud.piranha.extension.standard.async.StandardAsyncExtension;
 import cloud.piranha.extension.standard.localeencoding.StandardLocaleEncodingExtension;
 import cloud.piranha.extension.standard.logging.StandardLoggingExtension;
 import cloud.piranha.extension.standard.mimetype.StandardMimeTypeExtension;
@@ -56,6 +56,7 @@ public class StandardExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
+        context.add(StandardAsyncExtension.class);
         context.add(StandardLocaleEncodingExtension.class);
         context.add(StandardLoggingExtension.class);
         context.add(StandardMimeTypeExtension.class);
@@ -63,7 +64,6 @@ public class StandardExtension implements WebApplicationExtension {
         context.add(StandardWelcomeFileExtension.class);
         context.add(ServletSecurityManagerExtension.class);
         context.add(ApacheMultiPartExtension.class);
-        context.add(AsyncExtension.class);
         context.add(WaspJspManagerExtension.class);
         context.add(HerringExtension.class);
         context.add(PolicyExtension.class);

@@ -25,12 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.async.tests;
+package cloud.piranha.extension.standard.async.tests;
 
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
-import cloud.piranha.extension.async.DefaultAsyncManager;
+import cloud.piranha.extension.standard.async.StandardAsyncManager;
 import jakarta.servlet.AsyncContext;
 import java.io.ByteArrayOutputStream;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -51,7 +51,7 @@ class AsyncContextTest {
     @Test
     void testDispatch() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setAsyncManager(new DefaultAsyncManager());
+        webApp.getManager().setAsyncManager(new StandardAsyncManager());
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setAsyncSupported(true);
         request.setWebApplication(webApp);
@@ -76,7 +76,7 @@ class AsyncContextTest {
     @Test
     void testDispatch2() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setAsyncManager(new DefaultAsyncManager());
+        webApp.getManager().setAsyncManager(new StandardAsyncManager());
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setAsyncSupported(true);
         request.setWebApplication(webApp);
@@ -101,7 +101,7 @@ class AsyncContextTest {
     @Test
     void testDispatch3() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setAsyncManager(new DefaultAsyncManager());
+        webApp.getManager().setAsyncManager(new StandardAsyncManager());
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setAsyncSupported(true);
         request.setWebApplication(webApp);

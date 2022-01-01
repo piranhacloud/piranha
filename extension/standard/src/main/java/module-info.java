@@ -44,11 +44,11 @@ module cloud.piranha.extension.standard {
     exports cloud.piranha.extension.standard;
     opens cloud.piranha.extension.standard;
     requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.async;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.security.servlet;
+    requires cloud.piranha.extension.standard.async;
     requires cloud.piranha.extension.standard.localeencoding;
     requires cloud.piranha.extension.standard.logging;
     requires cloud.piranha.extension.standard.mimetype;

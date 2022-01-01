@@ -18,7 +18,7 @@
     <modules>
         <module>annotationscan</module>
         <module>apache-fileupload</module>
-	<module>async</module>
+	
         <module>bytesstreamhandler</module>
         <module>eleos</module>
         <module>exousia</module>
@@ -46,6 +46,7 @@
         <module>webxml</module>
         <module>weld</module>
         <module>weld-servlet</module>
+        <module>standard-async</module>
     </modules>
 
     <dependencyManagement>

@@ -20,12 +20,6 @@
         <!-- compile -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-async</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-apache-fileupload</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -51,6 +45,12 @@
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-security-jakarta</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-standard-async</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
