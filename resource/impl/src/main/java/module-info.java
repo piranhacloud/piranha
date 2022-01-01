@@ -1,9 +1,5 @@
-import java.net.spi.URLStreamHandlerProvider;
-
-import cloud.piranha.resource.impl.ByteArrayResourceStreamHandlerProvider;
-
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -29,6 +25,9 @@ import cloud.piranha.resource.impl.ByteArrayResourceStreamHandlerProvider;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+import java.net.spi.URLStreamHandlerProvider;
+import cloud.piranha.resource.impl.ByteArrayResourceStreamHandlerProvider;
 
 /**
  * The Piranha - Resource - Implementation module.
