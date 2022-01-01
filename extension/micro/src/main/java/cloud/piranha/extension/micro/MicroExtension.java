@@ -33,16 +33,17 @@ import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.async.AsyncExtension;
 import cloud.piranha.extension.herring.HerringExtension;
-import cloud.piranha.extension.locale_encoding.LocaleEncodingExtension;
-import cloud.piranha.extension.mimetype.MimeTypeExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
+import cloud.piranha.extension.standard.localeencoding.StandardLocaleEncodingExtension;
+import cloud.piranha.extension.standard.mimetype.StandardMimeTypeExtension;
+import cloud.piranha.extension.standard.scinitializer.StandardServletContainerInitializerExtension;
+import cloud.piranha.extension.standard.servletannotations.StandardServletAnnotationsExtension;
+import cloud.piranha.extension.standard.tempdir.StandardTempDirExtension;
+import cloud.piranha.extension.standard.welcomefile.StandardWelcomeFileExtension;
 import cloud.piranha.extension.wasp.WaspInitializer;
-import cloud.piranha.extension.webannotations.WebAnnotationsInitializer;
 import cloud.piranha.extension.webxml.WebXmlExtension;
-import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
 import static java.util.Arrays.asList;
 
 /**
@@ -54,23 +55,24 @@ public class MicroExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
+        context.add(StandardLocaleEncodingExtension.class);
+        context.add(StandardMimeTypeExtension.class);
+        context.add(StandardTempDirExtension.class);
+        context.add(StandardWelcomeFileExtension.class);
         context.add(ServletSecurityManagerExtension.class);
         context.add(ApacheMultiPartExtension.class);
         context.add(AsyncExtension.class);
-        context.add(WelcomeFileExtension.class);
         context.add(WebXmlExtension.class);
+        context.add(StandardServletAnnotationsExtension.class);
         context.add(HerringExtension.class);
-        context.add(LocaleEncodingExtension.class);
         context.add(PolicyExtension.class);
-        context.add(MimeTypeExtension.class);
     }
 
     @Override
     public void configure(WebApplication webApplication) {
-        webApplication.addInitializer(new WebAnnotationsInitializer());
         webApplication.addInitializer(new JakartaSecurityAllInitializer());
         webApplication.addInitializer(new WaspInitializer());
-        new ServletContainerInitializerExtension(
+        new StandardServletContainerInitializerExtension(
             true, asList("org.glassfish.soteria.servlet.SamRegistrationInstaller"))
             .configure(webApplication);
     }

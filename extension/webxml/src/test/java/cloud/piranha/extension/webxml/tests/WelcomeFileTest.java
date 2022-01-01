@@ -28,8 +28,8 @@
 package cloud.piranha.extension.webxml.tests;
 
 import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.extension.standard.welcomefile.StandardWelcomeFileManager;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
-import cloud.piranha.extension.welcomefile.DefaultWelcomeFileManager;
 import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -52,7 +52,7 @@ class WelcomeFileTest {
     void testGetWelcomeFileList() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/welcomeFile")));
-        webApplication.getManager().setWelcomeFileManager(new DefaultWelcomeFileManager());
+        webApplication.getManager().setWelcomeFileManager(new StandardWelcomeFileManager());
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
         assertTrue(webApplication.getManager().getWelcomeFileManager().getWelcomeFileList().contains("index.xhtml"));
@@ -67,7 +67,7 @@ class WelcomeFileTest {
     void testGetWelcomeFileList2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/welcomeFile")));
-        webApplication.getManager().setWelcomeFileManager(new DefaultWelcomeFileManager());
+        webApplication.getManager().setWelcomeFileManager(new StandardWelcomeFileManager());
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
         assertFalse(webApplication.getManager().getWelcomeFileManager().getWelcomeFileList().contains("index.jsp"));

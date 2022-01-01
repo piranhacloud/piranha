@@ -36,13 +36,8 @@
  * <ul>
  *  <li>Annotation scanning support</li>
  *  <li>JNDI support</li>
- *  <li>Locale encoding support</li>
- *  <li>Mime-type support</li>
  *  <li>Policy support</li>
- *  <li>ServletContainerInitializer support</li>
  *  <li>Servlet Security support</li>
- *  <li>TEMPDIR support</li>
- *  <li>Web annotations support</li>
  *  <li>web.xml support</li>
  * </ul>
  */
@@ -52,12 +47,12 @@ module cloud.piranha.extension.lite {
     requires cloud.piranha.core.api;
     requires transitive cloud.piranha.extension.annotationscan;
     requires transitive cloud.piranha.extension.herring;
-    requires transitive cloud.piranha.extension.locale_encoding;
-    requires transitive cloud.piranha.extension.mimetype;
     requires transitive cloud.piranha.extension.policy;
-    requires transitive cloud.piranha.extension.scinitializer;
     requires transitive cloud.piranha.extension.security.servlet;
-    requires transitive cloud.piranha.extension.tempdir;
-    requires transitive cloud.piranha.extension.webannotations;
+    requires transitive cloud.piranha.extension.standard.localeencoding;
+    requires transitive cloud.piranha.extension.standard.mimetype;
+    requires transitive cloud.piranha.extension.standard.servletannotations;
+    requires transitive cloud.piranha.extension.standard.scinitializer;
+    requires transitive cloud.piranha.extension.standard.tempdir;
     requires transitive cloud.piranha.extension.webxml;
 }

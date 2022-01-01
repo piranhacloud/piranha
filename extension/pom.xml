@@ -25,27 +25,27 @@
         <module>hazelcast</module>
         <module>herring</module>
         <module>lite</module>
-        <module>locale_encoding</module>
-        <module>logging</module>
         <module>micro</module>
-        <module>mimetype</module>
         <module>mojarra</module>
         <module>myfaces</module>
         <module>policy</module>
-        <module>scinitializer</module>
-        <module>security-slim</module>
         <module>security-servlet</module>
         <module>security-jakarta</module>
         <module>slim</module>
         <module>soteria</module>
         <module>standard</module>
-        <module>tempdir</module>
+        <module>standard-logging</module>
+        <module>standard-mimetype</module>
+        <module>standard-tempdir</module>
         <module>wasp</module>
-        <module>webannotations</module>
         <module>webxml</module>
-        <module>welcomefile</module>
         <module>weld</module>
         <module>weld-servlet</module>
+        <module>standard-welcomefile</module>
+        <module>standard-localeencoding</module>
+        <module>standard-scinitializer</module>
+        <module>slim-security</module>
+        <module>standard-servletannotations</module>
     </modules>
 
     <dependencyManagement>

@@ -37,19 +37,13 @@
         <!-- test -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-mimetype</artifactId>
+            <artifactId>piranha-extension-standard-mimetype</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-security-slim</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-welcomefile</artifactId>
+            <artifactId>piranha-extension-standard-welcomefile</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
