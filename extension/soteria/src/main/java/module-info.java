@@ -27,17 +27,19 @@
  */
 
 /**
- * The Piranha Extension - Glassfish Soteria module.
- * 
+ * The Eclipse Soteria extension module.
+ *
  * <p>
- *  This module delivers Glassfish Soteria integration into Piranha.
+ *  This module integrates Eclipse Soteria into Piranha. See 
+ *  https://github.com/eclipse-ee4j/soteria for more information about its
+ *  project.
  * </p>
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.soteria {
     exports cloud.piranha.extension.soteria;
-    requires cloud.piranha.extension.webxml;
+    opens cloud.piranha.extension.soteria;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires jakarta.inject;

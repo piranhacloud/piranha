@@ -31,13 +31,14 @@
  *
  * <p>
  *  This module integrates OmniFaces Eleos into Piranha. See 
- *  https://github.com/omnifaces/eleos for more information.
+ *  https://github.com/omnifaces/eleos for more information about its project.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.eleos {
     exports cloud.piranha.extension.eleos;
+    opens cloud.piranha.extension.eleos;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires jakarta.security.auth.message;
