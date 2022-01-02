@@ -43,10 +43,10 @@
         <module>standard-tempdir</module>
         <module>standard-welcomefile</module>
         <module>wasp</module>
-        <module>webxml</module>
         <module>weld</module>
         <module>weld-servlet</module>
         <module>standard-async</module>
+        <module>standard-webxml</module>
     </modules>
 
     <dependencyManagement>

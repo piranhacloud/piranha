@@ -36,7 +36,7 @@ import cloud.piranha.embedded.EmbeddedResponseBuilder;
 import cloud.piranha.extension.annotationscan.AnnotationScanInitializer;
 import cloud.piranha.extension.annotationscan.DefaultAnnotationManager;
 import cloud.piranha.extension.standard.servletannotations.StandardServletAnnotationsInitializer;
-import cloud.piranha.extension.webxml.WebXmlInitializer;
+import cloud.piranha.extension.standard.webxml.StandardWebXmlInitializer;
 import cloud.piranha.resource.impl.ClassResource;
 import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;
@@ -65,7 +65,7 @@ class WebServletTest {
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         application.setClassLoader(classLoader);
         application.addInitializer(new AnnotationScanInitializer());
-        application.addInitializer(new WebXmlInitializer());
+        application.addInitializer(new StandardWebXmlInitializer());
         application.addInitializer(new StandardServletAnnotationsInitializer());
         application.initialize();
         application.start();
@@ -91,7 +91,7 @@ class WebServletTest {
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         application.setClassLoader(classLoader);
         application.addInitializer(new AnnotationScanInitializer());
-        application.addInitializer(new WebXmlInitializer());
+        application.addInitializer(new StandardWebXmlInitializer());
         application.addInitializer(new StandardServletAnnotationsInitializer());
         application.initialize();
         application.start();
@@ -117,7 +117,7 @@ class WebServletTest {
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         application.setClassLoader(classLoader);
         application.addInitializer(new AnnotationScanInitializer());
-        application.addInitializer(new WebXmlInitializer());
+        application.addInitializer(new StandardWebXmlInitializer());
         application.addInitializer(new StandardServletAnnotationsInitializer());
         application.initialize();
         application.start();
@@ -143,7 +143,7 @@ class WebServletTest {
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         application.setClassLoader(classLoader);
         application.addInitializer(new AnnotationScanInitializer());
-        application.addInitializer(new WebXmlInitializer());
+        application.addInitializer(new StandardWebXmlInitializer());
         application.addInitializer(new StandardServletAnnotationsInitializer());
         application.initialize();
         application.start();
@@ -169,7 +169,7 @@ class WebServletTest {
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         application.setClassLoader(classLoader);
         application.addInitializer(new AnnotationScanInitializer());
-        application.addInitializer(new WebXmlInitializer());
+        application.addInitializer(new StandardWebXmlInitializer());
         application.addInitializer(new StandardServletAnnotationsInitializer());
         application.initialize();
         application.start();
@@ -195,7 +195,7 @@ class WebServletTest {
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         application.setClassLoader(classLoader);
         application.addInitializer(new AnnotationScanInitializer());
-        application.addInitializer(new WebXmlInitializer());
+        application.addInitializer(new StandardWebXmlInitializer());
         application.addInitializer(new StandardServletAnnotationsInitializer());
         application.initialize();
         application.start();

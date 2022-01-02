@@ -38,7 +38,7 @@ module cloud.piranha.extension.standard.localeencoding.tests {
     requires cloud.piranha.core.impl;
     requires cloud.piranha.embedded;
     requires cloud.piranha.extension.standard.localeencoding;
-    requires cloud.piranha.extension.webxml;
+    requires cloud.piranha.extension.standard.webxml;
     requires org.junit.jupiter.api;
     requires org.junit.platform.launcher;
 }

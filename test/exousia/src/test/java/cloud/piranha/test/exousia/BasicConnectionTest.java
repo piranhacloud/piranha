@@ -33,7 +33,7 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
-import cloud.piranha.extension.webxml.WebXmlInitializer;
+import cloud.piranha.extension.standard.webxml.StandardWebXmlInitializer;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.UNCHECKED_PERMISSIONS;
@@ -63,7 +63,7 @@ class BasicConnectionTest {
     void testNonSecureConnection() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .initializer(ServletSecurityManagerInitializer.class.getName())
-                .initializer(WebXmlInitializer.class.getName())
+                .initializer(StandardWebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
                 .attribute(UNCHECKED_PERMISSIONS, asList(
@@ -93,7 +93,7 @@ class BasicConnectionTest {
     void testSecureConnection() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .initializer(ServletSecurityManagerInitializer.class.getName())
-                .initializer(WebXmlInitializer.class.getName())
+                .initializer(StandardWebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
                 .attribute(UNCHECKED_PERMISSIONS, asList(
@@ -120,7 +120,7 @@ class BasicConnectionTest {
     void testSecureConnectionExactMapping() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .initializer(ServletSecurityManagerInitializer.class.getName())
-                .initializer(WebXmlInitializer.class.getName())
+                .initializer(StandardWebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
                 .attribute(UNCHECKED_PERMISSIONS, asList(

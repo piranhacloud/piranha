@@ -80,7 +80,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-webxml</artifactId>
+            <artifactId>piranha-extension-standard-webxml</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

@@ -37,7 +37,6 @@
  *  <li>JNDI support (Manorrock Herring)</li>
  *  <li>Policy support</li>
  *  <li>WaSP support</li>
- *  <li>Web.xml support</li>
  * </ul>
  */
 module cloud.piranha.extension.standard {
@@ -55,8 +54,8 @@ module cloud.piranha.extension.standard {
     requires cloud.piranha.extension.standard.servletannotations;
     requires cloud.piranha.extension.standard.scinitializer;
     requires cloud.piranha.extension.standard.tempdir;
+    requires cloud.piranha.extension.standard.webxml;
     requires cloud.piranha.extension.standard.welcomefile;
     requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
     requires cloud.piranha.core.api;
 }

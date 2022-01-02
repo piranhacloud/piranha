@@ -38,7 +38,6 @@
  *  <li>JNDI support</li>
  *  <li>Policy support</li>
  *  <li>Servlet Security support</li>
- *  <li>web.xml support</li>
  * </ul>
  */
 module cloud.piranha.extension.lite {
@@ -54,5 +53,5 @@ module cloud.piranha.extension.lite {
     requires transitive cloud.piranha.extension.standard.servletannotations;
     requires transitive cloud.piranha.extension.standard.scinitializer;
     requires transitive cloud.piranha.extension.standard.tempdir;
-    requires transitive cloud.piranha.extension.webxml;
+    requires transitive cloud.piranha.extension.standard.webxml;
 }

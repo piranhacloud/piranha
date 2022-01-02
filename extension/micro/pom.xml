@@ -19,6 +19,12 @@
     <dependencies>
         <!-- compile -->
         <dependency>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-api</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-apache-fileupload</artifactId>
             <version>${project.version}</version>
@@ -86,28 +92,21 @@
         </dependency> 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-standard-welcomefile</artifactId>
+            <artifactId>piranha-extension-standard-webxml</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-webxml</artifactId>
+            <artifactId>piranha-extension-standard-welcomefile</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>
-        <!-- provided -->
-        <dependency>
-            <groupId>cloud.piranha.core</groupId>
-            <artifactId>piranha-core-api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-api</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <!-- runtime -->
         <dependency>

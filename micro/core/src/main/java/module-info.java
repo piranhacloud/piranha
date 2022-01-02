@@ -26,8 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-
 /**
  * The core module for Piranha Micro variants.
  *
@@ -40,5 +38,5 @@ module cloud.piranha.micro.core {
     requires cloud.piranha.core.impl;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
-    uses HttpServer;
+    uses cloud.piranha.http.api.HttpServer;
 }
