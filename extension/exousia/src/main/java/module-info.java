@@ -36,9 +36,7 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.exousia {
-    
     exports cloud.piranha.extension.exousia;
-    requires cloud.piranha.extension.webxml;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires jakarta.security.jacc;

@@ -18,34 +18,35 @@
     <modules>
         <module>annotationscan</module>
         <module>apache-fileupload</module>
-	<module>async</module>
+	
         <module>bytesstreamhandler</module>
         <module>eleos</module>
         <module>exousia</module>
         <module>hazelcast</module>
         <module>herring</module>
         <module>lite</module>
-        <module>locale_encoding</module>
-        <module>logging</module>
         <module>micro</module>
-        <module>mimetype</module>
         <module>mojarra</module>
         <module>myfaces</module>
         <module>policy</module>
-        <module>scinitializer</module>
-        <module>security-slim</module>
         <module>security-servlet</module>
         <module>security-jakarta</module>
         <module>slim</module>
+        <module>slim-security</module>
         <module>soteria</module>
         <module>standard</module>
-        <module>tempdir</module>
+        <module>standard-localeencoding</module>
+        <module>standard-logging</module>
+        <module>standard-mimetype</module>
+        <module>standard-servletannotations</module>
+        <module>standard-scinitializer</module>
+        <module>standard-tempdir</module>
+        <module>standard-welcomefile</module>
         <module>wasp</module>
-        <module>webannotations</module>
-        <module>webxml</module>
-        <module>welcomefile</module>
         <module>weld</module>
         <module>weld-servlet</module>
+        <module>standard-async</module>
+        <module>standard-webxml</module>
     </modules>
 
     <dependencyManagement>

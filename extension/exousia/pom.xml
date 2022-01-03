@@ -17,6 +17,12 @@
     <dependencies>
         <!-- compile -->
         <dependency>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>jakarta.authorization</groupId>
             <artifactId>jakarta.authorization-api</artifactId>
             <scope>compile</scope>
@@ -37,19 +43,6 @@
                     <artifactId>jakarta.servlet-api</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <!-- provided -->
-        <dependency>
-            <groupId>cloud.piranha.core</groupId>
-            <artifactId>piranha-core-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-webxml</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

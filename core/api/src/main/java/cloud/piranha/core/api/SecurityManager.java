@@ -125,7 +125,9 @@ public interface SecurityManager {
      *
      * @return the auth method.
      */
-    String getAuthMethod();
+    default String getAuthMethod() {
+        return null;
+    }
 
     /**
      * Gets the request object the security system wants to put in place.
@@ -162,28 +164,36 @@ public interface SecurityManager {
      *
      * @return true if we are, false otherwise.
      */
-    boolean getDenyUncoveredHttpMethods();
+    default boolean getDenyUncoveredHttpMethods() {
+        return false;
+    }
     
     /**
      * Get the form error page.
      * 
      * @return the form error page.
      */
-    String getFormErrorPage();
+    default String getFormErrorPage() {
+        return null;
+    }
 
     /**
      * Get the form login page.
      *
      * @return the form login page.
      */
-    String getFormLoginPage();
+    default String getFormLoginPage() {
+        return null;
+    }
 
     /**
      * Get the realm name.
      *
      * @return the realm name.
      */
-    String getRealmName();
+    default String getRealmName() {
+        return null;
+    }
 
     /**
      * Get the declared roles
@@ -296,35 +306,40 @@ public interface SecurityManager {
      *
      * @param authMethod the auth method.
      */
-    void setAuthMethod(String authMethod);
+    default void setAuthMethod(String authMethod) {
+    }
 
     /**
      * Set if we are denying uncovered HTTP methods.
      *
      * @param denyUncoveredHttpMethods the boolean value.
      */
-    void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods);
+    default void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
+    }
     
     /**
      * Set the form error page.
      * 
      * @param formErrorPage the form error page.
      */
-    void setFormErrorPage(String formErrorPage);
+    default void setFormErrorPage(String formErrorPage) {
+    }
 
     /**
      * Set the form login page.
      *
      * @param formLoginPage the form login page.
      */
-    void setFormLoginPage(String formLoginPage);
+    default void setFormLoginPage(String formLoginPage) {
+    }
 
     /**
      * Set the realm name.
      *
      * @param realmName the realm name.
      */
-    void setRealmName(String realmName);
+    default void setRealmName(String realmName) {
+    }
 
     /**
      * Set the web application.

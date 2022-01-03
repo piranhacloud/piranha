@@ -36,7 +36,6 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.eleos.AuthenticationInitializer;
-import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.extension.exousia.AuthorizationInitializer;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
@@ -44,6 +43,7 @@ import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.CONSTRAINTS;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.soteria.SoteriaInitializer;
+import cloud.piranha.extension.standard.webxml.StandardWebXmlInitializer;
 import java.net.URL;
 import static java.util.Arrays.asList;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
@@ -74,7 +74,7 @@ class FormTest {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .extension(ServletSecurityManagerExtension.class)
                 .extension(HerringExtension.class)
-                .initializer(WebXmlInitializer.class.getName())
+                .initializer(StandardWebXmlInitializer.class.getName())
                 .initializer(WeldInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)

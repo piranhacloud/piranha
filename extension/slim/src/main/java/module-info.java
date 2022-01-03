@@ -41,5 +41,5 @@ module cloud.piranha.extension.slim {
     exports cloud.piranha.extension.slim;
     opens cloud.piranha.extension.slim;
     requires cloud.piranha.core.api;
-    requires transitive cloud.piranha.extension.scinitializer;
+    requires transitive cloud.piranha.extension.standard.scinitializer;
 }

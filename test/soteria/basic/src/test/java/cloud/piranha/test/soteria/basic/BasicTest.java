@@ -51,12 +51,12 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
-import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.extension.exousia.AuthorizationInitializer;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.soteria.SoteriaInitializer;
+import cloud.piranha.extension.standard.webxml.StandardWebXmlInitializer;
 
 @BasicAuthenticationMechanismDefinition(realmName = "test")
 class BasicTest {
@@ -68,7 +68,7 @@ class BasicTest {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .extension(ServletSecurityManagerExtension.class)
                 .extension(HerringExtension.class)
-                .initializer(WebXmlInitializer.class.getName())
+                .initializer(StandardWebXmlInitializer.class.getName())
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
                 .attribute(CONSTRAINTS, asList(
