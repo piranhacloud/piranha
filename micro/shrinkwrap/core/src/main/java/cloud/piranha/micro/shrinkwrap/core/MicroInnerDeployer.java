@@ -78,7 +78,7 @@ import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.DefaultAnnotationManager;
+import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanAnnotationManager;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Priority;
@@ -188,7 +188,7 @@ public class MicroInnerDeployer {
             Index index = getIndex();
 
             // Target of annotations
-            AnnotationManager annotationManager = new DefaultAnnotationManager();
+            AnnotationManager annotationManager = new StandardAnnotationScanAnnotationManager();
             webApplication.getManager().setAnnotationManager(annotationManager);
             
 

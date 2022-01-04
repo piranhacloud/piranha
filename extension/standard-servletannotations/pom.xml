@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-annotationscan</artifactId>
+            <artifactId>piranha-extension-standard-annotationscan</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

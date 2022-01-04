@@ -33,7 +33,6 @@
  *  This module delivers the following extensions:
  * </p>
  * <ul>
- *  <li>Annotation scanning support</li>
  *  <li>JNDI support (Manorrock Herring)</li>
  *  <li>WaSP support</li>
  * </ul>
@@ -42,9 +41,9 @@ module cloud.piranha.extension.standard {
     exports cloud.piranha.extension.standard;
     opens cloud.piranha.extension.standard;
     requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.security.servlet;
+    requires cloud.piranha.extension.standard.annotationscan;
     requires cloud.piranha.extension.standard.async;
     requires cloud.piranha.extension.standard.localeencoding;
     requires cloud.piranha.extension.standard.logging;

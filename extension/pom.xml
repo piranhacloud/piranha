@@ -16,7 +16,6 @@
     <name>Piranha - Extension - Project</name>
 
     <modules>
-        <module>annotationscan</module>
         <module>apache-fileupload</module>
 	
         <module>bytesstreamhandler</module>
@@ -47,6 +46,7 @@
         <module>standard-async</module>
         <module>standard-webxml</module>
         <module>standard-policy</module>
+        <module>standard-annotationscan</module>
     </modules>
 
     <dependencyManagement>

@@ -37,7 +37,7 @@ module cloud.piranha.extension.standard.servletannotations.tests {
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.embedded;
-    requires cloud.piranha.extension.annotationscan;
+    requires cloud.piranha.extension.standard.annotationscan;
     requires cloud.piranha.extension.standard.servletannotations;
     requires cloud.piranha.extension.standard.webxml;
     requires jakarta.annotation;
