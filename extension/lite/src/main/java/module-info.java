@@ -36,7 +36,6 @@
  * <ul>
  *  <li>Annotation scanning support</li>
  *  <li>JNDI support</li>
- *  <li>Policy support</li>
  *  <li>Servlet Security support</li>
  * </ul>
  */
@@ -46,10 +45,10 @@ module cloud.piranha.extension.lite {
     requires cloud.piranha.core.api;
     requires transitive cloud.piranha.extension.annotationscan;
     requires transitive cloud.piranha.extension.herring;
-    requires transitive cloud.piranha.extension.policy;
     requires transitive cloud.piranha.extension.security.servlet;
     requires transitive cloud.piranha.extension.standard.localeencoding;
     requires transitive cloud.piranha.extension.standard.mimetype;
+    requires transitive cloud.piranha.extension.standard.policy;
     requires transitive cloud.piranha.extension.standard.servletannotations;
     requires transitive cloud.piranha.extension.standard.scinitializer;
     requires transitive cloud.piranha.extension.standard.tempdir;

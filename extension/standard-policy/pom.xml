@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>22.1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-policy</artifactId>
+    <artifactId>piranha-extension-standard-policy</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Policy</name>
+    <name>Piranha - Extension - Standard Policy</name>
     <dependencies>
         <!-- provided -->
         <dependency>

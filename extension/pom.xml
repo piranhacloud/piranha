@@ -28,7 +28,6 @@
         <module>micro</module>
         <module>mojarra</module>
         <module>myfaces</module>
-        <module>policy</module>
         <module>security-servlet</module>
         <module>security-jakarta</module>
         <module>slim</module>
@@ -47,6 +46,7 @@
         <module>weld-servlet</module>
         <module>standard-async</module>
         <module>standard-webxml</module>
+        <module>standard-policy</module>
     </modules>
 
     <dependencyManagement>

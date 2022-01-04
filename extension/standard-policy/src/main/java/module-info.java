@@ -25,45 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.policy;
-
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationExtension;
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.WARNING;
-import java.security.NoSuchAlgorithmException;
-import java.security.Policy;
 
 /**
- * The WebApplicationExtension that is responsible for setting up the proper
- * Policy instance so it can be made available during web application
- * initialization and subsequently during request processing as well as
- * delivering listeners to set/remove the Policy from the current thread.
- *
+ * The standard Java policy extension module delivers the standard Java policy
+ * handling.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PolicyExtension implements WebApplicationExtension {
-
-    /**
-     * Stores the logger.
-     */
-    private static final System.Logger LOGGER = System.getLogger(PolicyExtension.class.getName());
-
-    /**
-     * Configure the web application.
-     *
-     * @param webApplication the web application.
-     */
-    @Override
-    public void configure(WebApplication webApplication) {
-        try {
-            LOGGER.log(DEBUG, "Configuring webapplication");
-            Policy policy = Policy.getInstance("JavaPolicy", null);
-            webApplication.setAttribute(Policy.class.getName(), policy);
-            PolicyThreadLocal.setPolicy(policy);
-            webApplication.addListener(PolicyServletContextListener.class.getName());
-        } catch (NoSuchAlgorithmException ex) {
-            LOGGER.log(WARNING, "Error setting up Policy", ex);
-        }
-    }
+module cloud.piranha.extension.standard.policy {
+    exports cloud.piranha.extension.standard.policy;
+    opens cloud.piranha.extension.standard.policy;
+    requires cloud.piranha.core.api;
 }

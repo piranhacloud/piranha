@@ -25,42 +25,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.standard.policy;
+
+import java.security.Policy;
+import java.util.HashMap;
 
 /**
- * <p>
- *  This module delivers the integration of Policy into Piranha.
- * </p>
- * <p>
- *  It includes the following:
- * </p>
- * <ul>
- *  <li>A WebApplicationExtension</li>
- *  <li>A ServletContextListener</li>
- *  <li>A ServletRequestListener</li>
- * </ul>
- * <h2>The WebApplicationExtension</h2>
- * <p>
- *  The extension is responsible for setting up the proper Policy instance so
- *  it can be made available during web application initialization and 
- *  subsequently during request processing.
- * </p>
- * <h2>The ServletContextListener</h2>
- * <p>
- *  This listener is responsible for the corner case of removing the Policy
- *  set by the WebApplicationExtension and it signals the end of initialization.
- * </p>
- * <h2>The ServletRequestListener</h2>
- * <p>
- *  This listener is responsible for making the correct Policy instance 
- *  available on the current thread just before the request gets serviced and to
- *  remove the Policy instance from the current thread at the end of the
- *  request.
- * </p>
- * 
+ * The class to keep track of setting/removing the thread local for Policy.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.policy {
-    exports cloud.piranha.extension.policy;
-    opens cloud.piranha.extension.policy;
-    requires cloud.piranha.core.api;
+public class StandardPolicyThreadLocal {
+
+    /**
+     * Stores the policies by thread id.
+     */
+    private static final HashMap<Long, Policy> POLICIES = new HashMap<>(1);
+
+    /**
+     * Remove the policy.
+     */
+    public static void removePolicy() {
+        POLICIES.remove(Thread.currentThread().getId());
+    }
+
+    /**
+     * Set the policy.
+     *
+     * @param policy the policy.
+     */
+    public static void setPolicy(Policy policy) {
+        POLICIES.put(Thread.currentThread().getId(), policy);
+    }
 }
