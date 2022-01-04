@@ -25,28 +25,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.policy;
+package cloud.piranha.extension.standard.policy;
 
-import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletContextListener;
+import cloud.piranha.core.api.WebApplication;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
 import static java.lang.System.Logger.Level.DEBUG;
+import java.security.Policy;
 
 /**
- * The ServletContextListener used to remove the Policy instance once
- * initialization is done.
+ * The ServletRequestListener that sets the Policy instance on the current
+ * thread just before request processing and removes the Policy instance from
+ * the current after the request has been processed.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PolicyServletContextListener implements ServletContextListener {
+public class StandardPolicyServletRequestListener implements ServletRequestListener {
 
     /**
      * Stores the logger.
      */
-    private static final System.Logger LOGGER = System.getLogger(PolicyServletContextListener.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(StandardPolicyServletRequestListener.class.getName());
 
     @Override
-    public void contextInitialized(ServletContextEvent event) {
+    public void requestDestroyed(ServletRequestEvent event) {
         LOGGER.log(DEBUG, "Removing Policy");
-        PolicyThreadLocal.removePolicy();
+        StandardPolicyThreadLocal.removePolicy();
+    }
+
+    @Override
+    public void requestInitialized(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Setting Policy");
+        WebApplication webApplication = (WebApplication) event.getServletContext();
+        Policy policy = (Policy) webApplication.getAttribute(Policy.class.getName());
+        StandardPolicyThreadLocal.setPolicy(policy);
     }
 }

@@ -44,12 +44,6 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-policy</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-security-servlet</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -75,6 +69,12 @@
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-standard-mimetype</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-standard-policy</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
