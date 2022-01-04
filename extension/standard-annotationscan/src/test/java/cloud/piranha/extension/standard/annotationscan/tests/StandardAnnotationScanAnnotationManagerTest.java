@@ -25,8 +25,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.annotationscan;
+package cloud.piranha.extension.standard.annotationscan.tests;
 
+import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanAnnotationInfo;
+import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanAnnotationManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
@@ -43,18 +45,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the DefaultAnnotationManager class.
+ * The JUnit tests for the StandardAnnotationScanAnnotationManager class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultAnnotationManagerTest {
+class StandardAnnotationScanAnnotationManagerTest {
     
     /**
      * Test getClasses method.
      */
     @Test
     void testGetClasses() {
-        DefaultAnnotationManager manager = new DefaultAnnotationManager();
+        StandardAnnotationScanAnnotationManager manager = new StandardAnnotationScanAnnotationManager();
         assertNotNull(manager.getAnnotatedClasses());
         assertTrue(manager.getAnnotatedClasses().isEmpty());
     }
@@ -62,7 +64,7 @@ class DefaultAnnotationManagerTest {
     @Test
     void testInitializerWithHandlesTypes () {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setAnnotationManager(new DefaultAnnotationManager());
+        webApp.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
         webApp.addInitializer(InitializerWithHandlesTypes.class.getName());
         webApp.initialize();
         assertTrue(webApp.getAttribute("object_class") instanceof Boolean);
@@ -75,13 +77,12 @@ class DefaultAnnotationManagerTest {
     @Test
     void testInitializerWithHandlesTypes2 () {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setAnnotationManager(new DefaultAnnotationManager());
+        webApp.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
         webApp.addInitializer(InitializerWithHandlesTypes.class.getName());
-        DefaultAnnotationManager annotationManager = 
-                (DefaultAnnotationManager) webApp.getManager().getAnnotationManager();
+        StandardAnnotationScanAnnotationManager annotationManager = 
+                (StandardAnnotationScanAnnotationManager) webApp.getManager().getAnnotationManager();
         annotationManager.addInstance(Set.class, Collections.emptySet().getClass());
-        annotationManager.addAnnotation(
-            new DefaultAnnotationInfo<>(
+        annotationManager.addAnnotation(new StandardAnnotationScanAnnotationInfo<>(
                 ClassAnnotated.class.getAnnotation(SomeAnnotation.class),
                 ClassAnnotated.class
             )

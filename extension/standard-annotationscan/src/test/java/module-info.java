@@ -26,35 +26,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.micro.shrinkwrap.core.CdiExtension;
-import cloud.piranha.micro.shrinkwrap.core.PiranhaBeanArchiveHandler;
-import cloud.piranha.core.api.WebApplicationExtension;
-import jakarta.enterprise.inject.spi.Extension;
-import org.jboss.weld.environment.deployment.discovery.BeanArchiveHandler;
-
-module cloud.piranha.micro.shrinkwrap.core {
-    
-    exports cloud.piranha.micro.shrinkwrap.core;
-    provides BeanArchiveHandler with PiranhaBeanArchiveHandler;
-    provides Extension with CdiExtension;
+/**
+ * The tests module for this project.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+module cloud.piranha.extension.standard.annotationscan.tests {
+    exports cloud.piranha.extension.standard.annotationscan.tests;
+    opens cloud.piranha.extension.standard.annotationscan.tests;
+    requires cloud.piranha.extension.standard.annotationscan;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.standard.annotationscan;
-    requires cloud.piranha.extension.security.jakarta;
-    requires cloud.piranha.extension.weld;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.webapp;
-    requires cloud.piranha.resource.shrinkwrap;
-    requires jakarta.annotation;
-    requires jakarta.cdi;
-    requires jakarta.security.enterprise.api;
-    requires java.logging;
-    requires java.naming;
-    requires java.xml;
-    requires org.jboss.jandex;
-    requires shrinkwrap.api;
-    requires weld.environment.common;
-    uses HttpServer;
-    uses WebApplicationExtension;
+    requires jakarta.servlet;
+    requires org.junit.jupiter.api;
+    requires org.junit.platform.launcher;
 }

@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.annotationscan;
+package cloud.piranha.extension.standard.annotationscan;
 
 import cloud.piranha.resource.api.ResourceManagerClassLoader;
 import cloud.piranha.core.api.AnnotationManager;
@@ -48,17 +48,17 @@ import java.util.stream.Stream;
 
 /**
  * This ServletContainerInitializer deep scans for annotations and adds them to
- * the DefaultAnnotationManager.
+ the StandardAnnotationScanAnnotationManager.
  *
  * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AnnotationScanInitializer implements ServletContainerInitializer {
+public class StandardAnnotationScanInitializer implements ServletContainerInitializer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(AnnotationScanInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(StandardAnnotationScanInitializer.class.getName());
 
     /**
      * On startup.
@@ -73,7 +73,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
         
         AnnotationManager annotationManager = webApp.getManager().getAnnotationManager();
         if (annotationManager == null) {
-             annotationManager = new DefaultAnnotationManager();
+             annotationManager = new StandardAnnotationScanAnnotationManager();
             webApp.getManager().setAnnotationManager(annotationManager);
         }
         
@@ -94,7 +94,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
                 .forEach(targetClazz -> getWebAnnotations(targetClazz)
                 .forEach(annotationInstance
                         -> annotationMgr.addAnnotation(
-                        new DefaultAnnotationInfo<>(annotationInstance, targetClazz))));
+                        new StandardAnnotationScanAnnotationInfo<>(annotationInstance, targetClazz))));
     }
 
     /**

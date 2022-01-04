@@ -27,18 +27,14 @@
  */
 
 /**
- * The Piranha - Extension - Annotation Scan module.
- * 
- * <p>
- *  This module delivers the annotation scanning functionality required for web
- *  applications.
- * </p>
+ * The standard annotation scan extension module delivers the standard 
+ * annotation scan functionality.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.annotationscan {
-    exports cloud.piranha.extension.annotationscan;
-    opens cloud.piranha.extension.annotationscan;
+module cloud.piranha.extension.standard.annotationscan {
+    exports cloud.piranha.extension.standard.annotationscan;
+    opens cloud.piranha.extension.standard.annotationscan;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
 }
