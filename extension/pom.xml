@@ -17,7 +17,6 @@
 
     <modules>
         <module>apache-fileupload</module>
-	
         <module>bytesstreamhandler</module>
         <module>eleos</module>
         <module>exousia</module>
@@ -33,20 +32,20 @@
         <module>slim-security</module>
         <module>soteria</module>
         <module>standard</module>
+        <module>standard-annotationscan</module>
+        <module>standard-async</module>
         <module>standard-localeencoding</module>
         <module>standard-logging</module>
         <module>standard-mimetype</module>
+        <module>standard-policy</module>
         <module>standard-servletannotations</module>
         <module>standard-scinitializer</module>
         <module>standard-tempdir</module>
+        <module>standard-webxml</module>
         <module>standard-welcomefile</module>
         <module>wasp</module>
         <module>weld</module>
         <module>weld-servlet</module>
-        <module>standard-async</module>
-        <module>standard-webxml</module>
-        <module>standard-policy</module>
-        <module>standard-annotationscan</module>
     </modules>
 
     <dependencyManagement>
