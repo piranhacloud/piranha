@@ -67,11 +67,7 @@ public class StandardExtension implements WebApplicationExtension {
         context.add(ApacheMultiPartExtension.class);
         context.add(WaspJspManagerExtension.class);
         context.add(HerringExtension.class);
-<<<<<<< HEAD
         context.add(StandardAnnotationScanExtension.class);
-=======
-        context.add(AnnotationScanExtension.class);
->>>>>>> current
         context.add(StandardWebXmlExtension.class);
         context.add(StandardServletAnnotationsExtension.class);
         context.add(WaspExtension.class);
