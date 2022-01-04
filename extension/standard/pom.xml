@@ -39,15 +39,12 @@
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-security-servlet</artifactId>
-<<<<<<< HEAD
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-standard-annotationscan</artifactId>
-=======
->>>>>>> current
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
