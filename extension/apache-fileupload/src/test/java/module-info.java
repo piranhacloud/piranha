@@ -39,4 +39,5 @@ module cloud.piranha.extension.apache.fileupload.tests {
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires org.junit.jupiter.api;
+    requires org.junit.platform.launcher;
 }

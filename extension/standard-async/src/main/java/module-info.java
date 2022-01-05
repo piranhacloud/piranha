@@ -26,6 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * The standard async support module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.extension.standard.async {
     exports cloud.piranha.extension.standard.async;
     opens cloud.piranha.extension.standard.async;

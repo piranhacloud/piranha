@@ -27,8 +27,7 @@
  */
 
 /**
- * The standard ServletContainerInitializer extension module delivers the 
- * standard ServletContainerInitializer handling.
+ * The standard ServletContainerInitializer support module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

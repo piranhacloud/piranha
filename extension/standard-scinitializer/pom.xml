@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-extension-standard-scinitializer</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Standard ServletContainerInitializer</name>
+    <name>Piranha - Extension - Standard - ServletContainerInitializer</name>
     <dependencies>
         <!-- compile -->
         <dependency>

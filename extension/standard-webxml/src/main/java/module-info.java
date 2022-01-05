@@ -27,8 +27,7 @@
  */
 
 /**
- * The standard web.xml extension module delivers the standard web.xml 
- * processing.
+ * The standard web.xml processing module.
  * 
  * <p>
  *  Note that this module allows you to inspect the effective WebXml to make

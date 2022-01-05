@@ -27,8 +27,7 @@
  */
 
 /**
- * The standard welcome-file extension module delivers the standard welcome-file 
- * handling.
+ * The standard welcome-file handling module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

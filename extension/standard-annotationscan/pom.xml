@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-extension-standard-annotationscan</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Standard Annotation Scan</name>
+    <name>Piranha - Extension - Standard - Annotation Scan</name>
     <dependencies>
         <!-- compile -->
         <dependency>

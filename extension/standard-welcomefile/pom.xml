@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-extension-standard-welcomefile</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Standard Welcome File</name>
+    <name>Piranha - Extension - Standard - Welcome File</name>
     <dependencies>
         <!-- compile -->
         <dependency>

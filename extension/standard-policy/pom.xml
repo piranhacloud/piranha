@@ -9,14 +9,14 @@
     </parent>
     <artifactId>piranha-extension-standard-policy</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Standard Policy</name>
+    <name>Piranha - Extension - Standard - Policy</name>
     <dependencies>
-        <!-- provided -->
+        <!-- compile -->
         <dependency>
             <groupId>cloud.piranha.core</groupId>
             <artifactId>piranha-core-api</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <!-- test -->
         <dependency>

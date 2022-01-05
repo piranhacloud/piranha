@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-extension-standard-servletannotations</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Standard Servlet Annotations</name>
+    <name>Piranha - Extension - Standard - Servlet Annotations</name>
     <dependencies>
         <!-- compile -->
         <dependency>

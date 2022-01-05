@@ -12,7 +12,7 @@
     </parent>
     <artifactId>piranha-extension-standard-logging</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Standard Logging</name>
+    <name>Piranha - Extension - Standard - Logging</name>
     <dependencies>
         <!-- compile -->
         <dependency>

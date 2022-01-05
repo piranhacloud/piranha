@@ -27,8 +27,7 @@
  */
 
 /**
- * The standard locale encoding extension module delivers the standard locale
- * encoding handling.
+ * The standard locale encoding handling module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

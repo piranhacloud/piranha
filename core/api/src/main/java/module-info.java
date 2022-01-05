@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha - Core - API module.
+ * The Piranha Core API module.
  * 
  * <p>
  *  This module defines the core Piranha APIs.

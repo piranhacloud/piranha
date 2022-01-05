@@ -27,12 +27,14 @@
  */
 
 /**
- * The Piranha Extension - Eclipse Exousia module.
- * 
+ * The Eclipse Exousia integration module.
+ *
  * <p>
- *  This module delivers Eclipse Exousia integration into Piranha.
+ *  This module integrates Eclipse Exousia into Piranha. See 
+ *  https://github.com/eclipse-ee4j/exousia for more information about its
+ *  project.
  * </p>
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.exousia {

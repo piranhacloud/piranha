@@ -27,8 +27,7 @@
  */
 
 /**
- * The standard TEMPDIR extension module delivers the standard temporary 
- * directory functionality.
+ * The standard temporary directory functionality module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

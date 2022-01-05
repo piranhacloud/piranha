@@ -27,8 +27,7 @@
  */
 
 /**
- * The standard servlet annotations extension module delivers the standard 
- * servlet annotations handling.
+ * The standard servlet annotations handling module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
