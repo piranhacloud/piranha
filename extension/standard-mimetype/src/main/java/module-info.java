@@ -27,8 +27,7 @@
  */
 
 /**
- * The standard mime-type extension module delivers the standard mime-type 
- * handling.
+ * The standard mime-type handling module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

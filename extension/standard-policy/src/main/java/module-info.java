@@ -27,8 +27,7 @@
  */
 
 /**
- * The standard Java policy extension module delivers the standard Java policy
- * handling.
+ * The standard Java policy handling module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

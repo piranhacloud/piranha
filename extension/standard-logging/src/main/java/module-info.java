@@ -27,8 +27,7 @@
  */
 
 /**
- * The standard logging extension module delivers the standard logging
- * implementation.
+ * The standard logging implementation module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

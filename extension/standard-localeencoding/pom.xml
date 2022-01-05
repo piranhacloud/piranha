@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-extension-standard-localeencoding</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Standard Locale Encoding</name>
+    <name>Piranha - Extension - Standard - Locale Encoding</name>
     <dependencies>
         <!-- compile -->
         <dependency>

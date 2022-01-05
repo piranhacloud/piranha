@@ -27,10 +27,8 @@
  */
 
 /**
- * <p>
- *  This module delivers the 'bytes://' stream handler functionality.
- * </p>
- * 
+ * The 'bytes://' stream-handler module.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.bytesstreamhandler {

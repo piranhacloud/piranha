@@ -27,7 +27,7 @@
  */
 
 /**
- * The OmniFaces Eleos extension module.
+ * The OmniFaces Eleos integration module.
  *
  * <p>
  *  This module integrates OmniFaces Eleos into Piranha. See 

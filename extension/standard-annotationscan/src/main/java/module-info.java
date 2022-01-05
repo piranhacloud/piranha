@@ -27,8 +27,7 @@
  */
 
 /**
- * The standard annotation scan extension module delivers the standard 
- * annotation scan functionality.
+ * The standard annotation scan functionality module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

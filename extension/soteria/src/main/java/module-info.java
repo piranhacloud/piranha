@@ -27,7 +27,7 @@
  */
 
 /**
- * The Eclipse Soteria extension module.
+ * The Eclipse Soteria integration module.
  *
  * <p>
  *  This module integrates Eclipse Soteria into Piranha. See 

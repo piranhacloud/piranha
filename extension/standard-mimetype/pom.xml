@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-extension-standard-mimetype</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Standard Mimetype</name>
+    <name>Piranha - Extension - Standard - Mimetype</name>
     <dependencies>
         <!-- compile -->
         <dependency>

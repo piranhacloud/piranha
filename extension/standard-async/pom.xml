@@ -9,7 +9,7 @@
     </parent>
     <artifactId>piranha-extension-standard-async</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Standard Async</name>
+    <name>Piranha - Extension - Standard - Async</name>
     <dependencies>
         <!-- compile -->
         <dependency>

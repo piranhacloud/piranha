@@ -9,9 +9,15 @@
     </parent>
     <artifactId>piranha-extension-herring</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Herring</name>
+    <name>Piranha - Extension - Manorrock Herring</name>
     <dependencies>
         <!-- compile -->
+        <dependency>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-api</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>com.manorrock.herring</groupId>
             <artifactId>herring</artifactId>
@@ -24,13 +30,6 @@
             <version>21.11.0</version>
             <scope>compile</scope>
         </dependency>
-        <!-- provided -->
-        <dependency>
-            <groupId>cloud.piranha.core</groupId>
-            <artifactId>piranha-core-api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- test -->
         <dependency>
             <groupId>cloud.piranha</groupId>
@@ -41,6 +40,11 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
