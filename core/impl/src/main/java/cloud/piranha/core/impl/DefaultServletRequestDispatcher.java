@@ -365,9 +365,15 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 errorRequest.setServletPath("/" + servletEnvironment.getServletName());
             }
 
-            errorRequest.setAttribute(ERROR_EXCEPTION, throwable);
-            errorRequest.setAttribute(ERROR_EXCEPTION_TYPE, throwable == null ? null : throwable.getClass());
-            errorRequest.setAttribute(ERROR_MESSAGE, throwable == null ? null : throwable.getMessage());
+            if (throwable instanceof ServletException servletException) {
+                errorRequest.setAttribute(ERROR_EXCEPTION, servletException.getCause());
+                errorRequest.setAttribute(ERROR_EXCEPTION_TYPE, servletException.getCause() == null ? null : servletException.getCause().getClass());
+                errorRequest.setAttribute(ERROR_MESSAGE, servletException.getCause() == null ? null : servletException.getCause().getMessage());
+            } else {
+                errorRequest.setAttribute(ERROR_EXCEPTION, throwable);
+                errorRequest.setAttribute(ERROR_EXCEPTION_TYPE, throwable == null ? null : throwable.getClass());
+                errorRequest.setAttribute(ERROR_MESSAGE, throwable == null ? null : throwable.getMessage());
+            }
             errorRequest.setAttribute(ERROR_STATUS_CODE, response.getStatus());
             errorRequest.setAttribute(ERROR_REQUEST_URI, request.getRequestURI());
             errorRequest.setAttribute(ERROR_SERVLET_NAME, servletName);
