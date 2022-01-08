@@ -44,4 +44,6 @@ module cloud.piranha.extension.standard.webxml {
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires java.xml;
+    requires static java.naming;
+    requires static java.sql;
 }
