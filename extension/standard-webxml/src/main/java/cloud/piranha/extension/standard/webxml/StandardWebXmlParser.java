@@ -44,6 +44,7 @@ import cloud.piranha.core.api.WebXmlServletSecurityRoleRef;
 import cloud.piranha.core.api.WebXmlServletInitParam;
 import cloud.piranha.core.api.WebXmlServletMapping;
 import static cloud.piranha.core.api.WebXml.OTHERS_TAG;
+import cloud.piranha.core.api.WebXmlDataSource;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.WARNING;
 import static java.util.regex.Pattern.quote;
@@ -145,6 +146,7 @@ public class StandardWebXmlParser {
             parseSessionConfig(webXml, xPath, document);
             parseWebApp(webXml, xPath, document);
             parseWelcomeFiles(webXml, xPath, document);
+            parseDataSources(webXml, xPath, document);
         } catch (Throwable t) {
             LOGGER.log(WARNING, "Unable to parse web.xml", t);
         }
@@ -878,4 +880,25 @@ public class StandardWebXmlParser {
         }
     }
 
+    /**
+     * Parse the data-source elements.
+     * 
+     * @param webXml the webXml.
+     * @param xPath the XPath.
+     * @param node the DOM node.
+     */
+    private void parseDataSources(WebXml webXml, XPath xPath, Document node) 
+        throws XPathExpressionException {
+        
+        List<WebXmlDataSource> dataSources = webXml.getDataSources();
+        for (Node dataSourceNode : parseNodes(xPath, "//data-source", node)) {
+            WebXmlDataSource dataSource = new WebXmlDataSource();
+            dataSource.setClassName(parseString(xPath, "class-name/text()", dataSourceNode));
+            dataSource.setName(parseString(xPath, "name/text()", dataSourceNode));
+            dataSource.setPassword(parseString(xPath, "password/text()", dataSourceNode));
+            dataSource.setUrl(parseString(xPath, "url/text()", dataSourceNode));
+            dataSource.setUser(parseString(xPath, "user/text()", dataSourceNode));
+            dataSources.add(dataSource);
+        }
+    }
 }

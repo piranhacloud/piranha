@@ -166,6 +166,11 @@ public class WebXml implements Serializable {
      * Stores the default context path.
      */
     private String defaultContextPath;
+    
+    /**
+     * Stores the data sources.
+     */
+    private List<WebXmlDataSource> dataSources = new ArrayList<>();
 
     /**
      * Store if we are denying uncovered HTTP methods.
@@ -270,6 +275,15 @@ public class WebXml implements Serializable {
      */
     public String getDefaultContextPath() {
         return defaultContextPath;
+    }
+
+    /**
+     * Get the data sources.
+     * 
+     * @return the data sources.
+     */    
+    public List<WebXmlDataSource> getDataSources() {
+        return dataSources;
     }
 
     /**
