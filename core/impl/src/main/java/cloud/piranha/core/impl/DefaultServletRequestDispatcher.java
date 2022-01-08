@@ -368,7 +368,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             if (throwable instanceof ServletException servletException) {
                 errorRequest.setAttribute(ERROR_EXCEPTION, servletException.getRootCause());
                 errorRequest.setAttribute(ERROR_EXCEPTION_TYPE, servletException.getRootCause() == null ? null : servletException.getRootCause().getClass());
-                errorRequest.setAttribute(ERROR_MESSAGE, servletException.getRootCause() == null ? null : servletException.getRootCause().getMessage());
+                errorRequest.setAttribute(ERROR_MESSAGE, servletException.getMessage());
             } else {
                 errorRequest.setAttribute(ERROR_EXCEPTION, throwable);
                 errorRequest.setAttribute(ERROR_EXCEPTION_TYPE, throwable == null ? null : throwable.getClass());
