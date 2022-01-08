@@ -56,7 +56,9 @@ public class MojarraInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         Dynamic dynamic = servletContext.addServlet("Faces Servlet", "jakarta.faces.webapp.FacesServlet");
-        dynamic.addMapping("/faces/*", "*.html", "*.xhtml", "*.jsf");
+        if (dynamic != null) {
+            dynamic.addMapping("/faces/*", "*.html", "*.xhtml", "*.jsf");
+        }
         servletContext.setAttribute("com.sun.faces.facesInitializerMappingsAdded", TRUE);
         servletContext.addListener("com.sun.faces.config.ConfigureListener");
     }

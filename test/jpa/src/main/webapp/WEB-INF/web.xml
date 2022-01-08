@@ -6,15 +6,20 @@
          version="3.0">
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
-
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+    <data-source>
+        <name>jdbc/demo</name>
+        <class-name>org.hsqldb.jdbc.JDBCDataSource</class-name>
+        <url>jdbc:hsqldb:mem:demo</url>
+        <user>sa</user>
+    </data-source>
 </web-app>
