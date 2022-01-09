@@ -51,33 +51,16 @@ public class DefaultErrorPageManager implements ErrorPageManager {
      */
     private final Map<String, String> errorPagesByException = new HashMap<>();
     
-    /**
-     * Add an error page.
-     * 
-     * @param statusCode the status code.
-     * @param page the page.
-     */
     @Override
     public void addErrorPage(int statusCode, String page) {
         errorPagesByCode.put(statusCode, page);
     }
     
-    /**
-     * Add an error page.
-     * 
-     * @param throwableClassName the throwable class name.
-     * @param page the page.
-     */
     @Override
     public void addErrorPage(String throwableClassName, String page) {
         errorPagesByException.put(throwableClassName, page);
     }
 
-    /**
-     * {@return the error page}
-     * @param exception the exception.
-     * @param httpResponse the HTTP servlet response.
-     */
     @Override
     public String getErrorPage(Throwable exception, HttpServletResponse httpResponse) {
         if (exception != null) {
