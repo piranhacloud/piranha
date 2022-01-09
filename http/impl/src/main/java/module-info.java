@@ -30,7 +30,7 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 
 /**
- * The Piranha HTTP - Implementation module.
+ * The HTTP implementation module.
  *
  * <p>
  * This module delivers the default implementation of the HTTP engine API.

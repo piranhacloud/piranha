@@ -27,7 +27,7 @@
  */
 
 /**
- * The core module for Piranha Micro variants.
+ * The core Piranha Micro module.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

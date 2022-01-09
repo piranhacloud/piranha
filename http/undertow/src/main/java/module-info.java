@@ -30,7 +30,7 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.undertow.UndertowHttpServer;
 
 /**
- * The Piranha HTTP - Undertow Integration module.
+ * The HTTP Undertow integration module.
  *
  * <p>
  * This module delivers the Undertow implementation of the HTTP engine API.

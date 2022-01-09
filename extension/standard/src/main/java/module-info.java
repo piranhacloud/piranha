@@ -27,14 +27,28 @@
  */
 
 /**
- * The Standard Extension module.
+ * The standard extension module.
  *
  * <p>
- *  This module delivers the following extensions:
+ *  This module of modules delivers the extensions for the standard version of
+ *  Piranha Server/Micro. It adds the following extensions:
  * </p>
  * <ul>
- *  <li>JNDI support (Manorrock Herring)</li>
- *  <li>WaSP support</li>
+ *  <li>Apache Commons File Upload (Multipart)</li>
+ *  <li>Manorrock Herring (JNDI)</li>
+ *  <li>Servlet Security</li>
+ *  <li>Annotation Scanning</li>
+ *  <li>Async</li>
+ *  <li>Locale Encoding</li>
+ *  <li>Logging</li>
+ *  <li>Mime-type</li>
+ *  <li>Java Policy</li>
+ *  <li>Servlet Annotations</li>
+ *  <li>Servlet Container Initializer</li>
+ *  <li>TEMPDIR</li>
+ *  <li>web.xml</li>
+ *  <li>Welcome File</li>
+ *  <li>WaSP (Pages)</li>
  * </ul>
  */
 module cloud.piranha.extension.standard {

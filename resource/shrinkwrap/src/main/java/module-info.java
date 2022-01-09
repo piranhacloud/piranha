@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Resource - Shrinkwrap module.
+ * The Resource Shrinkwrap module.
  * 
  * <p>
  *  This module delivers the Shrinkwrap implementation of the Resource API.

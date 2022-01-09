@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Micro module.
+ * The Shrinkwrap Piranha Micro module.
  * 
  * <p>
  *  This module delivers the main entry point for the Piranha Micro 

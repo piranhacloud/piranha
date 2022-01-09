@@ -27,15 +27,23 @@
  */
 
 /**
- * The Lite extension.
+ * The lite extension module.
  *
  * <p>
  *  This module delivers the Lite extension which in turn enables the following
- *  support:
+ *  extensions:
  * </p>
  * <ul>
- *  <li>JNDI support</li>
- *  <li>Servlet Security support</li>
+ *  <li>Manorrock Herring (JNDI)</li>
+ *  <li>Servlet Security</li>
+ *  <li>Annotation Scanning</li>
+ *  <li>Locale Encoding</li>
+ *  <li>Mime-type</li>
+ *  <li>Java Policy</li>
+ *  <li>Servlet Annotations</li>
+ *  <li>Servlet Container Initializer</li>
+ *  <li>TEMPDIR</li>
+ *  <li>web.xml</li>
  * </ul>
  */
 module cloud.piranha.extension.lite {

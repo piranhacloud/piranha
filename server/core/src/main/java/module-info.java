@@ -29,7 +29,7 @@
 import cloud.piranha.http.api.HttpServer;
 
 /**
- * The core module for Piranha Server variants.
+ * The core Piranha Server module.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

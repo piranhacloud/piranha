@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Resource - API module.
+ * The Resource API module.
  * 
  * <p>
  *  This module delivers the API that deals with resource handling.

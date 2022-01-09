@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha HTTP - WebApplication Integration module.
+ * The HTTP WebApplication integration module.
  * 
  * <p>
  *  This module delivers the integration of the WebApplication API with Piranha

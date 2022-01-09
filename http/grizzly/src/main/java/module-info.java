@@ -30,7 +30,7 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.grizzly.GrizzlyHttpServer;
 
 /**
- * The Piranha HTTP - Grizzly integration module.
+ * The HTTP Grizzly integration module.
  *
  * <p>
  * This module delivers the Grizzly implementation of the HTTP engine API.

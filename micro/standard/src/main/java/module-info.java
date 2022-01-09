@@ -27,7 +27,7 @@
  */
 
 /**
- * The Standard version of Piranha Micro.
+ * The Standard Piranha Micro module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

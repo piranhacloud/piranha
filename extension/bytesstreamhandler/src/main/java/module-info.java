@@ -27,7 +27,7 @@
  */
 
 /**
- * The 'bytes://' stream-handler module.
+ * The bytes streamhandler module.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
