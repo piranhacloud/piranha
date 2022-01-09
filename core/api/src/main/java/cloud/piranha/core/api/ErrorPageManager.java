@@ -25,66 +25,38 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.core.api;
 
-import cloud.piranha.core.api.ErrorPageManager;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
- * The default ErrorPageManager.
+ * The ErrorPageManager API.
  * 
- * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultErrorPageManager implements ErrorPageManager {
+public interface ErrorPageManager {
 
     /**
-     * Stores the error pages by code.
+     * Add an error page.
+     *
+     * @param statusCode the status code.
+     * @param page the page.
      */
-    private final Map<Integer, String> errorPagesByCode = new HashMap<>();
-    
+    void addErrorPage(int statusCode, String page);
+
     /**
-     * Stores the error pages by exception.
+     * Add an error page.
+     *
+     * @param throwableClassName the throwable class name.
+     * @param page the page.
      */
-    private final Map<String, String> errorPagesByException = new HashMap<>();
-    
-    @Override
-    public void addErrorPage(int statusCode, String page) {
-        errorPagesByCode.put(statusCode, page);
-    }
-    
-    @Override
-    public void addErrorPage(String throwableClassName, String page) {
-        errorPagesByException.put(throwableClassName, page);
-    }
+    void addErrorPage(String throwableClassName, String page);
 
-    @Override
-    public String getErrorPage(Throwable exception, HttpServletResponse httpResponse) {
-        if (exception != null) {
-            Class<?> rootException = exception.getClass();
-            String page = null;
-            while (rootException != null && page == null) {
-                page = errorPagesByException.get(rootException.getName());
-                rootException = rootException.getSuperclass();
-            }
-
-            if (page == null && exception instanceof ServletException servletException) {
-                page = getErrorPage(servletException.getRootCause(), httpResponse);
-            }
-
-            return page;
-        }
-
-
-        if (httpResponse.getStatus() >= 400) {
-            return errorPagesByCode.get(httpResponse.getStatus());
-        }
-
-        // No error
-        return null;
-    }
-
+    /**
+     * {@return the error page}
+     * 
+     * @param throwable the throwable.
+     * @param response the HTTP servlet response.
+     */
+    String getErrorPage(Throwable throwable, HttpServletResponse response);
 }

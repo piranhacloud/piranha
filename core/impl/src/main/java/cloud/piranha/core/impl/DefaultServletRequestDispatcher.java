@@ -107,11 +107,6 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     private final String path;
 
     /**
-     * Stores the error page manager.
-     */
-    private final DefaultErrorPageManager errorPageManager;
-
-    /**
      * Stores the invocation finder.
      */
     private final DefaultInvocationFinder invocationFinder;
@@ -132,7 +127,6 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         this.servletInvocation = servletInvocation;
 
         this.webApplication = webApplication;
-        this.errorPageManager = webApplication.errorPageManager;
         this.invocationFinder = webApplication.invocationFinder;
 
         this.servletEnvironment = servletInvocation == null ? null : servletInvocation.getServletEnvironment();
@@ -180,7 +174,9 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             httpResponse.setStatus(exception instanceof UnavailableException ? SC_NOT_FOUND : SC_INTERNAL_SERVER_ERROR);
         }
 
-        String errorPagePath = errorPageManager.getErrorPage(exception, httpResponse);
+        String errorPagePath = webApplication.getManager().getErrorPageManager() != null
+                ? webApplication.getManager().getErrorPageManager().getErrorPage(exception, httpResponse)
+                : null;
 
         if (errorPagePath != null) {
             try {

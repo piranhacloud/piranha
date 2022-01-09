@@ -41,7 +41,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Disabled;
 
 /**
  * The JUnit tests for DefaultServletRequestDispatcher.
@@ -183,7 +182,7 @@ class DefaultServletRequestDispatcherTest {
         webApp.addServletMapping("error-servlet", "/sendError");
         webApp.addServlet("snoop", TestSnoopServlet.class);
         webApp.addServletMapping("snoop", "/snoop");
-        webApp.addErrorPage(500, "/snoop");
+        webApp.getManager().getErrorPageManager().addErrorPage(500, "/snoop");
         webApp.initialize();
         webApp.start();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
@@ -205,7 +204,7 @@ class DefaultServletRequestDispatcherTest {
         webApp.addServletMapping("error-servlet", "/sendError");
         webApp.addServlet("snoop", TestSnoopServlet.class);
         webApp.addServletMapping("snoop", "/snoop");
-        webApp.addErrorPage(IOException.class.getName(), "/snoop");
+        webApp.getManager().getErrorPageManager().addErrorPage(IOException.class.getName(), "/snoop");
         webApp.initialize();
         webApp.start();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();

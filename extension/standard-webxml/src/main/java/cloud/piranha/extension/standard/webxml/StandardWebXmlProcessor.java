@@ -27,6 +27,7 @@
  */
 package cloud.piranha.extension.standard.webxml;
 
+import cloud.piranha.core.api.ErrorPageManager;
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.MimeTypeManager;
 import cloud.piranha.core.api.SecurityManager;
@@ -187,11 +188,14 @@ public class StandardWebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processErrorPages(WebApplication webApplication, WebXml webXml) {
-        for (WebXmlErrorPage errorPage : webXml.getErrorPages()) {
-            if (errorPage.errorCode() != null && !errorPage.errorCode().isEmpty()) {
-                webApplication.addErrorPage(Integer.parseInt(errorPage.errorCode()), errorPage.location());
-            } else if (errorPage.exceptionType() != null && !errorPage.exceptionType().isEmpty()) {
-                webApplication.addErrorPage(errorPage.exceptionType(), errorPage.location());
+        if (webApplication.getManager().getErrorPageManager() != null) {
+            ErrorPageManager errorPageManager = webApplication.getManager().getErrorPageManager();
+            for (WebXmlErrorPage errorPage : webXml.getErrorPages()) {
+                if (errorPage.errorCode() != null && !errorPage.errorCode().isEmpty()) {
+                    errorPageManager.addErrorPage(Integer.parseInt(errorPage.errorCode()), errorPage.location());
+                } else if (errorPage.exceptionType() != null && !errorPage.exceptionType().isEmpty()) {
+                    errorPageManager.addErrorPage(errorPage.exceptionType(), errorPage.location());
+                }
             }
         }
     }
@@ -490,12 +494,12 @@ public class StandardWebXmlProcessor {
 
     /**
      * Process the data sources.
-     * 
+     *
      * @param webApplication the web application.
      * @param webXml the web.xml.
      */
     private void processDataSources(WebApplication webApplication, WebXml webXml) {
-        for(WebXmlDataSource dataSourceXml : webXml.getDataSources()) {
+        for (WebXmlDataSource dataSourceXml : webXml.getDataSources()) {
             try {
                 Class clazz = Class.forName(dataSourceXml.getClassName());
                 DataSource dataSource = (DataSource) clazz.getDeclaredConstructor().newInstance();
@@ -511,7 +515,7 @@ public class StandardWebXmlProcessor {
                 }
                 InitialContext initialContext = new InitialContext();
                 initialContext.bind(dataSourceXml.getName(), dataSource);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 LOGGER.log(WARNING, "Unable to create DataSource", e);
             }
         }
