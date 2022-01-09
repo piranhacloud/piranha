@@ -30,7 +30,7 @@ import java.net.spi.URLStreamHandlerProvider;
 import cloud.piranha.resource.impl.ByteArrayResourceStreamHandlerProvider;
 
 /**
- * The Piranha - Resource - Implementation module.
+ * The Resource implementation module.
  * 
  * <p>
  *  This module delivers the default implementation of the Resource API.

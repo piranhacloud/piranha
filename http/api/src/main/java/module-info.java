@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha HTTP - API module.
+ * The HTTP API module.
  * 
  * <p>
  *  This module delivers the API that each HTTP engine implementation needs to

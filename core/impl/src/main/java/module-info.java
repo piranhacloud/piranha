@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Core Implementation module.
+ * The Piranha Core implementation module.
  * 
  * <p>
  *  This module delivers the default implementations for Piranha APIs.

@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha - Core - Servlet API module.
+ * The Servlet API module.
  * 
  * <p>
  *  This module delivers the Servlet API as per the Servlet specification.

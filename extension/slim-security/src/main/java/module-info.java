@@ -27,7 +27,11 @@
  */
 
 /**
- * The slim security extension module delivers the slimmest security handling.
+ * The slim security module.
+ * 
+ * <p>
+ *  This module  delivers the slimmest security handling, aka programmatic.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

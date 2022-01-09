@@ -27,7 +27,12 @@
  */
 
 /**
- * The Piranha Embedded module.
+ * The Shrinkwrap Piranha Micro builder module.
+ * 
+ * <p>
+ *  This module delivers the main entry point for the Piranha Micro 
+ *  distribution.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

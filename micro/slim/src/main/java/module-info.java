@@ -27,7 +27,7 @@
  */
 
 /**
- * The Slim version of Piranha Micro.
+ * The Slim Piranha Micro module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha HTTP - Tests module.
+ * The HTTP tests module.
  *
  * <p>
  * This module delivers the test framework that can be used by any of the HTTP

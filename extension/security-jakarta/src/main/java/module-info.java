@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Extension - Jakarta Security module.
+ * The Jakarta Security module.
  * 
  * <p>
  *  This module delivers Jakarta Security integration into Piranha.
@@ -36,7 +36,6 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.security.jakarta {
-    
     exports cloud.piranha.extension.security.jakarta;
     opens cloud.piranha.extension.security.jakarta;
     requires cloud.piranha.extension.eleos;

@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Extension - MyFaces integration module.
+ * The Apache MyFaces integration module.
  * 
  * <p>
  *  This module delivers the integration code needed for MyFaces.

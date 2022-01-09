@@ -27,14 +27,14 @@
  */
 
 /**
- * The Slim extension.
+ * The slim extension module.
  *
  * <p>
  *  This module delivers the Slim extension which in turn enables the following
- *  support:
+ *  etensions:
  * </p>
  * <ul>
- *  <li>ServletContainerInitializer support</li>
+ *  <li>ServletContainerInitializer</li>
  * </ul>
  */
 module cloud.piranha.extension.slim {

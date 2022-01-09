@@ -29,6 +29,11 @@
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.core.api.WebApplicationExtension;
 
+/**
+ * The Isolated Piranha Server module.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.server.isolated {
     opens cloud.piranha.server.isolated;
     exports cloud.piranha.server.isolated;

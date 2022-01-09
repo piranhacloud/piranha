@@ -32,7 +32,7 @@ import org.jboss.weld.bootstrap.api.Service;
 import org.jboss.weld.environment.servlet.Container;
 
 /**
- * The Piranha Extension - Weld Integration module.
+ * The Weld integration module.
  * 
  * <p>
  *  This module delivers Weld integration for web applications.

@@ -37,5 +37,5 @@ The release process described below uses the 'current' branch. For patch release
 
 ## Patch releases
 
-If you are creating a patch release against a LTS branch please follow all the
+If you are creating a patch release against a branch please follow all the
 steps above (without waiting a day in between).

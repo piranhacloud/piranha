@@ -33,6 +33,16 @@ import cloud.piranha.core.api.WebApplicationExtension;
 import jakarta.enterprise.inject.spi.Extension;
 import org.jboss.weld.environment.deployment.discovery.BeanArchiveHandler;
 
+/**
+ * The Shrinkwrap Piranha Micro core module.
+ * 
+ * <p>
+ *  This module delivers the main entry point for the Piranha Micro 
+ *  distribution.
+ * </p>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.micro.shrinkwrap.core {
     
     exports cloud.piranha.micro.shrinkwrap.core;
