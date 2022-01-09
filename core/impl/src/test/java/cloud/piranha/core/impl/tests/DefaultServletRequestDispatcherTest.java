@@ -41,6 +41,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 
 /**
  * The JUnit tests for DefaultServletRequestDispatcher.
@@ -199,27 +200,6 @@ class DefaultServletRequestDispatcherTest {
 
     @Test
     void testErrorDispatcher2() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addServlet("error-servlet", new TestSendError());
-        webApp.addServletMapping("error-servlet", "/sendError");
-        webApp.addServlet("snoop", TestSnoopServlet.class);
-        webApp.addServletMapping("snoop", "/snoop");
-        webApp.addErrorPage(404, "/snoop");
-        webApp.initialize();
-        webApp.start();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setServletPath("/sendError");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApp);
-        webApp.service(request, response);
-        String responseText = new String(response.getResponseBytes());
-        webApp.stop();
-        assertEquals(404, response.getStatus());
-        assertTrue(responseText.contains(RequestDispatcher.ERROR_MESSAGE));
-        assertTrue(responseText.contains("unavailable"));
-    }
-    @Test
-    void testErrorDispatcher3() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addServlet("error-servlet", TestIOExceptionServlet.class);
         webApp.addServletMapping("error-servlet", "/sendError");
