@@ -259,11 +259,6 @@ public class DefaultWebApplication implements WebApplication {
     protected final List<ServletRequestListener> requestListeners;
 
     /**
-     * Stores the error page manager
-     */
-    protected DefaultErrorPageManager errorPageManager;
-
-    /**
      * Stores the invocation finder, which finds a Servlet, Filter(chain) and
      * variants thereof to invoke for a given request path.
      */
@@ -321,7 +316,6 @@ public class DefaultWebApplication implements WebApplication {
         initParameters = new ConcurrentHashMap<>(1);
         initializers = new ArrayList<>(1);
         responses = new ConcurrentHashMap<>(1);
-        errorPageManager = new DefaultErrorPageManager();
         invocationFinder = new DefaultInvocationFinder(this);
         servletContextName = UUID.randomUUID().toString();
         servletEnvironments = new LinkedHashMap<>();
@@ -550,16 +544,6 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public String removeServletMapping(String urlPattern) {
         return webApplicationRequestMapper.removeServletMapping(urlPattern);
-    }
-
-    @Override
-    public void addErrorPage(int code, String location) {
-        errorPageManager.getErrorPagesByCode().put(code, location);
-    }
-
-    @Override
-    public void addErrorPage(String exception, String location) {
-        errorPageManager.getErrorPagesByException().put(exception, location);
     }
 
     @Override

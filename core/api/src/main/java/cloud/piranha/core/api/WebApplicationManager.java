@@ -56,6 +56,13 @@ public interface WebApplicationManager {
     AsyncManager getAsyncManager();
     
     /**
+     * Get the error page manager.
+     * 
+     * @return the error page manager.
+     */
+    ErrorPageManager getErrorPageManager();
+    
+    /**
      * Get the HTTP request manager.
      * 
      * @return the HTTP request manager.
@@ -152,6 +159,13 @@ public interface WebApplicationManager {
      * @param asyncManager the async manager.
      */
     void setAsyncManager(AsyncManager asyncManager);
+    
+    /**
+     * Set the error page manager.
+     * 
+     * @param errorPageManager the error page manager.
+     */
+    void setErrorPageManager(ErrorPageManager errorPageManager);
     
     /**
      * Set the HTTP request manager.

@@ -51,22 +51,6 @@ import java.util.Set;
 public interface WebApplication extends ServletContext {
 
     /**
-     * Adds an error page to be forwarded to on the given HTTP status code
-     *
-     * @param code the HTTP code for which the error page is to be invoked
-     * @param location the location of the error page
-     */
-    void addErrorPage(int code, String location);
-
-    /**
-     * Adds an error page to be forwarded to on the given exception
-     *
-     * @param exception the exception for which the error page is to be invoked
-     * @param location the location of the error page
-     */
-    void addErrorPage(String exception, String location);
-
-    /**
      * Add a mapping for the given filter.
      *
      * @param filterName the filter name.
