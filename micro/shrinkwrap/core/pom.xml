@@ -8,6 +8,7 @@
         <artifactId>project</artifactId>
         <version>22.1.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>piranha-micro-shrinkwrap-core</artifactId>
 
     <name>Piranha - Micro - Shrinkwrap - Core</name>
