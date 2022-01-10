@@ -13,6 +13,7 @@
     <packaging>war</packaging>
 
     <name>Piranha - Test - Soteria - FORM</name>
+
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
