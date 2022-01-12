@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardLoggingManagerTest {
+class StandardLoggingManagerTest {
     
     /**
      * Test log method
      */
     @Test
-    public void testLog() {
+    void testLog() {
         StandardLoggingManager manager = new StandardLoggingManager();
         manager.log("TEST", new RuntimeException());
     }
@@ -50,7 +50,7 @@ public class StandardLoggingManagerTest {
      * Test of log method.
      */
     @Test
-    public void testLog_String() {
+    void testLog_String() {
         StandardLoggingManager manager = new StandardLoggingManager();
         manager.log("TEST");
     }

@@ -220,11 +220,11 @@ public class RunMojo extends ServerMojo {
         
         StringBuilder arguments = new StringBuilder();
         
-        if (Boolean.valueOf(debug)) {
+        if (Boolean.parseBoolean(debug)) {
             arguments.append(" --suspend");
         }
 
-        if (System.getProperty("os.name").toLowerCase().equals("windows")) {
+        if (System.getProperty("os.name").equalsIgnoreCase("windows")) {
             process = builder
                     .directory(new File(buildDir + "/piranha-server/piranha/bin"))
                     .command("start.cmd")

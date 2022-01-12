@@ -40,13 +40,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardTempDirExtensionTest {
+class StandardTempDirExtensionTest {
     
     /**
      * Test configure method.
      */
     @Test
-    public void testConfigure() {
+    void testConfigure() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         StandardTempDirExtension extension = new StandardTempDirExtension();
         extension.configure(webApplication);

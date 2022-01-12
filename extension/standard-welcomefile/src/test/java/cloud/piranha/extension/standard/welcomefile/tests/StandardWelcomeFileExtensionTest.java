@@ -38,13 +38,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardWelcomeFileExtensionTest {
+class StandardWelcomeFileExtensionTest {
 
     /**
      * Test configure method.
      */
     @Test
-    public void testConfigure() {
+    void testConfigure() {
         System.out.println("configure");
         DefaultWebApplication webApplication = new DefaultWebApplication();
         StandardWelcomeFileExtension extension = new StandardWelcomeFileExtension();
