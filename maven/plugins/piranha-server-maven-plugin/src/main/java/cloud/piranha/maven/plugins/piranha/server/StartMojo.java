@@ -219,12 +219,12 @@ public class StartMojo extends ServerMojo {
                
         StringBuilder arguments = new StringBuilder();
         
-        if (Boolean.valueOf(debug)) {
+        if (Boolean.parseBoolean(debug)) {
             arguments.append(" --suspend");
             System.out.println("Waiting for debugger to attach to port: 9009");
         }
         
-        if (System.getProperty("os.name").toLowerCase().equals("windows")) {
+        if (System.getProperty("os.name").equalsIgnoreCase("windows")) {
             builder.directory(new File(buildDir, "piranha-server/piranha/bin"))
                     .command("start.cmd")
                     .start();

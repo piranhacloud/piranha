@@ -38,13 +38,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardLoggingExtensionTest {
+class StandardLoggingExtensionTest {
 
     /**
      * Test configure method.
      */
     @Test
-    public void testConfigure() {
+    void testConfigure() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         StandardLoggingExtension extension = new StandardLoggingExtension();
         extension.configure(webApplication);

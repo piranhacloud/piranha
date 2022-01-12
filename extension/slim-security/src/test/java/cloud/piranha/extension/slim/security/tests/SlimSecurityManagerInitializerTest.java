@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SlimSecurityManagerInitializerTest {
+class SlimSecurityManagerInitializerTest {
     
     /**
      * Test onStartup method.
@@ -46,7 +46,7 @@ public class SlimSecurityManagerInitializerTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testOnStartup() throws Exception {
+    void testOnStartup() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         SlimSecurityManagerInitializer initializer = new SlimSecurityManagerInitializer();
         webApplication.addInitializer(initializer);
