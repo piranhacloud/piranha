@@ -40,10 +40,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletSecurityManagerInitializerTest {
+class ServletSecurityManagerInitializerTest {
     
     @Test
-    public void testOnStartup() {
+    void testOnStartup() {
         try {
             DefaultWebApplication webApplication = new DefaultWebApplication();
             ServletSecurityManagerInitializer initializer = new ServletSecurityManagerInitializer();

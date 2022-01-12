@@ -37,13 +37,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SlimSecurityManagerExtensionTest {
+class SlimSecurityManagerExtensionTest {
     
     /**
      * Test configure method.
      */
     @Test
-    public void testConfigure() {
+    void testConfigure() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         SlimSecurityManagerExtension extension = new SlimSecurityManagerExtension();
         extension.configure(webApplication);
