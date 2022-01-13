@@ -71,7 +71,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpSessionTest {
+class HttpSessionTest {
 
     /**
      * Test attributeAdded method.

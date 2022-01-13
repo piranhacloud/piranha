@@ -746,7 +746,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         verifyMultipartFormData();
         return webApplication.getManager().getMultiPartManager() != null
                 ? webApplication.getManager().getMultiPartManager().getParts(webApplication, this)
-                : Collections.EMPTY_LIST;
+                : Collections.emptyList();
     }
 
     @Override
