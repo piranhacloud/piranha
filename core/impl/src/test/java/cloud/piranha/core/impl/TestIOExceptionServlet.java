@@ -25,20 +25,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.core.impl;
+
+import java.io.IOException;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
- * 
+ * A test I/O exception servlet.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+public class TestIOExceptionServlet extends HttpServlet {
+
+    /**
+     * Stores the serial version UID.
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Service the request.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a servlet error occurs.
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        throw new IOException();
+    }
 }

@@ -25,20 +25,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.http.netty;
+
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.api.HttpServerProcessor;
+import cloud.piranha.http.tests.HttpServerTest;
+import cloud.piranha.http.tests.TestHttpServerProcessor;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
- * 
+ * The JUnit tests for the NettyHttpServer class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+public class NettyHttpServerTest extends HttpServerTest {
+
+    /**
+     * Create the Netty HTTP server.
+     * 
+     * @param portNumber the port number.
+     * @return the Netty HTTP server.
+     */
+    @Override
+    protected HttpServer createServer(int portNumber) {
+        NettyHttpServer server = new NettyHttpServer(portNumber);
+        server.setHttpServerProcessor(new TestHttpServerProcessor());
+        return server;
+    }
+
+    /**
+     * Create the Netty HTTP server.
+     * 
+     * @param portNumber the port number.
+     * @param processor the HTTP server processor.
+     * @return the Netty HTTP server.
+     */
+    @Override
+    protected HttpServer createServer(int portNumber, HttpServerProcessor processor) {
+        return new NettyHttpServer(portNumber, processor);
+    }
 }

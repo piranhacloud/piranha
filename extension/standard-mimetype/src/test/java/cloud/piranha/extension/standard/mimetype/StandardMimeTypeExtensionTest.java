@@ -25,20 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.standard.mimetype;
+
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
+ * The JUnit tests for the StandardMimeTypeExtension class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+class StandardMimeTypeExtensionTest {
+    
+    /**
+     * Test configure method.
+     */
+    @Test
+    void testConfigure() {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .extension(StandardMimeTypeExtension.class)
+                .build();
+        assertNotNull(piranha.getWebApplication().getMimeType("index.html"));
+    }
 }

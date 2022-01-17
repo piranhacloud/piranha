@@ -25,20 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.apache.fileupload;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationRequest;
+import jakarta.servlet.MultipartConfigElement;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
- * 
+ * The JUnit tests for the ApacheMultiPartManager class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+class ApacheMultiPartManagerTest {
+
+    /**
+     * Test getPart method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetPart() throws Exception {
+        DefaultWebApplication application = new DefaultWebApplication();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setMultipartConfig(new MultipartConfigElement(""));
+        request.setContentType("multipart/form-data");
+        request.setMethod("POST");
+        ApacheMultiPartManager manager = new ApacheMultiPartManager();
+        assertNull(manager.getPart(application, request, "part_test"));
+    }
 }

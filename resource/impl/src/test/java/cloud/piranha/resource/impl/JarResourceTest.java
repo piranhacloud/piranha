@@ -25,20 +25,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.resource.impl;
+
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
- * 
+ * The JUnit tests for the DefaultJarResource class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+class JarResourceTest {
+
+    /**
+     * Test getResource method.
+     */
+    @Test
+    void testGetResource() {
+        JarResource resource = new JarResource();
+        assertNull(resource.getResource(null));
+    }
+
+    /**
+     * Test getResource method.
+     */
+    @Test
+    void testGetResource2() {
+        JarResource resource = new JarResource();
+        assertThrows(NullPointerException.class, () -> resource.getResource("we_wont_find_this"));
+    }
+
+    /**
+     * Test getResource method.
+     */
+    @Test
+    void testGetResource3() {
+        JarResource resource = new JarResource();
+        resource.setJarFile(new File("this_jar_file_does_not_exist.jar"));
+        assertNull(resource.getResource("we_wont_find_this"));
+    }
 }

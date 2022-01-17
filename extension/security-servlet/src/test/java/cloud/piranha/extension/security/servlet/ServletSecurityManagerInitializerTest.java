@@ -25,20 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.security.servlet;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import jakarta.servlet.ServletException;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
+ * The JUnit tests for the ServletSecurityManagerInitializer class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+class ServletSecurityManagerInitializerTest {
+    
+    @Test
+    void testOnStartup() {
+        try {
+            DefaultWebApplication webApplication = new DefaultWebApplication();
+            ServletSecurityManagerInitializer initializer = new ServletSecurityManagerInitializer();
+            initializer.onStartup(null, webApplication);
+            assertTrue(webApplication.getManager().getSecurityManager() instanceof ServletSecurityManager);
+        } catch (ServletException ex) {
+            fail();
+        }
+    }
 }

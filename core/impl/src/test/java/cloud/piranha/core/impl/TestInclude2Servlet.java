@@ -25,20 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.core.impl;
+
+import java.io.IOException;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
- * 
+ * A servlet testing includes (performing the actual include).
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+public class TestInclude2Servlet extends HttpServlet {
+
+    /**
+     * Initialize the servlet.
+     *
+     * @param config the servlet config.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+    }
+
+    /**
+     * Process GET request.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        response.getWriter().print("This was included");
+        response.getWriter().flush();
+    }
+
+    /**
+     * Destroy the servlet.
+     */
+    @Override
+    public void destroy() {
+    }
 }

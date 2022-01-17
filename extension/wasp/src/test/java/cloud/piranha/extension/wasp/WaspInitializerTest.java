@@ -25,20 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.wasp;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.resource.impl.DirectoryResource;
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
+ * The JUnit tests for the WaspInitializer.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+class WaspInitializerTest {
+
+    /**
+     * Test onStartup method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testOnStartup() throws Exception {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        webApp.addResource(new DirectoryResource(new File("src/test/webapp/waspinitializer")));
+        webApp.addInitializer(new WaspInitializer());
+        webApp.initialize();
+        assertTrue(webApp.isInitialized());
+    }
 }

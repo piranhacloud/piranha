@@ -25,20 +25,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.resource.impl;
 
-/**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
- * 
- * @author Manfred Riem (mriem@manorrock.com)
- */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+import cloud.piranha.resource.api.Resource;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class AliasedNamedResourceTest {
+
+    @Test
+    void testGetName() {
+        Resource resource = new AliasedNamedResource(new ByteArrayResource("/", new byte[0]), "custom name");
+        assertEquals("custom name", resource.getName());
+    }
 }

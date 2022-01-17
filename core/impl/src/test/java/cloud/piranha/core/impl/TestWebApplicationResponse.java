@@ -25,20 +25,31 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.core.impl;
+
+import java.io.ByteArrayOutputStream;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
- * 
+ * A Test WebApplicationResponse.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+public class TestWebApplicationResponse extends DefaultWebApplicationResponse {
+
+    /**
+     * Constructor.
+     */
+    public TestWebApplicationResponse() {
+        super();
+        this.bodyOnly = true;
+        this.outputStream = new ByteArrayOutputStream();
+    }
+
+    /**
+     * {@return the bytes in the buffer}
+     */
+    public byte[] getResponseBytes() {
+        ByteArrayOutputStream output = (ByteArrayOutputStream) this.outputStream;
+        return output.toByteArray();
+    }
 }
