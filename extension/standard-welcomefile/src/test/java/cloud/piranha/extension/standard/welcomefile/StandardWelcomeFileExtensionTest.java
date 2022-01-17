@@ -25,20 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.standard.welcomefile;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
- * 
+ * The JUnit tests for the StandardWelcomeFileExtension class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+class StandardWelcomeFileExtensionTest {
+
+    /**
+     * Test configure method.
+     */
+    @Test
+    void testConfigure() {
+        System.out.println("configure");
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        StandardWelcomeFileExtension extension = new StandardWelcomeFileExtension();
+        extension.configure(webApplication);
+        webApplication.initialize();
+        assertTrue(webApplication.getManager()
+                .getWelcomeFileManager() instanceof StandardWelcomeFileManager);
+    }
 }

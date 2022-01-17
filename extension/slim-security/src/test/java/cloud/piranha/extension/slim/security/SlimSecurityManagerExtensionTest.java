@@ -25,20 +25,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.slim.security;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
+ * The JUnit tests for the SlimSecurityManagerExtension class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+class SlimSecurityManagerExtensionTest {
+    
+    /**
+     * Test configure method.
+     */
+    @Test
+    void testConfigure() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        SlimSecurityManagerExtension extension = new SlimSecurityManagerExtension();
+        extension.configure(webApplication);
+        assertFalse(webApplication.getInitializers().isEmpty());
+    }
 }

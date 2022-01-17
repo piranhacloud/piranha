@@ -25,20 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.slim.security;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
+ * The JUnit tests for the SlimSecurityManagerInitializer class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+class SlimSecurityManagerInitializerTest {
+    
+    /**
+     * Test onStartup method.
+     * 
+     * @throws Exception when an error occurs.
+     */
+    @Test
+    void testOnStartup() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        SlimSecurityManagerInitializer initializer = new SlimSecurityManagerInitializer();
+        webApplication.addInitializer(initializer);
+        webApplication.initialize();
+        assertTrue(webApplication.getManager().getSecurityManager() instanceof SlimSecurityManager);
+    }
 }

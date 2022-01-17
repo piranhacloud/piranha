@@ -25,20 +25,66 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.core.impl;
+
+import cloud.piranha.http.api.HttpServerResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
- * 
+ * The HttpServerResponse used for testing.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+public class TestHttpServerResponse implements HttpServerResponse {
+
+    /**
+     * Stores the output stream.
+     */
+    private final ByteArrayOutputStream outputStream;
+
+    /**
+     * Constructor.
+     */
+    public TestHttpServerResponse() {
+        this.outputStream = new ByteArrayOutputStream();
+    }
+
+    /**
+     * {@return the byte-array output stream}
+     */
+    public ByteArrayOutputStream getByteArrayOutputStream() {
+        return outputStream;
+    }
+
+    @Override
+    public void addHeader(String name, String value) {
+    }
+
+    @Override
+    public String getHeader(String name) {
+        return null;
+    }
+
+    @Override
+    public OutputStream getOutputStream() {
+        return outputStream;
+    }
+
+    @Override
+    public void setHeader(String name, String value) {
+    }
+
+    @Override
+    public void setStatus(int status) {
+    }
+
+    @Override
+    public void writeHeaders() throws IOException {
+    }
+
+    @Override
+    public void writeStatusLine() throws IOException {
+    }
 }

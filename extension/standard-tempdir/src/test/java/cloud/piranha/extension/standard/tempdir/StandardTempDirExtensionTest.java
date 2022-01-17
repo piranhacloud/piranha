@@ -25,20 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.standard.tempdir;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import static jakarta.servlet.ServletContext.TEMPDIR;
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
+ * The JUnit tests for the StandardTempDirExtension class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+class StandardTempDirExtensionTest {
+    
+    /**
+     * Test configure method.
+     */
+    @Test
+    void testConfigure() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        StandardTempDirExtension extension = new StandardTempDirExtension();
+        extension.configure(webApplication);
+        webApplication.initialize();
+        assertNotNull(webApplication.getAttribute(TEMPDIR));
+        File tempDir = new File("tmp/ROOT");
+        assertTrue(tempDir.exists());
+        tempDir.delete();
+        tempDir.getParentFile().delete();
+    }
 }

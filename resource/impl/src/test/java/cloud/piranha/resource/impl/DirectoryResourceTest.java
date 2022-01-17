@@ -25,20 +25,54 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.resource.impl;
+
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
- * 
+ * The JUnit tests for DirectoryResource class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+class DirectoryResourceTest {
+
+    /**
+     * Test getResource method.
+     */
+    @Test
+    void testGetResource() {
+        DirectoryResource resource = new DirectoryResource();
+        assertNull(resource.getResource("/resource"));
+    }
+
+    /**
+     * Test getResourceAsStream method.
+     */
+    @Test
+    void testGetResourceAsStream() {
+        DirectoryResource resource = new DirectoryResource();
+        assertNull(resource.getResourceAsStream("/resource"));
+    }
+
+    /**
+     * Test getResourceAsStream method.
+     */
+    @Test
+    void testGetResourceAsStream2() {
+        DirectoryResource resource = new DirectoryResource(new File("."));
+        assertNotNull(resource.getResourceAsStream("pom.xml"));
+    }
+
+    /**
+     * Test getRootDirectory method, of class DirectoryResource.
+     */
+    @Test
+    void testGetRootDirectory() {
+        DirectoryResource resource = new DirectoryResource();
+        resource.setRootDirectory(new File("src/main/java"));
+        assertNotNull(resource.getRootDirectory());
+    }
 }

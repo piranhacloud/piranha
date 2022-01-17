@@ -25,20 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.standard.webxml;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.resource.impl.DirectoryResource;
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
+ * The JUnit tests testing the effective major version.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+class EffectiveMajorVersionTest {
+
+    /**
+     * Test the effective major version.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testEffectiveMajorVersion() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/effectiveMajorVersion1")));
+        webApplication.addInitializer(new StandardWebXmlInitializer());
+        webApplication.initialize();
+        assertEquals(5, webApplication.getEffectiveMajorVersion());
+    }
 }

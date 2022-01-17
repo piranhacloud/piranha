@@ -25,20 +25,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.core.impl;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 /**
- * The Piranha Nano module.
- * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
- * 
+ * The JUnit tests for the DefaultWebApplicationClassLoader.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.nano {
-    exports cloud.piranha.nano;
-    opens cloud.piranha.nano;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.servlet;
+class DefaultWebApplicationClassLoaderTest {
+
+    /**
+     * Test loadClass method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testLoadClass() throws Exception {
+        DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
+        assertNotNull(classLoader.loadClass("java.lang.String", true));
+    }
+
+    /**
+     * Test loadClass method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testLoadClass2() throws Exception {
+        DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader();
+        assertThrows(ClassNotFoundException.class, () -> classLoader.loadClass("this.is.a.bogus.className", true));
+    }
 }
