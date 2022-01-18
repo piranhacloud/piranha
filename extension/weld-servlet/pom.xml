@@ -2,21 +2,26 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
-        <version>22.1.0-SNAPSHOT</version>
+        <version>22.2.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>piranha-extension-weld-servlet</artifactId>
     <packaging>jar</packaging>
+
     <name>Piranha - Extension - Weld Servlet integration</name>
     <description>
         This module delivers injection support for Servlets, Filters and 
         Listeners by means of Weld.
     </description>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <!-- compile -->
         <dependency>

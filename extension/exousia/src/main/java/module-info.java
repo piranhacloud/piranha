@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,18 +27,18 @@
  */
 
 /**
- * The Piranha Extension - Eclipse Exousia module.
- * 
+ * The Eclipse Exousia integration module.
+ *
  * <p>
- *  This module delivers Eclipse Exousia integration into Piranha.
+ *  This module integrates Eclipse Exousia into Piranha. See 
+ *  https://github.com/eclipse-ee4j/exousia for more information about its
+ *  project.
  * </p>
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.exousia {
-    
     exports cloud.piranha.extension.exousia;
-    requires cloud.piranha.extension.webxml;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires jakarta.security.jacc;

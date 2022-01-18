@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha HTTP - WebApplication Integration module.
+ * The HTTP WebApplication integration module.
  * 
  * <p>
  *  This module delivers the integration of the WebApplication API with Piranha

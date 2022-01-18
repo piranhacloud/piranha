@@ -6,16 +6,22 @@
     <parent>
         <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
-        <version>22.1.0-SNAPSHOT</version>
+        <version>22.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-extension-wasp</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Extension - WaSP</name>
+    <name>Piranha - Extension - Eclipse WaSP</name>
 
     <dependencies>
         <!-- compile -->
+        <dependency>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-api</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.glassfish.wasp</groupId>
             <artifactId>wasp</artifactId>
@@ -39,13 +45,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- provided -->
-        <dependency>
-            <groupId>cloud.piranha.core</groupId>
-            <artifactId>piranha-core-api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- test -->
         <dependency>
             <groupId>cloud.piranha</groupId>
@@ -61,11 +60,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

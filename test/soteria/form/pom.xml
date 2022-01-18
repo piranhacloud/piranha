@@ -6,13 +6,14 @@
     <parent>
         <groupId>cloud.piranha.test.soteria</groupId>
         <artifactId>project</artifactId>
-        <version>22.1.0-SNAPSHOT</version>
+        <version>22.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>soteria-form</artifactId>
     <packaging>war</packaging>
 
     <name>Piranha - Test - Soteria - FORM</name>
+
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>

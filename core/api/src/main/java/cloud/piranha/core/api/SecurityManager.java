@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -64,7 +64,7 @@ public interface SecurityManager {
 
         /**
          * Login.
-         * 
+         *
          * @param request the request.
          * @param username the username.
          * @param password the password.
@@ -74,11 +74,133 @@ public interface SecurityManager {
     }
 
     /**
+     * Authenticate the request.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @return true if authenticated.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a servlet error occurs.
+     */
+    boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
+
+    /**
+     * Authenticate the request.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @param source the source or moment from where this authenticate method is
+     * called
+     * @return true if authenticated.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a servlet error occurs.
+     */
+    default boolean authenticate(HttpServletRequest request, HttpServletResponse response, AuthenticateSource source) throws IOException, ServletException {
+        // By default, source and mandatory directive are ignored, and semantics for the 2 parameter
+        // version hold.
+        // The 2 parameter version is expected to be essentially source = MID_REQUEST_USER
+        return authenticate(request, response);
+    }
+
+    /**
+     * Declare roles.
+     *
+     * @param roles the roles.
+     */
+    void declareRoles(String[] roles);
+
+    /**
+     * Declare roles.
+     *
+     * @param roles the roles.
+     */
+    default void declareRoles(Collection<String> roles) {
+        if (roles != null) {
+            declareRoles(roles.toArray(String[]::new));
+        }
+    }
+
+    /**
+     * Get the auth method.
+     *
+     * @return the auth method.
+     */
+    default String getAuthMethod() {
+        return null;
+    }
+
+    /**
+     * Gets the request object the security system wants to put in place.
+     *
+     * <p>
+     * This method allows the security system (or authentication module being
+     * delegated to) a custom or, more likely, wrapped request.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @return a request object that the runtime should put into service
+     */
+    default HttpServletRequest getAuthenticatedRequest(HttpServletRequest request, HttpServletResponse response) {
+        return request;
+    }
+
+    /**
+     * Gets the response object the security system wants to put in place.
+     *
+     * <p>
+     * This method allows the security system (or authentication module being
+     * delegated to) a custom or, more likely, wrapped response.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @return a response object that the runtime should put into service
+     */
+    default HttpServletResponse getAuthenticatedResponse(HttpServletRequest request, HttpServletResponse response) {
+        return response;
+    }
+
+    /**
      * Get if we are denying uncovered HTTP methods.
      *
      * @return true if we are, false otherwise.
      */
-    boolean getDenyUncoveredHttpMethods();
+    default boolean getDenyUncoveredHttpMethods() {
+        return false;
+    }
+    
+    /**
+     * Get the form error page.
+     * 
+     * @return the form error page.
+     */
+    default String getFormErrorPage() {
+        return null;
+    }
+
+    /**
+     * Get the form login page.
+     *
+     * @return the form login page.
+     */
+    default String getFormLoginPage() {
+        return null;
+    }
+
+    /**
+     * Get the realm name.
+     *
+     * @return the realm name.
+     */
+    default String getRealmName() {
+        return null;
+    }
+
+    /**
+     * Get the declared roles
+     *
+     * @return the roles
+     */
+    Set<String> getRoles();
 
     /**
      * Check if the current request adheres to the user data constraint, if any.
@@ -129,65 +251,6 @@ public interface SecurityManager {
     }
 
     /**
-     * Authenticate the request.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @return true if authenticated.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a servlet error occurs.
-     */
-    boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
-
-    /**
-     * Gets the request object the security system wants to put in place.
-     *
-     * <p>
-     * This method allows the security system (or authentication module being
-     * delegated to) a custom or, more likely, wrapped request.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @return a request object that the runtime should put into service
-     */
-    default HttpServletRequest getAuthenticatedRequest(HttpServletRequest request, HttpServletResponse response) {
-        return request;
-    }
-
-    /**
-     * Gets the response object the security system wants to put in place.
-     *
-     * <p>
-     * This method allows the security system (or authentication module being
-     * delegated to) a custom or, more likely, wrapped response.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @return a response object that the runtime should put into service
-     */
-    default HttpServletResponse getAuthenticatedResponse(HttpServletRequest request, HttpServletResponse response) {
-        return response;
-    }
-
-    /**
-     * Authenticate the request.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @param source the source or moment from where this authenticate method is
-     * called
-     * @return true if authenticated.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a servlet error occurs.
-     */
-    default boolean authenticate(HttpServletRequest request, HttpServletResponse response, AuthenticateSource source) throws IOException, ServletException {
-        // By default, source and mandatory directive are ignored, and semantics for the 2 parameter
-        // version hold.
-        // The 2 parameter version is expected to be essentially source = MID_REQUEST_USER
-        return authenticate(request, response);
-    }
-
-    /**
      * Gives the security system the opportunity to process the response after
      * the request (after the target resource has been invoked).
      *
@@ -204,34 +267,9 @@ public interface SecurityManager {
     }
 
     /**
-     * Declare roles.
+     * Get the web application.
      *
-     * @param roles the roles.
-     */
-    void declareRoles(String[] roles);
-
-    /**
-     * Declare roles.
-     *
-     * @param roles the roles.
-     */
-    default void declareRoles(Collection<String> roles) {
-        if (roles == null) {
-            return;
-        }
-
-        declareRoles(roles.toArray(String[]::new));
-    }
-
-    /**
-     * Get the declared roles
-     *
-     * @return the roles
-     */
-    Set<String> getRoles();
-
-    /**
-     * {@return the web application}
+     * @return the web application.
      */
     WebApplication getWebApplication();
 
@@ -264,11 +302,44 @@ public interface SecurityManager {
     void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException;
 
     /**
+     * Set the auth method.
+     *
+     * @param authMethod the auth method.
+     */
+    default void setAuthMethod(String authMethod) {
+    }
+
+    /**
      * Set if we are denying uncovered HTTP methods.
      *
      * @param denyUncoveredHttpMethods the boolean value.
      */
-    void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods);
+    default void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
+    }
+    
+    /**
+     * Set the form error page.
+     * 
+     * @param formErrorPage the form error page.
+     */
+    default void setFormErrorPage(String formErrorPage) {
+    }
+
+    /**
+     * Set the form login page.
+     *
+     * @param formLoginPage the form login page.
+     */
+    default void setFormLoginPage(String formLoginPage) {
+    }
+
+    /**
+     * Set the realm name.
+     *
+     * @param realmName the realm name.
+     */
+    default void setRealmName(String realmName) {
+    }
 
     /**
      * Set the web application.

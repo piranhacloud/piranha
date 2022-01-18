@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>22.1.0-SNAPSHOT</version>
+        <version>22.2.0-SNAPSHOT</version>
     </parent>
 
     <groupId>cloud.piranha.maven</groupId>
@@ -32,4 +32,3 @@
         </dependencies>
     </dependencyManagement>
 </project>
-

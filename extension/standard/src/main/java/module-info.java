@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,39 +27,47 @@
  */
 
 /**
- * The Standard Extension module.
+ * The standard extension module.
  *
  * <p>
- *  This module delivers the following extensions:
+ *  This module of modules delivers the extensions for the standard version of
+ *  Piranha Server/Micro. It adds the following extensions:
  * </p>
  * <ul>
- *  <li>Annotation scanning support</li>
- *  <li>JNDI support (Manorrock Herring)</li>
- *  <li>Logging support</li>
- *  <li>Mimetype support</li>
- *  <li>Policy support</li>
- *  <li>ServletContainerInitializer support</li>
- *  <li>TEMPDIR support</li>
- *  <li>WaSP support</li>
- *  <li>Web annotations support</li>
- *  <li>Web.xml support</li>
+ *  <li>Apache Commons File Upload (Multipart)</li>
+ *  <li>Manorrock Herring (JNDI)</li>
+ *  <li>Servlet Security</li>
+ *  <li>Annotation Scanning</li>
+ *  <li>Async</li>
+ *  <li>Locale Encoding</li>
+ *  <li>Logging</li>
+ *  <li>Mime-type</li>
+ *  <li>Java Policy</li>
+ *  <li>Servlet Annotations</li>
+ *  <li>Servlet Container Initializer</li>
+ *  <li>TEMPDIR</li>
+ *  <li>web.xml</li>
+ *  <li>Welcome File</li>
+ *  <li>WaSP (Pages)</li>
  * </ul>
  */
 module cloud.piranha.extension.standard {
     exports cloud.piranha.extension.standard;
     opens cloud.piranha.extension.standard;
     requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.locale_encoding;
-    requires cloud.piranha.extension.logging;
-    requires cloud.piranha.extension.mimetype;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.tempdir;
+    requires cloud.piranha.extension.standard.annotationscan;
+    requires cloud.piranha.extension.standard.async;
+    requires cloud.piranha.extension.standard.localeencoding;
+    requires cloud.piranha.extension.standard.logging;
+    requires cloud.piranha.extension.standard.mimetype;
+    requires cloud.piranha.extension.standard.policy;
+    requires cloud.piranha.extension.standard.servletannotations;
+    requires cloud.piranha.extension.standard.scinitializer;
+    requires cloud.piranha.extension.standard.tempdir;
+    requires cloud.piranha.extension.standard.webxml;
+    requires cloud.piranha.extension.standard.welcomefile;
     requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webannotations;
-    requires cloud.piranha.extension.webxml;
     requires cloud.piranha.core.api;
 }

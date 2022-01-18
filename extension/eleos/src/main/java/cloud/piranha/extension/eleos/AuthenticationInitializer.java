@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,23 +27,28 @@
  */
 package cloud.piranha.extension.eleos;
 
+import cloud.piranha.core.api.AuthenticatedIdentity;
+import cloud.piranha.core.api.SecurityManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
 import static jakarta.security.auth.message.config.AuthConfigFactory.DEFAULT_FACTORY_SECURITY_PROPERTY;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.nio.file.Files.exists;
-import static java.nio.file.Files.readString;
-import static java.util.Arrays.stream;
-
+import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.exists;
+import static java.nio.file.Files.readString;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Security;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Supplier;
-
 import org.omnifaces.eleos.config.factory.ConfigParser;
 import org.omnifaces.eleos.config.factory.DefaultConfigFactory;
 import org.omnifaces.eleos.config.factory.DefaultConfigParser;
@@ -51,22 +56,11 @@ import org.omnifaces.eleos.config.helper.Caller;
 import org.omnifaces.eleos.services.DefaultAuthenticationService;
 import org.omnifaces.eleos.services.InMemoryStore;
 
-import cloud.piranha.extension.webxml.WebXml;
-import cloud.piranha.extension.webxml.WebXmlLoginConfig;
-import cloud.piranha.extension.webxml.WebXmlManager;
-import cloud.piranha.core.api.AuthenticatedIdentity;
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
-import jakarta.servlet.FilterRegistration;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import static java.lang.System.Logger.Level.DEBUG;
-
 /**
  * The Eleos initializer.
  *
  * @author Arjan Tijms
+ * @author Manfred Riem (mriem@manorrock.com)
  */
 public class AuthenticationInitializer implements ServletContainerInitializer {
 
@@ -131,8 +125,8 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
     private void setUsernamePasswordLoginHandler(ServletContext servletContext, DefaultAuthenticationService authenticationService) {
         WebApplication webApplication = (WebApplication) servletContext;
 
-        webApplication.getSecurityManager().setUsernamePasswordLoginHandler(
-            (request, username, password) -> callerToIdentity(authenticationService.login(username, password))
+        webApplication.getManager().getSecurityManager().setUsernamePasswordLoginHandler(
+                (request, username, password) -> callerToIdentity(authenticationService.login(username, password))
         );
     }
 
@@ -148,26 +142,16 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
         Class<?> authModuleClass = (Class<?>) servletContext.getAttribute(AUTH_MODULE_CLASS);
         if (authModuleClass == null) {
             authModuleClass = DoNothingServerAuthModule.class;
-            WebXmlLoginConfig loginConfig = getLoginConfig(servletContext);
-            if (loginConfig != null) {
-                options.put("authMethod", loginConfig.authMethod());
-                options.put("realmName", loginConfig.realmName());
-                options.put("formLoginPage", loginConfig.formLoginPage());
-                options.put("formErrorPage", loginConfig.formErrorPage());
+            WebApplication webApplication = (WebApplication) servletContext;
+            SecurityManager securityManager = webApplication.getManager().getSecurityManager();
+            if (securityManager != null && securityManager.getAuthMethod() != null) {
+                options.put("authMethod", securityManager.getAuthMethod());
+                options.put("formErrorPage", securityManager.getFormErrorPage());
+                options.put("formLoginPage", securityManager.getFormLoginPage());
+                options.put("realmName", securityManager.getRealmName());
             }
         }
-
         return authModuleClass;
-    }
-
-    private WebXmlLoginConfig getLoginConfig(ServletContext servletContext) {
-        WebXmlManager manager = (WebXmlManager) servletContext.getAttribute(WebXmlManager.KEY);
-        WebXml webXml = manager.getWebXml();
-        if (!isAnyNull(() -> webXml, webXml::getLoginConfig, () -> webXml.getLoginConfig().authMethod())) {
-            return webXml.getLoginConfig();
-        }
-
-        return null;
     }
 
     void initIdentityStore(ServletContext servletContext) throws ServletException {
@@ -195,16 +179,10 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
         }
     }
 
-    @SafeVarargs
-    private boolean isAnyNull(Supplier<Object>... suppliers) {
-        return stream(suppliers).anyMatch(e -> e.get() == null);
-    }
-
     private void addFilter(ServletContext servletContext, Class<?> filterClass) {
-        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @SuppressWarnings({"unchecked", "rawtypes"})
         FilterRegistration.Dynamic dynamic = servletContext.addFilter(filterClass.getSimpleName(), (Class) filterClass);
         dynamic.setAsyncSupported(true);
         ((WebApplication) servletContext).addFilterMapping(filterClass.getSimpleName(), "/*");
     }
-
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,16 +27,19 @@
  */
 package cloud.piranha.core.impl;
 
+import cloud.piranha.core.api.ErrorPageManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * The default ErrorPageManager.
+ * 
  * @author Arjan Tijms
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultErrorPageManager {
+public class DefaultErrorPageManager implements ErrorPageManager {
 
     /**
      * Stores the error pages by code.
@@ -47,30 +50,18 @@ public class DefaultErrorPageManager {
      * Stores the error pages by exception.
      */
     private final Map<String, String> errorPagesByException = new HashMap<>();
-
-    /**
-     * Get the error pages by code.
-     * 
-     * @return the error pages by code map.
-     */
-    public Map<Integer, String> getErrorPagesByCode() {
-        return errorPagesByCode;
+    
+    @Override
+    public void addErrorPage(int statusCode, String page) {
+        errorPagesByCode.put(statusCode, page);
+    }
+    
+    @Override
+    public void addErrorPage(String throwableClassName, String page) {
+        errorPagesByException.put(throwableClassName, page);
     }
 
-    /**
-     * Get the error pages by exception.
-     * 
-     * @return the error pages by exception map.
-     */
-    public Map<String, String> getErrorPagesByException() {
-        return errorPagesByException;
-    }
-
-    /**
-     * {@return the error page}
-     * @param exception the exception.
-     * @param httpResponse the HTTP servlet response.
-     */
+    @Override
     public String getErrorPage(Throwable exception, HttpServletResponse httpResponse) {
         if (exception != null) {
             Class<?> rootException = exception.getClass();

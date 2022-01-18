@@ -6,8 +6,9 @@
     <parent>
         <groupId>cloud.piranha.micro.shrinkwrap</groupId>
         <artifactId>project</artifactId>
-        <version>22.1.0-SNAPSHOT</version>
+        <version>22.2.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>piranha-micro-shrinkwrap-builder</artifactId>
     <packaging>jar</packaging>
 

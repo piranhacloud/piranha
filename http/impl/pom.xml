@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.http</groupId>
         <artifactId>project</artifactId>
-        <version>22.1.0-SNAPSHOT</version>
+        <version>22.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-http-impl</artifactId>
@@ -14,6 +14,27 @@
 
     <name>Piranha - HTTP - Implementation</name>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <compilerArgs>
+                        <arg>--add-modules=java.net.http</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>--add-opens cloud.piranha.http.impl/cloud.piranha.http.impl=ALL-UNNAMED</argLine>
+                    <argLine>--add-reads cloud.piranha.http.impl=java.net.http</argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.http</groupId>

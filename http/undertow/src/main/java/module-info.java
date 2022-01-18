@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.undertow.UndertowHttpServer;
 
 /**
- * The Piranha HTTP - Undertow Integration module.
+ * The HTTP Undertow integration module.
  *
  * <p>
  * This module delivers the Undertow implementation of the HTTP engine API.

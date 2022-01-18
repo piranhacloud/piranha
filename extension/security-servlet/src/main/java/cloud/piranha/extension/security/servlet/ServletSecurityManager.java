@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -59,68 +59,49 @@ import jakarta.servlet.http.HttpSession;
  * SecurityManager implementation that uses Servlet Security semantics.
  *
  * @author Arjan Tijms
- *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
 public class ServletSecurityManager implements SecurityManager {
 
     /**
-     * Handler for the specific HttpServletRequest#login method call
+     * Stores the auth method.
      */
-    private UsernamePasswordLoginHandler usernamePasswordLoginHandler;
-
-    /**
-     * All declared roles in the application
-     */
-    private final Set<String> roles = ConcurrentHashMap.newKeySet();
+    protected String authMethod;
 
     /**
      * Stores if we are denying uncovered HTTP methods.
      */
-    private boolean denyUncoveredHttpMethods;
+    protected boolean denyUncoveredHttpMethods;
+    
+    /**
+     * Stores the form error page.
+     */
+    protected String formErrorPage;
+    
+    /**
+     * Stores the form login page.
+     */
+    protected String formLoginPage;
+    
+    /**
+     * Stores the realm name.
+     */
+    protected String realmName;
+
+    /**
+     * Stores all declared roles in the application
+     */
+    protected final Set<String> roles = ConcurrentHashMap.newKeySet();
+
+    /**
+     * Handler for the specific HttpServletRequest#login method call
+     */
+    protected UsernamePasswordLoginHandler usernamePasswordLoginHandler;
 
     /**
      * Stores the web application.
      */
-    private WebApplication webApplication;
-
-    @Override
-    public void declareRoles(String[] roles) {
-        this.roles.addAll(asList(roles));
-    }
-
-    @Override
-    public void declareRoles(Collection<String> roles) {
-        if (roles == null) {
-            return;
-        }
-
-        this.roles.addAll(roles);
-    }
-
-    @Override
-    public Set<String> getRoles() {
-        return roles;
-    }
-
-    @Override
-    public boolean isRequestSecurityAsRequired(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        return getAuthorizationService(request).checkWebUserDataPermission(request);
-    }
-
-    @Override
-    public boolean isRequestedResourcePublic(HttpServletRequest request) {
-        return getAuthorizationService(request).checkPublicWebResourcePermission(request);
-    }
-
-    @Override
-    public boolean isCallerAuthorizedForResource(HttpServletRequest request) {
-        return getAuthorizationService(request).checkWebResourcePermission(request);
-    }
-
-    @Override
-    public boolean isUserInRole(HttpServletRequest request, String role) {
-        return getAuthorizationService(request).checkWebRoleRefPermission(getServletName(request), role);
-    }
+    protected WebApplication webApplication;
 
     @Override
     public boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -174,13 +155,22 @@ public class ServletSecurityManager implements SecurityManager {
     }
 
     @Override
-    public void login(HttpServletRequest request, String username, String password) throws ServletException {
-        AuthenticatedIdentity resultIdentity = usernamePasswordLoginHandler.login(request, username, password);
+    public void declareRoles(String[] roles) {
+        this.roles.addAll(asList(roles));
+    }
 
-        if (resultIdentity == null) {
-            throw new ServletException();
+    @Override
+    public void declareRoles(Collection<String> roles) {
+        if (roles == null) {
+            return;
         }
-        setIdentityForCurrentRequest(request, resultIdentity.getCallerPrincipal(), resultIdentity.getGroups(), "login");
+
+        this.roles.addAll(roles);
+    }
+
+    @Override
+    public String getAuthMethod() {
+        return authMethod;
     }
 
     @Override
@@ -191,6 +181,78 @@ public class ServletSecurityManager implements SecurityManager {
     @Override
     public HttpServletResponse getAuthenticatedResponse(HttpServletRequest request, HttpServletResponse response) {
         return getAuthenticationService(request).getWrappedResponseIfSet(request, response);
+    }
+
+    protected DefaultAuthenticationService getAuthenticationService(HttpServletRequest request) {
+        return (DefaultAuthenticationService) request.getServletContext().getAttribute(AUTH_SERVICE);
+    }
+
+    protected AuthorizationService getAuthorizationService(HttpServletRequest request) {
+        return (AuthorizationService) request.getServletContext().getAttribute(AUTHZ_SERVICE);
+    }
+
+    @Override
+    public boolean getDenyUncoveredHttpMethods() {
+        return denyUncoveredHttpMethods;
+    }
+
+    @Override
+    public String getFormErrorPage() {
+        return formErrorPage;
+    }
+
+    @Override
+    public String getFormLoginPage() {
+        return formLoginPage;
+    }
+    
+    @Override
+    public String getRealmName() {
+        return realmName;
+    }
+
+    @Override
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    private String getServletName(HttpServletRequest request) {
+        ServletConfig servletConfig = (ServletConfig) request.getAttribute(DefaultServletEnvironment.class.getName());
+        if (servletConfig != null && servletConfig.getServletName() != null) {
+            return servletConfig.getServletName();
+        }
+
+        return "";
+    }
+
+    @Override
+    public boolean isRequestSecurityAsRequired(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        return getAuthorizationService(request).checkWebUserDataPermission(request);
+    }
+
+    @Override
+    public boolean isRequestedResourcePublic(HttpServletRequest request) {
+        return getAuthorizationService(request).checkPublicWebResourcePermission(request);
+    }
+
+    @Override
+    public boolean isCallerAuthorizedForResource(HttpServletRequest request) {
+        return getAuthorizationService(request).checkWebResourcePermission(request);
+    }
+
+    @Override
+    public boolean isUserInRole(HttpServletRequest request, String role) {
+        return getAuthorizationService(request).checkWebRoleRefPermission(getServletName(request), role);
+    }
+
+    @Override
+    public void login(HttpServletRequest request, String username, String password) throws ServletException {
+        AuthenticatedIdentity resultIdentity = usernamePasswordLoginHandler.login(request, username, password);
+
+        if (resultIdentity == null) {
+            throw new ServletException();
+        }
+        setIdentityForCurrentRequest(request, resultIdentity.getCallerPrincipal(), resultIdentity.getGroups(), "login");
     }
 
     @Override
@@ -224,19 +286,6 @@ public class ServletSecurityManager implements SecurityManager {
         this.usernamePasswordLoginHandler = usernamePasswordLoginHandler;
     }
 
-    protected DefaultAuthenticationService getAuthenticationService(HttpServletRequest request) {
-        return (DefaultAuthenticationService) request.getServletContext().getAttribute(AUTH_SERVICE);
-    }
-
-    protected AuthorizationService getAuthorizationService(HttpServletRequest request) {
-        return (AuthorizationService) request.getServletContext().getAttribute(AUTHZ_SERVICE);
-    }
-
-    @Override
-    public boolean getDenyUncoveredHttpMethods() {
-        return denyUncoveredHttpMethods;
-    }
-
     @Override
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
         this.denyUncoveredHttpMethods = denyUncoveredHttpMethods;
@@ -254,12 +303,23 @@ public class ServletSecurityManager implements SecurityManager {
         DefaultAuthenticatedIdentity.setCurrentIdentity(currentPrincipal, groups);
     }
 
-    private String getServletName(HttpServletRequest request) {
-        ServletConfig servletConfig = (ServletConfig) request.getAttribute(DefaultServletEnvironment.class.getName());
-        if (servletConfig != null && servletConfig.getServletName() != null) {
-            return servletConfig.getServletName();
-        }
+    @Override
+    public void setAuthMethod(String authMethod) {
+        this.authMethod = authMethod;
+    }
 
-        return "";
+    @Override
+    public void setFormErrorPage(String formErrorPage) {
+        this.formErrorPage = formErrorPage;
+    }    
+    
+    @Override
+    public void setFormLoginPage(String formLoginPage) {
+        this.formLoginPage = formLoginPage;
+    }
+
+    @Override
+    public void setRealmName(String realmName) {
+        this.realmName = realmName;
     }
 }

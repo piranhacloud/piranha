@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.jdk.JdkHttpServer;
 
 /**
- * The Piranha HTTP - JDK HTTP Server integration module.
+ * The HTTP JDK HttpServer integration module.
  *
  * <p>
  * This module delivers the JDK HTTP Server implementation of the HTTP engine

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,9 +27,9 @@
  */
 package cloud.piranha.extension.slim;
 
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
+import cloud.piranha.extension.standard.scinitializer.StandardServletContainerInitializerExtension;
 
 /**
  * The WebApplicationExtension that delivers the 
@@ -41,6 +41,6 @@ public class SlimExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
-        context.add(ServletContainerInitializerExtension.class);
+        context.add(StandardServletContainerInitializerExtension.class);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,12 +27,7 @@
  */
 package cloud.piranha.core.api;
 
-import java.io.IOException;
 import java.util.List;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 
 /**
  * The WelcomeFileManager API.
@@ -47,18 +42,6 @@ public interface WelcomeFileManager {
      * @param welcomeFile the welcome file.
      */
     void addWelcomeFile(String welcomeFile);
-
-    /**
-     * Process the request.
-     * 
-     * @param request the request.
-     * @param response the response.
-     * @param chain the filter chain.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a filter or servlet error occurs.
-     */
-    void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain) throws IOException, ServletException;
     
     /**
      * {@return the welcome file list}

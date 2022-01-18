@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,13 +34,8 @@ import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.mojarra.MojarraInitializer;
+import cloud.piranha.extension.standard.webxml.StandardWebXmlExtension;
 import cloud.piranha.extension.weld.WeldInitializer;
-import com.manorrock.herring.DefaultInitialContext;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
-import javax.naming.Context;
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
-import javax.naming.InitialContext;
-import org.hsqldb.jdbc.JDBCDataSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -59,18 +54,11 @@ class JPATest {
      */
     @Test
     void testIndexHtml() throws Exception {
-        System.getProperties().put(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
-        DefaultInitialContext context = new DefaultInitialContext();
-        ThreadInitialContextFactory.setInitialContext(context);
-        InitialContext initialContext = new InitialContext();
-        JDBCDataSource ds = new JDBCDataSource();
-        ds.setUrl("jdbc:hsqldb:mem:demo");
-        ds.setUser("sa");
-        initialContext.bind("jdbc/demo", ds);
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")
                 .extension(HerringExtension.class)
+                .extension(StandardWebXmlExtension.class)
                 .initializer(WeldInitializer.class.getName())
                 .initializer(MojarraInitializer.class.getName())
                 .build()
@@ -80,11 +68,9 @@ class JPATest {
                 .servletPath("/index.html")
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
-        piranha.getWebApplication().setAttribute(Context.class.getName(), context);
         piranha.service(request, response);
         assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Count: 0"));
         piranha.stop().destroy();
-        ThreadInitialContextFactory.removeInitialContext();
     }
 }

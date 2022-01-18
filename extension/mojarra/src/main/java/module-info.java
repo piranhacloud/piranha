@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Extension - Mojarra integration module.
+ * The Eclipse Mojarra integration module.
  * 
  * <p>
  *  This module delivers the integration code needed for Mojarra.
@@ -36,7 +36,6 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.mojarra {
-    
     exports cloud.piranha.extension.mojarra;
     requires static cloud.piranha.extension.wasp;
     requires jakarta.servlet;

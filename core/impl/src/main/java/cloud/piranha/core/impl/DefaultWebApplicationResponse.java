@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -53,6 +53,8 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * The default WebApplicationResponse.
@@ -181,6 +183,11 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      * Stores the response closer.
      */
     protected Runnable responseCloser;
+    
+    /**
+     * Stores the trailer fields supplier.
+     */
+    protected Supplier<Map<String,String>> trailerFields;
 
     /**
      * Constructor.
@@ -242,8 +249,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     public String encodeRedirectURL(String url) {
         String result = url;
 
-        if (webApplication.getHttpSessionManager() != null) {
-            result = webApplication.getHttpSessionManager().encodeRedirectURL(this, url);
+        if (webApplication.getManager().getHttpSessionManager() != null) {
+            result = webApplication.getManager().getHttpSessionManager().encodeRedirectURL(this, url);
         }
 
         return result;
@@ -258,8 +265,8 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     @Override
     public String encodeURL(String url) {
         String result = url;
-        if (webApplication.getHttpSessionManager() != null) {
-            result = webApplication.getHttpSessionManager().encodeURL(this, url);
+        if (webApplication.getManager().getHttpSessionManager() != null) {
+            result = webApplication.getManager().getHttpSessionManager().encodeURL(this, url);
         }
         return result;
     }
@@ -568,7 +575,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
                 return;
             }
             if (!gotWriter && !characterEncodingSet) {
-                LocaleEncodingManager localeEncodingManager = webApplication.getLocaleEncodingManager();
+                LocaleEncodingManager localeEncodingManager = webApplication.getManager().getLocaleEncodingManager();
                 if (localeEncodingManager != null) {
                     String encoding = localeEncodingManager.getCharacterEncoding(locale.toString());
                     if (encoding == null) { 
@@ -849,6 +856,36 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     }
 
     @Override
+    public Runnable getResponseCloser() {
+        return responseCloser;
+    }
+    
+    @Override
+    public Supplier<Map<String,String>> getTrailerFields() {
+        return trailerFields;
+    }
+
+    @Override
+    public void setResponseCloser(Runnable responseCloser) {
+        this.responseCloser = responseCloser;
+    }
+
+    @Override
+    public void setTrailerFields(Supplier<Map<String,String>> trailerFields) {
+        if (isCommitted()) {
+            throw new IllegalStateException("Response is already committed");
+        }
+        HttpServletRequest httpServletRequest = (HttpServletRequest) webApplication.getRequest(this);
+        if (httpServletRequest == null) {
+            throw new IllegalStateException("Not supported on this type of ServletRequest");
+        }
+        if (httpServletRequest.getProtocol().equalsIgnoreCase("HTTP/1.0")) {
+            throw new IllegalStateException("Not supported with HTTP/1.0 protocol");
+        }
+        this.trailerFields = trailerFields;
+    }
+    
+    @Override
     public void writeStatusLine() throws IOException {
         outputStream.write("HTTP/1.1".getBytes());
         outputStream.write(" ".getBytes());
@@ -858,15 +895,5 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
             outputStream.write(getStatusMessage().getBytes());
         }
         outputStream.write("\n".getBytes());
-    }
-
-    @Override
-    public Runnable getResponseCloser() {
-        return responseCloser;
-    }
-
-    @Override
-    public void setResponseCloser(Runnable responseCloser) {
-        this.responseCloser = responseCloser;
     }
 }

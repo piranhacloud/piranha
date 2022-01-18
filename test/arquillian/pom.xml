@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
-        <version>22.1.0-SNAPSHOT</version>
+        <version>22.2.0-SNAPSHOT</version>
     </parent>
 
     <groupId>cloud.piranha.test.arquillian</groupId>
@@ -17,6 +17,7 @@
 
     <modules>
         <module>servlet-basic</module>
+        <module>config-basic</module>
     </modules>
 
     <properties>

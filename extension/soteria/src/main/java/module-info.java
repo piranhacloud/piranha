@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,17 +27,19 @@
  */
 
 /**
- * The Piranha Extension - Glassfish Soteria module.
- * 
+ * The Eclipse Soteria integration module.
+ *
  * <p>
- *  This module delivers Glassfish Soteria integration into Piranha.
+ *  This module integrates Eclipse Soteria into Piranha. See 
+ *  https://github.com/eclipse-ee4j/soteria for more information about its
+ *  project.
  * </p>
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.soteria {
     exports cloud.piranha.extension.soteria;
-    requires cloud.piranha.extension.webxml;
+    opens cloud.piranha.extension.soteria;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires jakarta.inject;

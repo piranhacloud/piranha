@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -223,7 +223,7 @@ public class DefaultAsyncContext implements AsyncContext {
         dispatched = true;
 
         WebApplication webApplication = (WebApplication) servletContext;
-        AsyncManager asyncManager = webApplication.getManager(AsyncManager.class);
+        AsyncManager asyncManager = webApplication.getManager().getAsyncManager();
         asyncManager.getDispatcher(webApplication, path, asyncStartRequest, asyncStartResponse)
                 .dispatch();
     }

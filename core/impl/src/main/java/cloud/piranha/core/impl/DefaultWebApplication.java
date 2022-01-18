@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,25 +28,11 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.resource.api.Resource;
-import cloud.piranha.resource.api.ResourceManager;
-import cloud.piranha.resource.impl.DefaultResourceManager;
 import cloud.piranha.core.api.AnnotationInfo;
-import cloud.piranha.core.api.AnnotationManager;
-import cloud.piranha.core.api.AsyncManager;
-import cloud.piranha.core.api.HttpRequestManager;
-import cloud.piranha.core.api.HttpSessionManager;
-import cloud.piranha.core.api.JspManager;
-import cloud.piranha.core.api.LocaleEncodingManager;
-import cloud.piranha.core.api.LoggingManager;
-import cloud.piranha.core.api.MimeTypeManager;
-import cloud.piranha.core.api.MultiPartManager;
-import cloud.piranha.core.api.ObjectInstanceManager;
-import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.ServletEnvironment;
 import static cloud.piranha.core.api.ServletEnvironment.UNAVAILABLE;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequestMapper;
-import cloud.piranha.core.api.WelcomeFileManager;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterRegistration;
@@ -106,6 +92,7 @@ import static java.util.function.Predicate.not;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toSet;
 import java.util.stream.Stream;
+import cloud.piranha.core.api.WebApplicationManager;
 
 /**
  * The default WebApplication.
@@ -166,12 +153,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the piranha.response constant
      */
     private static final String PIRANHA_RESPONSE = "piranha.response";
-    
-    /**
-     * Stores the annotation manager.
-     */
-    protected AnnotationManager annotationManager;
-
+        
     /**
      * Stores the attributes.
      */
@@ -277,75 +259,20 @@ public class DefaultWebApplication implements WebApplication {
     protected final List<ServletRequestListener> requestListeners;
 
     /**
-     * Stores the resource manager.
-     */
-    protected ResourceManager resourceManager;
-
-    /**
-     * Stores the session manager.
-     */
-    protected HttpSessionManager httpSessionManager;
-
-    /**
-     * Stores the error page manager
-     */
-    protected DefaultErrorPageManager errorPageManager;
-
-    /**
-     * Stores the request manager.
-     */
-    protected HttpRequestManager httpRequestManager;
-
-    /**
      * Stores the invocation finder, which finds a Servlet, Filter(chain) and
      * variants thereof to invoke for a given request path.
      */
     protected DefaultInvocationFinder invocationFinder;
     
     /**
-     * Stores the locale encoding manager.
-     */
-    protected LocaleEncodingManager localeEncodingManager;
-    
-    /**
-     * Stores the logging manager.
-     */
-    protected LoggingManager loggingManager;
-
-    /**
-     * Stores the managers.
-     */
-    protected HashMap<String, Object> managers;
-    
-    /**
      * Stores the metadata complete flag.
      */
     protected boolean metadataComplete;
-
-    /**
-     * Stores the mime-type manager.
-     */
-    protected MimeTypeManager mimeTypeManager;
     
-    /**
-     * Stores the multi-part manager.
-     */
-    protected MultiPartManager multiPartManager;
-    
-    /**
-     * Stores the object instance manager.
-     */
-    protected ObjectInstanceManager objectInstanceManager;
-
     /**
      * Stores the request character encoding.
      */
     protected String requestCharacterEncoding;
-    
-    /**
-     * Stores the security manager.
-     */
-    protected SecurityManager securityManager;
 
     /**
      * The source object where this web application instance originates from,
@@ -370,17 +297,14 @@ public class DefaultWebApplication implements WebApplication {
     protected WebApplicationRequestMapper webApplicationRequestMapper;
     
     /**
-     * Stores the JSP manager.
+     * Stores the web application manager.
      */
-    protected JspManager jspManager;
+    protected WebApplicationManager manager;
 
     /**
      * Constructor.
      */
     public DefaultWebApplication() {
-        managers = new HashMap<>();
-        managers.put(AsyncManager.class.getName(), new DefaultAsyncManager());
-        managers.put(WelcomeFileManager.class.getName(), new DefaultWelcomeFileManager());
         attributes = new HashMap<>(1);
         classLoader = getClass().getClassLoader();
         contextAttributeListeners = new ArrayList<>(1);
@@ -388,22 +312,16 @@ public class DefaultWebApplication implements WebApplication {
         contextListeners = new ArrayList<>(1);
         contextPath = "";
         filters = new LinkedHashMap<>(1);
-        httpSessionManager = new DefaultHttpSessionManager();
-        httpSessionManager.setWebApplication(this);
-        httpSessionManager.addListener((DefaultHttpSessionManager) httpSessionManager);
         requestListeners = new ArrayList<>(1);
-        requestListeners.add((DefaultHttpSessionManager) httpSessionManager);
-        httpRequestManager = new DefaultHttpRequestManager();
         initParameters = new ConcurrentHashMap<>(1);
         initializers = new ArrayList<>(1);
-        resourceManager = new DefaultResourceManager();
         responses = new ConcurrentHashMap<>(1);
-        errorPageManager = new DefaultErrorPageManager();
-        objectInstanceManager = new DefaultObjectInstanceManager();
         invocationFinder = new DefaultInvocationFinder(this);
         servletContextName = UUID.randomUUID().toString();
         servletEnvironments = new LinkedHashMap<>();
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
+        manager = new DefaultWebApplicationManager();
+        manager.getHttpSessionManager().setWebApplication(this);
     }
 
     @Override
@@ -492,7 +410,9 @@ public class DefaultWebApplication implements WebApplication {
         if (isEmpty(servletName)) {
             throw new IllegalArgumentException("Servlet name cannot be null or empty");
         }
-        return jspManager != null ? jspManager.addJspFile(this, servletName, jspFile) : null;
+        return manager.getJspManager() != null 
+                ? manager.getJspManager().addJspFile(this, servletName, jspFile)
+                : null;
     }
 
     @SuppressWarnings("unchecked")
@@ -553,22 +473,22 @@ public class DefaultWebApplication implements WebApplication {
             requestListeners.add(servletRequestListener);
         }
         if (listener instanceof ServletRequestAttributeListener servletRequestAttributeListener) {
-            httpRequestManager.addListener(servletRequestAttributeListener);
+            getManager().getHttpRequestManager().addListener(servletRequestAttributeListener);
         }
         if (listener instanceof HttpSessionAttributeListener) {
-            httpSessionManager.addListener(listener);
+            getManager().getHttpSessionManager().addListener(listener);
         }
         if (listener instanceof HttpSessionIdListener) {
-            httpSessionManager.addListener(listener);
+            getManager().getHttpSessionManager().addListener(listener);
         }
         if (listener instanceof HttpSessionListener) {
-            httpSessionManager.addListener(listener);
+            getManager().getHttpSessionManager().addListener(listener);
         }
     }
 
     @Override
     public void addResource(Resource resource) {
-        resourceManager.addResource(resource);
+        getManager().getResourceManager().addResource(resource);
     }
 
     @Override
@@ -627,26 +547,16 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public void addErrorPage(int code, String location) {
-        errorPageManager.getErrorPagesByCode().put(code, location);
-    }
-
-    @Override
-    public void addErrorPage(String exception, String location) {
-        errorPageManager.getErrorPagesByException().put(exception, location);
-    }
-
-    @Override
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
         checkTainted();
-        return objectInstanceManager.createFilter(filterClass);
+        return manager.getObjectInstanceManager().createFilter(filterClass);
     }
 
     @Override
     public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
         checkTainted();
 
-        T result = objectInstanceManager.createListener(clazz);
+        T result = manager.getObjectInstanceManager().createListener(clazz);
         boolean ok = false;
         if (result instanceof ServletContextListener || result instanceof ServletContextAttributeListener || result instanceof ServletRequestListener
                 || result instanceof ServletRequestAttributeListener || result instanceof HttpSessionAttributeListener
@@ -665,24 +575,16 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public <T extends Servlet> T createServlet(Class<T> servletClass) throws ServletException {
         checkTainted();
-        return objectInstanceManager.createServlet(servletClass);
+        return manager.getObjectInstanceManager().createServlet(servletClass);
     }
 
-    /**
-     * Declare roles.
-     *
-     * @param roles the roles.
-     */
     @Override
     public void declareRoles(String... roles) {
-        if (securityManager != null) {
-            securityManager.declareRoles(roles);
+        if (manager.getSecurityManager() != null) {
+            manager.getSecurityManager().declareRoles(roles);
         }
     }
 
-    /**
-     * Destroy the web application.
-     */
     @Override
     public void destroy() {
         verifyState(INITIALIZED, "Unable to destroy web application");
@@ -701,11 +603,6 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public AnnotationManager getAnnotationManager() {
-        return annotationManager;
-    }
-
-    @Override
     public Object getAttribute(String name) {
         Objects.requireNonNull(name);
         return attributes.get(name);
@@ -717,29 +614,15 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public boolean getDenyUncoveredHttpMethods() {
-        return securityManager != null ? securityManager.getDenyUncoveredHttpMethods() : false;
-    }
-
-    @Override
     public ClassLoader getClassLoader() {
         return classLoader;
     }
 
-    /**
-     * Get the servlet context for the given uripath.
-     *
-     * @param uripath the uripath.
-     * @return the servlet context.
-     */
     @Override
     public ServletContext getContext(String uripath) {
         return null;
     }
 
-    /**
-     * {@return the context path}
-     */
     @Override
     public String getContextPath() {
         return contextPath;
@@ -748,8 +631,7 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
         checkTainted();
-
-        return httpSessionManager.getDefaultSessionTrackingModes();
+        return getManager().getHttpSessionManager().getDefaultSessionTrackingModes();
     }
 
     @Override
@@ -760,25 +642,18 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public int getEffectiveMajorVersion() {
         checkTainted();
-
         if (effectiveMajorVersion == -1) {
             return getMajorVersion();
         }
-
         return effectiveMajorVersion;
     }
 
-    /**
-     * {@return the effective minor version}
-     */
     @Override
     public int getEffectiveMinorVersion() {
         checkTainted();
-
         if (effectiveMinorVersion == -1) {
             return getMinorVersion();
         }
-
         return effectiveMinorVersion;
     }
 
@@ -794,55 +669,29 @@ public class DefaultWebApplication implements WebApplication {
 
     }
 
-    /**
-     * {@return the effective tracking modes}
-     */
     @Override
     public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
         checkTainted();
-
-        return httpSessionManager.getEffectiveSessionTrackingModes();
+        return getManager().getHttpSessionManager().getEffectiveSessionTrackingModes();
     }
 
-    /**
-     * Get the filter registration.
-     *
-     * @param filterName the filter name.
-     * @return the filter registration, or null if not found.
-     */
     @Override
     public FilterRegistration getFilterRegistration(String filterName) {
         checkTainted();
-
         return filters.get(filterName);
     }
 
-    /**
-     * {@return the filter registrations}
-     */
     @Override
     public Map<String, ? extends FilterRegistration> getFilterRegistrations() {
         checkTainted();
-
         return unmodifiableMap(filters);
     }
 
-    /**
-     * Get the init parameter.
-     *
-     * @param name the init parameter name.
-     * @return the init parameter value.
-     */
     @Override
     public String getInitParameter(String name) {
         return initParameters.get(name);
     }
 
-    /**
-     * Get the init parameter names.
-     *
-     * @return the enumeration.
-     */
     @Override
     public Enumeration<String> getInitParameterNames() {
         return enumeration(initParameters.keySet());
@@ -856,14 +705,11 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
         checkTainted();
-        return jspManager != null ? jspManager.getJspConfigDescriptor() : null;
+        return manager.getJspManager() != null 
+                ? manager.getJspManager().getJspConfigDescriptor()
+                : null;
     }
     
-    @Override
-    public JspManager getJspManager() {
-        return jspManager;
-    }
-
     /**
      * {@return the major version}
      */
@@ -879,14 +725,9 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public String getMimeType(String filename) {
-        return mimeTypeManager != null 
-                ? mimeTypeManager.getMimeType(filename)
+        return manager.getMimeTypeManager() != null 
+                ? manager.getMimeTypeManager().getMimeType(filename)
                 : null;
-    }
-
-    @Override
-    public MimeTypeManager getMimeTypeManager() {
-        return mimeTypeManager;
     }
 
     @Override
@@ -894,16 +735,6 @@ public class DefaultWebApplication implements WebApplication {
         return 0;
     }
     
-    @Override
-    public MultiPartManager getMultiPartManager() {
-        return multiPartManager;
-    }
-    
-    @Override
-    public ObjectInstanceManager getObjectInstanceManager() {
-        return objectInstanceManager;
-    }
-
     @Override
     public String getRealPath(String path) {
         String realPath = null;
@@ -963,7 +794,7 @@ public class DefaultWebApplication implements WebApplication {
             throw new MalformedURLException("Location " + location + " must start with a /");
         }
 
-        return resourceManager.getResource(location);
+        return getManager().getResourceManager().getResource(location);
     }
 
     /**
@@ -974,7 +805,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public InputStream getResourceAsStream(String location) {
-        return resourceManager.getResourceAsStream(location);
+        return getManager().getResourceManager().getResourceAsStream(location);
     }
 
     /**
@@ -1025,7 +856,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     private Set<String> getResourcePathsImpl(String path) {
         Set<String> collect
-                = resourceManager.getAllLocations()
+                = getManager().getResourceManager().getAllLocations()
                         .filter(resource -> resource.startsWith(path))
                         .filter(not(isEqual(path)))
                         .map(resource -> getFileOrFirstFolder(path, resource))
@@ -1127,54 +958,28 @@ public class DefaultWebApplication implements WebApplication {
         return unmodifiableMap(servletEnvironments);
     }
 
-    /**
-     * Get the servlets.
-     *
-     * @return the servlets (empty enumeration).
-     * @deprecated
-     */
     @Deprecated
     @Override
     public Enumeration<Servlet> getServlets() {
         throw new UnsupportedOperationException("ServletContext.getServlets() is no longer supported");
     }
 
-    /**
-     * {@return the session cookie config}
-     */
     @Override
     public SessionCookieConfig getSessionCookieConfig() {
         checkTainted();
-        return httpSessionManager.getSessionCookieConfig();
+        return getManager().getHttpSessionManager().getSessionCookieConfig();
     }
 
-    /**
-     * {@return the default session timeout}
-     */
     @Override
     public int getSessionTimeout() {
-        return httpSessionManager.getSessionTimeout();
+        return getManager().getHttpSessionManager().getSessionTimeout();
     }
 
-    /**
-     * {@return the session manager}
-     */
-    @Override
-    public HttpSessionManager getHttpSessionManager() {
-        return httpSessionManager;
-    }
-
-    /**
-     * {@return the virtual server name}
-     */
     @Override
     public String getVirtualServerName() {
         return virtualServerName;
     }
 
-    /**
-     * Initialize the web application.
-     */
     @Override
     public void initialize() {
         LOGGER.log(DEBUG, "Initializing web application at {0}", contextPath);
@@ -1191,9 +996,6 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    /**
-     * Finish the initialization.
-     */
     @Override
     public void initializeDeclaredFinish() {
         if (status == SETUP) {
@@ -1251,10 +1053,13 @@ public class DefaultWebApplication implements WebApplication {
                 if (annotation != null) {
                     Class<?>[] value = annotation.value();
                     // Get instances
-                    Stream<Class<?>> instances = annotationManager.getInstances(value).stream();
+                    Stream<Class<?>> instances = manager.getAnnotationManager()
+                            .getInstances(value).stream();
 
                     // Get classes by target type
-                    List<AnnotationInfo> annotations = annotationManager.getAnnotations(value);
+                    List<AnnotationInfo> annotations = manager.getAnnotationManager()
+                            .getAnnotations(value);
+                    
                     Stream<Class<?>> classStream = annotations.stream().map(AnnotationInfo::getTargetType);
 
                     classes = Stream.concat(instances, classStream).collect(Collectors.toUnmodifiableSet());
@@ -1402,20 +1207,22 @@ public class DefaultWebApplication implements WebApplication {
     @Deprecated
     @Override
     public void log(Exception exception, String message) {
-        throw new UnsupportedOperationException("ServletContext.log(Exception, String) is no longer supported");
+        if (manager.getLoggingManager() != null) {
+            manager.getLoggingManager().log(message, exception);
+        }
     }
 
     @Override
     public void log(String message, Throwable throwable) {
-        if (loggingManager != null) {
-            loggingManager.log(message, throwable);
+        if (manager.getLoggingManager() != null) {
+            manager.getLoggingManager().log(message, throwable);
         }
     }
 
     @Override
     public void log(String message) {
-        if (loggingManager != null) {
-            loggingManager.log(message);
+        if (manager.getLoggingManager() != null) {
+            manager.getLoggingManager().log(message);
         }
     }
 
@@ -1429,14 +1236,6 @@ public class DefaultWebApplication implements WebApplication {
         attributeRemoved(name, attributes.remove(name));
     }
 
-    /**
-     * Service the request using this web application.
-     *
-     * @param request the servlet request.
-     * @param response the servlet response.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a servlet error occurs.
-     */
     @Override
     public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
         verifyState(SERVICING, "Unable to service request");
@@ -1467,22 +1266,6 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
     
-    /**
-     * Set the annotation manager.
-     * 
-     * @param annotationManager the annotation manager.
-     */
-    @Override
-    public void setAnnotationManager(AnnotationManager annotationManager) {
-        this.annotationManager = annotationManager;
-    }
-
-    /**
-     * Set the attribute.
-     *
-     * @param name the attribute name.
-     * @param value the attribute value.
-     */
     @Override
     public void setAttribute(String name, Object value) {
         Objects.requireNonNull(name);
@@ -1502,82 +1285,34 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    /**
-     * Set the class-loader.
-     *
-     * @param classLoader the class loader.
-     */
     @Override
     public void setClassLoader(ClassLoader classLoader) {
         this.classLoader = classLoader;
     }
 
-    /**
-     * Set the context path.
-     *
-     * @param contextPath the context path.
-     */
     @Override
     public void setContextPath(String contextPath) {
         LOGGER.log(DEBUG, "Setting context path to: {0}", contextPath);
         this.contextPath = contextPath;
     }
 
-    /**
-     * @see WebApplication#setDefaultServlet(jakarta.servlet.Servlet)
-     */
     @Override
     public void setDefaultServlet(Servlet defaultServlet) {
         this.defaultServlet = defaultServlet;
     }
 
-    /**
-     * Set if we are denying uncovered HTTP methods.
-     *
-     * @param denyUncoveredHttpMethods the boolean value.
-     */
-    @Override
-    public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
-        if (securityManager != null) {
-            securityManager.setDenyUncoveredHttpMethods(denyUncoveredHttpMethods);
-        }
-    }
-
-    /**
-     * Set if the web application is distributable.
-     *
-     * @param distributable the boolean value.
-     */
     @Override
     public void setDistributable(boolean distributable) {
         this.distributable = distributable;
     }
 
     @Override
-    public HttpRequestManager getHttpRequestManager() {
-        return httpRequestManager;
-    }
-
-    @Override
-    public void setHttpRequestManager(HttpRequestManager httpRequestManager) {
-        this.httpRequestManager = httpRequestManager;
-    }
-
-    @Override
-    public void setHttpSessionManager(HttpSessionManager httpSessionManager) {
-        this.httpSessionManager = httpSessionManager;
-    }
-
-    @Override
     public boolean setInitParameter(String name, String value) {
         requireNonNull(name);
-
         checkTainted();
-
         if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Cannot set init parameter once web application is initialized");
         }
-
         boolean result = true;
         if (initParameters.containsKey(name)) {
             result = false;
@@ -1586,88 +1321,36 @@ public class DefaultWebApplication implements WebApplication {
         }
         return result;
     }
-    
-    @Override
-    public void setJspManager(JspManager jspManager) {
-        this.jspManager = jspManager;
-    }
 
-    @Override
-    public void setMimeTypeManager(MimeTypeManager mimeTypeManager) {
-        this.mimeTypeManager = mimeTypeManager;
-    }
-    
-    @Override
-    public void setMultiPartManager(MultiPartManager multiPartManager) {
-        this.multiPartManager = multiPartManager;
-    }
-
-    @Override
-    public void setObjectInstanceManager(ObjectInstanceManager objectInstanceManager) {
-        this.objectInstanceManager = objectInstanceManager;
-    }
-    
     @Override
     public void setRequestCharacterEncoding(String requestCharacterEncoding) {
         this.requestCharacterEncoding = requestCharacterEncoding;
     }
 
-    /**
-     * Set the resource manager.
-     *
-     * @param resourceManager the resource manager.
-     */
-    @Override
-    public void setResourceManager(ResourceManager resourceManager) {
-        this.resourceManager = resourceManager;
-    }
-
-    /**
-     * Set the default response character encoding.
-     *
-     * @param responseCharacterEncoding the default response character encoding.
-     */
     @Override
     public void setResponseCharacterEncoding(String responseCharacterEncoding) {
         this.responseCharacterEncoding = responseCharacterEncoding;
     }
 
-    /**
-     * Set the servlet context name.
-     *
-     * @param servletContextName the servlet context name.
-     */
     @Override
     public void setServletContextName(String servletContextName) {
         this.servletContextName = servletContextName;
     }
 
-    /**
-     * Set the session tracking modes.
-     *
-     * @param sessionTrackingModes the session tracking modes.
-     */
     @Override
     public void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) {
         checkTainted();
-
         checkServicing();
-
-        httpSessionManager.setSessionTrackingModes(sessionTrackingModes);
+        getManager().getHttpSessionManager().setSessionTrackingModes(sessionTrackingModes);
     }
 
-    /**
-     * Set the default session timeout.
-     *
-     * @param sessionTimeout the default session timeout.
-     */
     @Override
     public void setSessionTimeout(int sessionTimeout) {
         checkTainted();
         if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException("Illegal to set session timeout because state is not SETUP");
         }
-        httpSessionManager.setSessionTimeout(sessionTimeout);
+        getManager().getHttpSessionManager().setSessionTimeout(sessionTimeout);
     }
 
     /**
@@ -1679,19 +1362,11 @@ public class DefaultWebApplication implements WebApplication {
         this.virtualServerName = virtualServerName;
     }
 
-    /**
-     * Set the web application request mapper.
-     *
-     * @param webApplicationRequestMapper the web application request mapper.
-     */
     @Override
     public void setWebApplicationRequestMapper(WebApplicationRequestMapper webApplicationRequestMapper) {
         this.webApplicationRequestMapper = webApplicationRequestMapper;
     }
 
-    /**
-     * Start servicing.
-     */
     @Override
     public void start() {
         LOGGER.log(DEBUG, "Starting web application at {0}", contextPath);
@@ -1700,9 +1375,6 @@ public class DefaultWebApplication implements WebApplication {
         LOGGER.log(DEBUG, "Started web application at {0}", contextPath);
     }
 
-    /**
-     * Stop servicing.
-     */
     @Override
     public void stop() {
         LOGGER.log(DEBUG, "Stopping web application at {0}", contextPath);
@@ -1711,22 +1383,12 @@ public class DefaultWebApplication implements WebApplication {
         LOGGER.log(DEBUG, "Stopped web application at {0}", contextPath);
     }
 
-    /**
-     * Unlink the request and response.
-     *
-     * @param request the request.
-     * @param response the response.
-     */
     @Override
     public void unlinkRequestAndResponse(ServletRequest request, ServletResponse response) {
         request.removeAttribute(PIRANHA_RESPONSE);
         responses.remove(response);
     }
 
-    /**
-     * {@return the request dispatcher}
-     * @param path the path.
-     */
     @Override
     public DefaultServletRequestDispatcher getRequestDispatcher(String path) {
         try {
@@ -1742,12 +1404,6 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    /**
-     * Get the name request dispatcher.
-     *
-     * @param name the name.
-     * @return the request dispatcher.
-     */
     @Override
     public RequestDispatcher getNamedDispatcher(String name) {
         DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByName(name);
@@ -1817,26 +1473,6 @@ public class DefaultWebApplication implements WebApplication {
         return new DefaultServletRequestDispatcher(servletInvocation, this);
     }
 
-    @Override
-    public LocaleEncodingManager getLocaleEncodingManager() {
-        return localeEncodingManager;
-    }
-
-    @Override
-    public LoggingManager getLoggingManager() {
-        return loggingManager;
-    }
-
-    @Override
-    public <T> T getManager(Class<T> clazz) {
-        return clazz.cast(managers.get(clazz.getName()));
-    }
-
-    @Override
-    public SecurityManager getSecurityManager() {
-        return securityManager;
-    }
-
     /**
      * Is the string null or empty.
      *
@@ -1884,28 +1520,8 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager) {
-        this.localeEncodingManager = localeEncodingManager;
-    }
-
-    @Override
-    public void setLoggingManager(LoggingManager loggingManager) {
-        this.loggingManager = loggingManager;
-    }
-
-    @Override
-    public <T> void setManager(Class<T> clazz, T manager) {
-        managers.put(clazz.getName(), manager);
-    }
-    
-    @Override
     public void setMetadataComplete(boolean metadataComplete) {
         this.metadataComplete = metadataComplete;
-    }
-
-    @Override
-    public void setSecurityManager(SecurityManager securityManager) {
-        this.securityManager = securityManager;
     }
 
     /**
@@ -1931,5 +1547,10 @@ public class DefaultWebApplication implements WebApplication {
         if (status != desiredStatus) {
             throw new RuntimeException(message);
         }
+    }
+    
+    @Override
+    public WebApplicationManager getManager() {
+        return manager;
     }
 }

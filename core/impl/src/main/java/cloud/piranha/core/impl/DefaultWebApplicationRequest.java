@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,6 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.AttributeManager;
 import cloud.piranha.core.api.HttpHeaderManager;
 import cloud.piranha.core.api.HttpSessionManager;
-import cloud.piranha.core.api.MultiPartManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import static cloud.piranha.core.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
@@ -206,11 +205,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the multipart config.
      */
     protected MultipartConfigElement multipartConfig;
-    
-    /**
-     * Stores the multipart manager.
-     */
-    protected MultiPartManager multipartManager;
 
     /**
      * Stores the parameters.
@@ -380,15 +374,17 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
         boolean authenticated = false;
-        if (webApplication.getSecurityManager() != null) {
-            authenticated = webApplication.getSecurityManager().authenticate(this, response);
+        if (webApplication.getManager().getSecurityManager() != null) {
+            authenticated = webApplication.getManager().getSecurityManager().authenticate(this, response);
         }
         return authenticated;
     }
 
     @Override
     public String changeSessionId() {
-        currentSessionId = webApplication.getHttpSessionManager().changeSessionId(this);
+        if (webApplication.getManager().getHttpSessionManager() != null) {
+            currentSessionId = webApplication.getManager().getHttpSessionManager().changeSessionId(this);
+        }
         return currentSessionId;
     }
 
@@ -740,17 +736,17 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Part getPart(String name) throws IOException, ServletException {
         verifyMultipartFormData();
-        return multipartManager != null 
-                ? multipartManager.getPart(webApplication, this, name) 
+        return webApplication.getManager().getMultiPartManager() != null 
+                ? webApplication.getManager().getMultiPartManager().getPart(webApplication, this, name) 
                 : null;
     }
 
     @Override
     public Collection<Part> getParts() throws IOException, ServletException {
         verifyMultipartFormData();
-        return multipartManager != null
-                ? multipartManager.getParts(webApplication, this)
-                : Collections.EMPTY_LIST;
+        return webApplication.getManager().getMultiPartManager() != null
+                ? webApplication.getManager().getMultiPartManager().getParts(webApplication, this)
+                : Collections.emptyList();
     }
 
     @Override
@@ -898,12 +894,12 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     @Override
     public HttpSession getSession(boolean create) {
-        if (webApplication == null) {
+        if (webApplication == null || webApplication.getManager().getHttpSessionManager() == null) {
             return null;
         }
 
         HttpSession session = null;
-        HttpSessionManager manager = webApplication.getHttpSessionManager();
+        HttpSessionManager manager = webApplication.getManager().getHttpSessionManager();
         if (currentSessionId == null && requestedSessionId != null) {
             currentSessionId = requestedSessionId;
         }
@@ -957,8 +953,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public boolean isRequestedSessionIdValid() {
         boolean result = false;
-        if (requestedSessionId != null) {
-            HttpSessionManager manager = webApplication.getHttpSessionManager();
+        if (requestedSessionId != null && webApplication.getManager().getHttpSessionManager() != null) {
+            HttpSessionManager manager = webApplication.getManager().getHttpSessionManager();
             result = manager.hasSession(requestedSessionId);
         }
         return result;
@@ -977,23 +973,23 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public boolean isUserInRole(String role) {
         boolean userInRole = false;
-        if (webApplication.getSecurityManager() != null) {
-            userInRole = webApplication.getSecurityManager().isUserInRole(this, role);
+        if (webApplication.getManager().getSecurityManager() != null) {
+            userInRole = webApplication.getManager().getSecurityManager().isUserInRole(this, role);
         }
         return userInRole;
     }
 
     @Override
     public void login(String username, String password) throws ServletException {
-        if (webApplication.getSecurityManager() != null) {
-            webApplication.getSecurityManager().login(this, username, password);
+        if (webApplication.getManager().getSecurityManager() != null) {
+            webApplication.getManager().getSecurityManager().login(this, username, password);
         }
     }
 
     @Override
     public void logout() throws ServletException {
-        if (webApplication.getSecurityManager() != null) {
-            webApplication.getSecurityManager().logout(this, 
+        if (webApplication.getManager().getSecurityManager() != null) {
+            webApplication.getManager().getSecurityManager().logout(this, 
                     (HttpServletResponse) webApplication.getResponse(this));
         }
     }
@@ -1002,8 +998,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void removeAttribute(String name) {
         Object oldValue = attributeManager.getAttribute(name);
         attributeManager.removeAttribute(name);
-        if (webApplication != null && webApplication.getHttpRequestManager() != null) {
-            webApplication.getHttpRequestManager().attributeRemoved(this, name, oldValue);
+        if (webApplication != null && webApplication.getManager().getHttpRequestManager() != null) {
+            webApplication.getManager().getHttpRequestManager().attributeRemoved(this, name, oldValue);
         }
     }
 
@@ -1026,18 +1022,18 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
             }
 
             attributeManager.setAttribute(name, value);
-            if (webApplication != null && webApplication.getHttpRequestManager() != null) {
+            if (webApplication != null && webApplication.getManager().getHttpRequestManager() != null) {
                 if (!added) {
-                    webApplication.getHttpRequestManager().attributeAdded(this, name, value);
+                    webApplication.getManager().getHttpRequestManager().attributeAdded(this, name, value);
                 } else {
-                    webApplication.getHttpRequestManager().attributeReplaced(this, name, oldValue);
+                    webApplication.getManager().getHttpRequestManager().attributeReplaced(this, name, oldValue);
                 }
             }
         } else {
             Object oldValue = attributeManager.getAttribute(name);
             attributeManager.removeAttribute(name);
-            if (webApplication != null && webApplication.getHttpRequestManager() != null) {
-                webApplication.getHttpRequestManager().attributeRemoved(this, name, oldValue);
+            if (webApplication != null && webApplication.getManager().getHttpRequestManager() != null) {
+                webApplication.getManager().getHttpRequestManager().attributeRemoved(this, name, oldValue);
             }
         }
     }

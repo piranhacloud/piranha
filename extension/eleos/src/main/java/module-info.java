@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,20 +27,20 @@
  */
 
 /**
- * The Piranha Extension - OmniFaces Eleos integration module.
+ * The OmniFaces Eleos integration module.
  *
  * <p>
- *  This module delivers OmniFaces Eleos integration into Piranha.
+ *  This module integrates OmniFaces Eleos into Piranha. See 
+ *  https://github.com/omnifaces/eleos for more information about its project.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.eleos {
-
     exports cloud.piranha.extension.eleos;
+    opens cloud.piranha.extension.eleos;
     requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
     requires jakarta.security.auth.message;
     requires org.omnifaces.eleos;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.core.impl;
 }

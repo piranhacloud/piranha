@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,19 +27,19 @@
  */
 
 /**
- * The Slim extension.
+ * The slim extension module.
  *
  * <p>
  *  This module delivers the Slim extension which in turn enables the following
- *  support:
+ *  etensions:
  * </p>
  * <ul>
- *  <li>ServletContainerInitializer support</li>
+ *  <li>ServletContainerInitializer</li>
  * </ul>
  */
 module cloud.piranha.extension.slim {
     exports cloud.piranha.extension.slim;
     opens cloud.piranha.extension.slim;
     requires cloud.piranha.core.api;
-    requires transitive cloud.piranha.extension.scinitializer;
+    requires transitive cloud.piranha.extension.standard.scinitializer;
 }

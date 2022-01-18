@@ -2,16 +2,31 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
-        <version>22.1.0-SNAPSHOT</version>
+        <version>22.2.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>piranha-extension-soteria</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Soteria</name>
+
+    <name>Piranha - Extension - Eclipse Soteria</name>
+
     <dependencies>
         <!-- compile -->
+        <dependency>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.glassfish.soteria</groupId>
             <artifactId>soteria.spi.bean.decorator.weld</artifactId>
@@ -21,24 +36,6 @@
             <groupId>org.glassfish.soteria</groupId>
             <artifactId>jakarta.security.enterprise</artifactId>
             <scope>compile</scope>
-        </dependency>
-        <!-- provided -->
-        <dependency>
-            <groupId>cloud.piranha.core</groupId>
-            <artifactId>piranha-core-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-webxml</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.enterprise</groupId>
-            <artifactId>jakarta.enterprise.cdi-api</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

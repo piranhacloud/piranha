@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -78,7 +78,7 @@ import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.DefaultAnnotationManager;
+import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanAnnotationManager;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Priority;
@@ -188,8 +188,8 @@ public class MicroInnerDeployer {
             Index index = getIndex();
 
             // Target of annotations
-            AnnotationManager annotationManager = new DefaultAnnotationManager();
-            webApplication.setAnnotationManager(annotationManager);
+            AnnotationManager annotationManager = new StandardAnnotationScanAnnotationManager();
+            webApplication.getManager().setAnnotationManager(annotationManager);
             
 
             // Copy annotations from our "annotations" collection from source index to target manager

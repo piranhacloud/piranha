@@ -14,6 +14,7 @@ The release process described below uses the 'current' branch. For patch release
     1. Apply whatever fixes are needed (keep git diff copies)
     1. Commit and push them to release-X.Y.Z branch
     1. Redo steps #2 - #5
+1. On the current branch update the POMs to point to the next SNAPSHOT version
 
 ## On the 13th of the month
 
@@ -37,5 +38,6 @@ The release process described below uses the 'current' branch. For patch release
 
 ## Patch releases
 
-If you are creating a patch release against a LTS branch please follow all the
-steps above (without waiting a day in between).
+If you are creating a patch release against a branch please follow all the
+steps above and replace current with the branch you are patching against where 
+appropriate (without waiting a day in between).

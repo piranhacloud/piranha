@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -107,11 +107,6 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
     private final String path;
 
     /**
-     * Stores the error page manager.
-     */
-    private final DefaultErrorPageManager errorPageManager;
-
-    /**
      * Stores the invocation finder.
      */
     private final DefaultInvocationFinder invocationFinder;
@@ -132,7 +127,6 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         this.servletInvocation = servletInvocation;
 
         this.webApplication = webApplication;
-        this.errorPageManager = webApplication.errorPageManager;
         this.invocationFinder = webApplication.invocationFinder;
 
         this.servletEnvironment = servletInvocation == null ? null : servletInvocation.getServletEnvironment();
@@ -180,7 +174,9 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             httpResponse.setStatus(exception instanceof UnavailableException ? SC_NOT_FOUND : SC_INTERNAL_SERVER_ERROR);
         }
 
-        String errorPagePath = errorPageManager.getErrorPage(exception, httpResponse);
+        String errorPagePath = webApplication.getManager().getErrorPageManager() != null
+                ? webApplication.getManager().getErrorPageManager().getErrorPage(exception, httpResponse)
+                : null;
 
         if (errorPagePath != null) {
             try {
@@ -365,9 +361,15 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 errorRequest.setServletPath("/" + servletEnvironment.getServletName());
             }
 
-            errorRequest.setAttribute(ERROR_EXCEPTION, throwable);
-            errorRequest.setAttribute(ERROR_EXCEPTION_TYPE, throwable == null ? null : throwable.getClass());
-            errorRequest.setAttribute(ERROR_MESSAGE, throwable == null ? null : throwable.getMessage());
+            if (throwable instanceof ServletException servletException) {
+                errorRequest.setAttribute(ERROR_EXCEPTION, servletException.getRootCause() == null ? servletException : servletException.getRootCause());
+                errorRequest.setAttribute(ERROR_EXCEPTION_TYPE, servletException.getRootCause() == null ? servletException.getClass() : servletException.getRootCause().getClass());
+                errorRequest.setAttribute(ERROR_MESSAGE, servletException.getMessage());
+            } else {
+                errorRequest.setAttribute(ERROR_EXCEPTION, throwable);
+                errorRequest.setAttribute(ERROR_EXCEPTION_TYPE, throwable == null ? null : throwable.getClass());
+                errorRequest.setAttribute(ERROR_MESSAGE, throwable == null ? null : throwable.getMessage());
+            }
             errorRequest.setAttribute(ERROR_STATUS_CODE, response.getStatus());
             errorRequest.setAttribute(ERROR_REQUEST_URI, request.getRequestURI());
             errorRequest.setAttribute(ERROR_SERVLET_NAME, servletName);

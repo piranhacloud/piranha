@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,12 @@
  */
 
 /**
- * The Piranha Embedded module.
+ * The Shrinkwrap Piranha Micro builder module.
+ * 
+ * <p>
+ *  This module delivers the main entry point for the Piranha Micro 
+ *  distribution.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

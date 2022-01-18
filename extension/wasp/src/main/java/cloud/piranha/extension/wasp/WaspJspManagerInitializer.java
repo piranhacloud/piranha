@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -58,6 +58,6 @@ public class WaspJspManagerInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         LOGGER.log(DEBUG, "Setting the WaspJspManager");
         WebApplication application = (WebApplication) servletContext;
-        application.setJspManager(new WaspJspManager());
+        application.getManager().setJspManager(new WaspJspManager());
     }
 }

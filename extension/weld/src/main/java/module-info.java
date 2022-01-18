@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,7 @@ import org.jboss.weld.bootstrap.api.Service;
 import org.jboss.weld.environment.servlet.Container;
 
 /**
- * The Piranha Extension - Weld Integration module.
+ * The Weld integration module.
  * 
  * <p>
  *  This module delivers Weld integration for web applications.

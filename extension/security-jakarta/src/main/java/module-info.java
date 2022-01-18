@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Extension - Jakarta Security module.
+ * The Jakarta Security module.
  * 
  * <p>
  *  This module delivers Jakarta Security integration into Piranha.
@@ -36,7 +36,6 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.security.jakarta {
-    
     exports cloud.piranha.extension.security.jakarta;
     opens cloud.piranha.extension.security.jakarta;
     requires cloud.piranha.extension.eleos;

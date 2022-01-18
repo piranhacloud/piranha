@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -40,4 +40,5 @@ module cloud.piranha.nano {
     opens cloud.piranha.nano;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
+    requires jakarta.servlet;
 }

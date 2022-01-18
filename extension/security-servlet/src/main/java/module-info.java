@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,16 +27,16 @@
  */
 
 /**
- * The Piranha Extension - Jakarta Security module.
+ * The Servlet Security module.
  * 
  * <p>
  *  This module delivers Servlet Security integration into Piranha.
  * </p>
  * 
  * @author Arjan Tijms
+ * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.security.servlet {
-    
     exports cloud.piranha.extension.security.servlet;
     opens cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.eleos;

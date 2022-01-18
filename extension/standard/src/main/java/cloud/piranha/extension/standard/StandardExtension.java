@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,23 +30,25 @@ package cloud.piranha.extension.standard;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
-import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
 import cloud.piranha.extension.herring.HerringExtension;
-import cloud.piranha.extension.locale_encoding.LocaleEncodingExtension;
-import cloud.piranha.extension.logging.DefaultLoggingExtension;
-import cloud.piranha.extension.mimetype.MimeTypeExtension;
-import cloud.piranha.extension.policy.PolicyExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
-import cloud.piranha.extension.tempdir.TempDirExtension;
+import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanExtension;
+import cloud.piranha.extension.standard.async.StandardAsyncExtension;
+import cloud.piranha.extension.standard.localeencoding.StandardLocaleEncodingExtension;
+import cloud.piranha.extension.standard.logging.StandardLoggingExtension;
+import cloud.piranha.extension.standard.mimetype.StandardMimeTypeExtension;
+import cloud.piranha.extension.standard.policy.StandardPolicyExtension;
+import cloud.piranha.extension.standard.scinitializer.StandardServletContainerInitializerExtension;
+import cloud.piranha.extension.standard.servletannotations.StandardServletAnnotationsExtension;
+import cloud.piranha.extension.standard.tempdir.StandardTempDirExtension;
+import cloud.piranha.extension.standard.webxml.StandardWebXmlExtension;
+import cloud.piranha.extension.standard.welcomefile.StandardWelcomeFileExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
 import cloud.piranha.extension.wasp.WaspJspManagerExtension;
-import cloud.piranha.extension.webannotations.WebAnnotationsExtension;
-import cloud.piranha.extension.webxml.WebXmlExtension;
 
 /**
- * The StandardExtension delivers the default extensions for Piranha Server.
+ * The extension that delivers the extensions for Piranha Micro/Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -54,20 +56,22 @@ public class StandardExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
+        context.add(StandardAsyncExtension.class);
+        context.add(StandardLocaleEncodingExtension.class);
+        context.add(StandardLoggingExtension.class);
+        context.add(StandardMimeTypeExtension.class);
+        context.add(StandardPolicyExtension.class);
+        context.add(StandardTempDirExtension.class);
+        context.add(StandardWelcomeFileExtension.class);
         context.add(ServletSecurityManagerExtension.class);
         context.add(ApacheMultiPartExtension.class);
         context.add(WaspJspManagerExtension.class);
-        context.add(DefaultLoggingExtension.class);
-        context.add(MimeTypeExtension.class);
         context.add(HerringExtension.class);
-        context.add(LocaleEncodingExtension.class);
-        context.add(PolicyExtension.class);
-        context.add(AnnotationScanExtension.class);
-        context.add(WebXmlExtension.class);
-        context.add(WebAnnotationsExtension.class);
-        context.add(TempDirExtension.class);
+        context.add(StandardAnnotationScanExtension.class);
+        context.add(StandardWebXmlExtension.class);
+        context.add(StandardServletAnnotationsExtension.class);
         context.add(WaspExtension.class);
-        context.add(ServletContainerInitializerExtension.class);
+        context.add(StandardServletContainerInitializerExtension.class);
         context.add(ServletSecurityExtension.class);
     }
 }
