@@ -17,6 +17,7 @@
 
     <modules>
         <module>servlet-basic</module>
+        <module>config-basic</module>
     </modules>
 
     <properties>

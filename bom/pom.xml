@@ -198,6 +198,13 @@
                 <artifactId>jakarta.xml.bind-api</artifactId>
                 <version>3.0.1</version>
             </dependency>
+            
+            <!-- MicroProfile Config -->
+            <dependency>
+                <groupId>org.eclipse.microprofile.config</groupId>
+                <artifactId>microprofile-config-api</artifactId>
+                <version>3.0.1</version>
+            </dependency>
 
             <!-- HtmlUnit -->
             <dependency>
@@ -499,6 +506,13 @@
                 <groupId>org.omnifaces</groupId>
                 <artifactId>eleos</artifactId>
                 <version>1.0.2</version>
+            </dependency>
+            
+            <!-- OmniFaces Config -->
+            <dependency>
+                <groupId>org.omnifaces</groupId>
+                <artifactId>omni-mp-config</artifactId>
+                <version>3.0.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
