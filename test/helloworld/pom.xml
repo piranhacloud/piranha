@@ -40,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.server</groupId>
-            <artifactId>piranha-server-standard</artifactId>
+            <artifactId>piranha-server</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

@@ -177,15 +177,15 @@ public class RunMojo extends ServerMojo {
      */
     private ZipFile getPiranhaZipFile(String version) throws IOException {
         URL downloadUrl = createMavenCentralArtifactUrl(
-                "cloud.piranha.server",
-                "piranha-server-standard",
+                "cloud.piranha",
+                "piranha-server",
                 version,
                 "zip"
         );
 
         String artifactPath = createArtifactPath(
-                "cloud.piranha.server",
-                "piranha-server-standard",
+                "cloud.piranha",
+                "piranha-server",
                 version,
                 "zip"
         );
