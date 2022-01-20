@@ -112,4 +112,26 @@ class ServerPiranhaBuilderTest {
         piranha.stop();
         Thread.sleep(5000);
     }
+
+    /**
+     * Test defaultExtension method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testDefaultExtension() throws Exception {
+        ServerPiranha piranha = new ServerPiranhaBuilder()
+                .defaultExtensionClass("cloud.piranha.extension.lite.LiteExtension")
+                .httpPort(8080)
+                .verbose(true)
+                .build();
+        piranha.start();
+        Thread.sleep(5000);
+        try ( Socket socket = new Socket("localhost", 8080)) {
+            assertNotNull(socket.getOutputStream());
+        } catch (ConnectException e) {
+        }
+        piranha.stop();
+        Thread.sleep(5000);
+    }
 }

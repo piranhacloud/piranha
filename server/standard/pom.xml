@@ -9,12 +9,12 @@
         <version>22.2.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-server-standard</artifactId>
+    <artifactId>piranha-server</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Server - Standard</name>
+    <name>Piranha - Server</name>
     <description>
-        The standard server version of Piranha.
+        The server version of Piranha.
     </description>
 
     <dependencyManagement>
@@ -33,6 +33,18 @@
         <dependency>
             <groupId>cloud.piranha.core</groupId>
             <artifactId>piranha-core-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-lite</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-slim</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
