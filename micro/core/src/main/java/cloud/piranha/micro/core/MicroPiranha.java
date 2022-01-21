@@ -278,7 +278,6 @@ public class MicroPiranha implements Piranha, Runnable {
 
         while (!stop) {
             if (pid != null) {
-                System.out.println("PID FILE CHECK");
                 File pidFile = new File("tmp", "piranha-micro.pid");
                 if (!pidFile.exists()) {
                     stop();

@@ -17,9 +17,7 @@
 
     <modules>
         <module>core</module>
-        <module>lite</module>
         <module>shrinkwrap</module>
-        <module>slim</module>
         <module>standard</module>
     </modules>
 

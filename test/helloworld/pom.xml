@@ -39,8 +39,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.micro</groupId>
-            <artifactId>piranha-micro-standard</artifactId>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-micro</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

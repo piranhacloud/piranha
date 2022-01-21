@@ -64,6 +64,9 @@ public class StandardMicroBootstrap {
         
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
+                if (arguments[i].equals("--default-extension")) {
+                    builder = builder.defaultExtensionClass(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--help")) {
                     return null;
                 }
@@ -106,6 +109,7 @@ public class StandardMicroBootstrap {
         System.out.println();
         System.out.println(
                 """
+                  --default-extension <className>  - Set the default extension
                   --help                           - Show this help
                   --http-port <integer>            - Set the HTTP port (use -1 to disable)
                   --https-port <integer>           - Set the HTTPS port (disabled by default)

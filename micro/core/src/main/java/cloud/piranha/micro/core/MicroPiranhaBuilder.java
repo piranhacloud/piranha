@@ -135,6 +135,21 @@ public class MicroPiranhaBuilder {
     }
 
     /**
+     * Set the default extension class.
+     *
+     * @param defaultExtensionClassName the default extension class name.
+     * @return the builder.
+     */
+    public MicroPiranhaBuilder defaultExtensionClass(String defaultExtensionClassName) {
+        try {
+            this.defaultExtensionClass = (Class<? extends WebApplicationExtension>)
+                    Class.forName(defaultExtensionClassName);
+        } catch (ClassNotFoundException cnfe) {
+        }
+        return this;
+    }
+
+    /**
      * Set the exit on stop flag.
      *
      * @param exitOnStop the exit on stop flag.

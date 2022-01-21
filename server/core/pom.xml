@@ -47,13 +47,13 @@
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-lite</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-impl</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
