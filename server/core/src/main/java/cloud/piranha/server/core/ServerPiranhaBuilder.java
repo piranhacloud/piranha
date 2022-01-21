@@ -58,7 +58,7 @@ public class ServerPiranhaBuilder {
      * Stores the HTTPS port.
      */
     private int httpsPort = -1;
-    
+
     /**
      * Stores the InitialContext factory.
      */
@@ -139,6 +139,20 @@ public class ServerPiranhaBuilder {
      */
     public ServerPiranhaBuilder defaultExtensionClass(Class defaultExtensionClass) {
         this.defaultExtensionClass = defaultExtensionClass;
+        return this;
+    }
+
+    /**
+     * Set the default extension class.
+     *
+     * @param defaultExtensionClassName the default extension class name.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder defaultExtensionClass(String defaultExtensionClassName) {
+        try {
+            this.defaultExtensionClass = Class.forName(defaultExtensionClassName);
+        } catch (ClassNotFoundException cnfe) {
+        }
         return this;
     }
 

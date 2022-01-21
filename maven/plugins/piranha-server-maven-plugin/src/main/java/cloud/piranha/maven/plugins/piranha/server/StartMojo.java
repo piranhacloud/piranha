@@ -178,15 +178,15 @@ public class StartMojo extends ServerMojo {
      */
     private ZipFile getPiranhaZipFile(String version) throws IOException {
         URL downloadUrl = createMavenCentralArtifactUrl(
-                "cloud.piranha.server",
-                "piranha-server-standard",
+                "cloud.piranha",
+                "piranha-server",
                 version,
                 "zip"
         );
 
         String artifactPath = createArtifactPath(
-                "cloud.piranha.server",
-                "piranha-server-standard",
+                "cloud.piranha",
+                "piranha-server",
                 version,
                 "zip"
         );
@@ -203,7 +203,7 @@ public class StartMojo extends ServerMojo {
                     zipFile.toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch(FileNotFoundException fnfe) {
-            fnfe.printStackTrace(System.err);
+            System.err.println("Could not download zip bundle, defaulting back to local Maven repository");
         }
 
         return new ZipFile(new File(localRepositoryDir, artifactPath));
