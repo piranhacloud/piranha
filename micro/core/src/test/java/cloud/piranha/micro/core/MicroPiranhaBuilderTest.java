@@ -25,20 +25,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.micro.core;
+
+import cloud.piranha.extension.lite.LiteExtension;
+import java.net.ConnectException;
+import java.net.Socket;
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Slim Piranha Micro module.
- * 
+ * The JUnit tests for the MicroPiranhaBuilder class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.micro.slim {
-    exports cloud.piranha.micro.slim;
-    opens cloud.piranha.micro.slim;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.slim;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.webapp;
-    requires cloud.piranha.micro.core;
-    requires java.logging;
+class MicroPiranhaBuilderTest {
+
+    /**
+     * Test defaultExtension method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testDefaultExtension() throws Exception {
+        MicroPiranha piranha = new MicroPiranhaBuilder()
+                .defaultExtensionClass("cloud.piranha.extension.lite.LiteExtension")
+                .httpPort(8080)
+                .verbose(true)
+                .build();
+        piranha.start();
+        Thread.sleep(5000);
+        try ( Socket socket = new Socket("localhost", 8080)) {
+            assertNotNull(socket.getOutputStream());
+        } catch (ConnectException e) {
+        }
+        piranha.stop();
+        Thread.sleep(5000);
+    }
 }

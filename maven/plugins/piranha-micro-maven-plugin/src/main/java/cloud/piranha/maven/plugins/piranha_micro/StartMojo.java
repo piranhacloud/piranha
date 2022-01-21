@@ -176,15 +176,15 @@ public class StartMojo extends AbstractMojo {
      */
     private File getPiranhaZipFile(String version) throws IOException {
         URL downloadUrl = createMavenCentralArtifactUrl(
-                "cloud.piranha.micro",
-                "piranha-micro-standard",
+                "cloud.piranha",
+                "piranha-micro",
                 version,
                 "jar"
         );
 
         String artifactPath = createArtifactPath(
-                "cloud.piranha.micro",
-                "piranha-micro-standard",
+                "cloud.piranha",
+                "piranha-micro",
                 version,
                 "jar"
         );
@@ -201,7 +201,7 @@ public class StartMojo extends AbstractMojo {
                     zipFile.toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (FileNotFoundException fnfe) {
-            fnfe.printStackTrace(System.err);
+            System.err.println("Could not download JAR file, defaulting back to local Maven repository");
         }
 
         return new File(localRepositoryDir, artifactPath);
