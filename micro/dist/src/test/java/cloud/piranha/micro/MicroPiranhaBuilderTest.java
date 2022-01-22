@@ -25,17 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro.core;
+package cloud.piranha.micro;
 
-import cloud.piranha.extension.lite.LiteExtension;
+import cloud.piranha.extension.slim.SlimExtension;
 import java.net.ConnectException;
 import java.net.Socket;
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -46,20 +41,42 @@ import org.junit.jupiter.api.Test;
 class MicroPiranhaBuilderTest {
 
     /**
-     * Test defaultExtension method.
+     * Test extensionClass method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testDefaultExtension() throws Exception {
+    void testExtensionClass() throws Exception {
         MicroPiranha piranha = new MicroPiranhaBuilder()
-                .defaultExtensionClass("cloud.piranha.extension.lite.LiteExtension")
+                .extensionClass("cloud.piranha.extension.lite.LiteExtension")
                 .httpPort(8080)
                 .verbose(true)
                 .build();
         piranha.start();
         Thread.sleep(5000);
         try ( Socket socket = new Socket("localhost", 8080)) {
+            assertNotNull(socket.getOutputStream());
+        } catch (ConnectException e) {
+        }
+        piranha.stop();
+        Thread.sleep(5000);
+    }
+
+    /**
+     * Test extensionClass method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testExtensionClass2() throws Exception {
+        MicroPiranha piranha = new MicroPiranhaBuilder()
+                .extensionClass(SlimExtension.class)
+                .httpPort(8081)
+                .verbose(true)
+                .build();
+        piranha.start();
+        Thread.sleep(5000);
+        try ( Socket socket = new Socket("localhost", 8081)) {
             assertNotNull(socket.getOutputStream());
         } catch (ConnectException e) {
         }

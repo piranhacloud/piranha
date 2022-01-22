@@ -25,6 +25,18 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-lite</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-slim</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-standard</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -38,12 +50,6 @@
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-webapp</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.micro</groupId>
-            <artifactId>piranha-micro-core</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -82,7 +88,7 @@
                             <transformers>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>cloud.piranha.micro.standard.StandardMicroBootstrap</mainClass>
+                                    <mainClass>cloud.piranha.micro.MicroPiranhaMain</mainClass>
                                 </transformer>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />

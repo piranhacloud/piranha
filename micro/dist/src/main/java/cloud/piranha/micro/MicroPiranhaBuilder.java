@@ -25,21 +25,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro.core;
+package cloud.piranha.micro;
 
 import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.extension.standard.StandardExtension;
 
 /**
- * The builder to create a version of Piranha Micro.
+ * The Builder for Piranha Micro.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class MicroPiranhaBuilder {
 
     /**
-     * Stores the default extension class.
+     * Stores the extension class.
      */
-    private Class<? extends WebApplicationExtension> defaultExtensionClass;
+    private Class<? extends WebApplicationExtension> extensionClass;
 
     /**
      * Stores the exit on stop flag.
@@ -101,7 +102,9 @@ public class MicroPiranhaBuilder {
             showArguments();
         }
         MicroPiranha piranha = new MicroPiranha();
-        piranha.setDefaultExtensionClass(defaultExtensionClass);
+        if (extensionClass != null) {
+            piranha.setExtensionClass(extensionClass);
+        }
         piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
         piranha.setHttpsPort(httpsPort);
@@ -123,33 +126,6 @@ public class MicroPiranhaBuilder {
     }
 
     /**
-     * Set the default extension class.
-     *
-     * @param defaultExtensionClass the default extension class.
-     * @return the builder.
-     */
-    public MicroPiranhaBuilder defaultExtensionClass(
-            Class<? extends WebApplicationExtension> defaultExtensionClass) {
-        this.defaultExtensionClass = defaultExtensionClass;
-        return this;
-    }
-
-    /**
-     * Set the default extension class.
-     *
-     * @param defaultExtensionClassName the default extension class name.
-     * @return the builder.
-     */
-    public MicroPiranhaBuilder defaultExtensionClass(String defaultExtensionClassName) {
-        try {
-            this.defaultExtensionClass = (Class<? extends WebApplicationExtension>)
-                    Class.forName(defaultExtensionClassName);
-        } catch (ClassNotFoundException cnfe) {
-        }
-        return this;
-    }
-
-    /**
      * Set the exit on stop flag.
      *
      * @param exitOnStop the exit on stop flag.
@@ -157,6 +133,33 @@ public class MicroPiranhaBuilder {
      */
     public MicroPiranhaBuilder exitOnStop(boolean exitOnStop) {
         this.exitOnStop = exitOnStop;
+        return this;
+    }
+
+    /**
+     * Set the extension class.
+     *
+     * @param extensionClass the extension class.
+     * @return the builder.
+     */
+    public MicroPiranhaBuilder extensionClass(
+            Class<? extends WebApplicationExtension> extensionClass) {
+        this.extensionClass = extensionClass;
+        return this;
+    }
+
+    /**
+     * Set the extension class.
+     *
+     * @param extensionClassName the default extension class name.
+     * @return the builder.
+     */
+    public MicroPiranhaBuilder extensionClass(String extensionClassName) {
+        try {
+            this.extensionClass = (Class<? extends WebApplicationExtension>)
+                    Class.forName(extensionClassName);
+        } catch (ClassNotFoundException cnfe) {
+        }
         return this;
     }
 
@@ -205,7 +208,7 @@ public class MicroPiranhaBuilder {
                 Arguments
                 =========
                 
-                Default Extension     : %s
+                Extension class       : %s
                 Exit on stop          : %s
                 HTTP port             : %s
                 HTTPS port            : %s
@@ -214,10 +217,10 @@ public class MicroPiranhaBuilder {
                 SSL keystore file     : %s
                 SSK keystore password : ****
                 WAR filename          : %s
-                Webapp dir            : %s
+                Web application dir   : %s
                 
                 """,
-                defaultExtensionClass.getName(),
+                extensionClass != null ? extensionClass.getName() : StandardExtension.class.getName(),
                 exitOnStop,
                 httpPort,
                 httpsPort,

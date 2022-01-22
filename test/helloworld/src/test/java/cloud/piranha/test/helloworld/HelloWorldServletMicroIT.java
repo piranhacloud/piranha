@@ -28,8 +28,8 @@
 package cloud.piranha.test.helloworld;
 
 import cloud.piranha.extension.standard.StandardExtension;
-import cloud.piranha.micro.core.MicroPiranha;
-import cloud.piranha.micro.core.MicroPiranhaBuilder;
+import cloud.piranha.micro.MicroPiranha;
+import cloud.piranha.micro.MicroPiranhaBuilder;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -73,7 +73,7 @@ class HelloWorldServletMicroIT {
     @BeforeEach
     void beforeEach() {
         piranha = new MicroPiranhaBuilder()
-                .defaultExtensionClass(StandardExtension.class)
+                .extensionClass(StandardExtension.class)
                 .warFile("target/webapps/ROOT.war")
                 .webAppDir("target/webapps/ROOT")
                 .build();

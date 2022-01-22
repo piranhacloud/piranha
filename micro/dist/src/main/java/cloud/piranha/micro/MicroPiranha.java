@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro.core;
+package cloud.piranha.micro;
 
 import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.WebApplicationExtension;
@@ -36,6 +36,7 @@ import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
+import cloud.piranha.extension.standard.StandardExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
@@ -61,7 +62,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * The Slim version of Piranha Micro.
+ * The Piranha Micro runtime.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -73,9 +74,9 @@ public class MicroPiranha implements Piranha, Runnable {
     private static final Logger LOGGER = System.getLogger(MicroPiranha.class.getName());
 
     /**
-     * Stores the default extension class.
+     * Stores the extension class.
      */
-    private Class<? extends WebApplicationExtension> defaultExtensionClass;
+    private Class<? extends WebApplicationExtension> extensionClass = StandardExtension.class;
 
     /**
      * Stores the exit on stop flag.
@@ -226,7 +227,7 @@ public class MicroPiranha implements Piranha, Runnable {
 
             if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                 DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                extensionContext.add(defaultExtensionClass);
+                extensionContext.add(extensionClass);
                 extensionContext.configure(webApplication);
             } else {
                 DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
@@ -264,7 +265,7 @@ public class MicroPiranha implements Piranha, Runnable {
         if (pid != null) {
             File pidFile = new File("tmp", "piranha-micro.pid");
             if (!pidFile.getParentFile().exists()) {
-                if (pidFile.getParentFile().mkdirs()) {
+                if (!pidFile.getParentFile().mkdirs()) {
                     LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
                 }
             }
@@ -316,11 +317,11 @@ public class MicroPiranha implements Piranha, Runnable {
     /**
      * Set the default extension class.
      *
-     * @param defaultExtensionClass the default extension class.
+     * @param extensionClass the default extension class.
      */
-    public void setDefaultExtensionClass(
-            Class<? extends WebApplicationExtension> defaultExtensionClass) {
-        this.defaultExtensionClass = defaultExtensionClass;
+    public void setExtensionClass(
+            Class<? extends WebApplicationExtension> extensionClass) {
+        this.extensionClass = extensionClass;
     }
 
     /**
