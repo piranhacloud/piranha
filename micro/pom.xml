@@ -16,9 +16,8 @@
     <name>Piranha - Micro - Project</name>
 
     <modules>
-        <module>core</module>
+        <module>dist</module>
         <module>shrinkwrap</module>
-        <module>standard</module>
     </modules>
 
     <dependencyManagement>

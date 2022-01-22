@@ -25,17 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro.standard;
+package cloud.piranha.micro;
 
 import cloud.piranha.extension.standard.StandardExtension;
-import cloud.piranha.micro.core.MicroPiranhaBuilder;
 
 /**
- * The bootstrapper for the Standard version of Piranha Micro.
+ * The Main for Piranha Micro.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardMicroBootstrap {
+public class MicroPiranhaMain {
 
     /**
      * Main method.
@@ -43,7 +42,7 @@ public class StandardMicroBootstrap {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        MicroPiranhaBuilder builder = new StandardMicroBootstrap().processArguments(arguments);
+        MicroPiranhaBuilder builder = new MicroPiranhaMain().processArguments(arguments);
         if (builder != null) {
             builder.build().start();
         } else {
@@ -59,13 +58,13 @@ public class StandardMicroBootstrap {
     private MicroPiranhaBuilder processArguments(String[] arguments) {
         
         MicroPiranhaBuilder builder = new MicroPiranhaBuilder()
-                .defaultExtensionClass(StandardExtension.class)
+                .extensionClass(StandardExtension.class)
                 .exitOnStop(true);
         
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
-                if (arguments[i].equals("--default-extension")) {
-                    builder = builder.defaultExtensionClass(arguments[i + 1]);
+                if (arguments[i].equals("--extension-class")) {
+                    builder = builder.extensionClass(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--help")) {
                     return null;
@@ -109,7 +108,7 @@ public class StandardMicroBootstrap {
         System.out.println();
         System.out.println(
                 """
-                  --default-extension <className>  - Set the default extension
+                  --extension-class <className>    - Set the extension to use
                   --help                           - Show this help
                   --http-port <integer>            - Set the HTTP port (use -1 to disable)
                   --https-port <integer>           - Set the HTTPS port (disabled by default)
