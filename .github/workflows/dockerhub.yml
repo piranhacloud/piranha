@@ -42,7 +42,7 @@ jobs:
         docker manifest push piranhacloud/server:latest
     - name: Build Piranha Micro Docker image
       run: |
-        cd micro/standard
+        cd micro/dist
         docker build -f Dockerfile.amd64 -t piranhacloud/micro:amd64-latest .
         docker build --platform linux/arm64/v8 -f Dockerfile.arm64v8 -t piranhacloud/micro:arm64v8-latest .
         docker push piranhacloud/micro:amd64-latest

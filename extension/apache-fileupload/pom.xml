@@ -125,6 +125,15 @@
                             <shadedArtifactAttached>false</shadedArtifactAttached>
                             <shadedClassifierName>shaded</shadedClassifierName>
                             <createSourcesJar>true</createSourcesJar>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>cloud.piranha.core:piranha-core-api</exclude>
+                                    <exclude>cloud.piranha.core:piranha-core-impl</exclude>
+                                    <exclude>cloud.piranha.core:piranha-core-servlet-api</exclude>
+                                    <exclude>cloud.piranha.resource:piranha-resource-api</exclude>
+                                    <exclude>cloud.piranha.resource:piranha-resource-impl</exclude>
+                                </excludes>
+                            </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>org.apache.commons.fileupload</pattern>
