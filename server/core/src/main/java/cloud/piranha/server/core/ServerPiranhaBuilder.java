@@ -40,7 +40,7 @@ import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 public class ServerPiranhaBuilder {
 
     /**
-     * Stores the default extension.
+     * Stores the default extension class.
      */
     private Class defaultExtensionClass;
 
@@ -204,15 +204,14 @@ public class ServerPiranhaBuilder {
      * Show the arguments used.
      */
     private void showArguments() {
-        System.out.printf(
-                """
+        System.out.printf("""
                 
                 PIRANHA SERVER
                 
                 Arguments
                 =========
                 
-                Default extension       : %s
+                Default extension class : %s
                 Exit on stop            : %s
                 HTTP port               : %s
                 HTTPS port              : %s

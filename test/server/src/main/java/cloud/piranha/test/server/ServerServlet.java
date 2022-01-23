@@ -50,10 +50,10 @@ public class ServerServlet extends HttpServlet {
                         <!DOCTYPE html>
                         <html>
                           <head>
-                            <title>Hello from Piranha Server!</title>
+                            <title>Server Servlet!</title>
                           </head>
                           <body>
-                            <h1>Hello from Piranha Server!</h1>
+                            <h1>Server Servlet!</h1>
                           </body>
                         </html>""");
         }

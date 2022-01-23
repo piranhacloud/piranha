@@ -114,12 +114,12 @@ class ServerPiranhaBuilderTest {
     }
 
     /**
-     * Test defaultExtension method.
+     * Test defaultExtensionClass method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testDefaultExtension() throws Exception {
+    void testDefaultExtensionClass() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
                 .defaultExtensionClass("cloud.piranha.extension.lite.LiteExtension")
                 .httpPort(8080)

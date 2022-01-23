@@ -25,33 +25,37 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.maven.plugins.piranha.server;
+package cloud.piranha.test.server.slim;
 
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
- * The abstract base class for the RunMojo and StartMojo.
- * 
+ * A Servlet testing using the SlimExtension on Piranha Server.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class ServerMojo extends AbstractMojo {
-    
-    /**
-     * Stores the project build directory.
-     */
-    @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
-    protected String buildDir;
-    
-    /**
-     * Stores the default extension.
-     */
-    @Parameter(property = "piranha.server.defaultExtension", defaultValue = "", required = false)
-    protected String defaultExtension;
-    
-    /**
-     * Stores the HTTP port.
-     */
-    @Parameter(property = "piranha.server.httpPort", defaultValue = "8080", required = false)
-    protected String httpPort;
+public class ServerSlimServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html");
+        try ( PrintWriter out = response.getWriter()) {
+            out.println("""
+                        <!DOCTYPE html>
+                        <html>
+                          <head>
+                            <title>Server Slim Servlet</title>
+                          </head>
+                          <body>
+                            <h1>Server Slim Servlet!</h1>
+                          </body>
+                        </html>""");
+        }
+    }
 }

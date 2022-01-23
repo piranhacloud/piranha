@@ -9,10 +9,10 @@
         <version>22.2.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-test-server</artifactId>
+    <artifactId>piranha-test-server-programmatic</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha - Test - Server</name>
+    <name>Piranha - Test - Server - Programmatic</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,38 +27,65 @@
         </dependency>
         <!-- test -->
         <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-server</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>piranha-test-server</finalName>
+        <finalName>piranha-test-server-programmatic</finalName>
         <plugins>
             <plugin>
-                <groupId>cloud.piranha.maven.plugins</groupId>
-                <artifactId>piranha-server-maven-plugin</artifactId>
-                <version>${project.version}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>pre-integration-test</id>
                         <phase>pre-integration-test</phase>
+                        <configuration>
+                            <target>
+                                <echo message="Creating ${project.build.directory}/webapps directory"/>
+                                <mkdir dir="${project.build.directory}/webapps"/>
+                                <echo message="Copy piranha-test-server-programmatic.war to ${project.build.directory}/webapps/ROOT.war"/>
+                                <copy file="${project.build.directory}/piranha-test-server-programmatic.war"
+                                    tofile="${project.build.directory}/webapps/ROOT.war"/>
+                            </target>
+                        </configuration>
                         <goals>
-                            <goal>start</goal>
+                            <goal>run</goal>
                         </goals>
                     </execution>
                     <execution>
                         <id>post-integration-test</id>
                         <phase>post-integration-test</phase>
+                        <configuration>
+                            <target>
+                                <delete dir="target/webapps"/>
+                                <delete dir="tmp"/>
+                            </target>
+                        </configuration>
                         <goals>
-                            <goal>stop</goal>
+                            <goal>run</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <httpPort>8000</httpPort>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
