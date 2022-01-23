@@ -468,7 +468,7 @@ public class ServerPiranha implements Piranha, Runnable {
                 LOGGER.log(WARNING, "Unable to create PID file");
             }
         } else {
-            LOGGER.log(WARNING, "PID file already exsists");
+            LOGGER.log(WARNING, "PID file already exists");
         }
 
         thread = new Thread(this);

@@ -25,60 +25,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.helloworld;
+package cloud.piranha.test.server;
 
-import cloud.piranha.extension.standard.StandardExtension;
-import cloud.piranha.server.core.ServerPiranha;
-import cloud.piranha.server.core.ServerPiranhaBuilder;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
-import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * The 'Hello World!' integration test.
+ * The 'Server Servlet!' integration test.
  *
  * <p>
- * This test illustrates how to do integration testing with Piranha Server 
- * using a programmatic API. Note that doing integration testing this way is
- * really meant for the Piranha project itself. If you are developing a web 
- * application we recommend you use the Piranha Server Maven plugin instead.
+ * This tests illustrates how to do integration testing using Piranha Server
+ * using the Piranha Server Maven Plugin. This is the recommended way to do
+ * integration testing when developing a web application for Piranha Server.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HelloWorldServletServerIT {
-    
-    /**
-     * Stores the Piranha Server instance.
-     */
-    private ServerPiranha piranha;
-    
-    /**
-     * After each test.
-     */
-    @AfterEach
-    void afterEach() {
-        piranha.stop();
-    }
-    
-    /**
-     * Before each test.
-     */
-    @BeforeEach
-    void beforeEach() {
-        piranha = new ServerPiranhaBuilder()
-                .defaultExtensionClass(StandardExtension.class)
-                .webAppsDir("target/webapps")
-                .build();
-        piranha.start();
-    }
-
+class ServerIT {
+ 
     /**
      * Test the 'Hello World!' servlet.
      *
@@ -88,9 +57,9 @@ class HelloWorldServletServerIT {
     void testHelloWorld() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/index.html"))
+                .newBuilder(new URI("http://localhost:8000/piranha-test-server/index.html"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("Hello World!"));
+        assertTrue(response.body().contains("Server Servlet!"));
     }
 }

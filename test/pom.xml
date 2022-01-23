@@ -28,11 +28,13 @@
         <module>mojarra</module>
         <module>mojarra2</module>
         <module>myfaces</module>
+        <module>server</module>
+        <module>server-programmatic</module>
+        <module>server-slim</module>
         <module>soteria</module>
         <module>webxml</module>
         <module>weld</module>
         <module>webapp</module>
-        <module>server</module>
     </modules>
 
     <properties>

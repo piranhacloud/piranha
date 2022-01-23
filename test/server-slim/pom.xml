@@ -2,22 +2,17 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
         <version>22.2.0-SNAPSHOT</version>
     </parent>
-
-    <artifactId>piranha-test-server</artifactId>
+    <artifactId>piranha-test-server-slim</artifactId>
     <packaging>war</packaging>
-
-    <name>Piranha - Test - Server</name>
-
+    <name>Piranha - Test - Server - Slim</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencies>
         <!-- provided -->
         <dependency>
@@ -28,13 +23,23 @@
         <!-- test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>piranha-test-server</finalName>
+        <finalName>piranha-test-server-slim</finalName>
         <plugins>
             <plugin>
                 <groupId>cloud.piranha.maven.plugins</groupId>
@@ -57,15 +62,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <httpPort>8000</httpPort>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <forkCount>1</forkCount>
-                    <reuseForks>false</reuseForks>
+                    <defaultExtension>cloud.piranha.extension.slim.SlimExtension</defaultExtension>
+                    <httpPort>8300</httpPort>
                 </configuration>
             </plugin>
             <plugin>

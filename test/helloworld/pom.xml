@@ -34,12 +34,6 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-server</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha</groupId>
             <artifactId>piranha-micro</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>

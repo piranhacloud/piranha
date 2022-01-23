@@ -39,6 +39,8 @@ module cloud.piranha.server.standard {
     opens cloud.piranha.server.standard;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
+    requires cloud.piranha.extension.lite;
+    requires cloud.piranha.extension.slim;
     requires cloud.piranha.extension.standard;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;

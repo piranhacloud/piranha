@@ -1050,7 +1050,7 @@ public class DefaultWebApplication implements WebApplication {
             try {
                 HandlesTypes annotation = initializer.getClass().getAnnotation(HandlesTypes.class);
                 Set<Class<?>> classes = Collections.emptySet();
-                if (annotation != null) {
+                if (annotation != null && manager.getAnnotationManager() != null) {
                     Class<?>[] value = annotation.value();
                     // Get instances
                     Stream<Class<?>> instances = manager.getAnnotationManager()

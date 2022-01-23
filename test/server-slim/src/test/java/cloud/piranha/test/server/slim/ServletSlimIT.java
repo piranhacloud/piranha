@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.server;
+package cloud.piranha.test.server.slim;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -36,18 +36,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * The 'Hello from Piranha Server!' integration test.
- *
- * <p>
- * This tests illustrates how to do integration testing using Piranha Server
- * using the Piranha Server Maven Plugin. This is the recommended way to do
- * integration testing when developing a web application for Piranha Server.
- * </p>
+ * The integration test testing using the SlimExtension on Piranha Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServerServletIT {
- 
+class ServletSlimIT {
+
     /**
      * Test the 'Hello World!' servlet.
      *
@@ -57,9 +51,9 @@ class ServerServletIT {
     void testHelloWorld() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/piranha-test-server/index.html"))
+                .newBuilder(new URI("http://localhost:8300/piranha-test-server-slim/index.html"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("Hello from Piranha Server!"));
+        assertTrue(response.body().contains("Server Slim Servlet!"));
     }
 }

@@ -215,9 +215,19 @@ public class StartMojo extends ServerMojo {
     private void startPiranhaServer() throws IOException {
         ProcessBuilder builder = new ProcessBuilder();
 
-        System.out.println("Application is available at: http://localhost:8080/" + warName);
+        if (Integer.parseInt(httpPort) > 0) {
+            System.out.println("Application is available at: http://localhost:" + httpPort + "/" + warName);
+        }
                
         StringBuilder arguments = new StringBuilder();
+        
+        if (defaultExtension != null && !defaultExtension.trim().equals("")) {
+            arguments.append(" --default-extension ").append(defaultExtension);
+        }
+
+        if (Integer.parseInt(httpPort) > 0) {
+            arguments.append(" --http-port ").append(httpPort);
+        }
         
         if (Boolean.parseBoolean(debug)) {
             arguments.append(" --suspend");
