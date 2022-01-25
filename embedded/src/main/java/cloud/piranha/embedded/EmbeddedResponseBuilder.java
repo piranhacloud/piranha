@@ -27,7 +27,7 @@
  */
 package cloud.piranha.embedded;
 
-import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.api.WebApplication;
 
 /**
  * The builder so you can easily build instances of
@@ -73,11 +73,11 @@ public class EmbeddedResponseBuilder {
     /**
      * Set the web application.
      *
-     * @param webApp the web application.
+     * @param webApplication the web application.
      * @return the builder.
      */
-    public EmbeddedResponseBuilder webApplication(DefaultWebApplication webApp) {
-        response.setWebApplication(webApp);
+    public EmbeddedResponseBuilder webApplication(WebApplication webApplication) {
+        response.setWebApplication(webApplication);
         return this;
     }
 }
