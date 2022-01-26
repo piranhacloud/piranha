@@ -27,8 +27,6 @@
  */
 package cloud.piranha.test.soteria.basic;
 
-import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
-import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.CONSTRAINTS;
 import static java.util.Arrays.asList;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
@@ -37,26 +35,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Base64;
 
-import jakarta.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
-
-import org.junit.jupiter.api.Test;
 import org.glassfish.exousia.constraints.SecurityConstraint;
-import org.glassfish.exousia.modules.def.DefaultPolicy;
-import org.glassfish.exousia.modules.def.DefaultPolicyConfigurationFactory;
+import org.junit.jupiter.api.Test;
 
-import cloud.piranha.extension.eleos.AuthenticationInitializer;
-import cloud.piranha.extension.weld.WeldInitializer;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
-import cloud.piranha.extension.exousia.AuthorizationInitializer;
-import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
+import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
 import cloud.piranha.extension.herring.HerringExtension;
+import cloud.piranha.extension.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
-import cloud.piranha.extension.soteria.SoteriaInitializer;
 import cloud.piranha.extension.standard.webxml.StandardWebXmlInitializer;
+import jakarta.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
 
 @BasicAuthenticationMechanismDefinition(realmName = "test")
 class BasicTest {
@@ -68,19 +60,14 @@ class BasicTest {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .extension(ServletSecurityManagerExtension.class)
                 .extension(HerringExtension.class)
-                .initializer(StandardWebXmlInitializer.class.getName())
-                .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
-                .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
+                .initializer(StandardWebXmlInitializer.class)
                 .attribute(CONSTRAINTS, asList(
                         new SecurityConstraint("/protected/servlet", "architect")))
-                .initializer(WeldInitializer.class.getName())
-                .initializer(AuthorizationPreInitializer.class.getName())
-                .initializer(AuthenticationInitializer.class.getName())
-                .initializer(AuthorizationInitializer.class.getName())
-                .initializer(SoteriaInitializer.class.getName())
-                .servlet("PublicServlet", PublicServlet.class.getName())
+                .initializer(JakartaSecurityAllInitializer.class)
+                .initializer(AuthorizationPostInitializer.class)
+                .servlet("PublicServlet", PublicServlet.class)
                 .servletMapping("PublicServlet", "/public/servlet")
-                .servlet("ProtectedServlet", ProtectedServlet.class.getName())
+                .servlet("ProtectedServlet", ProtectedServlet.class)
                 .servletMapping("ProtectedServlet", "/protected/servlet")
                 .buildAndStart();
 

@@ -27,36 +27,32 @@
  */
 package cloud.piranha.test.soteria.form;
 
+import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.CONSTRAINTS;
+import static java.util.Arrays.asList;
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.net.URL;
+
+import org.glassfish.exousia.constraints.SecurityConstraint;
+import org.junit.jupiter.api.Test;
+
 import cloud.piranha.core.impl.DefaultServlet;
-import cloud.piranha.extension.herring.HerringExtension;
-import cloud.piranha.extension.weld.WeldInitializer;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
-import cloud.piranha.extension.eleos.AuthenticationInitializer;
-import cloud.piranha.extension.exousia.AuthorizationInitializer;
-import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
-import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
-import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_POLICY_CLASS;
-import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.CONSTRAINTS;
+import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
+import cloud.piranha.extension.herring.HerringExtension;
+import cloud.piranha.extension.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
-import cloud.piranha.extension.soteria.SoteriaInitializer;
 import cloud.piranha.extension.standard.webxml.StandardWebXmlInitializer;
-import java.net.URL;
-import static java.util.Arrays.asList;
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import jakarta.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
 import jakarta.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import jakarta.servlet.http.Cookie;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
-import org.glassfish.exousia.constraints.SecurityConstraint;
-import org.glassfish.exousia.modules.def.DefaultPolicy;
-import org.glassfish.exousia.modules.def.DefaultPolicyConfigurationFactory;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *
@@ -71,36 +67,35 @@ class FormTest {
     @Test
     void testAuthenticated() throws Exception {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
+
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .extension(ServletSecurityManagerExtension.class)
                 .extension(HerringExtension.class)
-                .initializer(StandardWebXmlInitializer.class.getName())
-                .initializer(WeldInitializer.class.getName())
-                .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
-                .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
+                .initializer(StandardWebXmlInitializer.class)
                 .attribute(CONSTRAINTS, asList(
                         new SecurityConstraint("/protected/servlet", "architect")))
-                .initializer(AuthorizationPreInitializer.class.getName())
-                .initializer(AuthenticationInitializer.class.getName())
-                .initializer(AuthorizationInitializer.class.getName())
-                .initializer(SoteriaInitializer.class.getName())
-                .servlet("ProtectedServlet", ProtectedServlet.class.getName())
+                .initializer(JakartaSecurityAllInitializer.class)
+                .initializer(AuthorizationPostInitializer.class)
+                .servlet("ProtectedServlet", ProtectedServlet.class)
                 .servletMapping("ProtectedServlet", "/protected/servlet")
-                .servlet("ErrorPageServlet", ErrorPageServlet.class.getName())
+                .servlet("ErrorPageServlet", ErrorPageServlet.class)
                 .servletMapping("ErrorPageServlet", "/error-page")
-                .servlet("LoginPageServlet", LoginPageServlet.class.getName())
+                .servlet("LoginPageServlet", LoginPageServlet.class)
                 .servletMapping("LoginPageServlet", "/login-page")
-                .servlet("DefaultServlet", DefaultServlet.class.getName())
+                .servlet("DefaultServlet", DefaultServlet.class)
                 .servletMapping("DefaultServlet", "/*")
                 .buildAndStart();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .servletPath("/protected/servlet")
                 .build();
+
         EmbeddedResponse response = new EmbeddedResponse();
+
         piranha.service(request, response);
+
         assertTrue(
                 response.getResponseAsString().contains(
-                                "Enter name and password to authenticate"),
+                "Enter name and password to authenticate"),
                 "Should have received login page, but did not"
         );
 
@@ -126,6 +121,7 @@ class FormTest {
                 .cookie(sessionCookie)
                 .build();
         response = new EmbeddedResponse();
+
         piranha.service(request, response);
 
         // Not only does the page needs to be accessible, the caller should have

@@ -37,6 +37,7 @@ import org.glassfish.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
 import cloud.piranha.extension.eleos.AuthenticationInitializer;
 import cloud.piranha.extension.exousia.AuthorizationInitializer;
+import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
@@ -63,6 +64,10 @@ public class ServletSecurityAllInitializer implements ServletContainerInitialize
 
         // Configures the authorization filter that checks constraints after authentication
         new AuthorizationInitializer(),
+
+        // Inits the authorization server. Note this should always run after all Servlets in the application
+        // have been discovered/added.
+        new AuthorizationPostInitializer(),
     };
 
     /**
