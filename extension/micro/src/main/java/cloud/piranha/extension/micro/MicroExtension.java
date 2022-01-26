@@ -66,6 +66,8 @@ public class MicroExtension implements WebApplicationExtension {
         context.add(StandardWebXmlExtension.class);
         context.add(StandardServletAnnotationsExtension.class);
         context.add(HerringExtension.class);
+        context.add(JakartaSecurityExtension.class);
+        context.add(WaspExtension.class);
     }
 
     @Override
