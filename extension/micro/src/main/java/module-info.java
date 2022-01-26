@@ -46,4 +46,5 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.standard.welcomefile;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.core.api;
+    requires cloud.piranha.extension.exousia;
 }
