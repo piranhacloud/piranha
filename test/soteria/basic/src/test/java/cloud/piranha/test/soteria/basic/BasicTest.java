@@ -65,10 +65,8 @@ class BasicTest {
                         new SecurityConstraint("/protected/servlet", "architect")))
                 .initializer(JakartaSecurityAllInitializer.class)
                 .initializer(AuthorizationPostInitializer.class)
-                .servlet("PublicServlet", PublicServlet.class)
-                .servletMapping("PublicServlet", "/public/servlet")
-                .servlet("ProtectedServlet", ProtectedServlet.class)
-                .servletMapping("ProtectedServlet", "/protected/servlet")
+                .servletMapped(PublicServlet.class, "/public/servlet")
+                .servletMapped(ProtectedServlet.class, "/protected/servlet")
                 .buildAndStart();
 
         EmbeddedRequest request = new EmbeddedRequestBuilder()
