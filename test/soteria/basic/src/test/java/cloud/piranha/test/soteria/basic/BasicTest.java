@@ -63,8 +63,9 @@ class BasicTest {
                 .initializer(StandardWebXmlInitializer.class)
                 .attribute(CONSTRAINTS, asList(
                         new SecurityConstraint("/protected/servlet", "architect")))
-                .initializer(JakartaSecurityAllInitializer.class)
-                .initializer(AuthorizationPostInitializer.class)
+                .initializers(
+                        JakartaSecurityAllInitializer.class,
+                        AuthorizationPostInitializer.class)
                 .servletMapped(PublicServlet.class, "/public/servlet")
                 .servletMapped(ProtectedServlet.class, "/protected/servlet")
                 .buildAndStart();

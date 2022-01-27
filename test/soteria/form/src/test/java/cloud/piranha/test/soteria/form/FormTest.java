@@ -74,8 +74,9 @@ class FormTest {
                 .initializer(StandardWebXmlInitializer.class)
                 .attribute(CONSTRAINTS, asList(
                         new SecurityConstraint("/protected/servlet", "architect")))
-                .initializer(JakartaSecurityAllInitializer.class)
-                .initializer(AuthorizationPostInitializer.class)
+                .initializers(
+                        JakartaSecurityAllInitializer.class,
+                        AuthorizationPostInitializer.class)
                 .servletMapped(ProtectedServlet.class, "/protected/servlet")
                 .servletMapped(ErrorPageServlet.class, "/error-page")
                 .servletMapped(LoginPageServlet.class, "/login-page")
