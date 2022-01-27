@@ -32,6 +32,7 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;
 import cloud.piranha.extension.standard.webxml.StandardWebXmlInitializer;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_FACTORY_CLASS;
@@ -62,28 +63,31 @@ class BasicConnectionTest {
     @Test
     void testNonSecureConnection() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .initializer(ServletSecurityManagerInitializer.class.getName())
-                .initializer(StandardWebXmlInitializer.class.getName())
+                .initializer(ServletSecurityManagerInitializer.class)
+                .initializer(StandardWebXmlInitializer.class)
                 .attribute(AUTHZ_FACTORY_CLASS, DefaultPolicyConfigurationFactory.class)
                 .attribute(AUTHZ_POLICY_CLASS, DefaultPolicy.class)
                 .attribute(UNCHECKED_PERMISSIONS, asList(
                     new WebUserDataPermission("/*", "!GET"),
                     new WebUserDataPermission("/*", "GET:CONFIDENTIAL")))
-                .initializer(AuthorizationPreInitializer.class.getName())
-                .servlet("PublicServlet", PublicServlet.class.getName())
+                .initializer(AuthorizationPreInitializer.class)
+                .initializer(AuthorizationPostInitializer.class)
+                .servlet("PublicServlet", PublicServlet.class)
                 .servletMapping("PublicServlet", "/public/servlet")
                 .build()
                 .start();
+
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")
                 .servletPath("/public/servlet")
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
+
         piranha.service(request, response);
         assertFalse(response.getResponseAsString().contains("Hello, from Servlet!"));
         piranha.stop().destroy();
     }
-    
+
     /**
      * Test basic connection permission using a secure (https) connection.
      *
@@ -99,23 +103,26 @@ class BasicConnectionTest {
                 .attribute(UNCHECKED_PERMISSIONS, asList(
                     new WebUserDataPermission("/*", "!GET"),
                     new WebUserDataPermission("/*", "GET:CONFIDENTIAL")))
-                .initializer(AuthorizationPreInitializer.class.getName())
-                .servlet("PublicServlet", PublicServlet.class.getName())
+                .initializer(AuthorizationPreInitializer.class)
+                .initializer(AuthorizationPostInitializer.class)
+                .servlet("PublicServlet", PublicServlet.class)
                 .servletMapping("PublicServlet", "/public/servlet")
                 .build()
                 .start();
+
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")
                 .servletPath("/public/servlet")
                 .scheme("https")
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
+
         piranha.service(request, response);
         assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Hello, from Servlet!"));
         piranha.stop().destroy();
     }
-    
+
     @Test
     void testSecureConnectionExactMapping() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
@@ -126,17 +133,20 @@ class BasicConnectionTest {
                 .attribute(UNCHECKED_PERMISSIONS, asList(
                     new WebUserDataPermission("/public/servlet", "!GET"),
                     new WebUserDataPermission("/public/servlet", "GET:CONFIDENTIAL")))
-                .initializer(AuthorizationPreInitializer.class.getName())
-                .servlet("PublicServlet", PublicServlet.class.getName())
+                .initializer(AuthorizationPreInitializer.class)
+                .initializer(AuthorizationPostInitializer.class)
+                .servlet("PublicServlet", PublicServlet.class)
                 .servletMapping("PublicServlet", "/public/servlet")
                 .build()
                 .start();
+
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")
                 .servletPath("/public/servlet")
                 .scheme("https")
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
+
         piranha.service(request, response);
         assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Hello, from Servlet!"));

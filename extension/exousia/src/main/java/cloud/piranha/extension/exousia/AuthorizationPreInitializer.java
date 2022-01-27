@@ -27,31 +27,16 @@
  */
 package cloud.piranha.extension.exousia;
 
+import java.security.Policy;
+import java.util.Set;
+
+import org.glassfish.exousia.AuthorizationService;
+
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebXmlManager;
 import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
-import jakarta.security.jacc.PolicyConfiguration;
-import jakarta.security.jacc.PolicyContextException;
-import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
-import java.security.Permission;
-import java.security.Policy;
-import java.util.ArrayList;
-import static java.util.Collections.disjoint;
-import static java.util.Collections.emptyList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import static java.util.stream.Collectors.toSet;
-import org.glassfish.exousia.AuthorizationService;
-import org.glassfish.exousia.constraints.SecurityConstraint;
-import static org.glassfish.exousia.constraints.SecurityConstraint.join;
-import org.glassfish.exousia.constraints.WebResourceCollection;
-import org.glassfish.exousia.mapping.SecurityRoleRef;
 
 /**
  * The Exousia initializer.
@@ -118,31 +103,16 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
 
         // Create the main Exousia authorization service, which implements the various entry points (an SPI)
         // for a runtime to make use of Jakarta Authorization
-        AuthorizationService authorizationService = getAuthorizationService(context);
-
-        // Join together in one list the constraints set by the servlet security elements, and the
-        // piranha specific security constraint
-        List<SecurityConstraint> securityConstraints = getAllScurityConstraints(context);
-
-        for (SecurityConstraint securityConstraint : securityConstraints) {
-            context.getManager().getSecurityManager().declareRoles(securityConstraint.getRolesAllowed());
-        }
-
-        if (hasPermissionsSet(context)) {
-            setPermissions(context, authorizationService);
-        } else {
-            setConstraints(context, authorizationService, securityConstraints);
-        }
-
-        authorizationService.commitPolicy();
-        addAuthorizationPreFilter(context);
+        createAuthorizationService(context);
     }
+
+
 
 
     // ### Private methods
 
 
-    private AuthorizationService getAuthorizationService(WebApplication context) throws ServletException {
+    private void createAuthorizationService(WebApplication context) throws ServletException {
         // Gets the authorization module classes that were configured externally
         Class<?> factoryClass = getAttribute(context, AUTHZ_FACTORY_CLASS);
         Class<? extends Policy> policyClass = getAttribute(context, AUTHZ_POLICY_CLASS);
@@ -159,173 +129,10 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
             () -> AuthorizationPreFilter.getLocalServletRequest().get());
 
         context.setAttribute(AUTHZ_SERVICE, authorizationService);
-
-        return authorizationService;
-    }
-
-    private List<SecurityConstraint> getAllScurityConstraints(WebApplication context) throws ServletException {
-        List<SecurityConstraint> webXmlConstraints = getConstraintsFromWebXml(context);
-        List<SecurityConstraint> annotationConstraints = filterAnnotatedConstraints(
-                webXmlConstraints,
-                getConstraintsFromSecurityAnnotations(context));
-
-        List<SecurityConstraint> allScurityConstraints = join(
-            getConstraintsFromSecurityElements(context),
-            annotationConstraints,
-            getOptionalAttribute(context, CONSTRAINTS),
-            webXmlConstraints);
-
-        if (allScurityConstraints == null) {
-            return emptyList();
-        }
-
-        return allScurityConstraints;
-    }
-
-    private void addAuthorizationPreFilter(WebApplication context) {
-        FilterRegistration.Dynamic dynamic = context.addFilter(AuthorizationPreFilter.class.getSimpleName(), AuthorizationPreFilter.class);
-        dynamic.setAsyncSupported(true);
-        context.addFilterMapping(AuthorizationPreFilter.class.getSimpleName(), "/*");
-    }
-
-    private List<SecurityConstraint> filterAnnotatedConstraints(List<SecurityConstraint> webXmlConstraints, List<SecurityConstraint> annotationConstraints) {
-        if (isAnyNull(webXmlConstraints, annotationConstraints)) {
-            return annotationConstraints;
-        }
-
-        // Servlet Spec 13.4.1
-        //
-        // When a security-constraint in the portable deployment descriptor includes a url-pattern
-        // that is an exact match for a pattern mapped to a class annotated with @ServletSecurity,
-        // the annotation must have no effect on the constraints enforced by the Servlet container
-        // on the pattern.
-
-        // Index all URL patterns in web.xml
-        Set<String> webXmlUrlPatterns = webXmlConstraints
-            .stream()
-            .flatMap(e -> e.getWebResourceCollections().stream())
-            .flatMap(e -> e.getUrlPatterns().stream())
-            .collect(toSet())
-            ;
-
-        List<SecurityConstraint> filteredAnnotationConstraints = new ArrayList<>();
-        for (SecurityConstraint annotationConstraint : annotationConstraints) {
-            List<WebResourceCollection> webResourceCollections = new ArrayList<>();
-            for (WebResourceCollection webResourceCollection : annotationConstraint.getWebResourceCollections()) {
-                WebResourceCollection newWebResourceCollection = webResourceCollection;
-                if (!disjoint(webXmlUrlPatterns, webResourceCollection.getUrlPatterns())) {
-                    Set<String> complementPatterns = new HashSet<>(webResourceCollection.getUrlPatterns());
-                    complementPatterns.removeAll(webXmlUrlPatterns);
-
-                    if (complementPatterns.isEmpty()) {
-                        newWebResourceCollection = null;
-                    } else {
-                        newWebResourceCollection = new WebResourceCollection(
-                            complementPatterns,
-                            webResourceCollection.getHttpMethods(),
-                            webResourceCollection.getHttpMethodOmissions());
-                    }
-                }
-
-                if (newWebResourceCollection != null) {
-                    webResourceCollections.add(newWebResourceCollection);
-                }
-            }
-
-            if (!webResourceCollections.isEmpty()) {
-                filteredAnnotationConstraints.add(new SecurityConstraint(
-                        webResourceCollections,
-                        annotationConstraint.getRolesAllowed(),
-                        annotationConstraint.getTransportGuarantee()));
-            }
-        }
-
-        return filteredAnnotationConstraints;
-    }
-
-    /**
-     * Get the security constraints from security elements.
-     *
-     * @param servletContext the Servlet context.
-     * @return the list of security constraints.
-     */
-    private List<SecurityConstraint> getConstraintsFromSecurityElements(ServletContext servletContext) {
-        return piranhaToExousiaConverter.getConstraintsFromSecurityElements(getOptionalAttribute(servletContext, SECURITY_ELEMENTS));
-    }
-
-    /**
-     * Get the security constraints from annotations.
-     *
-     * @param servletContext the Servlet context.
-     * @return the list of security constraints.
-     */
-    private List<SecurityConstraint> getConstraintsFromSecurityAnnotations(ServletContext servletContext) {
-        return piranhaToExousiaConverter.getConstraintsFromSecurityAnnotations(getOptionalAttribute(servletContext, SECURITY_ANNOTATIONS));
-    }
-
-    /**
-     * Get security constraints from web.xml.
-     *
-     * @param webApplication the web application.
-     * @return the list of security constraints.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    private List<SecurityConstraint> getConstraintsFromWebXml(WebApplication webApplication) throws ServletException {
-        WebXmlManager manager = webApplication.getManager().getWebXmlManager();
-        return piranhaToExousiaConverter.getConstraintsFromWebXml(manager.getWebXml());
-    }
-
-    /**
-     * Get the security role refs from web.xml.
-     *
-     * @param webApplication the web application.
-     * @return the map of security role refs.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    public Map<String, List<SecurityRoleRef>> getSecurityRoleRefsFromWebXml(WebApplication webApplication) throws ServletException {
-        WebXmlManager manager = webApplication.getManager().getWebXmlManager();
-        return piranhaToExousiaConverter.getSecurityRoleRefsFromWebXml(webApplication.getServletRegistrations().keySet(), manager.getWebXml());
     }
 
 
 
-
-    private boolean hasPermissionsSet(ServletContext servletContext) {
-        return getOptionalAttribute(servletContext, UNCHECKED_PERMISSIONS) != null
-                || getOptionalAttribute(servletContext, PERROLE_PERMISSIONS) != null;
-    }
-
-    private void setPermissions(ServletContext servletContext, AuthorizationService authorizationService) {
-        // Add permissions to the policy configuration, which is the repository that the policy (authorization module)
-        // uses
-        PolicyConfiguration policyConfiguration = authorizationService.getPolicyConfiguration();
-
-        try {
-            List<Permission> unchecked = getOptionalAttribute(servletContext, UNCHECKED_PERMISSIONS);
-            if (unchecked != null) {
-                for (Permission permission : unchecked) {
-                    policyConfiguration.addToUncheckedPolicy(permission);
-                }
-            }
-
-            List<Entry<String, Permission>> perRole = getOptionalAttribute(servletContext, PERROLE_PERMISSIONS);
-            if (perRole != null) {
-                for (Entry<String, Permission> perRoleEntry : perRole) {
-                    policyConfiguration.addToRole(perRoleEntry.getKey(), perRoleEntry.getValue());
-                }
-            }
-        } catch (PolicyContextException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    private void setConstraints(WebApplication context, AuthorizationService authorizationService, List<SecurityConstraint> securityConstraints) throws ServletException {
-        authorizationService.addConstraintsToPolicy(
-            securityConstraints,
-            context.getManager().getSecurityManager().getRoles(),
-            context.getManager().getSecurityManager().getDenyUncoveredHttpMethods(),
-            getSecurityRoleRefsFromWebXml(context));
-    }
 
 
 
@@ -345,16 +152,6 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         T t = (T) servletContext.getAttribute(name);
 
         return t;
-    }
-
-    private static boolean isAnyNull(Object... values) {
-        for (Object value : values) {
-            if (value == null) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
 }

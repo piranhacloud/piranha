@@ -27,10 +27,13 @@
  */
 package cloud.piranha.extension.micro;
 
+import static java.util.Arrays.asList;
+
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
+import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
@@ -44,7 +47,6 @@ import cloud.piranha.extension.standard.tempdir.StandardTempDirExtension;
 import cloud.piranha.extension.standard.webxml.StandardWebXmlExtension;
 import cloud.piranha.extension.standard.welcomefile.StandardWelcomeFileExtension;
 import cloud.piranha.extension.wasp.WaspInitializer;
-import static java.util.Arrays.asList;
 
 /**
  * The default {@link WebApplicationExtension} used to configure a web application for Piranha Micro.
@@ -75,5 +77,6 @@ public class MicroExtension implements WebApplicationExtension {
         new StandardServletContainerInitializerExtension(
             true, asList("org.glassfish.soteria.servlet.SamRegistrationInstaller"))
             .configure(webApplication);
+        webApplication.addInitializer(new AuthorizationPostInitializer());
     }
 }

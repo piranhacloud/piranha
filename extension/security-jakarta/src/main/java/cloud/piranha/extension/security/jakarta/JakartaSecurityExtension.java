@@ -27,14 +27,13 @@
  */
 package cloud.piranha.extension.security.jakarta;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.System.Logger.Level;
-import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
 
-import jakarta.servlet.ServletContainerInitializer;
+import java.lang.System.Logger;
 
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
+import jakarta.servlet.ServletContainerInitializer;
 
 /**
  * The extension for Jakarta Security.
@@ -56,17 +55,15 @@ public class JakartaSecurityExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         try {
-            ClassLoader classLoader = webApplication.getClassLoader();
-            Class<? extends ServletContainerInitializer> clazz
-                    = classLoader.
-                    loadClass(JakartaSecurityAllInitializer.class.getName())
-                    .asSubclass(ServletContainerInitializer.class);
-            ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
-            webApplication.addInitializer(initializer);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
-                | InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.log(Level.WARNING, "Unable to enable the JakartaSecurityExtension", ex);
+            webApplication.addInitializer(
+                webApplication.getClassLoader()
+                              .loadClass(JakartaSecurityAllInitializer.class.getName())
+                              .asSubclass(ServletContainerInitializer.class)
+                              .getDeclaredConstructor()
+                              .newInstance());
+
+        } catch (ReflectiveOperationException | SecurityException | IllegalArgumentException ex) {
+            LOGGER.log(WARNING, "Unable to enable the JakartaSecurityExtension", ex);
         }
     }
 }
