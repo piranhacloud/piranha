@@ -34,9 +34,22 @@ import cloud.piranha.core.impl.DefaultWebApplicationRequest;
  * {@link cloud.piranha.embedded.EmbeddedPiranha}
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
  * @see cloud.piranha.embedded.EmbeddedPiranha
  */
 public class EmbeddedRequest extends DefaultWebApplicationRequest {
+
+    /**
+     * Another Constructor.
+     *
+     * @param servletPath the servletPath
+     *
+     */
+    public EmbeddedRequest(String servletPath) {
+        this();
+        setServletPath(servletPath);
+        setContextPath("");
+    }
 
     /**
      * Constructor.
