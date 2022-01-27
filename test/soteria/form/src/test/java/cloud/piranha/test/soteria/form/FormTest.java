@@ -69,12 +69,13 @@ class FormTest {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
 
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .extension(ServletSecurityManagerExtension.class)
-                .extension(HerringExtension.class)
-                .initializer(StandardWebXmlInitializer.class)
                 .attribute(CONSTRAINTS, asList(
                         new SecurityConstraint("/protected/servlet", "architect")))
+                .extensions(
+                        ServletSecurityManagerExtension.class,
+                        HerringExtension.class)
                 .initializers(
+                        StandardWebXmlInitializer.class,
                         JakartaSecurityAllInitializer.class,
                         AuthorizationPostInitializer.class)
                 .servletMapped(ProtectedServlet.class, "/protected/servlet")
