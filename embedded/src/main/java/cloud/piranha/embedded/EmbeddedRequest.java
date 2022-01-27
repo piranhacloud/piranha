@@ -27,6 +27,7 @@
  */
 package cloud.piranha.embedded;
 
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 
 /**
@@ -49,5 +50,14 @@ public class EmbeddedRequest extends DefaultWebApplicationRequest {
         this.remoteAddr = "127.0.0.1";
         this.remoteHost = "localhost";
         this.remotePort = 18080;
+    }
+    
+    /**
+     * Get the web application.
+     * 
+     * @return the web application.
+     */
+    public WebApplication getWebApplication() {
+        return webApplication;
     }
 }
