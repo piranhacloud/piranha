@@ -357,6 +357,19 @@ public class EmbeddedPiranhaBuilder {
     }
 
     /**
+     * Add initializers.
+     *
+     * @param initializerClasses the classes
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder initializers(Class<?>... initializerClasses) {
+        for (Class<?> initializerClass : initializerClasses) {
+            initializers.add(initializerClass.getName());
+        }
+        return this;
+    }
+
+    /**
      * Add an initializer.
      *
      * @param initializerClass the class name.
