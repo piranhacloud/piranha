@@ -27,6 +27,7 @@
  */
 package cloud.piranha.embedded;
 
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 
 /**
@@ -34,9 +35,22 @@ import cloud.piranha.core.impl.DefaultWebApplicationRequest;
  * {@link cloud.piranha.embedded.EmbeddedPiranha}
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
  * @see cloud.piranha.embedded.EmbeddedPiranha
  */
 public class EmbeddedRequest extends DefaultWebApplicationRequest {
+
+    /**
+     * Another Constructor.
+     *
+     * @param servletPath the servletPath
+     *
+     */
+    public EmbeddedRequest(String servletPath) {
+        this();
+        setServletPath(servletPath);
+        setContextPath("");
+    }
 
     /**
      * Constructor.
@@ -49,5 +63,14 @@ public class EmbeddedRequest extends DefaultWebApplicationRequest {
         this.remoteAddr = "127.0.0.1";
         this.remoteHost = "localhost";
         this.remotePort = 18080;
+    }
+    
+    /**
+     * Get the web application.
+     * 
+     * @return the web application.
+     */
+    public WebApplication getWebApplication() {
+        return webApplication;
     }
 }

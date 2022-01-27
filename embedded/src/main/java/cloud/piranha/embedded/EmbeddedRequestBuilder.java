@@ -98,7 +98,7 @@ public class EmbeddedRequestBuilder {
         if (request.getCookies() != null) {
             cookies = new Cookie[request.getCookies().length + 1];
             for (int i = 0; i < cookies.length - 1; i++) {
-                cookies[i] = (Cookie) cookies[i].clone();
+                cookies[i] = (Cookie) request.getCookies()[i].clone();
             }
             cookies[cookies.length - 1] = cookie;
         } else {
