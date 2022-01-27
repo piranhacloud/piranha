@@ -67,8 +67,9 @@ class BasicTest {
                         StandardWebXmlInitializer.class,
                         JakartaSecurityAllInitializer.class,
                         AuthorizationPostInitializer.class)
-                .servletMapped(PublicServlet.class, "/public/servlet")
-                .servletMapped(ProtectedServlet.class, "/protected/servlet")
+                .servletsMapped(
+                        PublicServlet.class, "/public/servlet",
+                        ProtectedServlet.class, "/protected/servlet")
                 .buildAndStart();
 
         EmbeddedRequest request = new EmbeddedRequestBuilder()
