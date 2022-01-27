@@ -35,7 +35,7 @@ import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
 import cloud.piranha.extension.herring.HerringExtension;
-import cloud.piranha.extension.security.jakarta.JakartaSecurityAllInitializer;
+import cloud.piranha.extension.security.jakarta.JakartaSecurityExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.standard.async.StandardAsyncExtension;
 import cloud.piranha.extension.standard.localeencoding.StandardLocaleEncodingExtension;
@@ -46,7 +46,7 @@ import cloud.piranha.extension.standard.servletannotations.StandardServletAnnota
 import cloud.piranha.extension.standard.tempdir.StandardTempDirExtension;
 import cloud.piranha.extension.standard.webxml.StandardWebXmlExtension;
 import cloud.piranha.extension.standard.welcomefile.StandardWelcomeFileExtension;
-import cloud.piranha.extension.wasp.WaspInitializer;
+import cloud.piranha.extension.wasp.WaspExtension;
 
 /**
  * The default {@link WebApplicationExtension} used to configure a web application for Piranha Micro.
@@ -68,12 +68,12 @@ public class MicroExtension implements WebApplicationExtension {
         context.add(StandardWebXmlExtension.class);
         context.add(StandardServletAnnotationsExtension.class);
         context.add(HerringExtension.class);
+        context.add(JakartaSecurityExtension.class);
+        context.add(WaspExtension.class);
     }
 
     @Override
     public void configure(WebApplication webApplication) {
-        webApplication.addInitializer(new JakartaSecurityAllInitializer());
-        webApplication.addInitializer(new WaspInitializer());
         new StandardServletContainerInitializerExtension(
             true, asList("org.glassfish.soteria.servlet.SamRegistrationInstaller"))
             .configure(webApplication);
