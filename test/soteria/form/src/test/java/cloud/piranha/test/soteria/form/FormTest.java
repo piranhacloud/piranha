@@ -81,13 +81,9 @@ class FormTest {
                 .servletMapped(LoginPageServlet.class, "/login-page")
                 .servletMapped(DefaultServlet.class, "/*")
                 .buildAndStart();
-        EmbeddedRequest request = new EmbeddedRequestBuilder()
-                .servletPath("/protected/servlet")
-                .build();
 
-        EmbeddedResponse response = new EmbeddedResponse();
 
-        piranha.service(request, response);
+        EmbeddedResponse response = piranha.service(new EmbeddedRequest("/protected/servlet"));
 
         assertTrue(
                 response.getResponseAsString().contains(
@@ -96,7 +92,7 @@ class FormTest {
         );
 
         Cookie sessionCookie = response.getCookies().iterator().next();
-        request = new EmbeddedRequestBuilder()
+        EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .method("POST")
                 .servletPath("/j_security_check")
                 .parameter("j_username", "test")
@@ -105,8 +101,8 @@ class FormTest {
                 .requestedSessionIdFromCookie(true)
                 .cookie(sessionCookie)
                 .build();
-        response = new EmbeddedResponse();
-        piranha.service(request, response);
+        response = piranha.service(request);
+
         assertEquals(response.getStatus(), 302,"Should redirect");
 
         URL redirectUrl = new URL(response.getHeader("Location"));
@@ -116,9 +112,8 @@ class FormTest {
                 .requestedSessionIdFromCookie(true)
                 .cookie(sessionCookie)
                 .build();
-        response = new EmbeddedResponse();
 
-        piranha.service(request, response);
+        response = piranha.service(request);
 
         // Not only does the page needs to be accessible, the caller should have
         // the correct
@@ -155,8 +150,8 @@ class FormTest {
                 .requestedSessionIdFromCookie(true)
                 .cookie(sessionCookie)
                 .build();
-        response = new EmbeddedResponse();
-        piranha.service(request, response);
+
+        response = piranha.service(request);
 
         // Being able to access a page protected by a role but then seeing the un-authenticated
         // (anonymous) user would normally be impossible, but could happen if the authorization
