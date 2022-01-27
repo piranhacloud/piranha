@@ -76,9 +76,7 @@ class BasicTest {
                 .parameter("doLogin", "true")
                 .build();
 
-        EmbeddedResponse response = new EmbeddedResponse();
-
-        piranha.service(request, response);
+        EmbeddedResponse response = piranha.service(request);
 
         // Now has to be logged-in so page is accessible
         assertTrue(
@@ -114,6 +112,7 @@ class BasicTest {
                 "Resource protected by role \"architect\" could be accessed, but user fails test for this role."
                         + "This should not be possible"
         );
+
         piranha.stop().destroy();
     }
 }
