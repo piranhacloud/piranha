@@ -1,0 +1,16 @@
+{
+    "iss": "cloud.piranha",
+    "jti": "a-123",
+    "sub": "24400320",
+    "aud": "s6BhdRkqt3",
+    "exp": 1311281970,
+    "iat": 1311280970,
+    "auth_time": 1311280969,
+    "upn": "test",
+    "groups": [
+        "architect",
+        "master",
+        "leader",
+        "dev"
+    ]
+}

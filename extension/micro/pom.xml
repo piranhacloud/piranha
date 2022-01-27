@@ -106,6 +106,45 @@
         
         <!-- runtime -->
         
+        <!-- Jakarta REST API -->
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- Jakarta REST API implementation -->
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet-core</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.ext.cdi</groupId>
+            <artifactId>jersey-cdi1x</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-processing</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
         <!-- Jakarta Security implementation -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
@@ -160,6 +199,20 @@
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- MicroProfile JWT API -->
+        <dependency>
+            <groupId>org.eclipse.microprofile.jwt</groupId>
+            <artifactId>microprofile-jwt-auth-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- MicroProfile JWT implementation -->
+        <dependency>
+            <groupId>org.omnifaces</groupId>
+            <artifactId>microprofile-jwt-auth</artifactId>
             <scope>runtime</scope>
         </dependency>
         
