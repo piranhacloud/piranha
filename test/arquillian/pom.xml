@@ -18,6 +18,7 @@
     <modules>
         <module>servlet-basic</module>
         <module>config-basic</module>
+        <module>jwt-basic</module>
     </modules>
 
     <properties>
