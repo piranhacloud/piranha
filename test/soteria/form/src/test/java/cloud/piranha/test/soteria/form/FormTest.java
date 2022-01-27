@@ -78,10 +78,11 @@ class FormTest {
                         StandardWebXmlInitializer.class,
                         JakartaSecurityAllInitializer.class,
                         AuthorizationPostInitializer.class)
-                .servletMapped(ProtectedServlet.class, "/protected/servlet")
-                .servletMapped(ErrorPageServlet.class, "/error-page")
-                .servletMapped(LoginPageServlet.class, "/login-page")
-                .servletMapped(DefaultServlet.class, "/*")
+                .servletsMapped(
+                        ProtectedServlet.class, "/protected/servlet",
+                        ErrorPageServlet.class, "/error-page",
+                        LoginPageServlet.class, "/login-page",
+                        DefaultServlet.class, "/*")
                 .buildAndStart();
 
 
