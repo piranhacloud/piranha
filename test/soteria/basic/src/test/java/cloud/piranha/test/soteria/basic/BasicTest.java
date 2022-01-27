@@ -58,17 +58,17 @@ class BasicTest {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
 
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .extension(ServletSecurityManagerExtension.class)
-                .extension(HerringExtension.class)
-                .initializer(StandardWebXmlInitializer.class)
                 .attribute(CONSTRAINTS, asList(
                         new SecurityConstraint("/protected/servlet", "architect")))
-                .initializer(JakartaSecurityAllInitializer.class)
-                .initializer(AuthorizationPostInitializer.class)
-                .servlet("PublicServlet", PublicServlet.class)
-                .servletMapping("PublicServlet", "/public/servlet")
-                .servlet("ProtectedServlet", ProtectedServlet.class)
-                .servletMapping("ProtectedServlet", "/protected/servlet")
+                .extensions(
+                        ServletSecurityManagerExtension.class,
+                        HerringExtension.class)
+                .initializers(
+                        StandardWebXmlInitializer.class,
+                        JakartaSecurityAllInitializer.class,
+                        AuthorizationPostInitializer.class)
+                .servletMapped(PublicServlet.class, "/public/servlet")
+                .servletMapped(ProtectedServlet.class, "/protected/servlet")
                 .buildAndStart();
 
         EmbeddedRequest request = new EmbeddedRequestBuilder()
@@ -78,9 +78,7 @@ class BasicTest {
                 .parameter("doLogin", "true")
                 .build();
 
-        EmbeddedResponse response = new EmbeddedResponse();
-
-        piranha.service(request, response);
+        EmbeddedResponse response = piranha.service(request);
 
         // Now has to be logged-in so page is accessible
         assertTrue(
@@ -116,6 +114,7 @@ class BasicTest {
                 "Resource protected by role \"architect\" could be accessed, but user fails test for this role."
                         + "This should not be possible"
         );
+
         piranha.stop().destroy();
     }
 }
