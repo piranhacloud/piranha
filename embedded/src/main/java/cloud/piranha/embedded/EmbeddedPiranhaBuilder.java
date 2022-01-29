@@ -27,14 +27,6 @@
  */
 package cloud.piranha.embedded;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import cloud.piranha.core.api.HttpSessionManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
@@ -45,7 +37,13 @@ import cloud.piranha.resource.impl.DirectoryResource;
 import cloud.piranha.resource.impl.StringResource;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.ServletRegistration;
-
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The builder so you can easily build instances of
@@ -122,6 +120,11 @@ public class EmbeddedPiranhaBuilder {
     private final LinkedHashMap<String, List<String>> servletMappings;
 
     /**
+     * Stores the web application.
+     */
+    private WebApplication webApplication;
+
+    /**
      * Constructor.
      */
     public EmbeddedPiranhaBuilder() {
@@ -169,9 +172,14 @@ public class EmbeddedPiranhaBuilder {
      * @return the instance.
      */
     public EmbeddedPiranha build() {
-        EmbeddedPiranha piranha = new EmbeddedPiranha();
+        EmbeddedPiranha piranha;
 
-        WebApplication webApplication = piranha.getWebApplication();
+        if (webApplication == null) {
+            piranha = new EmbeddedPiranha();
+            webApplication = piranha.getWebApplication();
+        } else {
+            piranha = new EmbeddedPiranha(webApplication);
+        }
 
         if (extensionClasses != null && !extensionClasses.isEmpty()) {
             DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
@@ -215,7 +223,8 @@ public class EmbeddedPiranhaBuilder {
         servletMappings.entrySet().forEach(servletMapping -> {
             String servletName = servletMapping.getKey();
             List<String> urlPatterns = servletMapping.getValue();
-            webApplication.addServletMapping(servletName, urlPatterns.toArray(new String[0]));
+            ServletRegistration servlet = webApplication.getServletRegistration(servletName);
+            servlet.addMapping(urlPatterns.toArray(new String[0]));
         });
 
         filters.entrySet().forEach(entry -> {
@@ -234,7 +243,8 @@ public class EmbeddedPiranhaBuilder {
         filterMappings.entrySet().forEach(filterMapping -> {
             String filterName = filterMapping.getKey();
             List<String> urlPatterns = filterMapping.getValue();
-            webApplication.addFilterMapping(filterName, urlPatterns.toArray(new String[0]));
+            FilterRegistration filter = webApplication.getFilterRegistration(filterName);
+            filter.addMappingForUrlPatterns(null, false, urlPatterns.toArray(new String[0]));
         });
 
         webApplication.initializeInitializers();
@@ -357,19 +367,6 @@ public class EmbeddedPiranhaBuilder {
     }
 
     /**
-     * Add initializers.
-     *
-     * @param initializerClasses the classes
-     * @return the builder.
-     */
-    public EmbeddedPiranhaBuilder initializers(Class<?>... initializerClasses) {
-        for (Class<?> initializerClass : initializerClasses) {
-            initializers.add(initializerClass.getName());
-        }
-        return this;
-    }
-
-    /**
      * Add an initializer.
      *
      * @param initializerClass the class name.
@@ -392,6 +389,19 @@ public class EmbeddedPiranhaBuilder {
     }
 
     /**
+     * Add initializers.
+     *
+     * @param initializerClasses the classes
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder initializers(Class<?>... initializerClasses) {
+        for (Class<?> initializerClass : initializerClasses) {
+            initializers.add(initializerClass.getName());
+        }
+        return this;
+    }
+
+    /**
      * Add a listeners.
      *
      * @param className the class name.
@@ -402,129 +412,15 @@ public class EmbeddedPiranhaBuilder {
         return this;
     }
 
-    /**
-     * Add a servlet and a servlet mapping.
-     *
-     * @param servletClass the servlet class.
-     * @param urlPatterns the URL patterns
-     * @return the builder.
-     */
-    public EmbeddedPiranhaBuilder servletMapped(Class<?> servletClass, String... urlPatterns) {
-        servlet(servletClass.getSimpleName(), servletClass.getName(), false);
-        return servletMapping(servletClass.getSimpleName(), urlPatterns);
-    }
-
-    /**
-     * Add servlets and their servlet mapping.
-     *
-     * @param servletClass1 the first servlet class.
-     * @param urlPattern1 the first URL pattern.
-     * @return the builder.
-     */
-    public EmbeddedPiranhaBuilder servletsMapped(Class<?> servletClass1, String urlPattern1) {
-        return processServletsMapped(
-            servletClass1, urlPattern1);
-    }
-
-    /**
-     * Add servlets and their servlet mapping.
-     *
-     * @param servletClass1 the first servlet class.
-     * @param urlPattern1 the first URL pattern.
-     * @param servletClass2 the second servlet class.
-     * @param urlPattern2 the second URL pattern.
-     * @return the builder.
-     */
-    public EmbeddedPiranhaBuilder servletsMapped(Class<?> servletClass1, String urlPattern1, Class<?> servletClass2, String urlPattern2) {
-        return processServletsMapped(
-            servletClass1, urlPattern1, servletClass2, urlPattern2);
-    }
-
-    /**
-     * Add servlets and their servlet mapping.
-     *
-     * @param servletClass1 the first servlet class.
-     * @param urlPattern1 the first URL pattern.
-     * @param servletClass2 the second servlet class.
-     * @param urlPattern2 the second URL pattern.
-     *  @param servletClass3 the third servlet class.
-     * @param urlPattern3 the third URL pattern.
-     * @return the builder.
-     */
-    public EmbeddedPiranhaBuilder servletsMapped(Class<?> servletClass1, String urlPattern1, Class<?> servletClass2, String urlPattern2,
-            Class<?> servletClass3, String urlPattern3) {
-        return processServletsMapped(
-            servletClass1, urlPattern1, servletClass2, urlPattern2, servletClass3, urlPattern3);
-    }
-
-    /**
-     * Add servlets and their servlet mapping.
-     *
-     * @param servletClass1 the first servlet class.
-     * @param urlPattern1 the first URL pattern.
-     * @param servletClass2 the second servlet class.
-     * @param urlPattern2 the second URL pattern.
-     * @param servletClass3 the third servlet class.
-     * @param urlPattern3 the third URL pattern.
-     * @param servletClass4 the fourth servlet class.
-     * @param urlPattern4 the fourth URL pattern.
-     * @return the builder.
-     */
-    public EmbeddedPiranhaBuilder servletsMapped(Class<?> servletClass1, String urlPattern1, Class<?> servletClass2, String urlPattern2,
-            Class<?> servletClass3, String urlPattern3, Class<?> servletClass4, String urlPattern4) {
-        return processServletsMapped(
-            servletClass1, urlPattern1, servletClass2, urlPattern2, servletClass3, urlPattern3, servletClass4, urlPattern4);
-    }
-
-    /**
-     * Add servlets and their servlet mapping.
-     *
-     * @param servletClass1 the first servlet class.
-     * @param urlPattern1 the first URL pattern.
-     * @param servletClass2 the second servlet class.
-     * @param urlPattern2 the second URL pattern.
-     * @param servletClass3 the third servlet class.
-     * @param urlPattern3 the third URL pattern.
-     * @param servletClass4 the fourth servlet class.
-     * @param urlPattern4 the fourth URL pattern.
-     * @param servletClass5 the fifth servlet class.
-     * @param urlPattern5 the fifth URL pattern.
-     * @return the builder.
-     */
-    public EmbeddedPiranhaBuilder servletsMapped(Class<?> servletClass1, String urlPattern1, Class<?> servletClass2, String urlPattern2,
-            Class<?> servletClass3, String urlPattern3, Class<?> servletClass4, String urlPattern4, Class<?> servletClass5, String urlPattern5) {
-        return processServletsMapped(
-            servletClass1, urlPattern1, servletClass2, urlPattern2, servletClass3, urlPattern3, servletClass4, urlPattern4, servletClass5, urlPattern5);
-    }
-
     private EmbeddedPiranhaBuilder processServletsMapped(Object... objects) {
-        if ((objects.length & 1) != 0) {
-            throw new IllegalStateException("parameter length is not even");
-        }
-
         for (int i = 0; i < objects.length; i += 2) {
             Class<?> servletClass = (Class<?>) objects[i];
-            String urlPattern = (String) objects[i+1];
-
+            String urlPattern = (String) objects[i + 1];
             servlet(servletClass.getSimpleName(), servletClass.getName(), false);
             servletMapping(servletClass.getSimpleName(), urlPattern);
         }
-
         return this;
     }
-    /**
-     * Add a servlet and a servlet mapping.
-     *
-     * @param servletClass the servlet class.
-     * @param asyncSupported the async supported flag.
-     * @param urlPatterns the URL patterns
-     * @return the builder.
-     */
-    public EmbeddedPiranhaBuilder servletMapped(Class<?> servletClass, boolean asyncSupported, String... urlPatterns) {
-        servlet(servletClass.getSimpleName(), servletClass.getName(), asyncSupported);
-        return servletMapping(servletClass.getSimpleName(), urlPatterns);
-    }
-
 
     /**
      * Add a servlet
@@ -593,6 +489,31 @@ public class EmbeddedPiranhaBuilder {
     }
 
     /**
+     * Add a servlet and a servlet mapping.
+     *
+     * @param servletClass the servlet class.
+     * @param urlPatterns the URL patterns
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder servletMapped(Class<?> servletClass, String... urlPatterns) {
+        servlet(servletClass.getSimpleName(), servletClass.getName(), false);
+        return servletMapping(servletClass.getSimpleName(), urlPatterns);
+    }
+
+    /**
+     * Add a servlet and a servlet mapping.
+     *
+     * @param servletClass the servlet class.
+     * @param asyncSupported the async supported flag.
+     * @param urlPatterns the URL patterns
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder servletMapped(Class<?> servletClass, boolean asyncSupported, String... urlPatterns) {
+        servlet(servletClass.getSimpleName(), servletClass.getName(), asyncSupported);
+        return servletMapping(servletClass.getSimpleName(), urlPatterns);
+    }
+
+    /**
      * Add a servlet mapping.
      *
      * @param servletName the servlet name.
@@ -605,6 +526,89 @@ public class EmbeddedPiranhaBuilder {
     }
 
     /**
+     * Add servlets and their servlet mapping.
+     *
+     * @param servletClass1 the first servlet class.
+     * @param urlPattern1 the first URL pattern.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder servletsMapped(Class<?> servletClass1, String urlPattern1) {
+        return processServletsMapped(
+                servletClass1, urlPattern1);
+    }
+
+    /**
+     * Add servlets and their servlet mapping.
+     *
+     * @param servletClass1 the first servlet class.
+     * @param urlPattern1 the first URL pattern.
+     * @param servletClass2 the second servlet class.
+     * @param urlPattern2 the second URL pattern.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder servletsMapped(Class<?> servletClass1, String urlPattern1, Class<?> servletClass2, String urlPattern2) {
+        return processServletsMapped(
+                servletClass1, urlPattern1, servletClass2, urlPattern2);
+    }
+
+    /**
+     * Add servlets and their servlet mapping.
+     *
+     * @param servletClass1 the first servlet class.
+     * @param urlPattern1 the first URL pattern.
+     * @param servletClass2 the second servlet class.
+     * @param urlPattern2 the second URL pattern.
+     * @param servletClass3 the third servlet class.
+     * @param urlPattern3 the third URL pattern.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder servletsMapped(Class<?> servletClass1, String urlPattern1, Class<?> servletClass2, String urlPattern2,
+            Class<?> servletClass3, String urlPattern3) {
+        return processServletsMapped(
+                servletClass1, urlPattern1, servletClass2, urlPattern2, servletClass3, urlPattern3);
+    }
+
+    /**
+     * Add servlets and their servlet mapping.
+     *
+     * @param servletClass1 the first servlet class.
+     * @param urlPattern1 the first URL pattern.
+     * @param servletClass2 the second servlet class.
+     * @param urlPattern2 the second URL pattern.
+     * @param servletClass3 the third servlet class.
+     * @param urlPattern3 the third URL pattern.
+     * @param servletClass4 the fourth servlet class.
+     * @param urlPattern4 the fourth URL pattern.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder servletsMapped(Class<?> servletClass1, String urlPattern1, Class<?> servletClass2, String urlPattern2,
+            Class<?> servletClass3, String urlPattern3, Class<?> servletClass4, String urlPattern4) {
+        return processServletsMapped(
+                servletClass1, urlPattern1, servletClass2, urlPattern2, servletClass3, urlPattern3, servletClass4, urlPattern4);
+    }
+
+    /**
+     * Add servlets and their servlet mapping.
+     *
+     * @param servletClass1 the first servlet class.
+     * @param urlPattern1 the first URL pattern.
+     * @param servletClass2 the second servlet class.
+     * @param urlPattern2 the second URL pattern.
+     * @param servletClass3 the third servlet class.
+     * @param urlPattern3 the third URL pattern.
+     * @param servletClass4 the fourth servlet class.
+     * @param urlPattern4 the fourth URL pattern.
+     * @param servletClass5 the fifth servlet class.
+     * @param urlPattern5 the fifth URL pattern.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder servletsMapped(Class<?> servletClass1, String urlPattern1, Class<?> servletClass2, String urlPattern2,
+            Class<?> servletClass3, String urlPattern3, Class<?> servletClass4, String urlPattern4, Class<?> servletClass5, String urlPattern5) {
+        return processServletsMapped(
+                servletClass1, urlPattern1, servletClass2, urlPattern2, servletClass3, urlPattern3, servletClass4, urlPattern4, servletClass5, urlPattern5);
+    }
+
+    /**
      * Add a string resource.
      *
      * @param path the path.
@@ -613,6 +617,17 @@ public class EmbeddedPiranhaBuilder {
      */
     public EmbeddedPiranhaBuilder stringResource(String path, String value) {
         resources.add(new StringResource(path, value));
+        return this;
+    }
+
+    /**
+     * Set the web application.
+     *
+     * @param webApplication the web application.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder webApplication(WebApplication webApplication) {
+        this.webApplication = webApplication;
         return this;
     }
 }

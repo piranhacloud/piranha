@@ -173,14 +173,6 @@ public class ShrinkWrapResource implements Resource {
     }
 
     /**
-     *
-     * @return the embedded archive that contains the actual data
-     */
-    public Archive getArchive() {
-        return archive;
-    }
-
-    /**
      * Get all locations.
      *
      * @param archiveToGetFrom the archive to use.
@@ -192,6 +184,14 @@ public class ShrinkWrapResource implements Resource {
                 .stream()
                 .map(ArchivePath::get)
                 .filter(e -> getAsset(archiveToGetFrom, e) != null);
+    }
+
+    /**
+     *
+     * @return the embedded archive that contains the actual data
+     */
+    public Archive getArchive() {
+        return archive;
     }
 
     private Collection<Node> getContentFromNode(Node node) {
