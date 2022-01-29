@@ -25,28 +25,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.embedded;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * <p>
- * This package delivers you with an embeddable Servlet container that hosts
- * only a single application without exposing an HTTP endpoint. It is used
- * extensively within the Piranha project itself to test all the Servlet
- * functionality.
- * </p>
- *
- * <p>
- * The image below illustrates how the request and response handling is done by
- * Piranha Embedded. When an {@link cloud.piranha.embedded.EmbeddedRequest}
- * comes in it uses a
- * {@link cloud.piranha.core.api.WebApplicationRequestMapper} to determine
- * which FilterChain needs to process the incoming request.
- * </p>
- *
- * <p>
- * <img alt="Embedded request and response handling" src="doc-files/request-response.png">
- * </p>
- *
+ * The JUnit tests for the EmbeddedRequest class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
- * @see cloud.piranha.embedded.EmbeddedPiranhaBuilder
  */
-package cloud.piranha.embedded;
+public class EmbeddedRequestTest {
+    
+    /**
+     * Test constructor.
+     */
+    @Test
+    public void testConstructor() {
+        EmbeddedRequest request = new EmbeddedRequest("/servletPath");
+        assertEquals("/servletPath", request.getServletPath());
+    }
+}
