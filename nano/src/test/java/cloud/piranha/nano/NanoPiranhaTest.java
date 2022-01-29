@@ -38,6 +38,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -69,6 +70,7 @@ class NanoPiranhaTest {
                 .build();
 
         piranha.service(request, response);
+        assertNotNull(piranha.getServlet());
         assertEquals("Hello World", outputStream.toString());
     }
 
