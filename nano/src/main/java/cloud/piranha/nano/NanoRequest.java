@@ -50,6 +50,7 @@ public class NanoRequest extends DefaultWebApplicationRequest {
      * @param name the name.
      * @param value the value.
      */
+    @Override
     public void addHeader(String name, String value) {
         headerManager.addHeader(name, value);
     }

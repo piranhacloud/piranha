@@ -27,7 +27,10 @@
  */
 package cloud.piranha.nano;
 
+import cloud.piranha.core.impl.DefaultWebApplication;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -38,11 +41,59 @@ import org.junit.jupiter.api.Test;
 class NanoFilterConfigTest {
 
     /**
+     * Test getInitParameter method.
+     */
+    @Test
+    void testGetInitParameter() {
+        NanoFilterConfig config = new NanoFilterConfig(null);
+        assertNull(config.getInitParameter("name"));
+    }
+
+    /**
      * Test getInitParameterNames method.
      */
     @Test
     void testGetInitParameterNames() {
         NanoFilterConfig config = new NanoFilterConfig(null);
         assertNotNull(config.getInitParameterNames());
+    }
+    
+    /**
+     * Test getServletContext method.
+     */
+    @Test
+    void testGetServletContext() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        NanoFilterConfig config = new NanoFilterConfig(webApplication);
+        assertEquals(webApplication, config.getServletContext());
+    }
+    
+    /**
+     * Test getFilterName method.
+     */
+    @Test
+    void testGetFilterName() {
+        NanoFilterConfig config = new NanoFilterConfig(null);
+        assertNotNull(config.getFilterName());
+    }
+    
+    /**
+     * Test setFilterName method.
+     */
+    @Test
+    void testSetFilterName() {
+        NanoFilterConfig config = new NanoFilterConfig(null);
+        config.setFilterName("name");
+        assertEquals("name", config.getFilterName());
+    }
+    
+    /**
+     * Test setInitParameter method.
+     */
+    @Test
+    void testSetInitParameter() {
+        NanoFilterConfig config = new NanoFilterConfig(null);
+        config.setInitParameter("name", "value");
+        assertEquals("value", config.getInitParameter("name"));
     }
 }
