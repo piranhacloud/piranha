@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The embeddable servlet container version of Piranha.
+ * The embeddable version of Piranha.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -58,7 +58,7 @@ public class EmbeddedPiranha implements Piranha {
     }
 
     /**
-     * Another constructor.
+     * Constructor.
      *
      * @param webApplication the web application to use.
      */
@@ -117,7 +117,7 @@ public class EmbeddedPiranha implements Piranha {
                 throw new IllegalStateException("Parameters must be provided in pairs of two");
             }
             Map<String, ArrayList<String>> parameterMap = new HashMap<>();
-            for (int i = 0; i < parameters.length - 2; i += 2) {
+            for (int i = 0; i <= parameters.length - 2; i += 2) {
                 parameterMap.computeIfAbsent(parameters[i], e -> new ArrayList<>()).add(parameters[i + 1]);
             }
             for (Map.Entry<String, ArrayList<String>> parameterEntry : parameterMap.entrySet()) {
