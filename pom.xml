@@ -263,6 +263,7 @@
                                 <property name="header"
                                           value="/*\n * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.\n *"/>
                             </module>
+                            <module name="SuppressWarningsFilter"/>
                             <module name="TreeWalker">
                                 <module name="ArrayTrailingComma"/>
                                 <module name="AvoidStarImport"/>
@@ -275,11 +276,13 @@
                                     <property name="accessModifiers" value="public"/>
                                 </module>
                                 <module name="JavadocVariable"/>
+                                <module name="OverloadMethodsDeclarationOrder"/>
                                 <module name="MissingDeprecated"/>
                                 <module name="MissingJavadocMethod"/>
                                 <module name="MissingOverride"/>
                                 <module name="ModifierOrder"/>
-                                <module name="PackageAnnotation"/> 
+                                <module name="PackageAnnotation"/>
+                                <module name="SuppressWarningsHolder"/>
                                 <module name="UnusedImports"/>
                             </module>
                         </module>

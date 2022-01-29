@@ -1350,15 +1350,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.webApplication = webApplication;
     }
 
-    @Override
-    public AsyncContext startAsync() throws IllegalStateException {
-        if (!isAsyncSupported()) {
-            throw new IllegalStateException("Async is not supported");
-        }
-
-        return startAsync(this, this.webApplication.getResponse(this));
-    }
-
     /**
      * Unwrap the request.
      *
@@ -1382,6 +1373,15 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public void setAsyncStarted(boolean asyncStarted) {
         this.asyncStarted = asyncStarted;
+    }
+
+    @Override
+    public AsyncContext startAsync() throws IllegalStateException {
+        if (!isAsyncSupported()) {
+            throw new IllegalStateException("Async is not supported");
+        }
+
+        return startAsync(this, this.webApplication.getResponse(this));
     }
 
     @Override
