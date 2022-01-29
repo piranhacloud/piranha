@@ -29,10 +29,6 @@
 /**
  * The Piranha Nano module.
  * 
- * <p>
- *  This module delivers Piranha Nano.
- * </p>
- * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.nano {
