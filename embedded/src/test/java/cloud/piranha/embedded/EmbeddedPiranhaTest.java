@@ -32,9 +32,15 @@ import cloud.piranha.core.api.WebApplicationExtension;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Map.Entry;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +50,19 @@ import org.junit.jupiter.api.Test;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class EmbeddedPiranhaTest {
+
+    /**
+     * Test extension method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testExtension() throws Exception {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .extension(TestExtension.class)
+                .buildAndStart();
+        assertNotNull(piranha.getWebApplication().getAttribute(TestInitializer.class.getName()));
+    }
 
     /**
      * Test service method.
@@ -64,16 +83,80 @@ class EmbeddedPiranhaTest {
     }
 
     /**
-     * Test extension handling.
-     *
-     * @throws Exception when a serious error occurs.
+     * Test service method.
      */
     @Test
-    void testExtensionHandling() throws Exception {
+    void testService2() {
+        try {
+            EmbeddedRequest request = new EmbeddedRequest();
+            EmbeddedPiranha piranha = new EmbeddedPiranha();
+            piranha.initialize();
+            piranha.start();
+            piranha.service(request);
+            piranha.stop();
+            piranha.destroy();
+        } catch (IOException | ServletException ex) {
+            fail();
+        }
+    }
+
+    /**
+     * Test service method.
+     */
+    @Test
+    void testService3() {
+        try {
+            EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                    .servlet("TestServlet", TestServlet.class)
+                    .servletMapping("TestServlet", "/servletPath")
+                    .buildAndStart();
+            EmbeddedResponse response = piranha.service("/servletPath");
+            piranha.stop();
+            piranha.destroy();
+            assertTrue(response.getResponseAsString().contains("/servletPath"));
+        } catch (IOException | ServletException ex) {
+            fail();
+        }
+    }
+
+    /**
+     * Test service method.
+     */
+    @Test
+    void testService4() {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .extension(TestExtension.class)
+                .servlet("TestServlet", TestServlet.class)
+                .servletMapping("TestServlet", "/servletPath")
                 .buildAndStart();
-        assertNotNull(piranha.getWebApplication().getAttribute(TestInitializer.class.getName()));
+        try {
+            piranha.service("/servletPath", "wrong");
+        } catch (IOException | ServletException ex) {
+            fail();
+        } catch (IllegalStateException ise) {
+        }
+        piranha.stop();
+        piranha.destroy();
+    }
+
+    /**
+     * Test service method.
+     */
+    @Test
+    void testService5() {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .servlet("TestServlet", TestServlet.class)
+                .servletMapping("TestServlet", "/servletPath")
+                .buildAndStart();
+        try {
+            EmbeddedResponse response = piranha.service("/servletPath", "name", "value");
+            assertTrue(response.getResponseAsString().contains("/servletPath"));
+            assertTrue(response.getResponseAsString().contains("name: value"));
+        } catch (IOException | ServletException ex) {
+            fail();
+        } catch (IllegalStateException ise) {
+        }
+        piranha.stop();
+        piranha.destroy();
     }
 
     /**
@@ -93,7 +176,7 @@ class EmbeddedPiranhaTest {
     }
 
     /**
-     * A test servlet container initializer.
+     * A test ServletContainerInitializer.
      */
     public static class TestInitializer implements ServletContainerInitializer {
 
@@ -107,6 +190,24 @@ class EmbeddedPiranhaTest {
         @Override
         public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
             servletContext.setAttribute(TestInitializer.class.getName(), true);
+        }
+    }
+
+    /**
+     * A test Servlet.
+     */
+    public static class TestServlet extends HttpServlet {
+
+        @Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+            response.setContentType("text/plain");
+            PrintWriter writer = response.getWriter();
+            writer.println(request.getServletPath());
+            for (Entry<String, String[]> en : request.getParameterMap().entrySet()) {
+                String key = en.getKey();
+                String[] values = en.getValue();
+                writer.println(key + ": " + values[0]);
+            }
         }
     }
 }
