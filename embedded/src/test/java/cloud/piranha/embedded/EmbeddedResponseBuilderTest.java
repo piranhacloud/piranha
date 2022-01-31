@@ -40,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EmbeddedResponseBuilderTest {
+class EmbeddedResponseBuilderTest {
 
     /**
      * Test bodyOnly method.
@@ -48,7 +48,7 @@ public class EmbeddedResponseBuilderTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testBodyOnly() throws Exception {
+    void testBodyOnly() throws Exception {
         EmbeddedResponse response = new EmbeddedResponseBuilder()
                 .bodyOnly(true)
                 .build();
@@ -64,7 +64,7 @@ public class EmbeddedResponseBuilderTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testBodyOnly2() throws Exception {
+    void testBodyOnly2() throws Exception {
         EmbeddedResponse response = new EmbeddedResponseBuilder()
                 .bodyOnly(false)
                 .build();
@@ -80,7 +80,7 @@ public class EmbeddedResponseBuilderTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testWebApplication() throws Exception {
+    void testWebApplication() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         EmbeddedResponse response = new EmbeddedResponseBuilder()
                 .webApplication(webApplication)

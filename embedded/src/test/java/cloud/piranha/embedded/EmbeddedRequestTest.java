@@ -35,13 +35,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EmbeddedRequestTest {
+class EmbeddedRequestTest {
     
     /**
      * Test constructor.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         EmbeddedRequest request = new EmbeddedRequest("/servletPath");
         assertEquals("/servletPath", request.getServletPath());
     }
