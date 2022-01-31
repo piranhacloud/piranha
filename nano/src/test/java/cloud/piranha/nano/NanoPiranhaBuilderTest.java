@@ -53,7 +53,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoPiranhaBuilderTest {
+class NanoPiranhaBuilderTest {
 
     /**
      * Test filterInitParam method.
@@ -61,7 +61,7 @@ public class NanoPiranhaBuilderTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testFilterInitParam() throws Exception {
+    void testFilterInitParam() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .filter("TestFilter", new TestInitParamFilter())
                 .filterInitParam("TestFilter", "name", "value")
@@ -84,7 +84,7 @@ public class NanoPiranhaBuilderTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testFilterInitParam2() throws Exception {
+    void testFilterInitParam2() throws Exception {
         assertNotNull(assertThrows(RuntimeException.class, () -> {
             new NanoPiranhaBuilder()
                     .filter("TestFilter", new TestInitParam2Filter())
@@ -99,7 +99,7 @@ public class NanoPiranhaBuilderTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testServletInitParam() throws Exception {
+    void testServletInitParam() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .servlet("TestServlet", new TestInitParamServlet())
                 .servletInitParam("TestServlet", "name", "value")
@@ -120,7 +120,7 @@ public class NanoPiranhaBuilderTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testServletInitParam2() throws Exception {
+    void testServletInitParam2() throws Exception {
         assertNotNull(assertThrows(RuntimeException.class, () -> {
             new NanoPiranhaBuilder()
                     .servlet("TestServlet", new TestInitParam2Servlet())
@@ -133,7 +133,7 @@ public class NanoPiranhaBuilderTest {
      * Test getWebApplication method.
      */
     @Test
-    public void testGetWebApplication() {
+    void testGetWebApplication() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .webApplication(webApplication)

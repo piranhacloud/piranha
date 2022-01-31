@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NanoFilterChainTest {
+class NanoFilterChainTest {
 
     /**
      * Test constructor.
@@ -51,7 +51,7 @@ public class NanoFilterChainTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testConstructor() throws Exception {
+    void testConstructor() throws Exception {
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .filter("TestFilter", new TestFilter())
                 .filter("Test2Filter", new Test2Filter())
