@@ -51,7 +51,7 @@ public class ArchiveURLStreamHandler extends URLStreamHandler {
 
     /**
      * Constructor.
-     * 
+     *
      * @param archive the archive.
      */
     public ArchiveURLStreamHandler(Archive<?> archive) {
@@ -61,6 +61,8 @@ public class ArchiveURLStreamHandler extends URLStreamHandler {
     @Override
     protected StreamConnection openConnection(URL requestedUrl) throws IOException {
         return new StreamConnection(requestedUrl) {
+
+            String contentType;
 
             @Override
             public InputStream getInputStream() throws IOException {
@@ -75,6 +77,35 @@ public class ArchiveURLStreamHandler extends URLStreamHandler {
                 }
 
                 return asset.openStream();
+            }
+
+            @Override
+            public String getContentType() {
+                if (contentType != null) {
+                    return contentType;
+                }
+
+                try {
+                    InputStream stream = getInputStream();
+                    if (stream != null) {
+                        contentType = guessContentTypeFromStream(stream);
+                    }
+                } catch (IOException e) {
+
+                }
+
+                if (contentType == null) {
+                    Node node = getNode();
+                    if (node != null) {
+                        contentType = guessContentTypeFromName(node.getPath().get());
+                    }
+                }
+
+                if (contentType == null) {
+                    contentType = "content/unknown";
+                }
+
+                return contentType;
             }
 
             /**
