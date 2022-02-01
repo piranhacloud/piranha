@@ -27,8 +27,6 @@
  */
 package cloud.piranha.resource.impl;
 
-import cloud.piranha.resource.api.ResourceManager;
-import cloud.piranha.resource.api.Resource;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,6 +34,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
+
+import cloud.piranha.resource.api.Resource;
+import cloud.piranha.resource.api.ResourceManager;
 
 /**
  * The default ResourceManager.
@@ -47,7 +48,12 @@ public class DefaultResourceManager implements ResourceManager {
     /**
      * Stores the resources.
      */
-    private final ArrayList<Resource> resources = new ArrayList<>();
+    private final List<Resource> resources = new ArrayList<>();
+
+    /**
+     * Stores the (take a guess)
+     */
+    private boolean alsoTryLoadFromClass = true;
 
     /**
      * Add resource.
@@ -75,7 +81,7 @@ public class DefaultResourceManager implements ResourceManager {
                 break;
             }
         }
-        if (result == null) {
+        if (alsoTryLoadFromClass && result == null) {
             if (location != null) {
                 result = getClass().getResource(location);
             }
@@ -85,7 +91,7 @@ public class DefaultResourceManager implements ResourceManager {
 
     /**
      * Get the resources.
-     * 
+     *
      * @param location the location.
      * @return the collection with the resources.
      * @throws MalformedURLException when the location URL is malformed.
@@ -99,10 +105,14 @@ public class DefaultResourceManager implements ResourceManager {
                 result.add(url);
             }
         }
-        URL url = getClass().getResource(location);
-        if (url != null) {
-            result.add(url);
+
+        if (alsoTryLoadFromClass) {
+            URL url = getClass().getResource(location);
+            if (url != null) {
+                result.add(url);
+            }
         }
+
         return result;
     }
 
@@ -121,7 +131,7 @@ public class DefaultResourceManager implements ResourceManager {
                 break;
             }
         }
-        if (result == null) {
+        if (alsoTryLoadFromClass && result == null) {
             result = getClass().getResourceAsStream(location);
         }
         return result;
@@ -135,5 +145,15 @@ public class DefaultResourceManager implements ResourceManager {
     @Override
     public List<Resource> getResourceList() {
         return resources;
+    }
+
+    @Override
+    public boolean isAlsoTryLoadFromClass() {
+        return alsoTryLoadFromClass;
+    }
+
+    @Override
+    public void setAlsoTryLoadFromClass(boolean alsoTryLoadFromClass) {
+        this.alsoTryLoadFromClass = alsoTryLoadFromClass;
     }
 }
