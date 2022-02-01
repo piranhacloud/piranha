@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 
+import cloud.piranha.resource.api.ResourceManager;
 import cloud.piranha.resource.impl.DefaultResourceManagerClassLoader;
 
 /**
@@ -115,6 +116,12 @@ public class IsolatingResourceManagerClassLoader extends DefaultResourceManagerC
      */
     public String getClassLoaderId() {
         return classLoaderId;
+    }
+
+    @Override
+    public void setResourceManager(ResourceManager resourceManager) {
+        resourceManager.setAlsoTryLoadFromClass(false);
+        super.setResourceManager(resourceManager);
     }
 
 }
