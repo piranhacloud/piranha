@@ -39,25 +39,25 @@ import cloud.piranha.micro.shrinkwrap.loader.MicroConfiguration;
 
 /**
  * The extension sets up the Arquillian Server Connector
- * 
+ *
  * @author Arjan Tijms
  *
  */
 public class PiranhaServerLoadableExtension implements LoadableExtension {
 
-    // Defines the deployable container used; PiranhaServerDeployableContainer.class 
+    // Defines the deployable container used; PiranhaServerDeployableContainer.class
     // This is the actual "connector" that controls Piranha.
-    
+
     @Override
     public void register(ExtensionBuilder builder) {
         builder.service(DeployableContainer.class, PiranhaServerDeployableContainer.class);
     }
-    
+
     // Defines the configuration class used: PiranhaServerContainerConfiguration.class
-    // Defines the protocol used: "Servlet 3.0"
-    
+    // Defines the protocol used: "Servlet 5.0"
+
     public abstract static class PiranhaServerContainerBase implements DeployableContainer<PiranhaServerContainerConfiguration> {
-        
+
         @Override
         public Class<PiranhaServerContainerConfiguration> getConfigurationClass() {
             return PiranhaServerContainerConfiguration.class;
@@ -65,20 +65,20 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
 
         @Override
         public ProtocolDescription getDefaultProtocol() {
-            return new ProtocolDescription("Servlet 3.0");
+            return new ProtocolDescription("Servlet 5.0");
         }
-        
+
         @Override
         public void start() throws LifecycleException {
             // We don't start Piranha separately. Start and Deploy is one step.
         }
-        
+
         @Override
         public void deploy(Descriptor descriptor) throws DeploymentException {
             // We don't deploy by descriptor (and neither does Arquillian it seems)
-            
+
         }
-        
+
         @Override
         public void undeploy(Descriptor descriptor) throws DeploymentException {
          // We don't undeploy by descriptor (and neither does Arquillian it seems)
@@ -90,14 +90,14 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
         }
 
     }
-    
+
     // Defines the configuration class to be essentially the same as MicroConfiguration.class
-    
+
     public static class PiranhaServerContainerConfiguration extends MicroConfiguration implements ContainerConfiguration {
         @Override
         public void validate() throws ConfigurationException {
             postConstruct();
         }
-        
+
     }
 }
