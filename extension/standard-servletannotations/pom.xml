@@ -48,7 +48,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-standard-webxml</artifactId>
+            <artifactId>piranha-extension-webxml</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

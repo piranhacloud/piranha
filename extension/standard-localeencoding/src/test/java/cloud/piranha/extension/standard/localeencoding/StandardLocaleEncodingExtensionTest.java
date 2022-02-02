@@ -32,7 +32,7 @@ import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
-import cloud.piranha.extension.standard.webxml.StandardWebXmlExtension;
+import cloud.piranha.extension.webxml.WebXmlExtension;
 import java.util.Locale;
 import static java.util.Locale.ITALY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -55,7 +55,7 @@ class StandardLocaleEncodingExtensionTest {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/test/webxml/localeEncodingMappingList1")
                 .extension(StandardLocaleEncodingExtension.class)
-                .extension(StandardWebXmlExtension.class)
+                .extension(WebXmlExtension.class)
                 .build()
                 .start();
         WebApplication webApp = piranha.getWebApplication();

@@ -44,9 +44,9 @@ import cloud.piranha.extension.standard.policy.StandardPolicyExtension;
 import cloud.piranha.extension.standard.scinitializer.StandardServletContainerInitializerExtension;
 import cloud.piranha.extension.standard.servletannotations.StandardServletAnnotationsExtension;
 import cloud.piranha.extension.standard.tempdir.StandardTempDirExtension;
-import cloud.piranha.extension.standard.webxml.StandardWebXmlExtension;
 import cloud.piranha.extension.standard.welcomefile.StandardWelcomeFileExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
+import cloud.piranha.extension.webxml.WebXmlExtension;
 
 /**
  * The default {@link WebApplicationExtension} used to configure a web application for Piranha Micro.
@@ -65,7 +65,7 @@ public class MicroExtension implements WebApplicationExtension {
         context.add(StandardWelcomeFileExtension.class);
         context.add(ServletSecurityManagerExtension.class);
         context.add(ApacheMultiPartExtension.class);
-        context.add(StandardWebXmlExtension.class);
+        context.add(WebXmlExtension.class);
         context.add(StandardServletAnnotationsExtension.class);
         context.add(HerringExtension.class);
         context.add(JakartaSecurityExtension.class);

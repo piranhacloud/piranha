@@ -38,7 +38,7 @@ import cloud.piranha.extension.standard.policy.StandardPolicyExtension;
 import cloud.piranha.extension.standard.scinitializer.StandardServletContainerInitializerExtension;
 import cloud.piranha.extension.standard.servletannotations.StandardServletAnnotationsExtension;
 import cloud.piranha.extension.standard.tempdir.StandardTempDirExtension;
-import cloud.piranha.extension.standard.webxml.StandardWebXmlExtension;
+import cloud.piranha.extension.webxml.WebXmlExtension;
 
 /**
  * The WebApplicationExtension that adds the extensions for a Lite version of
@@ -56,7 +56,7 @@ public class LiteExtension implements WebApplicationExtension {
         context.add(StandardTempDirExtension.class);
         context.add(HerringExtension.class);
         context.add(StandardAnnotationScanExtension.class);
-        context.add(StandardWebXmlExtension.class);
+        context.add(WebXmlExtension.class);
         context.add(StandardServletAnnotationsExtension.class);
         context.add(StandardServletContainerInitializerExtension.class);
         context.add(ServletSecurityExtension.class);

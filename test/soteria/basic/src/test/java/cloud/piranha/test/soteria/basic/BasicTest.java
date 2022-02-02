@@ -47,7 +47,7 @@ import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
-import cloud.piranha.extension.standard.webxml.StandardWebXmlInitializer;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
 import jakarta.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
 
 @BasicAuthenticationMechanismDefinition(realmName = "test")
@@ -64,7 +64,7 @@ class BasicTest {
                         ServletSecurityManagerExtension.class,
                         HerringExtension.class)
                 .initializers(
-                        StandardWebXmlInitializer.class,
+                        WebXmlInitializer.class,
                         JakartaSecurityAllInitializer.class,
                         AuthorizationPostInitializer.class)
                 .servletsMapped(
