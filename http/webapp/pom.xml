@@ -12,27 +12,7 @@
     <packaging>jar</packaging>
 
     <name>Piranha - HTTP - WebApplication Integration</name>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerArgs>
-                        <arg>--add-modules=java.net.http</arg>
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>--add-opens cloud.piranha.http.webapp/cloud.piranha.http.webapp=ALL-UNNAMED</argLine>
-                    <argLine>--add-reads cloud.piranha.http.webapp=java.net.http</argLine>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+
     <dependencies>
         <!-- compile -->
         <dependency>
@@ -70,4 +50,26 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <compilerArgs>
+                        <arg>--add-modules=java.net.http</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>--add-opens cloud.piranha.http.webapp/cloud.piranha.http.webapp=ALL-UNNAMED</argLine>
+                    <argLine>--add-reads cloud.piranha.http.webapp=java.net.http</argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
