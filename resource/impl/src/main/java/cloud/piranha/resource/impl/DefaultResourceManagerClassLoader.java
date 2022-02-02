@@ -39,7 +39,6 @@ import java.net.URL;
 import java.security.CodeSigner;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
@@ -54,12 +53,12 @@ import cloud.piranha.resource.api.ResourceManagerClassLoader;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultResourceManagerClassLoader extends ClassLoader implements ResourceManagerClassLoader {
-    
+
     /**
      * Stores the 'Unable to load class: ' message prefix.
      */
     private static final String UNABLE_TO_LOAD_CLASS = "Unable to load class: ";
-    
+
     /**
      * Set that keeps a list of classes we know aren't there, so we don't have to search for them again.
      */
@@ -86,10 +85,10 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
     public DefaultResourceManagerClassLoader() {
         this(getSystemClassLoader());
     }
-    
+
     /**
      * Another Constructor.
-     * 
+     *
      * @param delegateClassLoader classloader which is consulted first
      */
     public DefaultResourceManagerClassLoader(ClassLoader delegateClassLoader) {
@@ -118,32 +117,32 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
     @Override
     public Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
         Class<?> result;
-        
+
         try {
             result = delegateClassLoader.loadClass(name);
         } catch (ClassNotFoundException cnfe) {
             result = null;
         }
-        
+
         if (result == null) {
             try {
                 if (classes.containsKey(name)) {
                     return classes.get(name);
                 }
-                
+
                 result = _loadClass(name, resolve);
             } catch (Throwable throwable) {
                 throw new ClassNotFoundException(UNABLE_TO_LOAD_CLASS + name, throwable);
             }
         }
-        
+
         if (result == null) {
             if (notFoundClasses.contains(name)) {
                 throw new ClassNotFoundException("Unable to load previosly failed to find class: " + name);
             }
-            
+
             notFoundClasses.add(name);
-            
+
             ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
             if (contextClassLoader != this) {
                 try {
@@ -156,17 +155,17 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                 }
             }
         }
-        
+
         if (result == null) {
             throw new ClassNotFoundException(UNABLE_TO_LOAD_CLASS + name);
         }
-        
+
         return result;
     }
 
     /**
      * Inner load class.
-     * 
+     *
      * @param name the name.
      * @param resolve the resolve flog.
      * @return the class.
@@ -182,23 +181,23 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
             } catch (ClassNotFoundException cnfe) {
                 // Ignore
             }
-            
+
             if (result == null) {
-                
+
                 // Define class
-                
+
                 byte[] bytes = null;
                 try (InputStream resourceStream = resourceManager.getResourceAsStream(normalizeName(name))) {
                     if (resourceStream == null) {
                         return null;
                     }
-                    
+
                     bytes = readClassBytes(resourceStream);
                 }
-                
+
                 synchronized (this) {
                     result = classes.get(name);
-                     
+
                     if (result == null) {
                         result = _defineClass(name, bytes, resolve);
                         classes.put(name, result);
@@ -208,7 +207,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         } catch (Throwable throwable) {
             throw new IllegalStateException(UNABLE_TO_LOAD_CLASS + name, throwable);
         }
-        
+
         return result;
     }
 
@@ -226,7 +225,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
 
     /**
      * Normalize the name to a .class name.
-     * 
+     *
      * @param name the name.
      * @return the .class name.
      */
@@ -236,7 +235,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
 
     /**
      * Read the class bytes from the input stream.
-     * 
+     *
      * @param resourceStream the input stream.
      * @return the bytes.
      * @throws IOException when an I/O error occurs.
@@ -249,13 +248,13 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
             outputStream.write((byte) read);
             read = inputStream.read();
         }
-        
+
         return outputStream.toByteArray();
     }
-    
+
     /**
      * Define the class.
-     * 
+     *
      * @param name the name.
      * @param bytes the bytes.
      * @param resolve the resolve flag.
@@ -269,7 +268,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
 
 
         // Define package
-        
+
         String packageName = null;
         int lastDotPosition = name.lastIndexOf('.');
         if (lastDotPosition != -1) {
@@ -287,33 +286,33 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                 }
             }
         }
-        
+
         if (resolve) {
             resolveClass(result);
         }
-        
+
         return result;
     }
-    
+
     @Override
     public URL getResource(String name) {
         URL resource = delegateClassLoader.getResource(name);
-        
+
         if (resource == null) {
             resource = findResource(name);
         }
-        
+
         return resource;
     }
-    
+
     @Override
     public Enumeration<URL> getResources(String name) throws IOException {
         // Assume for now amount of resources is reasonably small to afford allocating
         // new collections.
         List<URL> resources = list(delegateClassLoader.getResources(name));
-        
+
         resources.addAll(list(findResources(name)));
-        
+
         return enumeration(resources);
     }
 
@@ -330,7 +329,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
             result = resourceManager.getResource(name);
         } catch (MalformedURLException mue) {
         }
-        
+
         return result;
     }
 
@@ -354,7 +353,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      */
     @Override
     protected Enumeration<URL> findResources(String name) throws IOException  {
-        return Collections.enumeration(resourceManager.getResources(name));
+        return enumeration(resourceManager.getResources(name));
     }
 
     /**
@@ -366,7 +365,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
     public void setResourceManager(ResourceManager resourceManager) {
         this.resourceManager = resourceManager;
     }
-    
+
     @Override
     public ResourceManager getResourceManager() {
         return resourceManager;
@@ -374,13 +373,13 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
 
     /**
      * Set the delegate classloader.
-     * 
+     *
      * @param delegateClassLoader the delegate class loader.
      */
     public void setDelegateClassLoader(ClassLoader delegateClassLoader) {
         this.delegateClassLoader = delegateClassLoader;
     }
-    
+
     /**
      * {@return the delegate classloader}
      */

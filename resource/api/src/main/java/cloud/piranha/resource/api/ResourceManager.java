@@ -56,10 +56,10 @@ public interface ResourceManager {
      * @throws MalformedURLException when the location is malformed.
      */
     URL getResource(String location) throws MalformedURLException;
-    
+
     /**
      * Get the resources.
-     * 
+     *
      * @param location the location
      * @return the URLs.
      * @throws  MalformedURLException when the location is malformed.
@@ -73,7 +73,7 @@ public interface ResourceManager {
      * @return the input stream, or null if not found.
      */
     InputStream getResourceAsStream(String location);
-    
+
     /**
      * {@return all the locations for this resource manager}
      */
@@ -83,5 +83,19 @@ public interface ResourceManager {
      * {@return all the locations for this resource manager}
      */
     List<Resource> getResourceList();
+
+    /**
+     * {@return isAlsoTryLoadFromClass}
+     */
+    default boolean isAlsoTryLoadFromClass() {
+        return true;
+    }
+
+    /**
+     * Sets the alsoTryLoadFromClass flag
+     * @param alsoTryLoadFromClass the alsoTryLoadFromClass flag
+     */
+    default void setAlsoTryLoadFromClass(boolean alsoTryLoadFromClass) {
+    }
 
 }

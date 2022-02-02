@@ -57,43 +57,37 @@
             <artifactId>piranha-resource-shrinkwrap</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <dependency>
+        
+         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-depchain</artifactId>
             <type>pom</type>
         </dependency>
-
+        
         <dependency>
             <groupId>org.jboss.arquillian.container</groupId>
             <artifactId>arquillian-container-spi</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.arquillian.container</groupId>
             <artifactId>arquillian-container-test-spi</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet</artifactId>
+            <artifactId>arquillian-protocol-servlet-jakarta</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.arquillian.testenricher</groupId>
-            <artifactId>arquillian-testenricher-cdi</artifactId>
+            <artifactId>arquillian-testenricher-cdi-jakarta</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.arquillian.testenricher</groupId>
-            <artifactId>arquillian-testenricher-ejb</artifactId>
+            <artifactId>arquillian-testenricher-ejb-jakarta</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.arquillian.testenricher</groupId>
-            <artifactId>arquillian-testenricher-resource</artifactId>
+            <artifactId>arquillian-testenricher-resource-jakarta</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.arquillian.testenricher</groupId>
             <artifactId>arquillian-testenricher-initialcontext</artifactId>
