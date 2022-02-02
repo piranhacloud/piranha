@@ -53,6 +53,7 @@ import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.TRACE;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.reflect.Method;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -208,10 +209,12 @@ public class InternalWebXmlProcessor {
      */
     private void processFilterMappings(WebApplication webApplication, WebXml webXml) {
         webXml.getFilterMappings().forEach(filterMapping -> {
+            FilterRegistration filterReg = webApplication
+                    .getFilterRegistration(filterMapping.getFilterName());
+            
             // Filter is mapped to a URL pattern, e.g. /path/customer
-            webApplication.addFilterMapping(
-                    toDispatcherTypes(filterMapping.getDispatchers()),
-                    filterMapping.getFilterName(),
+            filterReg.addMappingForUrlPatterns(
+                    toEnumDispatcherTypes(filterMapping.getDispatchers()),
                     true,
                     filterMapping.getUrlPatterns().toArray(STRING_ARRAY));
 
@@ -222,6 +225,18 @@ public class InternalWebXmlProcessor {
                     true,
                     filterMapping.getServletNames().stream().map(e -> "servlet:// " + e).toArray(String[]::new));
         });
+    }
+
+    private EnumSet<DispatcherType> toEnumDispatcherTypes(List<String> dispatchers) {
+        if (dispatchers == null) {
+            return null;
+        }
+        
+        EnumSet enumSet = EnumSet.noneOf(DispatcherType.class);
+        for(String dispatcherType : dispatchers) {
+            enumSet.add(DispatcherType.valueOf(dispatcherType));
+        }
+        return enumSet;
     }
 
     private Set<DispatcherType> toDispatcherTypes(List<String> dispatchers) {
