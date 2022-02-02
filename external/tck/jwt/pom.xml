@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cloud.piranha.external.tck</groupId>
+        <artifactId>project</artifactId>
+        <version>22.2.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>piranha-external-tck-jwt</artifactId>
+
+    <name>Piranha - External - TCK - JWT</name>
+
+    <dependencies>
+        <!-- 
+            This is the MP-JWT TCK base extension and utility classes 
+            archive.
+        -->
+        <dependency>
+            <groupId>org.eclipse.microprofile.jwt</groupId>
+            <artifactId>microprofile-jwt-auth-tck</artifactId>
+            <version>2.0</version>
+        </dependency>
+        
+        <!-- 
+            This is the actual MP-JWT TCK test classes archive 
+        -->
+        <dependency>
+            <groupId>org.eclipse.microprofile.jwt</groupId>
+            <artifactId>microprofile-jwt-auth-tck</artifactId>
+            <version>2.0</version>
+            <type>test-jar</type>
+        </dependency>
+        
+        <!-- 
+            The Arquillian connector used to start/stop Piranha and deploy 
+            archives to it. 
+        -->
+        <dependency>
+            <groupId>cloud.piranha.arquillian</groupId>
+            <artifactId>piranha-arquillian-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <!-- 
+            Jakarta EE 9 client implementations. This is needed as the unit 
+            tests make use of Jakarta EE 9 client APIs, but do not specify the 
+            implementation.
+        -->
+        <dependency>
+            <groupId>org.omnifaces.arquillian</groupId>
+            <artifactId>glassfish-client-ee9</artifactId>
+            <version>1.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>9.1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 
+                Extract the TCK Suite Files, so that the surefire plugin
+                can refer to tck-base-suite.xml 
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.eclipse.microprofile.jwt</groupId>
+                                    <artifactId>microprofile-jwt-auth-tck</artifactId>
+                                    <version>2.0</version>
+                                    <classifier>tests</classifier>>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/tck-suite</outputDirectory>
+                                    <!-- Include the tck-base-suite.xml file -->
+                                    <includes>**/tck-base-suite.xml</includes>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <!-- 
+                Run the TCK tests aginst the tck-base-suite.xml file.
+                
+                Single tests can be run using the regular -Dtest paramater, e.g.
+                
+                -Dtest=ClaimValueInjectionTest#verifyInjectedAudience
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dependenciesToScan>org.eclipse.microprofile.jwt:microprofile-jwt-auth-tck</dependenciesToScan>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${project.build.directory}/tck-suite/suites/tck-base-suite.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
