@@ -117,6 +117,9 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         Class<?> factoryClass = getAttribute(context, AUTHZ_FACTORY_CLASS);
         Class<? extends Policy> policyClass = getAttribute(context, AUTHZ_POLICY_CLASS);
 
+        // No need for the previous policy (likely the Java SE "JavaPolicy") to be consulted.
+        Policy.setPolicy(null);
+
         // Create the main Exousia authorization service, which implements the various entry points (an SPI)
         // for a runtime to make use of Jakarta Authorization
         AuthorizationService authorizationService = new AuthorizationService(
