@@ -29,7 +29,7 @@ package com.piranha.test.webxml.webfragmentinjar;
 
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
-import cloud.piranha.extension.standard.webxml.StandardWebXmlInitializer;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
@@ -52,7 +52,7 @@ class WebfragmentInJarIT {
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File("target/webapp"));
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.setClassLoader(classLoader);
-        webApplication.addInitializer(new StandardWebXmlInitializer());
+        webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
         assertEquals("/webfragmentInJar", webApplication.getContextPath());
     }

@@ -47,6 +47,11 @@ import java.util.Set;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class SlimSecurityManager implements SecurityManager {
+    
+    /**
+     * Stores the denyUncoveredHttpMethods flag.
+     */
+    protected boolean denyUncoveredHttpMethods;
 
     /**
      * Stores the logins.
@@ -133,6 +138,11 @@ public class SlimSecurityManager implements SecurityManager {
     }
 
     @Override
+    public boolean getDenyUncoveredHttpMethods() {
+        return denyUncoveredHttpMethods;
+    }
+
+    @Override
     public Set<String> getRoles() {
         return new HashSet<>(roles);
     }
@@ -198,6 +208,11 @@ public class SlimSecurityManager implements SecurityManager {
     public void removeUser(String username) {
         logins.remove(username);
         userRoles.remove(username);
+    }
+    
+    @Override
+    public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
+        this.denyUncoveredHttpMethods = denyUncoveredHttpMethods;
     }
 
     @Override

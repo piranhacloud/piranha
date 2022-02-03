@@ -34,7 +34,7 @@ import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.mojarra.MojarraInitializer;
-import cloud.piranha.extension.standard.webxml.StandardWebXmlExtension;
+import cloud.piranha.extension.webxml.WebXmlExtension;
 import cloud.piranha.extension.weld.WeldInitializer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -58,7 +58,7 @@ class JPATest {
                 .directoryResource("src/main/webapp")
                 .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")
                 .extension(HerringExtension.class)
-                .extension(StandardWebXmlExtension.class)
+                .extension(WebXmlExtension.class)
                 .initializer(WeldInitializer.class.getName())
                 .initializer(MojarraInitializer.class.getName())
                 .build()

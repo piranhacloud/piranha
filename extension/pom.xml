@@ -41,11 +41,11 @@
         <module>standard-servletannotations</module>
         <module>standard-scinitializer</module>
         <module>standard-tempdir</module>
-        <module>standard-webxml</module>
         <module>standard-welcomefile</module>
         <module>wasp</module>
         <module>weld</module>
         <module>weld-servlet</module>
+        <module>webxml</module>
     </modules>
 
     <dependencyManagement>
