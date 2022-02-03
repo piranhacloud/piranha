@@ -27,6 +27,7 @@
  */
 package cloud.piranha.extension.webxml;
 
+import cloud.piranha.core.api.FilterEnvironment;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.FilterRegistration;
@@ -55,5 +56,7 @@ class FilterMappingTest {
         webApplication.initialize();
         assertNotNull(webApplication.getFilterRegistration("TestFilter"));
         FilterRegistration filter = webApplication.getFilterRegistration("TestFilter");
+        FilterEnvironment filterEnvironment = (FilterEnvironment) filter;
+        assertTrue(filterEnvironment.isAsyncSupported());
     }
 }

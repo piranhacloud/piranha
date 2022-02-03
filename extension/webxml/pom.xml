@@ -13,7 +13,9 @@
     <packaging>jar</packaging>
 
     <name>Piranha - Extension - web.xml</name>
-
+    <properties>
+        <argLine></argLine>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -40,7 +42,7 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.69</minimum>
+                                            <minimum>0.73</minimum>
                                         </limit>
                                         <limit>
                                             <counter>CLASS</counter>

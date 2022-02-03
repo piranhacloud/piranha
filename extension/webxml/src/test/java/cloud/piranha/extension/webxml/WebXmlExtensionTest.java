@@ -28,7 +28,6 @@
 package cloud.piranha.extension.webxml;
 
 import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;

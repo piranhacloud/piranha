@@ -131,8 +131,8 @@ public class InternalWebXmlParser {
             parseFragmentName(webXml, xPath, document);
             parseDistributable(webXml, xPath, document);
             parseErrorPages(webXml, xPath, document);
-            parseFilterMappings(webXml, xPath, document);
             parseFilters(webXml, xPath, document);
+            parseFilterMappings(webXml, xPath, document);
             parseListeners(webXml, xPath, document);
             parseLoginConfig(webXml, xPath, document);
             parseMimeMappings(webXml, xPath, document);
@@ -246,16 +246,14 @@ public class InternalWebXmlParser {
      * @param xPath the XPath to use.
      * @param node the node to use.
      * @param expression the expression to use.
-     * @return the boolean, or null if an error occurred.
+     * @return the boolean.
+     * @throws XPathException when an XPath error occurs.
      */
-    private static Boolean parseBoolean(XPath xPath, String expression, Node node) {
-        Boolean result = null;
-        try {
-            result = Boolean.parseBoolean((String) xPath.evaluate(expression, node, XPathConstants.STRING));
-        } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse boolean", xpe);
-        }
-        return result;
+    private static Boolean parseBoolean(XPath xPath, String expression,
+            Node node) throws XPathException {
+
+        return Boolean.parseBoolean((String) xPath
+                .evaluate(expression, node, XPathConstants.STRING));
     }
 
     /**
@@ -264,16 +262,13 @@ public class InternalWebXmlParser {
      * @param xPath the XPath to use.
      * @param node the node to use.
      * @param expression the expression to use.
-     * @return the long, or null if an error occurred.
+     * @return the long.
      */
-    private static Long parseLong(XPath xPath, String expression, Node node) {
-        try {
-            return Long.parseLong((String) xPath.evaluate(expression, node, XPathConstants.STRING));
-        } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse boolean", xpe);
-        }
+    private static Long parseLong(XPath xPath, String expression, Node node)
+            throws XPathException {
 
-        return null;
+        return Long.parseLong((String) xPath.evaluate(expression, node,
+                XPathConstants.STRING));
     }
 
     /**
@@ -301,15 +296,14 @@ public class InternalWebXmlParser {
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
      * @param node the DOM node.
+     * @throws XPathException when an XPath error occurs.
      */
-    private void parseDenyUncoveredHttpMethods(WebXml webXml, XPath xPath, Node node) {
-        try {
-            Node denyNode = (Node) xPath.evaluate("//deny-uncovered-http-methods", node, NODE);
-            if (denyNode != null) {
-                webXml.setDenyUncoveredHttpMethods(true);
-            }
-        } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse <deny-uncovered-http-methods> section", xpe);
+    private void parseDenyUncoveredHttpMethods(WebXml webXml, XPath xPath,
+            Node node) throws XPathException {
+
+        Node denyNode = (Node) xPath.evaluate("//deny-uncovered-http-methods", node, NODE);
+        if (denyNode != null) {
+            webXml.setDenyUncoveredHttpMethods(true);
         }
     }
 
@@ -319,10 +313,10 @@ public class InternalWebXmlParser {
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
      * @param node the DOM node.
-     * @throws XPathExpressionException when an XPath error occurs.
+     * @throws XPathException when an XPath error occurs.
      */
     private void parseDefaultContextPath(WebXml webXml, XPath xPath, Node node)
-            throws XPathExpressionException {
+            throws XPathException {
 
         Node contextPathNode = (Node) xPath.evaluate("//default-context-path", node, NODE);
         if (contextPathNode != null) {
@@ -339,15 +333,14 @@ public class InternalWebXmlParser {
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
      * @param node the DOM node.
+     * @throws XXPathException when an XPath error occurs.
      */
-    private void parseDisplayName(WebXml webXml, XPath xPath, Node node) {
-        try {
-            String displayName = parseString(xPath, "//display-name/text()", node);
-            if (displayName != null) {
-                webXml.setDisplayName(displayName);
-            }
-        } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse <display-name> section", xpe);
+    private void parseDisplayName(WebXml webXml, XPath xPath, Node node)
+            throws XPathException {
+
+        String displayName = parseString(xPath, "//display-name/text()", node);
+        if (displayName != null) {
+            webXml.setDisplayName(displayName);
         }
     }
 
@@ -357,15 +350,14 @@ public class InternalWebXmlParser {
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
      * @param node the DOM node.
+     * @throws XPathException when an XPath error occurs.
      */
-    private void parseDistributable(WebXml webXml, XPath xPath, Node node) {
-        try {
-            Node denyNode = (Node) xPath.evaluate("//distributable", node, NODE);
-            if (denyNode != null) {
-                webXml.setDistributable(true);
-            }
-        } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse <distributable> section", xpe);
+    private void parseDistributable(WebXml webXml, XPath xPath, Node node)
+            throws XPathException {
+
+        Node denyNode = (Node) xPath.evaluate("//distributable", node, NODE);
+        if (denyNode != null) {
+            webXml.setDistributable(true);
         }
     }
 
@@ -375,21 +367,20 @@ public class InternalWebXmlParser {
      * @param webXml the web.xml to add to.
      * @param xPath the XPath to use.
      * @param node the DOM node.
+     * @throws XPathException when an XPath error occurs.
      */
-    private void parseErrorPages(WebXml webXml, XPath xPath, Node node) {
-        try {
-            NodeList nodeList = (NodeList) xPath.evaluate("//error-page", node, NODESET);
-            if (nodeList != null) {
-                List<WebXmlErrorPage> errorPages = webXml.getErrorPages();
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    String errorCode = parseString(xPath, "error-code/text()", nodeList.item(i));
-                    String exceptionType = parseString(xPath, "exception-type/text()", nodeList.item(i));
-                    String location = parseString(xPath, LOCATION_TEXT_SELECTOR, nodeList.item(i));
-                    errorPages.add(new WebXmlErrorPage(errorCode, exceptionType, location));
-                }
+    private void parseErrorPages(WebXml webXml, XPath xPath, Node node)
+            throws XPathException {
+
+        NodeList nodeList = (NodeList) xPath.evaluate("//error-page", node, NODESET);
+        if (nodeList != null) {
+            List<WebXmlErrorPage> errorPages = webXml.getErrorPages();
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                String errorCode = parseString(xPath, "error-code/text()", nodeList.item(i));
+                String exceptionType = parseString(xPath, "exception-type/text()", nodeList.item(i));
+                String location = parseString(xPath, LOCATION_TEXT_SELECTOR, nodeList.item(i));
+                errorPages.add(new WebXmlErrorPage(errorCode, exceptionType, location));
             }
-        } catch (XPathException xpe) {
-            LOGGER.log(WARNING, "Unable to parse <error-page> sections", xpe);
         }
     }
 
@@ -399,30 +390,25 @@ public class InternalWebXmlParser {
      * @param webXml the web.xml to use.
      * @param xPath the XPath to use.
      * @param rootNode the node to use.
+     * @throws XPathException when an XPath error occurs.
      */
-    private void parseFilterMappings(WebXml webXml, XPath xPath, Node rootNode) {
-        try {
-            for (Node node : parseNodes(xPath, "//filter-mapping", rootNode)) {
-                String filterName = parseString(xPath, "filter-name/text()", node);
-                WebXmlFilterMapping webXmlFilterMapping = new WebXmlFilterMapping();
-                webXmlFilterMapping.setFilterName(filterName);
+    private void parseFilterMappings(WebXml webXml, XPath xPath, Node rootNode)
+            throws XPathException {
 
-                for (String urlPattern : parseStrings(xPath, URL_PATTERN_TEXT_SELECTOR, node)) {
-                    webXmlFilterMapping.getUrlPatterns().add(urlPattern);
-                }
-
-                for (String servletName : parseStrings(xPath, SERVLET_NAME_TEXT_SELECTOR, node)) {
-                    webXmlFilterMapping.getServletNames().add(servletName);
-                }
-
-                for (String dispatcher : parseStrings(xPath, "dispatcher/text()", node)) {
-                    webXmlFilterMapping.getDispatchers().add(dispatcher);
-                }
-
-                webXml.getFilterMappings().add(webXmlFilterMapping);
+        for (Node node : parseNodes(xPath, "//filter-mapping", rootNode)) {
+            String filterName = parseString(xPath, "filter-name/text()", node);
+            WebXmlFilterMapping webXmlFilterMapping = new WebXmlFilterMapping();
+            webXmlFilterMapping.setFilterName(filterName);
+            for (String urlPattern : parseStrings(xPath, URL_PATTERN_TEXT_SELECTOR, node)) {
+                webXmlFilterMapping.getUrlPatterns().add(urlPattern);
             }
-        } catch (XPathExpressionException xee) {
-            LOGGER.log(WARNING, "Unable to parse <filter-mapping> sections", xee);
+            for (String servletName : parseStrings(xPath, SERVLET_NAME_TEXT_SELECTOR, node)) {
+                webXmlFilterMapping.getServletNames().add(servletName);
+            }
+            for (String dispatcher : parseStrings(xPath, "dispatcher/text()", node)) {
+                webXmlFilterMapping.getDispatchers().add(dispatcher);
+            }
+            webXml.getFilterMappings().add(webXmlFilterMapping);
         }
     }
 
@@ -882,14 +868,14 @@ public class InternalWebXmlParser {
 
     /**
      * Parse the data-source elements.
-     * 
+     *
      * @param webXml the webXml.
      * @param xPath the XPath.
      * @param node the DOM node.
      */
-    private void parseDataSources(WebXml webXml, XPath xPath, Document node) 
-        throws XPathExpressionException {
-        
+    private void parseDataSources(WebXml webXml, XPath xPath, Document node)
+            throws XPathExpressionException {
+
         List<WebXmlDataSource> dataSources = webXml.getDataSources();
         for (Node dataSourceNode : parseNodes(xPath, "//data-source", node)) {
             WebXmlDataSource dataSource = new WebXmlDataSource();
