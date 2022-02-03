@@ -42,7 +42,7 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.76</minimum>
+                                            <minimum>0.77</minimum>
                                         </limit>
                                         <limit>
                                             <counter>CLASS</counter>
@@ -81,6 +81,12 @@
         <!-- test -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-herring</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-standard-mimetype</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -95,6 +101,11 @@
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-standard-welcomefile</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

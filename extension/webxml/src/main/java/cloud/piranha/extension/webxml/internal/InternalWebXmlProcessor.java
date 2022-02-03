@@ -52,6 +52,7 @@ import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.TRACE;
 import static java.lang.System.Logger.Level.WARNING;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -60,6 +61,7 @@ import java.util.Map;
 import java.util.Set;
 import static java.util.stream.Collectors.toSet;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /**
@@ -114,18 +116,6 @@ public class InternalWebXmlProcessor {
     }
 
     /**
-     * Process the metadata complete.
-     *
-     * @param webApplication the web application.
-     * @param webXml the web.xml.
-     */
-    private void processMetadataComplete(WebApplication webApplication, WebXml webXml) {
-        if (webXml.getMetadataComplete()) {
-            webApplication.setMetadataComplete(true);
-        }
-    }
-
-    /**
      * Process the context parameters.
      *
      * @param webApplication the web application.
@@ -138,6 +128,35 @@ public class InternalWebXmlProcessor {
     }
 
     /**
+     * Process the data sources.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processDataSources(WebApplication webApplication, WebXml webXml) {
+        for (WebXmlDataSource dataSourceXml : webXml.getDataSources()) {
+            try {
+                Class clazz = Class.forName(dataSourceXml.getClassName());
+                DataSource dataSource = (DataSource) clazz.getDeclaredConstructor().newInstance();
+                Method method = dataSource.getClass().getMethod("setUrl", String.class);
+                method.invoke(dataSource, dataSourceXml.getUrl());
+                if (dataSourceXml.getPassword() != null) {
+                    method = dataSource.getClass().getMethod("setPassword", String.class);
+                    method.invoke(dataSource, dataSourceXml.getPassword());
+                }
+                if (dataSourceXml.getUser() != null) {
+                    method = dataSource.getClass().getMethod("setUser", String.class);
+                    method.invoke(dataSource, dataSourceXml.getUser());
+                }
+                InitialContext initialContext = new InitialContext();
+                initialContext.bind(dataSourceXml.getName(), dataSource);
+            } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException | NamingException e) {
+                LOGGER.log(WARNING, "Unable to create DataSource", e);
+            }
+        }
+    }
+
+    /**
      * Process the default context path.
      *
      * @param webApplication the web application.
@@ -146,6 +165,18 @@ public class InternalWebXmlProcessor {
     private void processDefaultContextPath(WebApplication webApplication, WebXml webXml) {
         if (webXml.getDefaultContextPath() != null) {
             webApplication.setContextPath(webXml.getDefaultContextPath());
+        }
+    }
+
+    /**
+     * Process the metadata complete.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processMetadataComplete(WebApplication webApplication, WebXml webXml) {
+        if (webXml.getMetadataComplete()) {
+            webApplication.setMetadataComplete(true);
         }
     }
 
@@ -505,34 +536,5 @@ public class InternalWebXmlProcessor {
      */
     private void processSecurityConstraints(WebApplication webApplication, WebXml webXml) {
         // what are we to do here?
-    }
-
-    /**
-     * Process the data sources.
-     *
-     * @param webApplication the web application.
-     * @param webXml the web.xml.
-     */
-    private void processDataSources(WebApplication webApplication, WebXml webXml) {
-        for (WebXmlDataSource dataSourceXml : webXml.getDataSources()) {
-            try {
-                Class clazz = Class.forName(dataSourceXml.getClassName());
-                DataSource dataSource = (DataSource) clazz.getDeclaredConstructor().newInstance();
-                Method method = dataSource.getClass().getMethod("setUrl", String.class);
-                method.invoke(dataSource, dataSourceXml.getUrl());
-                if (dataSourceXml.getPassword() != null) {
-                    method = dataSource.getClass().getMethod("setPassword", String.class);
-                    method.invoke(dataSource, dataSourceXml.getPassword());
-                }
-                if (dataSourceXml.getUser() != null) {
-                    method = dataSource.getClass().getMethod("setUser", String.class);
-                    method.invoke(dataSource, dataSourceXml.getUser());
-                }
-                InitialContext initialContext = new InitialContext();
-                initialContext.bind(dataSourceXml.getName(), dataSource);
-            } catch (Exception e) {
-                LOGGER.log(WARNING, "Unable to create DataSource", e);
-            }
-        }
     }
 }
