@@ -43,8 +43,8 @@ import cloud.piranha.extension.standard.mimetype.StandardMimeTypeExtension;
 import cloud.piranha.extension.standard.policy.StandardPolicyExtension;
 import cloud.piranha.extension.standard.scinitializer.StandardServletContainerInitializerExtension;
 import cloud.piranha.extension.standard.servletannotations.StandardServletAnnotationsExtension;
-import cloud.piranha.extension.standard.tempdir.StandardTempDirExtension;
 import cloud.piranha.extension.standard.welcomefile.StandardWelcomeFileExtension;
+import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
 
@@ -61,7 +61,7 @@ public class MicroExtension implements WebApplicationExtension {
         context.add(StandardLocaleEncodingExtension.class);
         context.add(StandardMimeTypeExtension.class);
         context.add(StandardPolicyExtension.class);
-        context.add(StandardTempDirExtension.class);
+        context.add(TempDirExtension.class);
         context.add(StandardWelcomeFileExtension.class);
         context.add(ServletSecurityManagerExtension.class);
         context.add(ApacheMultiPartExtension.class);

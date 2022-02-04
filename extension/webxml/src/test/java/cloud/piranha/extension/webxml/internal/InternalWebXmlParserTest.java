@@ -45,7 +45,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class WebXmlParserTest {
+class InternalWebXmlParserTest {
 
     /**
      * Test parse method.

@@ -25,44 +25,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.tempdir;
+package cloud.piranha.extension.tempdir;
 
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import static jakarta.servlet.ServletContext.TEMPDIR;
-import jakarta.servlet.ServletException;
+import cloud.piranha.extension.tempdir.TempDirInitializer;
+import cloud.piranha.core.impl.DefaultWebApplication;
 import java.io.File;
-import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.DEBUG;
-import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The ServletContainerInitializer that creates the temporary directory on the
- * file system and sets the context attribute to point to that directory.
+ * The JUnit test for the StandardTempDirInitializer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardTempDirInitializer implements ServletContainerInitializer {
+class TempDirInitializerTest {
 
     /**
-     * Stores the logger.
+     * Test onStartup method.
+     *
+     * @throws Exception when a serious error occurs.
      */
-    private static final Logger LOGGER = System.getLogger(StandardTempDirInitializer.class.getName());
+    @Test
+    void testOnStartup() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.setContextPath("my_servlet_context_name");
+        TempDirInitializer initializer = new TempDirInitializer();
+        initializer.onStartup(null, webApplication);
+        File tempDir = new File("tmp/my_servlet_context_name");
+        assertTrue(tempDir.exists());
+        tempDir.delete();
+        tempDir.getParentFile().delete();
+    }
 
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        File baseDir = new File("tmp");
-        String name = servletContext.getContextPath();
-        name = name.replace("/", "_");
-        if (name.trim().equals("")) {
-            name = "ROOT";
-        }
-        File tempDir = new File(baseDir, name);
-        if (!tempDir.exists()) {
-            tempDir.mkdirs();
-        }
-        LOGGER.log(DEBUG, "Setting TEMPDIR for context ''{0}'' to ''{1}''",
-                servletContext.getContextPath(), tempDir);
-        servletContext.setAttribute(TEMPDIR, tempDir);
+    /**
+     * Test onStartup method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testOnStartup2() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.setContextPath("");
+        TempDirInitializer initializer = new TempDirInitializer();
+        initializer.onStartup(null, webApplication);
+        File tempDir = new File("tmp/ROOT");
+        assertTrue(tempDir.exists());
+        tempDir.delete();
+        tempDir.getParentFile().delete();
     }
 }

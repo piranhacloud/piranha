@@ -25,14 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.tempdir;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import jakarta.servlet.ServletContainerInitializer;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import static java.lang.System.Logger.Level.DEBUG;
+import java.lang.reflect.InvocationTargetException;
 
 /**
- * The standard temporary directory functionality module.
- * 
+ * The WebApplicationExtension that adds the StandardTempDirInitializer.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard.tempdir {
-    exports cloud.piranha.extension.standard.tempdir;
-    opens cloud.piranha.extension.standard.tempdir;
-    requires cloud.piranha.core.api;
+public class TempDirExtension implements WebApplicationExtension {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(TempDirExtension.class.getName());
+
+    @Override
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(DEBUG, "Adding the StandardTempDirInitializer");
+        try {
+            ClassLoader classLoader = webApplication.getClassLoader();
+
+            Class<? extends ServletContainerInitializer> clazz
+                    = classLoader.
+                            loadClass(TempDirInitializer.class.getName())
+                            .asSubclass(ServletContainerInitializer.class);
+
+            ServletContainerInitializer initializer
+                    = clazz.getDeclaredConstructor().newInstance();
+
+            webApplication.addInitializer(initializer);
+
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
+                | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException ex) {
+            LOGGER.log(Level.WARNING, "Unable to add the StandardTempDirInitializer", ex);
+        }
+    }
 }

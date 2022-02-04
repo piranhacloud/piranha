@@ -77,11 +77,6 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-standard-tempdir</artifactId>
-            <version>${project.version}</version>
-        </dependency> 
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-standard-welcomefile</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -90,8 +85,11 @@
             <artifactId>piranha-resource-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
-        <!-- Jakarta Pages implementation -->
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-tempdir</artifactId>
+            <version>${project.version}</version>
+        </dependency> 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-wasp</artifactId>
