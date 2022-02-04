@@ -36,6 +36,12 @@
             <artifactId>piranha-extension-herring</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
+        </dependency>        
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-scinitializer</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
@@ -82,12 +88,6 @@
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-standard-servletannotations</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-standard-scinitializer</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

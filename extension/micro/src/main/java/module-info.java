@@ -35,6 +35,7 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.extension.exousia;
     requires cloud.piranha.extension.herring;
+    requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.security.jakarta;
     requires cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.standard.async;
@@ -42,7 +43,6 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.standard.mimetype;
     requires cloud.piranha.extension.standard.policy;
     requires cloud.piranha.extension.standard.servletannotations;
-    requires cloud.piranha.extension.standard.scinitializer;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webxml;

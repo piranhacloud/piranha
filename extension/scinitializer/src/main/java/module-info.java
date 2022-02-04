@@ -27,13 +27,13 @@
  */
 
 /**
- * The standard ServletContainerInitializer support module.
+ * The ServletContainerInitializer module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard.scinitializer {
-    exports cloud.piranha.extension.standard.scinitializer;
-    opens cloud.piranha.extension.standard.scinitializer;
+module cloud.piranha.extension.scinitializer {
+    exports cloud.piranha.extension.scinitializer;
+    opens cloud.piranha.extension.scinitializer;
     requires cloud.piranha.core.api;
     uses jakarta.servlet.ServletContainerInitializer;
 }

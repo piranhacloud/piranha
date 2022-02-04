@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.scinitializer;
+package cloud.piranha.extension.scinitializer;
 
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.TRACE;
@@ -47,12 +47,12 @@ import cloud.piranha.core.api.WebApplicationExtension;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardServletContainerInitializerExtension implements WebApplicationExtension {
+public class ServletContainerInitializerExtension implements WebApplicationExtension {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(StandardServletContainerInitializerExtension.class.getPackage().getName());
+    private static final Logger LOGGER = System.getLogger(ServletContainerInitializerExtension.class.getPackage().getName());
 
     /**
      * Stores the exclude existing initializers flag.
@@ -67,7 +67,7 @@ public class StandardServletContainerInitializerExtension implements WebApplicat
     /**
      * Constructor.
      */
-    public StandardServletContainerInitializerExtension() {
+    public ServletContainerInitializerExtension() {
         this(false, emptyList());
     }
 
@@ -77,7 +77,7 @@ public class StandardServletContainerInitializerExtension implements WebApplicat
      * @param excludeExistingInitializers the exclude existing initializers flag.
      * @param ignoreInitializers ignore the given initializers.
      */
-    public StandardServletContainerInitializerExtension(boolean excludeExistingInitializers, List<String> ignoreInitializers) {
+    public ServletContainerInitializerExtension(boolean excludeExistingInitializers, List<String> ignoreInitializers) {
         this.excludeExistingInitializers = excludeExistingInitializers;
         this.ignoreInitializers = new ArrayList<>(ignoreInitializers);
     }
@@ -101,10 +101,11 @@ public class StandardServletContainerInitializerExtension implements WebApplicat
             }
         }
 
-        if (this.getClass().getModule().isNamed()) {
+        if (getClass().getModule().isNamed()) {
             // We are running in a modular environment,
             // the providers from modules aren't available in the webApplication classloader
             serviceLoader = ServiceLoader.load(ServletContainerInitializer.class);
+            
             for (ServletContainerInitializer initializer : serviceLoader) {
                 LOGGER.log(DEBUG, () -> "Adding initializer: " + initializer.getClass().getName());
 
@@ -113,7 +114,7 @@ public class StandardServletContainerInitializerExtension implements WebApplicat
                 }
             }
         }
-
+        
         LOGGER.log(TRACE, "Finished ServletContainerInitializer processing");
     }
 

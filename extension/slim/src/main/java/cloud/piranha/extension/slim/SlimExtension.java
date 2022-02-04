@@ -29,7 +29,7 @@ package cloud.piranha.extension.slim;
 
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.standard.scinitializer.StandardServletContainerInitializerExtension;
+import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 
 /**
  * The WebApplicationExtension that delivers the 
@@ -41,6 +41,6 @@ public class SlimExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
-        context.add(StandardServletContainerInitializerExtension.class);
+        context.add(ServletContainerInitializerExtension.class);
     }
 }

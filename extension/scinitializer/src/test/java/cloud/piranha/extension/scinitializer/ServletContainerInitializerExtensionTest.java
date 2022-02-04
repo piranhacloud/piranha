@@ -25,18 +25,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.scinitializer;
+package cloud.piranha.extension.scinitializer;
 
 import cloud.piranha.core.impl.DefaultWebApplication;
+import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * The JUnit tests for the StandardServletContainerInitializerExtension class.
+ * The JUnit tests for the ServletContainerInitializerExtension class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class StandardServletContainerInitializerExtensionTest {
+class ServletContainerInitializerExtensionTest {
 
     /**
      * Test configure method.
@@ -44,7 +45,37 @@ class StandardServletContainerInitializerExtensionTest {
     @Test
     void testConfigure() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        StandardServletContainerInitializerExtension extension = new StandardServletContainerInitializerExtension();
+        ServletContainerInitializerExtension extension = new ServletContainerInitializerExtension();
+        extension.configure(webApplication);
+        webApplication.initialize();
+        assertTrue(webApplication.isInitialized());
+    }
+
+    /**
+     * Test configure method.
+     */
+    @Test
+    void testConfigure2() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        ArrayList<String> ignoredInitializers = new ArrayList<>();
+        ignoredInitializers.add("org.glassfish.tyrus.servlet.TyrusServletContainerInitializer");
+        ServletContainerInitializerExtension extension = new ServletContainerInitializerExtension(
+                true, ignoredInitializers);
+        extension.configure(webApplication);
+        webApplication.initialize();
+        assertTrue(webApplication.isInitialized());
+    }
+
+    /**
+     * Test configure method.
+     */
+    @Test
+    void testConfigure3() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addInitializer("org.glassfish.tyrus.servlet.TyrusServletContainerInitializer");
+        ArrayList<String> ignoredInitializers = new ArrayList<>();
+        ServletContainerInitializerExtension extension = new ServletContainerInitializerExtension(
+                true, ignoredInitializers);
         extension.configure(webApplication);
         webApplication.initialize();
         assertTrue(webApplication.isInitialized());
