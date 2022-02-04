@@ -25,48 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.tempdir;
+package cloud.piranha.extension.tempdir;
 
+import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.core.impl.DefaultWebApplication;
+import static jakarta.servlet.ServletContext.TEMPDIR;
 import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit test for the StandardTempDirInitializer class.
- *
+ * The JUnit tests for the StandardTempDirExtension class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class StandardTempDirInitializerTest {
-
+class TempDirExtensionTest {
+    
     /**
-     * Test onStartup method.
-     *
-     * @throws Exception when a serious error occurs.
+     * Test configure method.
      */
     @Test
-    void testOnStartup() throws Exception {
+    void testConfigure() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.setContextPath("my_servlet_context_name");
-        StandardTempDirInitializer initializer = new StandardTempDirInitializer();
-        initializer.onStartup(null, webApplication);
-        File tempDir = new File("tmp/my_servlet_context_name");
-        assertTrue(tempDir.exists());
-        tempDir.delete();
-        tempDir.getParentFile().delete();
-    }
-
-    /**
-     * Test onStartup method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testOnStartup2() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.setContextPath("");
-        StandardTempDirInitializer initializer = new StandardTempDirInitializer();
-        initializer.onStartup(null, webApplication);
+        TempDirExtension extension = new TempDirExtension();
+        extension.configure(webApplication);
+        webApplication.initialize();
+        assertNotNull(webApplication.getAttribute(TEMPDIR));
         File tempDir = new File("tmp/ROOT");
         assertTrue(tempDir.exists());
         tempDir.delete();

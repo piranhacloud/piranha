@@ -75,7 +75,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-standard-tempdir</artifactId>
+            <artifactId>piranha-extension-tempdir</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

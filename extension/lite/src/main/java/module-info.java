@@ -58,6 +58,6 @@ module cloud.piranha.extension.lite {
     requires transitive cloud.piranha.extension.standard.policy;
     requires transitive cloud.piranha.extension.standard.servletannotations;
     requires transitive cloud.piranha.extension.standard.scinitializer;
-    requires transitive cloud.piranha.extension.standard.tempdir;
+    requires transitive cloud.piranha.extension.tempdir;
     requires transitive cloud.piranha.extension.webxml;
 }

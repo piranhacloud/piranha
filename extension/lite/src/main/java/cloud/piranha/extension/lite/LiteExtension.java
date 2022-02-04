@@ -37,7 +37,7 @@ import cloud.piranha.extension.standard.mimetype.StandardMimeTypeExtension;
 import cloud.piranha.extension.standard.policy.StandardPolicyExtension;
 import cloud.piranha.extension.standard.scinitializer.StandardServletContainerInitializerExtension;
 import cloud.piranha.extension.standard.servletannotations.StandardServletAnnotationsExtension;
-import cloud.piranha.extension.standard.tempdir.StandardTempDirExtension;
+import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
 
 /**
@@ -53,7 +53,7 @@ public class LiteExtension implements WebApplicationExtension {
         context.add(StandardLocaleEncodingExtension.class);
         context.add(StandardMimeTypeExtension.class);
         context.add(StandardPolicyExtension.class);
-        context.add(StandardTempDirExtension.class);
+        context.add(TempDirExtension.class);
         context.add(HerringExtension.class);
         context.add(StandardAnnotationScanExtension.class);
         context.add(WebXmlExtension.class);

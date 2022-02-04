@@ -27,47 +27,12 @@
  */
 
 /**
- * The standard extension module.
- *
- * <p>
- *  This module of modules delivers the extensions for the standard version of
- *  Piranha Server/Micro. It adds the following extensions:
- * </p>
- * <ul>
- *  <li>Apache Commons File Upload (Multipart)</li>
- *  <li>Manorrock Herring (JNDI)</li>
- *  <li>Servlet Security</li>
- *  <li>Annotation Scanning</li>
- *  <li>Async</li>
- *  <li>Locale Encoding</li>
- *  <li>Logging</li>
- *  <li>Mime-type</li>
- *  <li>Java Policy</li>
- *  <li>Servlet Annotations</li>
- *  <li>Servlet Container Initializer</li>
- *  <li>Welcome File</li>
- *  <li>TEMPDIR</li>
- *  <li>WaSP (Pages)</li>
- *  <li>web.xml</li>
- * </ul>
+ * The temporary directory functionality module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard {
-    exports cloud.piranha.extension.standard;
-    opens cloud.piranha.extension.standard;
+module cloud.piranha.extension.tempdir {
+    exports cloud.piranha.extension.tempdir;
+    opens cloud.piranha.extension.tempdir;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.standard.annotationscan;
-    requires cloud.piranha.extension.standard.async;
-    requires cloud.piranha.extension.standard.localeencoding;
-    requires cloud.piranha.extension.standard.logging;
-    requires cloud.piranha.extension.standard.mimetype;
-    requires cloud.piranha.extension.standard.policy;
-    requires cloud.piranha.extension.standard.servletannotations;
-    requires cloud.piranha.extension.standard.scinitializer;
-    requires cloud.piranha.extension.standard.welcomefile;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
 }
