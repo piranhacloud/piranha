@@ -26,6 +26,7 @@
         <module>micro</module>
         <module>mojarra</module>
         <module>myfaces</module>
+        <module>scinitializer</module>
         <module>security-servlet</module>
         <module>security-jakarta</module>
         <module>slim</module>
@@ -45,7 +46,6 @@
         <module>weld-servlet</module>
         <module>webxml</module>
         <module>welcomefile</module>
-        <module>scinitializer</module>
     </modules>
 
     <dependencyManagement>
