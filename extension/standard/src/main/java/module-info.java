@@ -36,6 +36,7 @@
  * <ul>
  *  <li>Apache Commons File Upload (Multipart)</li>
  *  <li>Manorrock Herring (JNDI)</li>
+ *  <li>Servlet Container Initializer</li>
  *  <li>Servlet Security</li>
  *  <li>Annotation Scanning</li>
  *  <li>Async</li>
@@ -44,7 +45,6 @@
  *  <li>Mime-type</li>
  *  <li>Java Policy</li>
  *  <li>Servlet Annotations</li>
- *  <li>Servlet Container Initializer</li>
  *  <li>TEMPDIR</li>
  *  <li>WaSP (Pages)</li>
  *  <li>web.xml</li>
@@ -57,6 +57,7 @@ module cloud.piranha.extension.standard {
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.extension.herring;
+    requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.standard.annotationscan;
     requires cloud.piranha.extension.standard.async;
@@ -65,7 +66,6 @@ module cloud.piranha.extension.standard {
     requires cloud.piranha.extension.standard.mimetype;
     requires cloud.piranha.extension.standard.policy;
     requires cloud.piranha.extension.standard.servletannotations;
-    requires cloud.piranha.extension.standard.scinitializer;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webxml;

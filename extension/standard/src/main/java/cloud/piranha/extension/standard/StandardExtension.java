@@ -31,6 +31,7 @@ import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.herring.HerringExtension;
+import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanExtension;
@@ -39,7 +40,6 @@ import cloud.piranha.extension.standard.localeencoding.StandardLocaleEncodingExt
 import cloud.piranha.extension.standard.logging.StandardLoggingExtension;
 import cloud.piranha.extension.standard.mimetype.StandardMimeTypeExtension;
 import cloud.piranha.extension.standard.policy.StandardPolicyExtension;
-import cloud.piranha.extension.standard.scinitializer.StandardServletContainerInitializerExtension;
 import cloud.piranha.extension.standard.servletannotations.StandardServletAnnotationsExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
@@ -71,7 +71,7 @@ public class StandardExtension implements WebApplicationExtension {
         context.add(WebXmlExtension.class);
         context.add(StandardServletAnnotationsExtension.class);
         context.add(WaspExtension.class);
-        context.add(StandardServletContainerInitializerExtension.class);
+        context.add(ServletContainerInitializerExtension.class);
         context.add(ServletSecurityExtension.class);
     }
 }

@@ -26,6 +26,7 @@
         <module>micro</module>
         <module>mojarra</module>
         <module>myfaces</module>
+        <module>scinitializer</module>
         <module>security-servlet</module>
         <module>security-jakarta</module>
         <module>slim</module>
@@ -39,7 +40,6 @@
         <module>standard-mimetype</module>
         <module>standard-policy</module>
         <module>standard-servletannotations</module>
-        <module>standard-scinitializer</module>
         <module>tempdir</module>
         <module>wasp</module>
         <module>weld</module>

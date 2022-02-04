@@ -35,13 +35,13 @@
  * </p>
  * <ul>
  *  <li>Manorrock Herring (JNDI)</li>
+ *  <li>Servlet Container Initializer</li>
  *  <li>Servlet Security</li>
  *  <li>Annotation Scanning</li>
  *  <li>Locale Encoding</li>
  *  <li>Mime-type</li>
  *  <li>Java Policy</li>
  *  <li>Servlet Annotations</li>
- *  <li>Servlet Container Initializer</li>
  *  <li>TEMPDIR</li>
  *  <li>web.xml</li>
  * </ul>
@@ -51,13 +51,13 @@ module cloud.piranha.extension.lite {
     opens cloud.piranha.extension.lite;
     requires cloud.piranha.core.api;
     requires transitive cloud.piranha.extension.herring;
+    requires transitive cloud.piranha.extension.scinitializer;
     requires transitive cloud.piranha.extension.security.servlet;
     requires transitive cloud.piranha.extension.standard.annotationscan;
     requires transitive cloud.piranha.extension.standard.localeencoding;
     requires transitive cloud.piranha.extension.standard.mimetype;
     requires transitive cloud.piranha.extension.standard.policy;
     requires transitive cloud.piranha.extension.standard.servletannotations;
-    requires transitive cloud.piranha.extension.standard.scinitializer;
     requires transitive cloud.piranha.extension.tempdir;
     requires transitive cloud.piranha.extension.webxml;
 }
