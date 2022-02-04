@@ -43,8 +43,8 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.standard.policy;
     requires cloud.piranha.extension.standard.servletannotations;
     requires cloud.piranha.extension.standard.scinitializer;
-    requires cloud.piranha.extension.standard.welcomefile;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webxml;
+    requires cloud.piranha.extension.welcomefile;
 }

@@ -25,28 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.welcomefile;
-
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationExtension;
-import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The WebApplicationExtension that sets the StandardWelcomeFileManager.
+ * The &lt;welcome-file&gt; handling module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardWelcomeFileExtension implements WebApplicationExtension {
-
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = System.getLogger(StandardWelcomeFileExtension.class.getName());
-
-    @Override
-    public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Setting the StandardWelcomeFileManager");
-        webApplication.getManager().setWelcomeFileManager(new StandardWelcomeFileManager());
-    }
+module cloud.piranha.extension.welcomefile {
+    exports cloud.piranha.extension.welcomefile;
+    opens cloud.piranha.extension.welcomefile;
+    requires cloud.piranha.core.api;
 }

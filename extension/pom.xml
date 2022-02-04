@@ -40,12 +40,12 @@
         <module>standard-policy</module>
         <module>standard-servletannotations</module>
         <module>standard-scinitializer</module>
-        <module>standard-welcomefile</module>
         <module>tempdir</module>
         <module>wasp</module>
         <module>weld</module>
         <module>weld-servlet</module>
         <module>webxml</module>
+        <module>welcomefile</module>
     </modules>
 
     <dependencyManagement>

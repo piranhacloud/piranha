@@ -25,18 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.welcomefile;
+package cloud.piranha.extension.welcomefile;
 
-import cloud.piranha.core.api.WelcomeFileManager;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The standard WelcomeFileManager.
+ * The WelcomeFileManager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardWelcomeFileManager implements WelcomeFileManager {
+public class WelcomeFileManager implements cloud.piranha.core.api.WelcomeFileManager {
 
     /**
      * Stores the remove defaults flag.
@@ -51,7 +50,7 @@ public class StandardWelcomeFileManager implements WelcomeFileManager {
     /**
      * Constructor.
      */
-    public StandardWelcomeFileManager() {
+    public WelcomeFileManager() {
         removeDefaults = true;
         welcomeFileList = new ArrayList<>();
         welcomeFileList.add("index.jsp");

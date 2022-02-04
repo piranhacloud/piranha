@@ -25,30 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.welcomefile;
+package cloud.piranha.extension.welcomefile;
 
-import cloud.piranha.core.impl.DefaultWebApplication;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The JUnit tests for the StandardWelcomeFileExtension class.
- *
+ * The WebApplicationExtension that sets the WelcomeFileManager.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class StandardWelcomeFileExtensionTest {
+public class WelcomeFileExtension implements WebApplicationExtension {
 
     /**
-     * Test configure method.
+     * Stores the logger.
      */
-    @Test
-    void testConfigure() {
-        System.out.println("configure");
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        StandardWelcomeFileExtension extension = new StandardWelcomeFileExtension();
-        extension.configure(webApplication);
-        webApplication.initialize();
-        assertTrue(webApplication.getManager()
-                .getWelcomeFileManager() instanceof StandardWelcomeFileManager);
+    private static final Logger LOGGER = System.getLogger(WelcomeFileExtension.class.getName());
+
+    @Override
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(DEBUG, "Setting the StandardWelcomeFileManager");
+        webApplication.getManager().setWelcomeFileManager(new WelcomeFileManager());
     }
 }

@@ -25,14 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.welcomefile;
+
+import cloud.piranha.extension.welcomefile.WelcomeFileManager;
+import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The standard welcome-file handling module.
- * 
+ * The JUnit tests for the StandardWelcomeFileExtension class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard.welcomefile {
-    exports cloud.piranha.extension.standard.welcomefile;
-    opens cloud.piranha.extension.standard.welcomefile;
-    requires cloud.piranha.core.api;
+class WelcomeFileExtensionTest {
+
+    /**
+     * Test configure method.
+     */
+    @Test
+    void testConfigure() {
+        System.out.println("configure");
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        WelcomeFileExtension extension = new WelcomeFileExtension();
+        extension.configure(webApplication);
+        webApplication.initialize();
+        assertTrue(webApplication.getManager()
+                .getWelcomeFileManager() instanceof WelcomeFileManager);
+    }
 }
