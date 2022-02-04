@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.servletannotations;
+package cloud.piranha.extension.servletannotations;
 
 import cloud.piranha.core.api.AnnotationInfo;
 import cloud.piranha.core.api.AnnotationManager;
@@ -65,12 +65,12 @@ import static java.util.stream.Collectors.toCollection;
  * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardServletAnnotationsInitializer implements ServletContainerInitializer {
+public class ServletAnnotationsInitializer implements ServletContainerInitializer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(StandardServletAnnotationsInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(ServletAnnotationsInitializer.class.getName());
 
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
@@ -91,15 +91,21 @@ public class StandardServletAnnotationsInitializer implements ServletContainerIn
                 }
 
                 // Add the Servlet
-                Dynamic registration = webApp.addServlet(servletName, annotationInfo.getTargetType().getName());
+                ServletRegistration registration = webApp.addServlet(servletName, annotationInfo.getTargetType().getName());
 
-                if (registration != null) {
-                    // Add params
-                    if (webServlet.initParams().length != 0) {
-                        stream(webServlet.initParams()).forEach(initParam -> registration.setInitParameter(initParam.name(), initParam.value()));
-                    }
+                if (registration == null) {
+                    registration = webApp.getServletRegistration(servletName);
+                }
 
-                    registration.setAsyncSupported(webServlet.asyncSupported());
+                // Add params
+                if (webServlet.initParams().length != 0) {
+                    final ServletRegistration finalServletRegistration = registration;
+                    stream(webServlet.initParams()).forEach(
+                            initParam -> finalServletRegistration.setInitParameter(initParam.name(), initParam.value()));
+                }
+
+                if (registration instanceof Dynamic dynamic) {
+                    dynamic.setAsyncSupported(webServlet.asyncSupported());
                 }
 
                 String[] urlPatterns = webServlet.value();
@@ -108,7 +114,9 @@ public class StandardServletAnnotationsInitializer implements ServletContainerIn
                 }
 
                 // Add mapping
-                webApp.addServletMapping(servletName, urlPatterns);
+                if (registration != null) {
+                    registration.addMapping(urlPatterns);
+                }
             }
 
             // Process @WebFilter
@@ -141,8 +149,8 @@ public class StandardServletAnnotationsInitializer implements ServletContainerIn
                 }
 
                 // Add mapping for URL patterns, if any
-                if (urlPatterns.length > 0) {
-                    webApp.addFilterMapping(filterName, urlPatterns);
+                if (registration != null && urlPatterns.length > 0) {
+                    registration.addMappingForUrlPatterns(null, false, urlPatterns);
                 }
 
                 // Add mapping for Servlet names, if any

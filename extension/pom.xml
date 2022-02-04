@@ -38,7 +38,6 @@
         <module>standard-logging</module>
         <module>standard-mimetype</module>
         <module>standard-policy</module>
-        <module>standard-servletannotations</module>
         <module>tempdir</module>
         <module>wasp</module>
         <module>weld</module>
@@ -46,6 +45,7 @@
         <module>webxml</module>
         <module>welcomefile</module>
         <module>scinitializer</module>
+        <module>servletannotations</module>
     </modules>
 
     <dependencyManagement>

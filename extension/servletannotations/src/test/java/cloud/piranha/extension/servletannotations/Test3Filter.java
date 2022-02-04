@@ -25,15 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.servletannotations;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.annotation.WebInitParam;
+import java.io.IOException;
 
 /**
- * The standard servlet annotations handling module.
- * 
+ * The test Filter.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard.servletannotations {
-    exports cloud.piranha.extension.standard.servletannotations;
-    opens cloud.piranha.extension.standard.servletannotations;
-    requires cloud.piranha.core.api;
-    requires jakarta.annotation;
+@WebFilter(filterName = "Test3Filter", value = {"/url1", "/url2/*", "*.url3"},
+        initParams = {
+            @WebInitParam(name = "name", value = "value")
+        })
+public class Test3Filter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+    }
 }

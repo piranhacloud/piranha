@@ -25,43 +25,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml;
+package cloud.piranha.extension.servletannotations;
 
-import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.resource.impl.DirectoryResource;
-import java.io.File;
-import jakarta.servlet.ServletRegistration;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.jupiter.api.Test;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
+import java.io.IOException;
 
 /**
- * The JUnit tests for the WebXmlExtension class.
+ * The test Filter.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class WebXmlExtensionTest {
+@WebFilter(filterName = "TestFilter", value = {"/url1", "/url2/*", "*.url3"})
+public class TestFilter implements Filter {
 
-    /**
-     * Test onStartup method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testOnStartup() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/init")));
-        DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
-        context.add(WebXmlExtension.class);
-        context.configure(webApplication);
-        webApplication.initialize();
-        ServletRegistration registration = webApplication.getServletRegistration("Test Servlet");
-        assertNotNull(registration);
-        assertFalse(registration.getMappings().isEmpty());
-        assertEquals("*.html", registration.getMappings().iterator().next());
-        assertEquals("myvalue", webApplication.getInitParameter("myname"));
-        assertEquals("myservletcontext", webApplication.getServletContextName());
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
     }
 }

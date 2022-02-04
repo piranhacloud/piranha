@@ -25,43 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml;
+package cloud.piranha.extension.servletannotations;
 
-import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.resource.impl.DirectoryResource;
-import java.io.File;
-import jakarta.servlet.ServletRegistration;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.jupiter.api.Test;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
- * The JUnit tests for the WebXmlExtension class.
+ * The test Servlet.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class WebXmlExtensionTest {
+@WebServlet(name = "Test5Servlet", urlPatterns = {"/url1", "/url2/*", "*.url3"})
+@MultipartConfig(maxFileSize = 1024)
+public class Test5Servlet extends HttpServlet {
 
-    /**
-     * Test onStartup method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testOnStartup() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/init")));
-        DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
-        context.add(WebXmlExtension.class);
-        context.configure(webApplication);
-        webApplication.initialize();
-        ServletRegistration registration = webApplication.getServletRegistration("Test Servlet");
-        assertNotNull(registration);
-        assertFalse(registration.getMappings().isEmpty());
-        assertEquals("*.html", registration.getMappings().iterator().next());
-        assertEquals("myvalue", webApplication.getInitParameter("myname"));
-        assertEquals("myservletcontext", webApplication.getServletContextName());
+    @Override
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response) throws IOException, ServletException {
+        PrintWriter writer = response.getWriter();
+        writer.println("Hurray, it worked!");
     }
 }

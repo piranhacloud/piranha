@@ -25,28 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.servletannotations;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
- * The test Servlet.
- *
+ * The Servlet annotations module.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@WebServlet(value = {"/url1", "/url2/*", "*.url3"})
-public class TestServlet extends HttpServlet {
-
-    @Override
-    protected void doGet(HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
-        PrintWriter writer = response.getWriter();
-        writer.println("Hurray, it worked!");
-    }
+module cloud.piranha.extension.servletannotations {
+    exports cloud.piranha.extension.servletannotations;
+    opens cloud.piranha.extension.servletannotations;
+    requires cloud.piranha.core.api;
+    requires jakarta.annotation;
 }
