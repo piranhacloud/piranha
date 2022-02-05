@@ -35,13 +35,13 @@ import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
 import cloud.piranha.extension.herring.HerringExtension;
+import cloud.piranha.extension.mimetype.MimeTypeExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.security.jakarta.JakartaSecurityExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.servletannotations.ServletAnnotationsExtension;
 import cloud.piranha.extension.standard.async.StandardAsyncExtension;
 import cloud.piranha.extension.standard.localeencoding.StandardLocaleEncodingExtension;
-import cloud.piranha.extension.standard.mimetype.StandardMimeTypeExtension;
 import cloud.piranha.extension.standard.policy.StandardPolicyExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
@@ -59,7 +59,7 @@ public class MicroExtension implements WebApplicationExtension {
     public void extend(WebApplicationExtensionContext context) {
         context.add(StandardAsyncExtension.class);
         context.add(StandardLocaleEncodingExtension.class);
-        context.add(StandardMimeTypeExtension.class);
+        context.add(MimeTypeExtension.class);
         context.add(StandardPolicyExtension.class);
         context.add(TempDirExtension.class);
         context.add(WelcomeFileExtension.class);

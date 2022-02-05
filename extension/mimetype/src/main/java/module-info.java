@@ -25,51 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.mimetype;
-
-import java.util.HashMap;
-import java.util.Map;
-import cloud.piranha.core.api.MimeTypeManager;
 
 /**
- * The MimeTypeManager that delivers standard mime-type handling.
- *
+ * The mime-type handling module.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardMimeTypeManager implements MimeTypeManager {
-
-    /**
-     * Stores the mime types.
-     */
-    private final Map<String, String> mimeTypes = new HashMap<>();
-
-    /**
-     * Constructor.
-     */
-    public StandardMimeTypeManager() {
-        mimeTypes.put("css", "text/css");
-        mimeTypes.put("js", "text/javascript");
-        mimeTypes.put("ico", "image/x-icon");
-        mimeTypes.put("svg", "image/svg+xml");
-        mimeTypes.put("png", "image/png");
-        mimeTypes.put("ttf", "font/ttf");
-        mimeTypes.put("html", "text/html");
-        mimeTypes.put("htm", "text/html");
-        mimeTypes.put("text", "text/plain");
-        mimeTypes.put("txt", "text/plain");
-    }
-
-    @Override
-    public void addMimeType(String extension, String mimeType) {
-        mimeTypes.put(extension.toLowerCase(), mimeType);
-    }
-
-    @Override
-    public String getMimeType(String filename) {
-        String mimeType = null;
-        if (filename.contains(".")) {
-            mimeType = mimeTypes.get(filename.substring(filename.lastIndexOf(".") + 1).toLowerCase());
-        }
-        return mimeType;
-    }
+module cloud.piranha.extension.mimetype {
+    exports cloud.piranha.extension.mimetype;
+    opens cloud.piranha.extension.mimetype;
+    requires cloud.piranha.core.api;
 }

@@ -35,6 +35,11 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-mimetype</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-scinitializer</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -58,11 +63,6 @@
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-standard-localeencoding</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-standard-mimetype</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
