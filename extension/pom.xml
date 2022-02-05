@@ -23,7 +23,9 @@
         <module>hazelcast</module>
         <module>herring</module>
         <module>lite</module>
+        <module>logging</module>
         <module>micro</module>
+        <module>mimetype</module>
         <module>mojarra</module>
         <module>myfaces</module>
         <module>scinitializer</module>
@@ -40,12 +42,10 @@
         <module>standard-policy</module>
         <module>tempdir</module>
         <module>wasp</module>
-        <module>weld</module>
-        <module>weld-servlet</module>
         <module>webxml</module>
         <module>welcomefile</module>
-        <module>mimetype</module>
-        <module>logging</module>
+        <module>weld</module>
+        <module>weld-servlet</module>
     </modules>
 
     <dependencyManagement>

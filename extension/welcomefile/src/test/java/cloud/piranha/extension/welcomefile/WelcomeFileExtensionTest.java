@@ -27,8 +27,7 @@
  */
 package cloud.piranha.extension.welcomefile;
 
-import cloud.piranha.extension.welcomefile.WelcomeFileManager;
-import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
+import cloud.piranha.extension.welcomefile.internal.InternalWelcomeFileManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -51,6 +50,6 @@ class WelcomeFileExtensionTest {
         extension.configure(webApplication);
         webApplication.initialize();
         assertTrue(webApplication.getManager()
-                .getWelcomeFileManager() instanceof WelcomeFileManager);
+                .getWelcomeFileManager() instanceof InternalWelcomeFileManager);
     }
 }
