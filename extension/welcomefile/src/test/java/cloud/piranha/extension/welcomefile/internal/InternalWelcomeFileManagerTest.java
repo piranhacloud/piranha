@@ -25,9 +25,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.welcomefile;
+package cloud.piranha.extension.welcomefile.internal;
 
-import cloud.piranha.extension.welcomefile.WelcomeFileManager;
 import cloud.piranha.core.impl.DefaultServlet;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
@@ -44,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class WelcomeFileManagerTest {
+class InternalWelcomeFileManagerTest {
     
     /**
      * Test an index.html file.
@@ -55,7 +54,7 @@ class WelcomeFileManagerTest {
     void testWelcomeFile1() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addResource(new DirectoryResource(new File("src/test/webapp/welcomefile1")));
-        webApp.getManager().setWelcomeFileManager(new WelcomeFileManager());
+        webApp.getManager().setWelcomeFileManager(new InternalWelcomeFileManager());
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
@@ -80,7 +79,7 @@ class WelcomeFileManagerTest {
     @Test
     void testWelcomeFile2() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setWelcomeFileManager(new WelcomeFileManager());
+        webApp.getManager().setWelcomeFileManager(new InternalWelcomeFileManager());
         webApp.getManager().getWelcomeFileManager().addWelcomeFile("custom.html");
         webApp.addResource(new DirectoryResource(new File("src/test/webapp/welcomefile2")));
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();

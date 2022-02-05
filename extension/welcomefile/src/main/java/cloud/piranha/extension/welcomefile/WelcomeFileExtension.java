@@ -27,6 +27,7 @@
  */
 package cloud.piranha.extension.welcomefile;
 
+import cloud.piranha.extension.welcomefile.internal.InternalWelcomeFileManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import java.lang.System.Logger;
@@ -47,6 +48,6 @@ public class WelcomeFileExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(DEBUG, "Setting the StandardWelcomeFileManager");
-        webApplication.getManager().setWelcomeFileManager(new WelcomeFileManager());
+        webApplication.getManager().setWelcomeFileManager(new InternalWelcomeFileManager());
     }
 }
