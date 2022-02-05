@@ -25,32 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.logging;
+package cloud.piranha.extension.logging.internal;
 
-import cloud.piranha.core.api.LoggingManager;
-import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.INFO;
-import static java.lang.System.Logger.Level.WARNING;
+import cloud.piranha.extension.logging.internal.InternalLoggingManager;
+import org.junit.jupiter.api.Test;
 
 /**
- * The standard LoggingManager.
- *
+ * The JUnit tests for the StandardLoggingManager class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardLoggingManager implements LoggingManager {
+class InternalLoggingManagerTest {
     
     /**
-     * Stores the logger.
+     * Test log method
      */
-    private static final Logger LOGGER = System.getLogger(StandardLoggingManager.class.getName());
-
-    @Override
-    public void log(String message, Throwable throwable) {
-        LOGGER.log(WARNING, message, throwable);
+    @Test
+    void testLog() {
+        InternalLoggingManager manager = new InternalLoggingManager();
+        manager.log("TEST", new RuntimeException());
     }
 
-    @Override
-    public void log(String message) {
-        LOGGER.log(INFO, message);
+    /**
+     * Test of log method.
+     */
+    @Test
+    void testLog_String() {
+        InternalLoggingManager manager = new InternalLoggingManager();
+        manager.log("TEST");
     }
 }

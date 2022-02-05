@@ -37,7 +37,6 @@
         <module>standard-annotationscan</module>
         <module>standard-async</module>
         <module>standard-localeencoding</module>
-        <module>standard-logging</module>
         <module>standard-policy</module>
         <module>tempdir</module>
         <module>wasp</module>
@@ -46,6 +45,7 @@
         <module>webxml</module>
         <module>welcomefile</module>
         <module>mimetype</module>
+        <module>logging</module>
     </modules>
 
     <dependencyManagement>
