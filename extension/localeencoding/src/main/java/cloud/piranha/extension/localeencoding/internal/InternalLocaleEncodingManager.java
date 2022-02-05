@@ -25,14 +25,38 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.localeencoding.internal;
+
+import cloud.piranha.core.api.LocaleEncodingManager;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * The standard locale encoding handling module.
+ * The default LocaleEncodingManager.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard.localeencoding {
-    exports cloud.piranha.extension.standard.localeencoding;
-    opens cloud.piranha.extension.standard.localeencoding;
-    requires cloud.piranha.core.api;
+public class InternalLocaleEncodingManager implements LocaleEncodingManager {
+
+    /**
+     * Stores the locale mappings.
+     */
+    private final Map<String, String> localeMappings;
+
+    /**
+     * Constructor.
+     */
+    public InternalLocaleEncodingManager() {
+        localeMappings = new HashMap<>();
+    }
+
+    @Override
+    public void addCharacterEncoding(String locale, String encoding) {
+        localeMappings.put(locale, encoding);
+    }
+
+    @Override
+    public String getCharacterEncoding(String locale) {
+        return localeMappings.get(locale);
+    }
 }

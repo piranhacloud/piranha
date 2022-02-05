@@ -25,8 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.localeencoding;
+package cloud.piranha.extension.localeencoding;
 
+import cloud.piranha.extension.localeencoding.LocaleEncodingExtension;
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.embedded.EmbeddedPiranha;
@@ -54,7 +55,7 @@ class StandardLocaleEncodingExtensionTest {
     void testGetCharacterEncoding() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/test/webxml/localeEncodingMappingList1")
-                .extension(StandardLocaleEncodingExtension.class)
+                .extension(LocaleEncodingExtension.class)
                 .extension(WebXmlExtension.class)
                 .build()
                 .start();
@@ -138,7 +139,7 @@ class StandardLocaleEncodingExtensionTest {
     @Test
     void testGetCharacterEncoding2() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .extension(StandardLocaleEncodingExtension.class)
+                .extension(LocaleEncodingExtension.class)
                 .build()
                 .start();
         WebApplication webApp = piranha.getWebApplication();
@@ -224,7 +225,7 @@ class StandardLocaleEncodingExtensionTest {
     @Test
     void testGetCharacterEncoding3() {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .extension(StandardLocaleEncodingExtension.class)
+                .extension(LocaleEncodingExtension.class)
                 .build()
                 .start();
         WebApplication webApp = piranha.getWebApplication();
@@ -244,7 +245,7 @@ class StandardLocaleEncodingExtensionTest {
     @Test
     void testGetContentType() {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .extension(StandardLocaleEncodingExtension.class)
+                .extension(LocaleEncodingExtension.class)
                 .build()
                 .start();
         WebApplication webApp = piranha.getWebApplication();

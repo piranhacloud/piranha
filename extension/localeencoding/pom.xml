@@ -9,10 +9,10 @@
         <version>22.2.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-extension-standard-localeencoding</artifactId>
+    <artifactId>piranha-extension-localeencoding</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Extension - Standard - Locale Encoding</name>
+    <name>Piranha - Extension - Locale Encoding</name>
 
     <dependencies>
         <!-- compile -->
