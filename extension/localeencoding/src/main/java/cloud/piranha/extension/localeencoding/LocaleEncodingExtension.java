@@ -25,38 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.localeencoding;
+package cloud.piranha.extension.localeencoding;
 
-import cloud.piranha.core.api.LocaleEncodingManager;
-import java.util.HashMap;
-import java.util.Map;
+import cloud.piranha.extension.localeencoding.internal.InternalLocaleEncodingManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import static java.lang.System.Logger.Level.TRACE;
 
 /**
- * The default LocaleEncodingManager.
- * 
+ * The WebApplicationExtension that sets up the StandardLocaleEncodingManager.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardLocaleEncodingManager implements LocaleEncodingManager {
+public class LocaleEncodingExtension implements WebApplicationExtension {
 
     /**
-     * Stores the locale mappings.
+     * Stores the logger.
      */
-    private final Map<String, String> localeMappings;
-
-    /**
-     * Constructor.
-     */
-    public StandardLocaleEncodingManager() {
-        localeMappings = new HashMap<>();
-    }
+    private static final System.Logger LOGGER = System.getLogger(LocaleEncodingExtension.class.getName());
 
     @Override
-    public void addCharacterEncoding(String locale, String encoding) {
-        localeMappings.put(locale, encoding);
-    }
-
-    @Override
-    public String getCharacterEncoding(String locale) {
-        return localeMappings.get(locale);
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(TRACE, "Configuring the InternalLocaleEncodingManager");
+        webApplication.getManager().setLocaleEncodingManager(new InternalLocaleEncodingManager());
     }
 }

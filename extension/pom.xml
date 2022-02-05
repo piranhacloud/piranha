@@ -23,6 +23,7 @@
         <module>hazelcast</module>
         <module>herring</module>
         <module>lite</module>
+        <module>localeencoding</module>
         <module>logging</module>
         <module>micro</module>
         <module>mimetype</module>
@@ -38,7 +39,6 @@
         <module>standard</module>
         <module>standard-annotationscan</module>
         <module>standard-async</module>
-        <module>standard-localeencoding</module>
         <module>standard-policy</module>
         <module>tempdir</module>
         <module>wasp</module>

@@ -31,6 +31,7 @@ import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.herring.HerringExtension;
+import cloud.piranha.extension.localeencoding.LocaleEncodingExtension;
 import cloud.piranha.extension.logging.LoggingExtension;
 import cloud.piranha.extension.mimetype.MimeTypeExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
@@ -39,7 +40,6 @@ import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.servletannotations.ServletAnnotationsExtension;
 import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanExtension;
 import cloud.piranha.extension.standard.async.StandardAsyncExtension;
-import cloud.piranha.extension.standard.localeencoding.StandardLocaleEncodingExtension;
 import cloud.piranha.extension.standard.policy.StandardPolicyExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
@@ -56,22 +56,22 @@ public class StandardExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
-        context.add(StandardAsyncExtension.class);
-        context.add(StandardLocaleEncodingExtension.class);
-        context.add(LoggingExtension.class);
-        context.add(MimeTypeExtension.class);
-        context.add(StandardPolicyExtension.class);
-        context.add(TempDirExtension.class);
-        context.add(WelcomeFileExtension.class);
-        context.add(ServletSecurityManagerExtension.class);
-        context.add(ApacheMultiPartExtension.class);
-        context.add(WaspJspManagerExtension.class);
-        context.add(HerringExtension.class);
-        context.add(StandardAnnotationScanExtension.class);
-        context.add(WebXmlExtension.class);
-        context.add(ServletAnnotationsExtension.class);
-        context.add(WaspExtension.class);
-        context.add(ServletContainerInitializerExtension.class);
-        context.add(ServletSecurityExtension.class);
+        context.add(StandardAsyncExtension.class);                  // Async
+        context.add(LocaleEncodingExtension.class);                 // locale-encoding
+        context.add(LoggingExtension.class);                        // ServletContext.log
+        context.add(MimeTypeExtension.class);                       // mime-type
+        context.add(StandardPolicyExtension.class);                 // JavaPolicy
+        context.add(TempDirExtension.class);                        // TEMPDIR
+        context.add(WelcomeFileExtension.class);                    // welcome-file
+        context.add(ServletSecurityManagerExtension.class);         // SecurityManager
+        context.add(ApacheMultiPartExtension.class);                // Part API support
+        context.add(WaspJspManagerExtension.class);                 // addJspFile
+        context.add(HerringExtension.class);                        // JNDI
+        context.add(StandardAnnotationScanExtension.class);         // Annotation scanning
+        context.add(WebXmlExtension.class);                         // web.xml
+        context.add(ServletAnnotationsExtension.class);             // Servlet annotations
+        context.add(WaspExtension.class);                           // WaSP
+        context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
+        context.add(ServletSecurityExtension.class);                // Security implementation
     }
 }

@@ -25,27 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.localeencoding;
-
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationExtension;
-import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The WebApplicationExtension that sets up the StandardLocaleEncodingManager.
- *
+ * The locale encoding handling module.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardLocaleEncodingExtension implements WebApplicationExtension {
-
-    /**
-     * Stores the logger.
-     */
-    private static final System.Logger LOGGER = System.getLogger(StandardLocaleEncodingExtension.class.getName());
-
-    @Override
-    public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Configuring the StandardLocaleEncodingManager");
-        webApplication.getManager().setLocaleEncodingManager(new StandardLocaleEncodingManager());
-    }
+module cloud.piranha.extension.localeencoding {
+    exports cloud.piranha.extension.localeencoding;
+    opens cloud.piranha.extension.localeencoding;
+    requires cloud.piranha.core.api;
 }
