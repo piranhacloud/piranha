@@ -25,40 +25,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.lite;
+package cloud.piranha.extension.servletannotations;
 
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.herring.HerringExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
-import cloud.piranha.extension.servletannotations.ServletAnnotationsExtension;
-import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanExtension;
-import cloud.piranha.extension.standard.localeencoding.StandardLocaleEncodingExtension;
-import cloud.piranha.extension.standard.mimetype.StandardMimeTypeExtension;
-import cloud.piranha.extension.standard.policy.StandardPolicyExtension;
-import cloud.piranha.extension.tempdir.TempDirExtension;
-import cloud.piranha.extension.webxml.WebXmlExtension;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
 
 /**
- * The WebApplicationExtension that adds the extensions for a Lite version of
- * Piranha.
- *
+ * A test ServletContextListener.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class LiteExtension implements WebApplicationExtension {
+@WebListener
+public class TestListener implements ServletContextListener {
 
     @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(StandardLocaleEncodingExtension.class);
-        context.add(StandardMimeTypeExtension.class);
-        context.add(StandardPolicyExtension.class);
-        context.add(TempDirExtension.class);
-        context.add(HerringExtension.class);
-        context.add(StandardAnnotationScanExtension.class);
-        context.add(WebXmlExtension.class);
-        context.add(ServletAnnotationsExtension.class);
-        context.add(ServletContainerInitializerExtension.class);
-        context.add(ServletSecurityExtension.class);
+    public void contextDestroyed(ServletContextEvent event) {
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent event) {
+        event.getServletContext().setAttribute("listenerAdded", true);
     }
 }

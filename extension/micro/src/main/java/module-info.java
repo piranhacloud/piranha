@@ -38,11 +38,11 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.security.jakarta;
     requires cloud.piranha.extension.security.servlet;
+    requires cloud.piranha.extension.servletannotations;
     requires cloud.piranha.extension.standard.async;
     requires cloud.piranha.extension.standard.localeencoding;
     requires cloud.piranha.extension.standard.mimetype;
     requires cloud.piranha.extension.standard.policy;
-    requires cloud.piranha.extension.standard.servletannotations;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webxml;

@@ -25,49 +25,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.servletannotations;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
+import java.io.IOException;
 
 /**
- * The standard extension module.
+ * The test Filter.
  *
- * <p>
- *  This module of modules delivers the extensions for the standard version of
- *  Piranha Server/Micro. It adds the following extensions:
- * </p>
- * <ul>
- *  <li>Apache Commons File Upload (Multipart)</li>
- *  <li>Manorrock Herring (JNDI)</li>
- *  <li>Servlet Container Initializer</li>
- *  <li>Servlet Security</li>
- *  <li>Annotation Scanning</li>
- *  <li>Async</li>
- *  <li>Locale Encoding</li>
- *  <li>Logging</li>
- *  <li>Mime-type</li>
- *  <li>Java Policy</li>
- *  <li>Servlet Annotations</li>
- *  <li>TEMPDIR</li>
- *  <li>WaSP (Pages)</li>
- *  <li>web.xml</li>
- *  <li>Welcome File</li>
- * </ul>
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard {
-    exports cloud.piranha.extension.standard;
-    opens cloud.piranha.extension.standard;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.standard.annotationscan;
-    requires cloud.piranha.extension.standard.async;
-    requires cloud.piranha.extension.standard.localeencoding;
-    requires cloud.piranha.extension.standard.logging;
-    requires cloud.piranha.extension.standard.mimetype;
-    requires cloud.piranha.extension.standard.policy;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
+@WebFilter(filterName = "Test4Filter", urlPatterns = {"/url1", "/url2/*", "*.url3"})
+public class Test4Filter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+    }
 }

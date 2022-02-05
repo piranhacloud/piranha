@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.servletannotations;
+package cloud.piranha.extension.servletannotations;
 
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
@@ -65,7 +65,7 @@ class WebServletTest {
         application.setClassLoader(classLoader);
         application.addInitializer(new StandardAnnotationScanInitializer());
         application.addInitializer(new WebXmlInitializer());
-        application.addInitializer(new StandardServletAnnotationsInitializer());
+        application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
         application.start();
         EmbeddedRequest request = new EmbeddedRequestBuilder().servletPath("/url1").build();
@@ -91,7 +91,7 @@ class WebServletTest {
         application.setClassLoader(classLoader);
         application.addInitializer(new StandardAnnotationScanInitializer());
         application.addInitializer(new WebXmlInitializer());
-        application.addInitializer(new StandardServletAnnotationsInitializer());
+        application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
         application.start();
         EmbeddedRequest request = new EmbeddedRequestBuilder().servletPath("/url1b").build();
@@ -117,7 +117,7 @@ class WebServletTest {
         application.setClassLoader(classLoader);
         application.addInitializer(new StandardAnnotationScanInitializer());
         application.addInitializer(new WebXmlInitializer());
-        application.addInitializer(new StandardServletAnnotationsInitializer());
+        application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
         application.start();
         EmbeddedRequest request = new EmbeddedRequestBuilder().servletPath("/url2/test").build();
@@ -143,7 +143,7 @@ class WebServletTest {
         application.setClassLoader(classLoader);
         application.addInitializer(new StandardAnnotationScanInitializer());
         application.addInitializer(new WebXmlInitializer());
-        application.addInitializer(new StandardServletAnnotationsInitializer());
+        application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
         application.start();
         EmbeddedRequest request = new EmbeddedRequestBuilder().servletPath("/url2b/test").build();
@@ -169,7 +169,7 @@ class WebServletTest {
         application.setClassLoader(classLoader);
         application.addInitializer(new StandardAnnotationScanInitializer());
         application.addInitializer(new WebXmlInitializer());
-        application.addInitializer(new StandardServletAnnotationsInitializer());
+        application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
         application.start();
         EmbeddedRequest request = new EmbeddedRequestBuilder().servletPath("/my/extension/test.url3").build();
@@ -195,7 +195,7 @@ class WebServletTest {
         application.setClassLoader(classLoader);
         application.addInitializer(new StandardAnnotationScanInitializer());
         application.addInitializer(new WebXmlInitializer());
-        application.addInitializer(new StandardServletAnnotationsInitializer());
+        application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
         application.start();
         EmbeddedRequest request = new EmbeddedRequestBuilder().servletPath("/my/extension/test.url3b").build();

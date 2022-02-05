@@ -53,11 +53,11 @@ module cloud.piranha.extension.lite {
     requires transitive cloud.piranha.extension.herring;
     requires transitive cloud.piranha.extension.scinitializer;
     requires transitive cloud.piranha.extension.security.servlet;
+    requires transitive cloud.piranha.extension.servletannotations;
     requires transitive cloud.piranha.extension.standard.annotationscan;
     requires transitive cloud.piranha.extension.standard.localeencoding;
     requires transitive cloud.piranha.extension.standard.mimetype;
     requires transitive cloud.piranha.extension.standard.policy;
-    requires transitive cloud.piranha.extension.standard.servletannotations;
     requires transitive cloud.piranha.extension.tempdir;
     requires transitive cloud.piranha.extension.webxml;
 }

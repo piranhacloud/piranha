@@ -29,6 +29,7 @@
         <module>scinitializer</module>
         <module>security-servlet</module>
         <module>security-jakarta</module>
+        <module>servletannotations</module>
         <module>slim</module>
         <module>slim-security</module>
         <module>soteria</module>
@@ -39,7 +40,6 @@
         <module>standard-logging</module>
         <module>standard-mimetype</module>
         <module>standard-policy</module>
-        <module>standard-servletannotations</module>
         <module>tempdir</module>
         <module>wasp</module>
         <module>weld</module>
