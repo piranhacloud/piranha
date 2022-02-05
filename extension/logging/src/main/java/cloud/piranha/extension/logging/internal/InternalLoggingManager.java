@@ -25,14 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.logging.internal;
+
+import cloud.piranha.core.api.LoggingManager;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
- * The standard logging implementation module.
- * 
+ * The standard LoggingManager.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard.logging {
-    exports cloud.piranha.extension.standard.logging;
-    opens cloud.piranha.extension.standard.logging;
-    requires cloud.piranha.core.api;
+public class InternalLoggingManager implements LoggingManager {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(InternalLoggingManager.class.getName());
+
+    @Override
+    public void log(String message, Throwable throwable) {
+        LOGGER.log(WARNING, message, throwable);
+    }
+
+    @Override
+    public void log(String message) {
+        LOGGER.log(INFO, message);
+    }
 }

@@ -25,8 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.logging;
+package cloud.piranha.extension.logging;
 
+import cloud.piranha.extension.logging.internal.InternalLoggingManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import static java.lang.System.Logger.Level.DEBUG;
@@ -36,17 +37,16 @@ import static java.lang.System.Logger.Level.DEBUG;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardLoggingExtension implements WebApplicationExtension {
+public class LoggingExtension implements WebApplicationExtension {
 
     /**
      * Stores the logger.
      */
-    private static final System.Logger LOGGER = System.getLogger(
-            StandardLoggingExtension.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(LoggingExtension.class.getName());
 
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(DEBUG, "Setting the StandardLoggingManager");
-        webApplication.getManager().setLoggingManager(new StandardLoggingManager());
+        webApplication.getManager().setLoggingManager(new InternalLoggingManager());
     }
 }

@@ -25,32 +25,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.logging;
+package cloud.piranha.extension.logging;
 
+import cloud.piranha.extension.logging.LoggingExtension;
+import cloud.piranha.extension.logging.internal.InternalLoggingManager;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the StandardLoggingManager class.
- * 
+ * The JUnit tests for the StandardLoggingExtension class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class StandardLoggingManagerTest {
-    
-    /**
-     * Test log method
-     */
-    @Test
-    void testLog() {
-        StandardLoggingManager manager = new StandardLoggingManager();
-        manager.log("TEST", new RuntimeException());
-    }
+class LoggingExtensionTest {
 
     /**
-     * Test of log method.
+     * Test configure method.
      */
     @Test
-    void testLog_String() {
-        StandardLoggingManager manager = new StandardLoggingManager();
-        manager.log("TEST");
+    void testConfigure() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        LoggingExtension extension = new LoggingExtension();
+        extension.configure(webApplication);
+        assertTrue(webApplication.getManager().getLoggingManager() instanceof InternalLoggingManager);
     }
 }
