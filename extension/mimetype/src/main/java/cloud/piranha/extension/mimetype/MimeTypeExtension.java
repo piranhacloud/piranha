@@ -25,27 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.mimetype;
+package cloud.piranha.extension.mimetype;
 
+import cloud.piranha.extension.mimetype.internal.InternalMimeTypeManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
-import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
 
 /**
- * The WebApplicationExtension that sets the StandardMimeTypeManager.
+ * The WebApplicationExtension that sets the InternalMimeTypeManager.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardMimeTypeExtension implements WebApplicationExtension {
+public class MimeTypeExtension implements WebApplicationExtension {
 
     /**
      * Stores the logger.
      */
-    private static final System.Logger LOGGER = System.getLogger(StandardMimeTypeExtension.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(MimeTypeExtension.class.getName());
 
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Setting the StandardMimeTypeManager");
-        webApplication.getManager().setMimeTypeManager(new StandardMimeTypeManager());
+        LOGGER.log(TRACE, "Setting the StandardMimeTypeManager");
+        webApplication.getManager().setMimeTypeManager(new InternalMimeTypeManager());
     }
 }

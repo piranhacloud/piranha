@@ -25,28 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.mimetype;
+package cloud.piranha.extension.mimetype.internal;
 
-import cloud.piranha.embedded.EmbeddedPiranha;
-import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.HashMap;
+import java.util.Map;
+import cloud.piranha.core.api.MimeTypeManager;
 
 /**
- * The JUnit tests for the StandardMimeTypeExtension class.
- * 
+ * The InternalMimeTypeManager that delivers mime-type handling.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class StandardMimeTypeExtensionTest {
-    
+public class InternalMimeTypeManager implements MimeTypeManager {
+
     /**
-     * Test configure method.
+     * Stores the mime types.
      */
-    @Test
-    void testConfigure() {
-        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .extension(StandardMimeTypeExtension.class)
-                .build();
-        assertNotNull(piranha.getWebApplication().getMimeType("index.html"));
+    private final Map<String, String> mimeTypes = new HashMap<>();
+
+    /**
+     * Constructor.
+     */
+    public InternalMimeTypeManager() {
+        mimeTypes.put("css", "text/css");
+        mimeTypes.put("js", "text/javascript");
+        mimeTypes.put("ico", "image/x-icon");
+        mimeTypes.put("svg", "image/svg+xml");
+        mimeTypes.put("png", "image/png");
+        mimeTypes.put("ttf", "font/ttf");
+        mimeTypes.put("html", "text/html");
+        mimeTypes.put("htm", "text/html");
+        mimeTypes.put("text", "text/plain");
+        mimeTypes.put("txt", "text/plain");
+    }
+
+    @Override
+    public void addMimeType(String extension, String mimeType) {
+        mimeTypes.put(extension.toLowerCase(), mimeType);
+    }
+
+    @Override
+    public String getMimeType(String filename) {
+        String mimeType = null;
+        if (filename.contains(".")) {
+            mimeType = mimeTypes.get(filename.substring(filename.lastIndexOf(".") + 1).toLowerCase());
+        }
+        return mimeType;
     }
 }
