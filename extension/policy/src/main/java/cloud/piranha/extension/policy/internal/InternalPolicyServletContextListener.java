@@ -25,26 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.policy.internal;
 
-import cloud.piranha.extension.micro.MicroExtension;
-import cloud.piranha.core.api.WebApplicationExtension;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import static java.lang.System.Logger.Level.DEBUG;
 
-module cloud.piranha.extension.micro {
-    provides WebApplicationExtension with MicroExtension;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.exousia;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.localeencoding;
-    requires cloud.piranha.extension.mimetype;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.jakarta;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.standard.async;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
+/**
+ * The ServletContextListener used to remove the Policy instance once
+ * initialization is done.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+public class InternalPolicyServletContextListener implements ServletContextListener {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(InternalPolicyServletContextListener.class.getName());
+
+    @Override
+    public void contextInitialized(ServletContextEvent event) {
+        LOGGER.log(DEBUG, "Removing Policy");
+        InternalPolicyThreadLocal.removePolicy();
+    }
 }

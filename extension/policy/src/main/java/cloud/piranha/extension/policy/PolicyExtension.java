@@ -25,39 +25,49 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.policy;
+package cloud.piranha.extension.policy;
 
+import cloud.piranha.extension.policy.internal.InternalPolicyThreadLocal;
+import cloud.piranha.extension.policy.internal.InternalPolicyServletContextListener;
 import cloud.piranha.core.api.WebApplication;
-import jakarta.servlet.ServletRequestEvent;
-import jakarta.servlet.ServletRequestListener;
+import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.extension.policy.internal.InternalPolicyServletRequestListener;
 import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
+import java.security.NoSuchAlgorithmException;
 import java.security.Policy;
 
 /**
- * The ServletRequestListener that sets the Policy instance on the current
- * thread just before request processing and removes the Policy instance from
- * the current after the request has been processed.
+ * The WebApplicationExtension that is responsible for setting up the proper
+ * Policy instance so it can be made available during web application
+ * initialization and subsequently during request processing as well as
+ * delivering listeners to set/remove the Policy from the current thread.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardPolicyServletRequestListener implements ServletRequestListener {
+public class PolicyExtension implements WebApplicationExtension {
 
     /**
      * Stores the logger.
      */
-    private static final System.Logger LOGGER = System.getLogger(StandardPolicyServletRequestListener.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(PolicyExtension.class.getName());
 
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
     @Override
-    public void requestDestroyed(ServletRequestEvent event) {
-        LOGGER.log(DEBUG, "Removing Policy");
-        StandardPolicyThreadLocal.removePolicy();
-    }
-
-    @Override
-    public void requestInitialized(ServletRequestEvent event) {
-        LOGGER.log(DEBUG, "Setting Policy");
-        WebApplication webApplication = (WebApplication) event.getServletContext();
-        Policy policy = (Policy) webApplication.getAttribute(Policy.class.getName());
-        StandardPolicyThreadLocal.setPolicy(policy);
+    public void configure(WebApplication webApplication) {
+        try {
+            LOGGER.log(DEBUG, "Configuring webapplication");
+            Policy policy = Policy.getInstance("JavaPolicy", null);
+            webApplication.setAttribute(Policy.class.getName(), policy);
+            InternalPolicyThreadLocal.setPolicy(policy);
+            webApplication.addListener(InternalPolicyServletContextListener.class.getName());
+            webApplication.addListener(InternalPolicyServletRequestListener.class.getName());
+        } catch (NoSuchAlgorithmException ex) {
+            LOGGER.log(WARNING, "Error setting up Policy", ex);
+        }
     }
 }

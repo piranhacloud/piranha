@@ -39,13 +39,13 @@
         <module>standard</module>
         <module>standard-annotationscan</module>
         <module>standard-async</module>
-        <module>standard-policy</module>
         <module>tempdir</module>
         <module>wasp</module>
         <module>webxml</module>
         <module>welcomefile</module>
         <module>weld</module>
         <module>weld-servlet</module>
+        <module>policy</module>
     </modules>
 
     <dependencyManagement>

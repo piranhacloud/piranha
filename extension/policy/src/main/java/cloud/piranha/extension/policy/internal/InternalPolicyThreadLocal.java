@@ -25,14 +25,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.policy.internal;
+
+import java.security.Policy;
+import java.util.HashMap;
 
 /**
- * The standard Java policy handling module.
- * 
+ * The class to keep track of setting/removing the thread local for Policy.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard.policy {
-    exports cloud.piranha.extension.standard.policy;
-    opens cloud.piranha.extension.standard.policy;
-    requires cloud.piranha.core.api;
+public class InternalPolicyThreadLocal {
+
+    /**
+     * Stores the policies by thread id.
+     */
+    private static final HashMap<Long, Policy> POLICIES = new HashMap<>(1);
+
+    /**
+     * Remove the policy.
+     */
+    public static void removePolicy() {
+        POLICIES.remove(Thread.currentThread().getId());
+    }
+
+    /**
+     * Set the policy.
+     *
+     * @param policy the policy.
+     */
+    public static void setPolicy(Policy policy) {
+        POLICIES.put(Thread.currentThread().getId(), policy);
+    }
 }

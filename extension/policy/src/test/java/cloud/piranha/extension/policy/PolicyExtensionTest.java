@@ -25,36 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.policy;
+package cloud.piranha.extension.policy;
 
-import java.security.Policy;
-import java.util.HashMap;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.embedded.EmbeddedRequest;
+import cloud.piranha.embedded.EmbeddedResponse;
+import org.junit.jupiter.api.Test;
 
 /**
- * The class to keep track of setting/removing the thread local for Policy.
- *
+ * The JUnit tests for the PolicyExtension class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardPolicyThreadLocal {
-
+public class PolicyExtensionTest {
+    
     /**
-     * Stores the policies by thread id.
+     * Test configure method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
-    private static final HashMap<Long, Policy> POLICIES = new HashMap<>(1);
-
-    /**
-     * Remove the policy.
-     */
-    public static void removePolicy() {
-        POLICIES.remove(Thread.currentThread().getId());
-    }
-
-    /**
-     * Set the policy.
-     *
-     * @param policy the policy.
-     */
-    public static void setPolicy(Policy policy) {
-        POLICIES.put(Thread.currentThread().getId(), policy);
+    @Test
+    public void testConfigure() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        PolicyExtension extension = new PolicyExtension();
+        extension.configure(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        EmbeddedRequest request = new EmbeddedRequest();
+        EmbeddedResponse response = new EmbeddedResponse();
+        webApplication.service(request, response);
     }
 }

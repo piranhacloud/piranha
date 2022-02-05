@@ -25,28 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.policy;
-
-import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletContextListener;
-import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The ServletContextListener used to remove the Policy instance once
- * initialization is done.
- *
+ * The Java policy handling module.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardPolicyServletContextListener implements ServletContextListener {
-
-    /**
-     * Stores the logger.
-     */
-    private static final System.Logger LOGGER = System.getLogger(StandardPolicyServletContextListener.class.getName());
-
-    @Override
-    public void contextInitialized(ServletContextEvent event) {
-        LOGGER.log(DEBUG, "Removing Policy");
-        StandardPolicyThreadLocal.removePolicy();
-    }
+module cloud.piranha.extension.policy {
+    exports cloud.piranha.extension.policy;
+    opens cloud.piranha.extension.policy;
+    requires cloud.piranha.core.api;
 }

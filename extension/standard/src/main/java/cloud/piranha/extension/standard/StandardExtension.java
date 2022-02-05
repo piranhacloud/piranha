@@ -34,13 +34,13 @@ import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.localeencoding.LocaleEncodingExtension;
 import cloud.piranha.extension.logging.LoggingExtension;
 import cloud.piranha.extension.mimetype.MimeTypeExtension;
+import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.servletannotations.ServletAnnotationsExtension;
 import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanExtension;
 import cloud.piranha.extension.standard.async.StandardAsyncExtension;
-import cloud.piranha.extension.standard.policy.StandardPolicyExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
 import cloud.piranha.extension.wasp.WaspJspManagerExtension;
@@ -60,11 +60,11 @@ public class StandardExtension implements WebApplicationExtension {
         context.add(LocaleEncodingExtension.class);                 // locale-encoding
         context.add(LoggingExtension.class);                        // ServletContext.log
         context.add(MimeTypeExtension.class);                       // mime-type
-        context.add(StandardPolicyExtension.class);                 // JavaPolicy
+        context.add(PolicyExtension.class);                         // JavaPolicy
         context.add(TempDirExtension.class);                        // TEMPDIR
         context.add(WelcomeFileExtension.class);                    // welcome-file
         context.add(ServletSecurityManagerExtension.class);         // SecurityManager
-        context.add(ApacheMultiPartExtension.class);                // Part API support
+        context.add(ApacheMultiPartExtension.class);                // Servlet Part API support
         context.add(WaspJspManagerExtension.class);                 // addJspFile
         context.add(HerringExtension.class);                        // JNDI
         context.add(StandardAnnotationScanExtension.class);         // Annotation scanning

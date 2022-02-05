@@ -45,6 +45,11 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-policy</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-scinitializer</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -63,11 +68,6 @@
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-standard-async</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-standard-policy</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
