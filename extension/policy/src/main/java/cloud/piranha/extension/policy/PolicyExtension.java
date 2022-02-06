@@ -25,11 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.policy;
+package cloud.piranha.extension.policy;
 
+import cloud.piranha.extension.policy.internal.InternalPolicyThreadLocal;
+import cloud.piranha.extension.policy.internal.InternalPolicyServletContextListener;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
-import static java.lang.System.Logger.Level.DEBUG;
+import cloud.piranha.extension.policy.internal.InternalPolicyServletRequestListener;
+import static java.lang.System.Logger.Level.TRACE;
 import static java.lang.System.Logger.Level.WARNING;
 import java.security.NoSuchAlgorithmException;
 import java.security.Policy;
@@ -42,12 +45,12 @@ import java.security.Policy;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardPolicyExtension implements WebApplicationExtension {
+public class PolicyExtension implements WebApplicationExtension {
 
     /**
      * Stores the logger.
      */
-    private static final System.Logger LOGGER = System.getLogger(StandardPolicyExtension.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(PolicyExtension.class.getName());
 
     /**
      * Configure the web application.
@@ -57,11 +60,12 @@ public class StandardPolicyExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         try {
-            LOGGER.log(DEBUG, "Configuring webapplication");
+            LOGGER.log(TRACE, "Configuring webapplication");
             Policy policy = Policy.getInstance("JavaPolicy", null);
             webApplication.setAttribute(Policy.class.getName(), policy);
-            StandardPolicyThreadLocal.setPolicy(policy);
-            webApplication.addListener(StandardPolicyServletContextListener.class.getName());
+            InternalPolicyThreadLocal.setPolicy(policy);
+            webApplication.addListener(InternalPolicyServletContextListener.class.getName());
+            webApplication.addListener(InternalPolicyServletRequestListener.class.getName());
         } catch (NoSuchAlgorithmException ex) {
             LOGGER.log(WARNING, "Error setting up Policy", ex);
         }

@@ -39,11 +39,11 @@
  *  <li>Locale Encoding</li>
  *  <li>Logging</li>
  *  <li>Mime-type</li>
+ *  <li>Java Policy</li>
  *  <li>ServletContainerInitializer</li>
  *  <li>Servlet Security</li>
  *  <li>Annotation Scanning</li>
  *  <li>Async</li>
- *  <li>Java Policy</li>
  *  <li>Servlet Annotations</li>
  *  <li>TEMPDIR</li>
  *  <li>WaSP (Pages)</li>
@@ -60,12 +60,12 @@ module cloud.piranha.extension.standard {
     requires cloud.piranha.extension.localeencoding;
     requires cloud.piranha.extension.logging;
     requires cloud.piranha.extension.mimetype;
+    requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.servletannotations;
     requires cloud.piranha.extension.standard.annotationscan;
     requires cloud.piranha.extension.standard.async;
-    requires cloud.piranha.extension.standard.policy;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webxml;
