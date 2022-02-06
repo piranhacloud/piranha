@@ -32,7 +32,7 @@ import cloud.piranha.extension.policy.internal.InternalPolicyServletContextListe
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.policy.internal.InternalPolicyServletRequestListener;
-import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
 import static java.lang.System.Logger.Level.WARNING;
 import java.security.NoSuchAlgorithmException;
 import java.security.Policy;
@@ -60,7 +60,7 @@ public class PolicyExtension implements WebApplicationExtension {
     @Override
     public void configure(WebApplication webApplication) {
         try {
-            LOGGER.log(DEBUG, "Configuring webapplication");
+            LOGGER.log(TRACE, "Configuring webapplication");
             Policy policy = Policy.getInstance("JavaPolicy", null);
             webApplication.setAttribute(Policy.class.getName(), policy);
             InternalPolicyThreadLocal.setPolicy(policy);
