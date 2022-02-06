@@ -27,7 +27,7 @@
  */
 
 /**
- * The Java policy handling module.
+ * The Java Policy handling module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
