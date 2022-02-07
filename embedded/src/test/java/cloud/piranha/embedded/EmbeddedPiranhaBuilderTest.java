@@ -43,6 +43,8 @@ import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServlet;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -92,6 +94,20 @@ class EmbeddedPiranhaBuilderTest {
                 .directoryResource(".")
                 .build();
         assertNotNull(piranha.getWebApplication().getResource("/pom.xml"));
+    }
+    
+    /**
+     * Test classLoader method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testClassLoader() throws Exception {
+        URLClassLoader classLoader = new URLClassLoader(new URL[]{});
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .classLoader(classLoader)
+                .build();
+        assertEquals(classLoader, piranha.getWebApplication().getClassLoader());
     }
 
     /**

@@ -63,6 +63,11 @@ public class EmbeddedPiranhaBuilder {
      * Stores the attributes.
      */
     private final Map<String, Object> attributes;
+    
+    /**
+     * Stores the class loader.
+     */
+    private ClassLoader classLoader;
 
     /**
      * Stores the extension.
@@ -180,6 +185,10 @@ public class EmbeddedPiranhaBuilder {
         } else {
             piranha = new EmbeddedPiranha(webApplication);
         }
+        
+        if (classLoader != null) {
+            webApplication.setClassLoader(classLoader);
+        }
 
         if (extensionClasses != null && !extensionClasses.isEmpty()) {
             DefaultWebApplicationExtensionContext context = new DefaultWebApplicationExtensionContext();
@@ -263,6 +272,17 @@ public class EmbeddedPiranhaBuilder {
     public EmbeddedPiranha buildAndStart() {
         return build()
                 .start();
+    }
+    
+    /**
+     * Set the class loader.
+     * 
+     * @param classLoader the class loader.
+     * @return the builder.
+     */
+    public EmbeddedPiranhaBuilder classLoader(ClassLoader classLoader) {
+        this.classLoader = classLoader;
+        return this;
     }
 
     /**
