@@ -34,7 +34,8 @@
 module cloud.piranha.embedded {
     exports cloud.piranha.embedded;
     opens cloud.piranha.embedded;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.core.api;
-    requires java.naming;
+    requires transitive cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.impl;
+    requires static java.naming;
+    requires transitive jakarta.servlet;
 }

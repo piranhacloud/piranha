@@ -42,6 +42,7 @@ class HttpUtilsTest {
      * Test constructor.
      */
     @Test
+    @SuppressWarnings({"deprecation"})
     void testConstructor() {
         HttpUtils utils = new HttpUtils();
         assertNotNull(utils);
@@ -51,6 +52,7 @@ class HttpUtilsTest {
      * Test getRequestURL method.
      */
     @Test
+    @SuppressWarnings({"deprecation"})
     void testGetRequestURL() {
         assertThrows(UnsupportedOperationException.class, () -> HttpUtils.getRequestURL(null));
     }
@@ -59,6 +61,7 @@ class HttpUtilsTest {
      * Test parsePostData method.
      */
     @Test
+    @SuppressWarnings({"deprecation"})
     void testParsePostData() {
         assertThrows(UnsupportedOperationException.class, () -> HttpUtils.parsePostData(0, null));
     }
@@ -67,6 +70,7 @@ class HttpUtilsTest {
      * Test parseQueryString method.
      */
     @Test
+    @SuppressWarnings({"deprecation"})
     void testParseQueryString() {
         assertThrows(UnsupportedOperationException.class, () -> HttpUtils.parseQueryString(null));
     }

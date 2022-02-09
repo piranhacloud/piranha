@@ -52,6 +52,7 @@ class UnavailableExceptionTest {
      * Test constructor.
      */
     @Test
+    @SuppressWarnings({"deprecation"})
     void testConstructor2() {
         assertThrows(UnsupportedOperationException.class, () -> new UnavailableException(null, "Message"));
     }
@@ -60,6 +61,7 @@ class UnavailableExceptionTest {
      * Test constructor.
      */
     @Test
+    @SuppressWarnings({"deprecation"})
     void testConstructor3() {
         assertThrows(UnsupportedOperationException.class, () -> new UnavailableException(100, null, "Message"));
     }
@@ -68,6 +70,7 @@ class UnavailableExceptionTest {
      * Test getServlet method.
      */
     @Test
+    @SuppressWarnings({"deprecation"})
     void testGetServlet() {
         UnavailableException exception = new UnavailableException("Unavailable");
         assertThrows(UnsupportedOperationException.class, exception::getServlet);

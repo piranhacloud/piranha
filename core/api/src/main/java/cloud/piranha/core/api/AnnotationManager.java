@@ -69,7 +69,7 @@ public interface AnnotationManager {
      * @param annotationClasses the annotation classes.
      * @return the list of annotations.
      */
-    List<AnnotationInfo> getAnnotations(Class<?>... annotationClasses);
+    List<AnnotationInfo<?>> getAnnotations(Class<?>... annotationClasses);
 
     /**
      * Get the instances.

@@ -225,11 +225,11 @@ public class ServletAnnotationsInitializer implements ServletContainerInitialize
 
     @SuppressWarnings("unchecked")
     private Class<? extends EventListener> getTargetListener(AnnotationInfo<WebListener> annotationInfo) {
-        return annotationInfo.getTargetType();
+        return (Class<EventListener>) annotationInfo.getTargetType();
     }
 
     @SuppressWarnings("unchecked")
     private Class<? extends HttpServlet> getTargetServlet(AnnotationInfo<ServletSecurity> annotationInfo) {
-        return annotationInfo.getTargetType();
+        return (Class<HttpServlet>) annotationInfo.getTargetType();
     }
 }

@@ -59,7 +59,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.System.Logger;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
@@ -84,12 +83,6 @@ import static java.util.Objects.requireNonNull;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultWebApplicationRequest extends ServletInputStream implements WebApplicationRequest {
-
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER
-            = System.getLogger(DefaultWebApplicationRequest.class.getName());
 
     /**
      * Defines the 'multipart/form-data' constant.

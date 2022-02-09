@@ -30,7 +30,6 @@ package cloud.piranha.embedded;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import jakarta.servlet.http.Cookie;
-import java.net.HttpCookie;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

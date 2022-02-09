@@ -65,12 +65,13 @@ class WebApplicationRequestTest {
      */
     @Test
     void testAuthenticate() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
         try {
+            DefaultWebApplication webApp = new DefaultWebApplication();
+            DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+            request.setWebApplication(webApp);
+            TestWebApplicationResponse response = new TestWebApplicationResponse();
             assertFalse(request.authenticate(response));
+            request.close();
         } catch (IOException | ServletException exception) {
             fail();
         }
@@ -87,6 +88,7 @@ class WebApplicationRequestTest {
             request.setWebApplication(webApp);
             TestWebApplicationResponse response = new TestWebApplicationResponse();
             request.authenticate(response);
+            request.close();
         } catch (IOException | ServletException ex) {
             fail();
         }
@@ -94,12 +96,15 @@ class WebApplicationRequestTest {
 
     /**
      * Test getAsyncContext method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetAsyncContext() {
+    void testGetAsyncContext() throws IOException {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertNotNull(assertThrows(IllegalStateException.class,
                 () -> request.getAsyncContext()));
+        request.close();    
     }
 
     /**
@@ -120,20 +125,26 @@ class WebApplicationRequestTest {
 
     /**
      * Test getContentLengthLong method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetContentLengthLong() {
+    void testGetContentLengthLong() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertEquals(-1L, request.getContentLengthLong());
+        request.close();
     }
 
     /**
      * Test getDateHeader method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetDateHeader() {
+    void testGetDateHeader() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertEquals(-1L, request.getDateHeader("notfound"));
+        request.close();
     }
 
     /**
@@ -145,6 +156,7 @@ class WebApplicationRequestTest {
     void testGetInputStream() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertNotNull(request.getInputStream());
+        request.close();
     }
 
     /**
@@ -158,61 +170,77 @@ class WebApplicationRequestTest {
         assertNotNull(request.getInputStream());
         assertNotNull(assertThrows(IllegalStateException.class,
                 () -> request.getReader()));
+        request.close();
     }
 
     /**
      * Test getIntHeader method.
+     * 
+     * @throws Exception when a serious error ocucrs.
      */
     @Test
-    void testGetIntHeader() {
+    void testGetIntHeader() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertEquals(-1, request.getIntHeader("notfound"));
+        request.close();
     }
 
     /**
      * Test getLocale method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetLocale() {
+    void testGetLocale() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setHeader("Accept-Language", "en");
         assertNotNull(request.getLocale());
+        request.close();
     }
 
     /**
      * Test getLocale method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetLocales() {
+    void testGetLocales() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setHeader("Accept-Language", "en, de");
         assertNotNull(request.getLocales());
+        request.close();
     }
 
     /**
      * Test getParameterMap method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetParameterMap() {
+    void testGetParameterMap() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setInputStream(new ByteArrayInputStream("param1=value1".getBytes(UTF_8)));
         request.setContentType("application/x-www-form-urlencoded");
         Map<String, String[]> parameterMap = request.getParameterMap();
         assertEquals(1, parameterMap.size());
         assertArrayEquals(new String[]{"value1"}, parameterMap.get("param1"));
+        request.close();
     }
 
     /**
      * Test getParameterMap method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetParameterMap2() {
+    void testGetParameterMap2() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setInputStream(new ByteArrayInputStream("param1=value1".getBytes(UTF_8)));
         request.setContentType("application/x-www-form-urlencoded;charset=UTF-8");
         Map<String, String[]> parameterMap = request.getParameterMap();
         assertEquals(1, parameterMap.size());
         assertArrayEquals(new String[]{"value1"}, parameterMap.get("param1"));
+        request.close();
     }
 
     /**
@@ -226,6 +254,7 @@ class WebApplicationRequestTest {
         request.setContentType("text/html");
         assertNotNull(assertThrows(ServletException.class,
                 () -> request.getPart("not_there")));
+        request.close();
     }
 
     /**
@@ -240,6 +269,7 @@ class WebApplicationRequestTest {
         request.setWebApplication(webApplication);
         request.setContentType("multipart/form-data");
         assertNull(request.getPart("not_there"));
+        request.close();
     }
 
     /**
@@ -251,6 +281,7 @@ class WebApplicationRequestTest {
     void testGetReader() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertNotNull(request.getReader());
+        request.close();
     }
 
     /**
@@ -264,6 +295,7 @@ class WebApplicationRequestTest {
         assertNotNull(request.getReader());
         assertNotNull(assertThrows(IllegalStateException.class,
                 () -> request.getInputStream()));
+        request.close();
     }
 
     /**
@@ -272,64 +304,81 @@ class WebApplicationRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
+    @SuppressWarnings({"deprecation"})
     void testGetRealPath() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setWebApplication(webApplication);
         assertNotNull(assertThrows(UnsupportedOperationException.class,
                 () -> request.getRealPath("/path")));
+        request.close();
     }
 
     /**
      * Test getRequestDispatcher method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetRequestDispatcher() {
+    void testGetRequestDispatcher() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setWebApplication(webApp);
         assertNotNull(request.getRequestDispatcher("/test"));
+        request.close();
     }
 
     /**
      * Test getUpgradeHandler method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetUpgradeHandler() {
+    void testGetUpgradeHandler() throws Exception {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         assertNull(request.getUpgradeHandler());
+        request.close();
     }
 
     /**
      * Test isSecure method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testIsSecure() {
+    void testIsSecure() throws Exception {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setScheme("https");
         assertTrue(request.isSecure());
+        request.close();
     }
 
     /**
      * Test isUpgraded method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testIsUpgraded() {
+    void testIsUpgraded() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertFalse(request.isUpgraded());
+        request.close();
     }
 
     /**
      * Test isUserInRole method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testIsUserInRole() {
+    void testIsUserInRole() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setWebApplication(webApplication);
         assertFalse(request.isUserInRole("notmatched"));
+        request.close();
     }
 
     /**
@@ -344,13 +393,16 @@ class WebApplicationRequestTest {
         request.setWebApplication(webApplication);
         request.login("username", "password");
         assertNull(request.getUserPrincipal());
+        request.close();
     }
 
     /**
      * Test removeAttribute method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testRemoveAttribute() {
+    void testRemoveAttribute() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setWebApplication(webApplication);
@@ -358,6 +410,7 @@ class WebApplicationRequestTest {
         assertNotNull(request.getAttribute("name"));
         request.removeAttribute("name");
         assertNull(request.getAttribute("name"));
+        request.close();
     }
 
     /**
@@ -371,6 +424,7 @@ class WebApplicationRequestTest {
         assertNull(request.getCharacterEncoding());
         request.setCharacterEncoding("UTF-8");
         assertEquals("UTF-8", request.getCharacterEncoding());
+        request.close();
     }
 
     /**
@@ -385,6 +439,7 @@ class WebApplicationRequestTest {
         request.getReader();
         request.setCharacterEncoding("UTF-8");
         assertNotEquals("UTF-8", request.getCharacterEncoding());
+        request.close();
     }
 
     /**
@@ -393,10 +448,11 @@ class WebApplicationRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetCharacterEncoding3() {
+    void testSetCharacterEncoding3() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertNotNull(assertThrows(UnsupportedEncodingException.class,
                 () -> request.setCharacterEncoding("doesnotexist")));
+        request.close();
     }
 
     /**
@@ -405,18 +461,21 @@ class WebApplicationRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetCharacterEncoding4() {
+    void testSetCharacterEncoding4() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertNotNull(assertThrows(UnsupportedEncodingException.class,
                 () -> request.setCharacterEncoding(null)));
+        request.close();
     }
 
     /**
      * Test setCookies method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetCookies() {
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
+    void testSetCookies() throws Exception {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         assertNull(request.getCookies());
         request.setCookies(new Cookie[0]);
         assertNull(request.getCookies());
@@ -426,105 +485,133 @@ class WebApplicationRequestTest {
         assertNotNull(request.getCookies());
         assertEquals("name", request.getCookies()[0].getName());
         assertEquals("value", request.getCookies()[0].getValue());
+        request.close();
     }
 
     /**
      * Test setLocalAddr method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetLocalAddr() {
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
+    void testSetLocalAddr() throws Exception {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         assertNull(request.getLocalAddr());
         request.setLocalAddr("127.0.0.1");
         assertEquals("127.0.0.1", request.getLocalAddr());
+        request.close();
     }
 
     /**
      * Test setLocalName method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetLocalName() {
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
+    void testSetLocalName() throws Exception {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         assertNull(request.getLocalName());
         request.setLocalName("localhost");
         assertEquals("localhost", request.getLocalName());
+        request.close();
     }
 
     /**
      * Test setLocalPort method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetLocalPort() {
+    void testSetLocalPort() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertEquals(0, request.getLocalPort());
         request.setLocalPort(12345);
         assertEquals(12345, request.getLocalPort());
+        request.close();
     }
 
     /**
      * Test setProtocol method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetProtocol() {
+    void testSetProtocol() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertEquals("HTTP/1.1", request.getProtocol());
         request.setProtocol("HTTP/1.0");
         assertEquals("HTTP/1.0", request.getProtocol());
+        request.close();
     }
 
     /**
      * Test setRemoteAddr method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetRemoteAddr() {
+    void testSetRemoteAddr() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertNull(request.getRemoteAddr());
         request.setRemoteAddr("127.0.0.1");
         assertEquals("127.0.0.1", request.getRemoteAddr());
+        request.close();
     }
 
     /**
      * Test setRemoteHost method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetRemoteHost() {
+    void testSetRemoteHost() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertNull(request.getRemoteHost());
         request.setRemoteHost("localhost");
         assertEquals("localhost", request.getRemoteHost());
+        request.close();
     }
 
     /**
      * Test setRemotePort method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetRemotePort() {
+    void testSetRemotePort() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertEquals(0, request.getRemotePort());
         request.setRemotePort(12345);
         assertEquals(12345, request.getRemotePort());
+        request.close();
     }
 
     /**
      * Test setServerName method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetServerName() {
+    void testSetServerName() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertEquals("localhost", request.getServerName());
         request.setServerName("my.host.com");
         assertEquals("my.host.com", request.getServerName());
+        request.close();
     }
 
     /**
      * Test setServerPort method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetServerPort() {
+    void testSetServerPort() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertEquals(80, request.getServerPort());
         request.setServerPort(8080);
         assertEquals(8080, request.getServerPort());
+        request.close();
     }
 
     /**
@@ -542,14 +629,17 @@ class WebApplicationRequestTest {
 
     /**
      * Test startAsync method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testStartAsync2() {
+    void testStartAsync2() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         request.setAttribute("piranha.response", new TestWebApplicationResponse());
         request.setAsyncSupported(false);
         assertNotNull(assertThrows(IllegalStateException.class,
                 () -> request.startAsync()));
+        request.close();
     }
 
     /**
@@ -561,6 +651,7 @@ class WebApplicationRequestTest {
     void testUpgrade() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertNotNull(request.upgrade(TestUpgradeHttpUpgradeHandler.class));
+        request.close();
     }
 
     /**
@@ -573,6 +664,7 @@ class WebApplicationRequestTest {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertNotNull(assertThrows(ServletException.class,
                 () -> request.upgrade(TestUpgrade2HttpUpgradeHandler.class)));
+        request.close();
     }
 
     /**
