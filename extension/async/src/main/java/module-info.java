@@ -27,13 +27,13 @@
  */
 
 /**
- * The standard async support module.
+ * The async support module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard.async {
-    exports cloud.piranha.extension.standard.async;
-    opens cloud.piranha.extension.standard.async;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
+module cloud.piranha.extension.async {
+    exports cloud.piranha.extension.async;
+    opens cloud.piranha.extension.async;
+    requires transitive cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.impl;
 }

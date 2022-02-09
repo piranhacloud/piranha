@@ -25,9 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.async;
+package cloud.piranha.extension.async;
 
+import cloud.piranha.extension.async.internal.InternalAsyncManager;
 import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import jakarta.servlet.AsyncContext;
@@ -50,7 +52,7 @@ class AsyncContextTest {
     @Test
     void testDispatch() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setAsyncManager(new StandardAsyncManager());
+        webApp.getManager().setAsyncManager(new InternalAsyncManager());
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setAsyncSupported(true);
         request.setWebApplication(webApp);
@@ -75,7 +77,7 @@ class AsyncContextTest {
     @Test
     void testDispatch2() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setAsyncManager(new StandardAsyncManager());
+        webApp.getManager().setAsyncManager(new InternalAsyncManager());
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setAsyncSupported(true);
         request.setWebApplication(webApp);
@@ -100,7 +102,34 @@ class AsyncContextTest {
     @Test
     void testDispatch3() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setAsyncManager(new StandardAsyncManager());
+        webApp.getManager().setAsyncManager(new InternalAsyncManager());
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setAsyncSupported(true);
+        request.setWebApplication(webApp);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setResponseCloser(() -> {});
+        response.setUnderlyingOutputStream(byteOutput);
+        response.setWebApplication(webApp);
+        AsyncContext context = request.startAsync(request, response);
+        context.dispatch(webApp, "/mypath");
+        while(!response.isCommitted()) {
+            Thread.sleep(10);
+        }
+        assertTrue(byteOutput.toString().contains("HTTP/1.1 404"));
+    }
+
+    /**
+     * Test dispatch method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testDispatch4() throws Exception {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultWebApplicationExtensionContext extContext = new DefaultWebApplicationExtensionContext();
+        extContext.add(AsyncExtension.class);
+        extContext.configure(webApp);
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setAsyncSupported(true);
         request.setWebApplication(webApp);

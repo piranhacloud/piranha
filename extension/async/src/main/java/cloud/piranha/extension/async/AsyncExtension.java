@@ -25,24 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.async;
+package cloud.piranha.extension.async;
 
-import cloud.piranha.core.api.AsyncDispatcher;
-import cloud.piranha.core.api.AsyncManager;
+import cloud.piranha.extension.async.internal.InternalAsyncManager;
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.impl.DefaultAsyncDispatcher;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import cloud.piranha.core.api.WebApplicationExtension;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
 
 /**
- * The default AsyncManager.
+ * The extension that enables annotation scanning.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardAsyncManager implements AsyncManager {
+public class AsyncExtension implements WebApplicationExtension {
 
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(AsyncExtension.class.getName());
+
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
     @Override
-    public AsyncDispatcher getDispatcher(WebApplication webApplication, String path, ServletRequest asyncStartRequest, ServletResponse asyncStartResponse) {
-        return new DefaultAsyncDispatcher(webApplication, path, asyncStartRequest, asyncStartResponse);
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(DEBUG, "Setting AsyncManager");
+        webApplication.getManager().setAsyncManager(new InternalAsyncManager());
     }
 }
