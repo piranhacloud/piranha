@@ -17,6 +17,7 @@
 
     <modules>
         <module>apache-fileupload</module>
+        <module>async</module>
         <module>bytesstreamhandler</module>
         <module>eleos</module>
         <module>exousia</module>
@@ -29,6 +30,7 @@
         <module>mimetype</module>
         <module>mojarra</module>
         <module>myfaces</module>
+        <module>policy</module>
         <module>scinitializer</module>
         <module>security-servlet</module>
         <module>security-jakarta</module>
@@ -44,8 +46,6 @@
         <module>welcomefile</module>
         <module>weld</module>
         <module>weld-servlet</module>
-        <module>policy</module>
-        <module>async</module>
     </modules>
 
     <dependencyManagement>

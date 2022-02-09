@@ -34,6 +34,6 @@
 module cloud.piranha.extension.async {
     exports cloud.piranha.extension.async;
     opens cloud.piranha.extension.async;
-    requires transitive cloud.piranha.core.api;
-    requires transitive cloud.piranha.core.impl;
+    requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
 }
