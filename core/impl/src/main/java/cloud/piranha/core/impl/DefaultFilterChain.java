@@ -45,6 +45,7 @@ import java.io.IOException;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@SuppressWarnings({"deprecation"})
 public class DefaultFilterChain implements FilterChain {
 
     /**
@@ -103,7 +104,6 @@ public class DefaultFilterChain implements FilterChain {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
      */
-    @SuppressWarnings("deprecation")
     @Override
     public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
         if (filter != null) {

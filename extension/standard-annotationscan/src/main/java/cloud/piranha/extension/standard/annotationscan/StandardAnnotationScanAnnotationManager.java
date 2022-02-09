@@ -52,15 +52,15 @@ public class StandardAnnotationScanAnnotationManager implements AnnotationManage
     /**
      * Stores the annotations.
      */
-    protected final Map<Class, List<AnnotationInfo>> annotations = new ConcurrentHashMap<>();
+    protected final Map<Class<?>, List<AnnotationInfo<?>>> annotations = new ConcurrentHashMap<>();
 
     /**
      * Stores the instances.
      */
-    protected final Map<Class, List<Class>> instances = new ConcurrentHashMap<>();
+    protected final Map<Class<?>, List<Class<?>>> instances = new ConcurrentHashMap<>();
 
     @Override
-    public void addAnnotation(AnnotationInfo annotationInfo) {
+    public void addAnnotation(AnnotationInfo<?> annotationInfo) {
         annotations.computeIfAbsent(
                 ((Annotation) annotationInfo.getInstance()).annotationType(),
                 e -> new ArrayList<>())
@@ -94,7 +94,7 @@ public class StandardAnnotationScanAnnotationManager implements AnnotationManage
     }
 
     @Override
-    public List<AnnotationInfo> getAnnotations(Class<?>... annotationClasses) {
+    public List<AnnotationInfo<?>> getAnnotations(Class<?>... annotationClasses) {
         return Arrays.stream(annotationClasses)
                 .flatMap(this::getAnnotationStream)
                 .collect(toList());

@@ -63,11 +63,6 @@ public class TestHttpServletResponse implements HttpServletResponse {
      * Stores the status.
      */
     private int status = 200;
-    
-    /**
-     * Stores the status message.
-     */
-    private String statusMessage;
 
     /**
      * Add a a cookie.
@@ -228,7 +223,6 @@ public class TestHttpServletResponse implements HttpServletResponse {
     @Override
     public void sendError(int status, String message) throws IOException {
         this.status = status;
-        this.statusMessage = message;
     }
 
     /**

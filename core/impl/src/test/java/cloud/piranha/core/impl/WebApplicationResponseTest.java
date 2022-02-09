@@ -32,6 +32,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Locale;
@@ -53,87 +55,113 @@ class WebApplicationResponseTest {
 
     /**
      * Test addDateHeader method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testAddDateHeader() {
+    void testAddDateHeader() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.addDateHeader("name", 1234);
         assertEquals("Thu, 1 Jan 1970 00:00:01 GMT", response.getHeader("name"));
+        response.close();
     }
 
     /**
      * Test addIntHeader method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testAddIntHeader() {
+    void testAddIntHeader() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.addIntHeader("name", 1234);
         assertEquals("1234", response.getHeader("name"));
+        response.close();
     }
 
     /**
      * Test containsHeader method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testContainsHeader() {
+    void testContainsHeader() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertFalse(response.containsHeader("name"));
         response.addHeader("name", "value");
         assertTrue(response.containsHeader("name"));
+        response.close();
     }
 
     /**
      * Test encodeRedirectUrl method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testEncodeRedirectUrl() {
+    void testEncodeRedirectUrl() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         assertNotNull(response.encodeRedirectURL("/encodeMe"));
+        response.close();
     }
 
     /**
      * Test encodeRedirectUrl method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testEncodeRedirectUrl2() {
+    @SuppressWarnings({"deprecation"})
+    void testEncodeRedirectUrl2() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         assertNotNull(response.encodeRedirectUrl("/encodeMe"));
+        response.close();
     }
 
     /**
      * Test encodeUrl method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testEncodeUrl() {
+    void testEncodeUrl() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         assertNotNull(response.encodeURL("/encodeMe"));
+        response.close();
     }
 
     /**
      * Test encodeUrl method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testEncodeUrl2() {
+    @SuppressWarnings({"deprecation"})
+    void testEncodeUrl2() throws Exception {
         DefaultWebApplication webApp = new DefaultWebApplication();
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         assertNotNull(response.encodeUrl("/encodeMe"));
+        response.close();
     }
 
     /**
      * Test flushBuffer method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
     void testFlushBuffer() {
         try {
             DefaultWebApplicationResponse response = new TestWebApplicationResponse();
             response.flushBuffer();
+            response.close();
         } catch (IOException ex) {
             fail();
         }
@@ -141,71 +169,89 @@ class WebApplicationResponseTest {
 
     /**
      * Test getCharacterEncoding method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetCharacterEncoding() {
+    void testGetCharacterEncoding() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertEquals("ISO-8859-1", response.getCharacterEncoding());
         response.setCharacterEncoding("UTF-8");
         assertEquals("UTF-8", response.getCharacterEncoding());
+        response.close();
     }
 
     /**
      * Test getContentType method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetContentType() {
+    void testGetContentType() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertNull(response.getContentType());
         response.setContentType("text/html");
         assertEquals("text/html", response.getContentType());
+        response.close();
     }
 
     /**
      * Test getContentType method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetContentType2() {
+    void testGetContentType2() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertNull(response.getContentType());
         response.setContentType("text/html;charset=UTF-8");
         assertEquals("text/html;charset=UTF-8", response.getContentType());
         assertEquals("UTF-8", response.getCharacterEncoding());
+        response.close();
     }
 
     /**
      * Test getHeaderNames method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetHeaderNames() {
+    void testGetHeaderNames() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertNotNull(response.getHeaderNames());
         assertTrue(response.getHeaderNames().isEmpty());
         response.addHeader("name", "value");
         assertFalse(response.getHeaderNames().isEmpty());
+        response.close();
     }
 
     /**
      * Test getHeaders method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetHeaders() {
+    void testGetHeaders() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertNotNull(response.getHeaders("name"));
         assertTrue(response.getHeaders("name").isEmpty());
         response.addHeader("name", "value");
         assertFalse(response.getHeaders("name").isEmpty());
+        response.close();
     }
 
     /**
      * Test getLocale method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetLocale() {
+    void testGetLocale() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertEquals(Locale.getDefault(), response.getLocale());
         response.setLocale(Locale.ITALIAN);
         assertEquals(Locale.ITALIAN, response.getLocale());
+        response.close();
     }
 
     /**
@@ -219,15 +265,19 @@ class WebApplicationResponseTest {
         response.getWriter();
         assertNotNull(assertThrows(IllegalStateException.class,
                 () -> response.getOutputStream()));
+        response.close();
     }
 
     /**
      * Test getWebApplication method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetWebApplication() {
+    void testGetWebApplication() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         assertNull(response.getWebApplication());
+        response.close();
     }
 
     /**
@@ -241,6 +291,7 @@ class WebApplicationResponseTest {
         response.getOutputStream();
         assertNotNull(assertThrows(IllegalStateException.class,
                 () -> response.getWriter()));
+        response.close();
     }
 
     /**
@@ -360,12 +411,16 @@ class WebApplicationResponseTest {
 
     /**
      * Test reset method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testReset() {
+    void testReset() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
         response.reset();
         assertEquals(200, response.getStatus());
+        response.close();
     }
 
     /**
@@ -376,11 +431,12 @@ class WebApplicationResponseTest {
     @Test
     void testSendError() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "error");
+        response.sendError(SC_INTERNAL_SERVER_ERROR, "error");
         response.flushBuffer();
-        assertEquals(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, response.getStatus());
+        assertEquals(SC_INTERNAL_SERVER_ERROR, response.getStatus());
         assertEquals("error", response.getStatusMessage());
         assertTrue(response.isCommitted());
+        response.close();
     }
 
     /**
@@ -395,60 +451,78 @@ class WebApplicationResponseTest {
         response.flushBuffer();
         assertNotNull(assertThrows(IllegalStateException.class,
                 () -> response.sendError(SC_INTERNAL_SERVER_ERROR)));
+        response.close();
     }
 
     /**
      * Test setContentLength method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetContentLength() {
+    void testSetContentLength() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setContentLength(12);
         assertEquals(12, response.getContentLength());
+        response.close();
     }
 
     /**
      * Test setContentLength method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetContentLength2() {
+    void testSetContentLength2() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setContentLengthLong(12L);
         assertEquals(12, response.getContentLength());
+        response.close();
     }
 
     /**
      * Test setContentLength method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetContentLength3() {
+    void testSetContentLength3() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setContentLength(12);
         assertEquals("12", response.getHeader("Content-Length"));
+        response.close();
     }
 
     /**
      * Test setContentLength method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetContentLength4() {
+    void testSetContentLength4() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setContentLengthLong(12L);
         assertEquals("12", response.getHeader("Content-Length"));
+        response.close();
     }
 
     /**
      * Test setContentType.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetContentType() {
+    void testSetContentType() throws Exception {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setContentType(null);
         assertNull(response.getContentType());
+        response.close();
     }
 
     /**
      * Test setContentType method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
     void testSetContentType2() throws Exception {
@@ -460,10 +534,13 @@ class WebApplicationResponseTest {
         response.flushBuffer();
         assertTrue(new String(response.getResponseBytes()).contains(
                 "Content-Type: text/html;charset=ISO-8859-1"));
+        response.close();
     }
 
     /**
      * Test setContentType method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
     void testContentType3() throws Exception {
@@ -475,90 +552,116 @@ class WebApplicationResponseTest {
         response.flushBuffer();
         assertTrue(new String(response.getResponseBytes()).contains(
                 "Content-Type: text/html;charset=UTF-8\n"));
+        response.close();
     }
 
     /**
      * Test setDateHeader method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetDateHeader() {
+    void testSetDateHeader() throws Exception {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setDateHeader("header", 1000);
         response.setDateHeader("header", 2000);
         assertEquals("Thu, 1 Jan 1970 00:00:02 GMT", response.getHeader("header"));
+        response.close();
     }
 
     /**
      * Test setDateHeader method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetDateHeader2() {
+    void testSetDateHeader2() throws Exception {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setDateHeader("header", 1000);
         assertEquals("Thu, 1 Jan 1970 00:00:01 GMT", response.getHeader("header"));
+        response.close();
     }
 
     /**
      * Test setHeader method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetHeader() {
+    void testSetHeader() throws Exception {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setHeader("header", "value1");
         response.addHeader("header", "value2");
         response.setHeader("header", "value3");
         assertEquals("value3", response.getHeader("header"));
+        response.close();
     }
 
     /**
      * Test setHeader method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetHeader2() {
+    void testSetHeader2() throws Exception {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setHeader("header", "value1");
         response.setHeader("header", "value2");
         assertEquals("value2", response.getHeader("header"));
+        response.close();
     }
 
     /**
      * Test setHeader method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetHeader3() {
+    void testSetHeader3() throws Exception {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setHeader("header", "value1");
         assertEquals("value1", response.getHeader("header"));
+        response.close();
     }
 
     /**
      * Test setIntHeader method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetIntHeader() {
+    void testSetIntHeader() throws Exception {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setIntHeader("header", 1);
         assertEquals("1", response.getHeader("header"));
+        response.close();
     }
 
     /**
      * Test setStatus method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetStatus() {
+    void testSetStatus() throws Exception {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setStatus(500);
         assertEquals(500, response.getStatus());
+        response.close();
     }
 
     /**
      * Test setStatus method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetStatus2() {
+    @SuppressWarnings({"deprecation"})
+    void testSetStatus2() throws Exception {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setStatus(HttpServletResponse.SC_NOT_FOUND, "Not found");
         assertEquals(404, response.getStatus());
+        response.close();
     }
 
     /**

@@ -39,10 +39,13 @@ class EmbeddedRequestTest {
     
     /**
      * Test constructor.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testConstructor() {
+    void testConstructor() throws Exception {
         EmbeddedRequest request = new EmbeddedRequest("/servletPath");
         assertEquals("/servletPath", request.getServletPath());
+        request.close();
     }
 }

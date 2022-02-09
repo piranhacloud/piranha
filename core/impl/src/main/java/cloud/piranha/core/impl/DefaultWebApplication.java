@@ -1057,7 +1057,7 @@ public class DefaultWebApplication implements WebApplication {
                             .getInstances(value).stream();
 
                     // Get classes by target type
-                    List<AnnotationInfo> annotations = manager.getAnnotationManager()
+                    List<AnnotationInfo<?>> annotations = manager.getAnnotationManager()
                             .getAnnotations(value);
                     
                     Stream<Class<?>> classStream = annotations.stream().map(AnnotationInfo::getTargetType);

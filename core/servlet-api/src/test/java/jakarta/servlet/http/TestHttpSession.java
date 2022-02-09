@@ -98,6 +98,7 @@ public class TestHttpSession implements HttpSession {
      * @see HttpSession#getSessionContext() 
      */
     @Override
+    @SuppressWarnings({"deprecation"})
     public HttpSessionContext getSessionContext() {
         return null;
     }

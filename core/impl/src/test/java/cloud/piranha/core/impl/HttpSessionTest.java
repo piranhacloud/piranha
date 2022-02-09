@@ -689,11 +689,15 @@ class HttpSessionTest {
 
     /**
      * Test isRequestedSessionIdFromUrl method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testIsRequestedSessionIdFromUrl() {
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
+    @SuppressWarnings({"deprecation"})
+    void testIsRequestedSessionIdFromUrl() throws Exception {
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertFalse(request.isRequestedSessionIdFromUrl());
+        request.close();
     }
 
     /**
@@ -857,24 +861,30 @@ class HttpSessionTest {
 
     /**
      * Test setRequestedSessionIdFromCookie method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetRequestedSessionIdFromCookie() {
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
+    void testSetRequestedSessionIdFromCookie() throws Exception {
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertFalse(request.isRequestedSessionIdFromCookie());
         request.setRequestedSessionIdFromCookie(true);
         assertTrue(request.isRequestedSessionIdFromCookie());
+        request.close();
     }
 
     /**
      * Test setRequestedSessionIdFromURL method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetRequestedSessionIdFromURL() {
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
+    void testSetRequestedSessionIdFromURL() throws Exception {
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertFalse(request.isRequestedSessionIdFromURL());
         request.setRequestedSessionIdFromURL(true);
         assertTrue(request.isRequestedSessionIdFromURL());
+        request.close();
     }
 
     /**

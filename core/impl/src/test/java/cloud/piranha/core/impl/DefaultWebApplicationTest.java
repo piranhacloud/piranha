@@ -32,15 +32,12 @@ import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRegistration.Dynamic;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Set;
@@ -292,12 +289,13 @@ class DefaultWebApplicationTest {
     /**
      * Test getDispatcherType.
      *
-     * @throws Exception
+     * @throws Exception when a serious error occurs.
      */
     @Test
     void testGetDispatcherType() throws Exception {
-        HttpServletRequest request = new TestWebApplicationRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertEquals(DispatcherType.REQUEST, request.getDispatcherType());
+        request.close();
     }
 
     /**
@@ -380,13 +378,14 @@ class DefaultWebApplicationTest {
     /**
      * Test getParameterMap.
      *
-     * @throws Exception
+     * @throws Exception when a serious error occurs.
      */
     @Test
     void testGetParameterMap() throws Exception {
-        HttpServletRequest request = new TestWebApplicationRequest();
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertNotNull(request.getParameterMap());
         assertNotNull(request.getParameterNames());
+        request.close();
     }
 
     /**
@@ -743,7 +742,8 @@ class DefaultWebApplicationTest {
             TestWebApplicationRequest request = new TestWebApplicationRequest();
             request.setWebApplication(webApp);
             request.login("admin", "password");
-        } catch (ServletException exception) {
+            request.close();
+        } catch (Exception exception) {
             fail();
         }
     }
@@ -758,7 +758,8 @@ class DefaultWebApplicationTest {
             TestWebApplicationRequest request = new TestWebApplicationRequest();
             request.setWebApplication(webApp);
             request.logout();
-        } catch (ServletException exception) {
+            request.close();
+        } catch (Exception exception) {
             fail();
         }
     }
@@ -934,10 +935,12 @@ class DefaultWebApplicationTest {
     @Test
     void testGetContentType() throws Exception {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
         assertNull(response.getContentType());
         response.setContentType("text/html");
-        PrintWriter writer = response.getWriter();
+        response.getWriter();
         assertEquals("text/html;charset=ISO-8859-1", response.getContentType());
+        response.close();
     }
     
     /**
@@ -962,5 +965,6 @@ class DefaultWebApplicationTest {
             response.flush();
             assertThrows(IllegalStateException.class, () -> response.setBufferSize(20));
         }
+        response.close();
     }
 }

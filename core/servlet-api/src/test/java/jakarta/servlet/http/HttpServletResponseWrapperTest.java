@@ -114,6 +114,7 @@ class HttpServletResponseWrapperTest {
      * Test encodeRedirectUrl method.
      */
     @Test
+    @SuppressWarnings({"deprecation"})
     void testEncodeRedirectUrl() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse();
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
@@ -134,6 +135,7 @@ class HttpServletResponseWrapperTest {
      * Test encodeRedirectUrl method.
      */
     @Test
+    @SuppressWarnings({"deprecation"})
     void testEncodeUrl() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse();
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);
@@ -270,6 +272,7 @@ class HttpServletResponseWrapperTest {
      * Test setStatus method.
      */
     @Test
+    @SuppressWarnings({"deprecation"})
     void testSetStatus2() {
         TestHttpServletResponse wrapped = new TestHttpServletResponse();
         HttpServletResponseWrapper wrapper = new HttpServletResponseWrapper(wrapped);

@@ -53,10 +53,10 @@ public interface AnnotationInfo<T> {
      *
      * @return the class.
      */
-    default Class getTargetType() {
-        Class result = null;
+    default Class<?> getTargetType() {
+        Class<?> result = null;
         AnnotatedElement element = getTarget();
-        if (element instanceof Class clazz) {
+        if (element instanceof Class<?> clazz) {
             result = clazz;
         }
         return result;

@@ -35,11 +35,6 @@ import java.io.IOException;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class TestServletOutputStream extends ServletOutputStream {
-    
-    /**
-     * Stores the response.
-     */
-    private ServletResponse response;
 
     @Override
     public boolean isReady() {
@@ -62,6 +57,5 @@ public class TestServletOutputStream extends ServletOutputStream {
      * @param response the response. 
      */
     public void setResponse(ServletResponse response) {
-        this.response = response;
     }
 }
