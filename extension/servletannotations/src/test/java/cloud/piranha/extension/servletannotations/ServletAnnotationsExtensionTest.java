@@ -32,9 +32,8 @@ import cloud.piranha.core.api.ServletEnvironment;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.extension.slim.security.SlimSecurityManager;
-import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanAnnotationManager;
-import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanInitializer;
+import cloud.piranha.extension.annotationscan.internal.InternalAnnotationScanAnnotationManager;
+import cloud.piranha.extension.annotationscan.AnnotationScanInitializer;
 import cloud.piranha.resource.impl.ClassResource;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.ServletRegistration;
@@ -59,8 +58,8 @@ class ServletAnnotationsExtensionTest {
     @Test
     void testOnStartup() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
-        webApplication.addInitializer(new StandardAnnotationScanInitializer());
+        webApplication.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        webApplication.addInitializer(new AnnotationScanInitializer());
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File(""));
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         webApplication.setClassLoader(classLoader);
@@ -80,8 +79,8 @@ class ServletAnnotationsExtensionTest {
     @Test
     void testOnStartup2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
-        webApplication.addInitializer(new StandardAnnotationScanInitializer());
+        webApplication.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        webApplication.addInitializer(new AnnotationScanInitializer());
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File(""));
         classLoader.getResourceManager().addResource(new ClassResource(Test2Servlet.class.getName()));
         webApplication.setClassLoader(classLoader);
@@ -101,8 +100,8 @@ class ServletAnnotationsExtensionTest {
     @Test
     void testOnStartup3() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
-        webApplication.addInitializer(new StandardAnnotationScanInitializer());
+        webApplication.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        webApplication.addInitializer(new AnnotationScanInitializer());
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File(""));
         classLoader.getResourceManager().addResource(new ClassResource(Test3Servlet.class.getName()));
         webApplication.setClassLoader(classLoader);
@@ -123,8 +122,8 @@ class ServletAnnotationsExtensionTest {
     @Test
     void testOnStartup4() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
-        webApplication.addInitializer(new StandardAnnotationScanInitializer());
+        webApplication.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        webApplication.addInitializer(new AnnotationScanInitializer());
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File(""));
         classLoader.getResourceManager().addResource(new ClassResource(Test4Servlet.class.getName()));
         webApplication.setClassLoader(classLoader);
@@ -146,8 +145,8 @@ class ServletAnnotationsExtensionTest {
     @Test
     void testOnStartup5() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
-        webApplication.addInitializer(new StandardAnnotationScanInitializer());
+        webApplication.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        webApplication.addInitializer(new AnnotationScanInitializer());
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File(""));
         classLoader.getResourceManager().addResource(new ClassResource(TestFilter.class.getName()));
         webApplication.setClassLoader(classLoader);
@@ -167,8 +166,8 @@ class ServletAnnotationsExtensionTest {
     @Test
     void testOnStartup6() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
-        webApplication.addInitializer(new StandardAnnotationScanInitializer());
+        webApplication.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        webApplication.addInitializer(new AnnotationScanInitializer());
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File(""));
         classLoader.getResourceManager().addResource(new ClassResource(Test2Filter.class.getName()));
         webApplication.setClassLoader(classLoader);
@@ -188,8 +187,8 @@ class ServletAnnotationsExtensionTest {
     @Test
     void testOnStartup7() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
-        webApplication.addInitializer(new StandardAnnotationScanInitializer());
+        webApplication.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        webApplication.addInitializer(new AnnotationScanInitializer());
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File(""));
         classLoader.getResourceManager().addResource(new ClassResource(Test3Filter.class.getName()));
         webApplication.setClassLoader(classLoader);
@@ -211,8 +210,8 @@ class ServletAnnotationsExtensionTest {
     @Test
     void testOnStartup8() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
-        webApplication.addInitializer(new StandardAnnotationScanInitializer());
+        webApplication.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        webApplication.addInitializer(new AnnotationScanInitializer());
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File(""));
         classLoader.getResourceManager().addResource(new ClassResource(Test4Filter.class.getName()));
         webApplication.setClassLoader(classLoader);
@@ -233,8 +232,8 @@ class ServletAnnotationsExtensionTest {
     @Test
     void testOnStartup9() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
-        webApplication.addInitializer(new StandardAnnotationScanInitializer());
+        webApplication.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        webApplication.addInitializer(new AnnotationScanInitializer());
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File(""));
         classLoader.getResourceManager().addResource(new ClassResource(Test5Servlet.class.getName()));
         webApplication.setClassLoader(classLoader);
@@ -256,8 +255,8 @@ class ServletAnnotationsExtensionTest {
     @Test
     void testOnStartup10() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
-        webApplication.addInitializer(new StandardAnnotationScanInitializer());
+        webApplication.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        webApplication.addInitializer(new AnnotationScanInitializer());
         DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File(""));
         classLoader.getResourceManager().addResource(new ClassResource(TestListener.class.getName()));
         webApplication.setClassLoader(classLoader);
