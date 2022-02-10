@@ -34,6 +34,14 @@
 module cloud.piranha.extension.annotationscan {
     exports cloud.piranha.extension.annotationscan;
     opens cloud.piranha.extension.annotationscan;
+    
+    //
+    // The following 2 are temporarily exported/opened until we resolve its
+    // usage in Pirnaha - Micro - Shrinkwrap - Core.
+    //
+    exports cloud.piranha.extension.annotationscan.internal;
+    opens cloud.piranha.extension.annotationscan.internal;
+    
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
 }
