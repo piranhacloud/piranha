@@ -20,52 +20,6 @@
     <dependencyManagement>
         <dependencies>
             
-            <!-- Hazelcast  -->
-            <dependency>
-                <groupId>com.hazelcast</groupId>
-                <artifactId>hazelcast</artifactId>
-                <version>5.0.2</version>
-            </dependency>
-
-            <!-- Netty -->
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-buffer</artifactId>
-                <version>4.1.73.Final</version>
-            </dependency>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-codec-http</artifactId>
-                <version>4.1.73.Final</version>
-            </dependency>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-codec-http2</artifactId>
-                <version>4.1.73.Final</version>
-            </dependency>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-common</artifactId>
-                <version>4.1.73.Final</version>
-            </dependency>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-handler</artifactId>
-                <version>4.1.73.Final</version>
-            </dependency>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-transport</artifactId>
-                <version>4.1.73.Final</version>
-            </dependency>
-
-            <!-- JBoss Undertow -->
-            <dependency>
-                <groupId>io.undertow</groupId>
-                <artifactId>undertow-core</artifactId>
-                <version>2.2.14.Final</version>
-            </dependency>
-            
             <!-- Jakarta Annotation -->
             <dependency>
                 <groupId>jakarta.annotation</groupId>
@@ -224,12 +178,12 @@
             <dependency>
                 <groupId>org.apache.johnzon</groupId>
                 <artifactId>johnzon-core</artifactId>
-                <version>1.2.15</version>
+                <version>1.2.16</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.johnzon</groupId>
                 <artifactId>johnzon-jsonb</artifactId>
-                <version>1.2.15</version>
+                <version>1.2.16</version>
             </dependency>
 
             <!-- Apache Maven -->
@@ -250,15 +204,9 @@
                 <artifactId>myfaces-impl</artifactId>
                 <version>3.0.1</version>
             </dependency>
-
-            <!-- Eclipse Yasson  -->
-            <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>yasson</artifactId>
-                <version>2.0.3</version>
-            </dependency>
             
-            <!-- EclipseLink -->
+            
+            <!-- Ecipse EclipseLink -->
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>eclipselink</artifactId>
@@ -294,6 +242,13 @@
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.json</artifactId>
                 <version>2.0.1</version>
+            </dependency>
+            
+            <!-- Eclipse Yasson  -->
+            <dependency>
+                <groupId>org.eclipse</groupId>
+                <artifactId>yasson</artifactId>
+                <version>2.0.4</version>
             </dependency>
             
             <!-- Eclipse Grizzly -->
@@ -392,11 +347,19 @@
                 <version>2.0.0</version>
             </dependency>
             
-            <!-- Hibernate Validator -->
+            
+            <!-- JBoss Hibernate Validator -->
             <dependency>
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator-cdi</artifactId>
-                <version>7.0.1.Final</version>
+                <version>7.0.2.Final</version>
+            </dependency>
+            
+             <!-- JBoss Undertow -->
+            <dependency>
+                <groupId>io.undertow</groupId>
+                <artifactId>undertow-core</artifactId>
+                <version>2.2.14.Final</version>
             </dependency>
             
             <!-- JBoss Jandex -->
@@ -468,6 +431,45 @@
                 <artifactId>weld-servlet-core</artifactId>
                 <version>4.0.2.Final</version>
             </dependency>
+
+            <!-- Netty -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-buffer</artifactId>
+                <version>4.1.73.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http</artifactId>
+                <version>4.1.73.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http2</artifactId>
+                <version>4.1.73.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-common</artifactId>
+                <version>4.1.73.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-handler</artifactId>
+                <version>4.1.73.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport</artifactId>
+                <version>4.1.73.Final</version>
+            </dependency>
+            
+            <!-- Hazelcast  -->
+            <dependency>
+                <groupId>com.hazelcast</groupId>
+                <artifactId>hazelcast</artifactId>
+                <version>5.0.2</version>
+            </dependency>
             
             <!-- JUnit -->
             <dependency>
@@ -505,7 +507,7 @@
             <dependency>
                 <groupId>net.sourceforge.htmlunit</groupId>
                 <artifactId>htmlunit</artifactId>
-                <version>2.56.0</version>
+                <version>2.58.0</version>
             </dependency>
             
             <!-- OmniFaces Eleos -->
@@ -529,7 +531,6 @@
                 <version>2.0.0</version>
             </dependency>
         </dependencies>
-        
         
     </dependencyManagement>
 </project>
