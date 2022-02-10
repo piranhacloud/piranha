@@ -25,24 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.async;
-
-import cloud.piranha.core.api.AsyncDispatcher;
-import cloud.piranha.core.api.AsyncManager;
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.impl.DefaultAsyncDispatcher;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 
 /**
- * The default AsyncManager.
- *
+ * The async support module.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardAsyncManager implements AsyncManager {
-
-    @Override
-    public AsyncDispatcher getDispatcher(WebApplication webApplication, String path, ServletRequest asyncStartRequest, ServletResponse asyncStartResponse) {
-        return new DefaultAsyncDispatcher(webApplication, path, asyncStartRequest, asyncStartResponse);
-    }
+module cloud.piranha.extension.async {
+    exports cloud.piranha.extension.async;
+    opens cloud.piranha.extension.async;
+    requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
 }

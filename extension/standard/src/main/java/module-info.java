@@ -35,6 +35,7 @@
  * </p>
  * <ul>
  *  <li>Apache Commons File Upload (Multipart)</li>
+ *  <li>Async</li>
  *  <li>Manorrock Herring (JNDI)</li>
  *  <li>Locale Encoding</li>
  *  <li>Logging</li>
@@ -43,7 +44,6 @@
  *  <li>ServletContainerInitializer</li>
  *  <li>Servlet Security</li>
  *  <li>Annotation Scanning</li>
- *  <li>Async</li>
  *  <li>Servlet Annotations</li>
  *  <li>TEMPDIR</li>
  *  <li>WaSP (Pages)</li>
@@ -56,6 +56,7 @@ module cloud.piranha.extension.standard {
     opens cloud.piranha.extension.standard;
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.apache.fileupload;
+    requires cloud.piranha.extension.async;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.localeencoding;
     requires cloud.piranha.extension.logging;
@@ -65,7 +66,6 @@ module cloud.piranha.extension.standard {
     requires cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.servletannotations;
     requires cloud.piranha.extension.standard.annotationscan;
-    requires cloud.piranha.extension.standard.async;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webxml;

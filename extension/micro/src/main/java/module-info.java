@@ -33,6 +33,7 @@ module cloud.piranha.extension.micro {
     provides WebApplicationExtension with MicroExtension;
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.apache.fileupload;
+    requires cloud.piranha.extension.async;
     requires cloud.piranha.extension.exousia;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.localeencoding;
@@ -42,7 +43,6 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.security.jakarta;
     requires cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.standard.async;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webxml;
