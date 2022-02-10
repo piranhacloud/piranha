@@ -239,10 +239,10 @@
             
             <!-- Eclipse Parsson -->
             <dependency>
-			    <groupId>org.eclipse.parsson</groupId>
-			    <artifactId>parsson</artifactId>
-			    <version>1.0.0</version>
-			</dependency>
+                <groupId>org.eclipse.parsson</groupId>
+                <artifactId>parsson</artifactId>
+                <version>1.0.0</version>
+            </dependency>
             
             <!-- Eclipse Yasson  -->
             <dependency>

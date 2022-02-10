@@ -157,10 +157,10 @@
         
         <!-- Eclipse JSON Processing implementation -->
         <dependency>
-		    <groupId>org.eclipse.parsson</groupId>
-		    <artifactId>parsson</artifactId>
-		    <scope>runtime</scope>
-		</dependency>
+            <groupId>org.eclipse.parsson</groupId>
+            <artifactId>parsson</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <!-- Jakarta JSON Binding API -->
         <dependency>
