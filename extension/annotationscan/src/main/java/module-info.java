@@ -27,13 +27,13 @@
  */
 
 /**
- * The standard annotation scan functionality module.
+ * The annotation scan functionality module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard.annotationscan {
-    exports cloud.piranha.extension.standard.annotationscan;
-    opens cloud.piranha.extension.standard.annotationscan;
+module cloud.piranha.extension.annotationscan {
+    exports cloud.piranha.extension.annotationscan;
+    opens cloud.piranha.extension.annotationscan;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
 }

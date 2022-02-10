@@ -39,13 +39,13 @@
         <module>slim-security</module>
         <module>soteria</module>
         <module>standard</module>
-        <module>standard-annotationscan</module>
         <module>tempdir</module>
         <module>wasp</module>
         <module>webxml</module>
         <module>welcomefile</module>
         <module>weld</module>
         <module>weld-servlet</module>
+        <module>annotationscan</module>
     </modules>
 
     <dependencyManagement>

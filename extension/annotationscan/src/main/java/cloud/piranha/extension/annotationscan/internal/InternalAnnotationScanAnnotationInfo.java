@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.annotationscan;
+package cloud.piranha.extension.annotationscan.internal;
 
 import cloud.piranha.core.api.AnnotationInfo;
 import java.lang.reflect.AnnotatedElement;
@@ -37,7 +37,7 @@ import java.lang.reflect.AnnotatedElement;
  * @author Manfred Riem (mriem@manorrock.com)
  * @param <T> the type.
  */
-public class StandardAnnotationScanAnnotationInfo<T> implements AnnotationInfo<T> {
+public class InternalAnnotationScanAnnotationInfo<T> implements AnnotationInfo<T> {
 
     /**
      * Stores the instance.
@@ -55,7 +55,7 @@ public class StandardAnnotationScanAnnotationInfo<T> implements AnnotationInfo<T
      * @param instance the instance.
      * @param target the target annotated element.
      */
-    public StandardAnnotationScanAnnotationInfo(T instance, AnnotatedElement target) {
+    public InternalAnnotationScanAnnotationInfo(T instance, AnnotatedElement target) {
         this.instance = instance;
         this.target = target;
     }
