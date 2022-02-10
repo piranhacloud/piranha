@@ -50,7 +50,7 @@ module cloud.piranha.micro.shrinkwrap.core {
     provides Extension with CdiExtension;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.standard.annotationscan;
+    requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.security.jakarta;
     requires cloud.piranha.extension.weld;
     requires cloud.piranha.http.api;

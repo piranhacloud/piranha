@@ -25,39 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.annotationscan;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.resource.impl.DefaultResourceManager;
+import cloud.piranha.resource.impl.DefaultResourceManagerClassLoader;
+import org.junit.jupiter.api.Test;
 
 /**
- * The lite extension module.
- *
- * <p>
- *  This module delivers the Lite extension which in turn enables the following
- *  extensions:
- * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Manorrock Herring (JNDI)</li>
- *  <li>Locale Encoding</li>
- *  <li>Mime-type</li>
- *  <li>Java Policy</li>
- *  <li>ServletContainerInitializer</li>
- *  <li>Servlet Security</li>
- *  <li>Servlet Annotations</li>
- *  <li>TEMPDIR</li>
- *  <li>web.xml</li>
- * </ul>
+ * The JUnit tests for the AnnotationScanExtension class.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.lite {
-    exports cloud.piranha.extension.lite;
-    opens cloud.piranha.extension.lite;
-    requires cloud.piranha.core.api;
-    requires transitive cloud.piranha.extension.annotationscan;
-    requires transitive cloud.piranha.extension.herring;
-    requires transitive cloud.piranha.extension.localeencoding;
-    requires transitive cloud.piranha.extension.mimetype;
-    requires transitive cloud.piranha.extension.policy;
-    requires transitive cloud.piranha.extension.scinitializer;
-    requires transitive cloud.piranha.extension.security.servlet;
-    requires transitive cloud.piranha.extension.servletannotations;
-    requires transitive cloud.piranha.extension.tempdir;
-    requires transitive cloud.piranha.extension.webxml;
+public class AnnotationScanExtensionTest {
+    
+    /**
+     * Test configure method.
+     */
+    @Test
+    public void testConfigure() {
+        WebApplication webApplication = new DefaultWebApplication();
+        DefaultResourceManager resourceManager = new DefaultResourceManager();
+        DefaultResourceManagerClassLoader classLoader = 
+                new DefaultResourceManagerClassLoader(resourceManager);
+        classLoader.setDelegateClassLoader(getClass().getClassLoader());
+        webApplication.setClassLoader(classLoader);
+        AnnotationScanExtension extension = new AnnotationScanExtension();
+        extension.configure(webApplication);
+        webApplication.initialize();
+    }
 }

@@ -34,6 +34,7 @@
  *  Piranha Server/Micro. It adds the following extensions:
  * </p>
  * <ul>
+ *  <li>Annotation Scanning</li>
  *  <li>Apache Commons File Upload (Multipart)</li>
  *  <li>Async</li>
  *  <li>Manorrock Herring (JNDI)</li>
@@ -43,7 +44,6 @@
  *  <li>Java Policy</li>
  *  <li>ServletContainerInitializer</li>
  *  <li>Servlet Security</li>
- *  <li>Annotation Scanning</li>
  *  <li>Servlet Annotations</li>
  *  <li>TEMPDIR</li>
  *  <li>WaSP (Pages)</li>
@@ -55,6 +55,7 @@ module cloud.piranha.extension.standard {
     exports cloud.piranha.extension.standard;
     opens cloud.piranha.extension.standard;
     requires cloud.piranha.core.api;
+    requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.extension.async;
     requires cloud.piranha.extension.herring;
@@ -65,7 +66,6 @@ module cloud.piranha.extension.standard {
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.standard.annotationscan;
     requires cloud.piranha.extension.tempdir;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webxml;

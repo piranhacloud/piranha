@@ -25,39 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.annotationscan.internal;
+
+import cloud.piranha.core.api.AnnotationInfo;
+import java.lang.reflect.AnnotatedElement;
 
 /**
- * The lite extension module.
+ * The standard annotation scan AnnotationInfo.
  *
- * <p>
- *  This module delivers the Lite extension which in turn enables the following
- *  extensions:
- * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Manorrock Herring (JNDI)</li>
- *  <li>Locale Encoding</li>
- *  <li>Mime-type</li>
- *  <li>Java Policy</li>
- *  <li>ServletContainerInitializer</li>
- *  <li>Servlet Security</li>
- *  <li>Servlet Annotations</li>
- *  <li>TEMPDIR</li>
- *  <li>web.xml</li>
- * </ul>
+ * @author Arjan Tijms
+ * @author Manfred Riem (mriem@manorrock.com)
+ * @param <T> the type.
  */
-module cloud.piranha.extension.lite {
-    exports cloud.piranha.extension.lite;
-    opens cloud.piranha.extension.lite;
-    requires cloud.piranha.core.api;
-    requires transitive cloud.piranha.extension.annotationscan;
-    requires transitive cloud.piranha.extension.herring;
-    requires transitive cloud.piranha.extension.localeencoding;
-    requires transitive cloud.piranha.extension.mimetype;
-    requires transitive cloud.piranha.extension.policy;
-    requires transitive cloud.piranha.extension.scinitializer;
-    requires transitive cloud.piranha.extension.security.servlet;
-    requires transitive cloud.piranha.extension.servletannotations;
-    requires transitive cloud.piranha.extension.tempdir;
-    requires transitive cloud.piranha.extension.webxml;
+public class InternalAnnotationScanAnnotationInfo<T> implements AnnotationInfo<T> {
+
+    /**
+     * Stores the instance.
+     */
+    private final T instance;
+
+    /**
+     * Stores the target.
+     */
+    private final AnnotatedElement target;
+
+    /**
+     * Constructor.
+     *
+     * @param instance the instance.
+     * @param target the target annotated element.
+     */
+    public InternalAnnotationScanAnnotationInfo(T instance, AnnotatedElement target) {
+        this.instance = instance;
+        this.target = target;
+    }
+
+    @Override
+    public T getInstance() {
+        return instance;
+    }
+
+    @Override
+    public AnnotatedElement getTarget() {
+        return target;
+    }
 }

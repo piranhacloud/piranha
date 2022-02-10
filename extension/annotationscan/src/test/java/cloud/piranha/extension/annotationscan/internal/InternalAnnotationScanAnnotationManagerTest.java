@@ -25,17 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.annotationscan;
+package cloud.piranha.extension.annotationscan.internal;
 
+import cloud.piranha.extension.annotationscan.TestWithHandlesTypesInitializer;
 import cloud.piranha.core.impl.DefaultWebApplication;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.HandlesTypes;
-import java.lang.annotation.Retention;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import cloud.piranha.extension.annotationscan.TestAnnotation;
 import java.util.Collections;
-import java.util.Optional;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -47,14 +42,14 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class StandardAnnotationScanAnnotationManagerTest {
+class InternalAnnotationScanAnnotationManagerTest {
     
     /**
      * Test getClasses method.
      */
     @Test
     void testGetClasses() {
-        StandardAnnotationScanAnnotationManager manager = new StandardAnnotationScanAnnotationManager();
+        InternalAnnotationScanAnnotationManager manager = new InternalAnnotationScanAnnotationManager();
         assertNotNull(manager.getAnnotatedClasses());
         assertTrue(manager.getAnnotatedClasses().isEmpty());
     }
@@ -62,12 +57,11 @@ class StandardAnnotationScanAnnotationManagerTest {
     @Test
     void testInitializerWithHandlesTypes () {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
-        webApp.addInitializer(InitializerWithHandlesTypes.class.getName());
+        webApp.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        webApp.addInitializer(TestWithHandlesTypesInitializer.class.getName());
         webApp.initialize();
         assertTrue(webApp.getAttribute("object_class") instanceof Boolean);
         assertFalse((Boolean) webApp.getAttribute("object_class"));
-
         assertTrue(webApp.getAttribute("someannotation_class") instanceof Boolean);
         assertFalse((Boolean) webApp.getAttribute("someannotation_class"));
     }
@@ -75,46 +69,24 @@ class StandardAnnotationScanAnnotationManagerTest {
     @Test
     void testInitializerWithHandlesTypes2 () {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
-        webApp.addInitializer(InitializerWithHandlesTypes.class.getName());
-        StandardAnnotationScanAnnotationManager annotationManager = 
-                (StandardAnnotationScanAnnotationManager) webApp.getManager().getAnnotationManager();
+        webApp.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        webApp.addInitializer(TestWithHandlesTypesInitializer.class.getName());
+        InternalAnnotationScanAnnotationManager annotationManager = 
+                (InternalAnnotationScanAnnotationManager) webApp.getManager().getAnnotationManager();
         annotationManager.addInstance(Set.class, Collections.emptySet().getClass());
-        annotationManager.addAnnotation(new StandardAnnotationScanAnnotationInfo<>(
-                ClassAnnotated.class.getAnnotation(SomeAnnotation.class),
+        annotationManager.addAnnotation(new InternalAnnotationScanAnnotationInfo<>(
+                ClassAnnotated.class.getAnnotation(TestAnnotation.class),
                 ClassAnnotated.class
             )
         );
-
         webApp.initialize();
         assertTrue(webApp.getAttribute("object_class") instanceof Boolean);
         assertTrue((Boolean) webApp.getAttribute("object_class"));
-
         assertTrue(webApp.getAttribute("someannotation_class") instanceof Boolean);
         assertTrue((Boolean) webApp.getAttribute("someannotation_class"));
     }
-
-    @HandlesTypes({Set.class, SomeAnnotation.class})
-    public static class InitializerWithHandlesTypes implements ServletContainerInitializer{
-
-        public InitializerWithHandlesTypes() {
-        }
-        
-        @Override
-        public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-            Optional<Class<?>> classInstance = classes.stream().filter(Set.class::isAssignableFrom).findFirst();
-            servletContext.setAttribute("object_class", classInstance.isPresent());
-
-            Optional<Class<?>> classWithAnnotation = classes.stream().filter(x -> x.getAnnotation(SomeAnnotation.class) != null).findFirst();
-            servletContext.setAttribute("someannotation_class", classWithAnnotation.isPresent());
-        }
-    }
     
-    @SomeAnnotation
+    @TestAnnotation
     static class ClassAnnotated {
     }
-
-    @Retention(RUNTIME)
-    @interface SomeAnnotation {
-    }    
 }

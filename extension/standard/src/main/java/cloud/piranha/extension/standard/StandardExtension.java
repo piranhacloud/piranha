@@ -29,6 +29,7 @@ package cloud.piranha.extension.standard;
 
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
+import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.async.AsyncExtension;
 import cloud.piranha.extension.herring.HerringExtension;
@@ -40,7 +41,6 @@ import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtensio
 import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.servletannotations.ServletAnnotationsExtension;
-import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
 import cloud.piranha.extension.wasp.WaspJspManagerExtension;
@@ -67,7 +67,7 @@ public class StandardExtension implements WebApplicationExtension {
         context.add(ApacheMultiPartExtension.class);                // Servlet Part API support
         context.add(WaspJspManagerExtension.class);                 // addJspFile
         context.add(HerringExtension.class);                        // JNDI
-        context.add(StandardAnnotationScanExtension.class);         // Annotation scanning
+        context.add(AnnotationScanExtension.class);                 // Annotation scanning
         context.add(WebXmlExtension.class);                         // web.xml
         context.add(ServletAnnotationsExtension.class);             // Servlet annotations
         context.add(WaspExtension.class);                           // WaSP

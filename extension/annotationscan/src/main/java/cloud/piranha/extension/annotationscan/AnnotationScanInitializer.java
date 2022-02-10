@@ -25,8 +25,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.annotationscan;
+package cloud.piranha.extension.annotationscan;
 
+import cloud.piranha.extension.annotationscan.internal.InternalAnnotationScanAnnotationManager;
+import cloud.piranha.extension.annotationscan.internal.InternalAnnotationScanAnnotationInfo;
 import cloud.piranha.resource.api.ResourceManagerClassLoader;
 import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.WebApplication;
@@ -53,12 +55,12 @@ import java.util.stream.Stream;
  * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardAnnotationScanInitializer implements ServletContainerInitializer {
+public class AnnotationScanInitializer implements ServletContainerInitializer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(StandardAnnotationScanInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(AnnotationScanInitializer.class.getName());
 
     /**
      * On startup.
@@ -73,7 +75,7 @@ public class StandardAnnotationScanInitializer implements ServletContainerInitia
         
         AnnotationManager annotationManager = webApp.getManager().getAnnotationManager();
         if (annotationManager == null) {
-             annotationManager = new StandardAnnotationScanAnnotationManager();
+             annotationManager = new InternalAnnotationScanAnnotationManager();
             webApp.getManager().setAnnotationManager(annotationManager);
         }
         
@@ -93,8 +95,7 @@ public class StandardAnnotationScanInitializer implements ServletContainerInitia
                 .filter(this::hasWebAnnotation)
                 .forEach(targetClazz -> getWebAnnotations(targetClazz)
                 .forEach(annotationInstance
-                        -> annotationMgr.addAnnotation(
-                        new StandardAnnotationScanAnnotationInfo<>(annotationInstance, targetClazz))));
+                        -> annotationMgr.addAnnotation(new InternalAnnotationScanAnnotationInfo<>(annotationInstance, targetClazz))));
     }
 
     /**
