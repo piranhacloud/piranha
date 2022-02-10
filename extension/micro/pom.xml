@@ -148,6 +148,34 @@
             <scope>runtime</scope>
         </dependency>
         
+        <!-- Jakarta JSON Processing API -->
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- Eclipse JSON Processing implementation -->
+        <dependency>
+		    <groupId>org.eclipse.parsson</groupId>
+		    <artifactId>parsson</artifactId>
+		    <scope>runtime</scope>
+		</dependency>
+
+        <!-- Jakarta JSON Binding API -->
+        <dependency>
+            <groupId>jakarta.json.bind</groupId>
+            <artifactId>jakarta.json.bind-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- Jakarta JSON Binding implementation  -->
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>yasson</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
         <!-- Jakarta Security implementation -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
