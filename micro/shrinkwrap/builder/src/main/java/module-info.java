@@ -39,10 +39,10 @@
 module cloud.piranha.micro.shrinkwrap.builder {
     exports cloud.piranha.micro.shrinkwrap.builder;
     opens cloud.piranha.micro.shrinkwrap.builder;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.embedded;
-    requires cloud.piranha.micro.shrinkwrap.loader;
+    requires transitive cloud.piranha.micro.shrinkwrap.loader;
     requires cloud.piranha.resource.shrinkwrap;
     requires shrinkwrap.api;
 }

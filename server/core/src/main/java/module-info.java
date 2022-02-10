@@ -36,7 +36,7 @@ import cloud.piranha.http.api.HttpServer;
 module cloud.piranha.server.core {
     exports cloud.piranha.server.core;
     opens cloud.piranha.server.core;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;

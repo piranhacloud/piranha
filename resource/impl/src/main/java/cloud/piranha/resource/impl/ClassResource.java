@@ -41,11 +41,6 @@ import java.util.stream.Stream;
 public class ClassResource implements Resource {
 
     /**
-     * Stores the class name.
-     */
-    private final String className;
-
-    /**
      * Stores the location.
      */
     private String location;
@@ -56,7 +51,6 @@ public class ClassResource implements Resource {
      * @param className the class name.
      */
     public ClassResource(String className) {
-        this.className = className;
         try {
             this.location = "/" + Class.forName(className).getName().replace(".", "/") + ".class";
         } catch (ClassNotFoundException ex) {

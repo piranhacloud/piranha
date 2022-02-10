@@ -61,8 +61,6 @@ import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jwt.SignedJWT;
 
-import cloud.piranha.test.arquillian.ApplicationInit;
-import cloud.piranha.test.arquillian.Resource;
 import jakarta.ws.rs.core.Response;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
