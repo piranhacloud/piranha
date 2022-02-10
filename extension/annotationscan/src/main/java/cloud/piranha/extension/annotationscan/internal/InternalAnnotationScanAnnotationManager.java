@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.annotationscan;
+package cloud.piranha.extension.annotationscan.internal;
 
 import cloud.piranha.core.api.AnnotationInfo;
 import cloud.piranha.core.api.AnnotationManager;
@@ -47,7 +47,7 @@ import java.util.stream.Stream;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardAnnotationScanAnnotationManager implements AnnotationManager {
+public class InternalAnnotationScanAnnotationManager implements AnnotationManager {
 
     /**
      * Stores the annotations.

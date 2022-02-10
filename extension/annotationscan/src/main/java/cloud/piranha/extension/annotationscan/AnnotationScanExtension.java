@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.annotationscan;
+package cloud.piranha.extension.annotationscan;
 
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
@@ -39,12 +39,12 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class StandardAnnotationScanExtension implements WebApplicationExtension {
+public class AnnotationScanExtension implements WebApplicationExtension {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(StandardAnnotationScanExtension.class.getName());
+    private static final Logger LOGGER = System.getLogger(AnnotationScanExtension.class.getName());
 
     /**
      * Configure the web application.
@@ -57,7 +57,7 @@ public class StandardAnnotationScanExtension implements WebApplicationExtension 
             ClassLoader classLoader = webApplication.getClassLoader();
             Class<? extends ServletContainerInitializer> clazz
                     = classLoader
-                        .loadClass(StandardAnnotationScanInitializer.class.getName())
+                        .loadClass(AnnotationScanInitializer.class.getName())
                         .asSubclass(ServletContainerInitializer.class);
             ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
             webApplication.addInitializer(initializer);

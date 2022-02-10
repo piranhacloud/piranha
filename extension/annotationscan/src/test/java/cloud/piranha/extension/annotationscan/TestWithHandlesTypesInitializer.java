@@ -25,48 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.standard.annotationscan;
+package cloud.piranha.extension.annotationscan;
 
-import cloud.piranha.core.api.AnnotationInfo;
-import java.lang.reflect.AnnotatedElement;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.HandlesTypes;
+import java.util.Optional;
+import java.util.Set;
 
 /**
- * The standard annotation scan AnnotationInfo.
+ * A test ServletContainerInitializer with HandlesTypes annotation.
  *
- * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
- * @param <T> the type.
  */
-public class StandardAnnotationScanAnnotationInfo<T> implements AnnotationInfo<T> {
-
-    /**
-     * Stores the instance.
-     */
-    private final T instance;
-
-    /**
-     * Stores the target.
-     */
-    private final AnnotatedElement target;
+@HandlesTypes({Set.class, TestAnnotation.class})
+public class TestWithHandlesTypesInitializer implements ServletContainerInitializer {
 
     /**
      * Constructor.
-     *
-     * @param instance the instance.
-     * @param target the target annotated element.
      */
-    public StandardAnnotationScanAnnotationInfo(T instance, AnnotatedElement target) {
-        this.instance = instance;
-        this.target = target;
+    public TestWithHandlesTypesInitializer() {
     }
 
     @Override
-    public T getInstance() {
-        return instance;
-    }
-
-    @Override
-    public AnnotatedElement getTarget() {
-        return target;
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        Optional<Class<?>> classInstance = classes.stream().filter(Set.class::isAssignableFrom).findFirst();
+        servletContext.setAttribute("object_class", classInstance.isPresent());
+        Optional<Class<?>> classWithAnnotation = classes.stream().filter(x -> x.getAnnotation(TestAnnotation.class) != null).findFirst();
+        servletContext.setAttribute("someannotation_class", classWithAnnotation.isPresent());
     }
 }

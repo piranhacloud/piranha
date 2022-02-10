@@ -33,8 +33,8 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.embedded.EmbeddedResponseBuilder;
-import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanInitializer;
-import cloud.piranha.extension.standard.annotationscan.StandardAnnotationScanAnnotationManager;
+import cloud.piranha.extension.annotationscan.AnnotationScanInitializer;
+import cloud.piranha.extension.annotationscan.internal.InternalAnnotationScanAnnotationManager;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.resource.impl.ClassResource;
 import cloud.piranha.resource.impl.DirectoryResource;
@@ -57,13 +57,13 @@ class WebServletTest {
     @Test
     void testWebServletUrl1() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
-        application.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
+        application.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
                 = new DefaultWebApplicationClassLoader(new File("src/test/webapp/webservlet"));
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         application.setClassLoader(classLoader);
-        application.addInitializer(new StandardAnnotationScanInitializer());
+        application.addInitializer(new AnnotationScanInitializer());
         application.addInitializer(new WebXmlInitializer());
         application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
@@ -83,13 +83,13 @@ class WebServletTest {
     @Test
     void testWebServletUrl1b() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
-        application.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
+        application.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
                 = new DefaultWebApplicationClassLoader(new File("src/test/webapp/webservlet"));
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         application.setClassLoader(classLoader);
-        application.addInitializer(new StandardAnnotationScanInitializer());
+        application.addInitializer(new AnnotationScanInitializer());
         application.addInitializer(new WebXmlInitializer());
         application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
@@ -109,13 +109,13 @@ class WebServletTest {
     @Test
     void testWebServletUrl2() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
-        application.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
+        application.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
                 = new DefaultWebApplicationClassLoader(new File("src/test/webapp/webservlet"));
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         application.setClassLoader(classLoader);
-        application.addInitializer(new StandardAnnotationScanInitializer());
+        application.addInitializer(new AnnotationScanInitializer());
         application.addInitializer(new WebXmlInitializer());
         application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
@@ -135,13 +135,13 @@ class WebServletTest {
     @Test
     void testWebServletUrl2b() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
-        application.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
+        application.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
                 = new DefaultWebApplicationClassLoader(new File("src/test/webapp/webservlet"));
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         application.setClassLoader(classLoader);
-        application.addInitializer(new StandardAnnotationScanInitializer());
+        application.addInitializer(new AnnotationScanInitializer());
         application.addInitializer(new WebXmlInitializer());
         application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
@@ -161,13 +161,13 @@ class WebServletTest {
     @Test
     void testWebServletUrl3() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
-        application.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
+        application.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
                 = new DefaultWebApplicationClassLoader(new File("src/test/webapp/webservlet"));
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         application.setClassLoader(classLoader);
-        application.addInitializer(new StandardAnnotationScanInitializer());
+        application.addInitializer(new AnnotationScanInitializer());
         application.addInitializer(new WebXmlInitializer());
         application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
@@ -187,13 +187,13 @@ class WebServletTest {
     @Test
     void testWebServletUrl3b() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
-        application.getManager().setAnnotationManager(new StandardAnnotationScanAnnotationManager());
+        application.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
         application.addResource(new DirectoryResource("src/test/webapp/webservlet"));
         DefaultWebApplicationClassLoader classLoader
                 = new DefaultWebApplicationClassLoader(new File("src/test/webapp/webservlet"));
         classLoader.getResourceManager().addResource(new ClassResource(TestServlet.class.getName()));
         application.setClassLoader(classLoader);
-        application.addInitializer(new StandardAnnotationScanInitializer());
+        application.addInitializer(new AnnotationScanInitializer());
         application.addInitializer(new WebXmlInitializer());
         application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();

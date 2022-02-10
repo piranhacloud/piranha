@@ -27,37 +27,21 @@
  */
 
 /**
- * The lite extension module.
- *
- * <p>
- *  This module delivers the Lite extension which in turn enables the following
- *  extensions:
- * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Manorrock Herring (JNDI)</li>
- *  <li>Locale Encoding</li>
- *  <li>Mime-type</li>
- *  <li>Java Policy</li>
- *  <li>ServletContainerInitializer</li>
- *  <li>Servlet Security</li>
- *  <li>Servlet Annotations</li>
- *  <li>TEMPDIR</li>
- *  <li>web.xml</li>
- * </ul>
+ * The annotation scan functionality module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.lite {
-    exports cloud.piranha.extension.lite;
-    opens cloud.piranha.extension.lite;
+module cloud.piranha.extension.annotationscan {
+    exports cloud.piranha.extension.annotationscan;
+    opens cloud.piranha.extension.annotationscan;
+    
+    //
+    // The following 2 are temporarily exported/opened until we resolve its
+    // usage in Pirnaha - Micro - Shrinkwrap - Core.
+    //
+    exports cloud.piranha.extension.annotationscan.internal;
+    opens cloud.piranha.extension.annotationscan.internal;
+    
     requires cloud.piranha.core.api;
-    requires transitive cloud.piranha.extension.annotationscan;
-    requires transitive cloud.piranha.extension.herring;
-    requires transitive cloud.piranha.extension.localeencoding;
-    requires transitive cloud.piranha.extension.mimetype;
-    requires transitive cloud.piranha.extension.policy;
-    requires transitive cloud.piranha.extension.scinitializer;
-    requires transitive cloud.piranha.extension.security.servlet;
-    requires transitive cloud.piranha.extension.servletannotations;
-    requires transitive cloud.piranha.extension.tempdir;
-    requires transitive cloud.piranha.extension.webxml;
+    requires cloud.piranha.core.impl;
 }

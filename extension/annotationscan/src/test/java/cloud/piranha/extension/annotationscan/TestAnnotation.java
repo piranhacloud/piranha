@@ -25,15 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.annotationscan;
+
+import java.lang.annotation.Retention;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * The standard annotation scan functionality module.
+ * A test annotation.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard.annotationscan {
-    exports cloud.piranha.extension.standard.annotationscan;
-    opens cloud.piranha.extension.standard.annotationscan;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
+@Retention(RUNTIME)
+public @interface TestAnnotation {
 }
