@@ -58,7 +58,6 @@ public class TestSnoopServlet extends HttpServlet {
      * @throws IOException when an I/O error occurs.
      * @throws ServletException when a servlet error occurs.
      */
-    @SuppressWarnings("deprecation")
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();

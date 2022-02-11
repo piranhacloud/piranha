@@ -43,5 +43,5 @@ module cloud.piranha.http.impl {
     exports cloud.piranha.http.impl;
     opens cloud.piranha.http.impl;
     provides HttpServer with DefaultHttpServer;
-    requires cloud.piranha.http.api;
+    requires transitive cloud.piranha.http.api;
 }

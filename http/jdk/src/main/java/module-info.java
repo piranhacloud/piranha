@@ -44,6 +44,6 @@ module cloud.piranha.http.jdk {
     exports cloud.piranha.http.jdk;
     opens cloud.piranha.http.jdk;
     provides HttpServer with JdkHttpServer;
-    requires cloud.piranha.http.api;
-    requires jdk.httpserver;
+    requires transitive cloud.piranha.http.api;
+    requires transitive jdk.httpserver;
 }

@@ -40,7 +40,7 @@ module cloud.piranha.http.tests {
     
     exports cloud.piranha.http.tests;
     opens cloud.piranha.http.tests;
-    requires cloud.piranha.http.api;
+    requires transitive cloud.piranha.http.api;
     requires java.net.http;
     requires static org.junit.jupiter.api;
     requires static org.apiguardian.api;

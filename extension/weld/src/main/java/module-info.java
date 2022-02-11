@@ -45,7 +45,7 @@ module cloud.piranha.extension.weld {
     opens cloud.piranha.extension.weld;
     provides Container with WeldContainer;
     provides Service with WeldSecurityService;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires jakarta.inject;
     requires jakarta.cdi;
@@ -53,6 +53,6 @@ module cloud.piranha.extension.weld {
     requires java.naming;
     requires weld.api;
     requires weld.core.impl;
-    requires weld.spi;
+    requires transitive weld.spi;
     requires weld.servlet.core;
 }
