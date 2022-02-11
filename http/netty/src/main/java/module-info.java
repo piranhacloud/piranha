@@ -43,12 +43,12 @@ module cloud.piranha.http.netty {
     exports cloud.piranha.http.netty;
     opens cloud.piranha.http.netty;
     provides HttpServer with NettyHttpServer;
-    requires cloud.piranha.http.api;
+    requires transitive cloud.piranha.http.api;
     requires io.netty.buffer;
     requires io.netty.codec;
-    requires io.netty.codec.http;
+    requires transitive io.netty.codec.http;
     requires io.netty.codec.http2;
     requires io.netty.common;
     requires io.netty.handler;
-    requires io.netty.transport;
+    requires transitive io.netty.transport;
 }

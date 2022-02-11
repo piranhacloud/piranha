@@ -34,5 +34,5 @@
 module cloud.piranha.extension.welcomefile {
     exports cloud.piranha.extension.welcomefile;
     opens cloud.piranha.extension.welcomefile;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
 }
