@@ -156,8 +156,8 @@ public class MicroPiranhaBuilder {
      */
     public MicroPiranhaBuilder extensionClass(String extensionClassName) {
         try {
-            this.extensionClass = (Class<? extends WebApplicationExtension>)
-                    Class.forName(extensionClassName);
+            this.extensionClass = Class.forName(extensionClassName)
+                .asSubclass(WebApplicationExtension.class);
         } catch (ClassNotFoundException cnfe) {
         }
         return this;

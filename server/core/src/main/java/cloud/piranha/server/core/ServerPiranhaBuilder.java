@@ -29,6 +29,7 @@ package cloud.piranha.server.core;
 
 import java.io.File;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
  * The builder so you can easily build instances of
@@ -42,7 +43,7 @@ public class ServerPiranhaBuilder {
     /**
      * Stores the default extension class.
      */
-    private Class defaultExtensionClass;
+    private Class<? extends WebApplicationExtension> defaultExtensionClass;
 
     /**
      * Stores the exit on stop flag.
@@ -137,7 +138,7 @@ public class ServerPiranhaBuilder {
      * @param defaultExtensionClass the default extension class.
      * @return the builder.
      */
-    public ServerPiranhaBuilder defaultExtensionClass(Class defaultExtensionClass) {
+    public ServerPiranhaBuilder defaultExtensionClass(Class<? extends WebApplicationExtension> defaultExtensionClass) {
         this.defaultExtensionClass = defaultExtensionClass;
         return this;
     }
@@ -150,7 +151,7 @@ public class ServerPiranhaBuilder {
      */
     public ServerPiranhaBuilder defaultExtensionClass(String defaultExtensionClassName) {
         try {
-            this.defaultExtensionClass = Class.forName(defaultExtensionClassName);
+            this.defaultExtensionClass = Class.forName(defaultExtensionClassName).asSubclass(WebApplicationExtension.class);
         } catch (ClassNotFoundException cnfe) {
         }
         return this;

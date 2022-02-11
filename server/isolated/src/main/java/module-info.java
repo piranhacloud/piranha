@@ -37,7 +37,7 @@ import cloud.piranha.core.api.WebApplicationExtension;
 module cloud.piranha.server.isolated {
     opens cloud.piranha.server.isolated;
     exports cloud.piranha.server.isolated;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.embedded;
     requires cloud.piranha.extension.standard;
