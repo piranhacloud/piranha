@@ -16,18 +16,7 @@
     <description>
         The shared resources between the various Server variants of Piranha.
     </description>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>cloud.piranha</groupId>
-                <artifactId>bom</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    
     <dependencies>
         <!-- compile -->
         <dependency>
