@@ -34,7 +34,6 @@ import java.net.Socket;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -141,7 +140,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     @Override
     public Iterator<String> getHeaders(String name) {
         return headers.get(name) == null
-                ? Collections.EMPTY_LIST.iterator()
+                ? new ArrayList<String>().iterator()
                 : headers.get(name).iterator();
     }
 

@@ -34,7 +34,7 @@
 module cloud.piranha.micro {
     exports cloud.piranha.micro;
     opens cloud.piranha.micro;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.lite;
     requires cloud.piranha.extension.slim;
