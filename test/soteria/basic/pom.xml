@@ -16,21 +16,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-herring</artifactId>
             <version>${project.version}</version>

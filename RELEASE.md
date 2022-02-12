@@ -8,6 +8,7 @@ The release process described below uses the 'current' branch. For patch release
 1. Run Servlet TCK
 1. Run Pages TCK
 1. Run EL TCK
+1. Run JWT TCK
 1. Run Jakarta EE samples
 1. If any of the above runs fail
     1. Checkout the release X.Y.Z branch
