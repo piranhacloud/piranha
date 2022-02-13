@@ -28,8 +28,8 @@
 package cloud.piranha.test.server.programmatic;
 
 import cloud.piranha.extension.standard.StandardExtension;
-import cloud.piranha.server.core.ServerPiranha;
-import cloud.piranha.server.core.ServerPiranhaBuilder;
+import cloud.piranha.server.ServerPiranha;
+import cloud.piranha.server.ServerPiranhaBuilder;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;

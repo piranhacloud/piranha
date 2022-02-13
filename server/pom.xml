@@ -28,8 +28,7 @@
     </dependencyManagement>
 
     <modules>
+        <module>dist</module>
         <module>isolated</module>
-        <module>standard</module>
-        <module>core</module>
     </modules>
 </project>
