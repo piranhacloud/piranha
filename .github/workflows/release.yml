@@ -47,7 +47,7 @@ jobs:
         docker manifest push piranhacloud/server:$VERSION
     - name: Build Micro Docker image
       run: |
-        cd micro/standard
+        cd micro/dist
         TAG=${GITHUB_REF}
         INDEX=${TAG%v*}
         VERSION=${TAG:${#INDEX}}
