@@ -40,7 +40,7 @@ if [[ "$*" == *"--verbose"* ]]; then
 else
    if [[ "$*" == *"--run"* ]]; then
       echo $$ > tmp/piranha.pid
-      exec ${CMD} 
+      ${CMD}
    else
       ${CMD} &
       echo $! > tmp/piranha.pid
