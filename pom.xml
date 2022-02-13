@@ -737,6 +737,7 @@
                         <manifestEntries>
                             <Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
                             <Build-Version>${project.version}</Build-Version>
+                            <License-Url>https://raw.githubusercontent.com/piranhacloud/piranha/current/LICENSE</License-Url>
                         </manifestEntries>
                     </archive>
                 </configuration>
