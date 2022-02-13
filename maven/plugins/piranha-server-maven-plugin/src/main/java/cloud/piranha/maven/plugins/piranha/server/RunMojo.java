@@ -250,6 +250,7 @@ public class RunMojo extends ServerMojo {
 
         try {
             process.waitFor();
+            process.destroyForcibly();
         } catch (InterruptedException ie) {
             ie.printStackTrace(System.err);
             Thread.currentThread().interrupt();
