@@ -14,32 +14,6 @@
     <description>
         Piranha integration for the Arquillian Project.
     </description>
-    <url>https://github.com/piranhacloud/arquillian/server</url>
-    <licenses>
-        <license>
-            <name>Piranha License</name>
-            <url>https://github.com/piranhacloud/arquillian/blob/master/LICENSE</url>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <id>mriem</id>
-            <name>Manfred Riem</name>
-            <email>mriem@manorrock.com</email>
-            <organization>Manorrock.com</organization>
-        </developer>
-        <developer>
-            <id>atijms</id>
-            <name>Arjan Tijms</name>
-        </developer>
-    </developers>
-
-    <scm>
-        <connection>scm:git:git://github.com/piranhacloud/arquillian.git</connection>
-        <developerConnection>scm:git:git@github.com:piranhacloud/arquillian.git</developerConnection>
-        <url>https://github.com/piranhacloud/arquillian</url>
-    </scm>
 
     <dependencies>
         <dependency>
