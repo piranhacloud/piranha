@@ -26,13 +26,13 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build Piranha Server Docker image
       run: |
-        cd server/standard
+        cd server/dist
         docker build -f Dockerfile.amd64 -t piranhacloud/server:amd64-latest .
         docker build --platform linux/arm64/v8 -f Dockerfile.arm64v8 -t piranhacloud/server:arm64v8-latest .
         docker push piranhacloud/server:amd64-latest
         docker push piranhacloud/server:arm64v8-latest
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/server:latest \
+        docker manifest create piranhacloud/server:latest \
           piranhacloud/server:amd64-latest \
           piranhacloud/server:arm64v8-latest
         docker manifest annotate piranhacloud/server:latest \
