@@ -28,7 +28,9 @@
     </dependencyManagement>
 
     <modules>
+        <module>api</module>
         <module>dist</module>
         <module>isolated</module>
     </modules>
 </project>
+
