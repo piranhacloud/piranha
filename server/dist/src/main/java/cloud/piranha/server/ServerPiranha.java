@@ -284,6 +284,15 @@ public class ServerPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
         started = true;
+        
+        try {
+            File startedFile = new File("tmp/piranha.started");
+            if (!startedFile.exists()) {
+                startedFile.createNewFile();
+            }
+        } catch(IOException ioe) {
+            LOGGER.log(WARNING, "Unable to create piranha.started file", ioe);
+        }
 
         File pidFile = new File(PID_FILE);
         while (isRunning()) {
