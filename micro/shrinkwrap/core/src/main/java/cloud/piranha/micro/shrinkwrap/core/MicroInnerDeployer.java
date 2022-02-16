@@ -34,21 +34,24 @@ import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static org.jboss.jandex.AnnotationTarget.Kind.CLASS;
+import static org.jboss.jandex.AnnotationTarget.Kind.FIELD;
+import static org.jboss.jandex.AnnotationTarget.Kind.METHOD;
 import static org.jboss.jandex.DotName.createSimple;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -69,16 +72,16 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.webapp.HttpWebApplicationServer;
-import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
-import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.extension.annotationscan.internal.InternalAnnotationScanAnnotationManager;
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.webapp.HttpWebApplicationServer;
+import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
+import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Priority;
@@ -172,7 +175,7 @@ public class MicroInnerDeployer {
     public Map<String, Object> start(Archive<?> applicationArchive, ClassLoader classLoader, Map<String, Function<URL, URLConnection>> handlers, Map<String, Object> config) {
         try {
             WebApplication webApplication = getWebApplication(applicationArchive, classLoader);
-            
+
             LOGGER.log(INFO,
                     "Starting web application " + applicationArchive.getName() + " on Piranha Micro " + webApplication.getAttribute(MICRO_PIRANHA));
 
@@ -190,18 +193,18 @@ public class MicroInnerDeployer {
             // Target of annotations
             AnnotationManager annotationManager = new InternalAnnotationScanAnnotationManager();
             webApplication.getManager().setAnnotationManager(annotationManager);
-            
+
 
             // Copy annotations from our "annotations" collection from source index to target manager
             forEachWebAnnotation(webAnnotation -> addAnnotationToIndex(index, webAnnotation, annotationManager));
-            
+
             // Collect sub-classes/interfaces of our "instances" collection from source index to target manager
             forEachInstance(instanceClass -> addInstanceToIndex(index, instanceClass, annotationManager));
-            
+
             // Collect any sub-classes/interfaces from any HandlesTypes annotation
             getAnnotations(index, HandlesTypes.class)
                     .map(this::getTarget)
-                    .forEach(annotationTarget 
+                    .forEach(annotationTarget
                     -> getAnnotationInstances(annotationTarget, HandlesTypes.class)
                         .map(HandlesTypes.class::cast)
                         .forEach(handlesTypesInstance
@@ -216,7 +219,7 @@ public class MicroInnerDeployer {
             // Setup the default identity store, which is used as the default "username and roles database" for
             // (Servlet) security.
             initIdentityStore(webApplication);
-            
+
             setApplicationContextPath(webApplication, config, applicationArchive);
 
             DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
@@ -250,7 +253,7 @@ public class MicroInnerDeployer {
             throw e;
         }
     }
-    
+
     void setApplicationContextPath(WebApplication webApplication, Map<String, Object> config, Archive<?> applicationArchive) {
         if (TRUE.equals(config.get("micro.rootIsWarName"))) {
             String contextPath = applicationArchive.getName();
@@ -269,16 +272,16 @@ public class MicroInnerDeployer {
     WebApplication getWebApplication(Archive<?> archive, ClassLoader newClassLoader) {
         WebApplication webApplication = new DefaultWebApplication();
         webApplication.setClassLoader(newClassLoader);
-        
+
         // The main resource representing the (war) archive itself.
         webApplication.addResource(new ShrinkWrapResource(archive));
-        
+
         // Get the list of embedded archives containing a "/META-INF/resources" folder.
         Node resourceNodes = archive.get("/META-INF/piranha/resource-libs");
         if (resourceNodes != null) {
             for (Node resourceNode :  resourceNodes.getChildren()) {
                 ArchiveAsset resourceArchiveAsset = (ArchiveAsset) resourceNode.getAsset();
-                
+
                 // Add the archive as a resource with the "/META-INF/resources" folder shifted to its root
                 webApplication.addResource(new ShrinkWrapResource("/META-INF/resources", resourceArchiveAsset.getArchive()));
             }
@@ -313,12 +316,13 @@ public class MicroInnerDeployer {
                 .map(e -> (Class<?>) e)
                 .forEach(consumer);
     }
-    
+
     void addAnnotationToIndex(Index index, Class<?> webAnnotation, AnnotationManager annotationManager) {
         getAnnotations(index, webAnnotation)
             // Get the annotation target and annotation instance corresponding to the
             // (raw/abstract) indexed annotation
             .map(this::getTarget)
+            .filter(Objects::nonNull)
             .forEach(annotationTarget
                     -> getAnnotationInstances(annotationTarget, webAnnotation)
                     .forEach(annotationInstance
@@ -327,7 +331,7 @@ public class MicroInnerDeployer {
                             annotationManager.addAnnotation(
                             new DefaultAnnotationInfo<>(annotationInstance, annotationTarget))));
     }
-    
+
     void addInstanceToIndex(Index index, Class<?> instanceClass, AnnotationManager annotationManager) {
         getInstances(index, instanceClass)
             .map(this::getTarget)
@@ -371,9 +375,20 @@ public class MicroInnerDeployer {
                         Thread.currentThread().getContextClassLoader());
             }
 
-            return Class.forName(
-                    target.asMethod().declaringClass().toString(), true,
-                    Thread.currentThread().getContextClassLoader());
+            if (target.kind() == FIELD) {
+                return Class.forName(
+                        target.asField().declaringClass().toString(), true,
+                        Thread.currentThread().getContextClassLoader());
+            }
+            
+            if (target.kind() == METHOD) {
+                return Class.forName(
+                        target.asMethod().declaringClass().toString(), true,
+                        Thread.currentThread().getContextClassLoader());
+            }
+
+            return null;
+            
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException(e);
         }
