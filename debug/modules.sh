@@ -1,0 +1,1 @@
+mvn --also-make dependency:tree | grep "cloud.piranha" | grep -v "cloud.piranha.test"  | sed -E 's|.*(cloud)|cloud|' | sed -E 's|>.*||' | awk -F  ":" -v OFS=':'  '{print $1, $2}' | sed 's/ *$//' |  awk '!a[$0]++' | sort

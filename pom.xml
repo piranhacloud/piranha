@@ -53,6 +53,7 @@
         <module>nano</module>
         <module>resource</module>
         <module>server</module>
+        <module>debug</module>
     </modules>
 
     <scm>
