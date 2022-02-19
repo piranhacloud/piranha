@@ -178,7 +178,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         applicationRequest.setMethod(httpRequest.getMethod());
         if (httpRequest.getRequestTarget() != null && httpRequest.getRequestTarget().contains("?")) {
             String requestTarget = httpRequest.getRequestTarget();
-            applicationRequest.setContextPath(requestTarget.substring(requestTarget.indexOf("?")));
+            applicationRequest.setContextPath(requestTarget.substring(0, requestTarget.indexOf("?")));
             applicationRequest.setQueryString(requestTarget.substring(requestTarget.indexOf("?") + 1));
         } else {
             applicationRequest.setContextPath(httpRequest.getRequestTarget());
