@@ -139,7 +139,7 @@ public class ServerPiranha implements Piranha, Runnable {
      * @throws IOException when an I/O error occurs.
      */
     private void extractZipInputStream(ZipInputStream zipInput, String filePath) throws IOException {
-        try ( BufferedOutputStream bufferOutput = new BufferedOutputStream(new FileOutputStream(filePath))) {
+        try (BufferedOutputStream bufferOutput = new BufferedOutputStream(new FileOutputStream(filePath))) {
             byte[] bytesIn = new byte[8192];
             int read;
             while ((read = zipInput.read(bytesIn)) != -1) {
@@ -155,7 +155,7 @@ public class ServerPiranha implements Piranha, Runnable {
         if (!webApplicationDirectory.exists()) {
             webApplicationDirectory.mkdirs();
         }
-        try ( ZipInputStream zipInput = new ZipInputStream(new FileInputStream(warFile))) {
+        try (ZipInputStream zipInput = new ZipInputStream(new FileInputStream(warFile))) {
             ZipEntry entry = zipInput.getNextEntry();
             while (entry != null) {
                 String filePath = webApplicationDirectory + File.separator + entry.getName();
@@ -221,7 +221,7 @@ public class ServerPiranha implements Piranha, Runnable {
             httpsServer.setSSL(true);
             httpsServer.start();
         }
-        
+
         webApplicationServer.start();
 
         WebApplicationServerRequestMapper requestMapper = webApplicationServer.getRequestMapper();
@@ -263,13 +263,13 @@ public class ServerPiranha implements Piranha, Runnable {
                     }
 
                     webApplication.setContextPath(contextPath);
-                    
+
                     try {
                         webApplication.initialize();
                         webApplication.start();
-                        
+
                         LOGGER.log(INFO, "Deployed " + webapp.getName() + " at " + webApplication.getContextPath());
-                        
+
                     } catch (Exception e) {
                         LOGGER.log(ERROR, () -> "Failed to initialize app " + webapp.getName(), e);
                     }
@@ -284,13 +284,20 @@ public class ServerPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
         started = true;
+
+        File startedFile = new File("tmp/piranha.started");
+        File stoppedFile = new File("tmp/piranha.stopped");
         
         try {
-            File startedFile = new File("tmp/piranha.started");
+            if (startedFile.exists()) {
+                if (startedFile.delete()) {
+                    LOGGER.log(WARNING, "Unable to delete existing piranha.stopped file");
+                }
+            }
             if (!startedFile.exists()) {
                 startedFile.createNewFile();
             }
-        } catch(IOException ioe) {
+        } catch (IOException ioe) {
             LOGGER.log(WARNING, "Unable to create piranha.started file", ioe);
         }
 
@@ -316,6 +323,20 @@ public class ServerPiranha implements Piranha, Runnable {
         finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Stopped Piranha");
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
+
+        try {
+            if (startedFile.exists()) {
+                if (startedFile.delete()) {
+                    LOGGER.log(WARNING, "Unable to delete existing piranha.started file");
+                }
+            }
+            if (!stoppedFile.exists()) {
+                stoppedFile.createNewFile();
+            }
+        } catch (IOException ioe) {
+            LOGGER.log(WARNING, "Unable to create piranha.stopped file", ioe);
+        }
+
         if (exitOnStop) {
             System.exit(0);
         }
@@ -426,8 +447,9 @@ public class ServerPiranha implements Piranha, Runnable {
      * Set the SSL truststore file.
      *
      * <p>
-     * Convenience wrapper around the <code>javax.net.ssl.trustStore</code> system
-     * property. Note using this method sets the property for the entire JVM.
+     * Convenience wrapper around the <code>javax.net.ssl.trustStore</code>
+     * system property. Note using this method sets the property for the entire
+     * JVM.
      * </p>
      *
      * @param sslTruststoreFile the SSL truststore file.
