@@ -89,19 +89,6 @@ public interface HttpServerRequest {
     String getMethod();
 
     /**
-     * Get the query parameter.
-     *
-     * @param name the name.
-     * @return the value, or null if not found.
-     */
-    String getQueryParameter(String name);
-
-    /**
-     * {@return the query string}
-     */
-    String getQueryString();
-
-    /**
      * {@return the remote address}
      */
     String getRemoteAddress();

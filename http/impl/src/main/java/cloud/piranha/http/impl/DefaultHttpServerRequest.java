@@ -31,8 +31,6 @@ import cloud.piranha.http.api.HttpServerRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,7 +41,7 @@ import java.lang.System.Logger;
 import javax.net.ssl.SSLSocket;
 
 /**
- * The default implementation of HTTP Server Request.
+ * The default implementation of HttpServerRequest.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -69,16 +67,6 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
      * Stores the method.
      */
     private String method;
-
-    /**
-     * Stores the query parameters.
-     */
-    private Map<String, List<String>> queryParameters;
-
-    /**
-     * Stores the query string.
-     */
-    private String queryString;
 
     /**
      * Stores the request target.
@@ -186,39 +174,6 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     @Override
-    public String getQueryParameter(String name) {
-        String result = null;
-        synchronized (this) {
-            if (queryParameters == null && queryString != null) {
-                queryParameters = new HashMap<>();
-                String[] params = queryString.split("&");
-                for (String param : params) {
-                    String parameterName = URLDecoder.decode(param.split("=")[0], StandardCharsets.UTF_8);
-                    String parameterValue = URLDecoder.decode(param.split("=")[1], StandardCharsets.UTF_8);
-                    if (queryParameters.containsKey(parameterName)) {
-                        List<String> values = queryParameters.get(parameterName);
-                        values.add(parameterValue);
-                    } else {
-                        List<String> values = new ArrayList<>();
-                        values.add(parameterValue);
-                        queryParameters.put(parameterName, values);
-                    }
-                }
-            }
-        }
-        if (queryParameters != null) {
-            result = queryParameters.get(name) != null
-                    ? queryParameters.get(name).get(0) : null;
-        }
-        return result;
-    }
-
-    @Override
-    public String getQueryString() {
-        return queryString;
-    }
-
-    @Override
     public String getRemoteAddress() {
         return socket.getInetAddress().getHostAddress();
     }
@@ -320,10 +275,6 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
         line = line.substring(index + 1);
         index = line.indexOf(' ');
         requestTarget = line.substring(0, index);
-        if (requestTarget.contains("?")) {
-            queryString = requestTarget.substring(requestTarget.indexOf("?") + 1);
-            requestTarget = requestTarget.substring(0, requestTarget.indexOf("?"));
-        }
         String protocolRequestLine = line.substring(index + 1);
         if (!protocol.isEmpty()) {
             protocol = protocolRequestLine;

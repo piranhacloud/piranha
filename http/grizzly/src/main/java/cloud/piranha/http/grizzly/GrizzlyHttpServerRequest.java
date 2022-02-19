@@ -27,15 +27,13 @@
  */
 package cloud.piranha.http.grizzly;
 
+import cloud.piranha.http.api.HttpServerRequest;
 import java.io.InputStream;
-
+import java.util.Iterator;
 import org.glassfish.grizzly.http.server.Request;
 
-import cloud.piranha.http.api.HttpServerRequest;
-import java.util.Iterator;
-
 /**
- * The Grizzly implementation of HTTP Server Request.
+ * The Grizzly implementation of HttpServerRequest.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  * @see HttpServerRequest
@@ -55,10 +53,7 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
     public GrizzlyHttpServerRequest(Request request) {
         this.request = request;
     }
-
-    /**
-     * @see HttpServerRequest#getHeader(java.lang.String)
-     */
+    
     @Override
     public String getHeader(String name) {
         return request.getHeader(name);
@@ -97,16 +92,6 @@ public class GrizzlyHttpServerRequest implements HttpServerRequest {
     @Override
     public String getMethod() {
         return request.getMethod().getMethodString();
-    }
-
-    @Override
-    public String getQueryParameter(String name) {
-        return request.getParameter(name);
-    }
-
-    @Override
-    public String getQueryString() {
-        return request.getQueryString();
     }
 
     @Override

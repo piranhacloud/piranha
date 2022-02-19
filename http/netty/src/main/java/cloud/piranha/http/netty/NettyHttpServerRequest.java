@@ -31,15 +31,12 @@ import cloud.piranha.http.api.HttpServerRequest;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.QueryStringDecoder;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
- * The Netty implementation of HTTP Server Request.
+ * The Netty implementation of HttpServerRequest.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -54,11 +51,6 @@ public class NettyHttpServerRequest implements HttpServerRequest {
      * Stores the input stream.
      */
     private InputStream inputStream;
-
-    /**
-     * Stores the query parameters.
-     */
-    private Map<String, List<String>> queryParameters;
 
     /**
      * Stores the underlying HTTP request.
@@ -130,26 +122,6 @@ public class NettyHttpServerRequest implements HttpServerRequest {
     @Override
     public String getMethod() {
         return request.method().name();
-    }
-
-    @Override
-    public String getQueryParameter(String name) {
-        synchronized (request) {
-            if (queryParameters == null) {
-                QueryStringDecoder queryStringDecoder = new QueryStringDecoder(request.uri());
-                queryParameters = queryStringDecoder.parameters();
-            }
-        }
-        return queryParameters.get(name).get(0);
-    }
-
-    @Override
-    public String getQueryString() {
-        String result = null;
-        if (request.uri().contains("?")) {
-            result = request.uri().substring(request.uri().indexOf("?") + 1);
-        }
-        return result;
     }
 
     @Override
