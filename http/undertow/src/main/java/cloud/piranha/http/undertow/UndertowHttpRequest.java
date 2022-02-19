@@ -36,7 +36,7 @@ import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HttpString;
 
 /**
- * The Undertow implementation of HTTP Server Request.
+ * The Undertow implementation of HttpServerRequest.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -108,16 +108,6 @@ public class UndertowHttpRequest implements HttpServerRequest {
     @Override
     public String getMethod() {
         return exchange.getRequestMethod().toString();
-    }
-
-    @Override
-    public String getQueryParameter(String name) {
-        return exchange.getQueryParameters().get(name).getFirst();
-    }
-
-    @Override
-    public String getQueryString() {
-        return exchange.getQueryString();
     }
 
     @Override

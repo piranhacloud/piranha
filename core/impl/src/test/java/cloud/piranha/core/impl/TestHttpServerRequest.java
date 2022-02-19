@@ -51,11 +51,6 @@ public class TestHttpServerRequest implements HttpServerRequest {
     }
 
     @Override
-    public String getQueryParameter(String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public boolean isSecure() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -177,14 +172,6 @@ public class TestHttpServerRequest implements HttpServerRequest {
     @Override
     public String getMethod() {
         return method;
-    }
-
-    /**
-     * {@return the query string}
-     */
-    @Override
-    public String getQueryString() {
-        return queryString;
     }
 
     /**

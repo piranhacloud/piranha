@@ -85,6 +85,12 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
 
     @Override
     public String getQueryString() {
-        return wrapped.getQueryString();
+        if (queryString == null) {
+            String requestTarget = wrapped.getRequestTarget();
+            if (requestTarget.contains("?")) {
+                queryString = requestTarget.substring(requestTarget.indexOf("?") + 1);
+            }
+        }
+        return queryString;
     }
 }
