@@ -383,6 +383,7 @@ class NanoRequestTest {
         request.setWebApplication(webApplication);
         webApplication.linkRequestAndResponse(request, response);
         request.login("username", "password");
+        assertNull(request.getUserPrincipal());
     }
 
     /**
