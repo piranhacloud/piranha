@@ -96,7 +96,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test getAsyncContext method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -104,7 +104,7 @@ class WebApplicationRequestTest {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertNotNull(assertThrows(IllegalStateException.class,
                 () -> request.getAsyncContext()));
-        request.close();    
+        request.close();
     }
 
     /**
@@ -125,7 +125,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test getContentLengthLong method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -137,7 +137,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test getDateHeader method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -175,7 +175,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test getIntHeader method.
-     * 
+     *
      * @throws Exception when a serious error ocucrs.
      */
     @Test
@@ -187,7 +187,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test getLocale method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -200,7 +200,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test getLocale method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -213,7 +213,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test getParameterMap method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -229,7 +229,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test getParameterMap method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -316,7 +316,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test getRequestDispatcher method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -332,7 +332,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test getUpgradeHandler method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -344,7 +344,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test isSecure method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -357,7 +357,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test isUpgraded method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -369,7 +369,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test isUserInRole method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -398,7 +398,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test removeAttribute method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -470,7 +470,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test setCookies method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -490,7 +490,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test setLocalAddr method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -504,7 +504,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test setLocalName method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -518,7 +518,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test setLocalPort method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -532,7 +532,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test setProtocol method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -546,7 +546,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test setRemoteAddr method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -560,7 +560,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test setRemoteHost method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -574,7 +574,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test setRemotePort method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -588,7 +588,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test setServerName method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -602,7 +602,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test setServerPort method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -629,7 +629,7 @@ class WebApplicationRequestTest {
 
     /**
      * Test startAsync method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -682,6 +682,7 @@ class WebApplicationRequestTest {
         request.setHeader("Upgrade", "YES");
         request.setMethod("POST");
         webApplication.service(request, response);
+        assertEquals(101, response.getStatus());
     }
 
     /**

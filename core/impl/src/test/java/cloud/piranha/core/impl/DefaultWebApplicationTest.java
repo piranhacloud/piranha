@@ -125,15 +125,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test declareRoles method.
-     */
-    @Test
-    void testDeclareRoles() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.declareRoles(new String[]{"ADMIN", "USER"});
-    }
-
-    /**
      * Test destroy method.
      *
      * @throws Exception when a serious error occurs.
@@ -704,35 +695,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test log method.
-     */
-    @Test
-    void testLog() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.log("TEST");
-    }
-
-    /**
-     * Test log method.
-     */
-    @Test
-    @SuppressWarnings("deprecation")
-    void testLog2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        IllegalStateException exception = new IllegalStateException();
-        webApp.log(exception, "TEST");
-    }
-
-    /**
-     * Test log method.
-     */
-    @Test
-    void testLog3() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.log("TEST", new RuntimeException());
-    }
-
-    /**
      * Test login method.
      */
     @Test
@@ -930,6 +892,7 @@ class DefaultWebApplicationTest {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.getManager().setLoggingManager(null);
         webApplication.log("KABOOM");
+        assertNull(webApplication.getManager().getLoggingManager());
     }
 
     @Test

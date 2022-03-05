@@ -31,6 +31,7 @@ import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.resource.impl.DefaultResourceManager;
 import cloud.piranha.resource.impl.DefaultResourceManagerClassLoader;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -54,5 +55,6 @@ public class AnnotationScanExtensionTest {
         AnnotationScanExtension extension = new AnnotationScanExtension();
         extension.configure(webApplication);
         webApplication.initialize();
+        assertEquals(classLoader, webApplication.getClassLoader());
     }
 }
