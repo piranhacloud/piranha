@@ -29,12 +29,13 @@ package cloud.piranha.extension.weld.servlet;
 
 import cloud.piranha.core.api.ObjectInstanceManager;
 import jakarta.enterprise.inject.spi.BeanManager;
-import java.util.EventListener;
 import jakarta.enterprise.inject.spi.Unmanaged;
 import jakarta.servlet.Filter;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
 import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
+import java.util.EventListener;
 
 /**
  * The Weld variant of the ObjectInstanceManager.
@@ -63,13 +64,14 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
             Unmanaged.UnmanagedInstance<T> unmanagedInstance = unmanaged.newInstance();
             result = unmanagedInstance.produce().inject().postConstruct().get();
             constructed = true;
-        } catch (Throwable throwable) {
+        } catch (Exception exception) {
+            LOGGER.log(WARNING, "Unable to create filter using CDI", exception);
         }
         if (!constructed) {
             try {
                 result = filterClass.getDeclaredConstructor().newInstance();
-            } catch (Throwable throwable) {
-                throw new ServletException(throwable);
+            } catch (Exception exception) {
+                throw new ServletException("Unable to create filter using new", exception);
             }
         }
         return result;
@@ -85,13 +87,14 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
             Unmanaged.UnmanagedInstance<T> unmanagedInstance = unmanaged.newInstance();
             result = unmanagedInstance.produce().inject().postConstruct().get();
             constructed = true;
-        } catch (Throwable throwable) {
+        } catch (Exception exception) {
+            LOGGER.log(WARNING, "Unable to create listener using CDI", exception);
         }
         if (!constructed) {
             try {
                 result = listenerClass.getDeclaredConstructor().newInstance();
-            } catch (Throwable throwable) {
-                throw new ServletException(throwable);
+            } catch (Exception exception) {
+                throw new ServletException("Unable to create listener using new", exception);
             }
         }
         return result;
@@ -107,13 +110,14 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
             Unmanaged.UnmanagedInstance<T> unmanagedInstance = unmanaged.newInstance();
             result = unmanagedInstance.produce().inject().postConstruct().get();
             constructed = true;
-        } catch (Throwable throwable) {
+        } catch (Exception exception) {
+            LOGGER.log(WARNING, "Unable to create servlet using CDI", exception);
         }
         if (!constructed) {
             try {
                 result = servletClass.getDeclaredConstructor().newInstance();
-            } catch (Throwable throwable) {
-                throw new ServletException(throwable);
+            } catch (Exception exception) {
+                throw new ServletException("Unable to create servlet using new", exception);
             }
         }
         return result;
