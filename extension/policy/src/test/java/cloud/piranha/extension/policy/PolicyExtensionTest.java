@@ -30,6 +30,7 @@ package cloud.piranha.extension.policy;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -54,5 +55,6 @@ class PolicyExtensionTest {
         EmbeddedRequest request = new EmbeddedRequest();
         EmbeddedResponse response = new EmbeddedResponse();
         webApplication.service(request, response);
+        assertEquals(404, response.getStatus());
     }
 }
