@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PolicyExtensionTest {
+class PolicyExtensionTest {
     
     /**
      * Test configure method.
@@ -45,7 +45,7 @@ public class PolicyExtensionTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testConfigure() throws Exception {
+    void testConfigure() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         PolicyExtension extension = new PolicyExtension();
         extension.configure(webApplication);

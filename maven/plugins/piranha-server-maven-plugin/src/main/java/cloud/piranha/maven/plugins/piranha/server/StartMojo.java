@@ -250,7 +250,7 @@ public class StartMojo extends ServerMojo {
      *
      * @param zipFile the zip file.
      */
-    private void unzipPiranhaZipFile(ZipFile zipFile) throws IOException {
+    private void unzipPiranhaZipFile(ZipFile zipFile) {
         File targetDir = new File(buildDir, "piranha-server");
         if (!targetDir.exists()) {
             if (!targetDir.mkdirs()) {
