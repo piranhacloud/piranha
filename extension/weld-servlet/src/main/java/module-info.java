@@ -41,6 +41,6 @@ module cloud.piranha.extension.weld.servlet {
     opens cloud.piranha.extension.weld.servlet;
     requires cloud.piranha.core.api;
     requires static jakarta.cdi;
-    requires transitive static weld.spi;
+    requires static transitive weld.spi;
     requires static weld.servlet.core;
 }

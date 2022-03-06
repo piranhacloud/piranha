@@ -34,7 +34,7 @@ import jakarta.enterprise.inject.spi.Unmanaged;
 import jakarta.servlet.Filter;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
-import static java.lang.System.Logger.Level.DEBUG;;
+import static java.lang.System.Logger.Level.DEBUG;
 
 /**
  * The Weld variant of the ObjectInstanceManager.

@@ -39,13 +39,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AnnotationScanExtensionTest {
+class AnnotationScanExtensionTest {
     
     /**
      * Test configure method.
      */
     @Test
-    public void testConfigure() {
+    void testConfigure() {
         WebApplication webApplication = new DefaultWebApplication();
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         DefaultResourceManagerClassLoader classLoader = 

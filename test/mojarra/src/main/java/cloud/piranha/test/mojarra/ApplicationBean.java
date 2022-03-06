@@ -32,19 +32,24 @@ import jakarta.inject.Named;
 
 /**
  * The one and only application bean.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @ApplicationScoped
 @Named("applicationBean")
 public class ApplicationBean {
-    
+
+    /**
+     * Stores the 'Hello World from Mojarra!' constant
+     */
+    private static final String HELLO_WORLD = "Hello World from Mojarra!";
+
     /**
      * Get the 'Hello World from Mojarra!'.
-     * 
+     *
      * @return the 'Hello World from Mojarra!'.
      */
     public String helloWorld() {
-        return "Hello World from Mojarra!'";
+        return HELLO_WORLD;
     }
 }

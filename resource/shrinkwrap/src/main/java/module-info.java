@@ -39,7 +39,7 @@ module cloud.piranha.resource.shrinkwrap {
     
     exports cloud.piranha.resource.shrinkwrap;
     opens cloud.piranha.resource.shrinkwrap;
-    requires transitive static cloud.piranha.core.api;
+    requires static transitive cloud.piranha.core.api;
     requires static cloud.piranha.core.impl;
     requires cloud.piranha.resource.impl;
     requires transitive shrinkwrap.api;
