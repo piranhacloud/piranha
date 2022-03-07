@@ -59,8 +59,8 @@ public class DefaultObjectInstanceManager implements ObjectInstanceManager {
         T result = null;
         try {
             result = filterClass.getDeclaredConstructor().newInstance();
-        } catch (Throwable throwable) {
-            throw new ServletException(throwable);
+        } catch (Exception exception) {
+            throw new ServletException("Unable to create filter", exception);
         }
         return result;
     }
@@ -78,8 +78,8 @@ public class DefaultObjectInstanceManager implements ObjectInstanceManager {
         T result;
         try {
             result = clazz.getDeclaredConstructor().newInstance();
-        } catch (Throwable throwable) {
-            throw new ServletException(throwable);
+        } catch (Exception exception) {
+            throw new ServletException("Unable to create listener", exception);
         }
         return result;
     }
@@ -97,8 +97,8 @@ public class DefaultObjectInstanceManager implements ObjectInstanceManager {
         T result;
         try {
             result = servletClass.getDeclaredConstructor().newInstance();
-        } catch (Throwable throwable) {
-            throw new ServletException(throwable);
+        } catch (Exception exception) {
+            throw new ServletException("Unable to create servlet", exception);
         }
         return result;
     }

@@ -392,8 +392,8 @@ public class DefaultWebApplication implements WebApplication {
             @SuppressWarnings("unchecked")
             Class<ServletContainerInitializer> clazz = (Class<ServletContainerInitializer>) getClassLoader().loadClass(className);
             initializers.add(clazz.getDeclaredConstructor().newInstance());
-        } catch (Throwable throwable) {
-            LOGGER.log(WARNING, () -> "Unable to add initializer: " + className, throwable);
+        } catch (Exception exception) {
+            LOGGER.log(WARNING, () -> "Unable to add initializer: " + className, exception);
         }
     }
 
@@ -869,10 +869,6 @@ public class DefaultWebApplication implements WebApplication {
         return collect;
     }
 
-    /**
-     * {@return the resource paths}
-     * @param path the path.
-     */
     @Override
     public Set<String> getResourcePaths(String path) {
         if (path == null) {
@@ -886,79 +882,43 @@ public class DefaultWebApplication implements WebApplication {
         return getResourcePathsImpl(path);
     }
 
-    /**
-     * {@return the response}
-     * @param request the request.
-     */
     @Override
     public ServletResponse getResponse(ServletRequest request) {
         return (ServletResponse) request.getAttribute(PIRANHA_RESPONSE);
     }
 
-    /**
-     * {@return the server info}
-     */
     @Override
     public String getServerInfo() {
         return "";
     }
 
-    /**
-     * Get the servlet.
-     *
-     * @param name the name of the servlet.
-     * @return null
-     * @throws ServletException when a Servlet error occurs.
-     * @deprecated
-     */
-    @Deprecated
     @Override
     public Servlet getServlet(String name) throws ServletException {
         throw new UnsupportedOperationException("ServletContext.getServlet(String) is no longer supported");
     }
 
-    /**
-     * Get the servlet context name (aka display-name).
-     *
-     * @return the servlet context name.
-     */
     @Override
     public String getServletContextName() {
         return servletContextName;
     }
 
-    /**
-     * {@return the servlet names}
-     * @deprecated
-     */
-    @Deprecated
     @Override
     public Enumeration<String> getServletNames() {
         throw new UnsupportedOperationException("ServletContext.getServletNames() is no longer supported");
     }
 
-    /**
-     * Get the servlet registration.
-     *
-     * @param servletName the servlet name.
-     * @return the servlet registration, or null if not found.
-     */
     @Override
     public ServletRegistration getServletRegistration(String servletName) {
         checkTainted();
         return servletEnvironments.get(servletName);
     }
 
-    /**
-     * {@return the servlet registrations}
-     */
     @Override
     public Map<String, ? extends ServletRegistration> getServletRegistrations() {
         checkTainted();
         return unmodifiableMap(servletEnvironments);
     }
 
-    @Deprecated
     @Override
     public Enumeration<Servlet> getServlets() {
         throw new UnsupportedOperationException("ServletContext.getServlets() is no longer supported");
@@ -1032,8 +992,8 @@ public class DefaultWebApplication implements WebApplication {
                 try {
                     environment.initialize();
                     environment.getFilter().init(environment);
-                } catch (Throwable t) {
-                    LOGGER.log(WARNING, () -> "Unable to initialize filter: " + environment.getFilterName(), t);
+                } catch (Exception e) {
+                    LOGGER.log(WARNING, () -> "Unable to initialize filter: " + environment.getFilterName(), e);
                     environment.setStatus(UNAVAILABLE);
                 }
             });
@@ -1070,8 +1030,8 @@ public class DefaultWebApplication implements WebApplication {
                 } finally {
                     source = null;
                 }
-            } catch (Throwable t) {
-                LOGGER.log(WARNING, () -> "Initializer " + initializer.getClass().getName() + " failing onStartup", t);
+            } catch (Exception e) {
+                LOGGER.log(WARNING, () -> "Initializer " + initializer.getClass().getName() + " failing onStartup", e);
                 error = true;
             }
         }
@@ -1173,18 +1133,18 @@ public class DefaultWebApplication implements WebApplication {
             }
             environment.getServlet().init(environment);
             LOGGER.log(DEBUG, "Initialized servlet: {0}", environment.servletName);
-        } catch (Throwable t) {
-            LOGGER.log(WARNING, () -> "Unable to initialize servlet: " + environment.className, t);
+        } catch (Exception e) {
+            LOGGER.log(WARNING, () -> "Unable to initialize servlet: " + environment.className, e);
 
             environment.setStatus(ServletEnvironment.UNAVAILABLE);
-            environment.setUnavailableException(t);
+            environment.setUnavailableException(e);
 
             // Servlet:SPEC:11 - If a permanent unavailability is indicated by the UnavailableException, the servlet container must ... call its destroy method
             if (isPermanentlyUnavailable(environment) && environment.getServlet() != null) {
                 try {
                     environment.getServlet().destroy();
-                } catch (Throwable t2) {
-                    t.addSuppressed(t2);
+                } catch (Exception e2) {
+                    e.addSuppressed(e2);
                 }
             }
 
