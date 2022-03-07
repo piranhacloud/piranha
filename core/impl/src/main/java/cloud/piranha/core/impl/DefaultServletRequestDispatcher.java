@@ -161,7 +161,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 webappRequest.setHttpServletMapping(servletInvocation.getHttpServletMapping());
 
                 servletInvocation.getFilterChain().doFilter(webappRequest, httpResponse);
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 if (webappRequest.getAttribute("piranha.request.exception") != null) {
                     exception = (Exception) webappRequest.getAttribute("piranha.request.exception");
                 } else {
