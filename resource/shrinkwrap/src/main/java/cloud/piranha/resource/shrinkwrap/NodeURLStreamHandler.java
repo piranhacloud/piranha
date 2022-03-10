@@ -33,16 +33,18 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.jboss.shrinkwrap.api.Node;
+import org.jboss.shrinkwrap.api.asset.Asset;
 
 /**
  * Stream handler used for URLs that represent directories.
- * 
+ *
  * @author Arjan Tijms
  */
 public class NodeURLStreamHandler extends URLStreamHandler {
-    
+
     /**
      * Stores the nodes.
      */
@@ -50,21 +52,52 @@ public class NodeURLStreamHandler extends URLStreamHandler {
 
     /**
      * Constructor.
-     * 
+     *
      * @param nodes the collection of nodes.
      */
     public NodeURLStreamHandler(Collection<Node> nodes) {
         this.nodes = nodes;
     }
-    
+
     @Override
     protected URLConnection openConnection(URL requestedUrl) throws IOException {
         return new StreamConnection(requestedUrl) {
             @Override
             public InputStream getInputStream() throws IOException {
-                return new ShrinkWrapDirectoryInputStream(nodes);
+                if (requestedUrl == null) {
+                    return null;
+                }
+
+                // Relative URL: [shrinkwrap://][jar name][location]
+                String location = requestedUrl.getPath();
+
+                if ("/".equals(location) || "".equals(location)) {
+                    return new ShrinkWrapDirectoryInputStream(nodes);
+                }
+
+                Optional<Node> optionalNode = nodes.stream()
+                     .filter(node -> node.getPath().get().equals(location))
+                     .findAny();
+
+                if (!optionalNode.isPresent()) {
+                    return null;
+                }
+
+                Asset asset  = optionalNode.get().getAsset();
+                if (asset != null) {
+                    return asset.openStream();
+                }
+
+                return new ShrinkWrapDirectoryInputStream(getDirectoryContent(location));
             }
         };
+    }
+
+    private Collection<Node> getDirectoryContent(String location) {
+        return
+            nodes.stream()
+                 .filter(node -> node.getPath().get().startsWith(location))
+                 .toList();
     }
 
 }
