@@ -48,7 +48,7 @@ import cloud.piranha.resource.api.ResourceManager;
 import cloud.piranha.resource.api.ResourceManagerClassLoader;
 
 /**
- * The default WebApplicationClassLoader.
+ * The default ResourceManagerClassLoader.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -83,7 +83,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      * Constructor.
      */
     public DefaultResourceManagerClassLoader() {
-        this(getSystemClassLoader());
+        this(getSystemClassLoader()); // Calls the other constructor
     }
 
     /**
@@ -97,13 +97,13 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
     }
 
     /**
-     * Constructor.
+     * Yet another Constructor.
      *
      * @param resourceManager the resource manager.
      */
     public DefaultResourceManagerClassLoader(ResourceManager resourceManager) {
-        super(null);
-        this.resourceManager = resourceManager;
+        super(null); // Calls the super constructor
+        this.resourceManager = resourceManager; // Assigns the resource manager
     }
 
     /**
@@ -156,11 +156,25 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
             }
         }
 
-        if (result == null) {
+        if (result == null) { // Checks if the result is null
             throw new ClassNotFoundException(UNABLE_TO_LOAD_CLASS + name);
         }
 
-        return result;
+        return result; // Returns the result
+    }
+
+    @Override
+    protected Class<?> findClass(String moduleName, String name) {
+        try {
+            Class<?> loadedClass = loadClass(name);
+            String loadedModuleName = loadedClass.getModule().getName();
+            if (loadedModuleName != null && loadedModuleName.equals(moduleName)) {
+                return loadedClass;
+            }
+        } catch (ClassNotFoundException ignored) {
+        }
+
+        return null; // Returns the null
     }
 
     /**
@@ -212,94 +226,11 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
     }
 
     @Override
-    protected Class<?> findClass(String moduleName, String name) {
-        try {
-            Class<?> loadedClass = loadClass(name);
-            String loadedModuleName = loadedClass.getModule().getName();
-            if (loadedModuleName != null && loadedModuleName.equals(moduleName))
-                return loadedClass;
-        } catch (ClassNotFoundException ignored) {
-        }
-        return null;
-    }
-
-    /**
-     * Normalize the name to a .class name.
-     *
-     * @param name the name.
-     * @return the .class name.
-     */
-    protected String normalizeName(String name) {
-        return name.replace(".", "/") + ".class";
-    }
-
-    /**
-     * Read the class bytes from the input stream.
-     *
-     * @param resourceStream the input stream.
-     * @return the bytes.
-     * @throws IOException when an I/O error occurs.
-     */
-    protected byte[] readClassBytes(InputStream resourceStream) throws IOException {
-        BufferedInputStream inputStream = new BufferedInputStream(resourceStream);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        int read = inputStream.read();
-        while (read != -1) {
-            outputStream.write((byte) read);
-            read = inputStream.read();
-        }
-
-        return outputStream.toByteArray();
-    }
-
-    /**
-     * Define the class.
-     *
-     * @param name the name.
-     * @param bytes the bytes.
-     * @param resolve the resolve flag.
-     * @return the class.
-     */
-    protected Class<?> _defineClass(String name, byte[] bytes, boolean resolve) {
-
-        CodeSource codeSource = new CodeSource(getResource(normalizeName(name)), (CodeSigner[]) null);
-        ProtectionDomain protectionDomain = new ProtectionDomain(codeSource, null);
-        Class<?> result = defineClass(name, bytes, 0, bytes.length, protectionDomain);
-
-
-        // Define package
-
-        String packageName = null;
-        int lastDotPosition = name.lastIndexOf('.');
-        if (lastDotPosition != -1) {
-            packageName = name.substring(0, lastDotPosition);
-        }
-
-        if (packageName != null) {
-            Package classPackage = getDefinedPackage(packageName);
-
-            if (classPackage == null) {
-                try {
-                    definePackage(packageName, null, null, null, null, null, null, null);
-                } catch (IllegalArgumentException e) {
-                    // Ignore, package already defined
-                }
-            }
-        }
-
-        if (resolve) {
-            resolveClass(result);
-        }
-
-        return result;
-    }
-
-    @Override
     public URL getResource(String name) {
-        URL resource = delegateClassLoader.getResource(name);
+        URL resource = findResource(name);
 
         if (resource == null) {
-            resource = findResource(name);
+            resource = delegateClassLoader.getResource(name);
         }
 
         return resource;
@@ -385,5 +316,76 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      */
     public ClassLoader getDelegateClassLoader() {
         return delegateClassLoader;
+    }
+
+    /**
+     * Normalize the name to a .class name.
+     *
+     * @param name the name.
+     * @return the .class name.
+     */
+    protected String normalizeName(String name) {
+        return name.replace(".", "/") + ".class";
+    }
+
+    /**
+     * Read the class bytes from the input stream.
+     *
+     * @param resourceStream the input stream.
+     * @return the bytes.
+     * @throws IOException when an I/O error occurs.
+     */
+    protected byte[] readClassBytes(InputStream resourceStream) throws IOException {
+        BufferedInputStream inputStream = new BufferedInputStream(resourceStream);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        int read = inputStream.read();
+        while (read != -1) {
+            outputStream.write((byte) read);
+            read = inputStream.read();
+        }
+
+        return outputStream.toByteArray();
+    }
+
+    /**
+     * Define the class.
+     *
+     * @param name the name.
+     * @param bytes the bytes.
+     * @param resolve the resolve flag.
+     * @return the class.
+     */
+    protected Class<?> _defineClass(String name, byte[] bytes, boolean resolve) {
+
+        CodeSource codeSource = new CodeSource(getResource(normalizeName(name)), (CodeSigner[]) null);
+        ProtectionDomain protectionDomain = new ProtectionDomain(codeSource, null);
+        Class<?> result = defineClass(name, bytes, 0, bytes.length, protectionDomain);
+
+
+        // Define package
+
+        String packageName = null;
+        int lastDotPosition = name.lastIndexOf('.');
+        if (lastDotPosition != -1) {
+            packageName = name.substring(0, lastDotPosition);
+        }
+
+        if (packageName != null) {
+            Package classPackage = getDefinedPackage(packageName);
+
+            if (classPackage == null) {
+                try {
+                    definePackage(packageName, null, null, null, null, null, null, null);
+                } catch (IllegalArgumentException e) {
+                    // Ignore, package already defined
+                }
+            }
+        }
+
+        if (resolve) {
+            resolveClass(result);
+        }
+
+        return result;
     }
 }
