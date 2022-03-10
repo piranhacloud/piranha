@@ -106,7 +106,7 @@ class FormTest {
                 .build();
         response = piranha.service(request);
 
-        assertEquals(response.getStatus(), 302,"Should redirect");
+        assertEquals(302, response.getStatus(), "Should redirect");
 
         URL redirectUrl = new URL(response.getHeader("Location"));
         request = new EmbeddedRequestBuilder()

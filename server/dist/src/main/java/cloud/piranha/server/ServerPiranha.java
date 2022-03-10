@@ -54,6 +54,7 @@ import java.lang.module.Configuration;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleFinder;
 import java.lang.module.ModuleReference;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.zip.ZipEntry;
@@ -139,7 +140,7 @@ public class ServerPiranha implements Piranha, Runnable {
      * @throws IOException when an I/O error occurs.
      */
     private void extractZipInputStream(ZipInputStream zipInput, String filePath) throws IOException {
-        try (BufferedOutputStream bufferOutput = new BufferedOutputStream(new FileOutputStream(filePath))) {
+        try ( BufferedOutputStream bufferOutput = new BufferedOutputStream(new FileOutputStream(filePath))) {
             byte[] bytesIn = new byte[8192];
             int read;
             while ((read = zipInput.read(bytesIn)) != -1) {
@@ -155,7 +156,7 @@ public class ServerPiranha implements Piranha, Runnable {
         if (!webApplicationDirectory.exists()) {
             webApplicationDirectory.mkdirs();
         }
-        try (ZipInputStream zipInput = new ZipInputStream(new FileInputStream(warFile))) {
+        try ( ZipInputStream zipInput = new ZipInputStream(new FileInputStream(warFile))) {
             ZipEntry entry = zipInput.getNextEntry();
             while (entry != null) {
                 String filePath = webApplicationDirectory + File.separator + entry.getName();
@@ -287,18 +288,21 @@ public class ServerPiranha implements Piranha, Runnable {
 
         File startedFile = new File("tmp/piranha.started");
         File stoppedFile = new File("tmp/piranha.stopped");
-        
-        try {
-            if (startedFile.exists()) {
-                if (startedFile.delete()) {
-                    LOGGER.log(WARNING, "Unable to delete existing piranha.stopped file");
-                }
+
+        if (stoppedFile.exists()) {
+            try {
+                Files.delete(stoppedFile.toPath());
+            } catch (IOException ioe) {
+                LOGGER.log(WARNING, "Error while deleting existing piranha.stopped file", ioe);
             }
-            if (!startedFile.exists()) {
+        }
+
+        if (!startedFile.exists()) {
+            try {
                 startedFile.createNewFile();
+            } catch (IOException ioe) {
+                LOGGER.log(WARNING, "Unable to create piranha.started file", ioe);
             }
-        } catch (IOException ioe) {
-            LOGGER.log(WARNING, "Unable to create piranha.started file", ioe);
         }
 
         File pidFile = new File(PID_FILE);
@@ -324,17 +328,19 @@ public class ServerPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "Stopped Piranha");
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
 
-        try {
-            if (startedFile.exists()) {
-                if (startedFile.delete()) {
-                    LOGGER.log(WARNING, "Unable to delete existing piranha.started file");
-                }
+        if (startedFile.exists()) {
+            try {
+                Files.delete(startedFile.toPath());
+            } catch (IOException ioe) {
+                LOGGER.log(WARNING, "Error while deleting existing piranha.started file", ioe);
             }
-            if (!stoppedFile.exists()) {
+        }
+        if (!stoppedFile.exists()) {
+            try {
                 stoppedFile.createNewFile();
+            } catch (IOException ioe) {
+                LOGGER.log(WARNING, "Unable to create piranha.stopped file", ioe);
             }
-        } catch (IOException ioe) {
-            LOGGER.log(WARNING, "Unable to create piranha.stopped file", ioe);
         }
 
         if (exitOnStop) {
@@ -525,7 +531,11 @@ public class ServerPiranha implements Piranha, Runnable {
         File pidFile = new File(PID_FILE);
 
         if (pidFile.exists()) {
-            pidFile.delete();
+            try {
+                Files.delete(pidFile.toPath());
+            } catch (IOException ioe) {
+                LOGGER.log(WARNING, "Error occurred while deleting PID file", ioe);
+            }
         }
 
         started = false;
