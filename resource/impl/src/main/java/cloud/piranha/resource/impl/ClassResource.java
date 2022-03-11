@@ -27,11 +27,12 @@
  */
 package cloud.piranha.resource.impl;
 
-import cloud.piranha.resource.api.Resource;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.stream.Stream;
+
+import cloud.piranha.resource.api.Resource;
 
 /**
  * A resource backed by a class.
@@ -83,5 +84,15 @@ public class ClassResource implements Resource {
             result.add(location);
         }
         return result.stream();
+    }
+
+    @Override
+    public String getName() {
+        return location;
+    }
+
+    @Override
+    public String toString() {
+        return getName() + " " + super.toString();
     }
 }

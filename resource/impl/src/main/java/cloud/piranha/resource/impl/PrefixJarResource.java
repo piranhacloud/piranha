@@ -27,7 +27,6 @@
  */
 package cloud.piranha.resource.impl;
 
-import cloud.piranha.resource.api.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -35,6 +34,8 @@ import java.net.URL;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
+
+import cloud.piranha.resource.api.Resource;
 
 /**
  * The default PrefixJarResource.
@@ -113,7 +114,7 @@ public class PrefixJarResource implements Resource {
         }
         return result;
     }
-    
+
     @Override
     public Stream<String> getAllLocations() {
         return Stream.empty();
@@ -157,6 +158,11 @@ public class PrefixJarResource implements Resource {
     @Override
     public String getName() {
         return jarFile.getName();
+    }
+
+    @Override
+    public String toString() {
+        return getName() + " " + super.toString();
     }
 
 }

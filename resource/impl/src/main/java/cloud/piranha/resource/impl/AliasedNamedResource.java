@@ -27,11 +27,11 @@
  */
 package cloud.piranha.resource.impl;
 
-import cloud.piranha.resource.api.Resource;
-
 import java.io.InputStream;
 import java.net.URL;
 import java.util.stream.Stream;
+
+import cloud.piranha.resource.api.Resource;
 
 /**
  * A {@link Resource} wrapper with a custom name
@@ -76,6 +76,11 @@ public class AliasedNamedResource implements Resource {
     @Override
     public String getName() {
         return resourceName;
+    }
+
+    @Override
+    public String toString() {
+        return getName() + " " + super.toString();
     }
 
 }
