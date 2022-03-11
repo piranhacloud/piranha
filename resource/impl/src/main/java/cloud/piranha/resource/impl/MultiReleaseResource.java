@@ -27,8 +27,6 @@
  */
 package cloud.piranha.resource.impl;
 
-import cloud.piranha.resource.api.Resource;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -37,6 +35,8 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import cloud.piranha.resource.api.Resource;
 
 /**
  * A resource wrapper that loads the versioned entries from META-INF/versions if
@@ -147,5 +147,10 @@ public final class MultiReleaseResource implements Resource {
     @Override
     public String getName() {
         return resource.getName();
+    }
+
+    @Override
+    public String toString() {
+        return getName() + " " + super.toString();
     }
 }

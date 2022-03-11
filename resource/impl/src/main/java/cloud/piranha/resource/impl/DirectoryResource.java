@@ -30,8 +30,8 @@ package cloud.piranha.resource.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -59,7 +59,7 @@ public class DirectoryResource implements Resource {
      */
     public DirectoryResource() {
     }
-    
+
     /**
      * Constructor.
      *
@@ -115,7 +115,7 @@ public class DirectoryResource implements Resource {
 
         return result;
     }
-    
+
     @Override
     public Stream<String> getAllLocations() {
         try {
@@ -150,6 +150,11 @@ public class DirectoryResource implements Resource {
     @Override
     public String getName() {
         return rootDirectory.getName();
+    }
+
+    @Override
+    public String toString() {
+        return getName() + " " + super.toString();
     }
 
 }

@@ -27,7 +27,6 @@
  */
 package cloud.piranha.resource.impl;
 
-import cloud.piranha.resource.api.Resource;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -40,6 +39,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
+
+import cloud.piranha.resource.api.Resource;
 
 /**
  * The default JarResource.
@@ -154,5 +155,10 @@ public class JarResource implements Resource {
     @Override
     public String getName() {
         return jarFile.getName();
+    }
+
+    @Override
+    public String toString() {
+        return getName() + " " + super.toString();
     }
 }

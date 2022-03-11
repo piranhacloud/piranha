@@ -27,12 +27,13 @@
  */
 package cloud.piranha.resource.impl;
 
-import cloud.piranha.resource.api.Resource;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.stream.Stream;
+
+import cloud.piranha.resource.api.Resource;
 
 /**
  * The byte-array resource.
@@ -161,6 +162,16 @@ public class ByteArrayResource implements Resource {
             throw new IllegalStateException(e);
         }
 
+    }
+
+    @Override
+    public String getName() {
+        return location;
+    }
+
+    @Override
+    public String toString() {
+        return getName() + " " + super.toString();
     }
 
 }
