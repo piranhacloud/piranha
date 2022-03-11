@@ -141,8 +141,8 @@ public class InternalWebXmlParser {
             parseWebApp(webXml, xPath, document);
             parseWelcomeFiles(webXml, xPath, document);
             parseDataSources(webXml, xPath, document);
-        } catch (Throwable t) {
-            LOGGER.log(WARNING, "Unable to parse web.xml", t);
+        } catch (Exception e) {
+            LOGGER.log(WARNING, "Unable to parse web.xml", e);
         }
         return webXml;
     }
