@@ -40,6 +40,7 @@ import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.RequestDispatcher;
 import static jakarta.servlet.RequestDispatcher.INCLUDE_QUERY_STRING;
+import jakarta.servlet.ServletConnection;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.ServletRequest;
@@ -789,12 +790,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
     }
 
-    @Deprecated
-    @Override
-    public String getRealPath(String path) {
-        throw new UnsupportedOperationException("HttpServletRequest.getRealPath is no longer supported");
-    }
-
     @Override
     public String getRemoteAddr() {
         return remoteAddr;
@@ -935,12 +930,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public boolean isRequestedSessionIdFromURL() {
         return requestedSessionIdFromURL;
-    }
-
-    @Deprecated
-    @Override
-    public boolean isRequestedSessionIdFromUrl() {
-        return isRequestedSessionIdFromURL();
     }
 
     @Override
@@ -1488,5 +1477,24 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public String toString() {
         return getRequestURIWithQueryString() + " " + super.toString();
+    }
+    
+    // ------------------------------------------------------------------------
+    //  Servlet 6 APIs
+    // ------------------------------------------------------------------------
+
+    @Override
+    public String getRequestId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getProtocolRequestId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ServletConnection getServletConnection() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

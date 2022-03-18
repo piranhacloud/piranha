@@ -299,22 +299,6 @@ class WebApplicationRequestTest {
     }
 
     /**
-     * Test getRealPath method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    @SuppressWarnings({"deprecation"})
-    void testGetRealPath() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        assertNotNull(assertThrows(UnsupportedOperationException.class,
-                () -> request.getRealPath("/path")));
-        request.close();
-    }
-
-    /**
      * Test getRequestDispatcher method.
      *
      * @throws Exception when a serious error occurs.

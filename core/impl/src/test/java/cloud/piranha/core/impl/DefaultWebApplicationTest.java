@@ -536,18 +536,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test getServlets method.
-     *
-     * @throws Exception
-     */
-    @Test
-    @SuppressWarnings("deprecation")
-    void testGetServlet() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertThrows(UnsupportedOperationException.class, () -> webApp.getServlet("always_null"));
-    }
-
-    /**
      * Test getServletContextName method.
      */
     @Test
@@ -566,26 +554,6 @@ class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNotNull(webApp.getServletRegistrations());
         assertTrue(webApp.getServletRegistrations().isEmpty());
-    }
-
-    /**
-     * Test getServletNames method.
-     */
-    @Test
-    @SuppressWarnings("deprecation")
-    void testGetServletNames() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertThrows(UnsupportedOperationException.class, () -> webApp.getServletNames());
-    }
-
-    /**
-     * Test getServlets method.
-     */
-    @Test
-    @SuppressWarnings("deprecation")
-    void testGetServlets() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertThrows(UnsupportedOperationException.class, () -> webApp.getServlets());
     }
 
     /**

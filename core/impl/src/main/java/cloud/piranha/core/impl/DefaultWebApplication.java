@@ -893,18 +893,8 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public Servlet getServlet(String name) throws ServletException {
-        throw new UnsupportedOperationException("ServletContext.getServlet(String) is no longer supported");
-    }
-
-    @Override
     public String getServletContextName() {
         return servletContextName;
-    }
-
-    @Override
-    public Enumeration<String> getServletNames() {
-        throw new UnsupportedOperationException("ServletContext.getServletNames() is no longer supported");
     }
 
     @Override
@@ -917,11 +907,6 @@ public class DefaultWebApplication implements WebApplication {
     public Map<String, ? extends ServletRegistration> getServletRegistrations() {
         checkTainted();
         return unmodifiableMap(servletEnvironments);
-    }
-
-    @Override
-    public Enumeration<Servlet> getServlets() {
-        throw new UnsupportedOperationException("ServletContext.getServlets() is no longer supported");
     }
 
     @Override
@@ -1162,14 +1147,6 @@ public class DefaultWebApplication implements WebApplication {
     public void linkRequestAndResponse(ServletRequest request, ServletResponse response) {
         request.setAttribute(PIRANHA_RESPONSE, response);
         responses.put(response, request);
-    }
-
-    @Deprecated
-    @Override
-    public void log(Exception exception, String message) {
-        if (manager.getLoggingManager() != null) {
-            manager.getLoggingManager().log(message, exception);
-        }
     }
 
     @Override

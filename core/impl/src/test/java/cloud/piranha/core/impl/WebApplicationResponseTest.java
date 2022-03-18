@@ -108,21 +108,6 @@ class WebApplicationResponseTest {
     }
 
     /**
-     * Test encodeRedirectUrl method.
-     * 
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    @SuppressWarnings({"deprecation"})
-    void testEncodeRedirectUrl2() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApp);
-        assertNotNull(response.encodeRedirectUrl("/encodeMe"));
-        response.close();
-    }
-
-    /**
      * Test encodeUrl method.
      * 
      * @throws Exception when a serious error occurs.
@@ -133,21 +118,6 @@ class WebApplicationResponseTest {
         DefaultWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApp);
         assertNotNull(response.encodeURL("/encodeMe"));
-        response.close();
-    }
-
-    /**
-     * Test encodeUrl method.
-     * 
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    @SuppressWarnings({"deprecation"})
-    void testEncodeUrl2() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApp);
-        assertNotNull(response.encodeUrl("/encodeMe"));
         response.close();
     }
 
@@ -647,20 +617,6 @@ class WebApplicationResponseTest {
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setStatus(500);
         assertEquals(500, response.getStatus());
-        response.close();
-    }
-
-    /**
-     * Test setStatus method.
-     * 
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    @SuppressWarnings({"deprecation"})
-    void testSetStatus2() throws Exception {
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setStatus(HttpServletResponse.SC_NOT_FOUND, "Not found");
-        assertEquals(404, response.getStatus());
         response.close();
     }
 
