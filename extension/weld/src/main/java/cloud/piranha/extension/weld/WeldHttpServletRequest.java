@@ -33,6 +33,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import cloud.piranha.core.impl.DefaultCurrentRequestHolder;
 import cloud.piranha.core.api.CurrentRequestHolder;
+import jakarta.servlet.ServletConnection;
 
 /**
  * An HttpServletRequest wrapper that always delegates every operation to what has been set as
@@ -71,4 +72,22 @@ public class WeldHttpServletRequest extends RealtimeHttpServletRequestWrapper {
         return currentRequestHolder.getRequest();
     }
     
+    /*
+       REVIEW FOR SERVLET 6
+     */
+
+    @Override
+    public String getRequestId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getProtocolRequestId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ServletConnection getServletConnection() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

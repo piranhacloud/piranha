@@ -34,7 +34,6 @@ import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import jakarta.servlet.SingleThreadModel;
 import jakarta.servlet.UnavailableException;
 import jakarta.servlet.http.HttpServletResponse;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
@@ -111,13 +110,7 @@ public class DefaultFilterChain implements FilterChain {
         } else if (servlet != null) {
             request.setAttribute(DefaultServletEnvironment.class.getName(), servlet.getServletConfig());
             try {
-                if (servlet instanceof SingleThreadModel) {
-                    synchronized (servlet) {
-                        servlet.service(request, response);
-                    }
-                } else {
-                    servlet.service(request, response);
-                }
+                servlet.service(request, response);
             } finally {
                 request.removeAttribute(DefaultServletEnvironment.class.getName());
             }

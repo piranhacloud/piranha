@@ -34,7 +34,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionContext;
 
 /**
  * The Hazelcast HttpSession.
@@ -191,40 +190,6 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     }
 
     /**
-     * Get the session context.
-     * 
-     * @return null
-     * @see HttpSession#getSessionContext()
-     */
-    @Override
-    @SuppressWarnings("deprecation")
-    public HttpSessionContext getSessionContext() {
-        return null;
-    }
-
-    /**
-     * {@return the value}
-     * @param name the attribute name.
-     * @see HttpSession#getValue(java.lang.String)
-     */
-    @Override
-    @SuppressWarnings("deprecation")
-    public Object getValue(String name) {
-        return getAttribute(name);
-    }
-
-    /**
-     * {@return the attribute names}
-     * @see HttpSession#getValueNames()
-     */
-    @Override
-    @SuppressWarnings("deprecation")
-    public String[] getValueNames() {
-        verifyValid("getValueNames");
-        return this.attributes.keySet().toArray(new String[0]);
-    }
-
-    /**
      * Invalidate the session.
      * 
      * @see HttpSession#invalidate()
@@ -248,19 +213,6 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     }
 
     /**
-     * Set the value.
-     * 
-     * @param name the attribute name.
-     * @param value the attribute value.
-     * @see HttpSession#putValue(java.lang.String, java.lang.Object)
-     */
-    @Override
-    @SuppressWarnings("deprecation")
-    public void putValue(String name, Object value) {
-        setAttribute(name, value);
-    }
-
-    /**
      * Remove the attribute.
      * 
      * @param name the attribute name.
@@ -270,18 +222,6 @@ public class HazelcastHttpSession implements HttpSession, Serializable {
     public void removeAttribute(String name) {
         verifyValid("removeAttribute");
         sessionManager.attributeRemoved(this, name, this.attributes.remove(name));
-    }
-
-    /**
-     * Remove the value.
-     * 
-     * @param name the attribute name.
-     * @see HttpSession#removeValue(java.lang.String)
-     */
-    @Override
-    @SuppressWarnings("deprecation")
-    public void removeValue(String name) {
-        removeAttribute(name);
     }
 
     /**

@@ -27,7 +27,7 @@
  */
 package cloud.piranha.nano;
 
-import org.apache.jasper.servlet.JspServlet;
+import org.glassfish.wasp.servlet.JspServlet;
 import org.junit.jupiter.api.Test;
 
 import jakarta.servlet.ServletException;

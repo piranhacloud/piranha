@@ -337,15 +337,6 @@ class NanoRequestTest {
     }
 
     /**
-     * Test isRequestedSessionIdFromUrl method.
-     */
-    @Test
-    void testIsRequestedSessionIdFromUrl() {
-        NanoRequest request = new NanoRequest();
-        assertFalse(request.isRequestedSessionIdFromUrl());
-    }
-
-    /**
      * Test isRequestedSessionIdValid method.
      */
     @Test

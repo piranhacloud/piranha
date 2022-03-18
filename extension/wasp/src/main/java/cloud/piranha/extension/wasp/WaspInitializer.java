@@ -39,8 +39,8 @@ import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.TRACE;
 import java.util.Set;
-import org.apache.jasper.runtime.JspFactoryImpl;
-import org.apache.jasper.runtime.TldScanner;
+import org.glassfish.wasp.runtime.JspFactoryImpl;
+import org.glassfish.wasp.runtime.TldScanner;
 
 /**
  * The WaSP initializer.
@@ -72,7 +72,7 @@ public class WaspInitializer implements ServletContainerInitializer {
         }
         
         if (application.getServletRegistration("jsp") == null) {
-            ServletRegistration.Dynamic registration = application.addServlet("jsp", "org.apache.jasper.servlet.JspServlet");
+            ServletRegistration.Dynamic registration = application.addServlet("jsp", "org.glassfish.wasp.servlet.JspServlet");
             registration.addMapping("*.jsp");
             registration.setInitParameter("classpath", getClassPath(application));
             registration.setInitParameter("compilerSourceVM", "1.8");

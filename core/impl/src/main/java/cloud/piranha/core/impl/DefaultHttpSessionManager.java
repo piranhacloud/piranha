@@ -477,4 +477,23 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
             }
         }
     }
+
+    /*
+       REVIEW FOR SERVLET 6
+     */
+
+    @Override
+    public void setAttribute(String string, String string1) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getAttribute(String string) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Map<String, String> getAttributes() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

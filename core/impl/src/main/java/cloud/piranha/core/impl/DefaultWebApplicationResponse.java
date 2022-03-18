@@ -256,12 +256,6 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         return result;
     }
 
-    @Deprecated
-    @Override
-    public String encodeRedirectUrl(String url) {
-        return encodeRedirectURL(url);
-    }
-
     @Override
     public String encodeURL(String url) {
         String result = url;
@@ -269,12 +263,6 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
             result = webApplication.getManager().getHttpSessionManager().encodeURL(this, url);
         }
         return result;
-    }
-
-    @Deprecated
-    @Override
-    public String encodeUrl(String url) {
-        return encodeURL(url);
     }
 
     @Override
@@ -607,12 +595,6 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         if (!isCommitted()) {
             this.status = status;
         }
-    }
-
-    @Deprecated
-    @Override
-    public void setStatus(int status, String statusMessage) {
-        setStatus(status);
     }
 
     @Override

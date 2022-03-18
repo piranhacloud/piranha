@@ -126,7 +126,7 @@
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.el</artifactId>
-                <version>4.0.2</version>
+                <version>5.0.0-M1</version>
             </dependency>
             
             <!-- Eclipse Exousia -->
@@ -164,32 +164,32 @@
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet</artifactId>
-                <version>3.0.4</version>
+                <version>3.1.0-M2</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet-core</artifactId>
-                <version>3.0.4</version>
+                <version>3.1.0-M2</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>jersey-common</artifactId>
-                <version>3.0.4</version>
+                <version>3.1.0-M2</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.ext.cdi</groupId>
                 <artifactId>jersey-cdi1x</artifactId>
-                <version>3.0.4</version>
+                <version>3.1.0-M2</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.inject</groupId>
                 <artifactId>jersey-hk2</artifactId>
-                <version>3.0.4</version>
+                <version>3.1.0-M2</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.media</groupId>
                 <artifactId>jersey-media-json-processing</artifactId>
-                <version>3.0.4</version>
+                <version>3.1.0-M2</version>
             </dependency>
                      
             <!-- Eclipse JSTL -->
@@ -236,7 +236,7 @@
             <dependency>
                 <groupId>org.glassfish.wasp</groupId>
                 <artifactId>wasp</artifactId>
-                <version>3.0.2</version>
+                <version>3.1.0-M1</version>
             </dependency>
             
             <!-- Eclipse Yasson  -->
@@ -989,4 +989,17 @@
             </modules>
         </profile>
     </profiles>
+    
+    <!-- 
+  
+      Remove once Jakarta EE 10 goes final.
+        
+      -->
+      
+    <repositories>
+        <repository>
+            <id>jakarta-staging</id>
+            <url>https://jakarta.oss.sonatype.org/content/repositories/staging/</url>
+        </repository>
+    </repositories>
 </project>

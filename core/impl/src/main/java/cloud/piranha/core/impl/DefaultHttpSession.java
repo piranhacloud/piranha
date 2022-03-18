@@ -30,7 +30,6 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.HttpSessionManager;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionContext;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -158,22 +157,6 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     @Override
-    public HttpSessionContext getSessionContext() {
-        return null;
-    }
-
-    @Override
-    public Object getValue(String name) {
-        return getAttribute(name);
-    }
-
-    @Override
-    public String[] getValueNames() {
-        verifyValid("getValueNames");
-        return this.attributes.keySet().toArray(new String[0]);
-    }
-
-    @Override
     public void invalidate() {
         verifyValid("invalidate");
         sessionManager.destroySession(this);
@@ -187,19 +170,9 @@ public class DefaultHttpSession implements HttpSession {
     }
 
     @Override
-    public void putValue(String name, Object value) {
-        setAttribute(name, value);
-    }
-
-    @Override
     public void removeAttribute(String name) {
         verifyValid("removeAttribute");
         sessionManager.attributeRemoved(this, name, attributes.remove(name));
-    }
-
-    @Override
-    public void removeValue(String name) {
-        removeAttribute(name);
     }
 
     @Override

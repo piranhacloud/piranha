@@ -73,6 +73,9 @@ class HelloMyFacesTest {
      *
      * @throws Exception
      */
+    /*
+       REVIEW FOR SERVLET 6
+
     @Test
     void testIndexHtml() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
@@ -91,4 +94,5 @@ class HelloMyFacesTest {
         piranha.stop()
                 .destroy();
     }
+    */
 }
