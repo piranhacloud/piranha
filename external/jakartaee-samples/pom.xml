@@ -7,7 +7,7 @@
     <parent>
         <groupId>cloud.piranha.external</groupId>
         <artifactId>project</artifactId>
-        <version>22.4.0-SNAPSHOT</version>
+        <version>22.4.0-preview-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-external-jakartaee-samples</artifactId>
