@@ -262,7 +262,7 @@ class HttpSessionTest {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         sessionManager.setWebApplication(webApplication);
         sessionManager.setComment("COMMENT");
-        assertEquals("COMMENT", sessionManager.getComment());
+        assertNull(sessionManager.getComment());
     }
 
     /**
@@ -282,7 +282,7 @@ class HttpSessionTest {
         webApp.linkRequestAndResponse(request, response);
 
         sessionManager.setComment("Comment");
-        sessionManager.setDomain("SessionCookie");
+        sessionManager.setDomain("domain");
         sessionManager.setHttpOnly(true);
         sessionManager.setName("SessionCookie");
         sessionManager.setMaxAge(100);

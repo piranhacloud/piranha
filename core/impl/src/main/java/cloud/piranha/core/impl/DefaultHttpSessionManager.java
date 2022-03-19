@@ -379,7 +379,6 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         if (webApplication.isInitialized()) {
             throw new IllegalStateException("You cannot call setComment once ServletContext is initialized");
         }
-        this.comment = comment;
     }
 
     @Override
@@ -483,16 +482,22 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
 
     @Override
-    public void setAttribute(String string, String string1) {
+    public void setAttribute(String name, String value) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    /*
+       REVIEW FOR SERVLET 6
+     */
+
+    @Override
+    public String getAttribute(String name) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public String getAttribute(String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
+    /*
+       REVIEW FOR SERVLET 6
+     */
     public Map<String, String> getAttributes() {
         throw new UnsupportedOperationException("Not supported yet.");
     }

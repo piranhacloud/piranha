@@ -81,11 +81,17 @@ public class WeldHttpServletRequest extends RealtimeHttpServletRequestWrapper {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /*
+       REVIEW FOR SERVLET 6
+     */
     @Override
     public String getProtocolRequestId() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /*
+       REVIEW FOR SERVLET 6
+     */
     @Override
     public ServletConnection getServletConnection() {
         throw new UnsupportedOperationException("Not supported yet.");
