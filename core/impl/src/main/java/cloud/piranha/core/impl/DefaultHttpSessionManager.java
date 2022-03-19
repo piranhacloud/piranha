@@ -498,6 +498,8 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     /*
        REVIEW FOR SERVLET 6
      */
+    
+    @Override
     public Map<String, String> getAttributes() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
