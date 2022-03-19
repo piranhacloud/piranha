@@ -27,7 +27,6 @@
         <module>micro</module>
         <module>mojarra</module>
         <module>mojarra2</module>
-        <module>myfaces</module>
         <module>server</module>
         <module>server-programmatic</module>
         <module>server-slim</module>

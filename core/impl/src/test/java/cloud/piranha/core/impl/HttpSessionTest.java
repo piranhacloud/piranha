@@ -262,16 +262,12 @@ class HttpSessionTest {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         sessionManager.setWebApplication(webApplication);
         sessionManager.setComment("COMMENT");
-        assertEquals("COMMENT", sessionManager.getComment());
+        assertNull(sessionManager.getComment());
     }
 
     /**
      * Test getCookies method.
      */
-    /*
-
-      REVIEW FOR SERVLET 6
-
     @Test
     void testGetCookies() {
         DefaultWebApplication webApp = new DefaultWebApplication();
@@ -282,7 +278,7 @@ class HttpSessionTest {
         webApp.linkRequestAndResponse(request, response);
 
         sessionManager.setComment("Comment");
-        sessionManager.setDomain("SessionCookie");
+        sessionManager.setDomain("domain");
         sessionManager.setHttpOnly(true);
         sessionManager.setName("SessionCookie");
         sessionManager.setMaxAge(100);
@@ -305,7 +301,6 @@ class HttpSessionTest {
         assertEquals(sessionManager.getPath(), sessionCookie.getPath());
         assertTrue(sessionCookie.getSecure());
     }
-    */
 
     /**
      * Test getCreationTime method.
