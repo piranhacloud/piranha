@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.external.tck</groupId>
         <artifactId>project</artifactId>
-        <version>22.4.0-SNAPSHOT</version>
+        <version>22.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-external-tck-pages</artifactId>
@@ -30,7 +30,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
                 <executions>
                     <execution>
                         <id>validate</id>
