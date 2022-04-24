@@ -130,7 +130,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                     return classes.get(name);
                 }
 
-                result = _loadClass(name, resolve);
+                result = internalLoadClass(name, resolve);
             } catch (Throwable throwable) {
                 throw new ClassNotFoundException(UNABLE_TO_LOAD_CLASS + name, throwable);
             }
@@ -184,7 +184,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      * @param resolve the resolve flog.
      * @return the class.
      */
-    protected Class<?> _loadClass(String name, boolean resolve) {
+    protected Class<?> internalLoadClass(String name, boolean resolve) {
         Class<?> result = null;
         try {
             // Check with the super class. This can contain dynamic classes
@@ -213,7 +213,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                     result = classes.get(name);
 
                     if (result == null) {
-                        result = _defineClass(name, bytes, resolve);
+                        result = internalDefineClass(name, bytes, resolve);
                         classes.put(name, result);
                     }
                 }
@@ -355,7 +355,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      * @param resolve the resolve flag.
      * @return the class.
      */
-    protected Class<?> _defineClass(String name, byte[] bytes, boolean resolve) {
+    protected Class<?> internalDefineClass(String name, byte[] bytes, boolean resolve) {
 
         CodeSource codeSource = new CodeSource(getResource(normalizeName(name)), (CodeSigner[]) null);
         ProtectionDomain protectionDomain = new ProtectionDomain(codeSource, null);

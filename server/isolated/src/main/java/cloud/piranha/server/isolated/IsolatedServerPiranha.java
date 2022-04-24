@@ -76,7 +76,7 @@ public class IsolatedServerPiranha implements Piranha, Runnable {
     /**
      * Stores the one and only instance of the server.
      */
-    private static IsolatedServerPiranha INSTANCE;
+    private static IsolatedServerPiranha theOneAndOnlyInstance;
 
     /**
      * Stores the SSL flag.
@@ -92,7 +92,7 @@ public class IsolatedServerPiranha implements Piranha, Runnable {
      * {@return the instance}
      */
     public static IsolatedServerPiranha get() {
-        return INSTANCE;
+        return theOneAndOnlyInstance;
     }
 
     /**
@@ -101,9 +101,9 @@ public class IsolatedServerPiranha implements Piranha, Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        INSTANCE = new IsolatedServerPiranha();
-        INSTANCE.processArguments(arguments);
-        INSTANCE.run();
+        theOneAndOnlyInstance = new IsolatedServerPiranha();
+        theOneAndOnlyInstance.processArguments(arguments);
+        theOneAndOnlyInstance.run();
     }
 
     /**
