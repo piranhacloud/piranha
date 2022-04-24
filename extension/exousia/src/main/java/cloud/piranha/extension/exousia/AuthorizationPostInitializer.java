@@ -218,9 +218,8 @@ public class AuthorizationPostInitializer implements ServletContainerInitializer
      *
      * @param webApplication the web application.
      * @return the list of security constraints.
-     * @throws ServletException when a Servlet error occurs.
      */
-    private List<SecurityConstraint> getConstraintsFromWebXml(WebApplication webApplication) throws ServletException {
+    private List<SecurityConstraint> getConstraintsFromWebXml(WebApplication webApplication) {
         WebXmlManager manager = webApplication.getManager().getWebXmlManager();
         return piranhaToExousiaConverter.getConstraintsFromWebXml(manager.getWebXml());
     }
