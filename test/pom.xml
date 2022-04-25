@@ -25,7 +25,6 @@
         <module>jpa</module>
         <module>jpms</module>
         <module>micro</module>
-        <module>mojarra</module>
         <module>mojarra2</module>
         <module>myfaces</module>
         <module>server</module>
