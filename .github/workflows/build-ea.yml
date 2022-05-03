@@ -9,16 +9,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [ '18-ea' ]
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
       uses: actions/checkout@v1
     - name: Setup Java
-      uses: actions/setup-java@v2
+      uses: oracle-actions/setup-java@v1
       with:
-        distribution: 'temurin'
-        java-version: ${{ matrix.java }}
+        website: jdk.java.net
+        release: EA
     - name: Build with Maven
       run: mvn --no-transfer-progress -B install -Djacoco.skip=true
     - name: Publish Unit Test Results
