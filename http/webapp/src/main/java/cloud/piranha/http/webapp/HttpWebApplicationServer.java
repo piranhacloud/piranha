@@ -241,8 +241,8 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             if (serverRequest.isAsyncStarted()) {
                 state = ASYNCED;
             }
-        } catch (Throwable t) {
-            LOGGER.log(ERROR, "An error occurred while processing the request", t);
+        } catch (Exception e) {
+            LOGGER.log(ERROR, "An exception occurred while processing the request", e);
         }
         return state;
     }

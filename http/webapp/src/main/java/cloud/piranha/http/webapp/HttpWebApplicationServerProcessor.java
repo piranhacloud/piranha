@@ -68,8 +68,8 @@ public class HttpWebApplicationServerProcessor implements HttpServerProcessor {
             HttpWebApplicationResponse servletResponse = new HttpWebApplicationResponse(response);
             piranha.service(servletRequest, servletResponse);
             servletResponse.flush();
-        } catch (Throwable t) {
-            LOGGER.log(ERROR, "An error occurred while processing the request", t);
+        } catch (Exception e) {
+            LOGGER.log(ERROR, "An exception occurred while processing the request", e);
         }
         return COMPLETED;
     }
