@@ -113,7 +113,7 @@ public class AuthorizationPostInitializer implements ServletContainerInitializer
         return getAttribute(context, AuthorizationPreInitializer.AUTHZ_SERVICE);
     }
 
-    private List<SecurityConstraint> getAllScurityConstraints(WebApplication context) throws ServletException {
+    private List<SecurityConstraint> getAllScurityConstraints(WebApplication context) {
         List<SecurityConstraint> webXmlConstraints = getConstraintsFromWebXml(context);
         List<SecurityConstraint> annotationConstraints = filterAnnotatedConstraints(
                 webXmlConstraints,
