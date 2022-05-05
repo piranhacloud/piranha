@@ -36,16 +36,16 @@ import cloud.piranha.extension.standard.StandardExtension;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class ServerPiranhaMain {
-    
+
     /**
      * Get the default extension.
-     * 
+     *
      * @return the default extension.
      */
     protected Class<? extends WebApplicationExtension> getDefaultExtension() {
         return StandardExtension.class;
     }
-    
+
     /**
      * Main method.
      *
@@ -58,7 +58,7 @@ public class ServerPiranhaMain {
         } else {
             showHelp();
         }
-    }  
+    }
 
     /**
      * Process the arguments.
@@ -70,41 +70,44 @@ public class ServerPiranhaMain {
         ServerPiranhaBuilder builder = new ServerPiranhaBuilder()
                 .defaultExtensionClass(getDefaultExtension())
                 .exitOnStop(true);
-        if (arguments != null) {
-            for (int i = 0; i < arguments.length; i++) {
-                if (arguments[i].equals("--default-extension")) {
-                    builder = builder.defaultExtensionClass(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--help")) {
-                    return null;
-                }
-                if (arguments[i].equals("--http-port")) {
-                    builder = builder.httpPort(Integer.parseInt(arguments[i + 1]));
-                }
-                if (arguments[i].equals("--https-port")) {
-                    builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
-                }
-                if (arguments[i].equals("--jpms")) {
-                    builder = builder.jpms(true);
-                }
-                if (arguments[i].equals("--ssl-keystore-file")) {
-                    builder = builder.sslKeystoreFile(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--ssl-keystore-password")) {
-                    builder = builder.sslKeystorePassword(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--ssl-truststore-file")) {
-                    builder = builder.sslTruststoreFile(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--ssl-truststore-password")) {
-                    builder = builder.sslTruststorePassword(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--verbose")) {
-                    builder = builder.verbose(true);
-                }
-                if (arguments[i].equals("--webapps-dir")) {
-                    builder = builder.webAppsDir(arguments[i + 1]);
-                }
+
+        if (arguments == null) {
+            return builder;
+        }
+        
+        for (int i = 0; i < arguments.length; i++) {
+            if (arguments[i].equals("--default-extension")) {
+                builder = builder.defaultExtensionClass(arguments[i + 1]);
+            }
+            if (arguments[i].equals("--help")) {
+                return null;
+            }
+            if (arguments[i].equals("--http-port")) {
+                builder = builder.httpPort(Integer.parseInt(arguments[i + 1]));
+            }
+            if (arguments[i].equals("--https-port")) {
+                builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
+            }
+            if (arguments[i].equals("--jpms")) {
+                builder = builder.jpms(true);
+            }
+            if (arguments[i].equals("--ssl-keystore-file")) {
+                builder = builder.sslKeystoreFile(arguments[i + 1]);
+            }
+            if (arguments[i].equals("--ssl-keystore-password")) {
+                builder = builder.sslKeystorePassword(arguments[i + 1]);
+            }
+            if (arguments[i].equals("--ssl-truststore-file")) {
+                builder = builder.sslTruststoreFile(arguments[i + 1]);
+            }
+            if (arguments[i].equals("--ssl-truststore-password")) {
+                builder = builder.sslTruststorePassword(arguments[i + 1]);
+            }
+            if (arguments[i].equals("--verbose")) {
+                builder = builder.verbose(true);
+            }
+            if (arguments[i].equals("--webapps-dir")) {
+                builder = builder.webAppsDir(arguments[i + 1]);
             }
         }
         return builder;
