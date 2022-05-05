@@ -49,6 +49,8 @@ import cloud.piranha.micro.shrinkwrap.loader.MicroOuterDeployer;
 import jakarta.servlet.ServletException;
 
 import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.Logger.Level.WARNING;
+import java.nio.file.Files;
 
 /**
  * The Servlet container version of Piranha.
@@ -153,8 +155,10 @@ public class IsolatedServerPiranha implements Piranha, Runnable {
                     .filter(warFile -> warFile.getName().toLowerCase().endsWith(".war"))
                     .forEach(warFile -> deploy(warFile, webApplicationServer));
 
-            if (deployingFile.delete()) {
-                LOGGER.log(Level.WARNING, "Unable to delete deploying file");
+            try {
+                Files.delete(deployingFile.toPath());
+            } catch(IOException ioe) {
+                LOGGER.log(WARNING, "Unable to delete deploying file", ioe);
             }
         }
 
@@ -175,8 +179,10 @@ public class IsolatedServerPiranha implements Piranha, Runnable {
             if (!pidFile.exists()) {
                 webApplicationServer.stop();
                 httpServer.stop();
-                if (!startedFile.delete()) {
-                    LOGGER.log(Level.WARNING, "Unable to delete PID file");
+                try {
+                    Files.delete(startedFile.toPath());
+                } catch(IOException ioe) {
+                    LOGGER.log(WARNING, "Unable to delete PID file", ioe);
                 }
                 System.exit(0);
             }

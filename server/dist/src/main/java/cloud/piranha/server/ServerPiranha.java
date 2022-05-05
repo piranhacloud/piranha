@@ -171,6 +171,7 @@ public class ServerPiranha implements Piranha, Runnable {
                 entry = zipInput.getNextEntry();
             }
         } catch (IOException ioe) {
+            LOGGER.log(WARNING, "An I/O error occurred while extracting WAR file", ioe);
         }
     }
 
@@ -208,12 +209,7 @@ public class ServerPiranha implements Piranha, Runnable {
 
         webApplicationServer = new HttpWebApplicationServer();
 
-        if (httpPort > 0) {
-            httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
-            httpServer.setServerPort(httpPort);
-            httpServer.setHttpServerProcessor(webApplicationServer);
-            httpServer.start();
-        }
+        startHttpServer();
 
         if (httpsPort > 0) {
             httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
@@ -521,6 +517,18 @@ public class ServerPiranha implements Piranha, Runnable {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+        }
+    }
+
+    /**
+     * Start the HTTP server (if requested).
+     */
+    public void startHttpServer() {
+        if (httpPort > 0) {
+            httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+            httpServer.setServerPort(httpPort);
+            httpServer.setHttpServerProcessor(webApplicationServer);
+            httpServer.start();
         }
     }
 

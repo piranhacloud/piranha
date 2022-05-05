@@ -128,8 +128,16 @@ public class ShrinkWrapResource implements Resource {
         }
 
         try {
+            String slashFix;
+            
+            if (location.startsWith("/")) {
+                slashFix = "";
+            } else {
+                slashFix = archive.getName().endsWith("/") ? "" : "/";
+            }
+            
             return new URL(null,
-                    SHRINKWRAP_PROTOCOL + archive.getName() + (location.startsWith("/") ? "" : archive.getName().endsWith("/") ? "" : "/") + location,
+                    SHRINKWRAP_PROTOCOL + archive.getName() + slashFix + location,
                     streamHandler);
         } catch (MalformedURLException e) {
             throw new IllegalStateException(e);
@@ -187,10 +195,11 @@ public class ShrinkWrapResource implements Resource {
     }
 
     /**
-     *
+     * Get the embedded archive.
+     * 
      * @return the embedded archive that contains the actual data
      */
-    public Archive<?> getArchive() {
+    public Archive getArchive() {
         return archive;
     }
 
