@@ -27,8 +27,10 @@
  */
 package cloud.piranha.resource.impl;
 
+import cloud.piranha.resource.api.Resource;
 import java.io.IOException;
 import java.io.InputStream;
+import static java.lang.System.Logger.Level.WARNING;
 import java.net.URL;
 import java.util.Objects;
 import java.util.jar.Attributes;
@@ -36,19 +38,27 @@ import java.util.jar.Manifest;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import cloud.piranha.resource.api.Resource;
-
 /**
  * A resource wrapper that loads the versioned entries from META-INF/versions if
- * the resource contains a main attribute named "Multi-Release" in the META-INF/MANIFEST.MF
+ * the resource contains a main attribute named "Multi-Release" in the
+ * META-INF/MANIFEST.MF
  *
- * <p>A multi-release resource is a resource that contains a set of "base" entries and a set of "versioned"
- * entries contained in subdirectories of "META-INF/versions" directory
- * <p>The versioned entries are partitioned by the major version of the Java release. A versioned entry,
- * with a version {@code n}, {@code 8 < n}, in the "META-INF/versions/{n}" directory overrides the base entry
- * as well as any entry with a version number {@code i} where {@code 8 < i < n}
+ * <p>
+ * A multi-release resource is a resource that contains a set of "base" entries
+ * and a set of "versioned" entries contained in subdirectories of
+ * "META-INF/versions" directory
+ * <p>
+ * The versioned entries are partitioned by the major version of the Java
+ * release. A versioned entry, with a version {@code n}, {@code 8 < n}, in the
+ * "META-INF/versions/{n}" directory overrides the base entry as well as any
+ * entry with a version number {@code i} where {@code 8 < i < n}
  */
 public final class MultiReleaseResource implements Resource {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(MultiReleaseResource.class.getName());
 
     /**
      * Stores the META-INF constant
@@ -88,11 +98,12 @@ public final class MultiReleaseResource implements Resource {
     public MultiReleaseResource(Resource resource) {
         this.resource = resource;
         boolean isMultiReleaseTemp = false;
-        try (InputStream resourceAsStream = resource.getResourceAsStream("META-INF/MANIFEST.MF")) {
+        try ( InputStream resourceAsStream = resource.getResourceAsStream("META-INF/MANIFEST.MF")) {
             if (resourceAsStream != null) {
                 isMultiReleaseTemp = Boolean.parseBoolean(new Manifest(resourceAsStream).getMainAttributes().getValue(Attributes.Name.MULTI_RELEASE));
             }
-        } catch (IOException ignored) {
+        } catch (IOException ioe) {
+            LOGGER.log(WARNING, "I/O error occurred while getting manifest for multi release resource", ioe);
         }
         isMultiRelease = isMultiReleaseTemp;
     }
@@ -108,15 +119,19 @@ public final class MultiReleaseResource implements Resource {
     /**
      * Searches in the META-INF/versions for a versioned entry of some resource.
      *
-     * <p>It performs a search in META-INF/versions from the current Java release until
-     * the 9 version (the first version supporting multi-release resources).
+     * <p>
+     * It performs a search in META-INF/versions from the current Java release
+     * until the 9 version (the first version supporting multi-release
+     * resources).
      *
      * @param location the location of a resource
-     * @return the URL of the versioned entry if present otherwise the base entry
+     * @return the URL of the versioned entry if present otherwise the base
+     * entry
      */
     private URL versionedEntry(String location) {
-        if (location.startsWith(META_INF))
+        if (location.startsWith(META_INF)) {
             return resource.getResource(location);
+        }
 
         return IntStream.iterate(CURRENT_VERSION, version -> version > BASE_RELEASE_VERSION, version -> --version)
                 .mapToObj(version -> resource.getResource(META_INF_VERSIONS + version + "/" + location))
@@ -132,9 +147,11 @@ public final class MultiReleaseResource implements Resource {
         }
         try {
             URL url = versionedEntry(location);
-            if (url != null)
+            if (url != null) {
                 return url.openStream();
-        } catch (IOException ignored) {
+            }
+        } catch (IOException ioe) {
+            LOGGER.log(WARNING, "I/O error occurred while getting multi release resource", ioe);
         }
         return null;
     }

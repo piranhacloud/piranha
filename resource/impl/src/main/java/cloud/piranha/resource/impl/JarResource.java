@@ -27,12 +27,14 @@
  */
 package cloud.piranha.resource.impl;
 
+import cloud.piranha.resource.api.Resource;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import static java.lang.System.Logger.Level.WARNING;
 import java.net.URL;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -40,14 +42,17 @@ import java.util.jar.JarFile;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 
-import cloud.piranha.resource.api.Resource;
-
 /**
  * The default JarResource.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class JarResource implements Resource {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(JarResource.class.getName());
 
     /**
      * Stores the JAR file.
@@ -77,12 +82,13 @@ public class JarResource implements Resource {
         URL result = null;
         if (location != null) {
             try {
-                try (JarFile jar = new JarFile(jarFile)) {
+                try ( JarFile jar = new JarFile(jarFile)) {
                     if (jar.getJarEntry(location) != null) {
                         result = new URL("jar:" + jarFile.toURI() + "!/" + location);
                     }
                 }
             } catch (IOException ioe) {
+                LOGGER.log(WARNING, "I/O error occurred while getting JAR resource", ioe);
                 result = null;
             }
         }
@@ -104,11 +110,11 @@ public class JarResource implements Resource {
     @Override
     public InputStream getResourceAsStream(String location) {
         InputStream result = null;
-        try (JarFile jar = new JarFile(jarFile)) {
+        try ( JarFile jar = new JarFile(jarFile)) {
             JarEntry entry = jar.getJarEntry(location.startsWith("/") ? location.substring(1) : location);
             if (entry != null) {
                 InputStream inputStream;
-                try (InputStream jarInputStream = jar.getInputStream(entry)) {
+                try ( InputStream jarInputStream = jar.getInputStream(entry)) {
                     inputStream = new BufferedInputStream(jarInputStream);
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     inputStream.transferTo(outputStream);
@@ -116,7 +122,8 @@ public class JarResource implements Resource {
                 }
                 inputStream.close();
             }
-        } catch (IOException exception) {
+        } catch (IOException ioe) {
+            LOGGER.log(WARNING, "I/O error occurred while getting JAR resource", ioe);
         }
         return result;
     }
@@ -124,8 +131,8 @@ public class JarResource implements Resource {
     @Override
     public Stream<String> getAllLocations() {
         List<String> entryNames;
-        try (JarFile jar = new JarFile(jarFile)) {
-             entryNames = jar
+        try ( JarFile jar = new JarFile(jarFile)) {
+            entryNames = jar
                     .stream()
                     .map(ZipEntry::getName)
                     .map(x -> "/" + x)

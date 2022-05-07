@@ -27,15 +27,16 @@
  */
 package cloud.piranha.resource.impl;
 
+import cloud.piranha.resource.api.Resource;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
-
-import cloud.piranha.resource.api.Resource;
 
 /**
  * The default PrefixJarResource.
@@ -43,6 +44,11 @@ import cloud.piranha.resource.api.Resource;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class PrefixJarResource implements Resource {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(PrefixJarResource.class.getName());
 
     /**
      * Stores the JAR file.
@@ -77,9 +83,6 @@ public class PrefixJarResource implements Resource {
         }
     }
 
-    /**
-     * {@return the resource}
-     */
     @Override
     public URL getResource(String location) {
         URL result = null;
@@ -89,18 +92,12 @@ public class PrefixJarResource implements Resource {
             if (jarEntry != null) {
                 result = new URL("jar://" + jarFile.getName() + "#!/" + location);
             }
-        } catch (MalformedURLException use) {
+        } catch (MalformedURLException mue) {
+            LOGGER.log(WARNING, "Malformed URL passed for prefix JAR resource", mue);
         }
         return result;
     }
 
-    /**
-     * Get the resource as a stream.
-     *
-     * @param location the resource location.
-     * @return the input stream, or null if not found.
-     * @see Resource#getResourceAsStream(java.lang.String)
-     */
     @Override
     public InputStream getResourceAsStream(String location) {
         InputStream result = null;
@@ -110,6 +107,7 @@ public class PrefixJarResource implements Resource {
             try {
                 result = jarFile.getInputStream(jarEntry);
             } catch (IOException ioe) {
+                LOGGER.log(WARNING, "I/O error occurred while getting prefix JAR resource", ioe);
             }
         }
         return result;
@@ -164,5 +162,4 @@ public class PrefixJarResource implements Resource {
     public String toString() {
         return getName() + " " + super.toString();
     }
-
 }
