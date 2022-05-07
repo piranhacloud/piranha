@@ -27,11 +27,13 @@
  */
 package cloud.piranha.resource.impl;
 
+import cloud.piranha.resource.api.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import static java.lang.System.Logger.Level.WARNING;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -40,14 +42,17 @@ import java.nio.file.Paths;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import cloud.piranha.resource.api.Resource;
-
 /**
  * The default DirectoryResource.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DirectoryResource implements Resource {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(DirectoryResource.class.getName());
 
     /**
      * Stores the root directory.
@@ -66,7 +71,7 @@ public class DirectoryResource implements Resource {
      * @param rootDirectory the root directory.
      */
     public DirectoryResource(String rootDirectory) {
-        this (new File(rootDirectory));
+        this(new File(rootDirectory));
     }
 
     /**
@@ -90,7 +95,8 @@ public class DirectoryResource implements Resource {
             if (file.exists()) {
                 try {
                     result = new URL(file.toURI().toString());
-                } catch (MalformedURLException exception) {
+                } catch (MalformedURLException mue) {
+                    LOGGER.log(WARNING, "Malformed URL for find directory resource", mue);
                 }
             }
         }
@@ -110,7 +116,8 @@ public class DirectoryResource implements Resource {
 
         try {
             result = new FileInputStream(file);
-        } catch (FileNotFoundException exception) {
+        } catch (FileNotFoundException fnfe) {
+            LOGGER.log(WARNING, "Unable to find directory resource", fnfe);
         }
 
         return result;
@@ -122,10 +129,10 @@ public class DirectoryResource implements Resource {
             Path rootPath = Paths.get(rootDirectory.toURI());
             Path root = Paths.get("/");
             return Files.walk(rootPath)
-                .filter(Predicate.not(Files::isDirectory))
-                .map(rootPath::relativize)
-                .map(root::resolve)
-                .map(Path::toString);
+                    .filter(Predicate.not(Files::isDirectory))
+                    .map(rootPath::relativize)
+                    .map(root::resolve)
+                    .map(Path::toString);
         } catch (IOException e) {
             return Stream.empty();
         }
@@ -156,5 +163,4 @@ public class DirectoryResource implements Resource {
     public String toString() {
         return getName() + " " + super.toString();
     }
-
 }
