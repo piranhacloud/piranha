@@ -27,25 +27,25 @@
  */
 package cloud.piranha.resource.impl;
 
-import static java.util.Collections.enumeration;
-import static java.util.Collections.list;
-
+import cloud.piranha.resource.api.ResourceManager;
+import cloud.piranha.resource.api.ResourceManagerClassLoader;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.CodeSigner;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
+import static java.util.Collections.enumeration;
+import static java.util.Collections.list;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import cloud.piranha.resource.api.ResourceManager;
-import cloud.piranha.resource.api.ResourceManagerClassLoader;
 
 /**
  * The default ResourceManagerClassLoader.
@@ -54,6 +54,11 @@ import cloud.piranha.resource.api.ResourceManagerClassLoader;
  */
 public class DefaultResourceManagerClassLoader extends ClassLoader implements ResourceManagerClassLoader {
 
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(DefaultResourceManagerClassLoader.class.getName());
+    
     /**
      * Stores the 'Unable to load class: ' message prefix.
      */
@@ -247,20 +252,14 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         return enumeration(resources);
     }
 
-    /**
-     * Find the resource.
-     *
-     * @param name the name.
-     * @return the resource, or null if not found.
-     */
     @Override
     protected URL findResource(String name) {
         URL result = null;
         try {
             result = resourceManager.getResource(name);
         } catch (MalformedURLException mue) {
+            LOGGER.log(WARNING, "Malformed URL used to find resource", mue);
         }
-
         return result;
     }
 
@@ -270,8 +269,8 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         try {
             result = resourceManager.getResource(name);
         } catch (MalformedURLException mue) {
+            LOGGER.log(WARNING, "Malformed URL used to find resource", mue);
         }
-
         return result;
     }
 

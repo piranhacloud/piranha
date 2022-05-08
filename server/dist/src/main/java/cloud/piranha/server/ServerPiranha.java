@@ -210,14 +210,7 @@ public class ServerPiranha implements Piranha, Runnable {
         webApplicationServer = new HttpWebApplicationServer();
 
         startHttpServer();
-
-        if (httpsPort > 0) {
-            httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
-            httpsServer.setHttpServerProcessor(webApplicationServer);
-            httpsServer.setServerPort(httpsPort);
-            httpsServer.setSSL(true);
-            httpsServer.start();
-        }
+        startHttpsServer();
 
         webApplicationServer.start();
 
@@ -529,6 +522,19 @@ public class ServerPiranha implements Piranha, Runnable {
             httpServer.setServerPort(httpPort);
             httpServer.setHttpServerProcessor(webApplicationServer);
             httpServer.start();
+        }
+    }
+
+    /**
+     * Start the HTTPS server (if requested).
+     */
+    private void startHttpsServer() {
+        if (httpsPort > 0) {
+            httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+            httpsServer.setHttpServerProcessor(webApplicationServer);
+            httpsServer.setServerPort(httpsPort);
+            httpsServer.setSSL(true);
+            httpsServer.start();
         }
     }
 
