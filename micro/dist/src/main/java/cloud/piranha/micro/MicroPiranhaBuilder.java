@@ -29,6 +29,8 @@ package cloud.piranha.micro;
 
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.standard.StandardExtension;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The Builder for Piranha Micro.
@@ -36,6 +38,11 @@ import cloud.piranha.extension.standard.StandardExtension;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class MicroPiranhaBuilder {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(MicroPiranhaBuilder.class.getName());
 
     /**
      * Stores the extension class.
@@ -159,6 +166,7 @@ public class MicroPiranhaBuilder {
             this.extensionClass = Class.forName(extensionClassName)
                 .asSubclass(WebApplicationExtension.class);
         } catch (ClassNotFoundException cnfe) {
+            LOGGER.log(WARNING, "Unable to load extension class", cnfe);
         }
         return this;
     }

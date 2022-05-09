@@ -304,9 +304,7 @@ public class ServerPiranha implements Piranha, Runnable {
 
             if (!pidFile.exists()) {
                 webApplicationServer.stop();
-                if (httpServer != null) {
-                    httpServer.stop();
-                }
+                stopHttpServer();
                 if (httpsServer != null) {
                     httpsServer.stop();
                 }
@@ -554,5 +552,14 @@ public class ServerPiranha implements Piranha, Runnable {
 
         started = false;
         thread = null;
+    }
+
+    /**
+     * Stores the HTTP server (if requested).
+     */
+    private void stopHttpServer() {
+        if (httpServer != null) {
+            httpServer.stop();
+        }
     }
 }
