@@ -136,8 +136,8 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                 }
 
                 result = internalLoadClass(name, resolve);
-            } catch (Throwable throwable) {
-                throw new ClassNotFoundException(UNABLE_TO_LOAD_CLASS + name, throwable);
+            } catch (Exception exception) {
+                throw new ClassNotFoundException(UNABLE_TO_LOAD_CLASS + name, exception);
             }
         }
 
@@ -223,8 +223,8 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                     }
                 }
             }
-        } catch (Throwable throwable) {
-            throw new IllegalStateException(UNABLE_TO_LOAD_CLASS + name, throwable);
+        } catch (Exception exception) {
+            throw new IllegalStateException(UNABLE_TO_LOAD_CLASS + name, exception);
         }
 
         return result;
