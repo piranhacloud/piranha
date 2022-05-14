@@ -178,7 +178,7 @@ public class MicroOuterDeployer {
 
             try {
                 URL.setURLStreamHandlerFactory(new StaticURLStreamHandlerFactory());
-            } catch (Exception exception) {
+            } catch (Error error) { // Yes, we know...
                 // Ignore
             }
 
