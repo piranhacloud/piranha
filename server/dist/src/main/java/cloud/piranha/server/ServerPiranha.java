@@ -260,7 +260,7 @@ public class ServerPiranha implements Piranha, Runnable {
 
                         LOGGER.log(INFO, "Deployed " + webapp.getName() + " at " + webApplication.getContextPath());
 
-                    } catch (Exception e) {
+                    } catch (Error e) {
                         LOGGER.log(ERROR, () -> "Failed to initialize app " + webapp.getName(), e);
                     }
 
