@@ -60,8 +60,14 @@ Or go into the directory of the external test you want to run and use:
 mvn clean install
 ```
 
+For the Servlet TCK if you want to run a singular test use 
+`-Drun.test=expression`. See the example below.
+
+```
+mvn -Drun.test=com/sun/ts/tests/servlet/spec/errorpage/URLClient.java#servletToDifferentErrorPagesTest verify`.
+```
+
 ## Problems
 
 Support for Java modules has a feature gap in Eclipse and as such a workaround
 needs to be employed to make it work properly (June 2021).
-
