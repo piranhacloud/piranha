@@ -64,7 +64,7 @@ For the Servlet TCK if you want to run a singular test use
 `-Drun.test=expression`. See the example below.
 
 ```
-mvn -Drun.test=com/sun/ts/tests/servlet/spec/errorpage/URLClient.java#servletToDifferentErrorPagesTest verify`.
+mvn -Drun.test=com/sun/ts/tests/servlet/spec/errorpage/URLClient.java#servletToDifferentErrorPagesTest verify
 ```
 
 ## Problems
