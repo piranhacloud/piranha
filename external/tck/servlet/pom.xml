@@ -207,9 +207,9 @@
                                         </exec>
                                         
                                         <!-- Give the server some time to settle down -->
-                                        <sleep seconds="40" if:set="suspend"/>
-                                        <sleep seconds="30" unless:set="run.test"/>
-                                        <sleep seconds="2" if:set="run.test" unless:set="suspend"/>
+                                        <sleep seconds="60" if:set="suspend"/>
+                                        <sleep seconds="60" unless:set="run.test"/>
+                                        <sleep seconds="10" if:set="run.test" unless:set="suspend"/>
                                     </target>
                                 </configuration>
                             </execution>
@@ -613,7 +613,7 @@
                                         <exec executable="${piranha.home}/bin/start.cmd"
                                               dir="${piranha.home}/bin"/>
                                         <!-- give the server some time to settle down -->
-                                        <sleep seconds="30"/>
+                                        <sleep seconds="60"/>
                                     </target>
                                 </configuration>
                             </execution>
