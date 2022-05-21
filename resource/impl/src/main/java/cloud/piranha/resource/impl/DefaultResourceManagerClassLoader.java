@@ -34,7 +34,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.WARNING;
+import static java.lang.System.Logger.Level.DEBUG;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.CodeSigner;
@@ -136,8 +136,8 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                 }
 
                 result = internalLoadClass(name, resolve);
-            } catch (Exception exception) {
-                throw new ClassNotFoundException(UNABLE_TO_LOAD_CLASS + name, exception);
+            } catch (Throwable throwable) {
+                throw new ClassNotFoundException(UNABLE_TO_LOAD_CLASS + name, throwable);
             }
         }
 
@@ -223,8 +223,8 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
                     }
                 }
             }
-        } catch (Exception exception) {
-            throw new IllegalStateException(UNABLE_TO_LOAD_CLASS + name, exception);
+        } catch (Throwable throwable) {
+            throw new IllegalStateException(UNABLE_TO_LOAD_CLASS + name, throwable);
         }
 
         return result;
@@ -258,7 +258,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         try {
             result = resourceManager.getResource(name);
         } catch (MalformedURLException mue) {
-            LOGGER.log(WARNING, "Malformed URL used to find resource", mue);
+            LOGGER.log(DEBUG, "Malformed URL used to find resource", mue);
         }
         return result;
     }
@@ -269,7 +269,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
         try {
             result = resourceManager.getResource(name);
         } catch (MalformedURLException mue) {
-            LOGGER.log(WARNING, "Malformed URL used to find resource", mue);
+            LOGGER.log(DEBUG, "Malformed URL used to find resource", mue);
         }
         return result;
     }
