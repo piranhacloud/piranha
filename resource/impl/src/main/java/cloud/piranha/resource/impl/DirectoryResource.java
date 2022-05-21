@@ -33,7 +33,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import static java.lang.System.Logger.Level.WARNING;
+import static java.lang.System.Logger.Level.DEBUG;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -83,46 +83,6 @@ public class DirectoryResource implements Resource {
         this.rootDirectory = rootDirectory;
     }
 
-    /**
-     * {@return the resource}
-     */
-    @Override
-    public URL getResource(String location) {
-        URL result = null;
-
-        if (location != null) {
-            File file = new File(rootDirectory, location);
-            if (file.exists()) {
-                try {
-                    result = new URL(file.toURI().toString());
-                } catch (MalformedURLException mue) {
-                    LOGGER.log(WARNING, "Malformed URL for find directory resource", mue);
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * @param location the resource location.
-     * @return the input stream, or null if not found.
-     * @see Resource#getResourceAsStream(java.lang.String)
-     */
-    @Override
-    public InputStream getResourceAsStream(String location) {
-        InputStream result = null;
-        File file = new File(rootDirectory, location);
-
-        try {
-            result = new FileInputStream(file);
-        } catch (FileNotFoundException fnfe) {
-            LOGGER.log(WARNING, "Unable to find directory resource", fnfe);
-        }
-
-        return result;
-    }
-
     @Override
     public Stream<String> getAllLocations() {
         try {
@@ -136,6 +96,47 @@ public class DirectoryResource implements Resource {
         } catch (IOException e) {
             return Stream.empty();
         }
+    }
+
+    @Override
+    public String getName() {
+        return rootDirectory.getName();
+    }
+
+    /**
+     * {@return the resource}
+     */
+    @Override
+    public URL getResource(String location) {
+        URL result = null;
+        if (location != null) {
+            File file = new File(rootDirectory, location);
+            if (file.exists()) {
+                try {
+                    result = new URL(file.toURI().toString());
+                } catch (MalformedURLException mue) {
+                    LOGGER.log(DEBUG, "Malformed URL for find directory resource", mue);
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @param location the resource location.
+     * @return the input stream, or null if not found.
+     * @see Resource#getResourceAsStream(java.lang.String)
+     */
+    @Override
+    public InputStream getResourceAsStream(String location) {
+        InputStream result = null;
+        File file = new File(rootDirectory, location);
+        try {
+            result = new FileInputStream(file);
+        } catch (FileNotFoundException fnfe) {
+            LOGGER.log(DEBUG, "Unable to find directory resource", fnfe);
+        }
+        return result;
     }
 
     /**
@@ -152,11 +153,6 @@ public class DirectoryResource implements Resource {
      */
     public void setRootDirectory(File rootDirectory) {
         this.rootDirectory = rootDirectory;
-    }
-
-    @Override
-    public String getName() {
-        return rootDirectory.getName();
     }
 
     @Override
