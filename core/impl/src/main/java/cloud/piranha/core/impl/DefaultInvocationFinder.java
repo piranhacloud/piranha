@@ -106,7 +106,7 @@ public class DefaultInvocationFinder {
                 servletInvocation = getWelcomeFileServletInvocation(servletPath, pathInfo != null ? pathInfo : "/");
 
                 if (servletInvocation == null) {
-                    String servletPathLower = servletPath.toLowerCase();
+                    String servletPathLower = servletPath != null ? servletPath.toLowerCase() : "";
                     if (servletPathLower.startsWith("/web-inf") || servletPathLower.startsWith("/meta-inf")) {
                         servletInvocation = getDefaultServletInvocation(null, null);
                     } else {
