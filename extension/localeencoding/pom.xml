@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <name>Piranha - Extension - Locale Encoding</name>
-
+    
     <dependencies>
         <!-- compile -->
         <dependency>

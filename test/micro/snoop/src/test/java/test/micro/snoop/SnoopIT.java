@@ -27,15 +27,15 @@
  */
 package test.micro.snoop;
 
+import cloud.piranha.test.common.PiranhaStartup;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 import me.alexpanov.net.FreePortFinder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -98,8 +98,8 @@ public class SnoopIT {
                         "--war",
                         "snoop.war")
                 .start();
-        
-        TimeUnit.SECONDS.sleep(5);
+
+        PiranhaStartup.waitUntilPiranhaReady(process, port);
     }
 
     /**

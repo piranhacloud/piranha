@@ -36,6 +36,11 @@
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>cloud.piranha.test</groupId>
+            <artifactId>test-common</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

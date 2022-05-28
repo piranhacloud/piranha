@@ -34,6 +34,7 @@
         <module>webxml</module>
         <module>weld</module>
         <module>webapp</module>
+        <module>common</module>
     </modules>
 
     <properties>
@@ -49,6 +50,12 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>cloud.piranha.test</groupId>
+                <artifactId>test-common</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -63,4 +70,13 @@
             </plugin>
         </plugins>
     </build>
+    <dependencies>
+        <!-- In a maven parallel build, the following artifacts must be built before this artifact, therefore we add them as a dependencies here. Otherwise some tests may attempt to start Piranha, which loads artifacts from local maven repo while those artifacts are being built in parallel. -->
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-localeencoding</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
