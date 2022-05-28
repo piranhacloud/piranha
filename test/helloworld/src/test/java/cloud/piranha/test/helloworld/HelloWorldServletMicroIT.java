@@ -30,6 +30,7 @@ package cloud.piranha.test.helloworld;
 import cloud.piranha.extension.standard.StandardExtension;
 import cloud.piranha.micro.MicroPiranha;
 import cloud.piranha.micro.MicroPiranhaBuilder;
+import cloud.piranha.test.common.PiranhaStartup;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -78,11 +79,8 @@ class HelloWorldServletMicroIT {
                 .webAppDir("target/webapps/ROOT")
                 .build();
         piranha.start();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        
+        PiranhaStartup.waitUntilPiranhaReady(8080);
     }
 
     /**

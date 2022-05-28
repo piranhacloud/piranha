@@ -31,6 +31,7 @@ package cloud.piranha.test.common;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BooleanSupplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,12 +47,26 @@ public class PiranhaStartup {
      * @param port
      */
     public static void waitUntilPiranhaReady(Process process, int port) {
+        waitUntilPiranhaReady(port, () -> {
+            return process.isAlive();
+        });
+    }
+
+    /**
+     * Wait until Piranha is ready and opens the port. 
+     * @param port
+     */
+    public static void waitUntilPiranhaReady(int port) {
+        waitUntilPiranhaReady(port, () -> true);
+    }
+
+    private static void waitUntilPiranhaReady(int port, BooleanSupplier customCheck) {
         final int timeoutMillis = 30 * 1000;
         final int sleepTimeMillis = 100;
         long initialTimeMillis = System.currentTimeMillis();
         boolean started = false;
 
-        while (process.isAlive()
+        while (customCheck.getAsBoolean()
                 && !started) 
                 {
             if (initialTimeMillis + timeoutMillis < System.currentTimeMillis()) { // timeout reached
@@ -66,10 +81,11 @@ public class PiranhaStartup {
                 Logger.getLogger(PiranhaStartup.class.getName()).log(Level.FINE, "Not ready yet: {0}({1}", new Object[]{ex.getMessage(), ex.getClass()});
             } catch (InterruptedException ex) {
                 Logger.getLogger(PiranhaStartup.class.getName()).log(Level.WARNING, null, ex);
+                Thread.currentThread().interrupt();
             }
         }
 
-        if (!process.isAlive()) {
+        if (!customCheck.getAsBoolean()) {
             throw new RuntimeException("Piranha Micro failed to start");
         }
     }
