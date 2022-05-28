@@ -29,11 +29,10 @@
 package cloud.piranha.test.common;
 
 import java.io.IOException;
+import java.lang.System.Logger.Level;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BooleanSupplier;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -78,9 +77,9 @@ public class PiranhaStartup {
                 pingPiranha("localhost", port);
                 started = true;
             } catch (IOException ex) {
-                Logger.getLogger(PiranhaStartup.class.getName()).log(Level.FINE, "Not ready yet: {0}({1}", new Object[]{ex.getMessage(), ex.getClass()});
+                System.getLogger(PiranhaStartup.class.getName()).log(Level.DEBUG, "Not ready yet: {0}({1}", new Object[]{ex.getMessage(), ex.getClass()});
             } catch (InterruptedException ex) {
-                Logger.getLogger(PiranhaStartup.class.getName()).log(Level.WARNING, null, ex);
+                System.getLogger(PiranhaStartup.class.getName()).log(Level.WARNING, ex.getMessage(), ex);
                 Thread.currentThread().interrupt();
             }
         }

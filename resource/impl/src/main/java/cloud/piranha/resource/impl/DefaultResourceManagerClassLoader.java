@@ -58,7 +58,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(DefaultResourceManagerClassLoader.class.getName());
-    
+
     /**
      * Stores the 'Unable to load class: ' message prefix.
      */
@@ -311,7 +311,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
     }
 
     /**
-     * {@return the delegate classloader}
+     * @return the delegate classloader
      */
     public ClassLoader getDelegateClassLoader() {
         return delegateClassLoader;

@@ -26,7 +26,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+    
     <modules>
         <module>api</module>
         <module>dist</module>

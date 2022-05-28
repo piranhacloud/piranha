@@ -36,6 +36,9 @@ import org.jboss.arquillian.container.spi.client.protocol.ProtocolDescription;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 import cloud.piranha.micro.shrinkwrap.loader.MicroConfiguration;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Random;
 
 /**
  * The extension sets up the Arquillian Server Connector
@@ -47,7 +50,6 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
 
     // Defines the deployable container used; PiranhaServerDeployableContainer.class
     // This is the actual "connector" that controls Piranha.
-
     @Override
     public void register(ExtensionBuilder builder) {
         builder.service(DeployableContainer.class, PiranhaServerDeployableContainer.class);
@@ -55,7 +57,6 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
 
     // Defines the configuration class used: PiranhaServerContainerConfiguration.class
     // Defines the protocol used: "Servlet 5.0"
-
     public abstract static class PiranhaServerContainerBase implements DeployableContainer<PiranhaServerContainerConfiguration> {
 
         @Override
@@ -81,7 +82,7 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
 
         @Override
         public void undeploy(Descriptor descriptor) throws DeploymentException {
-         // We don't undeploy by descriptor (and neither does Arquillian it seems)
+            // We don't undeploy by descriptor (and neither does Arquillian it seems)
         }
 
         @Override
@@ -92,11 +93,87 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
     }
 
     // Defines the configuration class to be essentially the same as MicroConfiguration.class
-
     public static class PiranhaServerContainerConfiguration extends MicroConfiguration implements ContainerConfiguration {
+
+        /**
+         * Stores whether to automatically find an available port.
+         */
+        private boolean autoPort;
+
+        /**
+         * Helper class for finding a free port
+         */
+        private PortFinder portFinder = new PortFinder();
+
+        /**
+         * Initializes values from system properties or to default values
+         */
+        public PiranhaServerContainerConfiguration() {
+            super();
+            this.autoPort = Boolean.valueOf(System.getProperty("piranha.autoPort", "true"));
+        }
+
         @Override
         public void validate() throws ConfigurationException {
             postConstruct();
+        }
+
+        @Override
+        public PiranhaServerContainerConfiguration postConstruct() {
+            if (isAutoPort()) {
+                setPort(portFinder.findFreePort(getPort()));
+            }
+            super.postConstruct();
+            return this;
+        }
+
+        /**
+         * @return whether automatically assign port
+         */
+        public boolean isAutoPort() {
+            return autoPort;
+        }
+
+        /**
+         * @param autoPort Whether automatically assign port
+         */
+        public void setAutoPort(boolean autoPort) {
+            this.autoPort = autoPort;
+        }
+
+        private class PortFinder {
+
+            private int findFreePort(int initialPort) {
+                int portCandidate = 8080;
+                int numberOfAttempts = 100;
+                boolean foundFreePort = false;
+                final Random random = new Random();
+                
+                if (initialPort > 0) {
+                    portCandidate = initialPort;
+                }
+                
+                do {
+                    portCandidate += random.nextInt(100);
+                    foundFreePort = isFreePort(portCandidate);
+                    numberOfAttempts--;
+                } while (!foundFreePort || numberOfAttempts <= 0 || portCandidate > 65000);
+
+                if (foundFreePort) {
+                    return portCandidate;
+                } else {
+                    throw new RuntimeException("No free port found!");
+                }
+            }
+
+            private boolean isFreePort(int portCandidate) {
+                try ( Socket s = new Socket("localhost", portCandidate)) {
+                } catch (IOException ex) {
+                    return true;
+                }
+                return false;
+            }
+
         }
 
     }
