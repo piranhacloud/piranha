@@ -234,7 +234,7 @@ public class MicroConfiguration {
     }
 
     /**
-     * @return the version
+     * {@return the version}
      */
     public String getVersion() {
         return version;
@@ -250,7 +250,7 @@ public class MicroConfiguration {
     }
 
     /**
-     * @return the extensions
+     * {@return the extensions}
      */
     public String getExtensions() {
         return extensions;
@@ -266,7 +266,7 @@ public class MicroConfiguration {
     }
 
     /**
-     * @return the repositories
+     * {@return the repositories}
      */
     public String getRepositories() {
         return repositories;
@@ -300,7 +300,7 @@ public class MicroConfiguration {
     }
 
     /**
-     * @return the port
+     * {@return the port}
      */
     public int getPort() {
         return port;

@@ -30,7 +30,6 @@ package cloud.piranha.test.helloworld;
 import cloud.piranha.extension.standard.StandardExtension;
 import cloud.piranha.micro.MicroPiranha;
 import cloud.piranha.micro.MicroPiranhaBuilder;
-import cloud.piranha.test.common.FreePortFinder;
 import cloud.piranha.test.common.PiranhaStartup;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -38,6 +37,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
+import me.alexpanov.net.FreePortFinder;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,7 +77,7 @@ class HelloWorldServletMicroIT {
      */
     @BeforeEach
     void beforeEach() throws InterruptedException {
-        piranhaPort = FreePortFinder.findFreePort(8080);
+        piranhaPort = FreePortFinder.findFreeLocalPort();
         piranha = new MicroPiranhaBuilder()
                 .extensionClass(StandardExtension.class)
                 .warFile("target/webapps/ROOT.war")

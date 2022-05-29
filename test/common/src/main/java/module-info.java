@@ -26,7 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module cloud.piranha.arquillian.server {
+module cloud.piranha.test.common {
 
     exports cloud.piranha.test.common;
 
