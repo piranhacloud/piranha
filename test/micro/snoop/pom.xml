@@ -97,7 +97,6 @@
                 <configuration>
                     <classpathDependencyExcludes>
                         <classpathDependencyExclude>cloud.piranha.micro.shrinkwrap:piranha-micro-shrinkwrap</classpathDependencyExclude>
-                        <classpathDependencyExclude>cloud.piranha.test.webapp:test-webapp-snoop</classpathDependencyExclude>
                     </classpathDependencyExcludes>
                 </configuration>
             </plugin>
