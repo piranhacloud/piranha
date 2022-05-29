@@ -28,7 +28,6 @@
 package cloud.piranha.maven.plugins.piranha.server;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -202,7 +201,7 @@ public class StartMojo extends ServerMojo {
             Files.copy(inputStream,
                     zipFile.toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
-        } catch(FileNotFoundException fnfe) {
+        } catch(IOException fnfe) {
             System.err.println("Could not download zip bundle, defaulting back to local Maven repository");
         }
 

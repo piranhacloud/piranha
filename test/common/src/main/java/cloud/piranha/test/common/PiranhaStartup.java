@@ -87,6 +87,13 @@ public class PiranhaStartup {
         if (!customCheck.getAsBoolean()) {
             throw new RuntimeException("Piranha Micro failed to start");
         }
+        
+        // wait some more time just in case the port is already bound to but Piranha isn't ready to serve requests yet
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     private static void pingPiranha(String host, int port) throws IOException, InterruptedException {

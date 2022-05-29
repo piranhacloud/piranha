@@ -41,6 +41,14 @@
             <artifactId>test-common</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        <!-- parallel build dependencies, should be removed from test scope -->
+        <dependency>
+            <groupId>cloud.piranha.micro.shrinkwrap</groupId>
+            <artifactId>piranha-micro-shrinkwrap</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -82,6 +90,16 @@
                         <phase>none</phase>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <classpathDependencyExcludes>
+                        <classpathDependencyExclude>cloud.piranha.micro.shrinkwrap:piranha-micro-shrinkwrap</classpathDependencyExclude>
+                        <classpathDependencyExclude>cloud.piranha.test.webapp:test-webapp-snoop</classpathDependencyExclude>
+                    </classpathDependencyExcludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
