@@ -37,6 +37,7 @@ import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 import cloud.piranha.micro.shrinkwrap.loader.MicroConfiguration;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
 
@@ -98,6 +99,12 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
 
     public static class PiranhaServerContainerConfiguration extends MicroConfiguration implements ContainerConfiguration {
 
+        // highest port number that we'll try
+        private static final int MAX_PORT_NUMBER = 65535;
+        
+        // lowest port number that we'll try
+        private static final int MIN_PORT_NUMBER = 1;
+        
         /**
          * Stores whether to automatically find an available port.
          */
@@ -116,11 +123,21 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
             this.autoPort = Boolean.valueOf(System.getProperty("piranha.autoPort", "true"));
         }
 
+        /**
+         * Just calls {@link #postConstruct()}
+         * @throws ConfigurationException - never thrown
+         */
         @Override
         public void validate() throws ConfigurationException {
             postConstruct();
         }
 
+        /**
+         * Initializes configuration after all configured values were loaded. 
+         * Computes generated configuration, e.g. a free port for autoPort
+         * 
+         * @return
+         */
         @Override
         public PiranhaServerContainerConfiguration postConstruct() {
             if (isAutoPort()) {
@@ -146,7 +163,16 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
 
         private class PortFinder {
 
-            private int findFreePort(int initialPort) {
+            /**
+             * Find a random free local port. It's guaranteed that the returned port will be always random. 
+             * The initialPort parameter is only used as a base for the randomization and isn't returned 
+             * even if it's free. This is to prevent returning the same port if this method is called in parallel.
+             * 
+             * @param initialPort The initial port to start searching from. 
+             *                    If 0, the default port 8080 will be used.
+             * @return free port tha
+             */
+            public int findFreePort(int initialPort) {
                 int portCandidate = 8080;
                 int numberOfAttempts = 100;
                 boolean foundFreePort = false;
@@ -160,7 +186,10 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
                     portCandidate += random.nextInt(100);
                     foundFreePort = isFreePort(portCandidate);
                     numberOfAttempts--;
-                } while (!foundFreePort || numberOfAttempts <= 0 || portCandidate > 65000);
+                    if (portCandidate > MAX_PORT_NUMBER) {
+                        portCandidate = portCandidate - MAX_PORT_NUMBER - 1 + MIN_PORT_NUMBER;
+                    }
+                } while (!foundFreePort || numberOfAttempts <= 0);
 
                 if (foundFreePort) {
                     return portCandidate;
@@ -170,9 +199,15 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
             }
 
             private boolean isFreePort(int portCandidate) {
-                try ( Socket s = new Socket("localhost", portCandidate)) {
-                } catch (IOException ex) {
-                    return true;
+                try ( Socket clientSocket = new Socket("localhost", portCandidate)) {
+                } catch (IOException clientEx) {
+                    // we cannot connect, the port isn't occupied
+                    try {
+                        // check whether this process can bind to the port - listen to it and then close it
+                        try (ServerSocket listeningSocket = new ServerSocket(portCandidate)) {}
+                        return true;
+                    } catch (IOException listenEx) {
+                    }
                 }
                 return false;
             }

@@ -62,6 +62,9 @@ class HelloWorldServletMicroIT {
      */
     private MicroPiranha piranha;
     
+    /**
+     * The port the piranha instance will bind to
+     */
     private int piranhaPort;
 
     /**
