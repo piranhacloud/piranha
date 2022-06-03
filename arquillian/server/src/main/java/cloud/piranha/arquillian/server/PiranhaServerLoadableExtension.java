@@ -99,10 +99,14 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
 
     public static class PiranhaServerContainerConfiguration extends MicroConfiguration implements ContainerConfiguration {
 
-        // highest port number that we'll try
+        /** 
+         * Highest port number that we'll try
+         */
         private static final int MAX_PORT_NUMBER = 65535;
         
-        // lowest port number that we'll try
+        /**
+         * Lowest port number that we'll try
+         */
         private static final int MIN_PORT_NUMBER = 1;
         
         /**
