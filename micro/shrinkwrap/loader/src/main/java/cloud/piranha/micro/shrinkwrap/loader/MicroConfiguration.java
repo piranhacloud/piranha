@@ -314,7 +314,7 @@ public class MicroConfiguration {
     public void setPort(int port) {
         this.port = port;
     }
-
+    
     /**
      * Whether the war name is used for the context root
      * 

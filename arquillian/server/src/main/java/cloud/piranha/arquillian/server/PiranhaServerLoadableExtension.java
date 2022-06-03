@@ -50,6 +50,7 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
 
     // Defines the deployable container used; PiranhaServerDeployableContainer.class
     // This is the actual "connector" that controls Piranha.
+
     @Override
     public void register(ExtensionBuilder builder) {
         builder.service(DeployableContainer.class, PiranhaServerDeployableContainer.class);
@@ -57,6 +58,7 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
 
     // Defines the configuration class used: PiranhaServerContainerConfiguration.class
     // Defines the protocol used: "Servlet 5.0"
+
     public abstract static class PiranhaServerContainerBase implements DeployableContainer<PiranhaServerContainerConfiguration> {
 
         @Override
@@ -93,6 +95,7 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
     }
 
     // Defines the configuration class to be essentially the same as MicroConfiguration.class
+
     public static class PiranhaServerContainerConfiguration extends MicroConfiguration implements ContainerConfiguration {
 
         /**

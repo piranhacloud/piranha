@@ -72,7 +72,7 @@
                                 <mkdir dir="${project.build.directory}/webapps"/>
                                 <echo message="Copy piranha-test-helloworld.war to ${project.build.directory}/webapps/ROOT.war"/>
                                 <copy file="${project.build.directory}/piranha-test-helloworld.war"
-                                      tofile="${project.build.directory}/webapps/ROOT.war"/>
+                                    tofile="${project.build.directory}/webapps/ROOT.war"/>
                             </target>
                         </configuration>
                         <goals>

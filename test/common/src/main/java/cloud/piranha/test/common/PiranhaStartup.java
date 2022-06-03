@@ -36,7 +36,7 @@ import java.util.function.BooleanSupplier;
 
 /**
  *
- * @author omihalyi
+ * @author Ondro Mihalyi
  */
 public class PiranhaStartup {
 
