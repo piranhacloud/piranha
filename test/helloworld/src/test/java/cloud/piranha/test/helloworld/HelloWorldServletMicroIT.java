@@ -30,11 +30,14 @@ package cloud.piranha.test.helloworld;
 import cloud.piranha.extension.standard.StandardExtension;
 import cloud.piranha.micro.MicroPiranha;
 import cloud.piranha.micro.MicroPiranhaBuilder;
+import cloud.piranha.test.common.PiranhaStartup;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.time.Duration;
+import me.alexpanov.net.FreePortFinder;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,6 +61,11 @@ class HelloWorldServletMicroIT {
      * Stores the Piranha instance.
      */
     private MicroPiranha piranha;
+    
+    /**
+     * The port the piranha instance will bind to
+     */
+    private int piranhaPort;
 
     /**
      * After each test.
@@ -71,18 +79,17 @@ class HelloWorldServletMicroIT {
      * Before each test.
      */
     @BeforeEach
-    void beforeEach() {
+    void beforeEach() throws InterruptedException {
+        piranhaPort = FreePortFinder.findFreeLocalPort();
         piranha = new MicroPiranhaBuilder()
                 .extensionClass(StandardExtension.class)
                 .warFile("target/webapps/ROOT.war")
                 .webAppDir("target/webapps/ROOT")
+                .httpPort(piranhaPort)
+                .verbose(true)
                 .build();
         piranha.start();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        PiranhaStartup.waitUntilPiranhaReady(piranhaPort);
     }
 
     /**
@@ -92,9 +99,10 @@ class HelloWorldServletMicroIT {
      */
     @Test
     void testHelloWorld() throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
+        HttpClient client = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(60)).build();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/index.html"))
+                .newBuilder(new URI("http://localhost:" + piranhaPort + "/index.html"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello World!"));
