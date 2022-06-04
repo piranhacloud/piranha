@@ -54,6 +54,13 @@
             <artifactId>piranha-arquillian-server</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-micro</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>jakarta.platform</groupId>
