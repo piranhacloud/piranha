@@ -31,6 +31,7 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@Deprecated(since = "22.7.0", forRemoval = true)
 module cloud.piranha.nano {
     exports cloud.piranha.nano;
     opens cloud.piranha.nano;
