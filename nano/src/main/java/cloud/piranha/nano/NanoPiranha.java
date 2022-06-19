@@ -44,8 +44,10 @@ import jakarta.servlet.ServletException;
  * The smallest version of Piranha in our lineup.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  * @see cloud.piranha.core.api
  */
+@Deprecated(since = "22.7.0", forRemoval = true)
 public class NanoPiranha implements Piranha {
 
     /**

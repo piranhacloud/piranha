@@ -32,8 +32,10 @@ package cloud.piranha.nano;
  * {@link cloud.piranha.nano.NanoRequest}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  * @see cloud.piranha.nano.NanoRequest
  */
+@Deprecated(since = "22.7.0", forRemoval = true)
 public class NanoRequestBuilder {
     
     /**

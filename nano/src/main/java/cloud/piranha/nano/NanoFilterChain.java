@@ -40,8 +40,10 @@ import jakarta.servlet.ServletResponse;
  * processing of a request and generating a response.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  * @see cloud.piranha.nano
  */
+@Deprecated(since = "22.7.0", forRemoval = true)
 class NanoFilterChain implements FilterChain {
 
     /**

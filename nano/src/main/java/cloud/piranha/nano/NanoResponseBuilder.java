@@ -34,8 +34,10 @@ import java.io.OutputStream;
  * {@link cloud.piranha.nano.NanoResponse}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  * @see cloud.piranha.nano.NanoResponse
  */
+@Deprecated(since = "22.7.0", forRemoval = true)
 public class NanoResponseBuilder {
     
     /**
