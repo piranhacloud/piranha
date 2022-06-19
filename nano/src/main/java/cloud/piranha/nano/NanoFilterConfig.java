@@ -39,8 +39,10 @@ import jakarta.servlet.ServletContext;
  * so it can initialize a Filter.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  * @see cloud.piranha.nano
  */
+@Deprecated(since = "22.7.0", forRemoval = true)
 class NanoFilterConfig implements FilterConfig {
 
     /**

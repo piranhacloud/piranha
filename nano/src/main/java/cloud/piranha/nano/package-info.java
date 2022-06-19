@@ -53,6 +53,8 @@
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  * @see cloud.piranha.nano.NanoPiranhaBuilder
  */
+@Deprecated(since = "22.7.0", forRemoval = true)
 package cloud.piranha.nano;

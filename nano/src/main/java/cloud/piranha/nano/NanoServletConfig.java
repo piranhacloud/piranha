@@ -38,7 +38,9 @@ import jakarta.servlet.ServletContext;
  * so it can initialize the Servlet.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
+@Deprecated(since = "22.7.0", forRemoval = true)
 class NanoServletConfig implements ServletConfig {
 
     /**
