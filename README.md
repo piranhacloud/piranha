@@ -17,7 +17,7 @@ integration modules.
 
 ## Quickstart
 
-Download the JAR file from <a href="https://repo1.maven.org/maven2/cloud/piranha/micro/piranha-micro">Maven Central</a>.
+Download the JAR file from <a href="https://repo1.maven.org/maven2/cloud/piranha/piranha-micro/">Maven Central</a>.
 
 And run your web application using:
 
