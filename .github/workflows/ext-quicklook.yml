@@ -1,13 +1,8 @@
 name: ext-quicklook
 on: 
   push:
-    branches-ignore:    
-      - 'preview'
     tags-ignore:
       - 'v*'
-  pull_request:
-    branches:
-      - current  
 jobs:
   quicklook:
     runs-on: ${{ matrix.os }}
