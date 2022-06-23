@@ -44,7 +44,7 @@
             <dependency>
                 <groupId>jakarta.el</groupId>
                 <artifactId>jakarta.el-api</artifactId>
-                <version>4.0.0</version>
+                <version>5.0.0</version>
             </dependency>            
             
             <!-- Jakarta Contexts Dependency Injection -->
@@ -100,21 +100,21 @@
             <dependency>
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
-                <version>5.0.0</version>
+                <version>6.0.0</version>
             </dependency>
 
             <!-- Jakarta Server Pages -->
             <dependency>
                 <groupId>jakarta.servlet.jsp</groupId>
                 <artifactId>jakarta.servlet.jsp-api</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
             </dependency>
             
             <!-- Jakarta Standard Tag Library -->            
             <dependency>
                 <groupId>jakarta.servlet.jsp.jstl</groupId>
                 <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-                <version>2.0.0</version>
+                <version>3.0.0-RC1</version>
             </dependency>
             
             <!-- Jakarta Transactions -->
@@ -142,7 +142,7 @@
             <dependency>
                 <groupId>jakarta.ws.rs</groupId>
                 <artifactId>jakarta.ws.rs-api</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
             </dependency>
 
             <!-- Jakarta XML Binding -->

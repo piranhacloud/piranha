@@ -123,6 +123,11 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     protected final Map<String, AtomicInteger> sessionCounters = new HashMap<>();
 
     /**
+     * Stores the cookie attributes.
+     */
+    protected HashMap<String, String> sessionCookieAttributes;
+
+    /**
      * Stores the session listeners.
      */
     protected final ArrayList<HttpSessionListener> sessionListeners;
@@ -152,6 +157,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
      */
     public DefaultHttpSessionManager() {
         attributeListeners = new ArrayList<>(1);
+        sessionCookieAttributes = new HashMap<>();
         defaultSessionTrackingModes = EnumSet.of(COOKIE);
         sessionTrackingModes = defaultSessionTrackingModes;
         idListeners = new ArrayList<>(1);
@@ -385,7 +391,6 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         if (webApplication.isInitialized()) {
             throw new IllegalStateException("You cannot call setComment once ServletContext is initialized");
         }
-        this.comment = comment;
     }
 
     @Override
@@ -482,5 +487,28 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
                 }
             }
         }
+    }
+
+    /*
+       REVIEW FOR SERVLET 6
+     */
+
+    @Override
+    public void setAttribute(String name, String value) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    /*
+       REVIEW FOR SERVLET 6
+     */
+
+    @Override
+    public String getAttribute(String name) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public Map<String, String> getAttributes() {
+        return Collections.unmodifiableMap(sessionCookieAttributes);
     }
 }

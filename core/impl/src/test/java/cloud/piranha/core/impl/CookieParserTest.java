@@ -36,6 +36,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CookieParserTest {
 
+    /*
+     
+      REVIEW FOR SERVLET 6
+     
     @Nested
     class RFC2109 {
         @Test
@@ -68,6 +72,7 @@ class CookieParserTest {
             assertEquals("/ammo", cookie2.getPath());
         }
     }
+    */
 
     @Nested
     class Netscape {

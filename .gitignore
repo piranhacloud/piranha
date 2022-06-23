@@ -13,3 +13,4 @@ target/
 *.iml
 *.original~
 
+/server/dist/tmp/piranha.stopped

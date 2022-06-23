@@ -129,9 +129,9 @@
                                 <excludes>
                                     <exclude>cloud.piranha.core:piranha-core-api</exclude>
                                     <exclude>cloud.piranha.core:piranha-core-impl</exclude>
-                                    <exclude>cloud.piranha.core:piranha-core-servlet-api</exclude>
                                     <exclude>cloud.piranha.resource:piranha-resource-api</exclude>
                                     <exclude>cloud.piranha.resource:piranha-resource-impl</exclude>
+                                    <exclude>jakarta.servlet:jakarta.servlet-api</exclude>
                                 </excludes>
                             </artifactSet>
                             <relocations>

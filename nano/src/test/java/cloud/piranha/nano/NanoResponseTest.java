@@ -104,16 +104,6 @@ class NanoResponseTest {
     }
 
     /**
-     * Test encodeRedirectUrl method.
-     */
-    @Test
-    void testEncodeRedirectUrl() {
-        NanoResponse response = new NanoResponse();
-        response.setWebApplication(new DefaultWebApplication());
-        assertEquals("url", response.encodeRedirectUrl("url"));
-    }
-
-    /**
      * Test encodeURL method.
      */
     @Test
@@ -122,16 +112,6 @@ class NanoResponseTest {
         response.setWebApplication(new DefaultWebApplication());
         assertNotNull(response.encodeURL("url"));
         assertEquals("url", response.encodeURL("url"));
-    }
-
-    /**
-     * Test encodeUrl method.
-     */
-    @Test
-    void testEncodeUrl() {
-        NanoResponse response = new NanoResponse();
-        response.setWebApplication(new DefaultWebApplication());
-        assertEquals("url", response.encodeUrl("url"));
     }
 
     /**

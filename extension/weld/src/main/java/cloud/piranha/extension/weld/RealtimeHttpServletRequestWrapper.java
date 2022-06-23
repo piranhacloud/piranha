@@ -233,17 +233,6 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     }
 
     /**
-     * {@return the real path}
-     * @param path the path.
-     * @deprecated
-     */
-    @Deprecated
-    @Override
-    public String getRealPath(String path) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
      * {@return the remote address}
      */
     @Override
@@ -682,18 +671,6 @@ public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRe
     @Override
     public boolean isRequestedSessionIdFromURL() {
         return getWrapped().isRequestedSessionIdFromURL();
-    }
-
-    /**
-     * Is the requested session if from a URL.
-     *
-     * @return true if it is, false otherwise.
-     * @deprecated
-     */
-    @Deprecated
-    @Override
-    public boolean isRequestedSessionIdFromUrl() {
-        throw new UnsupportedOperationException();
     }
 
     /**

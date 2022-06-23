@@ -146,7 +146,6 @@ public class SnoopServlet extends HttpServlet {
             out.println("<tr><td>Is Async Supported:</td><td>" + request.isAsyncSupported() + "</td></tr>");
             out.println("<tr><td>Is Requested Session Id From Cookie:</td><td>" + request.isRequestedSessionIdFromCookie() + "</td></tr>");
             out.println("<tr><td>Is Requested Session Id From URL:</td><td>" + request.isRequestedSessionIdFromURL() + "</td></tr>");
-            out.println("<tr><td>Is Requested Session Id From Url:</td><td>" + request.isRequestedSessionIdFromUrl() + "</td></tr>");
             out.println("<tr><td>Is Secure:</td><td>" + request.isSecure() + "</td></tr>");
             out.println(TABLE_END);
             out.println("<b>Attributes</b>");
@@ -199,7 +198,6 @@ public class SnoopServlet extends HttpServlet {
   <tr><td>Last Accessed Time</td></td>%s</td></tr>
   <tr><td>Session Context</td></td>%s</td></tr>
   <tr><td>Max Inactive Interval</td></td>%s</td></tr>
-  <tr><td>Session Context</td></td>%s</td></tr>
   <tr><td>Id</td></td>%s</td></tr>               
   <tr><td>Is New</td></td>%s</td></tr>
 </tabLe>
@@ -209,7 +207,6 @@ public class SnoopServlet extends HttpServlet {
                     session.getLastAccessedTime(),
                     session.getServletContext(),
                     session.getMaxInactiveInterval(),
-                    session.getSessionContext(),
                     session.getId(),
                     session.isNew()
             ));

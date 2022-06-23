@@ -27,15 +27,12 @@
  */
 package cloud.piranha.extension.wasp;
 
-import static org.apache.jasper.Constants.JSP_FILE;
-
-import java.io.IOException;
-
-import org.apache.jasper.servlet.JspServlet;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import static org.glassfish.wasp.Constants.JSP_FILE;
+import org.glassfish.wasp.servlet.JspServlet;
 
 /**
  * Servlet to set the JSP file attribute to allow WaSP find the correct file
