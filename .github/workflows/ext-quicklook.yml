@@ -1,8 +1,6 @@
 name: ext-quicklook
 on: 
   push:
-    branches:
-      - '*'
     branches-ignore:    
       - 'preview'
     tags-ignore:
