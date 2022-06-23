@@ -56,6 +56,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -165,7 +166,12 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         sessionTimeout = 10;
         maxAge = -1;
         sessions = new ConcurrentHashMap<>();
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        ThreadFactory threadFactory = (Runnable r) -> {
+            Thread thread = new Thread(r);
+            thread.setDaemon(true);
+            return thread;
+        };
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1, threadFactory);
         scheduler.scheduleWithFixedDelay(this::reapSessions, 0, 1300, MILLISECONDS);
     }
 

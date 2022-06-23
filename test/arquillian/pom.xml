@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
-        <version>22.4.0-preview-SNAPSHOT</version>
+        <version>22.7.0-SNAPSHOT</version>
     </parent>
 
     <groupId>cloud.piranha.test.arquillian</groupId>
@@ -52,6 +52,13 @@
             <groupId>cloud.piranha.arquillian</groupId>
             <artifactId>piranha-arquillian-server</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-micro</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

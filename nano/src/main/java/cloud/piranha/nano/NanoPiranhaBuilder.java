@@ -45,8 +45,10 @@ import jakarta.servlet.ServletException;
  * {@link cloud.piranha.nano.NanoPiranha}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  * @see cloud.piranha.nano.NanoPiranha
  */
+@Deprecated(since = "22.7.0", forRemoval = true)
 public class NanoPiranhaBuilder {
 
     /**

@@ -30,6 +30,7 @@ package cloud.piranha.server;
 import java.io.File;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import cloud.piranha.core.api.WebApplicationExtension;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The builder so you can easily build instances of
@@ -39,6 +40,11 @@ import cloud.piranha.core.api.WebApplicationExtension;
  * @see cloud.piranha.server.ServerPiranha
  */
 public class ServerPiranhaBuilder {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(ServerPiranhaBuilder.class.getName());
 
     /**
      * Stores the default extension class.
@@ -151,8 +157,10 @@ public class ServerPiranhaBuilder {
      */
     public ServerPiranhaBuilder defaultExtensionClass(String defaultExtensionClassName) {
         try {
-            this.defaultExtensionClass = Class.forName(defaultExtensionClassName).asSubclass(WebApplicationExtension.class);
+            this.defaultExtensionClass = Class.forName(defaultExtensionClassName)
+                    .asSubclass(WebApplicationExtension.class);
         } catch (ClassNotFoundException cnfe) {
+            LOGGER.log(WARNING, "Unable to load default extension class", cnfe);
         }
         return this;
     }

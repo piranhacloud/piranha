@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>22.4.0-preview-SNAPSHOT</version>
+        <version>22.7.0-SNAPSHOT</version>
     </parent>
 
     <groupId>cloud.piranha.test</groupId>
@@ -25,7 +25,6 @@
         <module>jpa</module>
         <module>jpms</module>
         <module>micro</module>
-        <module>mojarra</module>
         <module>mojarra2</module>
         <module>server</module>
         <module>server-programmatic</module>
@@ -34,6 +33,7 @@
         <module>webxml</module>
         <module>weld</module>
         <module>webapp</module>
+        <module>common</module>
     </modules>
 
     <properties>
@@ -48,6 +48,12 @@
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>cloud.piranha.test</groupId>
+                <artifactId>test-common</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

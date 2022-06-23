@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
-        <version>22.4.0-preview-SNAPSHOT</version>
+        <version>22.7.0-SNAPSHOT</version>
     </parent>
 
     <groupId>cloud.piranha.test.micro</groupId>
@@ -16,7 +16,6 @@
     <name>Piranha - Test - Micro - Project</name>
 
     <modules>
-        <module>mojarra</module>
         <module>snoop</module>
     </modules>
 

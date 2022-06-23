@@ -15,6 +15,16 @@
 The Piranha Project delivers you with Cloud ready containers and useful add-on / 
 integration modules.
 
+## Quickstart
+
+Download the JAR file from <a href="https://repo1.maven.org/maven2/cloud/piranha/piranha-micro/">Maven Central</a>.
+
+And run your web application using:
+
+```
+java -jar piranha-micro.jar --war-file your_webapplication.war
+```
+
 ## Getting Started
 
 To get started with Piranha please visit our 

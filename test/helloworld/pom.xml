@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
-        <version>22.4.0-preview-SNAPSHOT</version>
+        <version>22.7.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-test-helloworld</artifactId>
@@ -41,6 +41,17 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>test-common</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.alexpanov</groupId>
+            <artifactId>free-port-finder</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

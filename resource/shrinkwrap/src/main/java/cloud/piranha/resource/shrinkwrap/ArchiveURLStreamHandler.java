@@ -29,6 +29,7 @@ package cloud.piranha.resource.shrinkwrap;
 
 import java.io.IOException;
 import java.io.InputStream;
+import static java.lang.System.Logger.Level.WARNING;
 import java.net.URL;
 import java.net.URLStreamHandler;
 
@@ -43,6 +44,11 @@ import org.jboss.shrinkwrap.api.asset.Asset;
  *
  */
 public class ArchiveURLStreamHandler extends URLStreamHandler {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(ArchiveURLStreamHandler.class.getName());
 
     /**
      * Stores the archive.
@@ -90,8 +96,8 @@ public class ArchiveURLStreamHandler extends URLStreamHandler {
                     if (stream != null) {
                         contentType = guessContentTypeFromStream(stream);
                     }
-                } catch (IOException e) {
-
+                } catch (IOException ioe) {
+                    LOGGER.log(WARNING, "An I/O error occurred while guessing content type from stream", ioe);
                 }
 
                 if (contentType == null) {

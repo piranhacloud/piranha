@@ -106,7 +106,7 @@ public class DefaultInvocationFinder {
                 servletInvocation = getWelcomeFileServletInvocation(servletPath, pathInfo != null ? pathInfo : "/");
 
                 if (servletInvocation == null) {
-                    String servletPathLower = servletPath.toLowerCase();
+                    String servletPathLower = servletPath != null ? servletPath.toLowerCase() : "";
                     if (servletPathLower.startsWith("/web-inf") || servletPathLower.startsWith("/meta-inf")) {
                         servletInvocation = getDefaultServletInvocation(null, null);
                     } else {
@@ -230,34 +230,35 @@ public class DefaultInvocationFinder {
     private DefaultServletInvocation getWelcomeFileServletInvocation(String servletPath, String pathInfo) throws IOException {
 
         if (webApplication.getManager().getWelcomeFileManager() != null) {
-            // Try if we have a welcome file that we can load via the default servlet
 
             for (String welcomeFile : webApplication.getManager().getWelcomeFileManager().getWelcomeFileList()) {
-                if (!isStaticResource(servletPath, pathInfo + welcomeFile)) {
-                    continue;
+
+                DefaultServletInvocation servletInvocation = null;
+                
+                if (isJsp(welcomeFile)) {
+                    // .jsp files are special in the system, as they are mapped to a servlet, but also
+                    // have to be present at exactly that path as static resource. Additionally we have
+                    // the required index.jsp welcome file, that may not actually be there. 
+                    // So, .jsp files are treated as a servlet invocation but only if the static resource exists
+                    if (isStaticResource(servletPath, pathInfo + welcomeFile)) {
+                        servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo + welcomeFile);
+                    }
+                } else if (isStaticResource(servletPath, pathInfo + welcomeFile)) {
+                    // If we have a welcome file, we can load it via the default servlet.
+                    return getDefaultServletInvocation(servletPath, pathInfo + welcomeFile);
+                } else {
+                    // Try if we have a welcome servlet
+                    servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo + welcomeFile);
                 }
 
-                return getDefaultServletInvocation(servletPath, pathInfo + welcomeFile);
-            }
-
-            // Next try if we have a welcome servlet
-            for (String welcomeFile : webApplication.getManager().getWelcomeFileManager().getWelcomeFileList()) {
-                if ( // .jsp files are special in the system, as they are mapped to a servlet, but also
-                        // have to be present at exactly that path as static resource. Additionally we have
-                        // the required index.jsp welcome file, that may not actually be there.
-                        (welcomeFile.endsWith(".jsp") && !isStaticResource(servletPath, pathInfo + welcomeFile))) {
-                    continue;
-                }
-
-                DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo + welcomeFile);
                 if (servletInvocation != null) {
                     servletInvocation.setOriginalServletPath(servletPath);
+                    return servletInvocation;
                 }
-
-                return servletInvocation;
+                
             }
 
-            // No welcome file or servlet
+            // No static file, JSP or servlet
         }
 
         return null;
@@ -265,6 +266,10 @@ public class DefaultInvocationFinder {
 
     private boolean isStaticResource(String servletPath, String pathInfo) throws MalformedURLException {
         return webApplication.getResource(addOrRemoveSlashIfNeeded(servletPath + (pathInfo == null ? "" : pathInfo))) != null;
+    }
+
+    private static boolean isJsp(String welcomeFile) {
+        return welcomeFile.endsWith(".jsp");
     }
 
     private String addOrRemoveSlashIfNeeded(String string) {

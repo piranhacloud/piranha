@@ -171,6 +171,7 @@ public class ServerPiranha implements Piranha, Runnable {
                 entry = zipInput.getNextEntry();
             }
         } catch (IOException ioe) {
+            LOGGER.log(WARNING, "An I/O error occurred while extracting WAR file", ioe);
         }
     }
 
@@ -208,20 +209,8 @@ public class ServerPiranha implements Piranha, Runnable {
 
         webApplicationServer = new HttpWebApplicationServer();
 
-        if (httpPort > 0) {
-            httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
-            httpServer.setServerPort(httpPort);
-            httpServer.setHttpServerProcessor(webApplicationServer);
-            httpServer.start();
-        }
-
-        if (httpsPort > 0) {
-            httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
-            httpsServer.setHttpServerProcessor(webApplicationServer);
-            httpsServer.setServerPort(httpsPort);
-            httpsServer.setSSL(true);
-            httpsServer.start();
-        }
+        startHttpServer();
+        startHttpsServer();
 
         webApplicationServer.start();
 
@@ -271,7 +260,7 @@ public class ServerPiranha implements Piranha, Runnable {
 
                         LOGGER.log(INFO, "Deployed " + webapp.getName() + " at " + webApplication.getContextPath());
 
-                    } catch (Exception e) {
+                    } catch (Error e) {
                         LOGGER.log(ERROR, () -> "Failed to initialize app " + webapp.getName(), e);
                     }
 
@@ -315,9 +304,7 @@ public class ServerPiranha implements Piranha, Runnable {
 
             if (!pidFile.exists()) {
                 webApplicationServer.stop();
-                if (httpServer != null) {
-                    httpServer.stop();
-                }
+                stopHttpServer();
                 if (httpsServer != null) {
                     httpsServer.stop();
                 }
@@ -525,6 +512,31 @@ public class ServerPiranha implements Piranha, Runnable {
     }
 
     /**
+     * Start the HTTP server (if requested).
+     */
+    public void startHttpServer() {
+        if (httpPort > 0) {
+            httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+            httpServer.setServerPort(httpPort);
+            httpServer.setHttpServerProcessor(webApplicationServer);
+            httpServer.start();
+        }
+    }
+
+    /**
+     * Start the HTTPS server (if requested).
+     */
+    private void startHttpsServer() {
+        if (httpsPort > 0) {
+            httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+            httpsServer.setHttpServerProcessor(webApplicationServer);
+            httpsServer.setServerPort(httpsPort);
+            httpsServer.setSSL(true);
+            httpsServer.start();
+        }
+    }
+
+    /**
      * Stop the server.
      */
     public void stop() {
@@ -540,5 +552,14 @@ public class ServerPiranha implements Piranha, Runnable {
 
         started = false;
         thread = null;
+    }
+
+    /**
+     * Stores the HTTP server (if requested).
+     */
+    private void stopHttpServer() {
+        if (httpServer != null) {
+            httpServer.stop();
+        }
     }
 }

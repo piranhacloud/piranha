@@ -10,7 +10,7 @@
     <parent>
         <groupId>cloud.piranha.external.tck</groupId>
         <artifactId>project</artifactId>
-        <version>22.4.0-preview-SNAPSHOT</version>
+        <version>22.7.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-external-tck-servlet</artifactId>
@@ -51,7 +51,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
                         <executions>
                             <execution>
                                 <id>validate</id>
@@ -208,9 +207,9 @@
                                         </exec>
                                         
                                         <!-- Give the server some time to settle down -->
-                                        <sleep seconds="40" if:set="suspend"/>
-                                        <sleep seconds="30" unless:set="run.test"/>
-                                        <sleep seconds="2" if:set="run.test" unless:set="suspend"/>
+                                        <sleep seconds="60" if:set="suspend"/>
+                                        <sleep seconds="60" unless:set="run.test"/>
+                                        <sleep seconds="10" if:set="run.test" unless:set="suspend"/>
                                     </target>
                                 </configuration>
                             </execution>
@@ -298,7 +297,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
                         <executions>
                             <execution>
                                 <id>validate</id>
@@ -519,7 +517,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
                         <executions>
                             <execution>
                                 <id>validate</id>
@@ -616,7 +613,7 @@
                                         <exec executable="${piranha.home}/bin/start.cmd"
                                               dir="${piranha.home}/bin"/>
                                         <!-- give the server some time to settle down -->
-                                        <sleep seconds="30"/>
+                                        <sleep seconds="60"/>
                                     </target>
                                 </configuration>
                             </execution>

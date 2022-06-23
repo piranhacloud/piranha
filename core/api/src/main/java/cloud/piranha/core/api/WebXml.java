@@ -170,7 +170,7 @@ public class WebXml implements Serializable {
     /**
      * Stores the data sources.
      */
-    private List<WebXmlDataSource> dataSources = new ArrayList<>();
+    private final List<WebXmlDataSource> dataSources = new ArrayList<>();
 
     /**
      * Store if we are denying uncovered HTTP methods.

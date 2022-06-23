@@ -27,11 +27,13 @@
  */
 package cloud.piranha.resource.impl;
 
+import cloud.piranha.resource.api.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import static java.lang.System.Logger.Level.DEBUG;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -40,14 +42,17 @@ import java.nio.file.Paths;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import cloud.piranha.resource.api.Resource;
-
 /**
  * The default DirectoryResource.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DirectoryResource implements Resource {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(DirectoryResource.class.getName());
 
     /**
      * Stores the root directory.
@@ -66,7 +71,7 @@ public class DirectoryResource implements Resource {
      * @param rootDirectory the root directory.
      */
     public DirectoryResource(String rootDirectory) {
-        this (new File(rootDirectory));
+        this(new File(rootDirectory));
     }
 
     /**
@@ -78,23 +83,42 @@ public class DirectoryResource implements Resource {
         this.rootDirectory = rootDirectory;
     }
 
+    @Override
+    public Stream<String> getAllLocations() {
+        try {
+            Path rootPath = Paths.get(rootDirectory.toURI());
+            Path root = Paths.get("/");
+            return Files.walk(rootPath)
+                    .filter(Predicate.not(Files::isDirectory))
+                    .map(rootPath::relativize)
+                    .map(root::resolve)
+                    .map(Path::toString);
+        } catch (IOException e) {
+            return Stream.empty();
+        }
+    }
+
+    @Override
+    public String getName() {
+        return rootDirectory.getName();
+    }
+
     /**
      * {@return the resource}
      */
     @Override
     public URL getResource(String location) {
         URL result = null;
-
         if (location != null) {
             File file = new File(rootDirectory, location);
             if (file.exists()) {
                 try {
                     result = new URL(file.toURI().toString());
-                } catch (MalformedURLException exception) {
+                } catch (MalformedURLException mue) {
+                    LOGGER.log(DEBUG, "Malformed URL for find directory resource", mue);
                 }
             }
         }
-
         return result;
     }
 
@@ -107,28 +131,12 @@ public class DirectoryResource implements Resource {
     public InputStream getResourceAsStream(String location) {
         InputStream result = null;
         File file = new File(rootDirectory, location);
-
         try {
             result = new FileInputStream(file);
-        } catch (FileNotFoundException exception) {
+        } catch (FileNotFoundException fnfe) {
+            LOGGER.log(DEBUG, "Unable to find directory resource", fnfe);
         }
-
         return result;
-    }
-
-    @Override
-    public Stream<String> getAllLocations() {
-        try {
-            Path rootPath = Paths.get(rootDirectory.toURI());
-            Path root = Paths.get("/");
-            return Files.walk(rootPath)
-                .filter(Predicate.not(Files::isDirectory))
-                .map(rootPath::relativize)
-                .map(root::resolve)
-                .map(Path::toString);
-        } catch (IOException e) {
-            return Stream.empty();
-        }
     }
 
     /**
@@ -148,13 +156,7 @@ public class DirectoryResource implements Resource {
     }
 
     @Override
-    public String getName() {
-        return rootDirectory.getName();
-    }
-
-    @Override
     public String toString() {
         return getName() + " " + super.toString();
     }
-
 }

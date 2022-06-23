@@ -113,7 +113,7 @@ public class AuthorizationPostInitializer implements ServletContainerInitializer
         return getAttribute(context, AuthorizationPreInitializer.AUTHZ_SERVICE);
     }
 
-    private List<SecurityConstraint> getAllScurityConstraints(WebApplication context) throws ServletException {
+    private List<SecurityConstraint> getAllScurityConstraints(WebApplication context) {
         List<SecurityConstraint> webXmlConstraints = getConstraintsFromWebXml(context);
         List<SecurityConstraint> annotationConstraints = filterAnnotatedConstraints(
                 webXmlConstraints,
@@ -218,9 +218,8 @@ public class AuthorizationPostInitializer implements ServletContainerInitializer
      *
      * @param webApplication the web application.
      * @return the list of security constraints.
-     * @throws ServletException when a Servlet error occurs.
      */
-    private List<SecurityConstraint> getConstraintsFromWebXml(WebApplication webApplication) throws ServletException {
+    private List<SecurityConstraint> getConstraintsFromWebXml(WebApplication webApplication) {
         WebXmlManager manager = webApplication.getManager().getWebXmlManager();
         return piranhaToExousiaConverter.getConstraintsFromWebXml(manager.getWebXml());
     }

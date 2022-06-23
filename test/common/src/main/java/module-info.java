@@ -25,31 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.mojarra;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
+module cloud.piranha.test.common {
 
-/**
- * The one and only application bean.
- *
- * @author Manfred Riem (mriem@manorrock.com)
- */
-@ApplicationScoped
-@Named("applicationBean")
-public class ApplicationBean {
+    exports cloud.piranha.test.common;
 
-    /**
-     * Stores the 'Hello World from Mojarra!' constant
-     */
-    private static final String HELLO_WORLD = "Hello World from Mojarra!";
-
-    /**
-     * Get the 'Hello World from Mojarra!'.
-     *
-     * @return the 'Hello World from Mojarra!'.
-     */
-    public String helloWorld() {
-        return HELLO_WORLD;
-    }
 }

@@ -5,7 +5,7 @@
 
     <groupId>cloud.piranha</groupId>
     <artifactId>project</artifactId>
-    <version>22.4.0-preview-SNAPSHOT</version>
+    <version>22.7.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Piranha - Project</name>
@@ -78,19 +78,19 @@
             <dependency>
                 <groupId>org.apache.johnzon</groupId>
                 <artifactId>johnzon-core</artifactId>
-                <version>1.2.16</version>
+                <version>1.2.18</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.johnzon</groupId>
                 <artifactId>johnzon-jsonb</artifactId>
-                <version>1.2.16</version>
+                <version>1.2.18</version>
             </dependency>
 
             <!-- Apache Maven -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-plugin-api</artifactId>
-                <version>3.8.4</version>
+                <version>3.8.5</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.maven.plugin-tools</groupId>
@@ -210,7 +210,7 @@
             <dependency>
                 <groupId>org.eclipse.parsson</groupId>
                 <artifactId>parsson</artifactId>
-                <version>1.0.0</version>
+                <version>1.1.0</version>
             </dependency>
             
             <!-- Eclipse Soteria -->
@@ -264,7 +264,7 @@
             <dependency>
                 <groupId>net.sourceforge.htmlunit</groupId>
                 <artifactId>htmlunit</artifactId>
-                <version>2.59.0</version>
+                <version>2.60.0</version>
             </dependency>
 
             <!-- JBoss Arquillian -->
@@ -337,7 +337,7 @@
                 <version>3.1.4</version>
             </dependency>
             
-             <!-- JBoss Undertow -->
+            <!-- JBoss Undertow -->
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-core</artifactId>
@@ -387,39 +387,39 @@
             <dependency>
                 <groupId>com.hazelcast</groupId>
                 <artifactId>hazelcast</artifactId>
-                <version>5.1</version>
+                <version>5.1.1</version>
             </dependency>
 
             <!-- Netty -->
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-buffer</artifactId>
-                <version>4.1.75.Final</version>
+                <version>4.1.77.Final</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http</artifactId>
-                <version>4.1.75.Final</version>
+                <version>4.1.77.Final</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http2</artifactId>
-                <version>4.1.75.Final</version>
+                <version>4.1.77.Final</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-common</artifactId>
-                <version>4.1.75.Final</version>
+                <version>4.1.77.Final</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-handler</artifactId>
-                <version>4.1.75.Final</version>
+                <version>4.1.77.Final</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-transport</artifactId>
-                <version>4.1.75.Final</version>
+                <version>4.1.77.Final</version>
             </dependency>
             
             <!-- OmniFaces Config -->
@@ -471,14 +471,14 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>10.0</version>
+                            <version>10.1</version>
                         </dependency>
                     </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -502,7 +502,7 @@
                 </plugin>
                 <!-- 
                
-                   Downgraded to 3.0.0-M4 because 3.0.0-M5 does not work.
+                   Downgraded to 3.0.0-M4 because 3.0.0-M5 and 3.0.0-M6 do not work.
                   
                 -->
                 <plugin>
@@ -527,6 +527,11 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-invoker-plugin</artifactId>
+                    <version>3.2.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.3.2</version>
                 </plugin>
@@ -540,22 +545,10 @@
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.2.0</version>
                 </plugin>
-                <!-- 
-                
-                    Workaround for 3.2.4 version of the plugin and Java 16+
-
-                -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.2.4</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.ow2.asm</groupId>
-                            <artifactId>asm</artifactId>
-                            <version>9.2</version>
-                        </dependency>
-                    </dependencies>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -570,7 +563,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M5</version>
+                    <version>3.0.0-M6</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -600,12 +593,12 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
-                    <version>2.9.0</version>
+                    <version>2.10.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.7</version>
+                    <version>0.8.8</version>
                 </plugin>
                 <plugin>
                     <groupId>org.moditect</groupId>

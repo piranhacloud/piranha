@@ -60,6 +60,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
@@ -85,6 +87,11 @@ import static java.util.Objects.requireNonNull;
  */
 public class DefaultWebApplicationRequest extends ServletInputStream implements WebApplicationRequest {
 
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(DefaultWebApplicationRequest.class.getName());
+    
     /**
      * Defines the 'multipart/form-data' constant.
      */
@@ -730,8 +737,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Part getPart(String name) throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getManager().getMultiPartManager() != null 
-                ? webApplication.getManager().getMultiPartManager().getPart(webApplication, this, name) 
+        return webApplication.getManager().getMultiPartManager() != null
+                ? webApplication.getManager().getMultiPartManager().getPart(webApplication, this, name)
                 : null;
     }
 
@@ -841,7 +848,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         result.append(":");
         result.append(getServerPort());
         result.append(getRequestURI());
-
         return result;
     }
 
@@ -971,7 +977,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public void logout() throws ServletException {
         if (webApplication.getManager().getSecurityManager() != null) {
-            webApplication.getManager().getSecurityManager().logout(this, 
+            webApplication.getManager().getSecurityManager().logout(this,
                     (HttpServletResponse) webApplication.getResponse(this));
         }
     }
@@ -1035,7 +1041,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         boolean supported = false;
         try {
             supported = Charset.isSupported(characterEncoding);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException iae) {
+            LOGGER.log(WARNING, "Illegal argument for setting character encoding", iae);
         }
         if (!supported) {
             throw new UnsupportedEncodingException("Character encoding '" + characterEncoding + "' is not supported");

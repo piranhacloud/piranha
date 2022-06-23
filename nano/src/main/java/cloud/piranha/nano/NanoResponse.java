@@ -34,8 +34,10 @@ import java.io.ByteArrayOutputStream;
  * The WebApplicationResponse class used by {@link cloud.piranha.nano.NanoPiranha}
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  * @see cloud.piranha.nano.NanoPiranha
  */
+@Deprecated(since = "22.7.0", forRemoval = true)
 public class NanoResponse extends DefaultWebApplicationResponse {
 
     /**

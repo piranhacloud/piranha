@@ -27,15 +27,15 @@
  */
 package cloud.piranha.resource.impl;
 
+import cloud.piranha.resource.api.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import static java.lang.System.Logger.Level.WARNING;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.stream.Stream;
-
-import cloud.piranha.resource.api.Resource;
 
 /**
  * The default AliasedDirectoryResource.
@@ -43,6 +43,11 @@ import cloud.piranha.resource.api.Resource;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class AliasedDirectoryResource implements Resource {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(AliasedDirectoryResource.class.getName());
 
     /**
      * Stores the root directory.
@@ -72,10 +77,7 @@ public class AliasedDirectoryResource implements Resource {
         this.rootDirectory = rootDirectory;
         this.alias = alias;
     }
-
-    /**
-     * {@return the resource}
-     */
+    
     @Override
     public URL getResource(String location) {
         URL result = null;
@@ -85,18 +87,14 @@ public class AliasedDirectoryResource implements Resource {
             if (file.exists()) {
                 try {
                     result = file.toURI().toURL();
-                } catch (MalformedURLException exception) {
+                } catch (MalformedURLException mue) {
+                    LOGGER.log(WARNING, "Malformed URL for aliased directory resource", mue);
                 }
             }
         }
         return result;
     }
-
-    /**
-     * @param location the resource location.
-     * @return the input stream, or null if not found.
-     * @see Resource#getResourceAsStream(java.lang.String)
-     */
+    
     @Override
     public InputStream getResourceAsStream(String location) {
         InputStream result = null;
@@ -105,12 +103,13 @@ public class AliasedDirectoryResource implements Resource {
             File file = new File(rootDirectory, location);
             try {
                 result = new FileInputStream(file);
-            } catch (FileNotFoundException exception) {
+            } catch (FileNotFoundException fnfe) {
+                LOGGER.log(WARNING, "Unable to find aliased directory resource", fnfe);
             }
         }
         return result;
     }
-    
+
     @Override
     public Stream<String> getAllLocations() {
         return Stream.empty();

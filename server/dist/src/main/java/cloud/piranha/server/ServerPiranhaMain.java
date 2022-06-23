@@ -36,16 +36,16 @@ import cloud.piranha.extension.standard.StandardExtension;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class ServerPiranhaMain {
-    
+
     /**
      * Get the default extension.
-     * 
+     *
      * @return the default extension.
      */
     protected Class<? extends WebApplicationExtension> getDefaultExtension() {
         return StandardExtension.class;
     }
-    
+
     /**
      * Main method.
      *
@@ -58,7 +58,7 @@ public class ServerPiranhaMain {
         } else {
             showHelp();
         }
-    }  
+    }
 
     /**
      * Process the arguments.
@@ -70,6 +70,7 @@ public class ServerPiranhaMain {
         ServerPiranhaBuilder builder = new ServerPiranhaBuilder()
                 .defaultExtensionClass(getDefaultExtension())
                 .exitOnStop(true);
+
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--default-extension")) {
