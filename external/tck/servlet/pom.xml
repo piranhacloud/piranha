@@ -63,7 +63,7 @@
                                         <echo>Executing UNIX profile</echo>
                                         
                                         <!-- Download, unzip and rename TCK -->
-                                        <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9/promoted/servlet-tck-5.0.2.zip"
+                                        <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee10/staged/eftl/jakarta-servlet-tck-6.0.0.zip"
                                              dest="${project.build.directory}/tck.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/tck.zip"
                                                dest="${project.build.directory}"/>
@@ -124,7 +124,7 @@
                                         <!-- Setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="servlet\.classes=(.*)"
-                                                       replace="servlet\.classes=${signature.home}/piranha-core-servlet-api.jar"
+                                                       replace="servlet\.classes=${signature.home}/jakarta.servlet-api.jar"
                                                        byline="true"/>
                                         
                                         <!-- Remove java.endorsed.dirs by Xbootclasspath -->
@@ -260,9 +260,8 @@
                                         <artifactItem>
                                             <groupId>jakarta.servlet</groupId>
                                             <artifactId>jakarta.servlet-api</artifactId>
-                                            <version>${project.version}</version>
                                             <outputDirectory>${signature.home}</outputDirectory>
-                                            <destFileName>piranha-core-servlet-api.jar</destFileName>
+                                            <destFileName>jakarta.servlet-api.jar</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -304,7 +303,7 @@
                                 <configuration>
                                     <target>
                                         <!-- download, unzip and rename TCK -->
-                                        <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9/promoted/servlet-tck-5.0.1.zip"
+                                        <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee10/staged/eftl/jakarta-servlet-tck-6.0.0.zip"
                                              dest="${project.build.directory}/tck.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/tck.zip"
                                                dest="${project.build.directory}"/>
@@ -340,7 +339,7 @@
                                         <!-- setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="servlet\.classes=(.*)"
-                                                       replace="servlet\.classes=${signature.home}/piranha-core-servlet-api.jar"
+                                                       replace="servlet\.classes=${signature.home}/jakarta.servlet-api.jar"
                                                        byline="true"/>
                                         
                                         <!-- remove java.endorsed.dirs by \ -->
@@ -475,9 +474,8 @@
                                         <artifactItem>
                                             <groupId>jakarta.servlet</groupId>
                                             <artifactId>jakarta.servlet-api</artifactId>
-                                            <version>${project.version}</version>
                                             <outputDirectory>${signature.home}</outputDirectory>
-                                            <destFileName>piranha-core-servlet-api.jar</destFileName>
+                                            <destFileName>jakarta.servlet-api.jar</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -524,7 +522,7 @@
                                 <configuration>
                                     <target>
                                         <!-- download, unzip and rename TCK -->
-                                        <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9/promoted/servlet-tck-5.0.1.zip"
+                                        <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee10/staged/eftl/jakarta-servlet-tck-6.0.0.zip"
                                              dest="${project.build.directory}/tck.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/tck.zip"
                                                dest="${project.build.directory}"/>
@@ -546,7 +544,7 @@
                                         <!-- setup ts.jte for signature tests -->
                                         <pathconvert property="servlet.classes" dirsep="/">
                                             <path>
-                                                <pathelement path="${signature.home}/piranha-core-servlet-api.jar"/>
+                                                <pathelement path="${signature.home}/jakarta.servlet-api.jar"/>
                                             </path>
                                         </pathconvert>
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
@@ -665,7 +663,7 @@
                                             <groupId>jakarta.servlet</groupId>
                                             <artifactId>jakarta.servlet-api</artifactId>
                                             <outputDirectory>${signature.home}</outputDirectory>
-                                            <destFileName>piranha-core-servlet-api.jar</destFileName>
+                                            <destFileName>jakarta.servlet-api.jar</destFileName>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
