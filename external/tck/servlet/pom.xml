@@ -80,15 +80,6 @@
                                         <chmod dir="${ant.home}/bin"
                                                perm="ugo+rx"
                                                includes="*"/>
-                                
-                                        <!-- Keep copy of original ts.jte -->
-                                        <copy file="${tck.home}/bin/ts.jte.jdk11"
-                                              tofile="${tck.home}/bin/ts.jte.orig"/> 
-
-                                        <delete file="${tck.home}/bin/ts.jte" />
-
-                                        <copy file="${tck.home}/bin/ts.jte.jdk11"
-                                              tofile="${tck.home}/bin/ts.jte"/>
 
                                         <!-- Optionally control which tests we are running -->
                                         <sequential if:set="exclude.timeout">
@@ -321,18 +312,6 @@
                                                perm="ugo+rx"
                                                includes="*"/>
                                 
-                                         <!-- keep copy of original ts.jte -->
-                                        <copy file="${tck.home}/bin/ts.jte.jdk11"
-                                              tofile="${tck.home}/bin/ts.jte.orig"/> 
-
-                                        <delete file="${tck.home}/bin/ts.jte" />
-
-                                        <copy file="${tck.home}/bin/ts.jte.jdk11"
-                                              tofile="${tck.home}/bin/ts.jte"/>
-                                              
-                                        <copy file="${tck.home}/bin/ts.jtx"
-                                              tofile="${tck.home}/bin/ts.jtx.orig"/> 
-                                              
                                         <copy file="${project.basedir}/src/test/etc/ts.jtx"
                                               tofile="${tck.home}/bin/ts.jtx"/>
                                 
@@ -536,10 +515,6 @@
                                                dest="${project.build.directory}"/>
                                         <move file="${project.build.directory}/apache-ant-1.10.9"
                                               tofile="${project.build.directory}/ant"/>
-                                
-                                        <!-- keep copy of original ts.jte -->
-                                        <copy file="${tck.home}/bin/ts.jte"
-                                              tofile="${tck.home}/bin/ts.jte.orig"/> 
                                 
                                         <!-- setup ts.jte for signature tests -->
                                         <pathconvert property="servlet.classes" dirsep="/">
