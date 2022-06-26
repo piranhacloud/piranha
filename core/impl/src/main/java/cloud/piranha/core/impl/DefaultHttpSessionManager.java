@@ -50,7 +50,9 @@ import java.util.EnumSet;
 import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -59,6 +61,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The default HttpSessionManager.
@@ -374,7 +378,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
                 synchronized (session) {
                     if (sessionCounters.getOrDefault(session.getId(), new AtomicInteger(0)).intValue() <= 0) {
                         try {
-                            if (session.getLastAccessedTime() + (session.getMaxInactiveInterval() * 1000) - 1300 < System.currentTimeMillis()) {
+                            if (session.getLastAccessedTime() + (session.getMaxInactiveInterval() * 1000L) - 1300 < System.currentTimeMillis()) {
                                 session.invalidate();
                             }
                         } catch (IllegalStateException ise) {
@@ -495,20 +499,57 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
 
     @Override
     public void setAttribute(String name, String value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (name == null) {
+            throw new IllegalArgumentException("name is null");
+        }
+        if (webApplication.isInitialized()) {
+            throw new IllegalStateException("You cannot call setAttribute once ServletContext is initialized");
+        }
+        String nameLowerCase = name.toLowerCase(Locale.ROOT);
+        switch (nameLowerCase) {
+            case "comment" -> setComment(value);
+            case "path" -> setPath(value);
+            case "name" -> setName(value);
+            case "domain" -> setDomain(value);
+            case "max-age" -> setMaxAge(Integer.parseInt(value));
+            case "secure" -> setSecure(Boolean.parseBoolean(value));
+            case "httponly" -> setHttpOnly(Boolean.parseBoolean(value));
+            default -> sessionCookieAttributes.put(name, value);
+        }
     }
-    
+
     /*
        REVIEW FOR SERVLET 6
      */
 
     @Override
     public String getAttribute(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String nameLowerCase = name.toLowerCase(Locale.ROOT);
+        return switch (nameLowerCase) {
+            case "comment" -> getComment();
+            case "path" -> getPath();
+            case "name" -> getName();
+            case "domain" -> getDomain();
+            case "max-age" -> String.valueOf(getMaxAge());
+            case "secure" -> String.valueOf(isSecure());
+            case "httponly" -> String.valueOf(isHttpOnly());
+            default -> sessionCookieAttributes.get(name);
+        };
     }
     
     @Override
     public Map<String, String> getAttributes() {
-        return Collections.unmodifiableMap(sessionCookieAttributes);
+        Stream<Entry<String, String>> entriesWithGettersAndSetter = Stream.of(
+            Map.entry("Comment", getComment()),
+            Map.entry("Path", getPath()),
+            Map.entry("Name", getName()),
+            Map.entry("Domain", getDomain()),
+            Map.entry("Max-Age", String.valueOf(getMaxAge())),
+            Map.entry("HttpOnly", String.valueOf(isHttpOnly())),
+            Map.entry("Secure", String.valueOf(isSecure()))
+        );
+
+        return Stream.concat(entriesWithGettersAndSetter, sessionCookieAttributes.entrySet().stream())
+            .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }
