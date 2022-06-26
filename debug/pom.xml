@@ -51,11 +51,6 @@
         </dependency>
 
         <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-annotationscan</artifactId>
             <version>${project.version}</version>
