@@ -295,7 +295,7 @@ class DefaultWebApplicationTest {
     @Test
     void testGetEffectiveMajorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(5, webApp.getEffectiveMajorVersion());
+        assertEquals(6, webApp.getEffectiveMajorVersion());
     }
 
     /**
@@ -344,7 +344,7 @@ class DefaultWebApplicationTest {
     @Test
     void testGetMajorVersion() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(5, webApp.getMajorVersion());
+        assertEquals(6, webApp.getMajorVersion());
     }
 
     /**
