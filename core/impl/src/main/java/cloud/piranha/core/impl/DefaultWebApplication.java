@@ -630,7 +630,6 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
-        checkTainted();
         return getManager().getHttpSessionManager().getDefaultSessionTrackingModes();
     }
 
@@ -641,7 +640,6 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public int getEffectiveMajorVersion() {
-        checkTainted();
         if (effectiveMajorVersion == -1) {
             return getMajorVersion();
         }
@@ -650,7 +648,6 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public int getEffectiveMinorVersion() {
-        checkTainted();
         if (effectiveMinorVersion == -1) {
             return getMinorVersion();
         }
@@ -660,18 +657,15 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void setEffectiveMajorVersion(int effectiveMajorVersion) {
         this.effectiveMajorVersion = effectiveMajorVersion;
-
     }
 
     @Override
     public void setEffectiveMinorVersion(int effectiveMinorVersion) {
         this.effectiveMinorVersion = effectiveMinorVersion;
-
     }
 
     @Override
     public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
-        checkTainted();
         return getManager().getHttpSessionManager().getEffectiveSessionTrackingModes();
     }
 
