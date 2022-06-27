@@ -709,7 +709,7 @@ public class DefaultWebApplication implements WebApplication {
      */
     @Override
     public int getMajorVersion() {
-        return 5;
+        return 6;
     }
 
     @Override
