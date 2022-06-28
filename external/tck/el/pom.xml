@@ -37,8 +37,10 @@
                         <configuration>
                             <target>
                                 <!-- download, unzip and rename TCK -->
-                                <get src="http://download.eclipse.org/jakartaee/expression-language/4.0/jakarta-expression-language-tck-4.0.0.zip"
-                                     dest="${project.build.directory}/tck.zip" skipexisting="true"/>
+                                <get src="https://download.eclipse.org/jakartaee/expression-language/5.0/jakarta-expression-language-tck-5.0.0.zip"
+                                     dest="${project.build.directory}/tck.zip"
+                                     skipexisting="true"
+                                     verbose="true"/>
                                 <unzip src="${project.build.directory}/tck.zip"
                                        dest="${project.build.directory}"/>
                                 <move file="${project.build.directory}/expression-language-tck"
@@ -125,14 +127,14 @@
                                 <artifactItem>
                                     <groupId>org.glassfish</groupId>
                                     <artifactId>jakarta.el</artifactId>
-                                    <version>4.0.1</version>
+                                    <version>5.0.0-M1</version>
                                     <outputDirectory>${work.home}/jars</outputDirectory>
                                     <destFileName>jakarta.el.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>jakarta.el</groupId>
                                     <artifactId>jakarta.el-api</artifactId>
-                                    <version>4.0.0</version>
+                                    <version>5.0.0</version>
                                     <outputDirectory>${work.home}/jars</outputDirectory>
                                     <destFileName>jakarta.el-api.jar</destFileName>
                                 </artifactItem>
