@@ -28,6 +28,8 @@
 package cloud.piranha.micro;
 
 import cloud.piranha.extension.standard.StandardExtension;
+import static java.lang.System.Logger.Level.WARNING;
+import java.lang.System.Logger;
 
 /**
  * The Main for Piranha Micro.
@@ -35,6 +37,11 @@ import cloud.piranha.extension.standard.StandardExtension;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class MicroPiranhaMain {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(MicroPiranhaMain.class.getName());
 
     /**
      * Main method.
@@ -60,7 +67,8 @@ public class MicroPiranhaMain {
         MicroPiranhaBuilder builder = new MicroPiranhaBuilder()
                 .extensionClass(StandardExtension.class)
                 .exitOnStop(true);
-        
+        int httpPort = 0;
+        int httpsPort = 0;
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--extension-class")) {
@@ -70,10 +78,14 @@ public class MicroPiranhaMain {
                     return null;
                 }
                 if (arguments[i].equals("--http-port")) {
-                    builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
+                    int arg = Integer.parseInt(arguments[i + 1]);
+                    builder = builder.httpsPort(arg);
+                    httpPort = Integer.parseInt(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--https-port")) {
-                    builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
+                    int arg = Integer.parseInt(arguments[i + 1]);
+                    builder = builder.httpsPort(arg);
+                    httpsPort = arg;
                 }
                 if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
@@ -97,8 +109,16 @@ public class MicroPiranhaMain {
                     builder = builder.pid(ProcessHandle.current().pid());
                 }
             }
+            checkPorts(httpPort, httpsPort);
         }
         return builder;
+    }
+
+    private void checkPorts(int httpPort, int httpsPort) {
+        if(httpsPort != 0 && httpPort == httpsPort) {
+            LOGGER.log(WARNING, "The http and the https ports are the same. Please use different ports");
+            System.exit(-1);
+        }
     }
 
     /**
