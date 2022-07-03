@@ -80,7 +80,7 @@ public class MicroPiranhaMain {
                 if (arguments[i].equals("--http-port")) {
                     int arg = Integer.parseInt(arguments[i + 1]);
                     builder = builder.httpsPort(arg);
-                    httpPort = Integer.parseInt(arguments[i + 1]);
+                    httpPort = arg;
                 }
                 if (arguments[i].equals("--https-port")) {
                     int arg = Integer.parseInt(arguments[i + 1]);
