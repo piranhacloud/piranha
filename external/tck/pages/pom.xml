@@ -189,14 +189,14 @@
                                 <artifactItem>
                                     <groupId>org.glassfish.wasp</groupId>
                                     <artifactId>wasp</artifactId>
-                                    <version>${wasp.version}</version>
+                                    <version>3.1.0</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
                                     <destFileName>wasp.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>jakarta.servlet.jsp</groupId>
                                     <artifactId>jakarta.servlet.jsp-api</artifactId>
-                                    <version>${jakarta.pages.version}</version>
+                                    <version>3.1.0</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
                                     <destFileName>jakarta.servlet.jsp-api.jar</destFileName>
                                 </artifactItem>
