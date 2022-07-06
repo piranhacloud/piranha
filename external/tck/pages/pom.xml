@@ -37,8 +37,10 @@
                         <configuration>
                             <target>
                                 <!-- download, unzip and rename TCK -->
-                                <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9/promoted/pages-tck-3.0.1.zip"
-                                     dest="${project.build.directory}/tck.zip" skipexisting="true"/>
+                                <get src="https://download.eclipse.org/jakartaee/pages/3.1/jakarta-pages-tck-3.1.0.zip"
+                                     dest="${project.build.directory}/tck.zip"
+                                     skipexisting="true"
+                                     verbose="true"/>
                                 <unzip src="${project.build.directory}/tck.zip"
                                        dest="${project.build.directory}"/>
                                 <move file="${project.build.directory}/pages-tck"
@@ -54,20 +56,11 @@
                                 <chmod dir="${ant.home}/bin"
                                        perm="ugo+rx"
                                        includes="*"/>
-
-                                <!-- keep copy of original ts.jte -->
-                                <copy file="${tck.home}/bin/ts.jte.jdk11"
-                                      tofile="${tck.home}/bin/ts.jte.orig"/>
-
-                                <delete file="${tck.home}/bin/ts.jte" />
-
-                                <copy file="${tck.home}/bin/ts.jte.jdk11"
-                                      tofile="${tck.home}/bin/ts.jte"/>
                                 
                                 <!-- setup ts.jte for signature tests -->
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="servlet\.classes=(.*)"
-                                               replace="servlet\.classes=${signature.home}/piranha-core-servlet-api.jar${pathsep}${signature.home}/wasp.jar${pathsep}${signature.home}/jakarta.servlet.jsp-api.jar"
+                                               replace="servlet\.classes=${signature.home}/jakarta.servlet-api.jar${pathsep}${signature.home}/wasp.jar${pathsep}${signature.home}/jakarta.servlet.jsp-api.jar"
                                                byline="true"/>
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="el\.classes=(.*)"
@@ -189,21 +182,21 @@
                                 <artifactItem>
                                     <groupId>jakarta.servlet</groupId>
                                     <artifactId>jakarta.servlet-api</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>6.0.0</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
-                                    <destFileName>piranha-core-servlet-api.jar</destFileName>
+                                    <destFileName>jakarta.servlet-api.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.glassfish.wasp</groupId>
                                     <artifactId>wasp</artifactId>
-                                    <version>${wasp.version}</version>
+                                    <version>3.1.0</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
                                     <destFileName>wasp.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>jakarta.servlet.jsp</groupId>
                                     <artifactId>jakarta.servlet.jsp-api</artifactId>
-                                    <version>${jakarta.pages.version}</version>
+                                    <version>3.1.0</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
                                     <destFileName>jakarta.servlet.jsp-api.jar</destFileName>
                                 </artifactItem>
