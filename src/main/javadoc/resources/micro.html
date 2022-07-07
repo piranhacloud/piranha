@@ -32,12 +32,21 @@
         </pre>
         <h2>Changing the HTTP port</h2>
         <p>
-            If you want to use a different HTTP port (e.g to port 8888) you can
+            If you want to use a different HTTP port (e.g to port 8888, default is 8080) you can
             use --http-port as illustrated by the command line below:
         </p>
         <pre>
 
   java -jar piranha-micro.jar --war-file your_webapplication.war --http-port 8888
+        </pre>
+        <h2>Changing the HTTPS port</h2>
+        <p>
+            If you want to use a different HTTPS port (e.g to port 8081, default is 8043) you can
+            use --https-port as illustrated by the command line below:
+        </p>
+        <pre>
+
+  java -jar piranha-micro.jar --war-file your_webapplication.war --https-port 8081
         </pre>
         <h2>Limitations</h2>
         <ul>
