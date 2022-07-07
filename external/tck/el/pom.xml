@@ -48,7 +48,9 @@
                                 
                                 <!-- download, unzip, rename and chmod Ant 1.10.9 -->
                                 <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
-                                     dest="${project.build.directory}/ant.zip" skipexisting="true"/>
+                                     dest="${project.build.directory}/ant.zip"
+                                     skipexisting="true"
+                                     verbose="true"/>
                                 <unzip src="${project.build.directory}/ant.zip"
                                        dest="${project.build.directory}"/>
                                 <move file="${project.build.directory}/apache-ant-1.10.9"
@@ -64,7 +66,7 @@
                                 <!-- setup ts.jte for signature tests -->
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="el\.classes=(.*)"
-                                               replace="el.classes=${work.home}/jars/jakarta.el.jar${pathsep}${work.home}/jars/jakarta.el-api.jar"
+                                               replace="el.classes=${work.home}/jars/expressly.jar${pathsep}${work.home}/jars/jakarta.el-api.jar"
                                                byline="true"/>
                             </target>
                         </configuration>
@@ -126,10 +128,10 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>org.glassfish</groupId>
-                                    <artifactId>jakarta.el</artifactId>
-                                    <version>5.0.0-M1</version>
+                                    <artifactId>expressly</artifactId>
+                                    <version>5.0.0</version>
                                     <outputDirectory>${work.home}/jars</outputDirectory>
-                                    <destFileName>jakarta.el.jar</destFileName>
+                                    <destFileName>expressly.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>jakarta.el</groupId>
