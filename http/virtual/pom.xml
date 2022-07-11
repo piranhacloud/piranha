@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cloud.piranha.http</groupId>
+        <artifactId>project</artifactId>
+        <version>22.7.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>piranha-http-virtual</artifactId>
+    <name>Piranha - HTTP - Virtual Threads implementation</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-tests</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>19</release>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>${argLine} --enable-preview</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.github.wiverson</groupId>
+                <artifactId>jtoolprovider-plugin</artifactId>
+                <version>1.0.34</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>java-tool</goal>
+                        </goals>
+                        <configuration>
+                            <toolName>jar</toolName>
+                            <writeOutputToLog>true</writeOutputToLog>
+                            <writeErrorsToLog>true</writeErrorsToLog>
+                            <failOnError>true</failOnError>
+                            <args>
+                                <arg>--update</arg>
+                                <arg>--warn-if-resolved=incubating</arg>
+                                <arg>--do-not-resolve-by-default</arg>
+                                <arg>--file</arg>
+                                <arg>${project.build.directory}/${project.build.finalName}.jar</arg>
+                                <!-- It seems to be needed to include twice -->
+                                <arg>${project.build.directory}/${project.build.finalName}.jar</arg>
+                            </args>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
