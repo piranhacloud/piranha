@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.external.tck</groupId>
         <artifactId>project</artifactId>
-        <version>22.7.0-SNAPSHOT</version>
+        <version>22.8.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-external-tck-expression-language</artifactId>
@@ -127,9 +127,9 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>org.glassfish</groupId>
+                                    <groupId>org.glassfish.expressly</groupId>
                                     <artifactId>expressly</artifactId>
-                                    <version>5.0.0</version>
+                                    <version>${expressly.version}</version>
                                     <outputDirectory>${work.home}/jars</outputDirectory>
                                     <destFileName>expressly.jar</destFileName>
                                 </artifactItem>

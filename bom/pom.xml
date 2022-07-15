@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>22.7.0-SNAPSHOT</version>
+        <version>22.8.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>bom</artifactId>
@@ -44,7 +44,7 @@
             <dependency>
                 <groupId>jakarta.el</groupId>
                 <artifactId>jakarta.el-api</artifactId>
-                <version>5.0.0</version>
+                <version>5.0.1</version>
             </dependency>            
             
             <!-- Jakarta Contexts Dependency Injection -->

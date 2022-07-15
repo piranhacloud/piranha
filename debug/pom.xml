@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>22.7.0-SNAPSHOT</version>
+        <version>22.8.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>debug</artifactId>
@@ -538,8 +538,8 @@
 
         <!-- Eclipse EL -->
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.el</artifactId>
+            <groupId>org.glassfish.expressly</groupId>
+            <artifactId>expressly</artifactId>
         </dependency>
 
         <!-- Eclipse Exousia -->

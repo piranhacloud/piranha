@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>22.7.0-SNAPSHOT</version>
+        <version>22.8.0-SNAPSHOT</version>
     </parent>
 
     <groupId>cloud.piranha.http</groupId>
@@ -37,4 +37,16 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>jdk19</id>
+            <activation>
+                <jdk>19</jdk>
+            </activation>
+            <modules>
+                <module>virtual</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
