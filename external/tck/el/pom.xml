@@ -136,7 +136,7 @@
                                 <artifactItem>
                                     <groupId>jakarta.el</groupId>
                                     <artifactId>jakarta.el-api</artifactId>
-                                    <version>5.0.0</version>
+                                    <version>${jakarta.el-api.version}</version>
                                     <outputDirectory>${work.home}/jars</outputDirectory>
                                     <destFileName>jakarta.el-api.jar</destFileName>
                                 </artifactItem>

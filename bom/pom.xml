@@ -15,6 +15,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jakarta.el-api.version>5.0.1</jakarta.el-api.version>
     </properties>
 
     <dependencyManagement>
@@ -44,7 +45,7 @@
             <dependency>
                 <groupId>jakarta.el</groupId>
                 <artifactId>jakarta.el-api</artifactId>
-                <version>5.0.1</version>
+                <version>${jakarta.el-api.version}</version>
             </dependency>            
             
             <!-- Jakarta Contexts Dependency Injection -->
