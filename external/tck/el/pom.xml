@@ -37,8 +37,10 @@
                         <configuration>
                             <target>
                                 <!-- download, unzip and rename TCK -->
-                                <get src="http://download.eclipse.org/jakartaee/expression-language/4.0/jakarta-expression-language-tck-4.0.0.zip"
-                                     dest="${project.build.directory}/tck.zip" skipexisting="true"/>
+                                <get src="https://download.eclipse.org/jakartaee/expression-language/5.0/jakarta-expression-language-tck-5.0.0.zip"
+                                     dest="${project.build.directory}/tck.zip"
+                                     skipexisting="true"
+                                     verbose="true"/>
                                 <unzip src="${project.build.directory}/tck.zip"
                                        dest="${project.build.directory}"/>
                                 <move file="${project.build.directory}/expression-language-tck"
@@ -46,7 +48,9 @@
                                 
                                 <!-- download, unzip, rename and chmod Ant 1.10.9 -->
                                 <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
-                                     dest="${project.build.directory}/ant.zip" skipexisting="true"/>
+                                     dest="${project.build.directory}/ant.zip"
+                                     skipexisting="true"
+                                     verbose="true"/>
                                 <unzip src="${project.build.directory}/ant.zip"
                                        dest="${project.build.directory}"/>
                                 <move file="${project.build.directory}/apache-ant-1.10.9"
@@ -62,7 +66,7 @@
                                 <!-- setup ts.jte for signature tests -->
                                 <replaceregexp file="${tck.home}/bin/ts.jte"
                                                match="el\.classes=(.*)"
-                                               replace="el.classes=${work.home}/jars/jakarta.el.jar${pathsep}${work.home}/jars/jakarta.el-api.jar"
+                                               replace="el.classes=${work.home}/jars/expressly.jar${pathsep}${work.home}/jars/jakarta.el-api.jar"
                                                byline="true"/>
                             </target>
                         </configuration>
@@ -127,12 +131,12 @@
                                     <artifactId>expressly</artifactId>
                                     <version>${expressly.version}</version>
                                     <outputDirectory>${work.home}/jars</outputDirectory>
-                                    <destFileName>jakarta.el.jar</destFileName>
+                                    <destFileName>expressly.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>jakarta.el</groupId>
                                     <artifactId>jakarta.el-api</artifactId>
-                                    <version>4.0.0</version>
+                                    <version>5.0.0</version>
                                     <outputDirectory>${work.home}/jars</outputDirectory>
                                     <destFileName>jakarta.el-api.jar</destFileName>
                                 </artifactItem>
