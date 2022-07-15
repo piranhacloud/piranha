@@ -208,9 +208,9 @@
                                     <destFileName>jakarta.el-api.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.glassfish</groupId>
-                                    <artifactId>jakarta.el</artifactId>
-                                    <version>${jakarta.el.version}</version>
+                                    <groupId>org.glassfish.expressly</groupId>
+                                    <artifactId>expressly</artifactId>
+                                    <version>${expressly.version}</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
                                     <destFileName>jakarta.el.jar</destFileName>
                                 </artifactItem>

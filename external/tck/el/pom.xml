@@ -123,9 +123,9 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>org.glassfish</groupId>
-                                    <artifactId>jakarta.el</artifactId>
-                                    <version>4.0.1</version>
+                                    <groupId>org.glassfish.expressly</groupId>
+                                    <artifactId>expressly</artifactId>
+                                    <version>${expressly.version}</version>
                                     <outputDirectory>${work.home}/jars</outputDirectory>
                                     <destFileName>jakarta.el.jar</destFileName>
                                 </artifactItem>

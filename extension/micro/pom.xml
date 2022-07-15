@@ -194,8 +194,8 @@
         
         <!-- Jakarta Expression Language implementation -->
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.el</artifactId>
+            <groupId>org.glassfish.expressly</groupId>
+            <artifactId>expressly</artifactId>
             <scope>runtime</scope>
         </dependency>
         
