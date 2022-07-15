@@ -44,7 +44,7 @@
             <dependency>
                 <groupId>jakarta.el</groupId>
                 <artifactId>jakarta.el-api</artifactId>
-                <version>5.0.0</version>
+                <version>5.0.1</version>
             </dependency>            
             
             <!-- Jakarta Contexts Dependency Injection -->
