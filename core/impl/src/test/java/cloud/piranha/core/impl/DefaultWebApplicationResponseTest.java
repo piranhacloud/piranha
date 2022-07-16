@@ -36,9 +36,11 @@ import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -51,11 +53,11 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class WebApplicationResponseTest {
+class DefaultWebApplicationResponseTest {
 
     /**
      * Test addDateHeader method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -68,7 +70,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test addIntHeader method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -81,7 +83,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test containsHeader method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -95,7 +97,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test encodeRedirectUrl method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -109,7 +111,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test encodeUrl method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -123,7 +125,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test flushBuffer method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -139,7 +141,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test getCharacterEncoding method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -153,7 +155,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test getContentType method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -167,7 +169,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test getContentType method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -182,7 +184,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test getHeaderNames method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -197,7 +199,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test getHeaders method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -212,7 +214,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test getLocale method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -240,7 +242,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test getWebApplication method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -381,7 +383,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test reset method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -391,6 +393,22 @@ class WebApplicationResponseTest {
         response.reset();
         assertEquals(200, response.getStatus());
         response.close();
+    }
+
+    /**
+     * Test reset method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testReset2() throws Exception {
+        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
+        response.setCharacterEncoding("UTF-8");
+        assertEquals("UTF-8", response.getCharacterEncoding());
+        response.reset();
+        assertNotEquals("UTF-8", response.getCharacterEncoding());
+        assertEquals("ISO-8859-1", response.getCharacterEncoding());
     }
 
     /**
@@ -425,8 +443,71 @@ class WebApplicationResponseTest {
     }
 
     /**
+     * Test setCharacterEncoding method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testSetCharacterEncoding() throws Exception {
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        String defaultEncoding = response.getCharacterEncoding();
+        response.setCharacterEncoding("UTF-8");
+        assertTrue("UTF-8".equalsIgnoreCase(response.getCharacterEncoding()));
+        response.setCharacterEncoding(null);
+        assertTrue((defaultEncoding == null && response.getCharacterEncoding() == null)
+                || (defaultEncoding != null && defaultEncoding.equalsIgnoreCase(response.getCharacterEncoding())));
+    }
+
+    /**
+     * Test setCharacterEncoding method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testSetCharacterEncoding2() throws Exception {
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        String defaultEncoding = response.getCharacterEncoding();
+        response.setCharacterEncoding("UTF-8");
+        assertTrue("UTF-8".equalsIgnoreCase(response.getCharacterEncoding()));
+        response.setCharacterEncoding(null);
+        assertTrue((defaultEncoding == null && response.getCharacterEncoding() == null)
+                || (defaultEncoding != null && defaultEncoding.equalsIgnoreCase(response.getCharacterEncoding())));
+    }
+
+    /**
+     * Test setCharacterEncoding method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testSetCharacterEncoding3() throws Exception {
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setCharacterEncoding("does-not-exist");
+        assertTrue("does-not-exist".equalsIgnoreCase(response.getCharacterEncoding()));
+        assertThrows(UnsupportedEncodingException.class, () -> {
+            response.getWriter();
+        });
+    }
+
+    /**
+     * Test setCharacterEncoding method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testSetCharacterEncoding4() throws Exception {
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setContentType("text/html");
+        response.setCharacterEncoding("ISO-8859-7");
+        String contentType = response.getContentType();
+        assertTrue(contentType.toLowerCase().contains("text/html"));
+        assertTrue(contentType.toLowerCase().contains("charset"));
+        assertTrue(contentType.toLowerCase().contains("iso-8859-7"));
+    }
+
+    /**
      * Test setContentLength method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -439,7 +520,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setContentLength method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -452,7 +533,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setContentLength method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -465,7 +546,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setContentLength method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -478,7 +559,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setContentType.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -491,7 +572,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setContentType method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -509,7 +590,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setContentType method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -527,7 +608,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setDateHeader method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -541,7 +622,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setDateHeader method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -554,7 +635,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setHeader method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -569,7 +650,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setHeader method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -583,7 +664,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setHeader method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -596,7 +677,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setIntHeader method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -609,7 +690,7 @@ class WebApplicationResponseTest {
 
     /**
      * Test setStatus method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -694,7 +775,7 @@ class WebApplicationResponseTest {
             response.sendRedirect("http://this.is.outside/and_absolute");
         }
     }
-    
+
     /**
      * Test servlet that is used by testRedirect5.
      */
