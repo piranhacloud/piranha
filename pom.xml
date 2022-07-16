@@ -69,8 +69,9 @@
     </distributionManagement>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <expressly.version>5.0.0-M2</expressly.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <wasp.version>3.1.0</wasp.version>
     </properties>
 
     <dependencyManagement>
@@ -237,7 +238,7 @@
             <dependency>
                 <groupId>org.glassfish.wasp</groupId>
                 <artifactId>wasp</artifactId>
-                <version>3.1.0</version>
+                <version>${wasp.version}</version>
             </dependency>
             
             <!-- Eclipse Yasson  -->
