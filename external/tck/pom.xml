@@ -17,8 +17,8 @@
 
     <modules>
         <module>el</module>
-        <module>pages</module>
         <module>servlet</module>
         <module>jwt</module>
+        <module>wasp</module>
     </modules>
 </project>

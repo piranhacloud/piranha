@@ -14,8 +14,10 @@
     <name>Piranha - BOM</name>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jakarta.el-api.version>5.0.1</jakarta.el-api.version>
+        <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
+        <jakarta.servlet.jsp-api.version>3.1.0</jakarta.servlet.jsp-api.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencyManagement>
@@ -101,14 +103,14 @@
             <dependency>
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
-                <version>6.0.0</version>
+                <version>${jakarta.servlet-api.version}</version>
             </dependency>
 
             <!-- Jakarta Server Pages -->
             <dependency>
                 <groupId>jakarta.servlet.jsp</groupId>
                 <artifactId>jakarta.servlet.jsp-api</artifactId>
-                <version>3.1.0</version>
+                <version>${jakarta.servlet.jsp-api.version}</version>
             </dependency>
             
             <!-- Jakarta Standard Tag Library -->            
