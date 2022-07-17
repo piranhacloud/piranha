@@ -398,8 +398,20 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     @Override
     public void reset() {
         verifyNotCommitted("reset");
-        this.status = 200;
-        this.statusMessage = null;
+        characterEncoding = ISO_8859_1;
+        characterEncodingSet = false;
+        characterEncodingLocaleSet = false;
+        committed = false;
+        contentType = null;
+        contentTypeSet = false;
+        cookies = new ArrayList<>();
+        gotOutput = false;
+        gotWriter = false;
+        headerManager = new DefaultHttpHeaderManager();
+        locale = Locale.getDefault();
+        status = 200;
+        statusMessage = null;
+        writer = null;
         resetBuffer();
         setErrorMessageAttribute();
     }

@@ -27,7 +27,6 @@
  */
 package cloud.piranha.extension.localeencoding;
 
-import cloud.piranha.extension.localeencoding.LocaleEncodingExtension;
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.embedded.EmbeddedPiranha;
