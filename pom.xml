@@ -70,6 +70,7 @@
 
     <properties>
         <expressly.version>5.0.0-M2</expressly.version>
+        <grizzly.version>4.0.0</grizzly.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <wasp.version>3.1.0</wasp.version>
     </properties>
@@ -142,12 +143,12 @@
             <dependency>
                 <groupId>org.glassfish.grizzly</groupId>
                 <artifactId>grizzly-http-server</artifactId>
-                <version>3.0.1</version>
+                <version>${grizzly.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.grizzly</groupId>
                 <artifactId>grizzly-http2</artifactId>
-                <version>3.0.1</version>
+                <version>${grizzly.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.grizzly</groupId>
