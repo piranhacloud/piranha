@@ -448,6 +448,18 @@
         </dependencies>
     </dependencyManagement>
 
+    <!-- 
+  
+      Remove once Jakarta EE 10 goes final.
+        
+      -->
+    <repositories>
+        <repository>
+            <id>jakarta-staging</id>
+            <url>https://jakarta.oss.sonatype.org/content/repositories/staging/</url>
+        </repository>
+    </repositories>
+
     <build>
         <pluginManagement>
             <plugins>
@@ -990,17 +1002,4 @@
             </modules>
         </profile>
     </profiles>
-    
-    <!-- 
-  
-      Remove once Jakarta EE 10 goes final.
-        
-      -->
-      
-    <repositories>
-        <repository>
-            <id>jakarta-staging</id>
-            <url>https://jakarta.oss.sonatype.org/content/repositories/staging/</url>
-        </repository>
-    </repositories>
 </project>
