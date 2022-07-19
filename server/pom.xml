@@ -15,6 +15,12 @@
 
     <name>Piranha - Server - Project</name>
 
+    <modules>
+        <module>api</module>
+        <module>dist</module>
+        <module>isolated</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -26,11 +32,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <modules>
-        <module>api</module>
-        <module>dist</module>
-        <module>isolated</module>
-    </modules>
 </project>
-
