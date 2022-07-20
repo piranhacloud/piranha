@@ -34,15 +34,28 @@ import cloud.piranha.http.impl.DefaultHttpServerResponse;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import jdk.incubator.concurrent.StructuredTaskScope;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLParameters;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * Implementation of HttpServer that uses virtual threads
  */
 public class VirtualHttpServer implements HttpServer {
 
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(VirtualHttpServer.class.getName());
     /**
      * Stores the executor service.
      */
@@ -102,7 +115,9 @@ public class VirtualHttpServer implements HttpServer {
         executorService.execute(() -> {
             try {
                 serve(getServerSocket());
-            } catch (IOException | InterruptedException e) {
+            } catch (Exception e) {
+                isRunning = false;
+                LOGGER.log(WARNING, e);
                 throw new RuntimeException(e);
             }
         });
@@ -112,10 +127,33 @@ public class VirtualHttpServer implements HttpServer {
     /**
      * Create a server socket
      * @return the server socket
-     * @throws IOException if an error occurs
+     * @throws Exception if an error occurs
      */
-    private ServerSocket getServerSocket() throws IOException {
-        return new ServerSocket(getServerPort());
+    private ServerSocket getServerSocket() throws Exception {
+        try {
+            ServerSocket serverSocket;
+            if (ssl) {
+                SSLContext context = SSLContext.getDefault();
+                SSLEngine engine = context.createSSLEngine();
+                SSLServerSocketFactory factory = context.getServerSocketFactory();
+                SSLServerSocket socket = (SSLServerSocket) factory.createServerSocket(getServerPort());
+                SSLParameters parameters = new SSLParameters();
+                parameters.setCipherSuites(engine.getSupportedCipherSuites());
+                parameters.setProtocols(engine.getSupportedProtocols());
+                parameters.setNeedClientAuth(false);
+                parameters.setWantClientAuth(true);
+                socket.setSSLParameters(parameters);
+                serverSocket = socket;
+            } else {
+                serverSocket = new ServerSocket(getServerPort());
+            }
+            serverSocket.setReuseAddress(true);
+            return serverSocket;
+        } catch (IOException exception) {
+            throw new IOException("An I/O error occurred while starting the HTTP server", exception);
+        } catch (NoSuchAlgorithmException ex) {
+            throw new NoSuchAlgorithmException("Unable to match SSL algorithm", ex);
+        }
     }
 
     @Override
