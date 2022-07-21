@@ -43,10 +43,14 @@ import jakarta.servlet.ServletException;
 /**
  * The builder so you can easily build instances of
  * {@link cloud.piranha.nano.NanoPiranha}.
+ * 
+ * Please migrate your code to use 
+ * {@link cloud.piranha.core.impl.DefaultWebApplicationBuilder}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated 
  * @see cloud.piranha.nano.NanoPiranha
+ * @see cloud.piranha.core.impl.DefaultWebApplicationBuilder
  */
 @Deprecated(since = "22.7.0", forRemoval = true)
 public class NanoPiranhaBuilder {

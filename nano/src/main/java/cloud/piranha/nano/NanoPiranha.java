@@ -43,6 +43,10 @@ import jakarta.servlet.ServletException;
 /**
  * The smallest version of Piranha in our lineup.
  *
+ * Please migrate your code to use 
+ * {@link cloud.piranha.core.impl.DefaultWebApplicationBuilder} coupled with
+ * HttpWebApplicationServer.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated 
  * @see cloud.piranha.core.api

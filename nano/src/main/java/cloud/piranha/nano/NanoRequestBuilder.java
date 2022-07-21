@@ -31,6 +31,9 @@ package cloud.piranha.nano;
  * The builder so you can easily build instances of
  * {@link cloud.piranha.nano.NanoRequest}.
  *
+ * Please migrate your code to use 
+ * {@link cloud.piranha.core.impl.DefaultWebApplicationRequest}.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated 
  * @see cloud.piranha.nano.NanoRequest

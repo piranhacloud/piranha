@@ -326,7 +326,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) {
-        return addFilter(filterName, filterClass.getCanonicalName());
+        return addFilter(filterName, filterClass.getName());
     }
 
     @Override

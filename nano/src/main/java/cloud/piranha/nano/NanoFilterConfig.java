@@ -38,6 +38,9 @@ import jakarta.servlet.ServletContext;
  * The FilterConfig class used by {@link cloud.piranha.nano.NanoPiranhaBuilder}
  * so it can initialize a Filter.
  *
+ * Please migrate your code to use 
+ * {@link cloud.piranha.core.impl.DefaultWebApplicationBuilder}.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated 
  * @see cloud.piranha.nano

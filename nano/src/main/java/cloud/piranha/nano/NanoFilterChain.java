@@ -39,6 +39,9 @@ import jakarta.servlet.ServletResponse;
  * The FilterChain class used by {@link cloud.piranha.nano.NanoPiranha} for
  * processing of a request and generating a response.
  * 
+ * Please migrate your code to use 
+ * {@link cloud.piranha.core.impl.DefaultWebApplicationBuilder}.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated 
  * @see cloud.piranha.nano
