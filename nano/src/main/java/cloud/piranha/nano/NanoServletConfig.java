@@ -37,6 +37,9 @@ import jakarta.servlet.ServletContext;
  * The ServletConfig class used by {@link cloud.piranha.nano.NanoPiranhaBuilder}
  * so it can initialize the Servlet.
  *
+ * Please migrate your code to use 
+ * {@link cloud.piranha.core.impl.DefaultWebApplicationBuilder}.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated 
  */

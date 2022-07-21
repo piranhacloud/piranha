@@ -128,7 +128,7 @@ class FilterTest {
     void testAddFilter5() {
         assertNotNull(webApp.addFilter("filter", TestMultiple1Filter.class));
         assertNotNull(webApp.getFilterRegistration("filter"));
-        assertEquals(TestMultiple1Filter.class.getCanonicalName(), webApp.getFilterRegistration("filter").getClassName());
+        assertEquals(TestMultiple1Filter.class.getName(), webApp.getFilterRegistration("filter").getClassName());
     }
 
     /**

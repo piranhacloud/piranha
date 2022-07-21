@@ -33,6 +33,9 @@ import java.io.OutputStream;
  * The builder so you can easily build instances of
  * {@link cloud.piranha.nano.NanoResponse}.
  *
+ * Please migrate your code to use 
+ * {@link cloud.piranha.core.impl.DefaultWebApplicationResponse}.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated 
  * @see cloud.piranha.nano.NanoResponse

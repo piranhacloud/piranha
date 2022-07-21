@@ -32,6 +32,9 @@ import java.io.ByteArrayOutputStream;
 
 /**
  * The WebApplicationResponse class used by {@link cloud.piranha.nano.NanoPiranha}
+ * 
+ * Please migrate your code to use 
+ * {@link cloud.piranha.core.impl.DefaultWebApplicationResponse}.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated 

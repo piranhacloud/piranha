@@ -115,7 +115,7 @@ class FilterRegistrationTest {
     void testGetClassName() {
         webApp.addFilter("filter", TestFilterRegistrationFilter.class);
         FilterRegistration registration = webApp.getFilterRegistration("filter");
-        assertEquals(TestFilterRegistrationFilter.class.getCanonicalName(),
+        assertEquals(TestFilterRegistrationFilter.class.getName(),
                 registration.getClassName());
     }
 
