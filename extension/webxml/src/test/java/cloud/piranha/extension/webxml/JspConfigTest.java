@@ -25,37 +25,38 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.extension.webxml;
 
-import jakarta.servlet.ServletRegistration;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.resource.impl.DirectoryResource;
+import cloud.piranha.extension.wasp.WaspJspManagerInitializer;
 import jakarta.servlet.descriptor.JspConfigDescriptor;
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * The JspManager API.
- *
+ * The JUnit tests testing web.xml &lt;jsp-config&gt;.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface JspManager {
+class JspConfigTest {
 
     /**
-     * Add the JSP file.
+     * Test getJspConfig method.
      *
-     * @param webApplication the web application.
-     * @param servletName the servlet name.
-     * @param jspFile the jsp file.
-     * @return the servlet registration.
+     * @throws Exception when a serious error occurs.
      */
-    ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile);
-
-    /**
-     * {@return the JSP config descriptor}
-     */
-    JspConfigDescriptor getJspConfigDescriptor();
-
-    /**
-     * Set the JspConfigDescriptor.
-     * 
-     * @param jspConfigDescriptor the JspConfigDescriptor.
-     */
-    void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor);
+    @Test
+    void tetGetJspConfig() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/jspConfig")));
+        webApplication.addInitializer(new WaspJspManagerInitializer());
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
+        assertNotNull(webApplication.getJspConfigDescriptor());
+        JspConfigDescriptor descriptor = webApplication.getJspConfigDescriptor();
+        assertFalse(descriptor.getTaglibs().isEmpty());
+    }
 }

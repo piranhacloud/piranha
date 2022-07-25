@@ -25,37 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.core.impl;
 
-import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.descriptor.JspConfigDescriptor;
+import jakarta.servlet.descriptor.JspPropertyGroupDescriptor;
+import jakarta.servlet.descriptor.TaglibDescriptor;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
- * The JspManager API.
+ * The default JspConfigDescriptor.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface JspManager {
-
+public class DefaultJspConfigDescriptor implements JspConfigDescriptor {
+    
     /**
-     * Add the JSP file.
-     *
-     * @param webApplication the web application.
-     * @param servletName the servlet name.
-     * @param jspFile the jsp file.
-     * @return the servlet registration.
+     * Stores the taglibs.
      */
-    ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile);
+    private List<TaglibDescriptor> taglibs = new ArrayList<>();
 
-    /**
-     * {@return the JSP config descriptor}
-     */
-    JspConfigDescriptor getJspConfigDescriptor();
+    @Override
+    public Collection<TaglibDescriptor> getTaglibs() {
+        return taglibs;
+    }
 
-    /**
-     * Set the JspConfigDescriptor.
-     * 
-     * @param jspConfigDescriptor the JspConfigDescriptor.
-     */
-    void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor);
+    @Override
+    public Collection<JspPropertyGroupDescriptor> getJspPropertyGroups() {
+        return new ArrayList<>();
+    }
 }

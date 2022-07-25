@@ -25,37 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.test.wasp;
 
-import jakarta.servlet.ServletRegistration;
-import jakarta.servlet.descriptor.JspConfigDescriptor;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The JspManager API.
+ * The integration tests for the hellotld2.jsp page.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface JspManager {
-
+class HelloTld2JspIT {
+ 
     /**
-     * Add the JSP file.
+     * Test the index.jsp.
      *
-     * @param webApplication the web application.
-     * @param servletName the servlet name.
-     * @param jspFile the jsp file.
-     * @return the servlet registration.
+     * @throws Exception when a serious error occurs.
      */
-    ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile);
-
-    /**
-     * {@return the JSP config descriptor}
-     */
-    JspConfigDescriptor getJspConfigDescriptor();
-
-    /**
-     * Set the JspConfigDescriptor.
-     * 
-     * @param jspConfigDescriptor the JspConfigDescriptor.
-     */
-    void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor);
+    @Test
+    void testHelloTld2Jsp() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:8000/piranha-test-wasp/hellotld2.jsp"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertTrue(response.body().contains("Hello TLD"));
+    }
 }

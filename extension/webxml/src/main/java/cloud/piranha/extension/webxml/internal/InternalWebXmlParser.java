@@ -45,6 +45,7 @@ import cloud.piranha.core.api.WebXmlServletInitParam;
 import cloud.piranha.core.api.WebXmlServletMapping;
 import static cloud.piranha.core.api.WebXml.OTHERS_TAG;
 import cloud.piranha.core.api.WebXmlDataSource;
+import cloud.piranha.core.api.WebXmlJspConfigTaglib;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.WARNING;
 import static java.util.regex.Pattern.quote;
@@ -141,6 +142,7 @@ public class InternalWebXmlParser {
             parseWebApp(webXml, xPath, document);
             parseWelcomeFiles(webXml, xPath, document);
             parseDataSources(webXml, xPath, document);
+            parseJspConfig(webXml, xPath, document);
         } catch (Exception e) {
             LOGGER.log(WARNING, "Unable to parse web.xml", e);
         }
@@ -421,6 +423,38 @@ public class InternalWebXmlParser {
 
         Double doubleValue = (Double) xPath.evaluate(expression, node, XPathConstants.NUMBER);
         return doubleValue.intValue();
+    }
+
+    /**
+     * Parse the jsp-config element.
+     *
+     * @param webXml the webXml.
+     * @param xPath the XPath.
+     * @param node the DOM node.
+     */
+    private void parseJspConfig(WebXml webXml, XPath xPath, Document node)
+            throws XPathException {
+        parseJspConfigTaglibs(webXml, xPath, node);
+    }
+
+    /**
+     * Parse the jsp-config / taglib elements.
+     *
+     * @param webXml the webXml.
+     * @param xPath the XPath.
+     * @param node the DOM node.
+     */
+    private void parseJspConfigTaglibs(WebXml webXml, XPath xPath, Document node)
+            throws XPathException {
+        NodeList nodeList = (NodeList) xPath.evaluate("//jsp-config", node, NODESET);
+        if (nodeList != null) {
+            List<WebXmlJspConfigTaglib> taglibs = webXml.getJspConfig().getTaglibs();
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                String location = parseString(xPath, "taglib/taglib-location/text()", nodeList.item(i));
+                String uri = parseString(xPath, "taglib/taglib-uri/text()", nodeList.item(i));
+                taglibs.add(new WebXmlJspConfigTaglib(location, uri));
+            }
+        }
     }
 
     /**
