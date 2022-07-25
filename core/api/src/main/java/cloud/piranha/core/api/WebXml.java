@@ -211,6 +211,11 @@ public class WebXml implements Serializable {
      * Stores the fragment name.
      */
     private String fragmentName;
+    
+    /**
+     * Stores the JSP config.
+     */
+    private WebXmlJspConfig jspConfig = new WebXmlJspConfig();
 
     /**
      * Stores the listeners.
@@ -330,6 +335,12 @@ public class WebXml implements Serializable {
         return fragmentName;
     }
 
+    /**
+     * {@return the jsp config}
+     */
+    public WebXmlJspConfig getJspConfig() {
+        return jspConfig;
+    }
     /**
      * {@return the login config}
      */
@@ -476,6 +487,15 @@ public class WebXml implements Serializable {
      */
     public void setFragmentName(String fragmentName) {
         this.fragmentName = fragmentName;
+    }
+    
+    /**
+     * Set the JSP config.
+     * 
+     * @param jspConfig the jsp config.
+     */
+    public void setJspConfig(WebXmlJspConfig jspConfig) {
+        this.jspConfig = jspConfig;
     }
 
     /**

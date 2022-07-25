@@ -30,6 +30,7 @@
         <module>server-programmatic</module>
         <module>server-slim</module>
         <module>soteria</module>
+        <module>wasp</module>
         <module>webxml</module>
         <module>weld</module>
         <module>webapp</module>

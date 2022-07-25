@@ -37,6 +37,7 @@ import cloud.piranha.core.api.WebXmlContextParam;
 import cloud.piranha.core.api.WebXmlDataSource;
 import cloud.piranha.core.api.WebXmlErrorPage;
 import cloud.piranha.core.api.WebXmlFilterInitParam;
+import cloud.piranha.core.api.WebXmlJspConfigTaglib;
 import cloud.piranha.core.api.WebXmlListener;
 import cloud.piranha.core.api.WebXmlLoginConfig;
 import cloud.piranha.core.api.WebXmlServlet;
@@ -44,6 +45,8 @@ import cloud.piranha.core.api.WebXmlServletMapping;
 import cloud.piranha.core.api.WebXmlServletMultipartConfig;
 import cloud.piranha.core.api.WebXmlSessionConfig;
 import cloud.piranha.core.api.WelcomeFileManager;
+import cloud.piranha.core.impl.DefaultJspConfigDescriptor;
+import cloud.piranha.core.impl.DefaultTaglibDescriptor;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.MultipartConfigElement;
@@ -112,6 +115,7 @@ public class InternalWebXmlProcessor {
         processLocaleEncodingMapping(webApplication, webXml);
         processSessionConfig(webApplication, webXml);
         processDataSources(webApplication, webXml);
+        processJspConfig(webApplication, webXml);
         LOGGER.log(TRACE, "Finished WebXmlProcessor.process");
     }
 
@@ -242,7 +246,7 @@ public class InternalWebXmlProcessor {
         webXml.getFilterMappings().forEach(filterMapping -> {
             FilterRegistration filterReg = webApplication
                     .getFilterRegistration(filterMapping.getFilterName());
-            
+
             // Filter is mapped to a URL pattern, e.g. /path/customer
             filterReg.addMappingForUrlPatterns(
                     toEnumDispatcherTypes(filterMapping.getDispatchers()),
@@ -262,9 +266,9 @@ public class InternalWebXmlProcessor {
         if (dispatchers == null) {
             return null;
         }
-        
+
         EnumSet enumSet = EnumSet.noneOf(DispatcherType.class);
-        for(String dispatcherType : dispatchers) {
+        for (String dispatcherType : dispatchers) {
             enumSet.add(DispatcherType.valueOf(dispatcherType));
         }
         return enumSet;
@@ -306,6 +310,24 @@ public class InternalWebXmlProcessor {
                 }
             }
         });
+    }
+
+    /**
+     * Process the jsp config.
+     *
+     * @param webApplication the web application.
+     * @param webXml the web.xml.
+     */
+    private void processJspConfig(WebApplication webApplication, WebXml webXml) {
+        List<WebXmlJspConfigTaglib> taglibs = webXml.getJspConfig().getTaglibs();
+        DefaultJspConfigDescriptor descriptor = new DefaultJspConfigDescriptor();
+        webApplication.setJspConfigDescriptor(descriptor);
+        for(WebXmlJspConfigTaglib taglib : taglibs) {
+            DefaultTaglibDescriptor taglibDescriptor = new DefaultTaglibDescriptor();
+            taglibDescriptor.setTaglibLocation(taglib.getLocation());
+            taglibDescriptor.setTaglibURI(taglib.getUri());
+            descriptor.getTaglibs().add(taglibDescriptor);
+        }
     }
 
     /**

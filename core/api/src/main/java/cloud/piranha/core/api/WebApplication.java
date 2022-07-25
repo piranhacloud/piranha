@@ -37,6 +37,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -306,6 +307,13 @@ public interface WebApplication extends ServletContext {
      * @param version the effective minor version.
      */
     void setEffectiveMinorVersion(int version);
+
+    /**
+     * Set the JSP config descriptor.
+     * 
+     * @param descriptor the descriptor.
+     */
+    void setJspConfigDescriptor(JspConfigDescriptor descriptor);
 
     /**
      * Set the metadata complete flag.

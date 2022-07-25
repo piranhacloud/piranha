@@ -27,35 +27,49 @@
  */
 package cloud.piranha.core.api;
 
-import jakarta.servlet.ServletRegistration;
-import jakarta.servlet.descriptor.JspConfigDescriptor;
-
 /**
- * The JspManager API.
+ * A taglib inside jsp-config of web.xml/web-fragment.xml.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface JspManager {
+public class WebXmlJspConfigTaglib {
 
     /**
-     * Add the JSP file.
-     *
-     * @param webApplication the web application.
-     * @param servletName the servlet name.
-     * @param jspFile the jsp file.
-     * @return the servlet registration.
+     * Stores the location.
      */
-    ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile);
-
+    private final String location;
+    
     /**
-     * {@return the JSP config descriptor}
+     * Stores the URI.
      */
-    JspConfigDescriptor getJspConfigDescriptor();
-
+    private final String uri;
+    
     /**
-     * Set the JspConfigDescriptor.
+     * Constructor.
      * 
-     * @param jspConfigDescriptor the JspConfigDescriptor.
+     * @param location the location.
+     * @param uri the URI.
      */
-    void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor);
+    public WebXmlJspConfigTaglib(String location, String uri) {
+        this.location = location;
+        this.uri = uri;
+    }
+
+    /**
+     * Get the location.
+     * 
+     * @return the location.
+     */
+    public String getLocation() {
+        return location;
+    }
+
+    /**
+     * Get the URI.
+     * 
+     * @return the URI.
+     */
+    public String getUri() {
+        return uri;
+    }
 }

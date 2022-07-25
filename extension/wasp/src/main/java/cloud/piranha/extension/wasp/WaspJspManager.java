@@ -32,6 +32,7 @@ import jakarta.servlet.descriptor.JspConfigDescriptor;
 
 import cloud.piranha.core.api.JspManager;
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.impl.DefaultJspConfigDescriptor;
 
 /**
  * The WaSP manager delivered by the Jasper integration.
@@ -43,7 +44,7 @@ public class WaspJspManager implements JspManager {
     /**
      * Stores the JSP config descriptor.
      */
-    protected JspConfigDescriptor jspConfigDescriptor;
+    protected JspConfigDescriptor jspConfigDescriptor = new DefaultJspConfigDescriptor();
 
     /**
      * Add the JSP file.
@@ -71,5 +72,15 @@ public class WaspJspManager implements JspManager {
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
         return jspConfigDescriptor;
+    }
+
+    /**
+     * Set the JspConfigDescriptor.
+     * 
+     * @param jspConfigDescriptor the JspConfigDescriptor.
+     */
+    @Override
+    public void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor) {
+        this.jspConfigDescriptor = jspConfigDescriptor;
     }
 }

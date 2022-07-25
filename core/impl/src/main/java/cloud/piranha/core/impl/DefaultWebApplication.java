@@ -1484,4 +1484,11 @@ public class DefaultWebApplication implements WebApplication {
     public WebApplicationManager getManager() {
         return manager;
     }
+
+    @Override
+    public void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor) {
+        if (getManager().getJspManager() != null) {
+            getManager().getJspManager().setJspConfigDescriptor(jspConfigDescriptor);
+        }
+    }
 }

@@ -25,37 +25,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.test.wasp;
 
-import jakarta.servlet.ServletRegistration;
-import jakarta.servlet.descriptor.JspConfigDescriptor;
+import jakarta.servlet.jsp.JspException;
+import static jakarta.servlet.jsp.tagext.Tag.SKIP_BODY;
+import jakarta.servlet.jsp.tagext.TagSupport;
+import java.io.IOException;
 
 /**
- * The JspManager API.
- *
+ * A 'Hello TLD' tag.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface JspManager {
+public class HelloTldTag extends TagSupport {
 
-    /**
-     * Add the JSP file.
-     *
-     * @param webApplication the web application.
-     * @param servletName the servlet name.
-     * @param jspFile the jsp file.
-     * @return the servlet registration.
-     */
-    ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile);
-
-    /**
-     * {@return the JSP config descriptor}
-     */
-    JspConfigDescriptor getJspConfigDescriptor();
-
-    /**
-     * Set the JspConfigDescriptor.
-     * 
-     * @param jspConfigDescriptor the JspConfigDescriptor.
-     */
-    void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor);
+    @Override
+    public int doStartTag() throws JspException {
+        try {
+          pageContext.getOut().println("Hello TLD");
+        } catch (IOException ioe) {
+            throw new JspException(ioe);
+        }
+        return SKIP_BODY;
+    }
 }

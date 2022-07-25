@@ -25,37 +25,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.core.impl;
 
-import jakarta.servlet.ServletRegistration;
-import jakarta.servlet.descriptor.JspConfigDescriptor;
+import jakarta.servlet.descriptor.TaglibDescriptor;
 
 /**
- * The JspManager API.
- *
+ * The default TaglibDescriptor.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface JspManager {
+public class DefaultTaglibDescriptor implements TaglibDescriptor {
 
     /**
-     * Add the JSP file.
-     *
-     * @param webApplication the web application.
-     * @param servletName the servlet name.
-     * @param jspFile the jsp file.
-     * @return the servlet registration.
+     * Stores the taglib location.
      */
-    ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile);
-
+    private String taglibLocation;
+    
     /**
-     * {@return the JSP config descriptor}
+     * Stores the taglib URI.
      */
-    JspConfigDescriptor getJspConfigDescriptor();
+    private String taglibURI;
+
+    @Override
+    public String getTaglibLocation() {
+        return taglibLocation;
+    }
+
+    @Override
+    public String getTaglibURI() {
+        return taglibURI;
+    }
 
     /**
-     * Set the JspConfigDescriptor.
+     * Set the taglib location.
      * 
-     * @param jspConfigDescriptor the JspConfigDescriptor.
+     * @param taglibLocation the taglib location.
      */
-    void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor);
+    public void setTaglibLocation(String taglibLocation) {
+        this.taglibLocation = taglibLocation;
+    }
+
+    /**
+     * Set the taglib URI.
+     * 
+     * @param taglibURI the taglib URI.
+     */
+    public void setTaglibURI(String taglibURI) {
+        this.taglibURI = taglibURI;
+    }
 }
