@@ -31,6 +31,7 @@
         <module>server-slim</module>
         <module>soteria</module>
         <module>wasp</module>
+        <module>wasp2</module>
         <module>webxml</module>
         <module>weld</module>
         <module>webapp</module>

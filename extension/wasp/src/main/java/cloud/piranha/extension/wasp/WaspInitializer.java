@@ -131,12 +131,12 @@ public class WaspInitializer implements ServletContainerInitializer {
         if (realPath != null) {
             File directory = new File(realPath);
             if (directory.isDirectory()) {
-                String[] files = directory.list();
+                File[] files = directory.listFiles();
                 if (files != null) {
-                    for (String file : files) {
-                        if (file.toLowerCase().endsWith(".jar")) {
+                    for (File file : files) {
+                        if (file.getAbsolutePath().endsWith(".jar")) {
                             jarFiles.append(pathSeparator);
-                            jarFiles.append(file);
+                            jarFiles.append(file.getAbsolutePath());
                         }
                     }
                 }

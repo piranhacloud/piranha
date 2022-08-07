@@ -27,24 +27,35 @@
  */
 package cloud.piranha.test.wasp;
 
-import jakarta.servlet.jsp.JspException;
-import jakarta.servlet.jsp.tagext.TagSupport;
-import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
- * A 'Hello TLD' tag.
- * 
+ * The integration tests for the hellotag2.jsp page.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HelloTldTag extends TagSupport {
-
-    @Override
-    public int doStartTag() throws JspException {
-        try {
-          pageContext.getOut().println("Hello TLD");
-        } catch (IOException ioe) {
-            throw new JspException(ioe);
-        }
-        return SKIP_BODY;
+class HelloTag2JspIT {
+ 
+    /**
+     * Test the hellotag2.jsp.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Disabled
+    @Test
+    void testHelloTagJsp() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:8000/piranha-test-wasp/hellotag2.jsp"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertTrue(response.body().contains("Hello Tag #2"));
     }
 }
