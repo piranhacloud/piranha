@@ -96,9 +96,8 @@ public class PiranhaStartup {
         }
     }
 
-    private static void pingPiranha(String host, int port) throws IOException, InterruptedException {
+    private static void pingPiranha(String host, int port) throws IOException {
         try ( Socket s = new Socket(host, port)) {
         }
     }
-
 }
