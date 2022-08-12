@@ -359,12 +359,6 @@
 
         <dependency>
             <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-nano</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cloud.piranha</groupId>
             <artifactId>piranha-server</artifactId>
             <version>${project.version}</version>
         </dependency>
