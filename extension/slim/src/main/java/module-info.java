@@ -36,7 +36,10 @@
  * <ul>
  *  <li>ServletContainerInitializer</li>
  * </ul>
+ * 
+ * @deprecated
  */
+@Deprecated(since = "22.10.0", forRemoval = true)
 module cloud.piranha.extension.slim {
     exports cloud.piranha.extension.slim;
     opens cloud.piranha.extension.slim;
