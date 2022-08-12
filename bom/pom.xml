@@ -14,9 +14,23 @@
     <name>Piranha - BOM</name>
 
     <properties>
+        <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
+        <jakarta.authentication-api.version>3.0.0</jakarta.authentication-api.version>
+        <jakarta.authorization-api.version>2.1.0</jakarta.authorization-api.version>
         <jakarta.el-api.version>5.0.1</jakarta.el-api.version>
+        <jakarta.enterprise.cdi-api.version>4.0.1</jakarta.enterprise.cdi-api.version>
+        <jakarta.faces-api.version>4.0.1</jakarta.faces-api.version>
+        <jakarta.jakartaee-web-api.version>10.0.0</jakarta.jakartaee-web-api.version>
+        <jakarta.json-api.version>2.1.1</jakarta.json-api.version>
+        <jakarta.json.bind-api.version>3.0.0</jakarta.json.bind-api.version>
+        <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>
+        <jakarta.security.enterprise-api.version>3.0.0</jakarta.security.enterprise-api.version>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
         <jakarta.servlet.jsp-api.version>3.1.0</jakarta.servlet.jsp-api.version>
+        <jakarta.servlet.jsp.jstl-api.version>3.0.0</jakarta.servlet.jsp.jstl-api.version>
+        <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
+        <jakarta.xml.bind-api.version>4.0.0</jakarta.xml.bind-api.version>
+        <microprofile-jwt-auth-api.version>2.1-RC2</microprofile-jwt-auth-api.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -26,21 +40,21 @@
             <dependency>
                 <groupId>jakarta.annotation</groupId>
                 <artifactId>jakarta.annotation-api</artifactId>
-                <version>2.0.0</version>
+                <version>${jakarta.annotation-api.version}</version>
             </dependency>
 
             <!-- Jakarta Authentication -->
             <dependency>
                 <groupId>jakarta.authentication</groupId>
                 <artifactId>jakarta.authentication-api</artifactId>
-                <version>2.0.0</version>
+                <version>${jakarta.authentication-api.version}</version>
             </dependency>
             
             <!-- Jakarta Authorization -->
             <dependency>
                 <groupId>jakarta.authorization</groupId>
                 <artifactId>jakarta.authorization-api</artifactId>
-                <version>2.0.0</version>
+                <version>${jakarta.authorization-api.version}</version>
             </dependency>
             
             <!-- Jakarta Expression Language -->
@@ -54,49 +68,49 @@
             <dependency>
                 <groupId>jakarta.enterprise</groupId>
                 <artifactId>jakarta.enterprise.cdi-api</artifactId>
-                <version>3.0.0</version>
+                <version>${jakarta.enterprise.cdi-api.version}</version>
             </dependency>
             
             <!-- Jakarta Faces -->
             <dependency>
                 <groupId>jakarta.faces</groupId>
                 <artifactId>jakarta.faces-api</artifactId>
-                <version>3.0.0</version>
+                <version>${jakarta.faces-api.version}</version>
             </dependency>
 
             <!-- Jakarta JSON Processing -->
             <dependency>
                 <groupId>jakarta.json</groupId>
                 <artifactId>jakarta.json-api</artifactId>
-                <version>2.0.1</version>
+                <version>${jakarta.json-api.version}</version>
             </dependency>
 
             <!-- Jakarta JSON Binding -->
             <dependency>
                 <groupId>jakarta.json.bind</groupId>
                 <artifactId>jakarta.json.bind-api</artifactId>
-                <version>2.0.0</version>
+                <version>${jakarta.json.bind-api.version}</version>
             </dependency>
             
             <!-- Jakarta Persistence -->
             <dependency>
                 <groupId>jakarta.persistence</groupId>
                 <artifactId>jakarta.persistence-api</artifactId>
-                <version>3.0.0</version>
+                <version>${jakarta.persistence-api.version}</version>
             </dependency>
 
             <!-- Jakarta EE WebProfile -->
             <dependency>
                 <groupId>jakarta.platform</groupId>
                 <artifactId>jakarta.jakartaee-web-api</artifactId>
-                <version>9.1.0</version>
+                <version>${jakarta.jakartaee-web-api.version}</version>
             </dependency>
             
             <!-- Jakarta Security -->
             <dependency>
                 <groupId>jakarta.security.enterprise</groupId>
                 <artifactId>jakarta.security.enterprise-api</artifactId>
-                <version>2.0.0</version>
+                <version>${jakarta.security.enterprise-api.version}</version>
             </dependency>
 
             <!-- Jakarta Servlet -->
@@ -117,7 +131,7 @@
             <dependency>
                 <groupId>jakarta.servlet.jsp.jstl</groupId>
                 <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-                <version>3.0.0-RC1</version>
+                <version>${jakarta.servlet.jsp.jstl-api.version}</version>
             </dependency>
             
             <!-- Jakarta Transactions -->
@@ -131,7 +145,7 @@
             <dependency>
                 <groupId>jakarta.validation</groupId>
                 <artifactId>jakarta.validation-api</artifactId>
-                <version>3.0.1</version>
+                <version>${jakarta.validation-api.version}</version>
             </dependency>
             
             <!-- Jakarta WebSocket -->
@@ -152,7 +166,7 @@
             <dependency>
                 <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>3.0.1</version>
+                <version>${jakarta.xml.bind-api.version}</version>
             </dependency>
             
             <!-- MicroProfile Config -->
@@ -166,7 +180,7 @@
             <dependency>
                 <groupId>org.eclipse.microprofile.jwt</groupId>
                 <artifactId>microprofile-jwt-auth-api</artifactId>
-                <version>2.0</version>
+                <version>${microprofile-jwt-auth-api.version}</version>
             </dependency>
 
         </dependencies>

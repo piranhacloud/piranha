@@ -43,6 +43,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>jakarta.el</groupId>
             <artifactId>jakarta.el-api</artifactId>
             <scope>provided</scope>
@@ -61,12 +66,6 @@
             <groupId>jakarta.transaction</groupId>
             <artifactId>jakarta.transaction-api</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <!-- runtime -->
-        <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
 </project>

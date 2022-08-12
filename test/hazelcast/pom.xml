@@ -18,22 +18,52 @@
     </properties>
 
     <dependencies>
+        <!-- provided -->
         <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-mojarra</artifactId>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-embedded</artifactId>
             <version>${project.version}</version>
-            <scope>runtime</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-hazelcast</artifactId>
             <version>${project.version}</version>
-            <scope>runtime</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-embedded</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-herring</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-mojarra</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-webxml</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-weld</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-api</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

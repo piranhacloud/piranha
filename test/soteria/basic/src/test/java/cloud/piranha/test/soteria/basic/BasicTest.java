@@ -49,10 +49,12 @@ import cloud.piranha.extension.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
 import jakarta.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
+import org.junit.jupiter.api.Disabled;
 
 @BasicAuthenticationMechanismDefinition(realmName = "test")
 class BasicTest {
 
+    @Disabled
     @Test
     void testAuthenticated() throws Exception {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());

@@ -58,7 +58,7 @@ module cloud.piranha.micro.shrinkwrap.core {
     requires cloud.piranha.resource.shrinkwrap;
     requires jakarta.annotation;
     requires jakarta.cdi;
-    requires jakarta.security.enterprise.api;
+    requires jakarta.security;
     requires java.logging;
     requires java.naming;
     requires java.xml;
