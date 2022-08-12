@@ -38,6 +38,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.jupiter.api.Test;
 
 import cloud.piranha.micro.shrinkwrap.builder.MicroEmbeddedPiranhaBuilder;
+import org.junit.jupiter.api.Disabled;
 
 
 /**
@@ -53,6 +54,7 @@ class Mojarra2Test {
      *
      * @throws Exception
      */
+    @Disabled
     @Test
     void testIndexHtml1() throws Exception {
         String result = new MicroEmbeddedPiranhaBuilder()

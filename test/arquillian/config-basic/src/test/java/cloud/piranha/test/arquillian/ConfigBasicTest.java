@@ -35,16 +35,17 @@ import java.net.URL;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import com.gargoylesoftware.htmlunit.TextPage;
 import com.gargoylesoftware.htmlunit.WebClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.junit.Ignore;
+import org.junit.runner.RunWith;
 
 /**
  * @author Arjan Tijms
@@ -87,6 +88,7 @@ public class ConfigBasicTest {
         webClient.close();
     }
 
+    @Ignore
     @Test
     @RunAsClient
     public void testBasicInjection() throws IOException {
@@ -113,6 +115,7 @@ public class ConfigBasicTest {
 
     }
 
+    @Ignore
     @Test
     @RunAsClient
     public void testOptional() throws IOException {

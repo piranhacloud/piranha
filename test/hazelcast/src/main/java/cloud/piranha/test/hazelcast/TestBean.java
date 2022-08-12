@@ -25,25 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.test.hazelcast;
+
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
 
 /**
- * The Eclipse Soteria integration module.
- *
- * <p>
- *  This module integrates Eclipse Soteria into Piranha. See 
- *  https://github.com/eclipse-ee4j/soteria for more information about its
- *  project.
- * </p>
- *
+ * A simple test bean.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.soteria {
-    exports cloud.piranha.extension.soteria;
-    opens cloud.piranha.extension.soteria;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.inject;
-    requires jakarta.cdi;
-    requires jakarta.security;
-    requires org.glassfish.soteria;
+@Named(value = "testBean")
+@RequestScoped
+public class TestBean {
 }
