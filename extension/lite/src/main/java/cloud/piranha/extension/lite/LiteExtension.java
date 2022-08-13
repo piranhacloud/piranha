@@ -45,7 +45,9 @@ import cloud.piranha.extension.webxml.WebXmlExtension;
  * Piranha.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.9.0", forRemoval = true)
 public class LiteExtension implements WebApplicationExtension {
 
     @Override
