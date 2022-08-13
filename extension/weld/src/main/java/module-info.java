@@ -49,7 +49,7 @@ module cloud.piranha.extension.weld {
     requires cloud.piranha.core.impl;
     requires jakarta.inject;
     requires jakarta.cdi;
-    requires jakarta.security.enterprise.api;
+    requires jakarta.security;
     requires java.naming;
     requires weld.api;
     requires weld.core.impl;

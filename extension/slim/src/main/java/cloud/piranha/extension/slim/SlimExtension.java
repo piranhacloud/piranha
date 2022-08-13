@@ -36,7 +36,9 @@ import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtensio
  * ServletContainerInitializerExtension as its only configured extension.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
+@Deprecated(since = "22.9.0", forRemoval = true)
 public class SlimExtension implements WebApplicationExtension {
 
     @Override

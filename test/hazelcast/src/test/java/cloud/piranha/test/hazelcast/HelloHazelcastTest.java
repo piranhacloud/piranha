@@ -33,7 +33,10 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.hazelcast.HazelcastHttpSessionManager;
+import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.mojarra.MojarraInitializer;
+import cloud.piranha.extension.webxml.WebXmlExtension;
+import cloud.piranha.extension.weld.WeldInitializer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -54,14 +57,17 @@ class HelloHazelcastTest {
     void testNotFound() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
+                .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")
                 .httpSessionManager(new HazelcastHttpSessionManager())
+                .extension(HerringExtension.class)
+                .extension(WebXmlExtension.class)
+                .initializer(WeldInitializer.class.getName())
                 .initializer(MojarraInitializer.class.getName())
                 .build()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")
-                .servletPath("/faces")
-                .pathInfo("/notfound.html")
+                .servletPath("/notfound.nf")
                 .build();
         EmbeddedResponse response = new EmbeddedResponse();
         piranha.service(request, response);
@@ -79,7 +85,11 @@ class HelloHazelcastTest {
     void testIndexHtml() throws Exception {
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
+                .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")
                 .httpSessionManager(new HazelcastHttpSessionManager())
+                .extension(HerringExtension.class)
+                .extension(WebXmlExtension.class)
+                .initializer(WeldInitializer.class.getName())
                 .initializer(MojarraInitializer.class.getName())
                 .build()
                 .start();

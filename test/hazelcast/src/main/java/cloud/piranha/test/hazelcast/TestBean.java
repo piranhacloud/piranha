@@ -25,24 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.test.hazelcast;
+
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
 
 /**
- * The slim extension module.
- *
- * <p>
- *  This module delivers the Slim extension which in turn enables the following
- *  extension:
- * </p>
- * <ul>
- *  <li>ServletContainerInitializer</li>
- * </ul>
+ * A simple test bean.
  * 
- * @deprecated
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-@Deprecated(since = "22.9.0", forRemoval = true)
-module cloud.piranha.extension.slim {
-    exports cloud.piranha.extension.slim;
-    opens cloud.piranha.extension.slim;
-    requires cloud.piranha.core.api;
-    requires transitive cloud.piranha.extension.scinitializer;
+@Named(value = "testBean")
+@RequestScoped
+public class TestBean {
 }

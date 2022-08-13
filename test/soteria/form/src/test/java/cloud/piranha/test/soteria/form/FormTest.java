@@ -53,6 +53,7 @@ import cloud.piranha.extension.webxml.WebXmlInitializer;
 import jakarta.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
 import jakarta.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import jakarta.servlet.http.Cookie;
+import org.junit.jupiter.api.Disabled;
 
 /**
  *
@@ -64,6 +65,7 @@ import jakarta.servlet.http.Cookie;
                 errorPage = "/error-page"))
 class FormTest {
 
+    @Disabled
     @Test
     void testAuthenticated() throws Exception {
         System.getProperties().put(INITIAL_CONTEXT_FACTORY, DynamicInitialContextFactory.class.getName());
