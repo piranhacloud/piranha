@@ -34,7 +34,9 @@
  * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.9.0", forRemoval = true)
 module cloud.piranha.extension.myfaces {
 
     exports cloud.piranha.extension.myfaces;

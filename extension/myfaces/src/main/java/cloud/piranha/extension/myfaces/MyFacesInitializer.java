@@ -37,7 +37,9 @@ import jakarta.servlet.ServletRegistration.Dynamic;
  * The MyFaces initializer.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
+@Deprecated(since = "22.9.0", forRemoval = true)
 public class MyFacesInitializer implements ServletContainerInitializer {
 
     /**
