@@ -43,7 +43,9 @@ import jakarta.servlet.ServletRegistration.Dynamic;
  * Note at some point have to delegate and/or invoke actual Mojara Initializer.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
+@Deprecated(since = "22.9.0", forRemoval = true)
 public class MojarraInitializer implements ServletContainerInitializer {
 
     /**
