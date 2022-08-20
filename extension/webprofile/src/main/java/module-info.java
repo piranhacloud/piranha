@@ -27,21 +27,47 @@
  */
 
 /**
- * The Piranha Micro module.
- * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * The Web Profile extension module.
+ *
+ * <p>
+ *  This module of modules delivers the extensions for Piranha Micro and Piranha
+ *  Server. It consists of the following extensions:
+ * </p>
+ * <ul>
+ *  <li>Annotation Scanning</li>
+ *  <li>Apache Commons File Upload (Multipart)</li>
+ *  <li>Async</li>
+ *  <li>Manorrock Herring (JNDI)</li>
+ *  <li>Locale Encoding</li>
+ *  <li>Logging</li>
+ *  <li>Mime-type</li>
+ *  <li>Java Policy</li>
+ *  <li>ServletContainerInitializer</li>
+ *  <li>Servlet Security</li>
+ *  <li>Servlet Annotations</li>
+ *  <li>TEMPDIR</li>
+ *  <li>WaSP (Pages)</li>
+ *  <li>web.xml</li>
+ *  <li>Welcome File</li>
+ * </ul>
  */
-module cloud.piranha.micro {
-    exports cloud.piranha.micro;
-    opens cloud.piranha.micro;
-    requires transitive cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.lite;
-    requires cloud.piranha.extension.slim;
-    requires cloud.piranha.extension.standard;
-    requires cloud.piranha.extension.webprofile;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
-    uses cloud.piranha.http.api.HttpServer;
+module cloud.piranha.extension.webprofile {
+    exports cloud.piranha.extension.webprofile;
+    opens cloud.piranha.extension.webprofile;
+    requires cloud.piranha.core.api;
+    requires cloud.piranha.extension.annotationscan;
+    requires cloud.piranha.extension.apache.fileupload;
+    requires cloud.piranha.extension.async;
+    requires cloud.piranha.extension.herring;
+    requires cloud.piranha.extension.localeencoding;
+    requires cloud.piranha.extension.logging;
+    requires cloud.piranha.extension.mimetype;
+    requires cloud.piranha.extension.policy;
+    requires cloud.piranha.extension.scinitializer;
+    requires cloud.piranha.extension.security.servlet;
+    requires cloud.piranha.extension.servletannotations;
+    requires cloud.piranha.extension.tempdir;
+    requires cloud.piranha.extension.wasp;
+    requires cloud.piranha.extension.webxml;
+    requires cloud.piranha.extension.welcomefile;
 }
