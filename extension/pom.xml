@@ -42,6 +42,7 @@
         <module>standard</module>
         <module>tempdir</module>
         <module>wasp</module>
+        <module>webprofile</module>
         <module>webxml</module>
         <module>welcomefile</module>
         <module>weld</module>

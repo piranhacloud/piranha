@@ -27,7 +27,7 @@
  */
 package cloud.piranha.micro;
 
-import cloud.piranha.extension.standard.StandardExtension;
+import cloud.piranha.extension.webprofile.WebProfileExtension;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.System.Logger;
 
@@ -65,7 +65,7 @@ public class MicroPiranhaMain {
     private MicroPiranhaBuilder processArguments(String[] arguments) {
         
         MicroPiranhaBuilder builder = new MicroPiranhaBuilder()
-                .extensionClass(StandardExtension.class)
+                .extensionClass(WebProfileExtension.class)
                 .exitOnStop(true);
         int httpPort = 0;
         int httpsPort = 0;
