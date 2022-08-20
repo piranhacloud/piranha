@@ -45,7 +45,10 @@
  *  <li>TEMPDIR</li>
  *  <li>web.xml</li>
  * </ul>
+ * 
+ * @deprecated
  */
+@Deprecated(since = "22.9.0", forRemoval = true)
 module cloud.piranha.extension.lite {
     exports cloud.piranha.extension.lite;
     opens cloud.piranha.extension.lite;
