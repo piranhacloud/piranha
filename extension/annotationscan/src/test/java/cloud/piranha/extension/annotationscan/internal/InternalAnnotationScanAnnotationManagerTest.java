@@ -33,7 +33,6 @@ import cloud.piranha.extension.annotationscan.TestAnnotation;
 import java.util.Collections;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
@@ -43,17 +42,7 @@ import org.junit.jupiter.api.Test;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class InternalAnnotationScanAnnotationManagerTest {
-    
-    /**
-     * Test getClasses method.
-     */
-    @Test
-    void testGetClasses() {
-        InternalAnnotationScanAnnotationManager manager = new InternalAnnotationScanAnnotationManager();
-        assertNotNull(manager.getAnnotatedClasses());
-        assertTrue(manager.getAnnotatedClasses().isEmpty());
-    }
-    
+        
     @Test
     void testInitializerWithHandlesTypes () {
         DefaultWebApplication webApp = new DefaultWebApplication();

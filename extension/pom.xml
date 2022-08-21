@@ -20,6 +20,7 @@
         <module>annotationscan</module>
         <module>async</module>
         <module>bytesstreamhandler</module>
+        <module>coreprofile</module>
         <module>eleos</module>
         <module>exousia</module>
         <module>hazelcast</module>

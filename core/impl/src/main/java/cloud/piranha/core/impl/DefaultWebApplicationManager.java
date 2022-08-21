@@ -55,7 +55,7 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     /**
      * Stores the annotation manager.
      */
-    protected AnnotationManager annotationManager;
+    protected AnnotationManager annotationManager = new DefaultAnnotationManager();
     
     /**
      * Stores the async manager.
