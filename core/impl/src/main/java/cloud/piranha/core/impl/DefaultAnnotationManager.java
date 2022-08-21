@@ -25,117 +25,88 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.annotationscan.internal;
+package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.AnnotationInfo;
 import cloud.piranha.core.api.AnnotationManager;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import static java.util.Collections.emptyList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import static java.util.stream.Collectors.toList;
-import java.util.stream.Stream;
 
 /**
- * The standard annotation scan AnnotationManager.
- *
+ * The default AnnotationManager.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class InternalAnnotationScanAnnotationManager implements AnnotationManager {
-
+public class DefaultAnnotationManager implements AnnotationManager {
+    
     /**
-     * Stores the annotations.
+     * Stores the annotated classes.
      */
-    protected final Map<Class<?>, List<AnnotationInfo<?>>> annotations = new ConcurrentHashMap<>();
-
-    /**
-     * Stores the instances.
-     */
-    protected final Map<Class<?>, List<Class<?>>> instances = new ConcurrentHashMap<>();
+    private HashMap<Class<? extends Annotation>, Set<Class<?>>> annotatedClasses = new HashMap<>();
 
     @Override
     public void addAnnotation(AnnotationInfo<?> annotationInfo) {
-        annotations.computeIfAbsent(
-                ((Annotation) annotationInfo.getInstance()).annotationType(),
-                e -> new ArrayList<>())
-                .add(annotationInfo);
     }
 
-    /**
-     * Add an instance.
-     *
-     * @param instanceClass the instance class.
-     * @param implementingClass the implementing class.
-     */
     @Override
     public void addInstance(Class<?> instanceClass, Class<?> implementingClass) {
-        instances.computeIfAbsent(
-                instanceClass,
-                e -> new ArrayList<>())
-                .add(implementingClass);
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> Stream<AnnotationInfo<T>> getAnnotationStream(Class<T> annotationClass) {
-        return annotations.getOrDefault(annotationClass, emptyList())
-                .stream()
-                .map(e -> (AnnotationInfo<T>) e);
-    }
-
-    @Override
-    public List<AnnotationInfo<?>> getAnnotations(Class<?>... annotationClasses) {
-        return Arrays.stream(annotationClasses)
-                .flatMap(this::getAnnotationStream)
-                .collect(toList());
     }
 
     @Override
     public <T> List<AnnotationInfo<T>> getAnnotations(Class<T> annotationClass) {
-        return getAnnotationStream(annotationClass).toList();
+        return Collections.emptyList();
     }
 
     @Override
-    public <T> List<AnnotationInfo<T>> getAnnotationsByTarget(
-            Class<T> annotationClass, AnnotatedElement type) {
-        return null;
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> Stream<Class<T>> getInstanceStream(Class<T> instanceClass) {
-        return instances.getOrDefault(instanceClass, emptyList())
-                .stream()
-                .map(e -> (Class<T>) e);
-    }
-
-    @Override
-    public List<Class<?>> getInstances(Class<?>... instanceClasses) {
-        return Arrays.stream(instanceClasses)
-                .flatMap(this::getInstanceStream)
-                .collect(toList());
+    public List<AnnotationInfo<?>> getAnnotations(Class<?>... annotationClasses) {
+        return Collections.emptyList();
     }
 
     @Override
     public <T> List<Class<T>> getInstances(Class<T> instanceClass) {
-        return getInstanceStream(instanceClass).toList();
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Class<?>> getInstances(Class<?>... instanceClasses) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public <T> List<AnnotationInfo<T>> getAnnotationsByTarget(Class<T> annotationClass, AnnotatedElement type) {
+        return Collections.emptyList();
     }
 
     @Override
     public void addAnnotatedClass(Class<? extends Annotation> annotationClass, Class<?> clazz) {
+        if (!annotatedClasses.containsKey(annotationClass)) {
+            HashSet<Class<?>> classes = new HashSet<>();
+            classes.add(clazz);
+            annotatedClasses.put(annotationClass, classes);
+        } else {
+            HashSet<Class<?>> classes = (HashSet) annotatedClasses.get(annotationClass);
+            classes.add(clazz);
+        }
     }
 
     @Override
     public Set<Class<?>> getAnnotatedClass(Class<? extends Annotation> annotationClass) {
-        return Collections.emptySet();
+        return annotatedClasses.getOrDefault(annotationClass, Collections.emptySet());
     }
 
     @Override
     public Set<Class<?>> getAnnotatedClasses(Class<?>[] annotationClasses) {
-        return Collections.emptySet();
+        HashSet<Class<?>> result = new HashSet<>();
+        if (annotationClasses != null) {
+            for (Class<?> annotationClass : annotationClasses) {
+                result.addAll(getAnnotatedClass((Class<? extends Annotation>) annotationClass));
+            }
+        }
+        return result;
     }
 }

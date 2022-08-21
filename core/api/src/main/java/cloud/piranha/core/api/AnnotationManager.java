@@ -27,6 +27,7 @@
  */
 package cloud.piranha.core.api;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.List;
 import java.util.Set;
@@ -87,11 +88,6 @@ public interface AnnotationManager {
      * @return the list of instances.
      */
     List<Class<?>> getInstances(Class<?>... instanceClasses);
-
-    /**
-     * {@return the set of all annotated classes}
-     */
-    Set<Class<?>> getAnnotatedClasses();
     
     /**
      * Get the annotation for the annotation class and annotated element type.
@@ -102,4 +98,28 @@ public interface AnnotationManager {
      * @return the list of annotations.
      */
     <T> List<AnnotationInfo<T>> getAnnotationsByTarget(Class<T> annotationClass, AnnotatedElement type);
+
+    /**
+     * Add an annotated class.
+     * 
+     * @param annotationClass the annotation class on the annotated class.
+     * @param clazz the annotated class.
+     */
+    void addAnnotatedClass(Class<? extends Annotation> annotationClass, Class<?> clazz);
+    
+    /**
+     * Get the annotated classes.
+     * 
+     * @param annotationClass the annotation to inspect for.
+     * @return the classes annotated with the given annotation (if any).
+     */
+    Set<Class<?>> getAnnotatedClass(Class<? extends Annotation> annotationClass);
+    
+    /**
+     * Get annotated classes.
+     * 
+     * @param annotationClasses the annotation classes to inspect for.
+     * @return the classes annotated with the given annotations (if any).
+     */
+    Set<Class<?>> getAnnotatedClasses(Class<?>[] annotationClasses);
 }

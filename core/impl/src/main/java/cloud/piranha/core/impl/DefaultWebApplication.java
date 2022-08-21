@@ -1001,7 +1001,8 @@ public class DefaultWebApplication implements WebApplication {
                     
                     Stream<Class<?>> classStream = annotations.stream().map(AnnotationInfo::getTargetType);
 
-                    classes = Stream.concat(instances, classStream).collect(Collectors.toUnmodifiableSet());
+                    classes = Stream.concat(instances, classStream).collect(Collectors.toSet());
+                    classes.addAll(manager.getAnnotationManager().getAnnotatedClasses(annotation.value()));
                 }
                 try {
                     source = initializer;
