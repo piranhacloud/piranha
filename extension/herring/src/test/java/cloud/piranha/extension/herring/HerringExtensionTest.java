@@ -27,19 +27,23 @@
  */
 package cloud.piranha.extension.herring;
 
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import org.junit.jupiter.api.Test;
+
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
+
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
-import javax.naming.Context;
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the HerringExtension class.

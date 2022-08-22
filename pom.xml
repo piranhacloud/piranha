@@ -468,6 +468,13 @@
                 <artifactId>microprofile-jwt-auth</artifactId>
                 <version>2.0.0</version>
             </dependency>
+            
+            <!-- OmniFish Transact -->
+            <dependency>
+                <groupId>ee.omnifish</groupId>
+                <artifactId>transact-cdi-beans</artifactId>
+                <version>1.0.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

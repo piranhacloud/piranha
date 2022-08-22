@@ -27,21 +27,26 @@
  */
 
 /**
- *  The Manorrock Herring integration module.
+ * The OmniFish Transact integration module.
  *
  * <p>
- *  This module integrates Manorrock Herring into Piranha. See
- *  https://github.com/manorrock/herring for more information about its project.
+ *  This module integrates Transact into Piranha. See
+ *  https://github.com/OmniFish-EE/omni-transact for more information about its
+ *  project.
  * </p>
  *
- * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
  */
-module cloud.piranha.extension.herring {
-    exports cloud.piranha.extension.herring;
-    opens cloud.piranha.extension.herring;
-    requires cloud.piranha.core.api;
-    requires transitive com.manorrock.herring;
-    requires transitive com.manorrock.herring.thread;
-    requires transitive java.naming;
-    requires jakarta.annotation;
+module cloud.piranha.extension.transact {
+    exports cloud.piranha.extension.transact;
+    opens cloud.piranha.extension.transact;
+
+    requires transitive cloud.piranha.core.api;
+    requires transitive jakarta.servlet;
+
+    requires cloud.piranha.core.impl;
+    requires java.naming;
+
+    requires ee.omnifish.transact.cdi.beans;
+    requires ee.omnifish.transact.api;
 }

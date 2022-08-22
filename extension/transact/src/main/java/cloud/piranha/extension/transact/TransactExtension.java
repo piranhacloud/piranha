@@ -25,23 +25,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.transact;
+
+import static java.lang.System.Logger.Level.WARNING;
+
+import java.lang.System.Logger;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import jakarta.servlet.ServletContainerInitializer;
 
 /**
- *  The Manorrock Herring integration module.
+ * The extension that will enable Transact integration
  *
- * <p>
- *  This module integrates Manorrock Herring into Piranha. See
- *  https://github.com/manorrock/herring for more information about its project.
- * </p>
- *
- * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
  */
-module cloud.piranha.extension.herring {
-    exports cloud.piranha.extension.herring;
-    opens cloud.piranha.extension.herring;
-    requires cloud.piranha.core.api;
-    requires transitive com.manorrock.herring;
-    requires transitive com.manorrock.herring.thread;
-    requires transitive java.naming;
-    requires jakarta.annotation;
+public class TransactExtension implements WebApplicationExtension {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(TransactExtension.class.getName());
+
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        try {
+            webApplication.addInitializer(
+                webApplication.getClassLoader()
+                              .loadClass(TransactInitializer.class.getName())
+                              .asSubclass(ServletContainerInitializer.class)
+                              .getDeclaredConstructor()
+                              .newInstance());
+
+        } catch (ReflectiveOperationException | SecurityException ex) {
+            LOGGER.log(WARNING, "Unable to enable the Transact extension", ex);
+        }
+    }
 }

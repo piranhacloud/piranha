@@ -47,4 +47,5 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webxml;
     requires cloud.piranha.extension.welcomefile;
+    requires cloud.piranha.extension.transact;
 }

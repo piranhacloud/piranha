@@ -44,6 +44,7 @@ import cloud.piranha.extension.security.jakarta.JakartaSecurityExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.servletannotations.ServletAnnotationsExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
+import cloud.piranha.extension.transact.TransactExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
 import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
@@ -57,6 +58,7 @@ public class MicroExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
+        // Servlet
         context.add(AsyncExtension.class);
         context.add(LocaleEncodingExtension.class);
         context.add(MimeTypeExtension.class);
@@ -67,8 +69,17 @@ public class MicroExtension implements WebApplicationExtension {
         context.add(ApacheMultiPartExtension.class);
         context.add(WebXmlExtension.class);
         context.add(ServletAnnotationsExtension.class);
+
+        // JNDI
         context.add(HerringExtension.class);
+
+        // Jakarta Transactions
+        context.add(TransactExtension.class);
+
+        // Jakarta Security
         context.add(JakartaSecurityExtension.class);
+
+        // Jakarta Pages
         context.add(WaspExtension.class);
     }
 
