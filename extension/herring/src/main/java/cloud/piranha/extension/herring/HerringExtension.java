@@ -27,15 +27,29 @@
  */
 package cloud.piranha.extension.herring;
 
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationExtension;
-import com.manorrock.herring.DefaultInitialContext;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
-import javax.naming.Context;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+import javax.naming.CompositeName;
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.Reference;
+import javax.naming.spi.NamingManager;
+
+import com.manorrock.herring.DefaultInitialContext;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import jakarta.annotation.Resource;
 
 /**
  * The WebApplicationExtension that is responsible for setting up the proper
@@ -69,8 +83,73 @@ public class HerringExtension implements WebApplicationExtension {
             LOGGER.log(WARNING, INITIAL_CONTEXT_FACTORY + " is not set to " + ThreadInitialContextFactory.class.getName());
         }
         Context context = new DefaultInitialContext();
-        webApplication.setAttribute(Context.class.getName(), context);
-        ThreadInitialContextFactory.setInitialContext(context);
+
+        Context proxyContext = (Context) Proxy.newProxyInstance(
+            Thread.currentThread().getContextClassLoader(),
+            new Class[] { Context.class },
+            new InvocationHandler() {
+                @Override
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                    try {
+                        Object returnValue = null;
+                        try {
+                            returnValue = method.invoke(context, args);
+                        } catch (InvocationTargetException e) {
+                            boolean invoked = false;
+                            try {
+                                if (method.getName().equals("lookup") && e.getCause() instanceof NamingException) {
+                                    String jndiName = args[0].toString();
+
+                                    if (jndiName.startsWith("java:comp/env/")) {
+                                        String classNameWithField = jndiName.substring("java:comp/env/".length());
+                                        String[] classNameAndField =  classNameWithField.split("/");
+                                        if (classNameAndField.length == 2) {
+                                            String className = classNameAndField[0];
+                                            String fieldName = classNameAndField[1];
+
+                                            Class<?> beanClass = Class.forName(className, false, Thread.currentThread().getContextClassLoader());
+                                            Field beanField = beanClass.getDeclaredField(fieldName);
+
+                                            Resource[] resources = beanField.getAnnotationsByType(Resource.class);
+                                            if (resources != null && resources.length > 0) {
+                                                Resource resourceAnnnotation = resources[0];
+
+                                                String lookup = resourceAnnnotation.lookup();
+                                                if (!"".equals(lookup)) {
+                                                    returnValue = method.invoke(context, new Object[] {lookup});
+                                                    args = new Object[] {lookup};
+                                                    invoked = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } catch (Throwable t) {
+                                if (t instanceof InvocationTargetException invocationException &&
+                                    invocationException.getTargetException() instanceof NamingException namingException) {
+                                   throw namingException;
+                                }
+                            }
+
+                            if (!invoked) {
+                                throw e;
+                            }
+                        }
+
+                        if (method.getName().equals("lookup") && returnValue instanceof Reference) {
+                            returnValue = NamingManager.getObjectInstance(
+                                returnValue, new CompositeName(args[0].toString()), null, null);
+                        }
+
+                        return returnValue;
+                    } catch (InvocationTargetException e) {
+                        throw e.getCause();
+                    }
+                }
+            });
+
+        webApplication.setAttribute(Context.class.getName(), proxyContext);
+        ThreadInitialContextFactory.setInitialContext(proxyContext);
         webApplication.addListener(HerringServletRequestListener.class.getName());
     }
 }

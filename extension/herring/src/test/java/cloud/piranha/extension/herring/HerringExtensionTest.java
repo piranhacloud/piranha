@@ -27,19 +27,24 @@
  */
 package cloud.piranha.extension.herring;
 
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.naming.Reference;
+
+import org.junit.jupiter.api.Test;
+
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
+
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
-import javax.naming.Context;
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the HerringExtension class.
@@ -56,6 +61,7 @@ class HerringExtensionTest {
     @Test
     void testConfigure() throws Exception {
         System.setProperty(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
+
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .extension(HerringExtension.class)
                 .listener(TestServletRequestListener.class.getName())
@@ -101,6 +107,23 @@ class HerringExtensionTest {
 
         @Override
         public void requestInitialized(ServletRequestEvent event) {
+
+            Reference reference = new Reference("java.lang.Object", "cloud.piranha.extension.herring.JndiToCdi", null);
+
+            try {
+                new InitialContext().bind("java:comp/UserTransaction", reference);
+
+
+                // Object test = InitialContext.doLookup("java:comp/UserTransaction");
+
+            } catch (NamingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+
+
+
             try {
                 InitialContext context = new InitialContext();
                 context.addToEnvironment("TheSame", true);

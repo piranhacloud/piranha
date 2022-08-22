@@ -42,6 +42,7 @@
         <module>soteria</module>
         <module>standard</module>
         <module>tempdir</module>
+        <module>transact</module>
         <module>wasp</module>
         <module>webprofile</module>
         <module>webxml</module>
