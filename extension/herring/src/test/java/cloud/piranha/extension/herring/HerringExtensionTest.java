@@ -33,7 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.naming.Reference;
 
 import org.junit.jupiter.api.Test;
 
@@ -61,7 +60,6 @@ class HerringExtensionTest {
     @Test
     void testConfigure() throws Exception {
         System.setProperty(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
-
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .extension(HerringExtension.class)
                 .listener(TestServletRequestListener.class.getName())
@@ -107,23 +105,6 @@ class HerringExtensionTest {
 
         @Override
         public void requestInitialized(ServletRequestEvent event) {
-
-            Reference reference = new Reference("java.lang.Object", "cloud.piranha.extension.herring.JndiToCdi", null);
-
-            try {
-                new InitialContext().bind("java:comp/UserTransaction", reference);
-
-
-                // Object test = InitialContext.doLookup("java:comp/UserTransaction");
-
-            } catch (NamingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-
-
-
             try {
                 InitialContext context = new InitialContext();
                 context.addToEnvironment("TheSame", true);
