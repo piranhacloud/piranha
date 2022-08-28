@@ -40,7 +40,9 @@ import javax.naming.Context;
  * the current after the request has been processed.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
+@Deprecated(forRemoval = true, since = "21.9.0")
 public class HerringServletRequestListener implements ServletRequestListener {
 
     /**

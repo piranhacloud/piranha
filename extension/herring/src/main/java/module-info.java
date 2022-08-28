@@ -35,7 +35,9 @@
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(forRemoval = true, since = "21.9.0")
 module cloud.piranha.extension.herring {
     exports cloud.piranha.extension.herring;
     opens cloud.piranha.extension.herring;

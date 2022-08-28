@@ -58,7 +58,9 @@ import jakarta.annotation.Resource;
  * delivering listeners to set/remove the Context from the current thread.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
+@Deprecated(forRemoval = true, since = "21.9.0")
 public class HerringExtension implements WebApplicationExtension {
 
     /**
