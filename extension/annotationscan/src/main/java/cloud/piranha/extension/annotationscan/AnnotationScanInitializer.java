@@ -150,6 +150,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
                 || annotation instanceof WebInitParam
                 || annotation instanceof WebFilter
                 || annotation instanceof ServletSecurity
-                || annotation instanceof MultipartConfig;
+                || annotation instanceof MultipartConfig
+                || (annotation != null && annotation.toString().contains("jakarta.ws.rs."));
     }
 }
