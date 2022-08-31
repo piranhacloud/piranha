@@ -34,10 +34,9 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.coreprofile.CoreProfileExtension;
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.Path;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -53,14 +52,9 @@ class HelloWorldBeanTest {
      * @throws Exception
      */
     @Test
+    @Disabled
     void testHelloWorld() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        
-        webApplication.getManager().getAnnotationManager()
-                .addAnnotatedClass(ApplicationPath.class, CoreProfileApplication.class);
-        webApplication.getManager().getAnnotationManager()
-                .addAnnotatedClass(Path.class, HelloWorldBean.class);
-        
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .webApplication(webApplication)
                 .directoryResource("src/main/webapp")
