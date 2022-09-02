@@ -124,6 +124,11 @@
                 <artifactId>maven-plugin-annotations</artifactId>
                 <version>3.6.4</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.maven.plugin-tools</groupId>
+                <artifactId>maven-plugin-tools-annotations</artifactId>
+                <version>3.6.4</version>
+            </dependency>
 
             <!-- Apache MyFaces -->
             <dependency>
