@@ -25,28 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.coreprofile;
-
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
 
 /**
- * 'Hello World!' bean.
- *
+ * The Piranha Core Profile module.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Path("/helloworld")
-@RequestScoped
-public class HelloWorldBean {
-
-    /**
-     * Say 'Hello World!'
-     *
-     * @return 'Hello World!'
-     */
-    @GET
-    public String helloWorld() {
-        return "Hello World!";
-    }
+module cloud.piranha.coreprofile {
+    
+    exports cloud.piranha.coreprofile;
+    opens cloud.piranha.coreprofile;
+    requires transitive cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
+    requires cloud.piranha.extension.coreprofile;
+    requires cloud.piranha.http.impl;
+    requires cloud.piranha.http.webapp;
+    requires java.logging;
+    uses cloud.piranha.http.api.HttpServer;
 }
