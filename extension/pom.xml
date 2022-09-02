@@ -21,6 +21,7 @@
         <module>async</module>
         <module>bytesstreamhandler</module>
         <module>coreprofile</module>
+        <module>eclipselink</module>
         <module>eleos</module>
         <module>exousia</module>
         <module>hazelcast</module>
