@@ -238,7 +238,7 @@ public class StartMojo extends AbstractMojo {
             }
         }
         Files.copy(zipFile.toPath(),
-                Path.of("target/piranha/piranha-dist-coreprofile.jar"),
+                Path.of(runtimeDirectory + "/piranha-dist-coreprofile.jar"),
                 REPLACE_EXISTING);
     }
 }
