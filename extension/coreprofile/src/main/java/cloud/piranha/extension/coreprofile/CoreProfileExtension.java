@@ -29,6 +29,7 @@ package cloud.piranha.extension.coreprofile;
 
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
+import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 
@@ -42,6 +43,7 @@ public class CoreProfileExtension implements WebApplicationExtension {
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(HerringExtension.class);                        // Herring (JNDI)
+        context.add(AnnotationScanExtension.class);
         context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
     }
 }

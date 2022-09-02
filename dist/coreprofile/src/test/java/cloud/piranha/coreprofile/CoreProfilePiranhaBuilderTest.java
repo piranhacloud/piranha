@@ -25,28 +25,62 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.coreprofile;
+package cloud.piranha.coreprofile;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
+import cloud.piranha.extension.coreprofile.CoreProfileExtension;
+import java.net.ConnectException;
+import java.net.Socket;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * 'Hello World!' bean.
+ * The JUnit tests for the CoreProfilePiranhaBuilder class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Path("/helloworld")
-@RequestScoped
-public class HelloWorldBean {
+class CoreProfilePiranhaBuilderTest {
 
     /**
-     * Say 'Hello World!'
+     * Test extensionClass method.
      *
-     * @return 'Hello World!'
+     * @throws Exception when a serious error occurs.
      */
-    @GET
-    public String helloWorld() {
-        return "Hello World!";
+    @Test
+    void testExtensionClass() throws Exception {
+        CoreProfilePiranha piranha = new CoreProfilePiranhaBuilder()
+                .extensionClass("cloud.piranha.extension.coreprofile.CoreProfileExtension")
+                .httpPort(8080)
+                .verbose(true)
+                .build();
+        piranha.start();
+        Thread.sleep(5000);
+        try ( Socket socket = new Socket("localhost", 8080)) {
+            assertNotNull(socket.getOutputStream());
+        } catch (ConnectException e) {
+        }
+        piranha.stop();
+        Thread.sleep(5000);
+    }
+
+    /**
+     * Test extensionClass method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testExtensionClass2() throws Exception {
+        CoreProfilePiranha piranha = new CoreProfilePiranhaBuilder()
+                .extensionClass(CoreProfileExtension.class)
+                .httpPort(8081)
+                .verbose(true)
+                .build();
+        piranha.start();
+        Thread.sleep(5000);
+        try ( Socket socket = new Socket("localhost", 8081)) {
+            assertNotNull(socket.getOutputStream());
+        } catch (ConnectException e) {
+        }
+        piranha.stop();
+        Thread.sleep(5000);
     }
 }
