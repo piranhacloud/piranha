@@ -32,7 +32,7 @@ import static java.lang.System.Logger.Level.WARNING;
 import java.lang.System.Logger;
 
 /**
- * The Main for Piranha Micro.
+ * The Main for Piranha Core Profile.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

@@ -41,13 +41,7 @@ import jakarta.ws.rs.Path;
 public class HelloWorldBean {
 
     /**
-     * Constructor.
-     */
-    public HelloWorldBean() {
-    }
-    
-    /**
-     * Hello World
+     * Say 'Hello World!'
      *
      * @return 'Hello World!'
      */

@@ -211,7 +211,7 @@ public class CoreProfilePiranhaBuilder {
         System.out.printf(
                 """
                 
-                PIRANHA MICRO
+                PIRANHA CORE PROFILE
                 
                 Arguments
                 =========

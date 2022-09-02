@@ -10,5 +10,8 @@
     <groupId>cloud.piranha.dist</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
-    <name>Piranha - Distributions - Project</name>
+    <name>Piranha - Distribution - Project</name>
+    <modules>
+        <module>coreprofile</module>
+    </modules>
 </project>
