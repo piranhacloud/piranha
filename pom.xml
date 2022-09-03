@@ -124,6 +124,11 @@
                 <artifactId>maven-plugin-annotations</artifactId>
                 <version>3.6.4</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.maven.plugin-tools</groupId>
+                <artifactId>maven-plugin-tools-annotations</artifactId>
+                <version>3.6.4</version>
+            </dependency>
 
             <!-- Apache MyFaces -->
             <dependency>
@@ -480,10 +485,10 @@
     </dependencyManagement>
 
     <!-- 
-  
-      Remove once Jakarta EE 10 goes final.
-        
-      -->
+
+    Remove once Jakarta EE 10 goes final.
+      
+    -->
     <repositories>
         <repository>
             <id>jakarta-staging</id>
@@ -548,9 +553,9 @@
                 </plugin>
                 <!-- 
 
-                   Kept at 3.0.0-M4 because 3.0.0-M[5-7] do not work.
+                 Kept at 3.0.0-M4 because 3.0.0-M[5-7] do not work.
 
-                  -->
+                -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
@@ -599,7 +604,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>4.0.0-M2</version>
+                    <version>4.0.0-M3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -608,9 +613,9 @@
                 </plugin>
                 <!--
 
-                   Kept at 3.0.0-M6 because 3.0.0-M7 does not work.
+                 Kept at 3.0.0-M6 because 3.0.0-M7 does not work.
 
-                  -->
+                -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -655,6 +660,11 @@
                     <groupId>org.moditect</groupId>
                     <artifactId>moditect-maven-plugin</artifactId>
                     <version>1.0.0.RC2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.owasp</groupId>
+                    <artifactId>dependency-check-maven</artifactId>
+                    <version>7.1.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.sonatype.plugins</groupId>
@@ -896,6 +906,27 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>dependency-check</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>release</id>
             <build>

@@ -1,0 +1,19 @@
+name: dependency-check
+on:
+  schedule:
+  - cron: "0 0 * * *"
+  workflow_dispatch:
+jobs:
+  sonarcloud:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v2
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: 17
+    - name: Analyze with Dependency Check
+      run: |
+        mvn -B -ntp -P dependency-check install
