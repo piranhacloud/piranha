@@ -450,6 +450,20 @@
                 <artifactId>hazelcast</artifactId>
                 <version>${hazelcast.version}</version>
             </dependency>
+            
+            <!-- Maven Settings -->
+            <!--
+
+                Added as a dependency to force the version of maven-settings
+                because it is pulled in as a transitive dependency but the 
+                version that gets pulled in has a vulnerability (CVE-2021-26291)
+
+            -->
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-settings</artifactId>
+                <version>3.8.6</version>
+            </dependency>
 
             <!-- Netty -->
             <dependency>
