@@ -101,6 +101,20 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Apache Commons IO -->
+            <!--
+
+              Added as a dependency to force the version of commons-io because
+              it is pulled in as a transitive dependency but the version that 
+              gets pulled in has a vulnerability (CVE-2021-29425).
+
+            -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.11.0</version>
+            </dependency>
+            
             <!-- Apache Johnzon  -->
             <dependency>
                 <groupId>org.apache.johnzon</groupId>
