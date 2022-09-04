@@ -396,6 +396,21 @@
                 <artifactId>weld-servlet-core</artifactId>
                 <version>${weld.version}</version>
             </dependency>
+            
+            <!-- JSoup -->
+            <!--
+
+              Added as a dependency to force the version of jsoup because
+              it is pulled in as a transitive dependency but the version that 
+              gets pulled in has 3 vulnerabilities (CVE-2015-6748, 
+              CVE-2022-36033 and CVE-2021-37714).
+
+            -->
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>1.15.3</version>
+            </dependency>
                         
             <!-- JUnit -->
             <dependency>
