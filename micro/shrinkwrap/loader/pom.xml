@@ -71,9 +71,10 @@
         </dependency>
         <!--
 
-          Declaring this as a direct dependency to force the version of 
-          commons-io because it is pulled in as a transitive dependency but
-          the version that gets pulled in has a vulnerability (CVE-2021-29425).
+            Declaring this as a direct dependency to force the version of 
+            commons-io because it is pulled in as a transitive dependency but
+            the version that gets pulled in has a vulnerability 
+            (CVE-2021-29425).
 
           -->
         <dependency>
@@ -82,6 +83,21 @@
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
+        <!--
+
+            Declaring this as a direct dependency to force the version of jsoup
+            because it is pulled in as a transitive dependency but the version 
+            that gets pulled in has 3 vulnerabilities (CVE-2015-6748, 
+            CVE-2022-36033 and CVE-2021-37714).
+
+          -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
     <build>
