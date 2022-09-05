@@ -32,7 +32,7 @@
             <version>${project.version}</version>
         </dependency>
         
-         <dependency>
+        <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-depchain</artifactId>
             <type>pom</type>
@@ -77,6 +77,20 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
+        </dependency>
+        <!--
+
+          Declaring this as a direct dependency to force the version of 
+          commons-compress because it is pulled in as a transitive dependency
+          but the version that gets pulled in has 5 vulnerabilities 
+          (CVE-2021-35517, CVE-2021-35516, CVE-2021-35515, CVE-2018-11771,
+          ßCVE-2021-36090).
+
+        -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
