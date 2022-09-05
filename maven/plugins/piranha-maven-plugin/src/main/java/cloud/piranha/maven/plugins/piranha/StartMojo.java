@@ -61,7 +61,13 @@ public class StartMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
     private String buildDirectory;
-    
+        
+    /**
+     * Stores the HTTP port.
+     */
+    @Parameter(defaultValue = "8080", required = false)
+    private Integer httpPort;
+
     /**
      * Stores the runtime directory.
      */
@@ -138,8 +144,6 @@ public class StartMojo extends AbstractMojo {
     private void copyWarFileToPiranhaCoreProfile() throws IOException {
         File warFile = new File(buildDirectory, warName + ".war");
         File outputFile = new File(runtimeDirectory, warName + ".war");
-        System.out.println(warFile.toPath());
-        System.out.println(outputFile.toPath());
         Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
     }
 
@@ -217,12 +221,14 @@ public class StartMojo extends AbstractMojo {
                 .command("java",
                         "-jar",
                         "piranha-dist-coreprofile.jar",
+                        "--http-port",
+                        httpPort.toString(),
                         "--war-file",
                         warName + ".war",
                         "--write-pid")
                 .start();
 
-        System.out.println("Application is available at: http://localhost:8080/" + warName);
+        System.out.println("Application is available at: http://localhost:" + httpPort + "/" + warName);
     }
 
     /**
