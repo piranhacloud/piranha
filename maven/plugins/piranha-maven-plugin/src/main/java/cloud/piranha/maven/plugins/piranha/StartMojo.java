@@ -36,7 +36,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import org.apache.maven.plugin.AbstractMojo;
+import java.util.ArrayList;
 import org.apache.maven.plugin.MojoExecutionException;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.NONE;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -49,7 +49,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @Mojo(name = "start", defaultPhase = NONE)
-public class StartMojo extends AbstractMojo {
+public class StartMojo extends BaseMojo {
     
     /**
      * Stores the 'Unable to create directories' message.
@@ -61,7 +61,7 @@ public class StartMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
     private String buildDirectory;
-        
+    
     /**
      * Stores the HTTP port.
      */
@@ -216,19 +216,31 @@ public class StartMojo extends AbstractMojo {
      * Start and wait for Piranha Core Profile.
      */
     private void startPiranhaCoreProfile() throws IOException {
+        
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("java");
+        commands.add("-jar");
+        commands.add("piranha-dist-coreprofile.jar");
+        commands.add("--http-port");
+        commands.add(httpPort.toString());
+        commands.add("--war-file");
+        commands.add(warName + ".war");
+        if (contextPath != null) { 
+            commands.add("--context-path");
+            if (contextPath.startsWith("/")) {
+                contextPath = contextPath.substring(1);
+            }
+            commands.add(contextPath);
+        }
+        commands.add("--write-pid");
+        
         new ProcessBuilder()
                 .directory(new File(runtimeDirectory))
-                .command("java",
-                        "-jar",
-                        "piranha-dist-coreprofile.jar",
-                        "--http-port",
-                        httpPort.toString(),
-                        "--war-file",
-                        warName + ".war",
-                        "--write-pid")
+                .command(commands)
                 .start();
 
-        System.out.println("Application is available at: http://localhost:" + httpPort + "/" + warName);
+        System.out.println("Application is available at: http://localhost:" + httpPort + "/" 
+                + (contextPath != null ? contextPath : warName));
     }
 
     /**

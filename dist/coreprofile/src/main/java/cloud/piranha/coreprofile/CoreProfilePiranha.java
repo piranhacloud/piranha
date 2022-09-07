@@ -79,6 +79,11 @@ public class CoreProfilePiranha implements Piranha, Runnable {
     private Class<? extends WebApplicationExtension> extensionClass = CoreProfileExtension.class;
 
     /**
+     * Stores the context path.
+     */
+    private String contextPath = null;
+    
+    /**
      * Stores the exit on stop flag.
      */
     private boolean exitOnStop = true;
@@ -199,10 +204,10 @@ public class CoreProfilePiranha implements Piranha, Runnable {
             httpsServer.start();
         }
 
-        String contextPath = null;
-
         if (warFile != null && warFile.getName().toLowerCase().endsWith(".war")) {
-            contextPath = warFile.getName().substring(0, warFile.getName().length() - 4);
+            if (contextPath == null) {
+                contextPath = warFile.getName().substring(0, warFile.getName().length() - 4);
+            }
             if (webAppDir == null) {
                 webAppDir = new File(contextPath);
             }
@@ -312,6 +317,15 @@ public class CoreProfilePiranha implements Piranha, Runnable {
     public void service(WebApplicationRequest request, WebApplicationResponse response)
             throws IOException, ServletException {
         webApplicationServer.service(request, response);
+    }
+
+    /**
+     * Set the context path.
+     * 
+     * @param contextPath the context path.
+     */
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
     }
 
     /**

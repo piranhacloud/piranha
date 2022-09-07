@@ -25,16 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.coreprofile;
+package helloworld;
 
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Core Profile application.
- * 
+ * The 'Hello World!' test.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@ApplicationPath("")
-public class CoreProfileApplication extends Application {
+class HelloWorldIT {
+ 
+    /**
+     * Test the 'Hello World!' servlet.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testHelloWorld() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:8000/say/helloworld"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertTrue(response.body().contains("Hello World!"));
+    }
 }

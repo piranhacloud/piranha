@@ -25,14 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.coreprofile;
+package helloworld;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
 /**
- * 'Hello World!' bean.
+ * The Hello World bean.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

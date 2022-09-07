@@ -43,6 +43,11 @@ public class CoreProfilePiranhaBuilder {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(CoreProfilePiranhaBuilder.class.getName());
+    
+    /**
+     * Stores the context path.
+     */
+    private String contextPath = null;
 
     /**
      * Stores the extension class.
@@ -112,6 +117,9 @@ public class CoreProfilePiranhaBuilder {
         if (extensionClass != null) {
             piranha.setExtensionClass(extensionClass);
         }
+        if (contextPath != null) {
+            piranha.setContextPath(contextPath);
+        }
         piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
         piranha.setHttpsPort(httpsPort);
@@ -130,6 +138,17 @@ public class CoreProfilePiranhaBuilder {
         }
         piranha.setPid(pid);
         return piranha;
+    }
+
+    /**
+     * Set the context path.
+     * 
+     * @param contextPath the context path.
+     * @return the builder.
+     */
+    public CoreProfilePiranhaBuilder contextPath(String contextPath) {
+        this.contextPath = contextPath;
+        return this;
     }
 
     /**
@@ -216,6 +235,7 @@ public class CoreProfilePiranhaBuilder {
                 Arguments
                 =========
                 
+                Context path          : %s
                 Extension class       : %s
                 Exit on stop          : %s
                 HTTP port             : %s
@@ -228,6 +248,7 @@ public class CoreProfilePiranhaBuilder {
                 Web application dir   : %s
                 
                 """,
+                contextPath,
                 extensionClass != null ? extensionClass.getName() : CoreProfileExtension.class.getName(),
                 exitOnStop,
                 httpPort,
