@@ -63,6 +63,9 @@
                         <goals>
                             <goal>start</goal>
                         </goals>
+                        <configuration>
+                            <httpPort>8000</httpPort>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>post-integration-test</id>

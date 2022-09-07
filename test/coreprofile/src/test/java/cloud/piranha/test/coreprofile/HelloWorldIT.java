@@ -51,7 +51,7 @@ class HelloWorldIT {
     void testHelloWorld() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/piranha-test-coreprofile-1/helloworld"))
+                .newBuilder(new URI("http://localhost:8000/piranha-test-coreprofile-1/helloworld"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello World!"));

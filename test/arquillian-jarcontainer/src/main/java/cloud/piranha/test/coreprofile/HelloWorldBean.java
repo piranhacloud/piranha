@@ -25,50 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.maven.plugins.piranha;
+package cloud.piranha.test.coreprofile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.concurrent.TimeUnit;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import static org.apache.maven.plugins.annotations.LifecyclePhase.NONE;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 /**
- * This goal will stop a Piranha Core Profile that was started with the
- * <code>start</code> goal.
+ * 'Hello World!' bean.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Mojo(name = "stop", defaultPhase = NONE)
-public class StopMojo extends AbstractMojo {
+@Path("/helloworld")
+@RequestScoped
+public class HelloWorldBean {
 
     /**
-     * Stores the project build directory.
+     * Say 'Hello World!'
+     *
+     * @return 'Hello World!'
      */
-    @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
-    private String buildDir;
-    
-    @Override
-    public void execute() throws MojoExecutionException {
-        try {
-            if (!Files.deleteIfExists(new File(
-                    buildDir, "piranha/tmp/piranha.pid").toPath())) {
-                try {
-                    TimeUnit.SECONDS.sleep(5);
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }
-                if (Files.deleteIfExists(new File(
-                    buildDir, "piranha/tmp/piranha.pid").toPath())) {
-                    System.err.println("Unable to delete PID file");
-                }
-            }
-        } catch (IOException ioe) {
-            throw new MojoExecutionException(ioe);
-        }
+    @GET
+    public String helloWorld() {
+        return "Hello World!";
     }
 }

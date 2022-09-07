@@ -101,6 +101,35 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Apache Commons IO -->
+            <!--
+
+              Added as a dependency to force the version of commons-io because
+              it is pulled in as a transitive dependency but the version that 
+              gets pulled in has a vulnerability (CVE-2021-29425).
+
+            -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.11.0</version>
+            </dependency>
+            
+            <!-- Apache Commons Compress -->
+            <!--
+
+              Added as a dependency to force the version of commons-compress
+              because it is pulled in as a transitive dependency but the version
+              that gets pulled in has 5 vulnerabilities (CVE-2021-35517, 
+              CVE-2021-35516, CVE-2021-35515, CVE-2018-11771, CVE-2021-36090).
+
+            -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>1.21</version>
+            </dependency>
+            
             <!-- Apache Johnzon  -->
             <dependency>
                 <groupId>org.apache.johnzon</groupId>
@@ -382,6 +411,21 @@
                 <artifactId>weld-servlet-core</artifactId>
                 <version>${weld.version}</version>
             </dependency>
+            
+            <!-- JSoup -->
+            <!--
+
+              Added as a dependency to force the version of jsoup because
+              it is pulled in as a transitive dependency but the version that 
+              gets pulled in has 3 vulnerabilities (CVE-2015-6748, 
+              CVE-2022-36033 and CVE-2021-37714).
+
+            -->
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>1.15.3</version>
+            </dependency>
                         
             <!-- JUnit -->
             <dependency>
@@ -420,6 +464,20 @@
                 <groupId>com.hazelcast</groupId>
                 <artifactId>hazelcast</artifactId>
                 <version>${hazelcast.version}</version>
+            </dependency>
+            
+            <!-- Maven Settings -->
+            <!--
+
+                Added as a dependency to force the version of maven-settings
+                because it is pulled in as a transitive dependency but the 
+                version that gets pulled in has a vulnerability (CVE-2021-26291)
+
+            -->
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-settings</artifactId>
+                <version>3.8.6</version>
             </dependency>
 
             <!-- Netty -->
