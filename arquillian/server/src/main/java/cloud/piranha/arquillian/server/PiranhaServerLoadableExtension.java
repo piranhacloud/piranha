@@ -27,19 +27,18 @@
  */
 package cloud.piranha.arquillian.server;
 
-import org.jboss.arquillian.container.spi.ConfigurationException;
-import org.jboss.arquillian.container.spi.client.container.ContainerConfiguration;
-import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
-import org.jboss.arquillian.container.spi.client.container.DeploymentException;
-import org.jboss.arquillian.container.spi.client.container.LifecycleException;
-import org.jboss.arquillian.container.spi.client.protocol.ProtocolDescription;
-import org.jboss.arquillian.core.spi.LoadableExtension;
-import org.jboss.shrinkwrap.descriptor.api.Descriptor;
-import cloud.piranha.micro.shrinkwrap.loader.MicroConfiguration;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
+
+import org.jboss.arquillian.container.spi.ConfigurationException;
+import org.jboss.arquillian.container.spi.client.container.ContainerConfiguration;
+import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
+import org.jboss.arquillian.container.spi.client.protocol.ProtocolDescription;
+import org.jboss.arquillian.core.spi.LoadableExtension;
+
+import cloud.piranha.micro.shrinkwrap.loader.MicroConfiguration;
 
 /**
  * The extension sets up the Arquillian Server Connector
@@ -71,44 +70,22 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
         public ProtocolDescription getDefaultProtocol() {
             return new ProtocolDescription("Servlet 5.0");
         }
-
-        @Override
-        public void start() throws LifecycleException {
-            // We don't start Piranha separately. Start and Deploy is one step.
-        }
-
-        @Override
-        public void deploy(Descriptor descriptor) throws DeploymentException {
-            // We don't deploy by descriptor (and neither does Arquillian it seems)
-
-        }
-
-        @Override
-        public void undeploy(Descriptor descriptor) throws DeploymentException {
-            // We don't undeploy by descriptor (and neither does Arquillian it seems)
-        }
-
-        @Override
-        public void stop() throws LifecycleException {
-            // We don't stop Piranha separately. Stop and Undeploy is one step.
-        }
-
     }
 
     // Defines the configuration class to be essentially the same as MicroConfiguration.class
 
     public static class PiranhaServerContainerConfiguration extends MicroConfiguration implements ContainerConfiguration {
 
-        /** 
+        /**
          * Highest port number that we'll try
          */
         private static final int MAX_PORT_NUMBER = 65535;
-        
+
         /**
          * Lowest port number that we'll try
          */
         private static final int MIN_PORT_NUMBER = 1;
-        
+
         /**
          * Stores whether to automatically find an available port.
          */
@@ -137,9 +114,9 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
         }
 
         /**
-         * Initializes configuration after all configured values were loaded. 
+         * Initializes configuration after all configured values were loaded.
          * Computes generated configuration, e.g. a free port for autoPort
-         * 
+         *
          * @return
          */
         @Override
@@ -168,11 +145,11 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
         private class PortFinder {
 
             /**
-             * Find a random free local port. It's guaranteed that the returned port will be always random. 
-             * The initialPort parameter is only used as a base for the randomization and isn't returned 
+             * Find a random free local port. It's guaranteed that the returned port will be always random.
+             * The initialPort parameter is only used as a base for the randomization and isn't returned
              * even if it's free. This is to prevent returning the same port if this method is called in parallel.
-             * 
-             * @param initialPort The initial port to start searching from. 
+             *
+             * @param initialPort The initial port to start searching from.
              *                    If 0, the default port 8080 will be used.
              * @return free port tha
              */
@@ -181,11 +158,11 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
                 int numberOfAttempts = 100;
                 boolean foundFreePort = false;
                 final Random random = new Random();
-                
+
                 if (initialPort > 0) {
                     portCandidate = initialPort;
                 }
-                
+
                 do {
                     portCandidate += random.nextInt(100);
                     foundFreePort = isFreePort(portCandidate);
