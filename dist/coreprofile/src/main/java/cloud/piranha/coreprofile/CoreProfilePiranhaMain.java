@@ -77,6 +77,9 @@ public class CoreProfilePiranhaMain {
                 if (arguments[i].equals("--help")) {
                     return null;
                 }
+                if (arguments[i].equals("--context-path")) {
+                    builder = builder.contextPath(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--http-port")) {
                     int arg = Integer.parseInt(arguments[i + 1]);
                     builder = builder.httpPort(arg);
@@ -130,6 +133,7 @@ public class CoreProfilePiranhaMain {
                 """
                   --extension-class <className>    - Set the extension to use
                   --help                           - Show this help
+                  --context-path <string>          - Set the Servlet context path
                   --http-port <integer>            - Set the HTTP port (use -1 to disable)
                   --https-port <integer>           - Set the HTTPS port (disabled by default)
                   --jpms                           - Enable Java Platform Module System

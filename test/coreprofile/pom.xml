@@ -64,6 +64,7 @@
                             <goal>start</goal>
                         </goals>
                         <configuration>
+                            <contextPath>/say</contextPath>
                             <httpPort>8000</httpPort>
                         </configuration>
                     </execution>
