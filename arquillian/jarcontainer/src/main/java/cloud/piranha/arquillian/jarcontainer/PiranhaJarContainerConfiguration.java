@@ -25,50 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.maven.plugins.piranha;
+package cloud.piranha.arquillian.jarcontainer;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.concurrent.TimeUnit;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import static org.apache.maven.plugins.annotations.LifecyclePhase.NONE;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import org.jboss.arquillian.container.spi.ConfigurationException;
+import org.jboss.arquillian.container.spi.client.container.ContainerConfiguration;
 
 /**
- * This goal will stop a Piranha Core Profile that was started with the
- * <code>start</code> goal.
- *
+ * The Piranha JAR container configuration.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Mojo(name = "stop", defaultPhase = NONE)
-public class StopMojo extends AbstractMojo {
+public class PiranhaJarContainerConfiguration implements ContainerConfiguration {
+    
+    /**
+     * Stores the protocol.
+     */
+    private String protocol = "Servlet 6.0";
+    
+    /**
+     * Get the HTTP port.
+     * 
+     * @return the HTTP port.
+     */
+    public int getHttpPort() {
+        return 8080;
+    }
 
     /**
-     * Stores the project build directory.
+     * Get the protocol.
+     * 
+     * @return the protocol.
      */
-    @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
-    private String buildDir;
-    
+    public String getProtocol() {
+        return protocol;
+    }
+
+    /**
+     * Set the protocol.
+     * 
+     * @param protocol the protocol.
+     */
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
+
     @Override
-    public void execute() throws MojoExecutionException {
-        try {
-            if (!Files.deleteIfExists(new File(
-                    buildDir, "piranha/tmp/piranha.pid").toPath())) {
-                try {
-                    TimeUnit.SECONDS.sleep(5);
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }
-                if (Files.deleteIfExists(new File(
-                    buildDir, "piranha/tmp/piranha.pid").toPath())) {
-                    System.err.println("Unable to delete PID file");
-                }
-            }
-        } catch (IOException ioe) {
-            throw new MojoExecutionException(ioe);
-        }
+    public void validate() throws ConfigurationException {
     }
 }
