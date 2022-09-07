@@ -263,7 +263,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
         if (pid != null) {
-            File pidFile = new File("tmp", "piranha-coreprofile.pid");
+            File pidFile = new File("tmp", "piranha.pid");
             if (!pidFile.getParentFile().exists()) {
                 if (!pidFile.getParentFile().mkdirs()) {
                     LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
@@ -279,7 +279,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
 
         while (!stop) {
             if (pid != null) {
-                File pidFile = new File("tmp", "piranha-coreprofile.pid");
+                File pidFile = new File("tmp", "piranha.pid");
                 if (!pidFile.exists()) {
                     stop();
                 }

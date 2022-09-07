@@ -25,50 +25,57 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.maven.plugins.piranha;
+package cloud.piranha.test.coreprofile;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.concurrent.TimeUnit;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import static org.apache.maven.plugins.annotations.LifecyclePhase.NONE;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
- * This goal will stop a Piranha Core Profile that was started with the
- * <code>start</code> goal.
+ * The 'Hello World!' test.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Mojo(name = "stop", defaultPhase = NONE)
-public class StopMojo extends AbstractMojo {
+@RunWith(Arquillian.class)
+public class HelloWorldIT {
+
+    @ArquillianResource
+    private URL baseUrl;
+
+    @Deployment(testable = false)
+    public static WebArchive createDeployment() {
+        return create(WebArchive.class)
+                .addClass(CoreProfileApplication.class)
+                .addClass(HelloWorldBean.class)
+                .addAsWebInfResource((new File("src/main/webapp/WEB-INF", "beans.xml")));
+    }
 
     /**
-     * Stores the project build directory.
+     * Test the 'Hello World!' REST endpoint.
+     *
+     * @throws Exception when a serious error occurs.
      */
-    @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
-    private String buildDir;
-    
-    @Override
-    public void execute() throws MojoExecutionException {
-        try {
-            if (!Files.deleteIfExists(new File(
-                    buildDir, "piranha/tmp/piranha.pid").toPath())) {
-                try {
-                    TimeUnit.SECONDS.sleep(5);
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }
-                if (Files.deleteIfExists(new File(
-                    buildDir, "piranha/tmp/piranha.pid").toPath())) {
-                    System.err.println("Unable to delete PID file");
-                }
-            }
-        } catch (IOException ioe) {
-            throw new MojoExecutionException(ioe);
-        }
+    @Test
+    @RunAsClient
+    public void testHelloWorld() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI(baseUrl + "helloworld"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertTrue(response.body().contains("Hello World!"));
     }
 }
