@@ -25,28 +25,57 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.coreprofile;
+package helloarquillian;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
+import java.io.File;
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
- * 'Hello World!' bean.
+ * The HelloArquillian integration test.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Path("/helloworld")
-@RequestScoped
-public class HelloWorldBean {
+@RunWith(Arquillian.class)
+public class HelloArquillianIT {
+
+    @ArquillianResource
+    private URL baseUrl;
+
+    @Deployment(testable = false)
+    public static WebArchive createDeployment() {
+        return create(WebArchive.class)
+                .addClass(HelloArquillianApplication.class)
+                .addClass(HelloArquillianBean.class)
+                .addAsWebInfResource((new File("src/main/webapp/WEB-INF", "beans.xml")));
+    }
 
     /**
-     * Say 'Hello World!'
+     * Test the 'Hello Arquillian!' REST endpoint.
      *
-     * @return 'Hello World!'
+     * @throws Exception when a serious error occurs.
      */
-    @GET
-    public String helloWorld() {
-        return "Hello World!";
+    @Test
+    @RunAsClient
+    public void testHelloArquillian() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI(baseUrl + "helloarquillian"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertTrue(response.body().contains("Hello Arquillian!"));
     }
 }

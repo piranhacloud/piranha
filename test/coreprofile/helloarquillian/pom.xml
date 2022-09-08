@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.test</groupId>
+        <groupId>cloud.piranha.test.coreprofile</groupId>
         <artifactId>project</artifactId>
         <version>22.9.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-test-arquillian-jarcontainer</artifactId>
+    <artifactId>piranha-test-coreprofile-helloarquillian</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha - Test - Arquillian JAR container</name>
+    <name>Piranha - Test - Core Profile - Hello Arquillian</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

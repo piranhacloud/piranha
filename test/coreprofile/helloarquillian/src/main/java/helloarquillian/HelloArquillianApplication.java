@@ -25,16 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package helloworld;
+package helloarquillian;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
 /**
- * The Hello World application.
+ * The HelloArquillian application.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @ApplicationPath("")
-public class HelloWorldApplication extends Application {
+public class HelloArquillianApplication extends Application {
 }

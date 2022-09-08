@@ -36,14 +36,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * The 'Hello World!' test.
+ * The HelloWorld integration test.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class HelloWorldIT {
  
     /**
-     * Test the 'Hello World!' servlet.
+     * Test the 'Hello World!' endpoint.
      *
      * @throws Exception when a serious error occurs.
      */
@@ -51,7 +51,7 @@ class HelloWorldIT {
     void testHelloWorld() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8000/say/helloworld"))
+                .newBuilder(new URI("http://localhost:9000/say/helloworld"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello World!"));
