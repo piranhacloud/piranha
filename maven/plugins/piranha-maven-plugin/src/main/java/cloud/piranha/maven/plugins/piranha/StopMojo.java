@@ -38,7 +38,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * This goal will stop a Piranha Core Profile that was started with the
+ * This goal will stop the Piranha runtime that was started with the
  * <code>start</code> goal.
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -47,23 +47,23 @@ import org.apache.maven.plugins.annotations.Parameter;
 public class StopMojo extends AbstractMojo {
 
     /**
-     * Stores the project build directory.
+     * Stores the runtime directory.
      */
-    @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
-    private String buildDir;
+    @Parameter(defaultValue = "${project.build.directory}/piranha", required = true)
+    private String runtimeDirectory;
     
     @Override
     public void execute() throws MojoExecutionException {
         try {
             if (!Files.deleteIfExists(new File(
-                    buildDir, "piranha/tmp/piranha.pid").toPath())) {
+                    runtimeDirectory, "tmp/piranha.pid").toPath())) {
                 try {
                     TimeUnit.SECONDS.sleep(5);
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
                 if (Files.deleteIfExists(new File(
-                    buildDir, "piranha/tmp/piranha.pid").toPath())) {
+                    runtimeDirectory, "tmp/piranha.pid").toPath())) {
                     System.err.println("Unable to delete PID file");
                 }
             }
