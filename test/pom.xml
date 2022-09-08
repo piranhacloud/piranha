@@ -16,7 +16,6 @@
 
     <modules>
         <module>arquillian</module>
-        <module>arquillian-jarcontainer</module>
         <module>classloader</module>
         <module>classloader2</module>
         <module>coreprofile</module>

@@ -25,16 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.test.coreprofile;
+package helloarquillian;
 
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 /**
- * The Core Profile application.
- * 
+ * The HelloArquillian bean.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@ApplicationPath("")
-public class CoreProfileApplication extends Application {
+@Path("/helloarquillian")
+@RequestScoped
+public class HelloArquillianBean {
+
+    /**
+     * Say 'Hello Arquillian!'
+     *
+     * @return 'Hello Arquillian!'
+     */
+    @GET
+    public String helloArquillian() {
+        return "Hello Arquillian!";
+    }
 }

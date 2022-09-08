@@ -32,7 +32,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
 /**
- * The Hello World bean.
+ * The HelloWorld bean.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
