@@ -28,19 +28,13 @@
 package cloud.piranha.maven.plugins.piranha;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import org.apache.maven.plugin.MojoExecutionException;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.NONE;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * This goal will deploy the Maven WAR module and start Piranha Core Profile in
@@ -52,91 +46,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 public class StartMojo extends BaseMojo {
     
     /**
-     * Stores the 'Unable to create directories' message.
-     */
-    private static final String UNABLE_TO_CREATE_DIRECTORIES = "Unable to create directories";
-    
-    /**
-     * Stores the build directory.
-     */
-    @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
-    private String buildDirectory;
-    
-    /**
-     * Stores the HTTP port.
-     */
-    @Parameter(defaultValue = "8080", required = false)
-    private Integer httpPort;
-
-    /**
-     * Stores the runtime directory.
-     */
-    @Parameter(defaultValue = "${project.build.directory}/piranha", required = true)
-    private String runtimeDirectory;
-
-    /**
-     * Stores the local repository directory.
-     */
-    private File localRepositoryDir = new File(System.getProperty("user.home"), ".m2/repository");
-
-    /**
-     * The version of Piranha Core Profile to use.
-     */
-    @Parameter(required = false)
-    private String version;
-
-    /**
-     * Stores the WAR name.
-     */
-    @Parameter(defaultValue = "${project.build.finalName}", required = true, readonly = true)
-    private String warName;
-
-    /**
-     * Create the Maven central artifact URL
-     *
-     * @param groupId the groupId.
-     * @param artifactId the artifactId.
-     * @param version the version
-     * @param type the type.
-     * @return the URL.
-     * @throws IOException when an I/O error occurs.
-     */
-    private URL createMavenCentralArtifactUrl(String groupId, String artifactId,
-            String version, String type) throws IOException {
-        return new URL("https://repo1.maven.org/maven2/" + createArtifactPath(groupId, artifactId, version, type));
-    }
-
-    /**
-     * Create artifact path.
-     *
-     * @param groupId the groupId.
-     * @param artificatId the artifactId.
-     * @param version the version
-     * @param type the type.
-     */
-    private String createArtifactPath(String groupId, String artifactId,
-            String version, String type) {
-        String artifactPathFormat = "%s/%s/%s/%s-%s.%s";
-        return String.format(artifactPathFormat,
-                convertGroupIdToPath(groupId),
-                artifactId,
-                version,
-                artifactId,
-                version,
-                type.toLowerCase());
-    }
-
-    /**
-     * Convert the groupId to path.
-     *
-     * @param groupId the groupId.
-     * @return the path.
-     */
-    private String convertGroupIdToPath(String groupId) {
-        return groupId.replace('.', '/');
-    }
-
-    /**
      * Copy the WAR file to Piranha Core Profile.
      *
      * @throws IOException when an I/O error occurs.
@@ -144,72 +53,22 @@ public class StartMojo extends BaseMojo {
     private void copyWarFileToPiranhaCoreProfile() throws IOException {
         File warFile = new File(buildDirectory, warName + ".war");
         File outputFile = new File(runtimeDirectory, warName + ".war");
-        Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
-    }
-
-    /**
-     * Determine what version of Piranha to use.
-     *
-     * @return the version.
-     */
-    private String determineVersionToUse() {
-        if (version == null) {
-            version = getClass().getPackage().getImplementationVersion();
+        if (!outputFile.getParentFile().exists()) {
+            outputFile.getParentFile().mkdirs();
         }
-        return version;
+        Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
     }
 
     @Override
     public void execute() throws MojoExecutionException {
         try {
-            version = determineVersionToUse();
-            File zipFile = getPiranhaJarFile(version);
-            copyPiranhaCoreProfileJarFile(zipFile);
+            determineVersionToUse();
+            getPiranhaJarFile();
             copyWarFileToPiranhaCoreProfile();
             startPiranhaCoreProfile();
         } catch (IOException ioe) {
             throw new MojoExecutionException(ioe);
         }
-    }
-
-    /**
-     * Get the Piranha Server zip bundle.
-     *
-     * @param version the version.
-     * @return the zip file.
-     * @throws IOException when an I/O error occurs.
-     */
-    private File getPiranhaJarFile(String version) throws IOException {
-        URL downloadUrl = createMavenCentralArtifactUrl(
-                "cloud.piranha.dist",
-                "piranha-dist-coreprofile",
-                version,
-                "jar"
-        );
-
-        String artifactPath = createArtifactPath(
-                "cloud.piranha.dist",
-                "piranha-dist-coreprofile",
-                version,
-                "jar"
-        );
-
-        File zipFile = new File(localRepositoryDir, artifactPath);
-        if (!zipFile.exists()) {
-            if (!zipFile.getParentFile().mkdirs()) {
-                System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
-            }
-        }
-
-        try ( InputStream inputStream = downloadUrl.openStream()) {
-            Files.copy(inputStream,
-                    zipFile.toPath(),
-                    StandardCopyOption.REPLACE_EXISTING);
-        } catch (FileNotFoundException fnfe) {
-            System.err.println("Could not download JAR file, defaulting back to local Maven repository");
-        }
-
-        return new File(localRepositoryDir, artifactPath);
     }
 
     /**
@@ -220,7 +79,7 @@ public class StartMojo extends BaseMojo {
         ArrayList<String> commands = new ArrayList<>();
         commands.add("java");
         commands.add("-jar");
-        commands.add("piranha-dist-coreprofile.jar");
+        commands.add(piranhaJarFile.getAbsolutePath());
         commands.add("--http-port");
         commands.add(httpPort.toString());
         commands.add("--war-file");
@@ -241,22 +100,5 @@ public class StartMojo extends BaseMojo {
 
         System.out.println("Application is available at: http://localhost:" + httpPort + "/" 
                 + (contextPath != null ? contextPath : warName));
-    }
-
-    /**
-     * Copy the Piranha Core Profile JAR file.
-     *
-     * @param zipFile the zip file.
-     */
-    private void copyPiranhaCoreProfileJarFile(File zipFile) throws IOException {
-        File targetDir = new File(runtimeDirectory);
-        if (!targetDir.exists()) {
-            if (!targetDir.mkdirs()) {
-                System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
-            }
-        }
-        Files.copy(zipFile.toPath(),
-                Path.of(runtimeDirectory + "/piranha-dist-coreprofile.jar"),
-                REPLACE_EXISTING);
     }
 }

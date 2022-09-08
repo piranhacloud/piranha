@@ -46,7 +46,7 @@
                         <configuration>
                             <failsOnError>false</failsOnError>
                             <failOnViolation>false</failOnViolation>
-                            <excludes>**/generated-sources/**,module-info.java</excludes>
+                            <excludes>**/HelpMojo.java,module-info.java</excludes>
                         </configuration>
                     </execution>
                 </executions>
